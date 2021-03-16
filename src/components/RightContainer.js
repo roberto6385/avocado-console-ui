@@ -1,14 +1,15 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
+
 import {NAV_HEIGHT} from '../styles/global';
-import Sftp from './SFTP/SFTP';
 import TabNavBar from './TabNavBar';
+import WorkSpace from './WorkSpace';
 
 const Header = styled(TabNavBar)`
 	height: ${NAV_HEIGHT};
 `;
-const Body = styled.div`
+const Body = styled(WorkSpace)`
 	flex: 1;
 `;
 const Footer = styled.div`
@@ -24,8 +25,7 @@ const RightContainer = () => {
 	return (
 		<RC_Col xs={10}>
 			<Header />
-			<Body>body</Body>
-
+			<Body />
 			<Footer>footer</Footer>
 		</RC_Col>
 	);

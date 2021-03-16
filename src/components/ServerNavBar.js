@@ -15,62 +15,78 @@ const ServerNavBar = ({search}) => {
 	// first argument is double-click event, second one is on-click event
 	const onHybridClick = useDoubleClick(
 		(id) => {
-			const correspondedServer = server.find((i) => i.id === id);
-
-			const ws = new WebSocket(
-				'ws://' + correspondedServer.host + ':8080/ws/ssh/protobuf',
-			);
-
-			ws.binaryType = 'arraybuffer';
-
-			ws.onopen = () => {
-				// on connecting, do nothing but log it to the console
-				console.log('connected');
-
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.CONNECT);
-
-				const conObj = new SSH.ConnectRequest();
-				conObj.setHost(correspondedServer.host);
-				conObj.setUser(correspondedServer.user);
-				conObj.setPassword(correspondedServer.password);
-				conObj.setPort(correspondedServer.port);
-
-				reqObj.setBody(conObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
-			};
-
-			ws.onmessage = (evt) => {
-				console.log('on data, ', evt.data);
-				const message = SSH.Message.deserializeBinary(evt.data);
-
-				const response = SSH.Response.deserializeBinary(
-					message.getBody(),
-				);
-
-				if (response.getType() === SSH.Response.Types.CONNECT) {
-					const conObj = SSH.ConnectResponse.deserializeBinary(
-						response.getBody(),
-					);
-
-					if (conObj.getStatus() === 'connected') {
-						dispatch({
-							type: OPEN_TAB,
-							data: {
-								id: id,
-								type: 'SSHT',
-								ws: ws,
-								uuid: conObj.getUuid(),
-							},
-						});
-					}
-				}
-			};
+			// const correspondedServer = server.find((i) => i.id === id);
+			//
+			// const ws = new WebSocket(
+			// 	'ws://' + correspondedServer.host + ':8080/ws/ssh/protobuf',
+			// );
+			//
+			// ws.binaryType = 'arraybuffer';
+			//
+			// ws.onopen = () => {
+			// 	// on connecting, do nothing but log it to the console
+			// 	console.log('connected');
+			//
+			// 	const msgObj = new SSH.Message();
+			// 	msgObj.setType(SSH.Message.Types.REQUEST);
+			//
+			// 	const reqObj = new SSH.Request();
+			// 	reqObj.setType(SSH.Request.Types.CONNECT);
+			//
+			// 	const conObj = new SSH.ConnectRequest();
+			// 	conObj.setHost(correspondedServer.host);
+			// 	conObj.setUser(correspondedServer.user);
+			// 	conObj.setPassword(correspondedServer.password);
+			// 	conObj.setPort(correspondedServer.port);
+			//
+			// 	reqObj.setBody(conObj.serializeBinary());
+			// 	msgObj.setBody(reqObj.serializeBinary());
+			//
+			// 	console.log('proto buffer', msgObj);
+			// 	console.log('proto buffer binary', msgObj.serializeBinary());
+			//
+			// 	ws.send(msgObj.serializeBinary());
+			// };
+			//
+			// ws.onmessage = (evt) => {
+			// 	console.log('on data, ', evt.data);
+			// 	const message = SSH.Message.deserializeBinary(evt.data);
+			//
+			// 	const response = SSH.Response.deserializeBinary(
+			// 		message.getBody(),
+			// 	);
+			//
+			// 	if (response.getType() === SSH.Response.Types.CONNECT) {
+			// 		const conObj = SSH.ConnectResponse.deserializeBinary(
+			// 			response.getBody(),
+			// 		);
+			//
+			// 		if (conObj.getStatus() === 'connected') {
+			// 			dispatch({
+			// 				type: OPEN_TAB,
+			// 				data: {
+			// 					id: id,
+			// 					type: 'SSHT',
+			// 					ws: ws,
+			// 					uuid: conObj.getUuid(),
+			// 				},
+			// 			});
+			dispatch({
+				type: OPEN_TAB,
+				data: {
+					id: id,
+					type: 'SSHT',
+					ws: new Object(null),
+					uuid: '12345456',
+				},
+			});
+			// 		}
+			// 	}
+			// };
+			//
+			// ws.onclose = () => {
+			// 	console.log('disconnected');
+			// };
 		},
 		(id) => {
 			if (clicked_server === id)

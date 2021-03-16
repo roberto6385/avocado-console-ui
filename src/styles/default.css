@@ -5,3 +5,11 @@ body {
 	box-sizing: border-box;
 	/*height: 100vh;*/
 }
+
+.invisible {
+	display: none;
+}
+
+.visible {
+	display: inline;
+}
