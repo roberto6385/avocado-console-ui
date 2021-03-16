@@ -18,7 +18,7 @@ const SFTPbtn = ({data}) => {
 };
 
 SFTPbtn.propTypes = {
-	data: PropTypes.object.isRequired,
+	data: PropTypes.array.isRequired,
 };
 
 export default SFTPbtn;

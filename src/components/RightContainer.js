@@ -13,9 +13,10 @@ import background from '../images/bg_3.png';
 const Header = styled(TabNavBar)`
 	height: ${NAV_HEIGHT};
 `;
-const Body = styled(WorkSpace)`
-	flex: 1;
-`;
+// const Body = styled(WorkSpace)`
+// 	flex: 1;
+// `;
+
 const Footer = styled.div`
 	height: ${NAV_HEIGHT};
 `;
@@ -32,9 +33,7 @@ const RightContainer = () => {
 	return (
 		<RC_Col xs={10}>
 			<Header />
-
-			<Body />
-
+			<WorkSpace />
 			<Footer>footer</Footer>
 		</RC_Col>
 	);
