@@ -1,8 +1,8 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
+import {NAV_HEIGHT} from "../styles/global";
 
-const NAV_HEIGHT = '42px';
 
 const Header = styled.div`
 	height: ${NAV_HEIGHT};

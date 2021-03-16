@@ -1,8 +1,7 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
-
-const NAV_HEIGHT = '42px';
+import {NAV_HEIGHT} from '../styles/global';
 
 const Header = styled.div`
 	height: ${NAV_HEIGHT};
@@ -20,7 +19,7 @@ const LeftContainer = () => {
 	return (
 		<RC_Col xs={2}>
 			<Header>header</Header>
-			<Body>Body</Body>
+			<Body>body</Body>
 		</RC_Col>
 	);
 };
