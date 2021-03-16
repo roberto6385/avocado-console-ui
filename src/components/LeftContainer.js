@@ -2,11 +2,12 @@ import React from 'react';
 import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
 import {NAV_HEIGHT} from '../styles/global';
+import ServerNavBar from './ServerNavBar';
 
 const Header = styled.div`
 	height: ${NAV_HEIGHT};
 `;
-const Body = styled.div`
+const Body = styled(ServerNavBar)`
 	flex: 1;
 `;
 
@@ -19,7 +20,7 @@ const LeftContainer = () => {
 	return (
 		<RC_Col xs={2}>
 			<Header>header</Header>
-			<Body>body</Body>
+			<Body search='' />
 		</RC_Col>
 	);
 };
