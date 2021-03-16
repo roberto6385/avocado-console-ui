@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {Card} from 'react-bootstrap';
@@ -11,10 +11,7 @@ import styled from 'styled-components';
 const SSH_Container = styled.div`
 	display: flex;
 	flex-direction: column;
-`;
-
-const SSH_Card_Body = styled(Card.Body)`
-	flex: 1;
+	height: 100%;
 `;
 
 const SSHContainer = ({id, type, display, my_server, socket}) => {
@@ -38,12 +35,9 @@ const SSHContainer = ({id, type, display, my_server, socket}) => {
 				/>
 				<SFTPbtn data={server.filter((x) => x.id === my_server.id)} />
 			</Card.Header>
-			<SSH_Card_Body
-				className='SSH_Container_body'
-				onClick={onCLickChangeCurrentTab}
-			>
-				THIS IS BODY
-			</SSH_Card_Body>
+			<Card.Body onClick={onCLickChangeCurrentTab}>
+				THIS IS BODY {id}
+			</Card.Body>
 		</SSH_Container>
 	);
 };
