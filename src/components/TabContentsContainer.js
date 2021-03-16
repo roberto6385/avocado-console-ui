@@ -22,7 +22,7 @@ const TabContentsContainer = ({id, type, display, server, socket}) => {
 	return (
 		<Col className={display ? 'visible' : 'invisible'}>
 			<Card>
-				<Card.Header as='h6' style={{padding: '6px 20px'}}>
+				<Card.Header as='h6' style={{padding: '7px 20px'}}>
 					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
 					{server?.name}
 					<span style={{float: 'right'}}>
