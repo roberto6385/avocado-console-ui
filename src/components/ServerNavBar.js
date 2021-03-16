@@ -85,7 +85,6 @@ const ServerNavBar = ({search}) => {
 				.filter((v) => v.name.includes(search))
 				.map((data) => (
 					<Nav.Item
-						className={'server-nav-item'}
 						key={data.id}
 						id={`server_${data.id}`}
 						onClick={onHybridClick(data.id)}
