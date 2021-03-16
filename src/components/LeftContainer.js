@@ -6,6 +6,7 @@ import ServerNavBar from './ServerNavBar';
 
 const Header = styled.div`
 	height: ${NAV_HEIGHT};
+	border: 1px solid black;
 `;
 const Body = styled(ServerNavBar)`
 	flex: 1;
