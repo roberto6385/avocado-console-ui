@@ -1,24 +1,33 @@
 import {Button} from 'react-bootstrap';
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
+import background from '../images/bg_3.png';
+import {MAIN_COLOR, WHITE_COLOR} from '../styles/global';
 
 const Background = styled.div`
 	display: flex;
 	align-items: center;
-	width: 100%;
 	justify-content: center;
 	flex-direction: column;
-	background-image: url('../pic/bg_3.png');
-	background-position: center;
+	// width: 100%;
+	height: 100%;
+	background-image: url(${background});
 	background-size: cover;
-	background-repeat: no-repeat;
+	background-position: center;
+	// background-repeat: no-repeat;
 	position: relative;
 `;
 
-const AddServerButton = styled(Button)`
-	background-color: #116466;
+const AddServerButton = styled.button`
+	background-color: ${MAIN_COLOR};
+	&:hover {
+		background-color: ${MAIN_COLOR};
+		filter: brightness(85%);
+	}
 	padding: 10px 40px;
 	border: none;
+	color: ${WHITE_COLOR};
+	border-radius: 8px;
 	position: absolute;
 	top: 60%;
 `;

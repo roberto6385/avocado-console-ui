@@ -5,9 +5,11 @@ import {Card} from 'react-bootstrap';
 import {FaExpand} from 'react-icons/all';
 
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
+import SFTPbtn from '../SFTP/SFTPbtn';
 
-const SSHContainer = ({id, type, display, server, socket}) => {
+const SSHContainer = ({id, type, display, my_server, socket}) => {
 	const dispatch = useDispatch();
+	const {server} = useSelector((state) => state.common);
 
 	const onCLickFullScreen = useCallback(() => {
 		// document.getElementById(id).requestFullscreen();
@@ -20,18 +22,11 @@ const SSHContainer = ({id, type, display, server, socket}) => {
 	return (
 		<div>
 			<Card.Header style={{position: 'relative'}}>
-				<button
-					style={{
-						background: 'transparent',
-						outline: 'none',
-						border: 'none',
-					}}
-				>
-					<FaExpand
-						onClick={onCLickFullScreen}
-						style={{fontSize: '17px'}}
-					/>
-				</button>
+				<FaExpand
+					onClick={onCLickFullScreen}
+					style={{fontSize: '17px'}}
+				/>
+				<SFTPbtn data={server.filter((x) => x.id === my_server.id)} />
 			</Card.Header>
 			<Card.Body onClick={onCLickChangeCurrentTab}>
 				THIS IS BODY
@@ -44,7 +39,7 @@ SSHContainer.propTypes = {
 	id: PropTypes.number.isRequired,
 	type: PropTypes.string.isRequired,
 	display: PropTypes.bool.isRequired,
-	server: PropTypes.object.isRequired,
+	my_server: PropTypes.object.isRequired,
 	socket: PropTypes.object.isRequired,
 };
 

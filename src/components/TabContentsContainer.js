@@ -33,7 +33,7 @@ const TabContentsContainer = ({id, type, display, server, socket}) => {
 					id={id}
 					type={type}
 					display={display}
-					server={server}
+					my_server={server}
 					socket={socket}
 				/>
 			</Card>
