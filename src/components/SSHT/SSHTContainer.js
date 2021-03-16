@@ -6,6 +6,16 @@ import {FaExpand} from 'react-icons/all';
 
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SFTPbtn from '../SFTP/SFTPbtn';
+import styled from 'styled-components';
+
+const SSH_Container = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+const SSH_Card_Body = styled(Card.Body)`
+	flex: 1;
+`;
 
 const SSHContainer = ({id, type, display, my_server, socket}) => {
 	const dispatch = useDispatch();
@@ -20,7 +30,7 @@ const SSHContainer = ({id, type, display, my_server, socket}) => {
 	}, []);
 
 	return (
-		<div>
+		<SSH_Container>
 			<Card.Header style={{position: 'relative'}}>
 				<FaExpand
 					onClick={onCLickFullScreen}
@@ -28,10 +38,13 @@ const SSHContainer = ({id, type, display, my_server, socket}) => {
 				/>
 				<SFTPbtn data={server.filter((x) => x.id === my_server.id)} />
 			</Card.Header>
-			<Card.Body onClick={onCLickChangeCurrentTab}>
+			<SSH_Card_Body
+				className='SSH_Container_body'
+				onClick={onCLickChangeCurrentTab}
+			>
 				THIS IS BODY
-			</Card.Body>
-		</div>
+			</SSH_Card_Body>
+		</SSH_Container>
 	);
 };
 

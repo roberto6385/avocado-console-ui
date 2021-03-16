@@ -8,7 +8,14 @@ import styled from 'styled-components';
 
 import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
+import {NAV_HEIGHT} from '../styles/global';
 // import WindowSplitBar from './SplitWindowBar';
+
+const Tab_Nav = styled(Nav)`
+	height: ${NAV_HEIGHT};
+`;
+
+const Tab_NavItem = styled(Nav.Item)``;
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -35,10 +42,10 @@ const TabNavBar = () => {
 			defaultActiveKey={active}
 			onSelect={(i) => setActive(i)}
 		>
-			<Nav>
+			<Tab_Nav>
 				{tab &&
 					tab.map((data) => (
-						<Nav.Item key={data.id.toString()}>
+						<Tab_NavItem key={data.id.toString()}>
 							<NavLink
 								as={Link}
 								to='/'
@@ -48,6 +55,7 @@ const TabNavBar = () => {
 										? {
 												display: 'flex',
 												alignItems: 'center',
+												height: '100%',
 												backgroundColor: '#edeae5',
 										  }
 										: {
@@ -81,9 +89,9 @@ const TabNavBar = () => {
 									<FaTimes onClick={onClickDelete(data.id)} />
 								</span>
 							</NavLink>
-						</Nav.Item>
+						</Tab_NavItem>
 					))}
-			</Nav>
+			</Tab_Nav>
 			{/*<WindowSplitBar />*/}
 		</Tab.Container>
 	);

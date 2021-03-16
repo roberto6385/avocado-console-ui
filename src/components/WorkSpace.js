@@ -12,6 +12,7 @@ const WorkSpaceDiv = styled.div`
 const WorkSpaceContainer = styled(Container)`
 	margin: 0;
 	padding: 0;
+	height: 100%;
 `;
 
 const WorkSpace = () => {
@@ -23,18 +24,16 @@ const WorkSpace = () => {
 		<WorkSpaceDiv id='contents-row'>
 			{tab.length !== 0 ? (
 				<WorkSpaceContainer>
-					<Row>
-						{tab.map((data) => (
-							<TabContentsContainer
-								key={data.id}
-								id={data.id}
-								type={data.type}
-								display={data.display}
-								server={data.server}
-								socket={data.socket}
-							/>
-						))}
-					</Row>
+					{tab.map((data) => (
+						<TabContentsContainer
+							key={data.id}
+							id={data.id}
+							type={data.type}
+							display={data.display}
+							server={data.server}
+							socket={data.socket}
+						/>
+					))}
 				</WorkSpaceContainer>
 			) : (
 				<MainPage />

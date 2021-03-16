@@ -20,24 +20,22 @@ const TabContentsContainer = ({id, type, display, server, socket}) => {
 	);
 
 	return (
-		<Col className={display ? 'visible' : 'invisible'}>
-			<Card>
-				<Card.Header as='h6' style={{padding: '7px 20px'}}>
-					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
-					{server?.name}
-					<span style={{float: 'right'}}>
-						<FaTimes onClick={onClickDelete(id)} />
-					</span>
-				</Card.Header>
-				<SSHTContainer
-					id={id}
-					type={type}
-					display={display}
-					my_server={server}
-					socket={socket}
-				/>
-			</Card>
-		</Col>
+		<Card className={display ? 'visible' : 'invisible'}>
+			<Card.Header as='h6' style={{padding: '7px 20px'}}>
+				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
+				{server?.name}
+				<span style={{float: 'right'}}>
+					<FaTimes onClick={onClickDelete(id)} />
+				</span>
+			</Card.Header>
+			<SSHTContainer
+				id={id}
+				type={type}
+				display={display}
+				my_server={server}
+				socket={socket}
+			/>
+		</Card>
 	);
 };
 
