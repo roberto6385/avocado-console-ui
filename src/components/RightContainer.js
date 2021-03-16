@@ -1,7 +1,7 @@
 import React from 'react';
-import {Col, Button} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
-import {MAIN_COLOR, NAV_HEIGHT} from '../styles/global';
+import {MAIN_COLOR, NAV_HEIGHT, WHITE_COLOR} from '../styles/global';
 import TabNavBar from './TabNavBar';
 import {useSelector} from 'react-redux';
 import background from '../images/bg_3.png';
@@ -37,7 +37,7 @@ const Background_div = styled.div`
 	position: relative;
 `;
 
-const New_button = styled(Button)`
+const New_button = styled.button`
 	background-color: ${MAIN_COLOR};
 	&:hover {
 		background-color: ${MAIN_COLOR};
@@ -45,6 +45,8 @@ const New_button = styled(Button)`
 	}
 	padding: 10px 40px;
 	border: none;
+	color: ${WHITE_COLOR};
+	border-radius: 8px;
 	position: absolute;
 	top: 60%;
 `;
