@@ -2,12 +2,11 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import {Nav} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faServer} from '@fortawesome/free-solid-svg-icons';
 
 import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import SSH from '../dist/ssh_pb';
+import {FaServer} from 'react-icons/all';
 
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();
@@ -48,10 +47,29 @@ const ServerNavBar = ({search}) => {
 
 			ws.onmessage = (evt) => {
 				console.log('on data, ', evt.data);
-			};
+				const message = SSH.Message.deserializeBinary(evt.data);
 
-			ws.onclose = () => {
-				console.log('disconnected');
+				const response = SSH.Response.deserializeBinary(
+					message.getBody(),
+				);
+
+				if (response.getType() === SSH.Response.Types.CONNECT) {
+					const conObj = SSH.ConnectResponse.deserializeBinary(
+						response.getBody(),
+					);
+
+					if (conObj.getStatus() === 'connected') {
+						dispatch({
+							type: OPEN_TAB,
+							data: {
+								id: id,
+								type: 'SSHT',
+								ws: ws,
+								uuid: conObj.getUuid(),
+							},
+						});
+					}
+				}
 			};
 		},
 		(id) => {
@@ -78,8 +96,7 @@ const ServerNavBar = ({search}) => {
 						}
 					>
 						<span>
-							<FontAwesomeIcon
-								icon={faServer}
+							<FaServer
 								style={{
 									verticalAlign: 'middle',
 									marginRight: '15px',
