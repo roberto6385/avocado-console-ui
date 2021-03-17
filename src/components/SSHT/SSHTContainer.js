@@ -7,6 +7,7 @@ import {FaExpand} from 'react-icons/all';
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SFTPbtn from '../SFTP/SFTPbtn';
 import styled from 'styled-components';
+import SSHT from './SSHT';
 
 const SSH_Container = styled.div`
 	display: flex;
@@ -36,7 +37,7 @@ const SSHContainer = ({id, type, display, my_server, socket}) => {
 				<SFTPbtn data={server.filter((x) => x.id === my_server.id)} />
 			</Card.Header>
 			<Card.Body onClick={onCLickChangeCurrentTab}>
-				THIS IS BODY {id}
+				<SSHT id={id} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Body>
 		</SSH_Container>
 	);
