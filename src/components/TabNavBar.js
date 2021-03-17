@@ -128,8 +128,8 @@ const TabNavBar = () => {
 							</NavLink>
 						</Tab_NavItem>
 					))}
+				<SplitBar />
 			</Tab_Nav>
-			<SplitBar />
 		</Tab.Container>
 	);
 };
