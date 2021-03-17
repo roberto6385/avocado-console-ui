@@ -37,6 +37,7 @@ const SSHT = ({index, ws, uuid}) => {
 			reqObj.setType(SSH.Request.Types.DISCONNECT);
 
 			const disObj = new SSH.DisconnectRequest();
+			disObj.setUuid(uuid);
 
 			reqObj.setBody(disObj.serializeBinary());
 			msgObj.setBody(reqObj.serializeBinary());
@@ -89,6 +90,7 @@ const SSHT = ({index, ws, uuid}) => {
 			reqObj.setType(SSH.Request.Types.DISCONNECT);
 
 			const disObj = new SSH.DisconnectRequest();
+			disObj.setUuid(uuid);
 
 			reqObj.setBody(disObj.serializeBinary());
 			msgObj.setBody(reqObj.serializeBinary());

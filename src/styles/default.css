@@ -7,12 +7,19 @@ body {
 }
 
 .invisible {
-	display: none !important;
-	border-radius: 0 !important;
+	display: none;
+	border-radius: 0;
 }
 
 .visible {
 	display: inline;
-	border-radius: 0 !important;
+	border-radius: 0;
 }
 
+#add-server-form {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

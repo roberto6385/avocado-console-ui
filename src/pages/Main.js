@@ -3,6 +3,7 @@ import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
 import {Container, Row} from 'react-bootstrap';
 import styled from 'styled-components';
+import AddServerForm from '../components/AddServerForm';
 
 const MainContainer = styled(Container)`
 	margin: 0;
@@ -23,6 +24,7 @@ const Main = () => {
 				<LeftContainer />
 				<RightContainer />
 			</MainRow>
+			<AddServerForm />
 		</MainContainer>
 	);
 };

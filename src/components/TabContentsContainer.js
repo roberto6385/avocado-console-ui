@@ -32,6 +32,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			reqObj.setType(SSH.Request.Types.DISCONNECT);
 
 			const disObj = new SSH.DisconnectRequest();
+			disObj.setUuid(socket.uuid);
 
 			reqObj.setBody(disObj.serializeBinary());
 			msgObj.setBody(reqObj.serializeBinary());

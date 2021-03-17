@@ -55,6 +55,7 @@ const TabNavBar = () => {
 			reqObj.setType(SSH.Request.Types.DISCONNECT);
 
 			const disObj = new SSH.DisconnectRequest();
+			disObj.setUuid(tab.filter((x) => x.id === tab_id)[0].socket.uuid);
 
 			reqObj.setBody(disObj.serializeBinary());
 			msgObj.setBody(reqObj.serializeBinary());
@@ -108,8 +109,8 @@ const TabNavBar = () => {
 							</NavLink>
 						</Tab_NavItem>
 					))}
+				<SplitBar />
 			</Tab_Nav>
-			<SplitBar />
 		</Tab.Container>
 	);
 };

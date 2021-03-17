@@ -31,7 +31,7 @@ const AddServerButton = styled.button`
 
 const MainPage = () => {
 	const onClickVisibleForm = useCallback(() => {
-		// document.getElementById('add-server-form').style.display = 'block';
+		document.getElementById('add-server-form').style.display = 'block';
 	}, []);
 
 	return (
