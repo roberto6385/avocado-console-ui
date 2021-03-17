@@ -47,48 +47,7 @@ const TabNavBar = () => {
 
 	const onClickDelete = useCallback(
 		(tab_id) => () => {
-			// 각각의 탭을 구분지으려면 index id가 필요함
-			console.log(tab, tab_id);
-			const currentTab = tab.find((item) => item.id === tab_id);
-			console.log(currentTab);
-			if (currentTab !== undefined) {
-				const uuid = currentTab.socket.uuid;
-				const ws = currentTab.socket.ws;
-				console.log(uuid);
-				console.log(ws);
-
-				//서버 연결해제
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-				const disObj = new SSH.DisconnectRequest();
-				disObj.setUuid(uuid);
-
-				reqObj.setBody(disObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
-				ws.onmessage = (evt) => {
-					const message = SSH.Message.deserializeBinary(evt.data);
-
-					const response = SSH.Response.deserializeBinary(
-						message.getBody(),
-					);
-
-					if (response.getType() === SSH.Response.Types.DISCONNECT) {
-						const conObj = SSH.DisconnectResponse.deserializeBinary(
-							response.getBody(),
-						);
-						if (conObj.getStatus() === 'disconnected') {
-							console.log('disconnected server');
-							dispatch({type: CLOSE_TAB, data: tab_id});
-						}
-					}
-				};
-			}
+			dispatch({type: CLOSE_TAB, data: tab_id});
 		},
 		[dispatch, tab],
 	);
