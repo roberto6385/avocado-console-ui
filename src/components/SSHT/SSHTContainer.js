@@ -8,7 +8,6 @@ import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SFTPbtn from '../SFTP/SFTPbtn';
 import styled from 'styled-components';
 import SSHT from './SSHT';
-import SFTP from '../SFTP/SFTP';
 
 const SSHTContainer = styled.div`
 	display: flex;
@@ -20,7 +19,7 @@ const SSHTBody = styled(Card.Body)`
 	padding: 0px;
 `;
 
-const SSHContainer = ({index, my_server, socket, type}) => {
+const SSHContainer = ({index, my_server, socket}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
 
@@ -32,7 +31,7 @@ const SSHContainer = ({index, my_server, socket, type}) => {
 		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
 	}, []);
 
-	return type === 'SSHT' ? (
+	return (
 		<SSHTContainer>
 			<Card.Header style={{position: 'relative'}}>
 				<FaExpand
@@ -50,20 +49,6 @@ const SSHContainer = ({index, my_server, socket, type}) => {
 				/>
 			</SSHTBody>
 		</SSHTContainer>
-	) : (
-		<SSHTContainer>
-			<Card.Header style={{position: 'relative'}}>
-				sftp 네비게이션 부분
-			</Card.Header>
-			<SSHTBody onClick={onCLickChangeCurrentTab}>
-				<SFTP
-					id={`sftp_${String(index)}`}
-					index={index}
-					ws={socket.ws}
-					uuid={socket.uuid}
-				/>
-			</SSHTBody>
-		</SSHTContainer>
 	);
 };
 
@@ -71,7 +56,6 @@ SSHContainer.propTypes = {
 	index: PropTypes.number.isRequired,
 	my_server: PropTypes.object.isRequired,
 	socket: PropTypes.object.isRequired,
-	type: PropTypes.string.isRequired,
 };
 
 export default SSHContainer;

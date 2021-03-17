@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SSH from '../dist/ssh_pb';
 import SFTP from '../dist/sftp_pb';
+import SFTPContainer from './SFTP/SFTPContainer';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -74,12 +75,19 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 					<FaTimes onClick={onClickDelete(index)} />
 				</span>
 			</ContainerCardHeader>
-			<SSHTContainer
-				index={index}
-				my_server={server}
-				socket={socket}
-				type={type}
-			/>
+			{type === 'SSHT' ? (
+				<SSHTContainer
+					index={index}
+					my_server={server}
+					socket={socket}
+				/>
+			) : (
+				<SFTPContainer
+					index={index}
+					my_server={server}
+					socket={socket}
+				/>
+			)}
 		</Card>
 	);
 };
