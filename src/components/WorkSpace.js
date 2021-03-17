@@ -13,6 +13,7 @@ const WorkSpaceContainer = styled(Container)`
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	max-width: none;
 `;
 
 const WorkSpace = () => {
