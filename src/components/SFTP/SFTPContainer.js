@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
+import SFTP_Body from './SFTP_Body';
 
 const SftpContainer = styled.div`
 	display: flex;
@@ -27,8 +28,8 @@ const SFTPContainer = ({index, my_server, socket}) => {
 				네비게이션 버튼들
 			</Card.Header>
 			<SFTPBody onClick={onCLickChangeCurrentTab}>
-				<SSHT
-					id={`ssht_${String(index)}`}
+				<SFTP_Body
+					id={`sftp ${String(index)}`}
 					index={index}
 					ws={socket.ws}
 					uuid={socket.uuid}

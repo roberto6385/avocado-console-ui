@@ -5,9 +5,9 @@ import {Card} from 'react-bootstrap';
 import {FaExpand} from 'react-icons/all';
 
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
-import SFTPbtn from '../SFTP/SFTPbtn';
 import styled from 'styled-components';
 import SSHT from './SSHT';
+import ConvertSFTP from '../SFTP/ConvertSFTP';
 
 const SSHTContainer = styled.div`
 	display: flex;
@@ -38,7 +38,7 @@ const SSHContainer = ({index, my_server, socket}) => {
 					onClick={onCLickFullScreen}
 					style={{fontSize: '17px'}}
 				/>
-				<SFTPbtn data={server.find((x) => x.id === my_server.id)} />
+				<ConvertSFTP data={server.find((x) => x.id === my_server.id)} />
 			</Card.Header>
 			<SSHTBody onClick={onCLickChangeCurrentTab}>
 				<SSHT
