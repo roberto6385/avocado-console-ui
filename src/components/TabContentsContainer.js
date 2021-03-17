@@ -55,7 +55,12 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 					<FaTimes onClick={onClickDelete(index)} />
 				</span>
 			</ContainerCardHeader>
-			<SSHTContainer index={index} my_server={server} socket={socket} />
+			<SSHTContainer
+				index={index}
+				my_server={server}
+				socket={socket}
+				type={type}
+			/>
 		</Card>
 	);
 };

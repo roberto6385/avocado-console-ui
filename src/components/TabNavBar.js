@@ -11,6 +11,7 @@ import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 import SSH from '../dist/ssh_pb';
+import SFTP from '../dist/sftp_pb';
 
 const Tab_Nav = styled(Nav)`
 	height: ${NAV_HEIGHT};
@@ -47,20 +48,39 @@ const TabNavBar = () => {
 
 	const onClickDelete = useCallback(
 		(tab_id) => () => {
+			const current_tab = tab.find((x) => x.id === tab_id);
+			const {type} = current_tab;
+			const {ws, uuid} = current_tab.socket;
+			console.log(type, ws, uuid);
 			console.log('Client Closed on Nav Bar');
-			const msgObj = new SSH.Message();
-			msgObj.setType(SSH.Message.Types.REQUEST);
+			if (type === 'SSHT') {
+				const msgObj = new SSH.Message();
+				msgObj.setType(SSH.Message.Types.REQUEST);
 
-			const reqObj = new SSH.Request();
-			reqObj.setType(SSH.Request.Types.DISCONNECT);
+				const reqObj = new SSH.Request();
+				reqObj.setType(SSH.Request.Types.DISCONNECT);
 
-			const disObj = new SSH.DisconnectRequest();
+				const disObj = new SSH.DisconnectRequest();
+				disObj.setUuid(uuid);
 
-			reqObj.setBody(disObj.serializeBinary());
-			msgObj.setBody(reqObj.serializeBinary());
-			tab.filter((x) => x.id === tab_id)[0].socket.ws.send(
-				msgObj.serializeBinary(),
-			);
+				reqObj.setBody(disObj.serializeBinary());
+				msgObj.setBody(reqObj.serializeBinary());
+				ws.send(msgObj.serializeBinary());
+			} else {
+				const msgObj = new SFTP.Message();
+				msgObj.setType(SFTP.Message.Types.REQUEST);
+
+				const reqObj = new SFTP.Request();
+				reqObj.setType(SFTP.Request.Types.DISCONNECT);
+
+				const disObj = new SFTP.DisconnectRequest();
+				disObj.setUuid(uuid);
+
+				reqObj.setBody(disObj.serializeBinary());
+				msgObj.setBody(reqObj.serializeBinary());
+
+				ws.send(msgObj.serializeBinary());
+			}
 
 			dispatch({type: CLOSE_TAB, data: tab_id});
 		},
