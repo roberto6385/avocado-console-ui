@@ -53,7 +53,7 @@ const SSHContainer = ({index, my_server, socket, type}) => {
 	) : (
 		<SSHTContainer>
 			<Card.Header style={{position: 'relative'}}>
-				sftp 네비게이션 부
+				sftp 네비게이션 부분
 			</Card.Header>
 			<SSHTBody onClick={onCLickChangeCurrentTab}>
 				<SFTP
