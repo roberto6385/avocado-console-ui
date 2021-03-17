@@ -9,26 +9,30 @@ import SFTPbtn from '../SFTP/SFTPbtn';
 import styled from 'styled-components';
 import SSHT from './SSHT';
 
-const SSH_Container = styled.div`
+const SSHTContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 `;
 
-const SSHContainer = ({id, type, display, my_server, socket}) => {
+const SSHTBody = styled(Card.Body)`
+	padding: 0px;
+`;
+
+const SSHContainer = ({index, my_server, socket}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
 
 	const onCLickFullScreen = useCallback(() => {
-		// document.getElementById(id).requestFullscreen();
-	}, [id]);
+		document.getElementById('ssht_' + String(index)).requestFullscreen();
+	}, [index]);
 
 	const onCLickChangeCurrentTab = useCallback(() => {
 		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
 	}, []);
 
 	return (
-		<SSH_Container>
+		<SSHTContainer>
 			<Card.Header style={{position: 'relative'}}>
 				<FaExpand
 					onClick={onCLickFullScreen}
@@ -36,17 +40,20 @@ const SSHContainer = ({id, type, display, my_server, socket}) => {
 				/>
 				<SFTPbtn data={server.filter((x) => x.id === my_server.id)} />
 			</Card.Header>
-			<Card.Body onClick={onCLickChangeCurrentTab}>
-				<SSHT id={id} ws={socket.ws} uuid={socket.uuid} />
-			</Card.Body>
-		</SSH_Container>
+			<SSHTBody onClick={onCLickChangeCurrentTab}>
+				<SSHT
+					id={`ssht_${String(index)}`}
+					index={index}
+					ws={socket.ws}
+					uuid={socket.uuid}
+				/>
+			</SSHTBody>
+		</SSHTContainer>
 	);
 };
 
 SSHContainer.propTypes = {
-	id: PropTypes.number.isRequired,
-	type: PropTypes.string.isRequired,
-	display: PropTypes.bool.isRequired,
+	index: PropTypes.number.isRequired,
 	my_server: PropTypes.object.isRequired,
 	socket: PropTypes.object.isRequired,
 };

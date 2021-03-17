@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import MainPage from './MainPage';
 import TabContentsContainer from './TabContentsContainer';
-import {Container, Row} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import styled from 'styled-components';
 
 const WorkSpaceDiv = styled.div`
@@ -17,9 +17,7 @@ const WorkSpaceContainer = styled(Container)`
 `;
 
 const WorkSpace = () => {
-	const {tab, server, cols_size, visible_tab} = useSelector(
-		(state) => state.common,
-	);
+	const {tab} = useSelector((state) => state.common);
 
 	return (
 		<WorkSpaceDiv id='contents-row'>
@@ -28,7 +26,7 @@ const WorkSpace = () => {
 					{tab.map((data) => (
 						<TabContentsContainer
 							key={data.id}
-							id={data.id}
+							index={data.id}
 							type={data.type}
 							display={data.display}
 							server={data.server}

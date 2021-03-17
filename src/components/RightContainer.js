@@ -1,14 +1,11 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
 
 import TabNavBar from './TabNavBar';
 import WorkSpace from './WorkSpace';
-
-import {MAIN_COLOR, NAV_HEIGHT, WHITE_COLOR} from '../styles/global';
-
-import {useSelector} from 'react-redux';
-import background from '../images/bg_3.png';
+import {NAV_HEIGHT} from '../styles/global';
 
 const Header = styled(TabNavBar)`
 	height: ${NAV_HEIGHT};

@@ -10,6 +10,7 @@ import {FaTimes} from 'react-icons/all';
 import SSHTContainer from './SSHT/SSHTContainer';
 import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
+import SSH from '../dist/ssh_pb';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -18,11 +19,25 @@ const ContainerCardHeader = styled(Card.Header)`
 	background: rgba(0, 0, 0, 0.03);
 `;
 
-const TabContentsContainer = ({id, type, display, server, socket}) => {
+const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
 
 	const onClickDelete = useCallback(
 		(i) => () => {
+			console.log('Client Closed on Contents Container');
+			const msgObj = new SSH.Message();
+			msgObj.setType(SSH.Message.Types.REQUEST);
+
+			const reqObj = new SSH.Request();
+			reqObj.setType(SSH.Request.Types.DISCONNECT);
+
+			const disObj = new SSH.DisconnectRequest();
+
+			reqObj.setBody(disObj.serializeBinary());
+			msgObj.setBody(reqObj.serializeBinary());
+
+			socket.ws.send(msgObj.serializeBinary());
+
 			dispatch({type: CLOSE_TAB, data: i});
 		},
 		[dispatch],
@@ -37,22 +52,16 @@ const TabContentsContainer = ({id, type, display, server, socket}) => {
 				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
 				{server?.name}
 				<span style={{float: 'right'}}>
-					<FaTimes onClick={onClickDelete(id)} />
+					<FaTimes onClick={onClickDelete(index)} />
 				</span>
 			</ContainerCardHeader>
-			<SSHTContainer
-				id={id}
-				type={type}
-				display={display}
-				my_server={server}
-				socket={socket}
-			/>
+			<SSHTContainer index={index} my_server={server} socket={socket} />
 		</Card>
 	);
 };
 
 TabContentsContainer.propTypes = {
-	id: PropTypes.number.isRequired,
+	index: PropTypes.number.isRequired,
 	type: PropTypes.string.isRequired,
 	display: PropTypes.bool.isRequired,
 	server: PropTypes.object.isRequired,

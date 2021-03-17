@@ -2,10 +2,10 @@ import React, {useEffect, useRef} from 'react';
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import SSH from '../../dist/ssh_pb';
 
-const SSHT = ({id, ws, uuid}) => {
+const SSHT = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const sshTerm = useRef(
 		new Terminal({
@@ -19,7 +19,9 @@ const SSHT = ({id, ws, uuid}) => {
 
 	useEffect(() => {
 		sshTerm.current.loadAddon(fitAddon.current);
-		sshTerm.current.open(document.getElementById(id));
+		sshTerm.current.open(
+			document.getElementById('terminal_' + String(index)),
+		);
 		fitAddon.current.fit();
 
 		ws.onerror = () => {
@@ -27,14 +29,19 @@ const SSHT = ({id, ws, uuid}) => {
 		};
 
 		ws.onclose = () => {
-			console.log('Client Closed');
-			ws.send(
-				JSON.stringify({
-					requestType: 'Disconnect',
-					uuid: uuid,
-				}),
-			);
-			sshTerm.current.dispose();
+			console.log('Client Closed Not Sure');
+			const msgObj = new SSH.Message();
+			msgObj.setType(SSH.Message.Types.REQUEST);
+
+			const reqObj = new SSH.Request();
+			reqObj.setType(SSH.Request.Types.DISCONNECT);
+
+			const disObj = new SSH.DisconnectRequest();
+
+			reqObj.setBody(disObj.serializeBinary());
+			msgObj.setBody(reqObj.serializeBinary());
+
+			ws.send(msgObj.serializeBinary());
 		};
 
 		ws.onmessage = (e) => {
@@ -50,10 +57,8 @@ const SSHT = ({id, ws, uuid}) => {
 						response.getBody(),
 					);
 					sshTerm.current.write(msgObj.getResult());
-				} else if (
-					response.getType() === SSH.Response.Types.DISCONNECT
-				) {
-					console.log('Client Closed Done');
+				} else {
+					console.log('여기 올까요?');
 				}
 			}
 		};
@@ -76,7 +81,7 @@ const SSHT = ({id, ws, uuid}) => {
 		});
 
 		return () => {
-			console.log('Client Closed');
+			console.log('Client Closed Terminal');
 			const msgObj = new SSH.Message();
 			msgObj.setType(SSH.Message.Types.REQUEST);
 
@@ -91,13 +96,13 @@ const SSHT = ({id, ws, uuid}) => {
 			ws.send(msgObj.serializeBinary());
 			sshTerm.current.dispose();
 		};
-	}, [id, uuid, ws]);
+	}, [index, uuid, ws]);
 
-	return <div id={id} />;
+	return <div id={`terminal_${String(index)}`} />;
 };
 
 SSHT.propTypes = {
-	id: PropTypes.number.isRequired,
+	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };

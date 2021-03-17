@@ -5,12 +5,12 @@ import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import SSH from '../dist/ssh_pb';
 
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
-// import WindowSplitBar from './SplitWindowBar';
+import SplitBar from './SplitBar';
+import SSH from '../dist/ssh_pb';
 
 const Tab_Nav = styled(Nav)`
 	height: ${NAV_HEIGHT};
@@ -47,6 +47,21 @@ const TabNavBar = () => {
 
 	const onClickDelete = useCallback(
 		(tab_id) => () => {
+			console.log('Client Closed on Nav Bar');
+			const msgObj = new SSH.Message();
+			msgObj.setType(SSH.Message.Types.REQUEST);
+
+			const reqObj = new SSH.Request();
+			reqObj.setType(SSH.Request.Types.DISCONNECT);
+
+			const disObj = new SSH.DisconnectRequest();
+
+			reqObj.setBody(disObj.serializeBinary());
+			msgObj.setBody(reqObj.serializeBinary());
+			tab.filter((x) => x.id === tab_id)[0].socket.ws.send(
+				msgObj.serializeBinary(),
+			);
+
 			dispatch({type: CLOSE_TAB, data: tab_id});
 		},
 		[dispatch, tab],
@@ -94,7 +109,7 @@ const TabNavBar = () => {
 						</Tab_NavItem>
 					))}
 			</Tab_Nav>
-			{/*<WindowSplitBar />*/}
+			<SplitBar />
 		</Tab.Container>
 	);
 };

@@ -55,14 +55,10 @@ const ServerNavBar = ({search}) => {
 				reqObj.setBody(conObj.serializeBinary());
 				msgObj.setBody(reqObj.serializeBinary());
 
-				console.log('proto buffer', msgObj);
-				console.log('proto buffer binary', msgObj.serializeBinary());
-
 				ws.send(msgObj.serializeBinary());
 			};
 
 			ws.onmessage = (evt) => {
-				console.log('on data, ', evt.data);
 				const message = SSH.Message.deserializeBinary(evt.data);
 
 				const response = SSH.Response.deserializeBinary(
@@ -84,21 +80,8 @@ const ServerNavBar = ({search}) => {
 								uuid: conObj.getUuid(),
 							},
 						});
-						// dispatch({
-						// 	type: OPEN_TAB,
-						// 	data: {
-						// 		id: id,
-						// 		type: 'SSHT',
-						// 		ws: new Object(null),
-						// 		uuid: '12345456',
-						// 	},
-						// });
 					}
 				}
-			};
-
-			ws.onclose = () => {
-				console.log('disconnected');
 			};
 		},
 		(id) => {
