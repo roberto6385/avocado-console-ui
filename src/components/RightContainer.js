@@ -8,9 +8,9 @@ import WorkSpace from './WorkSpace';
 import {NAV_HEIGHT} from '../styles/global';
 import Footer from './Footer';
 
-const Header = styled(TabNavBar)`
-	height: ${NAV_HEIGHT};
-`;
+// const Header = styled(TabNavBar)`
+// 	height: ${NAV_HEIGHT};
+// `;
 // const Body = styled(WorkSpace)`
 // 	flex: 1;
 // `;
@@ -30,7 +30,7 @@ const RightContainer = () => {
 	const {tab} = useSelector((state) => state.common);
 	return (
 		<RC_Col xs={10}>
-			<Header />
+			<TabNavBar />
 			<WorkSpace />
 			<BotttomBar />
 		</RC_Col>
