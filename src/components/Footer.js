@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Form, FormControl, Collapse} from 'react-bootstrap';
 import {FaSearch, FaSearchMinus, FaSearchPlus} from 'react-icons/all';
+import styled from 'styled-components';
 
 import {
 	SSHT_INCREASE_FONT_SIZE,
@@ -9,6 +10,29 @@ import {
 	// SET_SEARCH_ITEM,
 	// SET_SEARCH_NEXT,
 } from '../reducers/ssht';
+import {NAV_HEIGHT} from '../styles/global';
+
+const BottomBar = styled.div`
+	// width: 100%;
+	// padding: 0px;
+	// display: inline-block;
+	height: ${NAV_HEIGHT};
+`;
+
+const ButtonsContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	height: 100%;
+`;
+
+const FooterFormControl = styled(FormControl)`
+	position: absolute;
+	bottom: 42px;
+	width: 200px;
+	font-size: 12px;
+	right: 1px;
+`;
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -49,10 +73,7 @@ const Footer = () => {
 	}, [openSearchBar]);
 
 	return (
-		<div
-			id='bottom-bar'
-			style={{width: '100%', padding: '0px', display: 'inline-block'}}
-		>
+		<BottomBar id='bottom-bar'>
 			<Collapse in={openSearchBar}>
 				<Form
 					onSubmit={onSubmitEnter}
@@ -62,42 +83,31 @@ const Footer = () => {
 						width: '200px',
 					}}
 				>
-					<FormControl
+					<FooterFormControl
 						type='text'
 						id='searchVal'
 						// value={search_item.data}
 						placeholder='Search'
 						onChange={onChangeSearch}
-						style={{borderColor: '#116466', fontSize: '12px'}}
 					/>
 				</Form>
 			</Collapse>
-			<div
-				style={{
-					width: '100%',
-					backgroundColor: 'white',
-					height: '40px',
-					paddingTop: '6px',
-					float: 'right',
-				}}
-			>
-				<div style={{float: 'right'}}>
-					<FaSearchMinus
-						style={{marginRight: '10px', marginLeft: '10px'}}
-						onClick={onClickChangeFont(-1)}
-					/>
-					<FaSearchPlus
-						style={{marginRight: '10px'}}
-						onClick={onClickChangeFont(1)}
-					/>
-					<FaSearch
-						style={{marginRight: '10px'}}
-						aria-expanded={openSearchBar}
-						onClick={onClickOpenSearchBar}
-					/>
-				</div>
-			</div>
-		</div>
+			<ButtonsContainer>
+				<FaSearchMinus
+					style={{marginRight: '10px', marginLeft: '10px'}}
+					onClick={onClickChangeFont(-1)}
+				/>
+				<FaSearchPlus
+					style={{marginRight: '10px'}}
+					onClick={onClickChangeFont(1)}
+				/>
+				<FaSearch
+					style={{marginRight: '10px'}}
+					aria-expanded={openSearchBar}
+					onClick={onClickOpenSearchBar}
+				/>
+			</ButtonsContainer>
+		</BottomBar>
 	);
 };
 
