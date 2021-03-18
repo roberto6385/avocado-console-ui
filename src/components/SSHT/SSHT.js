@@ -4,6 +4,7 @@ import {FitAddon} from 'xterm-addon-fit';
 import {PropTypes} from 'prop-types';
 import {useDispatch} from 'react-redux';
 import SSH from '../../dist/ssh_pb';
+import {CLOSE_TAB} from '../../reducers/common';
 
 const SSHT = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -64,8 +65,9 @@ const SSHT = ({index, ws, uuid}) => {
 					const conObj = SSH.DisconnectResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('message', conObj);
-					console.log('message to json', conObj.toObject());
+
+					if (conObj.getStatus() === 'disconnected')
+						dispatch({type: CLOSE_TAB, data: index});
 				} else {
 					console.log('여기 올까요?');
 				}
