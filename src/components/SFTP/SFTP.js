@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
-// import SFTP from '../../dist/sftp_pb';
-import {connection} from './commands/connection';
+import React from 'react';
+import {PropTypes} from 'prop-types';
 
-const SFTP = () => {
-	const [uuid, setUuid] = useState('');
-
-	// const onConnection = () => {
-	// 	const ws = new WebSocket('ws://211.253.10.9:8080/ws/sftp/protobuf');
-	// 	connection(ws);
-	// };
-
-	return <div>{/*<button onClick={onConnection}>connection</button>*/}</div>;
+const SFTP_Body = ({index, ws, uuid}) => {
+	return <div>SFTP_Body</div>;
 };
 
-export default SFTP;
+SFTP_Body.propTypes = {
+	index: PropTypes.number.isRequired,
+	ws: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
+};
+
+export default SFTP_Body;

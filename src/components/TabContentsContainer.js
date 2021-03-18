@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SSH from '../dist/ssh_pb';
 import SFTP from '../dist/sftp_pb';
+import SFTPContainer from './SFTP/SFTPContainer';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -22,12 +23,12 @@ const ContainerCardHeader = styled(Card.Header)`
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
+	const {ws, uuid} = socket;
 
 	const onClickDelete = useCallback(
 		(i) => () => {
-			console.log('Client Closed on Contents Container');
-
 			if (type === 'SSHT') {
+				console.log('Client Closed on Contents Container');
 				const msgObj = new SSH.Message();
 				msgObj.setType(SSH.Message.Types.REQUEST);
 
@@ -35,12 +36,12 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 				reqObj.setType(SSH.Request.Types.DISCONNECT);
 
 				const disObj = new SSH.DisconnectRequest();
-				disObj.setUuid(socket.uuid);
+				disObj.setUuid(uuid);
 
 				reqObj.setBody(disObj.serializeBinary());
 				msgObj.setBody(reqObj.serializeBinary());
 
-				socket.ws.send(msgObj.serializeBinary());
+				ws.send(msgObj.serializeBinary());
 			} else {
 				const msgObj = new SFTP.Message();
 				msgObj.setType(SFTP.Message.Types.REQUEST);
@@ -49,15 +50,15 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 				reqObj.setType(SFTP.Request.Types.DISCONNECT);
 
 				const disObj = new SFTP.DisconnectRequest();
-				disObj.setUuid(socket.uuid);
+				disObj.setUuid(uuid);
 
 				reqObj.setBody(disObj.serializeBinary());
 				msgObj.setBody(reqObj.serializeBinary());
 
-				socket.ws.send(msgObj.serializeBinary());
+				ws.send(msgObj.serializeBinary());
 			}
 
-			dispatch({type: CLOSE_TAB, data: i});
+			// dispatch({type: CLOSE_TAB, data: i});
 		},
 		[dispatch],
 	);
@@ -77,12 +78,15 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 					<FaTimes onClick={onClickDelete(index)} />
 				</span>
 			</ContainerCardHeader>
-			<SSHTContainer
-				index={index}
-				my_server={server}
-				socket={socket}
-				type={type}
-			/>
+			{type === 'SSHT' ? (
+				<SSHTContainer
+					index={index}
+					my_server={server}
+					socket={socket}
+				/>
+			) : (
+				<SFTPContainer index={index} socket={socket} />
+			)}
 		</Card>
 	);
 };

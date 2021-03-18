@@ -5,10 +5,9 @@ import {Card} from 'react-bootstrap';
 import {FaExpand} from 'react-icons/all';
 
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
-import SFTPbtn from '../SFTP/SFTPbtn';
 import styled from 'styled-components';
 import SSHT from './SSHT';
-import SFTP from '../SFTP/SFTP';
+import ConvertSFTP from '../SFTP/ConvertSFTP';
 
 const SSHTContainer = styled.div`
 	display: flex;
@@ -20,7 +19,7 @@ const SSHTBody = styled(Card.Body)`
 	padding: 0px;
 `;
 
-const SSHContainer = ({index, my_server, socket, type}) => {
+const SSHContainer = ({index, my_server, socket}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
 
@@ -32,32 +31,18 @@ const SSHContainer = ({index, my_server, socket, type}) => {
 		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
 	}, []);
 
-	return type === 'SSHT' ? (
+	return (
 		<SSHTContainer>
 			<Card.Header style={{position: 'relative'}}>
 				<FaExpand
 					onClick={onCLickFullScreen}
 					style={{fontSize: '17px'}}
 				/>
-				<SFTPbtn data={server.find((x) => x.id === my_server.id)} />
+				<ConvertSFTP data={server.find((x) => x.id === my_server.id)} />
 			</Card.Header>
 			<SSHTBody onClick={onCLickChangeCurrentTab}>
 				<SSHT
 					id={`ssht_${String(index)}`}
-					index={index}
-					ws={socket.ws}
-					uuid={socket.uuid}
-				/>
-			</SSHTBody>
-		</SSHTContainer>
-	) : (
-		<SSHTContainer>
-			<Card.Header style={{position: 'relative'}}>
-				sftp 네비게이션 부
-			</Card.Header>
-			<SSHTBody onClick={onCLickChangeCurrentTab}>
-				<SFTP
-					id={`sftp_${String(index)}`}
 					index={index}
 					ws={socket.ws}
 					uuid={socket.uuid}
@@ -71,7 +56,6 @@ SSHContainer.propTypes = {
 	index: PropTypes.number.isRequired,
 	my_server: PropTypes.object.isRequired,
 	socket: PropTypes.object.isRequired,
-	type: PropTypes.string.isRequired,
 };
 
 export default SSHContainer;
