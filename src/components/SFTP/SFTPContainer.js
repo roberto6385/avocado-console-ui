@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import SFTP_Body from './SFTP';
 import SFTP from '../../dist/sftp_pb';
 import {CLOSE_TAB} from '../../reducers/common';
+import {SFTP_SAVE_CURRENT_PATH} from '../../reducers/sftp';
 
 const SftpContainer = styled.div`
 	display: flex;
@@ -76,10 +77,18 @@ const SFTPContainer = ({index, socket}) => {
 							console.log('[progress]..........', percent);
 						}
 
-						console.log(msgObj.getResult());
-						console.log(msgObj.getStatus());
-						console.log(msgObj.getUuid());
-						console.log(percent);
+						// console.log(msgObj.getResult());
+						// console.log(msgObj.getStatus());
+						// console.log(msgObj.getUuid());
+						// console.log(percent);
+
+						dispatch({
+							type: SFTP_SAVE_CURRENT_PATH,
+							data: {
+								uuid: msgObj.getUuid(),
+								path: msgObj.getResult(),
+							},
+						});
 					}
 				}
 			}
