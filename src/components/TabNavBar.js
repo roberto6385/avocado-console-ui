@@ -52,8 +52,9 @@ const TabNavBar = () => {
 			const {type} = current_tab;
 			const {ws, uuid} = current_tab.socket;
 			console.log(type, ws, uuid);
-			console.log('Client Closed on Nav Bar');
+
 			if (type === 'SSHT') {
+				console.log('Client Closed on Nav Bar');
 				const msgObj = new SSH.Message();
 				msgObj.setType(SSH.Message.Types.REQUEST);
 
@@ -82,7 +83,7 @@ const TabNavBar = () => {
 				ws.send(msgObj.serializeBinary());
 			}
 
-			dispatch({type: CLOSE_TAB, data: tab_id});
+			// dispatch({type: CLOSE_TAB, data: tab_id});
 		},
 		[dispatch, tab],
 	);
