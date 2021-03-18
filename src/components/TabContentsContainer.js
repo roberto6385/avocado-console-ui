@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
 
-import {CLOSE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import SSHTContainer from './SSHT/SSHTContainer';
 import styled from 'styled-components';
@@ -57,8 +56,6 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 
 				ws.send(msgObj.serializeBinary());
 			}
-
-			// dispatch({type: CLOSE_TAB, data: i});
 		},
 		[dispatch],
 	);

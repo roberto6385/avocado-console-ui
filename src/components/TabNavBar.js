@@ -6,7 +6,7 @@ import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
@@ -87,8 +87,6 @@ const TabNavBar = () => {
 
 				ws.send(msgObj.serializeBinary());
 			}
-
-			// dispatch({type: CLOSE_TAB, data: tab_id});
 		},
 		[dispatch, tab],
 	);
