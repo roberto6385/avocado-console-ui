@@ -8,11 +8,18 @@ import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import styled from 'styled-components';
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
+import {NAV_HEIGHT} from '../../styles/global';
 
 const SSHTContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	.card-header {
+		display: flex;
+		align-items: center;
+		position: relative;
+		height: ${NAV_HEIGHT};
+	}
 `;
 
 const SSHTBody = styled(Card.Body)`
@@ -33,7 +40,7 @@ const SSHContainer = ({index, my_server, socket}) => {
 
 	return (
 		<SSHTContainer>
-			<Card.Header style={{position: 'relative'}}>
+			<Card.Header>
 				<FaExpand
 					onClick={onCLickFullScreen}
 					style={{fontSize: '17px'}}

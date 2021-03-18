@@ -18,6 +18,14 @@ const ContainerCardHeader = styled(Card.Header)`
 	margin: 0;
 	height: ${SECOND_NAV_HEIGHT};
 	background: rgba(0, 0, 0, 0.03);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const ContainerCard = styled(Card)`
+	height: 100%;
+	border-radius: 0;
 `;
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
@@ -64,13 +72,12 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	}, []);
 
 	return (
-		<Card
-			className={display ? 'visible' : 'invisible'}
-			style={{height: '100%'}}
-		>
-			<ContainerCardHeader as='h6'>
-				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
-				{server?.name}
+		<ContainerCard className={display ? 'visible' : 'invisible'}>
+			<ContainerCardHeader>
+				<div>
+					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
+					{server?.name}
+				</div>
 				<span style={{float: 'right'}}>
 					<FaTimes onClick={onClickDelete(index)} />
 				</span>
@@ -84,7 +91,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			) : (
 				<SFTPContainer index={index} socket={socket} />
 			)}
-		</Card>
+		</ContainerCard>
 	);
 };
 

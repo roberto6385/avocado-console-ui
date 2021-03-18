@@ -3,6 +3,8 @@ import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import styled from 'styled-components';
 import HistoryContents from './HistoryContents';
+import HistoryNav from './HistoryNav';
+import {NAV_HEIGHT} from '../../styles/global';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
@@ -13,13 +15,19 @@ const HistoryBox = styled.div`
 	// flex: 1;
 	display: flex;
 	flex-direction: column;
+	.card-header {
+		display: flex;
+		align-items: center;
+		position: relative;
+		height: ${NAV_HEIGHT};
+	}
 `;
 
 const History = ({index, socket}) => {
 	return (
 		<HistoryBox>
-			<Card.Header style={{position: 'relative'}}>
-				히스토리 버튼들
+			<Card.Header>
+				<HistoryNav />
 			</Card.Header>
 			<SFTPBody>
 				<HistoryContents

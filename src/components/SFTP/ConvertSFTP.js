@@ -10,6 +10,7 @@ const ConvertButton = styled.button`
 	background: transparent;
 	outline: none;
 	border: none;
+	line-height: 0;
 `;
 
 const ConvertIcon = styled(BiTransferAlt)`

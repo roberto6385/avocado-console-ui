@@ -3,6 +3,8 @@ import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import styled from 'styled-components';
 import FileListContents from './FileListContents';
+import FileListNav from './FileListNav';
+import {NAV_HEIGHT} from '../../styles/global';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
@@ -12,13 +14,19 @@ const FlexBox = styled.div`
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	.card-header {
+		display: flex;
+		align-items: center;
+		position: relative;
+		height: ${NAV_HEIGHT};
+	}
 `;
 
 const FileList = ({index, socket}) => {
 	return (
 		<FlexBox>
-			<Card.Header style={{position: 'relative'}}>
-				파일리스트 네비게이션 버튼들
+			<Card.Header>
+				<FileListNav />
 			</Card.Header>
 			<SFTPBody>
 				<FileListContents
