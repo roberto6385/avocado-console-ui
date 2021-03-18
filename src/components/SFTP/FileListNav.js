@@ -28,10 +28,18 @@ const FileListNav = ({index, ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 
 	const goHome = () => {
-		sendCommandByCd(ws, uuid, '/home');
+		sendCommandByCd(ws, uuid, '/root');
 		sendCommandByPwd(ws, uuid);
 	};
-	const goBack = () => {};
+	const goBack = () => {
+		if (pathItem?.path !== '/') {
+			let tempPath = pathItem.path.split('/');
+			tempPath.pop();
+			let nextPath = tempPath.join('/').trim();
+			sendCommandByCd(ws, uuid, nextPath === '' ? '/' : nextPath);
+			sendCommandByPwd(ws, uuid);
+		}
+	};
 
 	return (
 		<>

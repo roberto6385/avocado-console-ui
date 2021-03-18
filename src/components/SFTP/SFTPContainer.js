@@ -80,7 +80,7 @@ const SFTPContainer = ({index, socket}) => {
 							console.log('[progress]..........', percent);
 						}
 
-						console.log(msgObj.getResult());
+						// console.log(msgObj.getResult());
 						// console.log(msgObj.getStatus());
 						// console.log(msgObj.getUuid());
 						// console.log(percent);
