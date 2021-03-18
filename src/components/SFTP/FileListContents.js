@@ -3,12 +3,10 @@ import {PropTypes} from 'prop-types';
 import SFTP from '../../dist/sftp_pb';
 import {useSelector} from 'react-redux';
 
-const SFTP_Body = ({index, ws, uuid}) => {
+const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
 
 	console.log(index); //tab id
-	// console.log(uuid);
-
 	const {currentPath} = useSelector((state) => state.sftp);
 	console.log(currentPath);
 
@@ -35,13 +33,13 @@ const SFTP_Body = ({index, ws, uuid}) => {
 		sendCommandByPwd();
 	}, [uuid]);
 
-	return <div>SFTP_Body</div>;
+	return <div>FileListContents</div>;
 };
 
-SFTP_Body.propTypes = {
+FileListContents.propTypes = {
 	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };
 
-export default SFTP_Body;
+export default FileListContents;

@@ -1,26 +1,20 @@
 import React, {useCallback, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import {Card} from 'react-bootstrap';
 import styled from 'styled-components';
 import {useDispatch} from 'react-redux';
-import SFTP_Body from './SFTP';
 import SFTP from '../../dist/sftp_pb';
 import {CLOSE_TAB} from '../../reducers/common';
 import {
 	SFTP_DELETE_CURRENT_PATH,
 	SFTP_SAVE_CURRENT_PATH,
 } from '../../reducers/sftp';
+import FileList from './FileList';
+import History from './History';
 
 const SftpContainer = styled.div`
 	display: flex;
-	flex-direction: column;
 	height: 100%;
 `;
-
-const SFTPBody = styled(Card.Body)`
-	padding: 0px;
-`;
-
 const SFTPContainer = ({index, socket}) => {
 	const {ws, uuid} = socket;
 	const dispatch = useDispatch();
@@ -105,18 +99,9 @@ const SFTPContainer = ({index, socket}) => {
 	}, [ws, dispatch, index]);
 
 	return (
-		<SftpContainer>
-			<Card.Header style={{position: 'relative'}}>
-				네비게이션 버튼들
-			</Card.Header>
-			<SFTPBody onClick={onCLickChangeCurrentTab}>
-				<SFTP_Body
-					id={`sftp ${String(index)}`}
-					index={index}
-					ws={socket.ws}
-					uuid={socket.uuid}
-				/>
-			</SFTPBody>
+		<SftpContainer onClick={onCLickChangeCurrentTab}>
+			<FileList index={index} socket={socket} />
+			<History index={index} socket={socket} />
 		</SftpContainer>
 	);
 };
