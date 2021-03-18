@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import SFTP_Body from './SFTP_Body';
+import SFTP_Body from "./SFTP";
 
 const SftpContainer = styled.div`
 	display: flex;

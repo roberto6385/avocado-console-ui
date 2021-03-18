@@ -4,10 +4,20 @@ import {BiTransferAlt} from 'react-icons/bi';
 import SFTP from '../../dist/sftp_pb';
 import {OPEN_TAB} from '../../reducers/common';
 import {useDispatch} from 'react-redux';
+import styled from 'styled-components';
+
+const ConvertButton = styled.button`
+	background: transparent;
+	outline: none;
+	border: none;
+`;
+
+const ConvertIcon = styled(BiTransferAlt)`
+	font-size: 21px;
+`;
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
-	console.log(data);
 
 	const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
 	const sendConnect = () => {
@@ -34,10 +44,6 @@ const ConvertSFTP = ({data}) => {
 
 	useEffect(() => {
 		ws.binaryType = 'arraybuffer';
-
-		ws.onopen = () => {
-			console.log('Convert Sftp Server Connection');
-		};
 
 		ws.onmessage = (evt) => {
 			// eslint-disable-next-line no-undef
@@ -75,12 +81,9 @@ const ConvertSFTP = ({data}) => {
 	}, [ws, dispatch, data]);
 
 	return (
-		<button
-			onClick={sendConnect}
-			style={{background: 'transparent', outline: 'none', border: 'none'}}
-		>
-			<BiTransferAlt style={{fontSize: '21px'}} />
-		</button>
+		<ConvertButton onClick={sendConnect}>
+			<ConvertIcon />
+		</ConvertButton>
 	);
 };
 

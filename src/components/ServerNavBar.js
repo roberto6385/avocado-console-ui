@@ -38,7 +38,7 @@ const ServerNavBar = ({search}) => {
 
 			ws.onopen = () => {
 				// on connecting, do nothing but log it to the console
-				console.log('connected');
+				console.log('SSH connected');
 
 				const msgObj = new SSH.Message();
 				msgObj.setType(SSH.Message.Types.REQUEST);
