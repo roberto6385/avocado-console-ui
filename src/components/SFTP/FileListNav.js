@@ -6,6 +6,10 @@ import {
 	GoArrowLeft,
 	MdHome,
 } from 'react-icons/all';
+import {PropTypes} from 'prop-types';
+import {useSelector} from 'react-redux';
+import SFTP from '../../dist/sftp_pb';
+import {sendCommandByCd, sendCommandByPwd} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -14,9 +18,19 @@ const NavItem = styled.button`
 	cursor: pointer;
 	line-height: 0;
 `;
-const FileListNav = () => {
-	const goHome = () => {};
 
+const PathSpan = styled.span`
+	font-size: 14px;
+	margin: 0px 4px;
+`;
+const FileListNav = ({index, ws, uuid}) => {
+	const {currentPath} = useSelector((state) => state.sftp);
+	const pathItem = currentPath.find((item) => item.uuid === uuid);
+
+	const goHome = () => {
+		sendCommandByCd(ws, uuid, '/home');
+		sendCommandByPwd(ws, uuid);
+	};
 	const goBack = () => {};
 
 	return (
@@ -33,9 +47,15 @@ const FileListNav = () => {
 			<NavItem onClick={goBack}>
 				<GoArrowLeft />
 			</NavItem>
-			<span style={{fontSize: '14px'}}>경로</span>
+			<PathSpan>{pathItem?.path}</PathSpan>
 		</>
 	);
+};
+
+FileListNav.propTypes = {
+	index: PropTypes.number.isRequired,
+	ws: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default FileListNav;

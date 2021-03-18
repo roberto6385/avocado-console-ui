@@ -26,7 +26,7 @@ const FileList = ({index, socket}) => {
 	return (
 		<FlexBox>
 			<Card.Header>
-				<FileListNav />
+				<FileListNav index={index} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
 				<FileListContents

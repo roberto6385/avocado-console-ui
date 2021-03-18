@@ -5,6 +5,7 @@ import SFTP from '../../dist/sftp_pb';
 import {OPEN_TAB} from '../../reducers/common';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
+import {sendConnect} from './commands';
 
 const ConvertButton = styled.button`
 	background: transparent;
@@ -20,25 +21,9 @@ const ConvertIcon = styled(BiTransferAlt)`
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 
-	const sendConnect = () => {
+	const connection = () => {
 		const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-		const msgObj = new SFTP.Message();
-		msgObj.setType(SFTP.Message.Types.REQUEST);
-
-		const reqObj = new SFTP.Request();
-		reqObj.setType(SFTP.Request.Types.CONNECT);
-
-		const conObj = new SFTP.ConnectRequest();
-		conObj.setHost(data.host);
-		conObj.setUser(data.user);
-		conObj.setPassword(data.password);
-		conObj.setPort(data.port);
-
-		reqObj.setBody(conObj.serializeBinary());
-		msgObj.setBody(reqObj.serializeBinary());
-
-		ws.binaryType = 'arraybuffer';
-		ws.onopen = () => ws.send(msgObj.serializeBinary());
+		sendConnect(ws, data);
 		ws.onmessage = (evt) => {
 			// eslint-disable-next-line no-undef
 			if (evt.data instanceof ArrayBuffer) {
@@ -75,7 +60,7 @@ const ConvertSFTP = ({data}) => {
 	};
 
 	return (
-		<ConvertButton onClick={sendConnect}>
+		<ConvertButton onClick={connection}>
 			<ConvertIcon />
 		</ConvertButton>
 	);

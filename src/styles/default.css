@@ -12,7 +12,7 @@ body {
 }
 
 .visible {
-	display: inline;
+	display: block;
 	border-radius: 0;
 }
 
