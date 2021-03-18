@@ -4,6 +4,7 @@ export const initialState = {
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,
+	cols: 1,
 	server_index: 3,
 	server: [
 		{
@@ -43,27 +44,39 @@ export const OPEN_TAB = 'OPEN_TAB';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_VISIBLE_TAB = 'CHANGE_NUMBER_OF_VISIBLE_TAB';
-
-// const vis = (tab, max_display_tab, current_tab) => {
-// 	let visible_tab_length = tab.filter((x) => x.display === true).length;
-//
-// 	for (let i = 0; i < tab.length; i++) {
-// 		if (visible_tab_length === max_display_tab) break;
-// 		if (tab[i].display === false) {
-// 			tab[i].display = true;
-// 			visible_tab_length++;
-// 		}
-// 	}
-//
-// 	if (visible_tab_length === 0) current_tab = null;
-// 	else if (
-// 		tab.filter((v) => v.id === current_tab && v.display === true).length ===
-// 		0
-// 	)
-// 		current_tab = tab.find((x) => x.display === true).id;
-// };
+export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 
 const reducer = (state = initialState, action) => {
+	const fillTabs = (tab, max_display_tab, current_tab) => {
+		if (tab.length === 0) {
+			current_tab = null;
+		} else {
+			let visible_tab_length = tab.filter((x) => x.display === true)
+				.length;
+
+			for (let i = 0; i < tab.length; i++) {
+				if (visible_tab_length === max_display_tab) break;
+				else if (visible_tab_length > max_display_tab) {
+					if (tab[i].display === true && tab[i].id !== current_tab) {
+						tab[i].display = false;
+						visible_tab_length--;
+					}
+				} else if (visible_tab_length < max_display_tab) {
+					if (tab[i].display === false) {
+						tab[i].display = true;
+						visible_tab_length++;
+					}
+				}
+			}
+
+			if (
+				tab.filter((v) => v.id === current_tab && v.display === true)
+					.length === 0
+			)
+				current_tab = tab.find((x) => x.display === true).id;
+		}
+	};
+
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case SAVE_SERVER:
@@ -73,34 +86,14 @@ const reducer = (state = initialState, action) => {
 
 			case DELETE_SERVER: {
 				draft.tab = draft.tab.filter(
-					(v) => v.socket.id !== draft.clicked_server,
+					(v) => v.server.id !== draft.clicked_server,
 				);
 
 				draft.server = draft.server.filter(
 					(v) => v.id !== draft.clicked_server,
 				);
 
-				let visible_tab_length = draft.tab.filter(
-					(x) => x.display === true,
-				).length;
-
-				for (let i = 0; i < draft.tab.length; i++) {
-					if (visible_tab_length === draft.max_display_tab) break;
-					if (draft.tab[i].display === false) {
-						draft.tab[i].display = true;
-						visible_tab_length++;
-					}
-				}
-
-				if (visible_tab_length === 0) draft.current_tab = null;
-				else if (
-					draft.tab.filter(
-						(v) => v.id === draft.current_tab && v.display === true,
-					).length === 0
-				)
-					draft.current_tab = draft.tab.find(
-						(x) => x.display === true,
-					).id;
+				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
 				break;
 			}
 
@@ -124,17 +117,7 @@ const reducer = (state = initialState, action) => {
 					},
 				});
 
-				let visible_tab_length = draft.tab.filter(
-					(x) => x.display === true,
-				).length;
-
-				for (let i = 0; i < draft.tab.length; i++) {
-					if (visible_tab_length === draft.max_display_tab) break;
-					if (draft.tab[i].display === true) {
-						draft.tab[i].display = false;
-						visible_tab_length--;
-					}
-				}
+				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
 
 				draft.current_tab = draft.tab_index;
 				draft.tab_index++;
@@ -144,72 +127,27 @@ const reducer = (state = initialState, action) => {
 			case CLOSE_TAB: {
 				draft.tab = draft.tab.filter((v) => v.id !== action.data);
 
-				let visible_tab_length = draft.tab.filter(
-					(x) => x.display === true,
-				).length;
-
-				for (let i = 0; i < draft.tab.length; i++) {
-					if (visible_tab_length === draft.max_display_tab) break;
-					if (draft.tab[i].display === false) {
-						draft.tab[i].display = true;
-						visible_tab_length++;
-					}
-				}
-
-				if (visible_tab_length === 0) draft.current_tab = null;
-				else if (
-					draft.tab.filter(
-						(v) => v.id === draft.current_tab && v.display === true,
-					).length === 0
-				)
-					draft.current_tab = draft.tab.find(
-						(x) => x.display === true,
-					).id;
+				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
 				break;
 			}
 
 			case CHANGE_VISIBLE_TAB: {
-				if (!draft.tab.filter((v) => v.id == action.data)[0].display) {
-					let visible_tab_length = draft.tab.filter(
-						(x) => x.display === true,
-					).length;
+				draft.tab[
+					draft.tab.findIndex((v) => v.id == action.data)
+				].display = true;
+				draft.current_tab = action.data;
 
-					for (let i = 0; i < draft.tab.length; i++) {
-						if (visible_tab_length === draft.max_display_tab - 1)
-							break;
-						if (draft.tab[i].display === true) {
-							draft.tab[i].display = false;
-							visible_tab_length--;
-						}
-					}
-					draft.tab.filter(
-						(v) => v.id == action.data,
-					)[0].display = true;
-					draft.current_tab = draft.tab_index;
-					draft.tab_index++;
-				}
-
+				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
 				break;
 			}
-			// case CHANGE_NUMBER_OF_VISIBLE_TAB:
-			// 	draft.cols_size = action.data.cols;
-			// 	draft.number_of_visible_tabs = action.data.tabs;
-			// 	while (draft.visible_tab.length > action.data.tabs)
-			// 		draft.visible_tab.shift();
-			//
-			// 	if (draft.visible_tab.length < action.data.tabs) {
-			// 		for (let i = 0; i < draft.tab.length; i++) {
-			// 			if (draft.visible_tab.length === action.data.tabs)
-			// 				break;
-			// 			if (
-			// 				draft.visible_tab.filter(
-			// 					(v) => v.id === draft.tab[i].id,
-			// 				).length === 0
-			// 			)
-			// 				draft.visible_tab.push(draft.tab[i]);
-			// 		}
-			// 	}
-			// 	break;
+
+			case CHANGE_NUMBER_OF_COLUMNS: {
+				draft.cols = action.data.cols;
+				draft.max_display_tab = action.data.max;
+
+				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				break;
+			}
 
 			default:
 				break;

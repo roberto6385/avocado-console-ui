@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import {CHANGE_NUMBER_OF_VISIBLE_TAB} from '../reducers/common';
+import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {BsSquareFill, FaTh, FaThLarge} from 'react-icons/all';
 import {NAV_HEIGHT} from '../styles/global';
 
@@ -15,11 +15,11 @@ const SplitBar = () => {
 	const dispatch = useDispatch();
 
 	const changeColumn = useCallback(
-		(tabs, cols) => () => {
-			// dispatch({
-			// 	type: CHANGE_NUMBER_OF_VISIBLE_TAB,
-			// 	data: {tabs: tabs, cols: cols},
-			// });
+		(cols, max) => () => {
+			dispatch({
+				type: CHANGE_NUMBER_OF_COLUMNS,
+				data: {cols: cols, max: max},
+			});
 		},
 		[dispatch],
 	);
@@ -28,14 +28,13 @@ const SplitBar = () => {
 		<SplitButtonContainer>
 			<BsSquareFill
 				style={{margin: '10px 5px'}}
-				onClick={changeColumn(1, 12)}
-				// icon={faWindowMaximize}
+				onClick={changeColumn(1, 1)}
 			/>
 			<FaThLarge
 				style={{margin: '10px 5px'}}
-				onClick={changeColumn(4, 6)}
+				onClick={changeColumn(2, 4)}
 			/>
-			<FaTh style={{margin: '10px 5px'}} onClick={changeColumn(3, 4)} />
+			<FaTh style={{margin: '10px 5px'}} onClick={changeColumn(3, 3)} />
 		</SplitButtonContainer>
 	);
 };
