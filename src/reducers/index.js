@@ -1,16 +1,15 @@
 import {combineReducers} from 'redux';
 
-import user from './user';
 import common from './common';
+
 import sftp from './sftp';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'xterm/css/xterm.css';
+import ssht from './ssht';
 
 const rootReducer = combineReducers({
-	user,
 	common,
 	sftp,
+	ssht,
 });
 
 export default rootReducer;

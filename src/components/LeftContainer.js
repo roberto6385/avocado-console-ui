@@ -11,7 +11,8 @@ import {
 } from '../styles/global';
 import ServerNavBar from './ServerNavBar';
 import {FaPlus, FaRegTrashAlt, FaSearch} from 'react-icons/all';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {DELETE_SERVER} from '../reducers/common';
 
 const Header = styled(Nav)`
 	height: ${NAV_HEIGHT_SUM};
@@ -66,6 +67,7 @@ const SearchForm = styled(FormControl)`
 `;
 
 const LeftContainer = () => {
+	const dispatch = useDispatch();
 	const {clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
@@ -76,7 +78,7 @@ const LeftContainer = () => {
 
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
-			//TODO: confirm window
+			// dispatch({type: DELETE_SERVER});
 		}
 	}, [clicked_server]);
 

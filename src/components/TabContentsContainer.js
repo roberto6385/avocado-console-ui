@@ -33,7 +33,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const {ws, uuid} = socket;
 
 	const onClickDelete = useCallback(
-		(i) => () => {
+		() => () => {
 			if (type === 'SSHT') {
 				console.log('Client Closed on Contents Container');
 				const msgObj = new SSH.Message();
