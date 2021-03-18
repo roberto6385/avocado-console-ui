@@ -51,7 +51,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 
 				ws.send(msgObj.serializeBinary());
 			} else {
-				sendDisconnect(ws, uuid);
+				sendDisconnect(ws, uuid, index, dispatch);
 			}
 		},
 		[dispatch],

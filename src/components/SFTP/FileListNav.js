@@ -7,9 +7,9 @@ import {
 	MdHome,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import SFTP from '../../dist/sftp_pb';
-import {sendCommandByCd, sendCommandByPwd} from './commands';
+import {sendCommandByCd, sendCommandByLs, sendCommandByPwd} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -24,20 +24,25 @@ const PathSpan = styled.span`
 	margin: 0px 4px;
 `;
 const FileListNav = ({index, ws, uuid}) => {
+	const dispatch = useDispatch();
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 
 	const goHome = () => {
-		sendCommandByCd(ws, uuid, '/root');
-		sendCommandByPwd(ws, uuid);
+		sendCommandByCd(ws, uuid, '/root')
+			.then(() => sendCommandByPwd(ws, uuid, dispatch))
+			.then((result) => sendCommandByLs(ws, uuid, result))
+			.then((result) => console.log(result));
 	};
 	const goBack = () => {
 		if (pathItem?.path !== '/') {
 			let tempPath = pathItem.path.split('/');
 			tempPath.pop();
 			let nextPath = tempPath.join('/').trim();
-			sendCommandByCd(ws, uuid, nextPath === '' ? '/' : nextPath);
-			sendCommandByPwd(ws, uuid);
+			sendCommandByCd(ws, uuid, nextPath === '' ? '/' : nextPath)
+				.then(() => sendCommandByPwd(ws, uuid, dispatch))
+				.then((result) => sendCommandByLs(ws, uuid, result))
+				.then((result) => console.log(result));
 		}
 	};
 

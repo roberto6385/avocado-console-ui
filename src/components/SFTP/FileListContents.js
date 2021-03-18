@@ -1,18 +1,19 @@
 import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import SFTP from '../../dist/sftp_pb';
-import {useSelector} from 'react-redux';
-import {sendCommandByPwd} from './commands';
+import {useDispatch, useSelector} from 'react-redux';
+import {sendCommandByLs, sendCommandByPwd} from './commands';
 
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
-
-	console.log(index); //tab id
+	const dispatch = useDispatch();
+	// console.log(index); //tab id
 	const {currentPath} = useSelector((state) => state.sftp);
-	console.log(currentPath);
 
 	useEffect(() => {
-		sendCommandByPwd(ws, uuid);
+		const path = sendCommandByPwd(ws, uuid, dispatch);
+		path.then((result) =>
+			sendCommandByLs(ws, uuid, result),
+		).then((result) => console.log(result));
 	}, [ws, uuid]);
 
 	return <div>FileListContents</div>;

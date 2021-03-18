@@ -23,40 +23,7 @@ const ConvertSFTP = ({data}) => {
 
 	const connection = () => {
 		const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-		sendConnect(ws, data);
-		ws.onmessage = (evt) => {
-			// eslint-disable-next-line no-undef
-			if (evt.data instanceof ArrayBuffer) {
-				const message = SFTP.Message.deserializeBinary(evt.data);
-				if (message.getType() === SFTP.Message.Types.RESPONSE) {
-					const response = SFTP.Response.deserializeBinary(
-						message.getBody(),
-					);
-					console.log('[receive]response type', response.getType());
-					if (response.getType() === SFTP.Response.Types.CONNECT) {
-						const conObj = SFTP.ConnectResponse.deserializeBinary(
-							response.getBody(),
-						);
-						console.log('[receive]connect', conObj);
-						console.log(
-							'[receive]connect to json',
-							conObj.toObject(),
-						);
-						if (conObj.getStatus() === 'connected') {
-							dispatch({
-								type: OPEN_TAB,
-								data: {
-									id: data.id,
-									type: 'SFTP',
-									ws: ws,
-									uuid: conObj.getUuid(),
-								},
-							});
-						}
-					}
-				}
-			}
-		};
+		sendConnect(ws, data, dispatch);
 	};
 
 	return (

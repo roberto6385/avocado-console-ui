@@ -79,7 +79,7 @@ const TabNavBar = () => {
 				msgObj.setBody(reqObj.serializeBinary());
 				ws.send(msgObj.serializeBinary());
 			} else {
-				sendDisconnect(ws, uuid);
+				sendDisconnect(ws, uuid, tab_id, dispatch);
 			}
 		},
 		[dispatch, tab],
