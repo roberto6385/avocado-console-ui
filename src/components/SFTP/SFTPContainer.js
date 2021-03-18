@@ -6,7 +6,10 @@ import {useDispatch} from 'react-redux';
 import SFTP_Body from './SFTP';
 import SFTP from '../../dist/sftp_pb';
 import {CLOSE_TAB} from '../../reducers/common';
-import {SFTP_SAVE_CURRENT_PATH} from '../../reducers/sftp';
+import {
+	SFTP_DELETE_CURRENT_PATH,
+	SFTP_SAVE_CURRENT_PATH,
+} from '../../reducers/sftp';
 
 const SftpContainer = styled.div`
 	display: flex;
@@ -19,8 +22,10 @@ const SFTPBody = styled(Card.Body)`
 `;
 
 const SFTPContainer = ({index, socket}) => {
-	const {ws} = socket;
+	const {ws, uuid} = socket;
 	const dispatch = useDispatch();
+
+	// console.log(uuid);
 
 	const onCLickChangeCurrentTab = useCallback(() => {
 		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
@@ -50,6 +55,10 @@ const SFTPContainer = ({index, socket}) => {
 
 						if (conObj.getStatus() === 'disconnected') {
 							console.log('SFTP Container Server Disconnection!');
+							dispatch({
+								type: SFTP_DELETE_CURRENT_PATH,
+								data: uuid,
+							});
 							dispatch({type: CLOSE_TAB, data: index});
 						}
 					} else if (

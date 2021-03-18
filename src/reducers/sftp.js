@@ -5,9 +5,10 @@ export const initialState = {
 };
 
 export const SFTP_SAVE_CURRENT_PATH = 'SFTP_SAVE_CURRENT_PATH';
+export const SFTP_DELETE_CURRENT_PATH = 'SFTP_DELETE_CURRENT_PATH';
 
 // 리듀서 findIndex 변수들
-let currentPath_index
+let currentPath_index;
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -28,7 +29,15 @@ const reducer = (state = initialState, action) => {
 						path: action.data.path,
 					});
 				}
+				break;
 
+			case SFTP_DELETE_CURRENT_PATH:
+				currentPath_index = draft.currentPath.findIndex(
+					(item) => item.uuid === action.data,
+				);
+				if (currentPath_index !== -1) {
+					draft.currentPath.splice(currentPath_index, 1);
+				}
 				break;
 
 			default:

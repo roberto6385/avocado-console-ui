@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 import SFTP from '../../dist/sftp_pb';
 import {useSelector} from 'react-redux';
@@ -7,6 +7,7 @@ const SFTP_Body = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
 
 	console.log(index); //tab id
+	// console.log(uuid);
 
 	const {currentPath} = useSelector((state) => state.sftp);
 	console.log(currentPath);
