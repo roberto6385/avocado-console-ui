@@ -34,6 +34,11 @@ const Tab_Nav_Span = styled.span`
 	color: black;
 `;
 
+const Split_Bar = styled(SplitBar)`
+	float: right;
+	margin-left: 10px;
+`;
+
 const TabNavBar = () => {
 	const dispatch = useDispatch();
 	const [active, setActive] = useState('');
@@ -41,7 +46,7 @@ const TabNavBar = () => {
 
 	const changeVisibleTab = useCallback(
 		(tab_id) => () => {
-			//dispatch({type: CHANGE_VISIBLE_TAB, data: tab_id});
+			dispatch({type: CHANGE_VISIBLE_TAB, data: tab_id});
 		},
 		[dispatch],
 	);
@@ -128,7 +133,7 @@ const TabNavBar = () => {
 							</NavLink>
 						</Tab_NavItem>
 					))}
-				<SplitBar />
+				<Split_Bar />
 			</Tab_Nav>
 		</Tab.Container>
 	);

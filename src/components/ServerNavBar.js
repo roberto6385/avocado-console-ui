@@ -92,7 +92,7 @@ const ServerNavBar = ({search}) => {
 	);
 
 	return (
-		<Nav className='sidebar, flex-column'>
+		<Nav className='flex-column'>
 			{server
 				.filter((v) => v.name.includes(search))
 				.map((data) => (

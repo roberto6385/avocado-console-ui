@@ -7,12 +7,12 @@ body {
 }
 
 .invisible {
-	display: none;
+	display: none !important;
 	border-radius: 0;
 }
 
 .visible {
-	display: inline;
+	display: inline !important;
 	border-radius: 0;
 }
 

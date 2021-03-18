@@ -168,22 +168,29 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			// case CHANGE_VISIBLE_TAB:
-			// 	draft.tab = draft.visible_tab.filter(
-			// 		(v) => v.id !== action.data,
-			// 	);
-			//
-			// 	while (draft.visible_tab.length >= draft.number_of_visible_tabs)
-			// 		draft.visible_tab.shift();
-			//
-			// 	draft.visible_tab.push(
-			// 		draft.tab.find((v) => v.id === action.data),
-			// 	);
-			//
-			// 	draft.visible_tab.sort(sortArray);
-			// 	draft.current_tab = action.data;
-			// 	break;
-			//
+			case CHANGE_VISIBLE_TAB: {
+				if (!draft.tab.filter((v) => v.id == action.data)[0].display) {
+					let visible_tab_length = draft.tab.filter(
+						(x) => x.display === true,
+					).length;
+
+					for (let i = 0; i < draft.tab.length; i++) {
+						if (visible_tab_length === draft.max_display_tab - 1)
+							break;
+						if (draft.tab[i].display === true) {
+							draft.tab[i].display = false;
+							visible_tab_length--;
+						}
+					}
+					draft.tab.filter(
+						(v) => v.id == action.data,
+					)[0].display = true;
+					draft.current_tab = draft.tab_index;
+					draft.tab_index++;
+				}
+
+				break;
+			}
 			// case CHANGE_NUMBER_OF_VISIBLE_TAB:
 			// 	draft.cols_size = action.data.cols;
 			// 	draft.number_of_visible_tabs = action.data.tabs;

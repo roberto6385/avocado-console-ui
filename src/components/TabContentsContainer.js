@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
@@ -61,6 +61,9 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 		},
 		[dispatch],
 	);
+	useEffect(() => {
+		console.log(display);
+	}, []);
 
 	return (
 		<Card
