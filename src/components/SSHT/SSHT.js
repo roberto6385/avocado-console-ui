@@ -58,6 +58,14 @@ const SSHT = ({index, ws, uuid}) => {
 						response.getBody(),
 					);
 					sshTerm.current.write(msgObj.getResult());
+				} else if (
+					response.getType() === SSH.Response.Types.DISCONNECT
+				) {
+					const conObj = SSH.DisconnectResponse.deserializeBinary(
+						response.getBody(),
+					);
+					console.log('message', conObj);
+					console.log('message to json', conObj.toObject());
 				} else {
 					console.log('여기 올까요?');
 				}
