@@ -34,11 +34,7 @@ const ConvertSFTP = ({data}) => {
 		conObj.setPort(data.port);
 
 		reqObj.setBody(conObj.serializeBinary());
-
 		msgObj.setBody(reqObj.serializeBinary());
-
-		console.log('send proto buffer', msgObj);
-		console.log('send proto buffer binary', msgObj.serializeBinary());
 
 		ws.binaryType = 'arraybuffer';
 		ws.onopen = () => ws.send(msgObj.serializeBinary());

@@ -62,7 +62,6 @@ const TabNavBar = () => {
 			const current_tab = tab.find((x) => x.id === tab_id);
 			const {type} = current_tab;
 			const {ws, uuid} = current_tab.socket;
-			console.log(type, ws, uuid);
 
 			if (type === 'SSHT') {
 				console.log('Client Closed on Nav Bar');

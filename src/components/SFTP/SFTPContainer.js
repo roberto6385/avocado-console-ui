@@ -51,6 +51,35 @@ const SFTPContainer = ({index, socket}) => {
 							console.log('SFTP Container Server Disconnection!');
 							dispatch({type: CLOSE_TAB, data: index});
 						}
+					} else if (
+						response.getType() === SFTP.Response.Types.MESSAGE
+					) {
+						const msgObj = SFTP.MessageResponse.deserializeBinary(
+							response.getBody(),
+						);
+						console.log('[receive]message', msgObj);
+						console.log(
+							'[receive]message to json',
+							msgObj.toObject(),
+						);
+
+						// useState로 받거나 reducer에 저장할 때
+						let percent = null;
+
+						if (
+							msgObj.getStatus() !== undefined &&
+							msgObj.getStatus() === 'progress'
+						) {
+							percent = msgObj
+								.getResult()
+								.replace('percent : ', '');
+							console.log('[progress]..........', percent);
+						}
+
+						console.log(msgObj.getResult());
+						console.log(msgObj.getStatus());
+						console.log(msgObj.getUuid());
+						console.log(percent);
 					}
 				}
 			}
