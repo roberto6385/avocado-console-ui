@@ -9,7 +9,12 @@ import {
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import SFTP from '../../dist/sftp_pb';
-import {sendCommandByCd, sendCommandByLs, sendCommandByPwd} from './commands';
+import {
+	listConversion,
+	sendCommandByCd,
+	sendCommandByLs,
+	sendCommandByPwd,
+} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -32,8 +37,10 @@ const FileListNav = ({index, ws, uuid}) => {
 		sendCommandByCd(ws, uuid, '/root')
 			.then(() => sendCommandByPwd(ws, uuid, dispatch))
 			.then((result) => sendCommandByLs(ws, uuid, result))
+			.then((result) => listConversion(result))
 			.then((result) => console.log(result));
 	};
+
 	const goBack = () => {
 		if (pathItem?.path !== '/') {
 			let tempPath = pathItem.path.split('/');
@@ -42,6 +49,7 @@ const FileListNav = ({index, ws, uuid}) => {
 			sendCommandByCd(ws, uuid, nextPath === '' ? '/' : nextPath)
 				.then(() => sendCommandByPwd(ws, uuid, dispatch))
 				.then((result) => sendCommandByLs(ws, uuid, result))
+				.then((result) => listConversion(result))
 				.then((result) => console.log(result));
 		}
 	};

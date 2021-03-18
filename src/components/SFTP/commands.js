@@ -37,6 +37,7 @@ export const sendConnect = (ws, data, dispatch) => {
 					);
 
 					if (conObj.getStatus() === 'connected') {
+						console.log('run sendConnect');
 						dispatch({
 							type: OPEN_TAB,
 							data: {
@@ -79,14 +80,9 @@ export const sendDisconnect = (ws, uuid, index, dispatch) => {
 					const conObj = SFTP.DisconnectResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('[receive]disconnect', conObj);
-					console.log(
-						'[receive]disconnect to json',
-						conObj.toObject(),
-					);
 
 					if (conObj.getStatus() === 'disconnected') {
-						console.log('SFTP Container Server Disconnection!');
+						console.log('run sendDisconnect');
 						dispatch({
 							type: SFTP_DELETE_CURRENT_PATH,
 							data: uuid,
@@ -240,5 +236,52 @@ export const sendCommandByLs = (ws, uuid, path) => {
 				}
 			}
 		};
+	});
+};
+
+export const listConversion = (result) => {
+	console.log('run listConversion');
+
+	// eslint-disable-next-line no-undef
+	return new Promise((resolve) => {
+		const tempA = result;
+		const tempB = tempA?.substring(1, tempA.length - 1);
+		const tempC = tempB
+			?.split(',')
+			.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
+		const fileList = [];
+		tempC?.forEach((list) => {
+			const value = list.split(' ');
+			if (value[8] !== '.') {
+				const name = value.slice(8).join(' ');
+				fileList.push({
+					fileName: name,
+					fileSize:
+						typeof value[4] === 'string' &&
+						value[4]
+							.toString()
+							.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+							.trim(),
+					fileType: value[0][0] === 'd' ? 'directory' : 'file',
+					lastModified: `${value[5]} ${value[6]} ${value[7]}`,
+					permission: value[0],
+					owner: value[2],
+					group: value[3],
+					links: value[1],
+				});
+			}
+		});
+		fileList.sort((a, b) => {
+			let typeA = a.fileType;
+			let typeB = b.fileType;
+			if (typeA < typeB) {
+				return -1;
+			}
+			if (typeA > typeB) {
+				return 1;
+			}
+			return 0;
+		});
+		resolve(fileList);
 	});
 };

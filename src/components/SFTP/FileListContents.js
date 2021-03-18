@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByLs, sendCommandByPwd} from './commands';
+import {listConversion, sendCommandByLs, sendCommandByPwd} from './commands';
 
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
@@ -10,11 +10,11 @@ const FileListContents = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 
 	useEffect(() => {
-		const path = sendCommandByPwd(ws, uuid, dispatch);
-		path.then((result) =>
-			sendCommandByLs(ws, uuid, result),
-		).then((result) => console.log(result));
-	}, [ws, uuid]);
+		sendCommandByPwd(ws, uuid, dispatch)
+			.then((result) => sendCommandByLs(ws, uuid, result))
+			.then((result) => listConversion(result))
+			.then((result) => console.log(result));
+	}, [ws, uuid, dispatch]);
 
 	return <div>FileListContents</div>;
 };
