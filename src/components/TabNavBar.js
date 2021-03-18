@@ -13,8 +13,15 @@ import SplitBar from './SplitBar';
 import SSH from '../dist/ssh_pb';
 import SFTP from '../dist/sftp_pb';
 
+const TabContainer = styled(Tab.Container)`
+	display: flex !important;
+	height: ${NAV_HEIGHT};
+`;
 const Tab_Nav = styled(Nav)`
 	height: ${NAV_HEIGHT};
+	flex: 1;
+	flex-wrap: nowrap;
+	overflow-x: scroll;
 `;
 
 const Tab_NavItem = styled(Nav.Item)`
@@ -34,9 +41,8 @@ const Tab_Nav_Span = styled.span`
 	color: black;
 `;
 
-const Split_Bar = styled(SplitBar)`
-	float: right;
-	margin-left: 10px;
+const FlexBox = styled.div`
+	display: flex;
 `;
 
 const TabNavBar = () => {
@@ -94,49 +100,53 @@ const TabNavBar = () => {
 	);
 
 	return (
-		<Tab.Container
+		<TabContainer
 			activeKey={active}
 			defaultActiveKey={active}
 			onSelect={(i) => setActive(i)}
 		>
-			<Tab_Nav>
-				{tab &&
-					tab.map((data) => (
-						<Tab_NavItem key={data.id.toString()}>
-							<NavLink
-								className={
-									data.id === current_tab
-										? 'tab_navLink active'
-										: 'tab_navLink'
-								}
-								as={Link}
-								to='/'
-								eventKey={data.id}
-							>
-								<Tab_Nav_Span
-									onClick={changeVisibleTab(data.id)}
+			<FlexBox>
+				<Tab_Nav className='here is tab'>
+					{tab &&
+						tab.map((data) => (
+							<Tab_NavItem key={data.id.toString()}>
+								<NavLink
+									className={
+										data.id === current_tab
+											? 'tab_navLink active'
+											: 'tab_navLink'
+									}
+									as={Link}
+									to='/'
+									eventKey={data.id}
 								>
-									{data.type === 'SSHT' ? (
-										<RiTerminalFill />
-									) : (
-										<BiTransferAlt />
-									)}
-									{data.server.name}
-								</Tab_Nav_Span>
-								<span
-									style={{
-										marginLeft: '10px',
-										color: '#116466',
-									}}
-								>
-									<FaTimes onClick={onClickDelete(data.id)} />
-								</span>
-							</NavLink>
-						</Tab_NavItem>
-					))}
-			</Tab_Nav>
-			<Split_Bar />
-		</Tab.Container>
+									<Tab_Nav_Span
+										onClick={changeVisibleTab(data.id)}
+									>
+										{data.type === 'SSHT' ? (
+											<RiTerminalFill />
+										) : (
+											<BiTransferAlt />
+										)}
+										{data.server.name}
+									</Tab_Nav_Span>
+									<span
+										style={{
+											marginLeft: '10px',
+											color: '#116466',
+										}}
+									>
+										<FaTimes
+											onClick={onClickDelete(data.id)}
+										/>
+									</span>
+								</NavLink>
+							</Tab_NavItem>
+						))}
+				</Tab_Nav>
+				<SplitBar />
+			</FlexBox>
+		</TabContainer>
 	);
 };
 
