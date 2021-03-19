@@ -2,7 +2,6 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import MainPage from './MainPage';
 import TabContentsContainer from './TabContentsContainer';
-import {Col, Container} from 'react-bootstrap';
 import styled from 'styled-components';
 
 const WorkSpaceDiv = styled.div`

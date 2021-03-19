@@ -4,15 +4,15 @@ import {Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
-
 import {FaTimes} from 'react-icons/all';
+
 import SSHTContainer from './SSHT/SSHTContainer';
 import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SSH from '../dist/ssh_pb';
-import SFTP from '../dist/sftp_pb';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {sendDisconnect} from './SFTP/commands';
+import {CHANGE_CURRENT_TAB} from '../reducers/common';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -22,10 +22,10 @@ const ContainerCardHeader = styled(Card.Header)`
 `;
 
 const CardContainer = styled(Card)`
-	// padding: 15px;
+	display: flex;
+	flex-direction: column;
 	height: ${(props) => props.h};
-	// width: ${(props) => props.w};
-	// width: 100%;
+	width: ${(props) => props.w};
 `;
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
@@ -58,9 +58,6 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 		},
 		[dispatch],
 	);
-	useEffect(() => {
-		console.log(display);
-	}, []);
 
 	useEffect(() => {
 		if (!display) {
@@ -87,28 +84,35 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 		}
 	}, [display, cols, tab]);
 
+	const onClickChangeTab = useCallback(() => {
+		dispatch({type: CHANGE_CURRENT_TAB, data: index});
+	}, []);
+
 	return (
-		<Card
+		<CardContainer
+			onClick={onClickChangeTab}
 			className={display ? 'visible' : 'invisible'}
-			style={{height: height, width: width}}
+			h={height}
+			w={width}
 		>
 			<ContainerCardHeader as='h6'>
 				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
 				{server?.name}
-				<span style={{float: 'right'}}>
-					<FaTimes onClick={onClickDelete(index)} />
+				<span className={'right'}>
+					<FaTimes onClick={onClickDelete()} />
 				</span>
 			</ContainerCardHeader>
 			{type === 'SSHT' ? (
 				<SSHTContainer
 					index={index}
-					my_server={server}
+					display={display}
+					server_id={server.id}
 					socket={socket}
 				/>
 			) : (
 				<SFTPContainer index={index} socket={socket} />
 			)}
-		</Card>
+		</CardContainer>
 	);
 };
 

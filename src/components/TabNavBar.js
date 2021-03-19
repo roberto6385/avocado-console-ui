@@ -11,7 +11,6 @@ import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 import SSH from '../dist/ssh_pb';
-import SFTP from '../dist/sftp_pb';
 import {sendDisconnect} from './SFTP/commands';
 
 const TabContainer = styled(Tab.Container)`
@@ -31,7 +30,7 @@ const Tab_NavItem = styled(Nav.Item)`
 		align-items: center;
 		height: 100%;
 	}
-	.tab_navLink.active {
+	.active_tab_item {
 		background-color: ${HIGHLIGHT_COLOR};
 	}
 `;
@@ -99,7 +98,7 @@ const TabNavBar = () => {
 								<NavLink
 									className={
 										data.id === current_tab
-											? 'tab_navLink active'
+											? 'tab_navLink active_tab_item'
 											: 'tab_navLink'
 									}
 									as={Link}
