@@ -6,6 +6,13 @@ import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
+import {
+	listConversion,
+	sendCommandByCd,
+	sendCommandByLs,
+	sendCommandByPwd,
+} from './commands';
+import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -61,8 +68,24 @@ const columns = ['Name', 'Size', 'Modified', 'Permission'];
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
 	const {currentList} = useSelector((state) => state.sftp);
+	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	// console.log(index); //tab id
+
+	const changePath = (item) => {
+		if (item.fileType === 'directory') {
+			sendCommandByCd(ws, uuid, item.fileName)
+				.then(() => sendCommandByPwd(ws, uuid, dispatch))
+				.then((result) => sendCommandByLs(ws, uuid, result))
+				.then((result) => listConversion(result))
+				.then((result) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: result},
+					}),
+				);
+		}
+	};
 
 	useEffect(() => {
 		setData(currentList.find((item) => item.uuid === uuid)?.list);
@@ -102,6 +125,7 @@ const FileListContents = ({index, ws, uuid}) => {
 						<tr
 							style={{display: 'flex', cursor: 'pointer'}}
 							key={index + uuid}
+							onClick={() => changePath(item)}
 						>
 							<CustomNameTh
 								flex={10}

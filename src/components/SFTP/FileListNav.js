@@ -35,16 +35,18 @@ const FileListNav = ({index, ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 
 	const goHome = () => {
-		sendCommandByCd(ws, uuid, '/root')
-			.then(() => sendCommandByPwd(ws, uuid, dispatch))
-			.then((result) => sendCommandByLs(ws, uuid, result))
-			.then((result) => listConversion(result))
-			.then((result) =>
-				dispatch({
-					type: SFTP_SAVE_CURRENT_LIST,
-					data: {uuid, list: result},
-				}),
-			);
+		if (pathItem?.path !== '/root') {
+			sendCommandByCd(ws, uuid, '/root')
+				.then(() => sendCommandByPwd(ws, uuid, dispatch))
+				.then((result) => sendCommandByLs(ws, uuid, result))
+				.then((result) => listConversion(result))
+				.then((result) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: result},
+					}),
+				);
+		}
 	};
 
 	const goBack = () => {
