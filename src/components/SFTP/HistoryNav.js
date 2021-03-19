@@ -7,6 +7,7 @@ import {
 	MdPause,
 	MdDelete,
 } from 'react-icons/all';
+import {PropTypes} from 'prop-types';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -15,7 +16,7 @@ const NavItem = styled.button`
 	cursor: pointer;
 	line-height: 0;
 `;
-const HistoryNav = () => {
+const HistoryNav = ({index, ws, uuid}) => {
 	const fileUpload = () => {};
 
 	const historyDelete = () => {};
@@ -39,6 +40,12 @@ const HistoryNav = () => {
 			</NavItem>
 		</>
 	);
+};
+
+HistoryNav.propTypes = {
+	index: PropTypes.number.isRequired,
+	ws: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default HistoryNav;

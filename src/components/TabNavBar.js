@@ -12,6 +12,7 @@ import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 import SSH from '../dist/ssh_pb';
 import SFTP from '../dist/sftp_pb';
+import {sendDisconnect} from './SFTP/commands';
 
 const TabContainer = styled(Tab.Container)`
 	display: flex !important;
@@ -78,19 +79,7 @@ const TabNavBar = () => {
 				msgObj.setBody(reqObj.serializeBinary());
 				ws.send(msgObj.serializeBinary());
 			} else {
-				const msgObj = new SFTP.Message();
-				msgObj.setType(SFTP.Message.Types.REQUEST);
-
-				const reqObj = new SFTP.Request();
-				reqObj.setType(SFTP.Request.Types.DISCONNECT);
-
-				const disObj = new SFTP.DisconnectRequest();
-				disObj.setUuid(uuid);
-
-				reqObj.setBody(disObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
+				sendDisconnect(ws, uuid, tab_id, dispatch);
 			}
 		},
 		[dispatch, tab],

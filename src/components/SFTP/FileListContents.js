@@ -1,39 +1,50 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
-import SFTP from '../../dist/sftp_pb';
 import {useSelector} from 'react-redux';
+import {AutoSizer, Column, Table} from 'react-virtualized';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
-
-	console.log(index); //tab id
-	const {currentPath} = useSelector((state) => state.sftp);
-	console.log(currentPath);
-
-	const sendCommandByPwd = () => {
-		const msgObj = new SFTP.Message();
-		msgObj.setType(SFTP.Message.Types.REQUEST);
-
-		const reqObj = new SFTP.Request();
-		reqObj.setType(SFTP.Request.Types.MESSAGE);
-
-		const msgReqObj = new SFTP.MessageRequest();
-		msgReqObj.setUuid(uuid);
-
-		const cmdObj = new SFTP.CommandByPwd();
-
-		msgReqObj.setPwd(cmdObj);
-		reqObj.setBody(msgReqObj.serializeBinary());
-		msgObj.setBody(reqObj.serializeBinary());
-
-		ws.send(msgObj.serializeBinary());
-	};
+	const {currentList} = useSelector((state) => state.sftp);
+	const [data, setData] = useState([]);
+	// console.log(index); //tab id
 
 	useEffect(() => {
-		sendCommandByPwd();
-	}, [uuid]);
+		setData(currentList.find((item) => item.uuid === uuid)?.list);
+		console.log(currentList);
+	}, [currentList]);
 
-	return <div>FileListContents</div>;
+	return (
+		data?.length !== 0 &&
+		data !== undefined && (
+			<AutoSizer>
+				{({height, width}) => (
+					<Table
+						width={500}
+						height={300}
+						headerHeight={20}
+						rowHeight={30}
+						rowCount={data?.length}
+						rowGetter={({index}) => data[index]}
+					>
+						<Column label='Name' dataKey='fileName' width={300} />
+						<Column label='Size' dataKey='fileSize' width={100} />
+						<Column
+							label='Modified'
+							dataKey='lastModified'
+							width={200}
+						/>
+						<Column
+							label='Permission'
+							dataKey='permission'
+							width={200}
+						/>
+					</Table>
+				)}
+			</AutoSizer>
+		)
+	);
 };
 
 FileListContents.propTypes = {

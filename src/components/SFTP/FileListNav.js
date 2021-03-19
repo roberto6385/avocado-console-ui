@@ -6,6 +6,16 @@ import {
 	GoArrowLeft,
 	MdHome,
 } from 'react-icons/all';
+import {PropTypes} from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import SFTP from '../../dist/sftp_pb';
+import {
+	listConversion,
+	sendCommandByCd,
+	sendCommandByLs,
+	sendCommandByPwd,
+} from './commands';
+import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -14,10 +24,46 @@ const NavItem = styled.button`
 	cursor: pointer;
 	line-height: 0;
 `;
-const FileListNav = () => {
-	const goHome = () => {};
 
-	const goBack = () => {};
+const PathSpan = styled.span`
+	font-size: 14px;
+	margin: 0px 4px;
+`;
+const FileListNav = ({index, ws, uuid}) => {
+	const dispatch = useDispatch();
+	const {currentPath} = useSelector((state) => state.sftp);
+	const pathItem = currentPath.find((item) => item.uuid === uuid);
+
+	const goHome = () => {
+		sendCommandByCd(ws, uuid, '/root')
+			.then(() => sendCommandByPwd(ws, uuid, dispatch))
+			.then((result) => sendCommandByLs(ws, uuid, result))
+			.then((result) => listConversion(result))
+			.then((result) =>
+				dispatch({
+					type: SFTP_SAVE_CURRENT_LIST,
+					data: {uuid, list: result},
+				}),
+			);
+	};
+
+	const goBack = () => {
+		if (pathItem?.path !== '/') {
+			let tempPath = pathItem.path.split('/');
+			tempPath.pop();
+			let nextPath = tempPath.join('/').trim();
+			sendCommandByCd(ws, uuid, nextPath === '' ? '/' : nextPath)
+				.then(() => sendCommandByPwd(ws, uuid, dispatch))
+				.then((result) => sendCommandByLs(ws, uuid, result))
+				.then((result) => listConversion(result))
+				.then((result) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: result},
+					}),
+				);
+		}
+	};
 
 	return (
 		<>
@@ -33,9 +79,15 @@ const FileListNav = () => {
 			<NavItem onClick={goBack}>
 				<GoArrowLeft />
 			</NavItem>
-			<span style={{fontSize: '14px'}}>경로</span>
+			<PathSpan>{pathItem?.path}</PathSpan>
 		</>
 	);
+};
+
+FileListNav.propTypes = {
+	index: PropTypes.number.isRequired,
+	ws: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default FileListNav;

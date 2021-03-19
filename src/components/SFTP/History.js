@@ -27,7 +27,7 @@ const History = ({index, socket}) => {
 	return (
 		<HistoryBox>
 			<Card.Header>
-				<HistoryNav />
+				<HistoryNav index={index} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
 				<HistoryContents

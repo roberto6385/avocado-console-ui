@@ -12,6 +12,7 @@ import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SSH from '../dist/ssh_pb';
 import SFTP from '../dist/sftp_pb';
 import SFTPContainer from './SFTP/SFTPContainer';
+import {sendDisconnect} from './SFTP/commands';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -52,19 +53,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 
 				ws.send(msgObj.serializeBinary());
 			} else {
-				const msgObj = new SFTP.Message();
-				msgObj.setType(SFTP.Message.Types.REQUEST);
-
-				const reqObj = new SFTP.Request();
-				reqObj.setType(SFTP.Request.Types.DISCONNECT);
-
-				const disObj = new SFTP.DisconnectRequest();
-				disObj.setUuid(uuid);
-
-				reqObj.setBody(disObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
+				sendDisconnect(ws, uuid, index, dispatch);
 			}
 		},
 		[dispatch],
