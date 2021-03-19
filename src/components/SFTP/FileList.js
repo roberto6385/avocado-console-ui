@@ -11,6 +11,8 @@ import {useDispatch} from 'react-redux';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
+	display: flex;
+	overflow: hidden;
 `;
 
 const FlexBox = styled.div`

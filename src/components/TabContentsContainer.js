@@ -19,13 +19,7 @@ const ContainerCardHeader = styled(Card.Header)`
 	margin: 0;
 	height: ${SECOND_NAV_HEIGHT};
 	background: rgba(0, 0, 0, 0.03);
-`;
-
-const CardContainer = styled(Card)`
-	// padding: 15px;
-	height: ${(props) => props.h};
-	// width: ${(props) => props.w};
-	// width: 100%;
+	line-height: inherit !important;
 `;
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
@@ -90,7 +84,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	return (
 		<Card
 			className={display ? 'visible' : 'invisible'}
-			style={{height: height, width: width}}
+			style={{height: height, width: width, borderRadius: '0px'}}
 		>
 			<ContainerCardHeader as='h6'>
 				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}

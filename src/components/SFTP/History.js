@@ -8,6 +8,7 @@ import {NAV_HEIGHT} from '../../styles/global';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
+	border-left: 1px solid rgba(0, 0, 0, 0.3);
 `;
 
 const HistoryBox = styled.div`

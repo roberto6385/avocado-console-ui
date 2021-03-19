@@ -7,6 +7,8 @@ import History from './History';
 const SftpContainer = styled.div`
 	display: flex;
 	height: 100%;
+	// width: 100%;
+	overflow: scroll;
 `;
 const SFTPContainer = ({index, socket}) => {
 	const onCLickChangeCurrentTab = useCallback(() => {
