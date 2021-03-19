@@ -15,6 +15,7 @@ import {
 	sendCommandByLs,
 	sendCommandByPwd,
 } from './commands';
+import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -38,7 +39,12 @@ const FileListNav = ({index, ws, uuid}) => {
 			.then(() => sendCommandByPwd(ws, uuid, dispatch))
 			.then((result) => sendCommandByLs(ws, uuid, result))
 			.then((result) => listConversion(result))
-			.then((result) => console.log(result));
+			.then((result) =>
+				dispatch({
+					type: SFTP_SAVE_CURRENT_LIST,
+					data: {uuid, list: result},
+				}),
+			);
 	};
 
 	const goBack = () => {
@@ -50,7 +56,12 @@ const FileListNav = ({index, ws, uuid}) => {
 				.then(() => sendCommandByPwd(ws, uuid, dispatch))
 				.then((result) => sendCommandByLs(ws, uuid, result))
 				.then((result) => listConversion(result))
-				.then((result) => console.log(result));
+				.then((result) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: result},
+					}),
+				);
 		}
 	};
 

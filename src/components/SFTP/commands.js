@@ -1,6 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {
+	SFTP_DELETE_CURRENT_LIST,
 	SFTP_DELETE_CURRENT_PATH,
 	SFTP_SAVE_CURRENT_PATH,
 } from '../../reducers/sftp';
@@ -85,6 +86,10 @@ export const sendDisconnect = (ws, uuid, index, dispatch) => {
 						console.log('run sendDisconnect');
 						dispatch({
 							type: SFTP_DELETE_CURRENT_PATH,
+							data: uuid,
+						});
+						dispatch({
+							type: SFTP_DELETE_CURRENT_LIST,
 							data: uuid,
 						});
 						dispatch({type: CLOSE_TAB, data: index});
@@ -250,6 +255,7 @@ export const listConversion = (result) => {
 			?.split(',')
 			.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
 		const fileList = [];
+		let i = 0;
 		tempC?.forEach((list) => {
 			const value = list.split(' ');
 			if (value[8] !== '.') {
@@ -268,6 +274,7 @@ export const listConversion = (result) => {
 					owner: value[2],
 					group: value[3],
 					links: value[1],
+					key: i++,
 				});
 			}
 		});
