@@ -17,8 +17,26 @@ const NavItem = styled.button`
 	line-height: 0;
 `;
 const HistoryNav = ({index, ws, uuid}) => {
-	const fileUpload = () => {};
-
+	const fileUpload = (e) => {
+		e.preventDefault();
+		const uploadInput = document.createElement('input');
+		document.body.appendChild(uploadInput);
+		uploadInput.setAttribute('type', 'file');
+		uploadInput.setAttribute('multiple', 'multiple');
+		uploadInput.setAttribute('style', 'display:none');
+		uploadInput.click();
+		uploadInput.onchange = async (e) => {
+			const files = e.target.files;
+			for await (const key of Object.keys(files)) {
+				console.log(files[key]);
+				// const newName = await sameFileCheck(files[key])
+				// 지금은 덮어쓰는 중!
+				// await commandPut(ws, uuid, fileObj?.path, files[key], dispatch)
+			}
+			// commandLs(ws, uuid, fileObj?.path, dispatch)
+		};
+		document.body.removeChild(uploadInput);
+	};
 	const historyDelete = () => {};
 
 	return (
