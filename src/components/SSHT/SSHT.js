@@ -2,12 +2,15 @@ import React, {useEffect, useRef} from 'react';
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import {PropTypes} from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import SSH from '../../dist/ssh_pb';
 import {CLOSE_TAB} from '../../reducers/common';
 
-const SSHT = ({index, ws, uuid}) => {
+const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const dispatch = useDispatch();
+	const {font_size} = useSelector((state) => state.ssht);
+	// const {cols, tab} = useSelector((state) => state.common);
+
 	const sshTerm = useRef(
 		new Terminal({
 			cursorBlink: true,
@@ -110,11 +113,55 @@ const SSHT = ({index, ws, uuid}) => {
 		};
 	}, [index, uuid, ws]);
 
+	useEffect(() => {
+		sshTerm.current.setOption('fontSize', font_size);
+		fitAddon.current.fit();
+	}, [font_size]);
+
+	// useEffect(() => {
+	// 	if (display) {
+	// 		const row = Math.floor(
+	// 			height /
+	// 				sshTerm.current._core._renderService._renderer.dimensions
+	// 					.actualCellHeight,
+	// 		);
+	// 		const col = sshTerm.current.cols;
+	//
+	// 		console.log(width, height);
+	// 		console.log(col, row);
+	//
+	// 		sshTerm.current.resize(col, row);
+	// 		fitAddon.current.fit();
+	//
+	// 		const msgObj = new SSH.Message();
+	// 		msgObj.setType(SSH.Message.Types.REQUEST);
+	//
+	// 		const reqObj = new SSH.Request();
+	// 		reqObj.setType(SSH.Request.Types.WINDOWCHANGE);
+	//
+	// 		const winObj = new SSH.WindowChangeRequest();
+	// 		winObj.setUuid(uuid);
+	// 		winObj.setCols(col);
+	// 		winObj.setRows(row);
+	// 		winObj.setWidth(width);
+	// 		winObj.setHeight(height);
+	//
+	// 		reqObj.setBody(winObj.serializeBinary());
+	//
+	// 		msgObj.setBody(reqObj.serializeBinary());
+	//
+	// 		ws.send(msgObj.serializeBinary());
+	// 	}
+	// }, [height, width]);
+
 	return <div id={`terminal_${String(index)}`} />;
 };
 
 SSHT.propTypes = {
 	index: PropTypes.number.isRequired,
+	display: PropTypes.bool.isRequired,
+	height: PropTypes.number.isRequired,
+	width: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };

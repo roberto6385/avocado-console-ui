@@ -10,15 +10,12 @@ const SftpContainer = styled.div`
 	// width: 100%;
 	overflow: scroll;
 `;
-const SFTPContainer = ({index, socket}) => {
-	const onCLickChangeCurrentTab = useCallback(() => {
-		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
-	}, []);
 
+const SFTPContainer = ({index, socket}) => {
 	return (
-		<SftpContainer onClick={onCLickChangeCurrentTab}>
+		<SftpContainer>
 			<FileList index={index} socket={socket} />
-			<History index={index} socket={socket} />
+			{/*<History index={index} socket={socket} />*/}
 		</SftpContainer>
 	);
 };

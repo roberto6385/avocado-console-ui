@@ -13,9 +13,6 @@ import {
 import {NAV_HEIGHT} from '../styles/global';
 
 const BottomBar = styled.div`
-	// width: 100%;
-	// padding: 0px;
-	// display: inline-block;
 	height: ${NAV_HEIGHT};
 `;
 
@@ -60,13 +57,13 @@ const Footer = () => {
 		[dispatch],
 	);
 
-	const onClickChangeFont = useCallback(
-		(i) => () => {
-			if (i === 1) dispatch({type: SSHT_INCREASE_FONT_SIZE});
-			if (i === -1) dispatch({type: SSHT_DECREASE_FONT_SIZE});
-		},
-		[dispatch],
-	);
+	const onClickIncreaseFont = useCallback(() => {
+		dispatch({type: SSHT_INCREASE_FONT_SIZE});
+	}, [dispatch]);
+
+	const onClickDesceaseFont = useCallback(() => {
+		dispatch({type: SSHT_DECREASE_FONT_SIZE});
+	}, [dispatch]);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		setOpenSearchBar(!openSearchBar);
@@ -95,11 +92,11 @@ const Footer = () => {
 			<ButtonsContainer>
 				<FaSearchMinus
 					style={{marginRight: '10px', marginLeft: '10px'}}
-					onClick={onClickChangeFont(-1)}
+					onClick={onClickDesceaseFont}
 				/>
 				<FaSearchPlus
 					style={{marginRight: '10px'}}
-					onClick={onClickChangeFont(1)}
+					onClick={onClickIncreaseFont}
 				/>
 				<FaSearch
 					style={{marginRight: '10px'}}

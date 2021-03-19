@@ -43,8 +43,8 @@ export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
-export const CHANGE_NUMBER_OF_VISIBLE_TAB = 'CHANGE_NUMBER_OF_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
+export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 
 const reducer = (state = initialState, action) => {
 	const fillTabs = (tab, max_display_tab, current_tab) => {
@@ -147,6 +147,9 @@ const reducer = (state = initialState, action) => {
 				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
 				break;
 			}
+			case CHANGE_CURRENT_TAB:
+				draft.current_tab = action.data;
+				break;
 
 			default:
 				break;
