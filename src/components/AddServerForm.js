@@ -5,7 +5,7 @@ import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
-import {MAIN_COLOR, SUB_COLOR, WHITE_COLOR} from '../styles/global';
+import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import styled from 'styled-components';
 
 const FormRow = styled(Form.Row)`

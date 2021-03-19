@@ -13,7 +13,7 @@ const SSHT = ({index, ws, uuid}) => {
 			cursorBlink: true,
 			minimumContrastRatio: 7,
 			theme: {selection: '#FCFD08'},
-			// rows: 49,
+			rows: 10,
 		}),
 	);
 	const fitAddon = useRef(new FitAddon());

@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
 
@@ -18,19 +18,21 @@ const ContainerCardHeader = styled(Card.Header)`
 	margin: 0;
 	height: ${SECOND_NAV_HEIGHT};
 	background: rgba(0, 0, 0, 0.03);
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 `;
 
-const ContainerCard = styled(Card)`
-	height: 100%;
-	border-radius: 0;
+const CardContainer = styled(Card)`
+	// padding: 15px;
+	height: ${(props) => props.h};
+	// width: ${(props) => props.w};
+	// width: 100%;
 `;
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
+	const {cols, tab} = useSelector((state) => state.common);
+	const [height, setHeight] = useState(null);
+	const [width, setWidth] = useState(null);
 
 	const onClickDelete = useCallback(
 		() => () => {
@@ -71,13 +73,39 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 		console.log(display);
 	}, []);
 
+	useEffect(() => {
+		if (!display) {
+			setHeight('0%');
+			setWidth('0%');
+		} else {
+			const visible_tab_length = tab.filter((x) => x.display === true)
+				.length;
+			if (cols === 2 && visible_tab_length > 2) setHeight('50%');
+			else setHeight('100%');
+
+			if (visible_tab_length === 3 && cols === 3)
+				setWidth('calc(100% / 3)');
+			else if (
+				visible_tab_length === 1 ||
+				(visible_tab_length === 3 &&
+					cols === 2 &&
+					tab
+						.filter((v) => v.display === true)
+						.findIndex((i) => i.id === index) === 2)
+			)
+				setWidth('100%');
+			else setWidth('50%');
+		}
+	}, [display, cols, tab]);
+
 	return (
-		<ContainerCard className={display ? 'visible' : 'invisible'}>
-			<ContainerCardHeader>
-				<div>
-					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
-					{server?.name}
-				</div>
+		<Card
+			className={display ? 'visible' : 'invisible'}
+			style={{height: height, width: width}}
+		>
+			<ContainerCardHeader as='h6'>
+				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
+				{server?.name}
 				<span style={{float: 'right'}}>
 					<FaTimes onClick={onClickDelete(index)} />
 				</span>
@@ -91,7 +119,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			) : (
 				<SFTPContainer index={index} socket={socket} />
 			)}
-		</ContainerCard>
+		</Card>
 	);
 };
 

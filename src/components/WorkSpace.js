@@ -2,18 +2,20 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import MainPage from './MainPage';
 import TabContentsContainer from './TabContentsContainer';
-import {Container} from 'react-bootstrap';
+import {Col, Container} from 'react-bootstrap';
 import styled from 'styled-components';
 
 const WorkSpaceDiv = styled.div`
 	flex: 1;
 `;
 
-const WorkSpaceContainer = styled(Container)`
+const WorkSpaceContainer = styled.div`
 	margin: 0;
 	padding: 0;
 	height: 100%;
 	max-width: none;
+	display: flex;
+	flex-wrap: wrap;
 `;
 
 const WorkSpace = () => {

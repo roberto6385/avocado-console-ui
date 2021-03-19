@@ -27,7 +27,6 @@ const RC_Col = styled(Col)`
 `;
 
 const RightContainer = () => {
-	const {tab} = useSelector((state) => state.common);
 	return (
 		<RC_Col xs={10}>
 			<TabNavBar />

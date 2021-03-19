@@ -8,12 +8,10 @@ body {
 
 .invisible {
 	display: none !important;
-	border-radius: 0;
 }
 
 .visible {
-	display: inline;
-	border-radius: 0;
+	display: inline !important;
 }
 
 #add-server-form {
