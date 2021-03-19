@@ -11,7 +11,7 @@ body {
 }
 
 .visible {
-	display: inline !important;
+	display: flex !important;
 }
 
 #add-server-form {
