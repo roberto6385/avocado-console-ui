@@ -108,12 +108,8 @@ const ServerNavBar = ({search}) => {
 								: 'white'
 						}
 					>
-						<span>
-							<FaServerIcon />
-						</span>
-						<span style={{verticalAlign: 'middle'}}>
-							{data.name}
-						</span>
+						<FaServerIcon />
+						{data.name}
 					</Server_NavItem>
 				))}
 		</Nav>

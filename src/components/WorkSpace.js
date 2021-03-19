@@ -4,7 +4,7 @@ import MainPage from './MainPage';
 import TabContentsContainer from './TabContentsContainer';
 import styled from 'styled-components';
 
-const WorkSpaceDiv = styled.div`
+const WorkSpaceWrapper = styled.div`
 	flex: 1;
 `;
 
@@ -21,7 +21,7 @@ const WorkSpace = () => {
 	const {tab} = useSelector((state) => state.common);
 
 	return (
-		<WorkSpaceDiv id='contents-row'>
+		<WorkSpaceWrapper id='contents-row'>
 			{tab.length !== 0 ? (
 				<WorkSpaceContainer>
 					{tab.map((data) => (
@@ -38,7 +38,7 @@ const WorkSpace = () => {
 			) : (
 				<MainPage />
 			)}
-		</WorkSpaceDiv>
+		</WorkSpaceWrapper>
 	);
 };
 

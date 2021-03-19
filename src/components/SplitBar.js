@@ -27,14 +27,14 @@ const SplitBar = () => {
 	return (
 		<SplitButtonContainer>
 			<BsSquareFill
-				style={{margin: '10px 5px'}}
+				className={'header-footer-button'}
 				onClick={changeColumn(1, 1)}
 			/>
 			<FaThLarge
-				style={{margin: '10px 5px'}}
+				className={'header-footer-button'}
 				onClick={changeColumn(2, 4)}
 			/>
-			<FaTh style={{margin: '10px 5px'}} onClick={changeColumn(3, 3)} />
+			<FaTh className={'header-footer-button'} onClick={changeColumn(3, 3)} />
 		</SplitButtonContainer>
 	);
 };

@@ -62,7 +62,7 @@ const AddServerForm = () => {
 		<Card id='add-server-form'>
 			<Card.Header as='h5'>
 				Add Server
-				<span style={{float: 'right'}}>
+				<span className={'right'}>
 					<FaTimes onClick={onClickCloseForm} />
 				</span>
 			</Card.Header>

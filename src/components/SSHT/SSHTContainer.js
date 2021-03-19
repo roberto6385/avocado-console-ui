@@ -35,10 +35,6 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 		document.getElementById('ssht_' + String(index)).requestFullscreen();
 	}, [index]);
 
-	const onCLickChangeCurrentTab = useCallback(() => {
-		// dispatch({type: CHANGE_CURRENT_TAB, data: id});
-	}, []);
-
 	useEffect(() => {
 		if (display) {
 			setHeight(ref.current.clientHeight);

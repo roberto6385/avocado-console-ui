@@ -70,10 +70,13 @@ const reducer = (state = initialState, action) => {
 			}
 
 			if (
-				tab.filter((v) => v.id === current_tab && v.display === true)
-					.length === 0
-			)
+				tab.find((v) => v.id === current_tab && v.display === true) ===
+				undefined
+			) {
 				current_tab = tab.find((x) => x.display === true).id;
+				console.log('HERE');
+				console.log(current_tab);
+			}
 		}
 	};
 

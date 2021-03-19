@@ -17,14 +17,14 @@ const TabContainer = styled(Tab.Container)`
 	display: flex !important;
 	height: ${NAV_HEIGHT};
 `;
-const Tab_Nav = styled(Nav)`
+const TabNav = styled(Nav)`
 	height: ${NAV_HEIGHT};
 	flex: 1;
 	flex-wrap: nowrap;
 	overflow-x: scroll;
 `;
 
-const Tab_NavItem = styled(Nav.Item)`
+const NavItem = styled(Nav.Item)`
 	.tab_navLink {
 		display: flex;
 		align-items: center;
@@ -35,7 +35,7 @@ const Tab_NavItem = styled(Nav.Item)`
 	}
 `;
 
-const Tab_Nav_Span = styled.span`
+const Span = styled.span`
 	display: flex;
 	align-items: center;
 	color: black;
@@ -91,10 +91,10 @@ const TabNavBar = () => {
 			onSelect={(i) => setActive(i)}
 		>
 			<FlexBox>
-				<Tab_Nav className='here is tab'>
+				<TabNav className='here is tab'>
 					{tab &&
 						tab.map((data) => (
-							<Tab_NavItem key={data.id.toString()}>
+							<NavItem key={data.id.toString()}>
 								<NavLink
 									className={
 										data.id === current_tab
@@ -105,16 +105,14 @@ const TabNavBar = () => {
 									to='/'
 									eventKey={data.id}
 								>
-									<Tab_Nav_Span
-										onClick={changeVisibleTab(data.id)}
-									>
+									<Span onClick={changeVisibleTab(data.id)}>
 										{data.type === 'SSHT' ? (
 											<RiTerminalFill />
 										) : (
 											<BiTransferAlt />
 										)}
 										{data.server.name}
-									</Tab_Nav_Span>
+									</Span>
 									<span
 										style={{
 											marginLeft: '10px',
@@ -126,9 +124,9 @@ const TabNavBar = () => {
 										/>
 									</span>
 								</NavLink>
-							</Tab_NavItem>
+							</NavItem>
 						))}
-				</Tab_Nav>
+				</TabNav>
 				<SplitBar />
 			</FlexBox>
 		</TabContainer>

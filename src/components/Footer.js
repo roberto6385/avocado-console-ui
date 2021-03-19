@@ -1,7 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Form, FormControl, Collapse} from 'react-bootstrap';
-import {FaSearch, FaSearchMinus, FaSearchPlus} from 'react-icons/all';
+import {
+	BsSquareFill,
+	FaSearch,
+	FaSearchMinus,
+	FaSearchPlus,
+} from 'react-icons/all';
 import styled from 'styled-components';
 
 import {
@@ -71,35 +76,35 @@ const Footer = () => {
 
 	return (
 		<BottomBar id='bottom-bar'>
-			<Collapse in={openSearchBar}>
-				<Form
-					onSubmit={onSubmitEnter}
-					style={{
-						marginRight: '10px',
-						float: 'right',
-						width: '200px',
-					}}
-				>
-					<FooterFormControl
-						type='text'
-						id='searchVal'
-						// value={search_item.data}
-						placeholder='Search'
-						onChange={onChangeSearch}
-					/>
-				</Form>
-			</Collapse>
+			{/*<Collapse in={openSearchBar}>*/}
+			{/*	<Form*/}
+			{/*		onSubmit={onSubmitEnter}*/}
+			{/*		style={{*/}
+			{/*			marginRight: '10px',*/}
+			{/*			float: 'right',*/}
+			{/*			width: '200px',*/}
+			{/*		}}*/}
+			{/*	>*/}
+			{/*		<FooterFormControl*/}
+			{/*			type='text'*/}
+			{/*			id='searchVal'*/}
+			{/*			// value={search_item.data}*/}
+			{/*			placeholder='Search'*/}
+			{/*			onChange={onChangeSearch}*/}
+			{/*		/>*/}
+			{/*	</Form>*/}
+			{/*</Collapse>*/}
 			<ButtonsContainer>
 				<FaSearchMinus
-					style={{marginRight: '10px', marginLeft: '10px'}}
+					className={'header-footer-button'}
 					onClick={onClickDesceaseFont}
 				/>
 				<FaSearchPlus
-					style={{marginRight: '10px'}}
+					className={'header-footer-button'}
 					onClick={onClickIncreaseFont}
 				/>
 				<FaSearch
-					style={{marginRight: '10px'}}
+					className={'header-footer-button'}
 					aria-expanded={openSearchBar}
 					onClick={onClickOpenSearchBar}
 				/>

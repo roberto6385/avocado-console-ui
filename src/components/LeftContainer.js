@@ -38,7 +38,7 @@ const Header = styled(Nav)`
 	}
 `;
 
-const Body = styled(ServerNavBar)`
+const ServerNavBarWrapper = styled(ServerNavBar)`
 	flex: 1;
 `;
 
@@ -49,7 +49,7 @@ const RC_Col = styled(Col)`
 	padding: 0;
 `;
 
-const Icon_Button = styled.button`
+const IconButton = styled.button`
 	background: transparent;
 	outline: none;
 	border: none;
@@ -95,15 +95,15 @@ const LeftContainer = () => {
 			<Header>
 				<Nav.Item className='left_header'>Terminal / SFTP</Nav.Item>
 				<Nav.Item className='left_header_icons'>
-					<Icon_Button onClick={onClickVisibleForm}>
+					<IconButton onClick={onClickVisibleForm}>
 						<FaPlus />
-					</Icon_Button>
-					<Icon_Button onClick={onClickDeleteServer}>
+					</IconButton>
+					<IconButton onClick={onClickDeleteServer}>
 						<FaRegTrashAlt />
-					</Icon_Button>
-					<Icon_Button onClick={onClickOpenSearch}>
+					</IconButton>
+					<IconButton onClick={onClickOpenSearch}>
 						<FaSearch />
-					</Icon_Button>
+					</IconButton>
 				</Nav.Item>
 			</Header>
 			<Collapse in={activeSearch}>
@@ -118,7 +118,7 @@ const LeftContainer = () => {
 					</Form>
 				</Nav.Item>
 			</Collapse>
-			<Body search={search} />
+			<ServerNavBarWrapper search={search} />
 		</RC_Col>
 	);
 };
