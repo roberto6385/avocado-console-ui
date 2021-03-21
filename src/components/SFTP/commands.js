@@ -292,3 +292,115 @@ export const listConversion = (result) => {
 		resolve(fileList);
 	});
 };
+
+export const sendCommandByPut = (e, ws, uuid, path) => {
+	e.preventDefault();
+	upload('put', ws, uuid, path);
+};
+
+export const sendCommandByPutDirect = (e, ws, uuid, path) => {
+	e.preventDefault();
+	upload('put-direct', ws, uuid, path);
+};
+
+const upload = (command, ws, uuid, path) => {
+	const uploadInput = document.createElement('input');
+	document.body.appendChild(uploadInput);
+	uploadInput.setAttribute('type', 'file');
+	uploadInput.setAttribute('multiple', 'multiple');
+	uploadInput.setAttribute('style', 'display:none');
+	uploadInput.click();
+	uploadInput.onchange = async (e) => {
+		const File = e.target.files;
+		for await (const key of Object.keys(File)) {
+			await fileUpload(command, ws, uuid, path, File[key]);
+		}
+	};
+	document.body.removeChild(uploadInput);
+};
+
+const fileUpload = (command, ws, uuid, path, FileKey) => {
+	// eslint-disable-next-line no-undef
+	return new Promise((resolve) => {
+		let uploadFile = FileKey;
+		console.log('file size : ', uploadFile.size);
+
+		const uploadFileSize = uploadFile.size;
+
+		const chunkSize = 8 * 1024;
+		const fileSlices = [];
+
+		for (var i = 0; i < uploadFileSize; i += chunkSize) {
+			(function (start) {
+				fileSlices.push({offset: start, length: chunkSize + start});
+			})(i);
+		}
+
+		const sendBuffer = (data) => {
+			console.log('recv data : ', data);
+			let msgObj = new SFTP.Message();
+			msgObj.setType(SFTP.Message.Types.REQUEST);
+
+			let reqObj = new SFTP.Request();
+			reqObj.setType(SFTP.Request.Types.MESSAGE);
+
+			let msgReqObj = new SFTP.MessageRequest();
+			msgReqObj.setUuid(uuid);
+
+			let cmdObj;
+
+			if (command === 'put') {
+				cmdObj = new SFTP.CommandByPut();
+				msgReqObj.setPut(cmdObj);
+			} else if (command === 'put-direct') {
+				cmdObj = new SFTP.CommandByPutDirect();
+				msgReqObj.setPutdirect(cmdObj);
+			}
+
+			cmdObj.setPath(path);
+			cmdObj.setFilename(FileKey.name);
+			cmdObj.setFilesize(uploadFileSize);
+			cmdObj.setContents(Buffer.from(data.buffer));
+			cmdObj.setOffset(1);
+			cmdObj.setLast(data.last);
+
+			reqObj.setBody(msgReqObj.serializeBinary());
+
+			msgObj.setBody(reqObj.serializeBinary());
+
+			ws.send(msgObj.serializeBinary());
+		};
+		const readBytes = (file, slice) => {
+			const reader = new FileReader();
+
+			// eslint-disable-next-line no-undef
+			return new Promise((resolve) => {
+				reader.onload = (e) => {
+					resolve(e.target.result);
+				};
+
+				let blob = file.slice(slice.offset, slice.length);
+				reader.readAsArrayBuffer(blob);
+			});
+		};
+		let total = 0;
+		const readFile = (file, slice) => {
+			readBytes(file, slice).then((data) => {
+				// send protocol buffer
+				console.log('read arraybuffer : ', data);
+				total += data.byteLength;
+
+				if (0 < fileSlices.length) {
+					sendBuffer({buffer: data, last: false});
+
+					readFile(file, fileSlices.shift());
+				} else {
+					sendBuffer({buffer: data, last: true});
+					console.log('file read end. total size : ', total);
+				}
+			});
+		};
+		readFile(uploadFile, fileSlices.shift());
+		resolve();
+	});
+};

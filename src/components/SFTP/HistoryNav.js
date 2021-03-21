@@ -8,6 +8,14 @@ import {
 	MdDelete,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
+import {
+	listConversion,
+	sendCommandByLs,
+	sendCommandByPut,
+	sendCommandByPwd,
+} from './commands';
+import {useDispatch, useSelector} from 'react-redux';
+import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -17,25 +25,21 @@ const NavItem = styled.button`
 	line-height: 0;
 `;
 const HistoryNav = ({index, ws, uuid}) => {
-	const fileUpload = (e) => {
-		e.preventDefault();
-		const uploadInput = document.createElement('input');
-		document.body.appendChild(uploadInput);
-		uploadInput.setAttribute('type', 'file');
-		uploadInput.setAttribute('multiple', 'multiple');
-		uploadInput.setAttribute('style', 'display:none');
-		uploadInput.click();
-		uploadInput.onchange = async (e) => {
-			const files = e.target.files;
-			for await (const key of Object.keys(files)) {
-				console.log(files[key]);
-				// const newName = await sameFileCheck(files[key])
-				// 지금은 덮어쓰는 중!
-				// await commandPut(ws, uuid, fileObj?.path, files[key], dispatch)
-			}
-			// commandLs(ws, uuid, fileObj?.path, dispatch)
-		};
-		document.body.removeChild(uploadInput);
+	const {currentPath} = useSelector((state) => state.sftp);
+	const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const dispatch = useDispatch();
+
+	const upload = (e) => {
+		sendCommandByPut(e, ws, uuid, pathItem?.path);
+		sendCommandByPwd(ws, uuid, dispatch)
+			.then((result) => sendCommandByLs(ws, uuid, result))
+			.then((result) => listConversion(result))
+			.then((result) =>
+				dispatch({
+					type: SFTP_SAVE_CURRENT_LIST,
+					data: {uuid, list: result},
+				}),
+			);
 	};
 	const historyDelete = () => {};
 
@@ -47,7 +51,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 			<NavItem>
 				<BsCheck />
 			</NavItem>
-			<NavItem id='btn-upload' onClick={fileUpload}>
+			<NavItem id='btn-upload' onClick={upload}>
 				<MdFileUpload />
 			</NavItem>
 			<NavItem>
