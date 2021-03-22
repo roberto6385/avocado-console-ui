@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
+import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -50,35 +51,45 @@ const CustomThBtn = styled.button`
 const CustomTbody = styled.tbody`
 	// flex: 1;
 	// height: 100%;
-	// tr.table_tr {
-	// 	color: black;
-	// }
-	//
-	// tr.table_tr.active {
-	// 	background: #edeae5;
-	// 	color: black;
-	// }
-`;
+	tr.highlight_tbody {
+		color: black;
+	}
 
-const columns = ['Name', 'Size', 'Modified', 'Permission'];
+	tr.highlight_tbody.active {
+		background: #edeae5;
+		color: black;
+	}
+`;
 
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
-	const {currentList, currentPath} = useSelector((state) => state.sftp);
+	const {currentList, currentPath, currentHighlight} = useSelector(
+		(state) => state.sftp,
+	);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
+	console.log(highlightItem);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
-	// console.log(index); //tab id
 
-	const changePath = (item) => {
-		if (item.fileType === 'directory') {
-			sendCommandByCd(ws, uuid, item.fileName, dispatch);
+	const selectItem = (e, item) => {
+		if (e.shiftKey) {
+			console.log('쉬프트 키!');
+		} else {
+			if (item.fileType === 'directory') {
+				// 디렉토리 클릭시 해당 디렉토리로 이동
+				sendCommandByCd(ws, uuid, item.fileName, dispatch);
+			} else {
+				//파일 클릭시 하이라이팅!
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: item},
+				});
+			}
 		}
 	};
 
 	const download = (item) => {
-		// e.preventDefault();
-		console.log(item);
 		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName);
 	};
 
@@ -119,11 +130,16 @@ const FileListContents = ({index, ws, uuid}) => {
 						<tr
 							style={{display: 'flex', cursor: 'pointer'}}
 							key={index + uuid}
+							className={
+								item === highlightItem?.list
+									? 'highlight_tbody active'
+									: 'highlight_tbody'
+							}
 						>
 							<CustomNameTh
 								flex={10}
 								// onClick={(e) => addSelectedFile(e, item)}
-								onClick={() => changePath(item)}
+								onClick={(e) => selectItem(e, item)}
 							>
 								{item.fileType === 'directory' ? (
 									<GoFileDirectory />
