@@ -74,17 +74,29 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const selectItem = (e, item) => {
 		if (e.shiftKey) {
-			console.log('쉬프트 키!');
+			const temp = highlightItem?.list;
+			const tempB = temp.concat(item);
+			dispatch({
+				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				data: {uuid, list: tempB},
+			});
 		} else {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				sendCommandByCd(ws, uuid, item.fileName, dispatch);
 			} else {
 				//파일 클릭시 하이라이팅!
-				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: item},
-				});
+				if (highlightItem?.list.includes(item)) {
+					dispatch({
+						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+						data: {uuid, list: []},
+					});
+				} else {
+					dispatch({
+						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+						data: {uuid, list: [item]},
+					});
+				}
 			}
 		}
 	};
@@ -131,7 +143,7 @@ const FileListContents = ({index, ws, uuid}) => {
 							style={{display: 'flex', cursor: 'pointer'}}
 							key={index + uuid}
 							className={
-								item === highlightItem?.list
+								highlightItem?.list.includes(item)
 									? 'highlight_tbody active'
 									: 'highlight_tbody'
 							}
