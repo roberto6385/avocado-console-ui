@@ -39,6 +39,7 @@ const CustomSizeTh = styled.th`
 const CustomButtonTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: right;
+	z-index: 999;
 	// width: 50px;
 `;
 
@@ -48,6 +49,7 @@ const CustomThBtn = styled.button`
 	font-size: 18px;
 	line-height: 0px;
 	padding: 0px;
+	z-index: 999;
 `;
 
 const CustomTbody = styled.tbody`
@@ -73,23 +75,28 @@ const FileListContents = ({index, ws, uuid}) => {
 	// console.log(index); //tab id
 
 	const changePath = (item) => {
-		if (item.fileType === 'directory') {
-			sendCommandByCd(ws, uuid, item.fileName)
-				.then(() => sendCommandByPwd(ws, uuid, dispatch))
-				.then((result) => sendCommandByLs(ws, uuid, result))
-				.then((result) => listConversion(result))
-				.then((result) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: result},
-					}),
-				);
-		}
+		// if (item.fileType === 'directory') {
+		// 	console.log('FileList Contents 실행됨');
+		// 	sendCommandByCd(ws, uuid, item.fileName)
+		// 		.then(() => sendCommandByPwd(ws, uuid, dispatch))
+		// 		.then((result) => sendCommandByLs(ws, uuid, result)) // result === 현재경로
+		// 		.then((result) => listConversion(result)) // result === 디렉토라 목록 / , // result === 정렬된 디렉토리 목록
+		// 		.then((result) =>
+		// 			dispatch({
+		// 				type: SFTP_SAVE_CURRENT_LIST,
+		// 				data: {uuid, list: result},
+		// 			}),
+		// 		);
+		// }
+	};
+
+	const sendCommandByGet = (e) => {
+		// e.preventDefault();
+		console.log('다운로드');
 	};
 
 	useEffect(() => {
 		setData(currentList.find((item) => item.uuid === uuid)?.list);
-		console.log(data);
 	}, [currentList]);
 
 	return (
@@ -125,11 +132,11 @@ const FileListContents = ({index, ws, uuid}) => {
 						<tr
 							style={{display: 'flex', cursor: 'pointer'}}
 							key={index + uuid}
-							onClick={() => changePath(item)}
 						>
 							<CustomNameTh
 								flex={10}
 								// onClick={(e) => addSelectedFile(e, item)}
+								onClick={() => changePath(item)}
 							>
 								{item.fileType === 'directory' ? (
 									<GoFileDirectory />
@@ -158,7 +165,10 @@ const FileListContents = ({index, ws, uuid}) => {
 									<MdEdit />
 								</CustomThBtn>
 							</CustomButtonTh>
-							<CustomButtonTh flex={0.3}>
+							<CustomButtonTh
+								onClick={sendCommandByGet}
+								flex={0.3}
+							>
 								<CustomThBtn>
 									<MdFileDownload />
 								</CustomThBtn>

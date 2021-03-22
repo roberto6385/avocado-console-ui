@@ -15,7 +15,7 @@ const SFTPContainer = ({index, socket}) => {
 	return (
 		<SftpContainer>
 			<FileList index={index} socket={socket} />
-			{/*<History index={index} socket={socket} />*/}
+			<History index={index} socket={socket} />
 		</SftpContainer>
 	);
 };

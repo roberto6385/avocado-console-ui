@@ -6,12 +6,18 @@ import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CHANGE_VISIBLE_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 import SSH from '../dist/ssh_pb';
-import {sendDisconnect} from './SFTP/commands';
+import {sendDisconnect} from './SFTP/commands/sendDisconnect';
+import SFTP from '../dist/sftp_pb';
+import {
+	SFTP_DELETE_CURRENT_LIST,
+	SFTP_DELETE_CURRENT_PATH,
+} from '../reducers/sftp';
+// import {sendDisconnect} from './SFTP/commands';
 
 const TabContainer = styled(Tab.Container)`
 	display: flex !important;
@@ -78,7 +84,54 @@ const TabNavBar = () => {
 				msgObj.setBody(reqObj.serializeBinary());
 				ws.send(msgObj.serializeBinary());
 			} else {
-				sendDisconnect(ws, uuid, tab_id, dispatch);
+				sendDisconnect(ws, uuid);
+				ws.binaryType = 'arraybuffer';
+				ws.onmessage = (evt) => {
+					console.log('run server connection');
+					// listen to data sent from the websocket server
+
+					// eslint-disable-next-line no-undef
+					if (evt.data instanceof ArrayBuffer) {
+						const message = SFTP.Message.deserializeBinary(
+							evt.data,
+						);
+
+						if (message.getType() === SFTP.Message.Types.RESPONSE) {
+							const response = SFTP.Response.deserializeBinary(
+								message.getBody(),
+							);
+							console.log(
+								'[receive]response type',
+								response.getType(),
+							);
+							if (
+								response.getType() ===
+								SFTP.Response.Types.DISCONNECT
+							) {
+								const conObj = SFTP.DisconnectResponse.deserializeBinary(
+									response.getBody(),
+								);
+								console.log('[receive]disconnect', conObj);
+								console.log(
+									'[receive]disconnect to json',
+									conObj.toObject(),
+								);
+
+								if (conObj.getStatus() === 'disconnected') {
+									dispatch({
+										type: SFTP_DELETE_CURRENT_PATH,
+										data: uuid,
+									});
+									dispatch({
+										type: SFTP_DELETE_CURRENT_LIST,
+										data: uuid,
+									});
+									dispatch({type: CLOSE_TAB, data: tab_id});
+								}
+							}
+						}
+					}
+				};
 			}
 		},
 		[dispatch, tab],

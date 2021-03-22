@@ -9,6 +9,7 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {
+	fileUpload,
 	listConversion,
 	sendCommandByLs,
 	sendCommandByPut,
@@ -27,20 +28,31 @@ const NavItem = styled.button`
 const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
-	const upload = (e) => {
-		sendCommandByPut(e, ws, uuid, pathItem?.path);
-		sendCommandByPwd(ws, uuid, dispatch)
-			.then((result) => sendCommandByLs(ws, uuid, result))
-			.then((result) => listConversion(result))
-			.then((result) =>
-				dispatch({
-					type: SFTP_SAVE_CURRENT_LIST,
-					data: {uuid, list: result},
-				}),
-			);
+	const upload = () => {
+		// const uploadInput = document.createElement('input');
+		// document.body.appendChild(uploadInput);
+		// uploadInput.setAttribute('type', 'file');
+		// uploadInput.setAttribute('multiple', 'multiple');
+		// uploadInput.setAttribute('style', 'display:none');
+		// uploadInput.click();
+		// uploadInput.onchange = async (e) => {
+		// 	const File = e.target.files;
+		// 	for await (const key of Object.keys(File)) {
+		// 		await sendCommandByPut(
+		// 			'put',
+		// 			ws,
+		// 			uuid,
+		// 			pathItem?.path,
+		// 			File[key],
+		// 		);
+		// 	}
+		// 	console.log('끝끝끝');
+		// };
+		// document.body.removeChild(uploadInput);
 	};
+
 	const historyDelete = () => {};
 
 	return (

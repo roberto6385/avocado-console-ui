@@ -11,8 +11,14 @@ import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SSH from '../dist/ssh_pb';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {sendDisconnect} from './SFTP/commands';
-import {CHANGE_CURRENT_TAB} from '../reducers/common';
+// import {sendDisconnect} from './SFTP/commands';
+import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
+import {sendDisconnect} from './SFTP/commands/sendDisconnect';
+import SFTP from '../dist/sftp_pb';
+import {
+	SFTP_DELETE_CURRENT_LIST,
+	SFTP_DELETE_CURRENT_PATH,
+} from '../reducers/sftp';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -53,7 +59,55 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 
 				ws.send(msgObj.serializeBinary());
 			} else {
-				sendDisconnect(ws, uuid, index, dispatch);
+				sendDisconnect(ws, uuid);
+				sendDisconnect(ws, uuid);
+				ws.binaryType = 'arraybuffer';
+				ws.onmessage = (evt) => {
+					console.log('run server connection');
+					// listen to data sent from the websocket server
+
+					// eslint-disable-next-line no-undef
+					if (evt.data instanceof ArrayBuffer) {
+						const message = SFTP.Message.deserializeBinary(
+							evt.data,
+						);
+
+						if (message.getType() === SFTP.Message.Types.RESPONSE) {
+							const response = SFTP.Response.deserializeBinary(
+								message.getBody(),
+							);
+							console.log(
+								'[receive]response type',
+								response.getType(),
+							);
+							if (
+								response.getType() ===
+								SFTP.Response.Types.DISCONNECT
+							) {
+								const conObj = SFTP.DisconnectResponse.deserializeBinary(
+									response.getBody(),
+								);
+								console.log('[receive]disconnect', conObj);
+								console.log(
+									'[receive]disconnect to json',
+									conObj.toObject(),
+								);
+
+								if (conObj.getStatus() === 'disconnected') {
+									dispatch({
+										type: SFTP_DELETE_CURRENT_PATH,
+										data: uuid,
+									});
+									dispatch({
+										type: SFTP_DELETE_CURRENT_LIST,
+										data: uuid,
+									});
+									dispatch({type: CLOSE_TAB, data: index});
+								}
+							}
+						}
+					}
+				};
 			}
 		},
 		[dispatch],

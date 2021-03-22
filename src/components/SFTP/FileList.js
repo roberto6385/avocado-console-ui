@@ -31,17 +31,18 @@ const FileList = ({index, socket}) => {
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
 
-	useEffect(() => {
-		sendCommandByPwd(ws, uuid, dispatch)
-			.then((result) => sendCommandByLs(ws, uuid, result))
-			.then((result) => listConversion(result))
-			.then((result) =>
-				dispatch({
-					type: SFTP_SAVE_CURRENT_LIST,
-					data: {uuid, list: result},
-				}),
-			);
-	}, [ws, uuid, dispatch]);
+	// useEffect(() => {
+	// 	console.log('FileList 실행됨');
+	// 	sendCommandByPwd(ws, uuid, dispatch)
+	// 		.then((result) => sendCommandByLs(ws, uuid, result))
+	// 		.then((result) => listConversion(result))
+	// 		.then((result) =>
+	// 			dispatch({
+	// 				type: SFTP_SAVE_CURRENT_LIST,
+	// 				data: {uuid, list: result},
+	// 			}),
+	// 		);
+	// }, []);
 	return (
 		<FlexBox>
 			<Card.Header>

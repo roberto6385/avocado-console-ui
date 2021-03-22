@@ -3,6 +3,7 @@ import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {
 	SFTP_DELETE_CURRENT_LIST,
 	SFTP_DELETE_CURRENT_PATH,
+	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 } from '../../reducers/sftp';
 
@@ -200,126 +201,116 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 	});
 };
 
-export const sendCommandByLs = (ws, uuid, path) => {
+export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 	// eslint-disable-next-line no-undef
-	return new Promise((resolve) => {
-		const msgObj = new SFTP.Message();
-		msgObj.setType(SFTP.Message.Types.REQUEST);
+	// return new Promise((resolve) => {
+	const msgObj = new SFTP.Message();
+	msgObj.setType(SFTP.Message.Types.REQUEST);
 
-		const reqObj = new SFTP.Request();
-		reqObj.setType(SFTP.Request.Types.MESSAGE);
+	const reqObj = new SFTP.Request();
+	reqObj.setType(SFTP.Request.Types.MESSAGE);
 
-		const msgReqObj = new SFTP.MessageRequest();
-		msgReqObj.setUuid(uuid);
+	const msgReqObj = new SFTP.MessageRequest();
+	msgReqObj.setUuid(uuid);
 
-		const cmdObj = new SFTP.CommandByLs();
-		cmdObj.setPath(path);
+	const cmdObj = new SFTP.CommandByLs();
+	cmdObj.setPath(path);
 
-		msgReqObj.setLs(cmdObj);
-		reqObj.setBody(msgReqObj.serializeBinary());
-		msgObj.setBody(reqObj.serializeBinary());
+	msgReqObj.setLs(cmdObj);
+	reqObj.setBody(msgReqObj.serializeBinary());
+	msgObj.setBody(reqObj.serializeBinary());
 
-		ws.send(msgObj.serializeBinary());
-		ws.onmessage = (evt) => {
-			// eslint-disable-next-line no-undef
-			if (evt.data instanceof ArrayBuffer) {
-				const message = SFTP.Message.deserializeBinary(evt.data);
-				if (message.getType() === SFTP.Message.Types.RESPONSE) {
-					const response = SFTP.Response.deserializeBinary(
-						message.getBody(),
+	ws.send(msgObj.serializeBinary());
+	ws.onmessage = (evt) => {
+		// eslint-disable-next-line no-undef
+		if (evt.data instanceof ArrayBuffer) {
+			const message = SFTP.Message.deserializeBinary(evt.data);
+			if (message.getType() === SFTP.Message.Types.RESPONSE) {
+				const response = SFTP.Response.deserializeBinary(
+					message.getBody(),
+				);
+				if (response.getType() === SFTP.Response.Types.MESSAGE) {
+					const msgObj = SFTP.MessageResponse.deserializeBinary(
+						response.getBody(),
 					);
-					if (response.getType() === SFTP.Response.Types.MESSAGE) {
-						const msgObj = SFTP.MessageResponse.deserializeBinary(
-							response.getBody(),
-						);
-						console.log('run sendCommandByLs');
-						// console.log(msgObj.getResult());
-						// console.log(msgObj.getStatus());
-						// console.log(msgObj.getUuid());
-						resolve(msgObj.getResult());
-					}
+					console.log('run sendCommandByLs');
+					// console.log(msgObj.getResult());
+					// console.log(msgObj.getStatus());
+					// console.log(msgObj.getUuid());
+					// resolve(msgObj.getResult());
+					listConversion(msgObj.getResult(), uuid, dispatch);
 				}
 			}
-		};
-	});
+		}
+	};
+	// });
 };
 
-export const listConversion = (result) => {
+export const listConversion = (result, uuid, dispatch) => {
 	console.log('run listConversion');
 
 	// eslint-disable-next-line no-undef
-	return new Promise((resolve) => {
-		const tempA = result;
-		const tempB = tempA?.substring(1, tempA.length - 1);
-		const tempC = tempB
-			?.split(',')
-			.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
-		const fileList = [];
-		let i = 0;
-		tempC?.forEach((list) => {
-			const value = list.split(' ');
-			if (value[8] !== '.') {
-				const name = value.slice(8).join(' ');
-				fileList.push({
-					fileName: name,
-					fileSize:
-						typeof value[4] === 'string' &&
-						value[4]
-							.toString()
-							.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-							.trim(),
-					fileType: value[0][0] === 'd' ? 'directory' : 'file',
-					lastModified: `${value[5]} ${value[6]} ${value[7]}`,
-					permission: value[0],
-					owner: value[2],
-					group: value[3],
-					links: value[1],
-					key: i++,
-				});
-			}
-		});
-		fileList.sort((a, b) => {
-			let typeA = a.fileType;
-			let typeB = b.fileType;
-			if (typeA < typeB) {
-				return -1;
-			}
-			if (typeA > typeB) {
-				return 1;
-			}
-			return 0;
-		});
-		resolve(fileList);
-	});
-};
-
-export const sendCommandByPut = (e, ws, uuid, path) => {
-	e.preventDefault();
-	upload('put', ws, uuid, path);
-};
-
-export const sendCommandByPutDirect = (e, ws, uuid, path) => {
-	e.preventDefault();
-	upload('put-direct', ws, uuid, path);
-};
-
-const upload = (command, ws, uuid, path) => {
-	const uploadInput = document.createElement('input');
-	document.body.appendChild(uploadInput);
-	uploadInput.setAttribute('type', 'file');
-	uploadInput.setAttribute('multiple', 'multiple');
-	uploadInput.setAttribute('style', 'display:none');
-	uploadInput.click();
-	uploadInput.onchange = async (e) => {
-		const File = e.target.files;
-		for await (const key of Object.keys(File)) {
-			await fileUpload(command, ws, uuid, path, File[key]);
+	// return new Promise((resolve) => {
+	const tempA = result;
+	const tempB = tempA?.substring(1, tempA.length - 1);
+	const tempC = tempB
+		?.split(',')
+		.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
+	const fileList = [];
+	let i = 0;
+	tempC?.forEach((list) => {
+		const value = list.split(' ');
+		if (value[8] !== '.') {
+			const name = value.slice(8).join(' ');
+			fileList.push({
+				fileName: name,
+				fileSize:
+					typeof value[4] === 'string' &&
+					value[4]
+						.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						.trim(),
+				fileType: value[0][0] === 'd' ? 'directory' : 'file',
+				lastModified: `${value[5]} ${value[6]} ${value[7]}`,
+				permission: value[0],
+				owner: value[2],
+				group: value[3],
+				links: value[1],
+				key: i++,
+			});
 		}
-	};
-	document.body.removeChild(uploadInput);
+	});
+	fileList.sort((a, b) => {
+		let typeA = a.fileType;
+		let typeB = b.fileType;
+		if (typeA < typeB) {
+			return -1;
+		}
+		if (typeA > typeB) {
+			return 1;
+		}
+		return 0;
+	});
+	// resolve(fileList);
+	dispatch({
+		type: SFTP_SAVE_CURRENT_LIST,
+		data: {uuid, list: fileList},
+	});
+	// });
 };
 
-const fileUpload = (command, ws, uuid, path, FileKey) => {
+// export const sendCommandByPut = (e, ws, uuid, path) => {
+// 	e.preventDefault();
+// 	upload('put', ws, uuid, path);
+// };
+//
+// export const sendCommandByPutDirect = (e, ws, uuid, path) => {
+// 	e.preventDefault();
+// 	upload('put-direct', ws, uuid, path);
+// };
+
+export const sendCommandByPut = (command, ws, uuid, path, FileKey) => {
+	console.log('sendCommandByPut()');
 	// eslint-disable-next-line no-undef
 	return new Promise((resolve) => {
 		let uploadFile = FileKey;
@@ -397,10 +388,10 @@ const fileUpload = (command, ws, uuid, path, FileKey) => {
 				} else {
 					sendBuffer({buffer: data, last: true});
 					console.log('file read end. total size : ', total);
+					resolve();
 				}
 			});
 		};
 		readFile(uploadFile, fileSlices.shift());
-		resolve();
 	});
 };
