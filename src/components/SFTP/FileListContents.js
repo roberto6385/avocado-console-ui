@@ -7,6 +7,7 @@ import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
+import {sendCommandByGet} from './commands/sendCommandGet';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -63,7 +64,8 @@ const columns = ['Name', 'Size', 'Modified', 'Permission'];
 
 const FileListContents = ({index, ws, uuid}) => {
 	// const [progress, setProgress] = useState(initState);
-	const {currentList} = useSelector((state) => state.sftp);
+	const {currentList, currentPath} = useSelector((state) => state.sftp);
+	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	// console.log(index); //tab id
@@ -74,9 +76,10 @@ const FileListContents = ({index, ws, uuid}) => {
 		}
 	};
 
-	const sendCommandByGet = (e) => {
+	const download = (item) => {
 		// e.preventDefault();
-		console.log('다운로드');
+		console.log(item);
+		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName);
 	};
 
 	useEffect(() => {
@@ -150,7 +153,7 @@ const FileListContents = ({index, ws, uuid}) => {
 								</CustomThBtn>
 							</CustomButtonTh>
 							<CustomButtonTh
-								onClick={sendCommandByGet}
+								onClick={() => download(item)}
 								flex={0.3}
 							>
 								<CustomThBtn>
