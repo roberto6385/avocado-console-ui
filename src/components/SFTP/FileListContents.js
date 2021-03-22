@@ -16,7 +16,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
-import {sendCommandByPut} from './commands/sendCommandPut';
+import {sendCommandByRm} from './commands/sendCommandRm';
+import {sendCommandByLs} from './commands/sendCommandLs';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -107,6 +108,21 @@ const FileListContents = ({index, ws, uuid}) => {
 		});
 	};
 
+	const contextDelete = async () => {
+		for await (const key of highlightItem?.list) {
+			await sendCommandByRm(
+				ws,
+				uuid,
+				pathItem?.path + '/' + key.fileName,
+			);
+		}
+		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+		dispatch({
+			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+			data: {uuid, list: []},
+		});
+	};
+
 	function handleItemClick({event}) {
 		// setModalName(event.currentTarget.id);
 		switch (event.currentTarget.id) {
@@ -136,7 +152,7 @@ const FileListContents = ({index, ws, uuid}) => {
 				// handleOpen();
 				break;
 			case 'Delete':
-				// handleOpen();
+				contextDelete();
 				break;
 			default:
 				return;
@@ -320,8 +336,8 @@ const FileListContents = ({index, ws, uuid}) => {
 				<Separator />
 				<Item
 					disabled={highlightItem?.list.length === 0}
-					// id='Delete'
-					// onClick={handleItemClick}
+					id='Delete'
+					onClick={handleItemClick}
 				>
 					Delete
 				</Item>
