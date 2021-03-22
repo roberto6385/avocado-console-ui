@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {sendCommandByPut} from './commands/sendCommandPut';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -89,12 +90,28 @@ const FileListContents = ({index, ws, uuid}) => {
 		show(e);
 	}
 
+	const contextDownload = async () => {
+		for await (const key of highlightItem?.list) {
+			await sendCommandByGet(
+				'get',
+				ws,
+				uuid,
+				pathItem?.path,
+				key.fileName,
+			);
+		}
+		// 마지막 percent 100 , ok 사이에서 디스패치 이벤트 실행
+		dispatch({
+			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+			data: {uuid, list: []},
+		});
+	};
+
 	function handleItemClick({event}) {
 		// setModalName(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
-				// multipleGet();
-				console.log(highlightItem?.list);
+				contextDownload();
 				break;
 			case 'Edit':
 				// editFile(ws, uuid, fileObj?.path, selFile[0].fileName, dispatch);
@@ -128,7 +145,7 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const selectItem = (e, item) => {
 		if (e.shiftKey) {
-			const temp = highlightItem?.list;
+			const temp = highlightItem?.list || [];
 			const tempB = temp.concat(item);
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
@@ -157,7 +174,7 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const download = (e, item) => {
 		e.stopPropagation();
-		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName);
+		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName).then();
 	};
 
 	const contextMenuOpen = (e, item = '') => {
