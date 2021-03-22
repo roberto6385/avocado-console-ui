@@ -48,7 +48,10 @@ export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 					);
 					// console.log('[receive]message', msgObj);
 					// console.log('[receive]message to json', msgObj.toObject());
+					// console.log(msgObj.getStatus());
+					// console.log(msgObj.getResult());
 					msgObj.getResult().trim() !== '' &&
+						msgObj.getStatus() !== 'progress' &&
 						listConversion(msgObj.getResult(), uuid, dispatch);
 				}
 			}
