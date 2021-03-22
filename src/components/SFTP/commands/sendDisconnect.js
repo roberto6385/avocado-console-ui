@@ -6,6 +6,8 @@ import {
 import {CLOSE_TAB} from '../../../reducers/common';
 
 export const sendDisconnect = (ws, uuid, index, dispatch) => {
+	console.log('run sendDisconnect');
+
 	var msgObj = new SFTP.Message();
 	msgObj.setType(SFTP.Message.Types.REQUEST);
 
@@ -19,14 +21,14 @@ export const sendDisconnect = (ws, uuid, index, dispatch) => {
 
 	msgObj.setBody(reqObj.serializeBinary());
 
-	console.log('send proto buffer', msgObj);
-	console.log('send proto buffer binary', msgObj.serializeBinary());
+	// console.log('send proto buffer', msgObj);
+	// console.log('send proto buffer binary', msgObj.serializeBinary());
 
 	ws.send(msgObj.serializeBinary());
 
 	ws.binaryType = 'arraybuffer';
 	ws.onmessage = (evt) => {
-		console.log('run server connection');
+		// console.log('run server connection');
 		// listen to data sent from the websocket server
 
 		// eslint-disable-next-line no-undef
@@ -37,16 +39,16 @@ export const sendDisconnect = (ws, uuid, index, dispatch) => {
 				const response = SFTP.Response.deserializeBinary(
 					message.getBody(),
 				);
-				console.log('[receive]response type', response.getType());
+				// console.log('[receive]response type', response.getType());
 				if (response.getType() === SFTP.Response.Types.DISCONNECT) {
 					const conObj = SFTP.DisconnectResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('[receive]disconnect', conObj);
-					console.log(
-						'[receive]disconnect to json',
-						conObj.toObject(),
-					);
+					// console.log('[receive]disconnect', conObj);
+					// console.log(
+					// 	'[receive]disconnect to json',
+					// 	conObj.toObject(),
+					// );
 
 					if (conObj.getStatus() === 'disconnected') {
 						dispatch({

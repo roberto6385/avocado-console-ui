@@ -6,13 +6,7 @@ import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	listConversion,
-	sendCommandByCd,
-	sendCommandByLs,
-	sendCommandByPwd,
-} from './commands';
-import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
+import {sendCommandByCd} from './commands/sendCommandCd';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -75,19 +69,9 @@ const FileListContents = ({index, ws, uuid}) => {
 	// console.log(index); //tab id
 
 	const changePath = (item) => {
-		// if (item.fileType === 'directory') {
-		// 	console.log('FileList Contents 실행됨');
-		// 	sendCommandByCd(ws, uuid, item.fileName)
-		// 		.then(() => sendCommandByPwd(ws, uuid, dispatch))
-		// 		.then((result) => sendCommandByLs(ws, uuid, result)) // result === 현재경로
-		// 		.then((result) => listConversion(result)) // result === 디렉토라 목록 / , // result === 정렬된 디렉토리 목록
-		// 		.then((result) =>
-		// 			dispatch({
-		// 				type: SFTP_SAVE_CURRENT_LIST,
-		// 				data: {uuid, list: result},
-		// 			}),
-		// 		);
-		// }
+		if (item.fileType === 'directory') {
+			sendCommandByCd(ws, uuid, item.fileName, dispatch);
+		}
 	};
 
 	const sendCommandByGet = (e) => {

@@ -8,15 +8,11 @@ import {
 	MdDelete,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {
-	fileUpload,
-	listConversion,
-	sendCommandByLs,
-	sendCommandByPut,
-	sendCommandByPwd,
-} from './commands';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
+import {sendCommandByPut} from './commands/sendCommandPut';
+import {sendCommandByPwd} from './commands/sendCommandPwd';
+import {sendCommandByLs} from './commands/sendCommandLs';
+import {listConversion} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -28,29 +24,30 @@ const NavItem = styled.button`
 const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const upload = () => {
-		// const uploadInput = document.createElement('input');
-		// document.body.appendChild(uploadInput);
-		// uploadInput.setAttribute('type', 'file');
-		// uploadInput.setAttribute('multiple', 'multiple');
-		// uploadInput.setAttribute('style', 'display:none');
-		// uploadInput.click();
-		// uploadInput.onchange = async (e) => {
-		// 	const File = e.target.files;
-		// 	for await (const key of Object.keys(File)) {
-		// 		await sendCommandByPut(
-		// 			'put',
-		// 			ws,
-		// 			uuid,
-		// 			pathItem?.path,
-		// 			File[key],
-		// 		);
-		// 	}
-		// 	console.log('끝끝끝');
-		// };
-		// document.body.removeChild(uploadInput);
+		const uploadInput = document.createElement('input');
+		document.body.appendChild(uploadInput);
+		uploadInput.setAttribute('type', 'file');
+		uploadInput.setAttribute('multiple', 'multiple');
+		uploadInput.setAttribute('style', 'display:none');
+		uploadInput.click();
+		uploadInput.onchange = async (e) => {
+			const File = e.target.files;
+			for await (const key of Object.keys(File)) {
+				await sendCommandByPut(
+					'put',
+					File[key],
+					ws,
+					uuid,
+					pathItem?.path,
+					File[key].name,
+				);
+			}
+			sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+		};
+		document.body.removeChild(uploadInput);
 	};
 
 	const historyDelete = () => {};

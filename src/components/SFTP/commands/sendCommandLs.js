@@ -2,6 +2,10 @@ import SFTP from '../../../dist/sftp_pb';
 import {listConversion} from '../commands';
 
 export const sendCommandByLs = (ws, uuid, path, dispatch) => {
+	console.log('run sendCommandByLs');
+
+	// eslint-disable-next-line no-undef
+	// return new Promise((resolve) => {
 	var msgObj = new SFTP.Message();
 	msgObj.setType(SFTP.Message.Types.REQUEST);
 
@@ -20,8 +24,8 @@ export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 
 	msgObj.setBody(reqObj.serializeBinary());
 
-	console.log('send proto buffer', msgObj);
-	console.log('send proto buffer binary', msgObj.serializeBinary());
+	// console.log('send proto buffer', msgObj);
+	// console.log('send proto buffer binary', msgObj.serializeBinary());
 
 	ws.send(msgObj.serializeBinary());
 
@@ -37,17 +41,18 @@ export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 				const response = SFTP.Response.deserializeBinary(
 					message.getBody(),
 				);
-				console.log('[receive]response type', response.getType());
+				// console.log('[receive]response type', response.getType());
 				if (response.getType() === SFTP.Response.Types.MESSAGE) {
 					const msgObj = SFTP.MessageResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('[receive]message', msgObj);
-					console.log('[receive]message to json', msgObj.toObject());
-
-					listConversion(msgObj.getResult(), uuid, dispatch);
+					// console.log('[receive]message', msgObj);
+					// console.log('[receive]message to json', msgObj.toObject());
+					msgObj.getResult().trim() !== '' &&
+						listConversion(msgObj.getResult(), uuid, dispatch);
 				}
 			}
 		}
 	};
+	// });
 };

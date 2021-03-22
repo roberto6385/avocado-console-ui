@@ -2,8 +2,11 @@ import SFTP from '../../../dist/sftp_pb';
 import {OPEN_TAB} from '../../../reducers/common';
 import {SFTP_SAVE_CURRENT_PATH} from '../../../reducers/sftp';
 import {sendCommandByLs} from './sendCommandLs';
+import {listConversion} from '../commands';
 
 export const sendCommandByPwd = (ws, uuid, dispatch) => {
+	console.log('run sendCommandByPwd');
+
 	var msgObj = new SFTP.Message();
 	msgObj.setType(SFTP.Message.Types.REQUEST);
 
@@ -21,8 +24,8 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 
 	msgObj.setBody(reqObj.serializeBinary());
 
-	console.log('send proto buffer', msgObj);
-	console.log('send proto buffer binary', msgObj.serializeBinary());
+	// console.log('send proto buffer', msgObj);
+	// console.log('send proto buffer binary', msgObj.serializeBinary());
 
 	ws.send(msgObj.serializeBinary());
 
@@ -38,20 +41,20 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 				const response = SFTP.Response.deserializeBinary(
 					message.getBody(),
 				);
-				console.log('[receive]response type', response.getType());
+				// console.log('[receive]response type', response.getType());
 				if (response.getType() === SFTP.Response.Types.MESSAGE) {
 					const msgObj = SFTP.MessageResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('[receive]message', msgObj);
-					console.log('[receive]message to json', msgObj.toObject());
+					// console.log('[receive]message', msgObj);
+					// console.log('[receive]message to json', msgObj.toObject());
 
 					// this.setState({
 					// 	result: msgObj.getResult(),
 					// 	cmdstatus: msgObj.getStatus(),
 					// 	progress: percent,
 					// });
-					sendCommandByLs(ws, uuid, msgObj.getResult(), dispatch);
+
 					dispatch({
 						type: SFTP_SAVE_CURRENT_PATH,
 						data: {
@@ -59,6 +62,7 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 							path: msgObj.getResult(),
 						},
 					});
+					sendCommandByLs(ws, uuid, msgObj.getResult(), dispatch);
 				}
 			}
 		}
