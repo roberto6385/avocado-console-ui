@@ -1,8 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import styled from 'styled-components';
 import FileList from './FileList';
 import History from './History';
+import SFTP from '../../dist/sftp_pb';
+import {sendCommandByPwd} from './commands/sendCommandPwd';
+import {useDispatch, useSelector} from 'react-redux';
 
 const SftpContainer = styled.div`
 	display: flex;
@@ -12,6 +15,13 @@ const SftpContainer = styled.div`
 `;
 
 const SFTPContainer = ({index, socket}) => {
+	const {ws, uuid} = socket;
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		sendCommandByPwd(ws, uuid, dispatch);
+	}, [dispatch]);
+
 	return (
 		<SftpContainer>
 			<FileList index={index} socket={socket} />

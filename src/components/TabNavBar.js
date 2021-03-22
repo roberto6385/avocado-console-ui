@@ -17,7 +17,6 @@ import {
 	SFTP_DELETE_CURRENT_LIST,
 	SFTP_DELETE_CURRENT_PATH,
 } from '../reducers/sftp';
-// import {sendDisconnect} from './SFTP/commands';
 
 const TabContainer = styled(Tab.Container)`
 	display: flex !important;
@@ -84,54 +83,7 @@ const TabNavBar = () => {
 				msgObj.setBody(reqObj.serializeBinary());
 				ws.send(msgObj.serializeBinary());
 			} else {
-				sendDisconnect(ws, uuid);
-				ws.binaryType = 'arraybuffer';
-				ws.onmessage = (evt) => {
-					console.log('run server connection');
-					// listen to data sent from the websocket server
-
-					// eslint-disable-next-line no-undef
-					if (evt.data instanceof ArrayBuffer) {
-						const message = SFTP.Message.deserializeBinary(
-							evt.data,
-						);
-
-						if (message.getType() === SFTP.Message.Types.RESPONSE) {
-							const response = SFTP.Response.deserializeBinary(
-								message.getBody(),
-							);
-							console.log(
-								'[receive]response type',
-								response.getType(),
-							);
-							if (
-								response.getType() ===
-								SFTP.Response.Types.DISCONNECT
-							) {
-								const conObj = SFTP.DisconnectResponse.deserializeBinary(
-									response.getBody(),
-								);
-								console.log('[receive]disconnect', conObj);
-								console.log(
-									'[receive]disconnect to json',
-									conObj.toObject(),
-								);
-
-								if (conObj.getStatus() === 'disconnected') {
-									dispatch({
-										type: SFTP_DELETE_CURRENT_PATH,
-										data: uuid,
-									});
-									dispatch({
-										type: SFTP_DELETE_CURRENT_LIST,
-										data: uuid,
-									});
-									dispatch({type: CLOSE_TAB, data: tab_id});
-								}
-							}
-						}
-					}
-				};
+				sendDisconnect(ws, uuid, tab_id, dispatch);
 			}
 		},
 		[dispatch, tab],

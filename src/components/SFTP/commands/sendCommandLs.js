@@ -1,20 +1,22 @@
 import SFTP from '../../../dist/sftp_pb';
-import {OPEN_TAB} from '../../../reducers/common';
+import {listConversion} from '../commands';
 
-export const sendConnect = (ws, data, dispatch) => {
+export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 	var msgObj = new SFTP.Message();
 	msgObj.setType(SFTP.Message.Types.REQUEST);
 
 	var reqObj = new SFTP.Request();
-	reqObj.setType(SFTP.Request.Types.CONNECT);
+	reqObj.setType(SFTP.Request.Types.MESSAGE);
 
-	var conObj = new SFTP.ConnectRequest();
-	conObj.setHost(data.host);
-	conObj.setUser(data.user);
-	conObj.setPassword(data.password);
-	conObj.setPort(data.port);
+	var msgReqObj = new SFTP.MessageRequest();
+	msgReqObj.setUuid(uuid);
 
-	reqObj.setBody(conObj.serializeBinary());
+	var cmdObj = new SFTP.CommandByLs();
+	cmdObj.setPath(path);
+
+	msgReqObj.setLs(cmdObj);
+
+	reqObj.setBody(msgReqObj.serializeBinary());
 
 	msgObj.setBody(reqObj.serializeBinary());
 
@@ -25,7 +27,6 @@ export const sendConnect = (ws, data, dispatch) => {
 
 	ws.binaryType = 'arraybuffer';
 	ws.onmessage = (evt) => {
-		console.log('run server connection');
 		// listen to data sent from the websocket server
 
 		// eslint-disable-next-line no-undef
@@ -37,23 +38,14 @@ export const sendConnect = (ws, data, dispatch) => {
 					message.getBody(),
 				);
 				console.log('[receive]response type', response.getType());
-				if (response.getType() === SFTP.Response.Types.CONNECT) {
-					const conObj = SFTP.ConnectResponse.deserializeBinary(
+				if (response.getType() === SFTP.Response.Types.MESSAGE) {
+					const msgObj = SFTP.MessageResponse.deserializeBinary(
 						response.getBody(),
 					);
-					console.log('[receive]connect', conObj);
-					console.log('[receive]connect to json', conObj.toObject());
-					if (conObj.getStatus() === 'connected') {
-						dispatch({
-							type: OPEN_TAB,
-							data: {
-								id: data.id,
-								type: 'SFTP',
-								ws: ws,
-								uuid: conObj.getUuid(),
-							},
-						});
-					}
+					console.log('[receive]message', msgObj);
+					console.log('[receive]message to json', msgObj.toObject());
+
+					listConversion(msgObj.getResult(), uuid, dispatch);
 				}
 			}
 		}
