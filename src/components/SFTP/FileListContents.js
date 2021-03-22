@@ -15,7 +15,10 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_MODE,
+} from '../../reducers/sftp';
 import {sendCommandByRm} from './commands/sendCommandRm';
 import {sendCommandByLs} from './commands/sendCommandLs';
 
@@ -193,6 +196,12 @@ const FileListContents = ({index, ws, uuid}) => {
 		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName).then();
 	};
 
+	const toEditMode = (e, item) => {
+		e.stopPropagation();
+		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'edit'}});
+		// 여기서 아이템의 텍스트를 reducer 에 저장한다!
+	};
+
 	const contextMenuOpen = (e, item = '') => {
 		e.preventDefault();
 		// e.stopPropagation();
@@ -275,6 +284,7 @@ const FileListContents = ({index, ws, uuid}) => {
 									disabled={
 										item.fileType === 'directory' && true
 									}
+									onClick={(e) => toEditMode(e, item)}
 									flex={0.3}
 								>
 									<CustomThBtn

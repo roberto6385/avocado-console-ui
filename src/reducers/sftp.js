@@ -1,10 +1,14 @@
 import produce from 'immer';
 
 export const initialState = {
+	currentMode: [],
 	currentPath: [],
 	currentList: [],
 	currentHighlight: [],
 };
+
+export const SFTP_SAVE_CURRENT_MODE = 'SFTP_SAVE_CURRENT_MODE';
+export const SFTP_DELETE_CURRENT_MODE = 'SFTP_DELETE_CURRENT_MODE';
 
 export const SFTP_SAVE_CURRENT_PATH = 'SFTP_SAVE_CURRENT_PATH';
 export const SFTP_DELETE_CURRENT_PATH = 'SFTP_DELETE_CURRENT_PATH';
@@ -16,6 +20,7 @@ export const SFTP_SAVE_CURRENT_HIGHLIGHT = 'SFTP_SAVE_CURRENT_HIGHLIGHT';
 export const SFTP_DELETE_CURRENT_HIGHLIGHT = 'SFTP_DELETE_CURRENT_HIGHLIGHT';
 
 // 리듀서 findIndex 변수들
+let currentMode_index;
 let currentPath_index;
 let currentList_index;
 let currentHighlight_index;
@@ -23,6 +28,33 @@ let currentHighlight_index;
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case SFTP_SAVE_CURRENT_MODE:
+				currentMode_index = draft.currentMode.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (currentMode_index !== -1) {
+					draft.currentMode.splice(currentMode_index, 1, {
+						uuid: action.data.uuid,
+						mode: action.data.mode,
+					});
+				} else {
+					draft.currentMode.push({
+						uuid: action.data.uuid,
+						mode: action.data.mode,
+					});
+				}
+				break;
+
+			case SFTP_DELETE_CURRENT_MODE:
+				currentMode_index = draft.currentMode.findIndex(
+					(item) => item.uuid === action.data,
+				);
+				if (currentMode_index !== -1) {
+					draft.currentMode.splice(currentMode_index, 1);
+				}
+				break;
+
 			case SFTP_SAVE_CURRENT_PATH:
 				currentPath_index = draft.currentPath.findIndex(
 					(item) => item.uuid === action.data.uuid,

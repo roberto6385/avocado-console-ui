@@ -1,13 +1,10 @@
-import React, {useEffect} from 'react';
-import {Card} from 'react-bootstrap';
+import React from 'react';
 import {PropTypes} from 'prop-types';
+import {Card} from 'react-bootstrap';
 import styled from 'styled-components';
-import FileListContents from './FileListContents';
-import FileListNav from './FileListNav';
 import {NAV_HEIGHT} from '../../styles/global';
-import {listConversion, sendCommandByLs, sendCommandByPwd} from './commands';
-import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
-import {useDispatch, useSelector} from 'react-redux';
+import EditNav from './EditNav';
+import EditContents from './EditContents';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
@@ -27,17 +24,14 @@ const FlexBox = styled.div`
 	}
 `;
 
-const FileList = ({index, socket}) => {
-	// const dispatch = useDispatch();
-	// const {ws, uuid} = socket;
-
+const Edit = ({index, socket}) => {
 	return (
 		<FlexBox>
 			<Card.Header>
-				<FileListNav index={index} ws={socket.ws} uuid={socket.uuid} />
+				<EditNav index={index} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
-				<FileListContents
+				<EditContents
 					id={`sftp ${String(index)}`}
 					index={index}
 					ws={socket.ws}
@@ -48,9 +42,9 @@ const FileList = ({index, socket}) => {
 	);
 };
 
-FileList.propTypes = {
+Edit.propTypes = {
 	index: PropTypes.number.isRequired,
 	socket: PropTypes.object.isRequired,
 };
 
-export default FileList;
+export default Edit;
