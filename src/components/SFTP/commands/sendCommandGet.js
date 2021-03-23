@@ -26,6 +26,8 @@ export const sendCommandByGet = (
 	getFileName,
 	dispatch,
 ) => {
+	console.log('run sendCommandByGet');
+
 	// eslint-disable-next-line no-undef
 	return new Promise((resolve) => {
 		var msgObj = new SFTP.Message();

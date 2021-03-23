@@ -7,6 +7,8 @@ import {sendCommandByRm} from './SFTP/commands/sendCommandRm';
 import {sendCommandByLs} from './SFTP/commands/sendCommandLs';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
+import {sendCommandByRename} from './SFTP/commands/sendCommandRename';
+import {sendCommandByMkdir} from './SFTP/commands/sendCommandMkdir';
 
 const ModalFooter = styled.div`
 	flex: 1;
@@ -44,20 +46,45 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 	const inputRef = useRef(null);
 	const formKeywords = ['Rename', 'New Folder'];
 
-	console.log(highlightItem?.list[0]);
+	console.log(highlightItem?.list);
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(
 				ws,
 				uuid,
 				pathItem?.path + '/' + key.fileName,
+				key.fileType,
 			);
+			dispatch({
+				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				data: {uuid, list: []},
+			});
 		}
 		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+	};
+
+	const contextRename = async () => {
+		const path = pathItem?.path === '/' ? '/' : pathItem?.path + '/';
+		await sendCommandByRename(
+			ws,
+			uuid,
+			path + highlightItem?.list[0].fileName,
+			path + formValue,
+		);
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
 		});
+	};
+
+	const contextNewFolder = async () => {
+		const path = pathItem?.path === '/' ? '/' : pathItem?.path + '/';
+		await sendCommandByMkdir(ws, uuid, path + formValue);
+		dispatch({
+			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+			data: {uuid, list: []},
+		});
+		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
 	};
 
 	const handleClose = () => {
@@ -66,6 +93,8 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 
 	const okFunction = () => {
 		keyword === 'Delete' && contextDelete();
+		keyword === 'Rename' && contextRename();
+		keyword === 'New Folder' && contextNewFolder();
 		handleClose();
 	};
 	const cancelFunction = () => {};
@@ -104,7 +133,6 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 						/>
 					</Form>
 				)}
-				{/*)}*/}
 			</Card.Body>
 			<ModalFooter>
 				<Button

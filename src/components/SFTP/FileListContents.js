@@ -145,7 +145,9 @@ const FileListContents = ({index, ws, uuid}) => {
 	const selectItem = (e, item) => {
 		if (e.shiftKey) {
 			const temp = highlightItem?.list || [];
-			const tempB = temp.concat(item);
+			const tempB = highlightItem?.list.includes(item)
+				? temp
+				: temp.concat(item);
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: tempB},
@@ -349,10 +351,7 @@ const FileListContents = ({index, ws, uuid}) => {
 					New Folder
 				</Item>
 				<Item
-					disabled={
-						highlightItem?.list.length !== 1 ||
-						highlightItem?.list[0].fileType === 'directory'
-					}
+					disabled={highlightItem?.list.length !== 1}
 					id='Rename'
 					onClick={handleItemClick}
 				>
@@ -360,10 +359,7 @@ const FileListContents = ({index, ws, uuid}) => {
 				</Item>
 				<Separator />
 				<Item
-					disabled={
-						highlightItem?.list.length === 0 ||
-						highlightItem?.list[0].fileType === 'directory'
-					}
+					disabled={highlightItem?.list.length === 0}
 					id='Delete'
 					onClick={handleItemClick}
 				>

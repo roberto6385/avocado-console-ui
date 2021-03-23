@@ -8,6 +8,8 @@ export const sendCommandByPut = (
 	getPath,
 	getFileName,
 ) => {
+	console.log('run sendCommandByPut');
+
 	// eslint-disable-next-line no-undef
 	return new Promise((resolve) => {
 		console.log('file size : ', uploadFile.size);
