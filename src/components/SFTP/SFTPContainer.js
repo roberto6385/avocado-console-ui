@@ -20,7 +20,6 @@ const SFTPContainer = ({index, socket}) => {
 	const {ws, uuid} = socket;
 	const dispatch = useDispatch();
 
-	console.log(uuid);
 	const {currentMode} = useSelector((state) => state.sftp);
 	const modeItem = currentMode.find((item) => item.uuid === uuid);
 

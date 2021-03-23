@@ -102,6 +102,7 @@ const FileListContents = ({index, ws, uuid}) => {
 				uuid,
 				pathItem?.path,
 				key.fileName,
+				dispatch,
 			);
 		}
 		// 마지막 percent 100 , ok 사이에서 디스패치 이벤트 실행
@@ -193,11 +194,26 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const download = (e, item) => {
 		e.stopPropagation();
-		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName).then();
+		sendCommandByGet(
+			'get',
+			ws,
+			uuid,
+			pathItem?.path,
+			item.fileName,
+			dispatch,
+		).then();
 	};
 
 	const toEditMode = (e, item) => {
 		e.stopPropagation();
+		sendCommandByGet(
+			'edit',
+			ws,
+			uuid,
+			pathItem?.path,
+			item.fileName,
+			dispatch,
+		).then();
 		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'edit'}});
 		// 여기서 아이템의 텍스트를 reducer 에 저장한다!
 	};

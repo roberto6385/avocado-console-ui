@@ -1,5 +1,9 @@
 import SFTP from '../../../dist/sftp_pb';
 import {listConversion} from '../commands';
+import {
+	SFTP_SAVE_COMPARE_TEXT,
+	SFTP_SAVE_CURRENT_TEXT,
+} from '../../../reducers/sftp';
 
 // eslint-disable-next-line no-undef
 let fileBuffer = new ArrayBuffer(0);
@@ -14,7 +18,14 @@ const appendBuffer = (buffer1, buffer2) => {
 	return tmp.buffer;
 };
 
-export const sendCommandByGet = (command, ws, uuid, getPath, getFileName) => {
+export const sendCommandByGet = (
+	command,
+	ws,
+	uuid,
+	getPath,
+	getFileName,
+	dispatch,
+) => {
 	// eslint-disable-next-line no-undef
 	return new Promise((resolve) => {
 		var msgObj = new SFTP.Message();
@@ -28,7 +39,7 @@ export const sendCommandByGet = (command, ws, uuid, getPath, getFileName) => {
 
 		let cmdObj;
 
-		if (command === 'get') {
+		if (command === 'get' || command === 'edit') {
 			cmdObj = new SFTP.CommandByGet();
 			cmdObj.setPath(getPath);
 			cmdObj.setFilename(getFileName);
@@ -85,18 +96,45 @@ export const sendCommandByGet = (command, ws, uuid, getPath, getFileName) => {
 
 						if (fileObj.getLast() === true) {
 							const blob = new Blob([fileBuffer]);
-
-							// this.fileBuffer = new ArrayBuffer(0);
-
-							var url = URL.createObjectURL(blob);
-
-							var a = document.createElement('a');
-							document.body.appendChild(a);
-							a.style = 'display: none';
-							a.href = url;
-							a.download = getFileName;
-							a.click();
-							window.URL.revokeObjectURL(url);
+							// eslint-disable-next-line no-undef
+							fileBuffer = new ArrayBuffer(0);
+							if (command === 'edit') {
+								blob.stream()
+									.getReader()
+									.read()
+									.then(({value, done}) => {
+										return new TextDecoder('utf-8').decode(
+											value,
+										);
+									})
+									.then((text) => {
+										dispatch({
+											type: SFTP_SAVE_CURRENT_TEXT,
+											data: {
+												uuid,
+												text,
+												name: getFileName,
+											},
+										});
+										dispatch({
+											type: SFTP_SAVE_COMPARE_TEXT,
+											data: {
+												uuid,
+												text,
+												name: getFileName,
+											},
+										});
+									});
+							} else {
+								var url = URL.createObjectURL(blob);
+								var a = document.createElement('a');
+								document.body.appendChild(a);
+								a.style = 'display: none';
+								a.href = url;
+								a.download = getFileName;
+								a.click();
+								window.URL.revokeObjectURL(url);
+							}
 							resolve();
 
 							// this.setState({
