@@ -47,8 +47,7 @@ const CustomSizeTh = styled.th`
 const CustomButtonTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: right;
-	z-index: 999;
-	// width: 50px;
+	z-index: 1;
 `;
 
 const CustomThBtn = styled.button`
@@ -57,7 +56,7 @@ const CustomThBtn = styled.button`
 	font-size: 18px;
 	line-height: 0px;
 	padding: 0px;
-	z-index: 999;
+	z-index: 1;
 `;
 
 const CustomTbody = styled.tbody`
@@ -194,27 +193,35 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const download = (e, item) => {
 		e.stopPropagation();
-		sendCommandByGet(
-			'get',
-			ws,
-			uuid,
-			pathItem?.path,
-			item.fileName,
-			dispatch,
-		).then();
+		if (item.fileName !== '..' && item.fileType !== 'directory') {
+			// 현재는 디렉토리 다운로드 막아두었음.
+			sendCommandByGet(
+				'get',
+				ws,
+				uuid,
+				pathItem?.path,
+				item.fileName,
+				dispatch,
+			).then();
+		}
 	};
 
 	const toEditMode = (e, item) => {
 		e.stopPropagation();
-		sendCommandByGet(
-			'edit',
-			ws,
-			uuid,
-			pathItem?.path,
-			item.fileName,
-			dispatch,
-		).then();
-		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'edit'}});
+		if (item.fileName !== '..' && item.fileType !== 'directory') {
+			sendCommandByGet(
+				'edit',
+				ws,
+				uuid,
+				pathItem?.path,
+				item.fileName,
+				dispatch,
+			).then();
+			dispatch({
+				type: SFTP_SAVE_CURRENT_MODE,
+				data: {uuid, mode: 'edit'},
+			});
+		}
 		// 여기서 아이템의 텍스트를 reducer 에 저장한다!
 	};
 
@@ -241,15 +248,16 @@ const FileListContents = ({index, ws, uuid}) => {
 	return (
 		<>
 			<CustomTable>
-				<thead
-					style={{
-						position: 'sticky',
-						top: '0px',
-						background: 'white',
-						zIndex: 1,
-					}}
-				>
-					<tr style={{display: 'flex'}}>
+				<thead>
+					<tr
+						style={{
+							display: 'flex',
+							position: 'sticky',
+							top: '0px',
+							background: 'white',
+							zIndex: 999,
+						}}
+					>
 						<CustomNameTh flex={10}>Name</CustomNameTh>
 						<CustomSizeTh flex={2}>Size</CustomSizeTh>
 						<CustomTh flex={3}>Modified</CustomTh>
@@ -298,7 +306,8 @@ const FileListContents = ({index, ws, uuid}) => {
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomButtonTh
 									disabled={
-										item.fileType === 'directory' && true
+										item.fileType === 'directory' ||
+										(item.fileName === '..' && true)
 									}
 									onClick={(e) => toEditMode(e, item)}
 									flex={0.3}
@@ -314,10 +323,17 @@ const FileListContents = ({index, ws, uuid}) => {
 									</CustomThBtn>
 								</CustomButtonTh>
 								<CustomButtonTh
+									disabled={item.fileName === '..' && true}
 									onClick={(e) => download(e, item)}
 									flex={0.3}
 								>
-									<CustomThBtn>
+									<CustomThBtn
+										style={{
+											color:
+												item.fileName === '..' &&
+												'transparent',
+										}}
+									>
 										<MdFileDownload />
 									</CustomThBtn>
 								</CustomButtonTh>

@@ -36,7 +36,6 @@ export const sendCommandByRm = (ws, uuid, path) => {
 							response.getBody(),
 						);
 						console.log(msgObj.getStatus());
-						console.log(msgObj.getResult());
 						resolve();
 						// msgObj.getResult().trim() !== '' &&
 						// msgObj.getStatus() !== 'progress' &&
