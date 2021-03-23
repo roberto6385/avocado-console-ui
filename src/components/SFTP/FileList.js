@@ -13,7 +13,8 @@ const SFTPBody = styled(Card.Body)`
 `;
 
 const FlexBox = styled.div`
-	flex: 1;
+	flex: 2;
+	overflow: scroll;
 	display: flex;
 	flex-direction: column;
 	.card-header {

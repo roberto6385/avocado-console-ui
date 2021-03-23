@@ -12,13 +12,13 @@ const SFTPBody = styled(Card.Body)`
 `;
 
 const HistoryBox = styled.div`
-	//	나중에 이 부분에서 히스토리 min-width 주면 돼
-	// flex: 1;
+	min-width: 250px;
 	display: flex;
 	flex-direction: column;
 	.card-header {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		position: relative;
 		height: ${NAV_HEIGHT};
 	}

@@ -5,10 +5,15 @@ import {FaTimes} from 'react-icons/all';
 import * as PropTypes from 'prop-types';
 import {sendCommandByRm} from './SFTP/commands/sendCommandRm';
 import {sendCommandByLs} from './SFTP/commands/sendCommandLs';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_MODE,
+} from '../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByRename} from './SFTP/commands/sendCommandRename';
 import {sendCommandByMkdir} from './SFTP/commands/sendCommandMkdir';
+import {sendCommandByPut} from './SFTP/commands/sendCommandPut';
+import {sendCommandByGet} from './SFTP/commands/sendCommandGet';
 
 const ModalFooter = styled.div`
 	flex: 1;
@@ -37,9 +42,13 @@ const CustomModal = styled(Modal)`
     }
 `;
 
-const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
-	const {currentPath, currentHighlight} = useSelector((state) => state.sftp);
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
+const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
+	const {currentPath, currentText, currentHighlight} = useSelector(
+		(state) => state.sftp,
+	);
+
+	const curText = currentText.find((item) => item.uuid === uuid);
+	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
@@ -52,25 +61,26 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 			await sendCommandByRm(
 				ws,
 				uuid,
-				pathItem?.path + '/' + key.fileName,
+				curPath?.path + '/' + key.fileName,
 				key.fileType,
 			);
+			await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: []},
 			});
 		}
-		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
 	};
 
 	const contextRename = async () => {
-		const path = pathItem?.path === '/' ? '/' : pathItem?.path + '/';
+		const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
 		await sendCommandByRename(
 			ws,
 			uuid,
 			path + highlightItem?.list[0].fileName,
 			path + formValue,
 		);
+		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
@@ -78,13 +88,45 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 	};
 
 	const contextNewFolder = async () => {
-		const path = pathItem?.path === '/' ? '/' : pathItem?.path + '/';
+		const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
 		await sendCommandByMkdir(ws, uuid, path + formValue);
+		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
 		});
-		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+	};
+
+	const existChanges = async () => {
+		const editedFile = new File([curText?.text], curText?.name, {
+			type: 'text/plain',
+		});
+		console.log(editedFile);
+		sendCommandByPut(
+			'put',
+			editedFile,
+			ws,
+			uuid,
+			curPath?.path,
+			editedFile.name,
+		)
+			.then(() =>
+				sendCommandByGet(
+					'edit',
+					ws,
+					uuid,
+					curPath?.path,
+					editedFile.name,
+					dispatch,
+				),
+			)
+			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch))
+			.then(() =>
+				dispatch({
+					type: SFTP_SAVE_CURRENT_MODE,
+					data: {uuid, mode: 'normal'},
+				}),
+			);
 	};
 
 	const handleClose = () => {
@@ -95,6 +137,7 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 		keyword === 'Delete' && contextDelete();
 		keyword === 'Rename' && contextRename();
 		keyword === 'New Folder' && contextNewFolder();
+		keyword === 'Changes' && existChanges();
 		handleClose();
 	};
 	const cancelFunction = () => {};
@@ -117,6 +160,9 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 			<Card.Body>
 				{keyword === 'Delete' && (
 					<p>선택하신 파일을 삭제하시겠습니까?</p>
+				)}
+				{keyword === 'Changes' && (
+					<p>변경사항이 있습니다. 저장하시겠습니까?</p>
 				)}
 				{formKeywords.includes(keyword) && (
 					<Form action=''>

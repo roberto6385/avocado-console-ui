@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import styled from 'styled-components';
 import {MAIN_COLOR} from '../../styles/global';
@@ -9,6 +9,8 @@ import {PropTypes} from 'prop-types';
 
 import {sendCommandByPut} from './commands/sendCommandPut';
 import {sendCommandByLs} from './commands/sendCommandLs';
+import ConfirmPopup from '../ConfirmPopup';
+import {sendCommandByGet} from './commands/sendCommandGet';
 
 const Navbar = styled.div`
 	display: flex;
@@ -29,11 +31,13 @@ const NavItem = styled.button`
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
 
 	const {currentText, currentCompareText, currentPath} = useSelector(
 		(state) => state.sftp,
 	);
 	const curText = currentText.find((item) => item.uuid === uuid);
+	const compareText = currentCompareText.find((item) => item.uuid === uuid);
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const path = curPath?.path;
 
@@ -64,14 +68,28 @@ const EditNav = ({index, ws, uuid}) => {
 			curPath?.path,
 			editedFile.name,
 		)
-			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch))
-			.then(() => toNormalMode());
+			.then(() =>
+				sendCommandByGet(
+					'edit',
+					ws,
+					uuid,
+					curPath?.path,
+					editedFile.name,
+					dispatch,
+				),
+			)
+			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch));
 	};
 
 	const toNormalMode = () => {
-		console.log('change mode to normal');
-
-		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'normal'}});
+		if (curText?.text !== compareText?.text) {
+			setOpen(true);
+		} else {
+			dispatch({
+				type: SFTP_SAVE_CURRENT_MODE,
+				data: {uuid, mode: 'normal'},
+			});
+		}
 	};
 
 	return (
@@ -90,13 +108,13 @@ const EditNav = ({index, ws, uuid}) => {
 					<MdCancel />
 				</NavItem>
 			</div>
-			{/*<ContextModal*/}
-			{/*	modalName="Close Editor"*/}
-			{/*	show={openConfirmForm}*/}
-			{/*	setShow={closeEditorConfirm}*/}
-			{/*	uuid={uuid}*/}
-			{/*	ws={ws}*/}
-			{/*/>*/}
+			<ConfirmPopup
+				keyword={'Changes'}
+				open={open}
+				setOpen={setOpen}
+				ws={ws}
+				uuid={uuid}
+			/>
 		</Navbar>
 	);
 };

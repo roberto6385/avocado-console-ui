@@ -8,6 +8,7 @@ import {
 	useContextMenu,
 } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
+import BTable from 'react-bootstrap/Table';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
@@ -18,8 +19,8 @@ import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
 } from '../../reducers/sftp';
-import BTable from 'react-bootstrap/Table';
-
+import {sendCommandByRm} from './commands/sendCommandRm';
+import {sendCommandByLs} from './commands/sendCommandLs';
 import ConfirmPopup from '../ConfirmPopup';
 
 const CustomTable = styled(BTable)`
@@ -47,7 +48,6 @@ const CustomSizeTh = styled.th`
 const CustomButtonTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: right;
-
 	z-index: 1;
 `;
 
@@ -57,7 +57,6 @@ const CustomThBtn = styled.button`
 	font-size: 18px;
 	line-height: 0px;
 	padding: 0px;
-
 	z-index: 1;
 `;
 
@@ -85,7 +84,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
-
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 
@@ -106,7 +104,6 @@ const FileListContents = ({index, ws, uuid}) => {
 				uuid,
 				pathItem?.path,
 				key.fileName,
-
 				dispatch,
 			);
 		}
@@ -140,7 +137,6 @@ const FileListContents = ({index, ws, uuid}) => {
 				break;
 			case 'Delete':
 				setOpen(true);
-
 				break;
 			default:
 				return;
@@ -150,11 +146,9 @@ const FileListContents = ({index, ws, uuid}) => {
 	const selectItem = (e, item) => {
 		if (e.shiftKey) {
 			const temp = highlightItem?.list || [];
-
 			const tempB = highlightItem?.list.includes(item)
 				? temp
 				: temp.concat(item);
-
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: tempB},
@@ -163,7 +157,6 @@ const FileListContents = ({index, ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				sendCommandByCd(ws, uuid, item.fileName, dispatch);
-
 				dispatch({
 					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 					data: {uuid, list: []},
@@ -178,7 +171,6 @@ const FileListContents = ({index, ws, uuid}) => {
 				} else {
 					dispatch({
 						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-
 						data: {uuid, list: [item]},
 					});
 				}
@@ -188,7 +180,6 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const download = (e, item) => {
 		e.stopPropagation();
-
 		if (item.fileName !== '..' && item.fileType !== 'directory') {
 			// 현재는 디렉토리 다운로드 막아두었음.
 			sendCommandByGet(
@@ -204,7 +195,6 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const toEditMode = (e, item) => {
 		e.stopPropagation();
-
 		if (item.fileName !== '..' && item.fileType !== 'directory') {
 			sendCommandByGet(
 				'edit',
@@ -224,7 +214,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	const contextMenuOpen = (e, item = '') => {
 		e.preventDefault();
 		// e.stopPropagation();
-
 		displayMenu(e);
 		if (
 			highlightItem?.list.length < 2 ||
@@ -344,7 +333,10 @@ const FileListContents = ({index, ws, uuid}) => {
 				style={{fontSize: '14px'}}
 			>
 				<Item
-					disabled={highlightItem?.list.length === 0}
+					disabled={
+						highlightItem?.list.length === 0 ||
+						highlightItem?.list[0].fileName === '..'
+					}
 					id='Download'
 					onClick={handleItemClick}
 				>
@@ -361,12 +353,14 @@ const FileListContents = ({index, ws, uuid}) => {
 					Edit
 				</Item>
 				<Separator />
-
 				<Item id='New Folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item
-					disabled={highlightItem?.list.length !== 1}
+					disabled={
+						highlightItem?.list.length !== 1 ||
+						highlightItem?.list[0].fileName === '..'
+					}
 					id='Rename'
 					onClick={handleItemClick}
 				>
@@ -374,14 +368,16 @@ const FileListContents = ({index, ws, uuid}) => {
 				</Item>
 				<Separator />
 				<Item
-					disabled={highlightItem?.list.length === 0}
+					disabled={
+						highlightItem?.list.length === 0 ||
+						highlightItem?.list[0].fileName === '..'
+					}
 					id='Delete'
 					onClick={handleItemClick}
 				>
 					Delete
 				</Item>
 			</Menu>
-
 			<ConfirmPopup
 				keyword={keyword}
 				open={open}
