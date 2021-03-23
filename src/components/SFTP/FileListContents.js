@@ -19,14 +19,17 @@ import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
 } from '../../reducers/sftp';
-import {sendCommandByRm} from './commands/sendCommandRm';
-import {sendCommandByLs} from './commands/sendCommandLs';
 import ConfirmPopup from '../ConfirmPopup';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
 	height: 100%;
 	margin: 0;
+	// 드래그 방지
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 `;
 
 const CustomTh = styled.th`

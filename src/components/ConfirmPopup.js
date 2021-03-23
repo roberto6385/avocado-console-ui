@@ -55,7 +55,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const inputRef = useRef(null);
 	const formKeywords = ['Rename', 'New Folder'];
 
-	console.log(highlightItem?.list);
+	// console.log(highlightItem?.list);
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(
@@ -129,6 +129,13 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 			);
 	};
 
+	const justExit = () => {
+		dispatch({
+			type: SFTP_SAVE_CURRENT_MODE,
+			data: {uuid, mode: 'normal'},
+		});
+	};
+
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -140,7 +147,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		keyword === 'Changes' && existChanges();
 		handleClose();
 	};
-	const cancelFunction = () => {};
+	const cancelFunction = () => {
+		keyword === 'Changes' && justExit();
+	};
 
 	useEffect(() => {
 		setFormValue(
