@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {Button, Card, Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
@@ -40,7 +40,11 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
+	const [formValue, setFormValue] = useState('');
+	const inputRef = useRef(null);
+	const formKeywords = ['Rename', 'New Folder'];
 
+	console.log(highlightItem?.list[0]);
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(
@@ -66,6 +70,13 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 	};
 	const cancelFunction = () => {};
 
+	useEffect(() => {
+		setFormValue(
+			keyword === 'Rename' ? highlightItem?.list[0].fileName : '',
+		);
+		inputRef.current?.focus();
+	}, [open]);
+
 	return (
 		<CustomModal size='lg' show={open} onHide={handleClose}>
 			<Card.Header as='h5'>
@@ -78,14 +89,18 @@ const ConfirmPopup = ({keyword = 'test', open, setOpen, ws, uuid}) => {
 				{keyword === 'Delete' && (
 					<p>선택하신 파일을 삭제하시겠습니까?</p>
 				)}
-				{keyword === 'Rename' && (
+				{formKeywords.includes(keyword) && (
 					<Form action=''>
 						<Form.Control
-						// ref={inputRef}
-						// value={newName}
-						// type="text"
-						// placeholder={placeHolder}
-						// onChange={(e) => setNewName(e.target.value)}
+							ref={inputRef}
+							value={formValue}
+							type='text'
+							placeholder={
+								(keyword === 'Rename' &&
+									'Please enter a name to change') ||
+								(keyword === 'New Folder' && 'Untitled folder')
+							}
+							onChange={(e) => setFormValue(e.target.value)}
 						/>
 					</Form>
 				)}
