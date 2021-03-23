@@ -37,11 +37,8 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 
 	const onClickDelete = useCallback(
 		() => () => {
-			if (type === 'SSHT') {
-				ws.send(Close(uuid));
-			} else {
-				sendDisconnect(ws, uuid, index, dispatch);
-			}
+			if (type === 'SSHT') ws.send(Close(uuid));
+			else sendDisconnect(ws, uuid, index, dispatch);
 		},
 		[dispatch],
 	);
@@ -82,13 +79,15 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			h={height}
 			w={width}
 		>
-			<ContainerCardHeader as='h6'>
-				{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
-				{server?.name}
-				<span className='right'>
-					<FaTimes onClick={onClickDelete()} />
-				</span>
-			</ContainerCardHeader>
+			{tab.filter((v) => v.display === true).length !== 1 && (
+				<ContainerCardHeader as='h6'>
+					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
+					{server?.name}
+					<span className='right'>
+						<FaTimes onClick={onClickDelete()} />
+					</span>
+				</ContainerCardHeader>
+			)}
 			{type === 'SSHT' ? (
 				<SSHTContainer
 					index={index}

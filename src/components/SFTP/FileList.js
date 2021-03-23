@@ -1,18 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import styled from 'styled-components';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
 import {NAV_HEIGHT} from '../../styles/global';
-import {listConversion, sendCommandByLs, sendCommandByPwd} from './commands';
-import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
-import {useDispatch, useSelector} from 'react-redux';
 
 const SFTPBody = styled(Card.Body)`
 	padding: 0px;
 	display: flex;
-	overflow: hidden;
+	overflow: scroll;
 `;
 
 const FlexBox = styled.div`

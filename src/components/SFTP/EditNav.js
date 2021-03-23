@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled from 'styled-components';
 import {MAIN_COLOR} from '../../styles/global';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
@@ -6,12 +7,14 @@ import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 
+import {sendCommandByPut} from './commands/sendCommandPut';
+import {sendCommandByLs} from './commands/sendCommandLs';
+
 const Navbar = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	// padding: 6px 20px;
 `;
 const NavItem = styled.button`
 	background: transparent;
@@ -27,18 +30,54 @@ const NavItem = styled.button`
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 
-	const editedFileDownload = () => {};
-	const editedFileSave = () => {};
+	const {currentText, currentCompareText, currentPath} = useSelector(
+		(state) => state.sftp,
+	);
+	const curText = currentText.find((item) => item.uuid === uuid);
+	const curPath = currentPath.find((item) => item.uuid === uuid);
+	const path = curPath?.path;
+
+	const editedFileDownload = () => {
+		const editFile = new File([curText?.text], curText?.name, {
+			type: 'text/plain',
+		});
+		const a = document.createElement('a');
+		document.body.appendChild(a);
+		a.setAttribute('style', 'display:none');
+		const url = window.URL.createObjectURL(editFile);
+		a.href = url;
+		a.download = curText?.name;
+		a.click();
+		window.URL.revokeObjectURL(url);
+	};
+
+	const editedFileSave = () => {
+		const editedFile = new File([curText?.text], curText?.name, {
+			type: 'text/plain',
+		});
+		console.log(editedFile);
+		sendCommandByPut(
+			'put',
+			editedFile,
+			ws,
+			uuid,
+			curPath?.path,
+			editedFile.name,
+		)
+			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch))
+			.then(() => toNormalMode());
+	};
 
 	const toNormalMode = () => {
+		console.log('change mode to normal');
+
 		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'normal'}});
 	};
 
 	return (
 		<Navbar>
 			<span style={{fontSize: '14px'}}>
-				{/*{`${path === '/' ? path : `${path}/`}${curText?.name}`}*/}
-				경로
+				{`${path === '/' ? path : `${path}/`}${curText?.name}`}
 			</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
 				<NavItem onClick={editedFileDownload}>

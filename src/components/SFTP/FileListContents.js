@@ -8,7 +8,6 @@ import {
 	useContextMenu,
 } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import BTable from 'react-bootstrap/Table';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
@@ -19,8 +18,9 @@ import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
 } from '../../reducers/sftp';
-import {sendCommandByRm} from './commands/sendCommandRm';
-import {sendCommandByLs} from './commands/sendCommandLs';
+import BTable from 'react-bootstrap/Table';
+
+import ConfirmPopup from '../ConfirmPopup';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -47,8 +47,8 @@ const CustomSizeTh = styled.th`
 const CustomButtonTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: right;
-	z-index: 999;
-	// width: 50px;
+
+	z-index: 1;
 `;
 
 const CustomThBtn = styled.button`
@@ -57,7 +57,8 @@ const CustomThBtn = styled.button`
 	font-size: 18px;
 	line-height: 0px;
 	padding: 0px;
-	z-index: 999;
+
+	z-index: 1;
 `;
 
 const CustomTbody = styled.tbody`
@@ -85,6 +86,9 @@ const FileListContents = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 
+	const [open, setOpen] = useState(false);
+	const [keyword, setKeyword] = useState('');
+
 	const MENU_ID = uuid;
 	const {show} = useContextMenu({
 		id: MENU_ID,
@@ -102,6 +106,8 @@ const FileListContents = ({index, ws, uuid}) => {
 				uuid,
 				pathItem?.path,
 				key.fileName,
+
+				dispatch,
 			);
 		}
 		// 마지막 percent 100 , ok 사이에서 디스패치 이벤트 실행
@@ -111,51 +117,30 @@ const FileListContents = ({index, ws, uuid}) => {
 		});
 	};
 
-	const contextDelete = async () => {
-		for await (const key of highlightItem?.list) {
-			await sendCommandByRm(
-				ws,
-				uuid,
-				pathItem?.path + '/' + key.fileName,
-			);
-		}
-		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
-		});
+	const contextEdit = (e) => {
+		const item = highlightItem?.list[0];
+		console.log(item);
+		toEditMode(e, item);
 	};
 
 	function handleItemClick({event}) {
-		// setModalName(event.currentTarget.id);
+		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
-				contextDownload();
+				contextDownload().then();
 				break;
 			case 'Edit':
-				// editFile(ws, uuid, fileObj?.path, selFile[0].fileName, dispatch);
+				contextEdit(event);
 				break;
 			case 'New Folder':
-				// setPlaceHolder("Untitled folder");
-				// setFileName("");
-				// handleOpen();
+				setOpen(true);
 				break;
 			case 'Rename':
-				// setPlaceHolder("Please enter a name to change");
-				// 원래 파일타입으로 구분해서 보내줬는데, 확장명 없는 파일 때문에 임시적으로 확장명까지 전체송신
-				// if (selFile[0].fileType === 'file') {
-				//     const fileExt = selFile[0].fileName.split('.')
-				//     fileExt.pop()
-				//     // const Extension = fileExt[fileExt.length - 1].trim()
-				//     setFileName(fileExt.join('.'))
-				// } else {
-				//     setFileName(selFile[0].fileName)
-				// }
-				// setFileName(selFile[0].fileName);
-				// handleOpen();
+				setOpen(true);
 				break;
 			case 'Delete':
-				contextDelete();
+				setOpen(true);
+
 				break;
 			default:
 				return;
@@ -165,7 +150,11 @@ const FileListContents = ({index, ws, uuid}) => {
 	const selectItem = (e, item) => {
 		if (e.shiftKey) {
 			const temp = highlightItem?.list || [];
-			const tempB = temp.concat(item);
+
+			const tempB = highlightItem?.list.includes(item)
+				? temp
+				: temp.concat(item);
+
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: tempB},
@@ -174,6 +163,11 @@ const FileListContents = ({index, ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				sendCommandByCd(ws, uuid, item.fileName, dispatch);
+
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: []},
+				});
 			} else {
 				//파일 클릭시 하이라이팅!
 				if (highlightItem?.list.includes(item)) {
@@ -184,6 +178,7 @@ const FileListContents = ({index, ws, uuid}) => {
 				} else {
 					dispatch({
 						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+
 						data: {uuid, list: [item]},
 					});
 				}
@@ -193,13 +188,37 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const download = (e, item) => {
 		e.stopPropagation();
-		sendCommandByGet('get', ws, uuid, pathItem?.path, item.fileName).then();
+
+		if (item.fileName !== '..' && item.fileType !== 'directory') {
+			// 현재는 디렉토리 다운로드 막아두었음.
+			sendCommandByGet(
+				'get',
+				ws,
+				uuid,
+				pathItem?.path,
+				item.fileName,
+				dispatch,
+			).then();
+		}
 	};
 
 	const toEditMode = (e, item) => {
 		e.stopPropagation();
-		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'edit'}});
-		// 여기서 아이템의 텍스트를 reducer 에 저장한다!
+
+		if (item.fileName !== '..' && item.fileType !== 'directory') {
+			sendCommandByGet(
+				'edit',
+				ws,
+				uuid,
+				pathItem?.path,
+				item.fileName,
+				dispatch,
+			).then();
+			dispatch({
+				type: SFTP_SAVE_CURRENT_MODE,
+				data: {uuid, mode: 'edit'},
+			});
+		}
 	};
 
 	const contextMenuOpen = (e, item = '') => {
@@ -225,15 +244,16 @@ const FileListContents = ({index, ws, uuid}) => {
 	return (
 		<>
 			<CustomTable>
-				<thead
-					style={{
-						position: 'sticky',
-						top: '0px',
-						background: 'white',
-						zIndex: 1,
-					}}
-				>
-					<tr style={{display: 'flex'}}>
+				<thead>
+					<tr
+						style={{
+							display: 'flex',
+							position: 'sticky',
+							top: '0px',
+							background: 'white',
+							zIndex: 999,
+						}}
+					>
 						<CustomNameTh flex={10}>Name</CustomNameTh>
 						<CustomSizeTh flex={2}>Size</CustomSizeTh>
 						<CustomTh flex={3}>Modified</CustomTh>
@@ -282,7 +302,8 @@ const FileListContents = ({index, ws, uuid}) => {
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomButtonTh
 									disabled={
-										item.fileType === 'directory' && true
+										item.fileType === 'directory' ||
+										(item.fileName === '..' && true)
 									}
 									onClick={(e) => toEditMode(e, item)}
 									flex={0.3}
@@ -298,10 +319,17 @@ const FileListContents = ({index, ws, uuid}) => {
 									</CustomThBtn>
 								</CustomButtonTh>
 								<CustomButtonTh
+									disabled={item.fileName === '..' && true}
 									onClick={(e) => download(e, item)}
 									flex={0.3}
 								>
-									<CustomThBtn>
+									<CustomThBtn
+										style={{
+											color:
+												item.fileName === '..' &&
+												'transparent',
+										}}
+									>
 										<MdFileDownload />
 									</CustomThBtn>
 								</CustomButtonTh>
@@ -323,23 +351,24 @@ const FileListContents = ({index, ws, uuid}) => {
 					Download
 				</Item>
 				<Item
-					disabled={highlightItem?.list.length !== 1}
-					// id="Edit"
-					// onClick={handleItemClick}
+					disabled={
+						highlightItem?.list.length !== 1 ||
+						highlightItem?.list[0].fileType === 'directory'
+					}
+					id='Edit'
+					onClick={handleItemClick}
 				>
 					Edit
 				</Item>
 				<Separator />
-				<Item
-					id={'New Folder'}
-					// onClick={handleItemClick}
-				>
+
+				<Item id='New Folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item
 					disabled={highlightItem?.list.length !== 1}
-					// id='Rename'
-					// onClick={handleItemClick}
+					id='Rename'
+					onClick={handleItemClick}
 				>
 					Rename
 				</Item>
@@ -352,6 +381,14 @@ const FileListContents = ({index, ws, uuid}) => {
 					Delete
 				</Item>
 			</Menu>
+
+			<ConfirmPopup
+				keyword={keyword}
+				open={open}
+				setOpen={setOpen}
+				ws={ws}
+				uuid={uuid}
+			/>
 		</>
 	);
 };

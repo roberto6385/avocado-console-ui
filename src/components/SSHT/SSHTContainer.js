@@ -45,8 +45,8 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 	useEffect(() => {
 		if (display && sshtBody) {
 			setSize(
-				sshtBody.current.clientHeight,
-				sshtBody.current.clientWidth,
+				sshtBody.current?.clientHeight,
+				sshtBody.current?.clientWidth,
 			);
 		} else {
 			setSize(0, 0);
@@ -57,8 +57,8 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 		window.addEventListener('resize', () => {
 			if (display && sshtBody && sshtBody.current)
 				setSize(
-					sshtBody.current.clientHeight,
-					sshtBody.current.clientWidth,
+					sshtBody.current?.clientHeight,
+					sshtBody.current?.clientWidth,
 				);
 		});
 	}, []);

@@ -5,6 +5,9 @@ export const initialState = {
 	currentPath: [],
 	currentList: [],
 	currentHighlight: [],
+
+	currentText: [],
+	currentCompareText: [],
 };
 
 export const SFTP_SAVE_CURRENT_MODE = 'SFTP_SAVE_CURRENT_MODE';
@@ -19,15 +22,61 @@ export const SFTP_DELETE_CURRENT_LIST = 'SFTP_DELETE_CURRENT_LIST';
 export const SFTP_SAVE_CURRENT_HIGHLIGHT = 'SFTP_SAVE_CURRENT_HIGHLIGHT';
 export const SFTP_DELETE_CURRENT_HIGHLIGHT = 'SFTP_DELETE_CURRENT_HIGHLIGHT';
 
+export const SFTP_SAVE_CURRENT_TEXT = 'SFTP_SAVE_CURRENT_TEXT';
+export const SFTP_SAVE_COMPARE_TEXT = 'SFTP_SAVE_COMPARE_TEXT';
+
 // 리듀서 findIndex 변수들
 let currentMode_index;
 let currentPath_index;
 let currentList_index;
 let currentHighlight_index;
 
+let currentText_index;
+let currentCompare_index;
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case SFTP_SAVE_CURRENT_TEXT:
+				currentText_index = draft.currentText.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (currentText_index !== -1) {
+					draft.currentText.splice(currentText_index, 1, {
+						uuid: action.data.uuid,
+						text: action.data.text,
+						name: action.data.name,
+					});
+				} else {
+					draft.currentText.push({
+						uuid: action.data.uuid,
+						text: action.data.text,
+						name: action.data.name,
+					});
+				}
+				break;
+
+			case SFTP_SAVE_COMPARE_TEXT:
+				currentCompare_index = draft.currentCompareText.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (currentCompare_index !== -1) {
+					draft.currentCompareText.splice(currentCompare_index, 1, {
+						uuid: action.data.uuid,
+						text: action.data.text,
+						name: action.data.name,
+					});
+				} else {
+					draft.currentCompareText.push({
+						uuid: action.data.uuid,
+						text: action.data.text,
+						name: action.data.name,
+					});
+				}
+				break;
+
 			case SFTP_SAVE_CURRENT_MODE:
 				currentMode_index = draft.currentMode.findIndex(
 					(item) => item.uuid === action.data.uuid,

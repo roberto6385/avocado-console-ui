@@ -31,12 +31,7 @@ const Edit = ({index, socket}) => {
 				<EditNav index={index} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
-				<EditContents
-					id={`sftp ${String(index)}`}
-					index={index}
-					ws={socket.ws}
-					uuid={socket.uuid}
-				/>
+				<EditContents index={index} ws={socket.ws} uuid={socket.uuid} />
 			</SFTPBody>
 		</FlexBox>
 	);

@@ -1,6 +1,8 @@
 import SFTP from '../../../dist/sftp_pb';
 
-export const sendCommandByRm = (ws, uuid, path) => {
+export const sendCommandByRm = (ws, uuid, path, type) => {
+	console.log('run sendCommandByRm');
+
 	console.log(path);
 	// eslint-disable-next-line no-undef
 	return new Promise((resolve) => {
@@ -13,10 +15,14 @@ export const sendCommandByRm = (ws, uuid, path) => {
 		var msgReqObj = new SFTP.MessageRequest();
 		msgReqObj.setUuid(uuid);
 
-		var cmdObj = new SFTP.CommandByRm();
+		var cmdObj =
+			type === 'file'
+				? new SFTP.CommandByRm()
+				: new SFTP.CommandByRmdir();
 		cmdObj.setPath(path);
 
-		msgReqObj.setRm(cmdObj);
+		type === 'file' ? msgReqObj.setRm(cmdObj) : msgReqObj.setRmdir(cmdObj);
+
 		reqObj.setBody(msgReqObj.serializeBinary());
 		msgObj.setBody(reqObj.serializeBinary());
 
@@ -36,7 +42,7 @@ export const sendCommandByRm = (ws, uuid, path) => {
 							response.getBody(),
 						);
 						console.log(msgObj.getStatus());
-						console.log(msgObj.getResult());
+
 						resolve();
 						// msgObj.getResult().trim() !== '' &&
 						// msgObj.getStatus() !== 'progress' &&
