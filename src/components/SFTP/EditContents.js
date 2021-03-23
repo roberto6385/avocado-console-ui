@@ -9,6 +9,7 @@ const TextAreaWrapper = styled.div`
 	background: black;
 	background-size: 100% 32px;
 	background-position: left 10px;
+	width: 100%;
 	textarea {
 		color: white;
 		background: url(http://i.imgur.com/2cOaJ.png);
