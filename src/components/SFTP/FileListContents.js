@@ -8,7 +8,6 @@ import {
 	useContextMenu,
 } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import BTable from 'react-bootstrap/Table';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import styled from 'styled-components';
@@ -20,6 +19,7 @@ import {
 	SFTP_SAVE_CURRENT_MODE,
 } from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
+import BTable from 'react-bootstrap/Table';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -152,6 +152,7 @@ const FileListContents = ({index, ws, uuid}) => {
 			const tempB = highlightItem?.list.includes(item)
 				? temp
 				: temp.concat(item);
+
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: tempB},
@@ -174,6 +175,7 @@ const FileListContents = ({index, ws, uuid}) => {
 				} else {
 					dispatch({
 						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+
 						data: {uuid, list: [item]},
 					});
 				}
@@ -356,6 +358,7 @@ const FileListContents = ({index, ws, uuid}) => {
 					Edit
 				</Item>
 				<Separator />
+
 				<Item id='New Folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
@@ -381,6 +384,7 @@ const FileListContents = ({index, ws, uuid}) => {
 					Delete
 				</Item>
 			</Menu>
+
 			<ConfirmPopup
 				keyword={keyword}
 				open={open}

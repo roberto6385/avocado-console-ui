@@ -39,6 +39,11 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 			console.log('Connection Error');
 		};
 
+		ws.onclose = () => {
+			console.log('이거는 잘못 닫음 실행되는건가욤??');
+			ws.send(Close(uuid));
+		};
+
 		ws.onmessage = (e) => {
 			const result = GetMessage(e);
 			switch (result.type) {

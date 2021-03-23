@@ -37,3 +37,12 @@ body {
 	max-height: 100%;
 	overflow: hidden;
 }
+
+.add-server-form-row {
+	margin-bottom: 16px;
+}
+
+.add-server-button {
+	width: 100px;
+	border: none;
+}

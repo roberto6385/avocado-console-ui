@@ -30,6 +30,7 @@ const FileListNav = ({index, ws, uuid}) => {
 
 	const goHome = () => {
 		sendCommandByCd(ws, uuid, '/home', dispatch);
+
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},

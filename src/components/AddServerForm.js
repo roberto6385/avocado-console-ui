@@ -6,16 +6,25 @@ import {FaTimes} from 'react-icons/all';
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
-import styled from 'styled-components';
 
 import {Close, Connect, GetMessage} from '../dist/SSHTWs';
+import styled from 'styled-components';
 
-const FormRow = styled(Form.Row)`
-	margin-bottom: 16px;
+const SaveButton = styled(Button)`
+	background-color: ${MAIN_COLOR};
+	&:hover {
+		filter: brightness(85%);
+		background-color: ${MAIN_COLOR};
+	}
 `;
 
-const FormGroup = styled(Form.Group)`
-	margin-bottom: 16px;
+const CancelButton = styled(Button)`
+	margin-right: 20px;
+	background-color: ${SUB_COLOR};
+	&:hover {
+		filter: brightness(85%);
+		background-color: ${SUB_COLOR};
+	}
 `;
 
 const AddServerForm = () => {
@@ -28,14 +37,13 @@ const AddServerForm = () => {
 	const [user, onChangeUser, setUser] = useInput('');
 	// const [authentication, onChangeAuthentication] = useInput("Password");
 	const [password, onChangePassword, setPassword] = useInput('');
-	// const [note, onChangeNote] = useInput("");s
+	// const [note, onChangeNote] = useInput("");
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
 			const ws = new WebSocket('ws://' + host + ':8080/ws/ssh/protobuf');
-
 			ws.binaryType = 'arraybuffer';
 
 			ws.onopen = () => {
@@ -71,7 +79,7 @@ const AddServerForm = () => {
 						).style.display = 'none';
 						break;
 					default:
-						console.log('도달하면 안되는 공간: AddServerForm');
+						console.log('무시합시다: AddServerForm');
 						break;
 				}
 			};
@@ -98,7 +106,7 @@ const AddServerForm = () => {
 			</Card.Header>
 			<Card.Body>
 				<Form onSubmit={onSubmitForm}>
-					<FormRow>
+					<Form.Row className={'add-server-form-row'}>
 						<Form.Label column xs={2}>
 							Name
 						</Form.Label>
@@ -126,9 +134,9 @@ const AddServerForm = () => {
 								<option value='protocol2'>protocol2</option>
 							</Form.Control>
 						</Col>
-					</FormRow>
+					</Form.Row>
 
-					<FormRow>
+					<Form.Row className={'add-server-form-row'}>
 						<Form.Label column sm={2}>
 							Address
 						</Form.Label>
@@ -154,9 +162,9 @@ const AddServerForm = () => {
 								required
 							/>
 						</Col>
-					</FormRow>
+					</Form.Row>
 
-					<FormRow>
+					<Form.Row className={'add-server-form-row'}>
 						<Form.Label column sm={2}>
 							Username
 						</Form.Label>
@@ -184,8 +192,8 @@ const AddServerForm = () => {
 								<option>Key file</option>
 							</Form.Control>
 						</Col>
-					</FormRow>
-					<FormGroup>
+					</Form.Row>
+					<Form.Group className={'add-server-form-row'}>
 						<Form.Label>Password</Form.Label>
 						<Form.Control
 							onChange={onChangePassword}
@@ -194,9 +202,9 @@ const AddServerForm = () => {
 							placeholder='Login Password'
 							required
 						/>
-					</FormGroup>
+					</Form.Group>
 
-					<FormGroup>
+					<Form.Group className={'add-server-form-row'}>
 						<Form.Label>Note</Form.Label>
 						<Form.Control
 							// onChange={onChangeNote}
@@ -204,38 +212,25 @@ const AddServerForm = () => {
 							type='text'
 							placeholder='Note'
 						/>
-					</FormGroup>
+					</Form.Group>
 					<div
 						style={{
 							display: 'flex',
 							justifyContent: 'center',
 						}}
 					>
-						<Button
+						<CancelButton
 							className={'add-server-button'}
-							variant='primary'
-							style={{
-								width: '100px',
-								marginRight: '20px',
-								backgroundColor: SUB_COLOR,
-								border: 'none',
-							}}
 							onClick={onClickCloseForm}
 						>
 							Cancel
-						</Button>
-						<Button
+						</CancelButton>
+						<SaveButton
 							className={'add-server-button'}
-							variant='primary'
 							type='submit'
-							style={{
-								width: '100px',
-								backgroundColor: MAIN_COLOR,
-								border: 'none',
-							}}
 						>
 							Save
-						</Button>
+						</SaveButton>
 					</div>
 				</Form>
 			</Card.Body>

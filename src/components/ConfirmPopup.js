@@ -1,19 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {Button, Card, Form, Modal} from 'react-bootstrap';
-import {FaTimes} from 'react-icons/all';
-import * as PropTypes from 'prop-types';
-import {sendCommandByRm} from './SFTP/commands/sendCommandRm';
 import {sendCommandByLs} from './SFTP/commands/sendCommandLs';
+import {PropTypes} from 'prop-types';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
 } from '../reducers/sftp';
-import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByRename} from './SFTP/commands/sendCommandRename';
 import {sendCommandByMkdir} from './SFTP/commands/sendCommandMkdir';
+import {useDispatch, useSelector} from 'react-redux';
+import {sendCommandByRm} from './SFTP/commands/sendCommandRm';
 import {sendCommandByPut} from './SFTP/commands/sendCommandPut';
 import {sendCommandByGet} from './SFTP/commands/sendCommandGet';
+import {FaTimes} from 'react-icons/all';
 
 const ModalFooter = styled.div`
 	flex: 1;
@@ -56,15 +56,18 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const formKeywords = ['Rename', 'New Folder'];
 
 	// console.log(highlightItem?.list);
+
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(
 				ws,
 				uuid,
+
 				curPath?.path + '/' + key.fileName,
 				key.fileType,
 			);
 			await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
+
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: []},
@@ -80,7 +83,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 			path + highlightItem?.list[0].fileName,
 			path + formValue,
 		);
+
 		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
+
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
@@ -91,6 +96,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
 		await sendCommandByMkdir(ws, uuid, path + formValue);
 		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
+
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
@@ -144,6 +150,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		keyword === 'Delete' && contextDelete();
 		keyword === 'Rename' && contextRename();
 		keyword === 'New Folder' && contextNewFolder();
+
 		keyword === 'Changes' && existChanges();
 		handleClose();
 	};
@@ -170,9 +177,11 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				{keyword === 'Delete' && (
 					<p>선택하신 파일을 삭제하시겠습니까?</p>
 				)}
+
 				{keyword === 'Changes' && (
 					<p>변경사항이 있습니다. 저장하시겠습니까?</p>
 				)}
+
 				{formKeywords.includes(keyword) && (
 					<Form action=''>
 						<Form.Control

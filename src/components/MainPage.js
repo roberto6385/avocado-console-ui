@@ -19,7 +19,6 @@ const Background = styled.div`
 const AddServerButton = styled.button`
 	background-color: ${MAIN_COLOR};
 	&:hover {
-		background-color: ${MAIN_COLOR};
 		filter: brightness(85%);
 	}
 	padding: 10px 40px;
