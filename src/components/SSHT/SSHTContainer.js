@@ -1,10 +1,10 @@
 import React, {useCallback, useRef, useState, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Card} from 'react-bootstrap';
 import {FaExpand} from 'react-icons/all';
-
 import styled from 'styled-components';
+
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {NAV_HEIGHT} from '../../styles/global';
@@ -12,6 +12,7 @@ import {NAV_HEIGHT} from '../../styles/global';
 const SSHTContainer = styled.div`
 	flex: 1;
 	display: flex;
+	align-items: stretch;
 	flex-direction: column;
 	.card-header {
 		height: ${NAV_HEIGHT};
@@ -25,33 +26,50 @@ const SSHTBody = styled(Card.Body)`
 `;
 
 const SSHContainer = ({index, display, server_id, socket}) => {
-	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
 	const [height, setHeight] = useState(0);
 	const [width, setWidth] = useState(0);
-	const ref = useRef(null);
+	const sshtBody = useRef(null);
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('ssht_' + String(index)).requestFullscreen();
 	}, [index]);
 
+	const setSize = useCallback((h, w) => {
+		if (Number.isInteger(h) && Number.isInteger(w)) {
+			setHeight(h);
+			setWidth(w);
+		}
+	}, []);
+
 	useEffect(() => {
-		if (display) {
-			setHeight(ref.current.clientHeight);
-			setWidth(ref.current.clientWidth);
+		if (display && sshtBody) {
+			setSize(
+				sshtBody.current.clientHeight,
+				sshtBody.current.clientWidth,
+			);
 		} else {
-			setHeight(0);
-			setWidth(0);
+			setSize(0, 0);
 		}
 	});
 
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			if (display && sshtBody)
+				setSize(
+					sshtBody.current.clientHeight,
+					sshtBody.current.clientWidth,
+				);
+		});
+	}, []);
+
 	return (
-		<SSHTContainer>
+		<SSHTContainer className={'fix-height'}>
 			<Card.Header>
 				<FaExpand onClick={onCLickFullScreen} />
 				<ConvertSFTP data={server.find((x) => x.id === server_id)} />
 			</Card.Header>
-			<SSHTBody ref={ref}>
+			<SSHTBody ref={sshtBody}>
 				<SSHT
 					id={`ssht_${String(index)}`}
 					index={index}

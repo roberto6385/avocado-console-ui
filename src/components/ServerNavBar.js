@@ -2,12 +2,12 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import {Nav} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {FaServer} from 'react-icons/all';
+import styled from 'styled-components';
 
 import {CLOSE_TAB, OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import SSH from '../dist/ssh_pb';
-import {FaServer} from 'react-icons/all';
-import styled from 'styled-components';
 import {HIGHLIGHT_COLOR} from '../styles/global';
 
 const FaServerIcon = styled(FaServer)`

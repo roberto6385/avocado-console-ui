@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
+
 import background from '../images/bg_3.png';
 import {MAIN_COLOR, WHITE_COLOR} from '../styles/global';
 

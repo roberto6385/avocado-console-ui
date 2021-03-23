@@ -20,7 +20,7 @@ const RC_Col = styled(Col)`
 
 const RightContainer = () => {
 	return (
-		<RC_Col xs={10}>
+		<RC_Col className={'fix-height'} xs={10}>
 			<TabNavBar />
 			<WorkSpace />
 			<BotttomBar />
