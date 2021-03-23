@@ -5,7 +5,8 @@ import SFTP from '../../dist/sftp_pb';
 import {OPEN_TAB} from '../../reducers/common';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import {sendConnect} from './commands';
+import {sendConnect} from './commands/sendConnect';
+// import {sendConnect} from './commands';
 
 const ConvertButton = styled.button`
 	background: transparent;
@@ -21,9 +22,9 @@ const ConvertIcon = styled(BiTransferAlt)`
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 
-	const connection = () => {
-		const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-		sendConnect(ws, data, dispatch);
+
+	const connection = async () => {
+		await sendConnect( data, dispatch);
 	};
 
 	return (

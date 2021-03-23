@@ -8,6 +8,11 @@ import {
 	MdDelete,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {sendCommandByPut} from './commands/sendCommandPut';
+import {sendCommandByPwd} from './commands/sendCommandPwd';
+import {sendCommandByLs} from './commands/sendCommandLs';
+import {listConversion} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -17,8 +22,11 @@ const NavItem = styled.button`
 	line-height: 0;
 `;
 const HistoryNav = ({index, ws, uuid}) => {
-	const fileUpload = (e) => {
-		e.preventDefault();
+	const {currentPath} = useSelector((state) => state.sftp);
+	const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const dispatch = useDispatch();
+
+	const upload = () => {
 		const uploadInput = document.createElement('input');
 		document.body.appendChild(uploadInput);
 		uploadInput.setAttribute('type', 'file');
@@ -26,17 +34,22 @@ const HistoryNav = ({index, ws, uuid}) => {
 		uploadInput.setAttribute('style', 'display:none');
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
-			const files = e.target.files;
-			for await (const key of Object.keys(files)) {
-				console.log(files[key]);
-				// const newName = await sameFileCheck(files[key])
-				// 지금은 덮어쓰는 중!
-				// await commandPut(ws, uuid, fileObj?.path, files[key], dispatch)
+			const File = e.target.files;
+			for await (const key of Object.keys(File)) {
+				await sendCommandByPut(
+					'put',
+					File[key],
+					ws,
+					uuid,
+					pathItem?.path,
+					File[key].name,
+				);
 			}
-			// commandLs(ws, uuid, fileObj?.path, dispatch)
+			sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
 		};
 		document.body.removeChild(uploadInput);
 	};
+
 	const historyDelete = () => {};
 
 	return (
@@ -47,7 +60,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 			<NavItem>
 				<BsCheck />
 			</NavItem>
-			<NavItem id='btn-upload' onClick={fileUpload}>
+			<NavItem id='btn-upload' onClick={upload}>
 				<MdFileUpload />
 			</NavItem>
 			<NavItem>

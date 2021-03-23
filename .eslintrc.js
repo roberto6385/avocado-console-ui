@@ -4,6 +4,7 @@ module.exports = {
 	env: {
 		browser: true, // ex) document, setInterval, clearInterval
 		node: true,
+		es6: true,
 	},
 	plugins: ['react', 'prettier'], //jsx, prettier 활성화
 	rules: {
