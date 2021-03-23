@@ -1,12 +1,13 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Form, Button, Col, Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
-import {SAVE_SERVER} from '../reducers/common';
+import {OPEN_TAB, SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import styled from 'styled-components';
+import SSH from '../dist/ssh_pb';
 
 const FormRow = styled(Form.Row)`
 	margin-bottom: 16px;
@@ -26,11 +27,91 @@ const AddServerForm = () => {
 	const [user, onChangeUser, setUser] = useInput('');
 	// const [authentication, onChangeAuthentication] = useInput("Password");
 	const [password, onChangePassword, setPassword] = useInput('');
-	// const [note, onChangeNote] = useInput("");
+	// const [note, onChangeNote] = useInput("");s
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+
+			const ws = new WebSocket('ws://' + host + ':8080/ws/ssh/protobuf');
+
+			ws.binaryType = 'arraybuffer';
+
+			ws.onopen = () => {
+				// on connecting, do nothing but log it to the console
+				console.log('SSH connected');
+
+				const msgObj = new SSH.Message();
+				msgObj.setType(SSH.Message.Types.REQUEST);
+
+				const reqObj = new SSH.Request();
+				reqObj.setType(SSH.Request.Types.CONNECT);
+
+				const conObj = new SSH.ConnectRequest();
+				conObj.setHost(host);
+				conObj.setUser(user);
+				conObj.setPassword(password);
+				conObj.setPort(port);
+
+				reqObj.setBody(conObj.serializeBinary());
+				msgObj.setBody(reqObj.serializeBinary());
+
+				ws.send(msgObj.serializeBinary());
+			};
+
+			ws.onerror = () => {
+				console.log('Connection Error');
+
+			};
+
+			ws.onmessage = (evt) => {
+				const message = SSH.Message.deserializeBinary(evt.data);
+
+				if (message.getType() === SSH.Message.Types.RESPONSE) {
+					const response = SSH.Response.deserializeBinary(
+						message.getBody(),
+					);
+
+					if (response.getType() === SSH.Response.Types.CONNECT) {
+						const conObj = SSH.ConnectResponse.deserializeBinary(
+							response.getBody(),
+						);
+
+						if (conObj.getStatus() === 'connected') {
+							const data = {
+								name: name,
+								host: host,
+								user: user,
+								password: password,
+								port: port,
+							};
+
+							dispatch({
+								type: SAVE_SERVER,
+								data: data,
+							});
+
+							const msgObj = new SSH.Message();
+							msgObj.setType(SSH.Message.Types.REQUEST);
+
+							const reqObj = new SSH.Request();
+							reqObj.setType(SSH.Request.Types.DISCONNECT);
+
+							const disObj = new SSH.DisconnectRequest();
+							disObj.setUuid(conObj.getUuid());
+
+							reqObj.setBody(disObj.serializeBinary());
+							msgObj.setBody(reqObj.serializeBinary());
+
+							ws.send(msgObj.serializeBinary());
+						}
+					}
+					if (response.getType() === SSH.Response.Types.DISCONNECT) {
+						console.log('DISCONNECTED');
+					}
+				}
+			};
+
 			// const data = {
 			// 	name: name,
 			// 	host: host,

@@ -3,20 +3,27 @@ import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
+
 import SSH from '../../dist/ssh_pb';
 import {CLOSE_TAB} from '../../reducers/common';
+
+const SSHTerminal = styled.div`
+	height: 100%;
+	width: 100%;
+	max-height: 100%;
+	max-width: 100%;
+`;
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const {font_size} = useSelector((state) => state.ssht);
-	// const {cols, tab} = useSelector((state) => state.common);
 
 	const sshTerm = useRef(
 		new Terminal({
 			cursorBlink: true,
 			minimumContrastRatio: 7,
 			theme: {selection: '#FCFD08'},
-			rows: 10,
 		}),
 	);
 	const fitAddon = useRef(new FitAddon());
@@ -33,7 +40,7 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		};
 
 		ws.onclose = () => {
-			console.log('Client Closed Not Sure');
+			console.log('Client Closed');
 			const msgObj = new SSH.Message();
 			msgObj.setType(SSH.Message.Types.REQUEST);
 
@@ -115,46 +122,32 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 	useEffect(() => {
 		sshTerm.current.setOption('fontSize', font_size);
-		fitAddon.current.fit();
-	}, [font_size]);
 
-	// useEffect(() => {
-	// 	if (display) {
-	// 		const row = Math.floor(
-	// 			height /
-	// 				sshTerm.current._core._renderService._renderer.dimensions
-	// 					.actualCellHeight,
-	// 		);
-	// 		const col = sshTerm.current.cols;
-	//
-	// 		console.log(width, height);
-	// 		console.log(col, row);
-	//
-	// 		sshTerm.current.resize(col, row);
-	// 		fitAddon.current.fit();
-	//
-	// 		const msgObj = new SSH.Message();
-	// 		msgObj.setType(SSH.Message.Types.REQUEST);
-	//
-	// 		const reqObj = new SSH.Request();
-	// 		reqObj.setType(SSH.Request.Types.WINDOWCHANGE);
-	//
-	// 		const winObj = new SSH.WindowChangeRequest();
-	// 		winObj.setUuid(uuid);
-	// 		winObj.setCols(col);
-	// 		winObj.setRows(row);
-	// 		winObj.setWidth(width);
-	// 		winObj.setHeight(height);
-	//
-	// 		reqObj.setBody(winObj.serializeBinary());
-	//
-	// 		msgObj.setBody(reqObj.serializeBinary());
-	//
-	// 		ws.send(msgObj.serializeBinary());
-	// 	}
-	// }, [height, width]);
+		if (display) {
+			fitAddon.current.fit();
 
-	return <div id={`terminal_${String(index)}`} />;
+			const msgObj = new SSH.Message();
+			msgObj.setType(SSH.Message.Types.REQUEST);
+
+			const reqObj = new SSH.Request();
+			reqObj.setType(SSH.Request.Types.WINDOWCHANGE);
+
+			const winObj = new SSH.WindowChangeRequest();
+			winObj.setUuid(uuid);
+			winObj.setCols(sshTerm.current.cols);
+			winObj.setRows(sshTerm.current.rows);
+			winObj.setWidth(width);
+			winObj.setHeight(height);
+
+			reqObj.setBody(winObj.serializeBinary());
+
+			msgObj.setBody(reqObj.serializeBinary());
+
+			ws.send(msgObj.serializeBinary());
+		}
+	}, [font_size, height, width]);
+
+	return <SSHTerminal id={`terminal_${String(index)}`} />;
 };
 
 SSHT.propTypes = {
