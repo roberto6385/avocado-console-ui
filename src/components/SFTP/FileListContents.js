@@ -21,6 +21,7 @@ import {
 } from '../../reducers/sftp';
 import {sendCommandByRm} from './commands/sendCommandRm';
 import {sendCommandByLs} from './commands/sendCommandLs';
+import ConfirmPopup from '../ConfirmPopup';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -83,6 +84,8 @@ const FileListContents = ({index, ws, uuid}) => {
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [keyword, setKeyword] = useState('');
 
 	const MENU_ID = uuid;
 	const {show} = useContextMenu({
@@ -111,51 +114,28 @@ const FileListContents = ({index, ws, uuid}) => {
 		});
 	};
 
-	const contextDelete = async () => {
-		for await (const key of highlightItem?.list) {
-			await sendCommandByRm(
-				ws,
-				uuid,
-				pathItem?.path + '/' + key.fileName,
-			);
-		}
-		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
-		});
+	const contextEdit = (e) => {
+		const item = highlightItem?.list[0];
+		toEditMode(e, item);
 	};
 
 	function handleItemClick({event}) {
-		// setModalName(event.currentTarget.id);
+		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
-				contextDownload();
+				contextDownload().then();
 				break;
 			case 'Edit':
-				// editFile(ws, uuid, fileObj?.path, selFile[0].fileName, dispatch);
+				contextEdit(event);
 				break;
 			case 'New Folder':
-				// setPlaceHolder("Untitled folder");
-				// setFileName("");
-				// handleOpen();
+				setOpen(true);
 				break;
 			case 'Rename':
-				// setPlaceHolder("Please enter a name to change");
-				// 원래 파일타입으로 구분해서 보내줬는데, 확장명 없는 파일 때문에 임시적으로 확장명까지 전체송신
-				// if (selFile[0].fileType === 'file') {
-				//     const fileExt = selFile[0].fileName.split('.')
-				//     fileExt.pop()
-				//     // const Extension = fileExt[fileExt.length - 1].trim()
-				//     setFileName(fileExt.join('.'))
-				// } else {
-				//     setFileName(selFile[0].fileName)
-				// }
-				// setFileName(selFile[0].fileName);
-				// handleOpen();
+				setOpen(true);
 				break;
 			case 'Delete':
-				contextDelete();
+				setOpen(true);
 				break;
 			default:
 				return;
@@ -355,35 +335,48 @@ const FileListContents = ({index, ws, uuid}) => {
 					Download
 				</Item>
 				<Item
-					disabled={highlightItem?.list.length !== 1}
-					// id="Edit"
-					// onClick={handleItemClick}
+					disabled={
+						highlightItem?.list.length !== 1 ||
+						highlightItem?.list[0].fileType === 'directory'
+					}
+					id='Edit'
+					onClick={handleItemClick}
 				>
 					Edit
 				</Item>
 				<Separator />
-				<Item
-					id={'New Folder'}
-					// onClick={handleItemClick}
-				>
+				<Item id='New Folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item
-					disabled={highlightItem?.list.length !== 1}
-					// id='Rename'
-					// onClick={handleItemClick}
+					disabled={
+						highlightItem?.list.length !== 1 ||
+						highlightItem?.list[0].fileType === 'directory'
+					}
+					id='Rename'
+					onClick={handleItemClick}
 				>
 					Rename
 				</Item>
 				<Separator />
 				<Item
-					disabled={highlightItem?.list.length === 0}
+					disabled={
+						highlightItem?.list.length === 0 ||
+						highlightItem?.list[0].fileType === 'directory'
+					}
 					id='Delete'
 					onClick={handleItemClick}
 				>
 					Delete
 				</Item>
 			</Menu>
+			<ConfirmPopup
+				keyword={keyword}
+				open={open}
+				setOpen={setOpen}
+				ws={ws}
+				uuid={uuid}
+			/>
 		</>
 	);
 };
