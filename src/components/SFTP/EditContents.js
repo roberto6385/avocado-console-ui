@@ -35,8 +35,6 @@ const EditContents = ({index, ws, uuid}) => {
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const [editText, setEditText] = useState(curText?.text);
 
-	console.log(curText);
-
 	const writeText = (e) => {
 		const {value} = e.target;
 		setEditText(value);

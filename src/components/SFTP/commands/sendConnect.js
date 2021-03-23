@@ -1,7 +1,8 @@
 import SFTP from '../../../dist/sftp_pb';
 import {OPEN_TAB} from '../../../reducers/common';
 
-export const sendConnect = (ws, data, dispatch) => {
+export const sendConnect = (data, dispatch) => {
+	const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
 	console.log('run sendConnect');
 
 	var msgObj = new SFTP.Message();
@@ -22,8 +23,9 @@ export const sendConnect = (ws, data, dispatch) => {
 
 	// console.log('send proto buffer', msgObj);
 	// console.log('send proto buffer binary', msgObj.serializeBinary());
-
-	ws.send(msgObj.serializeBinary());
+	ws.onopen = () => {
+		ws.send(msgObj.serializeBinary());
+	};
 
 	ws.binaryType = 'arraybuffer';
 	ws.onmessage = (evt) => {

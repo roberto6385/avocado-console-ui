@@ -116,6 +116,7 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const contextEdit = (e) => {
 		const item = highlightItem?.list[0];
+		console.log(item);
 		toEditMode(e, item);
 	};
 
@@ -156,6 +157,10 @@ const FileListContents = ({index, ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				sendCommandByCd(ws, uuid, item.fileName, dispatch);
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: []},
+				});
 			} else {
 				//파일 클릭시 하이라이팅!
 				if (highlightItem?.list.includes(item)) {
@@ -204,13 +209,11 @@ const FileListContents = ({index, ws, uuid}) => {
 				data: {uuid, mode: 'edit'},
 			});
 		}
-		// 여기서 아이템의 텍스트를 reducer 에 저장한다!
 	};
 
 	const contextMenuOpen = (e, item = '') => {
 		e.preventDefault();
 		// e.stopPropagation();
-
 		displayMenu(e);
 		if (
 			highlightItem?.list.length < 2 ||

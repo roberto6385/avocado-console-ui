@@ -22,10 +22,8 @@ const ConvertIcon = styled(BiTransferAlt)`
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 
-	const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-
 	const connection = async () => {
-		await sendConnect(ws, data, dispatch);
+		await sendConnect(data, dispatch);
 	};
 
 	return (
