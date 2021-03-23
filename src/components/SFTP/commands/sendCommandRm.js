@@ -14,6 +14,7 @@ export const sendCommandByRm = (ws, uuid, path, type) => {
 
 		var msgReqObj = new SFTP.MessageRequest();
 		msgReqObj.setUuid(uuid);
+
 		var cmdObj =
 			type === 'file'
 				? new SFTP.CommandByRm()
@@ -21,6 +22,7 @@ export const sendCommandByRm = (ws, uuid, path, type) => {
 		cmdObj.setPath(path);
 
 		type === 'file' ? msgReqObj.setRm(cmdObj) : msgReqObj.setRmdir(cmdObj);
+
 		reqObj.setBody(msgReqObj.serializeBinary());
 		msgObj.setBody(reqObj.serializeBinary());
 
@@ -40,6 +42,7 @@ export const sendCommandByRm = (ws, uuid, path, type) => {
 							response.getBody(),
 						);
 						console.log(msgObj.getStatus());
+
 						resolve();
 						// msgObj.getResult().trim() !== '' &&
 						// msgObj.getStatus() !== 'progress' &&

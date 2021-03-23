@@ -23,6 +23,7 @@ export const sendConnect = (data, dispatch) => {
 
 	// console.log('send proto buffer', msgObj);
 	// console.log('send proto buffer binary', msgObj.serializeBinary());
+
 	ws.onopen = () => {
 		ws.send(msgObj.serializeBinary());
 	};

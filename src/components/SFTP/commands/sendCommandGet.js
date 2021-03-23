@@ -1,5 +1,5 @@
 import SFTP from '../../../dist/sftp_pb';
-import {listConversion} from '../commands';
+
 import {
 	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_TEXT,
@@ -98,6 +98,7 @@ export const sendCommandByGet = (
 
 						if (fileObj.getLast() === true) {
 							const blob = new Blob([fileBuffer]);
+
 							// eslint-disable-next-line no-undef
 							fileBuffer = new ArrayBuffer(0);
 							if (command === 'edit') {
@@ -137,6 +138,7 @@ export const sendCommandByGet = (
 								a.click();
 								window.URL.revokeObjectURL(url);
 							}
+
 							resolve();
 
 							// this.setState({

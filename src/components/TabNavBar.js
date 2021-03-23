@@ -10,13 +10,9 @@ import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
-import SSH from '../dist/ssh_pb';
+
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import SFTP from '../dist/sftp_pb';
-import {
-	SFTP_DELETE_CURRENT_LIST,
-	SFTP_DELETE_CURRENT_PATH,
-} from '../reducers/sftp';
+import {Close} from '../dist/SSHTWs';
 
 const TabContainer = styled(Tab.Container)`
 	display: flex !important;
@@ -69,19 +65,7 @@ const TabNavBar = () => {
 			const {ws, uuid} = current_tab.socket;
 
 			if (type === 'SSHT') {
-				console.log('Client Closed on Nav Bar');
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-				const disObj = new SSH.DisconnectRequest();
-				disObj.setUuid(uuid);
-
-				reqObj.setBody(disObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-				ws.send(msgObj.serializeBinary());
+				ws.send(Close(uuid));
 			} else {
 				sendDisconnect(ws, uuid, tab_id, dispatch);
 			}

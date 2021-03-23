@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 import styled from 'styled-components';
 import FileList from './FileList';
 import History from './History';
-import SFTP from '../../dist/sftp_pb';
+
 import {sendCommandByPwd} from './commands/sendCommandPwd';
 import {useDispatch, useSelector} from 'react-redux';
 import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';

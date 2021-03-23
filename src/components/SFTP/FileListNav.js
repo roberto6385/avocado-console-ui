@@ -9,6 +9,7 @@ import {
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
+
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 
 const NavItem = styled.button`
@@ -30,6 +31,7 @@ const FileListNav = ({index, ws, uuid}) => {
 
 	const goHome = () => {
 		sendCommandByCd(ws, uuid, '/home', dispatch);
+
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},

@@ -10,9 +10,7 @@ import {
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByPut} from './commands/sendCommandPut';
-import {sendCommandByPwd} from './commands/sendCommandPwd';
 import {sendCommandByLs} from './commands/sendCommandLs';
-import {listConversion} from './commands';
 
 const NavItem = styled.button`
 	background: transparent;

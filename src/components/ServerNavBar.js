@@ -5,10 +5,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FaServer} from 'react-icons/all';
 import styled from 'styled-components';
 
-import {CLOSE_TAB, OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
+import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import SSH from '../dist/ssh_pb';
 import {HIGHLIGHT_COLOR} from '../styles/global';
+import {Connect, GetMessage} from '../dist/SSHTWs';
 
 const FaServerIcon = styled(FaServer)`
 	vertical-align: middle;
@@ -37,52 +38,33 @@ const ServerNavBar = ({search}) => {
 			ws.binaryType = 'arraybuffer';
 
 			ws.onopen = () => {
-				// on connecting, do nothing but log it to the console
-				console.log('SSH connected');
-
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.CONNECT);
-
-				const conObj = new SSH.ConnectRequest();
-				conObj.setHost(correspondedServer.host);
-				conObj.setUser(correspondedServer.user);
-				conObj.setPassword(correspondedServer.password);
-				conObj.setPort(correspondedServer.port);
-
-				reqObj.setBody(conObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
+				ws.send(
+					Connect(
+						correspondedServer.host,
+						correspondedServer.user,
+						correspondedServer.password,
+						correspondedServer.port,
+					),
+				);
 			};
 
-			ws.onmessage = (evt) => {
-				const message = SSH.Message.deserializeBinary(evt.data);
-
-				if (message.getType() === SSH.Message.Types.RESPONSE) {
-					const response = SSH.Response.deserializeBinary(
-						message.getBody(),
-					);
-
-					if (response.getType() === SSH.Response.Types.CONNECT) {
-						const conObj = SSH.ConnectResponse.deserializeBinary(
-							response.getBody(),
-						);
-
-						if (conObj.getStatus() === 'connected') {
-							dispatch({
-								type: OPEN_TAB,
-								data: {
-									id: id,
-									type: 'SSHT',
-									ws: ws,
-									uuid: conObj.getUuid(),
-								},
-							});
-						}
-					}
+			ws.onmessage = (e) => {
+				const result = GetMessage(e);
+				switch (result.type) {
+					case 'connected':
+						dispatch({
+							type: OPEN_TAB,
+							data: {
+								id: id,
+								type: 'SSHT',
+								ws: ws,
+								uuid: result.uuid,
+							},
+						});
+						break;
+					default:
+						console.log('도달하면 안되는 공간1');
+						break;
 				}
 			};
 		},

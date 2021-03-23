@@ -55,7 +55,7 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
-			if (display && sshtBody)
+			if (display && sshtBody && sshtBody.current)
 				setSize(
 					sshtBody.current?.clientHeight,
 					sshtBody.current?.clientWidth,

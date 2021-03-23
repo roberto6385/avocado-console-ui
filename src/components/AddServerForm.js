@@ -1,13 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {Form, Button, Col, Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
-import {OPEN_TAB, SAVE_SERVER} from '../reducers/common';
+import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import styled from 'styled-components';
-import SSH from '../dist/ssh_pb';
+
+import {Close, Connect, GetMessage} from '../dist/SSHTWs';
 
 const FormRow = styled(Form.Row)`
 	margin-bottom: 16px;
@@ -38,94 +39,42 @@ const AddServerForm = () => {
 			ws.binaryType = 'arraybuffer';
 
 			ws.onopen = () => {
-				// on connecting, do nothing but log it to the console
-				console.log('SSH connected');
-
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.CONNECT);
-
-				const conObj = new SSH.ConnectRequest();
-				conObj.setHost(host);
-				conObj.setUser(user);
-				conObj.setPassword(password);
-				conObj.setPort(port);
-
-				reqObj.setBody(conObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
+				ws.send(Connect(host, user, password, port));
 			};
 
-			ws.onerror = () => {
-				console.log('Connection Error');
-
+			ws.onerror = (e) => {
+				alert('입력한 소켓 정보가 잘못되었습니다. ');
+				document.getElementById('add-server-form').style.display =
+					'block';
 			};
 
-			ws.onmessage = (evt) => {
-				const message = SSH.Message.deserializeBinary(evt.data);
-
-				if (message.getType() === SSH.Message.Types.RESPONSE) {
-					const response = SSH.Response.deserializeBinary(
-						message.getBody(),
-					);
-
-					if (response.getType() === SSH.Response.Types.CONNECT) {
-						const conObj = SSH.ConnectResponse.deserializeBinary(
-							response.getBody(),
-						);
-
-						if (conObj.getStatus() === 'connected') {
-							const data = {
+			ws.onmessage = (e) => {
+				const result = GetMessage(e);
+				switch (result.type) {
+					case 'connected':
+						dispatch({
+							type: SAVE_SERVER,
+							data: {
 								name: name,
 								host: host,
 								user: user,
 								password: password,
 								port: port,
-							};
+							},
+						});
 
-							dispatch({
-								type: SAVE_SERVER,
-								data: data,
-							});
-
-							const msgObj = new SSH.Message();
-							msgObj.setType(SSH.Message.Types.REQUEST);
-
-							const reqObj = new SSH.Request();
-							reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-							const disObj = new SSH.DisconnectRequest();
-							disObj.setUuid(conObj.getUuid());
-
-							reqObj.setBody(disObj.serializeBinary());
-							msgObj.setBody(reqObj.serializeBinary());
-
-							ws.send(msgObj.serializeBinary());
-						}
-					}
-					if (response.getType() === SSH.Response.Types.DISCONNECT) {
-						console.log('DISCONNECTED');
-					}
+						ws.send(Close(result.uuid));
+						break;
+					case 'disconnected':
+						document.getElementById(
+							'add-server-form',
+						).style.display = 'none';
+						break;
+					default:
+						console.log('도달하면 안되는 공간: AddServerForm');
+						break;
 				}
 			};
-
-			// const data = {
-			// 	name: name,
-			// 	host: host,
-			// 	user: user,
-			// 	password: password,
-			// 	port: port,
-			// };
-			//
-			// dispatch({
-			// 	type: SAVE_SERVER,
-			// 	data: data,
-			// });
-
-			document.getElementById('add-server-form').style.display = 'none';
 		},
 		[name, host, user, password, port, dispatch],
 	);

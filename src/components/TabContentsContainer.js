@@ -9,15 +9,10 @@ import {FaTimes} from 'react-icons/all';
 import SSHTContainer from './SSHT/SSHTContainer';
 import styled from 'styled-components';
 import {SECOND_NAV_HEIGHT} from '../styles/global';
-import SSH from '../dist/ssh_pb';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
+import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import SFTP from '../dist/sftp_pb';
-import {
-	SFTP_DELETE_CURRENT_LIST,
-	SFTP_DELETE_CURRENT_PATH,
-} from '../reducers/sftp';
+import {Close} from '../dist/SSHTWs';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
@@ -43,20 +38,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const onClickDelete = useCallback(
 		() => () => {
 			if (type === 'SSHT') {
-				console.log('Client Closed on Contents Container');
-				const msgObj = new SSH.Message();
-				msgObj.setType(SSH.Message.Types.REQUEST);
-
-				const reqObj = new SSH.Request();
-				reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-				const disObj = new SSH.DisconnectRequest();
-				disObj.setUuid(uuid);
-
-				reqObj.setBody(disObj.serializeBinary());
-				msgObj.setBody(reqObj.serializeBinary());
-
-				ws.send(msgObj.serializeBinary());
+				ws.send(Close(uuid));
 			} else {
 				sendDisconnect(ws, uuid, index, dispatch);
 			}

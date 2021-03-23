@@ -5,8 +5,8 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import SSH from '../../dist/ssh_pb';
 import {CLOSE_TAB} from '../../reducers/common';
+import {Close, GetMessage, SendMessage, Resize} from '../../dist/SSHTWs';
 
 const SSHTerminal = styled.div`
 	height: 100%;
@@ -39,83 +39,29 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 			console.log('Connection Error');
 		};
 
-		ws.onclose = () => {
-			console.log('Client Closed');
-			const msgObj = new SSH.Message();
-			msgObj.setType(SSH.Message.Types.REQUEST);
-
-			const reqObj = new SSH.Request();
-			reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-			const disObj = new SSH.DisconnectRequest();
-			disObj.setUuid(uuid);
-
-			reqObj.setBody(disObj.serializeBinary());
-			msgObj.setBody(reqObj.serializeBinary());
-
-			ws.send(msgObj.serializeBinary());
-		};
-
 		ws.onmessage = (e) => {
-			const message = SSH.Message.deserializeBinary(e.data);
-
-			if (message.getType() === SSH.Message.Types.RESPONSE) {
-				const response = SSH.Response.deserializeBinary(
-					message.getBody(),
-				);
-
-				if (response.getType() === SSH.Response.Types.MESSAGE) {
-					const msgObj = SSH.MessageResponse.deserializeBinary(
-						response.getBody(),
-					);
-					sshTerm.current.write(msgObj.getResult());
-				} else if (
-					response.getType() === SSH.Response.Types.DISCONNECT
-				) {
-					const conObj = SSH.DisconnectResponse.deserializeBinary(
-						response.getBody(),
-					);
-
-					if (conObj.getStatus() === 'disconnected')
-						dispatch({type: CLOSE_TAB, data: index});
-				} else {
-					console.log('여기 올까요?');
-				}
+			const result = GetMessage(e);
+			switch (result.type) {
+				case 'disconnected':
+					dispatch({type: CLOSE_TAB, data: index});
+					break;
+				case 'message':
+					sshTerm.current.write(result.result);
+					break;
+				default:
+					console.log('도달하면 안되는 공간2');
+					break;
 			}
 		};
 
 		sshTerm.current.onData(function (data) {
-			const msgObj = new SSH.Message();
-			msgObj.setType(SSH.Message.Types.REQUEST);
-
-			const reqObj = new SSH.Request();
-			reqObj.setType(SSH.Request.Types.MESSAGE);
-
-			const msgReqObj = new SSH.MessageRequest();
-			msgReqObj.setUuid(uuid);
-			msgReqObj.setMessage(data);
-
-			reqObj.setBody(msgReqObj.serializeBinary());
-			msgObj.setBody(reqObj.serializeBinary());
-
-			ws.send(msgObj.serializeBinary());
+			ws.send(SendMessage(uuid, data));
 		});
 
 		return () => {
-			console.log('Client Closed Terminal');
-			const msgObj = new SSH.Message();
-			msgObj.setType(SSH.Message.Types.REQUEST);
-
-			const reqObj = new SSH.Request();
-			reqObj.setType(SSH.Request.Types.DISCONNECT);
-
-			const disObj = new SSH.DisconnectRequest();
-			disObj.setUuid(uuid);
-
-			reqObj.setBody(disObj.serializeBinary());
-			msgObj.setBody(reqObj.serializeBinary());
-
-			ws.send(msgObj.serializeBinary());
+			if (ws.readyState !== 3) {
+				ws.send(Close(uuid));
+			}
 			sshTerm.current.dispose();
 		};
 	}, [index, uuid, ws]);
@@ -126,24 +72,15 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		if (display) {
 			fitAddon.current.fit();
 
-			const msgObj = new SSH.Message();
-			msgObj.setType(SSH.Message.Types.REQUEST);
-
-			const reqObj = new SSH.Request();
-			reqObj.setType(SSH.Request.Types.WINDOWCHANGE);
-
-			const winObj = new SSH.WindowChangeRequest();
-			winObj.setUuid(uuid);
-			winObj.setCols(sshTerm.current.cols);
-			winObj.setRows(sshTerm.current.rows);
-			winObj.setWidth(width);
-			winObj.setHeight(height);
-
-			reqObj.setBody(winObj.serializeBinary());
-
-			msgObj.setBody(reqObj.serializeBinary());
-
-			ws.send(msgObj.serializeBinary());
+			ws.send(
+				Resize(
+					uuid,
+					sshTerm.current.cols,
+					sshTerm.current.rows,
+					width,
+					height,
+				),
+			);
 		}
 	}, [font_size, height, width]);
 
