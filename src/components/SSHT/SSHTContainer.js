@@ -17,6 +17,8 @@ const SSHTContainer = styled.div`
 	.card-header {
 		height: ${NAV_HEIGHT};
 		fontsize: 17px;
+		display: flex;
+		align-items: center;
 	}
 `;
 
