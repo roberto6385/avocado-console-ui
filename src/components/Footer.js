@@ -9,6 +9,7 @@ import {
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
 import {NAV_HEIGHT} from '../styles/global';
+import ConfirmPopup from './ConfirmPopup';
 
 const BottomBar = styled.div`
 	height: ${NAV_HEIGHT};

@@ -10,20 +10,15 @@ import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
 import styled from 'styled-components';
 
-const SaveButton = styled(Button)`
-	background-color: ${MAIN_COLOR};
+const PopupButton = styled(Button)`
+	width: 100px;
+	margin: 10px;
+	background-color: ${(props) => props.back};
+	border: none;
+	color: white;
 	&:hover {
 		filter: brightness(85%);
-		background-color: ${MAIN_COLOR};
-	}
-`;
-
-const CancelButton = styled(Button)`
-	margin-right: 20px;
-	background-color: ${SUB_COLOR};
-	&:hover {
-		filter: brightness(85%);
-		background-color: ${SUB_COLOR};
+		color: white;
 	}
 `;
 
@@ -219,18 +214,20 @@ const AddServerForm = () => {
 							justifyContent: 'center',
 						}}
 					>
-						<CancelButton
-							className={'add-server-button'}
+						<PopupButton
+							variant='default'
 							onClick={onClickCloseForm}
+							back={`${SUB_COLOR}`}
 						>
 							Cancel
-						</CancelButton>
-						<SaveButton
-							className={'add-server-button'}
+						</PopupButton>
+						<PopupButton
+							variant='default'
 							type='submit'
+							back={`${MAIN_COLOR}`}
 						>
 							Save
-						</SaveButton>
+						</PopupButton>
 					</div>
 				</Form>
 			</Card.Body>
