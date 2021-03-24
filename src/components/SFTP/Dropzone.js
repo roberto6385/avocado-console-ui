@@ -1,12 +1,6 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import styled from 'styled-components';
-
-const DropzoneBox = styled.div`
-	height: 100%;
-	overflow-y: scroll;
-	outline: none;
-`;
+import {DropzoneBox} from '../../styles/sftp';
 
 // eslint-disable-next-line react/prop-types
 const Dropzone = ({children, onDrop, accept}) => {

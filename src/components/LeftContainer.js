@@ -1,71 +1,15 @@
 import React, {useCallback, useState} from 'react';
-import {Col, Collapse, Form, FormControl, Nav} from 'react-bootstrap';
-import styled from 'styled-components';
-import {
-	HIGHLIGHT_COLOR,
-	MAIN_COLOR,
-	NAV_HEIGHT,
-	NAV_HEIGHT_SUM,
-	SECOND_NAV_HEIGHT,
-	WHITE_COLOR,
-} from '../styles/global';
-import ServerNavBar from './ServerNavBar';
+import {Collapse, Form, Nav} from 'react-bootstrap';
 import {FaPlus, FaRegTrashAlt, FaSearch} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-import {DELETE_SERVER} from '../reducers/common';
 import ConfirmPopup from './ConfirmPopup';
-
-const Header = styled(Nav)`
-	height: ${NAV_HEIGHT_SUM};
-	display: block;
-	.left_header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: ${NAV_HEIGHT};
-		background: ${MAIN_COLOR};
-		color: ${WHITE_COLOR};
-	}
-	.left_header_icons {
-		height: ${SECOND_NAV_HEIGHT};
-		background: ${WHITE_COLOR};
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		border: none;
-		border-bottom: solid;
-		border-width: 1px;
-		border-color: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-const ServerNavBarWrapper = styled(ServerNavBar)`
-	flex: 1;
-`;
-
-const RC_Col = styled(Col)`
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	padding: 0;
-`;
-
-const IconButton = styled.button`
-	background: transparent;
-	outline: none;
-	border: none;
-	&:hover {
-		color: ${MAIN_COLOR};
-	}
-`;
-
-const SearchForm = styled(FormControl)`
-	font-size: 12px;
-	border: none;
-	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
-	outline: none;
-	border: 'none';
-`;
+import {
+	Header,
+	IconButton,
+	RC_Col,
+	SearchForm,
+	ServerNavBarWrapper,
+} from '../styles/common';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();

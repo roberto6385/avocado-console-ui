@@ -1,28 +1,9 @@
 import React from 'react';
 import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
-import styled from 'styled-components';
-import {NAV_HEIGHT} from '../../styles/global';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
-
-const SFTPBody = styled(Card.Body)`
-	padding: 0px;
-	display: flex;
-	overflow: hidden;
-`;
-
-const FlexBox = styled.div`
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	.card-header {
-		display: flex;
-		align-items: center;
-		position: relative;
-		height: ${NAV_HEIGHT};
-	}
-`;
+import {FlexBox, SFTPBody} from '../../styles/sftp';
 
 const Edit = ({index, socket}) => {
 	return (

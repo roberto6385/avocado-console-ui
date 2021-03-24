@@ -4,7 +4,6 @@ import Dropzone from './Dropzone';
 import {sendCommandByPut} from './commands/sendCommandPut';
 import {sendCommandByLs} from './commands/sendCommandLs';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -15,50 +14,7 @@ import {
 import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR} from '../../styles/global';
 import {useContextMenu} from 'react-contexify';
 import HistoryContextMenu from './HistoryContextMenu';
-
-const CustomP = styled.p`
-	display: flex;
-	margin: 0px 4px;
-	padding: 4px;
-	align-items: center;
-	font-size: 14px;
-	text-align: left;
-`;
-const CustomUl = styled.ul`
-	margin: 0px;
-	padding: 0px;
-	display: flex;
-	overflow-y: scroll;
-	flex-direction: column;
-	white-space: nowrap;
-	flex: 1;
-
-	// 드래그 방지
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-
-	.history_list {
-	}
-	.history_list.active {
-		background: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-const CustomLi = styled.li`
-	display: flex;
-	flex-direction: column;
-	border-bottom: 1px solid ${GRAY_COLOR};
-`;
-
-const NoHistory = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-`;
+import {CustomLi, CustomP, CustomUl, NoHistory} from '../../styles/sftp';
 
 const HistoryContents = ({index, ws, uuid}) => {
 	const {currentPath, History} = useSelector((state) => state.sftp);

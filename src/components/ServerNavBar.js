@@ -2,24 +2,11 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import {Nav} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaServer} from 'react-icons/all';
-import styled from 'styled-components';
-
 import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import {HIGHLIGHT_COLOR} from '../styles/global';
 import {Connect, GetMessage} from '../dist/ssht_ws';
-
-const FaServerIcon = styled(FaServer)`
-	vertical-align: middle;
-	margin-right: 15px;
-	font-size: 25px;
-`;
-
-const Server_NavItem = styled(Nav.Item)`
-	padding: 15px;
-	background-color: ${(props) => props.back};
-`;
+import {FaServerIcon, Server_NavItem} from '../styles/common';
 
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();

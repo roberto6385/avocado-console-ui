@@ -13,20 +13,7 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
-
-const ContainerCardHeader = styled(Card.Header)`
-	padding: 7px 20px;
-	margin: 0;
-	height: ${SECOND_NAV_HEIGHT};
-	background: rgba(0, 0, 0, 0.03);
-`;
-
-const CardContainer = styled(Card)`
-	display: flex;
-	flex-direction: column;
-	height: ${(props) => props.h};
-	width: ${(props) => props.w};
-`;
+import {CardContainer, ContainerCardHeader} from '../styles/common';
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();

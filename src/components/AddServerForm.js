@@ -9,18 +9,7 @@ import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
 import styled from 'styled-components';
-
-const PopupButton = styled(Button)`
-	width: 100px;
-	margin: 10px;
-	background-color: ${(props) => props.back};
-	border: none;
-	color: white;
-	&:hover {
-		filter: brightness(85%);
-		color: white;
-	}
-`;
+import {PopupButton} from '../styles/common';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();

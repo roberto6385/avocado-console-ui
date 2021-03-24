@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import styled from 'styled-components';
 import FileList from './FileList';
 import History from './History';
 
@@ -8,13 +7,7 @@ import {sendCommandByPwd} from './commands/sendCommandPwd';
 import {useDispatch, useSelector} from 'react-redux';
 import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
 import Edit from './Edit';
-
-const SftpContainer = styled.div`
-	display: flex;
-	height: 100%;
-	// width: 100%;
-	overflow: scroll;
-`;
+import {SftpContainer} from '../../styles/sftp';
 
 const SFTPContainer = ({index, socket}) => {
 	const {ws, uuid} = socket;

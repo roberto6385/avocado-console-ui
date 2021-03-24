@@ -1,50 +1,16 @@
 import React, {useCallback, useState} from 'react';
-import {Nav, NavLink, Tab} from 'react-bootstrap';
+import {NavLink} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
-
 import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
-import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
-
-const TabContainer = styled(Tab.Container)`
-	display: flex !important;
-	height: ${NAV_HEIGHT};
-`;
-const TabNav = styled(Nav)`
-	height: ${NAV_HEIGHT};
-	flex: 1;
-	flex-wrap: nowrap;
-	overflow-x: scroll;
-`;
-
-const NavItem = styled(Nav.Item)`
-	.tab_navLink {
-		display: flex;
-		align-items: center;
-		height: 100%;
-	}
-	.active_tab_item {
-		background-color: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-const Span = styled.span`
-	display: flex;
-	align-items: center;
-	color: black;
-`;
-
-const FlexBox = styled.div`
-	display: flex;
-`;
+import {FlexBox, NavItem, Span, TabContainer, TabNav} from '../styles/common';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();

@@ -4,70 +4,22 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
-import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
-import BTable from 'react-bootstrap/Table';
 import {toEditMode} from './commands';
-import {HIGHLIGHT_COLOR} from '../../styles/global';
 import FileListContextMenu from './FileListContextMenu';
-
-const CustomTable = styled(BTable)`
-	white-space: nowrap;
-	height: 100%;
-	margin: 0;
-	// 드래그 방지
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-`;
-
-const CustomTh = styled.th`
-	flex: ${(props) => props.flex};
-	text-align: left;
-	min-width: 140px;
-`;
-
-const CustomRightTh = styled.th`
-	flex: ${(props) => props.flex};
-	text-align: right;
-	z-index: 1;
-`;
-
-const CustomThBtn = styled.button`
-	background: transparent;
-	border: none;
-	font-size: 18px;
-	line-height: 0px;
-	padding: 0px;
-	z-index: 1;
-`;
-
-const CustomTbody = styled.tbody`
-	tr.highlight_tbody {
-		color: black;
-		&:hover {
-			background: ${HIGHLIGHT_COLOR};
-		}
-	}
-	tr.highlight_tbody.active {
-		background: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-const HeaderTr = styled.tr`
-	display: flex;
-	position: sticky;
-	top: 0px;
-	background: white;
-	z-index: 999;
-`;
+import {
+	CustomRightTh,
+	CustomTable,
+	CustomTbody,
+	CustomTh,
+	CustomThBtn,
+	HeaderTr,
+} from '../../styles/sftp';
 
 const FileListContents = ({index, ws, uuid}) => {
-	// const [progress, setProgress] = useState(initState);
 	const {currentList, currentPath, currentHighlight} = useSelector(
 		(state) => state.sftp,
 	);
@@ -80,7 +32,6 @@ const FileListContents = ({index, ws, uuid}) => {
 		id: uuid + 'fileList',
 	});
 	function displayMenu(e) {
-		// pass the item id so the `onClick` on the `Item` has access to it
 		show(e);
 	}
 
@@ -113,7 +64,6 @@ const FileListContents = ({index, ws, uuid}) => {
 				} else {
 					dispatch({
 						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-
 						data: {uuid, list: [item]},
 					});
 				}

@@ -4,21 +4,7 @@ import styled from 'styled-components';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {BsSquareFill, FaTh, FaThLarge} from 'react-icons/all';
 import {MAIN_COLOR, NAV_HEIGHT} from '../styles/global';
-
-const SplitButtonContainer = styled.div`
-	height: ${NAV_HEIGHT};
-	display: flex;
-	align-items: center;
-`;
-
-const IconButton = styled.button`
-	background: transparent;
-	outline: none;
-	border: none;
-	&:hover {
-		color: ${MAIN_COLOR};
-	}
-`;
+import {IconButton, SplitButtonContainer} from '../styles/common';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();

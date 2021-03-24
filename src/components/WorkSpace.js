@@ -1,20 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import styled from 'styled-components';
-
 import MainPage from './MainPage';
 import TabContentsContainer from './TabContentsContainer';
-
-const WorkSpaceWrapper = styled.div`
-	flex: 1;
-`;
-
-const WorkSpaceContainer = styled.div`
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-`;
+import {WorkSpaceContainer, WorkSpaceWrapper} from '../styles/common';
 
 const WorkSpace = () => {
 	const {tab} = useSelector((state) => state.common);

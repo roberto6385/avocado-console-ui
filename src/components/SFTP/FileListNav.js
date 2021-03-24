@@ -10,19 +10,8 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {NavItem, PathSpan} from '../../styles/sftp';
 
-const NavItem = styled.button`
-	background: transparent;
-	border: none;
-	font-size: 18px;
-	cursor: pointer;
-	line-height: 0;
-`;
-
-const PathSpan = styled.span`
-	font-size: 14px;
-	margin: 0px 4px;
-`;
 const FileListNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const {currentPath} = useSelector((state) => state.sftp);

@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
-import {Button, Card, Form, Modal} from 'react-bootstrap';
+import {Card, Form} from 'react-bootstrap';
 import {sendCommandByLs} from './SFTP/commands/sendCommandLs';
 import {PropTypes} from 'prop-types';
 import {
@@ -18,45 +17,7 @@ import {sendCommandByGet} from './SFTP/commands/sendCommandGet';
 import {FaTimes} from 'react-icons/all';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {DELETE_SERVER} from '../reducers/common';
-
-const ModalFooter = styled.div`
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	padding: 4px 12px;
-	margin: 10px;
-`;
-
-const CustomModal = styled(Modal)`
-    .modal-dialog{
-        height:100%;
-        margin:auto;
-        display:flex;
-        align-items:center;
-        justify-contents:center;
-        
-        .modal-content{
-            margin:auto;
-            width:450px;
-            height:200px;
-            flex-direction:column;
-            }
-        }
-    }
-`;
-
-const PopupButton = styled(Button)`
-	width: 100px;
-	margin: 10px;
-	background-color: ${(props) => props.back};
-	border: none;
-	color: white;
-	&:hover {
-		filter: brightness(85%);
-		color: white;
-	}
-`;
+import {CustomModal, ModalFooter, PopupButton} from '../styles/common';
 
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const {currentPath, currentText, currentHighlight} = useSelector(

@@ -1,26 +1,13 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaSearch, FaSearchMinus, FaSearchPlus} from 'react-icons/all';
-import styled from 'styled-components';
 
 import {
 	SSHT_INCREASE_FONT_SIZE,
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
-import {NAV_HEIGHT} from '../styles/global';
-import ConfirmPopup from './ConfirmPopup';
-
-const BottomBar = styled.div`
-	height: ${NAV_HEIGHT};
-`;
-
-const ButtonsContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	height: 100%;
-`;
+import {BottomBar, ButtonsContainer} from '../styles/common';
 
 const Footer = () => {
 	const dispatch = useDispatch();

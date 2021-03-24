@@ -1,20 +1,8 @@
 import React, {useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch} from 'react-redux';
-import styled from 'styled-components';
 import {sendConnect} from './commands/sendConnect';
-
-const ConvertButton = styled.button`
-	background: transparent;
-	outline: none;
-	border: none;
-	line-height: 0;
-`;
-
-const ConvertIcon = styled(BiTransferAlt)`
-	font-size: 21px;
-`;
+import {ConvertButton, ConvertIcon} from '../../styles/sftp';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();

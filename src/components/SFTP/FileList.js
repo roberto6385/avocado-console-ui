@@ -1,34 +1,11 @@
 import React from 'react';
 import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
-import styled from 'styled-components';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
-import {NAV_HEIGHT} from '../../styles/global';
-
-const SFTPBody = styled(Card.Body)`
-	padding: 0px;
-	display: flex;
-	overflow: scroll;
-`;
-
-const FlexBox = styled.div`
-	flex: 2;
-	overflow: scroll;
-	display: flex;
-	flex-direction: column;
-	.card-header {
-		display: flex;
-		align-items: center;
-		position: relative;
-		height: ${NAV_HEIGHT};
-	}
-`;
+import {FlexBox, SFTPBody} from '../../styles/sftp';
 
 const FileList = ({index, socket}) => {
-	// const dispatch = useDispatch();
-	// const {ws, uuid} = socket;
-
 	return (
 		<FlexBox>
 			<Card.Header>

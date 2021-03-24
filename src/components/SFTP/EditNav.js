@@ -1,7 +1,4 @@
 import React, {useState} from 'react';
-
-import styled from 'styled-components';
-import {MAIN_COLOR} from '../../styles/global';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,23 +9,7 @@ import {sendCommandByLs} from './commands/sendCommandLs';
 
 import ConfirmPopup from '../ConfirmPopup';
 import {sendCommandByGet} from './commands/sendCommandGet';
-
-const Navbar = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-`;
-const NavItem = styled.button`
-	background: transparent;
-	border: none;
-	font-size: 18px;
-	margin: 4px;
-	padding: 2px;
-	&:hover {
-		color: ${MAIN_COLOR};
-	}
-`;
+import {Navbar, NavItem} from '../../styles/sftp';
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();

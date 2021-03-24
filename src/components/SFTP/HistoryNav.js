@@ -13,14 +13,8 @@ import {sendCommandByPut} from './commands/sendCommandPut';
 import {sendCommandByLs} from './commands/sendCommandLs';
 import {SFTP_DELETE_HISTORY} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
+import {NavItem} from '../../styles/sftp';
 
-const NavItem = styled.button`
-	background: transparent;
-	border: none;
-	font-size: 18px;
-	cursor: pointer;
-	line-height: 0;
-`;
 const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);

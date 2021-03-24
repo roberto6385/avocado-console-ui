@@ -1,31 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SFTP_SAVE_CURRENT_TEXT} from '../../reducers/sftp';
-
-const TextAreaWrapper = styled.div`
-	display: inline-block;
-	background: black;
-	background-size: 100% 32px;
-	background-position: left 10px;
-	width: 100%;
-	textarea {
-		color: white;
-		background: url(http://i.imgur.com/2cOaJ.png);
-		background-attachment: local;
-		background-repeat: no-repeat;
-		padding-left: 35px;
-		padding-top: 10px;
-		outline: none;
-		border: none;
-		width: 100%;
-		height: 100%;
-		font-size: 13px;
-		line-height: 16px;
-		resize: none;
-	}
-`;
+import {TextAreaWrapper} from '../../styles/sftp';
 
 const EditContents = ({index, ws, uuid}) => {
 	const {currentText, currentCompareText} = useSelector(

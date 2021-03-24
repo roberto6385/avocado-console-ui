@@ -2,13 +2,7 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByGet} from './commands/sendCommandGet';
-import {
-	SFTP_DELETE_HISTORY,
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-} from '../../reducers/sftp';
-import ConfirmPopup from '../ConfirmPopup';
-import {toEditMode} from './commands';
+import {SFTP_DELETE_HISTORY} from '../../reducers/sftp';
 
 const HistoryContextMenu = ({ws, uuid, highlight, setHighlight}) => {
 	const dispatch = useDispatch();
