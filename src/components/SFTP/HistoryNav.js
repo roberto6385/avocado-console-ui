@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {
 	BsArrowClockwise,
@@ -11,6 +11,8 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByPut} from './commands/sendCommandPut';
 import {sendCommandByLs} from './commands/sendCommandLs';
+import {SFTP_DELETE_HISTORY} from '../../reducers/sftp';
+import ConfirmPopup from '../ConfirmPopup';
 
 const NavItem = styled.button`
 	background: transparent;
@@ -23,6 +25,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
 
 	const upload = () => {
 		const uploadInput = document.createElement('input');
@@ -49,7 +52,10 @@ const HistoryNav = ({index, ws, uuid}) => {
 		document.body.removeChild(uploadInput);
 	};
 
-	const historyDelete = () => {};
+	const historyDelete = () => {
+		// if exist highlighting history
+		setOpen(true);
+	};
 
 	return (
 		<>
@@ -68,6 +74,13 @@ const HistoryNav = ({index, ws, uuid}) => {
 			<NavItem onClick={historyDelete}>
 				<MdDelete />
 			</NavItem>
+			<ConfirmPopup
+				keyword={'Delete History'}
+				open={open}
+				setOpen={setOpen}
+				ws={ws}
+				uuid={uuid}
+			/>
 		</>
 	);
 };

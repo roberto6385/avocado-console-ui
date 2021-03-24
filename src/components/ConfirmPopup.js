@@ -4,6 +4,7 @@ import {Button, Card, Form, Modal} from 'react-bootstrap';
 import {sendCommandByLs} from './SFTP/commands/sendCommandLs';
 import {PropTypes} from 'prop-types';
 import {
+	SFTP_DELETE_HISTORY,
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_HISTORY,
@@ -159,16 +160,26 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		setOpen(false);
 	};
 
+	const deleteHistory = () => {
+		dispatch({
+			type: SFTP_DELETE_HISTORY,
+			data: {id: -1, uuid},
+		});
+	};
+
 	const okFunction = () => {
 		keyword === 'Delete' && contextDelete();
 		keyword === 'Rename' && contextRename();
 		keyword === 'New Folder' && contextNewFolder();
 
 		keyword === 'Changes' && existChanges();
+		keyword === 'Delete History' && deleteHistory();
 		handleClose();
 	};
+
 	const cancelFunction = () => {
 		keyword === 'Changes' && justExit();
+		handleClose();
 	};
 
 	useEffect(() => {
@@ -193,6 +204,10 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 
 				{keyword === 'Changes' && (
 					<p>변경사항이 있습니다. 저장하시겠습니까?</p>
+				)}
+
+				{keyword === 'Delete History' && (
+					<p>모든 히스토리를 삭제하시겠습니까?</p>
 				)}
 
 				{formKeywords.includes(keyword) && (
