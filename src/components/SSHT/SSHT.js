@@ -16,7 +16,6 @@ const SSHTerminal = styled.div`
 	width: 100%;
 	max-height: 100%;
 	max-width: 100%;
-	position: relative;
 `;
 
 const FormControl = styled(Form.Control)`
@@ -80,9 +79,6 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		});
 
 		return () => {
-			// if (ws.readyState !== 3) {
-			// 	ws.send(Close(uuid));
-			// }
 			sshTerm.current.dispose();
 		};
 	}, [index, uuid, ws]);
@@ -131,7 +127,8 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 	);
 
 	return (
-		<SSHTerminal id={`terminal_${String(index)}`}>
+		<SSHTerminal style={{position: 'relative'}}>
+			<SSHTerminal id={`terminal_${String(index)}`} />
 			<FormControl
 				id={`search_${String(index)}`}
 				onChange={onChangeSearch}

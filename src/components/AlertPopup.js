@@ -218,49 +218,14 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				{keyword === 'Delete' && (
 					<p>선택하신 파일을 삭제하시겠습니까?</p>
 				)}
-
-				{keyword === 'Changes' && (
-					<p>변경사항이 있습니다. 저장하시겠습니까?</p>
-				)}
-
-				{keyword === 'Delete History' && (
-					<p>모든 다운로드/업로드 이력을 삭제하시겠습니까?</p>
-				)}
-
-				{keyword === 'Delete Server' && (
-					<p>선택하신 서버를 삭제하시겠습니까?</p>
-				)}
-
-				{FORM_KEYWORDS.includes(keyword) && (
-					<Form action=''>
-						<Form.Control
-							ref={inputRef}
-							value={formValue}
-							type='text'
-							placeholder={
-								(keyword === 'Rename' &&
-									'Please enter a name to change') ||
-								(keyword === 'New Folder' && 'Untitled folder')
-							}
-							onChange={(e) => setFormValue(e.target.value)}
-						/>
-					</Form>
-				)}
 			</Card.Body>
 			<ModalFooter>
-				<PopupButton
-					variant='default'
-					onClick={cancelFunction}
-					back={`${SUB_COLOR}`}
-				>
-					Cancel
-				</PopupButton>
 				<PopupButton
 					variant='default'
 					onClick={okFunction}
 					back={`${MAIN_COLOR}`}
 				>
-					{SAVE_KEYWORDS.includes(keyword) ? 'SAVE' : 'OK'}
+					OK
 				</PopupButton>
 			</ModalFooter>
 		</CustomModal>
