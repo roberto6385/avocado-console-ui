@@ -71,11 +71,6 @@ const LeftContainer = () => {
 				open={open}
 				setOpen={setOpen}
 			/>
-			<ConfirmPopup
-				keyword={'Delete Server'}
-				open={open}
-				setOpen={setOpen}
-			/>
 		</RC_Col>
 	);
 };

@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Form, Button, Col, Card} from 'react-bootstrap';
+import {Form, Col, Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
@@ -8,8 +8,8 @@ import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import styled from 'styled-components';
 import {PopupButton} from '../styles/common';
+import AlertPopup from './AlertPopup';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const AddServerForm = () => {
 	// const [authentication, onChangeAuthentication] = useInput("Password");
 	const [password, onChangePassword, setPassword] = useInput('');
 	// const [note, onChangeNote] = useInput("");
+	const [open, setOpen] = useState(false);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -35,9 +36,7 @@ const AddServerForm = () => {
 			};
 
 			ws.onerror = (e) => {
-				alert('입력한 소켓 정보가 잘못되었습니다. ');
-				document.getElementById('add-server-form').style.display =
-					'block';
+				setOpen(true);
 			};
 
 			ws.onmessage = (e) => {
@@ -81,146 +80,153 @@ const AddServerForm = () => {
 	}, []);
 
 	return (
-		<Card id='add-server-form'>
-			<Card.Header as='h5'>
-				Add Server
-				<span className={'right'}>
-					<FaTimes onClick={onClickCloseForm} />
-				</span>
-			</Card.Header>
-			<Card.Body>
-				<Form onSubmit={onSubmitForm}>
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column xs={2}>
-							Name
-						</Form.Label>
-						<Col xs={4}>
-							<Form.Control
-								onChange={onChangeName}
-								value={name}
-								type='text'
-								placeholder='Server Name'
-								required
-							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Protocol
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								as='select'
-								// onChange={onChangeProtocol}
-								// value={protocol}
-								defaultValue='SSH2'
-							>
-								<option value='SSH2'>SSH2</option>
-								<option value='protocol2'>protocol2</option>
-							</Form.Control>
-						</Col>
-					</Form.Row>
+		<div>
+			<Card id='add-server-form'>
+				<Card.Header as='h5'>
+					Add Server
+					<span className={'right'}>
+						<FaTimes onClick={onClickCloseForm} />
+					</span>
+				</Card.Header>
+				<Card.Body>
+					<Form onSubmit={onSubmitForm}>
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column xs={2}>
+								Name
+							</Form.Label>
+							<Col xs={4}>
+								<Form.Control
+									onChange={onChangeName}
+									value={name}
+									type='text'
+									placeholder='Server Name'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Protocol
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									as='select'
+									// onChange={onChangeProtocol}
+									// value={protocol}
+									defaultValue='SSH2'
+								>
+									<option value='SSH2'>SSH2</option>
+									<option value='protocol2'>protocol2</option>
+								</Form.Control>
+							</Col>
+						</Form.Row>
 
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column sm={2}>
-							Address
-						</Form.Label>
-						<Col sm={4}>
-							<Form.Control
-								onChange={onChangeHost}
-								value={host}
-								type='text'
-								placeholder='Host Name or IP'
-								required
-							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Port
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								onChange={onChangePort}
-								value={port}
-								type='text'
-								placeholder='Port'
-								required
-							/>
-						</Col>
-					</Form.Row>
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column sm={2}>
+								Address
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									onChange={onChangeHost}
+									value={host}
+									type='text'
+									placeholder='Host Name or IP'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Port
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									onChange={onChangePort}
+									value={port}
+									type='text'
+									placeholder='Port'
+									required
+								/>
+							</Col>
+						</Form.Row>
 
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column sm={2}>
-							Username
-						</Form.Label>
-						<Col sm={4}>
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column sm={2}>
+								Username
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									onChange={onChangeUser}
+									value={user}
+									type='text'
+									placeholder='Login Username'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Authentication
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									as='select'
+									// value={authentication}
+									// onChange={onChangeAuthentication}
+									defaultValue='Password'
+								>
+									<option>Password</option>
+									<option>Key file</option>
+								</Form.Control>
+							</Col>
+						</Form.Row>
+						<Form.Group className={'add-server-form-row'}>
+							<Form.Label>Password</Form.Label>
 							<Form.Control
-								onChange={onChangeUser}
-								value={user}
-								type='text'
-								placeholder='Login Username'
+								onChange={onChangePassword}
+								value={password}
+								type='password'
+								placeholder='Login Password'
 								required
 							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Authentication
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								as='select'
-								// value={authentication}
-								// onChange={onChangeAuthentication}
-								defaultValue='Password'
-							>
-								<option>Password</option>
-								<option>Key file</option>
-							</Form.Control>
-						</Col>
-					</Form.Row>
-					<Form.Group className={'add-server-form-row'}>
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-							onChange={onChangePassword}
-							value={password}
-							type='password'
-							placeholder='Login Password'
-							required
-						/>
-					</Form.Group>
+						</Form.Group>
 
-					<Form.Group className={'add-server-form-row'}>
-						<Form.Label>Note</Form.Label>
-						<Form.Control
-							// onChange={onChangeNote}
-							// value={note}
-							type='text'
-							placeholder='Note'
-						/>
-					</Form.Group>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-						}}
-					>
-						<PopupButton
-							variant='default'
-							onClick={onClickCloseForm}
-							back={`${SUB_COLOR}`}
+						<Form.Group className={'add-server-form-row'}>
+							<Form.Label>Note</Form.Label>
+							<Form.Control
+								// onChange={onChangeNote}
+								// value={note}
+								type='text'
+								placeholder='Note'
+							/>
+						</Form.Group>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+							}}
 						>
-							Cancel
-						</PopupButton>
-						<PopupButton
-							variant='default'
-							type='submit'
-							back={`${MAIN_COLOR}`}
-						>
-							Save
-						</PopupButton>
-					</div>
-				</Form>
-			</Card.Body>
-		</Card>
+							<PopupButton
+								variant='default'
+								onClick={onClickCloseForm}
+								back={`${SUB_COLOR}`}
+							>
+								Cancel
+							</PopupButton>
+							<PopupButton
+								variant='default'
+								type='submit'
+								back={`${MAIN_COLOR}`}
+							>
+								Save
+							</PopupButton>
+						</div>
+					</Form>
+				</Card.Body>
+			</Card>
+			<AlertPopup
+				keyword='Invalid Server'
+				open={open}
+				setOpen={setOpen}
+			/>
+		</div>
 	);
 };
 
