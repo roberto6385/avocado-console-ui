@@ -165,7 +165,12 @@ const HistoryContents = ({index, ws, uuid}) => {
 					);
 				})}
 			</CustomUl>
-			<HistoryContextMenu ws={ws} uuid={uuid} />
+			<HistoryContextMenu
+				ws={ws}
+				uuid={uuid}
+				highlight={highlight}
+				setHighlight={setHighlight}
+			/>
 		</Dropzone>
 	);
 };

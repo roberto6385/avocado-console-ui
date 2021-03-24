@@ -3,22 +3,25 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByGet} from './commands/sendCommandGet';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {
+	SFTP_DELETE_HISTORY,
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
 
-const HistoryContextMenu = ({ws, uuid}) => {
-	// const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
-	// const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
-	// // const [open, setOpen] = useState(false);
-	// // const [keyword, setKeyword] = useState('');
-	// const pathItem = currentPath.find((item) => item.uuid === uuid);
-	// const dispatch = useDispatch();
+const HistoryContextMenu = ({ws, uuid, highlight, setHighlight}) => {
+	const dispatch = useDispatch();
 
 	const MENU_ID = uuid + 'history';
 
+	console.log(highlight);
+
 	const contextDeleteHistory = (e) => {
-		console.log('delete context menu click');
+		for (let value of highlight) {
+			dispatch({type: SFTP_DELETE_HISTORY, data: {id: value.id}});
+		}
+		setHighlight([]);
 	};
 
 	function handleItemClick({event}) {
@@ -36,11 +39,7 @@ const HistoryContextMenu = ({ws, uuid}) => {
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>
-			<Item
-				// disabled={}
-				id='Delete'
-				onClick={handleItemClick}
-			>
+			<Item id='Delete' onClick={handleItemClick}>
 				Delete
 			</Item>
 		</Menu>
@@ -50,6 +49,8 @@ const HistoryContextMenu = ({ws, uuid}) => {
 HistoryContextMenu.propTypes = {
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
+	highlight: PropTypes.array.isRequired,
+	setHighlight: PropTypes.func.isRequired,
 };
 
 export default HistoryContextMenu;
