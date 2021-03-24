@@ -13,6 +13,7 @@ import ServerNavBar from './ServerNavBar';
 import {FaPlus, FaRegTrashAlt, FaSearch} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import {DELETE_SERVER} from '../reducers/common';
+import ConfirmPopup from './ConfirmPopup';
 
 const Header = styled(Nav)`
 	height: ${NAV_HEIGHT_SUM};
@@ -71,6 +72,7 @@ const LeftContainer = () => {
 	const {clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	const onClickVisibleForm = useCallback(() => {
 		document.getElementById('add-server-form').style.display = 'block';
@@ -78,6 +80,7 @@ const LeftContainer = () => {
 
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
+			setOpen(true);
 			// dispatch({type: DELETE_SERVER});
 		}
 	}, [clicked_server]);
@@ -119,6 +122,16 @@ const LeftContainer = () => {
 				</Nav.Item>
 			</Collapse>
 			<ServerNavBarWrapper search={search} />
+			<ConfirmPopup
+				keyword={'Delete Server'}
+				open={open}
+				setOpen={setOpen}
+			/>
+			<ConfirmPopup
+				keyword={'Delete Server'}
+				open={open}
+				setOpen={setOpen}
+			/>
 		</RC_Col>
 	);
 };

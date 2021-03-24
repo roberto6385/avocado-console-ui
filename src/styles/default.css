@@ -29,10 +29,6 @@ body {
 	float: right;
 }
 
-.header-footer-button {
-	margin-right: 10px;
-}
-
 .fix-height {
 	height: 100%;
 	max-height: 100%;
