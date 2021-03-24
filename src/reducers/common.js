@@ -51,18 +51,17 @@ const reducer = (state = initialState, action) => {
 		if (tab.length === 0) {
 			current_tab = null;
 		} else {
-			let visible_tab_length = tab.filter((x) => x.display === true)
-				.length;
+			let visible_tab_length = tab.filter((x) => x.display).length;
 
 			for (let i = 0; i < tab.length; i++) {
 				if (visible_tab_length === max_display_tab) break;
 				else if (visible_tab_length > max_display_tab) {
-					if (tab[i].display === true && tab[i].id !== current_tab) {
+					if (tab[i].display && tab[i].id !== current_tab) {
 						tab[i].display = false;
 						visible_tab_length--;
 					}
 				} else if (visible_tab_length < max_display_tab) {
-					if (tab[i].display === false) {
+					if (!tab[i].display) {
 						tab[i].display = true;
 						visible_tab_length++;
 					}
@@ -70,13 +69,9 @@ const reducer = (state = initialState, action) => {
 			}
 
 			if (
-				tab.find((v) => v.id === current_tab && v.display === true) ===
-				undefined
-			) {
-				current_tab = tab.find((x) => x.display === true).id;
-				console.log('HERE');
-				console.log(current_tab);
-			}
+				tab.find((v) => v.id === current_tab && v.display) === undefined
+			)
+				current_tab = tab.find((x) => x.display).id;
 		}
 	};
 

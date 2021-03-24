@@ -12,7 +12,7 @@ import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import {Close} from '../dist/SSHTWs';
+import {Close} from '../dist/ssht_ws';
 
 const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;

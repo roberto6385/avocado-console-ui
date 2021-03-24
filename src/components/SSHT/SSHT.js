@@ -1,23 +1,37 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
+import {SearchAddon} from 'xterm-addon-search';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
+import {Form} from 'react-bootstrap';
 
 import {CLOSE_TAB} from '../../reducers/common';
-import {Close, GetMessage, SendMessage, Resize} from '../../dist/SSHTWs';
+import {Close, GetMessage, SendMessage, Resize} from '../../dist/ssht_ws';
+import useInput from '../../hooks/useInput';
 
 const SSHTerminal = styled.div`
 	height: 100%;
 	width: 100%;
 	max-height: 100%;
 	max-width: 100%;
+	position: relative;
+`;
+
+const FormControl = styled(Form.Control)`
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 200px;
+	display: none;
 `;
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const dispatch = useDispatch();
-	const {font_size} = useSelector((state) => state.ssht);
+	const {current_tab} = useSelector((state) => state.common);
+	const {font_size, search_mode} = useSelector((state) => state.ssht);
+	const [search, onChangeSearch, setSearch] = useInput('');
 
 	const sshTerm = useRef(
 		new Terminal({
@@ -27,9 +41,11 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		}),
 	);
 	const fitAddon = useRef(new FitAddon());
+	const searchAddon = useRef(new SearchAddon());
 
 	useEffect(() => {
 		sshTerm.current.loadAddon(fitAddon.current);
+		sshTerm.current.loadAddon(searchAddon.current);
 		sshTerm.current.open(
 			document.getElementById('terminal_' + String(index)),
 		);
@@ -64,9 +80,9 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		});
 
 		return () => {
-			if (ws.readyState !== 3) {
-				ws.send(Close(uuid));
-			}
+			// if (ws.readyState !== 3) {
+			// 	ws.send(Close(uuid));
+			// }
 			sshTerm.current.dispose();
 		};
 	}, [index, uuid, ws]);
@@ -76,7 +92,6 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		if (display) {
 			fitAddon.current.fit();
-
 			ws.send(
 				Resize(
 					uuid,
@@ -89,7 +104,45 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		}
 	}, [font_size, height, width]);
 
-	return <SSHTerminal id={`terminal_${String(index)}`} />;
+	useEffect(() => {
+		if (current_tab === index && search_mode) {
+			document.getElementById('search_' + String(index)).style.display =
+				'block';
+		} else {
+			document.getElementById('search_' + String(index)).style.display =
+				'none';
+			setSearch('');
+			searchAddon.current.findPrevious('');
+		}
+	}, [current_tab, index, search_mode]);
+
+	useEffect(() => {
+		if (current_tab === index && search !== '') {
+			searchAddon.current.findPrevious('');
+			searchAddon.current.findPrevious(search);
+		}
+	}, [current_tab, index, search]);
+
+	const onSubmitSearch = useCallback(
+		(e) => {
+			if (e.key === 'Enter') searchAddon.current.findPrevious(search);
+		},
+		[search],
+	);
+
+	return (
+		<SSHTerminal id={`terminal_${String(index)}`}>
+			<FormControl
+				id={`search_${String(index)}`}
+				onChange={onChangeSearch}
+				onKeyPress={onSubmitSearch}
+				value={search}
+				placeholder='Search...'
+				size='sm'
+				type='text'
+			/>
+		</SSHTerminal>
+	);
 };
 
 SSHT.propTypes = {

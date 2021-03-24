@@ -7,9 +7,8 @@ import styled from 'styled-components';
 
 import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
-import SSH from '../dist/ssh_pb';
 import {HIGHLIGHT_COLOR} from '../styles/global';
-import {Connect, GetMessage} from '../dist/SSHTWs';
+import {Connect, GetMessage} from '../dist/ssht_ws';
 
 const FaServerIcon = styled(FaServer)`
 	vertical-align: middle;
@@ -63,7 +62,7 @@ const ServerNavBar = ({search}) => {
 						});
 						break;
 					default:
-						console.log('도달하면 안되는 공간1');
+						console.log('도달하면 안되는 공간: ServerNavBar');
 						break;
 				}
 			};

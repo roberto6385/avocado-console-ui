@@ -55,8 +55,6 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const inputRef = useRef(null);
 	const formKeywords = ['Rename', 'New Folder'];
 
-	// console.log(highlightItem?.list);
-
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(
