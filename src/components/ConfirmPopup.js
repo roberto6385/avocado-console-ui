@@ -16,6 +16,7 @@ import {sendCommandByRm} from './SFTP/commands/sendCommandRm';
 import {sendCommandByPut} from './SFTP/commands/sendCommandPut';
 import {sendCommandByGet} from './SFTP/commands/sendCommandGet';
 import {FaTimes} from 'react-icons/all';
+import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 
 const ModalFooter = styled.div`
 	flex: 1;
@@ -44,6 +45,18 @@ const CustomModal = styled(Modal)`
     }
 `;
 
+const PopupButton = styled(Button)`
+	width: 100px;
+	margin: 10px;
+	background-color: ${(props) => props.back};
+	border: none;
+	color: white;
+	&:hover {
+		filter: brightness(85%);
+		color: white;
+	}
+`;
+
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const {currentPath, currentText, currentHighlight} = useSelector(
 		(state) => state.sftp,
@@ -55,7 +68,8 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
 	const inputRef = useRef(null);
-	const formKeywords = ['Rename', 'New Folder'];
+	const SAVE_KEYWORDS = ['Rename', 'New Folder', 'Changes'];
+	const FORM_KEYWORDS = ['Rename', 'New Folder'];
 
 	// console.log(highlightItem?.list);
 
@@ -207,10 +221,10 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				)}
 
 				{keyword === 'Delete History' && (
-					<p>모든 히스토리를 삭제하시겠습니까?</p>
+					<p>모든 다운로드/업로드 이력을 삭제하시겠습니까?</p>
 				)}
 
-				{formKeywords.includes(keyword) && (
+				{FORM_KEYWORDS.includes(keyword) && (
 					<Form action=''>
 						<Form.Control
 							ref={inputRef}
@@ -227,31 +241,20 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				)}
 			</Card.Body>
 			<ModalFooter>
-				<Button
-					className='add-server-button'
-					variant='primary'
-					style={{
-						width: '100px',
-						marginRight: '20px',
-						backgroundColor: '#d9b08c',
-						border: 'none',
-					}}
+				<PopupButton
+					variant='default'
 					onClick={cancelFunction}
+					back={`${SUB_COLOR}`}
 				>
 					Cancel
-				</Button>
-				<Button
-					className='add-server-button'
-					variant='primary'
-					style={{
-						width: '100px',
-						backgroundColor: '#116466',
-						border: 'none',
-					}}
+				</PopupButton>
+				<PopupButton
+					variant='default'
 					onClick={okFunction}
+					back={`${MAIN_COLOR}`}
 				>
-					OK
-				</Button>
+					{SAVE_KEYWORDS.includes(keyword) ? 'SAVE' : 'OK'}
+				</PopupButton>
 			</ModalFooter>
 		</CustomModal>
 	);

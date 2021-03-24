@@ -8,10 +8,11 @@ import styled from 'styled-components';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
+	FaCloudUploadAlt,
 	FaEdit,
 	MdRemoveCircle,
 } from 'react-icons/all';
-import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
+import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR} from '../../styles/global';
 import {useContextMenu} from 'react-contexify';
 import HistoryContextMenu from './HistoryContextMenu';
 
@@ -49,6 +50,14 @@ const CustomLi = styled.li`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
+`;
+
+const NoHistory = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 `;
 
 const HistoryContents = ({index, ws, uuid}) => {
@@ -105,66 +114,79 @@ const HistoryContents = ({index, ws, uuid}) => {
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
-			<CustomUl>
-				{eachHistory.map((history) => {
-					return (
-						<CustomLi
-							onContextMenu={(e) => contextMenuOpen(e, history)}
-							key={history.id}
-							className={
-								highlight.includes(history)
-									? 'history_list active'
-									: 'history_list'
-							}
-							onClick={(e) => selectItem(e, history)}
-						>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'space-between',
-								}}
+			{eachHistory.length === 0 ? (
+				<NoHistory>
+					<FaCloudUploadAlt
+						style={{fontSize: '50px', color: `${MAIN_COLOR}`}}
+					/>
+					<div>Drop files here to upload</div>
+				</NoHistory>
+			) : (
+				<CustomUl>
+					{eachHistory.map((history) => {
+						return (
+							<CustomLi
+								onContextMenu={(e) =>
+									contextMenuOpen(e, history)
+								}
+								key={history.id}
+								className={
+									highlight.includes(history)
+										? 'history_list active'
+										: 'history_list'
+								}
+								onClick={(e) => selectItem(e, history)}
 							>
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'space-between',
+									}}
+								>
+									<CustomP>
+										{history.todo === 'put' && (
+											<FaArrowAltCircleUp
+												style={{
+													marginRight: '4px',
+													color: '#116466',
+												}}
+											/>
+										)}
+										{history.todo === 'get' && (
+											<FaArrowAltCircleDown
+												style={{
+													marginRight: '4px',
+													color: '#3D88F5',
+												}}
+											/>
+										)}
+										{history.todo === 'edit' && (
+											<FaEdit
+												style={{marginRight: '4px'}}
+											/>
+										)}
+										{history.todo === 'rm' && (
+											<MdRemoveCircle
+												style={{
+													marginRight: '4px',
+													color: '#F5513D',
+												}}
+											/>
+										)}
+										{history.name}
+									</CustomP>
+									<CustomP>{history.size} byte</CustomP>
+								</div>
 								<CustomP>
-									{history.todo === 'put' && (
-										<FaArrowAltCircleUp
-											style={{
-												marginRight: '4px',
-												color: '#116466',
-											}}
-										/>
-									)}
-									{history.todo === 'get' && (
-										<FaArrowAltCircleDown
-											style={{
-												marginRight: '4px',
-												color: '#3D88F5',
-											}}
-										/>
-									)}
-									{history.todo === 'edit' && (
-										<FaEdit style={{marginRight: '4px'}} />
-									)}
-									{history.todo === 'rm' && (
-										<MdRemoveCircle
-											style={{
-												marginRight: '4px',
-												color: '#F5513D',
-											}}
-										/>
-									)}
-									{history.name}
+									{history.progress === 100
+										? 'Complete'
+										: 'Progress'}
 								</CustomP>
-								<CustomP>{history.size} byte</CustomP>
-							</div>
-							<CustomP>
-								{history.progress === 100
-									? 'Complete'
-									: 'Progress'}
-							</CustomP>
-						</CustomLi>
-					);
-				})}
-			</CustomUl>
+							</CustomLi>
+						);
+					})}
+				</CustomUl>
+			)}
 			<HistoryContextMenu
 				ws={ws}
 				uuid={uuid}
