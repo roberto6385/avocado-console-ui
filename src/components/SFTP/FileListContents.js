@@ -28,6 +28,7 @@ const CustomTable = styled(BTable)`
 const CustomTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: left;
+	min-width: 140px;
 `;
 
 const CustomRightTh = styled.th`
