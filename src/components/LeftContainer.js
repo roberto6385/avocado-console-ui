@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Col, Collapse, Form, FormControl, Nav} from 'react-bootstrap';
 import styled from 'styled-components';
+
 import {
 	HIGHLIGHT_COLOR,
 	MAIN_COLOR,
@@ -12,7 +13,6 @@ import {
 import ServerNavBar from './ServerNavBar';
 import {FaPlus, FaRegTrashAlt, FaSearch} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-import {DELETE_SERVER} from '../reducers/common';
 import ConfirmPopup from './ConfirmPopup';
 
 const Header = styled(Nav)`
@@ -122,11 +122,6 @@ const LeftContainer = () => {
 				</Nav.Item>
 			</Collapse>
 			<ServerNavBarWrapper search={search} />
-			<ConfirmPopup
-				keyword={'Delete Server'}
-				open={open}
-				setOpen={setOpen}
-			/>
 			<ConfirmPopup
 				keyword={'Delete Server'}
 				open={open}

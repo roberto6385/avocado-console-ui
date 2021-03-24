@@ -8,24 +8,25 @@ import styled from 'styled-components';
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {NAV_HEIGHT} from '../../styles/global';
+import {SSHTBody, SSHTContainer} from '../../styles/ssht';
 
-const SSHTContainer = styled.div`
-	flex: 1;
-	display: flex;
-	align-items: stretch;
-	flex-direction: column;
-	.card-header {
-		height: ${NAV_HEIGHT};
-		fontsize: 17px;
-		display: flex;
-		align-items: center;
-	}
-`;
-
-const SSHTBody = styled(Card.Body)`
-	padding: 0px;
-	flex: 1;
-`;
+// const SSHTContainer = styled.div`
+// 	flex: 1;
+// 	display: flex;
+// 	align-items: stretch;
+// 	flex-direction: column;
+// 	.card-header {
+// 		height: ${NAV_HEIGHT};
+// 		fontsize: 17px;
+// 		display: flex;
+// 		align-items: center;
+// 	}
+// `;
+//
+// const SSHTBody = styled(Card.Body)`
+// 	padding: 0px;
+// 	flex: 1;
+// `;
 
 const SSHContainer = ({index, display, server_id, socket}) => {
 	const {server} = useSelector((state) => state.common);
