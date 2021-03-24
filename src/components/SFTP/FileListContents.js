@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
-import {
-	animation,
-	Item,
-	Menu,
-	Separator,
-	useContextMenu,
-} from 'react-contexify';
+import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
@@ -14,12 +8,10 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
-import {
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_CURRENT_MODE,
-} from '../../reducers/sftp';
-import ConfirmPopup from '../ConfirmPopup';
+import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import BTable from 'react-bootstrap/Table';
+import {toEditMode} from './commands';
+import ContextMenu from './ContextMenu';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -35,20 +27,9 @@ const CustomTable = styled(BTable)`
 const CustomTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: left;
-	width: 140px;
-	min-width: 120px;
-`;
-const CustomNameTh = styled.th`
-	flex: ${(props) => props.flex};
-	text-align: left;
 `;
 
-const CustomSizeTh = styled.th`
-	flex: ${(props) => props.flex};
-	text-align: right;
-`;
-
-const CustomButtonTh = styled.th`
+const CustomRightTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: right;
 	z-index: 1;
@@ -64,18 +45,23 @@ const CustomThBtn = styled.button`
 `;
 
 const CustomTbody = styled.tbody`
-	// flex: 1;
-	// height: 100%;
 	tr.highlight_tbody {
 		color: black;
 		&:hover {
 			background: #edeae5;
 		}
 	}
-
 	tr.highlight_tbody.active {
 		background: #edeae5;
 	}
+`;
+
+const HeaderTr = styled.tr`
+	display: flex;
+	position: sticky;
+	top: 0px;
+	background: white;
+	z-index: 999;
 `;
 
 const FileListContents = ({index, ws, uuid}) => {
@@ -87,8 +73,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [keyword, setKeyword] = useState('');
 
 	const MENU_ID = uuid;
 	const {show} = useContextMenu({
@@ -97,53 +81,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	function displayMenu(e) {
 		// pass the item id so the `onClick` on the `Item` has access to it
 		show(e);
-	}
-
-	const contextDownload = async () => {
-		for await (const key of highlightItem?.list) {
-			await sendCommandByGet(
-				'get',
-				ws,
-				uuid,
-				pathItem?.path,
-				key.fileName,
-				dispatch,
-			);
-		}
-		// 마지막 percent 100 , ok 사이에서 디스패치 이벤트 실행
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
-		});
-	};
-
-	const contextEdit = (e) => {
-		const item = highlightItem?.list[0];
-		console.log(item);
-		toEditMode(e, item);
-	};
-
-	function handleItemClick({event}) {
-		setKeyword(event.currentTarget.id);
-		switch (event.currentTarget.id) {
-			case 'Download':
-				contextDownload().then();
-				break;
-			case 'Edit':
-				contextEdit(event);
-				break;
-			case 'New Folder':
-				setOpen(true);
-				break;
-			case 'Rename':
-				setOpen(true);
-				break;
-			case 'Delete':
-				setOpen(true);
-				break;
-			default:
-				return;
-		}
 	}
 
 	const selectItem = (e, item) => {
@@ -198,24 +135,6 @@ const FileListContents = ({index, ws, uuid}) => {
 		}
 	};
 
-	const toEditMode = (e, item) => {
-		e.stopPropagation();
-		if (item.fileName !== '..' && item.fileType !== 'directory') {
-			sendCommandByGet(
-				'edit',
-				ws,
-				uuid,
-				pathItem?.path,
-				item.fileName,
-				dispatch,
-			).then();
-			dispatch({
-				type: SFTP_SAVE_CURRENT_MODE,
-				data: {uuid, mode: 'edit'},
-			});
-		}
-	};
-
 	const contextMenuOpen = (e, item = '') => {
 		e.preventDefault();
 		// e.stopPropagation();
@@ -239,30 +158,22 @@ const FileListContents = ({index, ws, uuid}) => {
 		<>
 			<CustomTable>
 				<thead>
-					<tr
-						style={{
-							display: 'flex',
-							position: 'sticky',
-							top: '0px',
-							background: 'white',
-							zIndex: 999,
-						}}
-					>
-						<CustomNameTh flex={10}>Name</CustomNameTh>
-						<CustomSizeTh flex={2}>Size</CustomSizeTh>
+					<HeaderTr>
+						<CustomTh flex={10}>Name</CustomTh>
+						<CustomRightTh flex={2}>Size</CustomRightTh>
 						<CustomTh flex={3}>Modified</CustomTh>
 						<CustomTh flex={3}>Permission</CustomTh>
-						<CustomButtonTh flex={0.3}>
+						<CustomRightTh flex={0.3}>
 							<CustomThBtn disabled style={{color: 'white'}}>
 								<MdFileDownload />
 							</CustomThBtn>
-						</CustomButtonTh>
-						<CustomButtonTh flex={0.3}>
+						</CustomRightTh>
+						<CustomRightTh flex={0.3}>
 							<CustomThBtn disabled style={{color: 'white'}}>
 								<MdFileDownload />
 							</CustomThBtn>
-						</CustomButtonTh>
-					</tr>
+						</CustomRightTh>
+					</HeaderTr>
 				</thead>
 				<CustomTbody>
 					{data?.map((item, index) => {
@@ -278,7 +189,7 @@ const FileListContents = ({index, ws, uuid}) => {
 										: 'highlight_tbody'
 								}
 							>
-								<CustomNameTh flex={10}>
+								<CustomTh flex={10}>
 									{item.fileType === 'directory' ? (
 										<GoFileDirectory />
 									) : (
@@ -286,20 +197,29 @@ const FileListContents = ({index, ws, uuid}) => {
 									)}
 									{'\t'}
 									{item.fileName}
-								</CustomNameTh>
-								<CustomSizeTh flex={2}>
+								</CustomTh>
+								<CustomRightTh flex={2}>
 									{item.fileSize}
-								</CustomSizeTh>
+								</CustomRightTh>
 								<CustomTh flex={3}>
 									{item.lastModified}
 								</CustomTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
-								<CustomButtonTh
+								<CustomRightTh
 									disabled={
 										item.fileType === 'directory' ||
 										(item.fileName === '..' && true)
 									}
-									onClick={(e) => toEditMode(e, item)}
+									onClick={(e) =>
+										toEditMode(
+											e,
+											ws,
+											uuid,
+											pathItem?.path,
+											item,
+											dispatch,
+										)
+									}
 									flex={0.3}
 								>
 									<CustomThBtn
@@ -311,8 +231,8 @@ const FileListContents = ({index, ws, uuid}) => {
 									>
 										<MdEdit />
 									</CustomThBtn>
-								</CustomButtonTh>
-								<CustomButtonTh
+								</CustomRightTh>
+								<CustomRightTh
 									disabled={item.fileName === '..' && true}
 									onClick={(e) => download(e, item)}
 									flex={0.3}
@@ -326,72 +246,13 @@ const FileListContents = ({index, ws, uuid}) => {
 									>
 										<MdFileDownload />
 									</CustomThBtn>
-								</CustomButtonTh>
+								</CustomRightTh>
 							</tr>
 						);
 					})}
 				</CustomTbody>
 			</CustomTable>
-			<Menu
-				id={MENU_ID}
-				animation={animation.slide}
-				style={{fontSize: '14px'}}
-			>
-				<Item
-					disabled={
-						highlightItem?.list.length === 0 ||
-						highlightItem?.list[0].fileName === '..'
-					}
-					id='Download'
-					onClick={handleItemClick}
-				>
-					Download
-				</Item>
-				<Item
-					disabled={
-						highlightItem?.list.length !== 1 ||
-						highlightItem?.list[0].fileType === 'directory'
-					}
-					id='Edit'
-					onClick={handleItemClick}
-				>
-					Edit
-				</Item>
-				<Separator />
-
-				<Item id='New Folder' onClick={handleItemClick}>
-					New Folder
-				</Item>
-				<Item
-					disabled={
-						highlightItem?.list.length !== 1 ||
-						highlightItem?.list[0].fileName === '..'
-					}
-					id='Rename'
-					onClick={handleItemClick}
-				>
-					Rename
-				</Item>
-				<Separator />
-				<Item
-					disabled={
-						highlightItem?.list.length === 0 ||
-						highlightItem?.list[0].fileName === '..'
-					}
-					id='Delete'
-					onClick={handleItemClick}
-				>
-					Delete
-				</Item>
-			</Menu>
-
-			<ConfirmPopup
-				keyword={keyword}
-				open={open}
-				setOpen={setOpen}
-				ws={ws}
-				uuid={uuid}
-			/>
+			<ContextMenu ws={ws} uuid={uuid} />
 		</>
 	);
 };

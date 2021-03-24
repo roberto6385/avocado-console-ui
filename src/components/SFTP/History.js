@@ -12,7 +12,7 @@ const SFTPBody = styled(Card.Body)`
 `;
 
 const HistoryBox = styled.div`
-	min-width: 250px;
+	min-width: 220px;
 	display: flex;
 	flex-direction: column;
 	.card-header {

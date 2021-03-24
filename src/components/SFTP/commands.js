@@ -1,4 +1,8 @@
-import {SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_LIST,
+	SFTP_SAVE_CURRENT_MODE,
+} from '../../reducers/sftp';
+import {sendCommandByGet} from './commands/sendCommandGet';
 
 export const listConversion = (result, uuid, dispatch) => {
 	console.log('run listConversion');
@@ -47,4 +51,22 @@ export const listConversion = (result, uuid, dispatch) => {
 		type: SFTP_SAVE_CURRENT_LIST,
 		data: {uuid, list: fileList},
 	});
+};
+
+export const toEditMode = (e, ws, uuid, path, item, dispatch) => {
+	e.stopPropagation();
+	if (item.fileName !== '..' && item.fileType !== 'directory') {
+		sendCommandByGet(
+			'edit',
+			ws,
+			uuid,
+			path,
+			item.fileName,
+			dispatch,
+		).then();
+		dispatch({
+			type: SFTP_SAVE_CURRENT_MODE,
+			data: {uuid, mode: 'edit'},
+		});
+	}
 };
