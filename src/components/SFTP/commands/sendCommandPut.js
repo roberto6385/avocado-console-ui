@@ -1,4 +1,5 @@
 import SFTP from '../../../dist/sftp_pb';
+import {SFTP_SAVE_HISTORY} from '../../../reducers/sftp';
 
 export const sendCommandByPut = (
 	command,
@@ -7,6 +8,7 @@ export const sendCommandByPut = (
 	uuid,
 	getPath,
 	getFileName,
+	dispatch,
 ) => {
 	console.log('run sendCommandByPut');
 
@@ -38,7 +40,7 @@ export const sendCommandByPut = (
 
 			var cmdObj;
 
-			if (command === 'put') {
+			if (command === 'put' || command === 'edit') {
 				cmdObj = new SFTP.CommandByPut();
 				msgReqObj.setPut(cmdObj);
 			} else if (command === 'put-direct') {
@@ -91,6 +93,19 @@ export const sendCommandByPut = (
 				} else {
 					sendBuffer({buffer: data, last: true});
 					console.log('file read end. total size : ', total);
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: file.name,
+							path: getPath,
+							size: file.size,
+							todo: command,
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
+					});
 					resolve();
 				}
 			});

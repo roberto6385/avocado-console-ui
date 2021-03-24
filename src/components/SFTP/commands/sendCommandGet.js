@@ -3,6 +3,7 @@ import SFTP from '../../../dist/sftp_pb';
 import {
 	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_TEXT,
+	SFTP_SAVE_HISTORY,
 } from '../../../reducers/sftp';
 
 // eslint-disable-next-line no-undef
@@ -137,6 +138,20 @@ export const sendCommandByGet = (
 								a.download = getFileName;
 								a.click();
 								window.URL.revokeObjectURL(url);
+
+								dispatch({
+									type: SFTP_SAVE_HISTORY,
+									data: {
+										uuid,
+										name: getFileName,
+										path: getPath,
+										size: blob.size,
+										todo: 'get',
+										progress: 100,
+										// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+										// 삭제, dispatch, 삭제 해서 progress 100 만들기
+									},
+								});
 							}
 
 							resolve();

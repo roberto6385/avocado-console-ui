@@ -41,6 +41,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 					uuid,
 					pathItem?.path,
 					File[key].name,
+					dispatch,
 				);
 			}
 			sendCommandByLs(ws, uuid, pathItem?.path, dispatch);

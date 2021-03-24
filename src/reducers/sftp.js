@@ -3,11 +3,16 @@ import produce from 'immer';
 export const initialState = {
 	currentMode: [],
 	currentPath: [],
+
+	// file list
 	currentList: [],
 	currentHighlight: [],
-
 	currentText: [],
 	currentCompareText: [],
+
+	//history
+	History: [],
+	HISTORY_ID: 0,
 };
 
 export const SFTP_SAVE_CURRENT_MODE = 'SFTP_SAVE_CURRENT_MODE';
@@ -16,14 +21,19 @@ export const SFTP_DELETE_CURRENT_MODE = 'SFTP_DELETE_CURRENT_MODE';
 export const SFTP_SAVE_CURRENT_PATH = 'SFTP_SAVE_CURRENT_PATH';
 export const SFTP_DELETE_CURRENT_PATH = 'SFTP_DELETE_CURRENT_PATH';
 
+// file list
 export const SFTP_SAVE_CURRENT_LIST = 'SFTP_SAVE_CURRENT_LIST';
 export const SFTP_DELETE_CURRENT_LIST = 'SFTP_DELETE_CURRENT_LIST';
-
 export const SFTP_SAVE_CURRENT_HIGHLIGHT = 'SFTP_SAVE_CURRENT_HIGHLIGHT';
 export const SFTP_DELETE_CURRENT_HIGHLIGHT = 'SFTP_DELETE_CURRENT_HIGHLIGHT';
 
+//text
 export const SFTP_SAVE_CURRENT_TEXT = 'SFTP_SAVE_CURRENT_TEXT';
 export const SFTP_SAVE_COMPARE_TEXT = 'SFTP_SAVE_COMPARE_TEXT';
+
+// history
+export const SFTP_SAVE_HISTORY = 'SFTP_SAVE_HISTORY';
+export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
 
 // 리듀서 findIndex 변수들
 let currentMode_index;
@@ -182,6 +192,35 @@ const reducer = (state = initialState, action) => {
 				);
 				if (currentHighlight_index !== -1) {
 					draft.currentHighlight.splice(currentHighlight_index, 1);
+				}
+				break;
+
+			case SFTP_SAVE_HISTORY:
+				draft.History.unshift({
+					id: draft.HISTORY_ID,
+					uuid: action.data.uuid,
+					name: action.data.name,
+					path: action.data.path,
+					size: action.data.size,
+					todo: action.data.todo,
+					progress: action.data.progress,
+				});
+				draft.HISTORY_ID++;
+				break;
+
+			case SFTP_DELETE_HISTORY:
+				// 개별삭제
+				if (action.data.id !== -1) {
+					const tempA = draft.History;
+					draft.History = tempA.filter(
+						(it) => it.id !== action.data.id,
+					);
+				} else {
+					//전체삭제
+					const tempB = draft.History;
+					draft.History = tempB.filter(
+						(it) => it.uuid !== action.data.uuid,
+					);
 				}
 				break;
 

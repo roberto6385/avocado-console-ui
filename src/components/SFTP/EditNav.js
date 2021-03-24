@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {MAIN_COLOR} from '../../styles/global';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 
@@ -54,20 +54,33 @@ const EditNav = ({index, ws, uuid}) => {
 		a.download = curText?.name;
 		a.click();
 		window.URL.revokeObjectURL(url);
+		dispatch({
+			type: SFTP_SAVE_HISTORY,
+			data: {
+				uuid,
+				name: editFile.name,
+				path: path,
+				size: editFile.size,
+				todo: 'get',
+				progress: 100,
+				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+				// 삭제, dispatch, 삭제 해서 progress 100 만들기
+			},
+		});
 	};
 
 	const editedFileSave = () => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		console.log(editedFile);
 		sendCommandByPut(
-			'put',
+			'edit',
 			editedFile,
 			ws,
 			uuid,
 			curPath?.path,
 			editedFile.name,
+			dispatch,
 		)
 			.then(() =>
 				sendCommandByGet(

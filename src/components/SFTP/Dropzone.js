@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const DropzoneBox = styled.div`
 	height: 100%;
+	overflow-y: scroll;
 `;
 
 // eslint-disable-next-line react/prop-types

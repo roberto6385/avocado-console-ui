@@ -12,6 +12,7 @@ import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import BTable from 'react-bootstrap/Table';
 import {toEditMode} from './commands';
 import ContextMenu from './ContextMenu';
+import {HIGHLIGHT_COLOR} from '../../styles/global';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -48,11 +49,11 @@ const CustomTbody = styled.tbody`
 	tr.highlight_tbody {
 		color: black;
 		&:hover {
-			background: #edeae5;
+			background: ${HIGHLIGHT_COLOR};
 		}
 	}
 	tr.highlight_tbody.active {
-		background: #edeae5;
+		background: ${HIGHLIGHT_COLOR};
 	}
 `;
 

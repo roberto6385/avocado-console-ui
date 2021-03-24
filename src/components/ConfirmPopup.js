@@ -6,6 +6,7 @@ import {PropTypes} from 'prop-types';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {sendCommandByRename} from './SFTP/commands/sendCommandRename';
 import {sendCommandByMkdir} from './SFTP/commands/sendCommandMkdir';
@@ -62,12 +63,23 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 			await sendCommandByRm(
 				ws,
 				uuid,
-
 				curPath?.path + '/' + key.fileName,
 				key.fileType,
 			);
 			await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-
+			dispatch({
+				type: SFTP_SAVE_HISTORY,
+				data: {
+					uuid,
+					name: key.fileName,
+					path: curPath?.path,
+					size: key.fileSize,
+					todo: 'rm',
+					progress: 100,
+					// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+					// 삭제, dispatch, 삭제 해서 progress 100 만들기
+				},
+			});
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: []},
@@ -109,12 +121,13 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		});
 		console.log(editedFile);
 		sendCommandByPut(
-			'put',
+			'edit',
 			editedFile,
 			ws,
 			uuid,
 			curPath?.path,
 			editedFile.name,
+			dispatch,
 		)
 			.then(() =>
 				sendCommandByGet(
