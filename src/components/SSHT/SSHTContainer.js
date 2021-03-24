@@ -63,7 +63,7 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 					sshtBody.current?.clientWidth,
 				);
 		});
-	}, []);
+	}, [display]);
 
 	return (
 		<SSHTContainer className={'fix-height'}>
@@ -71,9 +71,8 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 				<FaExpand onClick={onCLickFullScreen} />
 				<ConvertSFTP data={server.find((x) => x.id === server_id)} />
 			</Card.Header>
-			<SSHTBody ref={sshtBody}>
+			<SSHTBody ref={sshtBody} id={`ssht_${String(index)}`}>
 				<SSHT
-					id={`ssht_${String(index)}`}
 					index={index}
 					display={display}
 					height={height}

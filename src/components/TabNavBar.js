@@ -6,13 +6,13 @@ import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
 import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
 import SplitBar from './SplitBar';
 
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import {Close} from '../dist/SSHTWs';
+import {Close} from '../dist/ssht_ws';
 
 const TabContainer = styled(Tab.Container)`
 	display: flex !important;

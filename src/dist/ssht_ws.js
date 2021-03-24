@@ -94,7 +94,7 @@ export const GetMessage = (e) => {
 	} else {
 		const message = JSON.parse(e.data);
 		if (message['status'] === 'connected') {
-			return 'connected';
+			return {type: 'connected', uuid: message.uuid};
 		}
 	}
 };

@@ -6,6 +6,7 @@ import TabNavBar from './TabNavBar';
 import WorkSpace from './WorkSpace';
 import {NAV_HEIGHT} from '../styles/global';
 import Footer from './Footer';
+import {useSelector} from 'react-redux';
 
 const BotttomBar = styled(Footer)`
 	height: ${NAV_HEIGHT};
@@ -19,11 +20,13 @@ const RC_Col = styled(Col)`
 `;
 
 const RightContainer = () => {
+	const {current_tab} = useSelector((state) => state.common);
+
 	return (
 		<RC_Col className={'fix-height'} xs={10}>
 			<TabNavBar />
 			<WorkSpace />
-			<BotttomBar />
+			{current_tab !== null && <BotttomBar />}
 		</RC_Col>
 	);
 };

@@ -40,7 +40,6 @@ let currentMode_index;
 let currentPath_index;
 let currentList_index;
 let currentHighlight_index;
-
 let currentText_index;
 let currentCompare_index;
 

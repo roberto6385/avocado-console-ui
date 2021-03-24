@@ -71,8 +71,6 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const SAVE_KEYWORDS = ['Rename', 'New Folder', 'Changes'];
 	const FORM_KEYWORDS = ['Rename', 'New Folder'];
 
-	// console.log(highlightItem?.list);
-
 	const contextDelete = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByRm(

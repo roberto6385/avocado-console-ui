@@ -7,7 +7,7 @@ import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 
-import {Close, Connect, GetMessage} from '../dist/SSHTWs';
+import {Close, Connect, GetMessage} from '../dist/ssht_ws';
 import styled from 'styled-components';
 
 const SaveButton = styled(Button)`
