@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from './Dropzone';
 import {sendCommandByPut} from './commands/sendCommandPut';
@@ -12,6 +12,8 @@ import {
 	MdRemoveCircle,
 } from 'react-icons/all';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
+import {useContextMenu} from 'react-contexify';
+import HistoryContextMenu from './HistoryContextMenu';
 
 const CustomP = styled.p`
 	display: flex;
@@ -54,11 +56,10 @@ const HistoryContents = ({index, ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const eachHistory = History.filter((it) => it.uuid === uuid);
+	const [highlight, setHighlight] = useState([]);
 
 	const upload = async (files) => {
-		// console.log(files);
 		for await (const key of files) {
-			// console.log(key);
 			await sendCommandByPut(
 				'put',
 				key,
@@ -73,21 +74,48 @@ const HistoryContents = ({index, ws, uuid}) => {
 	};
 
 	const selectItem = (e, history) => {
-		// if(e.shiftKey){
-		//
-		// }else{
-		//
-		// }
+		if (e.shiftKey) {
+			if (!highlight.includes(history)) {
+				setHighlight([...highlight, history]);
+			}
+		} else {
+			if (highlight.includes(history)) {
+				setHighlight([]);
+			} else {
+				setHighlight([history]);
+			}
+		}
 	};
 
-	console.log(History);
+	const {show} = useContextMenu({
+		id: uuid + 'history',
+	});
+
+	function displayMenu(e) {
+		// pass the item id so the `onClick` on the `Item` has access to it
+		show(e);
+	}
+
+	const contextMenuOpen = (e, history) => {
+		if (!highlight.includes(history)) {
+			setHighlight([history]);
+		}
+		displayMenu(e);
+	};
+
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			<CustomUl>
 				{eachHistory.map((history) => {
 					return (
 						<CustomLi
+							onContextMenu={(e) => contextMenuOpen(e, history)}
 							key={history.id}
+							className={
+								highlight.includes(history)
+									? 'history_list active'
+									: 'history_list'
+							}
 							onClick={(e) => selectItem(e, history)}
 						>
 							<div
@@ -137,6 +165,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 					);
 				})}
 			</CustomUl>
+			<HistoryContextMenu ws={ws} uuid={uuid} />
 		</Dropzone>
 	);
 };

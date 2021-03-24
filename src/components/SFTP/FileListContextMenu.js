@@ -7,7 +7,7 @@ import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
 
-const ContextMenu = ({ws, uuid}) => {
+const FileListContextMenu = ({ws, uuid}) => {
 	const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ const ContextMenu = ({ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 
-	const MENU_ID = uuid;
+	const MENU_ID = uuid + 'fileList';
 	const contextDownload = async () => {
 		for await (const key of highlightItem?.list) {
 			await sendCommandByGet(
@@ -127,9 +127,9 @@ const ContextMenu = ({ws, uuid}) => {
 	);
 };
 
-ContextMenu.propTypes = {
+FileListContextMenu.propTypes = {
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };
 
-export default ContextMenu;
+export default FileListContextMenu;

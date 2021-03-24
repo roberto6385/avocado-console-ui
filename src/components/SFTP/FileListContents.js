@@ -11,8 +11,8 @@ import {sendCommandByGet} from './commands/sendCommandGet';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import BTable from 'react-bootstrap/Table';
 import {toEditMode} from './commands';
-import ContextMenu from './ContextMenu';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
+import FileListContextMenu from './FileListContextMenu';
 
 const CustomTable = styled(BTable)`
 	white-space: nowrap;
@@ -75,9 +75,8 @@ const FileListContents = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 
-	const MENU_ID = uuid;
 	const {show} = useContextMenu({
-		id: MENU_ID,
+		id: uuid + 'fileList',
 	});
 	function displayMenu(e) {
 		// pass the item id so the `onClick` on the `Item` has access to it
@@ -138,16 +137,23 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	const contextMenuOpen = (e, item = '') => {
 		e.preventDefault();
-		// e.stopPropagation();
 		displayMenu(e);
-		if (
-			highlightItem?.list.length < 2 ||
-			!highlightItem?.list.includes(item)
-		) {
+		e.stopPropagation();
+		if (item === '') {
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: [item]},
+				data: {uuid, list: []},
 			});
+		} else {
+			if (
+				highlightItem?.list.length < 2 ||
+				!highlightItem?.list.includes(item)
+			) {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: [item]},
+				});
+			}
 		}
 	};
 
@@ -176,7 +182,7 @@ const FileListContents = ({index, ws, uuid}) => {
 						</CustomRightTh>
 					</HeaderTr>
 				</thead>
-				<CustomTbody>
+				<CustomTbody onContextMenu={contextMenuOpen}>
 					{data?.map((item, index) => {
 						return (
 							<tr
@@ -253,7 +259,7 @@ const FileListContents = ({index, ws, uuid}) => {
 					})}
 				</CustomTbody>
 			</CustomTable>
-			<ContextMenu ws={ws} uuid={uuid} />
+			<FileListContextMenu ws={ws} uuid={uuid} />
 		</>
 	);
 };
