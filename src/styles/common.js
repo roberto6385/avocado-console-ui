@@ -1,15 +1,6 @@
 import styled from 'styled-components';
 
-import {
-	Button,
-	Card,
-	Col,
-	Container,
-	FormControl,
-	Modal,
-	Nav,
-	Tab,
-} from 'react-bootstrap';
+import {Button, Card, Col, FormControl, Modal, Nav, Tab} from 'react-bootstrap';
 import {
 	HIGHLIGHT_COLOR,
 	MAIN_COLOR,
@@ -114,6 +105,7 @@ export const RC_Col = styled(Col)`
 `;
 
 export const IconButton = styled.button`
+	line-height: 0;
 	background: transparent;
 	outline: none;
 	border: none;

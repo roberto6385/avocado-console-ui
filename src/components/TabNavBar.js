@@ -1,14 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import {NavLink} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {RiTerminalFill} from 'react-icons/ri';
-import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
-import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
+import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {Close} from '../dist/ssht_ws';
 import {
 	FlexBox,
@@ -34,15 +32,12 @@ const TabNavBar = () => {
 
 	const onClickDelete = useCallback(
 		(tab_id) => () => {
-			const current_tab = tab.find((x) => x.id === tab_id);
-			const {type} = current_tab;
-			const {ws, uuid} = current_tab.socket;
+			const clicked_tab = tab.find((x) => x.id === tab_id);
+			const {type} = clicked_tab;
+			const {ws, uuid} = clicked_tab.socket;
 
-			if (type === 'SSHT') {
-				ws.send(Close(uuid));
-			} else {
-				sendDisconnect(ws, uuid, tab_id, dispatch);
-			}
+			if (type === 'SSHT') ws.send(Close(uuid));
+			else sendDisconnect(ws, uuid, tab_id, dispatch);
 		},
 		[dispatch, tab],
 	);
