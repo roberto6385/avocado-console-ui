@@ -12,10 +12,11 @@ import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
 import {
 	FlexBox,
+	IconButton,
 	IconSpan,
 	NavItem,
-	Span,
 	TabContainer,
+	TabIconSpan,
 	TabNav,
 } from '../styles/common';
 import {MAIN_COLOR} from '../styles/global';
@@ -72,22 +73,17 @@ const TabNavBar = () => {
 										onClick={changeVisibleTab(data.id)}
 									>
 										{data.type === 'SSHT' ? (
-											<RiTerminalFill />
+											<TabIconSpan />
 										) : (
-											<BiTransferAlt />
+											<TabIconSpan />
 										)}
 										{data.server.name}
 									</IconSpan>
-									<span
-										style={{
-											marginLeft: '10px',
-											color: MAIN_COLOR,
-										}}
+									<IconButton
+										onClick={onClickDelete(data.id)}
 									>
-										<FaTimes
-											onClick={onClickDelete(data.id)}
-										/>
-									</span>
+										<FaTimes />
+									</IconButton>
 								</NavLink>
 							</NavItem>
 						))}

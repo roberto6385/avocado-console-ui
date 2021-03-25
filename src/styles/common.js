@@ -22,6 +22,8 @@ import ServerNavBar from '../components/ServerNavBar';
 import background from '../images/bg_3.png';
 import Footer from '../components/Footer';
 import {FaServer} from 'react-icons/all';
+import {RiTerminalFill} from 'react-icons/ri';
+import {BiTransferAlt} from 'react-icons/bi';
 
 export const PopupButton = styled(Button)`
 	width: 100px;
@@ -217,7 +219,14 @@ export const NavItem = styled(Nav.Item)`
 `;
 
 export const IconSpan = styled.span`
+	color: black;
+	display: flex;
+	align-items: center;
+`;
+
+export const TabIconSpan = styled(RiTerminalFill, BiTransferAlt)`
 	color: ${MAIN_COLOR};
+	margin-right: 5px;
 `;
 
 export const FlexBox = styled.div`
