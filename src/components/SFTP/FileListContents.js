@@ -157,10 +157,11 @@ const FileListContents = ({index, ws, uuid}) => {
 									{item.fileName}
 								</CustomTh>
 								<CustomRightTh flex={2}>
-									{item.fileSize}
+									{item.fileName !== '..' && item.fileSize}
 								</CustomRightTh>
 								<CustomTh flex={3}>
-									{item.lastModified}
+									{item.fileName !== '..' &&
+										item.lastModified}
 								</CustomTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomRightTh

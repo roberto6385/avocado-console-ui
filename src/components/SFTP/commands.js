@@ -39,10 +39,21 @@ export const listConversion = (result, uuid, dispatch) => {
 	fileList.sort((a, b) => {
 		let typeA = a.fileType;
 		let typeB = b.fileType;
+		let nameA = a.fileName;
+		let nameB = b.fileName;
+		if (nameA === '..') {
+			return -1;
+		}
 		if (typeA < typeB) {
 			return -1;
 		}
 		if (typeA > typeB) {
+			return 1;
+		}
+		if (nameA < nameB) {
+			return -1;
+		}
+		if (nameA > nameB) {
 			return 1;
 		}
 		return 0;

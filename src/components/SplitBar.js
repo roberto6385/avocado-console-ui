@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
-import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {BsSquareFill, FaTh, FaThLarge} from 'react-icons/all';
-import {MAIN_COLOR, NAV_HEIGHT} from '../styles/global';
+import {MAIN_COLOR} from '../styles/global';
 import {IconButton, SplitButtonContainer} from '../styles/common';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();
+	const {cols} = useSelector((state) => state.common);
 
 	const changeColumn = useCallback(
 		(cols, max) => () => {
@@ -22,13 +22,13 @@ const SplitBar = () => {
 	return (
 		<SplitButtonContainer>
 			<IconButton onClick={changeColumn(1, 1)}>
-				<BsSquareFill />
+				<BsSquareFill style={cols === 1 && {color: MAIN_COLOR}} />
 			</IconButton>
-			<IconButton>
-				<FaThLarge onClick={changeColumn(2, 4)} />
+			<IconButton onClick={changeColumn(2, 4)}>
+				<FaThLarge style={cols === 2 && {color: MAIN_COLOR}} />
 			</IconButton>
-			<IconButton>
-				<FaTh onClick={changeColumn(3, 3)} />
+			<IconButton onClick={changeColumn(3, 3)}>
+				<FaTh style={cols === 3 && {color: MAIN_COLOR}} />
 			</IconButton>
 		</SplitButtonContainer>
 	);
