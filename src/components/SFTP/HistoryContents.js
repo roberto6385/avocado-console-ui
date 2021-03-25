@@ -11,10 +11,16 @@ import {
 	FaEdit,
 	MdRemoveCircle,
 } from 'react-icons/all';
-import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR} from '../../styles/global';
+import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../styles/global';
 import {useContextMenu} from 'react-contexify';
 import HistoryContextMenu from './HistoryContextMenu';
-import {CustomLi, CustomP, CustomUl, NoHistory} from '../../styles/sftp';
+import {
+	CustomLi,
+	CustomP,
+	CustomUl,
+	FlexSpaceBetween,
+	NoHistory,
+} from '../../styles/sftp';
 
 const HistoryContents = ({index, ws, uuid}) => {
 	const {currentPath, History} = useSelector((state) => state.sftp);
@@ -93,18 +99,13 @@ const HistoryContents = ({index, ws, uuid}) => {
 								}
 								onClick={(e) => selectItem(e, history)}
 							>
-								<div
-									style={{
-										display: 'flex',
-										justifyContent: 'space-between',
-									}}
-								>
+								<FlexSpaceBetween>
 									<CustomP>
 										{history.todo === 'put' && (
 											<FaArrowAltCircleUp
 												style={{
 													marginRight: '4px',
-													color: '#116466',
+													color: `${MAIN_COLOR}`,
 												}}
 											/>
 										)}
@@ -112,7 +113,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 											<FaArrowAltCircleDown
 												style={{
 													marginRight: '4px',
-													color: '#3D88F5',
+													color: `${BLUE_COLOR}`,
 												}}
 											/>
 										)}
@@ -125,14 +126,14 @@ const HistoryContents = ({index, ws, uuid}) => {
 											<MdRemoveCircle
 												style={{
 													marginRight: '4px',
-													color: '#F5513D',
+													color: `${RED_COLOR}`,
 												}}
 											/>
 										)}
 										{history.name}
 									</CustomP>
 									<CustomP>{history.size} byte</CustomP>
-								</div>
+								</FlexSpaceBetween>
 								<CustomP>
 									{history.progress === 100
 										? 'Complete'

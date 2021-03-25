@@ -18,6 +18,7 @@ import {
 	CustomThBtn,
 	HeaderTr,
 } from '../../styles/sftp';
+import TableHead from './FileListTableHead';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentPath, currentHighlight} = useSelector(
@@ -115,24 +116,7 @@ const FileListContents = ({index, ws, uuid}) => {
 	return (
 		<>
 			<CustomTable>
-				<thead>
-					<HeaderTr>
-						<CustomTh flex={10}>Name</CustomTh>
-						<CustomRightTh flex={2}>Size</CustomRightTh>
-						<CustomTh flex={3}>Modified</CustomTh>
-						<CustomTh flex={3}>Permission</CustomTh>
-						<CustomRightTh flex={0.3}>
-							<CustomThBtn disabled style={{color: 'white'}}>
-								<MdFileDownload />
-							</CustomThBtn>
-						</CustomRightTh>
-						<CustomRightTh flex={0.3}>
-							<CustomThBtn disabled style={{color: 'white'}}>
-								<MdFileDownload />
-							</CustomThBtn>
-						</CustomRightTh>
-					</HeaderTr>
-				</thead>
+				<TableHead />
 				<CustomTbody onContextMenu={contextMenuOpen}>
 					{data?.map((item, index) => {
 						return (

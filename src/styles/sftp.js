@@ -64,6 +64,7 @@ export const Navbar = styled.div`
 	align-items: center;
 	width: 100%;
 `;
+
 export const NavItem = styled.button`
 	background: transparent;
 	border: none;
@@ -167,6 +168,12 @@ export const HistoryBody = styled(Card.Body)`
 `;
 
 // HistoryContents
+
+export const FlexSpaceBetween = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
 
 export const CustomP = styled.p`
 	display: flex;
