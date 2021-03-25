@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch} from 'react-redux';
 import {sendConnect} from './commands/sendConnect';
-import {ConvertButton, ConvertIcon} from '../../styles/sftp';
+import {ConvertIcon} from '../../styles/sftp';
+import {IconButton} from '../../styles/common';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
@@ -12,9 +13,9 @@ const ConvertSFTP = ({data}) => {
 	};
 
 	return (
-		<ConvertButton onClick={connection}>
+		<IconButton onClick={connection}>
 			<ConvertIcon />
-		</ConvertButton>
+		</IconButton>
 	);
 };
 

@@ -6,7 +6,6 @@ import {FaTimes} from 'react-icons/all';
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
-
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
 import {AddServerCard, PopupButton} from '../styles/common';
 import AlertPopup from './AlertPopup';

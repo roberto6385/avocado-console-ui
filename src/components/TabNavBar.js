@@ -12,10 +12,12 @@ import {
 	FlexBox,
 	IconButton,
 	IconSpan,
-	NavItem,
+	TabNavItem,
 	TabContainer,
 	TabIconSpan,
 	TabNav,
+	TabSFTPIcon,
+	TabSSHTIcon,
 } from '../styles/common';
 
 const TabNavBar = () => {
@@ -52,7 +54,7 @@ const TabNavBar = () => {
 				<TabNav>
 					{tab &&
 						tab.map((data) => (
-							<NavItem key={data.id.toString()}>
+							<TabNavItem key={data.id.toString()}>
 								<NavLink
 									className={
 										data.id === current_tab
@@ -67,9 +69,9 @@ const TabNavBar = () => {
 										onClick={changeVisibleTab(data.id)}
 									>
 										{data.type === 'SSHT' ? (
-											<TabIconSpan />
+											<TabSSHTIcon />
 										) : (
-											<TabIconSpan />
+											<TabSFTPIcon />
 										)}
 										{data.server.name}
 									</IconSpan>
@@ -79,7 +81,7 @@ const TabNavBar = () => {
 										<FaTimes />
 									</IconButton>
 								</NavLink>
-							</NavItem>
+							</TabNavItem>
 						))}
 				</TabNav>
 				<SplitBar />

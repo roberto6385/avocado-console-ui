@@ -5,13 +5,6 @@ import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT} from './global';
 import BTable from 'react-bootstrap/Table';
 
 // ConvertSFTP
-export const ConvertButton = styled.button`
-	background: transparent;
-	outline: none;
-	border: none;
-	line-height: 0;
-`;
-
 export const ConvertIcon = styled(BiTransferAlt)`
 	font-size: 21px;
 `;

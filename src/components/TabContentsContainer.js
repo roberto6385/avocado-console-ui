@@ -1,19 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
-import {Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {RiTerminalFill} from 'react-icons/ri';
-import {BiTransferAlt} from 'react-icons/bi';
 import {FaTimes} from 'react-icons/all';
 
 import SSHTContainer from './SSHT/SSHTContainer';
-import styled from 'styled-components';
-import {SECOND_NAV_HEIGHT} from '../styles/global';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
-import {CardContainer, ContainerCardHeader} from '../styles/common';
+import {
+	TabContentsCard,
+	TabContentsCardHeader,
+	TabSFTPIcon,
+	TabSSHTIcon,
+} from '../styles/common';
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -60,20 +60,20 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	}, []);
 
 	return (
-		<CardContainer
+		<TabContentsCard
 			onClick={onClickChangeTab}
 			className={display ? 'visible' : 'invisible'}
 			h={height}
 			w={width}
 		>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<ContainerCardHeader as='h6'>
-					{type === 'SSHT' ? <RiTerminalFill /> : <BiTransferAlt />}
+				<TabContentsCardHeader as='h6'>
+					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
 					{server?.name}
 					<span className='right'>
 						<FaTimes onClick={onClickDelete()} />
 					</span>
-				</ContainerCardHeader>
+				</TabContentsCardHeader>
 			)}
 			{type === 'SSHT' ? (
 				<SSHTContainer
@@ -85,7 +85,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			) : (
 				<SFTPContainer index={index} socket={socket} />
 			)}
-		</CardContainer>
+		</TabContentsCard>
 	);
 };
 

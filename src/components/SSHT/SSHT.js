@@ -4,27 +4,11 @@ import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
-import {Form} from 'react-bootstrap';
 
 import {CLOSE_TAB} from '../../reducers/common';
 import {Close, GetMessage, SendMessage, Resize} from '../../dist/ssht_ws';
 import useInput from '../../hooks/useInput';
-
-const SSHTerminal = styled.div`
-	height: 100%;
-	width: 100%;
-	max-height: 100%;
-	max-width: 100%;
-`;
-
-const FormControl = styled(Form.Control)`
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	width: 200px;
-	display: none;
-`;
+import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -127,10 +111,9 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 	);
 
 	return (
-		<SSHTerminal style={{position: 'relative'}}>
+		<SSHTerminal>
 			<SSHTerminal id={`terminal_${String(index)}`} />
-			<FormControl
-				style={{zIndex: 999}}
+			<TerminalSearchForm
 				id={`search_${String(index)}`}
 				onChange={onChangeSearch}
 				onKeyPress={onSubmitSearch}
