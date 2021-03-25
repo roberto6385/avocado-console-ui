@@ -73,6 +73,7 @@ const reducer = (state = initialState, action) => {
 			)
 				current_tab = tab.find((x) => x.display).id;
 		}
+		return current_tab;
 	};
 
 	return produce(state, (draft) => {
@@ -91,7 +92,11 @@ const reducer = (state = initialState, action) => {
 					(v) => v.id !== draft.clicked_server,
 				);
 
-				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				draft.current_tab = fillTabs(
+					draft.tab,
+					draft.max_display_tab,
+					draft.current_tab,
+				);
 				break;
 			}
 
@@ -116,7 +121,11 @@ const reducer = (state = initialState, action) => {
 				});
 				draft.current_tab = draft.tab_index;
 
-				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				draft.current_tab = fillTabs(
+					draft.tab,
+					draft.max_display_tab,
+					draft.current_tab,
+				);
 				draft.tab_index++;
 				break;
 			}
@@ -124,7 +133,11 @@ const reducer = (state = initialState, action) => {
 			case CLOSE_TAB: {
 				draft.tab = draft.tab.filter((v) => v.id !== action.data);
 
-				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				draft.current_tab = fillTabs(
+					draft.tab,
+					draft.max_display_tab,
+					draft.current_tab,
+				);
 				break;
 			}
 
@@ -134,7 +147,11 @@ const reducer = (state = initialState, action) => {
 				].display = true;
 				draft.current_tab = action.data;
 
-				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				draft.current_tab = fillTabs(
+					draft.tab,
+					draft.max_display_tab,
+					draft.current_tab,
+				);
 				break;
 			}
 
@@ -142,7 +159,11 @@ const reducer = (state = initialState, action) => {
 				draft.cols = action.data.cols;
 				draft.max_display_tab = action.data.max;
 
-				fillTabs(draft.tab, draft.max_display_tab, draft.current_tab);
+				draft.current_tab = fillTabs(
+					draft.tab,
+					draft.max_display_tab,
+					draft.current_tab,
+				);
 				break;
 			}
 			case CHANGE_CURRENT_TAB:

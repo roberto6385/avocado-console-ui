@@ -1,29 +1,18 @@
 import React from 'react';
+import {Row} from 'react-bootstrap';
+
+import AddServerForm from '../components/AddServerForm';
 import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
-import {Container, Row} from 'react-bootstrap';
-import styled from 'styled-components';
-import AddServerForm from '../components/AddServerForm';
-
-const MainContainer = styled(Container)`
-	margin: 0;
-	padding: 0;
-	height: 100vh;
-`;
-
-const MainRow = styled(Row)`
-	height: 100%;
-	width: 100%;
-	margin: 0;
-`;
+import {MainContainer} from '../styles/page';
 
 const Main = () => {
 	return (
 		<MainContainer fluid>
-			<MainRow>
+			<Row className={'fix-height'}>
 				<LeftContainer />
 				<RightContainer />
-			</MainRow>
+			</Row>
 			<AddServerForm />
 		</MainContainer>
 	);

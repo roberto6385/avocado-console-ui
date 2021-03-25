@@ -8,7 +8,7 @@ import useInput from '../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import {PopupButton} from '../styles/common';
+import {AddServerCard, PopupButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 
 const AddServerForm = () => {
@@ -81,7 +81,7 @@ const AddServerForm = () => {
 
 	return (
 		<div>
-			<Card id='add-server-form'>
+			<AddServerCard id='add-server-form'>
 				<Card.Header as='h5'>
 					Add Server
 					<span className={'right'}>
@@ -220,7 +220,7 @@ const AddServerForm = () => {
 						</div>
 					</Form>
 				</Card.Body>
-			</Card>
+			</AddServerCard>
 			<AlertPopup
 				keyword='Invalid Server'
 				open={open}

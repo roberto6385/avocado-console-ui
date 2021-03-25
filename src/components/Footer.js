@@ -7,11 +7,10 @@ import {
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
-import {BottomBar, ButtonsContainer} from '../styles/common';
+import {BottomBar, ButtonsContainer, IconButton} from '../styles/common';
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {search_mode} = useSelector((state) => state.ssht);
 	const {server, tab, current_tab} = useSelector((state) => state.common);
 	// 현재 host 가져오는 코드
 	const currentTabs_tab_info = tab.find((item) => item.id === current_tab);
@@ -26,7 +25,7 @@ const Footer = () => {
 		dispatch({type: SSHT_INCREASE_FONT_SIZE});
 	}, []);
 
-	const onClickDesceaseFont = useCallback(() => {
+	const onClickDeceaseFont = useCallback(() => {
 		dispatch({type: SSHT_DECREASE_FONT_SIZE});
 	}, []);
 
@@ -35,22 +34,18 @@ const Footer = () => {
 	}, [current_tab]);
 
 	return (
-		<BottomBar id='bottom-bar'>
+		<BottomBar>
 			<ButtonsContainer>
 				<div style={{margin: '8px'}}>{currentServerHost}</div>
-				<FaSearchMinus
-					className={'header-footer-button'}
-					onClick={onClickDesceaseFont}
-				/>
-				<FaSearchPlus
-					className={'header-footer-button'}
-					onClick={onClickIncreaseFont}
-				/>
-				<FaSearch
-					className={'header-footer-button'}
-					aria-expanded={search_mode}
-					onClick={onClickOpenSearchBar}
-				/>
+				<IconButton onClick={onClickDeceaseFont}>
+					<FaSearchMinus />
+				</IconButton>
+				<IconButton onClick={onClickIncreaseFont}>
+					<FaSearchPlus />
+				</IconButton>
+				<IconButton onClick={onClickOpenSearchBar}>
+					<FaSearch />
+				</IconButton>
 			</ButtonsContainer>
 		</BottomBar>
 	);
