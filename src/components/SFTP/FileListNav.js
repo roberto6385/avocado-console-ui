@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	BsLayoutThreeColumns,
@@ -11,15 +11,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import {NavItem, PathSpan} from '../../styles/sftp';
+import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
+
+const SearchPath = styled.input`
+	flex: 1;
+	border-radius: 4px;
+	border: 1px solid ${GRAY_COLOR};
+	padding: 0px 8px;
+	outline: none;
+	background: ${DEEP_GRAY_COLOR};
+`;
 
 const FileListNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const [path, setPath] = useState('');
 
-	const goHome = () => {
-		sendCommandByCd(ws, uuid, '/root', dispatch);
-
+	const goHome = (e, nextPath = '/root') => {
+		sendCommandByCd(ws, uuid, nextPath, dispatch);
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
@@ -39,6 +49,32 @@ const FileListNav = ({index, ws, uuid}) => {
 			);
 		}
 	};
+	const searchPath = (e) => {
+		e.preventDefault();
+		path !== '' && goHome(e, path);
+	};
+
+	const input = document.getElementById('fileListNavInput');
+	input?.addEventListener('focusout', () => {
+		setPath(pathItem?.path || '');
+	});
+
+	const handleChange = (e) => {
+		console.log(e.nativeEvent);
+		const {value} = e.target;
+		setPath(value);
+	};
+
+	const EscapeKey = (e) => {
+		console.log(e.keyCode);
+		if (e.keyCode === 27) {
+			setPath(pathItem?.path || '');
+		}
+	};
+
+	useEffect(() => {
+		setPath(pathItem?.path || '');
+	}, [pathItem]);
 
 	return (
 		<>
@@ -54,7 +90,18 @@ const FileListNav = ({index, ws, uuid}) => {
 			<NavItem onClick={goBack}>
 				<GoArrowLeft />
 			</NavItem>
-			<PathSpan>{pathItem?.path}</PathSpan>
+			<form
+				style={{display: 'flex', width: '100%'}}
+				onSubmit={searchPath}
+			>
+				<SearchPath
+					id='fileListNavInput'
+					type='text'
+					value={path}
+					onChange={handleChange}
+					onKeyDown={EscapeKey}
+				/>
+			</form>
 		</>
 	);
 };

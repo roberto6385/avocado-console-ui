@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {SFTP_DELETE_HISTORY} from '../../reducers/sftp';
 
 const HistoryContextMenu = ({ws, uuid, highlight, setHighlight}) => {
 	const dispatch = useDispatch();
-
 	const MENU_ID = uuid + 'history';
-
-	console.log(highlight);
 
 	const contextDeleteHistory = (e) => {
 		for (let value of highlight) {
