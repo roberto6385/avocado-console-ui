@@ -3,6 +3,7 @@ import {BiTransferAlt} from 'react-icons/bi';
 import {Card} from 'react-bootstrap';
 import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT} from './global';
 import BTable from 'react-bootstrap/Table';
+import {GoFile, GoFileDirectory} from 'react-icons/go';
 
 // ConvertSFTP
 export const ConvertIcon = styled(BiTransferAlt)`
@@ -88,6 +89,14 @@ export const SFTPBody = styled(Card.Body)`
 
 // FileListContents
 
+export const DirectoryIcon = styled(GoFileDirectory)`
+	margin-right: 4px;
+`;
+
+export const FileIcon = styled(GoFile)`
+	margin-right: 4px;
+`;
+
 export const CustomTable = styled(BTable)`
 	white-space: nowrap;
 	height: 100%;
@@ -118,6 +127,7 @@ export const CustomThBtn = styled.button`
 	line-height: 0px;
 	padding: 0px;
 	z-index: 1;
+	color: ${(props) => props.color};
 `;
 
 export const CustomTbody = styled.tbody`
@@ -173,7 +183,6 @@ export const FlexSpaceBetween = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
-
 
 export const CustomP = styled.p`
 	display: flex;

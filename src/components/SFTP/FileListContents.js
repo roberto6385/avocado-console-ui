@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
@@ -16,7 +15,8 @@ import {
 	CustomTbody,
 	CustomTh,
 	CustomThBtn,
-	HeaderTr,
+	DirectoryIcon,
+	FileIcon,
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
 
@@ -35,42 +35,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	function displayMenu(e) {
 		show(e);
 	}
-
-	const selectItem = (e, item) => {
-		if (e.shiftKey) {
-			const temp = highlightItem?.list || [];
-			const tempB = highlightItem?.list.includes(item)
-				? temp
-				: temp.concat(item);
-
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: tempB},
-			});
-		} else {
-			if (item.fileType === 'directory') {
-				// 디렉토리 클릭시 해당 디렉토리로 이동
-				sendCommandByCd(ws, uuid, item.fileName, dispatch);
-				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: []},
-				});
-			} else {
-				//파일 클릭시 하이라이팅!
-				if (highlightItem?.list.includes(item)) {
-					dispatch({
-						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-						data: {uuid, list: []},
-					});
-				} else {
-					dispatch({
-						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-						data: {uuid, list: [item]},
-					});
-				}
-			}
-		}
-	};
 
 	const download = (e, item) => {
 		e.stopPropagation();
@@ -109,6 +73,42 @@ const FileListContents = ({index, ws, uuid}) => {
 		}
 	};
 
+	const selectItem = (e, item) => {
+		if (e.shiftKey) {
+			const temp = highlightItem?.list || [];
+			const tempB = highlightItem?.list.includes(item)
+				? temp
+				: temp.concat(item);
+
+			dispatch({
+				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				data: {uuid, list: tempB},
+			});
+		} else {
+			if (item.fileType === 'directory') {
+				// 디렉토리 클릭시 해당 디렉토리로 이동
+				sendCommandByCd(ws, uuid, item.fileName, dispatch);
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: []},
+				});
+			} else {
+				//파일 클릭시 하이라이팅!
+				if (highlightItem?.list.includes(item)) {
+					dispatch({
+						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+						data: {uuid, list: []},
+					});
+				} else {
+					dispatch({
+						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+						data: {uuid, list: [item]},
+					});
+				}
+			}
+		}
+	};
+
 	useEffect(() => {
 		setData(currentList.find((item) => item.uuid === uuid)?.list);
 	}, [currentList]);
@@ -133,11 +133,10 @@ const FileListContents = ({index, ws, uuid}) => {
 							>
 								<CustomTh flex={10}>
 									{item.fileType === 'directory' ? (
-										<GoFileDirectory />
+										<DirectoryIcon />
 									) : (
-										<GoFile />
+										<FileIcon />
 									)}
-									{'\t'}
 									{item.fileName}
 								</CustomTh>
 								<CustomRightTh flex={2}>
@@ -166,11 +165,11 @@ const FileListContents = ({index, ws, uuid}) => {
 									flex={0.3}
 								>
 									<CustomThBtn
-										style={{
-											color:
-												item.fileType === 'directory' &&
-												'transparent',
-										}}
+										color={
+											item.fileType === 'directory'
+												? 'transparent'
+												: 'black'
+										}
 									>
 										<MdEdit />
 									</CustomThBtn>
@@ -181,11 +180,11 @@ const FileListContents = ({index, ws, uuid}) => {
 									flex={0.3}
 								>
 									<CustomThBtn
-										style={{
-											color:
-												item.fileName === '..' &&
-												'transparent',
-										}}
+										color={
+											item.fileName === '..'
+												? 'transparent'
+												: 'black'
+										}
 									>
 										<MdFileDownload />
 									</CustomThBtn>

@@ -18,6 +18,7 @@ export const sendCommandByLs = (ws, uuid, path, dispatch) => {
 
 	msgReqObj.setLs(cmdObj);
 	reqObj.setBody(msgReqObj.serializeBinary());
+	console.log(msgReqObj.array.length);
 	msgObj.setBody(reqObj.serializeBinary());
 
 	ws.send(msgObj.serializeBinary());

@@ -60,13 +60,11 @@ const FileListNav = ({index, ws, uuid}) => {
 	});
 
 	const handleChange = (e) => {
-		console.log(e.nativeEvent);
 		const {value} = e.target;
 		setPath(value);
 	};
 
 	const EscapeKey = (e) => {
-		console.log(e.keyCode);
 		if (e.keyCode === 27) {
 			setPath(pathItem?.path || '');
 		}

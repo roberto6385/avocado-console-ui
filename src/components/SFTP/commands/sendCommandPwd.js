@@ -24,6 +24,7 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 
 	msgObj.setBody(reqObj.serializeBinary());
 
+	console.log(msgReqObj.array.length);
 	// console.log('send proto buffer', msgObj);
 	// console.log('send proto buffer binary', msgObj.serializeBinary());
 
@@ -46,14 +47,6 @@ export const sendCommandByPwd = (ws, uuid, dispatch) => {
 					const msgObj = SFTP.MessageResponse.deserializeBinary(
 						response.getBody(),
 					);
-					// console.log('[receive]message', msgObj);
-					// console.log('[receive]message to json', msgObj.toObject());
-
-					// this.setState({
-					// 	result: msgObj.getResult(),
-					// 	cmdstatus: msgObj.getStatus(),
-					// 	progress: percent,
-					// });
 
 					dispatch({
 						type: SFTP_SAVE_CURRENT_PATH,

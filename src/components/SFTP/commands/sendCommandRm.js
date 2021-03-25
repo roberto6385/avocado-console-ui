@@ -23,6 +23,8 @@ export const sendCommandByRm = (ws, uuid, path, type) => {
 
 		type === 'file' ? msgReqObj.setRm(cmdObj) : msgReqObj.setRmdir(cmdObj);
 
+		console.log(msgReqObj.array.length);
+
 		reqObj.setBody(msgReqObj.serializeBinary());
 		msgObj.setBody(reqObj.serializeBinary());
 
@@ -44,8 +46,6 @@ export const sendCommandByRm = (ws, uuid, path, type) => {
 						console.log(msgObj.getStatus());
 
 						resolve();
-						// msgObj.getResult().trim() !== '' &&
-						// msgObj.getStatus() !== 'progress' &&
 					}
 				}
 			}
