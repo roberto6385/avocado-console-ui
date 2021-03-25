@@ -3,30 +3,11 @@ import {PropTypes} from 'prop-types';
 import {useSelector} from 'react-redux';
 import {Card} from 'react-bootstrap';
 import {FaExpand} from 'react-icons/all';
-import styled from 'styled-components';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
-import {NAV_HEIGHT} from '../../styles/global';
 import {SSHTBody, SSHTContainer} from '../../styles/ssht';
-
-// const SSHTContainer = styled.div`
-// 	flex: 1;
-// 	display: flex;
-// 	align-items: stretch;
-// 	flex-direction: column;
-// 	.card-header {
-// 		height: ${NAV_HEIGHT};
-// 		fontsize: 17px;
-// 		display: flex;
-// 		align-items: center;
-// 	}
-// `;
-//
-// const SSHTBody = styled(Card.Body)`
-// 	padding: 0px;
-// 	flex: 1;
-// `;
+import {IconButton} from '../../styles/common';
 
 const SSHContainer = ({index, display, server_id, socket}) => {
 	const {server} = useSelector((state) => state.common);
@@ -69,7 +50,9 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 	return (
 		<SSHTContainer className={'fix-height'}>
 			<Card.Header>
-				<FaExpand onClick={onCLickFullScreen} />
+				<IconButton>
+					<FaExpand onClick={onCLickFullScreen} />
+				</IconButton>
 				<ConvertSFTP data={server.find((x) => x.id === server_id)} />
 			</Card.Header>
 			<SSHTBody ref={sshtBody} id={`ssht_${String(index)}`}>

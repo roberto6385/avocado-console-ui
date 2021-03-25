@@ -7,6 +7,7 @@ import {
 	NAV_HEIGHT,
 	NAV_HEIGHT_SUM,
 	SECOND_NAV_HEIGHT,
+	SUB_COLOR,
 	WHITE_COLOR,
 } from './global';
 import ServerNavBar from '../components/ServerNavBar';
@@ -68,6 +69,10 @@ export const ButtonsContainer = styled.div`
 	height: 100%;
 `;
 
+export const HostInfo = styled.div`
+	margin: 8px;
+`;
+
 // LeftContainer
 export const Header = styled(Nav)`
 	height: ${NAV_HEIGHT_SUM};
@@ -93,11 +98,11 @@ export const Header = styled(Nav)`
 	}
 `;
 
-export const ServerNavBarWrapper = styled(ServerNavBar)`
+export const ServerNavBarContainer = styled(Nav)`
 	flex: 1;
 `;
 
-export const RC_Col = styled(Col)`
+export const OutlineCol = styled(Col)`
 	display: flex;
 	flex-direction: column;
 	margin: 0;
@@ -114,7 +119,7 @@ export const IconButton = styled.button`
 	}
 `;
 
-export const SearchForm = styled(FormControl)`
+export const ServerSearchForm = styled(FormControl)`
 	font-size: 12px;
 	border: none;
 	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
@@ -160,9 +165,12 @@ export const FaServerIcon = styled(FaServer)`
 	font-size: 25px;
 `;
 
-export const Server_NavItem = styled(Nav.Item)`
+export const ServerNavItem = styled(Nav.Item)`
 	padding: 15px;
 	background-color: ${(props) => props.back};
+	&:hover {
+		background-color: ${HIGHLIGHT_COLOR};
+	}
 `;
 
 // Split Bar
@@ -173,14 +181,14 @@ export const SplitButtonContainer = styled.div`
 `;
 
 // Tab Contents Container
-export const ContainerCardHeader = styled(Card.Header)`
+export const TabContentsCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
 	margin: 0;
 	height: ${SECOND_NAV_HEIGHT};
 	background: rgba(0, 0, 0, 0.03);
 `;
 
-export const CardContainer = styled(Card)`
+export const TabContentsCard = styled(Card)`
 	display: flex;
 	flex-direction: column;
 	height: ${(props) => props.h};
@@ -199,13 +207,16 @@ export const TabNav = styled(Nav)`
 	overflow-x: scroll;
 `;
 
-export const NavItem = styled(Nav.Item)`
+export const TabNavItem = styled(Nav.Item)`
 	.tab_navLink {
 		display: flex;
 		align-items: center;
 		height: 100%;
 	}
 	.active_tab_item {
+		background-color: ${HIGHLIGHT_COLOR};
+	}
+	&:hover {
 		background-color: ${HIGHLIGHT_COLOR};
 	}
 `;
@@ -216,7 +227,12 @@ export const IconSpan = styled.span`
 	align-items: center;
 `;
 
-export const TabIconSpan = styled(RiTerminalFill, BiTransferAlt)`
+export const TabSSHTIcon = styled(RiTerminalFill)`
+	color: ${MAIN_COLOR};
+	margin-right: 5px;
+`;
+
+export const TabSFTPIcon = styled(BiTransferAlt)`
 	color: ${MAIN_COLOR};
 	margin-right: 5px;
 `;

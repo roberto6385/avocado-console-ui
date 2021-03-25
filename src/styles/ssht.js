@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import {Card} from 'react-bootstrap';
+import {Card, Form} from 'react-bootstrap';
 import {NAV_HEIGHT} from './global';
 
+//SSHT Container
 export const SSHTBody = styled(Card.Body)`
 	padding: 0px;
 	flex: 1;
@@ -19,4 +20,22 @@ export const SSHTContainer = styled.div`
 		display: flex;
 		align-items: center;
 	}
+`;
+
+//SSHT
+export const SSHTerminal = styled.div`
+	height: 100%;
+	width: 100%;
+	max-height: 100%;
+	max-width: 100%;
+	position: relative;
+`;
+
+export const TerminalSearchForm = styled(Form.Control)`
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 200px;
+	display: none;
+	z-index: 999;
 `;

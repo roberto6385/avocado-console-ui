@@ -7,19 +7,21 @@ import {
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
-import {BottomBar, ButtonsContainer, IconButton} from '../styles/common';
+import {
+	BottomBar,
+	ButtonsContainer,
+	HostInfo,
+	IconButton,
+} from '../styles/common';
 
 const Footer = () => {
 	const dispatch = useDispatch();
 	const {server, tab, current_tab} = useSelector((state) => state.common);
-	// 현재 host 가져오는 코드
+	// current tab host info
 	const currentTabs_tab_info = tab.find((item) => item.id === current_tab);
 	const currentServerInfo = server.find(
 		(item) => item.id === currentTabs_tab_info?.server.id,
 	);
-	const currentServerHost = currentServerInfo?.host;
-	console.log('포커싱 서버', currentServerInfo);
-	console.log('포커싱 탭', current_tab);
 
 	const onClickIncreaseFont = useCallback(() => {
 		dispatch({type: SSHT_INCREASE_FONT_SIZE});
@@ -36,7 +38,6 @@ const Footer = () => {
 	return (
 		<BottomBar>
 			<ButtonsContainer>
-				<div style={{margin: '8px'}}>{currentServerHost}</div>
 				<IconButton onClick={onClickDeceaseFont}>
 					<FaSearchMinus />
 				</IconButton>
@@ -46,6 +47,7 @@ const Footer = () => {
 				<IconButton onClick={onClickOpenSearchBar}>
 					<FaSearch />
 				</IconButton>
+				<HostInfo>{currentServerInfo?.host}</HostInfo>
 			</ButtonsContainer>
 		</BottomBar>
 	);
