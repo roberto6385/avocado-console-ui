@@ -1,43 +1,29 @@
-import React, {useEffect} from 'react';
-import {PropTypes} from 'prop-types';
-import FileList from './FileList';
-import History from './History';
+import React, {useEffect, useState} from 'react';
+import SFTP_COMPONENT from './SFTP';
+import SFTP from '../../dist/sftp_pb';
+import * as PropTypes from 'prop-types';
+import {Close} from '../../dist/ssht_ws';
+import usePostMessage from './hooks/usePostMessage';
+import useGetMessage from './hooks/useGetMessage';
+import {OPEN_TAB} from '../../reducers/common';
+import {useDispatch} from 'react-redux';
 
-import {sendCommandByPwd} from './commands/sendCommandPwd';
-import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
-import Edit from './Edit';
-import {SftpContainer} from '../../styles/sftp';
-
-const SFTPContainer = ({index, socket}) => {
-	const {ws, uuid} = socket;
+const SFTPContainer = ({index, socket, data}) => {
+	console.log(data);
 	const dispatch = useDispatch();
+	const {ws, uuid} = socket;
 
-	const {currentMode} = useSelector((state) => state.sftp);
-	const modeItem = currentMode.find((item) => item.uuid === uuid);
+	// const state = useGetMessage(ws);
 
-	useEffect(() => {
-		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'normal'}});
-		sendCommandByPwd(ws, uuid, dispatch);
-	}, [dispatch]);
+	// console.log(state);
 
-	return (
-		<SftpContainer>
-			{modeItem?.mode === 'edit' ? (
-				<Edit index={index} socket={socket} />
-			) : (
-				<>
-					<FileList index={index} socket={socket} />
-					<History index={index} socket={socket} />
-				</>
-			)}
-		</SftpContainer>
-	);
+	return <SFTP_COMPONENT index={index} socket={socket} />;
 };
 
 SFTPContainer.propTypes = {
 	index: PropTypes.number.isRequired,
 	socket: PropTypes.object.isRequired,
+	data: PropTypes.object.isRequired,
 };
 
 export default SFTPContainer;

@@ -6,7 +6,7 @@ import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import {CHANGE_VISIBLE_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
 import {Close} from '../dist/ssht_ws';
 import {
 	FlexBox,
@@ -19,6 +19,12 @@ import {
 	TabSFTPIcon,
 	TabSSHTIcon,
 } from '../styles/common';
+import usePostMessage from './SFTP/hooks/usePostMessage';
+import getMessage from './SFTP/hooks/useGetMessage';
+import {
+	SFTP_DELETE_CURRENT_LIST,
+	SFTP_DELETE_CURRENT_PATH,
+} from '../reducers/sftp';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -33,13 +39,29 @@ const TabNavBar = () => {
 	);
 
 	const onClickDelete = useCallback(
-		(tab_id) => () => {
-			const clicked_tab = tab.find((x) => x.id === tab_id);
+		(data) => () => {
+			const clicked_tab = tab.find((x) => x.id === data.id);
 			const {type} = clicked_tab;
 			const {ws, uuid} = clicked_tab.socket;
 
 			if (type === 'SSHT') ws.send(Close(uuid));
-			else sendDisconnect(ws, uuid, tab_id, dispatch);
+			else {
+				ws.send(usePostMessage('Disconnection', data, uuid));
+				ws.onmessage = (evt) => {
+					const result = getMessage(evt);
+					console.log(result);
+					result.type === 'Disconnection' &&
+						dispatch({
+							type: SFTP_DELETE_CURRENT_PATH,
+							data: uuid,
+						});
+					dispatch({
+						type: SFTP_DELETE_CURRENT_LIST,
+						data: uuid,
+					});
+					dispatch({type: CLOSE_TAB, data: data.id});
+				};
+			}
 		},
 		[dispatch, tab],
 	);
@@ -75,9 +97,7 @@ const TabNavBar = () => {
 										)}
 										{data.server.name}
 									</IconSpan>
-									<IconButton
-										onClick={onClickDelete(data.id)}
-									>
+									<IconButton onClick={onClickDelete(data)}>
 										<FaTimes />
 									</IconButton>
 								</NavLink>

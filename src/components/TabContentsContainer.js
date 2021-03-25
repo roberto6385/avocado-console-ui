@@ -5,7 +5,7 @@ import {FaTimes} from 'react-icons/all';
 
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {CHANGE_CURRENT_TAB} from '../reducers/common';
+import {CHANGE_CURRENT_TAB, OPEN_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
 import {
@@ -14,6 +14,8 @@ import {
 	TabSFTPIcon,
 	TabSSHTIcon,
 } from '../styles/common';
+import SFTP from '../dist/sftp_pb';
+import usePostMessage from './SFTP/hooks/usePostMessage';
 
 const TabContentsContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -83,7 +85,7 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 					socket={socket}
 				/>
 			) : (
-				<SFTPContainer index={index} socket={socket} />
+				<SFTPContainer index={index} socket={socket} data={server} />
 			)}
 		</TabContentsCard>
 	);

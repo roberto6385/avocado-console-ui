@@ -1,8 +1,7 @@
 import SFTP from '../../../dist/sftp_pb';
 import {OPEN_TAB} from '../../../reducers/common';
 
-export const sendConnect = (data, dispatch) => {
-	const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
+export const sendConnect = (ws, data, dispatch) => {
 	console.log('run sendConnect');
 
 	var msgObj = new SFTP.Message();
