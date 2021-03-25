@@ -130,6 +130,7 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		<SSHTerminal style={{position: 'relative'}}>
 			<SSHTerminal id={`terminal_${String(index)}`} />
 			<FormControl
+				style={{zIndex: 999}}
 				id={`search_${String(index)}`}
 				onChange={onChangeSearch}
 				onKeyPress={onSubmitSearch}

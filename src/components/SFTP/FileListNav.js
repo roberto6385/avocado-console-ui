@@ -18,7 +18,7 @@ const FileListNav = ({index, ws, uuid}) => {
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 
 	const goHome = () => {
-		sendCommandByCd(ws, uuid, '/home', dispatch);
+		sendCommandByCd(ws, uuid, '/root', dispatch);
 
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
