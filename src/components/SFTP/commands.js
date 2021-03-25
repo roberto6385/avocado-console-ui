@@ -4,7 +4,7 @@ import {
 } from '../../reducers/sftp';
 import {sendCommandByGet} from './commands/sendCommandGet';
 
-export const listConversion = (result, uuid, dispatch) => {
+export const listConversion = (result) => {
 	console.log('run listConversion');
 
 	const tempA = result;
@@ -58,10 +58,8 @@ export const listConversion = (result, uuid, dispatch) => {
 		}
 		return 0;
 	});
-	dispatch({
-		type: SFTP_SAVE_CURRENT_LIST,
-		data: {uuid, list: fileList},
-	});
+
+	return fileList;
 };
 
 export const toEditMode = (e, ws, uuid, path, item, dispatch) => {

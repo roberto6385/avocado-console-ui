@@ -9,9 +9,15 @@ import {
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_LIST,
+	SFTP_SAVE_CURRENT_PATH,
+} from '../../reducers/sftp';
 import {NavItem, PathSpan} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
+import usePostMessage from './hooks/usePostMessage';
+import {listConversion} from './commands';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -29,24 +35,50 @@ const FileListNav = ({index, ws, uuid}) => {
 	const [path, setPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
-		sendCommandByCd(ws, uuid, nextPath, dispatch);
+		// sendCommandByCd(ws, uuid, nextPath, dispatch);
+
+		usePostMessage({
+			keyword: 'CommandByCd',
+			ws,
+			uuid,
+			path: nextPath,
+		}).then(() =>
+			usePostMessage({
+				keyword: 'CommandByPwd',
+				ws,
+				uuid,
+			}).then((response) => {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_PATH,
+					data: {uuid, path: response.result},
+				});
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					);
+			}),
+		);
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
 		});
 	};
 
-	const goBack = () => {
+	const goBack = (e) => {
 		if (pathItem?.path !== '/') {
 			let tempPath = pathItem.path.split('/');
 			tempPath.pop();
 			let nextPath = tempPath.join('/').trim();
-			sendCommandByCd(
-				ws,
-				uuid,
-				nextPath === '' ? '/' : nextPath,
-				dispatch,
-			);
+			goHome(e, nextPath === '' ? '/' : nextPath);
 		}
 	};
 	const searchPath = (e) => {

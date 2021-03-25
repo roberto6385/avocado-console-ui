@@ -1,22 +1,43 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import SFTP_COMPONENT from './SFTP';
-import SFTP from '../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
-import {Close} from '../../dist/ssht_ws';
-import usePostMessage from './hooks/usePostMessage';
-import useGetMessage from './hooks/useGetMessage';
-import {OPEN_TAB} from '../../reducers/common';
 import {useDispatch} from 'react-redux';
+import usePostMessage from './hooks/usePostMessage';
+import {listConversion} from './commands';
+import {
+	SFTP_SAVE_CURRENT_LIST,
+	SFTP_SAVE_CURRENT_PATH,
+} from '../../reducers/sftp';
 
 const SFTPContainer = ({index, socket, data}) => {
-	console.log(data);
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
 
-	// const state = useGetMessage(ws);
-
-	// console.log(state);
-
+	useEffect(() => {
+		usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then((response) => {
+			dispatch({
+				type: SFTP_SAVE_CURRENT_PATH,
+				data: {uuid, path: response.result},
+			});
+			usePostMessage({
+				keyword: 'CommandByLs',
+				ws,
+				uuid,
+				path: response.result,
+			})
+				.then((response) => listConversion(response.result))
+				.then((response) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: response},
+					}),
+				);
+		});
+	}, [ws, uuid, dispatch]);
 	return <SFTP_COMPONENT index={index} socket={socket} />;
 };
 

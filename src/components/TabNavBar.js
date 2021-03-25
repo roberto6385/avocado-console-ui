@@ -39,28 +39,19 @@ const TabNavBar = () => {
 	);
 
 	const onClickDelete = useCallback(
-		(data) => () => {
+		(data) => async () => {
 			const clicked_tab = tab.find((x) => x.id === data.id);
 			const {type} = clicked_tab;
 			const {ws, uuid} = clicked_tab.socket;
 
 			if (type === 'SSHT') ws.send(Close(uuid));
 			else {
-				ws.send(usePostMessage('Disconnection', data, uuid));
-				ws.onmessage = (evt) => {
-					const result = getMessage(evt);
-					console.log(result);
-					result.type === 'Disconnection' &&
-						dispatch({
-							type: SFTP_DELETE_CURRENT_PATH,
-							data: uuid,
-						});
-					dispatch({
-						type: SFTP_DELETE_CURRENT_LIST,
-						data: uuid,
-					});
-					dispatch({type: CLOSE_TAB, data: data.id});
-				};
+				await usePostMessage({
+					keyword: 'Disconnection',
+					ws,
+					uuid,
+				});
+				dispatch({type: CLOSE_TAB, data: data.id});
 			}
 		},
 		[dispatch, tab],

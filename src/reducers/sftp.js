@@ -1,6 +1,8 @@
 import produce from 'immer';
 
 export const initialState = {
+	currentType: [],
+
 	currentMode: [],
 	currentPath: [],
 
@@ -14,6 +16,8 @@ export const initialState = {
 	History: [],
 	HISTORY_ID: 0,
 };
+
+export const SFTP_SAVE_CURRENT_TYPE = 'SFTP_SAVE_CURRENT_TYPE';
 
 export const SFTP_SAVE_CURRENT_MODE = 'SFTP_SAVE_CURRENT_MODE';
 export const SFTP_DELETE_CURRENT_MODE = 'SFTP_DELETE_CURRENT_MODE';
@@ -36,6 +40,7 @@ export const SFTP_SAVE_HISTORY = 'SFTP_SAVE_HISTORY';
 export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
 
 // 리듀서 findIndex 변수들
+let currentType_index;
 let currentMode_index;
 let currentPath_index;
 let currentList_index;
@@ -82,6 +87,25 @@ const reducer = (state = initialState, action) => {
 						uuid: action.data.uuid,
 						text: action.data.text,
 						name: action.data.name,
+					});
+				}
+				break;
+
+			case SFTP_SAVE_CURRENT_TYPE:
+				console.log('type save execution');
+				currentType_index = draft.currentType.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (currentType_index !== -1) {
+					draft.currentType.splice(currentType_index, 1, {
+						uuid: action.data.uuid,
+						type: action.data.type,
+					});
+				} else {
+					draft.currentType.push({
+						uuid: action.data.uuid,
+						type: action.data.type,
 					});
 				}
 				break;

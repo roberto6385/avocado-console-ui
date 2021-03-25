@@ -5,9 +5,13 @@ import History from './History';
 
 import {sendCommandByPwd} from './commands/sendCommandPwd';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_CURRENT_TYPE,
+} from '../../reducers/sftp';
 import Edit from './Edit';
 import {SftpContainer} from '../../styles/sftp';
+import usePostMessage from './hooks/usePostMessage';
 
 const SFTP_COMPONENT = ({index, socket}) => {
 	const {ws, uuid} = socket;
@@ -15,11 +19,6 @@ const SFTP_COMPONENT = ({index, socket}) => {
 
 	const {currentMode} = useSelector((state) => state.sftp);
 	const modeItem = currentMode.find((item) => item.uuid === uuid);
-
-	useEffect(() => {
-		dispatch({type: SFTP_SAVE_CURRENT_MODE, data: {uuid, mode: 'normal'}});
-		sendCommandByPwd(ws, uuid, dispatch);
-	}, [dispatch]);
 
 	return (
 		<SftpContainer>
