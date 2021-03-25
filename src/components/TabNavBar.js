@@ -19,7 +19,6 @@ import {
 	TabIconSpan,
 	TabNav,
 } from '../styles/common';
-import {MAIN_COLOR} from '../styles/global';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
