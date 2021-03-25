@@ -9,6 +9,8 @@ import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
 import {AddServerCard, PopupButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
+import OneColForm from './AddServer/OneColForm';
+import Button from './AddServer/Button';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const AddServerForm = () => {
 	const [user, onChangeUser, setUser] = useInput('');
 	// const [authentication, onChangeAuthentication] = useInput("Password");
 	const [password, onChangePassword, setPassword] = useInput('');
-	// const [note, onChangeNote] = useInput("");
+	const [note, onChangeNote, setNote] = useInput('');
 	const [open, setOpen] = useState(false);
 
 	const onSubmitForm = useCallback(
@@ -76,6 +78,7 @@ const AddServerForm = () => {
 		setPort('');
 		setUser('');
 		setPassword('');
+		setNote('');
 	}, []);
 
 	return (
@@ -176,47 +179,42 @@ const AddServerForm = () => {
 								</Form.Control>
 							</Col>
 						</Form.Row>
-						<Form.Group className={'add-server-form-row'}>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
-								onChange={onChangePassword}
-								value={password}
-								type='password'
-								placeholder='Login Password'
-								required
-							/>
-						</Form.Group>
+						<OneColForm
+							label='Password'
+							placeholder='Login Password'
+							type='password'
+							value={password}
+							onChangeValue={onChangePassword}
+						/>
+						<OneColForm
+							label='Note'
+							placeholder='Note'
+							type='text'
+							value={note}
+							onChangeValue={onChangeNote}
+						/>
 
-						<Form.Group className={'add-server-form-row'}>
-							<Form.Label>Note</Form.Label>
-							<Form.Control
-								// onChange={onChangeNote}
-								// value={note}
-								type='text'
-								placeholder='Note'
-							/>
-						</Form.Group>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-						>
-							<PopupButton
-								variant='default'
-								onClick={onClickCloseForm}
-								back={`${SUB_COLOR}`}
-							>
-								Cancel
-							</PopupButton>
-							<PopupButton
-								variant='default'
-								type='submit'
-								back={`${MAIN_COLOR}`}
-							>
-								Save
-							</PopupButton>
-						</div>
+						{/*<div*/}
+						{/*	style={{*/}
+						{/*		display: 'flex',*/}
+						{/*		justifyContent: 'center',*/}
+						{/*	}}*/}
+						{/*>*/}
+						{/*	<PopupButton*/}
+						{/*		variant='default'*/}
+						{/*		onClick={onClickCloseForm}*/}
+						{/*		back={`${SUB_COLOR}`}*/}
+						{/*	>*/}
+						{/*		Cancel*/}
+						{/*	</PopupButton>*/}
+						{/*	<PopupButton*/}
+						{/*		variant='default'*/}
+						{/*		type='submit'*/}
+						{/*		back={`${MAIN_COLOR}`}*/}
+						{/*	>*/}
+						{/*		Save*/}
+						{/*	</PopupButton>*/}
+						{/*</div>*/}
 					</Form>
 				</Card.Body>
 			</AddServerCard>
