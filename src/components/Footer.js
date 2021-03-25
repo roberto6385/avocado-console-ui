@@ -13,6 +13,14 @@ const Footer = () => {
 	const dispatch = useDispatch();
 	const {search_mode} = useSelector((state) => state.ssht);
 	const {server, tab, current_tab} = useSelector((state) => state.common);
+	// 현재 host 가져오는 코드
+	const currentTabs_tab_info = tab.find((item) => item.id === current_tab);
+	const currentServerInfo = server.find(
+		(item) => item.id === currentTabs_tab_info?.server.id,
+	);
+	const currentServerHost = currentServerInfo?.host;
+	console.log('포커싱 서버', currentServerInfo);
+	console.log('포커싱 탭', current_tab);
 
 	const onClickIncreaseFont = useCallback(() => {
 		dispatch({type: SSHT_INCREASE_FONT_SIZE});
@@ -29,6 +37,7 @@ const Footer = () => {
 	return (
 		<BottomBar id='bottom-bar'>
 			<ButtonsContainer>
+				<div style={{margin: '8px'}}>{currentServerHost}</div>
 				<FaSearchMinus
 					className={'header-footer-button'}
 					onClick={onClickDesceaseFont}
@@ -42,13 +51,6 @@ const Footer = () => {
 					aria-expanded={search_mode}
 					onClick={onClickOpenSearchBar}
 				/>
-				{/*{server &&*/}
-				{/*	tab &&*/}
-				{/*	server.find(*/}
-				{/*		(i) =>*/}
-				{/*			i.id ===*/}
-				{/*			tab.find((v) => v.id === current_tab).server.id,*/}
-				{/*	).host}*/}
 			</ButtonsContainer>
 		</BottomBar>
 	);
