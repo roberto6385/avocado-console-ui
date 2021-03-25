@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
-import {Button, Card, Col, FormControl, Modal, Nav, Tab} from 'react-bootstrap';
+import {
+	Button,
+	Card,
+	Col,
+	Container,
+	FormControl,
+	Modal,
+	Nav,
+	Tab,
+} from 'react-bootstrap';
 import {
 	HIGHLIGHT_COLOR,
 	MAIN_COLOR,
@@ -27,7 +36,6 @@ export const PopupButton = styled(Button)`
 `;
 
 // ConfirmPopup
-
 export const ModalFooter = styled.div`
 	flex: 1;
 	display: flex;
@@ -56,7 +64,6 @@ export const CustomModal = styled(Modal)`
 `;
 
 // Footer
-
 export const BottomBar = styled.div`
 	height: ${NAV_HEIGHT};
 `;
@@ -69,7 +76,6 @@ export const ButtonsContainer = styled.div`
 `;
 
 // LeftContainer
-
 export const Header = styled(Nav)`
 	height: ${NAV_HEIGHT_SUM};
 	display: block;
@@ -123,7 +129,6 @@ export const SearchForm = styled(FormControl)`
 `;
 
 // MainPage
-
 export const Background = styled.div`
 	display: flex;
 	align-items: center;
@@ -150,13 +155,11 @@ export const AddServerButton = styled.button`
 `;
 
 // RightContainer
-
 export const BotttomBar = styled(Footer)`
 	height: ${NAV_HEIGHT};
 `;
 
 // ServerNavBar
-
 export const FaServerIcon = styled(FaServer)`
 	vertical-align: middle;
 	margin-right: 15px;
@@ -169,7 +172,6 @@ export const Server_NavItem = styled(Nav.Item)`
 `;
 
 // Split Bar
-
 export const SplitButtonContainer = styled.div`
 	height: ${NAV_HEIGHT};
 	display: flex;
@@ -177,7 +179,6 @@ export const SplitButtonContainer = styled.div`
 `;
 
 // Tab Contents Container
-
 export const ContainerCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
 	margin: 0;
@@ -193,7 +194,6 @@ export const CardContainer = styled(Card)`
 `;
 
 // Tab Nav Bar
-
 export const TabContainer = styled(Tab.Container)`
 	display: flex !important;
 	height: ${NAV_HEIGHT};
@@ -216,10 +216,8 @@ export const NavItem = styled(Nav.Item)`
 	}
 `;
 
-export const Span = styled.span`
-	display: flex;
-	align-items: center;
-	color: black;
+export const IconSpan = styled.span`
+	color: ${MAIN_COLOR};
 `;
 
 export const FlexBox = styled.div`
@@ -227,14 +225,23 @@ export const FlexBox = styled.div`
 `;
 
 // Work Space
-
-export const WorkSpaceWrapper = styled.div`
+export const WorkSpaceContainer = styled.div`
 	flex: 1;
 `;
 
-export const WorkSpaceContainer = styled.div`
+export const Work = styled.div`
 	margin: 0;
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
+`;
+
+//Add Server Form
+export const AddServerCard = styled(Card)`
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1000;
 `;

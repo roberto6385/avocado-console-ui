@@ -4,13 +4,21 @@ import {Link} from 'react-router-dom';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
 import {useDispatch, useSelector} from 'react-redux';
-import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {FaTimes} from 'react-icons/all';
-import SplitBar from './SplitBar';
 
+import SplitBar from './SplitBar';
+import {CHANGE_VISIBLE_TAB} from '../reducers/common';
 import {sendDisconnect} from './SFTP/commands/sendDisconnect';
 import {Close} from '../dist/ssht_ws';
-import {FlexBox, NavItem, Span, TabContainer, TabNav} from '../styles/common';
+import {
+	FlexBox,
+	IconSpan,
+	NavItem,
+	Span,
+	TabContainer,
+	TabNav,
+} from '../styles/common';
+import {MAIN_COLOR} from '../styles/global';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -46,7 +54,7 @@ const TabNavBar = () => {
 			onSelect={(i) => setActive(i)}
 		>
 			<FlexBox>
-				<TabNav className='here is tab'>
+				<TabNav>
 					{tab &&
 						tab.map((data) => (
 							<NavItem key={data.id.toString()}>
@@ -60,18 +68,20 @@ const TabNavBar = () => {
 									to='/'
 									eventKey={data.id}
 								>
-									<Span onClick={changeVisibleTab(data.id)}>
+									<IconSpan
+										onClick={changeVisibleTab(data.id)}
+									>
 										{data.type === 'SSHT' ? (
 											<RiTerminalFill />
 										) : (
 											<BiTransferAlt />
 										)}
 										{data.server.name}
-									</Span>
+									</IconSpan>
 									<span
 										style={{
 											marginLeft: '10px',
-											color: '#116466',
+											color: MAIN_COLOR,
 										}}
 									>
 										<FaTimes
