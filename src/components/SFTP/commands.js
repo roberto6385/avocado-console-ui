@@ -41,6 +41,9 @@ export const listConversion = (result, uuid, dispatch) => {
 		let typeB = b.fileType;
 		let nameA = a.fileName;
 		let nameB = b.fileName;
+		if (nameA === '..') {
+			return -1;
+		}
 		if (typeA < typeB) {
 			return -1;
 		}
