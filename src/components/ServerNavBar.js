@@ -26,6 +26,10 @@ const ServerNavBar = ({search}) => {
 
 			ws.binaryType = 'arraybuffer';
 
+			ws.error = () => {
+				console.log('Connection Error');
+			};
+
 			ws.onopen = () => {
 				ws.send(
 					Connect(

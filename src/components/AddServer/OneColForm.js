@@ -2,7 +2,14 @@ import React from 'react';
 import {Form} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 
-const OneColForm = ({label, placeholder, type, value, onChangeValue}) => {
+const OneColForm = ({
+	label,
+	placeholder,
+	type,
+	value,
+	onChangeValue,
+	required,
+}) => {
 	return (
 		<Form.Group className={'add-server-form-row'}>
 			<Form.Label>{label}</Form.Label>
@@ -11,6 +18,7 @@ const OneColForm = ({label, placeholder, type, value, onChangeValue}) => {
 				value={value}
 				type={type}
 				placeholder={placeholder}
+				required={required}
 			/>
 		</Form.Group>
 	);
@@ -22,6 +30,7 @@ OneColForm.propTypes = {
 	type: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
 	onChangeValue: PropTypes.func.isRequired,
+	required: PropTypes.bool,
 };
 
 export default OneColForm;

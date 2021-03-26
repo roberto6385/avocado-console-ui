@@ -1,5 +1,4 @@
 import SFTP from '../../../dist/sftp_pb';
-import SSH from '../../../dist/ssh_pb';
 import {sendCommandByPwd} from './sendCommandPwd';
 
 export const sendCommandByCd = (ws, uuid, path, dispatch) => {

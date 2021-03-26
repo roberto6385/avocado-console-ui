@@ -8,14 +8,14 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
 import {Close} from '../dist/ssht_ws';
 import {
-	TabContentsCard,
-	TabContentsCardHeader,
+	TabContentCard,
+	TabContentCardHeader,
 	TabSFTPIcon,
 	TabSSHTIcon,
 } from '../styles/common';
 import usePostMessage from './SFTP/hooks/usePostMessage';
 
-const TabContentsContainer = ({index, type, display, server, socket}) => {
+const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
 	const {cols, tab} = useSelector((state) => state.common);
@@ -67,20 +67,20 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 	}, []);
 
 	return (
-		<TabContentsCard
+		<TabContentCard
 			onClick={onClickChangeTab}
 			className={display ? 'visible' : 'invisible'}
 			h={height}
 			w={width}
 		>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<TabContentsCardHeader as='h6'>
+				<TabContentCardHeader as='h6'>
 					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
 					{server?.name}
 					<span className='right'>
 						<FaTimes onClick={onClickDelete()} />
 					</span>
-				</TabContentsCardHeader>
+				</TabContentCardHeader>
 			)}
 			{type === 'SSHT' ? (
 				<SSHTContainer
@@ -92,11 +92,11 @@ const TabContentsContainer = ({index, type, display, server, socket}) => {
 			) : (
 				<SFTPContainer index={index} socket={socket} data={server} />
 			)}
-		</TabContentsCard>
+		</TabContentCard>
 	);
 };
 
-TabContentsContainer.propTypes = {
+TabContentContainer.propTypes = {
 	index: PropTypes.number.isRequired,
 	type: PropTypes.string.isRequired,
 	display: PropTypes.bool.isRequired,
@@ -104,4 +104,4 @@ TabContentsContainer.propTypes = {
 	socket: PropTypes.object.isRequired,
 };
 
-export default TabContentsContainer;
+export default TabContentContainer;

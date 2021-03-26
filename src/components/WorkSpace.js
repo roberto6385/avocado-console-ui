@@ -1,7 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+
 import MainPage from './MainPage';
-import TabContentsContainer from './TabContentsContainer';
+import TabContentContainer from './TabContentContainer';
 import {Work, WorkSpaceContainer} from '../styles/common';
 
 const WorkSpace = () => {
@@ -12,7 +13,7 @@ const WorkSpace = () => {
 			{tab.length !== 0 ? (
 				<Work className={'fix-height'}>
 					{tab.map((data) => (
-						<TabContentsContainer
+						<TabContentContainer
 							key={data.id}
 							index={data.id}
 							type={data.type}

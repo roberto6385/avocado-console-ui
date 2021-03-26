@@ -1,26 +1,26 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Form, Col, Card} from 'react-bootstrap';
+import {Form, Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
-import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import {AddServerCard, PopupButton} from '../styles/common';
+import {AddServerCard} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';
 import Button from './AddServer/Button';
+import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
+import TwoColsForm from './AddServer/TwoColsForm';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
-
 	const [name, onChangeName, setName] = useInput('');
-	// const [protocol, onChangeProtocol] = useInput("SSH2");
+	const [protocol, onChangeProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput('');
 	const [user, onChangeUser, setUser] = useInput('');
-	// const [authentication, onChangeAuthentication] = useInput("Password");
+	const [authentication, onChangeAuthentication] = useInput('Password');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
 	const [open, setOpen] = useState(false);
@@ -36,7 +36,7 @@ const AddServerForm = () => {
 				ws.send(Connect(host, user, password, port));
 			};
 
-			ws.onerror = (e) => {
+			ws.onerror = () => {
 				setOpen(true);
 			};
 
@@ -92,100 +92,58 @@ const AddServerForm = () => {
 				</Card.Header>
 				<Card.Body>
 					<Form onSubmit={onSubmitForm}>
-						<Form.Row className={'add-server-form-row'}>
-							<Form.Label column xs={2}>
-								Name
-							</Form.Label>
-							<Col xs={4}>
-								<Form.Control
-									onChange={onChangeName}
-									value={name}
-									type='text'
-									placeholder='Server Name'
-									required
-								/>
-							</Col>
-							<Col xs={1} />
-							<Form.Label column sm={2}>
-								Protocol
-							</Form.Label>
-							<Col sm={3}>
-								<Form.Control
-									as='select'
-									// onChange={onChangeProtocol}
-									// value={protocol}
-									defaultValue='SSH2'
-								>
-									<option value='SSH2'>SSH2</option>
-									<option value='protocol2'>protocol2</option>
-								</Form.Control>
-							</Col>
-						</Form.Row>
+						<TwoColsOptionForm
+							label1='Name'
+							placeholder1='Server Name'
+							type1='text'
+							value1={name}
+							onChange1={onChangeName}
+							required1={true}
+							label2='Protocol'
+							value2={protocol}
+							onChange2={onChangeProtocol}
+							options={['SSH2', 'protocol2']}
+							required2={true}
+						/>
 
-						<Form.Row className={'add-server-form-row'}>
-							<Form.Label column sm={2}>
-								Address
-							</Form.Label>
-							<Col sm={4}>
-								<Form.Control
-									onChange={onChangeHost}
-									value={host}
-									type='text'
-									placeholder='Host Name or IP'
-									required
-								/>
-							</Col>
-							<Col xs={1} />
-							<Form.Label column sm={2}>
-								Port
-							</Form.Label>
-							<Col sm={3}>
-								<Form.Control
-									onChange={onChangePort}
-									value={port}
-									type='text'
-									placeholder='Port'
-									required
-								/>
-							</Col>
-						</Form.Row>
+						<TwoColsForm
+							label1='Address'
+							placeholder1='Host Name or IP'
+							type1='text'
+							value1={host}
+							onChange1={onChangeHost}
+							required1={true}
+							label2='Port'
+							placeholder2='Port'
+							type2='number'
+							value2={port}
+							onChange2={onChangePort}
+							required2={true}
+						/>
 
-						<Form.Row className={'add-server-form-row'}>
-							<Form.Label column sm={2}>
-								Username
-							</Form.Label>
-							<Col sm={4}>
-								<Form.Control
-									onChange={onChangeUser}
-									value={user}
-									type='text'
-									placeholder='Login Username'
-									required
-								/>
-							</Col>
-							<Col xs={1} />
-							<Form.Label column sm={2}>
-								Authentication
-							</Form.Label>
-							<Col sm={3}>
-								<Form.Control
-									as='select'
-									// value={authentication}
-									// onChange={onChangeAuthentication}
-									defaultValue='Password'
-								>
-									<option>Password</option>
-									<option>Key file</option>
-								</Form.Control>
-							</Col>
-						</Form.Row>
+						<TwoColsOptionForm
+							label1='Username'
+							placeholder1='Login Username'
+							type1='text'
+							value1={user}
+							onChange1={onChangeUser}
+							required1={true}
+							label2='Authentication'
+							value2={authentication}
+							onChange2={onChangeAuthentication}
+							options={['Password', 'Key file']}
+							required2={true}
+						/>
+
 						<OneColForm
 							label='Password'
 							placeholder='Login Password'
 							type='password'
 							value={password}
 							onChangeValue={onChangePassword}
+							required={true}
 						/>
+
 						<OneColForm
 							label='Note'
 							placeholder='Note'
@@ -193,28 +151,7 @@ const AddServerForm = () => {
 							value={note}
 							onChangeValue={onChangeNote}
 						/>
-
-						{/*<div*/}
-						{/*	style={{*/}
-						{/*		display: 'flex',*/}
-						{/*		justifyContent: 'center',*/}
-						{/*	}}*/}
-						{/*>*/}
-						{/*	<PopupButton*/}
-						{/*		variant='default'*/}
-						{/*		onClick={onClickCloseForm}*/}
-						{/*		back={`${SUB_COLOR}`}*/}
-						{/*	>*/}
-						{/*		Cancel*/}
-						{/*	</PopupButton>*/}
-						{/*	<PopupButton*/}
-						{/*		variant='default'*/}
-						{/*		type='submit'*/}
-						{/*		back={`${MAIN_COLOR}`}*/}
-						{/*	>*/}
-						{/*		Save*/}
-						{/*	</PopupButton>*/}
-						{/*</div>*/}
+						<Button onClickCloseForm={onClickCloseForm} />
 					</Form>
 				</Card.Body>
 			</AddServerCard>

@@ -64,7 +64,7 @@ const LeftContainer = () => {
 			</Collapse>
 			<ServerNavBar search={search} />
 			<ConfirmPopup
-				keyword={'Delete Server'}
+				keyword={'delete_server'}
 				open={open}
 				setOpen={setOpen}
 			/>
