@@ -45,7 +45,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		newFolder,
 		deleteHistory,
 		deleteServer,
-	} = useConfirmActions();
+	} = useConfirmActions(ws, uuid);
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
@@ -67,19 +67,19 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const submitFunction = () => {
 		switch (keyword) {
 			case 'delete_work':
-				deleteWork(ws, uuid, curPath, highlightItem);
+				deleteWork(curPath, highlightItem);
 				break;
 			case 'rename_work':
-				renameWork(ws, uuid, curPath, highlightItem, formValue);
+				renameWork(curPath, highlightItem, formValue);
 				break;
 			case 'new_folder':
-				newFolder(ws, uuid, formValue);
+				newFolder(formValue);
 				break;
 			case 'edit_file':
-				editFile(ws, uuid, curPath, curText);
+				editFile(curPath, curText);
 				break;
 			case 'delete_history':
-				deleteHistory(uuid);
+				deleteHistory();
 				break;
 			case 'delete_server':
 				deleteServer();

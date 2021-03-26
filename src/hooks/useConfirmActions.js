@@ -4,54 +4,72 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	SFTP_DELETE_HISTORY,
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_MODE,
-	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
 import {sendCommandByLs} from '../components/SFTP/commands/sendCommandLs';
 import {sendCommandByMkdir} from '../components/SFTP/commands/sendCommandMkdir';
-import {sendCommandByRm} from '../components/SFTP/commands/sendCommandRm';
 import {sendCommandByRename} from '../components/SFTP/commands/sendCommandRename';
 import {sendCommandByPut} from '../components/SFTP/commands/sendCommandPut';
 import {sendCommandByGet} from '../components/SFTP/commands/sendCommandGet';
+import usePostMessage from '../components/SFTP/hooks/usePostMessage';
+import {listConversion} from '../components/SFTP/commands';
 
-const useConfirmActions = () => {
+const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
 	// const {currentPath, currentText, currentHighlight} = useSelector(
 	// 	(state) => state.sftp,
 	// );
 
-	const deleteWorkFunction = useCallback(
-		async (ws, uuid, curPath, highlightItem) => {
+	const deleteWorkFunction = useCallback(async (curPath, highlightItem) => {
+		usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then(async (response) => {
+			const path =
+				response.result === '/'
+					? response.result
+					: response.result + '/';
 			for await (const key of highlightItem?.list) {
-				await sendCommandByRm(
-					ws,
-					uuid,
-					curPath?.path + '/' + key.fileName,
-					key.fileType,
-				);
-				await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
+				if (key.fileType === 'file') {
+					await usePostMessage({
+						keyword: 'CommandByRm',
+						ws,
 						uuid,
-						name: key.fileName,
-						path: curPath?.path,
-						size: key.fileSize,
-						todo: 'rm',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
-				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: []},
-				});
+						path: path + key.fileName,
+					});
+				} else {
+					await usePostMessage({
+						keyword: 'CommandByRmdir',
+						ws,
+						uuid,
+						path: path + key.fileName,
+					});
+				}
 			}
-		},
-		[],
-	);
+			await usePostMessage({
+				keyword: 'CommandByLs',
+				ws,
+				uuid,
+				path: response.result,
+			})
+				.then((response) => listConversion(response.result))
+				.then((response) =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_LIST,
+						data: {uuid, list: response},
+					}),
+				)
+				.then(() =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+						data: {uuid, list: []},
+					}),
+				);
+		});
+	}, []);
 
 	const renameWorkFunction = useCallback(
 		async (ws, uuid, curPath, highlightItem, formValue) => {
