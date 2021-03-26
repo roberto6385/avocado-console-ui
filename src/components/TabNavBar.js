@@ -14,15 +14,10 @@ import {
 	TabNavItem,
 	TabContainer,
 	TabNav,
-	TabSFTPIcon,
 	TabSSHTIcon,
+	TabSFTPIcon,
 } from '../styles/common';
 import usePostMessage from './SFTP/hooks/usePostMessage';
-import getMessage from './SFTP/hooks/useGetMessage';
-import {
-	SFTP_DELETE_CURRENT_LIST,
-	SFTP_DELETE_CURRENT_PATH,
-} from '../reducers/sftp';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();

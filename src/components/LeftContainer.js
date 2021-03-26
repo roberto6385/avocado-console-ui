@@ -24,11 +24,11 @@ const LeftContainer = () => {
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
 			setOpen(true);
-			// dispatch({type: DELETE_SERVER});
 		}
 	}, [clicked_server]);
 
 	const onClickOpenSearch = useCallback(() => {
+		if (activeSearch) setSearch('');
 		setActiveSearch(!activeSearch);
 	}, [activeSearch]);
 

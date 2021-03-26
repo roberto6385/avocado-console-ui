@@ -5,7 +5,7 @@ import {FaTimes} from 'react-icons/all';
 
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {CHANGE_CURRENT_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
+import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
 import {Close} from '../dist/ssht_ws';
 import {
 	TabContentCard,

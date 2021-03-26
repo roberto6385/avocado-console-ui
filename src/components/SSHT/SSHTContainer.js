@@ -2,7 +2,7 @@ import React, {useCallback, useRef, useState, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 import {useSelector} from 'react-redux';
 import {Card} from 'react-bootstrap';
-import {FaExpand} from 'react-icons/all';
+import {CgMaximizeAlt} from 'react-icons/all';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
@@ -51,7 +51,7 @@ const SSHContainer = ({index, display, server_id, socket}) => {
 		<SSHTContainer className={'fix-height'}>
 			<Card.Header>
 				<IconButton>
-					<FaExpand onClick={onCLickFullScreen} />
+					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>
 				<ConvertSFTP data={server.find((x) => x.id === server_id)} />
 			</Card.Header>

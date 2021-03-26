@@ -97,6 +97,7 @@ const reducer = (state = initialState, action) => {
 					draft.max_display_tab,
 					draft.current_tab,
 				);
+				draft.clicked_server = null;
 				break;
 			}
 

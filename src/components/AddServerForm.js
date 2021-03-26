@@ -6,21 +6,23 @@ import {FaTimes} from 'react-icons/all';
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import {AddServerCard} from '../styles/common';
+import {AddServerCard, IconButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';
 import Button from './AddServer/Button';
 import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
 import TwoColsForm from './AddServer/TwoColsForm';
+import OneColButtonForm from './AddServer/OneColButtonForm';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
 	const [name, onChangeName, setName] = useInput('');
-	const [protocol, onChangeProtocol] = useInput('SSH2');
+	const [protocol, setProtocol] = useState('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput('');
 	const [user, onChangeUser, setUser] = useInput('');
-	const [authentication, onChangeAuthentication] = useInput('Password');
+	const [authentication, setAuthentication] = useState('Password');
+	const [key, onChangeKey] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
 	const [open, setOpen] = useState(false);
@@ -28,6 +30,7 @@ const AddServerForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+			console.log(name, protocol, authentication);
 
 			const ws = new WebSocket('ws://' + host + ':8080/ws/ssh/protobuf');
 			ws.binaryType = 'arraybuffer';
@@ -74,9 +77,11 @@ const AddServerForm = () => {
 	const onClickCloseForm = useCallback(() => {
 		document.getElementById('add-server-form').style.display = 'none';
 		setName('');
+		setProtocol('SSH2');
 		setHost('');
 		setPort('');
 		setUser('');
+		setAuthentication('Password');
 		setPassword('');
 		setNote('');
 	}, []);
@@ -86,77 +91,66 @@ const AddServerForm = () => {
 			<AddServerCard id='add-server-form'>
 				<Card.Header as='h5'>
 					Add Server
-					<span className={'right'}>
+					<IconButton className={'right'}>
 						<FaTimes onClick={onClickCloseForm} />
-					</span>
+					</IconButton>
 				</Card.Header>
 				<Card.Body>
 					<Form onSubmit={onSubmitForm}>
 						<TwoColsOptionForm
-							label1='Name'
-							placeholder1='Server Name'
-							type1='text'
+							keyword='name_protocol'
 							value1={name}
 							onChange1={onChangeName}
-							required1={true}
-							label2='Protocol'
 							value2={protocol}
-							onChange2={onChangeProtocol}
-							options={['SSH2', 'protocol2']}
-							required2={true}
+							setValue2={setProtocol}
 						/>
-
 						<TwoColsForm
-							label1='Address'
-							placeholder1='Host Name or IP'
-							type1='text'
+							keyword='address_port'
 							value1={host}
 							onChange1={onChangeHost}
-							required1={true}
-							label2='Port'
-							placeholder2='Port'
-							type2='number'
 							value2={port}
 							onChange2={onChangePort}
-							required2={true}
 						/>
-
 						<TwoColsOptionForm
-							label1='Username'
-							placeholder1='Login Username'
-							type1='text'
+							keyword='user_auth'
 							value1={user}
 							onChange1={onChangeUser}
-							required1={true}
-							label2='Authentication'
 							value2={authentication}
-							onChange2={onChangeAuthentication}
-							options={['Password', 'Key file']}
-							required2={true}
+							setValue2={setAuthentication}
 						/>
+						{authentication === 'Password' ? (
+							<OneColForm
+								keyword='password'
+								value={password}
+								onChangeValue={onChangePassword}
+							/>
+						) : (
+							<div>
+								<OneColButtonForm
+									onChangeValue={onChangeKey}
+									keyword={'key'}
+									value={key}
+								/>
+								<OneColForm
+									keyword='key_password'
+									value={password}
+									onChangeValue={onChangePassword}
+								/>
+							</div>
+						)}
 
 						<OneColForm
-							label='Password'
-							placeholder='Login Password'
-							type='password'
-							value={password}
-							onChangeValue={onChangePassword}
-							required={true}
-						/>
-
-						<OneColForm
-							label='Note'
-							placeholder='Note'
-							type='text'
+							keyword='note'
 							value={note}
 							onChangeValue={onChangeNote}
 						/>
+
 						<Button onClickCloseForm={onClickCloseForm} />
 					</Form>
 				</Card.Body>
 			</AddServerCard>
 			<AlertPopup
-				keyword='Invalid Server'
+				keyword='invalid_server'
 				open={open}
 				setOpen={setOpen}
 			/>
