@@ -146,7 +146,7 @@ const useConfirmActions = (ws, uuid) => {
 			);
 	}, []);
 
-	const newFolderFunction = useCallback(async (curPath, formValue) => {
+	const newFolderFunction = useCallback(async (formValue) => {
 		await usePostMessage({
 			keyword: 'CommandByPwd',
 			ws,
@@ -163,18 +163,24 @@ const useConfirmActions = (ws, uuid) => {
 				path: path + formValue,
 			}).then(() =>
 				usePostMessage({
-					keyword: 'CommandByLs',
+					keyword: 'CommandByPwd',
 					ws,
 					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					),
+				}).then((response) =>
+					usePostMessage({
+						keyword: 'CommandByLs',
+						ws,
+						uuid,
+						path: response.result,
+					})
+						.then((response) => listConversion(response.result))
+						.then((response) =>
+							dispatch({
+								type: SFTP_SAVE_CURRENT_LIST,
+								data: {uuid, list: response},
+							}),
+						),
+				),
 			);
 		});
 		dispatch({
