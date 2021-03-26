@@ -3,7 +3,6 @@ import {PropTypes} from 'prop-types';
 import FileList from './FileList';
 import History from './History';
 
-import {sendCommandByPwd} from './commands/sendCommandPwd';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SFTP_SAVE_CURRENT_MODE,
@@ -11,7 +10,6 @@ import {
 } from '../../reducers/sftp';
 import Edit from './Edit';
 import {SftpContainer} from '../../styles/sftp';
-import usePostMessage from './hooks/usePostMessage';
 
 const SFTP_COMPONENT = ({index, socket}) => {
 	const {ws, uuid} = socket;

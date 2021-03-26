@@ -5,6 +5,7 @@ import {PropTypes} from 'prop-types';
 import {
 	SFTP_DELETE_HISTORY,
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
@@ -18,6 +19,8 @@ import {FaTimes} from 'react-icons/all';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {DELETE_SERVER} from '../reducers/common';
 import {CustomModal, ModalFooter, PopupButton} from '../styles/common';
+import usePostMessage from './SFTP/hooks/usePostMessage';
+import {listConversion} from './SFTP/commands';
 
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const {currentPath, currentText, currentHighlight} = useSelector(
@@ -63,16 +66,37 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	};
 
 	const contextRename = async () => {
-		const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
-		await sendCommandByRename(
+		await usePostMessage({
+			keyword: 'CommandByPwd',
 			ws,
 			uuid,
-			path + highlightItem?.list[0].fileName,
-			path + formValue,
-		);
-
-		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-
+		}).then((response) => {
+			const path =
+				response.result === '/'
+					? response.result
+					: response.result + '/';
+			usePostMessage({
+				keyword: 'CommandByRename',
+				ws,
+				uuid,
+				path: path + highlightItem?.list[0].fileName,
+				newPath: path + formValue,
+			}).then(() =>
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					),
+			);
+		});
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},
@@ -80,10 +104,36 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	};
 
 	const contextNewFolder = async () => {
-		const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
-		await sendCommandByMkdir(ws, uuid, path + formValue);
-		await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-
+		await usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then((response) => {
+			const path =
+				response.result === '/'
+					? response.result
+					: response.result + '/';
+			usePostMessage({
+				keyword: 'CommandByMkdir',
+				ws,
+				uuid,
+				path: path + formValue,
+			}).then(() =>
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					),
+			);
+		});
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},

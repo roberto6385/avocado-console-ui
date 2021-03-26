@@ -8,6 +8,7 @@ import {
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 } from '../../reducers/sftp';
+import {CLOSE_TAB} from '../../reducers/common';
 
 const SFTPContainer = ({index, socket, data}) => {
 	const dispatch = useDispatch();
@@ -38,6 +39,20 @@ const SFTPContainer = ({index, socket, data}) => {
 				);
 		});
 	}, [ws, uuid, dispatch]);
+
+	useEffect(() => {
+		ws.onerror = () => {
+			console.log('socket error!');
+		};
+		ws.onclose = () => {
+			usePostMessage({
+				keyword: 'Disconnection',
+				ws,
+				uuid,
+			}).then(() => dispatch({type: CLOSE_TAB, data: data.id}));
+		};
+	}, []);
+
 	return <SFTP_COMPONENT index={index} socket={socket} />;
 };
 

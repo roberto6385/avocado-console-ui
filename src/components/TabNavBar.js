@@ -5,8 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
-import {sendDisconnect} from './SFTP/commands/sendDisconnect';
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB, OPEN_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
 import {Close} from '../dist/ssht_ws';
 import {
 	FlexBox,
@@ -14,7 +13,6 @@ import {
 	IconSpan,
 	TabNavItem,
 	TabContainer,
-	TabIconSpan,
 	TabNav,
 	TabSFTPIcon,
 	TabSSHTIcon,

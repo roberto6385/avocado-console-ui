@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByGet} from './commands/sendCommandGet';
 import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
+import usePostMessage from './hooks/usePostMessage';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
@@ -16,21 +16,25 @@ const FileListContextMenu = ({ws, uuid}) => {
 	const dispatch = useDispatch();
 
 	const MENU_ID = uuid + 'fileList';
-	const contextDownload = async () => {
-		for await (const key of highlightItem?.list) {
-			await sendCommandByGet(
-				'get',
-				ws,
-				uuid,
-				pathItem?.path,
-				key.fileName,
-				dispatch,
-			);
-		}
-		// 마지막 percent 100 , ok 사이에서 디스패치 이벤트 실행
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
+	const contextDownload = () => {
+		usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then(async (response) => {
+			for await (const key of highlightItem?.list) {
+				await usePostMessage({
+					keyword: 'CommandByGet',
+					ws,
+					uuid,
+					path: response.result,
+					fileName: key.fileName,
+				});
+			}
+			dispatch({
+				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				data: {uuid, list: []},
+			});
 		});
 	};
 
@@ -44,7 +48,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
-				contextDownload().then();
+				contextDownload();
 				break;
 			case 'Edit':
 				contextEdit(event);

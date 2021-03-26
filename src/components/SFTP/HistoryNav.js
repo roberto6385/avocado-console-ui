@@ -11,9 +11,11 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByPut} from './commands/sendCommandPut';
 import {sendCommandByLs} from './commands/sendCommandLs';
-import {SFTP_DELETE_HISTORY} from '../../reducers/sftp';
+import {SFTP_DELETE_HISTORY, SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {NavItem} from '../../styles/sftp';
+import usePostMessage from './hooks/usePostMessage';
+import {listConversion} from './commands';
 
 const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
@@ -28,20 +30,37 @@ const HistoryNav = ({index, ws, uuid}) => {
 		uploadInput.setAttribute('multiple', 'multiple');
 		uploadInput.setAttribute('style', 'display:none');
 		uploadInput.click();
-		uploadInput.onchange = async (e) => {
+		uploadInput.onchange = (e) => {
 			const File = e.target.files;
-			for await (const key of Object.keys(File)) {
-				await sendCommandByPut(
-					'put',
-					File[key],
+			usePostMessage({
+				keyword: 'CommandByPwd',
+				ws,
+				uuid,
+			}).then(async (response) => {
+				for await (const key of Object.keys(File)) {
+					await usePostMessage({
+						keyword: 'CommandByPut',
+						ws,
+						uuid,
+						path: response.result,
+						fileName: File[key].name,
+						uploadFile: File[key],
+					});
+				}
+				usePostMessage({
+					keyword: 'CommandByLs',
 					ws,
 					uuid,
-					pathItem?.path,
-					File[key].name,
-					dispatch,
-				);
-			}
-			sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					);
+			});
 		};
 		document.body.removeChild(uploadInput);
 	};

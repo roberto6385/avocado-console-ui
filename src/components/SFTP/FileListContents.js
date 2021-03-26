@@ -6,8 +6,12 @@ import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendCommandByCd} from './commands/sendCommandCd';
 import {sendCommandByGet} from './commands/sendCommandGet';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
-import {toEditMode} from './commands';
+import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_CURRENT_LIST,
+	SFTP_SAVE_CURRENT_PATH,
+} from '../../reducers/sftp';
+import {listConversion, toEditMode} from './commands';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	CustomRightTh,
@@ -19,6 +23,8 @@ import {
 	FileIcon,
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
+import usePostMessage from './hooks/usePostMessage';
+import {resolveConfig} from 'prettier';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentPath, currentHighlight} = useSelector(
@@ -40,14 +46,19 @@ const FileListContents = ({index, ws, uuid}) => {
 		e.stopPropagation();
 		if (item.fileName !== '..' && item.fileType !== 'directory') {
 			// 현재는 디렉토리 다운로드 막아두었음.
-			sendCommandByGet(
-				'get',
+			usePostMessage({
+				keyword: 'CommandByPwd',
 				ws,
 				uuid,
-				pathItem?.path,
-				item.fileName,
-				dispatch,
-			).then();
+			}).then((response) =>
+				usePostMessage({
+					keyword: 'CommandByGet',
+					ws,
+					uuid,
+					path: response.result,
+					fileName: item.fileName,
+				}).then((response) => console.log(response)),
+			);
 		}
 	};
 
@@ -87,7 +98,48 @@ const FileListContents = ({index, ws, uuid}) => {
 		} else {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				sendCommandByCd(ws, uuid, item.fileName, dispatch);
+				// sendCommandByCd(ws, uuid, item.fileName, dispatch);
+				usePostMessage({
+					keyword: 'CommandByPwd',
+					ws,
+					uuid,
+				}).then((response) =>
+					usePostMessage({
+						keyword: 'CommandByCd',
+						ws,
+						uuid,
+						path:
+							response.result === '/'
+								? response.result + item.fileName
+								: response.result + '/' + item.fileName,
+					}).then(() =>
+						usePostMessage({
+							keyword: 'CommandByPwd',
+							ws,
+							uuid,
+						}).then((response) => {
+							dispatch({
+								type: SFTP_SAVE_CURRENT_PATH,
+								data: {uuid, path: response.result},
+							});
+							usePostMessage({
+								keyword: 'CommandByLs',
+								ws,
+								uuid,
+								path: response.result,
+							})
+								.then((response) =>
+									listConversion(response.result),
+								)
+								.then((response) =>
+									dispatch({
+										type: SFTP_SAVE_CURRENT_LIST,
+										data: {uuid, list: response},
+									}),
+								);
+						}),
+					),
+				);
 				dispatch({
 					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 					data: {uuid, list: []},

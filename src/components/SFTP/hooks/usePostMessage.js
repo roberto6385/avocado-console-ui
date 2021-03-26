@@ -1,16 +1,110 @@
 import SFTP from '../../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
-import {Close} from '../../../dist/ssht_ws';
+import {SFTP_SAVE_HISTORY} from '../../../reducers/sftp';
 
-const usePostMessage = ({keyword, ws, uuid, data, path}) => {
+// eslint-disable-next-line no-undef
+let fileBuffer = new ArrayBuffer(0);
+
+let getReceiveSum = 0;
+
+const usePostMessage = ({
+	keyword,
+	ws,
+	uuid,
+	data,
+	path,
+	newPath,
+	fileName,
+	uploadFile,
+}) => {
+	const msgObj = new SFTP.Message();
+	msgObj.setType(SFTP.Message.Types.REQUEST);
+	const reqObj = new SFTP.Request();
+	let postObj = null;
+	let cmdObj = null;
+
 	let progress = 0;
-	return new Promise((resolve) => {
-		const msgObj = new SFTP.Message();
-		msgObj.setType(SFTP.Message.Types.REQUEST);
-		const reqObj = new SFTP.Request();
-		let postObj = null;
-		let cmdObj = null;
+	let total = 0;
 
+	const appendBuffer = (buffer1, buffer2) => {
+		var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
+		tmp.set(new Uint8Array(buffer1), 0);
+		tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
+		return tmp.buffer;
+	};
+
+	const upload = () => {
+		return new Promise((resolve) => {
+			console.log('file size : ', uploadFile.size);
+
+			const uploadFileSize = uploadFile.size;
+
+			const chunkSize = 8 * 1024;
+			const fileSlices = [];
+
+			for (var i = 0; i < uploadFileSize; i += chunkSize) {
+				(function (start) {
+					fileSlices.push({offset: start, length: chunkSize + start});
+				})(i);
+			}
+
+			const sendBuffer = (data) => {
+				console.log('recv data : ', data);
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+
+				if (keyword === 'CommandByPut') {
+					cmdObj = new SFTP.CommandByPut();
+					postObj.setPut(cmdObj);
+				} else if (keyword === 'CommandByPutDirect') {
+					cmdObj = new SFTP.CommandByPutDirect();
+					postObj.setPutdirect(cmdObj);
+				}
+
+				cmdObj.setPath(path);
+				cmdObj.setFilename(fileName);
+				cmdObj.setFilesize(uploadFileSize);
+				cmdObj.setContents(Buffer.from(data.buffer));
+				cmdObj.setOffset(1);
+				cmdObj.setLast(data.last);
+			};
+			const readBytes = (file, slice) => {
+				const reader = new FileReader();
+
+				// eslint-disable-next-line no-undef
+				return new Promise((resolve) => {
+					reader.onload = (e) => {
+						resolve(e.target.result);
+					};
+
+					var blob = file.slice(slice.offset, slice.length);
+					reader.readAsArrayBuffer(blob);
+				});
+			};
+
+			const readFile = (file, slice) => {
+				readBytes(file, slice).then((data) => {
+					// send protocol buffer
+					console.log('read arraybuffer : ', data);
+					total += data.byteLength;
+
+					if (0 < fileSlices.length) {
+						sendBuffer({buffer: data, last: false});
+
+						readFile(file, fileSlices.shift());
+					} else {
+						sendBuffer({buffer: data, last: true});
+						console.log('file read end. total size : ', total);
+						resolve();
+					}
+				});
+			};
+			readFile(uploadFile, fileSlices.shift());
+		});
+	};
+
+	return new Promise((resolve) => {
 		switch (keyword) {
 			case 'Connection':
 				reqObj.setType(SFTP.Request.Types.CONNECT);
@@ -51,18 +145,87 @@ const usePostMessage = ({keyword, ws, uuid, data, path}) => {
 				cmdObj = new SFTP.CommandByLs();
 				cmdObj.setPath(path);
 				postObj.setLs(cmdObj);
-
 				break;
 
+			case 'CommandByMkdir':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByMkdir();
+				cmdObj.setPath(path);
+				postObj.setMkdir(cmdObj);
+				break;
+
+			case 'CommandByRmdir':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByRmdir();
+				cmdObj.setPath(path);
+				postObj.setRmdir(cmdObj);
+				break;
+
+			case 'CommandByRm':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByRm();
+				cmdObj.setPath(path);
+				postObj.setRm(cmdObj);
+				break;
+
+			case 'CommandByStat':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(this.state.uuid);
+				cmdObj = new SFTP.CommandByStat();
+				cmdObj.setPath(this.state.path);
+				postObj.setStat(cmdObj);
+				break;
+
+			case 'CommandByRename':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByRename();
+				cmdObj.setOldpath(path);
+				cmdObj.setNewpath(newPath);
+
+				postObj.setRename(cmdObj);
+				break;
+
+			case 'CommandByGet':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByGet();
+				cmdObj.setPath(path);
+				cmdObj.setFilename(fileName);
+				postObj.setGet(cmdObj);
+				break;
+
+			case 'CommandByGetDirect':
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+				cmdObj = new SFTP.CommandByGetDirect();
+				cmdObj.setPath(path);
+				cmdObj.setFilename(fileName);
+				postObj.setGetdirect(cmdObj);
+				break;
+
+			case 'CommandByPut':
+			case 'CommandByPutDirect':
+				upload();
+				break;
 			default:
 				break;
 		}
-
-		reqObj.setBody(postObj.serializeBinary());
+		reqObj.setBody(postObj?.serializeBinary());
 		msgObj.setBody(reqObj.serializeBinary());
-
 		ws.send(msgObj.serializeBinary());
 
+		ws.binaryType = 'arraybuffer';
 		ws.onmessage = (evt) => {
 			if (evt.data instanceof ArrayBuffer) {
 				const message = SFTP.Message.deserializeBinary(evt.data);
@@ -73,44 +236,28 @@ const usePostMessage = ({keyword, ws, uuid, data, path}) => {
 					);
 					console.log('[receive]response type', response.getType());
 					if (response.getType() === SFTP.Response.Types.CONNECT) {
-						const conObj = SFTP.ConnectResponse.deserializeBinary(
+						const msgObj = SFTP.ConnectResponse.deserializeBinary(
 							response.getBody(),
 						);
-						console.log('[receive]connect', conObj);
-						console.log(
-							'[receive]connect to json',
-							conObj.toObject(),
-						);
-						if (conObj.getStatus() === 'connected') {
-							resolve({
-								uuid: conObj.getUuid(),
-							});
+
+						if (msgObj.getStatus() === 'connected') {
+							resolve(msgObj.toObject());
 						}
 					} else if (
 						response.getType() === SFTP.Response.Types.DISCONNECT
 					) {
-						const conObj = SFTP.DisconnectResponse.deserializeBinary(
+						const msgObj = SFTP.DisconnectResponse.deserializeBinary(
 							response.getBody(),
 						);
-						console.log('[receive]disconnect', conObj);
-						console.log(
-							'[receive]disconnect to json',
-							conObj.toObject(),
-						);
 
-						if (conObj.getStatus() === 'disconnected') {
-							resolve();
+						if (msgObj.getStatus() === 'disconnected') {
+							resolve(msgObj.toObject());
 						}
 					} else if (
 						response.getType() === SFTP.Response.Types.MESSAGE
 					) {
 						const msgObj = SFTP.MessageResponse.deserializeBinary(
 							response.getBody(),
-						);
-						console.log('[receive]message', msgObj);
-						console.log(
-							'[receive]message to json',
-							msgObj.toObject(),
 						);
 
 						var percent = progress;
@@ -124,7 +271,46 @@ const usePostMessage = ({keyword, ws, uuid, data, path}) => {
 								.replace('percent : ', '');
 							console.log('[progress]..........', percent);
 						}
+						keyword !== 'CommandByGet' &&
+							resolve(msgObj.toObject());
+					} else if (
+						response.getType() === SFTP.Response.Types.FILE
+					) {
+						const msgObj = SFTP.FileResponse.deserializeBinary(
+							response.getBody(),
+						);
 
+						var arr = msgObj.getContents_asU8();
+
+						console.log('file as u8', arr);
+
+						fileBuffer = appendBuffer(fileBuffer, arr);
+						console.log('fileBuffer---> ', fileBuffer);
+
+						// 프로그래스바
+						var sum = getReceiveSum + arr.length;
+						const percent = (sum * 100) / msgObj.getFilesize();
+
+						console.log({
+							getReceiveSum: sum,
+							progress: percent,
+						});
+
+						if (msgObj.getLast() === true) {
+							const blob = new Blob([fileBuffer]);
+
+							// eslint-disable-next-line no-undef
+							fileBuffer = new ArrayBuffer(0);
+
+							var url = URL.createObjectURL(blob);
+							var a = document.createElement('a');
+							document.body.appendChild(a);
+							a.style = 'display: none';
+							a.href = url;
+							a.download = fileName;
+							a.click();
+							window.URL.revokeObjectURL(url);
+						}
 						resolve(msgObj.toObject());
 					}
 				}
@@ -139,6 +325,9 @@ usePostMessage.propTypes = {
 	uuid: PropTypes.string,
 	data: PropTypes.object,
 	path: PropTypes.string,
+	newPath: PropTypes.string,
+	fileName: PropTypes.string,
+	uploadFile: PropTypes.object,
 };
 
 export default usePostMessage;
