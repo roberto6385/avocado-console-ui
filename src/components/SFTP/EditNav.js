@@ -104,7 +104,7 @@ const EditNav = ({index, ws, uuid}) => {
 				</NavItem>
 			</div>
 			<ConfirmPopup
-				keyword={'Changes'}
+				keyword={'edit_file'}
 				open={open}
 				setOpen={setOpen}
 				ws={ws}

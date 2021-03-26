@@ -49,13 +49,13 @@ const FileListContextMenu = ({ws, uuid}) => {
 			case 'Edit':
 				contextEdit(event);
 				break;
-			case 'New Folder':
+			case 'new_folder':
 				setOpen(true);
 				break;
-			case 'Rename':
+			case 'rename_work':
 				setOpen(true);
 				break;
-			case 'Delete':
+			case 'delete_work':
 				setOpen(true);
 				break;
 			default:
@@ -91,7 +91,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 				</Item>
 				<Separator />
 
-				<Item id='New Folder' onClick={handleItemClick}>
+				<Item id='new_folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item
@@ -99,7 +99,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 						highlightItem?.list.length !== 1 ||
 						highlightItem?.list[0].fileName === '..'
 					}
-					id='Rename'
+					id='rename_work'
 					onClick={handleItemClick}
 				>
 					Rename
@@ -110,7 +110,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 						highlightItem?.list.length === 0 ||
 						highlightItem?.list[0].fileName === '..'
 					}
-					id='Delete'
+					id='delete_work'
 					onClick={handleItemClick}
 				>
 					Delete

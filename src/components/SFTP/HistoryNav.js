@@ -69,7 +69,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 				<MdDelete />
 			</NavItem>
 			<ConfirmPopup
-				keyword={'Delete History'}
+				keyword={'delete_history'}
 				open={open}
 				setOpen={setOpen}
 				ws={ws}

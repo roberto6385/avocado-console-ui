@@ -7,12 +7,9 @@ import {
 	NAV_HEIGHT,
 	NAV_HEIGHT_SUM,
 	SECOND_NAV_HEIGHT,
-	SUB_COLOR,
 	WHITE_COLOR,
 } from './global';
-import ServerNavBar from '../components/ServerNavBar';
 import background from '../images/bg_3.png';
-import Footer from '../components/Footer';
 import {FaServer} from 'react-icons/all';
 import {RiTerminalFill} from 'react-icons/ri';
 import {BiTransferAlt} from 'react-icons/bi';
@@ -153,11 +150,6 @@ export const AddServerButton = styled.button`
 	top: 60%;
 `;
 
-// RightContainer
-export const BotttomBar = styled(Footer)`
-	height: ${NAV_HEIGHT};
-`;
-
 // ServerNavBar
 export const FaServerIcon = styled(FaServer)`
 	vertical-align: middle;
@@ -181,14 +173,14 @@ export const SplitButtonContainer = styled.div`
 `;
 
 // Tab Contents Container
-export const TabContentsCardHeader = styled(Card.Header)`
+export const TabContentCardHeader = styled(Card.Header)`
 	padding: 7px 20px;
 	margin: 0;
 	height: ${SECOND_NAV_HEIGHT};
 	background: rgba(0, 0, 0, 0.03);
 `;
 
-export const TabContentsCard = styled(Card)`
+export const TabContentCard = styled(Card)`
 	display: flex;
 	flex-direction: column;
 	height: ${(props) => props.h};
@@ -261,4 +253,9 @@ export const AddServerCard = styled(Card)`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 1000;
+`;
+
+export const AddServerButtonContainer = styled.div`
+	display: flex;
+	justify-content: center;
 `;

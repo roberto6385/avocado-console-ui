@@ -14,7 +14,6 @@ import {
 	IconSpan,
 	TabNavItem,
 	TabContainer,
-	TabIconSpan,
 	TabNav,
 	TabSFTPIcon,
 	TabSSHTIcon,

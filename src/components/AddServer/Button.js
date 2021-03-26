@@ -1,17 +1,12 @@
 import React from 'react';
-import {Form} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
-import {PopupButton} from '../../styles/common';
+
+import {AddServerButtonContainer, PopupButton} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 
 const Button = ({onClickCloseForm}) => {
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-			}}
-		>
+		<AddServerButtonContainer>
 			<PopupButton
 				variant='default'
 				onClick={onClickCloseForm}
@@ -22,7 +17,7 @@ const Button = ({onClickCloseForm}) => {
 			<PopupButton variant='default' type='submit' back={`${MAIN_COLOR}`}>
 				Save
 			</PopupButton>
-		</div>
+		</AddServerButtonContainer>
 	);
 };
 
