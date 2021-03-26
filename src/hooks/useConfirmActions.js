@@ -72,17 +72,38 @@ const useConfirmActions = (ws, uuid) => {
 	}, []);
 
 	const renameWorkFunction = useCallback(
-		async (ws, uuid, curPath, highlightItem, formValue) => {
-			const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
-			await sendCommandByRename(
+		async (curPath, highlightItem, formValue) => {
+			await usePostMessage({
+				keyword: 'CommandByPwd',
 				ws,
 				uuid,
-				path + highlightItem?.list[0].fileName,
-				path + formValue,
-			);
-
-			await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-
+			}).then((response) => {
+				const path =
+					response.result === '/'
+						? response.result
+						: response.result + '/';
+				usePostMessage({
+					keyword: 'CommandByRename',
+					ws,
+					uuid,
+					path: path + highlightItem?.list[0].fileName,
+					newPath: path + formValue,
+				}).then(() =>
+					usePostMessage({
+						keyword: 'CommandByLs',
+						ws,
+						uuid,
+						path: response.result,
+					})
+						.then((response) => listConversion(response.result))
+						.then((response) =>
+							dispatch({
+								type: SFTP_SAVE_CURRENT_LIST,
+								data: {uuid, list: response},
+							}),
+						),
+				);
+			});
 			dispatch({
 				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 				data: {uuid, list: []},
@@ -125,19 +146,42 @@ const useConfirmActions = (ws, uuid) => {
 			);
 	}, []);
 
-	const newFolderFunction = useCallback(
-		async (ws, uuid, curPath, formValue) => {
-			const path = curPath?.path === '/' ? '/' : curPath?.path + '/';
-			await sendCommandByMkdir(ws, uuid, path + formValue);
-			await sendCommandByLs(ws, uuid, curPath?.path, dispatch);
-
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: []},
-			});
-		},
-		[],
-	);
+	const newFolderFunction = useCallback(async (curPath, formValue) => {
+		await usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then((response) => {
+			const path =
+				response.result === '/'
+					? response.result
+					: response.result + '/';
+			usePostMessage({
+				keyword: 'CommandByMkdir',
+				ws,
+				uuid,
+				path: path + formValue,
+			}).then(() =>
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					),
+			);
+		});
+		dispatch({
+			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+			data: {uuid, list: []},
+		});
+	}, []);
 
 	return useMemo(
 		() => ({
