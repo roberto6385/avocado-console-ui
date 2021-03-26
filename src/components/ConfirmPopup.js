@@ -35,9 +35,7 @@ export const SAVE_KEYWORDS = ['rename_work', 'new_folder', 'edit_file'];
 export const FORM_KEYWORDS = ['rename_work', 'new_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
-	const {currentPath, currentText, currentHighlight} = useSelector(
-		(state) => state.sftp,
-	);
+	const {currentText, currentHighlight} = useSelector((state) => state.sftp);
 	const {
 		deleteWork,
 		renameWork,
@@ -47,7 +45,6 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		deleteServer,
 	} = useConfirmActions(ws, uuid);
 	const curText = currentText.find((item) => item.uuid === uuid);
-	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
@@ -67,16 +64,16 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const submitFunction = () => {
 		switch (keyword) {
 			case 'delete_work':
-				deleteWork(curPath, highlightItem);
+				deleteWork(highlightItem);
 				break;
 			case 'rename_work':
-				renameWork(curPath, highlightItem, formValue);
+				renameWork(highlightItem, formValue);
 				break;
 			case 'new_folder':
 				newFolder(formValue);
 				break;
 			case 'edit_file':
-				editFile(curPath, curText);
+				editFile(curText);
 				break;
 			case 'delete_history':
 				deleteHistory();

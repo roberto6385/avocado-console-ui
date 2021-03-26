@@ -8,13 +8,12 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByCd} from './commands/sendCommandCd';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 } from '../../reducers/sftp';
-import {NavItem, PathSpan} from '../../styles/sftp';
+import {NavItem} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
 import usePostMessage from './hooks/usePostMessage';
 import {listConversion} from './commands';

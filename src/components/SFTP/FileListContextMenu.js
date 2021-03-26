@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
+	SFTP_SAVE_HISTORY,
+} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
 import usePostMessage from './hooks/usePostMessage';
@@ -29,6 +32,19 @@ const FileListContextMenu = ({ws, uuid}) => {
 					uuid,
 					path: response.result,
 					fileName: key.fileName,
+				});
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: key.fileName,
+						path: response.result,
+						size: key.fileSize,
+						todo: 'get',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
 				});
 			}
 			dispatch({

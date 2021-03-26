@@ -1,8 +1,9 @@
 import {
-	SFTP_SAVE_CURRENT_LIST,
+	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_CURRENT_TEXT,
 } from '../../reducers/sftp';
-import {sendCommandByGet} from './commands/sendCommandGet';
+import usePostMessage from './hooks/usePostMessage';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');
@@ -62,20 +63,42 @@ export const listConversion = (result) => {
 	return fileList;
 };
 
-export const toEditMode = (e, ws, uuid, path, item, dispatch) => {
+export const toEditMode = (e, ws, uuid, item, dispatch) => {
 	e.stopPropagation();
 	if (item.fileName !== '..' && item.fileType !== 'directory') {
-		sendCommandByGet(
-			'edit',
+		usePostMessage({
+			keyword: 'CommandByPwd',
 			ws,
 			uuid,
-			path,
-			item.fileName,
-			dispatch,
-		).then();
-		dispatch({
-			type: SFTP_SAVE_CURRENT_MODE,
-			data: {uuid, mode: 'edit'},
+		}).then((response) => {
+			usePostMessage({
+				keyword: 'EDIT',
+				ws,
+				uuid,
+				path: response.result,
+				fileName: item.fileName,
+			}).then((response) => {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_TEXT,
+					data: {
+						uuid,
+						text: response,
+						name: item.fileName,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_COMPARE_TEXT,
+					data: {
+						uuid,
+						text: response,
+						name: item.fileName,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_CURRENT_MODE,
+					data: {uuid, mode: 'edit'},
+				});
+			});
 		});
 	}
 };

@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
+import {
+	SFTP_SAVE_COMPARE_TEXT,
+	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_CURRENT_TEXT,
+	SFTP_SAVE_HISTORY,
+} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
-
-import {sendCommandByPut} from './commands/sendCommandPut';
-import {sendCommandByLs} from './commands/sendCommandLs';
-
 import ConfirmPopup from '../ConfirmPopup';
-import {sendCommandByGet} from './commands/sendCommandGet';
 import {Navbar, NavItem} from '../../styles/sftp';
+import usePostMessage from './hooks/usePostMessage';
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -27,53 +28,92 @@ const EditNav = ({index, ws, uuid}) => {
 		const editFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		const a = document.createElement('a');
-		document.body.appendChild(a);
-		a.setAttribute('style', 'display:none');
-		const url = window.URL.createObjectURL(editFile);
-		a.href = url;
-		a.download = curText?.name;
-		a.click();
-		window.URL.revokeObjectURL(url);
-		dispatch({
-			type: SFTP_SAVE_HISTORY,
-			data: {
-				uuid,
-				name: editFile.name,
-				path: path,
-				size: editFile.size,
-				todo: 'get',
-				progress: 100,
-				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-				// 삭제, dispatch, 삭제 해서 progress 100 만들기
-			},
-		});
+		usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		})
+			.then((response) => {
+				usePostMessage({
+					keyword: 'CommandByGet',
+					ws,
+					uuid,
+					path: response.result,
+					fileName: editFile.name,
+				});
+			})
+			.then(() =>
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: editFile.name,
+						path: path,
+						size: editFile.size,
+						todo: 'get',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
+				}),
+			);
 	};
 
 	const editedFileSave = () => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		sendCommandByPut(
-			'edit',
-			editedFile,
+		usePostMessage({
+			keyword: 'CommandByPwd',
 			ws,
 			uuid,
-			curPath?.path,
-			editedFile.name,
-			dispatch,
-		)
-			.then(() =>
-				sendCommandByGet(
-					'edit',
-					ws,
-					uuid,
-					curPath?.path,
-					editedFile.name,
-					dispatch,
-				),
-			)
-			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch));
+		}).then(async (response) => {
+			await usePostMessage({
+				keyword: 'CommandByPut',
+				ws,
+				uuid,
+				path: response.result,
+				fileName: editedFile.name,
+				uploadFile: editedFile,
+			});
+			usePostMessage({
+				keyword: 'EDIT',
+				ws,
+				uuid,
+				path: response.result,
+				fileName: editedFile.name,
+			}).then((response) => {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_TEXT,
+					data: {
+						uuid,
+						text: response,
+						name: editedFile.name,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_COMPARE_TEXT,
+					data: {
+						uuid,
+						text: response,
+						name: editedFile.name,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: editedFile.name,
+						path: response.result,
+						size: editedFile.size,
+						todo: 'edit',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
+				});
+			});
+		});
 	};
 
 	const toNormalMode = () => {

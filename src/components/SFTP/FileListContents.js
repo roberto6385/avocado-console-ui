@@ -4,12 +4,11 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByCd} from './commands/sendCommandCd';
-import {sendCommandByGet} from './commands/sendCommandGet';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
+	SFTP_SAVE_HISTORY,
 } from '../../reducers/sftp';
 import {listConversion, toEditMode} from './commands';
 import FileListContextMenu from './FileListContextMenu';
@@ -24,7 +23,6 @@ import {
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
 import usePostMessage from './hooks/usePostMessage';
-import {resolveConfig} from 'prettier';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentPath, currentHighlight} = useSelector(
@@ -57,7 +55,21 @@ const FileListContents = ({index, ws, uuid}) => {
 					uuid,
 					path: response.result,
 					fileName: item.fileName,
-				}).then((response) => console.log(response)),
+				}).then(() => {
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: item.fileName,
+							path: response.result,
+							size: item.fileSize,
+							todo: 'get',
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
+					});
+				}),
 			);
 		}
 	};
@@ -205,14 +217,7 @@ const FileListContents = ({index, ws, uuid}) => {
 										(item.fileName === '..' && true)
 									}
 									onClick={(e) =>
-										toEditMode(
-											e,
-											ws,
-											uuid,
-											pathItem?.path,
-											item,
-											dispatch,
-										)
+										toEditMode(e, ws, uuid, item, dispatch)
 									}
 									flex={0.3}
 								>

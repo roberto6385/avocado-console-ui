@@ -6,13 +6,9 @@ import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
-import {sendCommandByLs} from '../components/SFTP/commands/sendCommandLs';
-import {sendCommandByMkdir} from '../components/SFTP/commands/sendCommandMkdir';
-import {sendCommandByRename} from '../components/SFTP/commands/sendCommandRename';
-import {sendCommandByPut} from '../components/SFTP/commands/sendCommandPut';
-import {sendCommandByGet} from '../components/SFTP/commands/sendCommandGet';
 import usePostMessage from '../components/SFTP/hooks/usePostMessage';
 import {listConversion} from '../components/SFTP/commands';
 
@@ -22,7 +18,7 @@ const useConfirmActions = (ws, uuid) => {
 	// 	(state) => state.sftp,
 	// );
 
-	const deleteWorkFunction = useCallback(async (curPath, highlightItem) => {
+	const deleteWorkFunction = useCallback(async (highlightItem) => {
 		usePostMessage({
 			keyword: 'CommandByPwd',
 			ws,
@@ -48,6 +44,19 @@ const useConfirmActions = (ws, uuid) => {
 						path: path + key.fileName,
 					});
 				}
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: key.fileName,
+						path: response.result,
+						size: key.fileSize,
+						todo: 'rm',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
+				});
 			}
 			await usePostMessage({
 				keyword: 'CommandByLs',
@@ -71,79 +80,81 @@ const useConfirmActions = (ws, uuid) => {
 		});
 	}, []);
 
-	const renameWorkFunction = useCallback(
-		async (curPath, highlightItem, formValue) => {
-			await usePostMessage({
-				keyword: 'CommandByPwd',
+	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
+		await usePostMessage({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then((response) => {
+			const path =
+				response.result === '/'
+					? response.result
+					: response.result + '/';
+			usePostMessage({
+				keyword: 'CommandByRename',
 				ws,
 				uuid,
-			}).then((response) => {
-				const path =
-					response.result === '/'
-						? response.result
-						: response.result + '/';
+				path: path + highlightItem?.list[0].fileName,
+				newPath: path + formValue,
+			}).then(() =>
 				usePostMessage({
-					keyword: 'CommandByRename',
+					keyword: 'CommandByLs',
 					ws,
 					uuid,
-					path: path + highlightItem?.list[0].fileName,
-					newPath: path + formValue,
-				}).then(() =>
-					usePostMessage({
-						keyword: 'CommandByLs',
-						ws,
-						uuid,
-						path: response.result,
-					})
-						.then((response) => listConversion(response.result))
-						.then((response) =>
-							dispatch({
-								type: SFTP_SAVE_CURRENT_LIST,
-								data: {uuid, list: response},
-							}),
-						),
-				);
-			});
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: []},
-			});
-		},
-		[],
-	);
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					),
+			);
+		});
+		dispatch({
+			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+			data: {uuid, list: []},
+		});
+	}, []);
 
-	const editFileFunction = useCallback(async (ws, uuid, curPath, curText) => {
+	const editFileFunction = useCallback(async (curText) => {
 		// const curText = currentText.find((item) => item.uuid === uuid);
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		console.log(editedFile);
-		sendCommandByPut(
-			'edit',
-			editedFile,
+		usePostMessage({
+			keyword: 'CommandByPwd',
 			ws,
 			uuid,
-			curPath?.path,
-			editedFile.name,
-			dispatch,
-		)
-			.then(() =>
-				sendCommandByGet(
-					'edit',
-					ws,
-					uuid,
-					curPath?.path,
-					editedFile.name,
-					dispatch,
-				),
-			)
-			.then(() => sendCommandByLs(ws, uuid, curPath?.path, dispatch))
-			.then(() =>
+		}).then(async (response) => {
+			await usePostMessage({
+				keyword: 'CommandByPut',
+				ws,
+				uuid,
+				path: response.result,
+				fileName: editedFile.name,
+				uploadFile: editedFile,
+			}).then(() => {
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: editedFile.name,
+						path: response.result,
+						size: editedFile.size,
+						todo: 'edit',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
+				});
 				dispatch({
 					type: SFTP_SAVE_CURRENT_MODE,
 					data: {uuid, mode: 'normal'},
-				}),
-			);
+				});
+			});
+		});
 	}, []);
 
 	const newFolderFunction = useCallback(async (formValue) => {

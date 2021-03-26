@@ -1,8 +1,6 @@
 import SFTP from '../../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
-import {SFTP_SAVE_HISTORY} from '../../../reducers/sftp';
 
-// eslint-disable-next-line no-undef
 let fileBuffer = new ArrayBuffer(0);
 
 let getReceiveSum = 0;
@@ -33,78 +31,84 @@ const usePostMessage = ({
 		return tmp.buffer;
 	};
 
-	const upload = () => {
-		return new Promise((resolve) => {
-			console.log('file size : ', uploadFile.size);
+	return new Promise((resolve) => {
+		const upload = () => {
+			return new Promise((resolve) => {
+				console.log('file size : ', uploadFile.size);
 
-			const uploadFileSize = uploadFile.size;
+				const uploadFileSize = uploadFile.size;
 
-			const chunkSize = 8 * 1024;
-			const fileSlices = [];
+				const chunkSize = 8 * 1024;
+				const fileSlices = [];
 
-			for (var i = 0; i < uploadFileSize; i += chunkSize) {
-				(function (start) {
-					fileSlices.push({offset: start, length: chunkSize + start});
-				})(i);
-			}
-
-			const sendBuffer = (data) => {
-				console.log('recv data : ', data);
-				reqObj.setType(SFTP.Request.Types.MESSAGE);
-				postObj = new SFTP.MessageRequest();
-				postObj.setUuid(uuid);
-
-				if (keyword === 'CommandByPut') {
-					cmdObj = new SFTP.CommandByPut();
-					postObj.setPut(cmdObj);
-				} else if (keyword === 'CommandByPutDirect') {
-					cmdObj = new SFTP.CommandByPutDirect();
-					postObj.setPutdirect(cmdObj);
+				for (var i = 0; i < uploadFileSize; i += chunkSize) {
+					(function (start) {
+						fileSlices.push({
+							offset: start,
+							length: chunkSize + start,
+						});
+					})(i);
 				}
 
-				cmdObj.setPath(path);
-				cmdObj.setFilename(fileName);
-				cmdObj.setFilesize(uploadFileSize);
-				cmdObj.setContents(Buffer.from(data.buffer));
-				cmdObj.setOffset(1);
-				cmdObj.setLast(data.last);
-			};
-			const readBytes = (file, slice) => {
-				const reader = new FileReader();
+				const sendBuffer = (data) => {
+					console.log('recv data : ', data);
+					reqObj.setType(SFTP.Request.Types.MESSAGE);
+					postObj = new SFTP.MessageRequest();
+					postObj.setUuid(uuid);
 
-				// eslint-disable-next-line no-undef
-				return new Promise((resolve) => {
-					reader.onload = (e) => {
-						resolve(e.target.result);
-					};
-
-					var blob = file.slice(slice.offset, slice.length);
-					reader.readAsArrayBuffer(blob);
-				});
-			};
-
-			const readFile = (file, slice) => {
-				readBytes(file, slice).then((data) => {
-					// send protocol buffer
-					console.log('read arraybuffer : ', data);
-					total += data.byteLength;
-
-					if (0 < fileSlices.length) {
-						sendBuffer({buffer: data, last: false});
-
-						readFile(file, fileSlices.shift());
-					} else {
-						sendBuffer({buffer: data, last: true});
-						console.log('file read end. total size : ', total);
-						resolve();
+					if (keyword === 'CommandByPut') {
+						cmdObj = new SFTP.CommandByPut();
+						postObj.setPut(cmdObj);
+					} else if (keyword === 'CommandByPutDirect') {
+						cmdObj = new SFTP.CommandByPutDirect();
+						postObj.setPutdirect(cmdObj);
 					}
-				});
-			};
-			readFile(uploadFile, fileSlices.shift());
-		});
-	};
 
-	return new Promise((resolve) => {
+					cmdObj.setPath(path);
+					cmdObj.setFilename(fileName);
+					cmdObj.setFilesize(uploadFileSize);
+					cmdObj.setContents(Buffer.from(data.buffer));
+					cmdObj.setOffset(1);
+					cmdObj.setLast(data.last);
+
+					reqObj.setBody(postObj.serializeBinary());
+					msgObj.setBody(reqObj.serializeBinary());
+					ws.send(msgObj.serializeBinary());
+				};
+				const readBytes = (file, slice) => {
+					const reader = new FileReader();
+
+					// eslint-disable-next-line no-undef
+					return new Promise((resolve) => {
+						reader.onload = (e) => {
+							resolve(e.target.result);
+						};
+
+						var blob = file.slice(slice.offset, slice.length);
+						reader.readAsArrayBuffer(blob);
+					});
+				};
+
+				const readFile = (file, slice) => {
+					readBytes(file, slice).then((data) => {
+						// send protocol buffer
+						console.log('read arraybuffer : ', data);
+						total += data.byteLength;
+
+						if (0 < fileSlices.length) {
+							sendBuffer({buffer: data, last: false});
+							readFile(file, fileSlices.shift());
+						} else {
+							sendBuffer({buffer: data, last: true});
+							console.log('file read end. total size : ', total);
+							resolve();
+						}
+					});
+				};
+				readFile(uploadFile, fileSlices.shift());
+			});
+		};
+
 		switch (keyword) {
 			case 'Connection':
 				reqObj.setType(SFTP.Request.Types.CONNECT);
@@ -194,6 +198,7 @@ const usePostMessage = ({
 				postObj.setRename(cmdObj);
 				break;
 
+			case 'EDIT':
 			case 'CommandByGet':
 				reqObj.setType(SFTP.Request.Types.MESSAGE);
 				postObj = new SFTP.MessageRequest();
@@ -221,9 +226,11 @@ const usePostMessage = ({
 			default:
 				break;
 		}
-		reqObj.setBody(postObj?.serializeBinary());
-		msgObj.setBody(reqObj.serializeBinary());
-		ws.send(msgObj.serializeBinary());
+		if (keyword !== 'CommandByPut' && keyword !== 'CommandByPutDirect') {
+			reqObj.setBody(postObj?.serializeBinary());
+			msgObj.setBody(reqObj.serializeBinary());
+			ws.send(msgObj.serializeBinary());
+		}
 
 		ws.binaryType = 'arraybuffer';
 		ws.onmessage = (evt) => {
@@ -270,9 +277,15 @@ const usePostMessage = ({
 								.getResult()
 								.replace('percent : ', '');
 							console.log('[progress]..........', percent);
+						} else {
+							if (
+								keyword !== 'CommandByGet' &&
+								keyword !== 'EDIT'
+							) {
+								console.log(msgObj.toObject());
+								resolve(msgObj.toObject());
+							}
 						}
-						keyword !== 'CommandByGet' &&
-							resolve(msgObj.toObject());
 					} else if (
 						response.getType() === SFTP.Response.Types.FILE
 					) {
@@ -302,16 +315,30 @@ const usePostMessage = ({
 							// eslint-disable-next-line no-undef
 							fileBuffer = new ArrayBuffer(0);
 
-							var url = URL.createObjectURL(blob);
-							var a = document.createElement('a');
-							document.body.appendChild(a);
-							a.style = 'display: none';
-							a.href = url;
-							a.download = fileName;
-							a.click();
-							window.URL.revokeObjectURL(url);
+							if (keyword === 'EDIT') {
+								// let text = '';
+								blob.stream()
+									.getReader()
+									.read()
+									.then(({value, done}) => {
+										resolve(
+											new TextDecoder('utf-8').decode(
+												value,
+											),
+										);
+									});
+							} else {
+								var url = URL.createObjectURL(blob);
+								var a = document.createElement('a');
+								document.body.appendChild(a);
+								a.style = 'display: none';
+								a.href = url;
+								a.download = fileName;
+								a.click();
+								window.URL.revokeObjectURL(url);
+								resolve(msgObj.toObject());
+							}
 						}
-						resolve(msgObj.toObject());
 					}
 				}
 			}

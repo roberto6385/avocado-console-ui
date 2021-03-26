@@ -9,65 +9,69 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {sendCommandByPut} from './commands/sendCommandPut';
-import {sendCommandByLs} from './commands/sendCommandLs';
-import {SFTP_DELETE_HISTORY, SFTP_SAVE_CURRENT_LIST} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {NavItem} from '../../styles/sftp';
 import usePostMessage from './hooks/usePostMessage';
-import {listConversion} from './commands';
+import {SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 
 const HistoryNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 
-	const upload = () => {
-		const uploadInput = document.createElement('input');
-		document.body.appendChild(uploadInput);
-		uploadInput.setAttribute('type', 'file');
-		uploadInput.setAttribute('multiple', 'multiple');
-		uploadInput.setAttribute('style', 'display:none');
-		uploadInput.click();
-		uploadInput.onchange = (e) => {
-			const File = e.target.files;
-			usePostMessage({
-				keyword: 'CommandByPwd',
-				ws,
-				uuid,
-			}).then(async (response) => {
-				for await (const key of Object.keys(File)) {
-					await usePostMessage({
-						keyword: 'CommandByPut',
-						ws,
-						uuid,
-						path: response.result,
-						fileName: File[key].name,
-						uploadFile: File[key],
-					});
-				}
+	const upload = async () => {
+		return new Promise((resolve) => {
+			const uploadInput = document.createElement('input');
+			document.body.appendChild(uploadInput);
+			uploadInput.setAttribute('type', 'file');
+			uploadInput.setAttribute('multiple', 'multiple');
+			uploadInput.setAttribute('style', 'display:none');
+			uploadInput.click();
+			uploadInput.onchange = (e) => {
+				const File = e.target.files;
 				usePostMessage({
-					keyword: 'CommandByLs',
+					keyword: 'CommandByPwd',
 					ws,
 					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
+				}).then((response) => {
+					for (const key of Object.keys(File)) {
+						usePostMessage({
+							keyword: 'CommandByPut',
+							ws,
+							uuid,
+							path: response.result,
+							fileName: File[key].name,
+							uploadFile: File[key],
+						});
 						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					);
-			});
-		};
-		document.body.removeChild(uploadInput);
+							type: SFTP_SAVE_HISTORY,
+							data: {
+								uuid,
+								name: File[key].name,
+								path: response.result,
+								size: File[key].size,
+								todo: 'put',
+								progress: 100,
+								// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+								// 삭제, dispatch, 삭제 해서 progress 100 만들기
+							},
+						});
+					}
+					resolve(response);
+					document.body.removeChild(uploadInput);
+				});
+			};
+		});
 	};
 
 	const historyDelete = () => {
 		// if exist highlighting history
 		setOpen(true);
+	};
+
+	const uploading = async () => {
+		const path = await upload();
+		console.log(path);
 	};
 
 	return (
@@ -78,7 +82,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 			<NavItem>
 				<BsCheck />
 			</NavItem>
-			<NavItem id='btn-upload' onClick={upload}>
+			<NavItem id='btn-upload' onClick={uploading}>
 				<MdFileUpload />
 			</NavItem>
 			<NavItem>

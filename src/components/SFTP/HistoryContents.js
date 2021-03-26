@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from './Dropzone';
-import {sendCommandByPut} from './commands/sendCommandPut';
-import {sendCommandByLs} from './commands/sendCommandLs';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
@@ -21,27 +19,48 @@ import {
 	FlexSpaceBetween,
 	NoHistory,
 } from '../../styles/sftp';
+import usePostMessage from './hooks/usePostMessage';
+import {SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 
 const HistoryContents = ({index, ws, uuid}) => {
 	const {currentPath, History} = useSelector((state) => state.sftp);
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
 
 	const upload = async (files) => {
-		for await (const key of files) {
-			await sendCommandByPut(
-				'put',
-				key,
+		return new Promise((resolve) => {
+			usePostMessage({
+				keyword: 'CommandByPwd',
 				ws,
 				uuid,
-				pathItem?.path,
-				key.name,
-				dispatch,
-			);
-		}
-		sendCommandByLs(ws, uuid, pathItem?.path, dispatch);
+			}).then((response) => {
+				for (const key of files) {
+					usePostMessage({
+						keyword: 'CommandByPut',
+						ws,
+						uuid,
+						path: response.result,
+						fileName: key.name,
+						uploadFile: key,
+					});
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: key.name,
+							path: response.result,
+							size: key.size,
+							todo: 'put',
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
+					});
+				}
+				resolve();
+			});
+		});
 	};
 
 	const selectItem = (e, history) => {
