@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import {BiTransferAlt} from 'react-icons/bi';
 import {Card} from 'react-bootstrap';
 import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT} from './global';
 import BTable from 'react-bootstrap/Table';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
+import {BsArrowUpDown} from 'react-icons/all';
 
 // ConvertSFTP
-export const ConvertIcon = styled(BiTransferAlt)`
+export const ConvertIcon = styled(BsArrowUpDown)`
 	font-size: 21px;
 `;
 

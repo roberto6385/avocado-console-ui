@@ -38,15 +38,20 @@ const Footer = () => {
 	return (
 		<BottomBar>
 			<ButtonsContainer>
-				<IconButton onClick={onClickDeceaseFont}>
-					<FaSearchMinus />
-				</IconButton>
-				<IconButton onClick={onClickIncreaseFont}>
-					<FaSearchPlus />
-				</IconButton>
-				<IconButton onClick={onClickOpenSearchBar}>
-					<FaSearch />
-				</IconButton>
+				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
+					0 && (
+					<div>
+						<IconButton onClick={onClickDeceaseFont}>
+							<FaSearchMinus />
+						</IconButton>
+						<IconButton onClick={onClickIncreaseFont}>
+							<FaSearchPlus />
+						</IconButton>
+						<IconButton onClick={onClickOpenSearchBar}>
+							<FaSearch />
+						</IconButton>
+					</div>
+				)}
 				<HostInfo>{currentServerInfo?.host}</HostInfo>
 			</ButtonsContainer>
 		</BottomBar>

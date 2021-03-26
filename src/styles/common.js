@@ -10,9 +10,7 @@ import {
 	WHITE_COLOR,
 } from './global';
 import background from '../images/bg_3.png';
-import {FaServer} from 'react-icons/all';
-import {RiTerminalFill} from 'react-icons/ri';
-import {BiTransferAlt} from 'react-icons/bi';
+import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
 
 export const PopupButton = styled(Button)`
 	width: 100px;
@@ -224,7 +222,7 @@ export const TabSSHTIcon = styled(RiTerminalFill)`
 	margin-right: 5px;
 `;
 
-export const TabSFTPIcon = styled(BiTransferAlt)`
+export const TabSFTPIcon = styled(RiArrowUpDownLine)`
 	color: ${MAIN_COLOR};
 	margin-right: 5px;
 `;
