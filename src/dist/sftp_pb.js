@@ -15,57 +15,40 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-goog.exportSymbol('proto.proto.sftp.ChangeDirectoryRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeDirectoryResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeGroupRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeGroupResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeModeRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeModeResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeOwnerRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ChangeOwnerResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.CommandRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.CommandRequest.CommandCase', null, global);
-goog.exportSymbol('proto.proto.sftp.CommandResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.CommandResponse.CommandCase', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByCd', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByChgrp', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByChmod', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByChown', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByExit', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByGet', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByGetDirect', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByLn', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByLs', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByLstat', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByMkdir', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByPut', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByPutDirect', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByPwd', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByQuit', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByRename', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByRm', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByRmdir', null, global);
+goog.exportSymbol('proto.proto.sftp.CommandByStat', null, global);
 goog.exportSymbol('proto.proto.sftp.ConnectRequest', null, global);
 goog.exportSymbol('proto.proto.sftp.ConnectResponse', null, global);
 goog.exportSymbol('proto.proto.sftp.DisconnectRequest', null, global);
 goog.exportSymbol('proto.proto.sftp.DisconnectResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.EntryResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ErrorResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ExitRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ExitResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.GetRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.GetResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.LinkStatusRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.LinkStatusResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.ListDirectoryRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.ListDirectoryResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.MakeDirectoryRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.MakeDirectoryResponse', null, global);
+goog.exportSymbol('proto.proto.sftp.FileResponse', null, global);
 goog.exportSymbol('proto.proto.sftp.Message', null, global);
-goog.exportSymbol('proto.proto.sftp.Message.TypeCase', null, global);
-goog.exportSymbol('proto.proto.sftp.PrintWorkingDirectoryRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.PrintWorkingDirectoryResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.PutRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.PutResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.QuitRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.QuitResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.RemoveDirectoryRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.RemoveDirectoryResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.RemoveFileRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.RemoveFileResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.RenameRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.RenameResponse', null, global);
+goog.exportSymbol('proto.proto.sftp.Message.Types', null, global);
+goog.exportSymbol('proto.proto.sftp.MessageRequest', null, global);
+goog.exportSymbol('proto.proto.sftp.MessageRequest.CommandsCase', null, global);
+goog.exportSymbol('proto.proto.sftp.MessageResponse', null, global);
 goog.exportSymbol('proto.proto.sftp.Request', null, global);
-goog.exportSymbol('proto.proto.sftp.Request.RequestCase', null, global);
+goog.exportSymbol('proto.proto.sftp.Request.Types', null, global);
 goog.exportSymbol('proto.proto.sftp.Response', null, global);
-goog.exportSymbol('proto.proto.sftp.Response.ResponseCase', null, global);
 goog.exportSymbol('proto.proto.sftp.Response.Status', null, global);
-goog.exportSymbol('proto.proto.sftp.StatusRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.StatusResponse', null, global);
-goog.exportSymbol('proto.proto.sftp.SymbolicLinkRequest', null, global);
-goog.exportSymbol('proto.proto.sftp.SymbolicLinkResponse', null, global);
+goog.exportSymbol('proto.proto.sftp.Response.Types', null, global);
 /**
  * Generated by JsPbCodeGenerator.
  * @param {Array=} opt_data Optional initial data array, typically from a
@@ -77,7 +60,7 @@ goog.exportSymbol('proto.proto.sftp.SymbolicLinkResponse', null, global);
  * @constructor
  */
 proto.proto.sftp.Message = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.Message.oneofGroups_);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.proto.sftp.Message, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -98,7 +81,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.proto.sftp.Request = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.Request.oneofGroups_);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.proto.sftp.Request, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -160,16 +143,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.CommandRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.CommandRequest.oneofGroups_);
+proto.proto.sftp.MessageRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.MessageRequest.oneofGroups_);
 };
-goog.inherits(proto.proto.sftp.CommandRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.MessageRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.CommandRequest.displayName = 'proto.proto.sftp.CommandRequest';
+  proto.proto.sftp.MessageRequest.displayName = 'proto.proto.sftp.MessageRequest';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -181,16 +164,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ChangeDirectoryRequest = function(opt_data) {
+proto.proto.sftp.CommandByCd = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ChangeDirectoryRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByCd, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ChangeDirectoryRequest.displayName = 'proto.proto.sftp.ChangeDirectoryRequest';
+  proto.proto.sftp.CommandByCd.displayName = 'proto.proto.sftp.CommandByCd';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -202,16 +185,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest = function(opt_data) {
+proto.proto.sftp.CommandByPwd = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.PrintWorkingDirectoryRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByPwd, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.PrintWorkingDirectoryRequest.displayName = 'proto.proto.sftp.PrintWorkingDirectoryRequest';
+  proto.proto.sftp.CommandByPwd.displayName = 'proto.proto.sftp.CommandByPwd';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -223,16 +206,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ChangeGroupRequest = function(opt_data) {
+proto.proto.sftp.CommandByChgrp = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ChangeGroupRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByChgrp, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ChangeGroupRequest.displayName = 'proto.proto.sftp.ChangeGroupRequest';
+  proto.proto.sftp.CommandByChgrp.displayName = 'proto.proto.sftp.CommandByChgrp';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -244,16 +227,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ChangeOwnerRequest = function(opt_data) {
+proto.proto.sftp.CommandByChown = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ChangeOwnerRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByChown, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ChangeOwnerRequest.displayName = 'proto.proto.sftp.ChangeOwnerRequest';
+  proto.proto.sftp.CommandByChown.displayName = 'proto.proto.sftp.CommandByChown';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -265,16 +248,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ChangeModeRequest = function(opt_data) {
+proto.proto.sftp.CommandByChmod = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ChangeModeRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByChmod, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ChangeModeRequest.displayName = 'proto.proto.sftp.ChangeModeRequest';
+  proto.proto.sftp.CommandByChmod.displayName = 'proto.proto.sftp.CommandByChmod';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -286,16 +269,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.MakeDirectoryRequest = function(opt_data) {
+proto.proto.sftp.CommandByMkdir = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.MakeDirectoryRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByMkdir, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.MakeDirectoryRequest.displayName = 'proto.proto.sftp.MakeDirectoryRequest';
+  proto.proto.sftp.CommandByMkdir.displayName = 'proto.proto.sftp.CommandByMkdir';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -307,16 +290,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.RemoveDirectoryRequest = function(opt_data) {
+proto.proto.sftp.CommandByRmdir = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.RemoveDirectoryRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByRmdir, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.RemoveDirectoryRequest.displayName = 'proto.proto.sftp.RemoveDirectoryRequest';
+  proto.proto.sftp.CommandByRmdir.displayName = 'proto.proto.sftp.CommandByRmdir';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -328,16 +311,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.RemoveFileRequest = function(opt_data) {
+proto.proto.sftp.CommandByRm = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.RemoveFileRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByRm, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.RemoveFileRequest.displayName = 'proto.proto.sftp.RemoveFileRequest';
+  proto.proto.sftp.CommandByRm.displayName = 'proto.proto.sftp.CommandByRm';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -349,16 +332,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.RenameRequest = function(opt_data) {
+proto.proto.sftp.CommandByRename = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.RenameRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByRename, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.RenameRequest.displayName = 'proto.proto.sftp.RenameRequest';
+  proto.proto.sftp.CommandByRename.displayName = 'proto.proto.sftp.CommandByRename';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -370,16 +353,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.SymbolicLinkRequest = function(opt_data) {
+proto.proto.sftp.CommandByLn = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.SymbolicLinkRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByLn, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.SymbolicLinkRequest.displayName = 'proto.proto.sftp.SymbolicLinkRequest';
+  proto.proto.sftp.CommandByLn.displayName = 'proto.proto.sftp.CommandByLn';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -391,16 +374,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ListDirectoryRequest = function(opt_data) {
+proto.proto.sftp.CommandByLs = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ListDirectoryRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByLs, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ListDirectoryRequest.displayName = 'proto.proto.sftp.ListDirectoryRequest';
+  proto.proto.sftp.CommandByLs.displayName = 'proto.proto.sftp.CommandByLs';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -412,16 +395,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.StatusRequest = function(opt_data) {
+proto.proto.sftp.CommandByStat = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.StatusRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByStat, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.StatusRequest.displayName = 'proto.proto.sftp.StatusRequest';
+  proto.proto.sftp.CommandByStat.displayName = 'proto.proto.sftp.CommandByStat';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -433,16 +416,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.LinkStatusRequest = function(opt_data) {
+proto.proto.sftp.CommandByLstat = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.LinkStatusRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByLstat, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.LinkStatusRequest.displayName = 'proto.proto.sftp.LinkStatusRequest';
+  proto.proto.sftp.CommandByLstat.displayName = 'proto.proto.sftp.CommandByLstat';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -454,16 +437,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.PutRequest = function(opt_data) {
+proto.proto.sftp.CommandByPut = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.PutRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByPut, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.PutRequest.displayName = 'proto.proto.sftp.PutRequest';
+  proto.proto.sftp.CommandByPut.displayName = 'proto.proto.sftp.CommandByPut';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -475,16 +458,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.GetRequest = function(opt_data) {
+proto.proto.sftp.CommandByPutDirect = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.GetRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByPutDirect, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.GetRequest.displayName = 'proto.proto.sftp.GetRequest';
+  proto.proto.sftp.CommandByPutDirect.displayName = 'proto.proto.sftp.CommandByPutDirect';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -496,16 +479,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.ExitRequest = function(opt_data) {
+proto.proto.sftp.CommandByGet = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ExitRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByGet, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ExitRequest.displayName = 'proto.proto.sftp.ExitRequest';
+  proto.proto.sftp.CommandByGet.displayName = 'proto.proto.sftp.CommandByGet';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -517,16 +500,58 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.QuitRequest = function(opt_data) {
+proto.proto.sftp.CommandByGetDirect = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.QuitRequest, jspb.Message);
+goog.inherits(proto.proto.sftp.CommandByGetDirect, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.QuitRequest.displayName = 'proto.proto.sftp.QuitRequest';
+  proto.proto.sftp.CommandByGetDirect.displayName = 'proto.proto.sftp.CommandByGetDirect';
+}
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.proto.sftp.CommandByExit = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.proto.sftp.CommandByExit, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  /**
+   * @public
+   * @override
+   */
+  proto.proto.sftp.CommandByExit.displayName = 'proto.proto.sftp.CommandByExit';
+}
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.proto.sftp.CommandByQuit = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.proto.sftp.CommandByQuit, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  /**
+   * @public
+   * @override
+   */
+  proto.proto.sftp.CommandByQuit.displayName = 'proto.proto.sftp.CommandByQuit';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -539,7 +564,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.proto.sftp.Response = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.Response.oneofGroups_);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.proto.sftp.Response, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -601,37 +626,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.CommandResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.proto.sftp.CommandResponse.oneofGroups_);
-};
-goog.inherits(proto.proto.sftp.CommandResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.CommandResponse.displayName = 'proto.proto.sftp.CommandResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ChangeDirectoryResponse = function(opt_data) {
+proto.proto.sftp.MessageResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.ChangeDirectoryResponse, jspb.Message);
+goog.inherits(proto.proto.sftp.MessageResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.ChangeDirectoryResponse.displayName = 'proto.proto.sftp.ChangeDirectoryResponse';
+  proto.proto.sftp.MessageResponse.displayName = 'proto.proto.sftp.MessageResponse';
 }
 /**
  * Generated by JsPbCodeGenerator.
@@ -643,400 +647,17 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.proto.sftp.PrintWorkingDirectoryResponse = function(opt_data) {
+proto.proto.sftp.FileResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.proto.sftp.PrintWorkingDirectoryResponse, jspb.Message);
+goog.inherits(proto.proto.sftp.FileResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.proto.sftp.PrintWorkingDirectoryResponse.displayName = 'proto.proto.sftp.PrintWorkingDirectoryResponse';
+  proto.proto.sftp.FileResponse.displayName = 'proto.proto.sftp.FileResponse';
 }
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ChangeGroupResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.ChangeGroupResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ChangeGroupResponse.displayName = 'proto.proto.sftp.ChangeGroupResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ChangeOwnerResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.ChangeOwnerResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ChangeOwnerResponse.displayName = 'proto.proto.sftp.ChangeOwnerResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ChangeModeResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.ChangeModeResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ChangeModeResponse.displayName = 'proto.proto.sftp.ChangeModeResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.MakeDirectoryResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.MakeDirectoryResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.MakeDirectoryResponse.displayName = 'proto.proto.sftp.MakeDirectoryResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.RemoveDirectoryResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.RemoveDirectoryResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.RemoveDirectoryResponse.displayName = 'proto.proto.sftp.RemoveDirectoryResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.RemoveFileResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.RemoveFileResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.RemoveFileResponse.displayName = 'proto.proto.sftp.RemoveFileResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.RenameResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.RenameResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.RenameResponse.displayName = 'proto.proto.sftp.RenameResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.SymbolicLinkResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.SymbolicLinkResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.SymbolicLinkResponse.displayName = 'proto.proto.sftp.SymbolicLinkResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ListDirectoryResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.proto.sftp.ListDirectoryResponse.repeatedFields_, null);
-};
-goog.inherits(proto.proto.sftp.ListDirectoryResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ListDirectoryResponse.displayName = 'proto.proto.sftp.ListDirectoryResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.EntryResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.EntryResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.EntryResponse.displayName = 'proto.proto.sftp.EntryResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.StatusResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.StatusResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.StatusResponse.displayName = 'proto.proto.sftp.StatusResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.LinkStatusResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.LinkStatusResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.LinkStatusResponse.displayName = 'proto.proto.sftp.LinkStatusResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.PutResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.PutResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.PutResponse.displayName = 'proto.proto.sftp.PutResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.GetResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.GetResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.GetResponse.displayName = 'proto.proto.sftp.GetResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ExitResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.ExitResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ExitResponse.displayName = 'proto.proto.sftp.ExitResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.QuitResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.QuitResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.QuitResponse.displayName = 'proto.proto.sftp.QuitResponse';
-}
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.proto.sftp.ErrorResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.proto.sftp.ErrorResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
-  /**
-   * @public
-   * @override
-   */
-  proto.proto.sftp.ErrorResponse.displayName = 'proto.proto.sftp.ErrorResponse';
-}
-
-/**
- * Oneof group definitions for this message. Each group defines the field
- * numbers belonging to that group. When of these fields' value is set, all
- * other fields in the group are cleared. During deserialization, if multiple
- * fields are encountered for a group, only the last value seen will be kept.
- * @private {!Array<!Array<number>>}
- * @const
- */
-proto.proto.sftp.Message.oneofGroups_ = [[1,2]];
-
-/**
- * @enum {number}
- */
-proto.proto.sftp.Message.TypeCase = {
-  TYPE_NOT_SET: 0,
-  REQUEST: 1,
-  RESPONSE: 2
-};
-
-/**
- * @return {proto.proto.sftp.Message.TypeCase}
- */
-proto.proto.sftp.Message.prototype.getTypeCase = function() {
-  return /** @type {proto.proto.sftp.Message.TypeCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.Message.oneofGroups_[0]));
-};
 
 
 
@@ -1069,9 +690,8 @@ proto.proto.sftp.Message.prototype.toObject = function(opt_includeInstance) {
  */
 proto.proto.sftp.Message.toObject = function(includeInstance, msg) {
   var f, obj = {
-    request: (f = msg.getRequest()) && proto.proto.sftp.Request.toObject(includeInstance, f),
-    response: (f = msg.getResponse()) && proto.proto.sftp.Response.toObject(includeInstance, f),
-    version: jspb.Message.getFieldWithDefault(msg, 3, "")
+    type: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    body: msg.getBody_asB64()
   };
 
   if (includeInstance) {
@@ -1109,18 +729,12 @@ proto.proto.sftp.Message.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.proto.sftp.Request;
-      reader.readMessage(value,proto.proto.sftp.Request.deserializeBinaryFromReader);
-      msg.setRequest(value);
+      var value = /** @type {!proto.proto.sftp.Message.Types} */ (reader.readEnum());
+      msg.setType(value);
       break;
     case 2:
-      var value = new proto.proto.sftp.Response;
-      reader.readMessage(value,proto.proto.sftp.Response.deserializeBinaryFromReader);
-      msg.setResponse(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setVersion(value);
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setBody(value);
       break;
     default:
       reader.skipField();
@@ -1151,26 +765,17 @@ proto.proto.sftp.Message.prototype.serializeBinary = function() {
  */
 proto.proto.sftp.Message.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getRequest();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getType();
+  if (f !== 0.0) {
+    writer.writeEnum(
       1,
-      f,
-      proto.proto.sftp.Request.serializeBinaryToWriter
+      f
     );
   }
-  f = message.getResponse();
-  if (f != null) {
-    writer.writeMessage(
-      2,
-      f,
-      proto.proto.sftp.Response.serializeBinaryToWriter
-    );
-  }
-  f = message.getVersion();
+  f = message.getBody_asU8();
   if (f.length > 0) {
-    writer.writeString(
-      3,
+    writer.writeBytes(
+      2,
       f
     );
   }
@@ -1178,124 +783,74 @@ proto.proto.sftp.Message.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional Request request = 1;
- * @return {?proto.proto.sftp.Request}
- */
-proto.proto.sftp.Message.prototype.getRequest = function() {
-  return /** @type{?proto.proto.sftp.Request} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.Request, 1));
-};
-
-
-/**
- * @param {?proto.proto.sftp.Request|undefined} value
- * @return {!proto.proto.sftp.Message} returns this
-*/
-proto.proto.sftp.Message.prototype.setRequest = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 1, proto.proto.sftp.Message.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Message} returns this
- */
-proto.proto.sftp.Message.prototype.clearRequest = function() {
-  return this.setRequest(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Message.prototype.hasRequest = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional Response response = 2;
- * @return {?proto.proto.sftp.Response}
- */
-proto.proto.sftp.Message.prototype.getResponse = function() {
-  return /** @type{?proto.proto.sftp.Response} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.Response, 2));
-};
-
-
-/**
- * @param {?proto.proto.sftp.Response|undefined} value
- * @return {!proto.proto.sftp.Message} returns this
-*/
-proto.proto.sftp.Message.prototype.setResponse = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.Message.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Message} returns this
- */
-proto.proto.sftp.Message.prototype.clearResponse = function() {
-  return this.setResponse(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Message.prototype.hasResponse = function() {
-  return jspb.Message.getField(this, 2) != null;
-};
-
-
-/**
- * optional string version = 3;
- * @return {string}
- */
-proto.proto.sftp.Message.prototype.getVersion = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.Message} returns this
- */
-proto.proto.sftp.Message.prototype.setVersion = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-
-/**
- * Oneof group definitions for this message. Each group defines the field
- * numbers belonging to that group. When of these fields' value is set, all
- * other fields in the group are cleared. During deserialization, if multiple
- * fields are encountered for a group, only the last value seen will be kept.
- * @private {!Array<!Array<number>>}
- * @const
- */
-proto.proto.sftp.Request.oneofGroups_ = [[1,2,3]];
-
-/**
  * @enum {number}
  */
-proto.proto.sftp.Request.RequestCase = {
-  REQUEST_NOT_SET: 0,
-  CONNECT: 1,
-  DISCONNECT: 2,
-  COMMAND: 3
+proto.proto.sftp.Message.Types = {
+  UNKNOWN: 0,
+  REQUEST: 1,
+  RESPONSE: 2
 };
 
 /**
- * @return {proto.proto.sftp.Request.RequestCase}
+ * optional Types type = 1;
+ * @return {!proto.proto.sftp.Message.Types}
  */
-proto.proto.sftp.Request.prototype.getRequestCase = function() {
-  return /** @type {proto.proto.sftp.Request.RequestCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.Request.oneofGroups_[0]));
+proto.proto.sftp.Message.prototype.getType = function() {
+  return /** @type {!proto.proto.sftp.Message.Types} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
+
+
+/**
+ * @param {!proto.proto.sftp.Message.Types} value
+ * @return {!proto.proto.sftp.Message} returns this
+ */
+proto.proto.sftp.Message.prototype.setType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
+};
+
+
+/**
+ * optional bytes body = 2;
+ * @return {!(string|Uint8Array)}
+ */
+proto.proto.sftp.Message.prototype.getBody = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * optional bytes body = 2;
+ * This is a type-conversion wrapper around `getBody()`
+ * @return {string}
+ */
+proto.proto.sftp.Message.prototype.getBody_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getBody()));
+};
+
+
+/**
+ * optional bytes body = 2;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getBody()`
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.Message.prototype.getBody_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getBody()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.proto.sftp.Message} returns this
+ */
+proto.proto.sftp.Message.prototype.setBody = function(value) {
+  return jspb.Message.setProto3BytesField(this, 2, value);
+};
+
+
 
 
 
@@ -1328,9 +883,8 @@ proto.proto.sftp.Request.prototype.toObject = function(opt_includeInstance) {
  */
 proto.proto.sftp.Request.toObject = function(includeInstance, msg) {
   var f, obj = {
-    connect: (f = msg.getConnect()) && proto.proto.sftp.ConnectRequest.toObject(includeInstance, f),
-    disconnect: (f = msg.getDisconnect()) && proto.proto.sftp.DisconnectRequest.toObject(includeInstance, f),
-    command: (f = msg.getCommand()) && proto.proto.sftp.CommandRequest.toObject(includeInstance, f)
+    type: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    body: msg.getBody_asB64()
   };
 
   if (includeInstance) {
@@ -1368,19 +922,12 @@ proto.proto.sftp.Request.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.proto.sftp.ConnectRequest;
-      reader.readMessage(value,proto.proto.sftp.ConnectRequest.deserializeBinaryFromReader);
-      msg.setConnect(value);
+      var value = /** @type {!proto.proto.sftp.Request.Types} */ (reader.readEnum());
+      msg.setType(value);
       break;
     case 2:
-      var value = new proto.proto.sftp.DisconnectRequest;
-      reader.readMessage(value,proto.proto.sftp.DisconnectRequest.deserializeBinaryFromReader);
-      msg.setDisconnect(value);
-      break;
-    case 3:
-      var value = new proto.proto.sftp.CommandRequest;
-      reader.readMessage(value,proto.proto.sftp.CommandRequest.deserializeBinaryFromReader);
-      msg.setCommand(value);
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setBody(value);
       break;
     default:
       reader.skipField();
@@ -1411,141 +958,90 @@ proto.proto.sftp.Request.prototype.serializeBinary = function() {
  */
 proto.proto.sftp.Request.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getConnect();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getType();
+  if (f !== 0.0) {
+    writer.writeEnum(
       1,
-      f,
-      proto.proto.sftp.ConnectRequest.serializeBinaryToWriter
+      f
     );
   }
-  f = message.getDisconnect();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getBody_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
       2,
-      f,
-      proto.proto.sftp.DisconnectRequest.serializeBinaryToWriter
-    );
-  }
-  f = message.getCommand();
-  if (f != null) {
-    writer.writeMessage(
-      3,
-      f,
-      proto.proto.sftp.CommandRequest.serializeBinaryToWriter
+      f
     );
   }
 };
 
 
 /**
- * optional ConnectRequest connect = 1;
- * @return {?proto.proto.sftp.ConnectRequest}
+ * @enum {number}
  */
-proto.proto.sftp.Request.prototype.getConnect = function() {
-  return /** @type{?proto.proto.sftp.ConnectRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ConnectRequest, 1));
+proto.proto.sftp.Request.Types = {
+  UNKNOWN: 0,
+  CONNECT: 1,
+  DISCONNECT: 2,
+  MESSAGE: 3
 };
 
-
 /**
- * @param {?proto.proto.sftp.ConnectRequest|undefined} value
- * @return {!proto.proto.sftp.Request} returns this
-*/
-proto.proto.sftp.Request.prototype.setConnect = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 1, proto.proto.sftp.Request.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Request} returns this
+ * optional Types type = 1;
+ * @return {!proto.proto.sftp.Request.Types}
  */
-proto.proto.sftp.Request.prototype.clearConnect = function() {
-  return this.setConnect(undefined);
+proto.proto.sftp.Request.prototype.getType = function() {
+  return /** @type {!proto.proto.sftp.Request.Types} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Request.prototype.hasConnect = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional DisconnectRequest disconnect = 2;
- * @return {?proto.proto.sftp.DisconnectRequest}
- */
-proto.proto.sftp.Request.prototype.getDisconnect = function() {
-  return /** @type{?proto.proto.sftp.DisconnectRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.DisconnectRequest, 2));
-};
-
-
-/**
- * @param {?proto.proto.sftp.DisconnectRequest|undefined} value
- * @return {!proto.proto.sftp.Request} returns this
-*/
-proto.proto.sftp.Request.prototype.setDisconnect = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.Request.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
+ * @param {!proto.proto.sftp.Request.Types} value
  * @return {!proto.proto.sftp.Request} returns this
  */
-proto.proto.sftp.Request.prototype.clearDisconnect = function() {
-  return this.setDisconnect(undefined);
+proto.proto.sftp.Request.prototype.setType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
+ * optional bytes body = 2;
+ * @return {!(string|Uint8Array)}
  */
-proto.proto.sftp.Request.prototype.hasDisconnect = function() {
-  return jspb.Message.getField(this, 2) != null;
+proto.proto.sftp.Request.prototype.getBody = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional CommandRequest command = 3;
- * @return {?proto.proto.sftp.CommandRequest}
+ * optional bytes body = 2;
+ * This is a type-conversion wrapper around `getBody()`
+ * @return {string}
  */
-proto.proto.sftp.Request.prototype.getCommand = function() {
-  return /** @type{?proto.proto.sftp.CommandRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandRequest, 3));
+proto.proto.sftp.Request.prototype.getBody_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getBody()));
 };
 
 
 /**
- * @param {?proto.proto.sftp.CommandRequest|undefined} value
+ * optional bytes body = 2;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getBody()`
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.Request.prototype.getBody_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getBody()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
  * @return {!proto.proto.sftp.Request} returns this
-*/
-proto.proto.sftp.Request.prototype.setCommand = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 3, proto.proto.sftp.Request.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Request} returns this
  */
-proto.proto.sftp.Request.prototype.clearCommand = function() {
-  return this.setCommand(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Request.prototype.hasCommand = function() {
-  return jspb.Message.getField(this, 3) != null;
+proto.proto.sftp.Request.prototype.setBody = function(value) {
+  return jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 
@@ -1581,12 +1077,10 @@ proto.proto.sftp.ConnectRequest.prototype.toObject = function(opt_includeInstanc
  */
 proto.proto.sftp.ConnectRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    token: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    host: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    user: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    port: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    serverid: jspb.Message.getFieldWithDefault(msg, 6, "")
+    host: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    user: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    port: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -1625,27 +1119,19 @@ proto.proto.sftp.ConnectRequest.deserializeBinaryFromReader = function(msg, read
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setToken(value);
+      msg.setHost(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setHost(value);
+      msg.setUser(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUser(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
       msg.setPassword(value);
       break;
-    case 5:
+    case 4:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setPort(value);
-      break;
-    case 6:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setServerid(value);
       break;
     default:
       reader.skipField();
@@ -1676,45 +1162,31 @@ proto.proto.sftp.ConnectRequest.prototype.serializeBinary = function() {
  */
 proto.proto.sftp.ConnectRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getToken();
+  f = message.getHost();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getHost();
+  f = message.getUser();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getUser();
+  f = message.getPassword();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getPassword();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
   f = message.getPort();
   if (f !== 0) {
     writer.writeInt32(
-      5,
-      f
-    );
-  }
-  f = message.getServerid();
-  if (f.length > 0) {
-    writer.writeString(
-      6,
+      4,
       f
     );
   }
@@ -1722,10 +1194,10 @@ proto.proto.sftp.ConnectRequest.serializeBinaryToWriter = function(message, writ
 
 
 /**
- * optional string token = 1;
+ * optional string host = 1;
  * @return {string}
  */
-proto.proto.sftp.ConnectRequest.prototype.getToken = function() {
+proto.proto.sftp.ConnectRequest.prototype.getHost = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1734,16 +1206,16 @@ proto.proto.sftp.ConnectRequest.prototype.getToken = function() {
  * @param {string} value
  * @return {!proto.proto.sftp.ConnectRequest} returns this
  */
-proto.proto.sftp.ConnectRequest.prototype.setToken = function(value) {
+proto.proto.sftp.ConnectRequest.prototype.setHost = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string host = 2;
+ * optional string user = 2;
  * @return {string}
  */
-proto.proto.sftp.ConnectRequest.prototype.getHost = function() {
+proto.proto.sftp.ConnectRequest.prototype.getUser = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1752,16 +1224,16 @@ proto.proto.sftp.ConnectRequest.prototype.getHost = function() {
  * @param {string} value
  * @return {!proto.proto.sftp.ConnectRequest} returns this
  */
-proto.proto.sftp.ConnectRequest.prototype.setHost = function(value) {
+proto.proto.sftp.ConnectRequest.prototype.setUser = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string user = 3;
+ * optional string password = 3;
  * @return {string}
  */
-proto.proto.sftp.ConnectRequest.prototype.getUser = function() {
+proto.proto.sftp.ConnectRequest.prototype.getPassword = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1770,35 +1242,17 @@ proto.proto.sftp.ConnectRequest.prototype.getUser = function() {
  * @param {string} value
  * @return {!proto.proto.sftp.ConnectRequest} returns this
  */
-proto.proto.sftp.ConnectRequest.prototype.setUser = function(value) {
+proto.proto.sftp.ConnectRequest.prototype.setPassword = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string password = 4;
- * @return {string}
- */
-proto.proto.sftp.ConnectRequest.prototype.getPassword = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.ConnectRequest} returns this
- */
-proto.proto.sftp.ConnectRequest.prototype.setPassword = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional int32 port = 5;
+ * optional int32 port = 4;
  * @return {number}
  */
 proto.proto.sftp.ConnectRequest.prototype.getPort = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
@@ -1807,25 +1261,7 @@ proto.proto.sftp.ConnectRequest.prototype.getPort = function() {
  * @return {!proto.proto.sftp.ConnectRequest} returns this
  */
 proto.proto.sftp.ConnectRequest.prototype.setPort = function(value) {
-  return jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-/**
- * optional string serverId = 6;
- * @return {string}
- */
-proto.proto.sftp.ConnectRequest.prototype.getServerid = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.ConnectRequest} returns this
- */
-proto.proto.sftp.ConnectRequest.prototype.setServerid = function(value) {
-  return jspb.Message.setProto3StringField(this, 6, value);
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
@@ -1968,13 +1404,13 @@ proto.proto.sftp.DisconnectRequest.prototype.setUuid = function(value) {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.proto.sftp.CommandRequest.oneofGroups_ = [[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]];
+proto.proto.sftp.MessageRequest.oneofGroups_ = [[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]];
 
 /**
  * @enum {number}
  */
-proto.proto.sftp.CommandRequest.CommandCase = {
-  COMMAND_NOT_SET: 0,
+proto.proto.sftp.MessageRequest.CommandsCase = {
+  COMMANDS_NOT_SET: 0,
   CD: 2,
   PWD: 3,
   CHGRP: 4,
@@ -1989,16 +1425,18 @@ proto.proto.sftp.CommandRequest.CommandCase = {
   STAT: 13,
   LSTAT: 14,
   PUT: 15,
-  GET: 16,
-  EXIT: 17,
-  QUIT: 18
+  PUTDIRECT: 16,
+  GET: 17,
+  GETDIRECT: 18,
+  EXIT: 19,
+  QUIT: 20
 };
 
 /**
- * @return {proto.proto.sftp.CommandRequest.CommandCase}
+ * @return {proto.proto.sftp.MessageRequest.CommandsCase}
  */
-proto.proto.sftp.CommandRequest.prototype.getCommandCase = function() {
-  return /** @type {proto.proto.sftp.CommandRequest.CommandCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.CommandRequest.oneofGroups_[0]));
+proto.proto.sftp.MessageRequest.prototype.getCommandsCase = function() {
+  return /** @type {proto.proto.sftp.MessageRequest.CommandsCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.MessageRequest.oneofGroups_[0]));
 };
 
 
@@ -2016,8 +1454,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.CommandRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.CommandRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.MessageRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.MessageRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -2026,29 +1464,32 @@ proto.proto.sftp.CommandRequest.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.CommandRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.MessageRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.CommandRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.MessageRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    cd: (f = msg.getCd()) && proto.proto.sftp.ChangeDirectoryRequest.toObject(includeInstance, f),
-    pwd: (f = msg.getPwd()) && proto.proto.sftp.PrintWorkingDirectoryRequest.toObject(includeInstance, f),
-    chgrp: (f = msg.getChgrp()) && proto.proto.sftp.ChangeGroupRequest.toObject(includeInstance, f),
-    chown: (f = msg.getChown()) && proto.proto.sftp.ChangeOwnerRequest.toObject(includeInstance, f),
-    chmod: (f = msg.getChmod()) && proto.proto.sftp.ChangeModeRequest.toObject(includeInstance, f),
-    mkdir: (f = msg.getMkdir()) && proto.proto.sftp.MakeDirectoryRequest.toObject(includeInstance, f),
-    rmdir: (f = msg.getRmdir()) && proto.proto.sftp.RemoveDirectoryRequest.toObject(includeInstance, f),
-    rm: (f = msg.getRm()) && proto.proto.sftp.RemoveFileRequest.toObject(includeInstance, f),
-    rename: (f = msg.getRename()) && proto.proto.sftp.RenameRequest.toObject(includeInstance, f),
-    ln: (f = msg.getLn()) && proto.proto.sftp.SymbolicLinkRequest.toObject(includeInstance, f),
-    ls: (f = msg.getLs()) && proto.proto.sftp.ListDirectoryRequest.toObject(includeInstance, f),
-    stat: (f = msg.getStat()) && proto.proto.sftp.StatusRequest.toObject(includeInstance, f),
-    lstat: (f = msg.getLstat()) && proto.proto.sftp.LinkStatusRequest.toObject(includeInstance, f),
-    put: (f = msg.getPut()) && proto.proto.sftp.PutRequest.toObject(includeInstance, f),
-    get: (f = msg.getGet()) && proto.proto.sftp.GetRequest.toObject(includeInstance, f),
-    exit: (f = msg.getExit()) && proto.proto.sftp.ExitRequest.toObject(includeInstance, f),
-    quit: (f = msg.getQuit()) && proto.proto.sftp.QuitRequest.toObject(includeInstance, f)
+    uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    cd: (f = msg.getCd()) && proto.proto.sftp.CommandByCd.toObject(includeInstance, f),
+    pwd: (f = msg.getPwd()) && proto.proto.sftp.CommandByPwd.toObject(includeInstance, f),
+    chgrp: (f = msg.getChgrp()) && proto.proto.sftp.CommandByChgrp.toObject(includeInstance, f),
+    chown: (f = msg.getChown()) && proto.proto.sftp.CommandByChown.toObject(includeInstance, f),
+    chmod: (f = msg.getChmod()) && proto.proto.sftp.CommandByChmod.toObject(includeInstance, f),
+    mkdir: (f = msg.getMkdir()) && proto.proto.sftp.CommandByMkdir.toObject(includeInstance, f),
+    rmdir: (f = msg.getRmdir()) && proto.proto.sftp.CommandByRmdir.toObject(includeInstance, f),
+    rm: (f = msg.getRm()) && proto.proto.sftp.CommandByRm.toObject(includeInstance, f),
+    rename: (f = msg.getRename()) && proto.proto.sftp.CommandByRename.toObject(includeInstance, f),
+    ln: (f = msg.getLn()) && proto.proto.sftp.CommandByLn.toObject(includeInstance, f),
+    ls: (f = msg.getLs()) && proto.proto.sftp.CommandByLs.toObject(includeInstance, f),
+    stat: (f = msg.getStat()) && proto.proto.sftp.CommandByStat.toObject(includeInstance, f),
+    lstat: (f = msg.getLstat()) && proto.proto.sftp.CommandByLstat.toObject(includeInstance, f),
+    put: (f = msg.getPut()) && proto.proto.sftp.CommandByPut.toObject(includeInstance, f),
+    putdirect: (f = msg.getPutdirect()) && proto.proto.sftp.CommandByPutDirect.toObject(includeInstance, f),
+    get: (f = msg.getGet()) && proto.proto.sftp.CommandByGet.toObject(includeInstance, f),
+    getdirect: (f = msg.getGetdirect()) && proto.proto.sftp.CommandByGetDirect.toObject(includeInstance, f),
+    exit: (f = msg.getExit()) && proto.proto.sftp.CommandByExit.toObject(includeInstance, f),
+    quit: (f = msg.getQuit()) && proto.proto.sftp.CommandByQuit.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2062,112 +1503,126 @@ proto.proto.sftp.CommandRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.CommandRequest}
+ * @return {!proto.proto.sftp.MessageRequest}
  */
-proto.proto.sftp.CommandRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.MessageRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.CommandRequest;
-  return proto.proto.sftp.CommandRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.MessageRequest;
+  return proto.proto.sftp.MessageRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.CommandRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.MessageRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.CommandRequest}
+ * @return {!proto.proto.sftp.MessageRequest}
  */
-proto.proto.sftp.CommandRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.MessageRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUuid(value);
+      break;
     case 2:
-      var value = new proto.proto.sftp.ChangeDirectoryRequest;
-      reader.readMessage(value,proto.proto.sftp.ChangeDirectoryRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByCd;
+      reader.readMessage(value,proto.proto.sftp.CommandByCd.deserializeBinaryFromReader);
       msg.setCd(value);
       break;
     case 3:
-      var value = new proto.proto.sftp.PrintWorkingDirectoryRequest;
-      reader.readMessage(value,proto.proto.sftp.PrintWorkingDirectoryRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByPwd;
+      reader.readMessage(value,proto.proto.sftp.CommandByPwd.deserializeBinaryFromReader);
       msg.setPwd(value);
       break;
     case 4:
-      var value = new proto.proto.sftp.ChangeGroupRequest;
-      reader.readMessage(value,proto.proto.sftp.ChangeGroupRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByChgrp;
+      reader.readMessage(value,proto.proto.sftp.CommandByChgrp.deserializeBinaryFromReader);
       msg.setChgrp(value);
       break;
     case 5:
-      var value = new proto.proto.sftp.ChangeOwnerRequest;
-      reader.readMessage(value,proto.proto.sftp.ChangeOwnerRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByChown;
+      reader.readMessage(value,proto.proto.sftp.CommandByChown.deserializeBinaryFromReader);
       msg.setChown(value);
       break;
     case 6:
-      var value = new proto.proto.sftp.ChangeModeRequest;
-      reader.readMessage(value,proto.proto.sftp.ChangeModeRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByChmod;
+      reader.readMessage(value,proto.proto.sftp.CommandByChmod.deserializeBinaryFromReader);
       msg.setChmod(value);
       break;
     case 7:
-      var value = new proto.proto.sftp.MakeDirectoryRequest;
-      reader.readMessage(value,proto.proto.sftp.MakeDirectoryRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByMkdir;
+      reader.readMessage(value,proto.proto.sftp.CommandByMkdir.deserializeBinaryFromReader);
       msg.setMkdir(value);
       break;
     case 8:
-      var value = new proto.proto.sftp.RemoveDirectoryRequest;
-      reader.readMessage(value,proto.proto.sftp.RemoveDirectoryRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByRmdir;
+      reader.readMessage(value,proto.proto.sftp.CommandByRmdir.deserializeBinaryFromReader);
       msg.setRmdir(value);
       break;
     case 9:
-      var value = new proto.proto.sftp.RemoveFileRequest;
-      reader.readMessage(value,proto.proto.sftp.RemoveFileRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByRm;
+      reader.readMessage(value,proto.proto.sftp.CommandByRm.deserializeBinaryFromReader);
       msg.setRm(value);
       break;
     case 10:
-      var value = new proto.proto.sftp.RenameRequest;
-      reader.readMessage(value,proto.proto.sftp.RenameRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByRename;
+      reader.readMessage(value,proto.proto.sftp.CommandByRename.deserializeBinaryFromReader);
       msg.setRename(value);
       break;
     case 11:
-      var value = new proto.proto.sftp.SymbolicLinkRequest;
-      reader.readMessage(value,proto.proto.sftp.SymbolicLinkRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByLn;
+      reader.readMessage(value,proto.proto.sftp.CommandByLn.deserializeBinaryFromReader);
       msg.setLn(value);
       break;
     case 12:
-      var value = new proto.proto.sftp.ListDirectoryRequest;
-      reader.readMessage(value,proto.proto.sftp.ListDirectoryRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByLs;
+      reader.readMessage(value,proto.proto.sftp.CommandByLs.deserializeBinaryFromReader);
       msg.setLs(value);
       break;
     case 13:
-      var value = new proto.proto.sftp.StatusRequest;
-      reader.readMessage(value,proto.proto.sftp.StatusRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByStat;
+      reader.readMessage(value,proto.proto.sftp.CommandByStat.deserializeBinaryFromReader);
       msg.setStat(value);
       break;
     case 14:
-      var value = new proto.proto.sftp.LinkStatusRequest;
-      reader.readMessage(value,proto.proto.sftp.LinkStatusRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByLstat;
+      reader.readMessage(value,proto.proto.sftp.CommandByLstat.deserializeBinaryFromReader);
       msg.setLstat(value);
       break;
     case 15:
-      var value = new proto.proto.sftp.PutRequest;
-      reader.readMessage(value,proto.proto.sftp.PutRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByPut;
+      reader.readMessage(value,proto.proto.sftp.CommandByPut.deserializeBinaryFromReader);
       msg.setPut(value);
       break;
     case 16:
-      var value = new proto.proto.sftp.GetRequest;
-      reader.readMessage(value,proto.proto.sftp.GetRequest.deserializeBinaryFromReader);
-      msg.setGet(value);
+      var value = new proto.proto.sftp.CommandByPutDirect;
+      reader.readMessage(value,proto.proto.sftp.CommandByPutDirect.deserializeBinaryFromReader);
+      msg.setPutdirect(value);
       break;
     case 17:
-      var value = new proto.proto.sftp.ExitRequest;
-      reader.readMessage(value,proto.proto.sftp.ExitRequest.deserializeBinaryFromReader);
-      msg.setExit(value);
+      var value = new proto.proto.sftp.CommandByGet;
+      reader.readMessage(value,proto.proto.sftp.CommandByGet.deserializeBinaryFromReader);
+      msg.setGet(value);
       break;
     case 18:
-      var value = new proto.proto.sftp.QuitRequest;
-      reader.readMessage(value,proto.proto.sftp.QuitRequest.deserializeBinaryFromReader);
+      var value = new proto.proto.sftp.CommandByGetDirect;
+      reader.readMessage(value,proto.proto.sftp.CommandByGetDirect.deserializeBinaryFromReader);
+      msg.setGetdirect(value);
+      break;
+    case 19:
+      var value = new proto.proto.sftp.CommandByExit;
+      reader.readMessage(value,proto.proto.sftp.CommandByExit.deserializeBinaryFromReader);
+      msg.setExit(value);
+      break;
+    case 20:
+      var value = new proto.proto.sftp.CommandByQuit;
+      reader.readMessage(value,proto.proto.sftp.CommandByQuit.deserializeBinaryFromReader);
       msg.setQuit(value);
       break;
     default:
@@ -2183,9 +1638,9 @@ proto.proto.sftp.CommandRequest.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.CommandRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.MessageRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.CommandRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.MessageRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2193,18 +1648,25 @@ proto.proto.sftp.CommandRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.CommandRequest} message
+ * @param {!proto.proto.sftp.MessageRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.MessageRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getUuid();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
   f = message.getCd();
   if (f != null) {
     writer.writeMessage(
       2,
       f,
-      proto.proto.sftp.ChangeDirectoryRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByCd.serializeBinaryToWriter
     );
   }
   f = message.getPwd();
@@ -2212,7 +1674,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       3,
       f,
-      proto.proto.sftp.PrintWorkingDirectoryRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByPwd.serializeBinaryToWriter
     );
   }
   f = message.getChgrp();
@@ -2220,7 +1682,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       4,
       f,
-      proto.proto.sftp.ChangeGroupRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByChgrp.serializeBinaryToWriter
     );
   }
   f = message.getChown();
@@ -2228,7 +1690,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       5,
       f,
-      proto.proto.sftp.ChangeOwnerRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByChown.serializeBinaryToWriter
     );
   }
   f = message.getChmod();
@@ -2236,7 +1698,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       6,
       f,
-      proto.proto.sftp.ChangeModeRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByChmod.serializeBinaryToWriter
     );
   }
   f = message.getMkdir();
@@ -2244,7 +1706,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       7,
       f,
-      proto.proto.sftp.MakeDirectoryRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByMkdir.serializeBinaryToWriter
     );
   }
   f = message.getRmdir();
@@ -2252,7 +1714,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       8,
       f,
-      proto.proto.sftp.RemoveDirectoryRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByRmdir.serializeBinaryToWriter
     );
   }
   f = message.getRm();
@@ -2260,7 +1722,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       9,
       f,
-      proto.proto.sftp.RemoveFileRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByRm.serializeBinaryToWriter
     );
   }
   f = message.getRename();
@@ -2268,7 +1730,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       10,
       f,
-      proto.proto.sftp.RenameRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByRename.serializeBinaryToWriter
     );
   }
   f = message.getLn();
@@ -2276,7 +1738,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       11,
       f,
-      proto.proto.sftp.SymbolicLinkRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByLn.serializeBinaryToWriter
     );
   }
   f = message.getLs();
@@ -2284,7 +1746,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       12,
       f,
-      proto.proto.sftp.ListDirectoryRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByLs.serializeBinaryToWriter
     );
   }
   f = message.getStat();
@@ -2292,7 +1754,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       13,
       f,
-      proto.proto.sftp.StatusRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByStat.serializeBinaryToWriter
     );
   }
   f = message.getLstat();
@@ -2300,7 +1762,7 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       14,
       f,
-      proto.proto.sftp.LinkStatusRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByLstat.serializeBinaryToWriter
     );
   }
   f = message.getPut();
@@ -2308,60 +1770,94 @@ proto.proto.sftp.CommandRequest.serializeBinaryToWriter = function(message, writ
     writer.writeMessage(
       15,
       f,
-      proto.proto.sftp.PutRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByPut.serializeBinaryToWriter
+    );
+  }
+  f = message.getPutdirect();
+  if (f != null) {
+    writer.writeMessage(
+      16,
+      f,
+      proto.proto.sftp.CommandByPutDirect.serializeBinaryToWriter
     );
   }
   f = message.getGet();
   if (f != null) {
     writer.writeMessage(
-      16,
+      17,
       f,
-      proto.proto.sftp.GetRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByGet.serializeBinaryToWriter
+    );
+  }
+  f = message.getGetdirect();
+  if (f != null) {
+    writer.writeMessage(
+      18,
+      f,
+      proto.proto.sftp.CommandByGetDirect.serializeBinaryToWriter
     );
   }
   f = message.getExit();
   if (f != null) {
     writer.writeMessage(
-      17,
+      19,
       f,
-      proto.proto.sftp.ExitRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByExit.serializeBinaryToWriter
     );
   }
   f = message.getQuit();
   if (f != null) {
     writer.writeMessage(
-      18,
+      20,
       f,
-      proto.proto.sftp.QuitRequest.serializeBinaryToWriter
+      proto.proto.sftp.CommandByQuit.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional ChangeDirectoryRequest cd = 2;
- * @return {?proto.proto.sftp.ChangeDirectoryRequest}
+ * optional string uuid = 1;
+ * @return {string}
  */
-proto.proto.sftp.CommandRequest.prototype.getCd = function() {
-  return /** @type{?proto.proto.sftp.ChangeDirectoryRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeDirectoryRequest, 2));
+proto.proto.sftp.MessageRequest.prototype.getUuid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ChangeDirectoryRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {string} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
+ */
+proto.proto.sftp.MessageRequest.prototype.setUuid = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional CommandByCd cd = 2;
+ * @return {?proto.proto.sftp.CommandByCd}
+ */
+proto.proto.sftp.MessageRequest.prototype.getCd = function() {
+  return /** @type{?proto.proto.sftp.CommandByCd} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByCd, 2));
+};
+
+
+/**
+ * @param {?proto.proto.sftp.CommandByCd|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setCd = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setCd = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearCd = function() {
+proto.proto.sftp.MessageRequest.prototype.clearCd = function() {
   return this.setCd(undefined);
 };
 
@@ -2370,35 +1866,35 @@ proto.proto.sftp.CommandRequest.prototype.clearCd = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasCd = function() {
+proto.proto.sftp.MessageRequest.prototype.hasCd = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
- * optional PrintWorkingDirectoryRequest pwd = 3;
- * @return {?proto.proto.sftp.PrintWorkingDirectoryRequest}
+ * optional CommandByPwd pwd = 3;
+ * @return {?proto.proto.sftp.CommandByPwd}
  */
-proto.proto.sftp.CommandRequest.prototype.getPwd = function() {
-  return /** @type{?proto.proto.sftp.PrintWorkingDirectoryRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.PrintWorkingDirectoryRequest, 3));
+proto.proto.sftp.MessageRequest.prototype.getPwd = function() {
+  return /** @type{?proto.proto.sftp.CommandByPwd} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByPwd, 3));
 };
 
 
 /**
- * @param {?proto.proto.sftp.PrintWorkingDirectoryRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByPwd|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setPwd = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 3, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setPwd = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 3, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearPwd = function() {
+proto.proto.sftp.MessageRequest.prototype.clearPwd = function() {
   return this.setPwd(undefined);
 };
 
@@ -2407,35 +1903,35 @@ proto.proto.sftp.CommandRequest.prototype.clearPwd = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasPwd = function() {
+proto.proto.sftp.MessageRequest.prototype.hasPwd = function() {
   return jspb.Message.getField(this, 3) != null;
 };
 
 
 /**
- * optional ChangeGroupRequest chgrp = 4;
- * @return {?proto.proto.sftp.ChangeGroupRequest}
+ * optional CommandByChgrp chgrp = 4;
+ * @return {?proto.proto.sftp.CommandByChgrp}
  */
-proto.proto.sftp.CommandRequest.prototype.getChgrp = function() {
-  return /** @type{?proto.proto.sftp.ChangeGroupRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeGroupRequest, 4));
+proto.proto.sftp.MessageRequest.prototype.getChgrp = function() {
+  return /** @type{?proto.proto.sftp.CommandByChgrp} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByChgrp, 4));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ChangeGroupRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByChgrp|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setChgrp = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 4, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setChgrp = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 4, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearChgrp = function() {
+proto.proto.sftp.MessageRequest.prototype.clearChgrp = function() {
   return this.setChgrp(undefined);
 };
 
@@ -2444,35 +1940,35 @@ proto.proto.sftp.CommandRequest.prototype.clearChgrp = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasChgrp = function() {
+proto.proto.sftp.MessageRequest.prototype.hasChgrp = function() {
   return jspb.Message.getField(this, 4) != null;
 };
 
 
 /**
- * optional ChangeOwnerRequest chown = 5;
- * @return {?proto.proto.sftp.ChangeOwnerRequest}
+ * optional CommandByChown chown = 5;
+ * @return {?proto.proto.sftp.CommandByChown}
  */
-proto.proto.sftp.CommandRequest.prototype.getChown = function() {
-  return /** @type{?proto.proto.sftp.ChangeOwnerRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeOwnerRequest, 5));
+proto.proto.sftp.MessageRequest.prototype.getChown = function() {
+  return /** @type{?proto.proto.sftp.CommandByChown} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByChown, 5));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ChangeOwnerRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByChown|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setChown = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 5, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setChown = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 5, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearChown = function() {
+proto.proto.sftp.MessageRequest.prototype.clearChown = function() {
   return this.setChown(undefined);
 };
 
@@ -2481,35 +1977,35 @@ proto.proto.sftp.CommandRequest.prototype.clearChown = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasChown = function() {
+proto.proto.sftp.MessageRequest.prototype.hasChown = function() {
   return jspb.Message.getField(this, 5) != null;
 };
 
 
 /**
- * optional ChangeModeRequest chmod = 6;
- * @return {?proto.proto.sftp.ChangeModeRequest}
+ * optional CommandByChmod chmod = 6;
+ * @return {?proto.proto.sftp.CommandByChmod}
  */
-proto.proto.sftp.CommandRequest.prototype.getChmod = function() {
-  return /** @type{?proto.proto.sftp.ChangeModeRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeModeRequest, 6));
+proto.proto.sftp.MessageRequest.prototype.getChmod = function() {
+  return /** @type{?proto.proto.sftp.CommandByChmod} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByChmod, 6));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ChangeModeRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByChmod|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setChmod = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 6, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setChmod = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 6, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearChmod = function() {
+proto.proto.sftp.MessageRequest.prototype.clearChmod = function() {
   return this.setChmod(undefined);
 };
 
@@ -2518,35 +2014,35 @@ proto.proto.sftp.CommandRequest.prototype.clearChmod = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasChmod = function() {
+proto.proto.sftp.MessageRequest.prototype.hasChmod = function() {
   return jspb.Message.getField(this, 6) != null;
 };
 
 
 /**
- * optional MakeDirectoryRequest mkdir = 7;
- * @return {?proto.proto.sftp.MakeDirectoryRequest}
+ * optional CommandByMkdir mkdir = 7;
+ * @return {?proto.proto.sftp.CommandByMkdir}
  */
-proto.proto.sftp.CommandRequest.prototype.getMkdir = function() {
-  return /** @type{?proto.proto.sftp.MakeDirectoryRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.MakeDirectoryRequest, 7));
+proto.proto.sftp.MessageRequest.prototype.getMkdir = function() {
+  return /** @type{?proto.proto.sftp.CommandByMkdir} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByMkdir, 7));
 };
 
 
 /**
- * @param {?proto.proto.sftp.MakeDirectoryRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByMkdir|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setMkdir = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 7, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setMkdir = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 7, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearMkdir = function() {
+proto.proto.sftp.MessageRequest.prototype.clearMkdir = function() {
   return this.setMkdir(undefined);
 };
 
@@ -2555,35 +2051,35 @@ proto.proto.sftp.CommandRequest.prototype.clearMkdir = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasMkdir = function() {
+proto.proto.sftp.MessageRequest.prototype.hasMkdir = function() {
   return jspb.Message.getField(this, 7) != null;
 };
 
 
 /**
- * optional RemoveDirectoryRequest rmdir = 8;
- * @return {?proto.proto.sftp.RemoveDirectoryRequest}
+ * optional CommandByRmdir rmdir = 8;
+ * @return {?proto.proto.sftp.CommandByRmdir}
  */
-proto.proto.sftp.CommandRequest.prototype.getRmdir = function() {
-  return /** @type{?proto.proto.sftp.RemoveDirectoryRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RemoveDirectoryRequest, 8));
+proto.proto.sftp.MessageRequest.prototype.getRmdir = function() {
+  return /** @type{?proto.proto.sftp.CommandByRmdir} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByRmdir, 8));
 };
 
 
 /**
- * @param {?proto.proto.sftp.RemoveDirectoryRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByRmdir|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setRmdir = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 8, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setRmdir = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 8, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearRmdir = function() {
+proto.proto.sftp.MessageRequest.prototype.clearRmdir = function() {
   return this.setRmdir(undefined);
 };
 
@@ -2592,35 +2088,35 @@ proto.proto.sftp.CommandRequest.prototype.clearRmdir = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasRmdir = function() {
+proto.proto.sftp.MessageRequest.prototype.hasRmdir = function() {
   return jspb.Message.getField(this, 8) != null;
 };
 
 
 /**
- * optional RemoveFileRequest rm = 9;
- * @return {?proto.proto.sftp.RemoveFileRequest}
+ * optional CommandByRm rm = 9;
+ * @return {?proto.proto.sftp.CommandByRm}
  */
-proto.proto.sftp.CommandRequest.prototype.getRm = function() {
-  return /** @type{?proto.proto.sftp.RemoveFileRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RemoveFileRequest, 9));
+proto.proto.sftp.MessageRequest.prototype.getRm = function() {
+  return /** @type{?proto.proto.sftp.CommandByRm} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByRm, 9));
 };
 
 
 /**
- * @param {?proto.proto.sftp.RemoveFileRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByRm|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setRm = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 9, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setRm = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 9, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearRm = function() {
+proto.proto.sftp.MessageRequest.prototype.clearRm = function() {
   return this.setRm(undefined);
 };
 
@@ -2629,35 +2125,35 @@ proto.proto.sftp.CommandRequest.prototype.clearRm = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasRm = function() {
+proto.proto.sftp.MessageRequest.prototype.hasRm = function() {
   return jspb.Message.getField(this, 9) != null;
 };
 
 
 /**
- * optional RenameRequest rename = 10;
- * @return {?proto.proto.sftp.RenameRequest}
+ * optional CommandByRename rename = 10;
+ * @return {?proto.proto.sftp.CommandByRename}
  */
-proto.proto.sftp.CommandRequest.prototype.getRename = function() {
-  return /** @type{?proto.proto.sftp.RenameRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RenameRequest, 10));
+proto.proto.sftp.MessageRequest.prototype.getRename = function() {
+  return /** @type{?proto.proto.sftp.CommandByRename} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByRename, 10));
 };
 
 
 /**
- * @param {?proto.proto.sftp.RenameRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByRename|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setRename = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 10, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setRename = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 10, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearRename = function() {
+proto.proto.sftp.MessageRequest.prototype.clearRename = function() {
   return this.setRename(undefined);
 };
 
@@ -2666,35 +2162,35 @@ proto.proto.sftp.CommandRequest.prototype.clearRename = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasRename = function() {
+proto.proto.sftp.MessageRequest.prototype.hasRename = function() {
   return jspb.Message.getField(this, 10) != null;
 };
 
 
 /**
- * optional SymbolicLinkRequest ln = 11;
- * @return {?proto.proto.sftp.SymbolicLinkRequest}
+ * optional CommandByLn ln = 11;
+ * @return {?proto.proto.sftp.CommandByLn}
  */
-proto.proto.sftp.CommandRequest.prototype.getLn = function() {
-  return /** @type{?proto.proto.sftp.SymbolicLinkRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.SymbolicLinkRequest, 11));
+proto.proto.sftp.MessageRequest.prototype.getLn = function() {
+  return /** @type{?proto.proto.sftp.CommandByLn} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByLn, 11));
 };
 
 
 /**
- * @param {?proto.proto.sftp.SymbolicLinkRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByLn|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setLn = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 11, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setLn = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 11, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearLn = function() {
+proto.proto.sftp.MessageRequest.prototype.clearLn = function() {
   return this.setLn(undefined);
 };
 
@@ -2703,35 +2199,35 @@ proto.proto.sftp.CommandRequest.prototype.clearLn = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasLn = function() {
+proto.proto.sftp.MessageRequest.prototype.hasLn = function() {
   return jspb.Message.getField(this, 11) != null;
 };
 
 
 /**
- * optional ListDirectoryRequest ls = 12;
- * @return {?proto.proto.sftp.ListDirectoryRequest}
+ * optional CommandByLs ls = 12;
+ * @return {?proto.proto.sftp.CommandByLs}
  */
-proto.proto.sftp.CommandRequest.prototype.getLs = function() {
-  return /** @type{?proto.proto.sftp.ListDirectoryRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ListDirectoryRequest, 12));
+proto.proto.sftp.MessageRequest.prototype.getLs = function() {
+  return /** @type{?proto.proto.sftp.CommandByLs} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByLs, 12));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ListDirectoryRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByLs|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setLs = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 12, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setLs = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 12, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearLs = function() {
+proto.proto.sftp.MessageRequest.prototype.clearLs = function() {
   return this.setLs(undefined);
 };
 
@@ -2740,35 +2236,35 @@ proto.proto.sftp.CommandRequest.prototype.clearLs = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasLs = function() {
+proto.proto.sftp.MessageRequest.prototype.hasLs = function() {
   return jspb.Message.getField(this, 12) != null;
 };
 
 
 /**
- * optional StatusRequest stat = 13;
- * @return {?proto.proto.sftp.StatusRequest}
+ * optional CommandByStat stat = 13;
+ * @return {?proto.proto.sftp.CommandByStat}
  */
-proto.proto.sftp.CommandRequest.prototype.getStat = function() {
-  return /** @type{?proto.proto.sftp.StatusRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.StatusRequest, 13));
+proto.proto.sftp.MessageRequest.prototype.getStat = function() {
+  return /** @type{?proto.proto.sftp.CommandByStat} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByStat, 13));
 };
 
 
 /**
- * @param {?proto.proto.sftp.StatusRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByStat|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setStat = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 13, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setStat = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 13, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearStat = function() {
+proto.proto.sftp.MessageRequest.prototype.clearStat = function() {
   return this.setStat(undefined);
 };
 
@@ -2777,35 +2273,35 @@ proto.proto.sftp.CommandRequest.prototype.clearStat = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasStat = function() {
+proto.proto.sftp.MessageRequest.prototype.hasStat = function() {
   return jspb.Message.getField(this, 13) != null;
 };
 
 
 /**
- * optional LinkStatusRequest lstat = 14;
- * @return {?proto.proto.sftp.LinkStatusRequest}
+ * optional CommandByLstat lstat = 14;
+ * @return {?proto.proto.sftp.CommandByLstat}
  */
-proto.proto.sftp.CommandRequest.prototype.getLstat = function() {
-  return /** @type{?proto.proto.sftp.LinkStatusRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.LinkStatusRequest, 14));
+proto.proto.sftp.MessageRequest.prototype.getLstat = function() {
+  return /** @type{?proto.proto.sftp.CommandByLstat} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByLstat, 14));
 };
 
 
 /**
- * @param {?proto.proto.sftp.LinkStatusRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByLstat|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setLstat = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 14, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setLstat = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 14, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearLstat = function() {
+proto.proto.sftp.MessageRequest.prototype.clearLstat = function() {
   return this.setLstat(undefined);
 };
 
@@ -2814,35 +2310,35 @@ proto.proto.sftp.CommandRequest.prototype.clearLstat = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasLstat = function() {
+proto.proto.sftp.MessageRequest.prototype.hasLstat = function() {
   return jspb.Message.getField(this, 14) != null;
 };
 
 
 /**
- * optional PutRequest put = 15;
- * @return {?proto.proto.sftp.PutRequest}
+ * optional CommandByPut put = 15;
+ * @return {?proto.proto.sftp.CommandByPut}
  */
-proto.proto.sftp.CommandRequest.prototype.getPut = function() {
-  return /** @type{?proto.proto.sftp.PutRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.PutRequest, 15));
+proto.proto.sftp.MessageRequest.prototype.getPut = function() {
+  return /** @type{?proto.proto.sftp.CommandByPut} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByPut, 15));
 };
 
 
 /**
- * @param {?proto.proto.sftp.PutRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByPut|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setPut = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 15, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setPut = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 15, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearPut = function() {
+proto.proto.sftp.MessageRequest.prototype.clearPut = function() {
   return this.setPut(undefined);
 };
 
@@ -2851,35 +2347,72 @@ proto.proto.sftp.CommandRequest.prototype.clearPut = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasPut = function() {
+proto.proto.sftp.MessageRequest.prototype.hasPut = function() {
   return jspb.Message.getField(this, 15) != null;
 };
 
 
 /**
- * optional GetRequest get = 16;
- * @return {?proto.proto.sftp.GetRequest}
+ * optional CommandByPutDirect putDirect = 16;
+ * @return {?proto.proto.sftp.CommandByPutDirect}
  */
-proto.proto.sftp.CommandRequest.prototype.getGet = function() {
-  return /** @type{?proto.proto.sftp.GetRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.GetRequest, 16));
+proto.proto.sftp.MessageRequest.prototype.getPutdirect = function() {
+  return /** @type{?proto.proto.sftp.CommandByPutDirect} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByPutDirect, 16));
 };
 
 
 /**
- * @param {?proto.proto.sftp.GetRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByPutDirect|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setGet = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 16, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setPutdirect = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 16, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearGet = function() {
+proto.proto.sftp.MessageRequest.prototype.clearPutdirect = function() {
+  return this.setPutdirect(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.proto.sftp.MessageRequest.prototype.hasPutdirect = function() {
+  return jspb.Message.getField(this, 16) != null;
+};
+
+
+/**
+ * optional CommandByGet get = 17;
+ * @return {?proto.proto.sftp.CommandByGet}
+ */
+proto.proto.sftp.MessageRequest.prototype.getGet = function() {
+  return /** @type{?proto.proto.sftp.CommandByGet} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByGet, 17));
+};
+
+
+/**
+ * @param {?proto.proto.sftp.CommandByGet|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
+*/
+proto.proto.sftp.MessageRequest.prototype.setGet = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 17, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.proto.sftp.MessageRequest} returns this
+ */
+proto.proto.sftp.MessageRequest.prototype.clearGet = function() {
   return this.setGet(undefined);
 };
 
@@ -2888,35 +2421,72 @@ proto.proto.sftp.CommandRequest.prototype.clearGet = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasGet = function() {
-  return jspb.Message.getField(this, 16) != null;
+proto.proto.sftp.MessageRequest.prototype.hasGet = function() {
+  return jspb.Message.getField(this, 17) != null;
 };
 
 
 /**
- * optional ExitRequest exit = 17;
- * @return {?proto.proto.sftp.ExitRequest}
+ * optional CommandByGetDirect getDirect = 18;
+ * @return {?proto.proto.sftp.CommandByGetDirect}
  */
-proto.proto.sftp.CommandRequest.prototype.getExit = function() {
-  return /** @type{?proto.proto.sftp.ExitRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ExitRequest, 17));
+proto.proto.sftp.MessageRequest.prototype.getGetdirect = function() {
+  return /** @type{?proto.proto.sftp.CommandByGetDirect} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByGetDirect, 18));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ExitRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByGetDirect|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setExit = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 17, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setGetdirect = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 18, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearExit = function() {
+proto.proto.sftp.MessageRequest.prototype.clearGetdirect = function() {
+  return this.setGetdirect(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.proto.sftp.MessageRequest.prototype.hasGetdirect = function() {
+  return jspb.Message.getField(this, 18) != null;
+};
+
+
+/**
+ * optional CommandByExit exit = 19;
+ * @return {?proto.proto.sftp.CommandByExit}
+ */
+proto.proto.sftp.MessageRequest.prototype.getExit = function() {
+  return /** @type{?proto.proto.sftp.CommandByExit} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByExit, 19));
+};
+
+
+/**
+ * @param {?proto.proto.sftp.CommandByExit|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
+*/
+proto.proto.sftp.MessageRequest.prototype.setExit = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 19, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.proto.sftp.MessageRequest} returns this
+ */
+proto.proto.sftp.MessageRequest.prototype.clearExit = function() {
   return this.setExit(undefined);
 };
 
@@ -2925,35 +2495,35 @@ proto.proto.sftp.CommandRequest.prototype.clearExit = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasExit = function() {
-  return jspb.Message.getField(this, 17) != null;
+proto.proto.sftp.MessageRequest.prototype.hasExit = function() {
+  return jspb.Message.getField(this, 19) != null;
 };
 
 
 /**
- * optional QuitRequest quit = 18;
- * @return {?proto.proto.sftp.QuitRequest}
+ * optional CommandByQuit quit = 20;
+ * @return {?proto.proto.sftp.CommandByQuit}
  */
-proto.proto.sftp.CommandRequest.prototype.getQuit = function() {
-  return /** @type{?proto.proto.sftp.QuitRequest} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.QuitRequest, 18));
+proto.proto.sftp.MessageRequest.prototype.getQuit = function() {
+  return /** @type{?proto.proto.sftp.CommandByQuit} */ (
+    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandByQuit, 20));
 };
 
 
 /**
- * @param {?proto.proto.sftp.QuitRequest|undefined} value
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @param {?proto.proto.sftp.CommandByQuit|undefined} value
+ * @return {!proto.proto.sftp.MessageRequest} returns this
 */
-proto.proto.sftp.CommandRequest.prototype.setQuit = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 18, proto.proto.sftp.CommandRequest.oneofGroups_[0], value);
+proto.proto.sftp.MessageRequest.prototype.setQuit = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 20, proto.proto.sftp.MessageRequest.oneofGroups_[0], value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandRequest} returns this
+ * @return {!proto.proto.sftp.MessageRequest} returns this
  */
-proto.proto.sftp.CommandRequest.prototype.clearQuit = function() {
+proto.proto.sftp.MessageRequest.prototype.clearQuit = function() {
   return this.setQuit(undefined);
 };
 
@@ -2962,8 +2532,8 @@ proto.proto.sftp.CommandRequest.prototype.clearQuit = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.proto.sftp.CommandRequest.prototype.hasQuit = function() {
-  return jspb.Message.getField(this, 18) != null;
+proto.proto.sftp.MessageRequest.prototype.hasQuit = function() {
+  return jspb.Message.getField(this, 20) != null;
 };
 
 
@@ -2983,8 +2553,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ChangeDirectoryRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeDirectoryRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByCd.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByCd.toObject(opt_includeInstance, this);
 };
 
 
@@ -2993,11 +2563,11 @@ proto.proto.sftp.ChangeDirectoryRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeDirectoryRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByCd} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeDirectoryRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByCd.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -3013,23 +2583,23 @@ proto.proto.sftp.ChangeDirectoryRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByCd}
  */
-proto.proto.sftp.ChangeDirectoryRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByCd.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeDirectoryRequest;
-  return proto.proto.sftp.ChangeDirectoryRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByCd;
+  return proto.proto.sftp.CommandByCd.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeDirectoryRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByCd} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByCd}
  */
-proto.proto.sftp.ChangeDirectoryRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByCd.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3053,9 +2623,9 @@ proto.proto.sftp.ChangeDirectoryRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ChangeDirectoryRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByCd.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeDirectoryRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByCd.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3063,11 +2633,11 @@ proto.proto.sftp.ChangeDirectoryRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeDirectoryRequest} message
+ * @param {!proto.proto.sftp.CommandByCd} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeDirectoryRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByCd.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -3083,16 +2653,16 @@ proto.proto.sftp.ChangeDirectoryRequest.serializeBinaryToWriter = function(messa
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.ChangeDirectoryRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByCd.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ChangeDirectoryRequest} returns this
+ * @return {!proto.proto.sftp.CommandByCd} returns this
  */
-proto.proto.sftp.ChangeDirectoryRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByCd.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -3113,8 +2683,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.PrintWorkingDirectoryRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByPwd.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByPwd.toObject(opt_includeInstance, this);
 };
 
 
@@ -3123,11 +2693,11 @@ proto.proto.sftp.PrintWorkingDirectoryRequest.prototype.toObject = function(opt_
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.PrintWorkingDirectoryRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByPwd} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByPwd.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -3143,23 +2713,23 @@ proto.proto.sftp.PrintWorkingDirectoryRequest.toObject = function(includeInstanc
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.PrintWorkingDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByPwd}
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByPwd.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.PrintWorkingDirectoryRequest;
-  return proto.proto.sftp.PrintWorkingDirectoryRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByPwd;
+  return proto.proto.sftp.CommandByPwd.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.PrintWorkingDirectoryRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByPwd} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.PrintWorkingDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByPwd}
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByPwd.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3179,9 +2749,9 @@ proto.proto.sftp.PrintWorkingDirectoryRequest.deserializeBinaryFromReader = func
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByPwd.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.PrintWorkingDirectoryRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByPwd.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3189,11 +2759,11 @@ proto.proto.sftp.PrintWorkingDirectoryRequest.prototype.serializeBinary = functi
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.PrintWorkingDirectoryRequest} message
+ * @param {!proto.proto.sftp.CommandByPwd} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.PrintWorkingDirectoryRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByPwd.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -3214,8 +2784,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeGroupRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByChgrp.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByChgrp.toObject(opt_includeInstance, this);
 };
 
 
@@ -3224,11 +2794,11 @@ proto.proto.sftp.ChangeGroupRequest.prototype.toObject = function(opt_includeIns
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeGroupRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByChgrp} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeGroupRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByChgrp.toObject = function(includeInstance, msg) {
   var f, obj = {
     groupid: jspb.Message.getFieldWithDefault(msg, 1, 0),
     path: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -3245,23 +2815,23 @@ proto.proto.sftp.ChangeGroupRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeGroupRequest}
+ * @return {!proto.proto.sftp.CommandByChgrp}
  */
-proto.proto.sftp.ChangeGroupRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByChgrp.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeGroupRequest;
-  return proto.proto.sftp.ChangeGroupRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByChgrp;
+  return proto.proto.sftp.CommandByChgrp.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeGroupRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByChgrp} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeGroupRequest}
+ * @return {!proto.proto.sftp.CommandByChgrp}
  */
-proto.proto.sftp.ChangeGroupRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByChgrp.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3289,9 +2859,9 @@ proto.proto.sftp.ChangeGroupRequest.deserializeBinaryFromReader = function(msg, 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByChgrp.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeGroupRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByChgrp.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3299,11 +2869,11 @@ proto.proto.sftp.ChangeGroupRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeGroupRequest} message
+ * @param {!proto.proto.sftp.CommandByChgrp} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeGroupRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByChgrp.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getGroupid();
   if (f !== 0) {
@@ -3326,16 +2896,16 @@ proto.proto.sftp.ChangeGroupRequest.serializeBinaryToWriter = function(message, 
  * optional int32 groupId = 1;
  * @return {number}
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.getGroupid = function() {
+proto.proto.sftp.CommandByChgrp.prototype.getGroupid = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.proto.sftp.ChangeGroupRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChgrp} returns this
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.setGroupid = function(value) {
+proto.proto.sftp.CommandByChgrp.prototype.setGroupid = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -3344,16 +2914,16 @@ proto.proto.sftp.ChangeGroupRequest.prototype.setGroupid = function(value) {
  * optional string path = 2;
  * @return {string}
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByChgrp.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ChangeGroupRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChgrp} returns this
  */
-proto.proto.sftp.ChangeGroupRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByChgrp.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -3374,8 +2944,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeOwnerRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByChown.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByChown.toObject(opt_includeInstance, this);
 };
 
 
@@ -3384,11 +2954,11 @@ proto.proto.sftp.ChangeOwnerRequest.prototype.toObject = function(opt_includeIns
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeOwnerRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByChown} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeOwnerRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByChown.toObject = function(includeInstance, msg) {
   var f, obj = {
     userid: jspb.Message.getFieldWithDefault(msg, 1, 0),
     path: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -3405,23 +2975,23 @@ proto.proto.sftp.ChangeOwnerRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeOwnerRequest}
+ * @return {!proto.proto.sftp.CommandByChown}
  */
-proto.proto.sftp.ChangeOwnerRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByChown.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeOwnerRequest;
-  return proto.proto.sftp.ChangeOwnerRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByChown;
+  return proto.proto.sftp.CommandByChown.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeOwnerRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByChown} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeOwnerRequest}
+ * @return {!proto.proto.sftp.CommandByChown}
  */
-proto.proto.sftp.ChangeOwnerRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByChown.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3449,9 +3019,9 @@ proto.proto.sftp.ChangeOwnerRequest.deserializeBinaryFromReader = function(msg, 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByChown.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeOwnerRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByChown.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3459,11 +3029,11 @@ proto.proto.sftp.ChangeOwnerRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeOwnerRequest} message
+ * @param {!proto.proto.sftp.CommandByChown} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeOwnerRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByChown.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUserid();
   if (f !== 0) {
@@ -3486,16 +3056,16 @@ proto.proto.sftp.ChangeOwnerRequest.serializeBinaryToWriter = function(message, 
  * optional int32 userId = 1;
  * @return {number}
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.getUserid = function() {
+proto.proto.sftp.CommandByChown.prototype.getUserid = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.proto.sftp.ChangeOwnerRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChown} returns this
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.setUserid = function(value) {
+proto.proto.sftp.CommandByChown.prototype.setUserid = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -3504,16 +3074,16 @@ proto.proto.sftp.ChangeOwnerRequest.prototype.setUserid = function(value) {
  * optional string path = 2;
  * @return {string}
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByChown.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ChangeOwnerRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChown} returns this
  */
-proto.proto.sftp.ChangeOwnerRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByChown.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -3534,8 +3104,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ChangeModeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeModeRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByChmod.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByChmod.toObject(opt_includeInstance, this);
 };
 
 
@@ -3544,11 +3114,11 @@ proto.proto.sftp.ChangeModeRequest.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeModeRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByChmod} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeModeRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByChmod.toObject = function(includeInstance, msg) {
   var f, obj = {
     permissions: jspb.Message.getFieldWithDefault(msg, 1, 0),
     path: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -3565,23 +3135,23 @@ proto.proto.sftp.ChangeModeRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeModeRequest}
+ * @return {!proto.proto.sftp.CommandByChmod}
  */
-proto.proto.sftp.ChangeModeRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByChmod.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeModeRequest;
-  return proto.proto.sftp.ChangeModeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByChmod;
+  return proto.proto.sftp.CommandByChmod.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeModeRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByChmod} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeModeRequest}
+ * @return {!proto.proto.sftp.CommandByChmod}
  */
-proto.proto.sftp.ChangeModeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByChmod.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3609,9 +3179,9 @@ proto.proto.sftp.ChangeModeRequest.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ChangeModeRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByChmod.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeModeRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByChmod.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3619,11 +3189,11 @@ proto.proto.sftp.ChangeModeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeModeRequest} message
+ * @param {!proto.proto.sftp.CommandByChmod} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ChangeModeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByChmod.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPermissions();
   if (f !== 0) {
@@ -3646,16 +3216,16 @@ proto.proto.sftp.ChangeModeRequest.serializeBinaryToWriter = function(message, w
  * optional int32 permissions = 1;
  * @return {number}
  */
-proto.proto.sftp.ChangeModeRequest.prototype.getPermissions = function() {
+proto.proto.sftp.CommandByChmod.prototype.getPermissions = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.proto.sftp.ChangeModeRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChmod} returns this
  */
-proto.proto.sftp.ChangeModeRequest.prototype.setPermissions = function(value) {
+proto.proto.sftp.CommandByChmod.prototype.setPermissions = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -3664,16 +3234,16 @@ proto.proto.sftp.ChangeModeRequest.prototype.setPermissions = function(value) {
  * optional string path = 2;
  * @return {string}
  */
-proto.proto.sftp.ChangeModeRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByChmod.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ChangeModeRequest} returns this
+ * @return {!proto.proto.sftp.CommandByChmod} returns this
  */
-proto.proto.sftp.ChangeModeRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByChmod.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -3694,8 +3264,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.MakeDirectoryRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.MakeDirectoryRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByMkdir.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByMkdir.toObject(opt_includeInstance, this);
 };
 
 
@@ -3704,11 +3274,11 @@ proto.proto.sftp.MakeDirectoryRequest.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.MakeDirectoryRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByMkdir} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.MakeDirectoryRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByMkdir.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -3724,23 +3294,23 @@ proto.proto.sftp.MakeDirectoryRequest.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.MakeDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByMkdir}
  */
-proto.proto.sftp.MakeDirectoryRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByMkdir.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.MakeDirectoryRequest;
-  return proto.proto.sftp.MakeDirectoryRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByMkdir;
+  return proto.proto.sftp.CommandByMkdir.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.MakeDirectoryRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByMkdir} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.MakeDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByMkdir}
  */
-proto.proto.sftp.MakeDirectoryRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByMkdir.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3764,9 +3334,9 @@ proto.proto.sftp.MakeDirectoryRequest.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.MakeDirectoryRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByMkdir.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.MakeDirectoryRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByMkdir.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3774,11 +3344,11 @@ proto.proto.sftp.MakeDirectoryRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.MakeDirectoryRequest} message
+ * @param {!proto.proto.sftp.CommandByMkdir} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.MakeDirectoryRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByMkdir.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -3794,16 +3364,16 @@ proto.proto.sftp.MakeDirectoryRequest.serializeBinaryToWriter = function(message
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.MakeDirectoryRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByMkdir.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.MakeDirectoryRequest} returns this
+ * @return {!proto.proto.sftp.CommandByMkdir} returns this
  */
-proto.proto.sftp.MakeDirectoryRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByMkdir.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -3824,8 +3394,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.RemoveDirectoryRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RemoveDirectoryRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByRmdir.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByRmdir.toObject(opt_includeInstance, this);
 };
 
 
@@ -3834,11 +3404,11 @@ proto.proto.sftp.RemoveDirectoryRequest.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RemoveDirectoryRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByRmdir} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RemoveDirectoryRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByRmdir.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -3854,23 +3424,23 @@ proto.proto.sftp.RemoveDirectoryRequest.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RemoveDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByRmdir}
  */
-proto.proto.sftp.RemoveDirectoryRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByRmdir.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RemoveDirectoryRequest;
-  return proto.proto.sftp.RemoveDirectoryRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByRmdir;
+  return proto.proto.sftp.CommandByRmdir.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.RemoveDirectoryRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByRmdir} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RemoveDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByRmdir}
  */
-proto.proto.sftp.RemoveDirectoryRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByRmdir.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3894,9 +3464,9 @@ proto.proto.sftp.RemoveDirectoryRequest.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.RemoveDirectoryRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByRmdir.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RemoveDirectoryRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByRmdir.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3904,11 +3474,11 @@ proto.proto.sftp.RemoveDirectoryRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RemoveDirectoryRequest} message
+ * @param {!proto.proto.sftp.CommandByRmdir} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RemoveDirectoryRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByRmdir.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -3924,16 +3494,16 @@ proto.proto.sftp.RemoveDirectoryRequest.serializeBinaryToWriter = function(messa
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.RemoveDirectoryRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByRmdir.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.RemoveDirectoryRequest} returns this
+ * @return {!proto.proto.sftp.CommandByRmdir} returns this
  */
-proto.proto.sftp.RemoveDirectoryRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByRmdir.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -3954,8 +3524,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.RemoveFileRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RemoveFileRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByRm.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByRm.toObject(opt_includeInstance, this);
 };
 
 
@@ -3964,11 +3534,11 @@ proto.proto.sftp.RemoveFileRequest.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RemoveFileRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByRm} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RemoveFileRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByRm.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -3984,23 +3554,23 @@ proto.proto.sftp.RemoveFileRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RemoveFileRequest}
+ * @return {!proto.proto.sftp.CommandByRm}
  */
-proto.proto.sftp.RemoveFileRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByRm.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RemoveFileRequest;
-  return proto.proto.sftp.RemoveFileRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByRm;
+  return proto.proto.sftp.CommandByRm.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.RemoveFileRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByRm} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RemoveFileRequest}
+ * @return {!proto.proto.sftp.CommandByRm}
  */
-proto.proto.sftp.RemoveFileRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByRm.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4024,9 +3594,9 @@ proto.proto.sftp.RemoveFileRequest.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.RemoveFileRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByRm.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RemoveFileRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByRm.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4034,11 +3604,11 @@ proto.proto.sftp.RemoveFileRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RemoveFileRequest} message
+ * @param {!proto.proto.sftp.CommandByRm} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RemoveFileRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByRm.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -4054,16 +3624,16 @@ proto.proto.sftp.RemoveFileRequest.serializeBinaryToWriter = function(message, w
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.RemoveFileRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByRm.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.RemoveFileRequest} returns this
+ * @return {!proto.proto.sftp.CommandByRm} returns this
  */
-proto.proto.sftp.RemoveFileRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByRm.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4084,8 +3654,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.RenameRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RenameRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByRename.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByRename.toObject(opt_includeInstance, this);
 };
 
 
@@ -4094,11 +3664,11 @@ proto.proto.sftp.RenameRequest.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RenameRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByRename} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RenameRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByRename.toObject = function(includeInstance, msg) {
   var f, obj = {
     oldpath: jspb.Message.getFieldWithDefault(msg, 1, ""),
     newpath: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -4115,23 +3685,23 @@ proto.proto.sftp.RenameRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RenameRequest}
+ * @return {!proto.proto.sftp.CommandByRename}
  */
-proto.proto.sftp.RenameRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByRename.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RenameRequest;
-  return proto.proto.sftp.RenameRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByRename;
+  return proto.proto.sftp.CommandByRename.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.RenameRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByRename} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RenameRequest}
+ * @return {!proto.proto.sftp.CommandByRename}
  */
-proto.proto.sftp.RenameRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByRename.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4159,9 +3729,9 @@ proto.proto.sftp.RenameRequest.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.RenameRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByRename.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RenameRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByRename.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4169,11 +3739,11 @@ proto.proto.sftp.RenameRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RenameRequest} message
+ * @param {!proto.proto.sftp.CommandByRename} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.RenameRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByRename.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOldpath();
   if (f.length > 0) {
@@ -4196,16 +3766,16 @@ proto.proto.sftp.RenameRequest.serializeBinaryToWriter = function(message, write
  * optional string oldPath = 1;
  * @return {string}
  */
-proto.proto.sftp.RenameRequest.prototype.getOldpath = function() {
+proto.proto.sftp.CommandByRename.prototype.getOldpath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.RenameRequest} returns this
+ * @return {!proto.proto.sftp.CommandByRename} returns this
  */
-proto.proto.sftp.RenameRequest.prototype.setOldpath = function(value) {
+proto.proto.sftp.CommandByRename.prototype.setOldpath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4214,16 +3784,16 @@ proto.proto.sftp.RenameRequest.prototype.setOldpath = function(value) {
  * optional string newPath = 2;
  * @return {string}
  */
-proto.proto.sftp.RenameRequest.prototype.getNewpath = function() {
+proto.proto.sftp.CommandByRename.prototype.getNewpath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.RenameRequest} returns this
+ * @return {!proto.proto.sftp.CommandByRename} returns this
  */
-proto.proto.sftp.RenameRequest.prototype.setNewpath = function(value) {
+proto.proto.sftp.CommandByRename.prototype.setNewpath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -4244,8 +3814,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.SymbolicLinkRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByLn.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByLn.toObject(opt_includeInstance, this);
 };
 
 
@@ -4254,11 +3824,11 @@ proto.proto.sftp.SymbolicLinkRequest.prototype.toObject = function(opt_includeIn
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.SymbolicLinkRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByLn} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.SymbolicLinkRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByLn.toObject = function(includeInstance, msg) {
   var f, obj = {
     oldpath: jspb.Message.getFieldWithDefault(msg, 1, ""),
     newpath: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -4275,23 +3845,23 @@ proto.proto.sftp.SymbolicLinkRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.SymbolicLinkRequest}
+ * @return {!proto.proto.sftp.CommandByLn}
  */
-proto.proto.sftp.SymbolicLinkRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByLn.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.SymbolicLinkRequest;
-  return proto.proto.sftp.SymbolicLinkRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByLn;
+  return proto.proto.sftp.CommandByLn.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.SymbolicLinkRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByLn} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.SymbolicLinkRequest}
+ * @return {!proto.proto.sftp.CommandByLn}
  */
-proto.proto.sftp.SymbolicLinkRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByLn.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4319,9 +3889,9 @@ proto.proto.sftp.SymbolicLinkRequest.deserializeBinaryFromReader = function(msg,
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByLn.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.SymbolicLinkRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByLn.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4329,11 +3899,11 @@ proto.proto.sftp.SymbolicLinkRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.SymbolicLinkRequest} message
+ * @param {!proto.proto.sftp.CommandByLn} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.SymbolicLinkRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByLn.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOldpath();
   if (f.length > 0) {
@@ -4356,16 +3926,16 @@ proto.proto.sftp.SymbolicLinkRequest.serializeBinaryToWriter = function(message,
  * optional string oldPath = 1;
  * @return {string}
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.getOldpath = function() {
+proto.proto.sftp.CommandByLn.prototype.getOldpath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.SymbolicLinkRequest} returns this
+ * @return {!proto.proto.sftp.CommandByLn} returns this
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.setOldpath = function(value) {
+proto.proto.sftp.CommandByLn.prototype.setOldpath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4374,16 +3944,16 @@ proto.proto.sftp.SymbolicLinkRequest.prototype.setOldpath = function(value) {
  * optional string newPath = 2;
  * @return {string}
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.getNewpath = function() {
+proto.proto.sftp.CommandByLn.prototype.getNewpath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.SymbolicLinkRequest} returns this
+ * @return {!proto.proto.sftp.CommandByLn} returns this
  */
-proto.proto.sftp.SymbolicLinkRequest.prototype.setNewpath = function(value) {
+proto.proto.sftp.CommandByLn.prototype.setNewpath = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -4404,8 +3974,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ListDirectoryRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ListDirectoryRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByLs.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByLs.toObject(opt_includeInstance, this);
 };
 
 
@@ -4414,11 +3984,11 @@ proto.proto.sftp.ListDirectoryRequest.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ListDirectoryRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByLs} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ListDirectoryRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByLs.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -4434,23 +4004,23 @@ proto.proto.sftp.ListDirectoryRequest.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ListDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByLs}
  */
-proto.proto.sftp.ListDirectoryRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByLs.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ListDirectoryRequest;
-  return proto.proto.sftp.ListDirectoryRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByLs;
+  return proto.proto.sftp.CommandByLs.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ListDirectoryRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByLs} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ListDirectoryRequest}
+ * @return {!proto.proto.sftp.CommandByLs}
  */
-proto.proto.sftp.ListDirectoryRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByLs.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4474,9 +4044,9 @@ proto.proto.sftp.ListDirectoryRequest.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ListDirectoryRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByLs.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ListDirectoryRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByLs.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4484,11 +4054,11 @@ proto.proto.sftp.ListDirectoryRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ListDirectoryRequest} message
+ * @param {!proto.proto.sftp.CommandByLs} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ListDirectoryRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByLs.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -4504,16 +4074,16 @@ proto.proto.sftp.ListDirectoryRequest.serializeBinaryToWriter = function(message
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.ListDirectoryRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByLs.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ListDirectoryRequest} returns this
+ * @return {!proto.proto.sftp.CommandByLs} returns this
  */
-proto.proto.sftp.ListDirectoryRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByLs.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4534,8 +4104,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.StatusRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.StatusRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByStat.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByStat.toObject(opt_includeInstance, this);
 };
 
 
@@ -4544,11 +4114,11 @@ proto.proto.sftp.StatusRequest.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.StatusRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByStat} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.StatusRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByStat.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -4564,23 +4134,23 @@ proto.proto.sftp.StatusRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.StatusRequest}
+ * @return {!proto.proto.sftp.CommandByStat}
  */
-proto.proto.sftp.StatusRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByStat.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.StatusRequest;
-  return proto.proto.sftp.StatusRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByStat;
+  return proto.proto.sftp.CommandByStat.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.StatusRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByStat} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.StatusRequest}
+ * @return {!proto.proto.sftp.CommandByStat}
  */
-proto.proto.sftp.StatusRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByStat.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4604,9 +4174,9 @@ proto.proto.sftp.StatusRequest.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.StatusRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByStat.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.StatusRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByStat.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4614,11 +4184,11 @@ proto.proto.sftp.StatusRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.StatusRequest} message
+ * @param {!proto.proto.sftp.CommandByStat} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.StatusRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByStat.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -4634,16 +4204,16 @@ proto.proto.sftp.StatusRequest.serializeBinaryToWriter = function(message, write
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.StatusRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByStat.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.StatusRequest} returns this
+ * @return {!proto.proto.sftp.CommandByStat} returns this
  */
-proto.proto.sftp.StatusRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByStat.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4664,8 +4234,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.LinkStatusRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.LinkStatusRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByLstat.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByLstat.toObject(opt_includeInstance, this);
 };
 
 
@@ -4674,11 +4244,11 @@ proto.proto.sftp.LinkStatusRequest.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.LinkStatusRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByLstat} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.LinkStatusRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByLstat.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -4694,23 +4264,23 @@ proto.proto.sftp.LinkStatusRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.LinkStatusRequest}
+ * @return {!proto.proto.sftp.CommandByLstat}
  */
-proto.proto.sftp.LinkStatusRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByLstat.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.LinkStatusRequest;
-  return proto.proto.sftp.LinkStatusRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByLstat;
+  return proto.proto.sftp.CommandByLstat.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.LinkStatusRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByLstat} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.LinkStatusRequest}
+ * @return {!proto.proto.sftp.CommandByLstat}
  */
-proto.proto.sftp.LinkStatusRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByLstat.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4734,9 +4304,9 @@ proto.proto.sftp.LinkStatusRequest.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.LinkStatusRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByLstat.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.LinkStatusRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByLstat.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4744,11 +4314,11 @@ proto.proto.sftp.LinkStatusRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.LinkStatusRequest} message
+ * @param {!proto.proto.sftp.CommandByLstat} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.LinkStatusRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByLstat.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -4764,16 +4334,16 @@ proto.proto.sftp.LinkStatusRequest.serializeBinaryToWriter = function(message, w
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.LinkStatusRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByLstat.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.LinkStatusRequest} returns this
+ * @return {!proto.proto.sftp.CommandByLstat} returns this
  */
-proto.proto.sftp.LinkStatusRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByLstat.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4794,8 +4364,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.PutRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.PutRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByPut.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByPut.toObject(opt_includeInstance, this);
 };
 
 
@@ -4804,19 +4374,18 @@ proto.proto.sftp.PutRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.PutRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByPut} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.PutRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByPut.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, ""),
     filename: jspb.Message.getFieldWithDefault(msg, 2, ""),
     filesize: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    data: msg.getData_asB64(),
+    contents: msg.getContents_asB64(),
     offset: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    chunk: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    last: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    last: jspb.Message.getBooleanFieldWithDefault(msg, 6, false)
   };
 
   if (includeInstance) {
@@ -4830,23 +4399,23 @@ proto.proto.sftp.PutRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.PutRequest}
+ * @return {!proto.proto.sftp.CommandByPut}
  */
-proto.proto.sftp.PutRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByPut.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.PutRequest;
-  return proto.proto.sftp.PutRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByPut;
+  return proto.proto.sftp.CommandByPut.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.PutRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByPut} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.PutRequest}
+ * @return {!proto.proto.sftp.CommandByPut}
  */
-proto.proto.sftp.PutRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByPut.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4867,17 +4436,13 @@ proto.proto.sftp.PutRequest.deserializeBinaryFromReader = function(msg, reader) 
       break;
     case 4:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setData(value);
+      msg.setContents(value);
       break;
     case 5:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setOffset(value);
       break;
     case 6:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setChunk(value);
-      break;
-    case 7:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setLast(value);
       break;
@@ -4894,9 +4459,9 @@ proto.proto.sftp.PutRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.PutRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByPut.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.PutRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByPut.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4904,11 +4469,11 @@ proto.proto.sftp.PutRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.PutRequest} message
+ * @param {!proto.proto.sftp.CommandByPut} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.PutRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByPut.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -4931,7 +4496,7 @@ proto.proto.sftp.PutRequest.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
-  f = message.getData_asU8();
+  f = message.getContents_asU8();
   if (f.length > 0) {
     writer.writeBytes(
       4,
@@ -4945,17 +4510,10 @@ proto.proto.sftp.PutRequest.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
-  f = message.getChunk();
-  if (f !== 0) {
-    writer.writeInt32(
-      6,
-      f
-    );
-  }
   f = message.getLast();
   if (f) {
     writer.writeBool(
-      7,
+      6,
       f
     );
   }
@@ -4966,16 +4524,16 @@ proto.proto.sftp.PutRequest.serializeBinaryToWriter = function(message, writer) 
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.PutRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByPut.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByPut.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4984,16 +4542,16 @@ proto.proto.sftp.PutRequest.prototype.setPath = function(value) {
  * optional string fileName = 2;
  * @return {string}
  */
-proto.proto.sftp.PutRequest.prototype.getFilename = function() {
+proto.proto.sftp.CommandByPut.prototype.getFilename = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setFilename = function(value) {
+proto.proto.sftp.CommandByPut.prototype.setFilename = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -5002,58 +4560,58 @@ proto.proto.sftp.PutRequest.prototype.setFilename = function(value) {
  * optional int64 fileSize = 3;
  * @return {number}
  */
-proto.proto.sftp.PutRequest.prototype.getFilesize = function() {
+proto.proto.sftp.CommandByPut.prototype.getFilesize = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setFilesize = function(value) {
+proto.proto.sftp.CommandByPut.prototype.setFilesize = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional bytes data = 4;
+ * optional bytes contents = 4;
  * @return {!(string|Uint8Array)}
  */
-proto.proto.sftp.PutRequest.prototype.getData = function() {
+proto.proto.sftp.CommandByPut.prototype.getContents = function() {
   return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
- * optional bytes data = 4;
- * This is a type-conversion wrapper around `getData()`
+ * optional bytes contents = 4;
+ * This is a type-conversion wrapper around `getContents()`
  * @return {string}
  */
-proto.proto.sftp.PutRequest.prototype.getData_asB64 = function() {
+proto.proto.sftp.CommandByPut.prototype.getContents_asB64 = function() {
   return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getData()));
+      this.getContents()));
 };
 
 
 /**
- * optional bytes data = 4;
+ * optional bytes contents = 4;
  * Note that Uint8Array is not supported on all browsers.
  * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getData()`
+ * This is a type-conversion wrapper around `getContents()`
  * @return {!Uint8Array}
  */
-proto.proto.sftp.PutRequest.prototype.getData_asU8 = function() {
+proto.proto.sftp.CommandByPut.prototype.getContents_asU8 = function() {
   return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getData()));
+      this.getContents()));
 };
 
 
 /**
  * @param {!(string|Uint8Array)} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setData = function(value) {
+proto.proto.sftp.CommandByPut.prototype.setContents = function(value) {
   return jspb.Message.setProto3BytesField(this, 4, value);
 };
 
@@ -5062,53 +4620,35 @@ proto.proto.sftp.PutRequest.prototype.setData = function(value) {
  * optional int64 offset = 5;
  * @return {number}
  */
-proto.proto.sftp.PutRequest.prototype.getOffset = function() {
+proto.proto.sftp.CommandByPut.prototype.getOffset = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
  * @param {number} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setOffset = function(value) {
+proto.proto.sftp.CommandByPut.prototype.setOffset = function(value) {
   return jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
 /**
- * optional int32 chunk = 6;
- * @return {number}
- */
-proto.proto.sftp.PutRequest.prototype.getChunk = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.PutRequest} returns this
- */
-proto.proto.sftp.PutRequest.prototype.setChunk = function(value) {
-  return jspb.Message.setProto3IntField(this, 6, value);
-};
-
-
-/**
- * optional bool last = 7;
+ * optional bool last = 6;
  * @return {boolean}
  */
-proto.proto.sftp.PutRequest.prototype.getLast = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
+proto.proto.sftp.CommandByPut.prototype.getLast = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 6, false));
 };
 
 
 /**
  * @param {boolean} value
- * @return {!proto.proto.sftp.PutRequest} returns this
+ * @return {!proto.proto.sftp.CommandByPut} returns this
  */
-proto.proto.sftp.PutRequest.prototype.setLast = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 7, value);
+proto.proto.sftp.CommandByPut.prototype.setLast = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 6, value);
 };
 
 
@@ -5128,8 +4668,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.GetRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.GetRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByPutDirect.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByPutDirect.toObject(opt_includeInstance, this);
 };
 
 
@@ -5138,11 +4678,315 @@ proto.proto.sftp.GetRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.GetRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByPutDirect} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.GetRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByPutDirect.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    path: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    filename: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    filesize: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    contents: msg.getContents_asB64(),
+    offset: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    last: jspb.Message.getBooleanFieldWithDefault(msg, 6, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.proto.sftp.CommandByPutDirect}
+ */
+proto.proto.sftp.CommandByPutDirect.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.proto.sftp.CommandByPutDirect;
+  return proto.proto.sftp.CommandByPutDirect.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.proto.sftp.CommandByPutDirect} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.proto.sftp.CommandByPutDirect}
+ */
+proto.proto.sftp.CommandByPutDirect.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPath(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFilename(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setFilesize(value);
+      break;
+    case 4:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setContents(value);
+      break;
+    case 5:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setOffset(value);
+      break;
+    case 6:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setLast(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.proto.sftp.CommandByPutDirect.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.proto.sftp.CommandByPutDirect} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.CommandByPutDirect.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getPath();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getFilename();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getFilesize();
+  if (f !== 0) {
+    writer.writeInt64(
+      3,
+      f
+    );
+  }
+  f = message.getContents_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
+      4,
+      f
+    );
+  }
+  f = message.getOffset();
+  if (f !== 0) {
+    writer.writeInt64(
+      5,
+      f
+    );
+  }
+  f = message.getLast();
+  if (f) {
+    writer.writeBool(
+      6,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string path = 1;
+ * @return {string}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getPath = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setPath = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string fileName = 2;
+ * @return {string}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getFilename = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setFilename = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional int64 fileSize = 3;
+ * @return {number}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getFilesize = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setFilesize = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * @return {!(string|Uint8Array)}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getContents = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * This is a type-conversion wrapper around `getContents()`
+ * @return {string}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getContents_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getContents()));
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getContents()`
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getContents_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getContents()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setContents = function(value) {
+  return jspb.Message.setProto3BytesField(this, 4, value);
+};
+
+
+/**
+ * optional int64 offset = 5;
+ * @return {number}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getOffset = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setOffset = function(value) {
+  return jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional bool last = 6;
+ * @return {boolean}
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.getLast = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 6, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.proto.sftp.CommandByPutDirect} returns this
+ */
+proto.proto.sftp.CommandByPutDirect.prototype.setLast = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 6, value);
+};
+
+
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * Optional fields that are not set will be set to undefined.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
+ * @param {boolean=} opt_includeInstance Deprecated. whether to include the
+ *     JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.proto.sftp.CommandByGet.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByGet.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Deprecated. Whether to include
+ *     the JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.proto.sftp.CommandByGet} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.CommandByGet.toObject = function(includeInstance, msg) {
   var f, obj = {
     path: jspb.Message.getFieldWithDefault(msg, 1, ""),
     filename: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -5159,23 +5003,23 @@ proto.proto.sftp.GetRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.GetRequest}
+ * @return {!proto.proto.sftp.CommandByGet}
  */
-proto.proto.sftp.GetRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByGet.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.GetRequest;
-  return proto.proto.sftp.GetRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByGet;
+  return proto.proto.sftp.CommandByGet.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.GetRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByGet} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.GetRequest}
+ * @return {!proto.proto.sftp.CommandByGet}
  */
-proto.proto.sftp.GetRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByGet.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5203,9 +5047,9 @@ proto.proto.sftp.GetRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.GetRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByGet.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.GetRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByGet.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5213,11 +5057,11 @@ proto.proto.sftp.GetRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.GetRequest} message
+ * @param {!proto.proto.sftp.CommandByGet} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.GetRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByGet.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPath();
   if (f.length > 0) {
@@ -5240,16 +5084,16 @@ proto.proto.sftp.GetRequest.serializeBinaryToWriter = function(message, writer) 
  * optional string path = 1;
  * @return {string}
  */
-proto.proto.sftp.GetRequest.prototype.getPath = function() {
+proto.proto.sftp.CommandByGet.prototype.getPath = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.GetRequest} returns this
+ * @return {!proto.proto.sftp.CommandByGet} returns this
  */
-proto.proto.sftp.GetRequest.prototype.setPath = function(value) {
+proto.proto.sftp.CommandByGet.prototype.setPath = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -5258,16 +5102,16 @@ proto.proto.sftp.GetRequest.prototype.setPath = function(value) {
  * optional string fileName = 2;
  * @return {string}
  */
-proto.proto.sftp.GetRequest.prototype.getFilename = function() {
+proto.proto.sftp.CommandByGet.prototype.getFilename = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.GetRequest} returns this
+ * @return {!proto.proto.sftp.CommandByGet} returns this
  */
-proto.proto.sftp.GetRequest.prototype.setFilename = function(value) {
+proto.proto.sftp.CommandByGet.prototype.setFilename = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -5288,8 +5132,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.ExitRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ExitRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByGetDirect.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByGetDirect.toObject(opt_includeInstance, this);
 };
 
 
@@ -5298,11 +5142,171 @@ proto.proto.sftp.ExitRequest.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ExitRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByGetDirect} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ExitRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByGetDirect.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    path: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    filename: jspb.Message.getFieldWithDefault(msg, 2, "")
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.proto.sftp.CommandByGetDirect}
+ */
+proto.proto.sftp.CommandByGetDirect.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.proto.sftp.CommandByGetDirect;
+  return proto.proto.sftp.CommandByGetDirect.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.proto.sftp.CommandByGetDirect} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.proto.sftp.CommandByGetDirect}
+ */
+proto.proto.sftp.CommandByGetDirect.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPath(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFilename(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.CommandByGetDirect.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.proto.sftp.CommandByGetDirect.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.proto.sftp.CommandByGetDirect} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.CommandByGetDirect.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getPath();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getFilename();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string path = 1;
+ * @return {string}
+ */
+proto.proto.sftp.CommandByGetDirect.prototype.getPath = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.CommandByGetDirect} returns this
+ */
+proto.proto.sftp.CommandByGetDirect.prototype.setPath = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string fileName = 2;
+ * @return {string}
+ */
+proto.proto.sftp.CommandByGetDirect.prototype.getFilename = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.CommandByGetDirect} returns this
+ */
+proto.proto.sftp.CommandByGetDirect.prototype.setFilename = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * Optional fields that are not set will be set to undefined.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
+ * @param {boolean=} opt_includeInstance Deprecated. whether to include the
+ *     JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.proto.sftp.CommandByExit.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByExit.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Deprecated. Whether to include
+ *     the JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.proto.sftp.CommandByExit} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.CommandByExit.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -5318,23 +5322,23 @@ proto.proto.sftp.ExitRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ExitRequest}
+ * @return {!proto.proto.sftp.CommandByExit}
  */
-proto.proto.sftp.ExitRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByExit.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ExitRequest;
-  return proto.proto.sftp.ExitRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByExit;
+  return proto.proto.sftp.CommandByExit.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.ExitRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByExit} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ExitRequest}
+ * @return {!proto.proto.sftp.CommandByExit}
  */
-proto.proto.sftp.ExitRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByExit.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5354,9 +5358,9 @@ proto.proto.sftp.ExitRequest.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.ExitRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByExit.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ExitRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByExit.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5364,11 +5368,11 @@ proto.proto.sftp.ExitRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ExitRequest} message
+ * @param {!proto.proto.sftp.CommandByExit} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.ExitRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByExit.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
@@ -5389,8 +5393,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.QuitRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.QuitRequest.toObject(opt_includeInstance, this);
+proto.proto.sftp.CommandByQuit.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.CommandByQuit.toObject(opt_includeInstance, this);
 };
 
 
@@ -5399,11 +5403,11 @@ proto.proto.sftp.QuitRequest.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.QuitRequest} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.CommandByQuit} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.QuitRequest.toObject = function(includeInstance, msg) {
+proto.proto.sftp.CommandByQuit.toObject = function(includeInstance, msg) {
   var f, obj = {
 
   };
@@ -5419,23 +5423,23 @@ proto.proto.sftp.QuitRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.QuitRequest}
+ * @return {!proto.proto.sftp.CommandByQuit}
  */
-proto.proto.sftp.QuitRequest.deserializeBinary = function(bytes) {
+proto.proto.sftp.CommandByQuit.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.QuitRequest;
-  return proto.proto.sftp.QuitRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.CommandByQuit;
+  return proto.proto.sftp.CommandByQuit.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.QuitRequest} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.CommandByQuit} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.QuitRequest}
+ * @return {!proto.proto.sftp.CommandByQuit}
  */
-proto.proto.sftp.QuitRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.CommandByQuit.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5455,9 +5459,9 @@ proto.proto.sftp.QuitRequest.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.QuitRequest.prototype.serializeBinary = function() {
+proto.proto.sftp.CommandByQuit.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.QuitRequest.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.CommandByQuit.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5465,43 +5469,15 @@ proto.proto.sftp.QuitRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.QuitRequest} message
+ * @param {!proto.proto.sftp.CommandByQuit} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.QuitRequest.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.CommandByQuit.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
 };
 
 
-
-/**
- * Oneof group definitions for this message. Each group defines the field
- * numbers belonging to that group. When of these fields' value is set, all
- * other fields in the group are cleared. During deserialization, if multiple
- * fields are encountered for a group, only the last value seen will be kept.
- * @private {!Array<!Array<number>>}
- * @const
- */
-proto.proto.sftp.Response.oneofGroups_ = [[1,2,3,4]];
-
-/**
- * @enum {number}
- */
-proto.proto.sftp.Response.ResponseCase = {
-  RESPONSE_NOT_SET: 0,
-  CONNECT: 1,
-  DISCONNECT: 2,
-  COMMAND: 3,
-  ERROR: 4
-};
-
-/**
- * @return {proto.proto.sftp.Response.ResponseCase}
- */
-proto.proto.sftp.Response.prototype.getResponseCase = function() {
-  return /** @type {proto.proto.sftp.Response.ResponseCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.Response.oneofGroups_[0]));
-};
 
 
 
@@ -5534,12 +5510,9 @@ proto.proto.sftp.Response.prototype.toObject = function(opt_includeInstance) {
  */
 proto.proto.sftp.Response.toObject = function(includeInstance, msg) {
   var f, obj = {
-    connect: (f = msg.getConnect()) && proto.proto.sftp.ConnectResponse.toObject(includeInstance, f),
-    disconnect: (f = msg.getDisconnect()) && proto.proto.sftp.DisconnectResponse.toObject(includeInstance, f),
-    command: (f = msg.getCommand()) && proto.proto.sftp.CommandResponse.toObject(includeInstance, f),
-    error: (f = msg.getError()) && proto.proto.sftp.ErrorResponse.toObject(includeInstance, f),
-    status: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    requestid: jspb.Message.getFieldWithDefault(msg, 6, "")
+    type: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    status: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    body: msg.getBody_asB64()
   };
 
   if (includeInstance) {
@@ -5577,32 +5550,16 @@ proto.proto.sftp.Response.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.proto.sftp.ConnectResponse;
-      reader.readMessage(value,proto.proto.sftp.ConnectResponse.deserializeBinaryFromReader);
-      msg.setConnect(value);
+      var value = /** @type {!proto.proto.sftp.Response.Types} */ (reader.readEnum());
+      msg.setType(value);
       break;
     case 2:
-      var value = new proto.proto.sftp.DisconnectResponse;
-      reader.readMessage(value,proto.proto.sftp.DisconnectResponse.deserializeBinaryFromReader);
-      msg.setDisconnect(value);
-      break;
-    case 3:
-      var value = new proto.proto.sftp.CommandResponse;
-      reader.readMessage(value,proto.proto.sftp.CommandResponse.deserializeBinaryFromReader);
-      msg.setCommand(value);
-      break;
-    case 4:
-      var value = new proto.proto.sftp.ErrorResponse;
-      reader.readMessage(value,proto.proto.sftp.ErrorResponse.deserializeBinaryFromReader);
-      msg.setError(value);
-      break;
-    case 5:
       var value = /** @type {!proto.proto.sftp.Response.Status} */ (reader.readEnum());
       msg.setStatus(value);
       break;
-    case 6:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setRequestid(value);
+    case 3:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setBody(value);
       break;
     default:
       reader.skipField();
@@ -5633,49 +5590,24 @@ proto.proto.sftp.Response.prototype.serializeBinary = function() {
  */
 proto.proto.sftp.Response.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getConnect();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getType();
+  if (f !== 0.0) {
+    writer.writeEnum(
       1,
-      f,
-      proto.proto.sftp.ConnectResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getDisconnect();
-  if (f != null) {
-    writer.writeMessage(
-      2,
-      f,
-      proto.proto.sftp.DisconnectResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getCommand();
-  if (f != null) {
-    writer.writeMessage(
-      3,
-      f,
-      proto.proto.sftp.CommandResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getError();
-  if (f != null) {
-    writer.writeMessage(
-      4,
-      f,
-      proto.proto.sftp.ErrorResponse.serializeBinaryToWriter
+      f
     );
   }
   f = message.getStatus();
   if (f !== 0.0) {
     writer.writeEnum(
-      5,
+      2,
       f
     );
   }
-  f = message.getRequestid();
+  f = message.getBody_asU8();
   if (f.length > 0) {
-    writer.writeString(
-      6,
+    writer.writeBytes(
+      3,
       f
     );
   }
@@ -5685,172 +5617,48 @@ proto.proto.sftp.Response.serializeBinaryToWriter = function(message, writer) {
 /**
  * @enum {number}
  */
+proto.proto.sftp.Response.Types = {
+  UNKNOWN: 0,
+  CONNECT: 1,
+  DISCONNECT: 2,
+  MESSAGE: 3,
+  FILE: 4
+};
+
+/**
+ * @enum {number}
+ */
 proto.proto.sftp.Response.Status = {
   UNKNOWN: 0,
-  CONTINUE: 100,
-  OK: 200,
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  FORBIDDEN: 403,
-  REQUEST_TIMEOUT: 408,
-  INTERNAL_ERROR: 500,
-  SERVER_BUSY: 504
+  OK: 1,
+  FAIL: 2,
+  READY: 3
 };
 
 /**
- * optional ConnectResponse connect = 1;
- * @return {?proto.proto.sftp.ConnectResponse}
+ * optional Types type = 1;
+ * @return {!proto.proto.sftp.Response.Types}
  */
-proto.proto.sftp.Response.prototype.getConnect = function() {
-  return /** @type{?proto.proto.sftp.ConnectResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ConnectResponse, 1));
+proto.proto.sftp.Response.prototype.getType = function() {
+  return /** @type {!proto.proto.sftp.Response.Types} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * @param {?proto.proto.sftp.ConnectResponse|undefined} value
- * @return {!proto.proto.sftp.Response} returns this
-*/
-proto.proto.sftp.Response.prototype.setConnect = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 1, proto.proto.sftp.Response.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
+ * @param {!proto.proto.sftp.Response.Types} value
  * @return {!proto.proto.sftp.Response} returns this
  */
-proto.proto.sftp.Response.prototype.clearConnect = function() {
-  return this.setConnect(undefined);
+proto.proto.sftp.Response.prototype.setType = function(value) {
+  return jspb.Message.setProto3EnumField(this, 1, value);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Response.prototype.hasConnect = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional DisconnectResponse disconnect = 2;
- * @return {?proto.proto.sftp.DisconnectResponse}
- */
-proto.proto.sftp.Response.prototype.getDisconnect = function() {
-  return /** @type{?proto.proto.sftp.DisconnectResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.DisconnectResponse, 2));
-};
-
-
-/**
- * @param {?proto.proto.sftp.DisconnectResponse|undefined} value
- * @return {!proto.proto.sftp.Response} returns this
-*/
-proto.proto.sftp.Response.prototype.setDisconnect = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.Response.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Response} returns this
- */
-proto.proto.sftp.Response.prototype.clearDisconnect = function() {
-  return this.setDisconnect(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Response.prototype.hasDisconnect = function() {
-  return jspb.Message.getField(this, 2) != null;
-};
-
-
-/**
- * optional CommandResponse command = 3;
- * @return {?proto.proto.sftp.CommandResponse}
- */
-proto.proto.sftp.Response.prototype.getCommand = function() {
-  return /** @type{?proto.proto.sftp.CommandResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.CommandResponse, 3));
-};
-
-
-/**
- * @param {?proto.proto.sftp.CommandResponse|undefined} value
- * @return {!proto.proto.sftp.Response} returns this
-*/
-proto.proto.sftp.Response.prototype.setCommand = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 3, proto.proto.sftp.Response.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Response} returns this
- */
-proto.proto.sftp.Response.prototype.clearCommand = function() {
-  return this.setCommand(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Response.prototype.hasCommand = function() {
-  return jspb.Message.getField(this, 3) != null;
-};
-
-
-/**
- * optional ErrorResponse error = 4;
- * @return {?proto.proto.sftp.ErrorResponse}
- */
-proto.proto.sftp.Response.prototype.getError = function() {
-  return /** @type{?proto.proto.sftp.ErrorResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ErrorResponse, 4));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ErrorResponse|undefined} value
- * @return {!proto.proto.sftp.Response} returns this
-*/
-proto.proto.sftp.Response.prototype.setError = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 4, proto.proto.sftp.Response.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.Response} returns this
- */
-proto.proto.sftp.Response.prototype.clearError = function() {
-  return this.setError(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.Response.prototype.hasError = function() {
-  return jspb.Message.getField(this, 4) != null;
-};
-
-
-/**
- * optional Status status = 5;
+ * optional Status status = 2;
  * @return {!proto.proto.sftp.Response.Status}
  */
 proto.proto.sftp.Response.prototype.getStatus = function() {
-  return /** @type {!proto.proto.sftp.Response.Status} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+  return /** @type {!proto.proto.sftp.Response.Status} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
@@ -5859,25 +5667,49 @@ proto.proto.sftp.Response.prototype.getStatus = function() {
  * @return {!proto.proto.sftp.Response} returns this
  */
 proto.proto.sftp.Response.prototype.setStatus = function(value) {
-  return jspb.Message.setProto3EnumField(this, 5, value);
+  return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
 
 /**
- * optional string requestId = 6;
+ * optional bytes body = 3;
+ * @return {!(string|Uint8Array)}
+ */
+proto.proto.sftp.Response.prototype.getBody = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * optional bytes body = 3;
+ * This is a type-conversion wrapper around `getBody()`
  * @return {string}
  */
-proto.proto.sftp.Response.prototype.getRequestid = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+proto.proto.sftp.Response.prototype.getBody_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getBody()));
 };
 
 
 /**
- * @param {string} value
+ * optional bytes body = 3;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getBody()`
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.Response.prototype.getBody_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getBody()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
  * @return {!proto.proto.sftp.Response} returns this
  */
-proto.proto.sftp.Response.prototype.setRequestid = function(value) {
-  return jspb.Message.setProto3StringField(this, 6, value);
+proto.proto.sftp.Response.prototype.setBody = function(value) {
+  return jspb.Message.setProto3BytesField(this, 3, value);
 };
 
 
@@ -5913,7 +5745,8 @@ proto.proto.sftp.ConnectResponse.prototype.toObject = function(opt_includeInstan
  */
 proto.proto.sftp.ConnectResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uuid: jspb.Message.getFieldWithDefault(msg, 1, "")
+    uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    status: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -5954,6 +5787,10 @@ proto.proto.sftp.ConnectResponse.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {string} */ (reader.readString());
       msg.setUuid(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStatus(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -5990,6 +5827,13 @@ proto.proto.sftp.ConnectResponse.serializeBinaryToWriter = function(message, wri
       f
     );
   }
+  f = message.getStatus();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -6008,6 +5852,24 @@ proto.proto.sftp.ConnectResponse.prototype.getUuid = function() {
  */
 proto.proto.sftp.ConnectResponse.prototype.setUuid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string status = 2;
+ * @return {string}
+ */
+proto.proto.sftp.ConnectResponse.prototype.getStatus = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.ConnectResponse} returns this
+ */
+proto.proto.sftp.ConnectResponse.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -6043,7 +5905,8 @@ proto.proto.sftp.DisconnectResponse.prototype.toObject = function(opt_includeIns
  */
 proto.proto.sftp.DisconnectResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    status: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -6080,6 +5943,14 @@ proto.proto.sftp.DisconnectResponse.deserializeBinaryFromReader = function(msg, 
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUuid(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStatus(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -6109,2526 +5980,59 @@ proto.proto.sftp.DisconnectResponse.prototype.serializeBinary = function() {
  */
 proto.proto.sftp.DisconnectResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-};
-
-
-
-/**
- * Oneof group definitions for this message. Each group defines the field
- * numbers belonging to that group. When of these fields' value is set, all
- * other fields in the group are cleared. During deserialization, if multiple
- * fields are encountered for a group, only the last value seen will be kept.
- * @private {!Array<!Array<number>>}
- * @const
- */
-proto.proto.sftp.CommandResponse.oneofGroups_ = [[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]];
-
-/**
- * @enum {number}
- */
-proto.proto.sftp.CommandResponse.CommandCase = {
-  COMMAND_NOT_SET: 0,
-  CD: 2,
-  PWD: 3,
-  CHGRP: 4,
-  CHOWN: 5,
-  CHMOD: 6,
-  MKDIR: 7,
-  RMDIR: 8,
-  RM: 9,
-  RENAME: 10,
-  LN: 11,
-  LS: 12,
-  STAT: 13,
-  LSTAT: 14,
-  PUT: 15,
-  GET: 16,
-  EXIT: 17,
-  QUIT: 18
-};
-
-/**
- * @return {proto.proto.sftp.CommandResponse.CommandCase}
- */
-proto.proto.sftp.CommandResponse.prototype.getCommandCase = function() {
-  return /** @type {proto.proto.sftp.CommandResponse.CommandCase} */(jspb.Message.computeOneofCase(this, proto.proto.sftp.CommandResponse.oneofGroups_[0]));
-};
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.CommandResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.CommandResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.CommandResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.CommandResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    cd: (f = msg.getCd()) && proto.proto.sftp.ChangeDirectoryResponse.toObject(includeInstance, f),
-    pwd: (f = msg.getPwd()) && proto.proto.sftp.PrintWorkingDirectoryResponse.toObject(includeInstance, f),
-    chgrp: (f = msg.getChgrp()) && proto.proto.sftp.ChangeGroupResponse.toObject(includeInstance, f),
-    chown: (f = msg.getChown()) && proto.proto.sftp.ChangeOwnerResponse.toObject(includeInstance, f),
-    chmod: (f = msg.getChmod()) && proto.proto.sftp.ChangeModeResponse.toObject(includeInstance, f),
-    mkdir: (f = msg.getMkdir()) && proto.proto.sftp.MakeDirectoryResponse.toObject(includeInstance, f),
-    rmdir: (f = msg.getRmdir()) && proto.proto.sftp.RemoveDirectoryResponse.toObject(includeInstance, f),
-    rm: (f = msg.getRm()) && proto.proto.sftp.RemoveFileResponse.toObject(includeInstance, f),
-    rename: (f = msg.getRename()) && proto.proto.sftp.RenameResponse.toObject(includeInstance, f),
-    ln: (f = msg.getLn()) && proto.proto.sftp.SymbolicLinkResponse.toObject(includeInstance, f),
-    ls: (f = msg.getLs()) && proto.proto.sftp.ListDirectoryResponse.toObject(includeInstance, f),
-    stat: (f = msg.getStat()) && proto.proto.sftp.StatusResponse.toObject(includeInstance, f),
-    lstat: (f = msg.getLstat()) && proto.proto.sftp.LinkStatusResponse.toObject(includeInstance, f),
-    put: (f = msg.getPut()) && proto.proto.sftp.PutResponse.toObject(includeInstance, f),
-    get: (f = msg.getGet()) && proto.proto.sftp.GetResponse.toObject(includeInstance, f),
-    exit: (f = msg.getExit()) && proto.proto.sftp.ExitResponse.toObject(includeInstance, f),
-    quit: (f = msg.getQuit()) && proto.proto.sftp.QuitResponse.toObject(includeInstance, f)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.CommandResponse}
- */
-proto.proto.sftp.CommandResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.CommandResponse;
-  return proto.proto.sftp.CommandResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.CommandResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.CommandResponse}
- */
-proto.proto.sftp.CommandResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 2:
-      var value = new proto.proto.sftp.ChangeDirectoryResponse;
-      reader.readMessage(value,proto.proto.sftp.ChangeDirectoryResponse.deserializeBinaryFromReader);
-      msg.setCd(value);
-      break;
-    case 3:
-      var value = new proto.proto.sftp.PrintWorkingDirectoryResponse;
-      reader.readMessage(value,proto.proto.sftp.PrintWorkingDirectoryResponse.deserializeBinaryFromReader);
-      msg.setPwd(value);
-      break;
-    case 4:
-      var value = new proto.proto.sftp.ChangeGroupResponse;
-      reader.readMessage(value,proto.proto.sftp.ChangeGroupResponse.deserializeBinaryFromReader);
-      msg.setChgrp(value);
-      break;
-    case 5:
-      var value = new proto.proto.sftp.ChangeOwnerResponse;
-      reader.readMessage(value,proto.proto.sftp.ChangeOwnerResponse.deserializeBinaryFromReader);
-      msg.setChown(value);
-      break;
-    case 6:
-      var value = new proto.proto.sftp.ChangeModeResponse;
-      reader.readMessage(value,proto.proto.sftp.ChangeModeResponse.deserializeBinaryFromReader);
-      msg.setChmod(value);
-      break;
-    case 7:
-      var value = new proto.proto.sftp.MakeDirectoryResponse;
-      reader.readMessage(value,proto.proto.sftp.MakeDirectoryResponse.deserializeBinaryFromReader);
-      msg.setMkdir(value);
-      break;
-    case 8:
-      var value = new proto.proto.sftp.RemoveDirectoryResponse;
-      reader.readMessage(value,proto.proto.sftp.RemoveDirectoryResponse.deserializeBinaryFromReader);
-      msg.setRmdir(value);
-      break;
-    case 9:
-      var value = new proto.proto.sftp.RemoveFileResponse;
-      reader.readMessage(value,proto.proto.sftp.RemoveFileResponse.deserializeBinaryFromReader);
-      msg.setRm(value);
-      break;
-    case 10:
-      var value = new proto.proto.sftp.RenameResponse;
-      reader.readMessage(value,proto.proto.sftp.RenameResponse.deserializeBinaryFromReader);
-      msg.setRename(value);
-      break;
-    case 11:
-      var value = new proto.proto.sftp.SymbolicLinkResponse;
-      reader.readMessage(value,proto.proto.sftp.SymbolicLinkResponse.deserializeBinaryFromReader);
-      msg.setLn(value);
-      break;
-    case 12:
-      var value = new proto.proto.sftp.ListDirectoryResponse;
-      reader.readMessage(value,proto.proto.sftp.ListDirectoryResponse.deserializeBinaryFromReader);
-      msg.setLs(value);
-      break;
-    case 13:
-      var value = new proto.proto.sftp.StatusResponse;
-      reader.readMessage(value,proto.proto.sftp.StatusResponse.deserializeBinaryFromReader);
-      msg.setStat(value);
-      break;
-    case 14:
-      var value = new proto.proto.sftp.LinkStatusResponse;
-      reader.readMessage(value,proto.proto.sftp.LinkStatusResponse.deserializeBinaryFromReader);
-      msg.setLstat(value);
-      break;
-    case 15:
-      var value = new proto.proto.sftp.PutResponse;
-      reader.readMessage(value,proto.proto.sftp.PutResponse.deserializeBinaryFromReader);
-      msg.setPut(value);
-      break;
-    case 16:
-      var value = new proto.proto.sftp.GetResponse;
-      reader.readMessage(value,proto.proto.sftp.GetResponse.deserializeBinaryFromReader);
-      msg.setGet(value);
-      break;
-    case 17:
-      var value = new proto.proto.sftp.ExitResponse;
-      reader.readMessage(value,proto.proto.sftp.ExitResponse.deserializeBinaryFromReader);
-      msg.setExit(value);
-      break;
-    case 18:
-      var value = new proto.proto.sftp.QuitResponse;
-      reader.readMessage(value,proto.proto.sftp.QuitResponse.deserializeBinaryFromReader);
-      msg.setQuit(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.CommandResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.CommandResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.CommandResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.CommandResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getCd();
-  if (f != null) {
-    writer.writeMessage(
-      2,
-      f,
-      proto.proto.sftp.ChangeDirectoryResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getPwd();
-  if (f != null) {
-    writer.writeMessage(
-      3,
-      f,
-      proto.proto.sftp.PrintWorkingDirectoryResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getChgrp();
-  if (f != null) {
-    writer.writeMessage(
-      4,
-      f,
-      proto.proto.sftp.ChangeGroupResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getChown();
-  if (f != null) {
-    writer.writeMessage(
-      5,
-      f,
-      proto.proto.sftp.ChangeOwnerResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getChmod();
-  if (f != null) {
-    writer.writeMessage(
-      6,
-      f,
-      proto.proto.sftp.ChangeModeResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getMkdir();
-  if (f != null) {
-    writer.writeMessage(
-      7,
-      f,
-      proto.proto.sftp.MakeDirectoryResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getRmdir();
-  if (f != null) {
-    writer.writeMessage(
-      8,
-      f,
-      proto.proto.sftp.RemoveDirectoryResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getRm();
-  if (f != null) {
-    writer.writeMessage(
-      9,
-      f,
-      proto.proto.sftp.RemoveFileResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getRename();
-  if (f != null) {
-    writer.writeMessage(
-      10,
-      f,
-      proto.proto.sftp.RenameResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getLn();
-  if (f != null) {
-    writer.writeMessage(
-      11,
-      f,
-      proto.proto.sftp.SymbolicLinkResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getLs();
-  if (f != null) {
-    writer.writeMessage(
-      12,
-      f,
-      proto.proto.sftp.ListDirectoryResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getStat();
-  if (f != null) {
-    writer.writeMessage(
-      13,
-      f,
-      proto.proto.sftp.StatusResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getLstat();
-  if (f != null) {
-    writer.writeMessage(
-      14,
-      f,
-      proto.proto.sftp.LinkStatusResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getPut();
-  if (f != null) {
-    writer.writeMessage(
-      15,
-      f,
-      proto.proto.sftp.PutResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getGet();
-  if (f != null) {
-    writer.writeMessage(
-      16,
-      f,
-      proto.proto.sftp.GetResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getExit();
-  if (f != null) {
-    writer.writeMessage(
-      17,
-      f,
-      proto.proto.sftp.ExitResponse.serializeBinaryToWriter
-    );
-  }
-  f = message.getQuit();
-  if (f != null) {
-    writer.writeMessage(
-      18,
-      f,
-      proto.proto.sftp.QuitResponse.serializeBinaryToWriter
-    );
-  }
-};
-
-
-/**
- * optional ChangeDirectoryResponse cd = 2;
- * @return {?proto.proto.sftp.ChangeDirectoryResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getCd = function() {
-  return /** @type{?proto.proto.sftp.ChangeDirectoryResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeDirectoryResponse, 2));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ChangeDirectoryResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setCd = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 2, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearCd = function() {
-  return this.setCd(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasCd = function() {
-  return jspb.Message.getField(this, 2) != null;
-};
-
-
-/**
- * optional PrintWorkingDirectoryResponse pwd = 3;
- * @return {?proto.proto.sftp.PrintWorkingDirectoryResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getPwd = function() {
-  return /** @type{?proto.proto.sftp.PrintWorkingDirectoryResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.PrintWorkingDirectoryResponse, 3));
-};
-
-
-/**
- * @param {?proto.proto.sftp.PrintWorkingDirectoryResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setPwd = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 3, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearPwd = function() {
-  return this.setPwd(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasPwd = function() {
-  return jspb.Message.getField(this, 3) != null;
-};
-
-
-/**
- * optional ChangeGroupResponse chgrp = 4;
- * @return {?proto.proto.sftp.ChangeGroupResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getChgrp = function() {
-  return /** @type{?proto.proto.sftp.ChangeGroupResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeGroupResponse, 4));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ChangeGroupResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setChgrp = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 4, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearChgrp = function() {
-  return this.setChgrp(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasChgrp = function() {
-  return jspb.Message.getField(this, 4) != null;
-};
-
-
-/**
- * optional ChangeOwnerResponse chown = 5;
- * @return {?proto.proto.sftp.ChangeOwnerResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getChown = function() {
-  return /** @type{?proto.proto.sftp.ChangeOwnerResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeOwnerResponse, 5));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ChangeOwnerResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setChown = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 5, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearChown = function() {
-  return this.setChown(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasChown = function() {
-  return jspb.Message.getField(this, 5) != null;
-};
-
-
-/**
- * optional ChangeModeResponse chmod = 6;
- * @return {?proto.proto.sftp.ChangeModeResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getChmod = function() {
-  return /** @type{?proto.proto.sftp.ChangeModeResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ChangeModeResponse, 6));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ChangeModeResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setChmod = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 6, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearChmod = function() {
-  return this.setChmod(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasChmod = function() {
-  return jspb.Message.getField(this, 6) != null;
-};
-
-
-/**
- * optional MakeDirectoryResponse mkdir = 7;
- * @return {?proto.proto.sftp.MakeDirectoryResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getMkdir = function() {
-  return /** @type{?proto.proto.sftp.MakeDirectoryResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.MakeDirectoryResponse, 7));
-};
-
-
-/**
- * @param {?proto.proto.sftp.MakeDirectoryResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setMkdir = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 7, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearMkdir = function() {
-  return this.setMkdir(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasMkdir = function() {
-  return jspb.Message.getField(this, 7) != null;
-};
-
-
-/**
- * optional RemoveDirectoryResponse rmdir = 8;
- * @return {?proto.proto.sftp.RemoveDirectoryResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getRmdir = function() {
-  return /** @type{?proto.proto.sftp.RemoveDirectoryResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RemoveDirectoryResponse, 8));
-};
-
-
-/**
- * @param {?proto.proto.sftp.RemoveDirectoryResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setRmdir = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 8, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearRmdir = function() {
-  return this.setRmdir(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasRmdir = function() {
-  return jspb.Message.getField(this, 8) != null;
-};
-
-
-/**
- * optional RemoveFileResponse rm = 9;
- * @return {?proto.proto.sftp.RemoveFileResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getRm = function() {
-  return /** @type{?proto.proto.sftp.RemoveFileResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RemoveFileResponse, 9));
-};
-
-
-/**
- * @param {?proto.proto.sftp.RemoveFileResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setRm = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 9, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearRm = function() {
-  return this.setRm(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasRm = function() {
-  return jspb.Message.getField(this, 9) != null;
-};
-
-
-/**
- * optional RenameResponse rename = 10;
- * @return {?proto.proto.sftp.RenameResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getRename = function() {
-  return /** @type{?proto.proto.sftp.RenameResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.RenameResponse, 10));
-};
-
-
-/**
- * @param {?proto.proto.sftp.RenameResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setRename = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 10, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearRename = function() {
-  return this.setRename(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasRename = function() {
-  return jspb.Message.getField(this, 10) != null;
-};
-
-
-/**
- * optional SymbolicLinkResponse ln = 11;
- * @return {?proto.proto.sftp.SymbolicLinkResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getLn = function() {
-  return /** @type{?proto.proto.sftp.SymbolicLinkResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.SymbolicLinkResponse, 11));
-};
-
-
-/**
- * @param {?proto.proto.sftp.SymbolicLinkResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setLn = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 11, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearLn = function() {
-  return this.setLn(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasLn = function() {
-  return jspb.Message.getField(this, 11) != null;
-};
-
-
-/**
- * optional ListDirectoryResponse ls = 12;
- * @return {?proto.proto.sftp.ListDirectoryResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getLs = function() {
-  return /** @type{?proto.proto.sftp.ListDirectoryResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ListDirectoryResponse, 12));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ListDirectoryResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setLs = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 12, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearLs = function() {
-  return this.setLs(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasLs = function() {
-  return jspb.Message.getField(this, 12) != null;
-};
-
-
-/**
- * optional StatusResponse stat = 13;
- * @return {?proto.proto.sftp.StatusResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getStat = function() {
-  return /** @type{?proto.proto.sftp.StatusResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.StatusResponse, 13));
-};
-
-
-/**
- * @param {?proto.proto.sftp.StatusResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setStat = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 13, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearStat = function() {
-  return this.setStat(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasStat = function() {
-  return jspb.Message.getField(this, 13) != null;
-};
-
-
-/**
- * optional LinkStatusResponse lstat = 14;
- * @return {?proto.proto.sftp.LinkStatusResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getLstat = function() {
-  return /** @type{?proto.proto.sftp.LinkStatusResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.LinkStatusResponse, 14));
-};
-
-
-/**
- * @param {?proto.proto.sftp.LinkStatusResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setLstat = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 14, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearLstat = function() {
-  return this.setLstat(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasLstat = function() {
-  return jspb.Message.getField(this, 14) != null;
-};
-
-
-/**
- * optional PutResponse put = 15;
- * @return {?proto.proto.sftp.PutResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getPut = function() {
-  return /** @type{?proto.proto.sftp.PutResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.PutResponse, 15));
-};
-
-
-/**
- * @param {?proto.proto.sftp.PutResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setPut = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 15, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearPut = function() {
-  return this.setPut(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasPut = function() {
-  return jspb.Message.getField(this, 15) != null;
-};
-
-
-/**
- * optional GetResponse get = 16;
- * @return {?proto.proto.sftp.GetResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getGet = function() {
-  return /** @type{?proto.proto.sftp.GetResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.GetResponse, 16));
-};
-
-
-/**
- * @param {?proto.proto.sftp.GetResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setGet = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 16, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearGet = function() {
-  return this.setGet(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasGet = function() {
-  return jspb.Message.getField(this, 16) != null;
-};
-
-
-/**
- * optional ExitResponse exit = 17;
- * @return {?proto.proto.sftp.ExitResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getExit = function() {
-  return /** @type{?proto.proto.sftp.ExitResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.ExitResponse, 17));
-};
-
-
-/**
- * @param {?proto.proto.sftp.ExitResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setExit = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 17, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearExit = function() {
-  return this.setExit(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasExit = function() {
-  return jspb.Message.getField(this, 17) != null;
-};
-
-
-/**
- * optional QuitResponse quit = 18;
- * @return {?proto.proto.sftp.QuitResponse}
- */
-proto.proto.sftp.CommandResponse.prototype.getQuit = function() {
-  return /** @type{?proto.proto.sftp.QuitResponse} */ (
-    jspb.Message.getWrapperField(this, proto.proto.sftp.QuitResponse, 18));
-};
-
-
-/**
- * @param {?proto.proto.sftp.QuitResponse|undefined} value
- * @return {!proto.proto.sftp.CommandResponse} returns this
-*/
-proto.proto.sftp.CommandResponse.prototype.setQuit = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 18, proto.proto.sftp.CommandResponse.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.proto.sftp.CommandResponse} returns this
- */
-proto.proto.sftp.CommandResponse.prototype.clearQuit = function() {
-  return this.setQuit(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.proto.sftp.CommandResponse.prototype.hasQuit = function() {
-  return jspb.Message.getField(this, 18) != null;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ChangeDirectoryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeDirectoryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeDirectoryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeDirectoryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeDirectoryResponse}
- */
-proto.proto.sftp.ChangeDirectoryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeDirectoryResponse;
-  return proto.proto.sftp.ChangeDirectoryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeDirectoryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeDirectoryResponse}
- */
-proto.proto.sftp.ChangeDirectoryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ChangeDirectoryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeDirectoryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeDirectoryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeDirectoryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.PrintWorkingDirectoryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.PrintWorkingDirectoryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    message: jspb.Message.getFieldWithDefault(msg, 1, "")
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.PrintWorkingDirectoryResponse}
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.PrintWorkingDirectoryResponse;
-  return proto.proto.sftp.PrintWorkingDirectoryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.PrintWorkingDirectoryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.PrintWorkingDirectoryResponse}
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMessage(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.PrintWorkingDirectoryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.PrintWorkingDirectoryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getMessage();
+  f = message.getUuid();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-};
-
-
-/**
- * optional string message = 1;
- * @return {string}
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.prototype.getMessage = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.PrintWorkingDirectoryResponse} returns this
- */
-proto.proto.sftp.PrintWorkingDirectoryResponse.prototype.setMessage = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ChangeGroupResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeGroupResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeGroupResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeGroupResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeGroupResponse}
- */
-proto.proto.sftp.ChangeGroupResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeGroupResponse;
-  return proto.proto.sftp.ChangeGroupResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeGroupResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeGroupResponse}
- */
-proto.proto.sftp.ChangeGroupResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ChangeGroupResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeGroupResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeGroupResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeGroupResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ChangeOwnerResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeOwnerResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeOwnerResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeOwnerResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeOwnerResponse}
- */
-proto.proto.sftp.ChangeOwnerResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeOwnerResponse;
-  return proto.proto.sftp.ChangeOwnerResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeOwnerResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeOwnerResponse}
- */
-proto.proto.sftp.ChangeOwnerResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ChangeOwnerResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeOwnerResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeOwnerResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeOwnerResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ChangeModeResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ChangeModeResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ChangeModeResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeModeResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ChangeModeResponse}
- */
-proto.proto.sftp.ChangeModeResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ChangeModeResponse;
-  return proto.proto.sftp.ChangeModeResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ChangeModeResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ChangeModeResponse}
- */
-proto.proto.sftp.ChangeModeResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ChangeModeResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ChangeModeResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ChangeModeResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ChangeModeResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.MakeDirectoryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.MakeDirectoryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.MakeDirectoryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.MakeDirectoryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.MakeDirectoryResponse}
- */
-proto.proto.sftp.MakeDirectoryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.MakeDirectoryResponse;
-  return proto.proto.sftp.MakeDirectoryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.MakeDirectoryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.MakeDirectoryResponse}
- */
-proto.proto.sftp.MakeDirectoryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.MakeDirectoryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.MakeDirectoryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.MakeDirectoryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.MakeDirectoryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.RemoveDirectoryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RemoveDirectoryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RemoveDirectoryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RemoveDirectoryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RemoveDirectoryResponse}
- */
-proto.proto.sftp.RemoveDirectoryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RemoveDirectoryResponse;
-  return proto.proto.sftp.RemoveDirectoryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.RemoveDirectoryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RemoveDirectoryResponse}
- */
-proto.proto.sftp.RemoveDirectoryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.RemoveDirectoryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RemoveDirectoryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RemoveDirectoryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RemoveDirectoryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.RemoveFileResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RemoveFileResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RemoveFileResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RemoveFileResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RemoveFileResponse}
- */
-proto.proto.sftp.RemoveFileResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RemoveFileResponse;
-  return proto.proto.sftp.RemoveFileResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.RemoveFileResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RemoveFileResponse}
- */
-proto.proto.sftp.RemoveFileResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.RemoveFileResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RemoveFileResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RemoveFileResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RemoveFileResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.RenameResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.RenameResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.RenameResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RenameResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.RenameResponse}
- */
-proto.proto.sftp.RenameResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.RenameResponse;
-  return proto.proto.sftp.RenameResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.RenameResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.RenameResponse}
- */
-proto.proto.sftp.RenameResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.RenameResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.RenameResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.RenameResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.RenameResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.SymbolicLinkResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.SymbolicLinkResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.SymbolicLinkResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.SymbolicLinkResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.SymbolicLinkResponse}
- */
-proto.proto.sftp.SymbolicLinkResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.SymbolicLinkResponse;
-  return proto.proto.sftp.SymbolicLinkResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.SymbolicLinkResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.SymbolicLinkResponse}
- */
-proto.proto.sftp.SymbolicLinkResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.SymbolicLinkResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.SymbolicLinkResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.SymbolicLinkResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.SymbolicLinkResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-/**
- * List of repeated fields within this message type.
- * @private {!Array<number>}
- * @const
- */
-proto.proto.sftp.ListDirectoryResponse.repeatedFields_ = [1];
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ListDirectoryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ListDirectoryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ListDirectoryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ListDirectoryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    entryList: jspb.Message.toObjectList(msg.getEntryList(),
-    proto.proto.sftp.EntryResponse.toObject, includeInstance)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ListDirectoryResponse}
- */
-proto.proto.sftp.ListDirectoryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ListDirectoryResponse;
-  return proto.proto.sftp.ListDirectoryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ListDirectoryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ListDirectoryResponse}
- */
-proto.proto.sftp.ListDirectoryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = new proto.proto.sftp.EntryResponse;
-      reader.readMessage(value,proto.proto.sftp.EntryResponse.deserializeBinaryFromReader);
-      msg.addEntry(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ListDirectoryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ListDirectoryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ListDirectoryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ListDirectoryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getEntryList();
-  if (f.length > 0) {
-    writer.writeRepeatedMessage(
-      1,
-      f,
-      proto.proto.sftp.EntryResponse.serializeBinaryToWriter
-    );
-  }
-};
-
-
-/**
- * repeated EntryResponse Entry = 1;
- * @return {!Array<!proto.proto.sftp.EntryResponse>}
- */
-proto.proto.sftp.ListDirectoryResponse.prototype.getEntryList = function() {
-  return /** @type{!Array<!proto.proto.sftp.EntryResponse>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.proto.sftp.EntryResponse, 1));
-};
-
-
-/**
- * @param {!Array<!proto.proto.sftp.EntryResponse>} value
- * @return {!proto.proto.sftp.ListDirectoryResponse} returns this
-*/
-proto.proto.sftp.ListDirectoryResponse.prototype.setEntryList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 1, value);
-};
-
-
-/**
- * @param {!proto.proto.sftp.EntryResponse=} opt_value
- * @param {number=} opt_index
- * @return {!proto.proto.sftp.EntryResponse}
- */
-proto.proto.sftp.ListDirectoryResponse.prototype.addEntry = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.proto.sftp.EntryResponse, opt_index);
-};
-
-
-/**
- * Clears the list making it empty but non-null.
- * @return {!proto.proto.sftp.ListDirectoryResponse} returns this
- */
-proto.proto.sftp.ListDirectoryResponse.prototype.clearEntryList = function() {
-  return this.setEntryList([]);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.EntryResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.EntryResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.EntryResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.EntryResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    longname: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    filename: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    size: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    mtime: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    permissions: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    gid: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    uid: jspb.Message.getFieldWithDefault(msg, 7, 0)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.EntryResponse}
- */
-proto.proto.sftp.EntryResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.EntryResponse;
-  return proto.proto.sftp.EntryResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.EntryResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.EntryResponse}
- */
-proto.proto.sftp.EntryResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setLongname(value);
-      break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setFilename(value);
-      break;
-    case 3:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setSize(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMtime(value);
-      break;
-    case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPermissions(value);
-      break;
-    case 6:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setGid(value);
-      break;
-    case 7:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setUid(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.EntryResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.EntryResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.EntryResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.EntryResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getLongname();
-  if (f.length > 0) {
-    writer.writeString(
-      1,
-      f
-    );
-  }
-  f = message.getFilename();
+  f = message.getStatus();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getSize();
-  if (f !== 0) {
-    writer.writeInt64(
-      3,
-      f
-    );
-  }
-  f = message.getMtime();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getPermissions();
-  if (f.length > 0) {
-    writer.writeString(
-      5,
-      f
-    );
-  }
-  f = message.getGid();
-  if (f !== 0) {
-    writer.writeInt32(
-      6,
-      f
-    );
-  }
-  f = message.getUid();
-  if (f !== 0) {
-    writer.writeInt32(
-      7,
-      f
-    );
-  }
 };
 
 
 /**
- * optional string longName = 1;
+ * optional string uuid = 1;
  * @return {string}
  */
-proto.proto.sftp.EntryResponse.prototype.getLongname = function() {
+proto.proto.sftp.DisconnectResponse.prototype.getUuid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
+ * @return {!proto.proto.sftp.DisconnectResponse} returns this
  */
-proto.proto.sftp.EntryResponse.prototype.setLongname = function(value) {
+proto.proto.sftp.DisconnectResponse.prototype.setUuid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string fileName = 2;
+ * optional string status = 2;
  * @return {string}
  */
-proto.proto.sftp.EntryResponse.prototype.getFilename = function() {
+proto.proto.sftp.DisconnectResponse.prototype.getStatus = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
+ * @return {!proto.proto.sftp.DisconnectResponse} returns this
  */
-proto.proto.sftp.EntryResponse.prototype.setFilename = function(value) {
+proto.proto.sftp.DisconnectResponse.prototype.setStatus = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
-/**
- * optional int64 size = 3;
- * @return {number}
- */
-proto.proto.sftp.EntryResponse.prototype.getSize = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
- */
-proto.proto.sftp.EntryResponse.prototype.setSize = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
-};
-
-
-/**
- * optional string mtime = 4;
- * @return {string}
- */
-proto.proto.sftp.EntryResponse.prototype.getMtime = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
- */
-proto.proto.sftp.EntryResponse.prototype.setMtime = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional string permissions = 5;
- * @return {string}
- */
-proto.proto.sftp.EntryResponse.prototype.getPermissions = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
- */
-proto.proto.sftp.EntryResponse.prototype.setPermissions = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
-};
-
-
-/**
- * optional int32 gid = 6;
- * @return {number}
- */
-proto.proto.sftp.EntryResponse.prototype.getGid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
- */
-proto.proto.sftp.EntryResponse.prototype.setGid = function(value) {
-  return jspb.Message.setProto3IntField(this, 6, value);
-};
-
-
-/**
- * optional int32 uid = 7;
- * @return {number}
- */
-proto.proto.sftp.EntryResponse.prototype.getUid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.EntryResponse} returns this
- */
-proto.proto.sftp.EntryResponse.prototype.setUid = function(value) {
-  return jspb.Message.setProto3IntField(this, 7, value);
-};
-
-
 
 
 
@@ -8645,8 +6049,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.proto.sftp.StatusResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.StatusResponse.toObject(opt_includeInstance, this);
+proto.proto.sftp.MessageResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.MessageResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -8655,17 +6059,15 @@ proto.proto.sftp.StatusResponse.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.StatusResponse} msg The msg instance to transform.
+ * @param {!proto.proto.sftp.MessageResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.StatusResponse.toObject = function(includeInstance, msg) {
+proto.proto.sftp.MessageResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    gid: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    permissions: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    mtime: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    size: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    status: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    result: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -8679,23 +6081,23 @@ proto.proto.sftp.StatusResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.StatusResponse}
+ * @return {!proto.proto.sftp.MessageResponse}
  */
-proto.proto.sftp.StatusResponse.deserializeBinary = function(bytes) {
+proto.proto.sftp.MessageResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.StatusResponse;
-  return proto.proto.sftp.StatusResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.proto.sftp.MessageResponse;
+  return proto.proto.sftp.MessageResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.proto.sftp.StatusResponse} msg The message object to deserialize into.
+ * @param {!proto.proto.sftp.MessageResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.StatusResponse}
+ * @return {!proto.proto.sftp.MessageResponse}
  */
-proto.proto.sftp.StatusResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.proto.sftp.MessageResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8703,24 +6105,16 @@ proto.proto.sftp.StatusResponse.deserializeBinaryFromReader = function(msg, read
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setUid(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUuid(value);
       break;
     case 2:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setGid(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStatus(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPermissions(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMtime(value);
-      break;
-    case 5:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setSize(value);
+      msg.setResult(value);
       break;
     default:
       reader.skipField();
@@ -8735,9 +6129,9 @@ proto.proto.sftp.StatusResponse.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.proto.sftp.StatusResponse.prototype.serializeBinary = function() {
+proto.proto.sftp.MessageResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.StatusResponse.serializeBinaryToWriter(this, writer);
+  proto.proto.sftp.MessageResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8745,1247 +6139,362 @@ proto.proto.sftp.StatusResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.StatusResponse} message
+ * @param {!proto.proto.sftp.MessageResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.proto.sftp.StatusResponse.serializeBinaryToWriter = function(message, writer) {
+proto.proto.sftp.MessageResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getUid();
-  if (f !== 0) {
-    writer.writeInt32(
+  f = message.getUuid();
+  if (f.length > 0) {
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getGid();
-  if (f !== 0) {
-    writer.writeInt32(
+  f = message.getStatus();
+  if (f.length > 0) {
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getPermissions();
+  f = message.getResult();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getMtime();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getSize();
-  if (f !== 0) {
-    writer.writeInt64(
-      5,
-      f
-    );
-  }
 };
 
 
 /**
- * optional int32 uid = 1;
- * @return {number}
- */
-proto.proto.sftp.StatusResponse.prototype.getUid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.StatusResponse} returns this
- */
-proto.proto.sftp.StatusResponse.prototype.setUid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional int32 gid = 2;
- * @return {number}
- */
-proto.proto.sftp.StatusResponse.prototype.getGid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.StatusResponse} returns this
- */
-proto.proto.sftp.StatusResponse.prototype.setGid = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional string permissions = 3;
+ * optional string uuid = 1;
  * @return {string}
  */
-proto.proto.sftp.StatusResponse.prototype.getPermissions = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.StatusResponse} returns this
- */
-proto.proto.sftp.StatusResponse.prototype.setPermissions = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional string mtime = 4;
- * @return {string}
- */
-proto.proto.sftp.StatusResponse.prototype.getMtime = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.StatusResponse} returns this
- */
-proto.proto.sftp.StatusResponse.prototype.setMtime = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional int64 size = 5;
- * @return {number}
- */
-proto.proto.sftp.StatusResponse.prototype.getSize = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.StatusResponse} returns this
- */
-proto.proto.sftp.StatusResponse.prototype.setSize = function(value) {
-  return jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.LinkStatusResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.LinkStatusResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.LinkStatusResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    uid: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    gid: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    permissions: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    mtime: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    size: jspb.Message.getFieldWithDefault(msg, 5, 0)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.LinkStatusResponse}
- */
-proto.proto.sftp.LinkStatusResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.LinkStatusResponse;
-  return proto.proto.sftp.LinkStatusResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.LinkStatusResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.LinkStatusResponse}
- */
-proto.proto.sftp.LinkStatusResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setUid(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setGid(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPermissions(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMtime(value);
-      break;
-    case 5:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setSize(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.LinkStatusResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.LinkStatusResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.LinkStatusResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getUid();
-  if (f !== 0) {
-    writer.writeInt32(
-      1,
-      f
-    );
-  }
-  f = message.getGid();
-  if (f !== 0) {
-    writer.writeInt32(
-      2,
-      f
-    );
-  }
-  f = message.getPermissions();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
-  f = message.getMtime();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getSize();
-  if (f !== 0) {
-    writer.writeInt64(
-      5,
-      f
-    );
-  }
-};
-
-
-/**
- * optional int32 uid = 1;
- * @return {number}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.getUid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.LinkStatusResponse} returns this
- */
-proto.proto.sftp.LinkStatusResponse.prototype.setUid = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional int32 gid = 2;
- * @return {number}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.getGid = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.LinkStatusResponse} returns this
- */
-proto.proto.sftp.LinkStatusResponse.prototype.setGid = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional string permissions = 3;
- * @return {string}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.getPermissions = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.LinkStatusResponse} returns this
- */
-proto.proto.sftp.LinkStatusResponse.prototype.setPermissions = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional string mtime = 4;
- * @return {string}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.getMtime = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.proto.sftp.LinkStatusResponse} returns this
- */
-proto.proto.sftp.LinkStatusResponse.prototype.setMtime = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional int64 size = 5;
- * @return {number}
- */
-proto.proto.sftp.LinkStatusResponse.prototype.getSize = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.LinkStatusResponse} returns this
- */
-proto.proto.sftp.LinkStatusResponse.prototype.setSize = function(value) {
-  return jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.PutResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.PutResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.PutResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.PutResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    progress: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    last: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.PutResponse}
- */
-proto.proto.sftp.PutResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.PutResponse;
-  return proto.proto.sftp.PutResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.PutResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.PutResponse}
- */
-proto.proto.sftp.PutResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setProgress(value);
-      break;
-    case 2:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setLast(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.PutResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.PutResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.PutResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.PutResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getProgress();
-  if (f !== 0) {
-    writer.writeInt64(
-      1,
-      f
-    );
-  }
-  f = message.getLast();
-  if (f) {
-    writer.writeBool(
-      2,
-      f
-    );
-  }
-};
-
-
-/**
- * optional int64 progress = 1;
- * @return {number}
- */
-proto.proto.sftp.PutResponse.prototype.getProgress = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.PutResponse} returns this
- */
-proto.proto.sftp.PutResponse.prototype.setProgress = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional bool last = 2;
- * @return {boolean}
- */
-proto.proto.sftp.PutResponse.prototype.getLast = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.proto.sftp.PutResponse} returns this
- */
-proto.proto.sftp.PutResponse.prototype.setLast = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 2, value);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.GetResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.GetResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.GetResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.GetResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    offset: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    filesize: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    data: msg.getData_asB64(),
-    last: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.GetResponse}
- */
-proto.proto.sftp.GetResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.GetResponse;
-  return proto.proto.sftp.GetResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.GetResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.GetResponse}
- */
-proto.proto.sftp.GetResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setOffset(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt64());
-      msg.setFilesize(value);
-      break;
-    case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setData(value);
-      break;
-    case 4:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setLast(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.GetResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.GetResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.GetResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.GetResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getOffset();
-  if (f !== 0) {
-    writer.writeInt64(
-      1,
-      f
-    );
-  }
-  f = message.getFilesize();
-  if (f !== 0) {
-    writer.writeInt64(
-      2,
-      f
-    );
-  }
-  f = message.getData_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      3,
-      f
-    );
-  }
-  f = message.getLast();
-  if (f) {
-    writer.writeBool(
-      4,
-      f
-    );
-  }
-};
-
-
-/**
- * optional int64 offset = 1;
- * @return {number}
- */
-proto.proto.sftp.GetResponse.prototype.getOffset = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.GetResponse} returns this
- */
-proto.proto.sftp.GetResponse.prototype.setOffset = function(value) {
-  return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional int64 fileSize = 2;
- * @return {number}
- */
-proto.proto.sftp.GetResponse.prototype.getFilesize = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.GetResponse} returns this
- */
-proto.proto.sftp.GetResponse.prototype.setFilesize = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional bytes data = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.proto.sftp.GetResponse.prototype.getData = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes data = 3;
- * This is a type-conversion wrapper around `getData()`
- * @return {string}
- */
-proto.proto.sftp.GetResponse.prototype.getData_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getData()));
-};
-
-
-/**
- * optional bytes data = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getData()`
- * @return {!Uint8Array}
- */
-proto.proto.sftp.GetResponse.prototype.getData_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getData()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
- * @return {!proto.proto.sftp.GetResponse} returns this
- */
-proto.proto.sftp.GetResponse.prototype.setData = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
-};
-
-
-/**
- * optional bool last = 4;
- * @return {boolean}
- */
-proto.proto.sftp.GetResponse.prototype.getLast = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.proto.sftp.GetResponse} returns this
- */
-proto.proto.sftp.GetResponse.prototype.setLast = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 4, value);
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ExitResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ExitResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ExitResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ExitResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ExitResponse}
- */
-proto.proto.sftp.ExitResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ExitResponse;
-  return proto.proto.sftp.ExitResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ExitResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ExitResponse}
- */
-proto.proto.sftp.ExitResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ExitResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ExitResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ExitResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ExitResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.QuitResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.QuitResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.QuitResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.QuitResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.QuitResponse}
- */
-proto.proto.sftp.QuitResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.QuitResponse;
-  return proto.proto.sftp.QuitResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.QuitResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.QuitResponse}
- */
-proto.proto.sftp.QuitResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.QuitResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.QuitResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.QuitResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.QuitResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-};
-
-
-
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * Optional fields that are not set will be set to undefined.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
- * @param {boolean=} opt_includeInstance Deprecated. whether to include the
- *     JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.proto.sftp.ErrorResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.proto.sftp.ErrorResponse.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Deprecated. Whether to include
- *     the JSPB instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.proto.sftp.ErrorResponse} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ErrorResponse.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    prefix: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    serialnumber: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    message: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    format: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    attributeMap: (f = msg.getAttributeMap()) ? f.toObject(includeInstance, undefined) : []
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.proto.sftp.ErrorResponse}
- */
-proto.proto.sftp.ErrorResponse.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.proto.sftp.ErrorResponse;
-  return proto.proto.sftp.ErrorResponse.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.proto.sftp.ErrorResponse} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.proto.sftp.ErrorResponse}
- */
-proto.proto.sftp.ErrorResponse.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPrefix(value);
-      break;
-    case 2:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setSerialnumber(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setMessage(value);
-      break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setFormat(value);
-      break;
-    case 5:
-      var value = msg.getAttributeMap();
-      reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
-         });
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.proto.sftp.ErrorResponse.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.proto.sftp.ErrorResponse.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.proto.sftp.ErrorResponse} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.proto.sftp.ErrorResponse.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getPrefix();
-  if (f.length > 0) {
-    writer.writeString(
-      1,
-      f
-    );
-  }
-  f = message.getSerialnumber();
-  if (f !== 0) {
-    writer.writeInt32(
-      2,
-      f
-    );
-  }
-  f = message.getMessage();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
-  f = message.getFormat();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
-  f = message.getAttributeMap(true);
-  if (f && f.getLength() > 0) {
-    f.serializeBinary(5, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
-  }
-};
-
-
-/**
- * optional string prefix = 1;
- * @return {string}
- */
-proto.proto.sftp.ErrorResponse.prototype.getPrefix = function() {
+proto.proto.sftp.MessageResponse.prototype.getUuid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ErrorResponse} returns this
+ * @return {!proto.proto.sftp.MessageResponse} returns this
  */
-proto.proto.sftp.ErrorResponse.prototype.setPrefix = function(value) {
+proto.proto.sftp.MessageResponse.prototype.setUuid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional int32 serialNumber = 2;
- * @return {number}
- */
-proto.proto.sftp.ErrorResponse.prototype.getSerialnumber = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.proto.sftp.ErrorResponse} returns this
- */
-proto.proto.sftp.ErrorResponse.prototype.setSerialnumber = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional string message = 3;
+ * optional string status = 2;
  * @return {string}
  */
-proto.proto.sftp.ErrorResponse.prototype.getMessage = function() {
+proto.proto.sftp.MessageResponse.prototype.getStatus = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.proto.sftp.MessageResponse} returns this
+ */
+proto.proto.sftp.MessageResponse.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string result = 3;
+ * @return {string}
+ */
+proto.proto.sftp.MessageResponse.prototype.getResult = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ErrorResponse} returns this
+ * @return {!proto.proto.sftp.MessageResponse} returns this
  */
-proto.proto.sftp.ErrorResponse.prototype.setMessage = function(value) {
+proto.proto.sftp.MessageResponse.prototype.setResult = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
 /**
- * optional string format = 4;
+ * Creates an object representation of this proto.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * Optional fields that are not set will be set to undefined.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     net/proto2/compiler/js/internal/generator.cc#kKeyword.
+ * @param {boolean=} opt_includeInstance Deprecated. whether to include the
+ *     JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.proto.sftp.FileResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.proto.sftp.FileResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Deprecated. Whether to include
+ *     the JSPB instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.proto.sftp.FileResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.FileResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    offset: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    filesize: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    contents: msg.getContents_asB64(),
+    last: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.proto.sftp.FileResponse}
+ */
+proto.proto.sftp.FileResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.proto.sftp.FileResponse;
+  return proto.proto.sftp.FileResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.proto.sftp.FileResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.proto.sftp.FileResponse}
+ */
+proto.proto.sftp.FileResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUuid(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setOffset(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setFilesize(value);
+      break;
+    case 4:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setContents(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setLast(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.FileResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.proto.sftp.FileResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.proto.sftp.FileResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.proto.sftp.FileResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getUuid();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getOffset();
+  if (f !== 0) {
+    writer.writeInt64(
+      2,
+      f
+    );
+  }
+  f = message.getFilesize();
+  if (f !== 0) {
+    writer.writeInt64(
+      3,
+      f
+    );
+  }
+  f = message.getContents_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
+      4,
+      f
+    );
+  }
+  f = message.getLast();
+  if (f) {
+    writer.writeBool(
+      5,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string uuid = 1;
  * @return {string}
  */
-proto.proto.sftp.ErrorResponse.prototype.getFormat = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+proto.proto.sftp.FileResponse.prototype.getUuid = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
  * @param {string} value
- * @return {!proto.proto.sftp.ErrorResponse} returns this
+ * @return {!proto.proto.sftp.FileResponse} returns this
  */
-proto.proto.sftp.ErrorResponse.prototype.setFormat = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+proto.proto.sftp.FileResponse.prototype.setUuid = function(value) {
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * map<string, string> attribute = 5;
- * @param {boolean=} opt_noLazyCreate Do not create the map if
- * empty, instead returning `undefined`
- * @return {!jspb.Map<string,string>}
+ * optional int64 offset = 2;
+ * @return {number}
  */
-proto.proto.sftp.ErrorResponse.prototype.getAttributeMap = function(opt_noLazyCreate) {
-  return /** @type {!jspb.Map<string,string>} */ (
-      jspb.Message.getMapField(this, 5, opt_noLazyCreate,
-      null));
+proto.proto.sftp.FileResponse.prototype.getOffset = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * Clears values from the map. The map will be non-null.
- * @return {!proto.proto.sftp.ErrorResponse} returns this
+ * @param {number} value
+ * @return {!proto.proto.sftp.FileResponse} returns this
  */
-proto.proto.sftp.ErrorResponse.prototype.clearAttributeMap = function() {
-  this.getAttributeMap().clear();
-  return this;};
+proto.proto.sftp.FileResponse.prototype.setOffset = function(value) {
+  return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional int64 fileSize = 3;
+ * @return {number}
+ */
+proto.proto.sftp.FileResponse.prototype.getFilesize = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.sftp.FileResponse} returns this
+ */
+proto.proto.sftp.FileResponse.prototype.setFilesize = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * @return {!(string|Uint8Array)}
+ */
+proto.proto.sftp.FileResponse.prototype.getContents = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * This is a type-conversion wrapper around `getContents()`
+ * @return {string}
+ */
+proto.proto.sftp.FileResponse.prototype.getContents_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getContents()));
+};
+
+
+/**
+ * optional bytes contents = 4;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getContents()`
+ * @return {!Uint8Array}
+ */
+proto.proto.sftp.FileResponse.prototype.getContents_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getContents()));
+};
+
+
+/**
+ * @param {!(string|Uint8Array)} value
+ * @return {!proto.proto.sftp.FileResponse} returns this
+ */
+proto.proto.sftp.FileResponse.prototype.setContents = function(value) {
+  return jspb.Message.setProto3BytesField(this, 4, value);
+};
+
+
+/**
+ * optional bool last = 5;
+ * @return {boolean}
+ */
+proto.proto.sftp.FileResponse.prototype.getLast = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 5, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.proto.sftp.FileResponse} returns this
+ */
+proto.proto.sftp.FileResponse.prototype.setLast = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 5, value);
+};
 
 
 goog.object.extend(exports, proto.proto.sftp);
