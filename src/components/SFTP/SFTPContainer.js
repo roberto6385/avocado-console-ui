@@ -53,7 +53,7 @@ const SFTPContainer = ({index, socket, data}) => {
 		};
 	}, []);
 
-	return <SFTP_COMPONENT index={index} socket={socket} />;
+	return <SFTP_COMPONENT index={index} socket={socket} serverId={data.id} />;
 };
 
 SFTPContainer.propTypes = {

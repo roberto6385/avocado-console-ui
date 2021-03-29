@@ -43,7 +43,7 @@ const TabNavBar = () => {
 					keyword: 'Disconnection',
 					ws,
 					uuid,
-				});
+				}).then((response) => console.log(response));
 				dispatch({type: CLOSE_TAB, data: data.id});
 			}
 		},
