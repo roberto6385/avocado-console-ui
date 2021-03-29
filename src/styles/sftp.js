@@ -188,13 +188,12 @@ export const FlexSpaceBetween = styled.div`
 `;
 
 export const CustomP = styled.p`
-	display: flex;
-	margin: 0px 4px;
-	padding: 4px;
-	align-items: center;
+	display: inline-block;
+	min-width: ${(props) => props.minWidth};
+	margin: 0px 6px;
+	padding: 2px 0px;
 	font-size: 14px;
-	text-align: left;
-	max-width: 200px;
+	text-align: ${(props) => props.align};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -226,7 +225,7 @@ export const CustomLi = styled.li`
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
 	width: 300px;
-	overflow: scroll;
+	// overflow: scroll;
 `;
 
 export const NoHistory = styled.div`

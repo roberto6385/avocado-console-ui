@@ -133,7 +133,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 								onClick={(e) => selectItem(e, history)}
 							>
 								<FlexSpaceBetween>
-									<CustomP>
+									<CustomP minWidth={'15px'}>
 										{history.todo === 'put' && (
 											<FaArrowAltCircleUp
 												style={{
@@ -163,9 +163,11 @@ const HistoryContents = ({index, ws, uuid}) => {
 												}}
 											/>
 										)}
-										{history.name}
 									</CustomP>
-									<CustomP>{history.size} byte</CustomP>
+									<CustomP>{history.name}</CustomP>
+									<CustomP minWidth={'90px'} align={'right'}>
+										{history.size} byte
+									</CustomP>
 								</FlexSpaceBetween>
 								<CustomP>
 									{history.progress === 100
