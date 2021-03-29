@@ -40,6 +40,7 @@ const auth_ws = ({keyword, ws_auth, user, password}) => {
 					) {
 						const login = response.getLogin();
 						console.log('login');
+						console.log(login.getToken());
 						resolve(login);
 					} else if (
 						response.getResponseCase() ===
