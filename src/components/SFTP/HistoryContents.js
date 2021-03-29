@@ -20,7 +20,8 @@ import {
 	NoHistory,
 } from '../../styles/sftp';
 import usePostMessage from './hooks/usePostMessage';
-import {SFTP_SAVE_HISTORY} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_LIST, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
+import {listConversion} from './commands';
 
 const HistoryContents = ({index, ws, uuid}) => {
 	const {currentPath, History} = useSelector((state) => state.sftp);
@@ -34,31 +35,44 @@ const HistoryContents = ({index, ws, uuid}) => {
 				keyword: 'CommandByPwd',
 				ws,
 				uuid,
-			}).then((response) => {
+			}).then(async (response) => {
 				for (const key of files) {
-					usePostMessage({
+					await usePostMessage({
 						keyword: 'CommandByPut',
 						ws,
 						uuid,
 						path: response.result,
 						fileName: key.name,
 						uploadFile: key,
-					});
-					dispatch({
-						type: SFTP_SAVE_HISTORY,
-						data: {
-							uuid,
-							name: key.name,
-							path: response.result,
-							size: key.size,
-							todo: 'put',
-							progress: 100,
-							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-							// 삭제, dispatch, 삭제 해서 progress 100 만들기
-						},
+					}).then((response) => {
+						dispatch({
+							type: SFTP_SAVE_HISTORY,
+							data: {
+								uuid,
+								name: key.name,
+								path: response.result,
+								size: key.size,
+								todo: 'put',
+								progress: 100,
+								// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+								// 삭제, dispatch, 삭제 해서 progress 100 만들기
+							},
+						});
 					});
 				}
-				resolve();
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					);
 			});
 		});
 	};
