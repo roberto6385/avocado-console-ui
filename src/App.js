@@ -4,13 +4,14 @@ import './styles/default.css'; //html, body => padding,margin : 0, box-sizing : 
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 // import 'xterm/css/xterm.css';
 
-import {NotFound, Main} from './pages';
+import {NotFound, Main, Login} from './pages';
 
 class App extends Component {
 	render() {
 		return (
 			<BrowserRouter>
 				<Switch>
+					<Route path='/login' component={Login} />
 					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>
