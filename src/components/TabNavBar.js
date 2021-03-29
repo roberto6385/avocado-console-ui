@@ -17,7 +17,7 @@ import {
 	TabSSHTIcon,
 	TabSFTPIcon,
 } from '../styles/common';
-import usePostMessage from './SFTP/hooks/usePostMessage';
+import sftp_ws from '../ws/sftp_ws';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const TabNavBar = () => {
 
 			if (type === 'SSHT') ws.send(Close(uuid));
 			else {
-				await usePostMessage({
+				await sftp_ws({
 					keyword: 'Disconnection',
 					ws,
 					uuid,

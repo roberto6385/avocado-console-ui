@@ -15,7 +15,7 @@ import {
 } from '../../reducers/sftp';
 import {NavItem} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from './commands';
 
 const SearchPath = styled.input`
@@ -36,13 +36,13 @@ const FileListNav = ({index, ws, uuid}) => {
 	const goHome = (e, nextPath = '/root') => {
 		// sendCommandByCd(ws, uuid, nextPath, dispatch);
 
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByCd',
 			ws,
 			uuid,
 			path: nextPath,
 		}).then(() =>
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByPwd',
 				ws,
 				uuid,
@@ -51,7 +51,7 @@ const FileListNav = ({index, ws, uuid}) => {
 					type: SFTP_SAVE_CURRENT_PATH,
 					data: {uuid, path: response.result},
 				});
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByLs',
 					ws,
 					uuid,

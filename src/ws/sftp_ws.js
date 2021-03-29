@@ -1,11 +1,11 @@
-import SFTP from '../../../dist/sftp_pb';
+import SFTP from '../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
 let fileBuffer = new ArrayBuffer(0);
 
 let getReceiveSum = 0;
 
-const usePostMessage = ({
+const sftp_ws = ({
 	keyword,
 	ws,
 	uuid,
@@ -346,7 +346,7 @@ const usePostMessage = ({
 	});
 };
 
-usePostMessage.propTypes = {
+sftp_ws.propTypes = {
 	keyword: PropTypes.string.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string,
@@ -357,4 +357,4 @@ usePostMessage.propTypes = {
 	uploadFile: PropTypes.object,
 };
 
-export default usePostMessage;
+export default sftp_ws;

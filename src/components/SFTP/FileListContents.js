@@ -22,7 +22,7 @@ import {
 	FileIcon,
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentPath, currentHighlight} = useSelector(
@@ -44,12 +44,12 @@ const FileListContents = ({index, ws, uuid}) => {
 		e.stopPropagation();
 		if (item.fileName !== '..' && item.fileType !== 'directory') {
 			// 현재는 디렉토리 다운로드 막아두었음.
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByPwd',
 				ws,
 				uuid,
 			}).then((response) =>
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByGet',
 					ws,
 					uuid,
@@ -111,12 +111,12 @@ const FileListContents = ({index, ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				// sendCommandByCd(ws, uuid, item.fileName, dispatch);
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByPwd',
 					ws,
 					uuid,
 				}).then((response) =>
-					usePostMessage({
+					sftp_ws({
 						keyword: 'CommandByCd',
 						ws,
 						uuid,
@@ -125,7 +125,7 @@ const FileListContents = ({index, ws, uuid}) => {
 								? response.result + item.fileName
 								: response.result + '/' + item.fileName,
 					}).then(() =>
-						usePostMessage({
+						sftp_ws({
 							keyword: 'CommandByPwd',
 							ws,
 							uuid,
@@ -134,7 +134,7 @@ const FileListContents = ({index, ws, uuid}) => {
 								type: SFTP_SAVE_CURRENT_PATH,
 								data: {uuid, path: response.result},
 							});
-							usePostMessage({
+							sftp_ws({
 								keyword: 'CommandByLs',
 								ws,
 								uuid,

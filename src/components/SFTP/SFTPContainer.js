@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import SFTP_COMPONENT from './SFTP';
 import * as PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from './commands';
 import {
 	SFTP_SAVE_CURRENT_LIST,
@@ -15,7 +15,7 @@ const SFTPContainer = ({index, socket, data}) => {
 	const {ws, uuid} = socket;
 
 	useEffect(() => {
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
@@ -24,7 +24,7 @@ const SFTPContainer = ({index, socket, data}) => {
 				type: SFTP_SAVE_CURRENT_PATH,
 				data: {uuid, path: response.result},
 			});
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByLs',
 				ws,
 				uuid,
@@ -45,7 +45,7 @@ const SFTPContainer = ({index, socket, data}) => {
 			console.log('socket error!');
 		};
 		ws.onclose = () => {
-			usePostMessage({
+			sftp_ws({
 				keyword: 'Disconnection',
 				ws,
 				uuid,

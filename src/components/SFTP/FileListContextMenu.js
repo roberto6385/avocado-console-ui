@@ -8,7 +8,7 @@ import {
 } from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
@@ -20,13 +20,13 @@ const FileListContextMenu = ({ws, uuid}) => {
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
 		}).then(async (response) => {
 			for await (const key of highlightItem?.list) {
-				await usePostMessage({
+				await sftp_ws({
 					keyword: 'CommandByGet',
 					ws,
 					uuid,

@@ -3,7 +3,7 @@ import {
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_CURRENT_TEXT,
 } from '../../reducers/sftp';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');
@@ -66,12 +66,12 @@ export const listConversion = (result) => {
 export const toEditMode = (e, ws, uuid, item, dispatch) => {
 	e.stopPropagation();
 	if (item.fileName !== '..' && item.fileType !== 'directory') {
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
 		}).then((response) => {
-			usePostMessage({
+			sftp_ws({
 				keyword: 'EDIT',
 				ws,
 				uuid,

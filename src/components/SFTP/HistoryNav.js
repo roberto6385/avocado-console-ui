@@ -10,7 +10,7 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../ConfirmPopup';
 import {NavItem} from '../../styles/sftp';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_CURRENT_LIST, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {OPEN_TAB} from '../../reducers/common';
 import {listConversion} from './commands';
@@ -34,13 +34,13 @@ const HistoryNav = ({index, ws, uuid, serverId}) => {
 		uploadInput.click();
 		uploadInput.onchange = (e) => {
 			const File = e.target.files;
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByPwd',
 				ws,
 				uuid,
 			}).then(async (response) => {
 				for (const key of Object.keys(File)) {
-					await usePostMessage({
+					await sftp_ws({
 						keyword: 'CommandByPut',
 						ws,
 						uuid,
@@ -63,7 +63,7 @@ const HistoryNav = ({index, ws, uuid, serverId}) => {
 						});
 					});
 				}
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByLs',
 					ws,
 					uuid,

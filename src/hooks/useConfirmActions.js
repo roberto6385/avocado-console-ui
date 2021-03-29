@@ -9,7 +9,7 @@ import {
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
-import usePostMessage from '../components/SFTP/hooks/usePostMessage';
+import sftp_ws from '../ws/sftp_ws';
 import {listConversion} from '../components/SFTP/commands';
 
 const useConfirmActions = (ws, uuid) => {
@@ -19,7 +19,7 @@ const useConfirmActions = (ws, uuid) => {
 	// );
 
 	const deleteWorkFunction = useCallback(async (highlightItem) => {
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
@@ -30,14 +30,14 @@ const useConfirmActions = (ws, uuid) => {
 					: response.result + '/';
 			for await (const key of highlightItem?.list) {
 				if (key.fileType === 'file') {
-					await usePostMessage({
+					await sftp_ws({
 						keyword: 'CommandByRm',
 						ws,
 						uuid,
 						path: path + key.fileName,
 					});
 				} else {
-					await usePostMessage({
+					await sftp_ws({
 						keyword: 'CommandByRmdir',
 						ws,
 						uuid,
@@ -58,7 +58,7 @@ const useConfirmActions = (ws, uuid) => {
 					},
 				});
 			}
-			await usePostMessage({
+			await sftp_ws({
 				keyword: 'CommandByLs',
 				ws,
 				uuid,
@@ -81,7 +81,7 @@ const useConfirmActions = (ws, uuid) => {
 	}, []);
 
 	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
-		await usePostMessage({
+		await sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
@@ -90,14 +90,14 @@ const useConfirmActions = (ws, uuid) => {
 				response.result === '/'
 					? response.result
 					: response.result + '/';
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByRename',
 				ws,
 				uuid,
 				path: path + highlightItem?.list[0].fileName,
 				newPath: path + formValue,
 			}).then(() =>
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByLs',
 					ws,
 					uuid,
@@ -123,12 +123,12 @@ const useConfirmActions = (ws, uuid) => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
 		}).then(async (response) => {
-			await usePostMessage({
+			await sftp_ws({
 				keyword: 'CommandByPut',
 				ws,
 				uuid,
@@ -158,7 +158,7 @@ const useConfirmActions = (ws, uuid) => {
 	}, []);
 
 	const newFolderFunction = useCallback(async (formValue) => {
-		await usePostMessage({
+		await sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
@@ -167,18 +167,18 @@ const useConfirmActions = (ws, uuid) => {
 				response.result === '/'
 					? response.result
 					: response.result + '/';
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByMkdir',
 				ws,
 				uuid,
 				path: path + formValue,
 			}).then(() =>
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByPwd',
 					ws,
 					uuid,
 				}).then((response) =>
-					usePostMessage({
+					sftp_ws({
 						keyword: 'CommandByLs',
 						ws,
 						uuid,

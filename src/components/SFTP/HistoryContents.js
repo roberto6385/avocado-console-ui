@@ -19,7 +19,7 @@ import {
 	FlexSpaceBetween,
 	NoHistory,
 } from '../../styles/sftp';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_CURRENT_LIST, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {listConversion} from './commands';
 
@@ -31,13 +31,13 @@ const HistoryContents = ({index, ws, uuid}) => {
 
 	const upload = async (files) => {
 		return new Promise((resolve) => {
-			usePostMessage({
+			sftp_ws({
 				keyword: 'CommandByPwd',
 				ws,
 				uuid,
 			}).then(async (response) => {
 				for (const key of files) {
-					await usePostMessage({
+					await sftp_ws({
 						keyword: 'CommandByPut',
 						ws,
 						uuid,
@@ -60,7 +60,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 						});
 					});
 				}
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByLs',
 					ws,
 					uuid,

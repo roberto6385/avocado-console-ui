@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../ConfirmPopup';
 import {Navbar, NavItem} from '../../styles/sftp';
-import usePostMessage from './hooks/usePostMessage';
+import sftp_ws from '../../ws/sftp_ws';
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -28,13 +28,13 @@ const EditNav = ({index, ws, uuid}) => {
 		const editFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
 		})
 			.then((response) => {
-				usePostMessage({
+				sftp_ws({
 					keyword: 'CommandByGet',
 					ws,
 					uuid,
@@ -63,12 +63,12 @@ const EditNav = ({index, ws, uuid}) => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		usePostMessage({
+		sftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 			uuid,
 		}).then(async (response) => {
-			await usePostMessage({
+			await sftp_ws({
 				keyword: 'CommandByPut',
 				ws,
 				uuid,
@@ -76,7 +76,7 @@ const EditNav = ({index, ws, uuid}) => {
 				fileName: editedFile.name,
 				uploadFile: editedFile,
 			});
-			usePostMessage({
+			sftp_ws({
 				keyword: 'EDIT',
 				ws,
 				uuid,
