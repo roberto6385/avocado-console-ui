@@ -11,7 +11,6 @@ import {
 } from '../styles/common';
 import ServerNavBar from './ServerNavBar';
 import {PropTypes} from 'prop-types';
-import RightContainer from './RightContainer';
 
 const LeftContainer = ({setShowAddServerForm}) => {
 	const {clicked_server} = useSelector((state) => state.common);

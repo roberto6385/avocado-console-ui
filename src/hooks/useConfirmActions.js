@@ -200,6 +200,13 @@ const useConfirmActions = (ws, uuid) => {
 		});
 	}, []);
 
+	const deleteHistoryFunction = useCallback(() => {
+		dispatch({
+			type: SFTP_DELETE_HISTORY,
+			data: {id: -1, uuid},
+		});
+	}, []);
+
 	return useMemo(
 		() => ({
 			deleteWork: (ws, uuid, curPath, highlightItem) => {
@@ -219,10 +226,7 @@ const useConfirmActions = (ws, uuid) => {
 			},
 
 			deleteHistory: (uuid) => {
-				dispatch({
-					type: SFTP_DELETE_HISTORY,
-					data: {id: -1, uuid},
-				});
+				deleteHistoryFunction();
 			},
 
 			deleteServer: () => {

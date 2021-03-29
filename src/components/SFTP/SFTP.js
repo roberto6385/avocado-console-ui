@@ -11,7 +11,7 @@ import {
 import Edit from './Edit';
 import {SftpContainer} from '../../styles/sftp';
 
-const SFTP_COMPONENT = ({index, socket}) => {
+const SFTP_COMPONENT = ({index, socket, serverId}) => {
 	const {ws, uuid} = socket;
 	const dispatch = useDispatch();
 
@@ -25,7 +25,11 @@ const SFTP_COMPONENT = ({index, socket}) => {
 			) : (
 				<>
 					<FileList index={index} socket={socket} />
-					<History index={index} socket={socket} />
+					<History
+						index={index}
+						socket={socket}
+						serverId={serverId}
+					/>
 				</>
 			)}
 		</SftpContainer>
@@ -35,6 +39,7 @@ const SFTP_COMPONENT = ({index, socket}) => {
 SFTP_COMPONENT.propTypes = {
 	index: PropTypes.number.isRequired,
 	socket: PropTypes.object.isRequired,
+	serverId: PropTypes.number.isRequired,
 };
 
 export default SFTP_COMPONENT;

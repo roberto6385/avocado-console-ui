@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
 import {
 	BsArrowClockwise,
 	BsCheck,
@@ -12,37 +11,43 @@ import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../ConfirmPopup';
 import {NavItem} from '../../styles/sftp';
 import usePostMessage from './hooks/usePostMessage';
-import {SFTP_SAVE_HISTORY} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_LIST, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
+import {OPEN_TAB} from '../../reducers/common';
+import {listConversion} from './commands';
 
-const HistoryNav = ({index, ws, uuid}) => {
+const HistoryNav = ({index, ws, uuid, serverId}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
+	console.log(index);
+	const {server} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 
 	const upload = async () => {
-		return new Promise((resolve) => {
-			const uploadInput = document.createElement('input');
-			document.body.appendChild(uploadInput);
-			uploadInput.setAttribute('type', 'file');
-			uploadInput.setAttribute('multiple', 'multiple');
-			uploadInput.setAttribute('style', 'display:none');
-			uploadInput.click();
-			uploadInput.onchange = (e) => {
-				const File = e.target.files;
-				usePostMessage({
-					keyword: 'CommandByPwd',
-					ws,
-					uuid,
-				}).then((response) => {
-					for (const key of Object.keys(File)) {
-						usePostMessage({
-							keyword: 'CommandByPut',
-							ws,
-							uuid,
-							path: response.result,
-							fileName: File[key].name,
-							uploadFile: File[key],
-						});
+		// return new Promise((resolve) => {
+		const data = server.find((item) => item.id === serverId);
+		console.log(data);
+		const uploadInput = document.createElement('input');
+		document.body.appendChild(uploadInput);
+		uploadInput.setAttribute('type', 'file');
+		uploadInput.setAttribute('multiple', 'multiple');
+		uploadInput.setAttribute('style', 'display:none');
+		uploadInput.click();
+		uploadInput.onchange = (e) => {
+			const File = e.target.files;
+			usePostMessage({
+				keyword: 'CommandByPwd',
+				ws,
+				uuid,
+			}).then(async (response) => {
+				for (const key of Object.keys(File)) {
+					await usePostMessage({
+						keyword: 'CommandByPut',
+						ws,
+						uuid,
+						path: response.result,
+						fileName: File[key].name,
+						uploadFile: File[key],
+					}).then((response) => {
 						dispatch({
 							type: SFTP_SAVE_HISTORY,
 							data: {
@@ -56,12 +61,24 @@ const HistoryNav = ({index, ws, uuid}) => {
 								// 삭제, dispatch, 삭제 해서 progress 100 만들기
 							},
 						});
-					}
-					resolve(response);
-					document.body.removeChild(uploadInput);
-				});
-			};
-		});
+					});
+				}
+				usePostMessage({
+					keyword: 'CommandByLs',
+					ws,
+					uuid,
+					path: response.result,
+				})
+					.then((response) => listConversion(response.result))
+					.then((response) =>
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: response},
+						}),
+					);
+			});
+		};
+		document.body.removeChild(uploadInput);
 	};
 
 	const historyDelete = () => {
@@ -69,10 +86,10 @@ const HistoryNav = ({index, ws, uuid}) => {
 		setOpen(true);
 	};
 
-	const uploading = async () => {
-		const path = await upload();
-		console.log(path);
-	};
+	// const uploading = async () => {
+	// 	const path = await upload();
+	// 	console.log(path);
+	// };
 
 	return (
 		<>
@@ -82,7 +99,7 @@ const HistoryNav = ({index, ws, uuid}) => {
 			<NavItem>
 				<BsCheck />
 			</NavItem>
-			<NavItem id='btn-upload' onClick={uploading}>
+			<NavItem id='btn-upload' onClick={upload}>
 				<MdFileUpload />
 			</NavItem>
 			<NavItem>
@@ -106,6 +123,7 @@ HistoryNav.propTypes = {
 	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
+	serverId: PropTypes.number.isRequired,
 };
 
 export default HistoryNav;

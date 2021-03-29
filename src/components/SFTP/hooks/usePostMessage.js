@@ -33,80 +33,78 @@ const usePostMessage = ({
 
 	return new Promise((resolve) => {
 		const upload = () => {
-			return new Promise((resolve) => {
-				console.log('file size : ', uploadFile.size);
+			// return new Promise((resolve) => {
+			console.log('file size : ', uploadFile.size);
 
-				const uploadFileSize = uploadFile.size;
+			const uploadFileSize = uploadFile.size;
 
-				const chunkSize = 8 * 1024;
-				const fileSlices = [];
+			const chunkSize = 8 * 1024;
+			const fileSlices = [];
 
-				for (var i = 0; i < uploadFileSize; i += chunkSize) {
-					(function (start) {
-						fileSlices.push({
-							offset: start,
-							length: chunkSize + start,
-						});
-					})(i);
+			for (var i = 0; i < uploadFileSize; i += chunkSize) {
+				(function (start) {
+					fileSlices.push({
+						offset: start,
+						length: chunkSize + start,
+					});
+				})(i);
+			}
+
+			const sendBuffer = (data) => {
+				console.log('recv data : ', data);
+				reqObj.setType(SFTP.Request.Types.MESSAGE);
+				postObj = new SFTP.MessageRequest();
+				postObj.setUuid(uuid);
+
+				if (keyword === 'CommandByPut') {
+					cmdObj = new SFTP.CommandByPut();
+					postObj.setPut(cmdObj);
+				} else if (keyword === 'CommandByPutDirect') {
+					cmdObj = new SFTP.CommandByPutDirect();
+					postObj.setPutdirect(cmdObj);
 				}
 
-				const sendBuffer = (data) => {
-					console.log('recv data : ', data);
-					reqObj.setType(SFTP.Request.Types.MESSAGE);
-					postObj = new SFTP.MessageRequest();
-					postObj.setUuid(uuid);
+				cmdObj.setPath(path);
+				cmdObj.setFilename(fileName);
+				cmdObj.setFilesize(uploadFileSize);
+				cmdObj.setContents(Buffer.from(data.buffer));
+				cmdObj.setOffset(1);
+				cmdObj.setLast(data.last);
 
-					if (keyword === 'CommandByPut') {
-						cmdObj = new SFTP.CommandByPut();
-						postObj.setPut(cmdObj);
-					} else if (keyword === 'CommandByPutDirect') {
-						cmdObj = new SFTP.CommandByPutDirect();
-						postObj.setPutdirect(cmdObj);
+				reqObj.setBody(postObj.serializeBinary());
+				msgObj.setBody(reqObj.serializeBinary());
+				ws.send(msgObj.serializeBinary());
+			};
+			const readBytes = (file, slice) => {
+				const reader = new FileReader();
+
+				// eslint-disable-next-line no-undef
+				return new Promise((resolve) => {
+					reader.onload = (e) => {
+						resolve(e.target.result);
+					};
+					var blob = file.slice(slice.offset, slice.length);
+					reader.readAsArrayBuffer(blob);
+				});
+			};
+
+			const readFile = (file, slice) => {
+				readBytes(file, slice).then((data) => {
+					// send protocol buffer
+					console.log('read arraybuffer : ', data);
+					total += data.byteLength;
+
+					if (0 < fileSlices.length) {
+						sendBuffer({buffer: data, last: false});
+						readFile(file, fileSlices.shift());
+					} else {
+						sendBuffer({buffer: data, last: true});
+						console.log('file read end. total size : ', total);
 					}
-
-					cmdObj.setPath(path);
-					cmdObj.setFilename(fileName);
-					cmdObj.setFilesize(uploadFileSize);
-					cmdObj.setContents(Buffer.from(data.buffer));
-					cmdObj.setOffset(1);
-					cmdObj.setLast(data.last);
-
-					reqObj.setBody(postObj.serializeBinary());
-					msgObj.setBody(reqObj.serializeBinary());
-					ws.send(msgObj.serializeBinary());
-				};
-				const readBytes = (file, slice) => {
-					const reader = new FileReader();
-
-					// eslint-disable-next-line no-undef
-					return new Promise((resolve) => {
-						reader.onload = (e) => {
-							resolve(e.target.result);
-						};
-
-						var blob = file.slice(slice.offset, slice.length);
-						reader.readAsArrayBuffer(blob);
-					});
-				};
-
-				const readFile = (file, slice) => {
-					readBytes(file, slice).then((data) => {
-						// send protocol buffer
-						console.log('read arraybuffer : ', data);
-						total += data.byteLength;
-
-						if (0 < fileSlices.length) {
-							sendBuffer({buffer: data, last: false});
-							readFile(file, fileSlices.shift());
-						} else {
-							sendBuffer({buffer: data, last: true});
-							console.log('file read end. total size : ', total);
-							resolve();
-						}
-					});
-				};
-				readFile(uploadFile, fileSlices.shift());
-			});
+				});
+			};
+			readFile(uploadFile, fileSlices.shift());
+			// });
 		};
 
 		switch (keyword) {
@@ -280,9 +278,11 @@ const usePostMessage = ({
 						} else {
 							if (
 								keyword !== 'CommandByGet' &&
+								// keyword !== 'CommandByPut' &&
 								keyword !== 'EDIT'
 							) {
 								console.log(msgObj.toObject());
+								console.log(msgObj.getStatus());
 								resolve(msgObj.toObject());
 							}
 						}
