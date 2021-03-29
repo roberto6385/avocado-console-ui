@@ -6,29 +6,22 @@ import {IconButton} from '../../styles/common';
 import sftp_ws from '../../ws/sftp_ws';
 import SFTP from '../../dist/sftp_pb';
 import {OPEN_TAB} from '../../reducers/common';
+import useSftpWebsocket from '../../hooks/useSftpWebsocket';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 
 	const connection = () => {
 		const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-		ws.binaryType = 'arraybuffer';
-		ws.onopen = async () => {
-			const {uuid} = await sftp_ws({
+		const {readyState, message} = useSftpWebsocket({
+			sftp_ws: ws,
+			sendFunction: sftp_ws({
 				keyword: 'Connection',
 				ws,
 				data,
-			});
-			dispatch({
-				type: OPEN_TAB,
-				data: {
-					id: data.id,
-					type: 'SFTP',
-					ws: ws,
-					uuid: uuid,
-				},
-			});
-		};
+			}),
+		});
+		console.log()
 	};
 
 	return (
