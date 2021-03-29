@@ -224,7 +224,7 @@ export const CustomLi = styled.li`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
-	width: 300px;
+	width: 250px;
 	// overflow: scroll;
 `;
 
