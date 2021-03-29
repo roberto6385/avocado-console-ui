@@ -9,11 +9,14 @@ const LoginForm = () => {
 	const [user, onChangeUser] = useInput('');
 	const [password, onChangePassword] = useInput('');
 
-	const onSubmitForm = useCallback((e) => {
-		e.preventDefault();
-		console.log(user);
-		console.log(password);
-	}, []);
+	const onSubmitForm = useCallback(
+		(e) => {
+			e.preventDefault();
+			console.log(user);
+			console.log(password);
+		},
+		[user, password],
+	);
 
 	return (
 		<Form onSubmit={onSubmitForm}>
