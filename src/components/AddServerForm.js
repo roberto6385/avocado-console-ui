@@ -6,15 +6,16 @@ import {FaTimes} from 'react-icons/all';
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import {AddServerCard, IconButton} from '../styles/common';
+import {AddServerModal, IconButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';
 import Button from './AddServer/Button';
 import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
 import TwoColsForm from './AddServer/TwoColsForm';
 import OneColButtonForm from './AddServer/OneColButtonForm';
+import {PropTypes} from 'prop-types';
 
-const AddServerForm = () => {
+const AddServerForm = ({showForm, setShowForm}) => {
 	const dispatch = useDispatch();
 	const [name, onChangeName, setName] = useInput('');
 	const [protocol, setProtocol] = useState('SSH2');
@@ -30,7 +31,6 @@ const AddServerForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log(name, protocol, authentication);
 
 			const ws = new WebSocket('ws://' + host + ':8080/ws/ssh/protobuf');
 			ws.binaryType = 'arraybuffer';
@@ -75,7 +75,7 @@ const AddServerForm = () => {
 	);
 
 	const onClickCloseForm = useCallback(() => {
-		document.getElementById('add-server-form').style.display = 'none';
+		setShowForm(false);
 		setName('');
 		setProtocol('SSH2');
 		setHost('');
@@ -88,7 +88,12 @@ const AddServerForm = () => {
 
 	return (
 		<div>
-			<AddServerCard id='add-server-form'>
+			<AddServerModal
+				show={showForm}
+				onHide={onClickCloseForm}
+				backdrop='static'
+				keyboard={false}
+			>
 				<Card.Header as='h5'>
 					Add Server
 					<IconButton className={'right'}>
@@ -148,7 +153,7 @@ const AddServerForm = () => {
 						<Button onClickCloseForm={onClickCloseForm} />
 					</Form>
 				</Card.Body>
-			</AddServerCard>
+			</AddServerModal>
 			<AlertPopup
 				keyword='invalid_server'
 				open={open}
@@ -156,6 +161,11 @@ const AddServerForm = () => {
 			/>
 		</div>
 	);
+};
+
+AddServerForm.propTypes = {
+	showForm: PropTypes.bool.isRequired,
+	setShowForm: PropTypes.func.isRequired,
 };
 
 export default AddServerForm;

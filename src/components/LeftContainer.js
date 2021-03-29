@@ -10,15 +10,16 @@ import {
 	ServerSearchForm,
 } from '../styles/common';
 import ServerNavBar from './ServerNavBar';
+import {PropTypes} from 'prop-types';
 
-const LeftContainer = () => {
+const LeftContainer = ({setShowAddServerForm}) => {
 	const {clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
 
 	const onClickVisibleForm = useCallback(() => {
-		document.getElementById('add-server-form').style.display = 'block';
+		setShowAddServerForm(true);
 	}, []);
 
 	const onClickDeleteServer = useCallback(() => {
@@ -70,6 +71,10 @@ const LeftContainer = () => {
 			/>
 		</OutlineCol>
 	);
+};
+
+LeftContainer.propTypes = {
+	setShowAddServerForm: PropTypes.func.isRequired,
 };
 
 export default LeftContainer;
