@@ -1,9 +1,10 @@
 import React, {useCallback} from 'react';
 import {AddServerButton, Background} from '../styles/common';
+import {PropTypes} from 'prop-types';
 
-const MainPage = () => {
+const MainPage = ({setShowAddServerForm}) => {
 	const onClickVisibleForm = useCallback(() => {
-		document.getElementById('add-server-form').style.display = 'block';
+		setShowAddServerForm(true);
 	}, []);
 
 	return (
@@ -13,6 +14,10 @@ const MainPage = () => {
 			</AddServerButton>
 		</Background>
 	);
+};
+
+MainPage.propTypes = {
+	setShowAddServerForm: PropTypes.func.isRequired,
 };
 
 export default MainPage;

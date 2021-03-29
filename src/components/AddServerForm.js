@@ -1,12 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Form, Card} from 'react-bootstrap';
+import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
+import {PropTypes} from 'prop-types';
 
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
 import {Close, Connect, GetMessage} from '../dist/ssht_ws';
-import {AddServerCard, IconButton} from '../styles/common';
+import {AddServerModal, IconButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';
 import Button from './AddServer/Button';
@@ -14,7 +15,7 @@ import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
 import TwoColsForm from './AddServer/TwoColsForm';
 import OneColButtonForm from './AddServer/OneColButtonForm';
 
-const AddServerForm = () => {
+const AddServerForm = ({showForm, setShowForm}) => {
 	const dispatch = useDispatch();
 	const [name, onChangeName, setName] = useInput('');
 	const [protocol, setProtocol] = useState('SSH2');
@@ -25,7 +26,7 @@ const AddServerForm = () => {
 	const [key, onChangeKey] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
-	const [open, setOpen] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -40,7 +41,7 @@ const AddServerForm = () => {
 			};
 
 			ws.onerror = () => {
-				setOpen(true);
+				setShowAlert(true);
 			};
 
 			ws.onmessage = (e) => {
@@ -61,9 +62,10 @@ const AddServerForm = () => {
 						ws.send(Close(result.uuid));
 						break;
 					case 'disconnected':
-						document.getElementById(
-							'add-server-form',
-						).style.display = 'none';
+						// document.getElementById(
+						// 	'add-server-form',
+						// ).style.display = 'none';
+						setShowForm(true);
 						break;
 					default:
 						console.log('무시합시다: AddServerForm');
@@ -75,7 +77,7 @@ const AddServerForm = () => {
 	);
 
 	const onClickCloseForm = useCallback(() => {
-		document.getElementById('add-server-form').style.display = 'none';
+		setShowForm(false);
 		setName('');
 		setProtocol('SSH2');
 		setHost('');
@@ -88,14 +90,19 @@ const AddServerForm = () => {
 
 	return (
 		<div>
-			<AddServerCard id='add-server-form'>
-				<Card.Header as='h5'>
+			<AddServerModal
+				show={showForm}
+				onHide={onClickCloseForm}
+				backdrop='static'
+				keyboard={false}
+			>
+				<Modal.Header as='h5'>
 					Add Server
 					<IconButton className={'right'}>
 						<FaTimes onClick={onClickCloseForm} />
 					</IconButton>
-				</Card.Header>
-				<Card.Body>
+				</Modal.Header>
+				<Modal.Body>
 					<Form onSubmit={onSubmitForm}>
 						<TwoColsOptionForm
 							keyword='name_protocol'
@@ -147,15 +154,20 @@ const AddServerForm = () => {
 
 						<Button onClickCloseForm={onClickCloseForm} />
 					</Form>
-				</Card.Body>
-			</AddServerCard>
+				</Modal.Body>
+			</AddServerModal>
 			<AlertPopup
 				keyword='invalid_server'
-				open={open}
-				setOpen={setOpen}
+				open={showAlert}
+				setOpen={setShowAlert}
 			/>
 		</div>
 	);
+};
+
+AddServerForm.propTypes = {
+	showForm: PropTypes.bool.isRequired,
+	setShowForm: PropTypes.func.isRequired,
 };
 
 export default AddServerForm;

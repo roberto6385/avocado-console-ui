@@ -234,23 +234,17 @@ export const FlexBox = styled.div`
 // Work Space
 export const WorkSpaceContainer = styled.div`
 	flex: 1;
-`;
-
-export const Work = styled.div`
-	margin: 0;
-	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
 `;
 
 //Add Server Form
-export const AddServerCard = styled(Card)`
+export const AddServerModal = styled(Modal)`
 	display: none;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	z-index: 1000;
 `;
 
 export const AddServerButtonContainer = styled.div`
