@@ -1,6 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
+	me: null,
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,

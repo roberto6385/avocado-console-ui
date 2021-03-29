@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Form, Card} from 'react-bootstrap';
+import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
@@ -94,13 +94,13 @@ const AddServerForm = ({showForm, setShowForm}) => {
 				backdrop='static'
 				keyboard={false}
 			>
-				<Card.Header as='h5'>
+				<Modal.Header as='h5'>
 					Add Server
 					<IconButton className={'right'}>
 						<FaTimes onClick={onClickCloseForm} />
 					</IconButton>
-				</Card.Header>
-				<Card.Body>
+				</Modal.Header>
+				<Modal.Body>
 					<Form onSubmit={onSubmitForm}>
 						<TwoColsOptionForm
 							keyword='name_protocol'
@@ -152,7 +152,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 
 						<Button onClickCloseForm={onClickCloseForm} />
 					</Form>
-				</Card.Body>
+				</Modal.Body>
 			</AddServerModal>
 			<AlertPopup
 				keyword='invalid_server'
