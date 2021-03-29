@@ -5,7 +5,7 @@ import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
-import {Close, Connect, GetMessage} from '../dist/ssht_ws';
+import {Close, Connect, GetMessage} from '../ws/ssh_ws';
 import {AddServerModal, IconButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';

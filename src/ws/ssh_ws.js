@@ -1,4 +1,4 @@
-import SSH from './ssh_pb';
+import SSH from '../dist/ssh_pb';
 
 export const Connect = (host, user, password, port) => {
 	console.log('CONNECTION');

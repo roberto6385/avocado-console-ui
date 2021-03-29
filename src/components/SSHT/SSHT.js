@@ -6,7 +6,7 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CLOSE_TAB} from '../../reducers/common';
-import {Close, GetMessage, SendMessage, Resize} from '../../dist/ssht_ws';
+import {Close, GetMessage, SendMessage, Resize} from '../../ws/ssh_ws';
 import useInput from '../../hooks/useInput';
 import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 

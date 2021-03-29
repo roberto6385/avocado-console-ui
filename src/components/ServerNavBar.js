@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import {HIGHLIGHT_COLOR} from '../styles/global';
-import {Connect, GetMessage} from '../dist/ssht_ws';
+import {Connect, GetMessage} from '../ws/ssh_ws';
 import {
 	FaServerIcon,
 	ServerNavBarContainer,

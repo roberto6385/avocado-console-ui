@@ -6,7 +6,7 @@ import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
 import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
-import {Close} from '../dist/ssht_ws';
+import {Close} from '../ws/ssh_ws';
 import {
 	FlexBox,
 	IconButton,
