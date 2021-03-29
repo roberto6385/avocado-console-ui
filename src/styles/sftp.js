@@ -111,7 +111,10 @@ export const CustomTable = styled(BTable)`
 export const CustomTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: left;
-	min-width: 140px;
+	min-width: 130px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 export const CustomRightTh = styled.th`
@@ -191,6 +194,10 @@ export const CustomP = styled.p`
 	align-items: center;
 	font-size: 14px;
 	text-align: left;
+	max-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 export const CustomUl = styled.ul`
 	margin: 0px;
@@ -218,6 +225,8 @@ export const CustomLi = styled.li`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
+	width: 300px;
+	overflow: scroll;
 `;
 
 export const NoHistory = styled.div`
