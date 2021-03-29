@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Modal} from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import {FaTimes} from 'react-icons/all';
 
@@ -11,7 +11,7 @@ const AlertMessage = {
 };
 
 const AlertTopMessage = {
-	invalid_server: 'Invalid Server',
+	invalid_server: 'invalid Server',
 };
 
 const AlertPopup = ({keyword, open, setOpen}) => {
@@ -21,7 +21,7 @@ const AlertPopup = ({keyword, open, setOpen}) => {
 
 	return (
 		<CustomModal size='lg' show={open} onHide={handleClose}>
-			<Modal.Header as='h5'>
+			<Card.Header as='h5'>
 				{Object.prototype.hasOwnProperty.call(
 					AlertTopMessage,
 					keyword,
@@ -29,13 +29,13 @@ const AlertPopup = ({keyword, open, setOpen}) => {
 				<span className={'right'} onClick={handleClose}>
 					<FaTimes />
 				</span>
-			</Modal.Header>
-			<Modal.Body>
+			</Card.Header>
+			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(
 					AlertMessage,
 					keyword,
 				) && <p>{AlertMessage[keyword]}</p>}
-			</Modal.Body>
+			</Card.Body>
 			<ModalFooter>
 				<PopupButton
 					variant='default'

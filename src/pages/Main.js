@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Row} from 'react-bootstrap';
 
 import AddServerForm from '../components/AddServerForm';
@@ -7,18 +7,13 @@ import RightContainer from '../components/RightContainer';
 import {MainContainer} from '../styles/page';
 
 const Main = () => {
-	const [showAddServerForm, setShowAddServerForm] = useState(false);
-
 	return (
 		<MainContainer fluid>
 			<Row className={'fix-height'}>
-				<LeftContainer setShowAddServerForm={setShowAddServerForm} />
-				<RightContainer setShowAddServerForm={setShowAddServerForm} />
+				<LeftContainer />
+				<RightContainer />
 			</Row>
-			<AddServerForm
-				showForm={showAddServerForm}
-				setShowForm={setShowAddServerForm}
-			/>
+			<AddServerForm />
 		</MainContainer>
 	);
 };
