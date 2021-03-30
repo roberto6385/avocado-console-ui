@@ -14,10 +14,7 @@ const useAnthWs = () => {
 			console.log('socket connected');
 		};
 
-		socket.current.onclose = () => {
-			socket.current.close();
-			socket.current = null;
-		};
+		socket.current.onclose = () => {};
 
 		socket.current.onmessage = (evt) => {
 			if (evt.data instanceof ArrayBuffer) {
@@ -38,17 +35,14 @@ const useAnthWs = () => {
 						response.getResponseCase() ===
 						AUTH.Response.ResponseCase.LOGOUT
 					) {
-						console.log('logout');
-						dispatch({type: LOGOUT});
+						// console.log('logout');
+						// dispatch({type: LOGOUT});
 					}
 				}
 			}
 		};
 
-		return () => {
-			socket.current.close();
-			socket.current = null;
-		};
+		return () => {};
 	}, []);
 	return [(socket: socket.current), result];
 };
