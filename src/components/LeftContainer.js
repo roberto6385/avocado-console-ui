@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
-import {FaPlus, FaRegTrashAlt, FaSearch} from 'react-icons/all';
-import {useSelector} from 'react-redux';
+import {FaPlus, FaRegTrashAlt, FaSearch, GrLogout} from 'react-icons/all';
+import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from './ConfirmPopup';
 import {
 	Header,
@@ -10,10 +10,13 @@ import {
 	ServerSearchForm,
 } from '../styles/common';
 import ServerNavBar from './ServerNavBar';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
+import auth_ws from '../ws/auth_ws';
+import {LOGOUT} from '../reducers/common';
 
 const LeftContainer = ({setShowAddServerForm}) => {
-	const {clicked_server} = useSelector((state) => state.common);
+	const dispatch = useDispatch();
+	const {me, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -37,6 +40,13 @@ const LeftContainer = ({setShowAddServerForm}) => {
 		setSearch(e.target.value);
 	}, []);
 
+	const onClickLogout = useCallback(() => {
+		auth_ws({keyword: 'LogoutRequest', ws_auth: me.socket}).then((r) => {
+			dispatch({
+				type: LOGOUT,
+			});
+		});
+	});
 	return (
 		<OutlineCol xs={2}>
 			<Header>
@@ -51,6 +61,12 @@ const LeftContainer = ({setShowAddServerForm}) => {
 					<IconButton onClick={onClickOpenSearch}>
 						<FaSearch />
 					</IconButton>
+
+					{me !== null && (
+						<IconButton onClick={onClickLogout}>
+							<GrLogout />
+						</IconButton>
+					)}
 				</Nav.Item>
 			</Header>
 			<Collapse in={activeSearch}>

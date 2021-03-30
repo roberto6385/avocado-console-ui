@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
-import {Close} from '../ws/ssh_ws';
+
 import {
 	TabContentCard,
 	TabContentCardHeader,
@@ -14,7 +14,10 @@ import {
 	TabSSHTIcon,
 } from '../styles/common';
 import sftp_ws from '../ws/sftp_ws';
+
 import newSftp_ws from '../ws/newSftp_ws';
+
+import ssht_ws from '../ws/ssht_ws';
 
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -25,18 +28,18 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 
 	const onClickDelete = useCallback(
 		() => async () => {
-			if (type === 'SSHT') ws.send(Close(uuid));
-			else {
+			if (type === 'SSHT') {
+				await ssht_ws({keyword: 'SendDisconnect', ws: ws}).then((r) => {
+					if (r.result.type === 'DISCONNECT')
+						dispatch({type: CLOSE_TAB, data: index});
+				});
+			} else {
 				newSftp_ws({
 					keyword: 'Disconnection',
 					ws,
-				}).then((response) => console.log(response));
-				// await sftp_ws({
-				// 	keyword: 'Disconnection',
-				// 	ws,
-				// 	uuid,
-				// });
-				dispatch({type: CLOSE_TAB, data: index});
+				}).then((response) => {
+					dispatch({type: CLOSE_TAB, data: index});
+				});
 			}
 		},
 		[dispatch],

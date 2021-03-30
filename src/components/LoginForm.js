@@ -1,47 +1,41 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Form, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import useInput from '../hooks/useInput';
 import auth_ws from '../ws/auth_ws';
-import useAuthWs from '../ws/useAuthWs';
-import AUTH from '../dist/auth_pb';
+
+import {LOGIN} from '../reducers/common';
 
 const LoginForm = () => {
+	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('root');
 	const [password, onChangePassword] = useInput('Netand141)');
-	// const [loggedIn, setLoggedIn] = useState(false);
-	const [socket, result] = useAuthWs(null);
+	const ws = useRef(new WebSocket('ws://211.253.10.9:8081/ws/auth'));
+
+	useEffect(() => {
+		ws.current.onopen = () => {
+			console.log('autho socket opend');
+		};
+	}, []);
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
 			if (user === 'root' && password === 'Netand141)') {
-				const message = new AUTH.Message();
-				const request = new AUTH.Request();
-				const login = new AUTH.LoginRequest();
-				login.setUser('root');
-				login.setPassword('Netand141)');
-
-				request.setLogin(login);
-				message.setRequest(request);
-
-				socket.current.send(message.serializeBinary());
+				auth_ws({keyword: 'LoginRequest', ws_auth: ws.current}).then(
+					(r) => {
+						if (r.type === 'LOGIN')
+							dispatch({
+								type: LOGIN,
+								data: {token: r.result, socket: ws.current},
+							});
+					},
+				);
 			}
 		},
 		[user, password],
 	);
-
-	// const logout = useCallback(() => {
-	// 	const ws_auth = new WebSocket('ws://211.253.10.9:8081/ws/auth');
-	// 	auth_ws({
-	// 		keyword: 'LogoutRequest',
-	// 		ws_auth,
-	// 	}).then((response) => {
-	// 		setLoggedIn(false);
-	// 		console.log(response);
-	// 	});
-	// }, []);
 
 	return (
 		<Form onSubmit={onSubmitForm}>
@@ -65,7 +59,6 @@ const LoginForm = () => {
 			</Form.Group>
 
 			<Button type='submit'>Login</Button>
-			{/*{loggedIn && <Button onClick={logout}>Logout</Button>}*/}
 		</Form>
 	);
 };

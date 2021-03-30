@@ -4,7 +4,7 @@ import WorkSpace from './WorkSpace';
 import {useSelector} from 'react-redux';
 import {OutlineCol} from '../styles/common';
 import Footer from './Footer';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import MainPage from './MainPage';
 import LoginForm from './LoginForm';
 

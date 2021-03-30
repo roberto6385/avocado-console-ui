@@ -1,7 +1,7 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
+import {LOGIN, OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import {HIGHLIGHT_COLOR} from '../styles/global';
 import {Connect, GetMessage} from '../ws/ssh_ws';
@@ -10,10 +10,12 @@ import {
 	ServerNavBarContainer,
 	ServerNavItem,
 } from '../styles/common';
+import ssht_ws, {sendConnect} from '../ws/ssht_ws';
+import auth_ws from '../ws/auth_ws';
 
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();
-	const {server, clicked_server} = useSelector((state) => state.common);
+	const {server, clicked_server, me} = useSelector((state) => state.common);
 
 	// first argument is double-click event, second one is on-click event
 	const onHybridClick = useDoubleClick(
@@ -21,44 +23,34 @@ const ServerNavBar = ({search}) => {
 			const correspondedServer = server.find((i) => i.id === id);
 
 			const ws = new WebSocket(
-				'ws://' + correspondedServer.host + ':8080/ws/ssh/protobuf',
+				'ws://' + correspondedServer.host + ':8081/ws/ssh',
 			);
 
 			ws.binaryType = 'arraybuffer';
 
-			ws.error = () => {
-				console.log('Connection Error');
-			};
-
 			ws.onopen = () => {
-				ws.send(
-					Connect(
-						correspondedServer.host,
-						correspondedServer.user,
-						correspondedServer.password,
-						correspondedServer.port,
-					),
-				);
-			};
-
-			ws.onmessage = (e) => {
-				const result = GetMessage(e);
-				switch (result.type) {
-					case 'connected':
+				ssht_ws({
+					keyword: 'SendConnect',
+					ws: ws,
+					data: {
+						token: me.token,
+						host: correspondedServer.host,
+						user: correspondedServer.user,
+						password: correspondedServer.password,
+						port: correspondedServer.port,
+					},
+				}).then((r) => {
+					if (r.type === 'CONNECT')
 						dispatch({
 							type: OPEN_TAB,
 							data: {
 								id: id,
 								type: 'SSHT',
 								ws: ws,
-								uuid: result.uuid,
+								uuid: r.result,
 							},
 						});
-						break;
-					default:
-						console.log('도달하면 안되는 공간: ServerNavBar');
-						break;
-				}
+				});
 			};
 		},
 		(id) => {

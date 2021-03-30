@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {FaTimes} from 'react-icons/all';
 
 import {SUB_COLOR} from '../styles/global';

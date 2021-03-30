@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {
 	SFTP_DELETE_HISTORY,
