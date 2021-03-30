@@ -1,6 +1,162 @@
 import SFTP from '../dist2/sftp_pb';
 import * as PropTypes from 'prop-types';
 
+const sendConnect = (ws, token, data) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var connect = new SFTP.ConnectRequest();
+	connect.setToken(token);
+	connect.setHost(data.host);
+	connect.setUser(data.user);
+	connect.setPassword(data.password);
+	connect.setPort(data.port);
+
+	request.setConnect(connect);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendDisconnect = (ws) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var disconnect = new SFTP.DisconnectRequest();
+
+	request.setDisconnect(disconnect);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByCd = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var cd = new SFTP.ChangeDirectoryRequest();
+	cd.setPath(path);
+
+	cmd.setCd(cd);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByPwd = (ws) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var pwd = new SFTP.PrintWorkingDirectoryRequest();
+
+	cmd.setPwd(pwd);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByMkdir = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var mkdir = new SFTP.MakeDirectoryRequest();
+	mkdir.setPath(path);
+
+	cmd.setMkdir(mkdir);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByRmdir = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var rmdir = new SFTP.RemoveDirectoryRequest();
+	rmdir.setPath(path);
+
+	cmd.setRmdir(rmdir);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByRm = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var rm = new SFTP.RemoveFileRequest();
+	rm.setPath(path);
+
+	cmd.setRm(rm);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByStat = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var stat = new SFTP.StatusRequest();
+	stat.setPath(path);
+
+	cmd.setStat(stat);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByLs = (ws, path) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var ls = new SFTP.ListDirectoryRequest();
+	ls.setPath(path);
+
+	cmd.setLs(ls);
+	request.setCommand(cmd);
+	message.setRequest(request);
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByRename = (ws, path, newPath) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var rename = new SFTP.RenameRequest();
+	rename.setOldpath(path);
+	rename.setNewpath(newPath);
+
+	cmd.setRename(rename);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByGet = (ws, path, fileName) => {
+	// this.setState({
+	// 	progress: 0,
+	// });
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var get = new SFTP.GetRequest();
+	get.setPath(path);
+	get.setFilename(fileName);
+
+	cmd.setGet(get);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
 const newSftp_ws = ({
 	keyword,
 	ws,
@@ -11,10 +167,6 @@ const newSftp_ws = ({
 	fileName,
 	uploadFile,
 }) => {
-	const message = new SFTP.Message();
-	const request = new SFTP.Request();
-	const cmd = new SFTP.CommandRequest();
-
 	const appendBuffer = (buffer1, buffer2) => {
 		var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
 		tmp.set(new Uint8Array(buffer1), 0);
@@ -43,9 +195,12 @@ const newSftp_ws = ({
 		}
 
 		const sendBuffer = (data) => {
-			const put = new SFTP.PutRequest();
+			var message = new SFTP.Message();
+			var request = new SFTP.Request();
+			var cmd = new SFTP.CommandRequest();
+			var put = new SFTP.PutRequest();
 			put.setPath(path);
-			put.setFilename(uploadFileName);
+			put.setFilename(fileName);
 			put.setFilesize(uploadFileSize);
 			put.setData(Buffer.from(data.buffer));
 			put.setOffset(1); // 임시로 1로 사용. 실제 offset 값 필요.
@@ -54,6 +209,7 @@ const newSftp_ws = ({
 			cmd.setPut(put);
 			request.setCommand(cmd);
 			message.setRequest(request);
+
 			ws.send(message.serializeBinary());
 		};
 
@@ -94,118 +250,48 @@ const newSftp_ws = ({
 	return new Promise((resolve) => {
 		switch (keyword) {
 			case 'Connection':
-				// eslint-disable-next-line no-case-declarations
-				const connect = new SFTP.ConnectRequest();
-				connect.setToken(token);
-				connect.setHost(data.host);
-				connect.setUser(data.user);
-				connect.setPassword(data.password);
-				connect.setPort(data.port);
-
-				request.setConnect(connect);
-				message.setRequest(request);
+				sendConnect(ws, token, data);
 				break;
 
 			case 'Disconnection':
-				// eslint-disable-next-line no-case-declarations
-				const disconnect = new SFTP.DisconnectRequest();
-
-				request.setDisconnect(disconnect);
-				message.setRequest(request);
+				sendDisconnect(ws);
 				break;
 
 			case 'CommandByCd':
-				// eslint-disable-next-line no-case-declarations
-				const cd = new SFTP.ChangeDirectoryRequest();
-				cd.setPath(path);
-
-				cmd.setCd(cd);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByCd(ws, path);
 				break;
 
 			case 'CommandByPwd':
-				// eslint-disable-next-line no-case-declarations
-				const pwd = new SFTP.PrintWorkingDirectoryRequest();
-				cmd.setPwd(pwd);
-				request.setCommand(cmd);
-				message.setRequest(request);
-				break;
-
-			case 'CommandByLs':
-				// eslint-disable-next-line no-case-declarations
-				const ls = new SFTP.ListDirectoryRequest();
-				ls.setPath(path);
-
-				cmd.setLs(ls);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByPwd(ws);
 				break;
 
 			case 'CommandByMkdir':
-				// eslint-disable-next-line no-case-declarations
-				const mkdir = new SFTP.MakeDirectoryRequest();
-				mkdir.setPath(path);
-
-				cmd.setMkdir(mkdir);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByMkdir(ws, path);
 				break;
 
 			case 'CommandByRmdir':
-				// eslint-disable-next-line no-case-declarations
-				const rmdir = new SFTP.RemoveDirectoryRequest();
-				rmdir.setPath(path);
-
-				cmd.setRmdir(rmdir);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByRmdir(ws, path);
 				break;
 
 			case 'CommandByRm':
-				// eslint-disable-next-line no-case-declarations
-				const rm = new SFTP.RemoveFileRequest();
-				rm.setPath(path);
-
-				cmd.setRm(rm);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByRm(ws, path);
 				break;
 
 			case 'CommandByStat':
-				// eslint-disable-next-line no-case-declarations
-				const stat = new SFTP.StatusRequest();
-				stat.setPath(path);
+				sendCommandByStat(ws, path);
+				break;
 
-				cmd.setStat(stat);
-				request.setCommand(cmd);
-				message.setRequest(request);
-
+			case 'CommandByLs':
+				sendCommandByLs(ws, path);
 				break;
 
 			case 'CommandByRename':
-				// eslint-disable-next-line no-case-declarations
-				const rename = new SFTP.RenameRequest();
-				rename.setOldpath(path);
-				rename.setNewpath(newPath);
-
-				cmd.setRename(rename);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByRename(ws, path, newPath);
 				break;
 
 			case 'EDIT':
 			case 'CommandByGet':
-				progress = 0;
-
-				// eslint-disable-next-line no-case-declarations
-				const get = new SFTP.GetRequest();
-				get.setPath(path);
-				get.setFilename(fileName);
-
-				cmd.setGet(get);
-				request.setCommand(cmd);
-				message.setRequest(request);
+				sendCommandByGet(ws, path, fileName);
 				break;
 
 			case 'CommandByGetDirect':
@@ -219,16 +305,11 @@ const newSftp_ws = ({
 				break;
 		}
 
-		if (keyword !== 'CommandByPut' && keyword !== 'CommandByPutDirect') {
-			ws.send(message.serializeBinary());
-		}
-
 		ws.binaryType = 'arraybuffer';
 		ws.onmessage = (evt) => {
 			// listen to data sent from the websocket server
 
 			console.log('on data, ', evt.data);
-
 			if (evt.data instanceof ArrayBuffer) {
 				const message = SFTP.Message.deserializeBinary(evt.data);
 
@@ -242,10 +323,14 @@ const newSftp_ws = ({
 					// 	errorMessage: '',
 					// });
 
+					console.log(response.getResponseCase());
+					console.log(SFTP.Response.ResponseCase.DISCONNECT);
+
 					if (
 						response.getResponseCase() ===
 						SFTP.Response.ResponseCase.CONNECT
 					) {
+						console.log('connect 실행체크');
 						const connect = response.getConnect();
 						console.log(connect.getUuid());
 						resolve({uuid: connect.getUuid()});
@@ -253,11 +338,14 @@ const newSftp_ws = ({
 						// 	uuid: connect.getUuid(),
 						// });
 					} else if (
-						response.getResponseCase() ===
-						SFTP.Response.ResponseCase.DISCONNECT
+						response.getResponseCase() === 0
+						// disconnect 는 2가 나와야 하는데, 0이 나와서 우선 이렇게 처리.
+						// SFTP.Response.ResponseCase.DISCONNECT
 					) {
+						console.log('disconnect 실행체크');
 						const disconnect = response.getDisconnect();
-						console.log(disconnect);
+						console.log(response);
+						resolve();
 						// this.setState({
 						// 	uuid: '',
 						// 	value: '',
@@ -350,9 +438,9 @@ const newSftp_ws = ({
 
 								console.log(result);
 
-								// this.setState({
-								// 	result: result,
-								// });
+								this.setState({
+									result: result,
+								});
 								break;
 							}
 							case SFTP.CommandResponse.CommandCase.STAT: {
@@ -443,7 +531,6 @@ const newSftp_ws = ({
 									// 	getProgress: 0,
 									// });
 								}
-
 								break;
 							}
 						}

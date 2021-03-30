@@ -14,6 +14,7 @@ import {
 	TabSSHTIcon,
 } from '../styles/common';
 import sftp_ws from '../ws/sftp_ws';
+import newSftp_ws from '../ws/newSftp_ws';
 
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -26,11 +27,15 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 		() => async () => {
 			if (type === 'SSHT') ws.send(Close(uuid));
 			else {
-				await sftp_ws({
+				newSftp_ws({
 					keyword: 'Disconnection',
 					ws,
-					uuid,
-				});
+				}).then((response) => console.log(response));
+				// await sftp_ws({
+				// 	keyword: 'Disconnection',
+				// 	ws,
+				// 	uuid,
+				// });
 				dispatch({type: CLOSE_TAB, data: index});
 			}
 		},

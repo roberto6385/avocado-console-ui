@@ -13,7 +13,6 @@ import {NavItem} from '../../styles/sftp';
 import useSftpCommands from '../../hooks/useSftpCommands';
 
 const HistoryNav = ({index, ws, uuid, serverId}) => {
-	console.log(index);
 	const {server} = useSelector((state) => state.common);
 	const [open, setOpen] = useState(false);
 	const {uploadWork} = useSftpCommands({ws, uuid});

@@ -18,6 +18,7 @@ import {
 	TabSFTPIcon,
 } from '../styles/common';
 import sftp_ws from '../ws/sftp_ws';
+import newSftp_ws from '../ws/newSftp_ws';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -39,11 +40,15 @@ const TabNavBar = () => {
 
 			if (type === 'SSHT') ws.send(Close(uuid));
 			else {
-				await sftp_ws({
+				newSftp_ws({
 					keyword: 'Disconnection',
 					ws,
-					uuid,
 				}).then((response) => console.log(response));
+				// await sftp_ws({
+				// 	keyword: 'Disconnection',
+				// 	ws,
+				// 	uuid,
+				// }).then((response) => console.log(response));
 				dispatch({type: CLOSE_TAB, data: data.id});
 			}
 		},

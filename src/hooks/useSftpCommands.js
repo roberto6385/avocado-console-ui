@@ -19,16 +19,21 @@ const useSftpCommands = ({ws, uuid}) => {
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
-			console.log(response);
-			dispatch({
-				type: SFTP_SAVE_CURRENT_PATH,
-				data: {uuid, path: response.path},
-			});
-			newSftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				path: response.path,
-			}).then();
+			console.log(response.path);
+			// newSftp_ws({
+			// 	keyword:'CommandByLs',
+			// 	ws,
+			// 	path:response.path
+			// })
+			// dispatch({
+			// 	type: SFTP_SAVE_CURRENT_PATH,
+			// 	data: {uuid, path: response.path},
+			// });
+			// newSftp_ws({
+			// 	keyword: 'CommandByLs',
+			// 	ws,
+			// 	path: response.path,
+			// }).then();
 
 			// .then((response) => listConversion(response.result))
 			// .then((response) =>
