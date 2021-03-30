@@ -20,20 +20,10 @@ const useSftpCommands = ({ws, uuid}) => {
 			ws,
 		}).then((response) => {
 			console.log(response.path);
-			// newSftp_ws({
-			// 	keyword:'CommandByLs',
-			// 	ws,
-			// 	path:response.path
-			// })
-			// dispatch({
-			// 	type: SFTP_SAVE_CURRENT_PATH,
-			// 	data: {uuid, path: response.path},
-			// });
-			// newSftp_ws({
-			// 	keyword: 'CommandByLs',
-			// 	ws,
-			// 	path: response.path,
-			// }).then();
+			dispatch({
+				type: SFTP_SAVE_CURRENT_PATH,
+				data: {uuid, path: response.path},
+			});
 
 			// .then((response) => listConversion(response.result))
 			// .then((response) =>

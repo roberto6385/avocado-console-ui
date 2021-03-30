@@ -362,6 +362,7 @@ const newSftp_ws = ({
 							case SFTP.CommandResponse.CommandCase.CD: {
 								const cd = command.getCd();
 								console.log('command : cd', cd);
+								resolve({path: command.getCd()});
 								break;
 							}
 							case SFTP.CommandResponse.CommandCase.PWD: {
@@ -438,9 +439,11 @@ const newSftp_ws = ({
 
 								console.log(result);
 
-								this.setState({
-									result: result,
-								});
+								resolve({list: command.getLs()});
+
+								// this.setState({
+								// 	result: result,
+								// });
 								break;
 							}
 							case SFTP.CommandResponse.CommandCase.STAT: {

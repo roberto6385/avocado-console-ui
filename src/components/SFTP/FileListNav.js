@@ -18,6 +18,7 @@ import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
 import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from './commands';
 import useSftpCommands from '../../hooks/useSftpCommands';
+import newSftp_ws from '../../ws/newSftp_ws';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -29,13 +30,18 @@ const SearchPath = styled.input`
 `;
 
 const FileListNav = ({index, ws, uuid}) => {
-	const dispatch = useDispatch();
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const [path, setPath] = useState('');
-	// const {initialWork} = useSftpCommands({ws, uuid});
+	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
+		newSftp_ws({
+			keyword: 'CommandByCd',
+			ws,
+			path: nextPath,
+		}).then(() => initialWork());
+
 		// sftp_ws({
 		// 	keyword: 'CommandByCd',
 		// 	ws,
@@ -49,12 +55,17 @@ const FileListNav = ({index, ws, uuid}) => {
 	};
 
 	const goBack = (e) => {
-		if (pathItem?.path !== '/') {
-			let tempPath = pathItem.path.split('/');
-			tempPath.pop();
-			let nextPath = tempPath.join('/').trim();
-			goHome(e, nextPath === '' ? '/' : nextPath);
-		}
+		newSftp_ws({
+			keyword: 'CommandByPwd',
+			ws,
+		}).then((response) => {
+			if (response.path !== '/') {
+				let tempPath = response.path.split('/');
+				tempPath.pop();
+				let nextPath = tempPath.join('/').trim();
+				goHome(e, nextPath === '' ? '/' : nextPath);
+			}
+		});
 	};
 	const searchPath = (e) => {
 		e.preventDefault();
