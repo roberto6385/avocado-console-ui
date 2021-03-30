@@ -13,7 +13,7 @@ const SFTPContainer = ({index, socket, data}) => {
 
 	useEffect(() => {
 		initialWork();
-	}, [ws, uuid]);
+	}, [ws]);
 
 	useEffect(() => {
 		ws.onerror = () => {

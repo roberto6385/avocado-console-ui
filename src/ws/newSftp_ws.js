@@ -127,7 +127,6 @@ const newSftp_ws = ({
 			case 'CommandByPwd':
 				// eslint-disable-next-line no-case-declarations
 				const pwd = new SFTP.PrintWorkingDirectoryRequest();
-
 				cmd.setPwd(pwd);
 				request.setCommand(cmd);
 				message.setRequest(request);
@@ -135,7 +134,7 @@ const newSftp_ws = ({
 
 			case 'CommandByLs':
 				// eslint-disable-next-line no-case-declarations
-				const ls = new SFTP.ChangeDirectoryRequest();
+				const ls = new SFTP.ListDirectoryRequest();
 				ls.setPath(path);
 
 				cmd.setLs(ls);
@@ -284,6 +283,7 @@ const newSftp_ws = ({
 									'command : pwd.getMessage',
 									pwd.getMessage(),
 								);
+								resolve({path: pwd.getMessage()});
 
 								// this.setState({
 								// 	result: pwd.getMessage(),
@@ -347,6 +347,8 @@ const newSftp_ws = ({
 									);
 									result += entry.getLongname() + '\n';
 								}
+
+								console.log(result);
 
 								// this.setState({
 								// 	result: result,

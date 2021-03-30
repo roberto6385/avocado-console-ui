@@ -33,19 +33,19 @@ const FileListNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const [path, setPath] = useState('');
-	const {initialWork} = useSftpCommands({ws, uuid});
+	// const {initialWork} = useSftpCommands({ws, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
-		sftp_ws({
-			keyword: 'CommandByCd',
-			ws,
-			uuid,
-			path: nextPath,
-		}).then(() => initialWork());
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
-		});
+		// sftp_ws({
+		// 	keyword: 'CommandByCd',
+		// 	ws,
+		// 	uuid,
+		// 	path: nextPath,
+		// }).then(() => initialWork());
+		// dispatch({
+		// 	type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+		// 	data: {uuid, list: []},
+		// });
 	};
 
 	const goBack = (e) => {

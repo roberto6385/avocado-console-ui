@@ -9,33 +9,34 @@ import {
 import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
+import newSftp_ws from '../ws/newSftp_ws';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
 
 	const initialWorkFunction = useCallback(() => {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
+			console.log(response);
 			dispatch({
 				type: SFTP_SAVE_CURRENT_PATH,
-				data: {uuid, path: response.result},
+				data: {uuid, path: response.path},
 			});
-			sftp_ws({
+			newSftp_ws({
 				keyword: 'CommandByLs',
 				ws,
-				uuid,
-				path: response.result,
-			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				);
+				path: response.path,
+			}).then();
+
+			// .then((response) => listConversion(response.result))
+			// .then((response) =>
+			// 	dispatch({
+			// 		type: SFTP_SAVE_CURRENT_LIST,
+			// 		data: {uuid, list: response},
+			// 	}),
+			// );
 		});
 	}, []);
 
@@ -139,7 +140,7 @@ const useSftpCommands = ({ws, uuid}) => {
 
 useSftpCommands.propTypes = {
 	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	uuid: PropTypes.string,
 };
 
 export default useSftpCommands;

@@ -10,8 +10,6 @@ import newSftp_ws from '../../ws/newSftp_ws';
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 	const {me} = useSelector((state) => state.common);
-	console.log(me.token);
-	console.log(data);
 
 	const connection = () => {
 		const ws = new WebSocket(`ws://${data.host}:8081/ws/sftp`);
