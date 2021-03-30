@@ -1,19 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {PropTypes} from 'prop-types';
 import FileList from './FileList';
 import History from './History';
 
-import {useDispatch, useSelector} from 'react-redux';
-import {
-	SFTP_SAVE_CURRENT_MODE,
-	SFTP_SAVE_CURRENT_TYPE,
-} from '../../reducers/sftp';
+import {useSelector} from 'react-redux';
 import Edit from './Edit';
 import {SftpContainer} from '../../styles/sftp';
 
 const SFTP_COMPONENT = ({index, socket, serverId}) => {
 	const {ws, uuid} = socket;
-	const dispatch = useDispatch();
 
 	const {currentMode} = useSelector((state) => state.sftp);
 	const modeItem = currentMode.find((item) => item.uuid === uuid);

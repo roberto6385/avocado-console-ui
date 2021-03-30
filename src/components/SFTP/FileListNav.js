@@ -36,8 +36,6 @@ const FileListNav = ({index, ws, uuid}) => {
 	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
-		// sendCommandByCd(ws, uuid, nextPath, dispatch);
-
 		sftp_ws({
 			keyword: 'CommandByCd',
 			ws,

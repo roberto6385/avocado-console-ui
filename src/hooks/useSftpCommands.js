@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import sftp_ws from '../ws/sftp_ws';
 import {
+	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 	SFTP_SAVE_HISTORY,
@@ -84,6 +85,41 @@ const useSftpCommands = ({ws, uuid}) => {
 		});
 	}, []);
 
+	const downloadWorkFunction = useCallback((itemList) => {
+		sftp_ws({
+			keyword: 'CommandByPwd',
+			ws,
+			uuid,
+		}).then(async (response) => {
+			for await (const key of itemList) {
+				await sftp_ws({
+					keyword: 'CommandByGet',
+					ws,
+					uuid,
+					path: response.result,
+					fileName: key.fileName,
+				});
+				dispatch({
+					type: SFTP_SAVE_HISTORY,
+					data: {
+						uuid,
+						name: key.fileName,
+						path: response.result,
+						size: key.fileSize,
+						todo: 'get',
+						progress: 100,
+						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+						// 삭제, dispatch, 삭제 해서 progress 100 만들기
+					},
+				});
+			}
+			dispatch({
+				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				data: {uuid, list: []},
+			});
+		});
+	}, []);
+
 	return useMemo(
 		() => ({
 			// 경로 탐색, 디렉토리 조회, 리스트로 저장하는 함수
@@ -92,6 +128,9 @@ const useSftpCommands = ({ws, uuid}) => {
 			},
 			uploadWork: (files) => {
 				uploadWorkFunction(files);
+			},
+			downloadWork: (itemList) => {
+				downloadWorkFunction(itemList);
 			},
 		}),
 		[],

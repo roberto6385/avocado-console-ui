@@ -9,6 +9,7 @@ import {
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
 import sftp_ws from '../../ws/sftp_ws';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
@@ -17,41 +18,11 @@ const FileListContextMenu = ({ws, uuid}) => {
 	const [keyword, setKeyword] = useState('');
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
+	const {downloadWork} = useSftpCommands({ws, uuid});
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
-		sftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-			uuid,
-		}).then(async (response) => {
-			for await (const key of highlightItem?.list) {
-				await sftp_ws({
-					keyword: 'CommandByGet',
-					ws,
-					uuid,
-					path: response.result,
-					fileName: key.fileName,
-				});
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: key.fileName,
-						path: response.result,
-						size: key.fileSize,
-						todo: 'get',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
-			}
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: []},
-			});
-		});
+		downloadWork(highlightItem?.list);
 	};
 
 	const contextEdit = (e) => {

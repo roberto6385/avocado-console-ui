@@ -4,10 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_HISTORY,
-} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
 import {toEditMode} from './commands';
 import FileListContextMenu from './FileListContextMenu';
 import {
@@ -25,7 +22,7 @@ import useSftpCommands from '../../hooks/useSftpCommands';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
-	const {initialWork} = useSftpCommands({ws, uuid});
+	const {initialWork, downloadWork} = useSftpCommands({ws, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
@@ -41,33 +38,7 @@ const FileListContents = ({index, ws, uuid}) => {
 		e.stopPropagation();
 		if (item.fileName !== '..' && item.fileType !== 'directory') {
 			// 현재는 디렉토리 다운로드 막아두었음.
-			sftp_ws({
-				keyword: 'CommandByPwd',
-				ws,
-				uuid,
-			}).then((response) =>
-				sftp_ws({
-					keyword: 'CommandByGet',
-					ws,
-					uuid,
-					path: response.result,
-					fileName: item.fileName,
-				}).then(() => {
-					dispatch({
-						type: SFTP_SAVE_HISTORY,
-						data: {
-							uuid,
-							name: item.fileName,
-							path: response.result,
-							size: item.fileSize,
-							todo: 'get',
-							progress: 100,
-							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-							// 삭제, dispatch, 삭제 해서 progress 100 만들기
-						},
-					});
-				}),
-			);
+			downloadWork([item]);
 		}
 	};
 
