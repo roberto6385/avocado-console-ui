@@ -5,10 +5,10 @@ import AddServerForm from '../components/AddServerForm';
 import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
 import {MainContainer} from '../styles/page';
+import {useSelector} from 'react-redux';
 
 const Main = () => {
 	const [showAddServerForm, setShowAddServerForm] = useState(false);
-
 	return (
 		<MainContainer fluid>
 			<Row className={'fix-height'}>

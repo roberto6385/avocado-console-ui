@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Form} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {SFTP_SAVE_CURRENT_MODE} from '../reducers/sftp';
 
 import {useDispatch, useSelector} from 'react-redux';

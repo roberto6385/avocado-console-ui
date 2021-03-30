@@ -2,29 +2,48 @@ import React from 'react';
 import AUTH from '../dist/auth_pb';
 import * as PropTypes from 'prop-types';
 
+const LoginRequest = () => {
+	const message = new AUTH.Message();
+	const request = new AUTH.Request();
+	const login = new AUTH.LoginRequest();
+	login.setUser('root');
+	login.setPassword('Netand141)');
+
+	request.setLogin(login);
+	message.setRequest(request);
+
+	return message.serializeBinary();
+};
+
+const LogoutRequest = () => {
+	const message = new AUTH.Message();
+	const request = new AUTH.Request();
+	const logout = new AUTH.LogoutRequest();
+
+	request.setLogin(logout);
+	message.setRequest(request);
+
+	return message.serializeBinary();
+};
+
 const auth_ws = ({keyword, ws_auth, user, password}) => {
-	var message = new AUTH.Message();
-	var request = new AUTH.Request();
 	return new Promise((resolve) => {
 		switch (keyword) {
 			case 'LoginRequest':
-				var login = new AUTH.LoginRequest();
-				login.setUser(user);
-				login.setPassword(password);
-				request.setLogin(login);
+				console.log('LoginRequest');
+				ws_auth.send(LoginRequest());
 				break;
 
 			case 'LogoutRequest':
-				var logout = new AUTH.LogoutRequest();
-				request.setLogin(logout);
+				console.log('LogoutRequest');
+				ws_auth.send(LogoutRequest());
 				break;
 
 			default:
 				break;
 		}
 
-		message.setRequest(request);
-		ws_auth.send(message.serializeBinary());
+		ws_auth.binaryType = 'arraybuffer';
 
 		ws_auth.onmessage = (evt) => {
 			console.log('on data, ', evt.data);
@@ -39,15 +58,17 @@ const auth_ws = ({keyword, ws_auth, user, password}) => {
 						AUTH.Response.ResponseCase.LOGIN
 					) {
 						const login = response.getLogin();
-						console.log('login');
-						console.log(login.getToken());
-						resolve(login);
+						console.log('LOGIN');
+						resolve({
+							type: 'LOGIN',
+							result: login.getToken(),
+						});
 					} else if (
 						response.getResponseCase() ===
 						AUTH.Response.ResponseCase.LOGOUT
 					) {
-						console.log('logout');
-						resolve(response);
+						console.log('LOGOUT');
+						resolve({type: 'LOGOUT'});
 					}
 				}
 			}

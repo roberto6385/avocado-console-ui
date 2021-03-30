@@ -5,10 +5,11 @@ import {SearchAddon} from 'xterm-addon-search';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CLOSE_TAB} from '../../reducers/common';
+import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {Close, GetMessage, SendMessage, Resize} from '../../ws/ssh_ws';
 import useInput from '../../hooks/useInput';
 import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
+import ssht_ws from '../../ws/ssht_ws';
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -40,26 +41,33 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		ws.onclose = () => {
 			console.log('이거는 잘못 닫음 실행되는건가욤??');
-			ws.send(Close(uuid));
+			// ws.send(Close(uuid));
 		};
 
-		ws.onmessage = (e) => {
-			const result = GetMessage(e);
-			switch (result.type) {
-				case 'disconnected':
-					dispatch({type: CLOSE_TAB, data: index});
-					break;
-				case 'message':
-					sshTerm.current.write(result.result);
-					break;
-				default:
-					console.log('도달하면 안되는 공간2');
-					break;
-			}
-		};
+		// ws.onmessage = (e) => {
+		// 	const result = GetMessage(e);
+		// 	switch (result.type) {
+		// 		case 'disconnected':
+		// 			dispatch({type: CLOSE_TAB, data: index});
+		// 			break;
+		// 		case 'message':
+		// 			sshTerm.current.write(result.result);
+		// 			break;
+		// 		default:
+		// 			console.log('도달하면 안되는 공간2');
+		// 			break;
+		// 	}
+		// };
 
 		sshTerm.current.onData(function (data) {
-			ws.send(SendMessage(uuid, data));
+			ssht_ws({
+				keyword: 'SendMessage',
+				ws: ws,
+				data: data,
+			}).then((r) => {
+				if (r.type === 'MESSAGE') sshTerm.current.write(r.result);
+			});
+			// ws.send(SendMessage(uuid, data));
 		});
 
 		return () => {
@@ -72,15 +80,15 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		if (display) {
 			fitAddon.current.fit();
-			ws.send(
-				Resize(
-					uuid,
-					sshTerm.current.cols,
-					sshTerm.current.rows,
-					width,
-					height,
-				),
-			);
+			// ws.send(
+			// 	Resize(
+			// 		uuid,
+			// 		sshTerm.current.cols,
+			// 		sshTerm.current.rows,
+			// 		width,
+			// 		height,
+			// 	),
+			// );
 		}
 	}, [font_size, height, width]);
 

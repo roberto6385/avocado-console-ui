@@ -1,7 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
-	me: {},
+	me: null,
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,
@@ -82,11 +82,10 @@ const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case LOGIN:
-				console.log(action.data);
-				draft.me.token = action.data;
+				draft.me = action.data;
 				break;
 			case LOGOUT:
-				draft.me = {};
+				draft.me = null;
 				break;
 			case SAVE_SERVER:
 				draft.server.push({id: draft.server_index, ...action.data});

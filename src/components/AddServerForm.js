@@ -13,7 +13,7 @@ import Button from './AddServer/Button';
 import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
 import TwoColsForm from './AddServer/TwoColsForm';
 import OneColButtonForm from './AddServer/OneColButtonForm';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 const AddServerForm = ({showForm, setShowForm}) => {
 	const dispatch = useDispatch();
