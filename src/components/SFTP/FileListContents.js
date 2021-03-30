@@ -6,11 +6,9 @@ import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_CURRENT_LIST,
-	SFTP_SAVE_CURRENT_PATH,
 	SFTP_SAVE_HISTORY,
 } from '../../reducers/sftp';
-import {listConversion, toEditMode} from './commands';
+import {toEditMode} from './commands';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	CustomRightTh,
@@ -23,12 +21,11 @@ import {
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
 import sftp_ws from '../../ws/sftp_ws';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const FileListContents = ({index, ws, uuid}) => {
-	const {currentList, currentPath, currentHighlight} = useSelector(
-		(state) => state.sftp,
-	);
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
+	const {initialWork} = useSftpCommands({ws, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
@@ -124,33 +121,9 @@ const FileListContents = ({index, ws, uuid}) => {
 							response.result === '/'
 								? response.result + item.fileName
 								: response.result + '/' + item.fileName,
-					}).then(() =>
-						sftp_ws({
-							keyword: 'CommandByPwd',
-							ws,
-							uuid,
-						}).then((response) => {
-							dispatch({
-								type: SFTP_SAVE_CURRENT_PATH,
-								data: {uuid, path: response.result},
-							});
-							sftp_ws({
-								keyword: 'CommandByLs',
-								ws,
-								uuid,
-								path: response.result,
-							})
-								.then((response) =>
-									listConversion(response.result),
-								)
-								.then((response) =>
-									dispatch({
-										type: SFTP_SAVE_CURRENT_LIST,
-										data: {uuid, list: response},
-									}),
-								);
-						}),
-					),
+					}).then(() => {
+						initialWork();
+					}),
 				);
 				dispatch({
 					type: SFTP_SAVE_CURRENT_HIGHLIGHT,

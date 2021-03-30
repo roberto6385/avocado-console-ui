@@ -17,6 +17,7 @@ import {NavItem} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
 import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from './commands';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -32,6 +33,7 @@ const FileListNav = ({index, ws, uuid}) => {
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const [path, setPath] = useState('');
+	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
 		// sendCommandByCd(ws, uuid, nextPath, dispatch);
@@ -41,31 +43,7 @@ const FileListNav = ({index, ws, uuid}) => {
 			ws,
 			uuid,
 			path: nextPath,
-		}).then(() =>
-			sftp_ws({
-				keyword: 'CommandByPwd',
-				ws,
-				uuid,
-			}).then((response) => {
-				dispatch({
-					type: SFTP_SAVE_CURRENT_PATH,
-					data: {uuid, path: response.result},
-				});
-				sftp_ws({
-					keyword: 'CommandByLs',
-					ws,
-					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					);
-			}),
-		);
+		}).then(() => initialWork());
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},

@@ -3,42 +3,17 @@ import SFTP_COMPONENT from './SFTP';
 import * as PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import sftp_ws from '../../ws/sftp_ws';
-import {listConversion} from './commands';
-import {
-	SFTP_SAVE_CURRENT_LIST,
-	SFTP_SAVE_CURRENT_PATH,
-} from '../../reducers/sftp';
 import {CLOSE_TAB} from '../../reducers/common';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const SFTPContainer = ({index, socket, data}) => {
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
+	const {initialWork} = useSftpCommands({ws, uuid});
 
 	useEffect(() => {
-		sftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-			uuid,
-		}).then((response) => {
-			dispatch({
-				type: SFTP_SAVE_CURRENT_PATH,
-				data: {uuid, path: response.result},
-			});
-			sftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				uuid,
-				path: response.result,
-			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				);
-		});
-	}, [ws, uuid, dispatch]);
+		initialWork();
+	}, [ws, uuid]);
 
 	useEffect(() => {
 		ws.onerror = () => {

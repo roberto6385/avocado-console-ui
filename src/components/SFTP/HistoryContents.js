@@ -19,62 +19,16 @@ import {
 	FlexSpaceBetween,
 	NoHistory,
 } from '../../styles/sftp';
-import sftp_ws from '../../ws/sftp_ws';
-import {SFTP_SAVE_CURRENT_LIST, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
-import {listConversion} from './commands';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const HistoryContents = ({index, ws, uuid}) => {
-	const {currentPath, History} = useSelector((state) => state.sftp);
-	const dispatch = useDispatch();
+	const {History} = useSelector((state) => state.sftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
+	const {uploadWork} = useSftpCommands({ws, uuid});
 
 	const upload = async (files) => {
-		return new Promise((resolve) => {
-			sftp_ws({
-				keyword: 'CommandByPwd',
-				ws,
-				uuid,
-			}).then(async (response) => {
-				for (const key of files) {
-					await sftp_ws({
-						keyword: 'CommandByPut',
-						ws,
-						uuid,
-						path: response.result,
-						fileName: key.name,
-						uploadFile: key,
-					}).then((response) => {
-						dispatch({
-							type: SFTP_SAVE_HISTORY,
-							data: {
-								uuid,
-								name: key.name,
-								path: response.result,
-								size: key.size,
-								todo: 'put',
-								progress: 100,
-								// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-								// 삭제, dispatch, 삭제 해서 progress 100 만들기
-							},
-						});
-					});
-				}
-				sftp_ws({
-					keyword: 'CommandByLs',
-					ws,
-					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					);
-			});
-		});
+		uploadWork(files);
 	};
 
 	const selectItem = (e, history) => {
