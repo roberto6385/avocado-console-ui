@@ -3,61 +3,56 @@ import {useDispatch} from 'react-redux';
 
 import {
 	SFTP_DELETE_HISTORY,
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
 import sftp_ws from '../ws/sftp_ws';
-import {listConversion} from '../components/SFTP/commands';
 import newSftp_ws from '../ws/newSftp_ws';
 import useSftpCommands from './useSftpCommands';
 
 const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
-	// const {currentPath, currentText, currentHighlight} = useSelector(
-	// 	(state) => state.sftp,
-	// );
 	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const deleteWorkFunction = useCallback(async (highlightItem) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then(async (response) => {
-			const path =
-				response.path === '/' ? response.path : response.path + '/';
-			for await (const key of highlightItem?.list) {
-				if (key.fileType === 'file') {
-					await newSftp_ws({
-						keyword: 'CommandByRm',
-						ws,
-						path: path + key.fileName,
-					});
-				} else {
-					await newSftp_ws({
-						keyword: 'CommandByRmdir',
-						ws,
-						path: path + key.fileName,
+		})
+			.then(async (response) => {
+				const path = response === '/' ? response : response + '/';
+				for await (const key of highlightItem?.list) {
+					if (key.fileType === 'file') {
+						await newSftp_ws({
+							keyword: 'CommandByRm',
+							ws,
+							path: path + key.fileName,
+						});
+					} else {
+						console.log('디렉토리 삭제한다');
+						await newSftp_ws({
+							keyword: 'CommandByRmdir',
+							ws,
+							path: path + key.fileName,
+						});
+					}
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: key.fileName,
+							path: response.result,
+							size: key.fileSize,
+							todo: 'rm',
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
 					});
 				}
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: key.fileName,
-						path: response.result,
-						size: key.fileSize,
-						todo: 'rm',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
-			}
-			initialWork();
-		});
+			})
+			.then(() => initialWork());
 	}, []);
 
 	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
