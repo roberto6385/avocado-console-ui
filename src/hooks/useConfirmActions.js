@@ -61,40 +61,17 @@ const useConfirmActions = (ws, uuid) => {
 	}, []);
 
 	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
-		await sftp_ws({
+		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
-			sftp_ws({
+			const path = response === '/' ? response : response + '/';
+			newSftp_ws({
 				keyword: 'CommandByRename',
 				ws,
-				uuid,
-				path: path + highlightItem?.list[0].fileName,
+				path: path + highlightItem.list[0].fileName,
 				newPath: path + formValue,
-			}).then(() =>
-				sftp_ws({
-					keyword: 'CommandByLs',
-					ws,
-					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					),
-			);
-		});
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
+			}).then(() => initialWork());
 		});
 	}, []);
 
@@ -165,8 +142,8 @@ const useConfirmActions = (ws, uuid) => {
 				deleteWorkFunction(highlightItem);
 			},
 
-			renameWork: (ws, uuid, curPath, highlightItem, formValue) => {
-				renameWorkFunction(ws, uuid, curPath, highlightItem, formValue);
+			renameWork: (highlightItem, formValue) => {
+				renameWorkFunction(highlightItem, formValue);
 			},
 
 			editFile: (ws, uuid, curPath, curText) => {

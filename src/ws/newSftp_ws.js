@@ -383,41 +383,49 @@ const newSftp_ws = ({
 								case SFTP.CommandResponse.CommandCase.CHGRP: {
 									const chgrp = command.getChgrp();
 									console.log('command : chgrp', chgrp);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.CHOWN: {
 									const chown = command.getChown();
 									console.log('command : chown', chown);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.CHMOD: {
 									const chmod = command.getChmod();
 									console.log('command : chmod', chmod);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.MKDIR: {
 									const mkdir = command.getMkdir();
 									console.log('command : mkdir', mkdir);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.RMDIR: {
 									const rmdir = command.getRmdir();
 									console.log('command : rmdir', rmdir);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.RM: {
 									const rm = command.getRm();
 									console.log('command : rm', rm);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.RENAME: {
 									const rename = command.getRename();
 									console.log('command : rename', rename);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.LN: {
 									const ln = command.getLn();
 									console.log('command : ln', ln);
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.LS: {
@@ -462,6 +470,7 @@ const newSftp_ws = ({
 									// 		', ' +
 									// 		stat.getSize(),
 									// });
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.LSTAT: {
@@ -480,6 +489,7 @@ const newSftp_ws = ({
 									// 		', ' +
 									// 		lstat.getSize(),
 									// });
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.PUT: {
@@ -493,6 +503,7 @@ const newSftp_ws = ({
 									// this.setState({
 									// 	progress: put.getProgress(),
 									// });
+									resolve();
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.GET: {
