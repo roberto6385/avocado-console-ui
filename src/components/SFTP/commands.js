@@ -7,33 +7,20 @@ import sftp_ws from '../../ws/sftp_ws';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');
-
-	const tempA = result;
-	const tempB = tempA?.substring(1, tempA.length - 1);
-	const tempC = tempB
-		?.split(',')
-		.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
+	console.log(result);
 	const fileList = [];
-	let i = 0;
-	tempC?.forEach((list) => {
-		const value = list.split(' ');
-		if (value[8] !== '.') {
-			const name = value.slice(8).join(' ');
+	result?.forEach((list) => {
+		const splitedList = list.replace(/\s{2,}/gi, ' ').split(' ');
+		if (splitedList[splitedList.length - 1] !== '.') {
 			fileList.push({
-				fileName: name,
-				fileSize:
-					typeof value[4] === 'string' &&
-					value[4]
-						.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-						.trim(),
-				fileType: value[0][0] === 'd' ? 'directory' : 'file',
-				lastModified: `${value[5]} ${value[6]} ${value[7]}`,
-				permission: value[0],
-				owner: value[2],
-				group: value[3],
-				links: value[1],
-				key: i++,
+				fileName: splitedList[splitedList.length - 1],
+				fileSize: parseInt(splitedList[4]),
+				fileType: splitedList[0][0] === 'd' ? 'directory' : 'file',
+				lastModified: `${splitedList[5]} ${splitedList[6]} ${splitedList[7]}`,
+				permission: splitedList[0],
+				owner: splitedList[2],
+				group: splitedList[3],
+				links: splitedList[1],
 			});
 		}
 	});
@@ -59,7 +46,6 @@ export const listConversion = (result) => {
 		}
 		return 0;
 	});
-
 	return fileList;
 };
 

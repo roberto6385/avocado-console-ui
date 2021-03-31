@@ -19,12 +19,30 @@ const useSftpCommands = ({ws, uuid}) => {
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
-			console.log(response.path);
-			dispatch({
-				type: SFTP_SAVE_CURRENT_PATH,
-				data: {uuid, path: response.path},
-			});
-			// ls 부분 해줘야하는데 에러발생.
+			response !== undefined &&
+				dispatch({
+					type: SFTP_SAVE_CURRENT_PATH,
+					data: {uuid, path: response},
+				});
+			response !== undefined &&
+				newSftp_ws({
+					keyword: 'CommandByLs',
+					ws,
+					path: response,
+				}).then((response) => {
+					if (response !== undefined) {
+						const fileList = listConversion(response);
+						console.log(fileList);
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: fileList},
+						});
+						dispatch({
+							type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+							data: {uuid, list: []},
+						});
+					}
+				});
 		});
 	}, []);
 

@@ -30,6 +30,7 @@ const LoginForm = () => {
 								type: LOGIN,
 								data: {token: r.result, socket: ws.current},
 							});
+						ws.current.close();
 					},
 				);
 			}

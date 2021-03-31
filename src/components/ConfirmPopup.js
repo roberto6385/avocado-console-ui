@@ -9,6 +9,7 @@ import {FaTimes} from 'react-icons/all';
 import {CustomModal} from '../styles/common';
 import Button from './ConfirmPopup/Button';
 import useConfirmActions from '../hooks/useConfirmActions';
+import useSftpCommands from '../hooks/useSftpCommands';
 
 const ConfirmMessage = {
 	delete_work: '선택하신 파일을 삭제하시겠습니까?',
@@ -44,6 +45,8 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		deleteHistory,
 		deleteServer,
 	} = useConfirmActions(ws, uuid);
+
+	const {initialWork} = useSftpCommands({ws, uuid});
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();

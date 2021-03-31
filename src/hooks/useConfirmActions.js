@@ -12,36 +12,33 @@ import {DELETE_SERVER} from '../reducers/common';
 import sftp_ws from '../ws/sftp_ws';
 import {listConversion} from '../components/SFTP/commands';
 import newSftp_ws from '../ws/newSftp_ws';
+import useSftpCommands from './useSftpCommands';
 
 const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
 	// const {currentPath, currentText, currentHighlight} = useSelector(
 	// 	(state) => state.sftp,
 	// );
+	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const deleteWorkFunction = useCallback(async (highlightItem) => {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
 			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
+				response.path === '/' ? response.path : response.path + '/';
 			for await (const key of highlightItem?.list) {
 				if (key.fileType === 'file') {
-					await sftp_ws({
+					await newSftp_ws({
 						keyword: 'CommandByRm',
 						ws,
-						uuid,
 						path: path + key.fileName,
 					});
 				} else {
-					await sftp_ws({
+					await newSftp_ws({
 						keyword: 'CommandByRmdir',
 						ws,
-						uuid,
 						path: path + key.fileName,
 					});
 				}
@@ -59,25 +56,7 @@ const useConfirmActions = (ws, uuid) => {
 					},
 				});
 			}
-			await sftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				uuid,
-				path: response.result,
-			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				)
-				.then(() =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-						data: {uuid, list: []},
-					}),
-				);
+			initialWork();
 		});
 	}, []);
 
@@ -158,66 +137,18 @@ const useConfirmActions = (ws, uuid) => {
 		});
 	}, []);
 
-	const newFolderFunction = useCallback(async (formValue) => {
+	const newFolderFunction = useCallback((formValue) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
 			console.log(response);
-			console.log(formValue);
-			console.log(
-				response.path === '/'
-					? '/' + formValue
-					: response.path + '/' + formValue,
-			);
+			const path = response === '/' ? '/' : response + '/';
 			newSftp_ws({
 				keyword: 'CommandByMkdir',
 				ws,
-				path:
-					response.path === '/'
-						? '/' + formValue
-						: response.path + '/' + formValue,
-			});
-		});
-		// await sftp_ws({
-		// 	keyword: 'CommandByPwd',
-		// 	ws,
-		// 	uuid,
-		// }).then((response) => {
-		// 	const path =
-		// 		response.result === '/'
-		// 			? response.result
-		// 			: response.result + '/';
-		// 	sftp_ws({
-		// 		keyword: 'CommandByMkdir',
-		// 		ws,
-		// 		uuid,
-		// 		path: path + formValue,
-		// 	}).then(() =>
-		// 		sftp_ws({
-		// 			keyword: 'CommandByPwd',
-		// 			ws,
-		// 			uuid,
-		// 		}).then((response) =>
-		// 			sftp_ws({
-		// 				keyword: 'CommandByLs',
-		// 				ws,
-		// 				uuid,
-		// 				path: response.result,
-		// 			})
-		// 				.then((response) => listConversion(response.result))
-		// 				.then((response) =>
-		// 					dispatch({
-		// 						type: SFTP_SAVE_CURRENT_LIST,
-		// 						data: {uuid, list: response},
-		// 					}),
-		// 				),
-		// 		),
-		// 	);
-		// });
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
+				path: path + formValue,
+			}).then(() => initialWork());
 		});
 	}, []);
 
@@ -230,8 +161,8 @@ const useConfirmActions = (ws, uuid) => {
 
 	return useMemo(
 		() => ({
-			deleteWork: (ws, uuid, curPath, highlightItem) => {
-				deleteWorkFunction(ws, uuid, curPath, highlightItem);
+			deleteWork: (highlightItem) => {
+				deleteWorkFunction(highlightItem);
 			},
 
 			renameWork: (ws, uuid, curPath, highlightItem, formValue) => {
@@ -242,8 +173,8 @@ const useConfirmActions = (ws, uuid) => {
 				editFileFunction(ws, uuid, curPath, curText);
 			},
 
-			newFolder: (ws, uuid, curPath, formValue) => {
-				newFolderFunction(ws, uuid, curPath, formValue);
+			newFolder: (formValue) => {
+				newFolderFunction(formValue);
 			},
 
 			deleteHistory: (uuid) => {

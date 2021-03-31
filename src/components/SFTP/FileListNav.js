@@ -19,6 +19,7 @@ import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from './commands';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/newSftp_ws';
+import useConfirmActions from '../../hooks/useConfirmActions';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -36,22 +37,12 @@ const FileListNav = ({index, ws, uuid}) => {
 	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
-		newSftp_ws({
-			keyword: 'CommandByCd',
-			ws,
-			path: nextPath,
-		}).then(() => initialWork());
-
-		// sftp_ws({
-		// 	keyword: 'CommandByCd',
-		// 	ws,
-		// 	uuid,
-		// 	path: nextPath,
-		// }).then(() => initialWork());
-		// dispatch({
-		// 	type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-		// 	data: {uuid, list: []},
-		// });
+		nextPath !== undefined &&
+			newSftp_ws({
+				keyword: 'CommandByCd',
+				ws,
+				path: nextPath,
+			}).then(() => initialWork());
 	};
 
 	const goBack = (e) => {
@@ -59,10 +50,11 @@ const FileListNav = ({index, ws, uuid}) => {
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
-			if (response.path !== '/') {
-				let tempPath = response.path.split('/');
+			if (response !== '/') {
+				let tempPath = response.split('/');
 				tempPath.pop();
 				let nextPath = tempPath.join('/').trim();
+				console.log(nextPath);
 				goHome(e, nextPath === '' ? '/' : nextPath);
 			}
 		});

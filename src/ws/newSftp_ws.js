@@ -308,8 +308,7 @@ const newSftp_ws = ({
 		ws.binaryType = 'arraybuffer';
 		ws.onmessage = (evt) => {
 			// listen to data sent from the websocket server
-			console.log(keyword);
-			console.log('on data, ', evt.data);
+			console.log(keyword, 'on data, ', evt.data);
 			if (evt.data instanceof ArrayBuffer) {
 				try {
 					const message = SFTP.Message.deserializeBinary(evt.data);
@@ -317,7 +316,6 @@ const newSftp_ws = ({
 						message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE
 					) {
 						const response = message.getResponse();
-
 						console.log(
 							keyword,
 							'response status: ',
@@ -328,9 +326,6 @@ const newSftp_ws = ({
 						// 	responseStatus: response.getStatus(), // 응답 상태 코드 참고.
 						// 	errorMessage: '',
 						// });
-
-						console.log(response.getResponseCase());
-						console.log(SFTP.Response.ResponseCase.DISCONNECT);
 
 						if (
 							response.getResponseCase() ===
@@ -344,7 +339,8 @@ const newSftp_ws = ({
 							// 	uuid: connect.getUuid(),
 							// });
 						} else if (
-							response.getResponseCase() === 0
+							response.getResponseCase() ===
+							SFTP.Response.ResponseCase.DISCONNECT
 							// disconnect 는 2가 나와야 하는데, 0이 나와서 우선 이렇게 처리.
 							// SFTP.Response.ResponseCase.DISCONNECT
 						) {
@@ -377,7 +373,7 @@ const newSftp_ws = ({
 										'command : pwd.getMessage',
 										pwd.getMessage(),
 									);
-									resolve({path: pwd.getMessage()});
+									resolve(pwd.getMessage());
 
 									// this.setState({
 									// 	result: pwd.getMessage(),
@@ -431,20 +427,19 @@ const newSftp_ws = ({
 									const entryList = ls.getEntryList();
 									console.log('entry ', entryList.length);
 
-									var result = '';
+									// var result = '';
+									const list = [];
 
 									for (var i = 0; i < entryList.length; i++) {
 										const entry = entryList[i];
-										console.log(
-											'entry : ',
-											entry.getLongname(),
-										);
-										result += entry.getLongname() + '\n';
+										// console.log(
+										// 	'entry : ',
+										// 	entry.getLongname(),
+										// );
+										list.push(entry.getLongname());
+										// result += entry.getLongname() + '\n';
 									}
-
-									console.log(result);
-
-									resolve({list: command.getLs()});
+									resolve(list);
 
 									// this.setState({
 									// 	result: result,
