@@ -32,7 +32,6 @@ const useSftpCommands = ({ws, uuid}) => {
 				}).then((response) => {
 					if (response !== undefined) {
 						const fileList = listConversion(response);
-						console.log(fileList);
 						dispatch({
 							type: SFTP_SAVE_CURRENT_LIST,
 							data: {uuid, list: fileList},
@@ -46,27 +45,24 @@ const useSftpCommands = ({ws, uuid}) => {
 		});
 	}, []);
 
-	const uploadWorkFunction = useCallback((files) => {
-		sftp_ws({
+	const uploadWorkFunction = useCallback(async (files) => {
+		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
 			for (const key of files) {
-				await sftp_ws({
+				await newSftp_ws({
 					keyword: 'CommandByPut',
 					ws,
-					uuid,
-					path: response.result,
-					fileName: key.name,
+					path: response,
 					uploadFile: key,
-				}).then((response) => {
+				}).then(() => {
 					dispatch({
 						type: SFTP_SAVE_HISTORY,
 						data: {
 							uuid,
 							name: key.name,
-							path: response.result,
+							path: response,
 							size: key.size,
 							todo: 'put',
 							progress: 100,
@@ -76,19 +72,6 @@ const useSftpCommands = ({ws, uuid}) => {
 					});
 				});
 			}
-			sftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				uuid,
-				path: response.result,
-			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				);
 		});
 	}, []);
 
@@ -133,8 +116,8 @@ const useSftpCommands = ({ws, uuid}) => {
 			initialWork: () => {
 				initialWorkFunction();
 			},
-			uploadWork: (files) => {
-				uploadWorkFunction(files);
+			uploadWork: async (files) => {
+				await uploadWorkFunction(files);
 			},
 			downloadWork: (itemList) => {
 				downloadWorkFunction(itemList);

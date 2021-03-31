@@ -177,9 +177,7 @@ const newSftp_ws = ({
 	let progress = 0;
 	let getReceiveSum = 0;
 
-	const upload = ({keyword}) => {
-		console.log(keyword);
-
+	const upload = (ws, path, uploadFile) => {
 		console.log('file size : ', uploadFile.size);
 
 		const uploadFileSize = uploadFile.size;
@@ -294,12 +292,8 @@ const newSftp_ws = ({
 				sendCommandByGet(ws, path, fileName);
 				break;
 
-			case 'CommandByGetDirect':
-				break;
-
 			case 'CommandByPut':
-			case 'CommandByPutDirect':
-				upload({keyword});
+				upload(ws, path, uploadFile);
 				break;
 			default:
 				break;
@@ -503,7 +497,9 @@ const newSftp_ws = ({
 									// this.setState({
 									// 	progress: put.getProgress(),
 									// });
-									resolve();
+									put.getProgress() === 100 &&
+										response.getStatus() === 200 &&
+										resolve(put.getProgress());
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.GET: {
