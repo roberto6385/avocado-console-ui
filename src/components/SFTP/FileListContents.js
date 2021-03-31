@@ -123,9 +123,9 @@ const FileListContents = ({index, ws, uuid}) => {
 
 	return (
 		<>
-			<CustomTable>
+			<CustomTable onContextMenu={contextMenuOpen}>
 				<TableHead />
-				<CustomTbody onContextMenu={contextMenuOpen}>
+				<CustomTbody>
 					{data?.map((item, index) => {
 						return (
 							<tr

@@ -11,6 +11,7 @@ import {
 import {DELETE_SERVER} from '../reducers/common';
 import sftp_ws from '../ws/sftp_ws';
 import {listConversion} from '../components/SFTP/commands';
+import newSftp_ws from '../ws/newSftp_ws';
 
 const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
@@ -158,42 +159,62 @@ const useConfirmActions = (ws, uuid) => {
 	}, []);
 
 	const newFolderFunction = useCallback(async (formValue) => {
-		await sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
-			sftp_ws({
+			console.log(response);
+			console.log(formValue);
+			console.log(
+				response.path === '/'
+					? '/' + formValue
+					: response.path + '/' + formValue,
+			);
+			newSftp_ws({
 				keyword: 'CommandByMkdir',
 				ws,
-				uuid,
-				path: path + formValue,
-			}).then(() =>
-				sftp_ws({
-					keyword: 'CommandByPwd',
-					ws,
-					uuid,
-				}).then((response) =>
-					sftp_ws({
-						keyword: 'CommandByLs',
-						ws,
-						uuid,
-						path: response.result,
-					})
-						.then((response) => listConversion(response.result))
-						.then((response) =>
-							dispatch({
-								type: SFTP_SAVE_CURRENT_LIST,
-								data: {uuid, list: response},
-							}),
-						),
-				),
-			);
+				path:
+					response.path === '/'
+						? '/' + formValue
+						: response.path + '/' + formValue,
+			});
 		});
+		// await sftp_ws({
+		// 	keyword: 'CommandByPwd',
+		// 	ws,
+		// 	uuid,
+		// }).then((response) => {
+		// 	const path =
+		// 		response.result === '/'
+		// 			? response.result
+		// 			: response.result + '/';
+		// 	sftp_ws({
+		// 		keyword: 'CommandByMkdir',
+		// 		ws,
+		// 		uuid,
+		// 		path: path + formValue,
+		// 	}).then(() =>
+		// 		sftp_ws({
+		// 			keyword: 'CommandByPwd',
+		// 			ws,
+		// 			uuid,
+		// 		}).then((response) =>
+		// 			sftp_ws({
+		// 				keyword: 'CommandByLs',
+		// 				ws,
+		// 				uuid,
+		// 				path: response.result,
+		// 			})
+		// 				.then((response) => listConversion(response.result))
+		// 				.then((response) =>
+		// 					dispatch({
+		// 						type: SFTP_SAVE_CURRENT_LIST,
+		// 						data: {uuid, list: response},
+		// 					}),
+		// 				),
+		// 		),
+		// 	);
+		// });
 		dispatch({
 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 			data: {uuid, list: []},

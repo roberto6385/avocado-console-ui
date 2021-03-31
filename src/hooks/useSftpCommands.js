@@ -24,14 +24,7 @@ const useSftpCommands = ({ws, uuid}) => {
 				type: SFTP_SAVE_CURRENT_PATH,
 				data: {uuid, path: response.path},
 			});
-
-			// .then((response) => listConversion(response.result))
-			// .then((response) =>
-			// 	dispatch({
-			// 		type: SFTP_SAVE_CURRENT_LIST,
-			// 		data: {uuid, list: response},
-			// 	}),
-			// );
+			// ls 부분 해줘야하는데 에러발생.
 		});
 	}, []);
 
