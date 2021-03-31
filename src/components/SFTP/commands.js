@@ -10,10 +10,11 @@ export const listConversion = (result) => {
 	console.log(result);
 	const fileList = [];
 	result?.forEach((list) => {
+		console.log(list);
 		const splitedList = list.replace(/\s{2,}/gi, ' ').split(' ');
 		if (splitedList[splitedList.length - 1] !== '.') {
 			fileList.push({
-				fileName: splitedList[splitedList.length - 1],
+				fileName: splitedList.slice(8).join(' '),
 				fileSize: parseInt(splitedList[4]),
 				fileType: splitedList[0][0] === 'd' ? 'directory' : 'file',
 				lastModified: `${splitedList[5]} ${splitedList[6]} ${splitedList[7]}`,
@@ -46,6 +47,7 @@ export const listConversion = (result) => {
 		}
 		return 0;
 	});
+
 	return fileList;
 };
 

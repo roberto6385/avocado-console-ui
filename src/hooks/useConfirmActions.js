@@ -23,6 +23,7 @@ const useConfirmActions = (ws, uuid) => {
 			.then(async (response) => {
 				const path = response === '/' ? response : response + '/';
 				for await (const key of highlightItem?.list) {
+					console.log(path + key.fileName);
 					if (key.fileType === 'file') {
 						await newSftp_ws({
 							keyword: 'CommandByRm',
@@ -30,7 +31,6 @@ const useConfirmActions = (ws, uuid) => {
 							path: path + key.fileName,
 						});
 					} else {
-						console.log('디렉토리 삭제한다');
 						await newSftp_ws({
 							keyword: 'CommandByRmdir',
 							ws,
