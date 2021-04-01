@@ -13,37 +13,39 @@ import {
 	TabSFTPIcon,
 	TabSSHTIcon,
 } from '../styles/common';
-import sftp_ws from '../ws/sftp_ws';
 
 import newSftp_ws from '../ws/newSftp_ws';
-
-import ssht_ws from '../ws/ssht_ws';
+import {ssht_ws_request} from '../ws/ssht_ws_request';
+import {GetMessage} from '../ws/ssht_ws_logic';
 
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
-	const {ws, uuid} = socket;
+	const {ws} = socket;
 	const {cols, tab} = useSelector((state) => state.common);
 	const [height, setHeight] = useState(null);
 	const [width, setWidth] = useState(null);
 
-	const onClickDelete = useCallback(
-		() => async () => {
-			if (type === 'SSHT') {
-				await ssht_ws({keyword: 'SendDisconnect', ws: ws}).then((r) => {
-					if (r.result.type === 'DISCONNECT')
-						dispatch({type: CLOSE_TAB, data: index});
-				});
-			} else {
-				newSftp_ws({
-					keyword: 'Disconnection',
-					ws,
-				}).then((response) => {
+	const onClickDelete = useCallback(() => {
+		if (type === 'SSHT') {
+			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+
+			ws.onmessage = (evt) => {
+				const message = GetMessage(evt);
+				console.log(message);
+
+				if (message.type === 'DISCONNECT')
 					dispatch({type: CLOSE_TAB, data: index});
-				});
-			}
-		},
-		[dispatch],
-	);
+				else console.log('V TabContentContainer onmessage: ', message);
+			};
+		} else {
+			newSftp_ws({
+				keyword: 'Disconnection',
+				ws,
+			}).then((r) => {
+				dispatch({type: CLOSE_TAB, data: index});
+			});
+		}
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!display) {
@@ -86,7 +88,7 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
 					{server?.name}
 					<span className='right'>
-						<FaTimes onClick={onClickDelete()} />
+						<FaTimes onClick={onClickDelete} />
 					</span>
 				</TabContentCardHeader>
 			)}

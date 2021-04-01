@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState, useEffect} from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {Card} from 'react-bootstrap';
 import {CgMaximizeAlt} from 'react-icons/all';

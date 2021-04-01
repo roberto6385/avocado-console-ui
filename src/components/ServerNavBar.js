@@ -1,17 +1,17 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {LOGIN, OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
+
+import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
 import {useDoubleClick} from '../hooks/useDoubleClick';
 import {HIGHLIGHT_COLOR} from '../styles/global';
-import {Connect, GetMessage} from '../ws/ssh_ws';
+import {GetMessage} from '../ws/ssht_ws_logic';
 import {
 	FaServerIcon,
 	ServerNavBarContainer,
 	ServerNavItem,
 } from '../styles/common';
-import ssht_ws, {sendConnect} from '../ws/ssht_ws';
-import auth_ws from '../ws/auth_ws';
+import {ssht_ws_request} from '../ws/ssht_ws_request';
 
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const ServerNavBar = ({search}) => {
 			ws.binaryType = 'arraybuffer';
 
 			ws.onopen = () => {
-				ssht_ws({
+				ssht_ws_request({
 					keyword: 'SendConnect',
 					ws: ws,
 					data: {
@@ -39,18 +39,24 @@ const ServerNavBar = ({search}) => {
 						password: correspondedServer.password,
 						port: correspondedServer.port,
 					},
-				}).then((r) => {
-					if (r.type === 'CONNECT')
+				});
+
+				ws.onmessage = (evt) => {
+					const message = GetMessage(evt);
+					console.log(message);
+
+					if (message.type === 'CONNECT')
 						dispatch({
 							type: OPEN_TAB,
 							data: {
 								id: id,
 								type: 'SSHT',
 								ws: ws,
-								uuid: r.result,
+								uuid: message.result,
 							},
 						});
-				});
+					else console.log('V ServerNavBar onmessage: ', message);
+				};
 			};
 		},
 		(id) => {

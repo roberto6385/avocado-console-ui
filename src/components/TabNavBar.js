@@ -5,12 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
-import {
-	CHANGE_VISIBLE_TAB,
-	CLOSE_TAB,
-	DELETE_SERVER,
-	LOGIN,
-} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
 import {
 	FlexBox,
 	IconButton,
@@ -21,12 +16,9 @@ import {
 	TabSSHTIcon,
 	TabSFTPIcon,
 } from '../styles/common';
-import sftp_ws from '../ws/sftp_ws';
-
 import newSftp_ws from '../ws/newSftp_ws';
-
-import ssht_ws, {sendDisconnect} from '../ws/ssht_ws';
-import auth_ws from '../ws/auth_ws';
+import {ssht_ws_request} from '../ws/ssht_ws_request';
+import {GetMessage} from '../ws/ssht_ws_logic';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -43,18 +35,24 @@ const TabNavBar = () => {
 	const onClickDelete = useCallback(
 		(id) => async () => {
 			const clicked_tab = tab.find((x) => x.id === id);
-			const {ws, uuid} = clicked_tab.socket;
+			const {ws} = clicked_tab.socket;
 
 			if (clicked_tab.type === 'SSHT') {
-				await ssht_ws({keyword: 'SendDisconnect', ws: ws}).then((r) => {
-					if (r.type === 'DISCONNECT')
+				ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+
+				ws.onmessage = (evt) => {
+					const message = GetMessage(evt);
+					console.log(message);
+
+					if (message.type === 'DISCONNECT')
 						dispatch({type: CLOSE_TAB, data: id});
-				});
+					else console.log('V TabNavBar onmessage: ', message);
+				};
 			} else {
 				newSftp_ws({
 					keyword: 'Disconnection',
 					ws,
-				}).then((response) => {
+				}).then((r) => {
 					dispatch({type: CLOSE_TAB, data: id});
 				});
 			}

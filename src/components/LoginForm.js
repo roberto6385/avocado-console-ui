@@ -1,38 +1,36 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {Form, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
+
 import useInput from '../hooks/useInput';
 import auth_ws from '../ws/auth_ws';
-
 import {LOGIN} from '../reducers/common';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('root');
 	const [password, onChangePassword] = useInput('Netand141)');
-	const ws = useRef(new WebSocket('ws://211.253.10.9:8081/ws/auth'));
-
-	useEffect(() => {
-		ws.current.onopen = () => {
-			console.log('autho socket opend');
-		};
-	}, []);
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+			const ws = new WebSocket('ws://211.253.10.9:8081/ws/auth');
 
-			if (user === 'root' && password === 'Netand141)') {
-				auth_ws({keyword: 'LoginRequest', ws_auth: ws.current}).then(
-					(r) => {
+			ws.binaryType = 'arraybuffer';
+			ws.onopen = () => {
+				if (user === 'root' && password === 'Netand141)') {
+					auth_ws({
+						keyword: 'LoginRequest',
+						ws_auth: ws,
+					}).then((r) => {
 						if (r.type === 'LOGIN')
 							dispatch({
 								type: LOGIN,
-								data: {token: r.result, socket: ws.current},
+								data: {token: r.result, socket: ws},
 							});
-					},
-				);
-			}
+					});
+				}
+			};
 		},
 		[user, password],
 	);

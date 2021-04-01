@@ -1,7 +1,8 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {BsSquareFill, FaTh, FaThLarge} from 'react-icons/all';
+
+import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
 import {IconButton, SplitButtonContainer} from '../styles/common';
 

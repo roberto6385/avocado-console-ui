@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SAVE_SERVER} from '../reducers/common';
 import useInput from '../hooks/useInput';
-import {Close, Connect, GetMessage} from '../ws/ssh_ws';
+import {GetMessage} from '../ws/ssht_ws_logic';
 import {AddServerModal, IconButton} from '../styles/common';
 import AlertPopup from './AlertPopup';
 import OneColForm from './AddServer/OneColForm';
@@ -14,9 +14,12 @@ import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
 import TwoColsForm from './AddServer/TwoColsForm';
 import OneColButtonForm from './AddServer/OneColButtonForm';
 import * as PropTypes from 'prop-types';
+import {ssht_ws_request} from '../ws/ssht_ws_request';
 
 const AddServerForm = ({showForm, setShowForm}) => {
 	const dispatch = useDispatch();
+	const {me} = useSelector((state) => state.common);
+
 	const [name, onChangeName, setName] = useInput('');
 	const [protocol, setProtocol] = useState('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
@@ -32,43 +35,47 @@ const AddServerForm = ({showForm, setShowForm}) => {
 		(e) => {
 			e.preventDefault();
 
-			const ws = new WebSocket('ws://' + host + ':8080/ws/ssh/protobuf');
-			ws.binaryType = 'arraybuffer';
+			const ws = new WebSocket('ws://' + host + ':8081/ws/ssh');
 
-			ws.onopen = () => {
-				ws.send(Connect(host, user, password, port));
-			};
+			ws.binaryType = 'arraybuffer';
 
 			ws.onerror = () => {
 				setOpen(true);
 			};
 
-			ws.onmessage = (e) => {
-				const result = GetMessage(e);
-				switch (result.type) {
-					case 'connected':
-						dispatch({
-							type: SAVE_SERVER,
-							data: {
-								name: name,
-								host: host,
-								user: user,
-								password: password,
-								port: port,
-							},
-						});
+			ws.onopen = () => {
+				ssht_ws_request({
+					keyword: 'SendConnect',
+					ws: ws,
+					data: {
+						token: me.token,
+						host: host,
+						user: user,
+						password: password,
+						port: port,
+					},
+				});
+			};
 
-						ws.send(Close(result.uuid));
-						break;
-					case 'disconnected':
-						document.getElementById(
-							'add-server-form',
-						).style.display = 'none';
-						break;
-					default:
-						console.log('무시합시다: AddServerForm');
-						break;
-				}
+			ws.onmessage = (evt) => {
+				const message = GetMessage(evt);
+				console.log(message);
+
+				if (message.type === 'CONNECT') {
+					dispatch({
+						type: SAVE_SERVER,
+						data: {
+							name: name,
+							host: host,
+							user: user,
+							password: password,
+							port: port,
+						},
+					});
+					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+				} else if (message.type === 'DISCONNECT') {
+					setShowForm(false);
+				} else console.log('V AddServerForm onmessage: ', message);
 			};
 		},
 		[name, host, user, password, port, dispatch],

@@ -2,17 +2,15 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
-import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import * as PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
-import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
-import {Close, GetMessage, SendMessage, Resize} from '../../ws/ssh_ws';
 import useInput from '../../hooks/useInput';
 import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
-import ssht_ws from '../../ws/ssht_ws';
+import {ssht_ws_request} from '../../ws/ssht_ws_request';
+import {GetMessage} from '../../ws/ssht_ws_logic';
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
-	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
 	const {font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
@@ -41,37 +39,28 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		ws.onclose = () => {
 			console.log('이거는 잘못 닫음 실행되는건가욤??');
-			// ws.send(Close(uuid));
+			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 		};
 
-		// ws.onmessage = (e) => {
-		// 	const result = GetMessage(e);
-		// 	switch (result.type) {
-		// 		case 'disconnected':
-		// 			dispatch({type: CLOSE_TAB, data: index});
-		// 			break;
-		// 		case 'message':
-		// 			sshTerm.current.write(result.result);
-		// 			break;
-		// 		default:
-		// 			console.log('도달하면 안되는 공간2');
-		// 			break;
-		// 	}
-		// };
+		ws.onmessage = (evt) => {
+			const message = GetMessage(evt);
+			console.log(message);
+			if (message.type === 'COMMAND')
+				sshTerm.current.write(message.result);
+			else console.log('V SSHT onmessage: ', message);
+		};
 
 		sshTerm.current.onData(function (data) {
-			ssht_ws({
-				keyword: 'SendMessage',
+			ssht_ws_request({
+				keyword: 'SendCommand',
 				ws: ws,
 				data: data,
-			}).then((r) => {
-				if (r.type === 'MESSAGE') sshTerm.current.write(r.result);
 			});
-			// ws.send(SendMessage(uuid, data));
 		});
 
 		return () => {
 			sshTerm.current.dispose();
+			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 		};
 	}, [index, uuid, ws]);
 
@@ -80,15 +69,17 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		if (display) {
 			fitAddon.current.fit();
-			// ws.send(
-			// 	Resize(
-			// 		uuid,
-			// 		sshTerm.current.cols,
-			// 		sshTerm.current.rows,
-			// 		width,
-			// 		height,
-			// 	),
-			// );
+
+			ssht_ws_request({
+				keyword: 'SendWindowChange',
+				ws: ws,
+				data: {
+					cols: sshTerm.current.cols,
+					rows: sshTerm.current.rows,
+					width: width,
+					height: height,
+				},
+			});
 		}
 	}, [font_size, height, width]);
 

@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
 import {FaPlus, FaRegTrashAlt, FaSearch, GrLogout} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
+
 import ConfirmPopup from './ConfirmPopup';
 import {
 	Header,
@@ -41,12 +42,11 @@ const LeftContainer = ({setShowAddServerForm}) => {
 	}, []);
 
 	const onClickLogout = useCallback(() => {
-		auth_ws({keyword: 'LogoutRequest', ws_auth: me.socket}).then((r) => {
-			dispatch({
-				type: LOGOUT,
-			});
+		dispatch({
+			type: LOGOUT,
 		});
 	});
+
 	return (
 		<OutlineCol xs={2}>
 			<Header>
@@ -61,12 +61,9 @@ const LeftContainer = ({setShowAddServerForm}) => {
 					<IconButton onClick={onClickOpenSearch}>
 						<FaSearch />
 					</IconButton>
-
-					{me !== null && (
-						<IconButton onClick={onClickLogout}>
-							<GrLogout />
-						</IconButton>
-					)}
+					<IconButton onClick={onClickLogout}>
+						<GrLogout />
+					</IconButton>
 				</Nav.Item>
 			</Header>
 			<Collapse in={activeSearch}>
