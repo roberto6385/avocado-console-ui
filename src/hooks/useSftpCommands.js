@@ -45,8 +45,19 @@ const useSftpCommands = ({ws, uuid}) => {
 		});
 	}, []);
 
-	const changeDirectoryFunction = useCallback(() => {
-
+	const changeDirectoryFunction = useCallback((item) => {
+		newSftp_ws({
+			keyword: 'CommandByPwd',
+			ws,
+		}).then((response) => {
+			const path = response === '/' ? response : response + '/';
+			response !== undefined &&
+				newSftp_ws({
+					keyword: 'CommandByCd',
+					ws,
+					path: path + item.fileName,
+				});
+		});
 	}, []);
 
 	const uploadWorkFunction = useCallback(async (files) => {
@@ -114,8 +125,8 @@ const useSftpCommands = ({ws, uuid}) => {
 			initialWork: () => {
 				initialWorkFunction();
 			},
-			changeDirectory: () => {
-				changeDirectoryFunction();
+			changeDirectory: async (item) => {
+				await changeDirectoryFunction(item);
 			},
 			uploadWork: async (files) => {
 				await uploadWorkFunction(files);
