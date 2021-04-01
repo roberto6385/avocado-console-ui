@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
 import {OPEN_TAB} from '../../reducers/common';
-import newSftp_ws from '../../ws/newSftp_ws';
+import newSftp_ws from '../../ws/sftp_ws';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();

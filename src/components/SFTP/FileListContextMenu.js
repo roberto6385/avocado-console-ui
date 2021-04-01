@@ -2,13 +2,8 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_HISTORY,
-} from '../../reducers/sftp';
 import ConfirmPopup from '../ConfirmPopup';
 import {toEditMode} from './commands';
-import sftp_ws from '../../ws/sftp_ws';
 import useSftpCommands from '../../hooks/useSftpCommands';
 
 const FileListContextMenu = ({ws, uuid}) => {

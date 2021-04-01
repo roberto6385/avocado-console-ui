@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from './Dropzone';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -119,7 +119,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 											/>
 										)}
 									</CustomP>
-									<CustomP>{history.name}</CustomP>
+									<CustomP flex={1}>{history.name}</CustomP>
 									<CustomP minWidth={'90px'} align={'right'}>
 										{history.size} byte
 									</CustomP>

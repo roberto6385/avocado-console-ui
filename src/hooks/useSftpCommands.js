@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo} from 'react';
-import sftp_ws from '../ws/sftp_ws';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
@@ -9,7 +8,7 @@ import {
 import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import newSftp_ws from '../ws/newSftp_ws';
+import newSftp_ws from '../ws/sftp_ws';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -125,7 +124,7 @@ const useSftpCommands = ({ws, uuid}) => {
 			initialWork: () => {
 				initialWorkFunction();
 			},
-			changeDirectory: async (item) => {
+			changeDirectoryWork: async (item) => {
 				await changeDirectoryFunction(item);
 			},
 			uploadWork: async (files) => {

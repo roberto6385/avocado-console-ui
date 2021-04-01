@@ -1,17 +1,10 @@
 import React, {useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {
-	SFTP_SAVE_COMPARE_TEXT,
-	SFTP_SAVE_CURRENT_MODE,
-	SFTP_SAVE_CURRENT_TEXT,
-	SFTP_SAVE_HISTORY,
-} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../ConfirmPopup';
 import {Navbar, NavItem} from '../../styles/sftp';
-import sftp_ws from '../../ws/sftp_ws';
-import newSftp_ws from '../../ws/newSftp_ws';
 import useConfirmActions from '../../hooks/useConfirmActions';
 
 const EditNav = ({index, ws, uuid}) => {
