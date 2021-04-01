@@ -18,7 +18,7 @@ import {
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
 import useSftpCommands from '../../hooks/useSftpCommands';
-import newSftp_ws from '../../ws/newSftp_ws';
+import newSftp_ws from '../../ws/sftp_ws';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);

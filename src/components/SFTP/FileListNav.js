@@ -11,7 +11,7 @@ import {useSelector} from 'react-redux';
 import {NavItem} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
 import useSftpCommands from '../../hooks/useSftpCommands';
-import newSftp_ws from '../../ws/newSftp_ws';
+import newSftp_ws from '../../ws/sftp_ws';
 
 const SearchPath = styled.input`
 	flex: 1;
