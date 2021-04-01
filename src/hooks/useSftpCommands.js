@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
@@ -9,6 +9,7 @@ import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import newSftp_ws from '../ws/sftp_ws';
+import * as path from 'path';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -18,6 +19,28 @@ const useSftpCommands = ({ws, uuid}) => {
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
+			let pathList = ['/'];
+			let tempPathList = response.split('/');
+			tempPathList.reduce(function (accumulator, currentValue) {
+				response !== '/' &&
+					pathList.push(accumulator + '/' + currentValue);
+				return accumulator + '/' + currentValue;
+			});
+			console.log(pathList);
+			// while (loopPath !== '/') {
+			// 	console.log(loopPath);
+			// 	pathList.push(loopPath);
+			// 	let tempPath = loopPath.split('/');
+			// 	tempPath.pop();
+			// 	loopPath = tempPath.join('/').trim();
+			// }
+			// if (response === '/') {
+			// 	pathList = Array.from(['/']);
+			// } else {
+			// 	const tempList = response.split('/');
+			// 	tempList.
+			// 	pathList = Array.from(tempList);
+			// }
 			response !== undefined &&
 				dispatch({
 					type: SFTP_SAVE_CURRENT_PATH,

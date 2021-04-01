@@ -5,6 +5,7 @@ import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
+import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
@@ -26,6 +27,13 @@ const ConvertSFTP = ({data}) => {
 					type: 'SFTP',
 					ws: ws,
 					uuid: uuid,
+				},
+			});
+			dispatch({
+				type: SFTP_SAVE_LIST_MODE,
+				data: {
+					uuid,
+					mode: 'list',
 				},
 			});
 		};

@@ -15,6 +15,9 @@ export const initialState = {
 	//history
 	History: [],
 	HISTORY_ID: 0,
+
+	//list display system
+	listMode: [],
 };
 
 export const SFTP_SAVE_CURRENT_TYPE = 'SFTP_SAVE_CURRENT_TYPE';
@@ -39,6 +42,9 @@ export const SFTP_SAVE_COMPARE_TEXT = 'SFTP_SAVE_COMPARE_TEXT';
 export const SFTP_SAVE_HISTORY = 'SFTP_SAVE_HISTORY';
 export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
 
+// list
+export const SFTP_SAVE_LIST_MODE = 'SFTP_SAVE_LIST_MODE';
+
 // 리듀서 findIndex 변수들
 let currentType_index;
 let currentMode_index;
@@ -47,6 +53,7 @@ let currentList_index;
 let currentHighlight_index;
 let currentText_index;
 let currentCompare_index;
+let listMode_index;
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -122,6 +129,24 @@ const reducer = (state = initialState, action) => {
 					});
 				} else {
 					draft.currentMode.push({
+						uuid: action.data.uuid,
+						mode: action.data.mode,
+					});
+				}
+				break;
+
+			case SFTP_SAVE_LIST_MODE:
+				listMode_index = draft.listMode.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (listMode_index !== -1) {
+					draft.listMode.splice(listMode_index, 1, {
+						uuid: action.data.uuid,
+						mode: action.data.mode,
+					});
+				} else {
+					draft.listMode.push({
 						uuid: action.data.uuid,
 						mode: action.data.mode,
 					});
