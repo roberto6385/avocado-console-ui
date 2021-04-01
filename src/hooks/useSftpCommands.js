@@ -14,61 +14,51 @@ import * as path from 'path';
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
 
-	const initialWorkFunction = useCallback(() => {
-		newSftp_ws({
+	const initialWorkFunction = useCallback(async () => {
+		const multiFileList = [];
+		let pathList = ['/'];
+		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then(async (response) => {
-			let pathList = ['/'];
-			let tempPathList = response.split('/');
-			tempPathList.reduce(function (accumulator, currentValue) {
-				response !== '/' &&
-					pathList.push(accumulator + '/' + currentValue);
-				return accumulator + '/' + currentValue;
-			});
-			console.log(pathList);
-			// while (loopPath !== '/') {
-			// 	console.log(loopPath);
-			// 	pathList.push(loopPath);
-			// 	let tempPath = loopPath.split('/');
-			// 	tempPath.pop();
-			// 	loopPath = tempPath.join('/').trim();
-			// }
-			// if (response === '/') {
-			// 	pathList = Array.from(['/']);
-			// } else {
-			// 	const tempList = response.split('/');
-			// 	tempList.
-			// 	pathList = Array.from(tempList);
-			// }
-			response !== undefined &&
-				dispatch({
-					type: SFTP_SAVE_CURRENT_PATH,
-					data: {uuid, path: response},
+		})
+			.then(async (response) => {
+				let tempPathList = response.split('/');
+				tempPathList.reduce(function (accumulator, currentValue) {
+					response !== '/' &&
+						pathList.push(accumulator + '/' + currentValue);
+					return accumulator + '/' + currentValue;
 				});
-			for (const key of pathList) {
-				console.log(key);
 				response !== undefined &&
-					(await newSftp_ws({
-						keyword: 'CommandByLs',
-						ws,
-						path: key,
-					}).then((response) => {
-						if (response !== undefined) {
-							const fileList = listConversion(response);
-							console.log(fileList);
-							dispatch({
-								type: SFTP_SAVE_CURRENT_LIST,
-								data: {uuid, list: fileList},
-							});
-							dispatch({
-								type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-								data: {uuid, list: []},
-							});
-						}
-					}));
-			}
-		});
+					dispatch({
+						type: SFTP_SAVE_CURRENT_PATH,
+						data: {uuid, path: response},
+					});
+				for (const key of pathList) {
+					console.log(key);
+					response !== undefined &&
+						(await newSftp_ws({
+							keyword: 'CommandByLs',
+							ws,
+							path: key,
+						}).then((response) => {
+							if (response !== undefined) {
+								const fileList = listConversion(response);
+								multiFileList.push(fileList);
+								console.log(fileList);
+							}
+						}));
+				}
+			})
+			.then(() => {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_LIST,
+					data: {uuid, list: multiFileList, path: pathList},
+				});
+				dispatch({
+					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+					data: {uuid, list: []},
+				});
+			});
 	}, []);
 
 	const changeDirectoryFunction = useCallback((item) => {
@@ -148,8 +138,8 @@ const useSftpCommands = ({ws, uuid}) => {
 	return useMemo(
 		() => ({
 			// 경로 탐색, 디렉토리 조회, 리스트로 저장하는 함수
-			initialWork: () => {
-				initialWorkFunction();
+			initialWork: async () => {
+				await initialWorkFunction();
 			},
 			changeDirectoryWork: async (item) => {
 				await changeDirectoryFunction(item);

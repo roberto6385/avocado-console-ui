@@ -24,7 +24,6 @@ const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
 	const {initialWork, downloadWork} = useSftpCommands({ws, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
-
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 
@@ -110,7 +109,8 @@ const FileListContents = ({index, ws, uuid}) => {
 	};
 
 	useEffect(() => {
-		setData(currentList.find((item) => item.uuid === uuid)?.list);
+		const list = currentList?.find((item) => item.uuid === uuid)?.list;
+		list?.length > 0 && setData(list[list?.length - 1 || 0]);
 	}, [currentList]);
 
 	return (

@@ -198,11 +198,13 @@ const reducer = (state = initialState, action) => {
 					draft.currentList.splice(currentList_index, 1, {
 						uuid: action.data.uuid,
 						list: action.data.list,
+						path: action.data.path,
 					});
 				} else {
 					draft.currentList.push({
 						uuid: action.data.uuid,
 						list: action.data.list,
+						path: action.data.path,
 					});
 				}
 				break;

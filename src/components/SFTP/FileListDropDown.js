@@ -4,6 +4,8 @@ import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {DEEP_GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
 import {DirectoryIcon, FileIcon} from '../../styles/sftp';
+import newSftp_ws from '../../ws/sftp_ws';
+import useSftpCommands from '../../hooks/useSftpCommands';
 
 const DropdownUl = styled.ul`
 	margin: 0;
@@ -22,25 +24,61 @@ const DropdownLi = styled.li`
 
 const FileListDropDown = ({ws, uuid}) => {
 	const {currentList} = useSelector((state) => state.sftp);
-	const data = currentList.find((item) => item.uuid === uuid)?.list;
-	console.log(data);
+	const [list, setList] = useState([]);
+	const [path, setPath] = useState([]);
+	const {initialWork} = useSftpCommands({ws, uuid});
 
-	return data !== undefined ? (
+	const selectFile = ({name, type, path}) => {
+		console.log(name);
+		console.log(type);
+		console.log(path);
+
+		type === 'directory' &&
+			newSftp_ws({
+				keyword: 'CommandByCd',
+				ws,
+				path: path === '/' ? path + name : path + '/' + name,
+			}).then(() => initialWork());
+	};
+
+	useEffect(() => {
+		const list = currentList?.find((item) => item.uuid === uuid)?.list;
+		const path = currentList?.find((item) => item.uuid === uuid)?.path;
+		console.log(list);
+		setList(list);
+		console.log(path);
+		setPath(path);
+	}, [currentList]);
+
+	return list !== undefined ? (
 		<>
-			<DropdownUl>
-				{data.map((item, index) => {
-					return (
-						<DropdownLi key={index}>
-							{item.fileType === 'directory' ? (
-								<DirectoryIcon />
-							) : (
-								<FileIcon />
-							)}
-							{item.fileName}
-						</DropdownLi>
-					);
-				})}
-			</DropdownUl>
+			{list.map((listItem, listindex) => {
+				return (
+					<DropdownUl key={listindex}>
+						{listItem.map((item, index) => {
+							return (
+								<DropdownLi
+									key={index}
+									onClick={() =>
+										selectFile({
+											name: item.fileName,
+											type: item.fileType,
+											path: path[listindex],
+										})
+									}
+								>
+									{item.fileType === 'directory' ? (
+										<DirectoryIcon />
+									) : (
+										<FileIcon />
+									)}
+									{item.fileName}
+								</DropdownLi>
+							);
+						})}
+					</DropdownUl>
+				);
+			})}
 		</>
 	) : (
 		<div>loading...</div>
