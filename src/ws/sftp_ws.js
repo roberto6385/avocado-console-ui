@@ -1,4 +1,4 @@
-import SFTP from '../dist2/sftp_pb';
+import SFTP from '../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
 const sendConnect = (ws, token, data) => {

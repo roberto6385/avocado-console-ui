@@ -1,4 +1,4 @@
-const SSH = require('../dist2/ssh_pb');
+const SSH = require('../dist/ssh_pb');
 
 export const SendConnect = (token, host, user, password, port) => {
 	console.log('SEND CONNECT');
