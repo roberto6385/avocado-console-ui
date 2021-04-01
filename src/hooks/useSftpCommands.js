@@ -45,6 +45,10 @@ const useSftpCommands = ({ws, uuid}) => {
 		});
 	}, []);
 
+	const changeDirectoryFunction = useCallback(() => {
+
+	}, []);
+
 	const uploadWorkFunction = useCallback(async (files) => {
 		await newSftp_ws({
 			keyword: 'CommandByPwd',
@@ -109,6 +113,9 @@ const useSftpCommands = ({ws, uuid}) => {
 			// 경로 탐색, 디렉토리 조회, 리스트로 저장하는 함수
 			initialWork: () => {
 				initialWorkFunction();
+			},
+			changeDirectory: () => {
+				changeDirectoryFunction();
 			},
 			uploadWork: async (files) => {
 				await uploadWorkFunction(files);

@@ -12,11 +12,12 @@ import ConfirmPopup from '../ConfirmPopup';
 import {Navbar, NavItem} from '../../styles/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import newSftp_ws from '../../ws/newSftp_ws';
+import useConfirmActions from '../../hooks/useConfirmActions';
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
-
+	const {editFile} = useConfirmActions(ws, uuid);
 	const {currentText, currentCompareText, currentPath} = useSelector(
 		(state) => state.sftp,
 	);
@@ -49,50 +50,7 @@ const EditNav = ({index, ws, uuid}) => {
 	};
 
 	const editedFileSave = () => {
-		const editedFile = new File([curText?.text], curText?.name, {
-			type: 'text/plain',
-		});
-		newSftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-		}).then(async (response) => {
-			await newSftp_ws({
-				keyword: 'CommandByPut',
-				ws,
-				path: response,
-				uploadFile: editedFile,
-			}).then(() => {
-				dispatch({
-					type: SFTP_SAVE_CURRENT_TEXT,
-					data: {
-						uuid,
-						text: curText?.text,
-						name: editedFile.name,
-					},
-				});
-				dispatch({
-					type: SFTP_SAVE_COMPARE_TEXT,
-					data: {
-						uuid,
-						text: curText?.text,
-						name: editedFile.name,
-					},
-				});
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: editedFile.name,
-						path: response.result,
-						size: editedFile.size,
-						todo: 'edit',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
-			});
-		});
+		editFile(curText);
 	};
 
 	const toNormalMode = () => {

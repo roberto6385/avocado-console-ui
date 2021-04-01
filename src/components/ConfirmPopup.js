@@ -74,7 +74,12 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				newFolder(formValue);
 				break;
 			case 'edit_file':
-				editFile(curText);
+				editFile(curText).then(() =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_MODE,
+						data: {uuid, mode: 'normal'},
+					}),
+				);
 				break;
 			case 'delete_history':
 				deleteHistory();

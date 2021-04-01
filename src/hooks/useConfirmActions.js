@@ -3,7 +3,9 @@ import {useDispatch} from 'react-redux';
 
 import {
 	SFTP_DELETE_HISTORY,
+	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
@@ -86,6 +88,22 @@ const useConfirmActions = (ws, uuid) => {
 				uploadFile: editedFile,
 			}).then(() => {
 				dispatch({
+					type: SFTP_SAVE_CURRENT_TEXT,
+					data: {
+						uuid,
+						text: curText?.text,
+						name: editedFile.name,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_COMPARE_TEXT,
+					data: {
+						uuid,
+						text: curText?.text,
+						name: editedFile.name,
+					},
+				});
+				dispatch({
 					type: SFTP_SAVE_HISTORY,
 					data: {
 						uuid,
@@ -97,10 +115,6 @@ const useConfirmActions = (ws, uuid) => {
 						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
 						// 삭제, dispatch, 삭제 해서 progress 100 만들기
 					},
-				});
-				dispatch({
-					type: SFTP_SAVE_CURRENT_MODE,
-					data: {uuid, mode: 'normal'},
 				});
 			});
 		});
@@ -138,8 +152,8 @@ const useConfirmActions = (ws, uuid) => {
 				renameWorkFunction(highlightItem, formValue);
 			},
 
-			editFile: (ws, uuid, curPath, curText) => {
-				editFileFunction(ws, uuid, curPath, curText);
+			editFile: async (curText) => {
+				await ㅇeditFileFunction(curText);
 			},
 
 			newFolder: (formValue) => {

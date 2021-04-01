@@ -17,7 +17,6 @@ import {
 	FileIcon,
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
-import sftp_ws from '../../ws/sftp_ws';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/newSftp_ws';
 

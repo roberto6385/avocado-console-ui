@@ -32,27 +32,6 @@ const ConvertSFTP = ({data}) => {
 		};
 	};
 
-	// const connection = () => {
-	// 	const ws = new WebSocket(`ws://${data.host}:8080/ws/sftp/protobuf`);
-	// 	ws.binaryType = 'arraybuffer';
-	// 	ws.onopen = async () => {
-	// 		const {uuid} = await sftp_ws({
-	// 			keyword: 'Connection',
-	// 			ws,
-	// 			data,
-	// 		});
-	// 		dispatch({
-	// 			type: OPEN_TAB,
-	// 			data: {
-	// 				id: data.id,
-	// 				type: 'SFTP',
-	// 				ws: ws,
-	// 				uuid: uuid,
-	// 			},
-	// 		});
-	// 	};
-	// };
-
 	return (
 		<IconButton onClick={connection}>
 			<ConvertIcon />
