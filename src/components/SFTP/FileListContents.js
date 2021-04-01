@@ -17,8 +17,8 @@ import {
 	FileIcon,
 } from '../../styles/sftp';
 import TableHead from './FileListTableHead';
-import sftp_ws from '../../ws/sftp_ws';
 import useSftpCommands from '../../hooks/useSftpCommands';
+import newSftp_ws from '../../ws/sftp_ws';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
@@ -79,26 +79,17 @@ const FileListContents = ({index, ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				// sendCommandByCd(ws, uuid, item.fileName, dispatch);
-				sftp_ws({
+				newSftp_ws({
 					keyword: 'CommandByPwd',
 					ws,
-					uuid,
-				}).then((response) =>
-					sftp_ws({
-						keyword: 'CommandByCd',
-						ws,
-						uuid,
-						path:
-							response.result === '/'
-								? response.result + item.fileName
-								: response.result + '/' + item.fileName,
-					}).then(() => {
-						initialWork();
-					}),
-				);
-				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: []},
+				}).then((response) => {
+					const path = response === '/' ? response : response + '/';
+					response !== undefined &&
+						newSftp_ws({
+							keyword: 'CommandByCd',
+							ws,
+							path: path + item.fileName,
+						}).then(() => initialWork());
 				});
 			} else {
 				//파일 클릭시 하이라이팅!

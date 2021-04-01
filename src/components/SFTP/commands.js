@@ -3,40 +3,29 @@ import {
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_CURRENT_TEXT,
 } from '../../reducers/sftp';
-import sftp_ws from '../../ws/sftp_ws';
+import newSftp_ws from '../../ws/sftp_ws';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');
-
-	const tempA = result;
-	const tempB = tempA?.substring(1, tempA.length - 1);
-	const tempC = tempB
-		?.split(',')
-		.map((line) => line.trim().replace(/\s{2,}/gi, ' '));
+	console.log(result);
 	const fileList = [];
-	let i = 0;
-	tempC?.forEach((list) => {
-		const value = list.split(' ');
-		if (value[8] !== '.') {
-			const name = value.slice(8).join(' ');
-			fileList.push({
-				fileName: name,
-				fileSize:
-					typeof value[4] === 'string' &&
-					value[4]
-						.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-						.trim(),
-				fileType: value[0][0] === 'd' ? 'directory' : 'file',
-				lastModified: `${value[5]} ${value[6]} ${value[7]}`,
-				permission: value[0],
-				owner: value[2],
-				group: value[3],
-				links: value[1],
-				key: i++,
-			});
-		}
-	});
+	result !== undefined &&
+		result.forEach((list) => {
+			console.log(list);
+			const splitedList = list.replace(/\s{2,}/gi, ' ').split(' ');
+			if (splitedList[splitedList.length - 1] !== '.') {
+				fileList.push({
+					fileName: splitedList.slice(8).join(' '),
+					fileSize: parseInt(splitedList[4]),
+					fileType: splitedList[0][0] === 'd' ? 'directory' : 'file',
+					lastModified: `${splitedList[5]} ${splitedList[6]} ${splitedList[7]}`,
+					permission: splitedList[0],
+					owner: splitedList[2],
+					group: splitedList[3],
+					links: splitedList[1],
+				});
+			}
+		});
 	fileList.sort((a, b) => {
 		let typeA = a.fileType;
 		let typeB = b.fileType;
@@ -66,16 +55,14 @@ export const listConversion = (result) => {
 export const toEditMode = (e, ws, uuid, item, dispatch) => {
 	e.stopPropagation();
 	if (item.fileName !== '..' && item.fileType !== 'directory') {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			sftp_ws({
-				keyword: 'EDIT',
+			newSftp_ws({
+				keyword: 'CommandByEdit',
 				ws,
-				uuid,
-				path: response.result,
+				path: response,
 				fileName: item.fileName,
 			}).then((response) => {
 				dispatch({

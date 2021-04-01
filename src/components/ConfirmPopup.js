@@ -44,6 +44,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		deleteHistory,
 		deleteServer,
 	} = useConfirmActions(ws, uuid);
+
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
@@ -73,7 +74,12 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				newFolder(formValue);
 				break;
 			case 'edit_file':
-				editFile(curText);
+				editFile(curText).then(() =>
+					dispatch({
+						type: SFTP_SAVE_CURRENT_MODE,
+						data: {uuid, mode: 'normal'},
+					}),
+				);
 				break;
 			case 'delete_history':
 				deleteHistory();
@@ -94,7 +100,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 
 	useEffect(() => {
 		setFormValue(
-			keyword === 'rename_work' ? highlightItem?.list[0].fileName : '',
+			keyword === 'rename_work' ? highlightItem.list[0]?.fileName : '',
 		);
 		inputRef.current?.focus();
 	}, [open]);

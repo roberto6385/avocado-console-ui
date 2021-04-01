@@ -197,6 +197,7 @@ export const CustomP = styled.p`
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	flex: ${(props) => props.flex};
 `;
 export const CustomUl = styled.ul`
 	margin: 0px;
@@ -206,6 +207,7 @@ export const CustomUl = styled.ul`
 	flex-direction: column;
 	white-space: nowrap;
 	flex: 1;
+	width: 250px;
 
 	// 드래그 방지
 	-webkit-user-select: none;
@@ -234,6 +236,7 @@ export const NoHistory = styled.div`
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	width: 250px;
 `;
 
 // SFTPContainer

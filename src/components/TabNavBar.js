@@ -16,7 +16,7 @@ import {
 	TabSSHTIcon,
 	TabSFTPIcon,
 } from '../styles/common';
-import newSftp_ws from '../ws/newSftp_ws';
+import newSftp_ws from '../ws/sftp_ws';
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
 

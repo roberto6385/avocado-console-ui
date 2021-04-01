@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from './Dropzone';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -22,13 +22,14 @@ import {
 import useSftpCommands from '../../hooks/useSftpCommands';
 
 const HistoryContents = ({index, ws, uuid}) => {
+	const {initialWork} = useSftpCommands({ws, uuid});
 	const {History} = useSelector((state) => state.sftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
 	const {uploadWork} = useSftpCommands({ws, uuid});
 
 	const upload = async (files) => {
-		uploadWork(files);
+		uploadWork(files).then(() => initialWork());
 	};
 
 	const selectItem = (e, history) => {
@@ -118,7 +119,7 @@ const HistoryContents = ({index, ws, uuid}) => {
 											/>
 										)}
 									</CustomP>
-									<CustomP>{history.name}</CustomP>
+									<CustomP flex={1}>{history.name}</CustomP>
 									<CustomP minWidth={'90px'} align={'right'}>
 										{history.size} byte
 									</CustomP>

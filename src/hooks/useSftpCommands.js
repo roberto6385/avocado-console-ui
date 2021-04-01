@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo} from 'react';
-import sftp_ws from '../ws/sftp_ws';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
@@ -9,7 +8,7 @@ import {
 import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import newSftp_ws from '../ws/newSftp_ws';
+import newSftp_ws from '../ws/sftp_ws';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -19,43 +18,65 @@ const useSftpCommands = ({ws, uuid}) => {
 			keyword: 'CommandByPwd',
 			ws,
 		}).then((response) => {
-			console.log(response.path);
-			dispatch({
-				type: SFTP_SAVE_CURRENT_PATH,
-				data: {uuid, path: response.path},
-			});
-
-			// .then((response) => listConversion(response.result))
-			// .then((response) =>
-			// 	dispatch({
-			// 		type: SFTP_SAVE_CURRENT_LIST,
-			// 		data: {uuid, list: response},
-			// 	}),
-			// );
+			response !== undefined &&
+				dispatch({
+					type: SFTP_SAVE_CURRENT_PATH,
+					data: {uuid, path: response},
+				});
+			response !== undefined &&
+				newSftp_ws({
+					keyword: 'CommandByLs',
+					ws,
+					path: response,
+				}).then((response) => {
+					if (response !== undefined) {
+						const fileList = listConversion(response);
+						dispatch({
+							type: SFTP_SAVE_CURRENT_LIST,
+							data: {uuid, list: fileList},
+						});
+						dispatch({
+							type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+							data: {uuid, list: []},
+						});
+					}
+				});
 		});
 	}, []);
 
-	const uploadWorkFunction = useCallback((files) => {
-		sftp_ws({
+	const changeDirectoryFunction = useCallback((item) => {
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
+		}).then((response) => {
+			const path = response === '/' ? response : response + '/';
+			response !== undefined &&
+				newSftp_ws({
+					keyword: 'CommandByCd',
+					ws,
+					path: path + item.fileName,
+				});
+		});
+	}, []);
+
+	const uploadWorkFunction = useCallback(async (files) => {
+		await newSftp_ws({
+			keyword: 'CommandByPwd',
+			ws,
 		}).then(async (response) => {
 			for (const key of files) {
-				await sftp_ws({
+				await newSftp_ws({
 					keyword: 'CommandByPut',
 					ws,
-					uuid,
-					path: response.result,
-					fileName: key.name,
+					path: response,
 					uploadFile: key,
-				}).then((response) => {
+				}).then(() => {
 					dispatch({
 						type: SFTP_SAVE_HISTORY,
 						data: {
 							uuid,
 							name: key.name,
-							path: response.result,
+							path: response,
 							size: key.size,
 							todo: 'put',
 							progress: 100,
@@ -65,34 +86,19 @@ const useSftpCommands = ({ws, uuid}) => {
 					});
 				});
 			}
-			sftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				uuid,
-				path: response.result,
-			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				);
 		});
 	}, []);
 
 	const downloadWorkFunction = useCallback((itemList) => {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
 			for await (const key of itemList) {
-				await sftp_ws({
+				await newSftp_ws({
 					keyword: 'CommandByGet',
 					ws,
-					uuid,
-					path: response.result,
+					path: response,
 					fileName: key.fileName,
 				});
 				dispatch({
@@ -109,10 +115,6 @@ const useSftpCommands = ({ws, uuid}) => {
 					},
 				});
 			}
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: []},
-			});
 		});
 	}, []);
 
@@ -122,8 +124,11 @@ const useSftpCommands = ({ws, uuid}) => {
 			initialWork: () => {
 				initialWorkFunction();
 			},
-			uploadWork: (files) => {
-				uploadWorkFunction(files);
+			changeDirectoryWork: async (item) => {
+				await changeDirectoryFunction(item);
+			},
+			uploadWork: async (files) => {
+				await uploadWorkFunction(files);
 			},
 			downloadWork: (itemList) => {
 				downloadWorkFunction(itemList);
