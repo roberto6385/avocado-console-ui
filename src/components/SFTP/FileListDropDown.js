@@ -17,6 +17,8 @@ const DropdownUl = styled.ul`
 
 const DropdownLi = styled.li`
 	padding: 2px;
+	white-space: nowrap;
+	min-width: 120px;
 	&:hover {
 		background-color: ${HIGHLIGHT_COLOR};
 	}

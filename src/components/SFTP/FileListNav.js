@@ -7,11 +7,12 @@ import {
 	MdHome,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavItem} from '../../styles/sftp';
 import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/sftp_ws';
+import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -23,6 +24,7 @@ const SearchPath = styled.input`
 `;
 
 const FileListNav = ({index, ws, uuid}) => {
+	const dispatch = useDispatch();
 	const {currentPath} = useSelector((state) => state.sftp);
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const [path, setPath] = useState('');
@@ -72,6 +74,26 @@ const FileListNav = ({index, ws, uuid}) => {
 		}
 	};
 
+	const dropdownList = () => {
+		dispatch({
+			type: SFTP_SAVE_LIST_MODE,
+			data: {
+				uuid,
+				mode: 'drop',
+			},
+		});
+	};
+
+	const basicList = () => {
+		dispatch({
+			type: SFTP_SAVE_LIST_MODE,
+			data: {
+				uuid,
+				mode: 'list',
+			},
+		});
+	};
+
 	useEffect(() => {
 		setPath(pathItem?.path || '');
 	}, [pathItem]);
@@ -79,10 +101,10 @@ const FileListNav = ({index, ws, uuid}) => {
 	return (
 		<>
 			<NavItem>
-				<BsLayoutThreeColumns />
+				<BsLayoutThreeColumns onClick={dropdownList} />
 			</NavItem>
 			<NavItem>
-				<GoThreeBars />
+				<GoThreeBars onClick={basicList} />
 			</NavItem>
 			<NavItem onClick={goHome}>
 				<MdHome />

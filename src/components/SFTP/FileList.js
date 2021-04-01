@@ -16,7 +16,7 @@ const FileList = ({index, socket}) => {
 				<FileListNav index={index} ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
-				{currentMode?.mode !== 'list' ? (
+				{currentMode?.mode === 'list' ? (
 					<FileListContents
 						id={`sftp ${String(index)}`}
 						index={index}
