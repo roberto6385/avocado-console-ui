@@ -52,31 +52,21 @@ const EditNav = ({index, ws, uuid}) => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
-			await sftp_ws({
+			await newSftp_ws({
 				keyword: 'CommandByPut',
 				ws,
-				uuid,
-				path: response.result,
-				fileName: editedFile.name,
+				path: response,
 				uploadFile: editedFile,
-			});
-			sftp_ws({
-				keyword: 'EDIT',
-				ws,
-				uuid,
-				path: response.result,
-				fileName: editedFile.name,
-			}).then((response) => {
+			}).then(() => {
 				dispatch({
 					type: SFTP_SAVE_CURRENT_TEXT,
 					data: {
 						uuid,
-						text: response,
+						text: curText?.text,
 						name: editedFile.name,
 					},
 				});
@@ -84,7 +74,7 @@ const EditNav = ({index, ws, uuid}) => {
 					type: SFTP_SAVE_COMPARE_TEXT,
 					data: {
 						uuid,
-						text: response,
+						text: curText?.text,
 						name: editedFile.name,
 					},
 				});

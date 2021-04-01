@@ -75,17 +75,14 @@ const useConfirmActions = (ws, uuid) => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
-			await sftp_ws({
+			await newSftp_ws({
 				keyword: 'CommandByPut',
 				ws,
-				uuid,
-				path: response.result,
-				fileName: editedFile.name,
+				path: response,
 				uploadFile: editedFile,
 			}).then(() => {
 				dispatch({
