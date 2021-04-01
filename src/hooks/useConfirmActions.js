@@ -4,10 +4,12 @@ import {useDispatch} from 'react-redux';
 import {
 	SFTP_DELETE_HISTORY,
 	SFTP_SAVE_COMPARE_TEXT,
+	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
+import sftp_ws from '../ws/sftp_ws';
 import newSftp_ws from '../ws/newSftp_ws';
 import useSftpCommands from './useSftpCommands';
 
