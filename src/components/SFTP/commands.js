@@ -4,6 +4,7 @@ import {
 	SFTP_SAVE_CURRENT_TEXT,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
+import newSftp_ws from '../../ws/newSftp_ws';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');
@@ -55,16 +56,14 @@ export const listConversion = (result) => {
 export const toEditMode = (e, ws, uuid, item, dispatch) => {
 	e.stopPropagation();
 	if (item.fileName !== '..' && item.fileType !== 'directory') {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			sftp_ws({
-				keyword: 'EDIT',
+			newSftp_ws({
+				keyword: 'CommandByEdit',
 				ws,
-				uuid,
-				path: response.result,
+				path: response,
 				fileName: item.fileName,
 			}).then((response) => {
 				dispatch({

@@ -11,6 +11,7 @@ import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../ConfirmPopup';
 import {Navbar, NavItem} from '../../styles/sftp';
 import sftp_ws from '../../ws/sftp_ws';
+import newSftp_ws from '../../ws/newSftp_ws';
 
 const EditNav = ({index, ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -23,40 +24,40 @@ const EditNav = ({index, ws, uuid}) => {
 	const compareText = currentCompareText.find((item) => item.uuid === uuid);
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const path = curPath?.path;
+	console.log(curText?.text);
 
 	const editedFileDownload = () => {
 		const editFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		sftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-			uuid,
-		})
-			.then((response) => {
-				sftp_ws({
-					keyword: 'CommandByGet',
-					ws,
-					uuid,
-					path: response.result,
-					fileName: editFile.name,
-				});
-			})
-			.then(() =>
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: editFile.name,
-						path: path,
-						size: editFile.size,
-						todo: 'get',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				}),
-			);
+
+		console.log(editFile);
+
+		// newSftp_ws({
+		// 	keyword: 'CommandByPwd',
+		// 	ws,
+		// }).then((response) => {
+		// 	newSftp_ws({
+		// 		keyword: 'CommandByGet',
+		// 		ws,
+		// 		path: response,
+		// 		fileName: editFile.name,
+		// 	}).then(() =>
+		// 		dispatch({
+		// 			type: SFTP_SAVE_HISTORY,
+		// 			data: {
+		// 				uuid,
+		// 				name: editFile.name,
+		// 				path: path,
+		// 				size: editFile.size,
+		// 				todo: 'get',
+		// 				progress: 100,
+		// 				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+		// 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
+		// 			},
+		// 		}),
+		// 	);
+		// });
 	};
 
 	const editedFileSave = () => {

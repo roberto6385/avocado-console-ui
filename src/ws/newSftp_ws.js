@@ -287,7 +287,7 @@ const newSftp_ws = ({
 				sendCommandByRename(ws, path, newPath);
 				break;
 
-			case 'EDIT':
+			case 'CommandByEdit':
 			case 'CommandByGet':
 				sendCommandByGet(ws, path, fileName);
 				break;
@@ -526,18 +526,38 @@ const newSftp_ws = ({
 
 										fileBuffer = new ArrayBuffer(0);
 
-										const url = URL.createObjectURL(blob);
+										if (keyword === 'CommandByEdit') {
+											blob.stream()
+												.getReader()
+												.read()
+												.then(({value, done}) => {
+													resolve(
+														new TextDecoder(
+															'utf-8',
+														).decode(value),
+													);
+												});
+										} else {
+											const url = URL.createObjectURL(
+												blob,
+											);
 
-										const a = document.createElement('a');
-										document.body.appendChild(a);
-										a.setAttribute('style', 'display:none');
-										a.href = url;
-										a.download = fileName;
-										a.click();
-										window.URL.revokeObjectURL(url);
+											const a = document.createElement(
+												'a',
+											);
+											document.body.appendChild(a);
+											a.setAttribute(
+												'style',
+												'display:none',
+											);
+											a.href = url;
+											a.download = fileName;
+											a.click();
+											window.URL.revokeObjectURL(url);
 
-										getReceiveSum = 0;
-										resolve();
+											getReceiveSum = 0;
+											resolve();
+										}
 										// this.setState({
 										// 	getReceiveSum: 0,
 										// 	getProgress: 0,
