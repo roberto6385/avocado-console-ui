@@ -151,7 +151,7 @@ const useConfirmActions = (ws, uuid) => {
 			renameWork: (highlightItem, formValue) => {
 				renameWorkFunction(highlightItem, formValue);
 			},
-
+gi
 			editFile: async (curText) => {
 				await editFileFunction(curText);
 			},
