@@ -22,13 +22,14 @@ import {
 import useSftpCommands from '../../hooks/useSftpCommands';
 
 const HistoryContents = ({index, ws, uuid}) => {
+	const {initialWork} = useSftpCommands({ws, uuid});
 	const {History} = useSelector((state) => state.sftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
 	const {uploadWork} = useSftpCommands({ws, uuid});
 
 	const upload = async (files) => {
-		uploadWork(files);
+		uploadWork(files).then(() => initialWork());
 	};
 
 	const selectItem = (e, history) => {

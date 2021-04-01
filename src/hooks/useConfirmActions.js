@@ -3,118 +3,70 @@ import {useDispatch} from 'react-redux';
 
 import {
 	SFTP_DELETE_HISTORY,
-	SFTP_SAVE_CURRENT_HIGHLIGHT,
-	SFTP_SAVE_CURRENT_LIST,
-	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_COMPARE_TEXT,
+	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {DELETE_SERVER} from '../reducers/common';
-import sftp_ws from '../ws/sftp_ws';
-import {listConversion} from '../components/SFTP/commands';
+import newSftp_ws from '../ws/newSftp_ws';
+import useSftpCommands from './useSftpCommands';
 
 const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
-	// const {currentPath, currentText, currentHighlight} = useSelector(
-	// 	(state) => state.sftp,
-	// );
+	const {initialWork} = useSftpCommands({ws, uuid});
 
 	const deleteWorkFunction = useCallback(async (highlightItem) => {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
-		}).then(async (response) => {
-			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
-			for await (const key of highlightItem?.list) {
-				if (key.fileType === 'file') {
-					await sftp_ws({
-						keyword: 'CommandByRm',
-						ws,
-						uuid,
-						path: path + key.fileName,
-					});
-				} else {
-					await sftp_ws({
-						keyword: 'CommandByRmdir',
-						ws,
-						uuid,
-						path: path + key.fileName,
+		})
+			.then(async (response) => {
+				const path = response === '/' ? response : response + '/';
+				for await (const key of highlightItem?.list) {
+					console.log(path + key.fileName);
+					if (key.fileType === 'file') {
+						await newSftp_ws({
+							keyword: 'CommandByRm',
+							ws,
+							path: path + key.fileName,
+						});
+					} else {
+						await newSftp_ws({
+							keyword: 'CommandByRmdir',
+							ws,
+							path: path + key.fileName,
+						});
+					}
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: key.fileName,
+							path: response.result,
+							size: key.fileSize,
+							todo: 'rm',
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
 					});
 				}
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: key.fileName,
-						path: response.result,
-						size: key.fileSize,
-						todo: 'rm',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
-			}
-			await sftp_ws({
-				keyword: 'CommandByLs',
-				ws,
-				uuid,
-				path: response.result,
 			})
-				.then((response) => listConversion(response.result))
-				.then((response) =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_LIST,
-						data: {uuid, list: response},
-					}),
-				)
-				.then(() =>
-					dispatch({
-						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-						data: {uuid, list: []},
-					}),
-				);
-		});
+			.then(() => initialWork());
 	}, []);
 
 	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
-		await sftp_ws({
+		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
-			sftp_ws({
+			const path = response === '/' ? response : response + '/';
+			newSftp_ws({
 				keyword: 'CommandByRename',
 				ws,
-				uuid,
-				path: path + highlightItem?.list[0].fileName,
+				path: path + highlightItem.list[0].fileName,
 				newPath: path + formValue,
-			}).then(() =>
-				sftp_ws({
-					keyword: 'CommandByLs',
-					ws,
-					uuid,
-					path: response.result,
-				})
-					.then((response) => listConversion(response.result))
-					.then((response) =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: response},
-						}),
-					),
-			);
-		});
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
+			}).then(() => initialWork());
 		});
 	}, []);
 
@@ -123,19 +75,32 @@ const useConfirmActions = (ws, uuid) => {
 		const editedFile = new File([curText?.text], curText?.name, {
 			type: 'text/plain',
 		});
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
-			await sftp_ws({
+			await newSftp_ws({
 				keyword: 'CommandByPut',
 				ws,
-				uuid,
-				path: response.result,
-				fileName: editedFile.name,
+				path: response,
 				uploadFile: editedFile,
 			}).then(() => {
+				dispatch({
+					type: SFTP_SAVE_CURRENT_TEXT,
+					data: {
+						uuid,
+						text: curText?.text,
+						name: editedFile.name,
+					},
+				});
+				dispatch({
+					type: SFTP_SAVE_COMPARE_TEXT,
+					data: {
+						uuid,
+						text: curText?.text,
+						name: editedFile.name,
+					},
+				});
 				dispatch({
 					type: SFTP_SAVE_HISTORY,
 					data: {
@@ -149,54 +114,22 @@ const useConfirmActions = (ws, uuid) => {
 						// 삭제, dispatch, 삭제 해서 progress 100 만들기
 					},
 				});
-				dispatch({
-					type: SFTP_SAVE_CURRENT_MODE,
-					data: {uuid, mode: 'normal'},
-				});
 			});
 		});
 	}, []);
 
-	const newFolderFunction = useCallback(async (formValue) => {
-		await sftp_ws({
+	const newFolderFunction = useCallback((formValue) => {
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then((response) => {
-			const path =
-				response.result === '/'
-					? response.result
-					: response.result + '/';
-			sftp_ws({
+			console.log(response);
+			const path = response === '/' ? '/' : response + '/';
+			newSftp_ws({
 				keyword: 'CommandByMkdir',
 				ws,
-				uuid,
 				path: path + formValue,
-			}).then(() =>
-				sftp_ws({
-					keyword: 'CommandByPwd',
-					ws,
-					uuid,
-				}).then((response) =>
-					sftp_ws({
-						keyword: 'CommandByLs',
-						ws,
-						uuid,
-						path: response.result,
-					})
-						.then((response) => listConversion(response.result))
-						.then((response) =>
-							dispatch({
-								type: SFTP_SAVE_CURRENT_LIST,
-								data: {uuid, list: response},
-							}),
-						),
-				),
-			);
-		});
-		dispatch({
-			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-			data: {uuid, list: []},
+			}).then(() => initialWork());
 		});
 	}, []);
 
@@ -209,20 +142,20 @@ const useConfirmActions = (ws, uuid) => {
 
 	return useMemo(
 		() => ({
-			deleteWork: (ws, uuid, curPath, highlightItem) => {
-				deleteWorkFunction(ws, uuid, curPath, highlightItem);
+			deleteWork: (highlightItem) => {
+				deleteWorkFunction(highlightItem);
 			},
 
-			renameWork: (ws, uuid, curPath, highlightItem, formValue) => {
-				renameWorkFunction(ws, uuid, curPath, highlightItem, formValue);
+			renameWork: (highlightItem, formValue) => {
+				renameWorkFunction(highlightItem, formValue);
 			},
 
-			editFile: (ws, uuid, curPath, curText) => {
-				editFileFunction(ws, uuid, curPath, curText);
+			editFile: async (curText) => {
+				await editFileFunction(curText);
 			},
 
-			newFolder: (ws, uuid, curPath, formValue) => {
-				newFolderFunction(ws, uuid, curPath, formValue);
+			newFolder: (formValue) => {
+				newFolderFunction(formValue);
 			},
 
 			deleteHistory: (uuid) => {
