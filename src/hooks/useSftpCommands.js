@@ -76,17 +76,15 @@ const useSftpCommands = ({ws, uuid}) => {
 	}, []);
 
 	const downloadWorkFunction = useCallback((itemList) => {
-		sftp_ws({
+		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-			uuid,
 		}).then(async (response) => {
 			for await (const key of itemList) {
-				await sftp_ws({
+				await newSftp_ws({
 					keyword: 'CommandByGet',
 					ws,
-					uuid,
-					path: response.result,
+					path: response,
 					fileName: key.fileName,
 				});
 				dispatch({
@@ -103,10 +101,6 @@ const useSftpCommands = ({ws, uuid}) => {
 					},
 				});
 			}
-			dispatch({
-				type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				data: {uuid, list: []},
-			});
 		});
 	}, []);
 

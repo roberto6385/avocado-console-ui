@@ -513,8 +513,8 @@ const newSftp_ws = ({
 									let sum = getReceiveSum + data.length;
 									const percent =
 										(sum * 100) / get.getFilesize();
-									console.log(sum);
-									console.log(percent);
+									console.log('sum: ', sum);
+									console.log('percent: ', percent);
 
 									// this.setState({
 									// 	getReceiveSum: sum,
@@ -537,6 +537,7 @@ const newSftp_ws = ({
 										window.URL.revokeObjectURL(url);
 
 										getReceiveSum = 0;
+										resolve();
 										// this.setState({
 										// 	getReceiveSum: 0,
 										// 	getProgress: 0,
