@@ -18,7 +18,7 @@ const useSftpCommands = ({ws, uuid}) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then((response) => {
+		}).then(async (response) => {
 			let pathList = ['/'];
 			let tempPathList = response.split('/');
 			tempPathList.reduce(function (accumulator, currentValue) {
@@ -46,24 +46,28 @@ const useSftpCommands = ({ws, uuid}) => {
 					type: SFTP_SAVE_CURRENT_PATH,
 					data: {uuid, path: response},
 				});
-			response !== undefined &&
-				newSftp_ws({
-					keyword: 'CommandByLs',
-					ws,
-					path: response,
-				}).then((response) => {
-					if (response !== undefined) {
-						const fileList = listConversion(response);
-						dispatch({
-							type: SFTP_SAVE_CURRENT_LIST,
-							data: {uuid, list: fileList},
-						});
-						dispatch({
-							type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-							data: {uuid, list: []},
-						});
-					}
-				});
+			for (const key of pathList) {
+				console.log(key);
+				response !== undefined &&
+					(await newSftp_ws({
+						keyword: 'CommandByLs',
+						ws,
+						path: key,
+					}).then((response) => {
+						if (response !== undefined) {
+							const fileList = listConversion(response);
+							console.log(fileList);
+							dispatch({
+								type: SFTP_SAVE_CURRENT_LIST,
+								data: {uuid, list: fileList},
+							});
+							dispatch({
+								type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+								data: {uuid, list: []},
+							});
+						}
+					}));
+			}
 		});
 	}, []);
 

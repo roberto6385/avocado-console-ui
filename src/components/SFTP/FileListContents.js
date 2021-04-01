@@ -24,6 +24,7 @@ const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
 	const {initialWork, downloadWork} = useSftpCommands({ws, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
+
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 

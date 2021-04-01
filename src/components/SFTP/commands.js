@@ -11,7 +11,6 @@ export const listConversion = (result) => {
 	const fileList = [];
 	result !== undefined &&
 		result?.forEach((list) => {
-			console.log(list);
 			const splitedList = list.replace(/\s{2,}/gi, ' ').split(' ');
 			if (splitedList[splitedList.length - 1] !== '.') {
 				fileList.push({
