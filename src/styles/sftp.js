@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import {Card} from 'react-bootstrap';
-import {GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT} from './global';
+import {
+	DEEP_GRAY_COLOR,
+	GRAY_COLOR,
+	HIGHLIGHT_COLOR,
+	MAIN_COLOR,
+	NAV_HEIGHT,
+} from './global';
 import BTable from 'react-bootstrap/Table';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {BsArrowUpDown} from 'react-icons/all';
@@ -15,6 +21,7 @@ export const DropzoneBox = styled.div`
 	height: 100%;
 	overflow-y: scroll;
 	outline: none;
+	border-left: 1px solid ${DEEP_GRAY_COLOR};
 `;
 
 //Edit

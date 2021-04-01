@@ -9,7 +9,7 @@ import {
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavItem} from '../../styles/sftp';
-import {DEEP_GRAY_COLOR, GRAY_COLOR} from '../../styles/global';
+import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
@@ -20,7 +20,7 @@ const SearchPath = styled.input`
 	border: 1px solid ${GRAY_COLOR};
 	padding: 0px 8px;
 	outline: none;
-	background: ${DEEP_GRAY_COLOR};
+	background: ${HIGHLIGHT_COLOR};
 `;
 
 const FileListNav = ({index, ws, uuid}) => {

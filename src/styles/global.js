@@ -11,4 +11,4 @@ export const SUB_COLOR = '#d9b08c';
 export const HIGHLIGHT_COLOR = '#edeae5';
 export const WHITE_COLOR = '#fcfcfc';
 export const GRAY_COLOR = '#F7F7F7';
-export const DEEP_GRAY_COLOR = '#F1F1F1';
+export const DEEP_GRAY_COLOR = '#DDDDDD';
