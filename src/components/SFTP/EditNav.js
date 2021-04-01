@@ -27,37 +27,25 @@ const EditNav = ({index, ws, uuid}) => {
 	console.log(curText?.text);
 
 	const editedFileDownload = () => {
-		const editFile = new File([curText?.text], curText?.name, {
-			type: 'text/plain',
+		let link = document.createElement('a');
+		link.download = curText?.name;
+		let blob = new Blob([curText?.text], {type: 'text/plain'});
+		link.href = URL.createObjectURL(blob);
+		link.click();
+		URL.revokeObjectURL(link.href);
+		dispatch({
+			type: SFTP_SAVE_HISTORY,
+			data: {
+				uuid,
+				name: curText?.name,
+				path: path,
+				size: blob.size,
+				todo: 'get',
+				progress: 100,
+				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+				// 삭제, dispatch, 삭제 해서 progress 100 만들기
+			},
 		});
-
-		console.log(editFile);
-
-		// newSftp_ws({
-		// 	keyword: 'CommandByPwd',
-		// 	ws,
-		// }).then((response) => {
-		// 	newSftp_ws({
-		// 		keyword: 'CommandByGet',
-		// 		ws,
-		// 		path: response,
-		// 		fileName: editFile.name,
-		// 	}).then(() =>
-		// 		dispatch({
-		// 			type: SFTP_SAVE_HISTORY,
-		// 			data: {
-		// 				uuid,
-		// 				name: editFile.name,
-		// 				path: path,
-		// 				size: editFile.size,
-		// 				todo: 'get',
-		// 				progress: 100,
-		// 				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-		// 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
-		// 			},
-		// 		}),
-		// 	);
-		// });
 	};
 
 	const editedFileSave = () => {
