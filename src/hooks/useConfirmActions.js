@@ -153,7 +153,7 @@ const useConfirmActions = (ws, uuid) => {
 			},
 
 			editFile: async (curText) => {
-				await ㅇeditFileFunction(curText);
+				await editFileFunction(curText);
 			},
 
 			newFolder: (formValue) => {

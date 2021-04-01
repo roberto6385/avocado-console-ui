@@ -3,7 +3,6 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
-import sftp_ws from '../../ws/sftp_ws';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/newSftp_ws';
 
