@@ -153,7 +153,15 @@ const FileListContents = ({index, ws, uuid}) => {
 										(item.fileName === '..' && true)
 									}
 									onClick={(e) =>
-										toEditMode(e, ws, uuid, item, dispatch)
+										toEditMode(
+											e,
+											ws,
+											uuid,
+											'',
+											item,
+											dispatch,
+											'list',
+										)
 									}
 									flex={0.3}
 								>

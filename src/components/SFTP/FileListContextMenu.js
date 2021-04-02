@@ -36,8 +36,16 @@ const FileListContextMenu = ({ws, uuid}) => {
 		const item = highlightItem?.list[0];
 		const dropItem = dropdownHLList?.list[0];
 		currentlistMode?.mode === 'list'
-			? toEditMode(e, ws, uuid, pathItem?.path, item, dispatch)
-			: toEditMode(e, ws, uuid, dropItem.path, dropItem?.item, dispatch);
+			? toEditMode(e, ws, uuid, pathItem?.path, item, dispatch, 'list')
+			: toEditMode(
+					e,
+					ws,
+					uuid,
+					dropItem.path,
+					dropItem?.item,
+					dispatch,
+					'drop',
+			  );
 	};
 
 	function handleItemClick({event}) {
