@@ -15,35 +15,60 @@ const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();
 	const {initialWork} = useSftpCommands({ws, uuid});
 
-	const deleteWorkFunction = useCallback(async (highlightItem) => {
+	const deleteWorkFunction = useCallback(async (mode, highlightItem) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 		})
 			.then(async (response) => {
-				const path = response === '/' ? response : response + '/';
 				for await (const key of highlightItem?.list) {
-					console.log(path + key.fileName);
-					if (key.fileType === 'file') {
-						await newSftp_ws({
-							keyword: 'CommandByRm',
-							ws,
-							path: path + key.fileName,
-						});
+					if (mode === 'list') {
+						const path =
+							response === '/' ? response : response + '/';
+						console.log(path + key.fileName);
+						if (key.fileType === 'file') {
+							await newSftp_ws({
+								keyword: 'CommandByRm',
+								ws,
+								path: path + key.fileName,
+							});
+						} else {
+							await newSftp_ws({
+								keyword: 'CommandByRmdir',
+								ws,
+								path: path + key.fileName,
+							});
+						}
 					} else {
-						await newSftp_ws({
-							keyword: 'CommandByRmdir',
-							ws,
-							path: path + key.fileName,
-						});
+						console.log(key.path + '/' + key.item.fileName);
+						const path = key.path === '/' ? '/' : key.path + '/';
+						if (key.item.fileType === 'file') {
+							await newSftp_ws({
+								keyword: 'CommandByRm',
+								ws,
+								path: path + key.item.fileName,
+							});
+						} else {
+							await newSftp_ws({
+								keyword: 'CommandByRmdir',
+								ws,
+								path: path + key.item.fileName,
+							});
+						}
 					}
 					dispatch({
 						type: SFTP_SAVE_HISTORY,
 						data: {
 							uuid,
-							name: key.fileName,
+							name:
+								mode === 'list'
+									? key.fileName
+									: key.item.fileName,
 							path: response.result,
-							size: key.fileSize,
+							size:
+								mode === 'list'
+									? key.fileSize
+									: key.item.fileSize,
 							todo: 'rm',
 							progress: 100,
 							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
@@ -142,8 +167,8 @@ const useConfirmActions = (ws, uuid) => {
 
 	return useMemo(
 		() => ({
-			deleteWork: (highlightItem) => {
-				deleteWorkFunction(highlightItem);
+			deleteWork: (mode, highlightItem) => {
+				deleteWorkFunction(mode, highlightItem);
 			},
 
 			renameWork: (highlightItem, formValue) => {

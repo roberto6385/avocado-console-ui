@@ -51,7 +51,7 @@ export const listConversion = (result) => {
 	return fileList;
 };
 
-export const toEditMode = (e, ws, uuid, item, dispatch) => {
+export const toEditMode = (e, ws, uuid, path, item, dispatch) => {
 	e.stopPropagation();
 	if (item.fileName !== '..' && item.fileType !== 'directory') {
 		newSftp_ws({

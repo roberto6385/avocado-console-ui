@@ -8,6 +8,7 @@ import newSftp_ws from '../../ws/sftp_ws';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../reducers/sftp';
 import {useContextMenu} from 'react-contexify';
+import FileListContextMenu from './FileListContextMenu';
 
 const DropdownUl = styled.ul`
 	margin: 0;
@@ -41,8 +42,7 @@ const FileListDropDown = ({ws, uuid}) => {
 	const [path, setPath] = useState([]);
 	const {initialWork} = useSftpCommands({ws, uuid});
 	const dispatch = useDispatch();
-	const highlightItem = droplistHighlight.find((item) => item.uuid === uuid);
-	console.log(highlightItem?.list);
+	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});
@@ -50,19 +50,15 @@ const FileListDropDown = ({ws, uuid}) => {
 		show(e);
 	}
 
-	const selectFile = (e, {name, type, path}) => {
-		console.log(name);
-		console.log(type);
-		console.log(path);
-		const list = {name, type, path};
+	const selectFile = (e, {item, path}) => {
+		const list = {item, path};
+
 		if (e.shiftKey) {
-			const temp = highlightItem?.list || [];
+			const temp = dropdownHLList?.list || [];
 			const tempB =
-				highlightItem?.list.findIndex(
-					(item) =>
-						item.name === name &&
-						item.type === type &&
-						item.path === path,
+				dropdownHLList?.list.findIndex(
+					(list) => list.item === item,
+					list.path === path,
 				) !== -1
 					? temp
 					: temp.concat(list);
@@ -82,37 +78,36 @@ const FileListDropDown = ({ws, uuid}) => {
 					list: [list],
 				},
 			});
-			if (type === 'directory') {
+			if (item.fileType === 'directory') {
 				newSftp_ws({
 					keyword: 'CommandByCd',
 					ws,
-					path: path === '/' ? path + name : path + '/' + name,
+					path:
+						path === '/'
+							? path + item.fileName
+							: path + '/' + item.fileName,
 				}).then(() => initialWork());
 			}
 		}
-		// type === 'file' &&
 	};
 
-	const contextMenuOpen = ({event, name, type, path}) => {
-		// event.preventDefault();
-		// displayMenu(event);
-		// event.stopPropagation();
-		// if (item === '') {
-		// 	dispatch({
-		// 		type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-		// 		data: {uuid, list: []},
-		// 	});
-		// } else {
-		// 	if (
-		// 		highlightItem?.list.length < 2 ||
-		// 		!highlightItem?.list.includes(item)
-		// 	) {
-		// 		dispatch({
-		// 			type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-		// 			data: {uuid, list: [item]},
-		// 		});
-		// 	}
-		// }
+	const contextMenuOpen = (e, {item, path}) => {
+		e.preventDefault();
+		displayMenu(e);
+		e.stopPropagation();
+		const list = {item, path};
+		if (
+			dropdownHLList?.list.length < 2 ||
+			dropdownHLList?.list.findIndex(
+				(list) => list.item === item,
+				list.path === path,
+			) === -1
+		) {
+			dispatch({
+				type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
+				data: {uuid, list: [list]},
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -133,11 +128,10 @@ const FileListDropDown = ({ws, uuid}) => {
 							return (
 								<DropdownLi
 									className={
-										highlightItem?.list !== undefined &&
-										highlightItem?.list.findIndex(
+										dropdownHLList?.list !== undefined &&
+										dropdownHLList?.list.findIndex(
 											(list) =>
-												list.name === item.fileName &&
-												list.type === item.fileType &&
+												list.item === item &&
 												list.path === path[listindex],
 										) !== -1
 											? 'highlight_list active'
@@ -145,17 +139,14 @@ const FileListDropDown = ({ws, uuid}) => {
 									}
 									key={index}
 									onContextMenu={(e) =>
-										contextMenuOpen({
-											event: e,
-											name: item.fileName,
-											type: item.fileType,
+										contextMenuOpen(e, {
+											item,
 											path: path[listindex],
 										})
 									}
 									onClick={(e) =>
 										selectFile(e, {
-											name: item.fileName,
-											type: item.fileType,
+											item,
 											path: path[listindex],
 										})
 									}
@@ -172,6 +163,7 @@ const FileListDropDown = ({ws, uuid}) => {
 					</DropdownUl>
 				);
 			})}
+			<FileListContextMenu ws={ws} uuid={uuid} />
 		</>
 	) : (
 		<div>loading...</div>

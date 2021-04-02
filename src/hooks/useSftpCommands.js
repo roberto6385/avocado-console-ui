@@ -59,6 +59,10 @@ const useSftpCommands = ({ws, uuid}) => {
 					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
 					data: {uuid, list: []},
 				});
+				dispatch({
+					type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
+					data: {uuid, list: []},
+				});
 			});
 	}, []);
 
@@ -107,31 +111,55 @@ const useSftpCommands = ({ws, uuid}) => {
 		});
 	}, []);
 
-	const downloadWorkFunction = useCallback((itemList) => {
+	const downloadWorkFunction = useCallback((mode, itemList) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
 		}).then(async (response) => {
 			for await (const key of itemList) {
-				await newSftp_ws({
-					keyword: 'CommandByGet',
-					ws,
-					path: response,
-					fileName: key.fileName,
-				});
-				dispatch({
-					type: SFTP_SAVE_HISTORY,
-					data: {
-						uuid,
-						name: key.fileName,
-						path: response.result,
-						size: key.fileSize,
-						todo: 'get',
-						progress: 100,
-						// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-						// 삭제, dispatch, 삭제 해서 progress 100 만들기
-					},
-				});
+				if (mode === 'list') {
+					await newSftp_ws({
+						keyword: 'CommandByGet',
+						ws,
+						path: response,
+						fileName: key.fileName,
+					});
+					dispatch({
+						type: SFTP_SAVE_HISTORY,
+						data: {
+							uuid,
+							name: key.fileName,
+							path: response.result,
+							size: key.fileSize,
+							todo: 'get',
+							progress: 100,
+							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 삭제, dispatch, 삭제 해서 progress 100 만들기
+						},
+					});
+				} else {
+					if (key.fileType !== 'directory') {
+						await newSftp_ws({
+							keyword: 'CommandByGet',
+							ws,
+							path: key.path,
+							fileName: key.item.fileName,
+						});
+						dispatch({
+							type: SFTP_SAVE_HISTORY,
+							data: {
+								uuid,
+								name: key.item.fileName,
+								path: response.result,
+								size: key.item.fileSize,
+								todo: 'get',
+								progress: 100,
+								// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+								// 삭제, dispatch, 삭제 해서 progress 100 만들기
+							},
+						});
+					}
+				}
 			}
 		});
 	}, []);
@@ -148,8 +176,8 @@ const useSftpCommands = ({ws, uuid}) => {
 			uploadWork: async (files) => {
 				await uploadWorkFunction(files);
 			},
-			downloadWork: (itemList) => {
-				downloadWorkFunction(itemList);
+			downloadWork: (mode, itemList) => {
+				downloadWorkFunction(mode, itemList);
 			},
 		}),
 		[],

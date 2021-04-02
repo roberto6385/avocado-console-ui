@@ -7,8 +7,18 @@ import {toEditMode} from './commands';
 import useSftpCommands from '../../hooks/useSftpCommands';
 
 const FileListContextMenu = ({ws, uuid}) => {
-	const {currentHighlight, currentPath} = useSelector((state) => state.sftp);
+	const {
+		currentHighlight,
+		currentPath,
+		droplistHighlight,
+		listMode,
+	} = useSelector((state) => state.sftp);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
+	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
+	const currentlistMode = listMode.find((item) => item.uuid === uuid);
+	console.log(dropdownHLList?.list);
+	console.log(currentlistMode?.mode);
+
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
@@ -17,13 +27,17 @@ const FileListContextMenu = ({ws, uuid}) => {
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
-		downloadWork(highlightItem?.list);
+		currentlistMode?.mode === 'list'
+			? downloadWork(currentlistMode?.mode, highlightItem?.list)
+			: downloadWork(currentlistMode?.mode, dropdownHLList?.list);
 	};
 
 	const contextEdit = (e) => {
 		const item = highlightItem?.list[0];
-		console.log(item);
-		toEditMode(e, ws, uuid, pathItem?.path, item, dispatch);
+		const dropItem = dropdownHLList?.list[0];
+		currentlistMode?.mode === 'list'
+			? toEditMode(e, ws, uuid, pathItem?.path, item, dispatch)
+			: toEditMode(e, ws, uuid, dropItem.path, dropItem?.item, dispatch);
 	};
 
 	function handleItemClick({event}) {
@@ -57,8 +71,11 @@ const FileListContextMenu = ({ws, uuid}) => {
 			>
 				<Item
 					disabled={
-						highlightItem?.list.length === 0 ||
-						highlightItem?.list[0].fileName === '..'
+						currentlistMode?.mode === 'list'
+							? highlightItem?.list.length === 0 ||
+							  highlightItem?.list[0]?.fileName === '..'
+							: dropdownHLList?.list.length === 0 ||
+							  dropdownHLList?.list[0]?.item.fileName === '..'
 					}
 					id='Download'
 					onClick={handleItemClick}
@@ -67,8 +84,12 @@ const FileListContextMenu = ({ws, uuid}) => {
 				</Item>
 				<Item
 					disabled={
-						highlightItem?.list.length !== 1 ||
-						highlightItem?.list[0].fileType === 'directory'
+						currentlistMode?.mode === 'list'
+							? highlightItem?.list.length !== 1 ||
+							  highlightItem?.list[0]?.fileType === 'directory'
+							: dropdownHLList?.list.length !== 1 ||
+							  dropdownHLList?.list[0]?.item.fileType ===
+									'directory'
 					}
 					id='Edit'
 					onClick={handleItemClick}
@@ -82,8 +103,11 @@ const FileListContextMenu = ({ws, uuid}) => {
 				</Item>
 				<Item
 					disabled={
-						highlightItem?.list.length !== 1 ||
-						highlightItem?.list[0].fileName === '..'
+						currentlistMode?.mode === 'list'
+							? highlightItem?.list.length !== 1 ||
+							  highlightItem?.list[0]?.fileName === '..'
+							: dropdownHLList?.list.length !== 1 ||
+							  dropdownHLList?.list[0]?.item.fileName === '..'
 					}
 					id='rename_work'
 					onClick={handleItemClick}
@@ -93,8 +117,11 @@ const FileListContextMenu = ({ws, uuid}) => {
 				<Separator />
 				<Item
 					disabled={
-						highlightItem?.list.length === 0 ||
-						highlightItem?.list[0].fileName === '..'
+						currentlistMode?.mode === 'list'
+							? highlightItem?.list.length === 0 ||
+							  highlightItem?.list[0]?.fileName === '..'
+							: dropdownHLList?.list.length === 0 ||
+							  dropdownHLList?.list[0]?.item.fileName === '..'
 					}
 					id='delete_work'
 					onClick={handleItemClick}

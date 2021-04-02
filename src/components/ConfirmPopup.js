@@ -35,7 +35,12 @@ export const SAVE_KEYWORDS = ['rename_work', 'new_folder', 'edit_file'];
 export const FORM_KEYWORDS = ['rename_work', 'new_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
-	const {currentText, currentHighlight} = useSelector((state) => state.sftp);
+	const {
+		currentText,
+		currentHighlight,
+		droplistHighlight,
+		listMode,
+	} = useSelector((state) => state.sftp);
 	const {
 		deleteWork,
 		renameWork,
@@ -47,6 +52,12 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
+	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
+	const currentlistMode = listMode.find((item) => item.uuid === uuid);
+
+	console.log(dropdownHLList?.list);
+	console.log(currentlistMode?.mode);
+
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
 	const inputRef = useRef(null);
@@ -65,7 +76,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const submitFunction = () => {
 		switch (keyword) {
 			case 'delete_work':
-				deleteWork(highlightItem);
+				currentlistMode?.mode === 'list'
+					? deleteWork(currentlistMode?.mode, highlightItem)
+					: deleteWork(currentlistMode?.mode, dropdownHLList);
 				break;
 			case 'rename_work':
 				renameWork(highlightItem, formValue);
