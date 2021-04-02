@@ -21,8 +21,6 @@ const EditContents = ({index, ws, uuid}) => {
 		});
 	};
 
-	console.log(currentText);
-
 	useEffect(() => {
 		setEditText(curText?.text);
 	}, [currentCompareText]);

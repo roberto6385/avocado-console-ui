@@ -55,9 +55,6 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const currentlistMode = listMode.find((item) => item.uuid === uuid);
 
-	console.log(dropdownHLList?.list);
-	console.log(currentlistMode?.mode);
-
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
 	const inputRef = useRef(null);

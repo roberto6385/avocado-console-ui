@@ -16,8 +16,6 @@ const FileListContextMenu = ({ws, uuid}) => {
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const currentlistMode = listMode.find((item) => item.uuid === uuid);
-	console.log(dropdownHLList?.list);
-	console.log(currentlistMode?.mode);
 
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');

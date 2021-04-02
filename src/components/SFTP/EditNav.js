@@ -18,7 +18,6 @@ const EditNav = ({index, ws, uuid}) => {
 	const compareText = currentCompareText.find((item) => item.uuid === uuid);
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const path = curPath?.path;
-	console.log(curText?.text);
 
 	const editedFileDownload = () => {
 		let link = document.createElement('a');
