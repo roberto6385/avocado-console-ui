@@ -81,7 +81,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 					: deleteWork(currentlistMode?.mode, dropdownHLList);
 				break;
 			case 'rename_work':
-				renameWork(highlightItem, formValue);
+				currentlistMode?.mode === 'list'
+					? renameWork('list', highlightItem?.list, formValue)
+					: renameWork('drop', dropdownHLList?.list, formValue);
 				break;
 			case 'new_folder':
 				newFolder(formValue);
@@ -113,7 +115,11 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 
 	useEffect(() => {
 		setFormValue(
-			keyword === 'rename_work' ? highlightItem.list[0]?.fileName : '',
+			keyword === 'rename_work'
+				? currentlistMode?.mode === 'list'
+					? highlightItem.list[0]?.fileName
+					: dropdownHLList?.list[0]?.item.fileName
+				: '',
 		);
 		inputRef.current?.focus();
 	}, [open]);

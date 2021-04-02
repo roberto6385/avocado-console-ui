@@ -22,39 +22,31 @@ const useConfirmActions = (ws, uuid) => {
 		})
 			.then(async (response) => {
 				for await (const key of highlightItem?.list) {
-					if (mode === 'list') {
-						const path =
-							response === '/' ? response : response + '/';
-						console.log(path + key.fileName);
-						if (key.fileType === 'file') {
-							await newSftp_ws({
-								keyword: 'CommandByRm',
-								ws,
-								path: path + key.fileName,
-							});
-						} else {
-							await newSftp_ws({
-								keyword: 'CommandByRmdir',
-								ws,
-								path: path + key.fileName,
-							});
-						}
+					const path =
+						mode === 'list'
+							? response === '/'
+								? response
+								: response + '/'
+							: key.path === '/'
+							? '/'
+							: key.path + '/';
+
+					const fileName =
+						mode === 'list' ? key.fileName : key.item.fileName;
+					const fileType =
+						mode === 'list' ? key.fileType : key.item.fileType;
+					if (fileType === 'file') {
+						await newSftp_ws({
+							keyword: 'CommandByRm',
+							ws,
+							path: path + fileName,
+						});
 					} else {
-						console.log(key.path + '/' + key.item.fileName);
-						const path = key.path === '/' ? '/' : key.path + '/';
-						if (key.item.fileType === 'file') {
-							await newSftp_ws({
-								keyword: 'CommandByRm',
-								ws,
-								path: path + key.item.fileName,
-							});
-						} else {
-							await newSftp_ws({
-								keyword: 'CommandByRmdir',
-								ws,
-								path: path + key.item.fileName,
-							});
-						}
+						await newSftp_ws({
+							keyword: 'CommandByRmdir',
+							ws,
+							path: path + fileName,
+						});
 					}
 					dispatch({
 						type: SFTP_SAVE_HISTORY,
@@ -80,20 +72,35 @@ const useConfirmActions = (ws, uuid) => {
 			.then(() => initialWork());
 	}, []);
 
-	const renameWorkFunction = useCallback(async (highlightItem, formValue) => {
-		await newSftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-		}).then((response) => {
-			const path = response === '/' ? response : response + '/';
-			newSftp_ws({
-				keyword: 'CommandByRename',
-				ws,
-				path: path + highlightItem.list[0].fileName,
-				newPath: path + formValue,
-			}).then(() => initialWork());
-		});
-	}, []);
+	const renameWorkFunction = useCallback(
+		async (mode, highlightItem, formValue) => {
+			highlightItem !== undefined &&
+				(await newSftp_ws({
+					keyword: 'CommandByPwd',
+					ws,
+				}).then((response) => {
+					const path =
+						mode === 'list'
+							? response === '/'
+								? response
+								: response + '/'
+							: highlightItem[0].path === '/'
+							? '/'
+							: highlightItem[0].path + '/';
+					const fileName =
+						mode === 'list'
+							? highlightItem[0].fileName
+							: highlightItem[0].item.fileName;
+					newSftp_ws({
+						keyword: 'CommandByRename',
+						ws,
+						path: path + fileName,
+						newPath: path + formValue,
+					}).then(() => initialWork());
+				}));
+		},
+		[],
+	);
 
 	const editFileFunction = useCallback(async (curText) => {
 		// const curText = currentText.find((item) => item.uuid === uuid);
@@ -171,8 +178,8 @@ const useConfirmActions = (ws, uuid) => {
 				deleteWorkFunction(mode, highlightItem);
 			},
 
-			renameWork: (highlightItem, formValue) => {
-				renameWorkFunction(highlightItem, formValue);
+			renameWork: (mode, highlightItem, formValue) => {
+				renameWorkFunction(mode, highlightItem, formValue);
 			},
 
 			editFile: async (curText) => {
