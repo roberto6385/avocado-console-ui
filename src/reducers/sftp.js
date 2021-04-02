@@ -18,6 +18,7 @@ export const initialState = {
 
 	//list display system
 	listMode: [],
+	droplistHighlight: [],
 };
 
 export const SFTP_SAVE_CURRENT_TYPE = 'SFTP_SAVE_CURRENT_TYPE';
@@ -44,6 +45,7 @@ export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
 
 // list
 export const SFTP_SAVE_LIST_MODE = 'SFTP_SAVE_LIST_MODE';
+export const SFTP_SAVE_DROPLIST_HIGHLIGHT = 'SFTP_SAVE_DROPLIST_HIGHLIGHT';
 
 // 리듀서 findIndex 변수들
 let currentType_index;
@@ -54,6 +56,7 @@ let currentHighlight_index;
 let currentText_index;
 let currentCompare_index;
 let listMode_index;
+let droplistHighlight_index;
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -230,6 +233,24 @@ const reducer = (state = initialState, action) => {
 					});
 				} else {
 					draft.currentHighlight.push({
+						uuid: action.data.uuid,
+						list: action.data.list,
+					});
+				}
+				break;
+
+			case SFTP_SAVE_DROPLIST_HIGHLIGHT:
+				droplistHighlight_index = draft.droplistHighlight.findIndex(
+					(item) => item.uuid === action.data.uuid,
+				);
+
+				if (droplistHighlight_index !== -1) {
+					draft.droplistHighlight.splice(droplistHighlight_index, 1, {
+						uuid: action.data.uuid,
+						list: action.data.list,
+					});
+				} else {
+					draft.droplistHighlight.push({
 						uuid: action.data.uuid,
 						list: action.data.list,
 					});

@@ -92,6 +92,7 @@ export const SFTPBody = styled(Card.Body)`
 	padding: 0px;
 	display: flex;
 	overflow: scroll;
+	width: 100%;
 `;
 
 // FileListContents

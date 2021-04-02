@@ -3,6 +3,7 @@ import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
+	SFTP_SAVE_DROPLIST_HIGHLIGHT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {listConversion} from '../components/SFTP/commands';
