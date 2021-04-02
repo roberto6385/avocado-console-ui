@@ -9,8 +9,9 @@ export const MainContainer = styled(Container)`
 	height: 100vh;
 `;
 
-export const MainRow = styled(Row)`
+export const MainRow = styled.div`
 	margin: 0;
 	padding: 0;
 	height: 100vh;
+	display: flex;
 `;

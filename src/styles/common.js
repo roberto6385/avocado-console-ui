@@ -97,11 +97,13 @@ export const ServerNavBarContainer = styled(Nav)`
 	flex: 1;
 `;
 
-export const OutlineCol = styled(Col)`
+export const OutlineCol = styled.div`
 	display: flex;
 	flex-direction: column;
+	flex: ${(props) => props.flex};
 	margin: 0;
 	padding: 0;
+	min-width: 250px;
 `;
 
 export const IconButton = styled.button`
@@ -109,6 +111,28 @@ export const IconButton = styled.button`
 	background: transparent;
 	outline: none;
 	border: none;
+	&:hover {
+		color: ${MAIN_COLOR};
+	}
+`;
+
+export const SidebarShow = styled.div`
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 30px;
+`;
+
+export const RotateButton = styled.button`
+	background: transparent;
+	outline: none;
+	border: none;
+	position: absolute;
+	left: -18px;
+
+	-ms-transform: rotate(-90deg); /* IE 9 */
+	-webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+	transform: rotate(-90deg);
 	&:hover {
 		color: ${MAIN_COLOR};
 	}

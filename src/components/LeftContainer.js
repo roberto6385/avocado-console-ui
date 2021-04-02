@@ -1,26 +1,34 @@
 import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
-import {FaPlus, FaRegTrashAlt, FaSearch, GrLogout} from 'react-icons/all';
+import {
+	AiFillEyeInvisible,
+	FaPlus,
+	FaRegTrashAlt,
+	FaSearch,
+	GrLogout,
+} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-
 import ConfirmPopup from './ConfirmPopup';
 import {
 	Header,
 	IconButton,
 	OutlineCol,
+	RotateButton,
 	ServerSearchForm,
+	SidebarShow,
 } from '../styles/common';
 import ServerNavBar from './ServerNavBar';
 import * as PropTypes from 'prop-types';
-import auth_ws from '../ws/auth_ws';
-import {LOGOUT} from '../reducers/common';
+import {CHANGE_SIDEBAR_DISPLAY, LOGOUT} from '../reducers/common';
 
 const LeftContainer = ({setShowAddServerForm}) => {
 	const dispatch = useDispatch();
-	const {me, clicked_server} = useSelector((state) => state.common);
+	const {me, minimize, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
+
+	console.log(minimize);
 
 	const onClickVisibleForm = useCallback(() => {
 		setShowAddServerForm(true);
@@ -45,10 +53,24 @@ const LeftContainer = ({setShowAddServerForm}) => {
 		dispatch({
 			type: LOGOUT,
 		});
-	});
+	}, []);
 
-	return (
-		<OutlineCol xs={2}>
+	const sideBarhandleSize = (name) => {
+		if (name === 'minimize') {
+			dispatch({
+				type: CHANGE_SIDEBAR_DISPLAY,
+				data: true,
+			});
+		} else {
+			dispatch({
+				type: CHANGE_SIDEBAR_DISPLAY,
+				data: false,
+			});
+		}
+	};
+
+	return !minimize ? (
+		<OutlineCol>
 			<Header>
 				<Nav.Item className='left_header'>SSHTerminal / SFTP</Nav.Item>
 				<Nav.Item className='left_header_icons'>
@@ -63,6 +85,9 @@ const LeftContainer = ({setShowAddServerForm}) => {
 					</IconButton>
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />
+					</IconButton>
+					<IconButton onClick={() => sideBarhandleSize('minimize')}>
+						<AiFillEyeInvisible />
 					</IconButton>
 				</Nav.Item>
 			</Header>
@@ -83,6 +108,12 @@ const LeftContainer = ({setShowAddServerForm}) => {
 				setOpen={setOpen}
 			/>
 		</OutlineCol>
+	) : (
+		<SidebarShow>
+			<RotateButton onClick={() => sideBarhandleSize('maximize')}>
+				servers
+			</RotateButton>
+		</SidebarShow>
 	);
 };
 

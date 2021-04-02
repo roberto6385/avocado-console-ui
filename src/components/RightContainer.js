@@ -8,10 +8,10 @@ import * as PropTypes from 'prop-types';
 import MainPage from './MainPage';
 
 const RightContainer = ({setShowAddServerForm}) => {
-	const {tab, current_tab} = useSelector((state) => state.common);
+	const {tab, current_tab, minimize} = useSelector((state) => state.common);
 
 	return (
-		<OutlineCol className={'fix-height'} xs={10}>
+		<OutlineCol flex={1} className={'fix-height'}>
 			<TabNavBar />
 			{tab.length !== 0 ? (
 				<WorkSpace />

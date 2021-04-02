@@ -7,6 +7,7 @@ export const initialState = {
 	max_display_tab: 1,
 	cols: 1,
 	server_index: 3,
+	minimize: false,
 	server: [
 		{
 			id: 0,
@@ -48,6 +49,7 @@ export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
+export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 
 const reducer = (state = initialState, action) => {
 	const fillTabs = (tab, max_display_tab, current_tab) => {
@@ -112,6 +114,10 @@ const reducer = (state = initialState, action) => {
 
 			case SET_CLICKED_SERVER:
 				draft.clicked_server = action.data;
+				break;
+
+			case CHANGE_SIDEBAR_DISPLAY:
+				draft.minimize = action.data;
 				break;
 
 			case OPEN_TAB: {
