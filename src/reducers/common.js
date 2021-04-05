@@ -6,10 +6,77 @@ export const initialState = {
 	clicked_server: null,
 	max_display_tab: 1,
 	cols: 1,
-	server_index: 3,
+	server_index: 4,
+	folder_index: 5,
+	nav: [
+		{
+			type: 'folder',
+			id: 0,
+			key: 'f_0',
+			name: 'Folder1',
+			contain: [
+				{
+					type: 'server',
+					id: 0,
+					key: 's_0',
+					name: 'Server1',
+				},
+				{
+					type: 'server',
+					id: 1,
+					key: 's_1',
+					name: 'Server2',
+				},
+			],
+		},
+		{
+			type: 'folder',
+			id: 1,
+			key: 'f_1',
+			name: 'Folder2',
+			contain: [
+				{
+					type: 'server',
+					id: 2,
+					key: 's_2',
+					name: 'Server3',
+				},
+			],
+		},
+		{
+			type: 'folder',
+			id: 2,
+			key: 'f_2',
+			name: 'Folder3',
+			contain: [
+				{
+					type: 'folder',
+					id: 3,
+					key: 'f_3',
+					name: 'Folder4',
+					contain: [],
+				},
+				{
+					type: 'folder',
+					id: 4,
+					key: 'f_4',
+					name: 'Folder5',
+					contain: [
+						{
+							type: 'server',
+							id: 3,
+							key: 's_3',
+							name: 'Server4',
+						},
+					],
+				},
+			],
+		},
+	],
 	server: [
 		{
 			id: 0,
+			key: 's_0',
 			name: 'Server1',
 			host: '211.253.10.9',
 			user: 'root',
@@ -18,6 +85,7 @@ export const initialState = {
 		},
 		{
 			id: 1,
+			key: 's_1',
 			name: 'Server2',
 			host: '211.253.10.9',
 			user: 'root',
@@ -26,11 +94,21 @@ export const initialState = {
 		},
 		{
 			id: 2,
+			key: 's_2',
 			name: 'Server3',
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
-			port: 10031,
+			port: 10023,
+		},
+		{
+			id: 3,
+			key: 's_3',
+			name: 'Server4',
+			host: '211.253.10.9',
+			user: 'root',
+			password: 'Netand141)',
+			port: 10024,
 		},
 	],
 

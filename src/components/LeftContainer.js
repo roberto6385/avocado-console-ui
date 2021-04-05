@@ -1,6 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
-import {FaPlus, FaRegTrashAlt, FaSearch, GrLogout} from 'react-icons/all';
+import {
+	AiOutlineFolderAdd,
+	FaPlus,
+	FaRegTrashAlt,
+	FaSearch,
+	GrLogout,
+	RiFolderAddLine,
+} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
 import ConfirmPopup from './ConfirmPopup';
@@ -14,6 +21,7 @@ import ServerNavBar from './ServerNavBar';
 import * as PropTypes from 'prop-types';
 import auth_ws from '../ws/auth_ws';
 import {LOGOUT} from '../reducers/common';
+import NavList from './NavList';
 
 const LeftContainer = ({setShowAddServerForm}) => {
 	const dispatch = useDispatch();
@@ -21,6 +29,8 @@ const LeftContainer = ({setShowAddServerForm}) => {
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
+
+	const onClickAddFolder = useCallback(() => {}, []);
 
 	const onClickVisibleForm = useCallback(() => {
 		setShowAddServerForm(true);
@@ -52,6 +62,9 @@ const LeftContainer = ({setShowAddServerForm}) => {
 			<Header>
 				<Nav.Item className='left_header'>SSHTerminal / SFTP</Nav.Item>
 				<Nav.Item className='left_header_icons'>
+					<IconButton onClick={{onClickAddFolder}}>
+						<RiFolderAddLine />
+					</IconButton>
 					<IconButton onClick={onClickVisibleForm}>
 						<FaPlus />
 					</IconButton>
@@ -76,7 +89,7 @@ const LeftContainer = ({setShowAddServerForm}) => {
 					/>
 				</Nav.Item>
 			</Collapse>
-			<ServerNavBar search={search} />
+			<NavList />
 			<ConfirmPopup
 				keyword={'delete_server'}
 				open={open}

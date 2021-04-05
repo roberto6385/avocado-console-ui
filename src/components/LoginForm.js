@@ -36,7 +36,17 @@ const LoginForm = () => {
 	);
 
 	return (
-		<Form onSubmit={onSubmitForm}>
+		<Form
+			style={{
+				width: '50%',
+				margin: '0',
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				transform: 'translate(-50%, -50%)',
+			}}
+			onSubmit={onSubmitForm}
+		>
 			<Form.Group>
 				<Form.Label>User</Form.Label>
 				<Form.Control
@@ -55,7 +65,6 @@ const LoginForm = () => {
 					onChange={onChangePassword}
 				/>
 			</Form.Group>
-
 			<Button type='submit'>Login</Button>
 		</Form>
 	);
