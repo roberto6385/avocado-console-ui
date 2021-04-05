@@ -7,7 +7,7 @@ import {MainContainer} from '../styles/page';
 const Login = () => {
 	const {me} = useSelector((state) => state.common);
 
-	if (me) return <Redirect to='/' />;
+	// if (me) return <Redirect to='/' />;
 
 	return (
 		<MainContainer>

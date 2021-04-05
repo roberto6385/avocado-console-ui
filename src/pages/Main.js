@@ -12,7 +12,7 @@ const Main = () => {
 	const [showAddServerForm, setShowAddServerForm] = useState(false);
 	const {me} = useSelector((state) => state.common);
 
-	if (!me) return <Redirect to='/login' />;
+	// if (!me) return <Redirect to='/login' />;
 
 	return (
 		<MainContainer fluid>
