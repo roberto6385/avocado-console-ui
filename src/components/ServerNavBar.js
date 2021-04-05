@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_TAB, SET_CLICKED_SERVER} from '../reducers/common';
-import {useDoubleClick} from '../hooks/useDoubleClick';
+import {useDoubleClickParam} from '../hooks/useDoubleClickParam';
 import {HIGHLIGHT_COLOR} from '../styles/global';
 import {GetMessage} from '../ws/ssht_ws_logic';
 import {
@@ -18,7 +18,7 @@ const ServerNavBar = ({search}) => {
 	const {server, clicked_server, me} = useSelector((state) => state.common);
 
 	// first argument is double-click event, second one is on-click event
-	const onHybridClick = useDoubleClick(
+	const onHybridClick = useDoubleClickParam(
 		(id) => {
 			const correspondedServer = server.find((i) => i.id === id);
 
