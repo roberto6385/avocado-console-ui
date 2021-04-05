@@ -22,6 +22,7 @@ export const PopupButton = styled(Button)`
 		filter: brightness(85%);
 		color: white;
 	}
+	outline: none;
 `;
 
 // ConfirmPopup

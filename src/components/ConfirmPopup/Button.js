@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {PropTypes} from 'prop-types';
 
 import {ModalFooter, PopupButton} from '../../styles/common';
@@ -6,6 +6,11 @@ import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {SAVE_KEYWORDS} from '../ConfirmPopup';
 
 const Button = ({keyword, cancelFunction, submitFunction}) => {
+	const buttonRef = useRef(null);
+	useEffect(() => {
+		buttonRef?.current.focus();
+	}, []);
+
 	return (
 		<ModalFooter>
 			<PopupButton
@@ -16,6 +21,7 @@ const Button = ({keyword, cancelFunction, submitFunction}) => {
 				Cancel
 			</PopupButton>
 			<PopupButton
+				ref={buttonRef}
 				variant='default'
 				onClick={submitFunction}
 				back={`${MAIN_COLOR}`}

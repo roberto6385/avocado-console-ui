@@ -61,9 +61,9 @@ const TabNavBar = () => {
 		[dispatch, tab],
 	);
 
-	const SortTrue = document.getElementById('sortTrue');
-	SortTrue !== null &&
-		Sortable.create(SortTrue, {
+	const sortableTabNav = document.getElementById('sortableTabNav');
+	sortableTabNav !== null &&
+		Sortable.create(sortableTabNav, {
 			group: 'sorting',
 			sort: true,
 			direction: 'horizontal',
@@ -76,7 +76,7 @@ const TabNavBar = () => {
 			onSelect={(i) => setActive(i)}
 		>
 			<FlexBox>
-				<TabNav id='sortTrue'>
+				<TabNav id='sortableTabNav'>
 					{tab &&
 						tab.map((data) => (
 							<TabNavItem key={data.id.toString()}>

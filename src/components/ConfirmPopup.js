@@ -70,7 +70,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		setOpen(false);
 	};
 
-	const submitFunction = () => {
+	const submitFunction = (e) => {
+		e.preventDefault();
+
 		switch (keyword) {
 			case 'delete_work':
 				currentlistMode?.mode === 'list'
@@ -83,7 +85,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 					: renameWork('drop', dropdownHLList?.list, formValue);
 				break;
 			case 'new_folder':
-				newFolder(formValue);
+				formValue !== '' && newFolder(formValue);
 				break;
 			case 'edit_file':
 				editFile(curText).then(() =>
@@ -139,7 +141,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				) && <p>{ConfirmMessage[keyword]}</p>}
 
 				{FORM_KEYWORDS.includes(keyword) && (
-					<Form action=''>
+					<Form onSubmit={submitFunction}>
 						<Form.Control
 							ref={inputRef}
 							value={formValue}
