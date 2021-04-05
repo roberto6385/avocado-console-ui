@@ -19,6 +19,7 @@ import {
 import newSftp_ws from '../ws/sftp_ws';
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
+import Sortable from 'sortablejs';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -60,6 +61,14 @@ const TabNavBar = () => {
 		[dispatch, tab],
 	);
 
+	const SortTrue = document.getElementById('sortTrue');
+	SortTrue !== null &&
+		Sortable.create(SortTrue, {
+			group: 'sorting',
+			sort: true,
+			direction: 'horizontal',
+		});
+
 	return (
 		<TabContainer
 			activeKey={active}
@@ -67,7 +76,7 @@ const TabNavBar = () => {
 			onSelect={(i) => setActive(i)}
 		>
 			<FlexBox>
-				<TabNav>
+				<TabNav id='sortTrue'>
 					{tab &&
 						tab.map((data) => (
 							<TabNavItem key={data.id.toString()}>
