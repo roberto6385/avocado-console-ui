@@ -183,6 +183,7 @@ export const FaServerIcon = styled(FaServer)`
 
 export const ServerNavItem = styled(Nav.Item)`
 	padding: 15px;
+	padding-left: ${(props) => props.left};
 	background-color: ${(props) => props.back};
 	&:hover {
 		background-color: ${HIGHLIGHT_COLOR};

@@ -121,6 +121,7 @@ export const initialState = {
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
@@ -169,6 +170,20 @@ const reducer = (state = initialState, action) => {
 			case LOGOUT:
 				draft.me = null;
 				break;
+
+			case ADD_FOLDER: {
+				if (draft.clicked_server === null) {
+					draft.nav.push({
+						type: 'folder',
+						id: draft.folder_index,
+						key: 'f_' + draft.folder_index.toString(),
+						name: 'Folder' + (draft.folder_index + 1).toString(),
+						contain: [],
+					});
+				}
+				break;
+			}
+
 			case SAVE_SERVER:
 				draft.server.push({id: draft.server_index, ...action.data});
 				draft.server_index++;

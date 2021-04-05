@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 
-const Folder = ({data}) => {
+const Folder = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const {clicked_server, server, me} = useSelector((state) => state.common);
@@ -39,6 +39,7 @@ const Folder = ({data}) => {
 			<ServerNavItem
 				onClick={onHybridClick}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
+				left={(indent * 15).toString() + 'px'}
 			>
 				<RiFolder2Line />
 				{data.name}
@@ -51,9 +52,17 @@ const Folder = ({data}) => {
 					<div>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<Folder key={i.key} data={i} />
+								<Folder
+									key={i.key}
+									data={i}
+									indent={indent + 1}
+								/>
 							) : (
-								<Server key={i.key} data={i} />
+								<Server
+									key={i.key}
+									data={i}
+									indent={indent + 1}
+								/>
 							),
 						)}
 					</div>
@@ -65,6 +74,7 @@ const Folder = ({data}) => {
 
 Folder.propTypes = {
 	data: PropTypes.object.isRequired,
+	indent: PropTypes.number.isRequired,
 };
 
 export default Folder;

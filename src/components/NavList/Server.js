@@ -9,7 +9,7 @@ import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
-const Server = ({data}) => {
+const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, me} = useSelector((state) => state.common);
 
@@ -64,6 +64,7 @@ const Server = ({data}) => {
 		<ServerNavItem
 			onClick={onHybridClick}
 			back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
+			left={(indent * 15).toString() + 'px'}
 		>
 			<FaServerIcon />
 			{data.name}
@@ -73,6 +74,7 @@ const Server = ({data}) => {
 
 Server.propTypes = {
 	data: PropTypes.object.isRequired,
+	indent: PropTypes.number.isRequired,
 };
 
 export default Server;

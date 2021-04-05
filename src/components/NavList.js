@@ -6,6 +6,7 @@ import Folder from './NavList/Folder';
 import Server from './NavList/Server';
 import {SET_CLICKED_SERVER} from '../reducers/common';
 import {HIGHLIGHT_COLOR} from '../styles/global';
+import Tree, {TreeNode} from 'rc-tree';
 
 const NavList = () => {
 	const dispatch = useDispatch();
@@ -16,9 +17,9 @@ const NavList = () => {
 		<ServerNavBarContainer className={'flex-column'}>
 			{nav.map((data) =>
 				data.type === 'folder' ? (
-					<Folder key={data.key} data={data} />
+					<Folder key={data.key} data={data} indent={1} />
 				) : (
-					<Server key={data.key} data={data} />
+					<Server key={data.key} data={data} indent={1} />
 				),
 			)}
 		</ServerNavBarContainer>

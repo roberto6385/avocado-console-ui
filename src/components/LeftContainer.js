@@ -19,12 +19,9 @@ import {
 	ServerSearchForm,
 	SidebarShow,
 } from '../styles/common';
-import ServerNavBar from './ServerNavBar';
 import * as PropTypes from 'prop-types';
 
-import {CHANGE_SIDEBAR_DISPLAY, LOGOUT} from '../reducers/common';
-
-import auth_ws from '../ws/auth_ws';
+import {CHANGE_SIDEBAR_DISPLAY, LOGOUT, ADD_FOLDER} from '../reducers/common';
 
 import NavList from './NavList';
 
@@ -35,7 +32,9 @@ const LeftContainer = ({setShowAddServerForm}) => {
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
 
-	const onClickAddFolder = useCallback(() => {}, []);
+	const onClickAddFolder = useCallback(() => {
+		dispatch({type: ADD_FOLDER});
+	}, []);
 
 	const onClickVisibleForm = useCallback(() => {
 		setShowAddServerForm(true);
@@ -81,7 +80,7 @@ const LeftContainer = ({setShowAddServerForm}) => {
 			<Header>
 				<Nav.Item className='left_header'>SSHTerminal / SFTP</Nav.Item>
 				<Nav.Item className='left_header_icons'>
-					<IconButton onClick={{onClickAddFolder}}>
+					<IconButton onClick={onClickAddFolder}>
 						<RiFolderAddLine />
 					</IconButton>
 					<IconButton onClick={onClickVisibleForm}>
