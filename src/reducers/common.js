@@ -126,6 +126,7 @@ export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
+export const SORT_TAB = 'SORT_TAB';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
@@ -238,6 +239,21 @@ const reducer = (state = initialState, action) => {
 					draft.current_tab,
 				);
 				draft.tab_index++;
+				break;
+			}
+
+			case SORT_TAB: {
+				draft.tab = draft.tab.filter(
+					(v) => v.id !== action.data.oldOrder,
+				);
+				draft.tab.splice(action.data.newOrder, 0, action.data.newTab);
+				// console.log(draft.tab.length);
+				// let i = 0;
+				// while (i < draft.tab.length) {
+				// 	// draft.tab[i].id = i;
+				// 	console.log(draft.tab[i]);
+				// 	i++;
+				// }
 				break;
 			}
 

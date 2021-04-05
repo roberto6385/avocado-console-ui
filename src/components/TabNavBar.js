@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import SplitBar from './SplitBar';
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, CLOSE_TAB, SORT_TAB} from '../reducers/common';
 import {
 	FlexBox,
 	IconButton,
@@ -26,6 +26,7 @@ const TabNavBar = () => {
 	const [active, setActive] = useState('');
 	const {tab, current_tab} = useSelector((state) => state.common);
 
+	const [draggedItem, setDraggedItem] = useState({});
 	const changeVisibleTab = useCallback(
 		(tab_id) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: tab_id});
@@ -64,10 +65,24 @@ const TabNavBar = () => {
 	const sortableTabNav = document.getElementById('sortableTabNav');
 	sortableTabNav !== null &&
 		Sortable.create(sortableTabNav, {
-			group: 'sorting',
-			sort: true,
+			// group: 'sorting',
+			sort: false,
 			direction: 'horizontal',
 		});
+
+	const putNavItem = (item) => {
+		console.log(tab);
+		console.log(draggedItem);
+		console.log(item);
+		dispatch({
+			type: SORT_TAB,
+			data: {
+				oldOrder: draggedItem.id,
+				newOrder: item.id,
+				newTab: draggedItem,
+			},
+		});
+	};
 
 	return (
 		<TabContainer
@@ -79,7 +94,12 @@ const TabNavBar = () => {
 				<TabNav id='sortableTabNav'>
 					{tab &&
 						tab.map((data) => (
-							<TabNavItem key={data.id.toString()}>
+							<TabNavItem
+								key={data.id.toString()}
+								draggable='true'
+								onDragStart={() => setDraggedItem(data)}
+								onDrop={() => putNavItem(data)}
+							>
 								<NavLink
 									className={
 										data.id === current_tab
