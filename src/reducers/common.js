@@ -63,16 +63,15 @@ export const initialState = {
 					id: 4,
 					key: 'f_4',
 					name: 'Folder5',
-					contain: [
-						{
-							type: 'server',
-							id: 3,
-							key: 's_3',
-							name: 'Server4',
-						},
-					],
+					contain: [],
 				},
 			],
+		},
+		{
+			type: 'server',
+			id: 3,
+			key: 's_3',
+			name: 'Server4',
 		},
 	],
 
@@ -163,10 +162,9 @@ const fillTabs = (tab, max_display_tab, current_tab) => {
 function searchTreeNode(node, key) {
 	if (node.key == key) {
 		return node;
-	} else if (node.contain != null) {
-		let i;
+	} else if (node.contain && node.contain.length > 0) {
 		let result = null;
-		for (i = 0; result == null && i < node.contain.length; i++) {
+		for (let i = 0; !result && i < node.contain.length; i++) {
 			result = searchTreeNode(node.contain[i], key);
 		}
 		return result;
@@ -177,7 +175,28 @@ function searchTreeNode(node, key) {
 function searchTreeStart(node, key) {
 	for (let x of node) {
 		let result = searchTreeNode(x, key);
-		if (result !== null) return result;
+		if (result) return result;
+	}
+	return null;
+}
+
+function searchParentTreeNode(parent, node, key) {
+	if (node.key === key) {
+		return parent;
+	} else if (node.contain && node.contain.length > 0) {
+		let result = null;
+		for (let i = 0; !result && i < node.contain.length; i++) {
+			result = searchParentTreeNode(node, node.contain[i], key);
+		}
+		return result;
+	}
+	return null;
+}
+
+function searchParentTreeStart(node, key) {
+	for (let x of node) {
+		let result = searchParentTreeNode(node, x, key);
+		if (!result) return result;
 	}
 	return null;
 }
@@ -212,7 +231,7 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case ADD_FOLDER: {
-				if (draft.clicked_server === null) {
+				if (!draft.clicked_server) {
 					draft.nav.push({
 						type: 'folder',
 						id: draft.folder_index,
@@ -220,9 +239,28 @@ const reducer = (state = initialState, action) => {
 						name: action.data,
 						contain: [],
 					});
-					draft.folder_index++;
 				} else if (draft.clicked_server[0] === 's') {
-					console.log('Cannot add folder on Server');
+					let node = searchParentTreeStart(
+						draft.nav,
+						draft.clicked_server,
+					);
+					if (node.contain) {
+						node.contain.push({
+							type: 'folder',
+							id: draft.folder_index,
+							key: 'f_' + draft.folder_index.toString(),
+							name: action.data,
+							contain: [],
+						});
+					} else {
+						node.push({
+							type: 'folder',
+							id: draft.folder_index,
+							key: 'f_' + draft.folder_index.toString(),
+							name: action.data,
+							contain: [],
+						});
+					}
 				} else {
 					searchTreeStart(
 						draft.nav,
@@ -234,13 +272,13 @@ const reducer = (state = initialState, action) => {
 						name: action.data,
 						contain: [],
 					});
-					draft.folder_index++;
 				}
+				draft.folder_index++;
 				break;
 			}
 
 			case SAVE_SERVER:
-				if (draft.clicked_server === null) {
+				if (!draft.clicked_server) {
 					draft.nav.push({
 						type: 'server',
 						id: draft.server_index,
