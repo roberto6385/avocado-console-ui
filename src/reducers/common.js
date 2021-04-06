@@ -160,7 +160,7 @@ const fillTabs = (tab, max_display_tab, current_tab) => {
 };
 
 function searchTreeNode(node, key) {
-	if (node.key == key) {
+	if (node.key === key) {
 		return node;
 	} else if (node.contain && node.contain.length > 0) {
 		let result = null;
@@ -172,12 +172,12 @@ function searchTreeNode(node, key) {
 	return null;
 }
 
-function searchTreeStart(node, key) {
-	for (let x of node) {
+function searchTreeStart(root, key) {
+	for (let x of root) {
 		let result = searchTreeNode(x, key);
-		if (result) return result;
+		if (result !== null) return result;
 	}
-	return null;
+	return root;
 }
 
 function searchParentTreeNode(parent, node, key) {
@@ -193,19 +193,18 @@ function searchParentTreeNode(parent, node, key) {
 	return null;
 }
 
-function searchParentTreeStart(node, key) {
-	for (let x of node) {
-		let result = searchParentTreeNode(node, x, key);
-		if (!result) return result;
+function searchParentTreeStart(root, key) {
+	for (let x of root) {
+		let result = searchParentTreeNode(root, x, key);
+		if (result !== null) return result;
 	}
-	return null;
+	return root;
 }
 
 function deleteTreeNode(parent, node, key) {
 	if (node.key === key) {
 		let index = parent.contain.findIndex((v) => v.key === key);
 		parent.contain.splice(index, 1);
-		return;
 	} else if (node.contain && node.contain.length > 0) {
 		for (let i = 0; i < node.contain.length; i++)
 			deleteTreeNode(node, node.contain[i], key);
@@ -220,91 +219,61 @@ function deleteTreeStart(root, key) {
 	}
 }
 
+function addDataOnNode(nav, clicked_server, data) {
+	let node = null;
+	if (!clicked_server) node = nav;
+	else if (clicked_server[0] === 's')
+		node = searchParentTreeStart(nav, clicked_server);
+	else node = searchTreeStart(nav, clicked_server);
+
+	if (node.contain) node.contain.push(data);
+	else node.push(data);
+}
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case LOGIN:
 				draft.me = action.data;
 				break;
+
 			case LOGOUT:
 				draft.me = null;
 				break;
 
 			case ADD_FOLDER: {
-				if (!draft.clicked_server) {
-					draft.nav.push({
-						type: 'folder',
-						id: draft.folder_index,
-						key: 'f_' + draft.folder_index.toString(),
-						name: action.data,
-						contain: [],
-					});
-				} else if (draft.clicked_server[0] === 's') {
-					let node = searchParentTreeStart(
-						draft.nav,
-						draft.clicked_server,
-					);
-					if (node.contain) {
-						node.contain.push({
-							type: 'folder',
-							id: draft.folder_index,
-							key: 'f_' + draft.folder_index.toString(),
-							name: action.data,
-							contain: [],
-						});
-					} else {
-						node.push({
-							type: 'folder',
-							id: draft.folder_index,
-							key: 'f_' + draft.folder_index.toString(),
-							name: action.data,
-							contain: [],
-						});
-					}
-				} else {
-					searchTreeStart(
-						draft.nav,
-						draft.clicked_server,
-					).contain.push({
-						type: 'folder',
-						id: draft.folder_index,
-						key: 'f_' + draft.folder_index.toString(),
-						name: action.data,
-						contain: [],
-					});
-				}
+				const data = {
+					type: 'folder',
+					id: draft.folder_index,
+					key: 'f_' + draft.folder_index.toString(),
+					name: action.data,
+					contain: [],
+				};
+
+				addDataOnNode(draft.nav, draft.clicked_server, data);
+
 				draft.folder_index++;
 				break;
 			}
 
-			case SAVE_SERVER:
-				if (!draft.clicked_server) {
-					draft.nav.push({
-						type: 'server',
-						id: draft.server_index,
-						key: 's_' + draft.server_index.toString(),
-						name: action.data.name,
-					});
-					draft.clicked_server++;
-					draft.server.push({id: draft.server_index, ...action.data});
-				} else if (draft.clicked_server[0] === 's') {
-					console.log('Cannot add server on Server');
-				} else {
-					searchTreeStart(
-						draft.nav,
-						draft.clicked_server,
-					).contain.push({
-						type: 'server',
-						id: draft.server_index,
-						key: 's_' + draft.server_index.toString(),
-						name: action.data.name,
-					});
-					draft.clicked_server++;
-					draft.server.push({id: draft.server_index, ...action.data});
-				}
+			case SAVE_SERVER: {
+				const data = {
+					type: 'server',
+					id: draft.server_index,
+					key: 's_' + draft.server_index.toString(),
+					name: action.data.name,
+				};
+
+				addDataOnNode(draft.nav, draft.clicked_server, data);
+				draft.clicked_server++;
+				draft.server.push({
+					id: draft.server_index,
+					key: 's_' + draft.server_index.toString(),
+					...action.data,
+				});
 
 				break;
-
+			}
 			case DELETE_SERVER: {
 				deleteTreeStart(draft.nav, draft.clicked_server);
 
@@ -380,7 +349,7 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_VISIBLE_TAB: {
 				draft.tab[
-					draft.tab.findIndex((v) => v.id == action.data)
+					draft.tab.findIndex((v) => v.id === action.data)
 				].display = true;
 				draft.current_tab = action.data;
 
