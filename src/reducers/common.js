@@ -7,7 +7,7 @@ export const initialState = {
 	max_display_tab: 1,
 	cols: 1,
 	minimize: false,
-
+	open_add_server_form: false,
 	server_index: 4,
 	folder_index: 5,
 	nav: [
@@ -131,6 +131,7 @@ export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
+export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -374,6 +375,10 @@ const reducer = (state = initialState, action) => {
 			}
 			case CHANGE_CURRENT_TAB:
 				draft.current_tab = action.data;
+				break;
+
+			case CHANGE_OPEN_ADD_SERVER_FORM:
+				draft.open_add_server_form = action.data;
 				break;
 
 			default:

@@ -18,13 +18,16 @@ import {
 	ServerSearchForm,
 	SidebarShow,
 } from '../styles/common';
-import * as PropTypes from 'prop-types';
 
-import {CHANGE_SIDEBAR_DISPLAY, LOGOUT} from '../reducers/common';
+import {
+	CHANGE_OPEN_ADD_SERVER_FORM,
+	CHANGE_SIDEBAR_DISPLAY,
+	LOGOUT,
+} from '../reducers/common';
 
 import NavList from './NavList/NavList';
 
-const LeftContainer = ({setShowAddServerForm}) => {
+const LeftContainer = () => {
 	const dispatch = useDispatch();
 	const {minimize, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
@@ -37,7 +40,7 @@ const LeftContainer = ({setShowAddServerForm}) => {
 	}, [clicked_server, addFolderOpen]);
 
 	const onClickVisibleForm = useCallback(() => {
-		setShowAddServerForm(true);
+		dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: true});
 	}, []);
 
 	const onClickDeleteServer = useCallback(() => {
@@ -129,10 +132,6 @@ const LeftContainer = ({setShowAddServerForm}) => {
 			</RotateButton>
 		</SidebarShow>
 	);
-};
-
-LeftContainer.propTypes = {
-	setShowAddServerForm: PropTypes.func.isRequired,
 };
 
 export default LeftContainer;

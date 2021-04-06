@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {Row} from 'react-bootstrap';
+import React from 'react';
 
 import AddServerForm from '../components/AddServerForm/AddServerForm';
 import LeftContainer from '../components/LeftContainer';
@@ -9,7 +8,6 @@ import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 const Main = () => {
-	const [showAddServerForm, setShowAddServerForm] = useState(false);
 	const {me} = useSelector((state) => state.common);
 
 	if (!me) return <Redirect to='/login' />;
@@ -17,13 +15,10 @@ const Main = () => {
 	return (
 		<MainContainer fluid>
 			<MainRow className={'fix-height'}>
-				<LeftContainer setShowAddServerForm={setShowAddServerForm} />
-				<RightContainer setShowAddServerForm={setShowAddServerForm} />
+				<LeftContainer />
+				<RightContainer />
 			</MainRow>
-			<AddServerForm
-				showForm={showAddServerForm}
-				setShowForm={setShowAddServerForm}
-			/>
+			<AddServerForm />
 		</MainContainer>
 	);
 };

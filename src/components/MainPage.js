@@ -1,11 +1,14 @@
 import React, {useCallback} from 'react';
-import * as PropTypes from 'prop-types';
 
 import {AddServerButton, Background} from '../styles/common';
+import {CHANGE_OPEN_ADD_SERVER_FORM} from '../reducers/common';
+import {useDispatch} from 'react-redux';
 
-const MainPage = ({setShowAddServerForm}) => {
+const MainPage = () => {
+	const dispatch = useDispatch();
+
 	const onClickVisibleForm = useCallback(() => {
-		setShowAddServerForm(true);
+		dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: true});
 	}, []);
 
 	return (
@@ -17,7 +20,4 @@ const MainPage = ({setShowAddServerForm}) => {
 	);
 };
 
-MainPage.propTypes = {
-	setShowAddServerForm: PropTypes.func.isRequired,
-};
 export default MainPage;

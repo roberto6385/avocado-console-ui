@@ -33,7 +33,7 @@ const ServerContextMenu = ({data, indent}) => {
 				setOpen(true);
 				break;
 			case 'Properties':
-				// setOpen(true);
+				openProperties();
 				break;
 			default:
 				return;
@@ -106,6 +106,10 @@ const ServerContextMenu = ({data, indent}) => {
 				else console.log('V ServerNavBar onmessage: ', message);
 			};
 		};
+	};
+
+	const openProperties = () => {
+
 	};
 
 	return (

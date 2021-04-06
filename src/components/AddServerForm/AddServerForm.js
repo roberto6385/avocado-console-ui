@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
-import {SAVE_SERVER} from '../../reducers/common';
+import {CHANGE_OPEN_ADD_SERVER_FORM, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {AddServerModal, IconButton} from '../../styles/common';
@@ -16,9 +16,9 @@ import OneColButtonForm from './OneColButtonForm';
 import * as PropTypes from 'prop-types';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
-const AddServerForm = ({showForm, setShowForm}) => {
+const AddServerForm = () => {
 	const dispatch = useDispatch();
-	const {me} = useSelector((state) => state.common);
+	const {me, open_add_server_form} = useSelector((state) => state.common);
 
 	const [name, onChangeName, setName] = useInput('Test');
 	const [protocol, setProtocol] = useState('SSH2');
@@ -74,7 +74,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 					});
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 				} else if (message.type === 'DISCONNECT') {
-					setShowForm(false);
+					dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: false});
 				} else console.log('V AddServerForm onmessage: ', message);
 			};
 		},
@@ -82,7 +82,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 	);
 
 	const onClickCloseForm = useCallback(() => {
-		setShowForm(false);
+		dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: false});
 		setName('');
 		setProtocol('SSH2');
 		setHost('');
@@ -96,7 +96,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 	return (
 		<div>
 			<AddServerModal
-				show={showForm}
+				show={open_add_server_form}
 				onHide={onClickCloseForm}
 				backdrop='static'
 				keyboard={false}
