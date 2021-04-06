@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from '../ConfirmPopup';
+import ConfirmPopup from '../ConfirmPopup/ConfirmPopup';
 import {toEditMode} from './commands';
 import useSftpCommands from '../../hooks/useSftpCommands';
 

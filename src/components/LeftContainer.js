@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
 import {
 	AiFillEyeInvisible,
-	AiOutlineFolderAdd,
 	FaPlus,
 	FaRegTrashAlt,
 	FaSearch,
@@ -10,7 +9,7 @@ import {
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from './ConfirmPopup';
+import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
 import {
 	Header,
 	IconButton,
@@ -21,20 +20,21 @@ import {
 } from '../styles/common';
 import * as PropTypes from 'prop-types';
 
-import {CHANGE_SIDEBAR_DISPLAY, LOGOUT, ADD_FOLDER} from '../reducers/common';
+import {CHANGE_SIDEBAR_DISPLAY, LOGOUT} from '../reducers/common';
 
-import NavList from './NavList';
+import NavList from './NavList/NavList';
 
 const LeftContainer = ({setShowAddServerForm}) => {
 	const dispatch = useDispatch();
-	const {me, minimize, clicked_server} = useSelector((state) => state.common);
+	const {minimize, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [open, setOpen] = useState(false);
+	const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
-		dispatch({type: ADD_FOLDER});
-	}, []);
+		setAddFolderOpen(!addFolderOpen);
+	}, [clicked_server, addFolderOpen]);
 
 	const onClickVisibleForm = useCallback(() => {
 		setShowAddServerForm(true);
@@ -115,6 +115,11 @@ const LeftContainer = ({setShowAddServerForm}) => {
 				keyword={'delete_server'}
 				open={open}
 				setOpen={setOpen}
+			/>
+			<ConfirmPopup
+				keyword={'add_folder'}
+				open={addFolderOpen}
+				setOpen={setAddFolderOpen}
 			/>
 		</OutlineCol>
 	) : (

@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
-import {SFTP_SAVE_CURRENT_MODE} from '../reducers/sftp';
+import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
-import {CustomModal} from '../styles/common';
-import Button from './ConfirmPopup/Button';
-import useConfirmActions from '../hooks/useConfirmActions';
+import {CustomModal} from '../../styles/common';
+import Button from './Button';
+import useConfirmActions from '../../hooks/useConfirmActions';
 
 const ConfirmMessage = {
 	delete_work: '선택하신 파일을 삭제하시겠습니까?',
@@ -24,6 +24,7 @@ const ConfirmTopMessage = {
 	edit_file: 'Edit File',
 	delete_history: 'Delete History',
 	delete_server: 'Delete Server',
+	add_folder: 'New Folder',
 };
 
 const ConfirmPlaceholder = {
@@ -31,8 +32,13 @@ const ConfirmPlaceholder = {
 	new_folder: 'Untitled folder',
 };
 
-export const SAVE_KEYWORDS = ['rename_work', 'new_folder', 'edit_file'];
-export const FORM_KEYWORDS = ['rename_work', 'new_folder'];
+export const SAVE_KEYWORDS = [
+	'rename_work',
+	'new_folder',
+	'edit_file',
+	'add_folder',
+];
+export const FORM_KEYWORDS = ['rename_work', 'new_folder', 'add_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const {
@@ -48,6 +54,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		newFolder,
 		deleteHistory,
 		deleteServer,
+		addFolder,
 	} = useConfirmActions(ws, uuid);
 
 	const curText = currentText.find((item) => item.uuid === uuid);
@@ -100,6 +107,9 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 				break;
 			case 'delete_server':
 				deleteServer();
+				break;
+			case 'add_folder':
+				formValue !== '' && addFolder(formValue);
 				break;
 			default:
 				break;
