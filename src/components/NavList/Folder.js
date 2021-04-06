@@ -73,12 +73,13 @@ const Folder = ({data, indent}) => {
 		e.preventDefault();
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		displayMenu(e);
-		console.log(data, indent);
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(data, indent);
+		iteratorAllObject(nav, data).then((response) => console.log(response));
+
 		setOpenRename(false);
 	};
 
@@ -95,55 +96,47 @@ const Folder = ({data, indent}) => {
 		}
 	}, [openRename]);
 
-	//찾고자 하는 객체 예시
-	const selectedItem = {
-		type: 'folder',
-		id: 4,
-		key: 'f_4',
-		name: 'Folder5',
-		contain: [],
-	};
-
 	// nav 배열 순회하면서 특정 객체 검색하는 funciton
+	// 순회할 nav , 검색할 selectedItem 을 인수로 넣고 then으로 위치값 받으면 됩니다.
 	const iteratorAllObject = useCallback((iterableItem, selectedItem) => {
-		const initArray = [];
-		const locationArray = [];
-		const iteratorFunc = (item) =>
-			item.forEach((pNode) => {
-				const currentLocation = item.findIndex((it) => it === pNode);
-				initArray.push(currentLocation === 0 ? '/0' : currentLocation);
-				if (JSON.stringify(pNode) === JSON.stringify(selectedItem)) {
-					console.log(pNode);
-					// console.log(initArray);
-					const initString = initArray.join('');
-					initString
-						.split('/')
-						.splice(1)
-						.forEach((str) => {
-							locationArray.push(
-								parseInt(str.slice(str.length - 1)),
-							);
-						});
-					console.log('우선 여기서 위치 찾아줌');
-					console.log(locationArray);
-				} else {
-					// eslint-disable-next-line no-prototype-builtins
-					if (pNode.hasOwnProperty('contain')) {
-						// console.log('i`m folder =>', pNode);
-						// eslint-disable-next-line no-unused-vars
-						iteratorFunc(pNode.contain);
+		return new Promise((resolve) => {
+			const initArray = [];
+			const locationArray = [];
+			const iteratorFunc = (item) =>
+				item.forEach((pNode) => {
+					const currentLocation = item.findIndex(
+						(it) => it === pNode,
+					);
+					initArray.push(
+						currentLocation === 0 ? '/0' : currentLocation,
+					);
+					if (
+						JSON.stringify(pNode) === JSON.stringify(selectedItem)
+					) {
+						console.log(pNode);
+						// console.log(initArray);
+						const initString = initArray.join('');
+						initString
+							.split('/')
+							.splice(1)
+							.forEach((str) => {
+								locationArray.push(
+									parseInt(str.slice(str.length - 1)),
+								);
+							});
+						resolve(locationArray);
 					} else {
-						initArray.pop();
-						// console.log('i`m server =>', pNode);
-						// initArray.splice(0);
+						// eslint-disable-next-line no-prototype-builtins
+						if (pNode.hasOwnProperty('contain')) {
+							// eslint-disable-next-line no-unused-vars
+							iteratorFunc(pNode.contain);
+						} else {
+							initArray.pop();
+						}
 					}
-				}
-			});
-		iteratorFunc(iterableItem);
-	}, []);
-
-	useEffect(() => {
-		iteratorAllObject(nav, selectedItem);
+				});
+			iteratorFunc(iterableItem);
+		});
 	}, []);
 
 	return (

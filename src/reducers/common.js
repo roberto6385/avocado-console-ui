@@ -123,6 +123,7 @@ export const LOGOUT = 'LOGOUT';
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
+export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
 export const SORT_TAB = 'SORT_TAB';
@@ -272,6 +273,10 @@ const reducer = (state = initialState, action) => {
 					...action.data,
 				});
 
+				break;
+			}
+
+			case CHANGE_SERVER_FOLDER_NAME: {
 				break;
 			}
 			case DELETE_SERVER: {
