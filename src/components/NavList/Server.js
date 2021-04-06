@@ -74,6 +74,7 @@ const Server = ({data, indent}) => {
 
 	const contextMenuOpen = (e, data, indent) => {
 		e.preventDefault();
+		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		displayMenu(e);
 		console.log(data, indent);
 	};
@@ -89,7 +90,7 @@ const Server = ({data, indent}) => {
 				<FaServerIcon />
 				{data.name}
 			</ServerNavItem>
-			<ServerContextMenu data={data} indent={indent}/>
+			<ServerContextMenu data={data} indent={indent} />
 		</>
 	);
 };
