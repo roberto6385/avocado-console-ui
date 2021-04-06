@@ -95,20 +95,37 @@ const Folder = ({data, indent}) => {
 		}
 	}, [openRename]);
 
+	//찾고자 하는 객체 예시
 	const selectedItem = {
-		type: 'server',
-		id: 1,
-		key: 's_1',
-		name: 'Server2',
+		type: 'folder',
+		id: 4,
+		key: 'f_4',
+		name: 'Folder5',
+		contain: [],
 	};
 
-	const iteratorAllObject = (iterableItem, selectedItem) => {
+	// nav 배열 순회하면서 특정 객체 검색하는 funciton
+	const iteratorAllObject = useCallback((iterableItem, selectedItem) => {
+		const initArray = [];
+		const locationArray = [];
 		const iteratorFunc = (item) =>
 			item.forEach((pNode) => {
-				console.log('selectedItem', selectedItem);
-				console.log(pNode);
-				if (pNode === selectedItem) {
-					//
+				const currentLocation = item.findIndex((it) => it === pNode);
+				initArray.push(currentLocation === 0 ? '/0' : currentLocation);
+				if (JSON.stringify(pNode) === JSON.stringify(selectedItem)) {
+					console.log(pNode);
+					// console.log(initArray);
+					const initString = initArray.join('');
+					initString
+						.split('/')
+						.splice(1)
+						.forEach((str) => {
+							locationArray.push(
+								parseInt(str.slice(str.length - 1)),
+							);
+						});
+					console.log('우선 여기서 위치 찾아줌');
+					console.log(locationArray);
 				} else {
 					// eslint-disable-next-line no-prototype-builtins
 					if (pNode.hasOwnProperty('contain')) {
@@ -116,12 +133,14 @@ const Folder = ({data, indent}) => {
 						// eslint-disable-next-line no-unused-vars
 						iteratorFunc(pNode.contain);
 					} else {
+						initArray.pop();
 						// console.log('i`m server =>', pNode);
+						// initArray.splice(0);
 					}
 				}
 			});
 		iteratorFunc(iterableItem);
-	};
+	}, []);
 
 	useEffect(() => {
 		iteratorAllObject(nav, selectedItem);
