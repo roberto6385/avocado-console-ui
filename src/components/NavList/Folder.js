@@ -93,6 +93,37 @@ const Folder = ({data, indent}) => {
 		}
 	}, [openRename]);
 
+	const randomArray = [
+		{id: 0, contain: [{id: 4, contain: [{id: 8, contain: []}]}]},
+		{
+			id: 1,
+			contain: [
+				{
+					id: 5,
+					contain: [
+						{
+							id: 9,
+							contain: [
+								{id: 12, contain: [{id: 14, contain: []}]},
+							],
+						},
+					],
+				},
+			],
+		},
+		{id: 2, contain: [{id: 6, contain: [{id: 10, contain: []}]}]},
+		{
+			id: 3,
+			contain: [
+				{id: 7, contain: [{id: 11, contain: [{id: 13, contain: []}]}]},
+			],
+		},
+	];
+
+	randomArray.forEach((item) => {
+		console.log(item);
+	});
+
 	return (
 		<>
 			<ServerNavItem
