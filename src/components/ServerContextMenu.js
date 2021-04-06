@@ -17,7 +17,6 @@ const ServerContextMenu = ({data, indent}) => {
 
 	const MENU_ID = data.key + 'server';
 	const serverData = server.find((item) => item.key === clicked_server);
-	console.log(serverData);
 	function handleItemClick({event}) {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {

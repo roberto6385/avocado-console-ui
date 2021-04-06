@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 
 import {Collapse} from 'react-bootstrap';
@@ -18,10 +18,30 @@ import {CustomTable} from '../../styles/sftp';
 import FileListContextMenu from '../SFTP/FileListContextMenu';
 import FolderContextMenu from '../FolderContextMenu';
 import ServerContextMenu from '../ServerContextMenu';
+import styled from 'styled-components';
+
+const RenameForm = styled.form`
+	display: inline-block;
+`;
+
+const RenameInput = styled.input`
+	display: inline-block;
+	height: 24px;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid black;
+`;
+
+const Folder2Line = styled(RiFolder2Line)`
+	margin-right: 4px;
+`;
 
 const Folder = ({data, indent}) => {
 	const dispatch = useDispatch();
+	const renameRef = useRef(null);
 	const [open, setOpen] = useState(false);
+	const [openRename, setOpenRename] = useState(false);
+	const [renameValue, setRenameValue] = useState('');
 	const {clicked_server, server, me} = useSelector((state) => state.common);
 
 	const onHybridClick = useDoubleClick(
@@ -54,6 +74,25 @@ const Folder = ({data, indent}) => {
 		console.log(data, indent);
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log(data, indent);
+		setOpenRename(false);
+	};
+
+	const EscapeKey = (e) => {
+		if (e.keyCode === 27) {
+			setOpenRename(false);
+		}
+	};
+
+	useEffect(() => {
+		setRenameValue(data.name);
+		if (renameRef.current) {
+			renameRef.current.focus();
+		}
+	}, [openRename]);
+
 	return (
 		<>
 			<ServerNavItem
@@ -62,8 +101,23 @@ const Folder = ({data, indent}) => {
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
-				<RiFolder2Line />
-				{data.name}
+				<Folder2Line />
+				{openRename ? (
+					<RenameForm
+						onSubmit={handleSubmit}
+						onBlur={() => setOpenRename(false)}
+					>
+						<RenameInput
+							ref={renameRef}
+							type='text'
+							value={renameValue}
+							onChange={(e) => setRenameValue(e.target.value)}
+							onKeyDown={EscapeKey}
+						/>
+					</RenameForm>
+				) : (
+					data.name
+				)}
 				<IconButton onClick={onClickOpen}>
 					{open ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />}
 				</IconButton>
@@ -89,7 +143,11 @@ const Folder = ({data, indent}) => {
 					</div>
 				</Collapse>
 			)}
-			<FolderContextMenu data={data} indent={indent} />
+			<FolderContextMenu
+				data={data}
+				indent={indent}
+				setOpenRename={setOpenRename}
+			/>
 		</>
 	);
 };

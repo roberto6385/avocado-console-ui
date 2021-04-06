@@ -182,6 +182,8 @@ export const FaServerIcon = styled(FaServer)`
 `;
 
 export const ServerNavItem = styled(Nav.Item)`
+	display: flex;
+	align-items: center;
 	padding: 15px;
 	padding-left: ${(props) => props.left};
 	background-color: ${(props) => props.back};

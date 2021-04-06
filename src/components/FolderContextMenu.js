@@ -4,7 +4,7 @@ import {animation, Item, Menu} from 'react-contexify';
 import AddServerForm from './AddServerForm/AddServerForm';
 import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
 
-const FolderContextMenu = ({data, indent}) => {
+const FolderContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const [showAddServerForm, setShowAddServerForm] = useState(false);
@@ -22,7 +22,7 @@ const FolderContextMenu = ({data, indent}) => {
 				setAddFolderOpen(true);
 				break;
 			case 'Rename':
-				// setOpen(true);
+				setOpenRename(true);
 				break;
 			case 'Delete':
 				setOpen(true);
@@ -73,6 +73,7 @@ const FolderContextMenu = ({data, indent}) => {
 FolderContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
+	setOpenRename: PropTypes.func.isRequired,
 };
 
 export default FolderContextMenu;
