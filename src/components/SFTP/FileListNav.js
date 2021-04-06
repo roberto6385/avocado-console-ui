@@ -58,11 +58,6 @@ const FileListNav = ({index, ws, uuid}) => {
 		path !== '' && goHome(e, path);
 	};
 
-	const input = document.getElementById('fileListNavInput');
-	input?.addEventListener('focusout', () => {
-		setPath(pathItem?.path || '');
-	});
-
 	const handleChange = (e) => {
 		const {value} = e.target;
 		setPath(value);
@@ -71,6 +66,8 @@ const FileListNav = ({index, ws, uuid}) => {
 	const EscapeKey = (e) => {
 		if (e.keyCode === 27) {
 			setPath(pathItem?.path || '');
+			// document.activeElement.blur();
+			// ESC 누르면 blur event 처리하기
 		}
 	};
 
@@ -122,6 +119,7 @@ const FileListNav = ({index, ws, uuid}) => {
 					value={path}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
+					onBlur={() => setPath(pathItem?.path || '')}
 				/>
 			</form>
 		</>
