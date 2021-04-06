@@ -8,6 +8,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
+import {contextMenu, useContextMenu} from 'react-contexify';
+import {CustomTable} from '../../styles/sftp';
+import FileListContextMenu from '../SFTP/FileListContextMenu';
+import ServerContextMenu from '../ServerContextMenu';
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -60,15 +64,33 @@ const Server = ({data, indent}) => {
 		},
 	);
 
+	const {show} = useContextMenu({
+		id: data.key + 'server',
+	});
+
+	function displayMenu(e) {
+		show(e);
+	}
+
+	const contextMenuOpen = (e, data, indent) => {
+		e.preventDefault();
+		displayMenu(e);
+		console.log(data, indent);
+	};
+
 	return (
-		<ServerNavItem
-			onClick={onHybridClick}
-			back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
-			left={(indent * 15).toString() + 'px'}
-		>
-			<FaServerIcon />
-			{data.name}
-		</ServerNavItem>
+		<>
+			<ServerNavItem
+				onClick={onHybridClick}
+				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
+				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
+				left={(indent * 15).toString() + 'px'}
+			>
+				<FaServerIcon />
+				{data.name}
+			</ServerNavItem>
+			<ServerContextMenu data={data} indent={indent}/>
+		</>
 	);
 };
 

@@ -13,6 +13,11 @@ import {SET_CLICKED_SERVER} from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
+import {useContextMenu} from 'react-contexify';
+import {CustomTable} from '../../styles/sftp';
+import FileListContextMenu from '../SFTP/FileListContextMenu';
+import FolderContextMenu from '../FolderContextMenu';
+import ServerContextMenu from '../ServerContextMenu';
 
 const Folder = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -34,10 +39,25 @@ const Folder = ({data, indent}) => {
 		setOpen(!open);
 	}, [open]);
 
+	const {show} = useContextMenu({
+		id: data.key + 'folder',
+	});
+
+	function displayMenu(e) {
+		show(e);
+	}
+
+	const contextMenuOpen = (e, data, indent) => {
+		e.preventDefault();
+		displayMenu(e);
+		console.log(data, indent);
+	};
+
 	return (
-		<div>
+		<>
 			<ServerNavItem
 				onClick={onHybridClick}
+				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
@@ -68,7 +88,8 @@ const Folder = ({data, indent}) => {
 					</div>
 				</Collapse>
 			)}
-		</div>
+			<FolderContextMenu data={data} indent={indent} />
+		</>
 	);
 };
 
