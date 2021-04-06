@@ -42,7 +42,9 @@ const Folder = ({data, indent}) => {
 	const [open, setOpen] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
-	const {clicked_server, server, me} = useSelector((state) => state.common);
+	const {clicked_server, server, me, nav} = useSelector(
+		(state) => state.common,
+	);
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -93,36 +95,37 @@ const Folder = ({data, indent}) => {
 		}
 	}, [openRename]);
 
-	const randomArray = [
-		{id: 0, contain: [{id: 4, contain: [{id: 8, contain: []}]}]},
-		{
-			id: 1,
-			contain: [
-				{
-					id: 5,
-					contain: [
-						{
-							id: 9,
-							contain: [
-								{id: 12, contain: [{id: 14, contain: []}]},
-							],
-						},
-					],
-				},
-			],
-		},
-		{id: 2, contain: [{id: 6, contain: [{id: 10, contain: []}]}]},
-		{
-			id: 3,
-			contain: [
-				{id: 7, contain: [{id: 11, contain: [{id: 13, contain: []}]}]},
-			],
-		},
-	];
+	const selectedItem = {
+		type: 'server',
+		id: 1,
+		key: 's_1',
+		name: 'Server2',
+	};
 
-	randomArray.forEach((item) => {
-		console.log(item);
-	});
+	const iteratorAllObject = (iterableItem, selectedItem) => {
+		const iteratorFunc = (item) =>
+			item.forEach((pNode) => {
+				console.log('selectedItem', selectedItem);
+				console.log(pNode);
+				if (pNode === selectedItem) {
+					//
+				} else {
+					// eslint-disable-next-line no-prototype-builtins
+					if (pNode.hasOwnProperty('contain')) {
+						// console.log('i`m folder =>', pNode);
+						// eslint-disable-next-line no-unused-vars
+						iteratorFunc(pNode.contain);
+					} else {
+						// console.log('i`m server =>', pNode);
+					}
+				}
+			});
+		iteratorFunc(iterableItem);
+	};
+
+	useEffect(() => {
+		iteratorAllObject(nav, selectedItem);
+	}, []);
 
 	return (
 		<>
