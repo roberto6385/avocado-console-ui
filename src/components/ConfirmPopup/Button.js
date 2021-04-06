@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 
 import {ModalFooter, PopupButton} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
-import {SAVE_KEYWORDS} from '../ConfirmPopup';
+import {SAVE_KEYWORDS} from './ConfirmPopup';
 
 const Button = ({keyword, cancelFunction, submitFunction}) => {
 	const buttonRef = useRef(null);

@@ -132,36 +132,75 @@ export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 
-const reducer = (state = initialState, action) => {
-	const fillTabs = (tab, max_display_tab, current_tab) => {
-		if (tab.length === 0) {
-			current_tab = null;
-		} else {
-			let visible_tab_length = tab.filter((x) => x.display).length;
+const fillTabs = (tab, max_display_tab, current_tab) => {
+	if (tab.length === 0) {
+		current_tab = null;
+	} else {
+		let visible_tab_length = tab.filter((x) => x.display).length;
 
-			for (let i = 0; i < tab.length; i++) {
-				if (visible_tab_length === max_display_tab) break;
-				else if (visible_tab_length > max_display_tab) {
-					if (tab[i].display && tab[i].id !== current_tab) {
-						tab[i].display = false;
-						visible_tab_length--;
-					}
-				} else if (visible_tab_length < max_display_tab) {
-					if (!tab[i].display) {
-						tab[i].display = true;
-						visible_tab_length++;
-					}
+		for (let i = 0; i < tab.length; i++) {
+			if (visible_tab_length === max_display_tab) break;
+			else if (visible_tab_length > max_display_tab) {
+				if (tab[i].display && tab[i].id !== current_tab) {
+					tab[i].display = false;
+					visible_tab_length--;
+				}
+			} else if (visible_tab_length < max_display_tab) {
+				if (!tab[i].display) {
+					tab[i].display = true;
+					visible_tab_length++;
 				}
 			}
-
-			if (
-				tab.find((v) => v.id === current_tab && v.display) === undefined
-			)
-				current_tab = tab.find((x) => x.display).id;
 		}
-		return current_tab;
-	};
 
+		if (tab.find((v) => v.id === current_tab && v.display) === undefined)
+			current_tab = tab.find((x) => x.display).id;
+	}
+	return current_tab;
+};
+
+function searchTreeNode(node, key) {
+	if (node.key == key) {
+		return node;
+	} else if (node.contain != null) {
+		let i;
+		let result = null;
+		for (i = 0; result == null && i < node.contain.length; i++) {
+			result = searchTreeNode(node.contain[i], key);
+		}
+		return result;
+	}
+	return null;
+}
+
+function searchTreeStart(node, key) {
+	for (let x of node) {
+		let result = searchTreeNode(x, key);
+		if (result !== null) return result;
+	}
+	return null;
+}
+
+function deleteTreeNode(parent, node, key) {
+	if (node.key === key) {
+		let index = parent.contain.findIndex((v) => v.key === key);
+		parent.contain.splice(index, 1);
+		return;
+	} else if (node.contain && node.contain.length > 0) {
+		for (let i = 0; i < node.contain.length; i++)
+			deleteTreeNode(node, node.contain[i], key);
+	}
+}
+
+function deleteTreeStart(root, key) {
+	for (let i = 0; i < root.length; i++) {
+		if (root[i].key === key) {
+			root.splice(i, 1);
+		} else deleteTreeNode(root, root[i], key);
+	}
+}
+
+const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case LOGIN:
@@ -177,33 +216,73 @@ const reducer = (state = initialState, action) => {
 						type: 'folder',
 						id: draft.folder_index,
 						key: 'f_' + draft.folder_index.toString(),
-						name: 'Folder' + (draft.folder_index + 1).toString(),
+						name: action.data,
 						contain: [],
 					});
+					draft.folder_index++;
+				} else if (draft.clicked_server[0] === 's') {
+					console.log('Cannot add folder on Server');
+				} else {
+					searchTreeStart(
+						draft.nav,
+						draft.clicked_server,
+					).contain.push({
+						type: 'folder',
+						id: draft.folder_index,
+						key: 'f_' + draft.folder_index.toString(),
+						name: action.data,
+						contain: [],
+					});
+					draft.folder_index++;
 				}
 				break;
 			}
 
 			case SAVE_SERVER:
-				draft.server.push({id: draft.server_index, ...action.data});
-				draft.server_index++;
+				if (draft.clicked_server === null) {
+					draft.nav.push({
+						type: 'server',
+						id: draft.server_index,
+						key: 's_' + draft.server_index.toString(),
+						name: action.data.name,
+					});
+					draft.clicked_server++;
+					draft.server.push({id: draft.server_index, ...action.data});
+				} else if (draft.clicked_server[0] === 's') {
+					console.log('Cannot add server on Server');
+				} else {
+					searchTreeStart(
+						draft.nav,
+						draft.clicked_server,
+					).contain.push({
+						type: 'server',
+						id: draft.server_index,
+						key: 's_' + draft.server_index.toString(),
+						name: action.data.name,
+					});
+					draft.clicked_server++;
+					draft.server.push({id: draft.server_index, ...action.data});
+				}
+
 				break;
 
 			case DELETE_SERVER: {
-				draft.tab = draft.tab.filter(
-					(v) => v.server.id !== draft.clicked_server,
-				);
+				deleteTreeStart(draft.nav, draft.clicked_server);
 
-				draft.server = draft.server.filter(
-					(v) => v.id !== draft.clicked_server,
-				);
-
-				draft.current_tab = fillTabs(
-					draft.tab,
-					draft.max_display_tab,
-					draft.current_tab,
-				);
-				draft.clicked_server = null;
+				// draft.tab = draft.tab.filter(
+				// 	(v) => v.server.key !== draft.clicked_server,
+				// );
+				//
+				// draft.server = draft.server.filter(
+				// 	(v) => v.key !== draft.clicked_server,
+				// );
+				//
+				// draft.current_tab = fillTabs(
+				// 	draft.tab,
+				// 	draft.max_display_tab,
+				// 	draft.current_tab,
+				// );
+				// draft.clicked_server = null;
 				break;
 			}
 
@@ -222,6 +301,8 @@ const reducer = (state = initialState, action) => {
 					display: true,
 					server: {
 						id: action.data.id,
+						key: draft.server.find((v) => v.id === action.data.id)
+							.key,
 						name: draft.server.find((v) => v.id === action.data.id)
 							.name,
 					},

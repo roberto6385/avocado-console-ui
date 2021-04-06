@@ -7,7 +7,7 @@ import {
 	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
-import {DELETE_SERVER} from '../reducers/common';
+import {ADD_FOLDER, DELETE_SERVER} from '../reducers/common';
 import newSftp_ws from '../ws/sftp_ws';
 import useSftpCommands from './useSftpCommands';
 
@@ -196,6 +196,9 @@ const useConfirmActions = (ws, uuid) => {
 
 			deleteServer: () => {
 				dispatch({type: DELETE_SERVER});
+			},
+			addFolder: (formValue) => {
+				dispatch({type: ADD_FOLDER, data: formValue});
 			},
 		}),
 		[dispatch],

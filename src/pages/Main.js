@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Row} from 'react-bootstrap';
 
-import AddServerForm from '../components/AddServerForm';
+import AddServerForm from '../components/AddServerForm/AddServerForm';
 import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
 import {MainContainer, MainRow} from '../styles/page';

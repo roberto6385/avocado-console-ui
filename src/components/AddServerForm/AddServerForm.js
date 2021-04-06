@@ -3,31 +3,31 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
-import {SAVE_SERVER} from '../reducers/common';
-import useInput from '../hooks/useInput';
-import {GetMessage} from '../ws/ssht_ws_logic';
-import {AddServerModal, IconButton} from '../styles/common';
-import AlertPopup from './AlertPopup';
-import OneColForm from './AddServer/OneColForm';
-import Button from './AddServer/Button';
-import TwoColsOptionForm from './AddServer/TwoColsOptionForm';
-import TwoColsForm from './AddServer/TwoColsForm';
-import OneColButtonForm from './AddServer/OneColButtonForm';
+import {SAVE_SERVER} from '../../reducers/common';
+import useInput from '../../hooks/useInput';
+import {GetMessage} from '../../ws/ssht_ws_logic';
+import {AddServerModal, IconButton} from '../../styles/common';
+import AlertPopup from '../AlertPopup';
+import OneColForm from './OneColForm';
+import Button from './Button';
+import TwoColsOptionForm from './TwoColsOptionForm';
+import TwoColsForm from './TwoColsForm';
+import OneColButtonForm from './OneColButtonForm';
 import * as PropTypes from 'prop-types';
-import {ssht_ws_request} from '../ws/ssht_ws_request';
+import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
 const AddServerForm = ({showForm, setShowForm}) => {
 	const dispatch = useDispatch();
 	const {me} = useSelector((state) => state.common);
 
-	const [name, onChangeName, setName] = useInput('');
+	const [name, onChangeName, setName] = useInput('Test');
 	const [protocol, setProtocol] = useState('SSH2');
-	const [host, onChangeHost, setHost] = useInput('');
-	const [port, onChangePort, setPort] = useInput('');
-	const [user, onChangeUser, setUser] = useInput('');
+	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
+	const [port, onChangePort, setPort] = useInput(10021);
+	const [user, onChangeUser, setUser] = useInput('root');
 	const [authentication, setAuthentication] = useState('Password');
 	const [key, onChangeKey] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('Netand141)');
 	const [note, onChangeNote, setNote] = useInput('');
 	const [open, setOpen] = useState(false);
 
