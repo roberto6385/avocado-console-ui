@@ -243,17 +243,8 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case SORT_TAB: {
-				draft.tab = draft.tab.filter(
-					(v) => v.id !== action.data.oldOrder,
-				);
+				draft.tab.splice(action.data.oldOrder, 1);
 				draft.tab.splice(action.data.newOrder, 0, action.data.newTab);
-				// console.log(draft.tab.length);
-				// let i = 0;
-				// while (i < draft.tab.length) {
-				// 	// draft.tab[i].id = i;
-				// 	console.log(draft.tab[i]);
-				// 	i++;
-				// }
 				break;
 			}
 

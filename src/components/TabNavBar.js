@@ -25,7 +25,7 @@ const TabNavBar = () => {
 	const dispatch = useDispatch();
 	const [active, setActive] = useState('');
 	const {tab, current_tab} = useSelector((state) => state.common);
-
+	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const changeVisibleTab = useCallback(
 		(tab_id) => () => {
@@ -70,15 +70,23 @@ const TabNavBar = () => {
 			direction: 'horizontal',
 		});
 
-	const putNavItem = (item) => {
-		console.log(tab);
+	const prevPutItem = (item) => {
+		// console.log(tab.findIndex((it) => it === item)); //이전 위치
+		setOldOlder(tab.findIndex((it) => it === item));
+		setDraggedItem(item);
+	};
+
+	const nextPutItem = (item) => {
+		// console.log(tab);
+		console.log(oldOlder);
+		const newOlder = tab.findIndex((it) => it === item);
+		console.log(tab.findIndex((it) => it === item)); //바뀐위치
 		console.log(draggedItem);
-		console.log(item);
 		dispatch({
 			type: SORT_TAB,
 			data: {
-				oldOrder: draggedItem.id,
-				newOrder: item.id,
+				oldOrder: oldOlder,
+				newOrder: newOlder,
 				newTab: draggedItem,
 			},
 		});
@@ -97,8 +105,8 @@ const TabNavBar = () => {
 							<TabNavItem
 								key={data.id.toString()}
 								draggable='true'
-								onDragStart={() => setDraggedItem(data)}
-								onDrop={() => putNavItem(data)}
+								onDragStart={() => prevPutItem(data)}
+								onDrop={() => nextPutItem(data)}
 							>
 								<NavLink
 									className={
