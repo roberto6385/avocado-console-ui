@@ -18,7 +18,6 @@ const Main = () => {
 				<LeftContainer />
 				<RightContainer />
 			</MainRow>
-			<AddServerForm />
 		</MainContainer>
 	);
 };
