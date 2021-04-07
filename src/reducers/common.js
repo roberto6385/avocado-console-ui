@@ -63,7 +63,29 @@ export const initialState = {
 					id: 4,
 					key: 'f_4',
 					name: 'Folder5',
-					contain: [],
+					contain: [
+						{
+							type: 'folder',
+							id: 5,
+							key: 'f_5',
+							name: 'Folder6',
+							contain: [],
+						},
+						{
+							type: 'folder',
+							id: 6,
+							key: 'f_6',
+							name: 'Folder7',
+							contain: [],
+						},
+						{
+							type: 'folder',
+							id: 7,
+							key: 'f_7',
+							name: 'Folder8',
+							contain: [],
+						},
+					],
 				},
 			],
 		},
@@ -231,6 +253,18 @@ function addDataOnNode(nav, clicked_server, data) {
 	else node.push(data);
 }
 
+function replaceDataOnNode(nav, clicked_server, prevData, data) {
+	let node = null;
+	if (!clicked_server) node = nav;
+	// else if (clicked_server[0] === 's')
+	node = searchParentTreeStart(nav, clicked_server);
+	// else node = searchTreeStart(nav, clicked_server);
+	const index = node.contain.indexOf(prevData);
+	console.log(index);
+	console.log(node?.contain.splice(index, 1, data));
+	node?.contain.splice(index, 1, data);
+}
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
@@ -257,6 +291,16 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
+			case CHANGE_SERVER_FOLDER_NAME: {
+				replaceDataOnNode(
+					draft.nav,
+					draft.clicked_server,
+					action.data.prev,
+					action.data.next,
+				);
+				break;
+			}
+
 			case SAVE_SERVER: {
 				const data = {
 					type: 'server',
@@ -273,10 +317,6 @@ const reducer = (state = initialState, action) => {
 					...action.data,
 				});
 
-				break;
-			}
-
-			case CHANGE_SERVER_FOLDER_NAME: {
 				break;
 			}
 			case DELETE_SERVER: {

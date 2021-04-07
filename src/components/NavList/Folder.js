@@ -9,7 +9,10 @@ import {
 	RiFolder2Line,
 } from 'react-icons/all';
 import Server from './Server';
-import {SET_CLICKED_SERVER} from '../../reducers/common';
+import {
+	CHANGE_SERVER_FOLDER_NAME,
+	SET_CLICKED_SERVER,
+} from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
@@ -75,10 +78,19 @@ const Folder = ({data, indent}) => {
 		displayMenu(e);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(data, indent);
-		iteratorAllObject(nav, data).then((response) => console.log(response));
+		const newData = Object.assign({}, data, {name: renameValue});
+
+		dispatch({
+			type: CHANGE_SERVER_FOLDER_NAME,
+			data: {prev: data, next: newData},
+		});
+
+		// const depth = await iteratorAllObject(nav, data);
+		// console.log(newData);
+		// console.log(depth);
 
 		setOpenRename(false);
 	};
@@ -113,8 +125,6 @@ const Folder = ({data, indent}) => {
 					if (
 						JSON.stringify(pNode) === JSON.stringify(selectedItem)
 					) {
-						console.log(pNode);
-						// console.log(initArray);
 						const initString = initArray.join('');
 						initString
 							.split('/')
