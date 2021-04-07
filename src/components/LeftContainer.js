@@ -5,12 +5,14 @@ import {
 	FaPlus,
 	FaRegTrashAlt,
 	FaSearch,
+	FiSettings,
 	GrLogout,
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
 import {
+	Background,
 	Header,
 	IconButton,
 	OutlineCol,
@@ -18,18 +20,24 @@ import {
 	ServerSearchForm,
 	SidebarShow,
 } from '../styles/common';
-import * as PropTypes from 'prop-types';
 
-import {CHANGE_SIDEBAR_DISPLAY, LOGOUT} from '../reducers/common';
+import {
+	CHANGE_OPEN_ADD_SERVER_FORM,
+	CHANGE_SIDEBAR_DISPLAY,
+	LOGOUT,
+} from '../reducers/common';
 
 import NavList from './NavList/NavList';
+import AddServerForm from './AddServerForm/AddServerForm';
+import {Link, Redirect} from 'react-router-dom';
 
-const LeftContainer = ({setShowAddServerForm}) => {
+const LeftContainer = () => {
 	const dispatch = useDispatch();
 	const {minimize, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
-	const [open, setOpen] = useState(false);
+	const [openConfirm, setOpenConfirm] = useState(false);
+	const [openAddServerForm, setOpenAddServerForm] = useState(false);
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
@@ -37,12 +45,12 @@ const LeftContainer = ({setShowAddServerForm}) => {
 	}, [clicked_server, addFolderOpen]);
 
 	const onClickVisibleForm = useCallback(() => {
-		setShowAddServerForm(true);
+		setOpenAddServerForm(true);
 	}, []);
 
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
-			setOpen(true);
+			setOpenConfirm(true);
 		}
 	}, [clicked_server]);
 
@@ -98,6 +106,9 @@ const LeftContainer = ({setShowAddServerForm}) => {
 					<IconButton onClick={() => sideBarhandleSize('minimize')}>
 						<AiFillEyeInvisible />
 					</IconButton>
+					<IconButton as={Link} to='/setting'>
+						<FiSettings />
+					</IconButton>
 				</Nav.Item>
 			</Header>
 			<Collapse in={activeSearch}>
@@ -113,13 +124,18 @@ const LeftContainer = ({setShowAddServerForm}) => {
 			<NavList />
 			<ConfirmPopup
 				keyword={'delete_server'}
-				open={open}
-				setOpen={setOpen}
+				open={openConfirm}
+				setOpen={setOpenConfirm}
 			/>
 			<ConfirmPopup
 				keyword={'add_folder'}
 				open={addFolderOpen}
 				setOpen={setAddFolderOpen}
+			/>
+			<AddServerForm
+				open={openAddServerForm}
+				setOpen={setOpenAddServerForm}
+				type='add'
 			/>
 		</OutlineCol>
 	) : (
@@ -129,10 +145,6 @@ const LeftContainer = ({setShowAddServerForm}) => {
 			</RotateButton>
 		</SidebarShow>
 	);
-};
-
-LeftContainer.propTypes = {
-	setShowAddServerForm: PropTypes.func.isRequired,
 };
 
 export default LeftContainer;

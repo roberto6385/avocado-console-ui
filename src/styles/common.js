@@ -7,6 +7,7 @@ import {
 	NAV_HEIGHT,
 	NAV_HEIGHT_SUM,
 	SECOND_NAV_HEIGHT,
+	SUB_COLOR,
 	WHITE_COLOR,
 } from './global';
 import background from '../images/bg_3.png';
@@ -188,7 +189,7 @@ export const ServerNavItem = styled(Nav.Item)`
 	padding-left: ${(props) => props.left};
 	background-color: ${(props) => props.back};
 	&:hover {
-		background-color: ${HIGHLIGHT_COLOR};
+		background-color: ${SUB_COLOR};
 	}
 `;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 const OneColForm = ({keyword, value, onChangeValue}) => {
 	const valueObject = {

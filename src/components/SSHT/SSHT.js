@@ -12,14 +12,14 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 
 const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const {current_tab} = useSelector((state) => state.common);
-	const {font_size, search_mode} = useSelector((state) => state.ssht);
+	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
 
 	const sshTerm = useRef(
 		new Terminal({
 			cursorBlink: true,
 			minimumContrastRatio: 7,
-			theme: {selection: '#FCFD08'},
+			theme: {selection: '#FCFD08', fontFamily: font},
 		}),
 	);
 	const fitAddon = useRef(new FitAddon());
@@ -44,7 +44,6 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		ws.onmessage = (evt) => {
 			const message = GetMessage(evt);
-			console.log(message);
 			if (message.type === 'COMMAND')
 				sshTerm.current.write(message.result);
 			else console.log('V SSHT onmessage: ', message);
@@ -63,6 +62,10 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 		};
 	}, [index, uuid, ws]);
+
+	useEffect(() => {
+		sshTerm.current.setOption('theme', {fontFamily: font});
+	}, [font]);
 
 	useEffect(() => {
 		sshTerm.current.setOption('fontSize', font_size);

@@ -2,8 +2,9 @@ import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
+import * as PropTypes from 'prop-types';
 
-import {SAVE_SERVER} from '../../reducers/common';
+import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {AddServerModal, IconButton} from '../../styles/common';
@@ -13,23 +14,36 @@ import Button from './Button';
 import TwoColsOptionForm from './TwoColsOptionForm';
 import TwoColsForm from './TwoColsForm';
 import OneColButtonForm from './OneColButtonForm';
-import * as PropTypes from 'prop-types';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
-const AddServerForm = ({showForm, setShowForm}) => {
+const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
-	const {me} = useSelector((state) => state.common);
+	const {me, server} = useSelector((state) => state.common);
+	const data = server.find((v) => v.id === id);
 
-	const [name, onChangeName, setName] = useInput('Test');
-	const [protocol, setProtocol] = useState('SSH2');
-	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
-	const [port, onChangePort, setPort] = useInput(10021);
-	const [user, onChangeUser, setUser] = useInput('root');
+	const [name, onChangeName, setName] = useInput(
+		type === 'edit' ? data.name : 'Test',
+	);
+	const [protocol, setProtocol] = useState(
+		type === 'edit' ? data.name : 'SSH2',
+	);
+	const [host, onChangeHost, setHost] = useInput(
+		type === 'edit' ? data.host : '211.253.10.9',
+	);
+	const [port, onChangePort, setPort] = useInput(
+		type === 'edit' ? data.port : 10021,
+	);
+	const [user, onChangeUser, setUser] = useInput(
+		type === 'edit' ? data.user : 'root',
+	);
 	const [authentication, setAuthentication] = useState('Password');
 	const [key, onChangeKey] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('Netand141)');
+	const [password, onChangePassword, setPassword] = useInput(
+		type === 'edit' ? data.password : 'Netand141)',
+	);
 	const [note, onChangeNote, setNote] = useInput('');
-	const [open, setOpen] = useState(false);
+
+	const [openAlert, setOpenAlert] = useState(false);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -40,7 +54,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 			ws.binaryType = 'arraybuffer';
 
 			ws.onerror = () => {
-				setOpen(true);
+				setOpenAlert(true);
 			};
 
 			ws.onopen = () => {
@@ -59,22 +73,37 @@ const AddServerForm = ({showForm, setShowForm}) => {
 
 			ws.onmessage = (evt) => {
 				const message = GetMessage(evt);
-				console.log(message);
 
 				if (message.type === 'CONNECT') {
-					dispatch({
-						type: SAVE_SERVER,
-						data: {
-							name: name,
-							host: host,
-							user: user,
-							password: password,
-							port: port,
-						},
-					});
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+					if (type === 'add')
+						dispatch({
+							type: SAVE_SERVER,
+							data: {
+								name: name,
+								host: host,
+								user: user,
+								password: password,
+								port: port,
+							},
+						});
+					else if (type === 'edit') {
+						dispatch({
+							type: EDIT_SERVER,
+							data: {
+								id: id,
+								data: {
+									name: name,
+									host: host,
+									user: user,
+									password: password,
+									port: port,
+								},
+							},
+						});
+					}
 				} else if (message.type === 'DISCONNECT') {
-					setShowForm(false);
+					setOpen(false);
 				} else console.log('V AddServerForm onmessage: ', message);
 			};
 		},
@@ -82,7 +111,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 	);
 
 	const onClickCloseForm = useCallback(() => {
-		setShowForm(false);
+		setOpen(false);
 		setName('');
 		setProtocol('SSH2');
 		setHost('');
@@ -96,7 +125,7 @@ const AddServerForm = ({showForm, setShowForm}) => {
 	return (
 		<div>
 			<AddServerModal
-				show={showForm}
+				show={open}
 				onHide={onClickCloseForm}
 				backdrop='static'
 				keyboard={false}
@@ -163,16 +192,18 @@ const AddServerForm = ({showForm, setShowForm}) => {
 			</AddServerModal>
 			<AlertPopup
 				keyword='invalid_server'
-				open={open}
-				setOpen={setOpen}
+				open={openAlert}
+				setOpen={setOpenAlert}
 			/>
 		</div>
 	);
 };
 
 AddServerForm.propTypes = {
-	showForm: PropTypes.bool.isRequired,
-	setShowForm: PropTypes.func.isRequired,
+	open: PropTypes.bool.isRequired,
+	setOpen: PropTypes.func.isRequired,
+	type: PropTypes.string.isRequired,
+	id: PropTypes.number,
 };
 
 export default AddServerForm;

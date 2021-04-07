@@ -3,11 +3,14 @@ import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import AddServerForm from './AddServerForm/AddServerForm';
 import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
+import {useDispatch} from 'react-redux';
+import {CHANGE_OPEN_ADD_SERVER_FORM} from '../reducers/common';
 
 const FolderContextMenu = ({data, indent, setOpenRename}) => {
+	const dispatch = useDispatch();
+
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
-	const [showAddServerForm, setShowAddServerForm] = useState(false);
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const MENU_ID = data.key + 'folder';
@@ -16,7 +19,7 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'New Server':
-				setShowAddServerForm(true);
+				dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: true});
 				break;
 			case 'New Folder':
 				setAddFolderOpen(true);
@@ -52,10 +55,7 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 					Delete
 				</Item>
 			</Menu>
-			<AddServerForm
-				showForm={showAddServerForm}
-				setShowForm={setShowAddServerForm}
-			/>
+
 			<ConfirmPopup
 				keyword={'add_folder'}
 				open={addFolderOpen}

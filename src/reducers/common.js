@@ -7,7 +7,6 @@ export const initialState = {
 	max_display_tab: 1,
 	cols: 1,
 	minimize: false,
-
 	server_index: 4,
 	folder_index: 5,
 	nav: [
@@ -154,6 +153,8 @@ export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
+export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
+export const EDIT_SERVER = 'EDIT_SERVER';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -253,14 +254,6 @@ function addDataOnNode(nav, clicked_server, data) {
 	else node.push(data);
 }
 
-function replaceDataOnNode(nav, clicked_server, prevData, data, index) {
-	let node = null;
-	if (!clicked_server) node = nav;
-	node = searchParentTreeStart(nav, clicked_server);
-	console.log(node?.contain.splice(index, 1, data));
-	node?.contain.splice(index, 1, data);
-}
-
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
@@ -288,13 +281,9 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_SERVER_FOLDER_NAME: {
-				replaceDataOnNode(
-					draft.nav,
-					draft.clicked_server,
-					action.data.prev,
-					action.data.next,
-					action.data.index,
-				);
+				searchTreeStart(draft.nav, draft.clicked_server).name =
+					action.data.next.name;
+
 				if (draft.clicked_server[0] === 's') {
 					const keyIndex = draft.server.findIndex(
 						(item) => item.key === action.data.next.key,
@@ -308,6 +297,25 @@ const reducer = (state = initialState, action) => {
 					);
 					draft.server.splice(keyIndex, 1, nextServer);
 				}
+				break;
+			}
+
+			case EDIT_SERVER: {
+				const index = state.server.findIndex(
+					(v) => v.id === action.data.id,
+				);
+				const newServer = {
+					...state.server[index],
+					...action.data.data,
+				};
+
+				draft.server = [
+					...state.server.slice(0, index),
+					newServer,
+					...state.server.slice(index + 1),
+				];
+
+				searchTreeStart(draft.nav, newServer.key).name = newServer.name;
 				break;
 			}
 

@@ -8,9 +8,11 @@ import {GetMessage} from '../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../reducers/common';
 import newSftp_ws from '../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../reducers/sftp';
+import AddServerForm from './AddServerForm/AddServerForm';
 
 const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
+	const [openAddServerForm, setOpenAddServerForm] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const {clicked_server, server, me} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				setOpen(true);
 				break;
 			case 'Properties':
-				// setOpen(true);
+				setOpenAddServerForm(true);
 				break;
 			default:
 				return;
@@ -135,6 +137,12 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				keyword={'delete_server'}
 				open={open}
 				setOpen={setOpen}
+			/>
+			<AddServerForm
+				setOpen={setOpenAddServerForm}
+				open={openAddServerForm}
+				type='edit'
+				id={data.id}
 			/>
 		</>
 	);

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Form, Col} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 const TwoColsOptionForm = ({keyword, value1, onChange1, value2, setValue2}) => {
 	const valueObject = {

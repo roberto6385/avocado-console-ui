@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form, Col} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 const TwoColsForm = ({keyword, value1, onChange1, value2, onChange2}) => {
 	const valueObject = {
@@ -51,7 +51,7 @@ TwoColsForm.propTypes = {
 	keyword: PropTypes.string.isRequired,
 	value1: PropTypes.string.isRequired,
 	onChange1: PropTypes.func.isRequired,
-	value2: PropTypes.string.isRequired,
+	value2: PropTypes.number.isRequired,
 	onChange2: PropTypes.func.isRequired,
 };
 

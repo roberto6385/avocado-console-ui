@@ -1,11 +1,13 @@
-import React, {useCallback} from 'react';
-import * as PropTypes from 'prop-types';
+import React, {useCallback, useState} from 'react';
 
 import {AddServerButton, Background} from '../styles/common';
+import AddServerForm from './AddServerForm/AddServerForm';
 
-const MainPage = ({setShowAddServerForm}) => {
+const MainPage = () => {
+	const [open, setOpen] = useState(false);
+
 	const onClickVisibleForm = useCallback(() => {
-		setShowAddServerForm(true);
+		setOpen(true);
 	}, []);
 
 	return (
@@ -13,11 +15,9 @@ const MainPage = ({setShowAddServerForm}) => {
 			<AddServerButton onClick={onClickVisibleForm}>
 				Add Server
 			</AddServerButton>
+			<AddServerForm open={open} setOpen={setOpen} type='add' />
 		</Background>
 	);
 };
 
-MainPage.propTypes = {
-	setShowAddServerForm: PropTypes.func.isRequired,
-};
 export default MainPage;

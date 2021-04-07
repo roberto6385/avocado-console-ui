@@ -1,13 +1,15 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
-
+import styled from 'styled-components';
+import {useContextMenu} from 'react-contexify';
 import {Collapse} from 'react-bootstrap';
-import {IconButton, ServerNavItem} from '../../styles/common';
 import {
 	MdKeyboardArrowDown,
 	MdKeyboardArrowRight,
 	RiFolder2Line,
 } from 'react-icons/all';
+
+import {IconButton, ServerNavItem} from '../../styles/common';
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
@@ -16,12 +18,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
-import {useContextMenu} from 'react-contexify';
-import {CustomTable} from '../../styles/sftp';
-import FileListContextMenu from '../SFTP/FileListContextMenu';
 import FolderContextMenu from '../FolderContextMenu';
-import ServerContextMenu from '../ServerContextMenu';
-import styled from 'styled-components';
 import {iteratorAllObject} from '../iteratorAllObject';
 
 const RenameForm = styled.form`
