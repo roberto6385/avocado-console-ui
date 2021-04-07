@@ -22,6 +22,7 @@ import FileListContextMenu from '../SFTP/FileListContextMenu';
 import FolderContextMenu from '../FolderContextMenu';
 import ServerContextMenu from '../ServerContextMenu';
 import styled from 'styled-components';
+import {iteratorAllObject} from '../iteratorAllObject';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -81,17 +82,16 @@ const Folder = ({data, indent}) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(data, indent);
-		const newData = Object.assign({}, data, {name: renameValue});
+		const depth = await iteratorAllObject(nav, data);
 
+		const newData = Object.assign({}, data, {name: renameValue});
 		dispatch({
 			type: CHANGE_SERVER_FOLDER_NAME,
-			data: {prev: data, next: newData},
+			data: {prev: data, next: newData, index: depth[depth.length - 1]},
 		});
-
 		// const depth = await iteratorAllObject(nav, data);
 		// console.log(newData);
 		// console.log(depth);
-
 		setOpenRename(false);
 	};
 
@@ -107,47 +107,6 @@ const Folder = ({data, indent}) => {
 			renameRef.current.focus();
 		}
 	}, [openRename]);
-
-	// nav 배열 순회하면서 특정 객체 검색하는 funciton
-	// 순회할 nav , 검색할 selectedItem 을 인수로 넣고 then으로 위치값 받으면 됩니다.
-	const iteratorAllObject = useCallback((iterableItem, selectedItem) => {
-		return new Promise((resolve) => {
-			const initArray = [];
-			const locationArray = [];
-			const iteratorFunc = (item) =>
-				item.forEach((pNode) => {
-					const currentLocation = item.findIndex(
-						(it) => it === pNode,
-					);
-					initArray.push(
-						currentLocation === 0 ? '/0' : currentLocation,
-					);
-					if (
-						JSON.stringify(pNode) === JSON.stringify(selectedItem)
-					) {
-						const initString = initArray.join('');
-						initString
-							.split('/')
-							.splice(1)
-							.forEach((str) => {
-								locationArray.push(
-									parseInt(str.slice(str.length - 1)),
-								);
-							});
-						resolve(locationArray);
-					} else {
-						// eslint-disable-next-line no-prototype-builtins
-						if (pNode.hasOwnProperty('contain')) {
-							// eslint-disable-next-line no-unused-vars
-							iteratorFunc(pNode.contain);
-						} else {
-							initArray.pop();
-						}
-					}
-				});
-			iteratorFunc(iterableItem);
-		});
-	}, []);
 
 	return (
 		<>

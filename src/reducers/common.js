@@ -253,14 +253,10 @@ function addDataOnNode(nav, clicked_server, data) {
 	else node.push(data);
 }
 
-function replaceDataOnNode(nav, clicked_server, prevData, data) {
+function replaceDataOnNode(nav, clicked_server, prevData, data, index) {
 	let node = null;
 	if (!clicked_server) node = nav;
-	// else if (clicked_server[0] === 's')
 	node = searchParentTreeStart(nav, clicked_server);
-	// else node = searchTreeStart(nav, clicked_server);
-	const index = node.contain.indexOf(prevData);
-	console.log(index);
 	console.log(node?.contain.splice(index, 1, data));
 	node?.contain.splice(index, 1, data);
 }
@@ -297,7 +293,21 @@ const reducer = (state = initialState, action) => {
 					draft.clicked_server,
 					action.data.prev,
 					action.data.next,
+					action.data.index,
 				);
+				if (draft.clicked_server[0] === 's') {
+					const keyIndex = draft.server.findIndex(
+						(item) => item.key === action.data.next.key,
+					);
+					const nextServer = Object.assign(
+						{},
+						draft.server[keyIndex],
+						{
+							name: action.data.next.name,
+						},
+					);
+					draft.server.splice(keyIndex, 1, nextServer);
+				}
 				break;
 			}
 

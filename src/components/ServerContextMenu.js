@@ -9,7 +9,7 @@ import {OPEN_TAB} from '../reducers/common';
 import newSftp_ws from '../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../reducers/sftp';
 
-const ServerContextMenu = ({data, indent}) => {
+const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const {clicked_server, server, me} = useSelector((state) => state.common);
@@ -27,7 +27,7 @@ const ServerContextMenu = ({data, indent}) => {
 				openSFTP();
 				break;
 			case 'Rename':
-				// setOpen(true);
+				setOpenRename(true);
 				break;
 			case 'Delete':
 				setOpen(true);
@@ -143,6 +143,7 @@ const ServerContextMenu = ({data, indent}) => {
 ServerContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
+	setOpenRename: PropTypes.func.isRequired,
 };
 
 export default ServerContextMenu;
