@@ -102,18 +102,14 @@ const Server = ({data, indent}) => {
 		console.log(data, indent);
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(data, indent);
-		const depth = await iteratorAllObject(nav, data);
 		const newData = Object.assign({}, data, {name: renameValue});
 		dispatch({
 			type: CHANGE_SERVER_FOLDER_NAME,
-			data: {prev: data, next: newData, index: depth[depth.length - 1]},
+			data: {next: newData},
 		});
-		// const depth = await iteratorAllObject(nav, data);
-		// console.log(newData);
-		// console.log(depth);
 		setOpenRename(false);
 	};
 
