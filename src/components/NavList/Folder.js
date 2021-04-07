@@ -19,7 +19,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import FolderContextMenu from '../FolderContextMenu';
-import {iteratorAllObject} from '../iteratorAllObject';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -43,9 +42,7 @@ const Folder = ({data, indent}) => {
 	const [open, setOpen] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
-	const {clicked_server, server, me, nav} = useSelector(
-		(state) => state.common,
-	);
+	const {clicked_server} = useSelector((state) => state.common);
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -78,17 +75,10 @@ const Folder = ({data, indent}) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(data, indent);
-		const depth = await iteratorAllObject(nav, data);
-
-		const newData = Object.assign({}, data, {name: renameValue});
 		dispatch({
 			type: CHANGE_SERVER_FOLDER_NAME,
-			data: {prev: data, next: newData, index: depth[depth.length - 1]},
+			data: renameValue,
 		});
-		// const depth = await iteratorAllObject(nav, data);
-		// console.log(newData);
-		// console.log(depth);
 		setOpenRename(false);
 	};
 

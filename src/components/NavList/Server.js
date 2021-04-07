@@ -12,12 +12,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
-import {contextMenu, useContextMenu} from 'react-contexify';
-import {CustomTable} from '../../styles/sftp';
-import FileListContextMenu from '../SFTP/FileListContextMenu';
+import {useContextMenu} from 'react-contexify';
 import ServerContextMenu from '../ServerContextMenu';
 import styled from 'styled-components';
-import {iteratorAllObject} from '../iteratorAllObject';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -33,9 +30,7 @@ const RenameInput = styled.input`
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, me, nav} = useSelector(
-		(state) => state.common,
-	);
+	const {clicked_server, server, me} = useSelector((state) => state.common);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, setRenameValue] = useState('');
@@ -104,16 +99,10 @@ const Server = ({data, indent}) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(data, indent);
-		const depth = await iteratorAllObject(nav, data);
-		const newData = Object.assign({}, data, {name: renameValue});
 		dispatch({
 			type: CHANGE_SERVER_FOLDER_NAME,
-			data: {prev: data, next: newData, index: depth[depth.length - 1]},
+			data: renameValue,
 		});
-		// const depth = await iteratorAllObject(nav, data);
-		// console.log(newData);
-		// console.log(depth);
 		setOpenRename(false);
 	};
 
