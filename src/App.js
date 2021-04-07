@@ -5,7 +5,7 @@ import './styles/default.css'; //html, body => padding,margin : 0, box-sizing : 
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
 
-import {NotFound, Main, Login} from './pages';
+import {NotFound, Main, Login, Setting} from './pages';
 
 class App extends Component {
 	render() {
@@ -13,6 +13,7 @@ class App extends Component {
 			<BrowserRouter>
 				<Switch>
 					<Route path='/login' component={Login} />
+					<Route path='/setting' component={Setting} />
 					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>

@@ -7,7 +7,6 @@ export const initialState = {
 	max_display_tab: 1,
 	cols: 1,
 	minimize: false,
-	open_add_server_form: false,
 	server_index: 4,
 	folder_index: 5,
 	nav: [
@@ -132,6 +131,7 @@ export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
+export const EDIT_SERVER = 'EDIT_SERVER';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -377,10 +377,24 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data;
 				break;
 
-			case CHANGE_OPEN_ADD_SERVER_FORM:
-				draft.open_add_server_form = action.data;
-				break;
+			case EDIT_SERVER: {
+				const index = state.server.findIndex(
+					(v) => v.id === action.data.id,
+				);
+				const newServer = {
+					...state.server[index],
+					...action.data.data,
+				};
 
+				draft.server = [
+					...state.server.slice(0, index),
+					newServer,
+					...state.server.slice(index + 1),
+				];
+
+				searchTreeStart(draft.nav, newServer.key).name = newServer.name;
+				break;
+			}
 			default:
 				break;
 		}

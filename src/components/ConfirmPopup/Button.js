@@ -7,6 +7,7 @@ import {SAVE_KEYWORDS} from './ConfirmPopup';
 
 const Button = ({keyword, cancelFunction, submitFunction}) => {
 	const buttonRef = useRef(null);
+
 	useEffect(() => {
 		buttonRef?.current.focus();
 	}, []);

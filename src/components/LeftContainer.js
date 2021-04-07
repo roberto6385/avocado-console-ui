@@ -5,12 +5,14 @@ import {
 	FaPlus,
 	FaRegTrashAlt,
 	FaSearch,
+	FiSettings,
 	GrLogout,
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
 import {
+	Background,
 	Header,
 	IconButton,
 	OutlineCol,
@@ -26,13 +28,16 @@ import {
 } from '../reducers/common';
 
 import NavList from './NavList/NavList';
+import AddServerForm from './AddServerForm/AddServerForm';
+import {Link, Redirect} from 'react-router-dom';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
 	const {minimize, clicked_server} = useSelector((state) => state.common);
 	const [search, setSearch] = useState('');
 	const [activeSearch, setActiveSearch] = useState(false);
-	const [open, setOpen] = useState(false);
+	const [openConfirm, setOpenConfirm] = useState(false);
+	const [openAddServerForm, setOpenAddServerForm] = useState(false);
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
@@ -40,12 +45,12 @@ const LeftContainer = () => {
 	}, [clicked_server, addFolderOpen]);
 
 	const onClickVisibleForm = useCallback(() => {
-		dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: true});
+		setOpenAddServerForm(true);
 	}, []);
 
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
-			setOpen(true);
+			setOpenConfirm(true);
 		}
 	}, [clicked_server]);
 
@@ -101,6 +106,9 @@ const LeftContainer = () => {
 					<IconButton onClick={() => sideBarhandleSize('minimize')}>
 						<AiFillEyeInvisible />
 					</IconButton>
+					<IconButton as={Link} to='/setting'>
+						<FiSettings />
+					</IconButton>
 				</Nav.Item>
 			</Header>
 			<Collapse in={activeSearch}>
@@ -116,13 +124,18 @@ const LeftContainer = () => {
 			<NavList />
 			<ConfirmPopup
 				keyword={'delete_server'}
-				open={open}
-				setOpen={setOpen}
+				open={openConfirm}
+				setOpen={setOpenConfirm}
 			/>
 			<ConfirmPopup
 				keyword={'add_folder'}
 				open={addFolderOpen}
 				setOpen={setAddFolderOpen}
+			/>
+			<AddServerForm
+				open={openAddServerForm}
+				setOpen={setOpenAddServerForm}
+				type='add'
 			/>
 		</OutlineCol>
 	) : (
