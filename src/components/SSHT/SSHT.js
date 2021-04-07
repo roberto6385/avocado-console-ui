@@ -44,7 +44,6 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 
 		ws.onmessage = (evt) => {
 			const message = GetMessage(evt);
-			console.log(message);
 			if (message.type === 'COMMAND')
 				sshTerm.current.write(message.result);
 			else console.log('V SSHT onmessage: ', message);

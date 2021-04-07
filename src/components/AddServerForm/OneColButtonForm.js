@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Form} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import {Form} from 'react-bootstrap';
+import * as PropTypes from 'prop-types';
 
 const OneColButtonForm = ({keyword, value, onChangeValue}) => {
 	const valueObject = {

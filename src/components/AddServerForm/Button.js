@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import {AddServerButtonContainer, PopupButton} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';

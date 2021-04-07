@@ -2,12 +2,9 @@ import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
+import * as PropTypes from 'prop-types';
 
-import {
-	CHANGE_OPEN_ADD_SERVER_FORM,
-	EDIT_SERVER,
-	SAVE_SERVER,
-} from '../../reducers/common';
+import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {AddServerModal, IconButton} from '../../styles/common';
@@ -17,7 +14,6 @@ import Button from './Button';
 import TwoColsOptionForm from './TwoColsOptionForm';
 import TwoColsForm from './TwoColsForm';
 import OneColButtonForm from './OneColButtonForm';
-import * as PropTypes from 'prop-types';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
 const AddServerForm = ({open, setOpen, type, id}) => {
@@ -116,14 +112,14 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 
 	const onClickCloseForm = useCallback(() => {
 		setOpen(false);
-		// setName('');
-		// setProtocol('SSH2');
-		// setHost('');
-		// setPort('');
-		// setUser('');
-		// setAuthentication('Password');
-		// setPassword('');
-		// setNote('');
+		setName('');
+		setProtocol('SSH2');
+		setHost('');
+		setPort('');
+		setUser('');
+		setAuthentication('Password');
+		setPassword('');
+		setNote('');
 	}, []);
 
 	return (

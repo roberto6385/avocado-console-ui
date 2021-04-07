@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import {ModalFooter, PopupButton} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
