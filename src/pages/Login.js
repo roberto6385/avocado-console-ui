@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/Form/LoginForm';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {MainContainer} from '../styles/page';

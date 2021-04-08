@@ -2,9 +2,9 @@ import React, {useCallback} from 'react';
 import {Form, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 
-import useInput from '../hooks/useInput';
-import auth_ws from '../ws/auth_ws';
-import {LOGIN} from '../reducers/user';
+import useInput from '../../hooks/useInput';
+import auth_ws from '../../ws/auth_ws';
+import {LOGIN} from '../../reducers/user';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
