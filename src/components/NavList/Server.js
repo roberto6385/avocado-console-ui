@@ -7,6 +7,7 @@ import {
 	CHANGE_SERVER_FOLDER_NAME,
 	OPEN_TAB,
 	SET_CLICKED_SERVER,
+	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
@@ -119,6 +120,17 @@ const Server = ({data, indent}) => {
 		}
 	};
 
+	const prevPutItem = (data) => {
+		dispatch({type: SET_CLICKED_SERVER, data: data.key});
+	};
+
+	const nextPutItem = (e, item) => {
+		e.stopPropagation();
+		console.log(item);
+		item.type === 'folder' &&
+			dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
+	};
+
 	useEffect(() => {
 		setRenameValue(data.name);
 		if (renameRef.current) {
@@ -130,6 +142,9 @@ const Server = ({data, indent}) => {
 		<>
 			<ServerNavItem
 				onClick={onHybridClick}
+				draggable='true'
+				onDragStart={() => prevPutItem(data)}
+				onDrop={(e) => nextPutItem(e, data)}
 				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}

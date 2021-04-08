@@ -287,22 +287,35 @@ const reducer = (state = initialState, action) => {
 					draft.nav,
 					draft.clicked_server,
 				);
-
 				// 이동할 데이터
 				const prev = searchTreeStart(draft.nav, draft.clicked_server);
-				// 이동시킬 위치
-				const node = searchTreeStart(draft.nav, action.data.next.key);
-				// 이동시킬 위치에 삭제한 데이터 추가
-				if (node.contain) node.contain.push(prev);
-				else node.push(prev);
 
-				// 부모에서 이동시킬 데이터 삭제
-				if (draft.nav.includes(prev)) {
-					const index = draft.nav.indexOf(prev);
-					draft.nav.splice(index, 1);
-				} else {
+				// 가장자리로 보내는지 아닌지 체크
+				if (action.data.next === 'toEdge') {
+					// 가장 상위 위치에 데이터 추가
+					draft.nav.push(prev);
+
+					// 부모에서 이동시킨 데이터 삭제
 					const index = parent.contain.indexOf(prev);
 					parent.contain.splice(index, 1);
+				} else {
+					// 이동시킬 위치
+					const node = searchTreeStart(
+						draft.nav,
+						action.data.next.key,
+					);
+					// 이동시킬 위치에 삭제한 데이터 추가
+					if (node.contain) node.contain.push(prev);
+					else node.push(prev);
+
+					// 부모에서 이동시킨 데이터 삭제
+					if (draft.nav.includes(prev)) {
+						const index = draft.nav.indexOf(prev);
+						draft.nav.splice(index, 1);
+					} else {
+						const index = parent.contain.indexOf(prev);
+						parent.contain.splice(index, 1);
+					}
 				}
 
 				break;

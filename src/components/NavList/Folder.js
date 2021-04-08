@@ -102,22 +102,11 @@ const Folder = ({data, indent}) => {
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 	};
 
-	const nextPutItem = (item) => {
+	const nextPutItem = (e, item) => {
+		e.stopPropagation();
 		console.log(item);
-		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
-
-		// console.log(oldOlder);
-		// const newOlder = tab.findIndex((it) => it === item);
-		// console.log(tab.findIndex((it) => it === item)); //바뀐위치
-		// console.log(draggedItem);
-		// dispatch({
-		// 	type: SORT_TAB,
-		// 	data: {
-		// 		oldOrder: oldOlder,
-		// 		newOrder: newOlder,
-		// 		newTab: draggedItem,
-		// 	},
-		// });
+		item.type === 'folder' &&
+			dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
 	};
 
 	useEffect(() => {
@@ -133,7 +122,7 @@ const Folder = ({data, indent}) => {
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={() => prevPutItem(data)}
-				onDrop={() => nextPutItem(data)}
+				onDrop={(e) => nextPutItem(e, data)}
 				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
