@@ -29,12 +29,13 @@ import {
 
 import NavList from './NavList/NavList';
 import AddServerForm from './AddServerForm/AddServerForm';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import useInput from '../hooks/useInput';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
 	const {minimize, clicked_server} = useSelector((state) => state.common);
-	const [search, setSearch] = useState('');
+	const [search, onChangeSearch, setSearch] = useInput('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
 	const [openAddServerForm, setOpenAddServerForm] = useState(false);
@@ -58,10 +59,6 @@ const LeftContainer = () => {
 		if (activeSearch) setSearch('');
 		setActiveSearch(!activeSearch);
 	}, [activeSearch]);
-
-	const onChangeSearch = useCallback((e) => {
-		setSearch(e.target.value);
-	}, []);
 
 	const onClickLogout = useCallback(() => {
 		dispatch({
@@ -121,7 +118,7 @@ const LeftContainer = () => {
 					/>
 				</Nav.Item>
 			</Collapse>
-			<NavList />
+			<NavList search={search} />
 			<ConfirmPopup
 				keyword={'delete_server'}
 				open={openConfirm}

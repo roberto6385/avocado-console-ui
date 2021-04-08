@@ -79,32 +79,26 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 
 				if (message.type === 'CONNECT') {
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+					const newData = {
+						name: name,
+						host: host,
+						user: user,
+						password: password,
+						port: port,
+					};
 					if (type === 'add')
 						dispatch({
 							type: SAVE_SERVER,
-							data: {
-								name: name,
-								host: host,
-								user: user,
-								password: password,
-								port: port,
-							},
+							data: newData,
 						});
-					else if (type === 'edit') {
+					else if (type === 'edit')
 						dispatch({
 							type: EDIT_SERVER,
 							data: {
 								id: id,
-								data: {
-									name: name,
-									host: host,
-									user: user,
-									password: password,
-									port: port,
-								},
+								data: newData,
 							},
 						});
-					}
 				} else if (message.type === 'DISCONNECT') {
 					setOpen(false);
 				} else console.log('V AddServerForm onmessage: ', message);
