@@ -148,6 +148,7 @@ export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
 export const SORT_TAB = 'SORT_TAB';
+export const SORT_SERVER_AND_FOLDER = 'SORT_SERVER_AND_FOLDER';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
@@ -277,6 +278,27 @@ const reducer = (state = initialState, action) => {
 				addDataOnNode(draft.nav, draft.clicked_server, data);
 
 				draft.folder_index++;
+				break;
+			}
+
+			case SORT_SERVER_AND_FOLDER: {
+				// 이동할 데이터의 부모
+				const parent = searchParentTreeStart(
+					draft.nav,
+					draft.clicked_server,
+				);
+
+				const index = parent.contain.indexOf(action.data.next);
+				// 부모에서 이동시킬 데이터 삭제
+				parent.contain.splice(index, 1);
+				// 이동할 데이터
+				const prev = searchTreeStart(draft.nav, draft.clicked_server);
+				// 이동시킬 위치
+				const node = searchTreeStart(draft.nav, action.data.next.key);
+				// 이동시킬 위치에 삭제한 데이터 추가
+				if (node.contain) node.contain.push(prev);
+				else node.push(prev);
+
 				break;
 			}
 

@@ -13,10 +13,13 @@ import {
 import background from '../images/bg_3.png';
 import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
 
-export const PopupButton = styled(Button)`
+export const PopupButton = styled(Button).attrs((props) => ({
+	style: {
+		backgroundColor: props.back,
+	},
+}))`
 	width: 100px;
 	margin: 10px;
-	background-color: ${(props) => props.back};
 	border: none;
 	color: white;
 	&:hover {
@@ -182,12 +185,15 @@ export const FaServerIcon = styled(FaServer)`
 	font-size: 25px;
 `;
 
-export const ServerNavItem = styled(Nav.Item)`
+export const ServerNavItem = styled(Nav.Item).attrs((props) => ({
+	style: {
+		paddingLeft: props.left,
+		backgroundColor: props.back,
+	},
+}))`
 	display: flex;
 	align-items: center;
 	padding: 15px;
-	padding-left: ${(props) => props.left};
-	background-color: ${(props) => props.back};
 	&:hover {
 		background-color: ${SUB_COLOR};
 	}

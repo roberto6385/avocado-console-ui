@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {NavLink} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -62,14 +62,6 @@ const TabNavBar = () => {
 		[dispatch, tab],
 	);
 
-	const sortableTabNav = document.getElementById('sortableTabNav');
-	sortableTabNav !== null &&
-		Sortable.create(sortableTabNav, {
-			// group: 'sorting',
-			sort: false,
-			direction: 'horizontal',
-		});
-
 	const prevPutItem = (item) => {
 		// console.log(tab.findIndex((it) => it === item)); //이전 위치
 		setOldOlder(tab.findIndex((it) => it === item));
@@ -91,6 +83,16 @@ const TabNavBar = () => {
 			},
 		});
 	};
+
+	useEffect(() => {
+		const sortableTabNav = document.getElementById('sortableTabNav');
+		sortableTabNav !== null &&
+			Sortable.create(sortableTabNav, {
+				// group: 'sorting',
+				sort: false,
+				direction: 'horizontal',
+			});
+	}, []);
 
 	return (
 		<TabContainer

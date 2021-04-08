@@ -9,11 +9,13 @@ import {
 	RiFolder2Line,
 } from 'react-icons/all';
 
-import {IconButton, ServerNavItem} from '../../styles/common';
+import {IconButton, ServerNavItem, TabNavItem} from '../../styles/common';
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
+	SORT_SERVER_AND_FOLDER,
+	SORT_TAB,
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
@@ -43,6 +45,8 @@ const Folder = ({data, indent}) => {
 	const [open, setOpen] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
+	const [draggedItem, setDraggedItem] = useState({});
+
 	const {clicked_server, server, me, nav} = useSelector(
 		(state) => state.common,
 	);
@@ -94,6 +98,28 @@ const Folder = ({data, indent}) => {
 		}
 	};
 
+	const prevPutItem = (data) => {
+		dispatch({type: SET_CLICKED_SERVER, data: data.key});
+	};
+
+	const nextPutItem = (item) => {
+		console.log(item);
+		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
+
+		// console.log(oldOlder);
+		// const newOlder = tab.findIndex((it) => it === item);
+		// console.log(tab.findIndex((it) => it === item)); //바뀐위치
+		// console.log(draggedItem);
+		// dispatch({
+		// 	type: SORT_TAB,
+		// 	data: {
+		// 		oldOrder: oldOlder,
+		// 		newOrder: newOlder,
+		// 		newTab: draggedItem,
+		// 	},
+		// });
+	};
+
 	useEffect(() => {
 		setRenameValue(data.name);
 		if (renameRef.current) {
@@ -105,6 +131,9 @@ const Folder = ({data, indent}) => {
 		<>
 			<ServerNavItem
 				onClick={onHybridClick}
+				draggable='true'
+				onDragStart={() => prevPutItem(data)}
+				onDrop={() => nextPutItem(data)}
 				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
