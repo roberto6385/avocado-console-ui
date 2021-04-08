@@ -103,9 +103,12 @@ const Folder = ({open, data, indent}) => {
 
 	const nextPutItem = (e, item) => {
 		e.stopPropagation();
-		console.log(item);
+		console.log(item, indent);
 		item.type === 'folder' &&
-			dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
+			dispatch({
+				type: SORT_SERVER_AND_FOLDER,
+				data: {next: item, indent: parseInt(indent)},
+			});
 	};
 
 	useEffect(() => {

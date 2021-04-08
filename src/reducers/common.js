@@ -138,7 +138,6 @@ export const initialState = {
 	tab: [],
 };
 
-
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
@@ -256,7 +255,6 @@ function addDataOnNode(nav, clicked_server, data) {
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-
 			case ADD_FOLDER: {
 				const data = {
 					type: 'folder',
@@ -274,27 +272,59 @@ const reducer = (state = initialState, action) => {
 
 			case SORT_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
-				const parent = searchParentTreeStart(
+				const prevParent = searchParentTreeStart(
 					draft.nav,
 					draft.clicked_server,
 				);
 				// 이동할 데이터
 				const prev = searchTreeStart(draft.nav, draft.clicked_server);
 
-				// 가장자리로 보내는지 아닌지 체크
+				// 이동시킬 위치의 부모
+				let nextParent = searchParentTreeStart(
+					draft.nav,
+					action.data.next.key,
+				);
+				// 이동시킬 위치
+				const node = searchTreeStart(draft.nav, action.data.next.key);
+
+				if (prev === node) return;
+				if (prevParent === draft.nav && action.data.next === 'toEdge')
+					return;
+
+				let i = 1;
+				while (nextParent !== draft.nav) {
+					if (nextParent === prev) break;
+					i = i + 1;
+					nextParent = searchParentTreeStart(
+						draft.nav,
+						nextParent.key,
+					);
+				}
+
+				if (action.data.next !== 'toEdge' && i !== action.data.indent)
+					return;
+
 				if (action.data.next === 'toEdge') {
+					// let i = 1;
+					// while (nextParent !== draft.nav) {
+					// 	nextParent = searchParentTreeNode(
+					// 		draft.nav,
+					// 		nextParent.key,
+					// 	);
+					// 	i = i + 1;
+					// }
+					// if (action.data.indent !== i) {
+					// 	return;
+					// }
+
+					// 가장자리로 보내는지 아닌지 체크
 					// 가장 상위 위치에 데이터 추가
 					draft.nav.push(prev);
 
 					// 부모에서 이동시킨 데이터 삭제
-					const index = parent.contain.indexOf(prev);
-					parent.contain.splice(index, 1);
+					const index = prevParent.contain.indexOf(prev);
+					prevParent.contain.splice(index, 1);
 				} else {
-					// 이동시킬 위치
-					const node = searchTreeStart(
-						draft.nav,
-						action.data.next.key,
-					);
 					// 이동시킬 위치에 삭제한 데이터 추가
 					if (node.contain) node.contain.push(prev);
 					else node.push(prev);
@@ -304,8 +334,8 @@ const reducer = (state = initialState, action) => {
 						const index = draft.nav.indexOf(prev);
 						draft.nav.splice(index, 1);
 					} else {
-						const index = parent.contain.indexOf(prev);
-						parent.contain.splice(index, 1);
+						const index = prevParent.contain.indexOf(prev);
+						prevParent.contain.splice(index, 1);
 					}
 				}
 
