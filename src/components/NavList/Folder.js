@@ -36,13 +36,17 @@ const Folder2Line = styled(RiFolder2Line)`
 	margin-right: 4px;
 `;
 
-const Folder = ({data, indent}) => {
+const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const renameRef = useRef(null);
-	const [open, setOpen] = useState(false);
-	const [openRename, setOpenRename] = useState(false);
+	const [openTab, setOpenTab] = useState(false);
+	const [openTabRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
 	const {clicked_server} = useSelector((state) => state.common);
+
+	useEffect(() => {
+		setOpenTab(open);
+	}, [open]);
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -56,8 +60,8 @@ const Folder = ({data, indent}) => {
 	);
 
 	const onClickOpen = useCallback(() => {
-		setOpen(!open);
-	}, [open]);
+		setOpenTab(!openTab);
+	}, [openTab]);
 
 	const {show} = useContextMenu({
 		id: data.key + 'folder',
@@ -93,7 +97,7 @@ const Folder = ({data, indent}) => {
 		if (renameRef.current) {
 			renameRef.current.focus();
 		}
-	}, [openRename]);
+	}, [openTabRename]);
 
 	return (
 		<>
@@ -104,7 +108,7 @@ const Folder = ({data, indent}) => {
 				left={(indent * 15).toString() + 'px'}
 			>
 				<Folder2Line />
-				{openRename ? (
+				{openTabRename ? (
 					<RenameForm
 						onSubmit={handleSubmit}
 						onBlur={() => setOpenRename(false)}
@@ -121,16 +125,21 @@ const Folder = ({data, indent}) => {
 					data.name
 				)}
 				<IconButton onClick={onClickOpen}>
-					{open ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />}
+					{openTab ? (
+						<MdKeyboardArrowDown />
+					) : (
+						<MdKeyboardArrowRight />
+					)}
 				</IconButton>
 			</ServerNavItem>
 			{data.contain.length !== 0 && (
-				<Collapse in={open}>
+				<Collapse in={openTab}>
 					<div>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
 								<Folder
 									key={i.key}
+									open={open}
 									data={i}
 									indent={indent + 1}
 								/>
@@ -155,6 +164,7 @@ const Folder = ({data, indent}) => {
 };
 
 Folder.propTypes = {
+	open: PropTypes.bool,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };

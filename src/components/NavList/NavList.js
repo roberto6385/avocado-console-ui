@@ -45,7 +45,12 @@ const NavList = ({search}) => {
 		<ServerNavBarContainer className={'flex-column'}>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
-					<Folder key={data.key} data={data} indent={1} />
+					<Folder
+						key={data.key}
+						open={search ? true : false}
+						data={data}
+						indent={1}
+					/>
 				) : (
 					<Server key={data.key} data={data} indent={1} />
 				),
