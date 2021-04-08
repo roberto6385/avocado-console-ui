@@ -9,6 +9,8 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_UI_Theme = 'SET_UI_Theme';
 
+export const REQUEST_LOGIN = 'REQUEST_LOGIN';
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
