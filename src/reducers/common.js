@@ -412,9 +412,9 @@ const reducer = (state = initialState, action) => {
 				// 	(v) => v.server.key !== draft.clicked_server,
 				// );
 				//
-				// draft.server = draft.server.filter(
-				// 	(v) => v.key !== draft.clicked_server,
-				// );
+				draft.server = draft.server.filter(
+					(v) => v.key !== draft.clicked_server,
+				);
 				//
 				// draft.current_tab = fillTabs(
 				// 	draft.tab,
