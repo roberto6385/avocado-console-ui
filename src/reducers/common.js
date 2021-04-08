@@ -287,10 +287,6 @@ const reducer = (state = initialState, action) => {
 					draft.nav,
 					draft.clicked_server,
 				);
-
-				const index = parent.contain.indexOf(action.data.next);
-				// 부모에서 이동시킬 데이터 삭제
-				parent.contain.splice(index, 1);
 				// 이동할 데이터
 				const prev = searchTreeStart(draft.nav, draft.clicked_server);
 				// 이동시킬 위치
@@ -298,6 +294,10 @@ const reducer = (state = initialState, action) => {
 				// 이동시킬 위치에 삭제한 데이터 추가
 				if (node.contain) node.contain.push(prev);
 				else node.push(prev);
+
+				const index = parent.contain.indexOf(action.data.next);
+				// 부모에서 이동시킬 데이터 삭제
+				parent.contain.splice(index, 1);
 
 				break;
 			}
