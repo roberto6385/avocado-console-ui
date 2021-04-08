@@ -13,7 +13,7 @@ import FileListContextMenu from './FileListContextMenu';
 const DropdownUl = styled.ul`
 	margin: 0;
 	padding: 0;
-	width: 200px !important;
+	min-width: 180px !important;
 	border-right: 1px solid ${DEEP_GRAY_COLOR};
 	list-style: none;
 	overflow-y: scroll;
@@ -25,7 +25,10 @@ const DropdownUl = styled.ul`
 const DropdownLi = styled.li`
 	padding: 2px;
 	white-space: nowrap;
-	min-width: 120px;
+	width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
 	&:hover {
 		background-color: ${HIGHLIGHT_COLOR};
 	}

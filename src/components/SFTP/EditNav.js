@@ -41,8 +41,8 @@ const EditNav = ({index, ws, uuid}) => {
 		});
 	};
 
-	const editedFileSave = () => {
-		editFile(curText);
+	const editedFileSave = async () => {
+		await editFile(curText);
 	};
 
 	const toNormalMode = () => {
