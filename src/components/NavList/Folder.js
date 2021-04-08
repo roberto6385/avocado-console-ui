@@ -9,19 +9,17 @@ import {
 	RiFolder2Line,
 } from 'react-icons/all';
 
-import {IconButton, ServerNavItem, TabNavItem} from '../../styles/common';
+import {IconButton, ServerNavItem} from '../../styles/common';
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
-	SORT_TAB,
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import FolderContextMenu from '../FolderContextMenu';
-import {iteratorAllObject} from '../iteratorAllObject';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -39,17 +37,20 @@ const Folder2Line = styled(RiFolder2Line)`
 	margin-right: 4px;
 `;
 
-const Folder = ({data, indent}) => {
+const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const renameRef = useRef(null);
-	const [open, setOpen] = useState(false);
-	const [openRename, setOpenRename] = useState(false);
+	const [openTab, setOpenTab] = useState(false);
+	const [openTabRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
 	const [draggedItem, setDraggedItem] = useState({});
 
-	const {clicked_server, server, me, nav} = useSelector(
-		(state) => state.common,
-	);
+	const {clicked_server, server, nav} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
+
+	useEffect(() => {
+		setOpenTab(open);
+	}, [open]);
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -63,8 +64,8 @@ const Folder = ({data, indent}) => {
 	);
 
 	const onClickOpen = useCallback(() => {
-		setOpen(!open);
-	}, [open]);
+		setOpenTab(!openTab);
+	}, [openTab]);
 
 	const {show} = useContextMenu({
 		id: data.key + 'folder',
@@ -74,7 +75,7 @@ const Folder = ({data, indent}) => {
 		show(e);
 	}
 
-	const contextMenuOpen = (e, data, indent) => {
+	const contextMenuOpen = (e, data) => {
 		e.preventDefault();
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		displayMenu(e);
@@ -82,12 +83,10 @@ const Folder = ({data, indent}) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(data, indent);
 
-		const newData = Object.assign({}, data, {name: renameValue});
 		dispatch({
 			type: CHANGE_SERVER_FOLDER_NAME,
-			data: {next: newData},
+			data: renameValue,
 		});
 		setOpenRename(false);
 	};
@@ -114,7 +113,7 @@ const Folder = ({data, indent}) => {
 		if (renameRef.current) {
 			renameRef.current.focus();
 		}
-	}, [openRename]);
+	}, [openTabRename]);
 
 	return (
 		<>
@@ -123,12 +122,12 @@ const Folder = ({data, indent}) => {
 				draggable='true'
 				onDragStart={() => prevPutItem(data)}
 				onDrop={(e) => nextPutItem(e, data)}
-				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
+				onContextMenu={(e) => contextMenuOpen(e, data)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
 				<Folder2Line />
-				{openRename ? (
+				{openTabRename ? (
 					<RenameForm
 						onSubmit={handleSubmit}
 						onBlur={() => setOpenRename(false)}
@@ -145,16 +144,21 @@ const Folder = ({data, indent}) => {
 					data.name
 				)}
 				<IconButton onClick={onClickOpen}>
-					{open ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />}
+					{openTab ? (
+						<MdKeyboardArrowDown />
+					) : (
+						<MdKeyboardArrowRight />
+					)}
 				</IconButton>
 			</ServerNavItem>
 			{data.contain.length !== 0 && (
-				<Collapse in={open}>
+				<Collapse in={openTab}>
 					<div>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
 								<Folder
 									key={i.key}
+									open={open}
 									data={i}
 									indent={indent + 1}
 								/>
@@ -179,6 +183,7 @@ const Folder = ({data, indent}) => {
 };
 
 Folder.propTypes = {
+	open: PropTypes.bool,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };

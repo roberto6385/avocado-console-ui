@@ -9,7 +9,7 @@ import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
-	const {me} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 
 	const connection = () => {
 		const ws = new WebSocket(`ws://${data.host}:8081/ws/sftp`);

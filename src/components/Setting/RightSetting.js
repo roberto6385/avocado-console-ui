@@ -1,6 +1,4 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 
 import General from './General';
 import Terminal from './Terminal';

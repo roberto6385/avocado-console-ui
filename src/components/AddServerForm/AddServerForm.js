@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
@@ -18,24 +18,15 @@ import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
 const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
-	const {me, server} = useSelector((state) => state.common);
+	const {server} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 	const data = server.find((v) => v.id === id);
 
-	const [name, onChangeName, setName] = useInput(
-		type === 'edit' ? data.name : 'Test',
-	);
-	const [protocol, setProtocol] = useState(
-		type === 'edit' ? data.name : 'SSH2',
-	);
-	const [host, onChangeHost, setHost] = useInput(
-		type === 'edit' ? data.host : '211.253.10.9',
-	);
-	const [port, onChangePort, setPort] = useInput(
-		type === 'edit' ? data.port : 10021,
-	);
-	const [user, onChangeUser, setUser] = useInput(
-		type === 'edit' ? data.user : 'root',
-	);
+	const [name, onChangeName, setName] = useInput('Test');
+	const [protocol, setProtocol] = useState('SSH2');
+	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
+	const [port, onChangePort, setPort] = useInput(10021);
+	const [user, onChangeUser, setUser] = useInput('root');
 	const [authentication, setAuthentication] = useState('Password');
 	const [key, onChangeKey] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput(
@@ -44,6 +35,18 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 	const [note, onChangeNote, setNote] = useInput('');
 
 	const [openAlert, setOpenAlert] = useState(false);
+
+	useEffect(() => {
+		if (type === 'edit') {
+			setName(data.name);
+			// setProtocol('SSH2');
+			setHost(data.host);
+			setPort(data.port);
+			setUser(data.user);
+			// setAuthentication('Password');
+			setPassword(data.password);
+		}
+	}, [type, data]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -76,32 +79,26 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 
 				if (message.type === 'CONNECT') {
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+					const newData = {
+						name: name,
+						host: host,
+						user: user,
+						password: password,
+						port: port,
+					};
 					if (type === 'add')
 						dispatch({
 							type: SAVE_SERVER,
-							data: {
-								name: name,
-								host: host,
-								user: user,
-								password: password,
-								port: port,
-							},
+							data: newData,
 						});
-					else if (type === 'edit') {
+					else if (type === 'edit')
 						dispatch({
 							type: EDIT_SERVER,
 							data: {
 								id: id,
-								data: {
-									name: name,
-									host: host,
-									user: user,
-									password: password,
-									port: port,
-								},
+								data: newData,
 							},
 						});
-					}
 				} else if (message.type === 'DISCONNECT') {
 					setOpen(false);
 				} else console.log('V AddServerForm onmessage: ', message);

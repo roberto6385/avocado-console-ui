@@ -1,7 +1,6 @@
 import produce from 'immer';
 
 export const initialState = {
-	me: null,
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,
@@ -139,8 +138,7 @@ export const initialState = {
 	tab: [],
 };
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
@@ -258,13 +256,6 @@ function addDataOnNode(nav, clicked_server, data) {
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case LOGIN:
-				draft.me = action.data;
-				break;
-
-			case LOGOUT:
-				draft.me = null;
-				break;
 
 			case ADD_FOLDER: {
 				const data = {
@@ -322,22 +313,26 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_SERVER_FOLDER_NAME: {
-				searchTreeStart(draft.nav, draft.clicked_server).name =
-					action.data.next.name;
-
 				if (draft.clicked_server[0] === 's') {
 					const keyIndex = draft.server.findIndex(
-						(item) => item.key === action.data.next.key,
+						(v) => v.key === draft.clicked_server,
 					);
-					const nextServer = Object.assign(
-						{},
-						draft.server[keyIndex],
-						{
-							name: action.data.next.name,
-						},
-					);
-					draft.server.splice(keyIndex, 1, nextServer);
+					const newServer = {
+						...state.server[keyIndex],
+						name: action.data,
+					};
+
+					draft.server.splice(keyIndex, 1, newServer);
 				}
+
+				searchTreeStart(draft.nav, draft.clicked_server).name =
+					action.data;
+
+				draft.tab = draft.tab.map((v) => {
+					if (v.server.key === draft.clicked_server)
+						return {...v, server: {...v.server, name: action.data}};
+					else return v;
+				});
 				break;
 			}
 
@@ -350,13 +345,15 @@ const reducer = (state = initialState, action) => {
 					...action.data.data,
 				};
 
-				draft.server = [
-					...state.server.slice(0, index),
-					newServer,
-					...state.server.slice(index + 1),
-				];
+				draft.server.splice(index, 1, newServer);
 
 				searchTreeStart(draft.nav, newServer.key).name = newServer.name;
+
+				draft.tab = draft.tab.map((v) => {
+					if (v.server.key === newServer.key)
+						return {...v, server: {...v.server, name: action.data}};
+					else return v;
+				});
 				break;
 			}
 

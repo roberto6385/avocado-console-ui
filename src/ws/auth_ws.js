@@ -46,7 +46,6 @@ const auth_ws = ({keyword, ws_auth, user, password}) => {
 		ws_auth.binaryType = 'arraybuffer';
 
 		ws_auth.onmessage = (evt) => {
-			console.log('on data, ', evt.data);
 			if (evt.data instanceof ArrayBuffer) {
 				const message = AUTH.Message.deserializeBinary(evt.data);
 
