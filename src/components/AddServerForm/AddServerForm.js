@@ -33,20 +33,7 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 		type === 'edit' ? data.password : 'Netand141)',
 	);
 	const [note, onChangeNote, setNote] = useInput('');
-
 	const [openAlert, setOpenAlert] = useState(false);
-
-	useEffect(() => {
-		if (type === 'edit') {
-			setName(data.name);
-			// setProtocol('SSH2');
-			setHost(data.host);
-			setPort(data.port);
-			setUser(data.user);
-			// setAuthentication('Password');
-			setPassword(data.password);
-		}
-	}, [type, data]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -118,6 +105,19 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 		setPassword('');
 		setNote('');
 	}, []);
+
+	useEffect(() => {
+		if (type === 'edit') {
+			console.log('HERE');
+			setName(data.name);
+			// setProtocol('SSH2');
+			setHost(data.host);
+			setPort(data.port);
+			setUser(data.user);
+			// setAuthentication('Password');
+			setPassword(data.password);
+		}
+	}, [type, data]);
 
 	return (
 		<div>
