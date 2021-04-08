@@ -50,7 +50,6 @@ const TwoColsOptionForm = ({keyword, value1, onChange1, value2, setValue2}) => {
 					as='select'
 					value={value2}
 					onChange={onChangeValue}
-					defaultValue={valueObject[keyword].options?.[0]}
 					required={valueObject[keyword]?.required2}
 				>
 					{valueObject[keyword].options?.map((v) => (
