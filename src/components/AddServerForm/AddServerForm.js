@@ -107,7 +107,6 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('HERE');
 		if (type === 'edit') {
 			setName(data.name);
 			// setProtocol('SSH2');
