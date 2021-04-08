@@ -121,7 +121,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
-			port: 10023,
+			port: 10022,
 		},
 		{
 			id: 3,
