@@ -143,6 +143,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				setOpen={setOpenAddServerForm}
 				open={openAddServerForm}
 				type='edit'
+				data={data}
 				id={data.id}
 			/>
 		</>

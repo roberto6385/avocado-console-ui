@@ -22,16 +22,14 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 	const {me} = useSelector((state) => state.user);
 	const data = server.find((v) => v.id === id);
 
-	const [name, onChangeName, setName] = useInput('Test');
+	const [name, onChangeName, setName] = useInput('');
 	const [protocol, setProtocol] = useState('SSH2');
-	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
-	const [port, onChangePort, setPort] = useInput(10021);
-	const [user, onChangeUser, setUser] = useInput('root');
+	const [host, onChangeHost, setHost] = useInput('');
+	const [port, onChangePort, setPort] = useInput('');
+	const [user, onChangeUser, setUser] = useInput('');
 	const [authentication, setAuthentication] = useState('Password');
 	const [key, onChangeKey] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput(
-		type === 'edit' ? data.password : 'Netand141)',
-	);
+	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
 	const [openAlert, setOpenAlert] = useState(false);
 
@@ -96,19 +94,21 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 
 	const onClickCloseForm = useCallback(() => {
 		setOpen(false);
-		setName('');
-		setProtocol('SSH2');
-		setHost('');
-		setPort('');
-		setUser('');
-		setAuthentication('Password');
-		setPassword('');
-		setNote('');
+		if (type !== 'edit') {
+			setName('');
+			setProtocol('SSH2');
+			setHost('');
+			setPort('');
+			setUser('');
+			setAuthentication('Password');
+			setPassword('');
+			setNote('');
+		}
 	}, []);
 
 	useEffect(() => {
+		console.log('HERE');
 		if (type === 'edit') {
-			console.log('HERE');
 			setName(data.name);
 			// setProtocol('SSH2');
 			setHost(data.host);
