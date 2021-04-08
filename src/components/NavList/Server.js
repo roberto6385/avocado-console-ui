@@ -14,7 +14,7 @@ import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {useContextMenu} from 'react-contexify';
-import ServerContextMenu from '../ServerContextMenu';
+import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import styled from 'styled-components';
 
 const RenameForm = styled.form`

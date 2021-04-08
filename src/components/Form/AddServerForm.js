@@ -13,7 +13,7 @@ import {
 	IconButton,
 	PopupButton,
 } from '../../styles/common';
-import AlertPopup from '../AlertPopup';
+import AlertPopup from '../Popup/AlertPopup';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 

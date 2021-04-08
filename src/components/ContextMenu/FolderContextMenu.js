@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
-import AddServerForm from './AddServerForm/AddServerForm';
-import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
+import AddServerForm from '../Form/AddServerForm';
+import ConfirmPopup from '../Popup/ConfirmPopup';
 import {useDispatch} from 'react-redux';
-import {CHANGE_OPEN_ADD_SERVER_FORM} from '../reducers/common';
+import {CHANGE_OPEN_ADD_SERVER_FORM} from '../../reducers/common';
 
 const FolderContextMenu = ({data, indent, setOpenRename}) => {
 	const dispatch = useDispatch();

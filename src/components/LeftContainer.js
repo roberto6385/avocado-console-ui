@@ -10,7 +10,7 @@ import {
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
+import ConfirmPopup from './Popup/ConfirmPopup';
 import {
 	Background,
 	Header,
@@ -25,7 +25,7 @@ import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 import {LOGOUT} from '../reducers/user';
 
 import NavList from './NavList/NavList';
-import AddServerForm from './AddServerForm/AddServerForm';
+import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 

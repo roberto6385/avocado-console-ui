@@ -6,9 +6,9 @@ import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
-import {CustomModal} from '../../styles/common';
-import Button from './Button';
+import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
 import useConfirmActions from '../../hooks/useConfirmActions';
+import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 
 const ConfirmMessage = {
 	delete_work: '선택하신 파일을 삭제하시겠습니까?',
@@ -65,6 +65,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [formValue, setFormValue] = useState('');
 	const inputRef = useRef(null);
+	const buttonRef = useRef(null);
 
 	const justExit = () => {
 		dispatch({
@@ -133,6 +134,10 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		inputRef.current?.focus();
 	}, [open]);
 
+	useEffect(() => {
+		buttonRef.current?.focus();
+	}, []);
+
 	return (
 		<CustomModal size='lg' show={open} onHide={handleClose}>
 			<Card.Header as='h5'>
@@ -167,11 +172,24 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 					</Form>
 				)}
 			</Card.Body>
-			<Button
-				keyword={keyword}
-				cancelFunction={cancelFunction}
-				submitFunction={submitFunction}
-			/>
+
+			<ModalFooter>
+				<PopupButton
+					variant='default'
+					onClick={cancelFunction}
+					back={`${SUB_COLOR}`}
+				>
+					Cancel
+				</PopupButton>
+				<PopupButton
+					ref={buttonRef}
+					variant='default'
+					onClick={submitFunction}
+					back={`${MAIN_COLOR}`}
+				>
+					{SAVE_KEYWORDS.includes(keyword) ? 'SAVE' : 'OK'}
+				</PopupButton>
+			</ModalFooter>
 		</CustomModal>
 	);
 };

@@ -3,8 +3,8 @@ import {Card} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
 import {FaTimes} from 'react-icons/all';
 
-import {SUB_COLOR} from '../styles/global';
-import {CustomModal, ModalFooter, PopupButton} from '../styles/common';
+import {SUB_COLOR} from '../../styles/global';
+import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',

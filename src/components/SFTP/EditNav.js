@@ -3,7 +3,7 @@ import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
-import ConfirmPopup from '../ConfirmPopup/ConfirmPopup';
+import ConfirmPopup from '../Popup/ConfirmPopup';
 import {Navbar, NavItem} from '../../styles/sftp';
 import useConfirmActions from '../../hooks/useConfirmActions';
 

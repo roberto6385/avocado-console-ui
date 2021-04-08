@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 
 import {AddServerButton, Background} from '../styles/common';
-import AddServerForm from './AddServerForm/AddServerForm';
+import AddServerForm from './Form/AddServerForm';
 
 const MainPage = () => {
 	const [open, setOpen] = useState(false);

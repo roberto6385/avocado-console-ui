@@ -7,7 +7,7 @@ import {
 	MdDelete,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import ConfirmPopup from '../ConfirmPopup/ConfirmPopup';
+import ConfirmPopup from '../Popup/ConfirmPopup';
 import {NavItem} from '../../styles/sftp';
 import useSftpCommands from '../../hooks/useSftpCommands';
 

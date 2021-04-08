@@ -19,7 +19,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
-import FolderContextMenu from '../FolderContextMenu';
+import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 
 const RenameForm = styled.form`
 	display: inline-block;

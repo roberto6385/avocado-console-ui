@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
-import ConfirmPopup from './ConfirmPopup/ConfirmPopup';
+import ConfirmPopup from '../Popup/ConfirmPopup';
 import {useDispatch, useSelector} from 'react-redux';
-import {ssht_ws_request} from '../ws/ssht_ws_request';
-import {GetMessage} from '../ws/ssht_ws_logic';
-import {OPEN_TAB} from '../reducers/common';
-import newSftp_ws from '../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../reducers/sftp';
-import AddServerForm from './AddServerForm/AddServerForm';
+import {ssht_ws_request} from '../../ws/ssht_ws_request';
+import {GetMessage} from '../../ws/ssht_ws_logic';
+import {OPEN_TAB} from '../../reducers/common';
+import newSftp_ws from '../../ws/sftp_ws';
+import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
+import AddServerForm from '../Form/AddServerForm';
 
 const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
