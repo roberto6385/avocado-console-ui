@@ -1,35 +1,39 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Form, Modal} from 'react-bootstrap';
+import {Col, Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 import * as PropTypes from 'prop-types';
 
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {AddServerModal, IconButton} from '../../styles/common';
+import {
+	AddServerButtonContainer,
+	AddServerModal,
+	IconButton,
+	PopupButton,
+} from '../../styles/common';
 import AlertPopup from '../AlertPopup';
-import OneColForm from './OneColForm';
-import Button from './Button';
-import TwoColsOptionForm from './TwoColsOptionForm';
-import TwoColsForm from './TwoColsForm';
-import OneColButtonForm from './OneColButtonForm';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
+import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 
 const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
 	const {me} = useSelector((state) => state.user);
-	const data = server.find((v) => v.id === id);
 
-	const [name, onChangeName, setName] = useInput('');
-	const [protocol, setProtocol] = useState('SSH2');
-	const [host, onChangeHost, setHost] = useInput('');
-	const [port, onChangePort, setPort] = useInput('');
-	const [user, onChangeUser, setUser] = useInput('');
-	const [authentication, setAuthentication] = useState('Password');
+	const [name, onChangeName, setName] = useInput('Test');
+	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
+	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
+	const [port, onChangePort, setPort] = useInput(10021);
+	const [user, onChangeUser, setUser] = useInput('root');
+	const [
+		authentication,
+		onChangeAuthentication,
+		setAuthentication,
+	] = useInput('Password');
 	const [key, onChangeKey] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('Netand141)');
 	const [note, onChangeNote, setNote] = useInput('');
 	const [openAlert, setOpenAlert] = useState(false);
 
@@ -94,21 +98,30 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 
 	const onClickCloseForm = useCallback(() => {
 		setOpen(false);
-		if (type !== 'edit') {
-			setName('');
+		if (type === 'add') {
+			// setName('');
+			// setProtocol('SSH2');
+			// setHost('');
+			// setPort('');
+			// setUser('');
+			// setAuthentication('Password');
+			// setPassword('');
+			// setNote('');
+		} else {
+			const data = server.find((v) => v.id === id);
+			setName(data.name);
 			setProtocol('SSH2');
-			setHost('');
-			setPort('');
-			setUser('');
+			setHost(data.host);
+			setPort(data.port);
+			setUser(data.user);
 			setAuthentication('Password');
-			setPassword('');
-			setNote('');
+			setPassword(data.password);
 		}
 	}, []);
 
 	useEffect(() => {
-		console.log('HERE');
 		if (type === 'edit') {
+			const data = server.find((v) => v.id === id);
 			setName(data.name);
 			// setProtocol('SSH2');
 			setHost(data.host);
@@ -117,10 +130,10 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 			// setAuthentication('Password');
 			setPassword(data.password);
 		}
-	}, [type, data]);
+	}, [type, id]);
 
 	return (
-		<div>
+		<>
 			<AddServerModal
 				show={open}
 				onHide={onClickCloseForm}
@@ -135,55 +148,160 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 				</Modal.Header>
 				<Modal.Body>
 					<Form onSubmit={onSubmitForm}>
-						<TwoColsOptionForm
-							keyword='name_protocol'
-							value1={name}
-							onChange1={onChangeName}
-							value2={protocol}
-							setValue2={setProtocol}
-						/>
-						<TwoColsForm
-							keyword='address_port'
-							value1={host}
-							onChange1={onChangeHost}
-							value2={port}
-							onChange2={onChangePort}
-						/>
-						<TwoColsOptionForm
-							keyword='user_auth'
-							value1={user}
-							onChange1={onChangeUser}
-							value2={authentication}
-							setValue2={setAuthentication}
-						/>
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column sm={2}>
+								Name
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									onChange={onChangeName}
+									value={name}
+									type='text'
+									placeholder='Server Name'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Protocol
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									as='select'
+									value={protocol}
+									onChange={onChangeProtocol}
+									required
+								>
+									<option key='SSH2' value='SSH2'>
+										SSH2
+									</option>
+									<option key='protocol2' value='protocol2'>
+										protocol2
+									</option>
+								</Form.Control>
+							</Col>
+						</Form.Row>
+
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column sm={2}>
+								Address
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									onChange={onChangeHost}
+									value={host}
+									type='text'
+									placeholder='Host Name or IP'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Port
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									onChange={onChangePort}
+									value={port}
+									type='number'
+									placeholder='Port'
+									required
+								/>
+							</Col>
+						</Form.Row>
+
+						<Form.Row className={'add-server-form-row'}>
+							<Form.Label column sm={2}>
+								Username
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									onChange={onChangeUser}
+									value={user}
+									type='text'
+									placeholder='Login Username'
+									required
+								/>
+							</Col>
+							<Col xs={1} />
+							<Form.Label column sm={2}>
+								Authentication
+							</Form.Label>
+							<Col sm={3}>
+								<Form.Control
+									as='select'
+									value={authentication}
+									onChange={onChangeAuthentication}
+									required
+								>
+									<option value='Password'>Password</option>
+									<option value='Key file'>Key file</option>
+								</Form.Control>
+							</Col>
+						</Form.Row>
+
 						{authentication === 'Password' ? (
-							<OneColForm
-								keyword='password'
-								value={password}
-								onChangeValue={onChangePassword}
-							/>
+							<Form.Group className={'add-server-form-row'}>
+								<Form.Label>Password</Form.Label>
+								<Form.Control
+									value={password}
+									onChange={onChangePassword}
+									type='password'
+									placeholder='password'
+									required
+								/>
+							</Form.Group>
 						) : (
 							<div>
-								<OneColButtonForm
-									onChangeValue={onChangeKey}
-									keyword={'key'}
-									value={key}
-								/>
-								<OneColForm
-									keyword='key_password'
-									value={password}
-									onChangeValue={onChangePassword}
-								/>
+								<Form.Group className={'add-server-form-row'}>
+									<Form.Label>Private Key File</Form.Label>
+									<Form.File
+										value={key}
+										onChange={onChangeKey}
+										label='Login Password'
+										custom
+									/>
+								</Form.Group>
+
+								<Form.Group className={'add-server-form-row'}>
+									<Form.Label>Password</Form.Label>
+									<Form.Control
+										value={password}
+										onChange={onChangePassword}
+										type='password'
+										placeholder='Key File Password'
+										required
+									/>
+								</Form.Group>
 							</div>
 						)}
 
-						<OneColForm
-							keyword='note'
-							value={note}
-							onChangeValue={onChangeNote}
-						/>
+						<Form.Group className={'add-server-form-row'}>
+							<Form.Label>Note</Form.Label>
+							<Form.Control
+								value={note}
+								onChange={onChangeNote}
+								type='text'
+								placeholder='Note'
+							/>
+						</Form.Group>
 
-						<Button onClickCloseForm={onClickCloseForm} />
+						<AddServerButtonContainer>
+							<PopupButton
+								variant='default'
+								onClick={onClickCloseForm}
+								back={`${SUB_COLOR}`}
+							>
+								Cancel
+							</PopupButton>
+							<PopupButton
+								variant='default'
+								type='submit'
+								back={`${MAIN_COLOR}`}
+							>
+								Save
+							</PopupButton>
+						</AddServerButtonContainer>
 					</Form>
 				</Modal.Body>
 			</AddServerModal>
@@ -192,7 +310,7 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 				open={openAlert}
 				setOpen={setOpenAlert}
 			/>
-		</div>
+		</>
 	);
 };
 

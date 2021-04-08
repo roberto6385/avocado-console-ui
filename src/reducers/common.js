@@ -241,6 +241,17 @@ function deleteTreeStart(root, key) {
 	}
 }
 
+function deleteServerUnderTree(node, server) {
+	for (let i = 0; i < node.contain.length; i++) {
+		if (node.contain[i].key[0] === 's') {
+			server.splice(
+				server.findIndex((v) => v.id === node.contain[i].id),
+				1,
+			);
+		} else deleteServerUnderTree(node.contain[i], server);
+	}
+}
+
 function addDataOnNode(nav, clicked_server, data) {
 	let node = null;
 	if (!clicked_server) node = nav;
@@ -287,8 +298,10 @@ const reducer = (state = initialState, action) => {
 				// 이동시킬 위치
 				const node = searchTreeStart(draft.nav, action.data.next.key);
 
-				if (prev === node) return;
-				if (prevParent === draft.nav && action.data.next === 'toEdge')
+				if (
+					prev === node ||
+					(prevParent === draft.nav && action.data.next === 'toEdge')
+				)
 					return;
 
 				let i = 1;
@@ -406,22 +419,17 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 			case DELETE_SERVER: {
-				deleteTreeStart(draft.nav, draft.clicked_server);
+				if (draft.clicked_server[0] === 's')
+					draft.server = draft.server.filter(
+						(v) => v.key !== draft.clicked_server,
+					);
+				else
+					deleteServerUnderTree(
+						searchTreeStart(draft.nav, draft.clicked_server),
+						draft.server,
+					);
 
-				// draft.tab = draft.tab.filter(
-				// 	(v) => v.server.key !== draft.clicked_server,
-				// );
-				//
-				// draft.server = draft.server.filter(
-				// 	(v) => v.key !== draft.clicked_server,
-				// );
-				//
-				// draft.current_tab = fillTabs(
-				// 	draft.tab,
-				// 	draft.max_display_tab,
-				// 	draft.current_tab,
-				// );
-				// draft.clicked_server = null;
+				deleteTreeStart(draft.nav, draft.clicked_server);
 				break;
 			}
 
