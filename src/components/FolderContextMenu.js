@@ -12,6 +12,7 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
+	const [addServerOpen, setAddServerOpen] = useState(false);
 
 	const MENU_ID = data.key + 'folder';
 
@@ -19,7 +20,7 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'New Server':
-				dispatch({type: CHANGE_OPEN_ADD_SERVER_FORM, data: true});
+				setAddServerOpen(true);
 				break;
 			case 'New Folder':
 				setAddFolderOpen(true);
@@ -55,6 +56,11 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 					Delete
 				</Item>
 			</Menu>
+			<AddServerForm
+				setOpen={setAddServerOpen}
+				type={'add'}
+				open={addServerOpen}
+			/>
 
 			<ConfirmPopup
 				keyword={'add_folder'}

@@ -14,7 +14,8 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
 	const [openAddServerForm, setOpenAddServerForm] = useState(false);
 	const [keyword, setKeyword] = useState('');
-	const {clicked_server, server, me} = useSelector((state) => state.common);
+	const {clicked_server, server} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	const MENU_ID = data.key + 'server';
