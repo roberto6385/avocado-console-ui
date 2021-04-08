@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 
 import useInput from '../hooks/useInput';
 import auth_ws from '../ws/auth_ws';
-import {LOGIN} from '../reducers/common';
+import {LOGIN} from '../reducers/user';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();

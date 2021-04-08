@@ -18,7 +18,8 @@ import {ssht_ws_request} from '../../ws/ssht_ws_request';
 
 const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
-	const {me, server} = useSelector((state) => state.common);
+	const {server} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 	const data = server.find((v) => v.id === id);
 
 	const [name, onChangeName, setName] = useInput('Test');
@@ -38,13 +39,12 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 	useEffect(() => {
 		if (type === 'edit') {
 			setName(data.name);
-			setProtocol('SSH2');
+			// setProtocol('SSH2');
 			setHost(data.host);
 			setPort(data.port);
 			setUser(data.user);
-			setAuthentication('Password');
+			// setAuthentication('Password');
 			setPassword(data.password);
-			setNote(data.note);
 		}
 	}, [type, data]);
 

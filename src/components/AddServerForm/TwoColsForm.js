@@ -51,7 +51,8 @@ TwoColsForm.propTypes = {
 	keyword: PropTypes.string.isRequired,
 	value1: PropTypes.string.isRequired,
 	onChange1: PropTypes.func.isRequired,
-	value2: PropTypes.number.isRequired,
+	value2: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+		.isRequired,
 	onChange2: PropTypes.func.isRequired,
 };
 

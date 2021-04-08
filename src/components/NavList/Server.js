@@ -30,7 +30,8 @@ const RenameInput = styled.input`
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, me} = useSelector((state) => state.common);
+	const {clicked_server, server} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, setRenameValue] = useState('');

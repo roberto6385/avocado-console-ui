@@ -21,11 +21,8 @@ import {
 	SidebarShow,
 } from '../styles/common';
 
-import {
-	CHANGE_OPEN_ADD_SERVER_FORM,
-	CHANGE_SIDEBAR_DISPLAY,
-	LOGOUT,
-} from '../reducers/common';
+import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
+import {LOGOUT} from '../reducers/user';
 
 import NavList from './NavList/NavList';
 import AddServerForm from './AddServerForm/AddServerForm';

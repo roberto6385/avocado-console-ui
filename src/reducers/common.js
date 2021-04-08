@@ -1,7 +1,6 @@
 import produce from 'immer';
 
 export const initialState = {
-	me: null,
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,
@@ -139,8 +138,7 @@ export const initialState = {
 	tab: [],
 };
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER = 'DELETE_SERVER';
@@ -257,13 +255,6 @@ function addDataOnNode(nav, clicked_server, data) {
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case LOGIN:
-				draft.me = action.data;
-				break;
-
-			case LOGOUT:
-				draft.me = null;
-				break;
 
 			case ADD_FOLDER: {
 				const data = {

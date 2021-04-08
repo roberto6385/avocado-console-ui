@@ -15,7 +15,8 @@ import {ssht_ws_request} from '../ws/ssht_ws_request';
 
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();
-	const {server, clicked_server, me} = useSelector((state) => state.common);
+	const {server, clicked_server} = useSelector((state) => state.common);
+	const {me} = useSelector((state) => state.user);
 
 	// first argument is double-click event, second one is on-click event
 	const onHybridClick = useDoubleClickParam(

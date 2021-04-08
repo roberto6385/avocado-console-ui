@@ -71,7 +71,7 @@ const Folder = ({open, data, indent}) => {
 		show(e);
 	}
 
-	const contextMenuOpen = (e, data, indent) => {
+	const contextMenuOpen = (e, data) => {
 		e.preventDefault();
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		displayMenu(e);
@@ -103,7 +103,7 @@ const Folder = ({open, data, indent}) => {
 		<>
 			<ServerNavItem
 				onClick={onHybridClick}
-				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
+				onContextMenu={(e) => contextMenuOpen(e, data)}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
