@@ -8,11 +8,11 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {NavItem} from '../../styles/sftp';
-import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
-import useSftpCommands from '../../hooks/useSftpCommands';
-import newSftp_ws from '../../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
+import {NavItem} from '../../../styles/sftp';
+import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
+import useSftpCommands from '../../../hooks/useSftpCommands';
+import newSftp_ws from '../../../ws/sftp_ws';
+import {SFTP_SAVE_LIST_MODE} from '../../../reducers/sftp';
 
 const SearchPath = styled.input`
 	flex: 1;

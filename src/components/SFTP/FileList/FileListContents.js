@@ -4,8 +4,8 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../reducers/sftp';
-import {toEditMode} from './commands';
+import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../../reducers/sftp';
+import {toEditMode} from '../commands';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	CustomRightTh,
@@ -15,10 +15,10 @@ import {
 	CustomThBtn,
 	DirectoryIcon,
 	FileIcon,
-} from '../../styles/sftp';
+} from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
-import useSftpCommands from '../../hooks/useSftpCommands';
-import newSftp_ws from '../../ws/sftp_ws';
+import useSftpCommands from '../../../hooks/useSftpCommands';
+import newSftp_ws from '../../../ws/sftp_ws';
 
 const FileListContents = ({index, ws, uuid}) => {
 	const {currentList, currentHighlight} = useSelector((state) => state.sftp);

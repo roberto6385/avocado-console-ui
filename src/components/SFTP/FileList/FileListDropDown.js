@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {DEEP_GRAY_COLOR, HIGHLIGHT_COLOR} from '../../styles/global';
-import {DirectoryIcon, FileIcon} from '../../styles/sftp';
-import newSftp_ws from '../../ws/sftp_ws';
-import useSftpCommands from '../../hooks/useSftpCommands';
-import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../reducers/sftp';
+import {DEEP_GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
+import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
+import newSftp_ws from '../../../ws/sftp_ws';
+import useSftpCommands from '../../../hooks/useSftpCommands';
+import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../../reducers/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
 

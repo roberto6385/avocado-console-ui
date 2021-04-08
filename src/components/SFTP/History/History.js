@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
-import {HistoryBody, HistoryBox} from '../../styles/sftp';
+import {HistoryBody, HistoryBox} from '../../../styles/sftp';
 
 const History = ({index, socket, serverId}) => {
 	return (

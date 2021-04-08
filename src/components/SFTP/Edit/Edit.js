@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
-import {FlexBox, SFTPBody} from '../../styles/sftp';
+import {FlexBox, SFTPBody} from '../../../styles/sftp';
 
 const Edit = ({index, socket}) => {
 	return (

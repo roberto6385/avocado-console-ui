@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
-import {FlexBox, SFTPBody} from '../../styles/sftp';
+import {FlexBox, SFTPBody} from '../../../styles/sftp';
 import {useSelector} from 'react-redux';
 import FileListDropDown from './FileListDropDown';
 

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from '../Popup/ConfirmPopup';
-import {toEditMode} from './commands';
-import useSftpCommands from '../../hooks/useSftpCommands';
+import ConfirmPopup from '../../Popup/ConfirmPopup';
+import {toEditMode} from '../commands';
+import useSftpCommands from '../../../hooks/useSftpCommands';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {

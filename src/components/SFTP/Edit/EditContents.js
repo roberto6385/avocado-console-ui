@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_TEXT} from '../../reducers/sftp';
-import {TextAreaWrapper} from '../../styles/sftp';
+import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/sftp';
+import {TextAreaWrapper} from '../../../styles/sftp';
 
 const EditContents = ({index, ws, uuid}) => {
 	const {currentText, currentCompareText} = useSelector(

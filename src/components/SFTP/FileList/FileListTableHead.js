@@ -4,7 +4,7 @@ import {
 	CustomTh,
 	CustomThBtn,
 	HeaderTr,
-} from '../../styles/sftp';
+} from '../../../styles/sftp';
 import {MdFileDownload} from 'react-icons/md';
 
 const TableHead = () => {

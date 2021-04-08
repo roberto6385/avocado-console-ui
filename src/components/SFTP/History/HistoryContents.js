@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {PropTypes} from 'prop-types';
-import Dropzone from './Dropzone';
+import Dropzone from '../Dropzone';
 import {useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
@@ -9,7 +9,7 @@ import {
 	FaEdit,
 	MdRemoveCircle,
 } from 'react-icons/all';
-import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../styles/global';
+import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../../styles/global';
 import {useContextMenu} from 'react-contexify';
 import HistoryContextMenu from './HistoryContextMenu';
 import {
@@ -18,8 +18,8 @@ import {
 	CustomUl,
 	FlexSpaceBetween,
 	NoHistory,
-} from '../../styles/sftp';
-import useSftpCommands from '../../hooks/useSftpCommands';
+} from '../../../styles/sftp';
+import useSftpCommands from '../../../hooks/useSftpCommands';
 
 const HistoryContents = ({index, ws, uuid}) => {
 	const {initialWork} = useSftpCommands({ws, uuid});
