@@ -6,6 +6,7 @@ import {IconButton} from '../../styles/common';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
@@ -38,8 +39,8 @@ const ConvertSFTP = ({data}) => {
 					},
 				});
 			};
-		}else{
-			alert('해당 서버의 정보가 손상되거나 삭제되었습니다.')
+		} else {
+			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
 	};
 

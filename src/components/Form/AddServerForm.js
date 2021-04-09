@@ -13,9 +13,9 @@ import {
 	IconButton,
 	PopupButton,
 } from '../../styles/common';
-import AlertPopup from '../Popup/AlertPopup';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
@@ -35,7 +35,6 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 	const [key, onChangeKey] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('Netand141)');
 	const [note, onChangeNote, setNote] = useInput('');
-	const [openAlert, setOpenAlert] = useState(false);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -46,7 +45,7 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 			ws.binaryType = 'arraybuffer';
 
 			ws.onerror = () => {
-				setOpenAlert(true);
+				dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
 			};
 
 			ws.onopen = () => {
@@ -305,11 +304,6 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 					</Form>
 				</Modal.Body>
 			</AddServerModal>
-			<AlertPopup
-				keyword='invalid_server'
-				open={openAlert}
-				setOpen={setOpenAlert}
-			/>
 		</>
 	);
 };

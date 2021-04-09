@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
 	SFTP_SAVE_CURRENT_HIGHLIGHT,
 	SFTP_SAVE_CURRENT_LIST,
@@ -10,7 +10,6 @@ import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import newSftp_ws from '../ws/sftp_ws';
-import * as path from 'path';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();

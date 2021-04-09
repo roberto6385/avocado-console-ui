@@ -1,31 +1,37 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Card} from 'react-bootstrap';
-import * as PropTypes from 'prop-types';
 import {FaTimes} from 'react-icons/all';
 
 import {SUB_COLOR} from '../../styles/global';
 import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
+import {useDispatch, useSelector} from 'react-redux';
+import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
+	lost_server: '해당 서버의 정보가 손상되거나 삭제되었습니다.',
 };
 
-const AlertTopMessage = {
-	invalid_server: 'invalid Server',
+const AlertHeader = {
+	invalid_server: 'Invalid Server',
+	lost_server: 'Lost Server Data',
 };
 
-const AlertPopup = ({keyword, open, setOpen}) => {
-	const handleClose = () => {
-		setOpen(false);
-	};
+const AlertPopup = () => {
+	const dispatch = useDispatch();
+	const {alert_popup} = useSelector((state) => state.popup);
+
+	const handleClose = useCallback(() => {
+		dispatch({type: CLOSE_ALERT_POPUP});
+	}, []);
 
 	return (
-		<CustomModal size='lg' show={open} onHide={handleClose}>
+		<CustomModal size='lg' show={alert_popup.open} onHide={handleClose}>
 			<Card.Header as='h5'>
 				{Object.prototype.hasOwnProperty.call(
-					AlertTopMessage,
-					keyword,
-				) && AlertTopMessage[keyword]}
+					AlertHeader,
+					alert_popup.key,
+				) && AlertHeader[alert_popup.key]}
 				<span className={'right'} onClick={handleClose}>
 					<FaTimes />
 				</span>
@@ -33,8 +39,8 @@ const AlertPopup = ({keyword, open, setOpen}) => {
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(
 					AlertMessage,
-					keyword,
-				) && <p>{AlertMessage[keyword]}</p>}
+					alert_popup.key,
+				) && <Card.Text>{AlertMessage[alert_popup.key]}</Card.Text>}
 			</Card.Body>
 			<ModalFooter>
 				<PopupButton
@@ -47,12 +53,6 @@ const AlertPopup = ({keyword, open, setOpen}) => {
 			</ModalFooter>
 		</CustomModal>
 	);
-};
-
-AlertPopup.propTypes = {
-	keyword: PropTypes.string.isRequired,
-	open: PropTypes.bool.isRequired,
-	setOpen: PropTypes.func.isRequired,
 };
 
 export default AlertPopup;
