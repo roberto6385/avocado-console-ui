@@ -1,22 +1,20 @@
 import React from 'react';
+import App from './App';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
+
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
-// for saga
+
 import createSagaMiddleware from 'redux-saga';
+import rootReducer from './reducers';
 import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-import App from './App';
-import rootReducer from './reducers';
-
-const store = createStore(
-	rootReducer,
-	composeWithDevTools(applyMiddleware(sagaMiddleware)),
-);
+const enhancer = composeWithDevTools(applyMiddleware(sagaMiddleware));
+const store = createStore(rootReducer, enhancer);
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
