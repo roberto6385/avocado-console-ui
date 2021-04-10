@@ -9,7 +9,7 @@ import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
-	const {me} = useSelector((state) => state.user);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
 	const connection = () => {
 		if (server.includes(data)) {
@@ -18,7 +18,7 @@ const ConvertSFTP = ({data}) => {
 				const {uuid} = await newSftp_ws({
 					keyword: 'Connection',
 					ws,
-					token: me.token,
+					token: userTicket.access_token,
 					data,
 				});
 				dispatch({
@@ -38,8 +38,8 @@ const ConvertSFTP = ({data}) => {
 					},
 				});
 			};
-		}else{
-			alert('해당 서버의 정보가 손상되거나 삭제되었습니다.')
+		} else {
+			alert('해당 서버의 정보가 손상되거나 삭제되었습니다.');
 		}
 	};
 

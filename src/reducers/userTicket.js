@@ -13,7 +13,7 @@ export const getUserTicket = (params) => ({
 
 // initial State
 const initialState = {
-	userTicket: [],
+	userTicket: null,
 	loading: false,
 };
 
@@ -24,8 +24,6 @@ const userTicket = (state = initialState, action) =>
 			case GET_USER_TICKET_REQUEST:
 				draft.loading = true;
 				break;
-
-			// 요기가 saga에 의해 실행된다.
 			case GET_USER_TICKET_SUCCESS:
 				draft.userTicket = action.data;
 				draft.loading = false;

@@ -16,7 +16,7 @@ import {ssht_ws_request} from '../ws/ssht_ws_request';
 const ServerNavBar = ({search}) => {
 	const dispatch = useDispatch();
 	const {server, clicked_server} = useSelector((state) => state.common);
-	const {me} = useSelector((state) => state.user);
+	const {userTicket} = useSelector((state) => state.userTicket);
 
 	// first argument is double-click event, second one is on-click event
 	const onHybridClick = useDoubleClickParam(
@@ -34,7 +34,7 @@ const ServerNavBar = ({search}) => {
 					keyword: 'SendConnect',
 					ws: ws,
 					data: {
-						token: me.token,
+						token: userTicket.access_token,
 						host: correspondedServer.host,
 						user: correspondedServer.user,
 						password: correspondedServer.password,

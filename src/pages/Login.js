@@ -5,9 +5,8 @@ import {Redirect} from 'react-router-dom';
 import {MainContainer} from '../styles/page';
 
 const Login = () => {
-	const {me} = useSelector((state) => state.user);
-
-	if (me) return <Redirect to='/' />;
+	const {userTicket} = useSelector((state) => state.userTicket);
+	if (userTicket) return <Redirect to='/' />;
 
 	return (
 		<MainContainer>

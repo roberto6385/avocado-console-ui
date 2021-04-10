@@ -12,37 +12,10 @@ const LoginForm = () => {
 
 	const {userTicket} = useSelector((state) => state.userTicket);
 	console.log(userTicket);
-	// const [user, onChangeUser] = useInput('root');
-	// const [password, onChangePassword] = useInput('Netand141)');
-
-	// const onSubmitForm = useCallback(
-	// 	(e) => {
-	// 		e.preventDefault();
-	// 		const ws = new WebSocket('ws://211.253.10.9:8081/ws/auth');
-	//
-	// 		ws.binaryType = 'arraybuffer';
-	// 		ws.onopen = () => {
-	// 			if (user === 'root' && password === 'Netand141)') {
-	// 				auth_ws({
-	// 					keyword: 'LoginRequest',
-	// 					ws_auth: ws,
-	// 				}).then((r) => {
-	// 					if (r.type === 'LOGIN')
-	// 						dispatch({
-	// 							type: LOGIN,
-	// 							data: {token: r.result, socket: ws},
-	// 						});
-	// 				});
-	// 			}
-	// 		};
-	// 	},
-	// 	[user, password],
-	// );
 
 	const onSubmitForm = useCallback((e) => {
 		e.preventDefault();
 		const encodeData = base64.encode(`${user}:${password}`);
-		// console.log(encodeData);
 		dispatch(getUserTicket('Basic ' + encodeData));
 	}, []);
 

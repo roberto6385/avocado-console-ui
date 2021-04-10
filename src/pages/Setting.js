@@ -7,9 +7,9 @@ import RightSetting from '../components/Setting/RightSetting';
 import LeftSetting from '../components/Setting/LeftSetting';
 
 const Setting = () => {
-	const {me} = useSelector((state) => state.user);
+	const {userTicket} = useSelector((state) => state.userTicket);
 
-	if (!me) return <Redirect to='/login' />;
+	if (!userTicket) return <Redirect to='/login' />;
 
 	return (
 		<MainContainer fluid>
