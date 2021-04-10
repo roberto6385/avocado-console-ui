@@ -5,12 +5,13 @@ import {
 	GET_USER_TICKET_FAILURE,
 	GET_USER_TICKET_SUCCESS,
 } from '../reducers/userTicket';
-import querystring from 'querystring';
+
+const querystring = require('query-string');
 
 function getUserTicketApi(params) {
 	return axios.post(
-		'/oauth2/v1/token?grant_type=client_credentials',
-		{},
+		'/oauth2/v1/token/',
+		querystring.stringify({grant_type: 'client_credentials'}),
 		{
 			headers: {
 				Authorization: params,
