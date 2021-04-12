@@ -20,7 +20,7 @@ import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 const AddServerForm = ({open, setOpen, type, id}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
-	const {clientTicket} = useSelector((state) => state.clientTicket);
+	const {userTicket} = useSelector((state) => state.userTicket);
 
 	const [name, onChangeName, setName] = useInput('Test');
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
@@ -54,7 +54,7 @@ const AddServerForm = ({open, setOpen, type, id}) => {
 					keyword: 'SendConnect',
 					ws: ws,
 					data: {
-						token: clientTicket.access_token,
+						token: userTicket.access_token,
 						host: host,
 						user: user,
 						password: password,

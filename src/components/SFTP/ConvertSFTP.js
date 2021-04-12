@@ -9,7 +9,7 @@ import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 
 const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
-	const {clientTicket} = useSelector((state) => state.clientTicket);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
 	const connection = () => {
 		if (server.includes(data)) {
@@ -18,7 +18,7 @@ const ConvertSFTP = ({data}) => {
 				const {uuid} = await newSftp_ws({
 					keyword: 'Connection',
 					ws,
-					token: clientTicket.access_token,
+					token: userTicket.access_token,
 					data,
 				});
 				dispatch({

@@ -6,13 +6,13 @@ import {MainContainer} from '../styles/page';
 import UserAuthForm from '../components/Form/UserAuthForm';
 
 const Login = () => {
-	const {clientTicket} = useSelector((state) => state.clientTicket);
-	if (clientTicket) return <Redirect to='/' />;
+	const {userTicket} = useSelector((state) => state.userTicket);
+	if (userTicket) return <Redirect to='/' />;
 
 	return (
 		<MainContainer>
-			<LoginForm />
-			{/*<UserAuthForm />*/}
+			{/*<LoginForm />*/}
+			<UserAuthForm />
 		</MainContainer>
 	);
 };

@@ -7,9 +7,9 @@ import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 const Main = () => {
-	const {clientTicket} = useSelector((state) => state.clientTicket);
+	const {userTicket} = useSelector((state) => state.userTicket);
 
-	if (!clientTicket) return <Redirect to='/login' />;
+	if (!userTicket) return <Redirect to='/login' />;
 
 	return (
 		<MainContainer fluid>

@@ -15,7 +15,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [openAddServerForm, setOpenAddServerForm] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const {clicked_server, server} = useSelector((state) => state.common);
-	const {clientTicket} = useSelector((state) => state.clientTicket);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const dispatch = useDispatch();
 
 	const MENU_ID = data.key + 'server';
@@ -49,7 +49,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 			const {uuid} = await newSftp_ws({
 				keyword: 'Connection',
 				ws,
-				token: clientTicket.access_token,
+				token: userTicket.access_token,
 				data: serverData,
 			});
 			dispatch({
@@ -84,7 +84,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				keyword: 'SendConnect',
 				ws: ws,
 				data: {
-					token: clientTicket.access_token,
+					token: userTicket.access_token,
 					host: correspondedServer.host,
 					user: correspondedServer.user,
 					password: correspondedServer.password,
