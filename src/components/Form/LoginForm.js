@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import base64 from 'base-64';
 import useInput from '../../hooks/useInput';
-import {getClientTicket} from '../../reducers/clientTicket';
+import {getClientTicket} from '../../reducers/auth/clientTicket';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();

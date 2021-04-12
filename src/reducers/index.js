@@ -6,10 +6,11 @@ import sftp from './sftp';
 import ssht from './ssht';
 import popup from './popup';
 
-import clientTicket from './clientTicket';
-import userTicket from './userTicket';
-import refreshTicket from './refreshTicket';
-import verify from './verify';
+import clientTicket from './auth/clientTicket';
+import userTicket from './auth/userTicket';
+import refreshTicket from './auth/refreshTicket';
+import verify from './auth/verify';
+import revoke from './auth/revoke';
 
 const rootReducer = combineReducers({
 	user,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
 	userTicket,
 	refreshTicket,
 	verify,
+	revoke,
 });
 
 export default rootReducer;

@@ -29,8 +29,9 @@ import NavList from './NavList/NavList';
 import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
-import {getRefreshTicket} from '../reducers/refreshTicket';
-import {getVerify} from '../reducers/verify';
+import {getRefreshTicket} from '../reducers/auth/refreshTicket';
+import {getVerify} from '../reducers/auth/verify';
+import {getRevoke} from '../reducers/auth/revoke';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -64,10 +65,10 @@ const LeftContainer = () => {
 	}, [activeSearch]);
 
 	const onClickLogout = useCallback(() => {
-		dispatch({
-			type: LOGOUT,
-		});
-	}, []);
+		dispatch(
+			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+		);
+	}, [userTicket, dispatch]);
 
 	const sideBarhandleSize = (name) => {
 		if (name === 'minimize') {

@@ -4,7 +4,7 @@ import {
 	GET_USER_TICKET_REQUEST,
 	GET_USER_TICKET_FAILURE,
 	GET_USER_TICKET_SUCCESS,
-} from '../reducers/userTicket';
+} from '../../reducers/auth/userTicket';
 
 const querystring = require('query-string');
 

@@ -4,7 +4,7 @@ import {
 	GET_VERIFY_FAILURE,
 	GET_VERIFY_REQUEST,
 	GET_VERIFY_SUCCESS,
-} from '../reducers/verify';
+} from '../../reducers/auth/verify';
 
 function getVerifyApi(params) {
 	return axios.post(
@@ -32,6 +32,6 @@ function* watchGetVerify() {
 	yield takeLatest(GET_VERIFY_REQUEST, getVerify);
 }
 
-export default function* refreshTicketSaga() {
+export default function* verifySaga() {
 	yield all([fork(watchGetVerify)]);
 }

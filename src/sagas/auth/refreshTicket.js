@@ -4,8 +4,8 @@ import {
 	GET_REFRESH_TICKET_FAILURE,
 	GET_REFRESH_TICKET_SUCCESS,
 	GET_REFRESH_TICKET_REQUEST,
-} from '../reducers/refreshTicket';
-import {REFRESH_USER_TICKET} from '../reducers/userTicket';
+} from '../../reducers/auth/refreshTicket';
+import {REFRESH_USER_TICKET} from '../../reducers/auth/userTicket';
 
 const querystring = require('query-string');
 

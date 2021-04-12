@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import useInput from '../../hooks/useInput';
-import {getUserTicket} from '../../reducers/userTicket';
+import {getUserTicket} from '../../reducers/auth/userTicket';
 import {SAVE_ENCODE_DATA} from '../../reducers/common';
 
 const UserAuthForm = () => {
