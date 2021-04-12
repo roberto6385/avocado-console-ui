@@ -11,8 +11,8 @@ const Login = () => {
 
 	return (
 		<MainContainer>
-			{/*<LoginForm />*/}
-			<UserAuthForm />
+			<LoginForm />
+			{/*<UserAuthForm />*/}
 		</MainContainer>
 	);
 };
