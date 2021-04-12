@@ -4,14 +4,14 @@ import user from './user';
 import common from './common';
 import sftp from './sftp';
 import ssht from './ssht';
-import userTicket from './userTicket';
+import clientTicket from './clientTicket';
 
 const rootReducer = combineReducers({
 	user,
 	common,
 	sftp,
 	ssht,
-	userTicket,
+	clientTicket,
 });
 
 export default rootReducer;

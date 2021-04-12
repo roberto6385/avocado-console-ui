@@ -32,7 +32,7 @@ const RenameInput = styled.input`
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {clientTicket} = useSelector((state) => state.clientTicket);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, setRenameValue] = useState('');
@@ -51,7 +51,7 @@ const Server = ({data, indent}) => {
 					keyword: 'SendConnect',
 					ws: ws,
 					data: {
-						token: userTicket.access_token,
+						token: clientTicket.access_token,
 						host: correspondedServer.host,
 						user: correspondedServer.user,
 						password: correspondedServer.password,

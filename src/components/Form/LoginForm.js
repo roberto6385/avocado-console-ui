@@ -3,20 +3,20 @@ import {Form, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import useInput from '../../hooks/useInput';
-import {getUserTicket} from '../../reducers/userTicket';
+import {getClientTicket} from '../../reducers/clientTicket';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
 
-	const {userTicket} = useSelector((state) => state.userTicket);
-	console.log(userTicket);
+	const {clientTicket} = useSelector((state) => state.clientTicket);
+	console.log(clientTicket);
 
 	const onSubmitForm = useCallback((e) => {
 		e.preventDefault();
 		const encodeData = base64.encode(`${user}:${password}`);
-		dispatch(getUserTicket('Basic ' + encodeData));
+		dispatch(getClientTicket('Basic ' + encodeData));
 	}, []);
 
 	return (
