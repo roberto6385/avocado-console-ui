@@ -7,16 +7,12 @@ import {
 } from '../../reducers/auth/verify';
 
 function getVerifyApi(params) {
-	return axios.post(
-		'/oauth2/v1/verify/',
-		{},
-		{
-			headers: {
-				Authorization: params.Authorization,
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+	return axios.post('/oauth2/v1/verify', null, {
+		headers: {
+			Authorization: params.Authorization,
+			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	);
+	});
 }
 
 function* getVerify(action) {

@@ -8,16 +8,12 @@ import {
 import {REVOKE_USER_TICKET} from '../../reducers/auth/userTicket';
 
 function getRevokeApi(params) {
-	return axios.post(
-		'/oauth2/v1/revoke',
-		{},
-		{
-			headers: {
-				Authorization: params.Authorization,
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
+	return axios.post('/oauth2/v1/revoke', null, {
+		headers: {
+			Authorization: params.Authorization,
+			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	);
+	});
 }
 
 function* getRevoke(action) {

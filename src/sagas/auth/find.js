@@ -1,39 +1,37 @@
 import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 import {
-	GET_ACTIVE_TOKEN_LIST_FAILURE,
-	GET_ACTIVE_TOKEN_LIST_REQUEST,
-	GET_ACTIVE_TOKEN_LIST_SUCCESS,
+	FIND_FAILURE,
+	FIND_REQUEST,
+	FIND_SUCCESS,
 } from '../../reducers/auth/find';
-const querystring = require('query-string');
 
-function getAccessTokenApi(params) {
+function findTokenApi(params) {
 	return axios.get(
 		`/oauth2/v1/token?offset=${params.offset}&limit=${params.limit}`,
 		{
+			data: null,
 			headers: {
+				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 		},
 	);
 }
 
-function* getAccessToken(action) {
+function* findToken(action) {
 	try {
-		const res = yield call(getAccessTokenApi, action.params);
-		yield put({type: GET_ACTIVE_TOKEN_LIST_SUCCESS, data: res.data});
+		const res = yield call(findTokenApi, action.params);
+		yield put({type: FIND_SUCCESS, data: res.data});
 	} catch (err) {
-		yield put({
-			type: GET_ACTIVE_TOKEN_LIST_FAILURE,
-			data: err.response.data,
-		});
+		yield put({type: FIND_FAILURE, data: err.response.data});
 	}
 }
 
-function* watchGetAccessToken() {
-	yield takeLatest(GET_ACTIVE_TOKEN_LIST_REQUEST, getAccessToken);
+function* watchFind() {
+	yield takeLatest(FIND_REQUEST, findToken);
 }
 
 export default function* findSaga() {
-	yield all([fork(watchGetAccessToken)]);
+	yield all([fork(watchFind)]);
 }

@@ -1,22 +1,19 @@
 import produce from 'immer';
 
 // action types
-export const GET_ACTIVE_TOKEN_LIST_REQUEST =
-	'activeToken/GET_ACTIVE_TOKEN_LIST_REQUEST';
-export const GET_ACTIVE_TOKEN_LIST_SUCCESS =
-	'activeToken/GET_ACTIVE_TOKEN_LIST_SUCCESS';
-export const GET_ACTIVE_TOKEN_LIST_FAILURE =
-	'activeToken/GET_ACTIVE_TOKEN_LIST_FAILURE';
+export const FIND_REQUEST = 'find/FIND_REQUEST';
+export const FIND_SUCCESS = 'find/FIND_SUCCESS';
+export const FIND_FAILURE = 'find/FIND_FAILURE';
 
 //  actions
-export const getActiveToken = (params) => ({
-	type: GET_ACTIVE_TOKEN_LIST_REQUEST,
+export const findToken = (params) => ({
+	type: FIND_REQUEST,
 	params,
 });
 
 // initial State
 const initialState = {
-	activeToken: null,
+	find: null,
 	loading: false,
 };
 
@@ -24,14 +21,14 @@ const initialState = {
 const find = (state = initialState, action) =>
 	produce(state, (draft) => {
 		switch (action.type) {
-			case GET_ACTIVE_TOKEN_LIST_REQUEST:
+			case FIND_REQUEST:
 				draft.loading = true;
 				break;
-			case GET_ACTIVE_TOKEN_LIST_SUCCESS:
-				draft.activeToken = action.data;
+			case FIND_SUCCESS:
+				draft.find = action.data;
 				draft.loading = false;
 				break;
-			case GET_ACTIVE_TOKEN_LIST_FAILURE:
+			case FIND_FAILURE:
 				draft.loading = false;
 				break;
 

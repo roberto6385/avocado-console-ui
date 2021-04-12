@@ -33,7 +33,7 @@ import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/auth/refreshTicket';
 import {getVerify} from '../reducers/auth/verify';
 import {getRevoke} from '../reducers/auth/revoke';
-import {getActiveToken} from '../reducers/auth/find';
+import {findToken} from '../reducers/auth/find';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -105,12 +105,12 @@ const LeftContainer = () => {
 
 	const findActiveToken = useCallback(() => {
 		dispatch(
-			getActiveToken({
+			findToken({
 				offset: 0, //레코드 넘버
 				limit: 20, // 조회할 데이터 개수
 			}),
 		);
-	}, []);
+	}, [dispatch]);
 
 	return !minimize ? (
 		<OutlineCol>
