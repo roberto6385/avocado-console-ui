@@ -5,6 +5,7 @@ import AddServerForm from '../Form/AddServerForm';
 import ConfirmPopup from '../Popup/ConfirmPopup';
 import {useDispatch} from 'react-redux';
 import {CHANGE_OPEN_ADD_SERVER_FORM} from '../../reducers/common';
+import {OPEN_ADD_SERVER_FORM_POPUP} from '../../reducers/popup';
 
 const FolderContextMenu = ({data, indent, setOpenRename}) => {
 	const dispatch = useDispatch();
@@ -12,7 +13,6 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
-	const [addServerOpen, setAddServerOpen] = useState(false);
 
 	const MENU_ID = data.key + 'folder';
 
@@ -20,7 +20,10 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'New Server':
-				setAddServerOpen(true);
+				dispatch({
+					type: OPEN_ADD_SERVER_FORM_POPUP,
+					data: {type: 'add'},
+				});
 				break;
 			case 'New Folder':
 				setAddFolderOpen(true);
@@ -56,11 +59,6 @@ const FolderContextMenu = ({data, indent, setOpenRename}) => {
 					Delete
 				</Item>
 			</Menu>
-			<AddServerForm
-				setOpen={setAddServerOpen}
-				type={'add'}
-				open={addServerOpen}
-			/>
 
 			<ConfirmPopup
 				keyword={'add_folder'}

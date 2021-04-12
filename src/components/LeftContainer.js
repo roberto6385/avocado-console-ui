@@ -29,6 +29,7 @@ import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/refreshTicket';
+import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const LeftContainer = () => {
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
-	const [openAddServerForm, setOpenAddServerForm] = useState(false);
+
 	const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
@@ -47,7 +48,10 @@ const LeftContainer = () => {
 	}, [clicked_server, addFolderOpen]);
 
 	const onClickVisibleForm = useCallback(() => {
-		setOpenAddServerForm(true);
+		dispatch({
+			type: OPEN_ADD_SERVER_FORM_POPUP,
+			data: {type: 'add'},
+		});
 	}, []);
 
 	const onClickDeleteServer = useCallback(() => {
@@ -141,11 +145,6 @@ const LeftContainer = () => {
 				keyword={'add_folder'}
 				open={addFolderOpen}
 				setOpen={setAddFolderOpen}
-			/>
-			<AddServerForm
-				open={openAddServerForm}
-				setOpen={setOpenAddServerForm}
-				type='add'
 			/>
 		</OutlineCol>
 	) : (

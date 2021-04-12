@@ -1,13 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 
 import {AddServerButton, Background} from '../styles/common';
-import AddServerForm from './Form/AddServerForm';
+import {useDispatch} from 'react-redux';
+import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 
 const MainPage = () => {
-	const [open, setOpen] = useState(false);
+	const dispatch = useDispatch();
 
 	const onClickVisibleForm = useCallback(() => {
-		setOpen(true);
+		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
 	}, []);
 
 	return (
@@ -15,7 +16,6 @@ const MainPage = () => {
 			<AddServerButton onClick={onClickVisibleForm}>
 				Add Server
 			</AddServerButton>
-			<AddServerForm open={open} setOpen={setOpen} type='add' />
 		</Background>
 	);
 };

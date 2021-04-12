@@ -6,10 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
 
 import {NotFound, Main, Login, Setting} from './pages';
-import ConfirmPopup from './components/Popup/ConfirmPopup';
 import AlertPopup from './components/Popup/AlertPopup';
-import {useSelector} from 'react-redux';
-
+import AddServerForm from './components/Form/AddServerForm';
 
 class App extends Component {
 	render() {
@@ -22,6 +20,7 @@ class App extends Component {
 					<Route component={NotFound} />
 				</Switch>
 				<AlertPopup />
+				<AddServerForm />
 			</BrowserRouter>
 		);
 	}

@@ -9,10 +9,11 @@ import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 import AddServerForm from '../Form/AddServerForm';
+import {OPEN_ADD_SERVER_FORM_POPUP} from '../../reducers/popup';
 
 const ServerContextMenu = ({data, indent, setOpenRename}) => {
 	const [open, setOpen] = useState(false);
-	const [openAddServerForm, setOpenAddServerForm] = useState(false);
+
 	const [keyword, setKeyword] = useState('');
 	const {clicked_server, server} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -20,6 +21,7 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 
 	const MENU_ID = data.key + 'server';
 	const serverData = server.find((item) => item.key === clicked_server);
+
 	function handleItemClick({event}) {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
@@ -36,7 +38,10 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				setOpen(true);
 				break;
 			case 'Properties':
-				setOpenAddServerForm(true);
+				dispatch({
+					type: OPEN_ADD_SERVER_FORM_POPUP,
+					data: {type: 'edit', id: data.id},
+				});
 				break;
 			default:
 				return;
@@ -138,13 +143,6 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				keyword={'delete_server'}
 				open={open}
 				setOpen={setOpen}
-			/>
-			<AddServerForm
-				setOpen={setOpenAddServerForm}
-				open={openAddServerForm}
-				type='edit'
-				data={data}
-				id={data.id}
 			/>
 		</>
 	);
