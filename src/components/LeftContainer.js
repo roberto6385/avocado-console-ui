@@ -29,7 +29,10 @@ import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/refreshTicket';
-import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
+import {
+	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_CONFIRM_POPUP,
+} from '../reducers/popup';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -39,13 +42,17 @@ const LeftContainer = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [activeSearch, setActiveSearch] = useState(false);
-	const [openConfirm, setOpenConfirm] = useState(false);
+	// const [openConfirm, setOpenConfirm] = useState(false);
 
-	const [addFolderOpen, setAddFolderOpen] = useState(false);
+	// const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
-		setAddFolderOpen(!addFolderOpen);
-	}, [clicked_server, addFolderOpen]);
+		// setAddFolderOpen(!addFolderOpen);
+		dispatch({
+			type: OPEN_CONFIRM_POPUP,
+			data: {key: 'add_folder'},
+		});
+	}, []);
 
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({
@@ -56,7 +63,11 @@ const LeftContainer = () => {
 
 	const onClickDeleteServer = useCallback(() => {
 		if (clicked_server !== null) {
-			setOpenConfirm(true);
+			dispatch({
+				type: OPEN_CONFIRM_POPUP,
+				data: {key: 'delete_server_folder'},
+			});
+			// setOpenConfirm(true);
 		}
 	}, [clicked_server]);
 
@@ -136,16 +147,16 @@ const LeftContainer = () => {
 				</Nav.Item>
 			</Collapse>
 			<NavList search={search} />
-			<ConfirmPopup
-				keyword={'delete_server'}
-				open={openConfirm}
-				setOpen={setOpenConfirm}
-			/>
-			<ConfirmPopup
-				keyword={'add_folder'}
-				open={addFolderOpen}
-				setOpen={setAddFolderOpen}
-			/>
+			{/*<ConfirmPopup*/}
+			{/*	keyword={'delete_server'}*/}
+			{/*	open={openConfirm}*/}
+			{/*	setOpen={setOpenConfirm}*/}
+			{/*/>*/}
+			{/*<ConfirmPopup*/}
+			{/*	keyword={'add_folder'}*/}
+			{/*	open={addFolderOpen}*/}
+			{/*	setOpen={setAddFolderOpen}*/}
+			{/*/>*/}
 		</OutlineCol>
 	) : (
 		<SidebarShow>

@@ -288,10 +288,7 @@ const reducer = (state = initialState, action) => {
 					);
 				} else {
 					//전체삭제
-					const tempB = draft.History;
-					draft.History = tempB.filter(
-						(it) => it.uuid !== action.data.uuid,
-					);
+					draft.History = [];
 				}
 				break;
 

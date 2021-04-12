@@ -43,10 +43,8 @@ const Folder = ({open, data, indent}) => {
 	const [openTab, setOpenTab] = useState(false);
 	const [openTabRename, setOpenRename] = useState(false);
 	const [renameValue, setRenameValue] = useState('');
-	const [draggedItem, setDraggedItem] = useState({});
 
-	const {clicked_server, server, nav} = useSelector((state) => state.common);
-	const {me} = useSelector((state) => state.user);
+	const {clicked_server} = useSelector((state) => state.common);
 
 	useEffect(() => {
 		setOpenTab(open);

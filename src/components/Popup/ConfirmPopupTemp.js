@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
-import * as PropTypes from 'prop-types';
 import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,13 +8,14 @@ import {FaTimes} from 'react-icons/all';
 import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
 import useConfirmActions from '../../hooks/useConfirmActions';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
+import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
 
 const ConfirmMessage = {
 	delete_work: '선택하신 파일을 삭제하시겠습니까?',
 	edit_file: '변경사항이 있습니다. 저장하시겠습니까?',
-	delete_history: '모든 다운로드/업로드 이력을 삭제하시겠습니까?',
-	delete_server: '선택하신 서버를 삭제하시겠습니까?',
+	sftp_delete_history: '모든 다운로드/업로드 이력을 삭제하시겠습니까?',
+	delete_server_folder: '선택하신 서버/폴더 삭제하시겠습니까?',
 };
 
 const ConfirmTopMessage = {
@@ -23,8 +23,8 @@ const ConfirmTopMessage = {
 	rename_work: 'Rename',
 	sftp_new_folder: 'New Folder',
 	edit_file: 'Edit File',
-	delete_history: 'Delete History',
-	delete_server: 'Delete Server',
+	sftp_delete_history: 'Delete History',
+	delete_server_folder: 'Delete Server or Folder',
 	add_folder: 'New Folder',
 };
 
@@ -32,6 +32,7 @@ const ConfirmPlaceholder = {
 	rename_work: 'Please enter a name to change',
 	sftp_new_folder: 'Untitled folder',
 };
+
 const SAVE_KEYWORDS = [
 	'rename_work',
 	'sftp_new_folder',
@@ -40,24 +41,20 @@ const SAVE_KEYWORDS = [
 ];
 const FORM_KEYWORDS = ['rename_work', 'sftp_new_folder', 'add_folder'];
 
-const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
-	const {
-		currentText,
-		currentHighlight,
-		droplistHighlight,
-		listMode,
-	} = useSelector((state) => state.sftp);
-	const {deleteWork, renameWork, editFile, sftpNewFolder} = useConfirmActions(
-		ws,
-		uuid,
-	);
-
-	const curText = currentText.find((item) => item.uuid === uuid);
-	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
-	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
-	const currentlistMode = listMode.find((item) => item.uuid === uuid);
-
+const ConfirmPopupTemp = () => {
 	const dispatch = useDispatch();
+
+	const {confirm_popup} = useSelector((state) => state.popup);
+	const {clicked_server} = useSelector((state) => state.common);
+	const {sftpNewFolder} = useConfirmActions(
+		clicked_server?.ws,
+		clicked_server?.uuid,
+	);
+	const {
+		sftpDeleteHistory,
+		deleteServerFolder,
+		addFolder,
+	} = useConfirmActions();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const buttonRef = useRef(null);
@@ -65,76 +62,57 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 	const justExit = useCallback(() => {
 		dispatch({
 			type: SFTP_SAVE_CURRENT_MODE,
-			data: {uuid, mode: 'normal'},
+			// data: {uuid, mode: 'normal'},
 		});
 	}, []);
 
 	const handleClose = useCallback(() => {
-		setOpen(false);
+		dispatch({type: CLOSE_CONFIRM_POPUP});
 	}, []);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
 
-			switch (keyword) {
-				case 'delete_work':
-					currentlistMode?.mode === 'list'
-						? deleteWork(currentlistMode?.mode, highlightItem)
-						: deleteWork(currentlistMode?.mode, dropdownHLList);
-					break;
-				case 'rename_work':
-					currentlistMode?.mode === 'list'
-						? renameWork('list', highlightItem?.list, formValue)
-						: renameWork('drop', dropdownHLList?.list, formValue);
-					break;
+			switch (confirm_popup.key) {
 				case 'sftp_new_folder':
 					formValue !== '' && sftpNewFolder(formValue);
+					setFormValue('');
 					break;
-				case 'edit_file':
-					editFile(curText).then(() =>
-						dispatch({
-							type: SFTP_SAVE_CURRENT_MODE,
-							data: {uuid, mode: 'normal'},
-						}),
-					);
+				case 'sftp_delete_history':
+					sftpDeleteHistory();
 					break;
-
+				case 'delete_server_folder':
+					clicked_server && deleteServerFolder();
+					break;
+				case 'add_folder':
+					formValue !== '' && addFolder(formValue);
+					setFormValue('');
+					break;
 				default:
 					break;
 			}
 			handleClose();
 		},
-		[uuid, formValue, currentlistMode, highlightItem, dropdownHLList],
+		[confirm_popup, formValue],
 	);
 
 	const cancelFunction = useCallback(() => {
-		keyword === 'edit_file' && justExit();
+		confirm_popup.key === 'edit_file' && justExit();
 		handleClose();
-	}, [keyword]);
-
-	useEffect(() => {
-		setFormValue(
-			keyword === 'rename_work'
-				? currentlistMode?.mode === 'list'
-					? highlightItem.list[0]?.fileName
-					: dropdownHLList?.list[0]?.item.fileName
-				: '',
-		);
-		inputRef.current?.focus();
-	}, [open]);
+	}, []);
 
 	useEffect(() => {
 		buttonRef.current?.focus();
 	}, []);
 
 	return (
-		<CustomModal size='lg' show={open} onHide={handleClose}>
+		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
 			<Card.Header as='h5'>
 				{Object.prototype.hasOwnProperty.call(
 					ConfirmTopMessage,
-					keyword,
-				) && ConfirmTopMessage[keyword]}
+					confirm_popup.key,
+				) && ConfirmTopMessage[confirm_popup.key]}
 				<span className={'right'} onClick={handleClose}>
 					<FaTimes />
 				</span>
@@ -142,10 +120,10 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(
 					ConfirmMessage,
-					keyword,
-				) && <p>{ConfirmMessage[keyword]}</p>}
+					confirm_popup.key,
+				) && <p>{ConfirmMessage[confirm_popup.key]}</p>}
 
-				{FORM_KEYWORDS.includes(keyword) && (
+				{FORM_KEYWORDS.includes(confirm_popup.key) && (
 					<Form onSubmit={submitFunction}>
 						<Form.Control
 							ref={inputRef}
@@ -154,8 +132,8 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 							placeholder={
 								Object.prototype.hasOwnProperty.call(
 									ConfirmPlaceholder,
-									keyword,
-								) && ConfirmPlaceholder[keyword]
+									confirm_popup.key,
+								) && ConfirmPlaceholder[confirm_popup.key]
 							}
 							onChange={onChangeFormValue}
 						/>
@@ -177,19 +155,11 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 					onClick={submitFunction}
 					back={`${MAIN_COLOR}`}
 				>
-					{SAVE_KEYWORDS.includes(keyword) ? 'SAVE' : 'OK'}
+					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
 				</PopupButton>
 			</ModalFooter>
 		</CustomModal>
 	);
 };
 
-ConfirmPopup.propTypes = {
-	keyword: PropTypes.string.isRequired,
-	open: PropTypes.bool.isRequired,
-	setOpen: PropTypes.func.isRequired,
-	ws: PropTypes.object, // optional
-	uuid: PropTypes.string, // optional
-};
-
-export default ConfirmPopup;
+export default ConfirmPopupTemp;

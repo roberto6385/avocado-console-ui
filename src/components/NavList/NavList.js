@@ -48,9 +48,7 @@ const NavList = ({search}) => {
 		const sortableServerNav = document.getElementById('sortableServerNav');
 		sortableServerNav !== null &&
 			Sortable.create(sortableServerNav, {
-				// group: 'sorting',
 				sort: false,
-				// direction: 'vertical',
 			});
 	}, []);
 

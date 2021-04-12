@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {toEditMode} from '../commands';
 import useSftpCommands from '../../../hooks/useSftpCommands';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {
@@ -55,8 +56,12 @@ const FileListContextMenu = ({ws, uuid}) => {
 			case 'Edit':
 				contextEdit(event);
 				break;
-			case 'new_folder':
+			case 'sftp_new_folder':
 				setOpen(true);
+				// dispatch({
+				// 	type: OPEN_CONFIRM_POPUP,
+				// 	data: {key: 'sftp_new_folder', ws: ws, uuid: uuid},
+				// });
 				break;
 			case 'rename_work':
 				setOpen(true);
@@ -104,7 +109,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 				</Item>
 				<Separator />
 
-				<Item id='new_folder' onClick={handleItemClick}>
+				<Item id='sftp_new_folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item

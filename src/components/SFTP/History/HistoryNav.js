@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import {
 	BsArrowClockwise,
 	BsCheck,
@@ -7,13 +7,14 @@ import {
 	MdDelete,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {NavItem} from '../../../styles/sftp';
 import useSftpCommands from '../../../hooks/useSftpCommands';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {useDispatch} from 'react-redux';
 
-const HistoryNav = ({index, ws, uuid, serverId}) => {
-	const [open, setOpen] = useState(false);
+const HistoryNav = ({ws, uuid}) => {
 	const {uploadWork, initialWork} = useSftpCommands({ws, uuid});
+	const dispatch = useDispatch();
 
 	const upload = async () => {
 		const uploadInput = document.createElement('input');
@@ -29,10 +30,13 @@ const HistoryNav = ({index, ws, uuid, serverId}) => {
 		document.body.removeChild(uploadInput);
 	};
 
-	const historyDelete = () => {
+	const historyDelete = useCallback(() => {
 		// if exist highlighting history
-		setOpen(true);
-	};
+		dispatch({
+			type: OPEN_CONFIRM_POPUP,
+			data: {key: 'sftp_delete_history'},
+		});
+	}, []);
 
 	return (
 		<>
@@ -51,22 +55,13 @@ const HistoryNav = ({index, ws, uuid, serverId}) => {
 			<NavItem onClick={historyDelete}>
 				<MdDelete />
 			</NavItem>
-			<ConfirmPopup
-				keyword={'delete_history'}
-				open={open}
-				setOpen={setOpen}
-				ws={ws}
-				uuid={uuid}
-			/>
 		</>
 	);
 };
 
 HistoryNav.propTypes = {
-	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
-	serverId: PropTypes.number.isRequired,
 };
 
 export default HistoryNav;

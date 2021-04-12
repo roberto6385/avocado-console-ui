@@ -8,7 +8,6 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
-import AddServerForm from '../Form/AddServerForm';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../../reducers/popup';
 
 const ServerContextMenu = ({data, indent, setOpenRename}) => {

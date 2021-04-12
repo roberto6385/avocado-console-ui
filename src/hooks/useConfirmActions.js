@@ -150,7 +150,7 @@ const useConfirmActions = (ws, uuid) => {
 		});
 	}, []);
 
-	const newFolderFunction = useCallback((formValue) => {
+	const sftNewFolderFunction = useCallback((formValue) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
@@ -162,13 +162,6 @@ const useConfirmActions = (ws, uuid) => {
 				ws,
 				path: path + formValue,
 			}).then(() => initialWork());
-		});
-	}, []);
-
-	const deleteHistoryFunction = useCallback(() => {
-		dispatch({
-			type: SFTP_DELETE_HISTORY,
-			data: {id: -1, uuid},
 		});
 	}, []);
 
@@ -186,18 +179,22 @@ const useConfirmActions = (ws, uuid) => {
 				await editFileFunction(curText);
 			},
 
-			newFolder: (formValue) => {
-				newFolderFunction(formValue);
+			sftpNewFolder: (formValue) => {
+				sftNewFolderFunction(formValue);
 			},
 
-			deleteHistory: (uuid) => {
-				deleteHistoryFunction();
+			sftpDeleteHistory: () => {
+				dispatch({
+					type: SFTP_DELETE_HISTORY,
+					data: {id: -1},
+				});
 			},
 
-			deleteServer: () => {
+			deleteServerFolder: () => {
 				dispatch({type: DELETE_SERVER_FOLDER});
 			},
 			addFolder: (formValue) => {
+				console.log('HERE GERE');
 				dispatch({type: ADD_FOLDER, data: formValue});
 			},
 		}),

@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Col, Form, Modal} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
-import * as PropTypes from 'prop-types';
 
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
@@ -43,7 +42,6 @@ const AddServerForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('SUBMOT FORM HERE');
 
 			const ws = new WebSocket('ws://' + host + ':8081/ws/ssh');
 
@@ -111,7 +109,7 @@ const AddServerForm = () => {
 
 	const onClickCloseForm = useCallback(() => {
 		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-	}, [add_server_form_popup]);
+	}, []);
 
 	useEffect(() => {
 		if (add_server_form_popup.open) {
@@ -137,6 +135,7 @@ const AddServerForm = () => {
 			}
 		}
 	}, [add_server_form_popup]);
+
 	return (
 		<AddServerModal
 			show={add_server_form_popup.open}

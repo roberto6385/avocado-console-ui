@@ -23,7 +23,7 @@ const SFTP_COMPONENT = ({index, socket, serverId}) => {
 					<History
 						index={index}
 						socket={socket}
-						serverId={serverId}
+
 					/>
 				</>
 			)}
