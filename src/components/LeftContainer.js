@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Collapse, Nav} from 'react-bootstrap';
 import {
 	AiFillEyeInvisible,
+	AiOutlineCheck,
 	FaPlus,
 	FaRegTrashAlt,
 	FaSearch,
@@ -29,6 +30,7 @@ import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/refreshTicket';
+import {getVerify} from '../reducers/verify';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -85,10 +87,18 @@ const LeftContainer = () => {
 		dispatch(
 			getRefreshTicket({
 				Authorization: 'Basic ' + encodeData,
-				refresh_token: userTicket?.refresh_token,
+				refresh_token: userTicket.refresh_token,
 			}),
 		);
-	}, []);
+	}, [userTicket, dispatch, encodeData]);
+
+	const verify = useCallback(() => {
+		dispatch(
+			getVerify({
+				Authorization: 'Bearer ' + userTicket.access_token,
+			}),
+		);
+	}, [userTicket, dispatch]);
 
 	return !minimize ? (
 		<OutlineCol>
@@ -109,6 +119,9 @@ const LeftContainer = () => {
 					</IconButton>
 					<IconButton onClick={refresh}>
 						<MdRefresh />
+					</IconButton>
+					<IconButton onClick={verify}>
+						<AiOutlineCheck />
 					</IconButton>
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />

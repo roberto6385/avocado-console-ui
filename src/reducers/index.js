@@ -9,6 +9,7 @@ import popup from './popup';
 import clientTicket from './clientTicket';
 import userTicket from './userTicket';
 import refreshTicket from './refreshTicket';
+import verify from './verify';
 
 const rootReducer = combineReducers({
 	user,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
 	clientTicket,
 	userTicket,
 	refreshTicket,
+	verify,
 });
 
 export default rootReducer;
