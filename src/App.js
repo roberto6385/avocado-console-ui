@@ -10,6 +10,7 @@ import ConfirmPopup from './components/Popup/ConfirmPopup';
 import AlertPopup from './components/Popup/AlertPopup';
 import {useSelector} from 'react-redux';
 
+
 class App extends Component {
 	render() {
 		return (
