@@ -7,6 +7,7 @@ import {
 	FaSearch,
 	FiSettings,
 	GrLogout,
+	MdRefresh,
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,10 +29,14 @@ import NavList from './NavList/NavList';
 import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
+import {getRefreshTicket} from '../reducers/refreshTicket';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
-	const {minimize, clicked_server} = useSelector((state) => state.common);
+	const {minimize, clicked_server, encodeData} = useSelector(
+		(state) => state.common,
+	);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
@@ -77,6 +82,15 @@ const LeftContainer = () => {
 		}
 	};
 
+	const refresh = useCallback(() => {
+		dispatch(
+			getRefreshTicket({
+				Authorization: 'Basic ' + encodeData,
+				refresh_token: userTicket?.refresh_token,
+			}),
+		);
+	}, []);
+
 	return !minimize ? (
 		<OutlineCol>
 			<Header>
@@ -93,6 +107,9 @@ const LeftContainer = () => {
 					</IconButton>
 					<IconButton onClick={onClickOpenSearch}>
 						<FaSearch />
+					</IconButton>
+					<IconButton onClick={refresh}>
+						<MdRefresh />
 					</IconButton>
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />

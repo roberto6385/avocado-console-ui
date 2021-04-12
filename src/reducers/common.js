@@ -1,6 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
+	encodeData: null,
 	current_tab: null,
 	clicked_server: null,
 	max_display_tab: 1,
@@ -154,6 +155,8 @@ export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
 export const EDIT_SERVER = 'EDIT_SERVER';
 
+export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
+
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
 		current_tab = null;
@@ -266,6 +269,10 @@ function addDataOnNode(nav, clicked_server, data) {
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case SAVE_ENCODE_DATA: {
+				draft.encodeData = action.data;
+				break;
+			}
 			case ADD_FOLDER: {
 				const data = {
 					type: 'folder',

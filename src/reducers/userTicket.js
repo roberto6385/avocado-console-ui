@@ -4,6 +4,7 @@ import produce from 'immer';
 export const GET_USER_TICKET_REQUEST = 'userTicket/GET_USER_TICKET_REQUEST';
 export const GET_USER_TICKET_SUCCESS = 'userTicket/GET_USER_TICKET_SUCCESS';
 export const GET_USER_TICKET_FAILURE = 'userTicket/GET_USER_TICKET_FAILURE';
+export const REFRESH_USER_TICKET = 'userTicket/REFRESH_USER_TICKET';
 
 //  actions
 export const getUserTicket = (params) => ({
@@ -31,6 +32,11 @@ const userTicket = (state = initialState, action) =>
 			case GET_USER_TICKET_FAILURE:
 				draft.loading = false;
 				break;
+
+			case REFRESH_USER_TICKET:
+				draft.userTicket = Object.assign(draft.userTicket, action.data);
+				break;
+
 			default:
 				return state;
 		}

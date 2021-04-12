@@ -5,6 +5,10 @@ import {
 	GET_REFRESH_TICKET_SUCCESS,
 	GET_REFRESH_TICKET_REQUEST,
 } from '../reducers/refreshTicket';
+import {
+	GET_USER_TICKET_SUCCESS,
+	REFRESH_USER_TICKET,
+} from '../reducers/userTicket';
 
 const querystring = require('query-string');
 
@@ -28,6 +32,7 @@ function* getRefreshTicket(action) {
 	try {
 		const res = yield call(getRefreshTicketApi, action.params);
 		yield put({type: GET_REFRESH_TICKET_SUCCESS, data: res.data});
+		yield put({type: REFRESH_USER_TICKET, data: res.data});
 	} catch (err) {
 		yield put({type: GET_REFRESH_TICKET_FAILURE, data: err.response.data});
 	}
