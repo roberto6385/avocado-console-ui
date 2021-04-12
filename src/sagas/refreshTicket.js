@@ -5,10 +5,7 @@ import {
 	GET_REFRESH_TICKET_SUCCESS,
 	GET_REFRESH_TICKET_REQUEST,
 } from '../reducers/refreshTicket';
-import {
-	GET_USER_TICKET_SUCCESS,
-	REFRESH_USER_TICKET,
-} from '../reducers/userTicket';
+import {REFRESH_USER_TICKET} from '../reducers/userTicket';
 
 const querystring = require('query-string');
 

@@ -13,7 +13,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from './Popup/ConfirmPopup';
 import {
-	Background,
 	Header,
 	IconButton,
 	OutlineCol,

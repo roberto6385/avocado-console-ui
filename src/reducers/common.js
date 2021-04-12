@@ -141,7 +141,7 @@ export const initialState = {
 
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
-export const DELETE_SERVER = 'DELETE_SERVER';
+export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
 export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
@@ -246,12 +246,12 @@ function deleteTreeStart(root, key) {
 
 function deleteServerUnderTree(node, server) {
 	for (let i = 0; i < node.contain.length; i++) {
-		if (node.contain[i].key[0] === 's') {
+		if (node.contain[i].key[0] === 's')
 			server.splice(
 				server.findIndex((v) => v.id === node.contain[i].id),
 				1,
 			);
-		} else deleteServerUnderTree(node.contain[i], server);
+		else deleteServerUnderTree(node.contain[i], server);
 	}
 }
 
@@ -425,7 +425,7 @@ const reducer = (state = initialState, action) => {
 
 				break;
 			}
-			case DELETE_SERVER: {
+			case DELETE_SERVER_FOLDER: {
 				if (draft.clicked_server[0] === 's')
 					draft.server = draft.server.filter(
 						(v) => v.key !== draft.clicked_server,
