@@ -11,7 +11,7 @@ const querystring = require('query-string');
 
 function getRefreshTicketApi(params) {
 	return axios.post(
-		'/oauth2/v1/token/',
+		'/oauth2/v1/token',
 		querystring.stringify({
 			grant_type: 'refresh_token',
 			refresh_token: params.refresh_token,

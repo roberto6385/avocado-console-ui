@@ -4,6 +4,7 @@ import userTicket from './auth/userTicket';
 import refreshTicket from './auth/refreshTicket';
 import verify from './auth/verify';
 import revoke from './auth/revoke';
+import find from './auth/find';
 
 export default function* rootSaga() {
 	yield all([
@@ -12,5 +13,6 @@ export default function* rootSaga() {
 		fork(refreshTicket),
 		fork(verify),
 		fork(revoke),
+		fork(find),
 	]);
 }

@@ -7,6 +7,7 @@ import {
 	FaRegTrashAlt,
 	FaSearch,
 	FiSettings,
+	GiToken,
 	GrLogout,
 	MdRefresh,
 	RiFolderAddLine,
@@ -32,6 +33,7 @@ import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/auth/refreshTicket';
 import {getVerify} from '../reducers/auth/verify';
 import {getRevoke} from '../reducers/auth/revoke';
+import {getActiveToken} from '../reducers/auth/find';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -101,6 +103,15 @@ const LeftContainer = () => {
 		);
 	}, [userTicket, dispatch]);
 
+	const findActiveToken = useCallback(() => {
+		dispatch(
+			getActiveToken({
+				offset: 0, //레코드 넘버
+				limit: 20, // 조회할 데이터 개수
+			}),
+		);
+	}, []);
+
 	return !minimize ? (
 		<OutlineCol>
 			<Header>
@@ -126,6 +137,9 @@ const LeftContainer = () => {
 					</IconButton>
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />
+					</IconButton>
+					<IconButton onClick={findActiveToken}>
+						<GiToken />
 					</IconButton>
 					<IconButton onClick={() => sideBarhandleSize('minimize')}>
 						<AiFillEyeInvisible />
