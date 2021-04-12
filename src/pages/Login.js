@@ -3,6 +3,7 @@ import LoginForm from '../components/Form/LoginForm';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {MainContainer} from '../styles/page';
+import UserAuthForm from '../components/Form/UserAuthForm';
 
 const Login = () => {
 	const {clientTicket} = useSelector((state) => state.clientTicket);
@@ -10,7 +11,8 @@ const Login = () => {
 
 	return (
 		<MainContainer>
-			<LoginForm />
+			{/*<LoginForm />*/}
+			<UserAuthForm />
 		</MainContainer>
 	);
 };

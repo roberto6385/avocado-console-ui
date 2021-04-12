@@ -14,7 +14,7 @@ function getClientTicketApi(params) {
 		querystring.stringify({grant_type: 'client_credentials'}),
 		{
 			headers: {
-				Authorization: params,
+				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 		},
@@ -34,6 +34,6 @@ function* watchGetClientTicket() {
 	yield takeLatest(GET_CLIENT_TICKET_REQUEST, getClientTicket);
 }
 
-export default function* userTicketSaga() {
+export default function* clientTicketSaga() {
 	yield all([fork(watchGetClientTicket)]);
 }

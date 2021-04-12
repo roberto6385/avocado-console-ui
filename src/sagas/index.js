@@ -1,6 +1,7 @@
 import {all, fork} from 'redux-saga/effects';
-import userTicket from './clientTicket';
+import clientTicket from './clientTicket';
+import userTicket from './userTicket';
 
 export default function* rootSaga() {
-	yield all([fork(userTicket)]);
+	yield all([fork(clientTicket), fork(userTicket)]);
 }
