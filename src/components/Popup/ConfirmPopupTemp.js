@@ -72,10 +72,6 @@ const ConfirmPopupTemp = () => {
 			e.preventDefault();
 
 			switch (confirm_popup.key) {
-				case 'sftp_new_folder':
-					formValue !== '' && sftpNewFolder(formValue);
-					setFormValue('');
-					break;
 				case 'sftp_delete_history':
 					sftpDeleteHistory();
 					break;

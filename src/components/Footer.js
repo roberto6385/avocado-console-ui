@@ -17,11 +17,6 @@ import {
 const Footer = () => {
 	const dispatch = useDispatch();
 	const {server, tab, current_tab} = useSelector((state) => state.common);
-	// current tab host info
-	const currentTabs_tab_info = tab.find((item) => item.id === current_tab);
-	const currentServerInfo = server.find(
-		(item) => item.id === currentTabs_tab_info?.server.id,
-	);
 
 	const onClickIncreaseFont = useCallback(() => {
 		dispatch({type: SSHT_INCREASE_FONT_SIZE});
@@ -52,7 +47,15 @@ const Footer = () => {
 						</IconButton>
 					</div>
 				)}
-				<HostInfo>{currentServerInfo?.host}</HostInfo>
+				<HostInfo>
+					{
+						server.find(
+							(v) =>
+								v.id ===
+								tab.find((i) => i.id === current_tab).server.id,
+						).host
+					}
+				</HostInfo>
 			</ButtonsContainer>
 		</BottomBar>
 	);
