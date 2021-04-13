@@ -11,6 +11,11 @@ const sendConnect = (ws, token, data) => {
 	connect.setPassword(data.password);
 	connect.setPort(data.port);
 
+	// sftp 서버로 alive message 재전송 회수 ( 0 값이면 사용 안 함 )
+	connect.setKeepalivecount(2);
+	// sftp 서버로 alive message 전송 주기 ( 단위 ms : 1000ms -> 1sec)
+	connect.setKeepaliveinterval(60000);
+
 	request.setConnect(connect);
 	message.setRequest(request);
 

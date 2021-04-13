@@ -1586,7 +1586,9 @@ proto.proto.sftp.ConnectRequest.toObject = function(includeInstance, msg) {
     user: jspb.Message.getFieldWithDefault(msg, 3, ""),
     password: jspb.Message.getFieldWithDefault(msg, 4, ""),
     port: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    serverid: jspb.Message.getFieldWithDefault(msg, 6, "")
+    serverid: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    keepalivecount: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    keepaliveinterval: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -1646,6 +1648,14 @@ proto.proto.sftp.ConnectRequest.deserializeBinaryFromReader = function(msg, read
     case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setServerid(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setKeepalivecount(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setKeepaliveinterval(value);
       break;
     default:
       reader.skipField();
@@ -1715,6 +1725,20 @@ proto.proto.sftp.ConnectRequest.serializeBinaryToWriter = function(message, writ
   if (f.length > 0) {
     writer.writeString(
       6,
+      f
+    );
+  }
+  f = message.getKeepalivecount();
+  if (f !== 0) {
+    writer.writeInt32(
+      7,
+      f
+    );
+  }
+  f = message.getKeepaliveinterval();
+  if (f !== 0) {
+    writer.writeInt32(
+      8,
       f
     );
   }
@@ -1826,6 +1850,42 @@ proto.proto.sftp.ConnectRequest.prototype.getServerid = function() {
  */
 proto.proto.sftp.ConnectRequest.prototype.setServerid = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional int32 keepAliveCount = 7;
+ * @return {number}
+ */
+proto.proto.sftp.ConnectRequest.prototype.getKeepalivecount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.sftp.ConnectRequest} returns this
+ */
+proto.proto.sftp.ConnectRequest.prototype.setKeepalivecount = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
+};
+
+
+/**
+ * optional int32 keepAliveInterval = 8;
+ * @return {number}
+ */
+proto.proto.sftp.ConnectRequest.prototype.getKeepaliveinterval = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.sftp.ConnectRequest} returns this
+ */
+proto.proto.sftp.ConnectRequest.prototype.setKeepaliveinterval = function(value) {
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
