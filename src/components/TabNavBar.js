@@ -27,11 +27,12 @@ const TabNavBar = () => {
 	const {tab, current_tab} = useSelector((state) => state.common);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
+
 	const changeVisibleTab = useCallback(
 		(tab_id) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: tab_id});
 		},
-		[dispatch],
+		[],
 	);
 
 	const onClickDelete = useCallback(
@@ -59,30 +60,36 @@ const TabNavBar = () => {
 				});
 			}
 		},
-		[dispatch, tab],
+		[tab],
 	);
 
-	const prevPutItem = (item) => {
-		// console.log(tab.findIndex((it) => it === item)); //이전 위치
-		setOldOlder(tab.findIndex((it) => it === item));
-		setDraggedItem(item);
-	};
+	const prevPutItem = useCallback(
+		(item) => () => {
+			// console.log(tab.findIndex((it) => it === item)); //이전 위치
+			setOldOlder(tab.findIndex((it) => it === item));
+			setDraggedItem(item);
+		},
+		[tab],
+	);
 
-	const nextPutItem = (item) => {
-		// console.log(tab);
-		console.log(oldOlder);
-		const newOlder = tab.findIndex((it) => it === item);
-		console.log(tab.findIndex((it) => it === item)); //바뀐위치
-		console.log(draggedItem);
-		dispatch({
-			type: SORT_TAB,
-			data: {
-				oldOrder: oldOlder,
-				newOrder: newOlder,
-				newTab: draggedItem,
-			},
-		});
-	};
+	const nextPutItem = useCallback(
+		(item) => () => {
+			// console.log(tab);
+			console.log(oldOlder);
+			const newOlder = tab.findIndex((it) => it === item);
+			console.log(tab.findIndex((it) => it === item)); //바뀐위치
+			console.log(draggedItem);
+			dispatch({
+				type: SORT_TAB,
+				data: {
+					oldOrder: oldOlder,
+					newOrder: newOlder,
+					newTab: draggedItem,
+				},
+			});
+		},
+		[tab, oldOlder, draggedItem],
+	);
 
 	useEffect(() => {
 		const sortableTabNav = document.getElementById('sortableTabNav');
@@ -92,7 +99,7 @@ const TabNavBar = () => {
 				sort: false,
 				direction: 'horizontal',
 			});
-	}, []);
+	}, [Sortable]);
 
 	return (
 		<TabContainer
@@ -107,8 +114,8 @@ const TabNavBar = () => {
 							<TabNavItem
 								key={data.id.toString()}
 								draggable='true'
-								onDragStart={() => prevPutItem(data)}
-								onDrop={() => nextPutItem(data)}
+								onDragStart={prevPutItem(data)}
+								onDrop={nextPutItem(data)}
 							>
 								<NavLink
 									className={

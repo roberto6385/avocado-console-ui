@@ -7,7 +7,6 @@ import {
 	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
-import {ADD_FOLDER, DELETE_SERVER_FOLDER} from '../reducers/common';
 import newSftp_ws from '../ws/sftp_ws';
 import useSftpCommands from './useSftpCommands';
 
@@ -150,7 +149,7 @@ const useConfirmActions = (ws, uuid) => {
 		});
 	}, []);
 
-	const newFolderFunction = useCallback((formValue) => {
+	const sftNewFolderFunction = useCallback((formValue) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
@@ -162,13 +161,6 @@ const useConfirmActions = (ws, uuid) => {
 				ws,
 				path: path + formValue,
 			}).then(() => initialWork());
-		});
-	}, []);
-
-	const deleteHistoryFunction = useCallback(() => {
-		dispatch({
-			type: SFTP_DELETE_HISTORY,
-			data: {id: -1, uuid},
 		});
 	}, []);
 
@@ -186,19 +178,15 @@ const useConfirmActions = (ws, uuid) => {
 				await editFileFunction(curText);
 			},
 
-			newFolder: (formValue) => {
-				newFolderFunction(formValue);
+			sftpNewFolder: (formValue) => {
+				sftNewFolderFunction(formValue);
 			},
 
-			deleteHistory: (uuid) => {
-				deleteHistoryFunction();
-			},
-
-			deleteServer: () => {
-				dispatch({type: DELETE_SERVER_FOLDER});
-			},
-			addFolder: (formValue) => {
-				dispatch({type: ADD_FOLDER, data: formValue});
+			sftpDeleteHistory: () => {
+				dispatch({
+					type: SFTP_DELETE_HISTORY,
+					data: {id: -1},
+				});
 			},
 		}),
 		[dispatch],

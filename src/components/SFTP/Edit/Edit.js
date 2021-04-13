@@ -5,21 +5,20 @@ import EditNav from './EditNav';
 import EditContents from './EditContents';
 import {FlexBox, SFTPBody} from '../../../styles/sftp';
 
-const Edit = ({index, socket}) => {
+const Edit = ({socket}) => {
 	return (
 		<FlexBox>
 			<Card.Header>
-				<EditNav index={index} ws={socket.ws} uuid={socket.uuid} />
+				<EditNav ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
-				<EditContents index={index} ws={socket.ws} uuid={socket.uuid} />
+				<EditContents uuid={socket.uuid} />
 			</SFTPBody>
 		</FlexBox>
 	);
 };
 
 Edit.propTypes = {
-	index: PropTypes.number.isRequired,
 	socket: PropTypes.object.isRequired,
 };
 

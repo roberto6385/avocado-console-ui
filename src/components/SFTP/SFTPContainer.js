@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import SFTP_COMPONENT from './SFTP';
 import * as PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import {CLOSE_TAB} from '../../reducers/common';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/sftp_ws';
+import SFTP_Component from './SFTP';
 
 const SFTPContainer = ({index, socket, data}) => {
 	const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const SFTPContainer = ({index, socket, data}) => {
 		};
 	}, []);
 
-	return <SFTP_COMPONENT index={index} socket={socket} serverId={data.id} />;
+	return <SFTP_Component index={index} socket={socket}  />;
 };
 
 SFTPContainer.propTypes = {

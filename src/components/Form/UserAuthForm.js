@@ -12,18 +12,21 @@ const UserAuthForm = () => {
 	const [password, onChangePassword] = useInput('123456789');
 	const {loading} = useSelector((state) => state.userTicket);
 
-	const onSubmitForm = useCallback((e) => {
-		e.preventDefault();
-		const encodeData = base64.encode(`${user}:${password}`);
-		dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-		dispatch(
-			getUserTicket({
-				Authorization: 'Basic ' + encodeData,
-				username: user,
-				password: password,
-			}),
-		);
-	}, []);
+	const onSubmitForm = useCallback(
+		(e) => {
+			e.preventDefault();
+			const encodeData = base64.encode(`${user}:${password}`);
+			dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
+			dispatch(
+				getUserTicket({
+					Authorization: 'Basic ' + encodeData,
+					username: user,
+					password: password,
+				}),
+			);
+		},
+		[user, password],
+	);
 
 	return !loading ? (
 		<Form

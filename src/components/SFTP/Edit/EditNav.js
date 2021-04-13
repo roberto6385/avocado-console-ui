@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_HISTORY,
+} from '../../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {Navbar, NavItem} from '../../../styles/sftp';
 import useConfirmActions from '../../../hooks/useConfirmActions';
 
-const EditNav = ({index, ws, uuid}) => {
+const EditNav = ({ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const {editFile} = useConfirmActions(ws, uuid);
@@ -19,7 +22,7 @@ const EditNav = ({index, ws, uuid}) => {
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const path = curPath?.path;
 
-	const editedFileDownload = () => {
+	const editedFileDownload = useCallback(() => {
 		let link = document.createElement('a');
 		link.download = curText?.name;
 		let blob = new Blob([curText?.text], {type: 'text/plain'});
@@ -39,13 +42,13 @@ const EditNav = ({index, ws, uuid}) => {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
-	};
+	}, [curText, path]);
 
-	const editedFileSave = async () => {
+	const editedFileSave = useCallback(async () => {
 		await editFile(curText);
-	};
+	}, [curText]);
 
-	const toNormalMode = () => {
+	const toNormalMode = useCallback(() => {
 		if (curText?.text !== compareText?.text) {
 			setOpen(true);
 		} else {
@@ -54,7 +57,7 @@ const EditNav = ({index, ws, uuid}) => {
 				data: {uuid, mode: 'normal'},
 			});
 		}
-	};
+	}, [curText, compareText, uuid]);
 
 	return (
 		<Navbar>
@@ -84,7 +87,6 @@ const EditNav = ({index, ws, uuid}) => {
 };
 
 EditNav.propTypes = {
-	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };

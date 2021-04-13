@@ -17,7 +17,7 @@ const SplitBar = () => {
 				data: {cols: cols, max: max},
 			});
 		},
-		[dispatch],
+		[],
 	);
 
 	return (

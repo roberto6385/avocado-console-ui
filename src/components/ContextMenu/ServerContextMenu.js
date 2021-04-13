@@ -1,61 +1,79 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
-import ConfirmPopup from '../Popup/ConfirmPopup';
 import {useDispatch, useSelector} from 'react-redux';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
-import AddServerForm from '../Form/AddServerForm';
+import {
+	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_CONFIRM_POPUP,
+} from '../../reducers/popup';
 
-const ServerContextMenu = ({data, indent, setOpenRename}) => {
-	const [open, setOpen] = useState(false);
-	const [openAddServerForm, setOpenAddServerForm] = useState(false);
-	const [keyword, setKeyword] = useState('');
-	const {clicked_server, server} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+const ServerContextMenuMessage = {
+	connect: 'Connect',
+	open_sftp: 'Open SFTP',
+	rename: 'Rename',
+	delete: 'Delete',
+	properties: 'Properties',
+};
+
+const ServerContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
-
+	const {server} = useSelector((state) => state.common);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
-	const serverData = server.find((item) => item.key === clicked_server);
-	function handleItemClick({event}) {
-		setKeyword(event.currentTarget.id);
-		switch (event.currentTarget.id) {
-			case 'Connect':
-				openSSHT();
-				break;
-			case 'Open SFTP':
-				openSFTP();
-				break;
-			case 'Rename':
-				setOpenRename(true);
-				break;
-			case 'Delete':
-				setOpen(true);
-				break;
-			case 'Properties':
-				setOpenAddServerForm(true);
-				break;
-			default:
-				return;
-		}
-	}
 
-	const openSFTP = () => {
-		const ws = new WebSocket(`ws://${serverData.host}:8081/ws/sftp`);
+	const handleItemClick = useCallback(
+		(e) => () => {
+			switch (e) {
+				case 'connect':
+					openSSHT();
+					break;
+				case 'open_sftp':
+					openSFTP();
+					break;
+				case 'rename':
+					setOpenRename(true);
+					break;
+				case 'delete':
+					dispatch({
+						type: OPEN_CONFIRM_POPUP,
+						data: {key: 'delete_server_folder'},
+					});
+					break;
+				case 'properties':
+					dispatch({
+						type: OPEN_ADD_SERVER_FORM_POPUP,
+						data: {type: 'edit', id: data.id},
+					});
+					break;
+				default:
+					return;
+			}
+		},
+		[],
+	);
+
+	const openSFTP = useCallback(() => {
+		const correspondedServer = server.find((i) => i.id === data.id);
+
+		const ws = new WebSocket(
+			`ws://${correspondedServer.host}:8081/ws/sftp`,
+		);
 		ws.onopen = async () => {
 			const {uuid} = await newSftp_ws({
 				keyword: 'Connection',
 				ws,
 				token: userTicket.access_token,
-				data: serverData,
+				data: correspondedServer,
 			});
 			dispatch({
 				type: OPEN_TAB,
 				data: {
-					id: serverData.id,
+					id: correspondedServer.id,
 					type: 'SFTP',
 					ws: ws,
 					uuid: uuid,
@@ -69,9 +87,9 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				},
 			});
 		};
-	};
+	}, [server, userTicket, data]);
 
-	const openSSHT = () => {
+	const openSSHT = useCallback(() => {
 		const correspondedServer = server.find((i) => i.id === data.id);
 		const ws = new WebSocket(
 			'ws://' + correspondedServer.host + ':8081/ws/ssh',
@@ -109,50 +127,25 @@ const ServerContextMenu = ({data, indent, setOpenRename}) => {
 				else console.log('V ServerNavBar onmessage: ', message);
 			};
 		};
-	};
+	}, [server, data]);
 
 	return (
-		<>
-			<Menu
-				id={MENU_ID}
-				animation={animation.slide}
-				style={{fontSize: '14px'}}
-			>
-				<Item onClick={handleItemClick} id='Connect'>
-					Connect
+		<Menu
+			id={MENU_ID}
+			animation={animation.slide}
+			style={{fontSize: '14px'}}
+		>
+			{Object.keys(ServerContextMenuMessage).map((v) => (
+				<Item onClick={handleItemClick(v)} key={v}>
+					{ServerContextMenuMessage[v]}
 				</Item>
-				<Item onClick={handleItemClick} id='Open SFTP'>
-					Open SFTP
-				</Item>
-				<Item onClick={handleItemClick} id='Rename'>
-					Rename
-				</Item>
-				<Item onClick={handleItemClick} id='Delete'>
-					Delete
-				</Item>
-				<Item onClick={handleItemClick} id='Properties'>
-					Properties
-				</Item>
-			</Menu>
-			<ConfirmPopup
-				keyword={'delete_server'}
-				open={open}
-				setOpen={setOpen}
-			/>
-			<AddServerForm
-				setOpen={setOpenAddServerForm}
-				open={openAddServerForm}
-				type='edit'
-				data={data}
-				id={data.id}
-			/>
-		</>
+			))}
+		</Menu>
 	);
 };
 
 ServerContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	indent: PropTypes.number.isRequired,
 	setOpenRename: PropTypes.func.isRequired,
 };
 

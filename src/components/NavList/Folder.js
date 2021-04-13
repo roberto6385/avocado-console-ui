@@ -18,8 +18,8 @@ import {
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
-import {useDoubleClick} from '../../hooks/useDoubleClick';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
+import useInput from '../../hooks/useInput';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -39,29 +39,18 @@ const Folder2Line = styled(RiFolder2Line)`
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
+	const {clicked_server} = useSelector((state) => state.common);
+
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openTabRename, setOpenRename] = useState(false);
-	const [renameValue, setRenameValue] = useState('');
-	const [draggedItem, setDraggedItem] = useState({});
+	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	const {clicked_server, server, nav} = useSelector((state) => state.common);
-	const {me} = useSelector((state) => state.user);
-
-	useEffect(() => {
-		setOpenTab(open);
-	}, [open]);
-
-	const onHybridClick = useDoubleClick(
-		() => {
-			console.log('뭔가 하긋지?');
-		},
-		() => {
-			if (clicked_server === data.key)
-				dispatch({type: SET_CLICKED_SERVER, data: null});
-			else dispatch({type: SET_CLICKED_SERVER, data: data.key});
-		},
-	);
+	const onCLickFolder = useCallback(() => {
+		if (clicked_server === data.key)
+			dispatch({type: SET_CLICKED_SERVER, data: null});
+		else dispatch({type: SET_CLICKED_SERVER, data: data.key});
+	}, [clicked_server, data]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
@@ -71,17 +60,17 @@ const Folder = ({open, data, indent}) => {
 		id: data.key + 'folder',
 	});
 
-	function displayMenu(e) {
-		show(e);
-	}
+	const contextMenuOpen = useCallback(
+		(e) => {
+			e.preventDefault();
 
-	const contextMenuOpen = (e, data) => {
-		e.preventDefault();
-		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-		displayMenu(e);
-	};
+			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			show(e);
+		},
+		[data],
+	);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = useCallback((e) => {
 		e.preventDefault();
 
 		dispatch({
@@ -89,43 +78,50 @@ const Folder = ({open, data, indent}) => {
 			data: renameValue,
 		});
 		setOpenRename(false);
-	};
+	}, []);
 
-	const EscapeKey = (e) => {
-		if (e.keyCode === 27) {
-			setOpenRename(false);
-		}
-	};
+	const EscapeKey = useCallback((e) => {
+		if (e.keyCode === 27) setOpenRename(false);
+	}, []);
 
-	const prevPutItem = (data) => {
+	const prevPutItem = useCallback(() => {
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	};
+	}, [data]);
 
-	const nextPutItem = (e, item) => {
-		e.stopPropagation();
-		console.log(item, indent);
-		item.type === 'folder' &&
-			dispatch({
-				type: SORT_SERVER_AND_FOLDER,
-				data: {next: item, indent: parseInt(indent)},
-			});
-	};
+	const nextPutItem = useCallback(
+		(e) => {
+			e.stopPropagation();
+
+			data.type === 'folder' &&
+				dispatch({
+					type: SORT_SERVER_AND_FOLDER,
+					data: {next: data, indent: parseInt(indent)},
+				});
+		},
+		[data, indent],
+	);
+
+	const onBlurOpenRename = useCallback(() => {
+		setOpenRename(false);
+	}, []);
 
 	useEffect(() => {
 		setRenameValue(data.name);
-		if (renameRef.current) {
-			renameRef.current.focus();
-		}
-	}, [openTabRename]);
+		if (renameRef.current) renameRef.current.focus();
+	}, [renameRef, data]);
+
+	useEffect(() => {
+		setOpenTab(open);
+	}, [open]);
 
 	return (
 		<>
 			<ServerNavItem
-				onClick={onHybridClick}
+				onClick={onCLickFolder}
 				draggable='true'
-				onDragStart={() => prevPutItem(data)}
-				onDrop={(e) => nextPutItem(e, data)}
-				onContextMenu={(e) => contextMenuOpen(e, data)}
+				onDragStart={prevPutItem}
+				onDrop={nextPutItem}
+				onContextMenu={contextMenuOpen}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
@@ -133,13 +129,13 @@ const Folder = ({open, data, indent}) => {
 				{openTabRename ? (
 					<RenameForm
 						onSubmit={handleSubmit}
-						onBlur={() => setOpenRename(false)}
+						onBlur={onBlurOpenRename}
 					>
 						<RenameInput
 							ref={renameRef}
 							type='text'
 							value={renameValue}
-							onChange={(e) => setRenameValue(e.target.value)}
+							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
 					</RenameForm>
@@ -176,11 +172,7 @@ const Folder = ({open, data, indent}) => {
 					</div>
 				</Collapse>
 			)}
-			<FolderContextMenu
-				data={data}
-				indent={indent}
-				setOpenRename={setOpenRename}
-			/>
+			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
 		</>
 	);
 };

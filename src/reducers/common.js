@@ -422,7 +422,7 @@ const reducer = (state = initialState, action) => {
 					key: 's_' + draft.server_index.toString(),
 					...action.data,
 				});
-
+				draft.server_index++;
 				break;
 			}
 			case DELETE_SERVER_FOLDER: {

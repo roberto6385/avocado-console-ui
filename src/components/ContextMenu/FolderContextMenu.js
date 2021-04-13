@@ -1,84 +1,73 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
-import AddServerForm from '../Form/AddServerForm';
-import ConfirmPopup from '../Popup/ConfirmPopup';
 import {useDispatch} from 'react-redux';
-import {CHANGE_OPEN_ADD_SERVER_FORM} from '../../reducers/common';
 
-const FolderContextMenu = ({data, indent, setOpenRename}) => {
+import {
+	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_CONFIRM_POPUP,
+} from '../../reducers/popup';
+
+const FolderContextMenuMessage = {
+	new_server: 'New Server',
+	new_folder: 'New Folder',
+	rename: 'Rename',
+	delete: 'Delete',
+};
+
+const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
-
-	const [open, setOpen] = useState(false);
-	const [keyword, setKeyword] = useState('');
-	const [addFolderOpen, setAddFolderOpen] = useState(false);
-	const [addServerOpen, setAddServerOpen] = useState(false);
 
 	const MENU_ID = data.key + 'folder';
 
-	function handleItemClick({event}) {
-		setKeyword(event.currentTarget.id);
-		switch (event.currentTarget.id) {
-			case 'New Server':
-				setAddServerOpen(true);
-				break;
-			case 'New Folder':
-				setAddFolderOpen(true);
-				break;
-			case 'Rename':
-				setOpenRename(true);
-				break;
-			case 'Delete':
-				setOpen(true);
-				break;
-			default:
-				return;
-		}
-	}
+	const handleItemClick = useCallback(
+		(e) => () => {
+			switch (e) {
+				case 'new_server':
+					dispatch({
+						type: OPEN_ADD_SERVER_FORM_POPUP,
+						data: {type: 'add'},
+					});
+					break;
+				case 'new_folder':
+					dispatch({
+						type: OPEN_CONFIRM_POPUP,
+						data: {key: 'add_folder'},
+					});
+					break;
+				case 'rename':
+					setOpenRename(true);
+					break;
+				case 'delete':
+					dispatch({
+						type: OPEN_CONFIRM_POPUP,
+						data: {key: 'delete_server_folder'},
+					});
+					break;
+				default:
+					return;
+			}
+		},
+		[],
+	);
 
 	return (
-		<>
-			<Menu
-				id={MENU_ID}
-				animation={animation.slide}
-				style={{fontSize: '14px'}}
-			>
-				<Item onClick={handleItemClick} id='New Server'>
-					New Server
+		<Menu
+			id={MENU_ID}
+			animation={animation.slide}
+			style={{fontSize: '14px'}}
+		>
+			{Object.keys(FolderContextMenuMessage).map((v) => (
+				<Item onClick={handleItemClick(v)} key={v}>
+					{FolderContextMenuMessage[v]}
 				</Item>
-				<Item onClick={handleItemClick} id='New Folder'>
-					New Folder
-				</Item>
-				<Item onClick={handleItemClick} id='Rename'>
-					Rename
-				</Item>
-				<Item onClick={handleItemClick} id='Delete'>
-					Delete
-				</Item>
-			</Menu>
-			<AddServerForm
-				setOpen={setAddServerOpen}
-				type={'add'}
-				open={addServerOpen}
-			/>
-
-			<ConfirmPopup
-				keyword={'add_folder'}
-				open={addFolderOpen}
-				setOpen={setAddFolderOpen}
-			/>
-			<ConfirmPopup
-				keyword={'delete_server'}
-				open={open}
-				setOpen={setOpen}
-			/>
-		</>
+			))}
+		</Menu>
 	);
 };
 
 FolderContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	indent: PropTypes.number.isRequired,
 	setOpenRename: PropTypes.func.isRequired,
 };
 

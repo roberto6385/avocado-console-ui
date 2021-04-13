@@ -10,6 +10,7 @@ import FileListDropDown from './FileListDropDown';
 const FileList = ({index, socket}) => {
 	const {listMode} = useSelector((state) => state.sftp);
 	const currentMode = listMode.find((item) => item.uuid === socket.uuid);
+
 	return (
 		<FlexBox>
 			<Card.Header>
@@ -19,7 +20,6 @@ const FileList = ({index, socket}) => {
 				{currentMode?.mode === 'list' ? (
 					<FileListContents
 						id={`sftp ${String(index)}`}
-						index={index}
 						ws={socket.ws}
 						uuid={socket.uuid}
 					/>
