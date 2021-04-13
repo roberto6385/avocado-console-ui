@@ -47,6 +47,10 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 		}
 	}, [dispatch]);
 
+	const onClickChangeTab = useCallback(() => {
+		dispatch({type: CHANGE_CURRENT_TAB, data: index});
+	}, []);
+
 	useEffect(() => {
 		if (!display) {
 			setHeight('0%');
@@ -71,10 +75,6 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 			else setWidth('50%');
 		}
 	}, [display, cols, tab]);
-
-	const onClickChangeTab = useCallback(() => {
-		dispatch({type: CHANGE_CURRENT_TAB, data: index});
-	}, []);
 
 	return (
 		<TabContentCard

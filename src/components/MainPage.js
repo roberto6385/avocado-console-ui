@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
+import {useDispatch} from 'react-redux';
 
 import {AddServerButton, Background} from '../styles/common';
-import {useDispatch} from 'react-redux';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 
 const MainPage = () => {

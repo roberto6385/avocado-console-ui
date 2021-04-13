@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
@@ -12,7 +12,8 @@ const ConvertSFTP = ({data}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
-	const connection = () => {
+
+	const connection = useCallback(() => {
 		if (server.includes(data)) {
 			const ws = new WebSocket(`ws://${data.host}:8081/ws/sftp`);
 			ws.onopen = async () => {
@@ -42,7 +43,7 @@ const ConvertSFTP = ({data}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	};
+	}, [data, userTicket]);
 
 	return (
 		<IconButton onClick={connection}>

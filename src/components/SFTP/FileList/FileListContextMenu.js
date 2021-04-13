@@ -58,10 +58,6 @@ const FileListContextMenu = ({ws, uuid}) => {
 				break;
 			case 'sftp_new_folder':
 				setOpen(true);
-				// dispatch({
-				// 	type: OPEN_CONFIRM_POPUP,
-				// 	data: {key: 'sftp_new_folder', ws: ws, uuid: uuid},
-				// });
 				break;
 			case 'rename_work':
 				setOpen(true);

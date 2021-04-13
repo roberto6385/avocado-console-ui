@@ -87,7 +87,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 				},
 			});
 		};
-	}, [server, userTicket]);
+	}, [server, userTicket, data]);
 
 	const openSSHT = useCallback(() => {
 		const correspondedServer = server.find((i) => i.id === data.id);

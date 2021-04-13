@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 
 import {FaServerIcon, ServerNavItem} from '../../styles/common';
@@ -16,6 +16,7 @@ import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {useContextMenu} from 'react-contexify';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import styled from 'styled-components';
+import useInput from '../../hooks/useInput';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -35,7 +36,7 @@ const Server = ({data, indent}) => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
-	const [renameValue, setRenameValue] = useState('');
+	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -88,59 +89,66 @@ const Server = ({data, indent}) => {
 		id: data.key + 'server',
 	});
 
-	function displayMenu(e) {
-		show(e);
-	}
+	const contextMenuOpen = useCallback(
+		(e) => {
+			e.preventDefault();
 
-	const contextMenuOpen = (e, data, indent) => {
-		e.preventDefault();
-		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-		displayMenu(e);
-		console.log(data, indent);
-	};
+			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			show(e);
+		},
+		[data],
+	);
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const handleSubmit = useCallback(
+		(e) => {
+			e.preventDefault();
 
-		dispatch({
-			type: CHANGE_SERVER_FOLDER_NAME,
-			data: renameValue,
-		});
-		setOpenRename(false);
-	};
-
-	const EscapeKey = (e) => {
-		if (e.keyCode === 27) {
+			dispatch({
+				type: CHANGE_SERVER_FOLDER_NAME,
+				data: renameValue,
+			});
 			setOpenRename(false);
-		}
-	};
+		},
+		[renameValue],
+	);
 
-	const prevPutItem = (data) => {
+	const EscapeKey = useCallback((e) => {
+		if (e.keyCode === 27) setOpenRename(false);
+	}, []);
+
+	const prevPutItem = useCallback(() => {
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	};
+	}, [data]);
 
-	const nextPutItem = (e, item) => {
-		e.stopPropagation();
-		console.log(item);
-		item.type === 'folder' &&
-			dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: item}});
-	};
+	const nextPutItem = useCallback(
+		(e) => {
+			e.stopPropagation();
+
+			data.type === 'folder' &&
+				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
+		},
+		[data],
+	);
+
+	const onBlurOpenRename = useCallback(() => {
+		setOpenRename(false);
+	}, []);
 
 	useEffect(() => {
 		setRenameValue(data.name);
 		if (renameRef.current) {
 			renameRef.current.focus();
 		}
-	}, [openRename]);
+	}, [data, renameRef]);
 
 	return (
 		<>
 			<ServerNavItem
 				onClick={onHybridClick}
 				draggable='true'
-				onDragStart={() => prevPutItem(data)}
-				onDrop={(e) => nextPutItem(e, data)}
-				onContextMenu={(e) => contextMenuOpen(e, data, indent)}
+				onDragStart={prevPutItem}
+				onDrop={nextPutItem}
+				onContextMenu={contextMenuOpen}
 				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
 				left={(indent * 15).toString() + 'px'}
 			>
@@ -148,13 +156,13 @@ const Server = ({data, indent}) => {
 				{openRename ? (
 					<RenameForm
 						onSubmit={handleSubmit}
-						onBlur={() => setOpenRename(false)}
+						onBlur={onBlurOpenRename}
 					>
 						<RenameInput
 							ref={renameRef}
 							type='text'
 							value={renameValue}
-							onChange={(e) => setRenameValue(e.target.value)}
+							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
 					</RenameForm>

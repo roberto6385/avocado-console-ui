@@ -11,7 +11,7 @@ import {
 	RiFolderAddLine,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from './Popup/ConfirmPopup';
+
 import {
 	Header,
 	IconButton,
@@ -20,12 +20,10 @@ import {
 	ServerSearchForm,
 	SidebarShow,
 } from '../styles/common';
-
 import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 import {LOGOUT} from '../reducers/user';
 
 import NavList from './NavList/NavList';
-import AddServerForm from './Form/AddServerForm';
 import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import {getRefreshTicket} from '../reducers/refreshTicket';
@@ -42,12 +40,8 @@ const LeftContainer = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [activeSearch, setActiveSearch] = useState(false);
-	// const [openConfirm, setOpenConfirm] = useState(false);
-
-	// const [addFolderOpen, setAddFolderOpen] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
-		// setAddFolderOpen(!addFolderOpen);
 		dispatch({
 			type: OPEN_CONFIRM_POPUP,
 			data: {key: 'add_folder'},
@@ -67,7 +61,6 @@ const LeftContainer = () => {
 				type: OPEN_CONFIRM_POPUP,
 				data: {key: 'delete_server_folder'},
 			});
-			// setOpenConfirm(true);
 		}
 	}, [clicked_server]);
 
@@ -82,19 +75,15 @@ const LeftContainer = () => {
 		});
 	}, []);
 
-	const sideBarhandleSize = (name) => {
-		if (name === 'minimize') {
+	const sideBarhandleSize = useCallback(
+		(v) => () => {
 			dispatch({
 				type: CHANGE_SIDEBAR_DISPLAY,
-				data: true,
+				data: v,
 			});
-		} else {
-			dispatch({
-				type: CHANGE_SIDEBAR_DISPLAY,
-				data: false,
-			});
-		}
-	};
+		},
+		[],
+	);
 
 	const refresh = useCallback(() => {
 		dispatch(
@@ -103,7 +92,7 @@ const LeftContainer = () => {
 				refresh_token: userTicket?.refresh_token,
 			}),
 		);
-	}, []);
+	}, [encodeData, userTicket]);
 
 	return !minimize ? (
 		<OutlineCol>
@@ -128,7 +117,7 @@ const LeftContainer = () => {
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />
 					</IconButton>
-					<IconButton onClick={() => sideBarhandleSize('minimize')}>
+					<IconButton onClick={sideBarhandleSize(true)}>
 						<AiFillEyeInvisible />
 					</IconButton>
 					<IconButton as={Link} to='/setting'>
@@ -147,20 +136,10 @@ const LeftContainer = () => {
 				</Nav.Item>
 			</Collapse>
 			<NavList search={search} />
-			{/*<ConfirmPopup*/}
-			{/*	keyword={'delete_server'}*/}
-			{/*	open={openConfirm}*/}
-			{/*	setOpen={setOpenConfirm}*/}
-			{/*/>*/}
-			{/*<ConfirmPopup*/}
-			{/*	keyword={'add_folder'}*/}
-			{/*	open={addFolderOpen}*/}
-			{/*	setOpen={setAddFolderOpen}*/}
-			{/*/>*/}
 		</OutlineCol>
 	) : (
 		<SidebarShow>
-			<RotateButton onClick={() => sideBarhandleSize('maximize')}>
+			<RotateButton onClick={sideBarhandleSize(false)}>
 				servers
 			</RotateButton>
 		</SidebarShow>

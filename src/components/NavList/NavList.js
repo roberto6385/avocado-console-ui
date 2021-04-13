@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 
@@ -40,9 +40,9 @@ const NavList = ({search}) => {
 	const {nav} = useSelector((state) => state.common);
 	const [filteredNav, setfilteredNav] = useState(nav);
 
-	const dropNavList = () => {
+	const dropNavList = useCallback(() => {
 		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
-	};
+	}, []);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');

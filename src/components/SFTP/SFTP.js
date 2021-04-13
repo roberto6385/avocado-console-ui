@@ -8,15 +8,15 @@ import Edit from './Edit/Edit';
 import {SftpContainer} from '../../styles/sftp';
 
 const SFTP_Component = ({index, socket}) => {
+	const {currentMode} = useSelector((state) => state.sftp);
 	const {uuid} = socket;
 
-	const {currentMode} = useSelector((state) => state.sftp);
 	const modeItem = currentMode.find((item) => item.uuid === uuid);
 
 	return (
 		<SftpContainer>
 			{modeItem?.mode === 'edit' ? (
-				<Edit index={index} socket={socket} />
+				<Edit socket={socket} />
 			) : (
 				<>
 					<FileList index={index} socket={socket} />

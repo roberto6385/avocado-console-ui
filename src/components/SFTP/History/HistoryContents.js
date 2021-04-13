@@ -53,17 +53,12 @@ const HistoryContents = ({ws, uuid}) => {
 		id: uuid + 'history',
 	});
 
-	function displayMenu(e) {
-		// pass the item id so the `onClick` on the `Item` has access to it
-		show(e);
-	}
-
 	const contextMenuOpen = useCallback(
 		(e, history) => {
 			if (!highlight.includes(history)) {
 				setHighlight([history]);
 			}
-			displayMenu(e);
+			show(e);
 		},
 		[highlight],
 	);
@@ -141,7 +136,6 @@ const HistoryContents = ({ws, uuid}) => {
 				</CustomUl>
 			)}
 			<HistoryContextMenu
-				ws={ws}
 				uuid={uuid}
 				highlight={highlight}
 				setHighlight={setHighlight}

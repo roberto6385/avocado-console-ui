@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {
 	SFTP_SAVE_CURRENT_MODE,
@@ -22,7 +22,7 @@ const EditNav = ({ws, uuid}) => {
 	const curPath = currentPath.find((item) => item.uuid === uuid);
 	const path = curPath?.path;
 
-	const editedFileDownload = () => {
+	const editedFileDownload = useCallback(() => {
 		let link = document.createElement('a');
 		link.download = curText?.name;
 		let blob = new Blob([curText?.text], {type: 'text/plain'});
@@ -42,13 +42,13 @@ const EditNav = ({ws, uuid}) => {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
-	};
+	}, [curText, path]);
 
-	const editedFileSave = async () => {
+	const editedFileSave = useCallback(async () => {
 		await editFile(curText);
-	};
+	}, [curText]);
 
-	const toNormalMode = () => {
+	const toNormalMode = useCallback(() => {
 		if (curText?.text !== compareText?.text) {
 			setOpen(true);
 		} else {
@@ -57,7 +57,7 @@ const EditNav = ({ws, uuid}) => {
 				data: {uuid, mode: 'normal'},
 			});
 		}
-	};
+	}, [curText, compareText, uuid]);
 
 	return (
 		<Navbar>
