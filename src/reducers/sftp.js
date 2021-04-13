@@ -50,7 +50,9 @@ export const SFTP_SAVE_LIST_MODE = 'SFTP_SAVE_LIST_MODE';
 export const SFTP_SAVE_DROPLIST_HIGHLIGHT = 'SFTP_SAVE_DROPLIST_HIGHLIGHT';
 
 // editor wrap lines
-export const SFTP_EDITOR_WRAP_LINES = 'SFTP_EDITOR_WRAP_LINES';
+// localStorage에 저장해서 사용 중
+// 필요시 사용 할 계획
+// export const SFTP_EDITOR_WRAP_LINES = 'SFTP_EDITOR_WRAP_LINES';
 
 // 리듀서 findIndex 변수들
 let currentType_index;
@@ -66,9 +68,9 @@ let droplistHighlight_index;
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case SFTP_EDITOR_WRAP_LINES:
-				draft.editorWrapLines = action.data;
-				break;
+			// case SFTP_EDITOR_WRAP_LINES:
+			// 	draft.editorWrapLines = action.data;
+			// 	break;
 
 			case SFTP_SAVE_CURRENT_TEXT:
 				currentText_index = draft.currentText.findIndex(

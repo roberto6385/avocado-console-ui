@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Form} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
-import {SFTP_EDITOR_WRAP_LINES} from '../../reducers/sftp';
+import * as PropTypes from 'prop-types';
+
+const ToggleSwitch = ({checked, label, id, onChange}) => {
+	return (
+		<>
+			<label htmlFor={id}>
+				<input
+					style={{marginRight: '8px'}}
+					type='checkbox'
+					checked={checked}
+					id={id}
+					onChange={onChange}
+				/>
+				{label}
+			</label>
+		</>
+	);
+};
 
 const SFTP = () => {
-	const dispatch = useDispatch();
-
-	const switchEditorWrapLines = (e) => {
-		const {checked} = e.target;
-		checked
-			? dispatch({type: SFTP_EDITOR_WRAP_LINES, data: 'physical'})
-			: dispatch({type: SFTP_EDITOR_WRAP_LINES, data: 'off'});
-	};
+	const [selected, setSelected] = useState(
+		localStorage.getItem('editorCheck') === 'true',
+	);
 
 	return (
 		<div>
@@ -23,16 +34,25 @@ const SFTP = () => {
 					<option>theme2</option>
 				</Form.Control>
 			</Form.Group>
-
-			<Form.Group>
-				<Form.Check
-					type='checkbox'
-					label='Editor Wrap Lines'
-					onChange={switchEditorWrapLines}
-				/>
-			</Form.Group>
+			<ToggleSwitch
+				checked={selected}
+				id='toggle-switch-1'
+				label='Editor Wrap Lines'
+				onChange={(e) => {
+					localStorage.setItem('editorCheck', `${e.target.checked}`);
+					setSelected(e.target.checked);
+					console.log(e.target.checked);
+				}}
+			/>
 		</div>
 	);
+};
+
+ToggleSwitch.propTypes = {
+	checked: PropTypes.bool,
+	label: PropTypes.string,
+	id: PropTypes.string,
+	onChange: PropTypes.func,
 };
 
 export default SFTP;

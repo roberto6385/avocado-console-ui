@@ -5,11 +5,11 @@ import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/sftp';
 import {TextAreaWrapper} from '../../../styles/sftp';
 
 const EditContents = ({uuid}) => {
-	const {currentText, editorWrapLines} = useSelector((state) => state.sftp);
-
+	const {currentText} = useSelector((state) => state.sftp);
 	const dispatch = useDispatch();
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const [editText, setEditText] = useState(curText?.text);
+	const checked = window.localStorage.getItem('editorCheck');
 
 	const writeText = useCallback(
 		(e) => {
@@ -30,7 +30,7 @@ const EditContents = ({uuid}) => {
 	return (
 		<TextAreaWrapper>
 			<textarea
-				wrap={editorWrapLines}
+				wrap={JSON.parse(checked) ? 'soft' : 'off'}
 				rows='50'
 				cols='40'
 				value={editText}
