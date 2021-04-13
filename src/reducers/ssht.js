@@ -1,7 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
-	font: 'DejaVu Sans Mono',
+	font: 'Arial, sans-serif',
 	font_size: 15,
 	search_mode: false,
 };

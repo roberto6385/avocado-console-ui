@@ -14,12 +14,14 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
-
 	const sshTerm = useRef(
 		new Terminal({
 			cursorBlink: true,
 			minimumContrastRatio: 7,
-			theme: {selection: '#FCFD08', fontFamily: font},
+			fontFamily: font,
+			theme: {
+				selection: '#FCFD08',
+			},
 		}),
 	);
 	const fitAddon = useRef(new FitAddon());
@@ -63,9 +65,9 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		};
 	}, [index, uuid, ws]);
 
-	useEffect(() => {
-		sshTerm.current.setOption('theme', {fontFamily: font});
-	}, [font]);
+	// useEffect(() => {
+	// 	sshTerm.current.setOption('theme', {fontFamily: font});
+	// }, [font]);
 
 	useEffect(() => {
 		sshTerm.current.setOption('fontSize', font_size);

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Form} from 'react-bootstrap';
 import {SSHT_SET_FONT} from '../../reducers/ssht';
 import useInput from '../../hooks/useInput';
@@ -7,11 +7,10 @@ import {useDispatch, useSelector} from 'react-redux';
 const Terminal = () => {
 	const dispatch = useDispatch();
 	const {font} = useSelector((state) => state.ssht);
-	const [terminalFont, onChangeTerminalFont] = useInput(font);
 
-	useEffect(() => {
-		dispatch({type: SSHT_SET_FONT, data: terminalFont});
-	}, [terminalFont]);
+	const onChangeTerminalFont = useCallback((e) => {
+		dispatch({type: SSHT_SET_FONT, data: e.target.value});
+	}, []);
 
 	return (
 		<div>
@@ -27,14 +26,13 @@ const Terminal = () => {
 				<Form.Label>Font</Form.Label>
 				<Form.Control
 					as='select'
-					value={terminalFont}
+					value={font}
 					onChange={onChangeTerminalFont}
 				>
-					<option>DejaVu Sans Mono</option>
-					<option>
-						Ubuntu Mono, courier-new, courier, monospace
-					</option>
-					<option>font3</option>
+					<option>Arial, sans-serif</option>
+					<option>Garamond, serif</option>
+					<option>Courier New, monospace</option>
+					<option>Helvetica, sans-serif</option>
 				</Form.Control>
 			</Form.Group>
 			<Form.Group>

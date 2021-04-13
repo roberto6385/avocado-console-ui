@@ -152,9 +152,7 @@ export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
-export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
 export const EDIT_SERVER = 'EDIT_SERVER';
-
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {

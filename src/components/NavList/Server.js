@@ -17,6 +17,7 @@ import {useContextMenu} from 'react-contexify';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
+import {Terminal} from 'xterm';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -37,6 +38,7 @@ const Server = ({data, indent}) => {
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+	const {font} = useSelector((state) => state.ssht);
 
 	const onHybridClick = useDoubleClick(
 		() => {
