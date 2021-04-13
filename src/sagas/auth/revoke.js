@@ -1,4 +1,12 @@
-import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
+import {
+	all,
+	fork,
+	put,
+	call,
+	takeLatest,
+	takeEvery,
+	delay,
+} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_REVOKE_FAILURE,
@@ -18,9 +26,12 @@ function getRevokeApi(params) {
 
 function* getRevoke(action) {
 	try {
-		const res = yield call(getRevokeApi, action.params);
-		yield put({type: GET_REVOKE_SUCCESS, data: res.data});
-		yield put({type: REVOKE_USER_TICKET});
+		yield call(getRevokeApi, action.params);
+		yield put({type: GET_REVOKE_SUCCESS});
+		yield takeEvery(
+			GET_REVOKE_SUCCESS,
+			yield put({type: REVOKE_USER_TICKET}),
+		);
 	} catch (err) {
 		yield put({type: GET_REVOKE_FAILURE, data: err.response.data});
 	}

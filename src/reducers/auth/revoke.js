@@ -13,7 +13,6 @@ export const getRevoke = (params) => ({
 
 // initial State
 const initialState = {
-	revoke: null,
 	loading: false,
 };
 
@@ -25,7 +24,6 @@ const revoke = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case GET_REVOKE_SUCCESS:
-				draft.revoke = action.data;
 				draft.loading = false;
 				break;
 			case GET_REVOKE_FAILURE:
