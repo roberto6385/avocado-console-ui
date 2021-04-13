@@ -5,7 +5,7 @@ import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/sftp';
 import {TextAreaWrapper} from '../../../styles/sftp';
 
 const EditContents = ({index, ws, uuid}) => {
-	const {currentText, currentCompareText} = useSelector(
+	const {currentText, currentCompareText, editorWrapLines} = useSelector(
 		(state) => state.sftp,
 	);
 	const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const EditContents = ({index, ws, uuid}) => {
 	return (
 		<TextAreaWrapper>
 			<textarea
+				wrap={editorWrapLines}
 				rows='50'
 				cols='40'
 				value={editText}

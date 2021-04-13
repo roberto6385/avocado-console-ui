@@ -10,6 +10,7 @@ const UserAuthForm = () => {
 	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
+	const {loading} = useSelector((state) => state.userTicket);
 
 	const onSubmitForm = useCallback((e) => {
 		e.preventDefault();
@@ -24,7 +25,7 @@ const UserAuthForm = () => {
 		);
 	}, []);
 
-	return (
+	return !loading ? (
 		<Form
 			style={{
 				width: '50%',
@@ -56,6 +57,8 @@ const UserAuthForm = () => {
 			</Form.Group>
 			<Button type='submit'>Login</Button>
 		</Form>
+	) : (
+		<div>loading...</div>
 	);
 };
 

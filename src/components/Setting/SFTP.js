@@ -1,7 +1,18 @@
 import React from 'react';
 import {Form} from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
+import {SFTP_EDITOR_WRAP_LINES} from '../../reducers/sftp';
 
 const SFTP = () => {
+	const dispatch = useDispatch();
+
+	const switchEditorWrapLines = (e) => {
+		const {checked} = e.target;
+		checked
+			? dispatch({type: SFTP_EDITOR_WRAP_LINES, data: 'physical'})
+			: dispatch({type: SFTP_EDITOR_WRAP_LINES, data: 'off'});
+	};
+
 	return (
 		<div>
 			<h4>SFTP</h4>
@@ -14,7 +25,11 @@ const SFTP = () => {
 			</Form.Group>
 
 			<Form.Group>
-				<Form.Check type='checkbox' label='Editor Wrap Lines' />
+				<Form.Check
+					type='checkbox'
+					label='Editor Wrap Lines'
+					onChange={switchEditorWrapLines}
+				/>
 			</Form.Group>
 		</div>
 	);

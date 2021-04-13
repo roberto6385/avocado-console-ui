@@ -1,6 +1,8 @@
 import produce from 'immer';
 
 export const initialState = {
+	editorWrapLines: 'off',
+
 	currentType: [],
 
 	currentMode: [],
@@ -47,6 +49,9 @@ export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
 export const SFTP_SAVE_LIST_MODE = 'SFTP_SAVE_LIST_MODE';
 export const SFTP_SAVE_DROPLIST_HIGHLIGHT = 'SFTP_SAVE_DROPLIST_HIGHLIGHT';
 
+// editor wrap lines
+export const SFTP_EDITOR_WRAP_LINES = 'SFTP_EDITOR_WRAP_LINES';
+
 // 리듀서 findIndex 변수들
 let currentType_index;
 let currentMode_index;
@@ -61,6 +66,10 @@ let droplistHighlight_index;
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case SFTP_EDITOR_WRAP_LINES:
+				draft.editorWrapLines = action.data;
+				break;
+
 			case SFTP_SAVE_CURRENT_TEXT:
 				currentText_index = draft.currentText.findIndex(
 					(item) => item.uuid === action.data.uuid,
