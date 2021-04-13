@@ -162,11 +162,7 @@ const Server = ({data, indent}) => {
 					data.name
 				)}
 			</ServerNavItem>
-			<ServerContextMenu
-				data={data}
-				indent={indent}
-				setOpenRename={setOpenRename}
-			/>
+			<ServerContextMenu data={data} setOpenRename={setOpenRename} />
 		</>
 	);
 };

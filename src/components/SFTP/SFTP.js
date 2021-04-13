@@ -7,8 +7,8 @@ import {useSelector} from 'react-redux';
 import Edit from './Edit/Edit';
 import {SftpContainer} from '../../styles/sftp';
 
-const SFTP_COMPONENT = ({index, socket, serverId}) => {
-	const {ws, uuid} = socket;
+const SFTP_Component = ({index, socket}) => {
+	const {uuid} = socket;
 
 	const {currentMode} = useSelector((state) => state.sftp);
 	const modeItem = currentMode.find((item) => item.uuid === uuid);
@@ -20,21 +20,16 @@ const SFTP_COMPONENT = ({index, socket, serverId}) => {
 			) : (
 				<>
 					<FileList index={index} socket={socket} />
-					<History
-						index={index}
-						socket={socket}
-
-					/>
+					<History index={index} socket={socket} />
 				</>
 			)}
 		</SftpContainer>
 	);
 };
 
-SFTP_COMPONENT.propTypes = {
+SFTP_Component.propTypes = {
 	index: PropTypes.number.isRequired,
 	socket: PropTypes.object.isRequired,
-	serverId: PropTypes.number.isRequired,
 };
 
-export default SFTP_COMPONENT;
+export default SFTP_Component;

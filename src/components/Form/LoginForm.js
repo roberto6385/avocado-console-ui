@@ -10,11 +10,14 @@ const LoginForm = () => {
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
 
-	const onSubmitForm = useCallback((e) => {
-		e.preventDefault();
-		const encodeData = base64.encode(`${user}:${password}`);
-		dispatch(getClientTicket({Authorization: 'Basic ' + encodeData}));
-	}, []);
+	const onSubmitForm = useCallback(
+		(e) => {
+			e.preventDefault();
+			const encodeData = base64.encode(`${user}:${password}`);
+			dispatch(getClientTicket({Authorization: 'Basic ' + encodeData}));
+		},
+		[user, password],
+	);
 
 	return (
 		<Form

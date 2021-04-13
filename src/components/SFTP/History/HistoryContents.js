@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useSelector} from 'react-redux';
@@ -21,30 +21,33 @@ import {
 } from '../../../styles/sftp';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 
-const HistoryContents = ({index, ws, uuid}) => {
+const HistoryContents = ({ws, uuid}) => {
 	const {initialWork} = useSftpCommands({ws, uuid});
 	const {History} = useSelector((state) => state.sftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
 	const {uploadWork} = useSftpCommands({ws, uuid});
 
-	const upload = async (files) => {
+	const upload = useCallback(async (files) => {
 		uploadWork(files).then(() => initialWork());
-	};
+	}, []);
 
-	const selectItem = (e, history) => {
-		if (e.shiftKey) {
-			if (!highlight.includes(history)) {
-				setHighlight([...highlight, history]);
-			}
-		} else {
-			if (highlight.includes(history)) {
-				setHighlight([]);
+	const selectItem = useCallback(
+		(e, history) => {
+			if (e.shiftKey) {
+				if (!highlight.includes(history)) {
+					setHighlight([...highlight, history]);
+				}
 			} else {
-				setHighlight([history]);
+				if (highlight.includes(history)) {
+					setHighlight([]);
+				} else {
+					setHighlight([history]);
+				}
 			}
-		}
-	};
+		},
+		[highlight],
+	);
 
 	const {show} = useContextMenu({
 		id: uuid + 'history',
@@ -55,12 +58,15 @@ const HistoryContents = ({index, ws, uuid}) => {
 		show(e);
 	}
 
-	const contextMenuOpen = (e, history) => {
-		if (!highlight.includes(history)) {
-			setHighlight([history]);
-		}
-		displayMenu(e);
-	};
+	const contextMenuOpen = useCallback(
+		(e, history) => {
+			if (!highlight.includes(history)) {
+				setHighlight([history]);
+			}
+			displayMenu(e);
+		},
+		[highlight],
+	);
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
@@ -144,7 +150,6 @@ const HistoryContents = ({index, ws, uuid}) => {
 	);
 };
 HistoryContents.propTypes = {
-	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };

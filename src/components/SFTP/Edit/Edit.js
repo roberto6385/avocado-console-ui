@@ -9,7 +9,7 @@ const Edit = ({index, socket}) => {
 	return (
 		<FlexBox>
 			<Card.Header>
-				<EditNav index={index} ws={socket.ws} uuid={socket.uuid} />
+				<EditNav ws={socket.ws} uuid={socket.uuid} />
 			</Card.Header>
 			<SFTPBody>
 				<EditContents index={index} ws={socket.ws} uuid={socket.uuid} />

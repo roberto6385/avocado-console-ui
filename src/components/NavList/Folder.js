@@ -174,11 +174,7 @@ const Folder = ({open, data, indent}) => {
 					</div>
 				</Collapse>
 			)}
-			<FolderContextMenu
-				data={data}
-				indent={indent}
-				setOpenRename={setOpenRename}
-			/>
+			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
 		</>
 	);
 };

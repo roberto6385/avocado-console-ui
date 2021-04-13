@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Form, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import base64 from 'base-64';
 import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/userTicket';
@@ -11,18 +11,21 @@ const UserAuthForm = () => {
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
 
-	const onSubmitForm = useCallback((e) => {
-		e.preventDefault();
-		const encodeData = base64.encode(`${user}:${password}`);
-		dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-		dispatch(
-			getUserTicket({
-				Authorization: 'Basic ' + encodeData,
-				username: user,
-				password: password,
-			}),
-		);
-	}, []);
+	const onSubmitForm = useCallback(
+		(e) => {
+			e.preventDefault();
+			const encodeData = base64.encode(`${user}:${password}`);
+			dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
+			dispatch(
+				getUserTicket({
+					Authorization: 'Basic ' + encodeData,
+					username: user,
+					password: password,
+				}),
+			);
+		},
+		[user, password],
+	);
 
 	return (
 		<Form

@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {SFTP_SAVE_CURRENT_MODE, SFTP_SAVE_HISTORY} from '../../../reducers/sftp';
+import {
+	SFTP_SAVE_CURRENT_MODE,
+	SFTP_SAVE_HISTORY,
+} from '../../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {Navbar, NavItem} from '../../../styles/sftp';
 import useConfirmActions from '../../../hooks/useConfirmActions';
 
-const EditNav = ({index, ws, uuid}) => {
+const EditNav = ({ws, uuid}) => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const {editFile} = useConfirmActions(ws, uuid);
@@ -84,7 +87,6 @@ const EditNav = ({index, ws, uuid}) => {
 };
 
 EditNav.propTypes = {
-	index: PropTypes.number.isRequired,
 	ws: PropTypes.object.isRequired,
 	uuid: PropTypes.string.isRequired,
 };

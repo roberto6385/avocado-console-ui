@@ -14,7 +14,6 @@ const History = ({index, socket}) => {
 			<HistoryBody>
 				<HistoryContents
 					id={`sftp ${String(index)}`}
-					index={index}
 					ws={socket.ws}
 					uuid={socket.uuid}
 				/>

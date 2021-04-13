@@ -10,6 +10,7 @@ import useConfirmActions from '../../hooks/useConfirmActions';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
+import {ADD_FOLDER, DELETE_SERVER_FOLDER} from '../../reducers/common';
 
 const ConfirmMessage = {
 	delete_work: '선택하신 파일을 삭제하시겠습니까?',
@@ -50,11 +51,7 @@ const ConfirmPopupTemp = () => {
 		clicked_server?.ws,
 		clicked_server?.uuid,
 	);
-	const {
-		sftpDeleteHistory,
-		deleteServerFolder,
-		addFolder,
-	} = useConfirmActions();
+	const {sftpDeleteHistory} = useConfirmActions();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const buttonRef = useRef(null);
@@ -83,11 +80,11 @@ const ConfirmPopupTemp = () => {
 					sftpDeleteHistory();
 					break;
 				case 'delete_server_folder':
-					clicked_server && deleteServerFolder();
+					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
 					break;
 				case 'add_folder':
-					formValue !== '' && addFolder(formValue);
-					setFormValue('');
+					formValue !== '' &&
+						dispatch({type: ADD_FOLDER, data: formValue});
 					break;
 				default:
 					break;
@@ -100,11 +97,11 @@ const ConfirmPopupTemp = () => {
 	const cancelFunction = useCallback(() => {
 		confirm_popup.key === 'edit_file' && justExit();
 		handleClose();
-	}, []);
+	}, [confirm_popup]);
 
 	useEffect(() => {
 		buttonRef.current?.focus();
-	}, []);
+	}, [buttonRef]);
 
 	return (
 		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
