@@ -25,7 +25,10 @@ const HistoryNav = ({ws, uuid}) => {
 		uploadInput.click();
 		uploadInput.onchange = (e) => {
 			const files = e.target.files;
-			uploadWork(files).then(() => initialWork());
+			uploadWork(files).then((response) => {
+				console.log(response);
+				// initialWork()
+			});
 		};
 		document.body.removeChild(uploadInput);
 	};

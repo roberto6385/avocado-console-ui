@@ -172,85 +172,85 @@ const sftp_ws = ({
 	fileName,
 	uploadFile,
 }) => {
-	const appendBuffer = (buffer1, buffer2) => {
-		var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
-		tmp.set(new Uint8Array(buffer1), 0);
-		tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
-		return tmp.buffer;
-	};
-	let fileBuffer = new ArrayBuffer(0);
-	let progress = 0;
-	let getReceiveSum = 0;
-
-	const upload = (ws, path, uploadFile) => {
-		console.log('file size : ', uploadFile.size);
-
-		const uploadFileSize = uploadFile.size;
-		const uploadFileName = uploadFile.name;
-
-		const chunkSize = 4 * 1024;
-		const fileSlices = [];
-
-		for (let i = 0; i < uploadFileSize; i += chunkSize) {
-			(function (start) {
-				fileSlices.push({offset: start, length: chunkSize + start});
-			})(i);
-		}
-
-		const sendBuffer = (data) => {
-			var message = new SFTP.Message();
-			var request = new SFTP.Request();
-			var cmd = new SFTP.CommandRequest();
-			var put = new SFTP.PutRequest();
-			put.setPath(path);
-			put.setFilename(uploadFileName);
-			put.setFilesize(uploadFileSize);
-			put.setData(Buffer.from(data.buffer));
-			put.setOffset(1); // 임시로 1로 사용. 실제 offset 값 필요.
-			put.setLast(data.last);
-
-			cmd.setPut(put);
-			request.setCommand(cmd);
-			message.setRequest(request);
-
-			ws.send(message.serializeBinary());
-		};
-
-		const readBytes = (file, slice) => {
-			const reader = new FileReader();
-
-			return new Promise((resolve) => {
-				reader.onload = (e) => {
-					resolve(e.target.result);
-				};
-
-				let blob = file.slice(slice.offset, slice.length);
-				reader.readAsArrayBuffer(blob);
-			});
-		};
-
-		let total = 0;
-		const readFile = (file, slice) => {
-			readBytes(file, slice).then((data) => {
-				// send protocol buffer
-				console.log('read arraybuffer : ', data);
-				total += data.byteLength;
-
-				if (0 < fileSlices.length) {
-					sendBuffer({buffer: data, last: false});
-
-					readFile(file, fileSlices.shift());
-				} else {
-					sendBuffer({buffer: data, last: true});
-					console.log('file read end. total size : ', total);
-				}
-			});
-		};
-
-		readFile(uploadFile, fileSlices.shift());
-	};
-
 	return new Promise((resolve) => {
+		const appendBuffer = (buffer1, buffer2) => {
+			var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
+			tmp.set(new Uint8Array(buffer1), 0);
+			tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
+			return tmp.buffer;
+		};
+		let fileBuffer = new ArrayBuffer(0);
+		let progress = 0;
+		let getReceiveSum = 0;
+
+		const upload = (ws, path, uploadFile) => {
+			console.log('file size : ', uploadFile.size);
+
+			const uploadFileSize = uploadFile.size;
+			const uploadFileName = uploadFile.name;
+
+			const chunkSize = 4 * 1024;
+			const fileSlices = [];
+
+			for (let i = 0; i < uploadFileSize; i += chunkSize) {
+				(function (start) {
+					fileSlices.push({offset: start, length: chunkSize + start});
+				})(i);
+			}
+
+			const sendBuffer = (data) => {
+				var message = new SFTP.Message();
+				var request = new SFTP.Request();
+				var cmd = new SFTP.CommandRequest();
+				var put = new SFTP.PutRequest();
+				put.setPath(path);
+				put.setFilename(uploadFileName);
+				put.setFilesize(uploadFileSize);
+				put.setData(Buffer.from(data.buffer));
+				put.setOffset(1); // 임시로 1로 사용. 실제 offset 값 필요.
+				put.setLast(data.last);
+
+				cmd.setPut(put);
+				request.setCommand(cmd);
+				message.setRequest(request);
+
+				ws.send(message.serializeBinary());
+			};
+
+			const readBytes = (file, slice) => {
+				const reader = new FileReader();
+
+				return new Promise((resolve) => {
+					reader.onload = (e) => {
+						resolve(e.target.result);
+					};
+
+					let blob = file.slice(slice.offset, slice.length);
+					reader.readAsArrayBuffer(blob);
+				});
+			};
+
+			let total = 0;
+			const readFile = (file, slice) => {
+				readBytes(file, slice).then((data) => {
+					// send protocol buffer
+					console.log('read arraybuffer : ', data);
+					total += data.byteLength;
+
+					if (0 < fileSlices.length) {
+						sendBuffer({buffer: data, last: false});
+
+						readFile(file, fileSlices.shift());
+					} else {
+						sendBuffer({buffer: data, last: true});
+						console.log('file read end. total size : ', total);
+					}
+				});
+			};
+
+			readFile(uploadFile, fileSlices.shift());
+		};
+
 		switch (keyword) {
 			case 'Connection':
 				sendConnect(ws, token, data);
@@ -491,18 +491,15 @@ const sftp_ws = ({
 								}
 								case SFTP.CommandResponse.CommandCase.PUT: {
 									const put = command.getPut();
-									console.log('command : put', put);
 									console.log(
 										'put.getProgress',
 										put.getProgress(),
 									);
 
-									// this.setState({
-									// 	progress: put.getProgress(),
-									// });
+									console.log(response.getStatus());
 									put.getProgress() === 100 &&
-										response.getStatus() === 200 &&
-										resolve(put.getProgress());
+										// response.getStatus() === 200 &&
+										resolve({percent: put.getProgress()});
 									break;
 								}
 								case SFTP.CommandResponse.CommandCase.GET: {

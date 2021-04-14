@@ -4,13 +4,13 @@ import {
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 	SFTP_SAVE_DROPLIST_HIGHLIGHT,
-	SFTP_SAVE_HISTORY,
 } from '../reducers/sftp';
 import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import newSftp_ws from '../ws/sftp_ws';
 import {downloadAction} from '../reducers/download';
+import {uploadAction} from '../reducers/upload';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -85,28 +85,10 @@ const useSftpCommands = ({ws, uuid}) => {
 		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then(async (response) => {
+		}).then((response) => {
+			console.log(response);
 			for (const key of files) {
-				await newSftp_ws({
-					keyword: 'CommandByPut',
-					ws,
-					path: response,
-					uploadFile: key,
-				}).then(() => {
-					dispatch({
-						type: SFTP_SAVE_HISTORY,
-						data: {
-							uuid,
-							name: key.name,
-							path: response,
-							size: key.size,
-							todo: 'put',
-							progress: 100,
-							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-							// 삭제, dispatch, 삭제 해서 progress 100 만들기
-						},
-					});
-				});
+				dispatch(uploadAction({ws, uuid, key, path: response}));
 			}
 		});
 	}, []);

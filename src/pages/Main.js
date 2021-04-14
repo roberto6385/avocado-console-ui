@@ -9,7 +9,7 @@ import {Redirect} from 'react-router-dom';
 const Main = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	if (!userTicket) return <Redirect to='/login' />;
+	// if (!userTicket) return <Redirect to='/login' />;
 
 	return (
 		<MainContainer fluid>

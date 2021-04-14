@@ -36,7 +36,7 @@ const FileListContents = ({ws, uuid}) => {
 			e.stopPropagation();
 			if (item.fileName !== '..' && item.fileType !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				downloadWork([item]);
+				downloadWork('list', [item]);
 			}
 		},
 		[],

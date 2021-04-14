@@ -7,6 +7,7 @@ import revoke from './auth/revoke';
 import find from './auth/find';
 
 import download from './download';
+import upload from './upload';
 
 export default function* rootSaga() {
 	yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
 		fork(revoke),
 		fork(find),
 		fork(download),
+		fork(upload),
 	]);
 }

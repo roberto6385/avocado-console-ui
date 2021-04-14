@@ -7,7 +7,7 @@ import UserAuthForm from '../components/Form/UserAuthForm';
 
 const Login = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
-	if (userTicket) return <Redirect to='/' />;
+	// if (userTicket) return <Redirect to='/' />;
 
 	return (
 		<MainContainer>
