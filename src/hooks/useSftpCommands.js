@@ -85,9 +85,8 @@ const useSftpCommands = ({ws, uuid}) => {
 		await newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then((response) => {
-			console.log(response);
-			for (const key of files) {
+		}).then(async (response) => {
+			for await (const key of files) {
 				dispatch(uploadAction({ws, uuid, key, path: response}));
 			}
 		});

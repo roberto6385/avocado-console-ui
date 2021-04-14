@@ -35,11 +35,10 @@ function* handleRequest(payload) {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
+		yield console.log('end!!');
 	} catch (err) {
 		console.log(err);
 		yield put({type: UPLOAD_FAILURE, data: err.response.data});
-	} finally {
-		console.log('finally!!!');
 	}
 }
 
