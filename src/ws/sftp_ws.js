@@ -559,7 +559,8 @@ const sftp_ws = ({
 											window.URL.revokeObjectURL(url);
 
 											getReceiveSum = 0;
-											resolve();
+											console.log(sum, percent);
+											resolve({sum, percent});
 										}
 										// this.setState({
 										// 	getReceiveSum: 0,

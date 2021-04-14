@@ -1,4 +1,4 @@
-import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
+import {all, fork, put, call, takeLatest, takeEvery} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_REFRESH_TICKET_FAILURE,
@@ -29,7 +29,10 @@ function* getRefreshTicket(action) {
 	try {
 		const res = yield call(getRefreshTicketApi, action.params);
 		yield put({type: GET_REFRESH_TICKET_SUCCESS, data: res.data});
-		yield put({type: REFRESH_USER_TICKET, data: res.data});
+		yield takeEvery(
+			GET_REFRESH_TICKET_SUCCESS,
+			yield put({type: REFRESH_USER_TICKET, data: res.data}),
+		);
 	} catch (err) {
 		yield put({type: GET_REFRESH_TICKET_FAILURE, data: err.response.data});
 	}

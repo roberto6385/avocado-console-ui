@@ -10,6 +10,7 @@ import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import newSftp_ws from '../ws/sftp_ws';
+import {downloadAction} from '../reducers/download';
 
 const useSftpCommands = ({ws, uuid}) => {
 	const dispatch = useDispatch();
@@ -114,49 +115,20 @@ const useSftpCommands = ({ws, uuid}) => {
 		newSftp_ws({
 			keyword: 'CommandByPwd',
 			ws,
-		}).then(async (response) => {
-			for await (const key of itemList) {
+		}).then((response) => {
+			for (const key of itemList) {
 				if (mode === 'list') {
-					await newSftp_ws({
-						keyword: 'CommandByGet',
-						ws,
-						path: response,
-						fileName: key.fileName,
-					});
-					dispatch({
-						type: SFTP_SAVE_HISTORY,
-						data: {
-							uuid,
-							name: key.fileName,
-							path: response.result,
-							size: key.fileSize,
-							todo: 'get',
-							progress: 100,
-							// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-							// 삭제, dispatch, 삭제 해서 progress 100 만들기
-						},
-					});
+					dispatch(downloadAction({ws, uuid, key, path: response}));
 				} else {
 					if (key.fileType !== 'directory') {
-						await newSftp_ws({
-							keyword: 'CommandByGet',
-							ws,
-							path: key.path,
-							fileName: key.item.fileName,
-						});
-						dispatch({
-							type: SFTP_SAVE_HISTORY,
-							data: {
+						dispatch(
+							downloadAction({
+								ws,
 								uuid,
-								name: key.item.fileName,
-								path: response.result,
-								size: key.item.fileSize,
-								todo: 'get',
-								progress: 100,
-								// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-								// 삭제, dispatch, 삭제 해서 progress 100 만들기
-							},
-						});
+								key: key.item,
+								path: key.path,
+							}),
+						);
 					}
 				}
 			}

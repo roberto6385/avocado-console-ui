@@ -26,6 +26,7 @@ const download = (state = initialState, action) =>
 				break;
 			case DOWNLOAD_SUCCESS:
 				draft.download = action.data;
+				// draft.percent = action.data.percent;
 				draft.loading = false;
 				break;
 			case DOWNLOAD_FAILURE:
