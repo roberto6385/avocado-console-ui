@@ -13,6 +13,8 @@ import verify from './auth/verify';
 import revoke from './auth/revoke';
 import find from './auth/find';
 
+import download from './download';
+
 const rootReducer = combineReducers({
 	user,
 	common,
@@ -25,6 +27,7 @@ const rootReducer = combineReducers({
 	verify,
 	revoke,
 	find,
+	download,
 });
 
 export default rootReducer;

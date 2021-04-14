@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {toEditMode} from '../commands';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({ws, uuid}) => {
 	const {

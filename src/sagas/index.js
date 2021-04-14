@@ -6,6 +6,8 @@ import verify from './auth/verify';
 import revoke from './auth/revoke';
 import find from './auth/find';
 
+import download from './download';
+
 export default function* rootSaga() {
 	yield all([
 		fork(clientTicket),
@@ -14,5 +16,6 @@ export default function* rootSaga() {
 		fork(verify),
 		fork(revoke),
 		fork(find),
+		fork(download),
 	]);
 }
