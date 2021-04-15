@@ -2,8 +2,6 @@ import produce from 'immer';
 
 // action types
 
-// 웹소켓 send Message
-
 // 연결
 export const CONNECTION_REQUEST = 'sftp/CONNECTION_REQUEST';
 export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
@@ -13,6 +11,11 @@ export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
 export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
 export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
 export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
+
+// pwd
+export const PWD_REQUEST = 'sftp/PWD_REQUEST';
+export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
+export const PWD_FAILURE = 'sftp/PWD_FAILURE';
 
 // 에러
 export const ERROR = 'sftp/ERROR';
@@ -29,6 +32,11 @@ export const disconnectAction = (payload) => ({
 	payload,
 });
 
+export const commandPwdAction = (payload) => ({
+	type: PWD_REQUEST,
+	payload,
+});
+
 export const errorAction = (payload) => ({
 	type: ERROR,
 	payload,
@@ -36,20 +44,8 @@ export const errorAction = (payload) => ({
 
 // initial State
 const initialState = {
-	ws: null,
-	// token:'',
-	status: 'none',
-	responseStatus: '',
-	errorMessage: '',
-	uuid: '',
-	path: '',
-	newPath: '',
-	result: '',
-	cmdstatus: '',
-	progress: 0,
-	getPath: '',
-	getFileName: '',
-	getReceiveSum: 0,
+	server: [],
+	loading: false,
 };
 
 const sftp = (state = initialState, action) =>
@@ -57,19 +53,60 @@ const sftp = (state = initialState, action) =>
 		switch (action.type) {
 			// 연결
 			case CONNECTION_REQUEST:
+				draft.loading = true;
 				draft.status = 'connected';
 				break;
 
 			case CONNECTION_SUCCESS:
-				draft.uuid = action.payload;
-				// 웹소켓 정보는 common tab에 넣어준다
+				draft.loading = false;
+				draft.server.push({
+					socket: action.payload.socket,
+					status: 'none',
+					responseStatus: action.payload.responseStatus,
+					errorMessage: '',
+					uuid: action.payload.uuid,
+					path: '',
+					newPath: '',
+					result: '',
+					cmdstatus: '',
+					progress: 0,
+					getPath: '',
+					getFileName: '',
+					getReceiveSum: 0,
+				});
+				break;
+			case CONNECTION_FAILURE:
+				draft.loading = false;
 				break;
 
 			// 해제
+
+			case DISCONNECTION_REQUEST:
+				draft.loading = true;
+				break;
 			case DISCONNECTION_SUCCESS:
-				draft.uuid = '';
-				draft.result = '';
-				draft.cmdstatus = '';
+				draft.loading = false;
+				// eslint-disable-next-line no-case-declarations
+				const nextServer = [...draft.server];
+				console.log(nextServer === draft.server);
+				draft.server = nextServer.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				console.log(draft.server);
+				break;
+			case DISCONNECTION_FAILURE:
+				draft.loading = false;
+				break;
+
+			// 현재 경로 조회
+			case PWD_REQUEST:
+				draft.loading = true;
+				break;
+			case PWD_SUCCESS:
+				draft.loading = false;
+				break;
+			case PWD_FAILURE:
+				draft.loading = false;
 				break;
 
 			//에러

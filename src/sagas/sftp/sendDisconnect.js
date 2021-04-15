@@ -11,7 +11,7 @@ import {CLOSE_TAB} from '../../reducers/common';
 
 function* sendDisconnect({payload}) {
 	console.log(payload);
-	const {socket, channel, id} = payload;
+	const {socket, channel, id, uuid} = payload;
 	try {
 		yield call(sftp_ws, {
 			keyword: 'Disconnection',
@@ -31,20 +31,22 @@ function* sendDisconnect({payload}) {
 					console.log(disconnect);
 					yield put({
 						type: DISCONNECTION_SUCCESS,
+						payload: {
+							uuid,
+						},
 					});
 				}
 			}
 		}
-		yield take(
-			DISCONNECTION_SUCCESS,
-			yield put({
-				type: CLOSE_TAB,
-				data: id,
-			}),
-		);
 	} catch (err) {
 		yield put(errorAction('Error while disconnecting to the WebSocket'));
 		yield put({type: DISCONNECTION_FAILURE});
+	} finally {
+		console.log('finally');
+		yield put({
+			type: CLOSE_TAB,
+			data: id,
+		});
 	}
 }
 

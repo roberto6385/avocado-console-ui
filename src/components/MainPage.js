@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {AddServerButton, Background} from '../styles/common';

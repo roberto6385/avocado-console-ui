@@ -14,9 +14,9 @@ import {
 	TabSSHTIcon,
 } from '../styles/common';
 
-import newSftp_ws from '../ws/sftp_ws';
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
+import {disconnectAction} from '../reducers/sftp/index';
 
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 	const {cols, tab} = useSelector((state) => state.common);
 	const [height, setHeight] = useState(null);
 	const [width, setWidth] = useState(null);
+	const clicked_tab = tab.find((x) => x.id === index);
 
 	const onClickDelete = useCallback(() => {
 		if (type === 'SSHT') {
@@ -38,12 +39,8 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 				else console.log('V TabContentContainer onmessage: ', message);
 			};
 		} else {
-			newSftp_ws({
-				keyword: 'Disconnection',
-				ws,
-			}).then((r) => {
-				dispatch({type: CLOSE_TAB, data: index});
-			});
+			const channel = clicked_tab.channel;
+			dispatch(disconnectAction({socket: ws, channel, id: index}));
 		}
 	}, [dispatch]);
 
@@ -100,8 +97,12 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					socket={socket}
 				/>
 			) : (
-				// <SFTPContainer index={index} socket={socket} data={server} />
-				<div>sftp</div>
+				<SFTPContainer
+					index={index}
+					socket={socket}
+					data={server}
+					channel={clicked_tab.channel}
+				/>
 			)}
 		</TabContentCard>
 	);

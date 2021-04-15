@@ -71,7 +71,11 @@ function* sendConnect({payload}) {
 					console.log(connect);
 					yield put({
 						type: CONNECTION_SUCCESS,
-						payload: connect.getUuid(),
+						payload: {
+							uuid: connect.getUuid(),
+							socket,
+							responseStatus: response.getStatus(),
+						},
 					});
 					yield take(
 						CONNECTION_SUCCESS,

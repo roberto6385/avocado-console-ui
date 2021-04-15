@@ -40,7 +40,7 @@ const TabNavBar = () => {
 	const onClickDelete = useCallback(
 		(id) => async () => {
 			const clicked_tab = tab.find((x) => x.id === id);
-			const {ws} = clicked_tab.socket;
+			const {ws, uuid} = clicked_tab.socket;
 
 			if (clicked_tab.type === 'SSHT') {
 				ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
@@ -55,14 +55,7 @@ const TabNavBar = () => {
 				};
 			} else {
 				const channel = clicked_tab.channel;
-				dispatch(disconnectAction({socket: ws, channel, id}));
-				// sendDisconnect(ws);
-				// newSftp_ws({
-				// 	keyword: 'Disconnection',
-				// 	ws,
-				// }).then((r) => {
-				// 	dispatch({type: CLOSE_TAB, data: id});
-				// });
+				dispatch(disconnectAction({socket: ws, channel, id, uuid}));
 			}
 		},
 		[tab],
