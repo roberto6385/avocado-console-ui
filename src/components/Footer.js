@@ -48,13 +48,12 @@ const Footer = () => {
 					</div>
 				)}
 				<HostInfo>
-					{
+					{current_tab && // 현재 탭이 존재하는 경우만
 						server.find(
 							(v) =>
 								v.id ===
 								tab.find((i) => i.id === current_tab).server.id,
-						).host
-					}
+						).host}
 				</HostInfo>
 			</ButtonsContainer>
 		</BottomBar>

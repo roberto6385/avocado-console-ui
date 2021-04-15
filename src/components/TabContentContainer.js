@@ -100,7 +100,8 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					socket={socket}
 				/>
 			) : (
-				<SFTPContainer index={index} socket={socket} data={server} />
+				// <SFTPContainer index={index} socket={socket} data={server} />
+				<div>sftp</div>
 			)}
 		</TabContentCard>
 	);

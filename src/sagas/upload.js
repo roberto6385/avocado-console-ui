@@ -8,7 +8,7 @@ import {buffers} from 'redux-saga';
 import newSftp_ws from '../ws/sftp_ws';
 import {SFTP_SAVE_HISTORY} from '../reducers/sftp';
 
-const doSomething = async (payload) => {
+const CommandByPut = async (payload) => {
 	console.log(payload);
 	return await newSftp_ws({
 		keyword: 'CommandByPut',
@@ -20,7 +20,7 @@ const doSomething = async (payload) => {
 
 function* handleRequest(payload) {
 	try {
-		const res = yield call(doSomething, payload);
+		const res = yield call(CommandByPut, payload);
 		yield put({type: UPLOAD_SUCCESS, date: res});
 		yield put({
 			type: SFTP_SAVE_HISTORY,
@@ -35,7 +35,6 @@ function* handleRequest(payload) {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
-		yield console.log('end!!');
 	} catch (err) {
 		console.log(err);
 		yield put({type: UPLOAD_FAILURE, data: err.response.data});

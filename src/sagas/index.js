@@ -9,6 +9,8 @@ import find from './auth/find';
 import download from './download';
 import upload from './upload';
 
+import sftp from './sftp';
+
 export default function* rootSaga() {
 	yield all([
 		fork(clientTicket),
@@ -19,5 +21,6 @@ export default function* rootSaga() {
 		fork(find),
 		fork(download),
 		fork(upload),
+		fork(sftp),
 	]);
 }

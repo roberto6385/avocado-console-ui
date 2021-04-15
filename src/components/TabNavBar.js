@@ -20,6 +20,8 @@ import newSftp_ws from '../ws/sftp_ws';
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
 import Sortable from 'sortablejs';
+import {sendDisconnect} from '../sagas/sftp';
+import {disconnectAction} from '../reducers/sftp/index';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -52,12 +54,15 @@ const TabNavBar = () => {
 					else console.log('V TabNavBar onmessage: ', message);
 				};
 			} else {
-				newSftp_ws({
-					keyword: 'Disconnection',
-					ws,
-				}).then((r) => {
-					dispatch({type: CLOSE_TAB, data: id});
-				});
+				const channel = clicked_tab.channel;
+				dispatch(disconnectAction({socket: ws, channel, id}));
+				// sendDisconnect(ws);
+				// newSftp_ws({
+				// 	keyword: 'Disconnection',
+				// 	ws,
+				// }).then((r) => {
+				// 	dispatch({type: CLOSE_TAB, data: id});
+				// });
 			}
 		},
 		[tab],

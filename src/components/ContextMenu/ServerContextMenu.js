@@ -7,6 +7,7 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
+import {connectionAction, sendMessage} from '../../reducers/sftp/index';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
@@ -59,34 +60,12 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.id === data.id);
-
-		const ws = new WebSocket(
-			`ws://${correspondedServer.host}:8081/ws/sftp`,
+		dispatch(
+			connectionAction({
+				server: correspondedServer,
+				token: userTicket,
+			}),
 		);
-		ws.onopen = async () => {
-			const {uuid} = await newSftp_ws({
-				keyword: 'Connection',
-				ws,
-				token: userTicket.access_token,
-				data: correspondedServer,
-			});
-			dispatch({
-				type: OPEN_TAB,
-				data: {
-					id: correspondedServer.id,
-					type: 'SFTP',
-					ws: ws,
-					uuid: uuid,
-				},
-			});
-			dispatch({
-				type: SFTP_SAVE_LIST_MODE,
-				data: {
-					uuid,
-					mode: 'list',
-				},
-			});
-		};
 	}, [server, userTicket, data]);
 
 	const openSSHT = useCallback(() => {

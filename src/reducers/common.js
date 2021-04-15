@@ -464,6 +464,8 @@ const reducer = (state = initialState, action) => {
 						ws: action.data.ws,
 						uuid: action.data.uuid,
 					},
+					mode: action.data.mode || '',
+					channel: action.data.channel || '',
 				});
 				draft.current_tab = draft.tab_index;
 
