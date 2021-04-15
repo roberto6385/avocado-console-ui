@@ -1,5 +1,6 @@
 import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {
+	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 	errorAction,
@@ -43,6 +44,7 @@ function* sendDisconnect({payload}) {
 		);
 	} catch (err) {
 		yield put(errorAction('Error while disconnecting to the WebSocket'));
+		yield put({type: DISCONNECTION_FAILURE});
 	}
 }
 
