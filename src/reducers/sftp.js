@@ -49,6 +49,7 @@ export const commandLsAction = (payload) => ({
 	type: LS_REQUEST,
 	payload,
 });
+
 export const commandCdAction = (payload) => ({
 	type: CD_REQUEST,
 	payload,
@@ -92,6 +93,8 @@ const sftp = (state = initialState, action) =>
 					getFileName: '',
 					getReceiveSum: 0,
 					mode: 'list',
+					pathList: [],
+					fileList: [],
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -126,6 +129,10 @@ const sftp = (state = initialState, action) =>
 				draft.server.find(
 					(it) => it.uuid === action.payload.uuid,
 				).path = action.payload.path;
+				draft.server
+					.find((it) => it.uuid === action.payload.uuid)
+					.pathList.push(action.payload.pathList);
+
 				break;
 			case PWD_FAILURE:
 				draft.loading = false;
@@ -140,6 +147,9 @@ const sftp = (state = initialState, action) =>
 				draft.server.find(
 					(it) => it.uuid === action.payload.uuid,
 				).result = action.payload.result;
+				draft.server
+					.find((it) => it.uuid === action.payload.uuid)
+					.fileList.push(action.payload.fileList);
 				break;
 			case LS_FAILURE:
 				draft.loading = false;

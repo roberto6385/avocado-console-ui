@@ -10,8 +10,7 @@ export const listConversion = (result) => {
 	console.log(result);
 	const fileList = [];
 	result !== undefined &&
-		typeof result === 'object' &&
-		result?.forEach((list) => {
+		result.forEach((list) => {
 			const splitedList = list.replace(/\s{2,}/gi, ' ').split(' ');
 			if (splitedList[splitedList.length - 1] !== '.') {
 				fileList.push({
@@ -48,7 +47,6 @@ export const listConversion = (result) => {
 		}
 		return 0;
 	});
-
 	return fileList;
 };
 

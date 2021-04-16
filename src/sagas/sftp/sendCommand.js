@@ -11,9 +11,10 @@ import {
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
+import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
-	const {uuid} = payload;
+	const {uuid, pathList} = payload;
 	console.log(data);
 	// return new Promise(function (resolve) {
 	console.log('run');
@@ -40,11 +41,32 @@ function* messageReader(data, payload, type) {
 						case SFTP.CommandResponse.CommandCase.PWD: {
 							const pwd = command.getPwd();
 							console.log('command : pwd', pwd);
+							let pathList = ['/'];
+							let tempPathList = pwd.getMessage().split('/');
+							tempPathList.reduce(function (
+								accumulator,
+								currentValue,
+							) {
+								response !== '/' &&
+									pathList.push(
+										accumulator + '/' + currentValue,
+									);
+								return accumulator + '/' + currentValue;
+							});
+
 							yield put({
 								type: PWD_SUCCESS,
-								payload: {uuid, path: pwd.getMessage()},
+								payload: {
+									uuid,
+									path: pwd.getMessage(),
+									pathList,
+								},
 							});
-							return {type: PWD_SUCCESS, path: pwd.getMessage()};
+							return {
+								type: PWD_SUCCESS,
+								path: pwd.getMessage(),
+								pathList,
+							};
 
 							// resolve({path: pwd.getMessage(), type});
 
@@ -115,20 +137,17 @@ function* messageReader(data, payload, type) {
 								console.log('entry : ', entry.getLongname());
 								result += entry.getLongname() + '\n';
 							}
+							const fileList = listConversion(result);
+							console.log(fileList);
 							yield put({
 								type: LS_SUCCESS,
 								payload: {
 									uuid,
 									result,
+									fileList,
 								},
 							});
-
-							// resolve({result, type});
-
-							// this.setState({
-							//     result : result
-							// });
-							break;
+							return {type: LS_SUCCESS};
 						}
 						// case SFTP.CommandResponse.CommandCase.STAT : {
 						//
@@ -253,7 +272,20 @@ function* sendCommand(action) {
 			const res = yield call(messageReader, data, payload, type);
 			switch (res.type) {
 				case PWD_SUCCESS:
-					yield put(commandLsAction({...payload, path: res.path}));
+					for (const key of res.pathList) {
+						yield put(
+							commandLsAction({
+								...payload,
+								path: key,
+							}),
+						);
+					}
+					break;
+				case LS_SUCCESS:
+					// yield put(commandLsAction({...payload, path: res.path}));
+					break;
+				default:
+					break;
 			}
 		}
 	} catch (err) {

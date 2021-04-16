@@ -21,10 +21,8 @@ import useSftpCommands from '../../../hooks/useSftpCommands';
 import newSftp_ws from '../../../ws/sftp_ws';
 
 const FileListContents = ({server}) => {
-	const {socket, uuid} = server;
-	const {currentList, currentHighlight} = useSelector(
-		(state) => state.subSftp,
-	);
+	const {socket, uuid, fileList} = server;
+	const {currentHighlight} = useSelector((state) => state.subSftp);
 	const {initialWork, downloadWork} = useSftpCommands({ws: socket, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
@@ -118,9 +116,10 @@ const FileListContents = ({server}) => {
 	);
 
 	useEffect(() => {
-		const list = currentList?.find((item) => item.uuid === uuid)?.list;
-		list?.length > 0 && setData(list[list?.length - 1 || 0]);
-	}, [currentList, uuid]);
+		const list = fileList;
+		console.log(list);
+		list.length > 0 && setData(list[list.length - 1]);
+	}, [server]);
 
 	return (
 		<>
