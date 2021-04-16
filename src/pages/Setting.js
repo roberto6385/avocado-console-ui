@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
@@ -9,7 +9,9 @@ import LeftSetting from '../components/Setting/LeftSetting';
 const Setting = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	if (!userTicket) return <Redirect to='/login' />;
+	// useEffect(() => {
+	// 	if (!userTicket) return <Redirect to='/login' />;
+	// }, [userTicket]);
 
 	return (
 		<MainContainer fluid>

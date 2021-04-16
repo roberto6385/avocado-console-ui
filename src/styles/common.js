@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import {Button, Card, Col, FormControl, Modal, Nav, Tab} from 'react-bootstrap';
+import {Button, Card, FormControl, Modal, Nav, Tab} from 'react-bootstrap';
 import {
 	HIGHLIGHT_COLOR,
 	MAIN_COLOR,
@@ -216,6 +216,7 @@ export const TabContentCardHeader = styled(Card.Header)`
 
 export const TabContentCard = styled(Card)`
 	display: flex;
+	resize: horizontal;
 	flex-direction: column;
 	height: ${(props) => props.h};
 	width: ${(props) => props.w};

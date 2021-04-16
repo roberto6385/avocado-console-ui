@@ -17,6 +17,7 @@ import {useContextMenu} from 'react-contexify';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
+import {Terminal} from 'xterm';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -37,6 +38,7 @@ const Server = ({data, indent}) => {
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+	const {font} = useSelector((state) => state.ssht);
 
 	const onHybridClick = useDoubleClick(
 		() => {
@@ -62,7 +64,6 @@ const Server = ({data, indent}) => {
 
 				ws.onmessage = (evt) => {
 					const message = GetMessage(evt);
-					console.log(message);
 
 					if (message.type === 'CONNECT')
 						dispatch({
@@ -72,6 +73,14 @@ const Server = ({data, indent}) => {
 								type: 'SSHT',
 								ws: ws,
 								uuid: message.result,
+								terminal: new Terminal({
+									cursorBlink: true,
+									minimumContrastRatio: 7,
+									fontFamily: font,
+									theme: {
+										selection: '#FCFD08',
+									},
+								}),
 							},
 						});
 					else console.log('V ServerNavBar onmessage: ', message);

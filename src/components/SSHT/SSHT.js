@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
@@ -10,81 +9,74 @@ import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 
-const SSHT = ({index, display, height, width, ws, uuid}) => {
-	const {current_tab} = useSelector((state) => state.common);
+const SSHT = ({index, display, height, width}) => {
+	const {current_tab, tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
-
-	const sshTerm = useRef(
-		new Terminal({
-			cursorBlink: true,
-			minimumContrastRatio: 7,
-			theme: {selection: '#FCFD08', fontFamily: font},
-		}),
-	);
+	const sshTerm = tab.find((v) => v.id === index).terminal;
+	const ws = tab.find((v) => v.id === index).socket.ws;
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
+	const terminalRef = useRef(null);
 
-	useEffect(() => {
-		sshTerm.current.loadAddon(fitAddon.current);
-		sshTerm.current.loadAddon(searchAddon.current);
-		sshTerm.current.open(
-			document.getElementById('terminal_' + String(index)),
-		);
-		fitAddon.current.fit();
+	const onSubmitSearch = useCallback(
+		(e) => {
+			if (e.key === 'Enter') searchAddon.current.findPrevious(search);
+		},
+		[search],
+	);
 
-		ws.onerror = () => {
-			console.log('Connection Error');
-		};
-
-		ws.onclose = () => {
-			console.log('이거는 잘못 닫음 실행되는건가욤??');
-			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-		};
-
-		ws.onmessage = (evt) => {
-			const message = GetMessage(evt);
-			if (message.type === 'COMMAND')
-				sshTerm.current.write(message.result);
-			else console.log('V SSHT onmessage: ', message);
-		};
-
-		sshTerm.current.onData(function (data) {
-			ssht_ws_request({
-				keyword: 'SendCommand',
-				ws: ws,
-				data: data,
-			});
-		});
-
-		return () => {
-			sshTerm.current.dispose();
-			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-		};
-	}, [index, uuid, ws]);
-
-	useEffect(() => {
-		sshTerm.current.setOption('theme', {fontFamily: font});
-	}, [font]);
-
-	useEffect(() => {
-		sshTerm.current.setOption('fontSize', font_size);
-
-		if (display) {
+	const resizeRequest = useCallback(() => {
+		if (display && width > 0 && height > 0) {
 			fitAddon.current.fit();
 
 			ssht_ws_request({
 				keyword: 'SendWindowChange',
 				ws: ws,
 				data: {
-					cols: sshTerm.current.cols,
-					rows: sshTerm.current.rows,
+					cols: sshTerm.cols,
+					rows: sshTerm.rows,
 					width: width,
 					height: height,
 				},
 			});
 		}
-	}, [font_size, height, width]);
+	}, [display, ws, sshTerm, width, height]);
+
+	useEffect(() => {
+		sshTerm.loadAddon(fitAddon.current);
+		sshTerm.loadAddon(searchAddon.current);
+		sshTerm.open(terminalRef.current);
+		fitAddon.current.fit();
+
+		ws.onerror = () => {
+			console.log('Terminal Error');
+		};
+
+		ws.onmessage = (evt) => {
+			const message = GetMessage(evt);
+			if (message.type === 'COMMAND') sshTerm.write(message.result);
+			else console.log('V SSHT onmessage: ', message);
+		};
+
+		sshTerm.onData(function (data) {
+			ssht_ws_request({
+				keyword: 'SendCommand',
+				ws: ws,
+				data: data,
+			});
+		});
+	}, [index, ws, sshTerm]);
+
+	useEffect(() => {
+		sshTerm.setOption('theme', {fontFamily: font});
+		resizeRequest();
+	}, [font, sshTerm, display, ws, width, height]);
+
+	useEffect(() => {
+		sshTerm.setOption('fontSize', font_size);
+		resizeRequest();
+	}, [font_size, sshTerm, display, ws, width, height]);
 
 	useEffect(() => {
 		if (current_tab === index && search_mode) {
@@ -105,16 +97,9 @@ const SSHT = ({index, display, height, width, ws, uuid}) => {
 		}
 	}, [current_tab, index, search]);
 
-	const onSubmitSearch = useCallback(
-		(e) => {
-			if (e.key === 'Enter') searchAddon.current.findPrevious(search);
-		},
-		[search],
-	);
-
 	return (
 		<SSHTerminal>
-			<SSHTerminal id={`terminal_${String(index)}`} />
+			<SSHTerminal ref={terminalRef} />
 			<TerminalSearchForm
 				id={`search_${String(index)}`}
 				onChange={onChangeSearch}
@@ -133,8 +118,6 @@ SSHT.propTypes = {
 	display: PropTypes.bool.isRequired,
 	height: PropTypes.number.isRequired,
 	width: PropTypes.number.isRequired,
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
 };
 
 export default SSHT;

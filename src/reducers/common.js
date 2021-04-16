@@ -152,9 +152,7 @@ export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
-export const CHANGE_OPEN_ADD_SERVER_FORM = 'CHANGE_OPEN_ADD_SERVER_FORM';
 export const EDIT_SERVER = 'EDIT_SERVER';
-
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
@@ -449,7 +447,8 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case OPEN_TAB: {
-				draft.tab.push({
+				//fill in new tab info
+				let new_tab = {
 					id: draft.tab_index,
 					type: action.data.type,
 					display: true,
@@ -464,11 +463,19 @@ const reducer = (state = initialState, action) => {
 						ws: action.data.ws,
 						uuid: action.data.uuid,
 					},
-					mode: action.data.mode || '',
-					channel: action.data.channel || '',
-				});
-				draft.current_tab = draft.tab_index;
+				};
 
+				//save ssht/sftp info
+				if (action.data.type === 'SSHT') {
+					new_tab.terminal = action.data.terminal;
+				} else if (action.data.type === 'SFTP') {
+					new_tab.mode = action.data.mode || '';
+					new_tab.channel = action.data.channel || '';
+				}
+				//save new tab info
+				draft.tab.push(new_tab);
+
+				draft.current_tab = draft.tab_index;
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,
@@ -486,7 +493,7 @@ const reducer = (state = initialState, action) => {
 
 			case CLOSE_TAB: {
 				draft.tab = draft.tab.filter((v) => v.id !== action.data);
-
+				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,
