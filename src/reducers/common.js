@@ -447,7 +447,8 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case OPEN_TAB: {
-				draft.tab.push({
+				//fill in new tab info
+				let new_tab = {
 					id: draft.tab_index,
 					type: action.data.type,
 					display: true,
@@ -462,9 +463,13 @@ const reducer = (state = initialState, action) => {
 						ws: action.data.ws,
 						uuid: action.data.uuid,
 					},
-				});
+				};
+				//save ssht terminal info
+				if (action.data.type === 'SSHT')
+					new_tab.terminal = action.data.terminal;
+				//save new tab info
+				draft.tab.push(new_tab);
 				draft.current_tab = draft.tab_index;
-
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,
@@ -482,7 +487,7 @@ const reducer = (state = initialState, action) => {
 
 			case CLOSE_TAB: {
 				draft.tab = draft.tab.filter((v) => v.id !== action.data);
-
+				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,

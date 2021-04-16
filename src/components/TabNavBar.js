@@ -45,7 +45,6 @@ const TabNavBar = () => {
 
 				ws.onmessage = (evt) => {
 					const message = GetMessage(evt);
-					console.log(message);
 
 					if (message.type === 'DISCONNECT')
 						dispatch({type: CLOSE_TAB, data: id});

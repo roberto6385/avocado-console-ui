@@ -11,6 +11,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
+import {Terminal} from 'xterm';
 
 const ServerContextMenuMessage = {
 	connect: 'Connect',
@@ -23,6 +24,7 @@ const ServerContextMenuMessage = {
 const ServerContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
+	const {font} = useSelector((state) => state.ssht);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
 
@@ -122,12 +124,20 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 							type: 'SSHT',
 							ws: ws,
 							uuid: message.result,
+							terminal: new Terminal({
+								cursorBlink: true,
+								minimumContrastRatio: 7,
+								fontFamily: font,
+								theme: {
+									selection: '#FCFD08',
+								},
+							}),
 						},
 					});
 				else console.log('V ServerNavBar onmessage: ', message);
 			};
 		};
-	}, [server, data]);
+	}, [server, data, font]);
 
 	return (
 		<Menu

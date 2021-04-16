@@ -21,7 +21,7 @@ import {GetMessage} from '../ws/ssht_ws_logic';
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
 	const {ws} = socket;
-	const {cols, tab} = useSelector((state) => state.common);
+	const {cols, tab, current_tab} = useSelector((state) => state.common);
 	const [height, setHeight] = useState(null);
 	const [width, setWidth] = useState(null);
 
@@ -48,8 +48,9 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 	}, [dispatch]);
 
 	const onClickChangeTab = useCallback(() => {
-		dispatch({type: CHANGE_CURRENT_TAB, data: index});
-	}, []);
+		if (current_tab !== index)
+			dispatch({type: CHANGE_CURRENT_TAB, data: index});
+	}, [index]);
 
 	useEffect(() => {
 		if (!display) {
@@ -97,7 +98,6 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					index={index}
 					display={display}
 					server_id={server.id}
-					socket={socket}
 				/>
 			) : (
 				<SFTPContainer index={index} socket={socket} data={server} />

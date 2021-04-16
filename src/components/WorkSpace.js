@@ -8,7 +8,7 @@ const WorkSpace = () => {
 	const {tab} = useSelector((state) => state.common);
 
 	return (
-		<WorkSpaceContainer className={'fix-height'}>
+		<WorkSpaceContainer className={'fix-height'} resizable={true}>
 			{tab.map((data) => (
 				<TabContentContainer
 					key={data.id}

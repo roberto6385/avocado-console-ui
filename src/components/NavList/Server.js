@@ -64,7 +64,6 @@ const Server = ({data, indent}) => {
 
 				ws.onmessage = (evt) => {
 					const message = GetMessage(evt);
-					console.log(message);
 
 					if (message.type === 'CONNECT')
 						dispatch({
@@ -74,6 +73,14 @@ const Server = ({data, indent}) => {
 								type: 'SSHT',
 								ws: ws,
 								uuid: message.result,
+								terminal: new Terminal({
+									cursorBlink: true,
+									minimumContrastRatio: 7,
+									fontFamily: font,
+									theme: {
+										selection: '#FCFD08',
+									},
+								}),
 							},
 						});
 					else console.log('V ServerNavBar onmessage: ', message);

@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
@@ -8,12 +8,13 @@ import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
-const ConvertSFTP = ({data}) => {
+const ConvertSFTP = ({server_id}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
 
 	const connection = useCallback(() => {
+		const data = server.find((x) => x.id === server_id);
 		if (server.includes(data)) {
 			const ws = new WebSocket(`ws://${data.host}:8081/ws/sftp`);
 			ws.onopen = async () => {
@@ -43,7 +44,7 @@ const ConvertSFTP = ({data}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [data, userTicket]);
+	}, [server_id, userTicket]);
 
 	return (
 		<IconButton onClick={connection}>
@@ -53,7 +54,7 @@ const ConvertSFTP = ({data}) => {
 };
 
 ConvertSFTP.propTypes = {
-	data: PropTypes.object,
+	server_id: PropTypes.number,
 };
 
 export default ConvertSFTP;

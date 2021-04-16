@@ -1,7 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
-	font: 'Arial, sans-serif',
+	font: 'Courier New, monospace',
 	font_size: 15,
 	search_mode: false,
 };

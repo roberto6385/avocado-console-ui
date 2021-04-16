@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
@@ -9,7 +9,9 @@ import {Redirect} from 'react-router-dom';
 const Main = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	if (!userTicket) return <Redirect to='/login' />;
+	// useEffect(() => {
+	// 	if (!userTicket) return <Redirect to='/login' />;
+	// }, [userTicket]);
 
 	return (
 		<MainContainer fluid>
