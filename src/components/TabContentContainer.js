@@ -16,7 +16,7 @@ import {
 
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
-import {disconnectAction} from '../reducers/sftp/index';
+import {disconnectAction} from '../reducers/sftp';
 
 const TabContentContainer = ({index, type, display, server, socket}) => {
 	const dispatch = useDispatch();
@@ -97,12 +97,7 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					socket={socket}
 				/>
 			) : (
-				<SFTPContainer
-					index={index}
-					socket={socket}
-					data={server}
-					channel={clicked_tab.channel}
-				/>
+				<SFTPContainer uuid={socket.uuid} data={server} />
 			)}
 		</TabContentCard>
 	);

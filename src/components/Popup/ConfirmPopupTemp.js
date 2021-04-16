@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/subSftp';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';

@@ -4,7 +4,7 @@ import {
 	SFTP_SAVE_CURRENT_LIST,
 	SFTP_SAVE_CURRENT_PATH,
 	SFTP_SAVE_DROPLIST_HIGHLIGHT,
-} from '../reducers/sftp';
+} from '../reducers/subSftp';
 import {listConversion} from '../components/SFTP/commands';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';

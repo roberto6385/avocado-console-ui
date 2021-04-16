@@ -4,7 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../../reducers/subSftp';
 import {toEditMode} from '../commands';
 import FileListContextMenu from './FileListContextMenu';
 import {
@@ -20,9 +20,12 @@ import TableHead from './FileListTableHead';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 import newSftp_ws from '../../../ws/sftp_ws';
 
-const FileListContents = ({ws, uuid}) => {
-	const {currentList, currentHighlight} = useSelector((state) => state.sftp);
-	const {initialWork, downloadWork} = useSftpCommands({ws, uuid});
+const FileListContents = ({server}) => {
+	const {socket, uuid} = server;
+	const {currentList, currentHighlight} = useSelector(
+		(state) => state.subSftp,
+	);
+	const {initialWork, downloadWork} = useSftpCommands({ws: socket, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
@@ -84,14 +87,14 @@ const FileListContents = ({ws, uuid}) => {
 					// 디렉토리 클릭시 해당 디렉토리로 이동
 					newSftp_ws({
 						keyword: 'CommandByPwd',
-						ws,
+						ws: socket,
 					}).then((response) => {
 						const path =
 							response === '/' ? response : response + '/';
 						response !== undefined &&
 							newSftp_ws({
 								keyword: 'CommandByCd',
-								ws,
+								ws: socket,
 								path: path + item.fileName,
 							}).then(() => initialWork());
 					});
@@ -161,7 +164,7 @@ const FileListContents = ({ws, uuid}) => {
 									onClick={(e) =>
 										toEditMode(
 											e,
-											ws,
+											socket,
 											uuid,
 											'',
 											item,
@@ -201,14 +204,13 @@ const FileListContents = ({ws, uuid}) => {
 					})}
 				</CustomTbody>
 			</CustomTable>
-			<FileListContextMenu ws={ws} uuid={uuid} />
+			<FileListContextMenu server={server} />
 		</>
 	);
 };
 
 FileListContents.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default FileListContents;

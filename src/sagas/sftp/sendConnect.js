@@ -4,7 +4,7 @@ import {
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 	errorAction,
-} from '../../reducers/sftp/index';
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import SFTP from '../../dist/sftp_pb';
 import {OPEN_TAB} from '../../reducers/common';

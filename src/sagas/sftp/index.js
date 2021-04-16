@@ -1,5 +1,5 @@
 import {cancel, fork, take, all} from 'redux-saga/effects';
-import {DISCONNECTION_SUCCESS} from '../../reducers/sftp/index';
+import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 import connectSaga from './sendConnect';
 import disconnectSaga from './sendDisconnect';

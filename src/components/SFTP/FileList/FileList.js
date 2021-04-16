@@ -7,24 +7,18 @@ import {FlexBox, SFTPBody} from '../../../styles/sftp';
 import {useSelector} from 'react-redux';
 import FileListDropDown from './FileListDropDown';
 
-const FileList = ({index, socket}) => {
-	const {listMode} = useSelector((state) => state.sftp);
-	const currentMode = listMode.find((item) => item.uuid === socket.uuid);
-
+const FileList = ({server}) => {
+	const {mode} = server;
 	return (
 		<FlexBox>
 			<Card.Header>
-				<FileListNav index={index} ws={socket.ws} uuid={socket.uuid} />
+				<FileListNav server={server} />
 			</Card.Header>
 			<SFTPBody>
-				{currentMode?.mode === 'list' ? (
-					<FileListContents
-						id={`sftp ${String(index)}`}
-						ws={socket.ws}
-						uuid={socket.uuid}
-					/>
+				{mode === 'list' ? (
+					<FileListContents server={server} />
 				) : (
-					<FileListDropDown ws={socket.ws} uuid={socket.uuid} />
+					<FileListDropDown server={server} />
 				)}
 			</SFTPBody>
 		</FlexBox>
@@ -32,8 +26,7 @@ const FileList = ({index, socket}) => {
 };
 
 FileList.propTypes = {
-	index: PropTypes.number.isRequired,
-	socket: PropTypes.object.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default FileList;

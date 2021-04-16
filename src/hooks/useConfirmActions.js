@@ -1,14 +1,14 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch} from 'react-redux';
 
+import newSftp_ws from '../ws/sftp_ws';
+import useSftpCommands from './useSftpCommands';
 import {
 	SFTP_DELETE_HISTORY,
 	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_TEXT,
 	SFTP_SAVE_HISTORY,
-} from '../reducers/sftp';
-import newSftp_ws from '../ws/sftp_ws';
-import useSftpCommands from './useSftpCommands';
+} from '../reducers/subSftp';
 
 const useConfirmActions = (ws, uuid) => {
 	const dispatch = useDispatch();

@@ -2,7 +2,6 @@ import {combineReducers} from 'redux';
 
 import user from './user';
 import common from './common';
-// import sftp from './sftp';
 import ssht from './ssht';
 import popup from './popup';
 
@@ -15,8 +14,8 @@ import find from './auth/find';
 
 import download from './download';
 import upload from './upload';
-
-import sftp from './sftp/index';
+import subSftp from './subSftp';
+import sftp from './sftp';
 
 const rootReducer = combineReducers({
 	user,
@@ -32,6 +31,7 @@ const rootReducer = combineReducers({
 	find,
 	download,
 	upload,
+	subSftp,
 });
 
 export default rootReducer;

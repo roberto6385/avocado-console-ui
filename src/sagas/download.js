@@ -6,7 +6,7 @@ import {
 } from '../reducers/download';
 import {buffers} from 'redux-saga';
 import newSftp_ws from '../ws/sftp_ws';
-import {SFTP_SAVE_HISTORY} from '../reducers/sftp';
+import {SFTP_SAVE_HISTORY} from '../reducers/subSftp';
 
 const doSomething = async (payload) => {
 	return await newSftp_ws({

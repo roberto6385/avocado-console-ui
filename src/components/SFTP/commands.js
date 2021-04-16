@@ -2,7 +2,7 @@ import {
 	SFTP_SAVE_COMPARE_TEXT,
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_CURRENT_TEXT,
-} from '../../reducers/sftp';
+} from '../../reducers/subSftp';
 import newSftp_ws from '../../ws/sftp_ws';
 
 export const listConversion = (result) => {

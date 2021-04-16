@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/subSftp';
 import {TextAreaWrapper} from '../../../styles/sftp';
 
 const EditContents = ({uuid}) => {
-	const {currentText} = useSelector((state) => state.sftp);
+	const {currentText} = useSelector((state) => state.subSftp);
 	const dispatch = useDispatch();
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const [editText, setEditText] = useState(curText?.text);

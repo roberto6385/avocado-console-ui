@@ -4,7 +4,7 @@ import {
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 	errorAction,
-} from '../../reducers/sftp/index';
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import SFTP from '../../dist/sftp_pb';
 import {CLOSE_TAB} from '../../reducers/common';

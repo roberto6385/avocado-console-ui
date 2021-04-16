@@ -6,13 +6,14 @@ import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {toEditMode} from '../commands';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 
-const FileListContextMenu = ({ws, uuid}) => {
+const FileListContextMenu = ({server}) => {
+	const {socket, uuid} = server;
 	const {
 		currentHighlight,
 		currentPath,
 		droplistHighlight,
 		listMode,
-	} = useSelector((state) => state.sftp);
+	} = useSelector((state) => state.subSftp);
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const currentlistMode = listMode.find((item) => item.uuid === uuid);
@@ -21,7 +22,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 	const [keyword, setKeyword] = useState('');
 	const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const dispatch = useDispatch();
-	const {downloadWork} = useSftpCommands({ws, uuid});
+	const {downloadWork} = useSftpCommands({ws: socket, uuid});
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
@@ -34,10 +35,18 @@ const FileListContextMenu = ({ws, uuid}) => {
 		const item = highlightItem?.list[0];
 		const dropItem = dropdownHLList?.list[0];
 		currentlistMode?.mode === 'list'
-			? toEditMode(e, ws, uuid, pathItem?.path, item, dispatch, 'list')
+			? toEditMode(
+					e,
+					socket,
+					uuid,
+					pathItem?.path,
+					item,
+					dispatch,
+					'list',
+			  )
 			: toEditMode(
 					e,
-					ws,
+					socket,
 					uuid,
 					dropItem.path,
 					dropItem?.item,
@@ -139,7 +148,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 				keyword={keyword}
 				open={open}
 				setOpen={setOpen}
-				ws={ws}
+				ws={socket}
 				uuid={uuid}
 			/>
 		</>
@@ -147,8 +156,7 @@ const FileListContextMenu = ({ws, uuid}) => {
 };
 
 FileListContextMenu.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default FileListContextMenu;

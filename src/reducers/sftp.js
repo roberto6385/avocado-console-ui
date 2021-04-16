@@ -1,312 +1,158 @@
 import produce from 'immer';
 
-export const initialState = {
-	editorWrapLines: 'off',
+// action types
 
-	currentType: [],
+// 연결
+export const CONNECTION_REQUEST = 'sftp/CONNECTION_REQUEST';
+export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
+export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
 
-	currentMode: [],
-	currentPath: [],
+// 해제
+export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
+export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
+export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
 
-	// file list
-	currentList: [],
-	currentHighlight: [],
-	currentText: [],
-	currentCompareText: [],
+// pwd
+export const PWD_REQUEST = 'sftp/PWD_REQUEST';
+export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
+export const PWD_FAILURE = 'sftp/PWD_FAILURE';
+// ls
+export const LS_REQUEST = 'sftp/LS_REQUEST';
+export const LS_SUCCESS = 'sftp/LS_SUCCESS';
+export const LS_FAILURE = 'sftp/LS_FAILURE';
+// cd
+export const CD_REQUEST = 'sftp/CD_REQUEST';
+export const CD_SUCCESS = 'sftp/CD_SUCCESS';
+export const CD_FAILURE = 'sftp/CD_FAILURE';
 
-	//history
-	History: [],
-	HISTORY_ID: 0,
+// 에러
+export const ERROR = 'sftp/ERROR';
 
-	//list display system
-	listMode: [],
-	droplistHighlight: [],
+// actions
+
+export const connectionAction = (payload) => ({
+	type: CONNECTION_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const disconnectAction = (payload) => ({
+	type: DISCONNECTION_REQUEST,
+	payload,
+});
+
+export const commandPwdAction = (payload) => ({
+	type: PWD_REQUEST,
+	payload,
+});
+
+export const commandLsAction = (payload) => ({
+	type: LS_REQUEST,
+	payload,
+});
+export const commandCdAction = (payload) => ({
+	type: CD_REQUEST,
+	payload,
+});
+
+export const errorAction = (payload) => ({
+	type: ERROR,
+	payload,
+});
+
+// initial State
+const initialState = {
+	server: [],
+	loading: false,
 };
 
-export const SFTP_SAVE_CURRENT_TYPE = 'SFTP_SAVE_CURRENT_TYPE';
-
-export const SFTP_SAVE_CURRENT_MODE = 'SFTP_SAVE_CURRENT_MODE';
-export const SFTP_DELETE_CURRENT_MODE = 'SFTP_DELETE_CURRENT_MODE';
-
-export const SFTP_SAVE_CURRENT_PATH = 'SFTP_SAVE_CURRENT_PATH';
-export const SFTP_DELETE_CURRENT_PATH = 'SFTP_DELETE_CURRENT_PATH';
-
-// file list
-export const SFTP_SAVE_CURRENT_LIST = 'SFTP_SAVE_CURRENT_LIST';
-export const SFTP_DELETE_CURRENT_LIST = 'SFTP_DELETE_CURRENT_LIST';
-export const SFTP_SAVE_CURRENT_HIGHLIGHT = 'SFTP_SAVE_CURRENT_HIGHLIGHT';
-export const SFTP_DELETE_CURRENT_HIGHLIGHT = 'SFTP_DELETE_CURRENT_HIGHLIGHT';
-
-//text
-export const SFTP_SAVE_CURRENT_TEXT = 'SFTP_SAVE_CURRENT_TEXT';
-export const SFTP_SAVE_COMPARE_TEXT = 'SFTP_SAVE_COMPARE_TEXT';
-
-// history
-export const SFTP_SAVE_HISTORY = 'SFTP_SAVE_HISTORY';
-export const SFTP_DELETE_HISTORY = 'SFTP_DELETE_HISTORY';
-
-// list
-export const SFTP_SAVE_LIST_MODE = 'SFTP_SAVE_LIST_MODE';
-export const SFTP_SAVE_DROPLIST_HIGHLIGHT = 'SFTP_SAVE_DROPLIST_HIGHLIGHT';
-
-// editor wrap lines
-// localStorage에 저장해서 사용 중
-// 필요시 사용 할 계획
-// export const SFTP_EDITOR_WRAP_LINES = 'SFTP_EDITOR_WRAP_LINES';
-
-// 리듀서 findIndex 변수들
-let currentType_index;
-let currentMode_index;
-let currentPath_index;
-let currentList_index;
-let currentHighlight_index;
-let currentText_index;
-let currentCompare_index;
-let listMode_index;
-let droplistHighlight_index;
-
-const reducer = (state = initialState, action) => {
-	return produce(state, (draft) => {
+const sftp = (state = initialState, action) =>
+	produce(state, (draft) => {
 		switch (action.type) {
-			// case SFTP_EDITOR_WRAP_LINES:
-			// 	draft.editorWrapLines = action.data;
-			// 	break;
-
-			case SFTP_SAVE_CURRENT_TEXT:
-				currentText_index = draft.currentText.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentText_index !== -1) {
-					draft.currentText.splice(currentText_index, 1, {
-						uuid: action.data.uuid,
-						text: action.data.text,
-						name: action.data.name,
-					});
-				} else {
-					draft.currentText.push({
-						uuid: action.data.uuid,
-						text: action.data.text,
-						name: action.data.name,
-					});
-				}
+			// 연결
+			case CONNECTION_REQUEST:
+				draft.loading = true;
+				draft.status = 'connected';
 				break;
 
-			case SFTP_SAVE_COMPARE_TEXT:
-				currentCompare_index = draft.currentCompareText.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentCompare_index !== -1) {
-					draft.currentCompareText.splice(currentCompare_index, 1, {
-						uuid: action.data.uuid,
-						text: action.data.text,
-						name: action.data.name,
-					});
-				} else {
-					draft.currentCompareText.push({
-						uuid: action.data.uuid,
-						text: action.data.text,
-						name: action.data.name,
-					});
-				}
-				break;
-
-			case SFTP_SAVE_CURRENT_TYPE:
-				console.log('type save execution');
-				currentType_index = draft.currentType.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentType_index !== -1) {
-					draft.currentType.splice(currentType_index, 1, {
-						uuid: action.data.uuid,
-						type: action.data.type,
-					});
-				} else {
-					draft.currentType.push({
-						uuid: action.data.uuid,
-						type: action.data.type,
-					});
-				}
-				break;
-
-			case SFTP_SAVE_CURRENT_MODE:
-				currentMode_index = draft.currentMode.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentMode_index !== -1) {
-					draft.currentMode.splice(currentMode_index, 1, {
-						uuid: action.data.uuid,
-						mode: action.data.mode,
-					});
-				} else {
-					draft.currentMode.push({
-						uuid: action.data.uuid,
-						mode: action.data.mode,
-					});
-				}
-				break;
-
-			case SFTP_SAVE_LIST_MODE:
-				listMode_index = draft.listMode.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (listMode_index !== -1) {
-					draft.listMode.splice(listMode_index, 1, {
-						uuid: action.data.uuid,
-						mode: action.data.mode,
-					});
-				} else {
-					draft.listMode.push({
-						uuid: action.data.uuid,
-						mode: action.data.mode,
-					});
-				}
-				break;
-
-			case SFTP_DELETE_CURRENT_MODE:
-				currentMode_index = draft.currentMode.findIndex(
-					(item) => item.uuid === action.data,
-				);
-				if (currentMode_index !== -1) {
-					draft.currentMode.splice(currentMode_index, 1);
-				}
-				break;
-
-			case SFTP_SAVE_CURRENT_PATH:
-				currentPath_index = draft.currentPath.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentPath_index !== -1) {
-					draft.currentPath.splice(currentPath_index, 1, {
-						uuid: action.data.uuid,
-						path: action.data.path,
-					});
-				} else {
-					draft.currentPath.push({
-						uuid: action.data.uuid,
-						path: action.data.path,
-					});
-				}
-				break;
-
-			case SFTP_DELETE_CURRENT_PATH:
-				currentPath_index = draft.currentPath.findIndex(
-					(item) => item.uuid === action.data,
-				);
-				if (currentPath_index !== -1) {
-					draft.currentPath.splice(currentPath_index, 1);
-				}
-				break;
-
-			case SFTP_SAVE_CURRENT_LIST:
-				currentList_index = draft.currentList.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentList_index !== -1) {
-					draft.currentList.splice(currentList_index, 1, {
-						uuid: action.data.uuid,
-						list: action.data.list,
-						path: action.data.path,
-					});
-				} else {
-					draft.currentList.push({
-						uuid: action.data.uuid,
-						list: action.data.list,
-						path: action.data.path,
-					});
-				}
-				break;
-
-			case SFTP_DELETE_CURRENT_LIST:
-				currentList_index = draft.currentList.findIndex(
-					(item) => item.uuid === action.data,
-				);
-				if (currentList_index !== -1) {
-					draft.currentList.splice(currentList_index, 1);
-				}
-				break;
-
-			case SFTP_SAVE_CURRENT_HIGHLIGHT:
-				currentHighlight_index = draft.currentHighlight.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (currentHighlight_index !== -1) {
-					draft.currentHighlight.splice(currentHighlight_index, 1, {
-						uuid: action.data.uuid,
-						list: action.data.list,
-					});
-				} else {
-					draft.currentHighlight.push({
-						uuid: action.data.uuid,
-						list: action.data.list,
-					});
-				}
-				break;
-
-			case SFTP_SAVE_DROPLIST_HIGHLIGHT:
-				droplistHighlight_index = draft.droplistHighlight.findIndex(
-					(item) => item.uuid === action.data.uuid,
-				);
-
-				if (droplistHighlight_index !== -1) {
-					draft.droplistHighlight.splice(droplistHighlight_index, 1, {
-						uuid: action.data.uuid,
-						list: action.data.list,
-					});
-				} else {
-					draft.droplistHighlight.push({
-						uuid: action.data.uuid,
-						list: action.data.list,
-					});
-				}
-				break;
-
-			case SFTP_DELETE_CURRENT_HIGHLIGHT:
-				currentHighlight_index = draft.currentHighlight.findIndex(
-					(item) => item.uuid === action.data,
-				);
-				if (currentHighlight_index !== -1) {
-					draft.currentHighlight.splice(currentHighlight_index, 1);
-				}
-				break;
-
-			case SFTP_SAVE_HISTORY:
-				draft.History.unshift({
-					id: draft.HISTORY_ID,
-					uuid: action.data.uuid,
-					name: action.data.name,
-					path: action.data.path,
-					size: action.data.size,
-					todo: action.data.todo,
-					progress: action.data.progress,
+			case CONNECTION_SUCCESS:
+				draft.loading = false;
+				draft.server.push({
+					socket: action.payload.socket,
+					channel: action.payload.channel,
+					status: 'none',
+					responseStatus: action.payload.responseStatus,
+					errorMessage: '',
+					uuid: action.payload.uuid,
+					path: '',
+					newPath: '',
+					result: '',
+					cmdstatus: '',
+					progress: 0,
+					getPath: '',
+					getFileName: '',
+					getReceiveSum: 0,
+					mode: 'list',
 				});
-				draft.HISTORY_ID++;
+				break;
+			case CONNECTION_FAILURE:
+				draft.loading = false;
 				break;
 
-			case SFTP_DELETE_HISTORY:
-				// 개별삭제
-				if (action.data.id !== -1) {
-					const tempA = draft.History;
-					draft.History = tempA.filter(
-						(it) => it.id !== action.data.id,
-					);
-				} else {
-					//전체삭제
-					draft.History = [];
-				}
+			// 해제
+
+			case DISCONNECTION_REQUEST:
+				draft.loading = true;
+				break;
+			case DISCONNECTION_SUCCESS:
+				draft.loading = false;
+				// eslint-disable-next-line no-case-declarations
+				const nextServer = [...draft.server];
+				console.log(nextServer === draft.server);
+				draft.server = nextServer.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				console.log(draft.server);
+				break;
+			case DISCONNECTION_FAILURE:
+				draft.loading = false;
+				break;
+
+			// 현재 경로 조회
+			case PWD_REQUEST:
+				draft.loading = true;
+				break;
+			case PWD_SUCCESS:
+				draft.loading = false;
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).path = action.payload.path;
+				break;
+			case PWD_FAILURE:
+				draft.loading = false;
+				break;
+
+			// 현재 경로 조회
+			case LS_REQUEST:
+				draft.loading = true;
+				break;
+			case LS_SUCCESS:
+				draft.loading = false;
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).result = action.payload.result;
+				break;
+			case LS_FAILURE:
+				draft.loading = false;
+				break;
+
+			//에러
+			case ERROR:
+				draft.errorMessage = action.payload;
 				break;
 
 			default:
-				break;
+				return state;
 		}
 	});
-};
 
-export default reducer;
+export default sftp;

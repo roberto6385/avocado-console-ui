@@ -11,8 +11,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import newSftp_ws from '../../../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../../../reducers/sftp';
+import sftp_ws from '../../../ws/sftp_ws';
+import {SFTP_SAVE_LIST_MODE} from '../../../reducers/subSftp';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -23,26 +23,27 @@ const SearchPath = styled.input`
 	background: ${HIGHLIGHT_COLOR};
 `;
 
-const FileListNav = ({index, ws, uuid}) => {
+const FileListNav = ({server}) => {
+	const {socket, uuid, path} = server;
 	const dispatch = useDispatch();
-	const {currentPath} = useSelector((state) => state.sftp);
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
-	const [path, setPath] = useState('');
-	const {initialWork} = useSftpCommands({ws, uuid});
+	// const {currentPath} = useSelector((state) => state.sftp);
+	// const pathItem = currentPath.find((item) => item.uuid === uuid);
+	const [currentPath, setCurrentPath] = useState('');
+	const {initialWork} = useSftpCommands({socket, uuid});
 
 	const goHome = (e, nextPath = '/root') => {
 		nextPath !== undefined &&
-			newSftp_ws({
+			sftp_ws({
 				keyword: 'CommandByCd',
-				ws,
+				socket,
 				path: nextPath,
 			}).then(() => initialWork());
 	};
 
 	const goBack = (e) => {
-		newSftp_ws({
+		sftp_ws({
 			keyword: 'CommandByPwd',
-			ws,
+			socket,
 		}).then((response) => {
 			if (response !== '/') {
 				let tempPath = response.split('/');
@@ -55,17 +56,17 @@ const FileListNav = ({index, ws, uuid}) => {
 	};
 	const searchPath = (e) => {
 		e.preventDefault();
-		path !== '' && goHome(e, path);
+		currentPath !== '' && goHome(e, currentPath);
 	};
 
 	const handleChange = (e) => {
 		const {value} = e.target;
-		setPath(value);
+		setCurrentPath(value);
 	};
 
 	const EscapeKey = (e) => {
 		if (e.keyCode === 27) {
-			setPath(pathItem?.path || '');
+			setCurrentPath(path || '');
 			// document.activeElement.blur();
 			// ESC 누르면 blur event 처리하기
 		}
@@ -92,8 +93,8 @@ const FileListNav = ({index, ws, uuid}) => {
 	};
 
 	useEffect(() => {
-		setPath(pathItem?.path || '');
-	}, [pathItem]);
+		setCurrentPath(path || '');
+	}, []);
 
 	return (
 		<>
@@ -116,10 +117,10 @@ const FileListNav = ({index, ws, uuid}) => {
 				<SearchPath
 					id='fileListNavInput'
 					type='text'
-					value={path}
+					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					onBlur={() => setPath(pathItem?.path || '')}
+					onBlur={() => setCurrentPath(path || '')}
 				/>
 			</form>
 		</>
@@ -127,9 +128,7 @@ const FileListNav = ({index, ws, uuid}) => {
 };
 
 FileListNav.propTypes = {
-	index: PropTypes.number.isRequired,
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default FileListNav;

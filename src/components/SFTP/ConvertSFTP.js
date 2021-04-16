@@ -5,7 +5,7 @@ import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
+import {SFTP_SAVE_LIST_MODE} from '../../reducers/subSftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const ConvertSFTP = ({data}) => {

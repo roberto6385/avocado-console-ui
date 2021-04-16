@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/sftp';
+import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/subSftp';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
@@ -46,7 +46,7 @@ const ConfirmPopup = ({keyword, open, setOpen, ws, uuid}) => {
 		currentHighlight,
 		droplistHighlight,
 		listMode,
-	} = useSelector((state) => state.sftp);
+	} = useSelector((state) => state.subSftp);
 	const {deleteWork, renameWork, editFile, sftpNewFolder} = useConfirmActions(
 		ws,
 		uuid,

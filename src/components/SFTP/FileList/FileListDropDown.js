@@ -6,7 +6,7 @@ import {DEEP_GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import newSftp_ws from '../../../ws/sftp_ws';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../../reducers/sftp';
+import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../../reducers/subSftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
 
@@ -39,11 +39,14 @@ const DropdownLi = styled.li`
 	user-select: none;
 `;
 
-const FileListDropDown = ({ws, uuid}) => {
-	const {currentList, droplistHighlight} = useSelector((state) => state.sftp);
+const FileListDropDown = ({server}) => {
+	const {socket, uuid} = server;
+	const {currentList, droplistHighlight} = useSelector(
+		(state) => state.subSftp,
+	);
 	const [list, setList] = useState([]);
 	const [path, setPath] = useState([]);
-	const {initialWork} = useSftpCommands({ws, uuid});
+	const {initialWork} = useSftpCommands({ws: socket, uuid});
 	const dispatch = useDispatch();
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const {show} = useContextMenu({
@@ -84,7 +87,7 @@ const FileListDropDown = ({ws, uuid}) => {
 			if (item.fileType === 'directory') {
 				newSftp_ws({
 					keyword: 'CommandByCd',
-					ws,
+					ws: socket,
 					path:
 						path === '/'
 							? path + item.fileName
@@ -166,7 +169,7 @@ const FileListDropDown = ({ws, uuid}) => {
 					</DropdownUl>
 				);
 			})}
-			<FileListContextMenu ws={ws} uuid={uuid} />
+			<FileListContextMenu server={server} />
 		</>
 	) : (
 		<div>loading...</div>
@@ -174,7 +177,6 @@ const FileListDropDown = ({ws, uuid}) => {
 };
 
 FileListDropDown.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 export default FileListDropDown;

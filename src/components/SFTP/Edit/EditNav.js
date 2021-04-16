@@ -3,7 +3,7 @@ import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_HISTORY,
-} from '../../../reducers/sftp';
+} from '../../../reducers/subSftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
@@ -15,7 +15,7 @@ const EditNav = ({ws, uuid}) => {
 	const [open, setOpen] = useState(false);
 	const {editFile} = useConfirmActions(ws, uuid);
 	const {currentText, currentCompareText, currentPath} = useSelector(
-		(state) => state.sftp,
+		(state) => state.subSftp,
 	);
 	const curText = currentText.find((item) => item.uuid === uuid);
 	const compareText = currentCompareText.find((item) => item.uuid === uuid);

@@ -5,26 +5,21 @@ import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
 import {HistoryBody, HistoryBox} from '../../../styles/sftp';
 
-const History = ({index, socket}) => {
+const History = ({server}) => {
 	return (
 		<HistoryBox>
 			<Card.Header>
-				<HistoryNav ws={socket.ws} uuid={socket.uuid} />
+				<HistoryNav server={server} />
 			</Card.Header>
 			<HistoryBody>
-				<HistoryContents
-					id={`sftp ${String(index)}`}
-					ws={socket.ws}
-					uuid={socket.uuid}
-				/>
+				<HistoryContents server={server} />
 			</HistoryBody>
 		</HistoryBox>
 	);
 };
 
 History.propTypes = {
-	index: PropTypes.number.isRequired,
-	socket: PropTypes.object.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default History;

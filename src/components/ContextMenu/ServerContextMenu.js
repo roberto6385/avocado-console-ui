@@ -7,7 +7,7 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../../reducers/common';
 import newSftp_ws from '../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
-import {connectionAction, sendMessage} from '../../reducers/sftp/index';
+import {connectionAction, sendMessage} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,

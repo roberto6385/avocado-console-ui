@@ -12,8 +12,9 @@ import useSftpCommands from '../../../hooks/useSftpCommands';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {useDispatch} from 'react-redux';
 
-const HistoryNav = ({ws, uuid}) => {
-	const {uploadWork, initialWork} = useSftpCommands({ws, uuid});
+const HistoryNav = ({server}) => {
+	const {socket, uuid} = server;
+	const {uploadWork, initialWork} = useSftpCommands({ws: socket, uuid});
 	const dispatch = useDispatch();
 
 	const upload = async () => {
@@ -61,8 +62,7 @@ const HistoryNav = ({ws, uuid}) => {
 };
 
 HistoryNav.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default HistoryNav;

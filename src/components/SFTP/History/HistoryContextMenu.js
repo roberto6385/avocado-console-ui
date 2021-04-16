@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {animation, Item, Menu} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch} from 'react-redux';
-import {SFTP_DELETE_HISTORY} from '../../../reducers/sftp';
+import {SFTP_DELETE_HISTORY} from '../../../reducers/subSftp';
 
 const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 	const dispatch = useDispatch();

@@ -21,12 +21,13 @@ import {
 } from '../../../styles/sftp';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 
-const HistoryContents = ({ws, uuid}) => {
-	const {initialWork} = useSftpCommands({ws, uuid});
-	const {History} = useSelector((state) => state.sftp);
+const HistoryContents = ({server}) => {
+	const {socket, uuid} = server;
+	const {initialWork} = useSftpCommands({ws: socket, uuid});
+	const {History} = useSelector((state) => state.subSftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
 	const [highlight, setHighlight] = useState([]);
-	const {uploadWork} = useSftpCommands({ws, uuid});
+	const {uploadWork} = useSftpCommands({ws: socket, uuid});
 
 	const upload = useCallback(async (files) => {
 		uploadWork(files).then(() => initialWork());
@@ -144,8 +145,7 @@ const HistoryContents = ({ws, uuid}) => {
 	);
 };
 HistoryContents.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default HistoryContents;
