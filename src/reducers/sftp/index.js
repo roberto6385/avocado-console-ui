@@ -16,6 +16,10 @@ export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
 export const PWD_REQUEST = 'sftp/PWD_REQUEST';
 export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
 export const PWD_FAILURE = 'sftp/PWD_FAILURE';
+// pwd
+export const LS_REQUEST = 'sftp/LS_REQUEST';
+export const LS_SUCCESS = 'sftp/LS_SUCCESS';
+export const LS_FAILURE = 'sftp/LS_FAILURE';
 
 // 에러
 export const ERROR = 'sftp/ERROR';
@@ -34,6 +38,12 @@ export const disconnectAction = (payload) => ({
 
 export const commandPwdAction = (payload) => ({
 	type: PWD_REQUEST,
+	payload,
+});
+
+
+export const commandLsAction = (payload) => ({
+	type: LS_REQUEST,
 	payload,
 });
 
@@ -61,6 +71,7 @@ const sftp = (state = initialState, action) =>
 				draft.loading = false;
 				draft.server.push({
 					socket: action.payload.socket,
+					channel: action.payload.channel,
 					status: 'none',
 					responseStatus: action.payload.responseStatus,
 					errorMessage: '',
@@ -104,6 +115,9 @@ const sftp = (state = initialState, action) =>
 				break;
 			case PWD_SUCCESS:
 				draft.loading = false;
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).path = action.payload.path;
 				break;
 			case PWD_FAILURE:
 				draft.loading = false;

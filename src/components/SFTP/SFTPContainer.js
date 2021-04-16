@@ -1,16 +1,18 @@
 import React, {useEffect} from 'react';
 import * as PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_TAB} from '../../reducers/common';
 import useSftpCommands from '../../hooks/useSftpCommands';
 import newSftp_ws from '../../ws/sftp_ws';
 import SFTP_Component from './SFTP';
-import {commandPwdAction} from '../../reducers/sftp/index';
+import {commandLsAction, commandPwdAction} from '../../reducers/sftp/index';
 
 const SFTPContainer = ({index, socket, data, channel}) => {
 	const dispatch = useDispatch();
 	const {ws, uuid} = socket;
 	const {initialWork} = useSftpCommands({ws, uuid});
+	const {server} = useSelector((state) => state.sftp);
+	const currentServer = server.find((it) => it.uuid === uuid);
 
 	// useEffect(() => {
 	// 	// initialWork();
@@ -18,15 +20,13 @@ const SFTPContainer = ({index, socket, data, channel}) => {
 	// }, [dispatch, ws]);
 
 	// return <SFTP_Component index={index} socket={socket} />;
+	const handleClick = () => {
+		dispatch(commandPwdAction(currentServer));
+		// dispatch(commandLsAction(currentServer));
+	};
 	return (
 		<div>
-			<button
-				onClick={() =>
-					dispatch(commandPwdAction({socket: ws, channel}))
-				}
-			>
-				pwd
-			</button>
+			<button onClick={handleClick}>pwd</button>
 		</div>
 	);
 };

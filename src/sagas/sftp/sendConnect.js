@@ -75,6 +75,7 @@ function* sendConnect({payload}) {
 							uuid: connect.getUuid(),
 							socket,
 							responseStatus: response.getStatus(),
+							channel: socketChannel,
 						},
 					});
 					yield take(
