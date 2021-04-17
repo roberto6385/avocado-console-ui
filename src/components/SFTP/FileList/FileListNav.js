@@ -13,6 +13,7 @@ import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 import sftp_ws from '../../../ws/sftp_ws';
 import {SFTP_SAVE_LIST_MODE} from '../../../reducers/subSftp';
+import {CHANGE_MODE} from '../../../reducers/sftp';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -74,8 +75,8 @@ const FileListNav = ({server}) => {
 
 	const dropdownList = () => {
 		dispatch({
-			type: SFTP_SAVE_LIST_MODE,
-			data: {
+			type: CHANGE_MODE,
+			payload: {
 				uuid,
 				mode: 'drop',
 			},
@@ -84,8 +85,8 @@ const FileListNav = ({server}) => {
 
 	const basicList = () => {
 		dispatch({
-			type: SFTP_SAVE_LIST_MODE,
-			data: {
+			type: CHANGE_MODE,
+			payload: {
 				uuid,
 				mode: 'list',
 			},
@@ -93,8 +94,8 @@ const FileListNav = ({server}) => {
 	};
 
 	useEffect(() => {
-		setCurrentPath(path || '');
-	}, []);
+		setCurrentPath(path);
+	}, [server]);
 
 	return (
 		<>
@@ -120,7 +121,7 @@ const FileListNav = ({server}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					onBlur={() => setCurrentPath(path || '')}
+					onBlur={() => setCurrentPath(path)}
 				/>
 			</form>
 		</>

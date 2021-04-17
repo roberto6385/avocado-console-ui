@@ -28,6 +28,9 @@ export const CD_FAILURE = 'sftp/CD_FAILURE';
 // 에러
 export const ERROR = 'sftp/ERROR';
 
+//etc
+export const CHANGE_MODE = 'sftp/CHANGE_MODE';
+
 // actions
 
 export const connectionAction = (payload) => ({
@@ -153,6 +156,13 @@ const sftp = (state = initialState, action) =>
 				break;
 			case LS_FAILURE:
 				draft.loading = false;
+				break;
+
+			// 모드변경
+			case CHANGE_MODE:
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).mode = action.payload.mode;
 				break;
 
 			//에러

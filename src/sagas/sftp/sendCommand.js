@@ -17,7 +17,6 @@ function* messageReader(data, payload, type) {
 	const {uuid, pathList} = payload;
 	console.log(data);
 	// return new Promise(function (resolve) {
-	console.log('run');
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -131,13 +130,16 @@ function* messageReader(data, payload, type) {
 							console.log('entry ', entryList.length);
 
 							var result = '';
+							const list = [];
 
-							for (var i = 0; i < entryList.length; i++) {
+							for (let i = 0; i < entryList.length; i++) {
 								const entry = entryList[i];
+								list.push(entry.getLongname());
+
 								console.log('entry : ', entry.getLongname());
 								result += entry.getLongname() + '\n';
 							}
-							const fileList = listConversion(result);
+							const fileList = listConversion(list);
 							console.log(fileList);
 							yield put({
 								type: LS_SUCCESS,
