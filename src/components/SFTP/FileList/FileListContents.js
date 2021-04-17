@@ -18,11 +18,11 @@ import {
 } from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import newSftp_ws from '../../../ws/sftp_ws';
 import {commandCdAction} from '../../../reducers/sftp';
 
 const FileListContents = ({server}) => {
 	const {socket, uuid, fileList} = server;
+	console.log(fileList);
 	const {currentHighlight} = useSelector((state) => state.subSftp);
 	const {initialWork, downloadWork} = useSftpCommands({ws: socket, uuid});
 	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);

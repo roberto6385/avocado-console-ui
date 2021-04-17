@@ -132,9 +132,9 @@ const sftp = (state = initialState, action) =>
 				draft.server.find(
 					(it) => it.uuid === action.payload.uuid,
 				).path = action.payload.path;
-				draft.server
-					.find((it) => it.uuid === action.payload.uuid)
-					.pathList.push(action.payload.pathList);
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).pathList = action.payload.pathList;
 
 				break;
 			case PWD_FAILURE:
@@ -147,6 +147,7 @@ const sftp = (state = initialState, action) =>
 				break;
 			case LS_SUCCESS:
 				draft.loading = false;
+				// 궅이 필요하지는 않음.
 				draft.server.find(
 					(it) => it.uuid === action.payload.uuid,
 				).result = action.payload.result;
@@ -164,6 +165,9 @@ const sftp = (state = initialState, action) =>
 				break;
 			case CD_SUCCESS:
 				draft.loading = false;
+				draft.server.find(
+					(it) => it.uuid === action.payload.uuid,
+				).fileList = [];
 				break;
 			case CD_FAILURE:
 				draft.loading = false;

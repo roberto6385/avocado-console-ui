@@ -39,6 +39,7 @@ function* messageReader(data, payload, type) {
 							console.log('command : cd', cd);
 							yield put({
 								type: CD_SUCCESS,
+								payload: {uuid},
 							});
 							return {
 								type: CD_SUCCESS,
@@ -53,7 +54,7 @@ function* messageReader(data, payload, type) {
 								accumulator,
 								currentValue,
 							) {
-								response !== '/' &&
+								pwd.getMessage() !== '/' &&
 									pathList.push(
 										accumulator + '/' + currentValue,
 									);
@@ -136,7 +137,7 @@ function* messageReader(data, payload, type) {
 							const entryList = ls.getEntryList();
 							console.log('entry ', entryList.length);
 
-							var result = '';
+							let result = '';
 							const list = [];
 
 							for (let i = 0; i < entryList.length; i++) {
@@ -197,7 +198,7 @@ function* messageReader(data, payload, type) {
 						//     this.fileBuffer = this.appendBuffer(this.fileBuffer, data);
 						//
 						//     // 프로그래스바
-						//     var sum = this.state.getReceiveSum + data.length;
+						//     let sum = this.state.getReceiveSum + data.length;
 						//     const percent = sum * 100 / get.getFilesize();
 						//
 						//     this.setState({
@@ -211,9 +212,9 @@ function* messageReader(data, payload, type) {
 						//
 						//         this.fileBuffer = new ArrayBuffer(0);
 						//
-						//         var url = URL.createObjectURL(blob);
+						//         let url = URL.createObjectURL(blob);
 						//
-						//         var a = document.createElement("a");
+						//         let a = document.createElement("a");
 						//         document.body.appendChild(a);
 						//         a.style = "display: none";
 						//         a.href = url;

@@ -9,6 +9,7 @@ import useSftpCommands from '../../../hooks/useSftpCommands';
 import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../../reducers/subSftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
+import {commandCdAction} from '../../../reducers/sftp';
 
 const DropdownUl = styled.ul`
 	margin: 0;
@@ -40,12 +41,10 @@ const DropdownLi = styled.li`
 `;
 
 const FileListDropDown = ({server}) => {
-	const {socket, uuid} = server;
-	const {currentList, droplistHighlight} = useSelector(
-		(state) => state.subSftp,
-	);
-	const [list, setList] = useState([]);
-	const [path, setPath] = useState([]);
+	const {socket, uuid, fileList, pathList} = server;
+	console.log(fileList);
+	console.log(pathList);
+	const {droplistHighlight} = useSelector((state) => state.subSftp);
 	const {initialWork} = useSftpCommands({ws: socket, uuid});
 	const dispatch = useDispatch();
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
@@ -56,43 +55,39 @@ const FileListDropDown = ({server}) => {
 		show(e);
 	}
 
-	const selectFile = (e, {item, path}) => {
-		const list = {item, path};
-
+	const selectFile = (e, {item, listindex}) => {
 		if (e.shiftKey) {
-			const temp = dropdownHLList?.list || [];
-			const tempB =
-				dropdownHLList?.list.findIndex(
-					(list) => list.item === item,
-					list.path === path,
-				) !== -1
-					? temp
-					: temp.concat(list);
-
-			dispatch({
-				type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
-				data: {
-					uuid,
-					list: tempB,
-				},
-			});
+			// const temp = dropdownHLList?.list || [];
+			// const tempB =
+			// 	dropdownHLList?.list.findIndex(
+			// 		(list) => list.item === item,
+			// 		list.path === path,
+			// 	) !== -1
+			// 		? temp
+			// 		: temp.concat(list);
+			//
+			// dispatch({
+			// 	type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
+			// 	data: {
+			// 		uuid,
+			// 		list: tempB,
+			// 	},
+			// });
 		} else {
-			dispatch({
-				type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
-				data: {
-					uuid,
-					list: [list],
-				},
-			});
+			// dispatch({
+			// 	type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
+			// 	data: {
+			// 		uuid,
+			// 		list: [list],
+			// 	},
+			// });
 			if (item.fileType === 'directory') {
-				newSftp_ws({
-					keyword: 'CommandByCd',
-					ws: socket,
-					path:
-						path === '/'
-							? path + item.fileName
-							: path + '/' + item.fileName,
-				}).then(() => initialWork());
+				dispatch(
+					commandCdAction({
+						...server,
+						newPath: `${pathList[listindex]}/${item.fileName}`,
+					}),
+				);
 			}
 		}
 	};
@@ -116,44 +111,35 @@ const FileListDropDown = ({server}) => {
 		}
 	};
 
-	useEffect(() => {
-		const list = currentList?.find((item) => item.uuid === uuid)?.list;
-		const path = currentList?.find((item) => item.uuid === uuid)?.path;
-		console.log(list);
-		setList(list);
-		console.log(path);
-		setPath(path);
-	}, [currentList]);
-
-	return list !== undefined ? (
+	return fileList !== undefined ? (
 		<>
-			{list.map((listItem, listindex) => {
+			{fileList.map((listItem, listindex) => {
 				return (
 					<DropdownUl key={listindex}>
 						{listItem.map((item, index) => {
 							return (
 								<DropdownLi
-									className={
-										dropdownHLList?.list !== undefined &&
-										dropdownHLList?.list.findIndex(
-											(list) =>
-												list.item === item &&
-												list.path === path[listindex],
-										) !== -1
-											? 'highlight_list active'
-											: 'highlight_list'
-									}
+									// className={
+									// 	dropdownHLList?.list !== undefined &&
+									// 	dropdownHLList?.list.findIndex(
+									// 		(list) =>
+									// 			list.item === item &&
+									// 			list.path === path[listindex],
+									// 	) !== -1
+									// 		? 'highlight_list active'
+									// 		: 'highlight_list'
+									// }
 									key={index}
 									onContextMenu={(e) =>
 										contextMenuOpen(e, {
 											item,
-											path: path[listindex],
+											path: pathList[listindex],
 										})
 									}
 									onClick={(e) =>
 										selectFile(e, {
 											item,
-											path: path[listindex],
+											listindex,
 										})
 									}
 								>
