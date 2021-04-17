@@ -158,6 +158,17 @@ const sftp = (state = initialState, action) =>
 				draft.loading = false;
 				break;
 
+			// 경로 변경
+			case CD_REQUEST:
+				draft.loading = true;
+				break;
+			case CD_SUCCESS:
+				draft.loading = false;
+				break;
+			case CD_FAILURE:
+				draft.loading = false;
+				break;
+
 			// 모드변경
 			case CHANGE_MODE:
 				draft.server.find(

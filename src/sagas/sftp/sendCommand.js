@@ -1,8 +1,11 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
+	CD_FAILURE,
 	CD_REQUEST,
+	CD_SUCCESS,
 	commandLsAction,
+	commandPwdAction,
 	LS_FAILURE,
 	LS_REQUEST,
 	LS_SUCCESS,
@@ -14,7 +17,7 @@ import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
-	const {uuid, pathList} = payload;
+	const {uuid} = payload;
 	console.log(data);
 	// return new Promise(function (resolve) {
 	try {
@@ -31,12 +34,16 @@ function* messageReader(data, payload, type) {
 					const command = response.getCommand();
 
 					switch (command.getCommandCase()) {
-						// case SFTP.CommandResponse.CommandCase.CD :  {
-						//
-						//     const cd = command.getCd();
-						//     console.log("command : cd", cd);
-						//     break;
-						// }
+						case SFTP.CommandResponse.CommandCase.CD: {
+							const cd = command.getCd();
+							console.log('command : cd', cd);
+							yield put({
+								type: CD_SUCCESS,
+							});
+							return {
+								type: CD_SUCCESS,
+							};
+						}
 						case SFTP.CommandResponse.CommandCase.PWD: {
 							const pwd = command.getPwd();
 							console.log('command : pwd', pwd);
@@ -243,6 +250,14 @@ function* messageReader(data, payload, type) {
 					},
 				});
 				break;
+			case CD_REQUEST:
+				yield put({
+					type: CD_FAILURE,
+					payload: {
+						errorMessage: 'Error while cd to the WebSocket',
+					},
+				});
+				break;
 		}
 	}
 }
@@ -264,6 +279,14 @@ function* sendCommand(action) {
 				path: payload.path,
 			});
 			break;
+
+		case CD_REQUEST:
+			yield call(sftp_ws, {
+				keyword: 'CommandByCd',
+				ws: payload.socket,
+				path: payload.newPath,
+			});
+			break;
 		default:
 			break;
 	}
@@ -272,6 +295,7 @@ function* sendCommand(action) {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload, type);
+
 			switch (res.type) {
 				case PWD_SUCCESS:
 					for (const key of res.pathList) {
@@ -285,6 +309,10 @@ function* sendCommand(action) {
 					break;
 				case LS_SUCCESS:
 					// yield put(commandLsAction({...payload, path: res.path}));
+					break;
+
+				case CD_SUCCESS:
+					yield put(commandPwdAction(payload));
 					break;
 				default:
 					break;

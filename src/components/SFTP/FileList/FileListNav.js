@@ -7,13 +7,11 @@ import {
 	MdHome,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import sftp_ws from '../../../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../../../reducers/subSftp';
-import {CHANGE_MODE} from '../../../reducers/sftp';
+import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -34,26 +32,17 @@ const FileListNav = ({server}) => {
 
 	const goHome = (e, nextPath = '/root') => {
 		nextPath !== undefined &&
-			sftp_ws({
-				keyword: 'CommandByCd',
-				socket,
-				path: nextPath,
-			}).then(() => initialWork());
+			dispatch(commandCdAction({...server, newPath: nextPath}));
 	};
 
 	const goBack = (e) => {
-		sftp_ws({
-			keyword: 'CommandByPwd',
-			socket,
-		}).then((response) => {
-			if (response !== '/') {
-				let tempPath = response.split('/');
-				tempPath.pop();
-				let nextPath = tempPath.join('/').trim();
-				console.log(nextPath);
-				goHome(e, nextPath === '' ? '/' : nextPath);
-			}
-		});
+		if (path !== '/') {
+			let tempPath = path.split('/');
+			tempPath.pop();
+			let nextPath = tempPath.join('/').trim();
+			console.log(nextPath);
+			goHome(e, nextPath === '' ? '/' : nextPath);
+		}
 	};
 	const searchPath = (e) => {
 		e.preventDefault();
@@ -67,9 +56,7 @@ const FileListNav = ({server}) => {
 
 	const EscapeKey = (e) => {
 		if (e.keyCode === 27) {
-			setCurrentPath(path || '');
-			// document.activeElement.blur();
-			// ESC 누르면 blur event 처리하기
+			setCurrentPath(path);
 		}
 	};
 

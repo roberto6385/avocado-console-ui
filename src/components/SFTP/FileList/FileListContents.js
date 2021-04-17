@@ -19,6 +19,7 @@ import {
 import TableHead from './FileListTableHead';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 import newSftp_ws from '../../../ws/sftp_ws';
+import {commandCdAction} from '../../../reducers/sftp';
 
 const FileListContents = ({server}) => {
 	const {socket, uuid, fileList} = server;
@@ -83,19 +84,9 @@ const FileListContents = ({server}) => {
 			} else {
 				if (item.fileType === 'directory') {
 					// 디렉토리 클릭시 해당 디렉토리로 이동
-					newSftp_ws({
-						keyword: 'CommandByPwd',
-						ws: socket,
-					}).then((response) => {
-						const path =
-							response === '/' ? response : response + '/';
-						response !== undefined &&
-							newSftp_ws({
-								keyword: 'CommandByCd',
-								ws: socket,
-								path: path + item.fileName,
-							}).then(() => initialWork());
-					});
+					dispatch(
+						commandCdAction({...server, newPath: item.fileName}),
+					);
 				} else {
 					//파일 클릭시 하이라이팅!
 					if (highlightItem?.list.includes(item)) {
