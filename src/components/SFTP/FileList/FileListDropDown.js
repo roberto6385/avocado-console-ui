@@ -9,7 +9,7 @@ import useSftpCommands from '../../../hooks/useSftpCommands';
 import {SFTP_SAVE_DROPLIST_HIGHLIGHT} from '../../../reducers/subSftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
-import {commandCdAction} from '../../../reducers/sftp';
+import {commandCdAction, HIGHLIGHTING} from '../../../reducers/sftp';
 
 const DropdownUl = styled.ul`
 	margin: 0;
@@ -41,11 +41,10 @@ const DropdownLi = styled.li`
 `;
 
 const FileListDropDown = ({server}) => {
-	const {socket, uuid, fileList, pathList} = server;
+	const {uuid, fileList, pathList, highlight} = server;
 	console.log(fileList);
 	console.log(pathList);
 	const {droplistHighlight} = useSelector((state) => state.subSftp);
-	const {initialWork} = useSftpCommands({ws: socket, uuid});
 	const dispatch = useDispatch();
 	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
 	const {show} = useContextMenu({
@@ -54,33 +53,16 @@ const FileListDropDown = ({server}) => {
 	function displayMenu(e) {
 		show(e);
 	}
+	console.log(highlight);
 
 	const selectFile = (e, {item, listindex}) => {
 		if (e.shiftKey) {
-			// const temp = dropdownHLList?.list || [];
-			// const tempB =
-			// 	dropdownHLList?.list.findIndex(
-			// 		(list) => list.item === item,
-			// 		list.path === path,
-			// 	) !== -1
-			// 		? temp
-			// 		: temp.concat(list);
-			//
-			// dispatch({
-			// 	type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
-			// 	data: {
-			// 		uuid,
-			// 		list: tempB,
-			// 	},
-			// });
+			// if (!highlight.includes(item)) {
+			// 	const sel = highlight.push(item);
+			// 	dispatch({type: HIGHLIGHTING, payload: {list: sel}});
+			// }
+			// 쉬프트 키를 눌렀을 때
 		} else {
-			// dispatch({
-			// 	type: SFTP_SAVE_DROPLIST_HIGHLIGHT,
-			// 	data: {
-			// 		uuid,
-			// 		list: [list],
-			// 	},
-			// });
 			if (item.fileType === 'directory') {
 				dispatch(
 					commandCdAction({
@@ -88,6 +70,8 @@ const FileListDropDown = ({server}) => {
 						newPath: `${pathList[listindex]}/${item.fileName}`,
 					}),
 				);
+			} else {
+				// 그냥 클릭했을 때 , 타입이 file 일 때
 			}
 		}
 	};

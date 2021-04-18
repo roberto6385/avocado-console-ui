@@ -17,15 +17,15 @@ import {
 	FileIcon,
 } from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
-import useSftpCommands from '../../../hooks/useSftpCommands';
-import {commandCdAction} from '../../../reducers/sftp';
+import {
+	ADD_HIGHLIGHT,
+	ADD_ONE_HIGHLIGHT,
+	commandCdAction,
+	REMOVE_HIGHLIGHT,
+} from '../../../reducers/sftp';
 
 const FileListContents = ({server}) => {
-	const {socket, uuid, fileList} = server;
-	console.log(fileList);
-	const {currentHighlight} = useSelector((state) => state.subSftp);
-	const {initialWork, downloadWork} = useSftpCommands({ws: socket, uuid});
-	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
+	const {socket, uuid, fileList, highlight} = server;
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 
@@ -38,7 +38,7 @@ const FileListContents = ({server}) => {
 			e.stopPropagation();
 			if (item.fileName !== '..' && item.fileType !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				downloadWork('list', [item]);
+				// downloadWork('list', [item]);
 			}
 		},
 		[],
@@ -55,32 +55,26 @@ const FileListContents = ({server}) => {
 					data: {uuid, list: []},
 				});
 			} else {
-				if (
-					highlightItem?.list.length < 2 ||
-					!highlightItem?.list.includes(item)
-				) {
-					dispatch({
-						type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-						data: {uuid, list: [item]},
-					});
-				}
+				// if (
+				// 	highlightItem?.list.length < 2 ||
+				// 	!highlightItem?.list.includes(item)
+				// ) {
+				// 	dispatch({
+				// 		type: SFTP_SAVE_CURRENT_HIGHLIGHT,
+				// 		data: {uuid, list: [item]},
+				// 	});
+				// }
 			}
 		},
-		[uuid, highlightItem],
+		[uuid],
 	);
 
 	const selectItem = useCallback(
 		(item) => (e) => {
 			if (e.shiftKey) {
-				const temp = highlightItem?.list || [];
-				const tempB = highlightItem?.list.includes(item)
-					? temp
-					: temp.concat(item);
-
-				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: tempB},
-				});
+				!highlight.includes(item)
+					? dispatch({type: ADD_HIGHLIGHT, payload: {uuid, item}})
+					: dispatch({type: REMOVE_HIGHLIGHT, payload: {uuid, item}});
 			} else {
 				if (item.fileType === 'directory') {
 					// 디렉토리 클릭시 해당 디렉토리로 이동
@@ -89,26 +83,19 @@ const FileListContents = ({server}) => {
 					);
 				} else {
 					//파일 클릭시 하이라이팅!
-					if (highlightItem?.list.includes(item)) {
+					!highlight.includes(item) &&
 						dispatch({
-							type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-							data: {uuid, list: []},
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {uuid, item},
 						});
-					} else {
-						dispatch({
-							type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-							data: {uuid, list: [item]},
-						});
-					}
 				}
 			}
 		},
-		[highlightItem, uuid],
+		[server],
 	);
 
 	useEffect(() => {
 		const list = fileList;
-		console.log(list);
 		list.length > 0 && setData(list[list.length - 1]);
 	}, [server]);
 
@@ -125,7 +112,7 @@ const FileListContents = ({server}) => {
 								style={{display: 'flex', cursor: 'pointer'}}
 								key={index + uuid}
 								className={
-									highlightItem?.list.includes(item)
+									highlight.includes(item)
 										? 'highlight_tbody active'
 										: 'highlight_tbody'
 								}

@@ -40,6 +40,8 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 			};
 		} else {
 			const channel = clicked_tab.channel;
+			// disconnection , connection 부분도 sendCommand 처럼
+			// server를 보내는걸로 변경하면 좋을것 같음 (보류)
 			dispatch(disconnectAction({socket: ws, channel, id: index}));
 		}
 	}, [dispatch]);

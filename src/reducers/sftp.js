@@ -30,6 +30,10 @@ export const ERROR = 'sftp/ERROR';
 
 //etc
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
+export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
+
+export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
+export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 
 // actions
 
@@ -69,8 +73,19 @@ const initialState = {
 	loading: false,
 };
 
+// etc function
+const ObjFinder = (target, uuid) => {
+	return target.find((it) => it.uuid === uuid);
+};
+
+const ObjCopier = (target) => {
+	return {...target};
+};
+
 const sftp = (state = initialState, action) =>
 	produce(state, (draft) => {
+		const target = ObjFinder(draft.server, action.payload?.uuid);
+
 		switch (action.type) {
 			// 연결
 			case CONNECTION_REQUEST:
@@ -98,6 +113,7 @@ const sftp = (state = initialState, action) =>
 					mode: 'list',
 					pathList: [],
 					fileList: [],
+					highlight: [],
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -111,13 +127,9 @@ const sftp = (state = initialState, action) =>
 				break;
 			case DISCONNECTION_SUCCESS:
 				draft.loading = false;
-				// eslint-disable-next-line no-case-declarations
-				const nextServer = [...draft.server];
-				console.log(nextServer === draft.server);
-				draft.server = nextServer.filter(
+				draft.server = state.server.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				console.log(draft.server);
 				break;
 			case DISCONNECTION_FAILURE:
 				draft.loading = false;
@@ -129,12 +141,8 @@ const sftp = (state = initialState, action) =>
 				break;
 			case PWD_SUCCESS:
 				draft.loading = false;
-				draft.server.find(
-					(it) => it.uuid === action.payload.uuid,
-				).path = action.payload.path;
-				draft.server.find(
-					(it) => it.uuid === action.payload.uuid,
-				).pathList = action.payload.pathList;
+				target.path = action.payload.path;
+				target.pathList = action.payload.pathList;
 
 				break;
 			case PWD_FAILURE:
@@ -148,12 +156,8 @@ const sftp = (state = initialState, action) =>
 			case LS_SUCCESS:
 				draft.loading = false;
 				// 궅이 필요하지는 않음.
-				draft.server.find(
-					(it) => it.uuid === action.payload.uuid,
-				).result = action.payload.result;
-				draft.server
-					.find((it) => it.uuid === action.payload.uuid)
-					.fileList.push(action.payload.fileList);
+				target.result = action.payload.result;
+				target.fileList.push(action.payload.fileList);
 				break;
 			case LS_FAILURE:
 				draft.loading = false;
@@ -165,9 +169,7 @@ const sftp = (state = initialState, action) =>
 				break;
 			case CD_SUCCESS:
 				draft.loading = false;
-				draft.server.find(
-					(it) => it.uuid === action.payload.uuid,
-				).fileList = [];
+				target.fileList = [];
 				break;
 			case CD_FAILURE:
 				draft.loading = false;
@@ -175,9 +177,21 @@ const sftp = (state = initialState, action) =>
 
 			// 모드변경
 			case CHANGE_MODE:
-				draft.server.find(
-					(it) => it.uuid === action.payload.uuid,
-				).mode = action.payload.mode;
+				target.mode = action.payload.mode;
+				break;
+
+			// 하이라이팅
+			case ADD_HIGHLIGHT:
+				target.highlight.push(action.payload.item);
+				break;
+			case ADD_ONE_HIGHLIGHT:
+				target.highlight = [action.payload.item];
+				break;
+			case REMOVE_HIGHLIGHT:
+				target.highlight = ObjFinder(
+					state.server,
+					action.payload.uuid,
+				).highlight.filter((item) => item !== action.payload.item);
 				break;
 
 			//에러

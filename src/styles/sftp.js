@@ -144,9 +144,6 @@ export const CustomThBtn = styled.button`
 export const CustomTbody = styled.tbody`
 	tr.highlight_tbody {
 		color: black;
-		&:hover {
-			background: ${HIGHLIGHT_COLOR};
-		}
 	}
 	tr.highlight_tbody.active {
 		background: ${HIGHLIGHT_COLOR};
