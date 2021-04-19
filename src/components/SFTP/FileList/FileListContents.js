@@ -28,6 +28,7 @@ const FileListContents = ({server}) => {
 	const {socket, uuid, fileList, highlight} = server;
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
+	console.log(highlight);
 
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
@@ -73,7 +74,10 @@ const FileListContents = ({server}) => {
 		(item) => (e) => {
 			if (e.shiftKey) {
 				!highlight.includes(item)
-					? dispatch({type: ADD_HIGHLIGHT, payload: {uuid, item}})
+					? dispatch({
+							type: ADD_HIGHLIGHT,
+							payload: {uuid, item},
+					  })
 					: dispatch({type: REMOVE_HIGHLIGHT, payload: {uuid, item}});
 			} else {
 				if (item.fileType === 'directory') {

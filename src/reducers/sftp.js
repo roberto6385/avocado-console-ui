@@ -78,13 +78,13 @@ const ObjFinder = (target, uuid) => {
 	return target.find((it) => it.uuid === uuid);
 };
 
-const ObjCopier = (target) => {
-	return {...target};
-};
-
 const sftp = (state = initialState, action) =>
 	produce(state, (draft) => {
+		// 직접 변형 가능
 		const target = ObjFinder(draft.server, action.payload?.uuid);
+		// 직접 변경 불가능
+		const plainTarget = ObjFinder(state.server, action.payload?.uuid);
+		// target === plainTarget => false
 
 		switch (action.type) {
 			// 연결
@@ -170,6 +170,8 @@ const sftp = (state = initialState, action) =>
 			case CD_SUCCESS:
 				draft.loading = false;
 				target.fileList = [];
+				target.highlight = [];
+
 				break;
 			case CD_FAILURE:
 				draft.loading = false;
@@ -178,20 +180,40 @@ const sftp = (state = initialState, action) =>
 			// 모드변경
 			case CHANGE_MODE:
 				target.mode = action.payload.mode;
+				target.highlight = [];
 				break;
 
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
-				target.highlight.push(action.payload.item);
+				target.mode === 'list'
+					? target.highlight.push(action.payload.item)
+					: target.highlight.push({
+							item: action.payload.item,
+							path: action.payload.path,
+					  });
 				break;
 			case ADD_ONE_HIGHLIGHT:
-				target.highlight = [action.payload.item];
+				target.highlight.splice(
+					0,
+					Number.MAX_VALUE,
+					target.mode === 'list'
+						? action.payload.item
+						: {
+								item: action.payload.item,
+								path: action.payload.path,
+						  },
+				);
 				break;
 			case REMOVE_HIGHLIGHT:
-				target.highlight = ObjFinder(
-					state.server,
-					action.payload.uuid,
-				).highlight.filter((item) => item !== action.payload.item);
+				target.mode === 'list'
+					? (target.highlight = plainTarget.highlight.filter(
+							(item) => item !== action.payload.item,
+					  ))
+					: (target.highlight = plainTarget.highlight.filter(
+							(it) =>
+								it.item !== action.payload.item &&
+								it.path !== action.payload.path,
+					  ));
 				break;
 
 			//에러
