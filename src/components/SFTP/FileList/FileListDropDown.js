@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -85,7 +85,14 @@ const FileListDropDown = ({server}) => {
 		}
 	};
 
-	const contextMenuOpen = (e) => {
+	const contextMenuOpen = (e, {item, path}) => {
+		console.log(item, path);
+		item !== undefined &&
+			path !== undefined &&
+			dispatch({
+				type: ADD_ONE_HIGHLIGHT,
+				payload: {uuid, item, path},
+			});
 		e.preventDefault();
 		displayMenu(e);
 		e.stopPropagation();
@@ -95,7 +102,11 @@ const FileListDropDown = ({server}) => {
 		<>
 			{fileList.map((listItem, listindex) => {
 				return (
-					<DropdownUl key={listindex}>
+					<DropdownUl
+						id='fileList_ul'
+						key={listindex}
+						onContextMenu={(e) => contextMenuOpen(e, {})}
+					>
 						{listItem.map((item, index) => {
 							return (
 								<DropdownLi

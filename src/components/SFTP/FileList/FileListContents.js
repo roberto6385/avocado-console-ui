@@ -1,11 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
-import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_HIGHLIGHT} from '../../../reducers/subSftp';
-import {toEditMode} from '../commands';
+import {useDispatch} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	CustomRightTh,
@@ -25,9 +23,8 @@ import {
 } from '../../../reducers/sftp';
 
 const FileListContents = ({server}) => {
-	const {socket, uuid, fileList, highlight} = server;
+	const {uuid, fileList, highlight} = server;
 	const dispatch = useDispatch();
-	const [data, setData] = useState([]);
 	console.log(highlight);
 
 	const {show} = useContextMenu({
@@ -52,22 +49,19 @@ const FileListContents = ({server}) => {
 			e.stopPropagation();
 			if (item === '') {
 				dispatch({
-					type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-					data: {uuid, list: []},
+					type: ADD_ONE_HIGHLIGHT,
+					payload: {uuid, item: null},
 				});
 			} else {
-				// if (
-				// 	highlightItem?.list.length < 2 ||
-				// 	!highlightItem?.list.includes(item)
-				// ) {
-				// 	dispatch({
-				// 		type: SFTP_SAVE_CURRENT_HIGHLIGHT,
-				// 		data: {uuid, list: [item]},
-				// 	});
-				// }
+				highlight.length < 2 &&
+					!highlight.includes(item) &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item},
+					});
 			}
 		},
-		[uuid],
+		[server],
 	);
 
 	const selectItem = useCallback(
@@ -98,17 +92,15 @@ const FileListContents = ({server}) => {
 		[server],
 	);
 
-	useEffect(() => {
-		const list = fileList;
-		list.length > 0 && setData(list[list.length - 1]);
-	}, [server]);
-
 	return (
 		<>
 			<CustomTable>
 				<TableHead />
-				<CustomTbody onContextMenu={contextMenuOpen}>
-					{data?.map((item, index) => {
+				<CustomTbody
+					id='filelist_tbody'
+					onContextMenu={contextMenuOpen}
+				>
+					{fileList[fileList.length - 1]?.map((item, index) => {
 						return (
 							<tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
@@ -142,17 +134,18 @@ const FileListContents = ({server}) => {
 										item.fileType === 'directory' ||
 										(item.fileName === '..' && true)
 									}
-									onClick={(e) =>
-										toEditMode(
-											e,
-											socket,
-											uuid,
-											'',
-											item,
-											dispatch,
-											'list',
-										)
-									}
+									// 편집모드
+									// onClick={(e) =>
+									// toEditMode(
+									// 	e,
+									// 	socket,
+									// 	uuid,
+									// 	'',
+									// 	item,
+									// 	dispatch,
+									// 	'list',
+									// )
+									// }
 									flex={0.3}
 								>
 									<CustomThBtn
