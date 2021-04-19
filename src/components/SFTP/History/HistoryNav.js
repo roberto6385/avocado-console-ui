@@ -11,10 +11,9 @@ import {NavItem} from '../../../styles/sftp';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {useDispatch} from 'react-redux';
+import {commandPutAction} from '../../../reducers/sftp';
 
 const HistoryNav = ({server}) => {
-	const {socket, uuid} = server;
-	const {uploadWork, initialWork} = useSftpCommands({ws: socket, uuid});
 	const dispatch = useDispatch();
 
 	const upload = async () => {
@@ -24,10 +23,12 @@ const HistoryNav = ({server}) => {
 		uploadInput.setAttribute('multiple', 'multiple');
 		uploadInput.setAttribute('style', 'display:none');
 		uploadInput.click();
-		uploadInput.onchange = (e) => {
+		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
-			uploadWork(files);
-			// .then(() => initialWork());
+			for await (let value of files) {
+				dispatch(commandPutAction({...server, item: value}));
+			}
+			console.log('end');
 		};
 		document.body.removeChild(uploadInput);
 	};

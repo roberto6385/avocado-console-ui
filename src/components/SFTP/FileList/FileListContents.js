@@ -25,7 +25,6 @@ import {
 const FileListContents = ({server}) => {
 	const {uuid, fileList, highlight} = server;
 	const dispatch = useDispatch();
-	console.log(highlight);
 
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
@@ -47,19 +46,13 @@ const FileListContents = ({server}) => {
 			e.preventDefault();
 			show(e);
 			e.stopPropagation();
-			if (item === '') {
+			item !== '' &&
+				highlight.length < 2 &&
+				!highlight.includes(item) &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item: null},
+					payload: {uuid, item},
 				});
-			} else {
-				highlight.length < 2 &&
-					!highlight.includes(item) &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
-					});
-			}
 		},
 		[server],
 	);
@@ -130,22 +123,7 @@ const FileListContents = ({server}) => {
 								</CustomTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomRightTh
-									disabled={
-										item.fileType === 'directory' ||
-										(item.fileName === '..' && true)
-									}
-									// 편집모드
-									// onClick={(e) =>
-									// toEditMode(
-									// 	e,
-									// 	socket,
-									// 	uuid,
-									// 	'',
-									// 	item,
-									// 	dispatch,
-									// 	'list',
-									// )
-									// }
+									onClick={download(item)}
 									flex={0.3}
 								>
 									<CustomThBtn
@@ -157,12 +135,6 @@ const FileListContents = ({server}) => {
 									>
 										<MdEdit />
 									</CustomThBtn>
-								</CustomRightTh>
-								<CustomRightTh
-									disabled={item.fileName === '..' && true}
-									onClick={download(item)}
-									flex={0.3}
-								>
 									<CustomThBtn
 										color={
 											item.fileName === '..'

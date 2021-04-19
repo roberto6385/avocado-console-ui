@@ -204,12 +204,12 @@ const upload = (ws, path, uploadFile) => {
 				resolve(e.target.result);
 			};
 
-			let blob = file.slice(slice.offset, slice.length);
+			var blob = file.slice(slice.offset, slice.length);
 			reader.readAsArrayBuffer(blob);
 		});
 	};
 
-	let total = 0;
+	var total = 0;
 	const readFile = (file, slice) => {
 		readBytes(file, slice).then((data) => {
 			// send protocol buffer

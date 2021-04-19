@@ -6,12 +6,10 @@ import produce from 'immer';
 export const CONNECTION_REQUEST = 'sftp/CONNECTION_REQUEST';
 export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
 export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
-
 // 해제
 export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
 export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
 export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
-
 // pwd
 export const PWD_REQUEST = 'sftp/PWD_REQUEST';
 export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
@@ -24,6 +22,19 @@ export const LS_FAILURE = 'sftp/LS_FAILURE';
 export const CD_REQUEST = 'sftp/CD_REQUEST';
 export const CD_SUCCESS = 'sftp/CD_SUCCESS';
 export const CD_FAILURE = 'sftp/CD_FAILURE';
+// rename
+export const RENAME_REQUEST = 'sftp/RENAME_REQUEST';
+export const RENAME_SUCCESS = 'sftp/RENAME_SUCCESS';
+export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
+// rm & rmdir
+export const RM_REQUEST = 'sftp/RM_REQUEST';
+export const RM_SUCCESS = 'sftp/RM_SUCCESS';
+export const RM_FAILURE = 'sftp/RM_FAILURE';
+
+// put
+export const PUT_REQUEST = 'sftp/PUT_REQUEST';
+export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
+export const PUT_FAILURE = 'sftp/PUT_FAILURE';
 
 // 에러
 export const ERROR = 'sftp/ERROR';
@@ -35,6 +46,9 @@ export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 
+export const ADD_HISTORY = 'sftp/ADD_HISTORY';
+export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
+
 // actions
 
 export const connectionAction = (payload) => ({
@@ -42,8 +56,18 @@ export const connectionAction = (payload) => ({
 	payload, // 웹 소켓 연결을 위한 정보
 });
 
+export const commandPutAction = (payload) => ({
+	type: PUT_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+
 export const disconnectAction = (payload) => ({
 	type: DISCONNECTION_REQUEST,
+	payload,
+});
+
+export const commandRemoveAction = (payload) => ({
+	type: RM_REQUEST,
 	payload,
 });
 
@@ -59,6 +83,10 @@ export const commandLsAction = (payload) => ({
 
 export const commandCdAction = (payload) => ({
 	type: CD_REQUEST,
+	payload,
+});
+export const commandRenameAction = (payload) => ({
+	type: RENAME_REQUEST,
 	payload,
 });
 
@@ -114,6 +142,7 @@ const sftp = (state = initialState, action) =>
 					pathList: [],
 					fileList: [],
 					highlight: [],
+					history: [],
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -214,6 +243,12 @@ const sftp = (state = initialState, action) =>
 								it.item !== action.payload.item &&
 								it.path !== action.payload.path,
 					  ));
+				break;
+
+			case ADD_HISTORY:
+				target.history.unshift(action.payload);
+				break;
+			case REMOVE_HISTORY:
 				break;
 
 			//에러

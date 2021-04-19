@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,55 +7,21 @@ import {toEditMode} from '../commands';
 import useSftpCommands from '../../../hooks/useSftpCommands';
 
 const FileListContextMenu = ({server}) => {
-	const {socket, uuid} = server;
-	const {
-		currentHighlight,
-		currentPath,
-		droplistHighlight,
-		listMode,
-	} = useSelector((state) => state.subSftp);
-	const highlightItem = currentHighlight.find((item) => item.uuid === uuid);
-	const dropdownHLList = droplistHighlight.find((item) => item.uuid === uuid);
-	const currentlistMode = listMode.find((item) => item.uuid === uuid);
+	const {socket, uuid, highlight, path, mode} = server;
 
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
-	const pathItem = currentPath.find((item) => item.uuid === uuid);
-	const dispatch = useDispatch();
-	const {downloadWork} = useSftpCommands({ws: socket, uuid});
+	// const dispatch = useDispatch();
+	// const {downloadWork} = useSftpCommands({ws: socket, uuid});
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
-		currentlistMode?.mode === 'list'
-			? downloadWork(currentlistMode?.mode, highlightItem?.list)
-			: downloadWork(currentlistMode?.mode, dropdownHLList?.list);
+		// downloadWork(currentlistMode?.mode, highlightItem?.list)
 	};
 
-	const contextEdit = (e) => {
-		const item = highlightItem?.list[0];
-		const dropItem = dropdownHLList?.list[0];
-		currentlistMode?.mode === 'list'
-			? toEditMode(
-					e,
-					socket,
-					uuid,
-					pathItem?.path,
-					item,
-					dispatch,
-					'list',
-			  )
-			: toEditMode(
-					e,
-					socket,
-					uuid,
-					dropItem.path,
-					dropItem?.item,
-					dispatch,
-					'drop',
-			  );
-	};
+	const contextEdit = (e) => {};
 
-	function handleItemClick({event}) {
+	const handleItemClick = ({event}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
@@ -76,7 +42,7 @@ const FileListContextMenu = ({server}) => {
 			default:
 				return;
 		}
-	}
+	};
 	return (
 		<>
 			<Menu
@@ -85,27 +51,14 @@ const FileListContextMenu = ({server}) => {
 				style={{fontSize: '14px'}}
 			>
 				<Item
-					disabled={
-						currentlistMode?.mode === 'list'
-							? highlightItem?.list.length === 0 ||
-							  highlightItem?.list[0]?.fileName === '..'
-							: dropdownHLList?.list.length === 0 ||
-							  dropdownHLList?.list[0]?.item.fileName === '..'
-					}
+					disabled={highlight[0] === null || undefined}
 					id='Download'
 					onClick={handleItemClick}
 				>
 					Download
 				</Item>
 				<Item
-					disabled={
-						currentlistMode?.mode === 'list'
-							? highlightItem?.list.length !== 1 ||
-							  highlightItem?.list[0]?.fileType === 'directory'
-							: dropdownHLList?.list.length !== 1 ||
-							  dropdownHLList?.list[0]?.item.fileType ===
-									'directory'
-					}
+					disabled={highlight[0] === null || highlight.length !== 1}
 					id='Edit'
 					onClick={handleItemClick}
 				>
@@ -117,13 +70,7 @@ const FileListContextMenu = ({server}) => {
 					New Folder
 				</Item>
 				<Item
-					disabled={
-						currentlistMode?.mode === 'list'
-							? highlightItem?.list.length !== 1 ||
-							  highlightItem?.list[0]?.fileName === '..'
-							: dropdownHLList?.list.length !== 1 ||
-							  dropdownHLList?.list[0]?.item.fileName === '..'
-					}
+					disabled={highlight[0] === null || highlight.length !== 1}
 					id='rename_work'
 					onClick={handleItemClick}
 				>
@@ -131,13 +78,7 @@ const FileListContextMenu = ({server}) => {
 				</Item>
 				<Separator />
 				<Item
-					disabled={
-						currentlistMode?.mode === 'list'
-							? highlightItem?.list.length === 0 ||
-							  highlightItem?.list[0]?.fileName === '..'
-							: dropdownHLList?.list.length === 0 ||
-							  dropdownHLList?.list[0]?.item.fileName === '..'
-					}
+					disabled={highlight[0] === null || undefined}
 					id='delete_work'
 					onClick={handleItemClick}
 				>
@@ -148,8 +89,7 @@ const FileListContextMenu = ({server}) => {
 				keyword={keyword}
 				open={open}
 				setOpen={setOpen}
-				ws={socket}
-				uuid={uuid}
+				server={server}
 			/>
 		</>
 	);

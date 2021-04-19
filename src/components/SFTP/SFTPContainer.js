@@ -14,6 +14,7 @@ const SFTPContainer = ({uuid}) => {
 	const body = document.getElementById('root');
 	const focusOut = useCallback(function (evt) {
 		const root = evt.target;
+		console.log(root);
 		const tbody = Array.from(evt.currentTarget.querySelectorAll('tbody'));
 		const th = Array.from(evt.currentTarget.querySelectorAll('th'));
 		const ul = Array.from(
@@ -22,11 +23,17 @@ const SFTPContainer = ({uuid}) => {
 		const li = Array.from(
 			evt.currentTarget.querySelectorAll('.highlight_list'),
 		);
+		const context = Array.from(
+			evt.currentTarget.querySelectorAll(
+				'.react-contexify__item__content',
+			),
+		);
 		if (
 			!tbody.includes(root) &&
 			!th.includes(root) &&
 			!ul.includes(root) &&
-			!li.includes(root)
+			!li.includes(root) &&
+			!context.includes(root)
 		) {
 			console.log('out of focus!');
 			dispatch({

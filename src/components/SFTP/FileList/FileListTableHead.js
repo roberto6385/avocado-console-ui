@@ -19,8 +19,6 @@ const TableHead = () => {
 					<CustomThBtn disabled style={{color: 'white'}}>
 						<MdFileDownload />
 					</CustomThBtn>
-				</CustomRightTh>
-				<CustomRightTh flex={0.3}>
 					<CustomThBtn disabled style={{color: 'white'}}>
 						<MdFileDownload />
 					</CustomThBtn>

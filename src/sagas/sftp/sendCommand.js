@@ -1,6 +1,7 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
+	ADD_HISTORY,
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
@@ -9,15 +10,24 @@ import {
 	LS_FAILURE,
 	LS_REQUEST,
 	LS_SUCCESS,
+	PUT_FAILURE,
+	PUT_REQUEST,
+	PUT_SUCCESS,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
+	RENAME_FAILURE,
+	RENAME_REQUEST,
+	RENAME_SUCCESS,
+	RM_FAILURE,
+	RM_REQUEST,
+	RM_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
-	const {uuid} = payload;
+	const {uuid, item, path} = payload;
 	console.log(data);
 	// return new Promise(function (resolve) {
 	try {
@@ -74,13 +84,6 @@ function* messageReader(data, payload, type) {
 								path: pwd.getMessage(),
 								pathList,
 							};
-
-							// resolve({path: pwd.getMessage(), type});
-
-							// this.setState({
-							//     result: pwd.getMessage()
-							// });
-							// break;
 						}
 						// case SFTP.CommandResponse.CommandCase.CHGRP : {
 						//
@@ -106,24 +109,71 @@ function* messageReader(data, payload, type) {
 						//     console.log("command : mkdir", mkdir);
 						//     break;
 						// }
-						// case SFTP.CommandResponse.CommandCase.RMDIR : {
-						//
-						//     const rmdir = command.getRmdir();
-						//     console.log("command : rmdir", rmdir);
-						//     break;
-						// }
-						// case SFTP.CommandResponse.CommandCase.RM : {
-						//
-						//     const rm = command.getRm();
-						//     console.log("command : rm", rm);
-						//     break;
-						// }
-						// case SFTP.CommandResponse.CommandCase.RENAME : {
-						//
-						//     const rename = command.getRename();
-						//     console.log("command : rename", rename);
-						//     break;
-						// }
+						case SFTP.CommandResponse.CommandCase.RMDIR: {
+							const rmdir = command.getRmdir();
+							console.log('command : rmdir', rmdir);
+							yield put({
+								type: RM_SUCCESS,
+								payload: {uuid},
+							});
+							// yield take(
+							// 	RM_SUCCESS,
+							// 	yield put({
+							// 		type: ADD_HISTORY,
+							// 		paylaod: {
+							// 			uuid: uuid,
+							// 			name: item.fileName,
+							// 			path: path,
+							// 			size: item.fileSize,
+							// 			todo: 'rm',
+							// 			progress: 100,
+							// 			// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 			// 삭제, dispatch, 삭제 해서 progress 100 만들기
+							// 		},
+							// 	}),
+							// );
+							return {
+								type: RM_SUCCESS,
+							};
+						}
+						case SFTP.CommandResponse.CommandCase.RM: {
+							const rm = command.getRm();
+							console.log('command : rm', rm);
+							yield put({
+								type: RM_SUCCESS,
+								payload: {uuid},
+							});
+							// yield takeEvery(
+							// 	RM_SUCCESS,
+							// 	yield put({
+							// 		type: ADD_HISTORY,
+							// 		paylaod: {
+							// 			uuid: payload.uuid,
+							// 			name: payload.item.fileName,
+							// 			path: payload.path,
+							// 			size: payload.item.fileSize,
+							// 			todo: 'rm',
+							// 			progress: 100,
+							// 			// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
+							// 			// 삭제, dispatch, 삭제 해서 progress 100 만들기
+							// 		},
+							// 	}),
+							// );
+							return {
+								type: RM_SUCCESS,
+							};
+						}
+						case SFTP.CommandResponse.CommandCase.RENAME: {
+							const rename = command.getRename();
+							console.log('command : rename', rename);
+							yield put({
+								type: RENAME_SUCCESS,
+								payload: {uuid},
+							});
+							return {
+								type: RENAME_SUCCESS,
+							};
+						}
 						// case SFTP.CommandResponse.CommandCase.LN : {
 						//
 						//     const ln = command.getLn();
@@ -148,7 +198,6 @@ function* messageReader(data, payload, type) {
 								result += entry.getLongname() + '\n';
 							}
 							const fileList = listConversion(list);
-							console.log(fileList);
 							yield put({
 								type: LS_SUCCESS,
 								payload: {
@@ -179,16 +228,42 @@ function* messageReader(data, payload, type) {
 						//     });
 						//     break;
 						// }
-						// case SFTP.CommandResponse.CommandCase.PUT : {
-						//
-						//     const put = command.getPut();
-						//     console.log("command : put", put);
-						//
-						//     this.setState({
-						//         progress: put.getProgress()
-						//     });
-						//     break;
-						// }
+						case SFTP.CommandResponse.CommandCase.PUT: {
+							const resPut = command.getPut();
+
+							console.log(resPut.getProgress());
+							console.log(resPut.getLast());
+
+							if (
+								resPut.getLast() &&
+								resPut.getProgress() === 100
+							) {
+								yield put({
+									type: PUT_SUCCESS,
+									payload: {
+										uuid,
+									},
+								});
+								// yield take(
+								// 	PUT_SUCCESS_COMPLETELY,
+								// 	yield put({
+								// 		type: ADD_HISTORY,
+								// 		paylaod: {
+								// 			uuid: payload.uuid,
+								// 			name: payload.item.name,
+								// 			path: payload.path,
+								// 			size: payload.item.size,
+								// 			todo: 'put',
+								// 			progress: resPut.getProgress(),
+								// 		},
+								// 	}),
+								// );
+								return {type: PUT_SUCCESS};
+							} else {
+								return {type: PUT_REQUEST};
+								//
+							}
+						}
 						// case SFTP.CommandResponse.CommandCase.GET : {
 						//
 						//     const get = command.getGet();
@@ -239,7 +314,7 @@ function* messageReader(data, payload, type) {
 				yield put({
 					type: PWD_FAILURE,
 					payload: {
-						errorMessage: 'Error while pwd to the WebSocket',
+						errorMessage: 'Error while command pwd',
 					},
 				});
 				break;
@@ -247,7 +322,7 @@ function* messageReader(data, payload, type) {
 				yield put({
 					type: LS_FAILURE,
 					payload: {
-						errorMessage: 'Error while ls to the WebSocket',
+						errorMessage: 'Error while command ls',
 					},
 				});
 				break;
@@ -255,7 +330,32 @@ function* messageReader(data, payload, type) {
 				yield put({
 					type: CD_FAILURE,
 					payload: {
-						errorMessage: 'Error while cd to the WebSocket',
+						errorMessage: 'Error while command cd',
+					},
+				});
+				break;
+			case RENAME_REQUEST:
+				yield put({
+					type: RENAME_FAILURE,
+					payload: {
+						errorMessage: 'Error while command rename',
+					},
+				});
+				break;
+			case RM_REQUEST:
+				yield put({
+					type: RM_FAILURE,
+					payload: {
+						errorMessage: 'Error while command remove',
+					},
+				});
+				break;
+
+			case PUT_REQUEST:
+				yield put({
+					type: PUT_FAILURE,
+					payload: {
+						errorMessage: 'Error while command put',
 					},
 				});
 				break;
@@ -288,6 +388,38 @@ function* sendCommand(action) {
 				path: payload.newPath,
 			});
 			break;
+		case RENAME_REQUEST:
+			yield call(sftp_ws, {
+				keyword: 'CommandByRename',
+				ws: payload.socket,
+				path: payload.path,
+				newPath: payload.newPath,
+			});
+			break;
+		case RM_REQUEST:
+			console.log(payload.path, payload.item, payload.type);
+			payload.type === 'file'
+				? yield call(sftp_ws, {
+						keyword: 'CommandByRm',
+						ws: payload.socket,
+						path: `${payload.path}/${payload.item.fileName}`,
+				  })
+				: yield call(sftp_ws, {
+						keyword: 'CommandByRmdir',
+						ws: payload.socket,
+						path: `${payload.path}/${payload.item.fileName}`,
+				  });
+			break;
+
+		case PUT_REQUEST:
+			yield call(sftp_ws, {
+				keyword: 'CommandByPut',
+				ws: payload.socket,
+				path: payload.path,
+				uploadFile: payload.item,
+			});
+
+			break;
 		default:
 			break;
 	}
@@ -296,8 +428,9 @@ function* sendCommand(action) {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload, type);
+			console.log(res.type);
 
-			switch (res.type) {
+			switch (res?.type) {
 				case PWD_SUCCESS:
 					for (const key of res.pathList) {
 						yield put(
@@ -309,10 +442,22 @@ function* sendCommand(action) {
 					}
 					break;
 				case LS_SUCCESS:
-					// yield put(commandLsAction({...payload, path: res.path}));
 					break;
 
 				case CD_SUCCESS:
+					yield put(commandPwdAction(payload));
+					break;
+
+				case RENAME_SUCCESS:
+					yield put(commandPwdAction(payload));
+					break;
+
+				case RM_SUCCESS:
+					yield put(commandPwdAction(payload));
+					break;
+				case PUT_REQUEST:
+					break;
+				case PUT_SUCCESS:
 					yield put(commandPwdAction(payload));
 					break;
 				default:
@@ -320,6 +465,7 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
+		console.log(err);
 		//
 	}
 }
@@ -328,6 +474,9 @@ function* watchSendCommand() {
 	yield takeEvery(PWD_REQUEST, sendCommand);
 	yield takeEvery(LS_REQUEST, sendCommand);
 	yield takeEvery(CD_REQUEST, sendCommand);
+	yield takeEvery(RENAME_REQUEST, sendCommand);
+	yield takeEvery(RM_REQUEST, sendCommand);
+	yield takeEvery(PUT_REQUEST, sendCommand);
 }
 
 export default function* commandSaga() {

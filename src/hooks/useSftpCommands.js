@@ -82,14 +82,7 @@ const useSftpCommands = ({ws, uuid}) => {
 	}, []);
 
 	const uploadWorkFunction = useCallback(async (files) => {
-		await newSftp_ws({
-			keyword: 'CommandByPwd',
-			ws,
-		}).then(async (response) => {
-			for await (const key of files) {
-				dispatch(uploadAction({ws, uuid, key, path: response}));
-			}
-		});
+		dispatch()
 	}, []);
 
 	const downloadWorkFunction = useCallback((mode, itemList) => {

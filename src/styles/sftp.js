@@ -119,7 +119,7 @@ export const CustomTable = styled(BTable)`
 export const CustomTh = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: left;
-	min-width: 130px;
+	min-width: 150px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -127,16 +127,19 @@ export const CustomTh = styled.th`
 
 export const CustomRightTh = styled.th`
 	flex: ${(props) => props.flex};
+	min-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	text-align: right;
 	z-index: 1;
 `;
 
 export const CustomThBtn = styled.button`
 	background: transparent;
+	margin-left: 8px;
 	border: none;
 	font-size: 18px;
 	line-height: 0px;
-	padding: 0px;
 	z-index: 1;
 	color: ${(props) => props.color};
 `;
