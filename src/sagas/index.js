@@ -6,9 +6,6 @@ import verify from './auth/verify';
 import revoke from './auth/revoke';
 import find from './auth/find';
 
-import download from './download';
-import upload from './upload';
-
 import sftp from './sftp';
 
 export default function* rootSaga() {
@@ -19,8 +16,6 @@ export default function* rootSaga() {
 		fork(verify),
 		fork(revoke),
 		fork(find),
-		fork(download),
-		fork(upload),
 		fork(sftp),
 	]);
 }
