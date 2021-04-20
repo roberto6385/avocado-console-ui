@@ -1,13 +1,13 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	DISCONNECTION_FAILURE,
-	DISCONNECTION_REQUEST,
-	DISCONNECTION_SUCCESS,
+	CD_FAILURE,
+	CD_REQUEST,
+	CD_SUCCESS,
+	commandPwdAction,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {createWebsocketChannel} from './sendConnect';
-import {CLOSE_TAB} from '../../reducers/common';
 
 function* messageReader(data, payload, type) {
 	const {uuid} = payload;
@@ -24,30 +24,36 @@ function* messageReader(data, payload, type) {
 				console.log('response status: ', response.getStatus());
 				if (
 					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.DISCONNECT
+					SFTP.Response.ResponseCase.COMMAND
 				) {
-					const disconnect = response.getDisconnect();
-					console.log(disconnect);
-					yield put({
-						type: DISCONNECTION_SUCCESS,
-						payload: {
-							uuid,
-						},
-					});
-					return {type: DISCONNECTION_SUCCESS};
+					const command = response.getCommand();
+
+					switch (command.getCommandCase()) {
+						case SFTP.CommandResponse.CommandCase.CD: {
+							const cd = command.getCd();
+							console.log('command : cd', cd);
+							yield put({
+								type: CD_SUCCESS,
+								payload: {uuid},
+							});
+							return {
+								type: CD_SUCCESS,
+							};
+						}
+					}
 				}
 			}
 		}
 	} catch (err) {
 		switch (type) {
-			case DISCONNECTION_REQUEST:
+			case CD_REQUEST:
 				yield put({
-					type: DISCONNECTION_FAILURE,
+					type: CD_FAILURE,
 					payload: {
-						errorMessage: 'Error while command disconnect',
+						errorMessage: 'Error while command cd',
 					},
 				});
-				return {type: DISCONNECTION_FAILURE};
+				break;
 		}
 	}
 }
@@ -57,10 +63,11 @@ function* sendCommand(action) {
 		const {type, payload} = action;
 		const channel = yield call(createWebsocketChannel, payload.socket);
 		switch (type) {
-			case DISCONNECTION_REQUEST:
+			case CD_REQUEST:
 				yield call(sftp_ws, {
-					keyword: 'Disconnection',
+					keyword: 'CommandByCd',
 					ws: payload.socket,
+					path: payload.newPath,
 				});
 				break;
 			default:
@@ -68,17 +75,17 @@ function* sendCommand(action) {
 		}
 
 		while (true) {
+			console.log(payload);
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload, type);
+			console.log(payload);
+			console.log(res);
 
 			switch (res.type) {
-				case DISCONNECTION_SUCCESS:
-					console.log('disconnection success!');
-					yield put({type: CLOSE_TAB, data: payload.id});
-					break;
-				case DISCONNECTION_FAILURE:
-					console.log('disconnection fail!');
-					yield put({type: CLOSE_TAB, data: payload.id});
+				case CD_SUCCESS:
+					console.log('cd success!');
+					yield put(commandPwdAction(payload));
+					// }
 					break;
 				default:
 					break;
@@ -86,14 +93,13 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(DISCONNECTION_REQUEST, sendCommand);
+	yield takeEvery(CD_REQUEST, sendCommand);
 }
 
-export default function* commandDisconnectSaga() {
+export default function* commandCdSaga() {
 	yield all([fork(watchSendCommand)]);
 }

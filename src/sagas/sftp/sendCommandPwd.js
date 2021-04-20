@@ -1,12 +1,16 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
-import {PWD_FAILURE, PWD_REQUEST, PWD_SUCCESS} from '../../reducers/sftp';
+import {
+	commandLsAction,
+	PWD_FAILURE,
+	PWD_REQUEST,
+	PWD_SUCCESS,
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
-import {END, eventChannel} from 'redux-saga';
-import {createWebsocketChannel} from "./sendConnect";
+import {createWebsocketChannel} from './sendConnect';
 
 function* messageReader(data, payload, type) {
-	const {uuid, item, path} = payload;
+	const {uuid} = payload;
 	console.log(payload);
 	console.log(type);
 	console.log(data);
@@ -99,12 +103,12 @@ function* sendCommand(action) {
 				case PWD_SUCCESS:
 					console.log('pwd success!');
 					// for (const key of res.pathList) {
-					// yield put(
-					// 	commandLsAction({
-					// 		...payload,
-					// 		path: res.pathList[res.pathList.length - 1],
-					// 	}),
-					// );
+					yield put(
+						commandLsAction({
+							...payload,
+							path: res.pathList[res.pathList.length - 1],
+						}),
+					);
 					// }
 					break;
 				default:

@@ -168,7 +168,6 @@ const sftp = (state = initialState, action) =>
 			// 현재 경로 조회
 			case PWD_REQUEST:
 				draft.loading = true;
-				console.log(target);
 				target.fileList = [];
 				target.highlight = [];
 				target.pathList = [];
@@ -204,7 +203,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			case CD_SUCCESS:
 				draft.loading = false;
-
 				break;
 			case CD_FAILURE:
 				draft.loading = false;
