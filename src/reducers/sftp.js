@@ -26,10 +26,15 @@ export const CD_FAILURE = 'sftp/CD_FAILURE';
 export const RENAME_REQUEST = 'sftp/RENAME_REQUEST';
 export const RENAME_SUCCESS = 'sftp/RENAME_SUCCESS';
 export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
-// rm & rmdir
+// rm
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
+
+// rmdir
+export const RMDIR_REQUEST = 'sftp/RMDIR_REQUEST';
+export const RMDIR_SUCCESS = 'sftp/RMDIR_SUCCESS';
+export const RMDIR_FAILURE = 'sftp/RMDIR_FAILURE';
 
 // mkdir
 export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
@@ -72,8 +77,13 @@ export const disconnectAction = (payload) => ({
 	payload,
 });
 
-export const commandRemoveAction = (payload) => ({
+export const commandRmAction = (payload) => ({
 	type: RM_REQUEST,
+	payload,
+});
+
+export const commandRmdirAction = (payload) => ({
+	type: RMDIR_REQUEST,
 	payload,
 });
 

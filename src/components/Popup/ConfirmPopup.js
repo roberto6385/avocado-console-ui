@@ -15,6 +15,8 @@ import {
 	commandRenameAction,
 	commandRemoveAction,
 	commandMkdirAction,
+	commandRmAction,
+	commandRmdirAction,
 } from '../../reducers/sftp';
 
 const ConfirmMessage = {
@@ -70,17 +72,19 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 		switch (keyword) {
 			case 'delete_work':
 				for (let value of highlight) {
-					dispatch(
-						commandRemoveAction({
-							...server,
-							path: mode === 'list' ? path : value.path,
-							item: mode === 'list' ? value : value.item,
-							type:
-								mode === 'list'
-									? value.fileType
-									: value.item.fileType,
-						}),
-					);
+					value.fileType === 'file'
+						? dispatch(
+								commandRmAction({
+									...server,
+									deletePath: `${path}/${value.fileName}`,
+								}),
+						  )
+						: dispatch(
+								commandRmdirAction({
+									...server,
+									deletePath: `${path}/${value.fileName}`,
+								}),
+						  );
 				}
 				break;
 			case 'rename_work':

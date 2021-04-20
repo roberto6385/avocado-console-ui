@@ -1,16 +1,29 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeEvery,
+	takeLatest,
+	debounce,
+} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {
+	commandLsAction,
+	MKDIR_SUCCESS,
+	RMDIR_FAILURE,
+	RMDIR_REQUEST,
+	RMDIR_SUCCESS,
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {createWebsocketChannel} from './sendConnect';
-import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
 	const {uuid} = payload;
 	console.log(payload);
 	console.log(type);
 	console.log(data);
-	// return new Promise(function (resolve) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -24,35 +37,19 @@ function* messageReader(data, payload, type) {
 				) {
 					const command = response.getCommand();
 					console.log(command);
-
 					switch (command.getCommandCase()) {
-						case SFTP.CommandResponse.CommandCase.LS: {
-							const ls = command.getLs();
-							console.log('command : ls', ls);
-
-							const entryList = ls.getEntryList();
-							console.log('entry ', entryList.length);
-
-							let result = '';
-							const list = [];
-
-							for (let i = 0; i < entryList.length; i++) {
-								const entry = entryList[i];
-								list.push(entry.getLongname());
-
-								console.log('entry : ', entry.getLongname());
-								result += entry.getLongname() + '\n';
-							}
-							const fileList = listConversion(list);
+						case SFTP.CommandResponse.CommandCase.RMDIR: {
+							const rmdir = command.getRmdir();
+							console.log('command : rmdir', rmdir);
 							yield put({
-								type: LS_SUCCESS,
+								type: RMDIR_SUCCESS,
 								payload: {
 									uuid,
-									result,
-									fileList,
 								},
 							});
-							return {type: LS_SUCCESS};
+							return {
+								type: RMDIR_SUCCESS,
+							};
 						}
 					}
 				}
@@ -60,11 +57,11 @@ function* messageReader(data, payload, type) {
 		}
 	} catch (err) {
 		switch (type) {
-			case LS_REQUEST:
+			case RMDIR_REQUEST:
 				yield put({
-					type: LS_FAILURE,
+					type: RMDIR_FAILURE,
 					payload: {
-						errorMessage: 'Error while command ls',
+						errorMessage: 'Error while command rmdir',
 					},
 				});
 				break;
@@ -73,17 +70,15 @@ function* messageReader(data, payload, type) {
 }
 
 function* sendCommand(action) {
-	console.log(action);
 	try {
 		const {type, payload} = action;
-		console.log(payload);
 		const channel = yield call(createWebsocketChannel, payload.socket);
 		switch (type) {
-			case LS_REQUEST:
+			case RMDIR_REQUEST:
 				yield call(sftp_ws, {
-					keyword: 'CommandByLs',
+					keyword: 'CommandByRmdir',
 					ws: payload.socket,
-					path: payload.path,
+					path: payload.deletePath,
 				});
 				break;
 			default:
@@ -94,16 +89,19 @@ function* sendCommand(action) {
 			console.log(payload);
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
-			console.log(res);
-
-			switch (res.type) {
-				case LS_SUCCESS:
-					console.log('ls success!');
-					break;
-				default:
-					break;
-			}
+			// yield debounce(
+			// 	1000,
+			// 	MKDIR_SUCCESS,
+			// 	yield put(commandLsAction(payload)),
+			// );
+			// switch (res.type) {
+			// 	case RMDIR_SUCCESS:
+			// 		console.log('rmdir success!');
+			// 		yield put(commandLsAction(payload));
+			// 		break;
+			// 	default:
+			// 		break;
+			// }
 		}
 	} catch (err) {
 		console.log(err);
@@ -112,9 +110,9 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	yield takeEvery(RMDIR_REQUEST, sendCommand);
 }
 
-export default function* commandLsSaga() {
+export default function* commandRmdirSaga() {
 	yield all([fork(watchSendCommand)]);
 }

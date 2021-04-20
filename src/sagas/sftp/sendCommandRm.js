@@ -1,9 +1,13 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {
+	commandLsAction,
+	RM_FAILURE,
+	RM_REQUEST,
+	RM_SUCCESS,
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {createWebsocketChannel} from './sendConnect';
-import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
 	const {uuid} = payload;
@@ -23,36 +27,19 @@ function* messageReader(data, payload, type) {
 					SFTP.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
-					console.log(command);
-
 					switch (command.getCommandCase()) {
-						case SFTP.CommandResponse.CommandCase.LS: {
-							const ls = command.getLs();
-							console.log('command : ls', ls);
-
-							const entryList = ls.getEntryList();
-							console.log('entry ', entryList.length);
-
-							let result = '';
-							const list = [];
-
-							for (let i = 0; i < entryList.length; i++) {
-								const entry = entryList[i];
-								list.push(entry.getLongname());
-
-								console.log('entry : ', entry.getLongname());
-								result += entry.getLongname() + '\n';
-							}
-							const fileList = listConversion(list);
+						case SFTP.CommandResponse.CommandCase.RM: {
+							const rm = command.getRm();
+							console.log('command : rm', rm);
 							yield put({
-								type: LS_SUCCESS,
+								type: RM_SUCCESS,
 								payload: {
 									uuid,
-									result,
-									fileList,
 								},
 							});
-							return {type: LS_SUCCESS};
+							return {
+								type: RM_SUCCESS,
+							};
 						}
 					}
 				}
@@ -60,11 +47,11 @@ function* messageReader(data, payload, type) {
 		}
 	} catch (err) {
 		switch (type) {
-			case LS_REQUEST:
+			case RM_REQUEST:
 				yield put({
-					type: LS_FAILURE,
+					type: RM_FAILURE,
 					payload: {
-						errorMessage: 'Error while command ls',
+						errorMessage: 'Error while command rm',
 					},
 				});
 				break;
@@ -73,17 +60,15 @@ function* messageReader(data, payload, type) {
 }
 
 function* sendCommand(action) {
-	console.log(action);
 	try {
 		const {type, payload} = action;
-		console.log(payload);
 		const channel = yield call(createWebsocketChannel, payload.socket);
 		switch (type) {
-			case LS_REQUEST:
+			case RM_REQUEST:
 				yield call(sftp_ws, {
-					keyword: 'CommandByLs',
+					keyword: 'CommandByRm',
 					ws: payload.socket,
-					path: payload.path,
+					path: payload.deletePath,
 				});
 				break;
 			default:
@@ -97,13 +82,14 @@ function* sendCommand(action) {
 			console.log(payload);
 			console.log(res);
 
-			switch (res.type) {
-				case LS_SUCCESS:
-					console.log('ls success!');
-					break;
-				default:
-					break;
-			}
+			// switch (res.type) {
+			// 	case RM_SUCCESS:
+			// 		console.log('rm success!');
+			// 		yield put(commandLsAction(payload));
+			// 		break;
+			// 	default:
+			// 		break;
+			// }
 		}
 	} catch (err) {
 		console.log(err);
@@ -112,9 +98,9 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	yield takeEvery(RM_REQUEST, sendCommand);
 }
 
-export default function* commandLsSaga() {
+export default function* commandRmSaga() {
 	yield all([fork(watchSendCommand)]);
 }
