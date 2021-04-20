@@ -39,23 +39,23 @@ const TabNavBar = () => {
 
 	const onClickDelete = useCallback(
 		(id) => async () => {
-			const clicked_tab = tab.find((x) => x.id === id);
-			const {ws, uuid} = clicked_tab.socket;
-
-			if (clicked_tab.type === 'SSHT') {
-				ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-
-				ws.onmessage = (evt) => {
-					const message = GetMessage(evt);
-
-					if (message.type === 'DISCONNECT')
-						dispatch({type: CLOSE_TAB, data: id});
-					else console.log('V TabNavBar onmessage: ', message);
-				};
-			} else {
-				const channel = clicked_tab.channel;
-				dispatch(disconnectAction({socket: ws, channel, id, uuid}));
-			}
+			// const clicked_tab = tab.find((x) => x.id === id);
+			// const {ws, uuid} = clicked_tab.socket;
+			//
+			// if (clicked_tab.type === 'SSHT') {
+			// 	ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+			//
+			// 	ws.onmessage = (evt) => {
+			// 		const message = GetMessage(evt);
+			//
+			// 		if (message.type === 'DISCONNECT')
+			dispatch({type: CLOSE_TAB, data: id});
+			// 		else console.log('V TabNavBar onmessage: ', message);
+			// 	};
+			// } else {
+			// 	const channel = clicked_tab.channel;
+			// 	dispatch(disconnectAction({socket: ws, channel, id, uuid}));
+			// }
 		},
 		[tab],
 	);

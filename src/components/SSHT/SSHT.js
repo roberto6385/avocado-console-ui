@@ -9,7 +9,7 @@ import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 
-const SSHT = ({index, display, height, width}) => {
+const SSHT = ({index, height, width}) => {
 	const {current_tab, tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
@@ -27,7 +27,7 @@ const SSHT = ({index, display, height, width}) => {
 	);
 
 	const resizeRequest = useCallback(() => {
-		if (display && width > 0 && height > 0) {
+		if (width > 0 && height > 0) {
 			fitAddon.current.fit();
 
 			ssht_ws_request({
@@ -41,7 +41,7 @@ const SSHT = ({index, display, height, width}) => {
 				},
 			});
 		}
-	}, [display, ws, sshTerm, width, height]);
+	}, [ws, sshTerm, width, height]);
 
 	useEffect(() => {
 		sshTerm.loadAddon(fitAddon.current);
@@ -71,12 +71,12 @@ const SSHT = ({index, display, height, width}) => {
 	useEffect(() => {
 		sshTerm.setOption('theme', {fontFamily: font});
 		resizeRequest();
-	}, [font, sshTerm, display, ws, width, height]);
+	}, [font, sshTerm, ws, width, height]);
 
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
 		resizeRequest();
-	}, [font_size, sshTerm, display, ws, width, height]);
+	}, [font_size, sshTerm, ws, width, height]);
 
 	useEffect(() => {
 		if (current_tab === index && search_mode) {
@@ -97,6 +97,10 @@ const SSHT = ({index, display, height, width}) => {
 		}
 	}, [current_tab, index, search]);
 
+	useEffect(() => {
+		console.log(height, width);
+	}, [height, width]);
+
 	return (
 		<SSHTerminal>
 			<SSHTerminal ref={terminalRef} />
@@ -115,7 +119,6 @@ const SSHT = ({index, display, height, width}) => {
 
 SSHT.propTypes = {
 	index: PropTypes.number.isRequired,
-	display: PropTypes.bool.isRequired,
 	height: PropTypes.number.isRequired,
 	width: PropTypes.number.isRequired,
 };

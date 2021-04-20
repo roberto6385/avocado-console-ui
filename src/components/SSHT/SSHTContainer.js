@@ -8,7 +8,7 @@ import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTBody, SSHTContainer} from '../../styles/ssht';
 import {IconButton} from '../../styles/common';
 
-const SSHContainer = ({index, display, server_id}) => {
+const SSHContainer = ({index, server_id}) => {
 	const [height, setHeight] = useState(0);
 	const [width, setWidth] = useState(0);
 	const sshtBody = useRef(null);
@@ -25,7 +25,7 @@ const SSHContainer = ({index, display, server_id}) => {
 	}, []);
 
 	useEffect(() => {
-		if ((display && sshtBody, sshtBody.current)) {
+		if ((sshtBody, sshtBody.current)) {
 			setSize(
 				sshtBody.current?.clientHeight,
 				sshtBody.current?.clientWidth,
@@ -35,13 +35,13 @@ const SSHContainer = ({index, display, server_id}) => {
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
-			if (display && sshtBody && sshtBody.current)
+			if (sshtBody && sshtBody.current)
 				setSize(
 					sshtBody.current?.clientHeight,
 					sshtBody.current?.clientWidth,
 				);
 		});
-	}, [display, sshtBody]);
+	}, [sshtBody]);
 
 	return (
 		<SSHTContainer className={'fix-height'}>
@@ -52,12 +52,7 @@ const SSHContainer = ({index, display, server_id}) => {
 				<ConvertSFTP server_id={server_id} />
 			</Card.Header>
 			<SSHTBody ref={sshtBody}>
-				<SSHT
-					index={index}
-					display={display}
-					height={height}
-					width={width}
-				/>
+				<SSHT index={index} height={height} width={width} />
 			</SSHTBody>
 		</SSHTContainer>
 	);
@@ -65,7 +60,6 @@ const SSHContainer = ({index, display, server_id}) => {
 
 SSHContainer.propTypes = {
 	index: PropTypes.number.isRequired,
-	display: PropTypes.bool.isRequired,
 	server_id: PropTypes.number.isRequired,
 };
 

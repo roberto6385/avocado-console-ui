@@ -2,17 +2,16 @@ import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
+import {Terminal} from 'xterm';
+
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {OPEN_TAB} from '../../reducers/common';
-import newSftp_ws from '../../ws/sftp_ws';
-import {SFTP_SAVE_LIST_MODE} from '../../reducers/sftp';
-import {connectionAction, sendMessage} from '../../reducers/sftp';
+import {connectionAction} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import {Terminal} from 'xterm';
 
 const ServerContextMenuMessage = {
 	connect: 'Connect',
