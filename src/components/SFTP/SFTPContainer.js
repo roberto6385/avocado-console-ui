@@ -19,7 +19,7 @@ const SFTPContainer = ({uuid}) => {
 	const focusOut = useCallback(
 		function (evt) {
 			console.log('body를 클릭했습니다.');
-			if (currentServer.highlight.length === 0) {
+			if (currentServer?.highlight.length === 0) {
 				return;
 			}
 			const root = evt.target;
@@ -55,7 +55,7 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[currentServer],
+		[currentServer?.highlight],
 	);
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const SFTPContainer = ({uuid}) => {
 	}, [currentServer]);
 
 	useEffect(() => {
-		currentServer && dispatch(commandPwdAction(currentServer));
+		dispatch(commandPwdAction(currentServer));
 	}, []);
 
 	return currentServer ? <SFTP_Component server={currentServer} /> : <></>;

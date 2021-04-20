@@ -26,7 +26,7 @@ function createWebsocket(payload) {
 	});
 }
 
-function createWebsocketChannel(socket) {
+export function createWebsocketChannel(socket) {
 	return eventChannel((emit) => {
 		socket.onmessage = (event) => {
 			emit(event.data);

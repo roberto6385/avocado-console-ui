@@ -468,8 +468,7 @@ const reducer = (state = initialState, action) => {
 				if (action.data.type === 'SSHT') {
 					new_tab.terminal = action.data.terminal;
 				} else if (action.data.type === 'SFTP') {
-					new_tab.mode = action.data.mode || '';
-					new_tab.channel = action.data.channel || '';
+					new_tab.mode = action.data.mode;
 				}
 				//save new tab info
 				draft.tab.push(new_tab);
