@@ -23,7 +23,6 @@ const SFTPContainer = ({uuid}) => {
 				return;
 			}
 			const root = evt.target;
-			console.log(root);
 			const tbody = Array.from(
 				evt.currentTarget.querySelectorAll('tbody'),
 			);

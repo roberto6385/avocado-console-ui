@@ -2,9 +2,9 @@ import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
-	PWD_FAILURE,
-	PWD_REQUEST,
-	PWD_SUCCESS,
+	MKDIR_FAILURE,
+	MKDIR_REQUEST,
+	MKDIR_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {createWebsocketChannel} from './sendConnect';
@@ -29,34 +29,17 @@ function* messageReader(data, payload, type) {
 					const command = response.getCommand();
 
 					switch (command.getCommandCase()) {
-						case SFTP.CommandResponse.CommandCase.PWD: {
-							const pwd = command.getPwd();
-							console.log('command : pwd', pwd);
-							let pathList = ['/'];
-							let tempPathList = pwd.getMessage().split('/');
-							tempPathList.reduce(function (
-								accumulator,
-								currentValue,
-							) {
-								pwd.getMessage() !== '/' &&
-									pathList.push(
-										accumulator + '/' + currentValue,
-									);
-								return accumulator + '/' + currentValue;
-							});
-
+						case SFTP.CommandResponse.CommandCase.MKDIR: {
+							const mkdir = command.getMkdir();
+							console.log('command : mkdir', mkdir);
 							yield put({
-								type: PWD_SUCCESS,
+								type: MKDIR_SUCCESS,
 								payload: {
 									uuid,
-									path: pwd.getMessage(),
-									pathList,
 								},
 							});
 							return {
-								type: PWD_SUCCESS,
-								path: pwd.getMessage(),
-								pathList,
+								type: MKDIR_SUCCESS,
 							};
 						}
 					}
@@ -65,11 +48,11 @@ function* messageReader(data, payload, type) {
 		}
 	} catch (err) {
 		switch (type) {
-			case PWD_REQUEST:
+			case MKDIR_REQUEST:
 				yield put({
-					type: PWD_FAILURE,
+					type: MKDIR_FAILURE,
 					payload: {
-						errorMessage: 'Error while command pwd',
+						errorMessage: 'Error while command mkdir',
 					},
 				});
 				break;
@@ -82,10 +65,11 @@ function* sendCommand(action) {
 		const {type, payload} = action;
 		const channel = yield call(createWebsocketChannel, payload.socket);
 		switch (type) {
-			case PWD_REQUEST:
+			case MKDIR_REQUEST:
 				yield call(sftp_ws, {
-					keyword: 'CommandByPwd',
+					keyword: 'CommandByMkdir',
 					ws: payload.socket,
+					path: payload.newPath,
 				});
 				break;
 			default:
@@ -100,19 +84,9 @@ function* sendCommand(action) {
 			console.log(res);
 
 			switch (res.type) {
-				case PWD_SUCCESS:
-					console.log('pwd success!');
-					yield put(commandLsAction({...payload, path: res.path}));
-					// 드롭다운 방식은 / 부터 현재 경로까지 모든 경로를 ls 해야하기 때문에
-					// 그러나 지금은 dropdown은 제외하고 구현중...
-					// for (const key of res.pathList) {
-					// 	yield put(
-					// 		commandLsAction({
-					// 			...payload,
-					// 			path: res.pathList[res.pathList.length - 1],
-					// 		}),
-					// 	);
-					// }
+				case MKDIR_SUCCESS:
+					console.log('mkdir success!');
+					yield put(commandLsAction(payload));
 					break;
 				default:
 					break;
@@ -125,9 +99,9 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PWD_REQUEST, sendCommand);
+	yield takeEvery(MKDIR_REQUEST, sendCommand);
 }
 
-export default function* commandPwdSaga() {
+export default function* commandMkdirSaga() {
 	yield all([fork(watchSendCommand)]);
 }

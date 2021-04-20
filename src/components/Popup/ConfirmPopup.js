@@ -14,6 +14,7 @@ import {
 	CHANGE_MODE,
 	commandRenameAction,
 	commandRemoveAction,
+	commandMkdirAction,
 } from '../../reducers/sftp';
 
 const ConfirmMessage = {
@@ -101,7 +102,14 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 				}
 				break;
 			case 'sftp_new_folder':
-				// formValue !== '' && sftpNewFolder(formValue);
+				formValue !== '' &&
+					dispatch(
+						commandMkdirAction({
+							...server,
+							newPath: `${path}/${formValue}`,
+						}),
+					);
+
 				break;
 			case 'edit_file':
 				// editFile(curText).then(() =>

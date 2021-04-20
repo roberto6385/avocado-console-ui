@@ -48,7 +48,7 @@ const FileListContents = ({server}) => {
 			show(e);
 			e.stopPropagation();
 			item !== '' &&
-				highlight.length < 2 &&
+				// highlight.length < 2 &&
 				!highlight.includes(item) &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,

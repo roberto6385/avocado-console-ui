@@ -31,6 +31,11 @@ export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
 
+// mkdir
+export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
+export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
+export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
+
 // put
 export const PUT_REQUEST = 'sftp/PUT_REQUEST';
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
@@ -74,6 +79,11 @@ export const commandRemoveAction = (payload) => ({
 
 export const commandPwdAction = (payload) => ({
 	type: PWD_REQUEST,
+	payload,
+});
+
+export const commandMkdirAction = (payload) => ({
+	type: MKDIR_REQUEST,
 	payload,
 });
 

@@ -6,6 +6,7 @@ import commandDisconnectSaga from './sendDisconnect';
 import commandPwdSaga from './sendCommandPwd';
 import commandLsSaga from './sendCommandLs';
 import commandCdSaga from './sendCommandCd';
+import commandMkdirSaga from './sendCommandMkdir';
 
 export default function* sftpSaga() {
 	yield all([
@@ -14,6 +15,7 @@ export default function* sftpSaga() {
 		yield fork(commandPwdSaga),
 		yield fork(commandLsSaga),
 		yield fork(commandCdSaga),
+		yield fork(commandMkdirSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
 }
