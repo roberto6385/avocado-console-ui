@@ -108,7 +108,7 @@ const FileListContents = ({server}) => {
 								}
 							>
 								<CustomTh flex={10}>
-									<FileListP>
+									<FileListP className='filelist_p'>
 										{item.fileType === 'directory' ? (
 											<DirectoryIcon />
 										) : (

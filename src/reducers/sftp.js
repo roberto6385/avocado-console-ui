@@ -44,6 +44,7 @@ export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
+export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 
 export const ADD_HISTORY = 'sftp/ADD_HISTORY';
@@ -222,6 +223,10 @@ const sftp = (state = initialState, action) =>
 							item: action.payload.item,
 							path: action.payload.path,
 					  });
+				break;
+			case INITIALIZING_HIGHLIGHT:
+
+				target.highlight = [];
 				break;
 			case ADD_ONE_HIGHLIGHT:
 				target.highlight.splice(

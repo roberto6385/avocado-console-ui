@@ -1,4 +1,12 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeEvery,
+	takeLatest,
+} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
@@ -471,12 +479,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PWD_REQUEST, sendCommand);
-	yield takeEvery(LS_REQUEST, sendCommand);
-	yield takeEvery(CD_REQUEST, sendCommand);
-	yield takeEvery(RENAME_REQUEST, sendCommand);
-	yield takeEvery(RM_REQUEST, sendCommand);
-	yield takeEvery(PUT_REQUEST, sendCommand);
+	yield takeLatest(PWD_REQUEST, sendCommand);
+	yield takeLatest(LS_REQUEST, sendCommand);
+	yield takeLatest(CD_REQUEST, sendCommand);
+	yield takeLatest(RENAME_REQUEST, sendCommand);
+	yield takeLatest(RM_REQUEST, sendCommand);
+	yield takeLatest(PUT_REQUEST, sendCommand);
 }
 
 export default function* commandSaga() {
