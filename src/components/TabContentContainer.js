@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
@@ -6,24 +6,24 @@ import {FaTimes} from 'react-icons/all';
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
-
-import {
-	TabContentCard,
-	TabContentCardHeader,
-	TabSFTPIcon,
-	TabSSHTIcon,
-} from '../styles/common';
-
+import {TabContentCardHeader, TabSFTPIcon, TabSSHTIcon} from '../styles/common';
 import {ssht_ws_request} from '../ws/ssht_ws_request';
 import {GetMessage} from '../ws/ssht_ws_logic';
 import {disconnectAction} from '../reducers/sftp';
+import {Card} from 'react-bootstrap';
+import styled from 'styled-components';
 
-const TabContentContainer = ({index, type, display, server, socket}) => {
+const TabContentCard = styled(Card)`
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+`;
+
+const TabContentContainer = ({index, type, server, socket}) => {
 	const dispatch = useDispatch();
 	const {ws} = socket;
-	const {cols, tab, current_tab} = useSelector((state) => state.common);
-	const [height, setHeight] = useState(null);
-	const [width, setWidth] = useState(null);
+	const {tab, current_tab} = useSelector((state) => state.common);
 	const clicked_tab = tab.find((x) => x.id === index);
 
 	const onClickDelete = useCallback(() => {
@@ -38,7 +38,7 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 					dispatch({type: CLOSE_TAB, data: index});
 				else console.log('V TabContentContainer onmessage: ', message);
 			};
-		} else {
+		} else if (type === 'SFTP') {
 			const channel = clicked_tab.channel;
 			dispatch(disconnectAction({socket: ws, channel, id: index}));
 		}
@@ -49,38 +49,8 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 			dispatch({type: CHANGE_CURRENT_TAB, data: index});
 	}, [index]);
 
-	useEffect(() => {
-		if (!display) {
-			setHeight('0%');
-			setWidth('0%');
-		} else {
-			const visible_tab_length = tab.filter((x) => x.display === true)
-				.length;
-			if (cols === 2 && visible_tab_length > 2) setHeight('50%');
-			else setHeight('100%');
-
-			if (visible_tab_length === 3 && cols === 3)
-				setWidth('calc(100% / 3)');
-			else if (
-				visible_tab_length === 1 ||
-				(visible_tab_length === 3 &&
-					cols === 2 &&
-					tab
-						.filter((v) => v.display === true)
-						.findIndex((i) => i.id === index) === 2)
-			)
-				setWidth('100%');
-			else setWidth('50%');
-		}
-	}, [display, cols, tab]);
-
 	return (
-		<TabContentCard
-			onClick={onClickChangeTab}
-			className={display ? 'visible' : 'invisible'}
-			h={height}
-			w={width}
-		>
+		<TabContentCard onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<TabContentCardHeader as='h6'>
 					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
@@ -91,11 +61,7 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 				</TabContentCardHeader>
 			)}
 			{type === 'SSHT' ? (
-				<SSHTContainer
-					index={index}
-					display={display}
-					server_id={server.id}
-				/>
+				<SSHTContainer index={index} server_id={server.id} />
 			) : (
 				<SFTPContainer uuid={socket.uuid} data={server} />
 			)}
@@ -106,7 +72,6 @@ const TabContentContainer = ({index, type, display, server, socket}) => {
 TabContentContainer.propTypes = {
 	index: PropTypes.number.isRequired,
 	type: PropTypes.string.isRequired,
-	display: PropTypes.bool.isRequired,
 	server: PropTypes.object.isRequired,
 	socket: PropTypes.object.isRequired,
 };

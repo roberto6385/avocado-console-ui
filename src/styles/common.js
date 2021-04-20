@@ -12,6 +12,7 @@ import {
 } from './global';
 import background from '../images/bg_3.png';
 import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
+import GridLayout from 'react-grid-layout';
 
 export const PopupButton = styled(Button).attrs((props) => ({
 	style: {
@@ -249,7 +250,7 @@ export const TabNavItem = styled(Nav.Item)`
 `;
 
 export const IconSpan = styled.span`
-	color: black;
+	// color: black;
 	display: flex;
 	align-items: center;
 `;
@@ -273,8 +274,9 @@ export const WorkSpaceContainer = styled.div`
 	flex: 1;
 	margin: 0;
 	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
+	position: relative;
+	// display: flex;
+	// flex-wrap: wrap;
 `;
 
 //Add Server Form

@@ -3,7 +3,7 @@ import {Form} from 'react-bootstrap';
 
 const General = () => {
 	return (
-		<div>
+		<>
 			<h4>General</h4>
 			<Form.Group>
 				<Form.Label>UI Theme</Form.Label>
@@ -12,7 +12,7 @@ const General = () => {
 					<option>Dark</option>
 				</Form.Control>
 			</Form.Group>
-		</div>
+		</>
 	);
 };
 

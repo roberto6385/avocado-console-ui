@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {Form} from 'react-bootstrap';
 import {SSHT_SET_FONT} from '../../reducers/ssht';
-import useInput from '../../hooks/useInput';
 import {useDispatch, useSelector} from 'react-redux';
 
 const Terminal = () => {

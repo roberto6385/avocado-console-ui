@@ -464,7 +464,6 @@ const reducer = (state = initialState, action) => {
 						uuid: action.data.uuid,
 					},
 				};
-
 				//save ssht/sftp info
 				if (action.data.type === 'SSHT') {
 					new_tab.terminal = action.data.terminal;
