@@ -25,7 +25,7 @@ const SSHContainer = ({index, server_id}) => {
 	}, []);
 
 	useEffect(() => {
-		if ((sshtBody, sshtBody.current)) {
+		if (sshtBody && sshtBody.current) {
 			setSize(
 				sshtBody.current?.clientHeight,
 				sshtBody.current?.clientWidth,

@@ -69,7 +69,7 @@ const SSHT = ({index, height, width}) => {
 	}, [index, ws, sshTerm]);
 
 	useEffect(() => {
-		sshTerm.setOption('theme', {fontFamily: font});
+		sshTerm.setOption('fontFamily', font);
 		resizeRequest();
 	}, [font, sshTerm, ws, width, height]);
 
