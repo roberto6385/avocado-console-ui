@@ -13,6 +13,7 @@ import {
 	CustomThBtn,
 	DirectoryIcon,
 	FileIcon,
+	FileListP,
 } from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
 import {
@@ -107,12 +108,14 @@ const FileListContents = ({server}) => {
 								}
 							>
 								<CustomTh flex={10}>
-									{item.fileType === 'directory' ? (
-										<DirectoryIcon />
-									) : (
-										<FileIcon />
-									)}
-									{item.fileName}
+									<FileListP>
+										{item.fileType === 'directory' ? (
+											<DirectoryIcon />
+										) : (
+											<FileIcon />
+										)}
+										{item.fileName}
+									</FileListP>
 								</CustomTh>
 								<CustomRightTh flex={2}>
 									{item.fileName !== '..' && item.fileSize}

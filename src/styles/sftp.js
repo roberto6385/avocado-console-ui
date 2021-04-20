@@ -118,8 +118,16 @@ export const CustomTable = styled(BTable)`
 
 export const CustomTh = styled.th`
 	flex: ${(props) => props.flex};
-	text-align: left;
-	min-width: 150px;
+	// text-align: left;
+	min-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+export const FileListP = styled.p`
+	width: 200px;
+	margin: 0;
+	padding: 0;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
