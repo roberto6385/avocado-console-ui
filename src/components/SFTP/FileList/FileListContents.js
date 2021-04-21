@@ -6,6 +6,7 @@ import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
 import {
+	CustomNameTh,
 	CustomRightTh,
 	CustomTable,
 	CustomTbody,
@@ -111,7 +112,7 @@ const FileListContents = ({server}) => {
 										: 'highlight_tbody'
 								}
 							>
-								<CustomTh flex={10}>
+								<CustomNameTh flex={10}>
 									<FileListP className='filelist_p'>
 										{item.fileType === 'directory' ? (
 											<DirectoryIcon />
@@ -120,7 +121,7 @@ const FileListContents = ({server}) => {
 										)}
 										{item.fileName}
 									</FileListP>
-								</CustomTh>
+								</CustomNameTh>
 								<CustomRightTh flex={2}>
 									{item.fileName !== '..' && item.fileSize}
 								</CustomRightTh>

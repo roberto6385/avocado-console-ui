@@ -1,26 +1,15 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	actionChannel,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
-	RM_REQUEST,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
 function* messageReader(data, payload) {
-	const {uuid, uploadFile} = payload;
-	console.log(uploadFile);
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -39,37 +28,12 @@ function* messageReader(data, payload) {
 							console.log('command : put', resPut);
 							console.log(resPut.getProgress());
 							console.log(resPut.getLast());
-							// if (
-							// 	resPut.getLast() &&
-							// 	resPut.getProgress() === 100
-							// ) {
-							yield put({
-								type: PUT_SUCCESS,
-								payload: {
-									uuid: payload.uuid,
-									percent: resPut.getProgress(),
-								},
-							});
-							yield put({
-								type: ADD_HISTORY,
-								payload: {
-									uuid,
-									name: uploadFile.name,
-									size: uploadFile.size,
-									todo: 'put',
-									progress: resPut.getProgress(),
-								},
-							});
-							// }
-							// yield take(
-							// 	PUT_SUCCESS,
-							// 	commandLsAction(payload),
-							// );
-							// }
+
 							return {
 								type: PUT_SUCCESS,
 								last: resPut.getLast(),
 								percent: resPut.getProgress(),
+								uploadFile: payload.uploadFile,
 							};
 						}
 					}
@@ -87,32 +51,54 @@ function* messageReader(data, payload) {
 	}
 }
 
-function* sendCommand(payload) {
-	console.log(payload);
-	try {
+function* sendCommand({payload}) {
+	yield console.log(payload.files);
+	for (let value of payload.files) {
+		console.log(value);
 		yield call(sftp_ws, {
 			keyword: 'CommandByPut',
 			ws: payload.socket,
 			path: payload.path,
-			uploadFile: payload.uploadFile,
+			uploadFile: value,
 		});
-		// while (true) {
-		const channel = yield call(subscribe, payload.socket);
-		const data = yield take(channel);
-		yield call(messageReader, data, payload);
-		// }
-	} catch (err) {
-		console.log(err);
+		try {
+			while (true) {
+				const channel = yield call(subscribe, payload.socket);
+				const data = yield take(channel);
+				const res = yield call(messageReader, data, payload);
+				if (res.last && res.percent === 100) {
+					yield put({
+						type: PUT_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+							percent: res.percent,
+						},
+					});
+					yield put({
+						type: ADD_HISTORY,
+						payload: {
+							uuid: payload.uuid,
+							name: res.uploadFile.name,
+							size: res.uploadFile.size,
+							todo: 'put',
+							progress: res.percent,
+						},
+					});
+				}
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(PUT_REQUEST);
-	while (true) {
-		const {payload} = yield take(reqChannel);
-		yield call(sendCommand, payload);
-		// yield takeLatest(RM_SUCCESS, yield call(commandLsAction, payload));
-	}
+	yield takeEvery(PUT_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(PUT_REQUEST);
+	// while (true) {
+	// 	const {payload} = yield take(reqChannel);
+	// 	yield call(sendCommand, payload);
+	// }
 }
 
 export default function* commandPutSaga() {

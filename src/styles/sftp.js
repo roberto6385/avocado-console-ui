@@ -116,10 +116,18 @@ export const CustomTable = styled(BTable)`
 	user-select: none;
 `;
 
-export const CustomTh = styled.th`
+export const CustomNameTh = styled.th`
 	flex: ${(props) => props.flex};
 	// text-align: left;
 	min-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+export const CustomTh = styled.th`
+	flex: ${(props) => props.flex};
+	// text-align: left;
+	min-width: 130px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
