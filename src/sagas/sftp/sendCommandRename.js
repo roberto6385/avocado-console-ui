@@ -1,13 +1,14 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	DISCONNECTION_FAILURE,
-	DISCONNECTION_REQUEST,
-	DISCONNECTION_SUCCESS,
+	commandLsAction,
+	MKDIR_SUCCESS,
+	RENAME_FAILURE,
+	RENAME_REQUEST,
+	RENAME_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
-import {CLOSE_TAB} from '../../reducers/common';
 
 function* messageReader(data, payload, type) {
 	const {uuid} = payload;
@@ -23,31 +24,37 @@ function* messageReader(data, payload, type) {
 				console.log('response status: ', response.getStatus());
 				if (
 					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.DISCONNECT
+					SFTP.Response.ResponseCase.COMMAND
 				) {
-					const disconnect = response.getDisconnect();
-					console.log(disconnect);
-					yield put({
-						type: DISCONNECTION_SUCCESS,
-						payload: {
-							uuid,
-						},
-					});
+					const command = response.getCommand();
+
+					switch (command.getCommandCase()) {
+						case SFTP.CommandResponse.CommandCase.RENAME: {
+							const rename = command.getRename();
+							console.log('command : rename', rename);
+							yield put({
+								type: RENAME_SUCCESS,
+								payload: {
+									uuid,
+								},
+							});
+							return {type: RENAME_SUCCESS};
+						}
+					}
 				}
 			}
 		}
 	} catch (err) {
 		switch (type) {
-			case DISCONNECTION_REQUEST:
+			case RENAME_REQUEST:
 				yield put({
-					type: DISCONNECTION_FAILURE,
+					type: RENAME_FAILURE,
 					payload: {
-						errorMessage: 'Error while command disconnect',
+						errorMessage: 'Error while command rename',
 					},
 				});
+				break;
 		}
-	} finally {
-		yield put({type: CLOSE_TAB, data: payload.id});
 	}
 }
 
@@ -56,10 +63,12 @@ function* sendCommand(action) {
 		const {type, payload} = action;
 		const channel = yield call(subscribe, payload.socket);
 		switch (type) {
-			case DISCONNECTION_REQUEST:
+			case RENAME_REQUEST:
 				yield call(sftp_ws, {
-					keyword: 'Disconnection',
+					keyword: 'CommandByRename',
 					ws: payload.socket,
+					path: `${payload.path}/${payload.prevName}`,
+					newPath: `${payload.path}/${payload.nextName}`,
 				});
 				break;
 			default:
@@ -67,18 +76,29 @@ function* sendCommand(action) {
 		}
 
 		while (true) {
+			console.log(payload);
 			const data = yield take(channel);
-			yield call(messageReader, data, payload, type);
+			const res = yield call(messageReader, data, payload, type);
+
+			switch (res.type) {
+				case RENAME_SUCCESS:
+					console.log('rename success!');
+					yield put(commandLsAction(payload));
+					break;
+				default:
+					break;
+			}
 		}
 	} catch (err) {
 		console.log(err);
+		//
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(DISCONNECTION_REQUEST, sendCommand);
+	yield takeEvery(RENAME_REQUEST, sendCommand);
 }
 
-export default function* commandDisconnectSaga() {
+export default function* commandRenameSaga() {
 	yield all([fork(watchSendCommand)]);
 }

@@ -13,7 +13,6 @@ import {
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
-	RM_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
@@ -43,13 +42,6 @@ function* messageReader(data, payload, type) {
 							const put = command.getPut();
 							console.log('command : put', put);
 							console.log(put.getProgress());
-							// yield put({
-							// 	type: PUT_SUCCESS,
-							// 	payload: {
-							// 		uuid,
-							// 		percent: put.getProgress(),
-							// 	},
-							// });
 							return {
 								type: PUT_SUCCESS,
 								last: put.getLast(),

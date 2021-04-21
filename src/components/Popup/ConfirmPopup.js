@@ -92,15 +92,8 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 					dispatch(
 						commandRenameAction({
 							...server,
-							path:
-								mode === 'list'
-									? `${path}/${value.fileName}`
-									: `${value.path}/${value.item.fileName}`,
-
-							newPath:
-								mode === 'list'
-									? `${path}/${formValue}`
-									: `${value.path}/${formValue}`,
+							prevName: value.fileName,
+							nextName: formValue,
 						}),
 					);
 				}

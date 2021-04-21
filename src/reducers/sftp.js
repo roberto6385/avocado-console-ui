@@ -164,6 +164,7 @@ const sftp = (state = initialState, action) =>
 					fileList: [],
 					highlight: [],
 					history: [],
+					renamePath: '',
 				});
 				break;
 			case CONNECTION_FAILURE:
