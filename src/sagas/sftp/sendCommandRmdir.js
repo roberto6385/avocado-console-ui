@@ -11,13 +11,12 @@ import {
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
-	MKDIR_SUCCESS,
 	RMDIR_FAILURE,
 	RMDIR_REQUEST,
 	RMDIR_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
-import {createWebsocketChannel} from './sendConnect';
+import {subscribe} from './channel';
 
 function* messageReader(data, payload, type) {
 	const {uuid} = payload;
@@ -72,7 +71,7 @@ function* messageReader(data, payload, type) {
 function* sendCommand(action) {
 	try {
 		const {type, payload} = action;
-		const channel = yield call(createWebsocketChannel, payload.socket);
+		const channel = yield call(subscribe, payload.socket);
 		switch (type) {
 			case RMDIR_REQUEST:
 				yield call(sftp_ws, {

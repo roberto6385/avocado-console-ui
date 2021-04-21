@@ -2,7 +2,7 @@ import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
-import {createWebsocketChannel} from './sendConnect';
+import {subscribe} from './channel';
 import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload, type) {
@@ -77,7 +77,7 @@ function* sendCommand(action) {
 	try {
 		const {type, payload} = action;
 		console.log(payload);
-		const channel = yield call(createWebsocketChannel, payload.socket);
+		const channel = yield call(subscribe, payload.socket);
 		switch (type) {
 			case LS_REQUEST:
 				yield call(sftp_ws, {
