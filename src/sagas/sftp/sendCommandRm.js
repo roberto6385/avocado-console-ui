@@ -1,18 +1,7 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	takeLatest,
-	actionChannel,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
-	addHistoryAction,
-	commandLsAction,
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,

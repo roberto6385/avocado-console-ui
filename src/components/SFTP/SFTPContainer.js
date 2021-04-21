@@ -18,7 +18,6 @@ const SFTPContainer = ({uuid}) => {
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
-			console.log('body를 클릭했습니다.');
 			if (currentServer?.highlight.length === 0) {
 				return;
 			}
@@ -50,7 +49,6 @@ const SFTPContainer = ({uuid}) => {
 				!context.includes(root)
 				// 현재 처음에만 적용되고 이후에는 모든 조건이 성립하는 에러있음.
 			) {
-				console.log('영역 밖 입니다.');
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
@@ -58,7 +56,6 @@ const SFTPContainer = ({uuid}) => {
 	);
 
 	useEffect(() => {
-		// initialWork();
 		body.addEventListener('click', focusOut);
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);

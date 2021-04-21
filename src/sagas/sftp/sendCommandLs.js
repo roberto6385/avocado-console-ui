@@ -1,6 +1,11 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {
+	commandLsAction,
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 import {listConversion} from '../../components/SFTP/commands';

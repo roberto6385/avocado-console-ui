@@ -1,8 +1,7 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
-	MKDIR_SUCCESS,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
@@ -10,10 +9,9 @@ import {
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
-function* messageReader(data, payload, type) {
+function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
-	console.log(type);
 	console.log(data);
 	try {
 		if (data instanceof ArrayBuffer) {
@@ -45,49 +43,36 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
-		switch (type) {
-			case RENAME_REQUEST:
-				yield put({
-					type: RENAME_FAILURE,
-					payload: {
-						errorMessage: 'Error while command rename',
-					},
-				});
-				break;
-		}
+		yield put({
+			type: RENAME_FAILURE,
+			payload: {
+				errorMessage: 'Error while command rename',
+			},
+		});
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand(payload) {
 	try {
-		const {type, payload} = action;
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case RENAME_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByRename',
-					ws: payload.socket,
-					path: `${payload.path}/${payload.prevName}`,
-					newPath: `${payload.path}/${payload.nextName}`,
-				});
+		yield call(sftp_ws, {
+			keyword: 'CommandByRename',
+			ws: payload.socket,
+			path: `${payload.path}/${payload.prevName}`,
+			newPath: `${payload.path}/${payload.nextName}`,
+		});
+
+		console.log(payload);
+		const data = yield take(channel);
+		const res = yield call(messageReader, data, payload);
+
+		switch (res.type) {
+			case RENAME_SUCCESS:
+				console.log('rename success!');
+				yield put(commandLsAction(payload));
 				break;
 			default:
 				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-
-			switch (res.type) {
-				case RENAME_SUCCESS:
-					console.log('rename success!');
-					yield put(commandLsAction(payload));
-					break;
-				default:
-					break;
-			}
 		}
 	} catch (err) {
 		console.log(err);
@@ -96,7 +81,11 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(RENAME_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(RENAME_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+	}
 }
 
 export default function* commandRenameSaga() {

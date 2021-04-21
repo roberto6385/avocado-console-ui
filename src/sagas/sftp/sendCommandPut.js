@@ -5,24 +5,22 @@ import {
 	take,
 	put,
 	takeEvery,
-	takeLatest,
+	actionChannel,
 } from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	commandLsAction,
+	ADD_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
+	RM_REQUEST,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
-function* messageReader(data, payload, type) {
-	const {uuid} = payload;
-	console.log(payload);
-	console.log(type);
-	console.log(data);
-	// return new Promise(function (resolve) {
+function* messageReader(data, payload) {
+	const {uuid, uploadFile} = payload;
+	console.log(uploadFile);
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -35,17 +33,43 @@ function* messageReader(data, payload, type) {
 					SFTP.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
-					console.log(command.getCommandCase());
-					console.log(SFTP.CommandResponse.CommandCase.PUT);
 					switch (command.getCommandCase()) {
 						case SFTP.CommandResponse.CommandCase.PUT: {
-							const put = command.getPut();
-							console.log('command : put', put);
-							console.log(put.getProgress());
+							const resPut = command.getPut();
+							console.log('command : put', resPut);
+							console.log(resPut.getProgress());
+							console.log(resPut.getLast());
+							// if (
+							// 	resPut.getLast() &&
+							// 	resPut.getProgress() === 100
+							// ) {
+							yield put({
+								type: PUT_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									percent: resPut.getProgress(),
+								},
+							});
+							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid,
+									name: uploadFile.name,
+									size: uploadFile.size,
+									todo: 'put',
+									progress: resPut.getProgress(),
+								},
+							});
+							// }
+							// yield take(
+							// 	PUT_SUCCESS,
+							// 	commandLsAction(payload),
+							// );
+							// }
 							return {
 								type: PUT_SUCCESS,
-								last: put.getLast(),
-								percent: put.getProgress(),
+								last: resPut.getLast(),
+								percent: resPut.getProgress(),
 							};
 						}
 					}
@@ -53,6 +77,7 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
+		console.log(err);
 		yield put({
 			type: PUT_FAILURE,
 			payload: {
@@ -62,49 +87,32 @@ function* messageReader(data, payload, type) {
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand(payload) {
+	console.log(payload);
 	try {
-		const {type, payload} = action;
+		yield call(sftp_ws, {
+			keyword: 'CommandByPut',
+			ws: payload.socket,
+			path: payload.path,
+			uploadFile: payload.uploadFile,
+		});
+		// while (true) {
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case PUT_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByPut',
-					ws: payload.socket,
-					path: payload.path,
-					uploadFile: payload.uploadFile,
-				});
-				break;
-			default:
-				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
-			console.log(res);
-
-			if (res?.last && res?.percent === 100) {
-				yield put({
-					type: PUT_SUCCESS,
-					payload: {uuid: payload.uuid, percent: res.percent},
-				});
-				yield takeLatest(
-					PUT_SUCCESS,
-					yield put(commandLsAction(payload)),
-				);
-			}
-		}
+		const data = yield take(channel);
+		yield call(messageReader, data, payload);
+		// }
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PUT_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(PUT_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+		// yield takeLatest(RM_SUCCESS, yield call(commandLsAction, payload));
+	}
 }
 
 export default function* commandPutSaga() {

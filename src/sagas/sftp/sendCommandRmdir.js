@@ -1,17 +1,7 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	takeLatest,
-	debounce,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	commandLsAction,
-	RM_SUCCESS,
+	ADD_HISTORY,
 	RMDIR_FAILURE,
 	RMDIR_REQUEST,
 	RMDIR_SUCCESS,
@@ -19,10 +9,9 @@ import {
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
-function* messageReader(data, payload, type) {
+function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
-	console.log(type);
 	console.log(data);
 	try {
 		if (data instanceof ArrayBuffer) {
@@ -42,6 +31,16 @@ function* messageReader(data, payload, type) {
 							const rmdir = command.getRmdir();
 							console.log('command : rmdir', rmdir);
 							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid,
+									name: payload.fileName,
+									size: payload.fileSize,
+									todo: 'rm',
+									progress: 100,
+								},
+							});
+							yield put({
 								type: RMDIR_SUCCESS,
 								payload: {
 									uuid,
@@ -56,51 +55,38 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
-		switch (type) {
-			case RMDIR_REQUEST:
-				yield put({
-					type: RMDIR_FAILURE,
-					payload: {
-						errorMessage: 'Error while command rmdir',
-					},
-				});
-				break;
-		}
+		yield put({
+			type: RMDIR_FAILURE,
+			payload: {
+				errorMessage: 'Error while command rmdir',
+			},
+		});
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand(payload) {
 	try {
-		const {type, payload} = action;
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case RMDIR_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByRmdir',
-					ws: payload.socket,
-					path: `${payload.path}/${payload.fileName}`,
-				});
-				break;
-			default:
-				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			yield call(messageReader, data, payload, type);
-			yield takeLatest(
-				RMDIR_SUCCESS,
-				yield put(commandLsAction(payload)),
-			);
-		}
+		yield call(sftp_ws, {
+			keyword: 'CommandByRmdir',
+			ws: payload.socket,
+			path: `${payload.path}/${payload.fileName}`,
+		});
+		const data = yield take(channel);
+		yield call(messageReader, data, payload);
+		// yield takeLatest(RMDIR_SUCCESS, yield put(commandLsAction(payload)));
 	} catch (err) {
 		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(RMDIR_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(RMDIR_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+		// yield takeLatest(RMDIR_SUCCESS, yield call(commandLsAction, payload));
+	}
 }
 
 export default function* commandRmdirSaga() {
