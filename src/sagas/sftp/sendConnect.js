@@ -1,8 +1,8 @@
-import {actionChannel, all, call, fork, put, take} from 'redux-saga/effects';
+import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {
-	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
+	DISCONNECTION_FAILURE,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import SFTP from '../../dist/sftp_pb';
@@ -25,7 +25,6 @@ function createWebsocket(payload) {
 }
 
 function* messageReader(data, payload, socket) {
-	console.log(data);
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -56,7 +55,6 @@ function* messageReader(data, payload, socket) {
 								type: 'SFTP',
 								ws: socket,
 								uuid: connect.getUuid(),
-								mode: 'list',
 							},
 						}),
 					);
@@ -65,23 +63,26 @@ function* messageReader(data, payload, socket) {
 		}
 	} catch (err) {
 		yield put({
-			type: CONNECTION_FAILURE,
+			type: DISCONNECTION_FAILURE,
 			payload: {
-				errorMessage: 'Error while command connecting',
+				errorMessage: 'Error while command disconnect',
 			},
 		});
 	}
 }
+function* sendConnect({payload}) {
+	console.log(payload);
+	let socket;
+	let channel;
+	socket = yield call(createWebsocket, payload);
+	channel = yield call(subscribe, socket);
+	yield call(sftp_ws, {
+		keyword: 'Connection',
+		ws: socket,
+		data: payload,
+	});
 
-function* sendCommand(payload) {
 	try {
-		const socket = yield call(createWebsocket, payload);
-		const channel = yield call(subscribe, socket);
-		yield call(sftp_ws, {
-			keyword: 'Connection',
-			ws: socket,
-			data: payload,
-		});
 		const data = yield take(channel); // 메시지가 send 될 때
 		yield call(messageReader, data, payload, socket);
 	} catch (err) {
@@ -90,11 +91,7 @@ function* sendCommand(payload) {
 }
 
 function* watchSendConnect() {
-	const reqChannel = yield actionChannel(CONNECTION_REQUEST);
-	while (true) {
-		const {payload} = yield take(reqChannel);
-		yield call(sendCommand, payload);
-	}
+	yield takeLatest(CONNECTION_REQUEST, sendConnect);
 }
 export default function* connectSaga() {
 	yield all([fork(watchSendConnect)]);

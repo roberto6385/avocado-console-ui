@@ -163,7 +163,6 @@ const sftp = (state = initialState, action) =>
 				draft.loading = false;
 				draft.server.push({
 					socket: action.payload.socket,
-					channel: action.payload.channel,
 					status: 'none',
 					responseStatus: action.payload.responseStatus,
 					errorMessage: '',
