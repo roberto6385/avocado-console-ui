@@ -1,4 +1,12 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeEvery,
+	takeLatest,
+} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
@@ -78,22 +86,11 @@ function* sendCommand(action) {
 		while (true) {
 			console.log(payload);
 			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
-			console.log(res);
-
-			// switch (res.type) {
-			// 	case RM_SUCCESS:
-			// 		console.log('rm success!');
-			// 		yield put(commandLsAction(payload));
-			// 		break;
-			// 	default:
-			// 		break;
-			// }
+			yield call(messageReader, data, payload, type);
+			yield takeLatest(RM_SUCCESS, yield put(commandLsAction(payload)));
 		}
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 

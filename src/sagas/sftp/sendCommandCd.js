@@ -14,7 +14,6 @@ function* messageReader(data, payload, type) {
 	console.log(payload);
 	console.log(type);
 	console.log(data);
-	// return new Promise(function (resolve) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

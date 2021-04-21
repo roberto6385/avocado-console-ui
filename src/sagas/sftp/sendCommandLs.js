@@ -93,17 +93,7 @@ function* sendCommand(action) {
 		while (true) {
 			console.log(payload);
 			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
-			console.log(res);
-
-			switch (res.type) {
-				case LS_SUCCESS:
-					console.log('ls success!');
-					break;
-				default:
-					break;
-			}
+			yield call(messageReader, data, payload, type);
 		}
 	} catch (err) {
 		console.log(err);

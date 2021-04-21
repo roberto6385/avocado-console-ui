@@ -6,12 +6,16 @@ export function subscribe(socket) {
 			emit(event.data);
 		};
 
+		socket.onerror = () => {
+			socket.close();
+		};
+
 		socket.onclose = () => {
 			emit(END);
 		};
 
 		return () => {
-			socket.onmessage = null;
+			//
 		};
 	});
 }

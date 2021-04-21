@@ -96,27 +96,19 @@ function* sendCommand(action) {
 			console.log(payload);
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
 			console.log(res);
 
-			switch (res.type) {
-				case PWD_SUCCESS:
-					console.log('pwd success!');
-					yield put(commandLsAction({...payload, path: res.path}));
-					// 드롭다운 방식은 / 부터 현재 경로까지 모든 경로를 ls 해야하기 때문에
-					// 그러나 지금은 dropdown은 제외하고 구현중...
-					// for (const key of res.pathList) {
-					// 	yield put(
-					// 		commandLsAction({
-					// 			...payload,
-					// 			path: res.pathList[res.pathList.length - 1],
-					// 		}),
-					// 	);
-					// }
-					break;
-				default:
-					break;
-			}
+			yield put(commandLsAction({...payload, path: res.path}));
+			// 드롭다운 방식은 / 부터 현재 경로까지 모든 경로를 ls 해야하기 때문에
+			// 그러나 지금은 dropdown은 제외하고 구현중...
+			// for (const key of res.pathList) {
+			// 	yield put(
+			// 		commandLsAction({
+			// 			...payload,
+			// 			path: res.pathList[res.pathList.length - 1],
+			// 		}),
+			// 	);
+			// }
 		}
 	} catch (err) {
 		console.log(err);

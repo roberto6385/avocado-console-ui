@@ -34,7 +34,6 @@ function* messageReader(data, payload, type) {
 							uuid,
 						},
 					});
-					return {type: DISCONNECTION_SUCCESS};
 				}
 			}
 		}
@@ -47,8 +46,9 @@ function* messageReader(data, payload, type) {
 						errorMessage: 'Error while command disconnect',
 					},
 				});
-				return {type: DISCONNECTION_FAILURE};
 		}
+	} finally {
+		yield put({type: CLOSE_TAB, data: payload.id});
 	}
 }
 
@@ -69,20 +69,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-
-			switch (res.type) {
-				case DISCONNECTION_SUCCESS:
-					console.log('disconnection success!');
-					yield put({type: CLOSE_TAB, data: payload.id});
-					break;
-				case DISCONNECTION_FAILURE:
-					console.log('disconnection fail!');
-					yield put({type: CLOSE_TAB, data: payload.id});
-					break;
-				default:
-					break;
-			}
+			yield call(messageReader, data, payload, type);
 		}
 	} catch (err) {
 		console.log(err);

@@ -11,6 +11,7 @@ import {
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
+	RM_SUCCESS,
 	RMDIR_FAILURE,
 	RMDIR_REQUEST,
 	RMDIR_SUCCESS,
@@ -87,24 +88,14 @@ function* sendCommand(action) {
 		while (true) {
 			console.log(payload);
 			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-			// yield debounce(
-			// 	1000,
-			// 	MKDIR_SUCCESS,
-			// 	yield put(commandLsAction(payload)),
-			// );
-			// switch (res.type) {
-			// 	case RMDIR_SUCCESS:
-			// 		console.log('rmdir success!');
-			// 		yield put(commandLsAction(payload));
-			// 		break;
-			// 	default:
-			// 		break;
-			// }
+			yield call(messageReader, data, payload, type);
+			yield takeLatest(
+				RMDIR_SUCCESS,
+				yield put(commandLsAction(payload)),
+			);
 		}
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 

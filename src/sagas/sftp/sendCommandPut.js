@@ -1,10 +1,19 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeEvery,
+	takeLatest,
+} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	commandLsAction,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
+	RM_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
@@ -34,15 +43,13 @@ function* messageReader(data, payload, type) {
 							const put = command.getPut();
 							console.log('command : put', put);
 							console.log(put.getProgress());
-							// yield call(
-							// 	yield put({
-							// 		type: PUT_SUCCESS,
-							// 		payload: {
-							// 			uuid,
-							// 			percent: put.getProgress(),
-							// 		},
-							// 	}),
-							// );
+							// yield put({
+							// 	type: PUT_SUCCESS,
+							// 	payload: {
+							// 		uuid,
+							// 		percent: put.getProgress(),
+							// 	},
+							// });
 							return {
 								type: PUT_SUCCESS,
 								last: put.getLast(),
@@ -87,20 +94,15 @@ function* sendCommand(action) {
 			console.log(payload);
 			console.log(res);
 
-			switch (res.type) {
-				case PUT_SUCCESS:
-					if (res.last && res.percent === 100) {
-						yield put({
-							type: PUT_SUCCESS,
-							payload: {uuid: payload.uuid, percent: res.percent},
-						});
-						// rm, rmdir, put 에서 모두
-						// sendCommandLs line 109 Error 발생
-						// yield put(commandLsAction(payload));
-					}
-					break;
-				default:
-					break;
+			if (res.last && res.percent === 100) {
+				yield put({
+					type: PUT_SUCCESS,
+					payload: {uuid: payload.uuid, percent: res.percent},
+				});
+				yield takeLatest(
+					PUT_SUCCESS,
+					yield put(commandLsAction(payload)),
+				);
 			}
 		}
 	} catch (err) {
