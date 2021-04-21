@@ -86,7 +86,7 @@ function* sendCommand(action) {
 			console.log(payload);
 			console.log(res);
 
-			if (res.last && res.percent === 100) {
+			if (res?.last && res?.percent === 100) {
 				yield put({
 					type: PUT_SUCCESS,
 					payload: {uuid: payload.uuid, percent: res.percent},

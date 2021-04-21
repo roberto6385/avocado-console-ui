@@ -46,6 +46,11 @@ export const PUT_REQUEST = 'sftp/PUT_REQUEST';
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
 export const PUT_FAILURE = 'sftp/PUT_FAILURE';
 
+// get
+export const GET_REQUEST = 'sftp/GET_REQUEST';
+export const GET_SUCCESS = 'sftp/GET_SUCCESS';
+export const GET_FAILURE = 'sftp/GET_FAILURE';
+
 // 에러
 export const ERROR = 'sftp/ERROR';
 
@@ -69,6 +74,11 @@ export const connectionAction = (payload) => ({
 
 export const commandPutAction = (payload) => ({
 	type: PUT_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const commandGetAction = (payload) => ({
+	type: GET_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
 
@@ -164,7 +174,6 @@ const sftp = (state = initialState, action) =>
 					fileList: [],
 					highlight: [],
 					history: [],
-					renamePath: '',
 				});
 				break;
 			case CONNECTION_FAILURE:

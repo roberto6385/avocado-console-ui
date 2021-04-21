@@ -20,6 +20,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	commandGetAction,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 
@@ -34,12 +35,15 @@ const FileListContents = ({server}) => {
 	const download = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
+			console.log(server);
 			if (item.fileName !== '..' && item.fileType !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				// downloadWork('list', [item]);
+				dispatch(
+					commandGetAction({...server, fileName: item.fileName}),
+				);
 			}
 		},
-		[],
+		[server],
 	);
 
 	const contextMenuOpen = useCallback(

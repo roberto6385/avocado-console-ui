@@ -145,9 +145,6 @@ const sendCommandByRename = (ws, path, newPath) => {
 };
 
 const sendCommandByGet = (ws, path, fileName) => {
-	// this.setState({
-	// 	progress: 0,
-	// });
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();

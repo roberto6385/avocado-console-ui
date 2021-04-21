@@ -10,6 +10,7 @@ import commandMkdirSaga from './sendCommandMkdir';
 import commandRmSaga from './sendCommandRm';
 import commandRmdirSaga from './sendCommandRmdir';
 import commandPutSaga from './sendCommandPut';
+import commandGetSaga from './sendCommandGet';
 import commandRenameSaga from './sendCommandRename';
 
 export default function* sftpSaga() {
@@ -23,6 +24,7 @@ export default function* sftpSaga() {
 		yield fork(commandRmSaga),
 		yield fork(commandRmdirSaga),
 		yield fork(commandPutSaga),
+		yield fork(commandGetSaga),
 		yield fork(commandRenameSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
