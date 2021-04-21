@@ -1,19 +1,16 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
-import {SFTP_SAVE_CURRENT_MODE} from '../../reducers/subSftp';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
 import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
-import useConfirmActions from '../../hooks/useConfirmActions';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import useInput from '../../hooks/useInput';
 import {
 	CHANGE_MODE,
 	commandRenameAction,
-	commandRemoveAction,
 	commandMkdirAction,
 	commandRmAction,
 	commandRmdirAction,
@@ -76,13 +73,15 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 						? dispatch(
 								commandRmAction({
 									...server,
-									deletePath: `${path}/${value.fileName}`,
+									fileName: value.fileName,
+									fileSize: value.fileSize,
 								}),
 						  )
 						: dispatch(
 								commandRmdirAction({
 									...server,
-									deletePath: `${path}/${value.fileName}`,
+									fileName: value.fileName,
+									fileSize: value.fileSize,
 								}),
 						  );
 				}

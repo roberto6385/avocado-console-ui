@@ -22,51 +22,45 @@ import {
 import useSftpCommands from '../../../hooks/useSftpCommands';
 
 const HistoryContents = ({server}) => {
-	const {socket, uuid} = server;
-	const {initialWork} = useSftpCommands({ws: socket, uuid});
+	const {socket, uuid, history} = server;
+	// const {initialWork} = useSftpCommands({ws: socket, uuid});
 	const {History} = useSelector((state) => state.subSftp);
 	const eachHistory = History.filter((it) => it.uuid === uuid);
-	const [highlight, setHighlight] = useState([]);
+	// const [highlight, setHighlight] = useState([]);
 	const {uploadWork} = useSftpCommands({ws: socket, uuid});
 
 	const upload = useCallback(async (files) => {
-		uploadWork(files).then(() => initialWork());
+		// uploadWork(files).then(() => initialWork());
 	}, []);
 
-	const selectItem = useCallback(
-		(e, history) => {
-			if (e.shiftKey) {
-				if (!highlight.includes(history)) {
-					setHighlight([...highlight, history]);
-				}
-			} else {
-				if (highlight.includes(history)) {
-					setHighlight([]);
-				} else {
-					setHighlight([history]);
-				}
-			}
-		},
-		[highlight],
-	);
+	const selectItem = useCallback((e, history) => {
+		// if (e.shiftKey) {
+		// 	if (!highlight.includes(history)) {
+		// 		setHighlight([...highlight, history]);
+		// 	}
+		// } else {
+		// 	if (highlight.includes(history)) {
+		// 		setHighlight([]);
+		// 	} else {
+		// 		setHighlight([history]);
+		// 	}
+		// }
+	}, []);
 
 	const {show} = useContextMenu({
 		id: uuid + 'history',
 	});
 
-	const contextMenuOpen = useCallback(
-		(e, history) => {
-			if (!highlight.includes(history)) {
-				setHighlight([history]);
-			}
-			show(e);
-		},
-		[highlight],
-	);
+	const contextMenuOpen = useCallback((e, history) => {
+		// if (!highlight.includes(history)) {
+		// 	setHighlight([history]);
+		// }
+		show(e);
+	}, []);
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
-			{eachHistory.length === 0 ? (
+			{history.length === 0 ? (
 				<NoHistory>
 					<FaCloudUploadAlt
 						style={{fontSize: '50px', color: `${MAIN_COLOR}`}}
@@ -75,18 +69,18 @@ const HistoryContents = ({server}) => {
 				</NoHistory>
 			) : (
 				<CustomUl>
-					{eachHistory.map((history) => {
+					{history.map((history) => {
 						return (
 							<CustomLi
 								onContextMenu={(e) =>
 									contextMenuOpen(e, history)
 								}
-								key={history.id}
-								className={
-									highlight.includes(history)
-										? 'history_list active'
-										: 'history_list'
-								}
+								key={history.HISTORY_ID}
+								// className={
+								// highlight.includes(history)
+								// 	? 'history_list active'
+								// 	: 'history_list'
+								// }
 								onClick={(e) => selectItem(e, history)}
 							>
 								<FlexSpaceBetween>
@@ -136,11 +130,11 @@ const HistoryContents = ({server}) => {
 					})}
 				</CustomUl>
 			)}
-			<HistoryContextMenu
-				uuid={uuid}
-				highlight={highlight}
-				setHighlight={setHighlight}
-			/>
+			{/*<HistoryContextMenu*/}
+			{/*	uuid={uuid}*/}
+			{/*	highlight={highlight}*/}
+			{/*	setHighlight={setHighlight}*/}
+			{/*/>*/}
 		</Dropzone>
 	);
 };

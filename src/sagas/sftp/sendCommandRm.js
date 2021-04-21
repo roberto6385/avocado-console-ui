@@ -6,9 +6,12 @@ import {
 	put,
 	takeEvery,
 	takeLatest,
+	actionChannel,
 } from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
+	ADD_HISTORY,
+	addHistoryAction,
 	commandLsAction,
 	RM_FAILURE,
 	RM_REQUEST,
@@ -17,10 +20,9 @@ import {
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
-function* messageReader(data, payload, type) {
+function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
-	console.log(type);
 	console.log(data);
 	// return new Promise(function (resolve) {
 	try {
@@ -40,6 +42,16 @@ function* messageReader(data, payload, type) {
 							const rm = command.getRm();
 							console.log('command : rm', rm);
 							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid,
+									name: payload.fileName,
+									size: payload.fileSize,
+									todo: 'rm',
+									progress: 100,
+								},
+							});
+							yield put({
 								type: RM_SUCCESS,
 								payload: {
 									uuid,
@@ -54,48 +66,38 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
-		switch (type) {
-			case RM_REQUEST:
-				yield put({
-					type: RM_FAILURE,
-					payload: {
-						errorMessage: 'Error while command rm',
-					},
-				});
-				break;
-		}
+		console.log(err);
+		yield put({
+			type: RM_FAILURE,
+			payload: {
+				errorMessage: 'Error while command rm',
+			},
+		});
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand(payload) {
 	try {
-		const {type, payload} = action;
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case RM_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByRm',
-					ws: payload.socket,
-					path: payload.deletePath,
-				});
-				break;
-			default:
-				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			yield call(messageReader, data, payload, type);
-			yield takeLatest(RM_SUCCESS, yield put(commandLsAction(payload)));
-		}
+		yield call(sftp_ws, {
+			keyword: 'CommandByRm',
+			ws: payload.socket,
+			path: `${payload.path}/${payload.fileName}`,
+		});
+		const data = yield take(channel);
+		yield call(messageReader, data, payload);
 	} catch (err) {
 		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(RM_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(RM_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+		// yield takeLatest(RM_SUCCESS, yield call(commandLsAction, payload));
+	}
 }
 
 export default function* commandRmSaga() {

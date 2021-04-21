@@ -65,6 +65,8 @@ export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 export const ADD_HISTORY = 'sftp/ADD_HISTORY';
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 
+let HISTORY_ID = 0;
+
 // actions
 
 export const connectionAction = (payload) => ({
@@ -123,6 +125,11 @@ export const commandRenameAction = (payload) => ({
 
 export const errorAction = (payload) => ({
 	type: ERROR,
+	payload,
+});
+
+export const addHistoryAction = (payload) => ({
+	type: ADD_HISTORY,
 	payload,
 });
 
@@ -281,7 +288,8 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case ADD_HISTORY:
-				target.history.unshift(action.payload);
+				target.history.unshift({...action.payload, HISTORY_ID});
+				HISTORY_ID++;
 				break;
 			case REMOVE_HISTORY:
 				break;

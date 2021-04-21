@@ -78,7 +78,7 @@ function* sendCommand(action) {
 				yield call(sftp_ws, {
 					keyword: 'CommandByRmdir',
 					ws: payload.socket,
-					path: payload.deletePath,
+					path: `${payload.path}/${payload.fileName}`,
 				});
 				break;
 			default:

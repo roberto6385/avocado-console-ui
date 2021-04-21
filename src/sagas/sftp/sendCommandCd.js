@@ -1,4 +1,4 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	CD_FAILURE,
@@ -9,10 +9,9 @@ import {
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 
-function* messageReader(data, payload, type) {
+function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
-	console.log(type);
 	console.log(data);
 	try {
 		if (data instanceof ArrayBuffer) {
@@ -44,51 +43,35 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
-		switch (type) {
-			case CD_REQUEST:
-				yield put({
-					type: CD_FAILURE,
-					payload: {
-						errorMessage: 'Error while command cd',
-					},
-				});
-				break;
-		}
+		yield put({
+			type: CD_FAILURE,
+			payload: {
+				errorMessage: 'Error while command cd',
+			},
+		});
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand(payload) {
 	try {
-		const {type, payload} = action;
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case CD_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByCd',
-					ws: payload.socket,
-					path: payload.newPath,
-				});
+		yield call(sftp_ws, {
+			keyword: 'CommandByCd',
+			ws: payload.socket,
+			path: payload.newPath,
+		});
+
+		const data = yield take(channel);
+		const res = yield call(messageReader, data, payload);
+
+		switch (res.type) {
+			case CD_SUCCESS:
+				console.log('cd success!');
+				yield put(commandPwdAction(payload));
+				// }
 				break;
 			default:
 				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			const res = yield call(messageReader, data, payload, type);
-			console.log(payload);
-			console.log(res);
-
-			switch (res.type) {
-				case CD_SUCCESS:
-					console.log('cd success!');
-					yield put(commandPwdAction(payload));
-					// }
-					break;
-				default:
-					break;
-			}
 		}
 	} catch (err) {
 		console.log(err);
@@ -96,7 +79,11 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(CD_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(CD_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+	}
 }
 
 export default function* commandCdSaga() {

@@ -63,7 +63,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 		const correspondedServer = server.find((i) => i.id === data.id);
 		dispatch(
 			connectionAction({
-				server: correspondedServer,
+				...correspondedServer,
 				token: userTicket,
 			}),
 		);

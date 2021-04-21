@@ -1,16 +1,14 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 import {listConversion} from '../../components/SFTP/commands';
 
-function* messageReader(data, payload, type) {
+function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
-	console.log(type);
 	console.log(data);
-	// return new Promise(function (resolve) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -59,50 +57,37 @@ function* messageReader(data, payload, type) {
 			}
 		}
 	} catch (err) {
-		switch (type) {
-			case LS_REQUEST:
-				yield put({
-					type: LS_FAILURE,
-					payload: {
-						errorMessage: 'Error while command ls',
-					},
-				});
-				break;
-		}
+		yield put({
+			type: LS_FAILURE,
+			payload: {
+				errorMessage: 'Error while command ls',
+			},
+		});
 	}
 }
 
-function* sendCommand(action) {
-	console.log(action);
+function* sendCommand(payload) {
 	try {
-		const {type, payload} = action;
 		console.log(payload);
 		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case LS_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByLs',
-					ws: payload.socket,
-					path: payload.path,
-				});
-				break;
-			default:
-				break;
-		}
-
-		while (true) {
-			console.log(payload);
-			const data = yield take(channel);
-			yield call(messageReader, data, payload, type);
-		}
+		yield call(sftp_ws, {
+			keyword: 'CommandByLs',
+			ws: payload.socket,
+			path: payload.path,
+		});
+		const data = yield take(channel);
+		yield call(messageReader, data, payload);
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		yield call(sendCommand, payload);
+	}
 }
 
 export default function* commandLsSaga() {

@@ -19,7 +19,7 @@ const ConvertSFTP = ({server_id}) => {
 		if (server.includes(data)) {
 			dispatch(
 				connectionAction({
-					server: data,
+					...data,
 					token: userTicket,
 				}),
 			);

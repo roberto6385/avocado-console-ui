@@ -1,11 +1,11 @@
 import SFTP from '../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
-const sendConnect = (ws, token, data) => {
+const sendConnect = (ws, data) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var connect = new SFTP.ConnectRequest();
-	connect.setToken(token);
+	connect.setToken(data.token);
 	connect.setHost(data.host);
 	connect.setUser(data.user);
 	connect.setPassword(data.password);
@@ -227,16 +227,7 @@ const upload = (ws, path, uploadFile) => {
 	readFile(uploadFile, fileSlices.shift());
 };
 
-const sftp_ws = ({
-	keyword,
-	ws,
-	token,
-	data,
-	path,
-	newPath,
-	fileName,
-	uploadFile,
-}) => {
+const sftp_ws = ({keyword, ws, data, path, newPath, fileName, uploadFile}) => {
 	// return new Promise((resolve) => {
 	const appendBuffer = (buffer1, buffer2) => {
 		var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
@@ -250,7 +241,7 @@ const sftp_ws = ({
 
 	switch (keyword) {
 		case 'Connection':
-			sendConnect(ws, token, data);
+			sendConnect(ws, data);
 			break;
 
 		case 'Disconnection':
