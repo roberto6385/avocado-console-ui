@@ -19,7 +19,6 @@ const FileListContextMenu = ({server}) => {
 	const contextDownload = async () => {
 		// downloadWork(currentlistMode?.mode, highlightItem?.list)
 		for await (let value of highlight) {
-			console.log(value);
 			dispatch(commandGetAction({...server, fileName: value.fileName}));
 		}
 	};

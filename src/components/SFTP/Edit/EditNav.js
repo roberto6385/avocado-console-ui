@@ -1,39 +1,34 @@
 import React, {useCallback, useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {
-	SFTP_SAVE_CURRENT_MODE,
-	SFTP_SAVE_HISTORY,
-} from '../../../reducers/subSftp';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {Navbar, NavItem} from '../../../styles/sftp';
-import useConfirmActions from '../../../hooks/useConfirmActions';
+import {
+	ADD_HISTORY,
+	CHANGE_MODE,
+	CLOSE_EDITOR,
+	commandPutAction,
+	SAVE_TEXT,
+} from '../../../reducers/sftp';
 
-const EditNav = ({ws, uuid}) => {
+const EditNav = ({server}) => {
+	const {uuid, text, editText, editFile, path} = server;
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
-	const {editFile} = useConfirmActions(ws, uuid);
-	const {currentText, currentCompareText, currentPath} = useSelector(
-		(state) => state.subSftp,
-	);
-	const curText = currentText.find((item) => item.uuid === uuid);
-	const compareText = currentCompareText.find((item) => item.uuid === uuid);
-	const curPath = currentPath.find((item) => item.uuid === uuid);
-	const path = curPath?.path;
 
 	const editedFileDownload = useCallback(() => {
 		let link = document.createElement('a');
-		link.download = curText?.name;
-		let blob = new Blob([curText?.text], {type: 'text/plain'});
+		link.download = editFile.fileName;
+		let blob = new Blob([editText], {type: 'text/plain'});
 		link.href = URL.createObjectURL(blob);
 		link.click();
 		URL.revokeObjectURL(link.href);
 		dispatch({
-			type: SFTP_SAVE_HISTORY,
-			data: {
+			type: ADD_HISTORY,
+			payload: {
 				uuid,
-				name: curText?.name,
+				name: editFile.fileName,
 				path: path,
 				size: blob.size,
 				todo: 'get',
@@ -42,27 +37,32 @@ const EditNav = ({ws, uuid}) => {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
-	}, [curText, path]);
+	}, [server]);
 
 	const editedFileSave = useCallback(async () => {
-		await editFile(curText);
-	}, [curText]);
+		const uploadFile = new File([editText], editFile.fileName, {
+			type: 'text/plain',
+		});
+		dispatch({type: SAVE_TEXT, payload: {uuid, text: editText}});
+		dispatch(commandPutAction({...server, uploadFile}));
+	}, [server]);
 
 	const toNormalMode = useCallback(() => {
-		if (curText?.text !== compareText?.text) {
+		if (text !== editText) {
 			setOpen(true);
 		} else {
+			dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 			dispatch({
-				type: SFTP_SAVE_CURRENT_MODE,
-				data: {uuid, mode: 'normal'},
+				type: CHANGE_MODE,
+				payload: {uuid, mode: 'list'},
 			});
 		}
-	}, [curText, compareText, uuid]);
+	}, [server]);
 
 	return (
 		<Navbar>
 			<span style={{fontSize: '14px'}}>
-				{`${path === '/' ? path : `${path}/`}${curText?.name}`}
+				{`${path}/${editFile.fileName}`}
 			</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
 				<NavItem onClick={editedFileDownload}>
@@ -79,16 +79,14 @@ const EditNav = ({ws, uuid}) => {
 				keyword={'edit_file'}
 				open={open}
 				setOpen={setOpen}
-				ws={ws}
-				uuid={uuid}
+				server={server}
 			/>
 		</Navbar>
 	);
 };
 
 EditNav.propTypes = {
-	ws: PropTypes.object.isRequired,
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default EditNav;

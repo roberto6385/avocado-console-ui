@@ -6,14 +6,13 @@ import EditContents from './EditContents';
 import {FlexBox, SFTPBody} from '../../../styles/sftp';
 
 const Edit = ({server}) => {
-	const {socket, uuid} = server;
 	return (
 		<FlexBox>
 			<Card.Header>
-				<EditNav ws={socket} uuid={uuid} />
+				<EditNav server={server} />
 			</Card.Header>
 			<SFTPBody>
-				<EditContents uuid={uuid} />
+				<EditContents server={server} />
 			</SFTPBody>
 		</FlexBox>
 	);

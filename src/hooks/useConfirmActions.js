@@ -117,22 +117,6 @@ const useConfirmActions = (ws, uuid) => {
 				uploadFile: editedFile,
 			}).then(() => {
 				dispatch({
-					type: SFTP_SAVE_CURRENT_TEXT,
-					data: {
-						uuid,
-						text: curText?.text,
-						name: editedFile.name,
-					},
-				});
-				dispatch({
-					type: SFTP_SAVE_COMPARE_TEXT,
-					data: {
-						uuid,
-						text: curText?.text,
-						name: editedFile.name,
-					},
-				});
-				dispatch({
 					type: SFTP_SAVE_HISTORY,
 					data: {
 						uuid,

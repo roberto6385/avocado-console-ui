@@ -51,13 +51,22 @@ export const GET_REQUEST = 'sftp/GET_REQUEST';
 export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 export const GET_FAILURE = 'sftp/GET_FAILURE';
 
+// edit
+export const EDIT_REQUEST = 'sftp/EDIT_REQUEST';
+export const EDIT_SUCCESS = 'sftp/EDIT_SUCCESS';
+export const EDIT_FAILURE = 'sftp/EDIT_FAILURE';
+
 // 에러
-export const ERROR = 'sftp/ERROR';
 
 //etc
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
-export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 
+export const SAVE_TEXT = 'sftp/SAVE_TEXT';
+export const SAVE_FILE_FOR_EDIT = 'sftp/SAVE_FILE_FOR_EDIT';
+export const SAVE_EDITTEXT = 'sftp/SAVE_EDITTEXT';
+export const CLOSE_EDITOR = 'sftp/CLOSE_EDITOR';
+
+export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
 export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
@@ -82,6 +91,10 @@ export const commandPutAction = (payload) => ({
 export const commandGetAction = (payload) => ({
 	type: GET_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
+});
+export const commandEditAction = (payload) => ({
+	type: EDIT_REQUEST,
+	payload,
 });
 
 export const disconnectAction = (payload) => ({
@@ -120,11 +133,6 @@ export const commandCdAction = (payload) => ({
 });
 export const commandRenameAction = (payload) => ({
 	type: RENAME_REQUEST,
-	payload,
-});
-
-export const errorAction = (payload) => ({
-	type: ERROR,
 	payload,
 });
 
@@ -180,6 +188,9 @@ const sftp = (state = initialState, action) =>
 					fileList: [],
 					highlight: [],
 					history: [],
+					text: '',
+					editText: '',
+					editFile: {},
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -250,6 +261,26 @@ const sftp = (state = initialState, action) =>
 				target.highlight = [];
 				break;
 
+			// 텍스트 저장
+			case SAVE_TEXT:
+				target.text = action.payload.text;
+				break;
+
+			case SAVE_FILE_FOR_EDIT:
+				target.editFile = action.payload.editFile;
+				break;
+
+			// 텍스트 저장
+			case SAVE_EDITTEXT:
+				target.editText = action.payload.editText;
+				break;
+
+			case CLOSE_EDITOR:
+				target.text = '';
+				target.editText = '';
+				target.editFile = {};
+				break;
+
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
 				target.mode === 'list'
@@ -291,11 +322,7 @@ const sftp = (state = initialState, action) =>
 				HISTORY_ID++;
 				break;
 			case REMOVE_HISTORY:
-				break;
-
-			//에러
-			case ERROR:
-				draft.errorMessage = action.payload;
+				target.history = [];
 				break;
 
 			default:

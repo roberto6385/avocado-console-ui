@@ -280,7 +280,6 @@ const sftp_ws = ({keyword, ws, data, path, newPath, fileName, uploadFile}) => {
 			sendCommandByRename(ws, path, newPath);
 			break;
 
-		case 'CommandByEdit':
 		case 'CommandByGet':
 			sendCommandByGet(ws, path, fileName);
 			break;

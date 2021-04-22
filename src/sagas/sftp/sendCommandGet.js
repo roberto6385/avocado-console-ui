@@ -1,6 +1,11 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
-import {GET_FAILURE, GET_REQUEST, GET_SUCCESS} from '../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	GET_FAILURE,
+	GET_REQUEST,
+	GET_SUCCESS,
+} from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 let fileBuffer = new ArrayBuffer(0);
@@ -14,11 +19,8 @@ const appendBuffer = (buffer1, buffer2) => {
 
 let getReceiveSum = 0;
 
-function* messageReader(data, payload, type) {
-	const {uuid} = payload;
+function* messageReader(data, payload) {
 	console.log(payload);
-	console.log(type);
-	console.log(data);
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -61,16 +63,11 @@ function* messageReader(data, payload, type) {
 								a.download = payload.fileName;
 								a.click();
 								window.URL.revokeObjectURL(url);
-
-								yield put({
-									type: GET_SUCCESS,
-									payload: {
-										uuid,
-									},
-								});
 							}
 							return {
 								type: GET_SUCCESS,
+								last: get.getLast(),
+								percent,
 							};
 						}
 					}
@@ -87,30 +84,41 @@ function* messageReader(data, payload, type) {
 	}
 }
 
-function* sendCommand(action) {
+function* sendCommand({payload}) {
+	console.log(payload);
+	const channel = yield call(subscribe, payload.socket);
+	yield call(sftp_ws, {
+		keyword: 'CommandByGet',
+		ws: payload.socket,
+		path: payload.path,
+		fileName: payload.fileName,
+	});
 	try {
-		const {type, payload} = action;
-		const channel = yield call(subscribe, payload.socket);
-		switch (type) {
-			case GET_REQUEST:
-				yield call(sftp_ws, {
-					keyword: 'CommandByGet',
-					ws: payload.socket,
-					path: payload.path,
-					fileName: payload.fileName,
-				});
-				break;
-			default:
-				break;
-		}
-
 		while (true) {
 			const data = yield take(channel);
-			yield call(messageReader, data, payload, type);
+			const res = yield call(messageReader, data, payload);
+			if (res.last && res.percent === 100) {
+				yield put({
+					type: GET_SUCCESS,
+					payload: {
+						uuid: payload.uuid,
+						percent: res.percent,
+					},
+				});
+				yield put({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: payload.uuid,
+						name: payload.fileName,
+						size: payload.fileSize,
+						todo: 'get',
+						progress: res.percent,
+					},
+				});
+			}
 		}
 	} catch (err) {
 		console.log(err);
-		//
 	}
 }
 

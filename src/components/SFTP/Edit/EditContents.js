@@ -1,31 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import {SFTP_SAVE_CURRENT_TEXT} from '../../../reducers/subSftp';
+import {useDispatch} from 'react-redux';
 import {TextAreaWrapper} from '../../../styles/sftp';
+import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 
-const EditContents = ({uuid}) => {
-	const {currentText} = useSelector((state) => state.subSftp);
+const EditContents = ({server}) => {
+	const {uuid, editText} = server;
 	const dispatch = useDispatch();
-	const curText = currentText.find((item) => item.uuid === uuid);
-	const [editText, setEditText] = useState(curText?.text);
 	const checked = window.localStorage.getItem('editorCheck');
 
-	const writeText = useCallback(
-		(e) => {
-			const {value} = e.target;
-			setEditText(value);
-			dispatch({
-				type: SFTP_SAVE_CURRENT_TEXT,
-				data: {uuid, text: value, name: curText?.name},
-			});
-		},
-		[curText, uuid],
-	);
-
-	useEffect(() => {
-		setEditText(curText?.text);
-	}, [curText]);
+	const writeText = useCallback((e) => {
+		const {value} = e.target;
+		dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
+	}, []);
 
 	return (
 		<TextAreaWrapper>
@@ -41,7 +28,7 @@ const EditContents = ({uuid}) => {
 };
 
 EditContents.propTypes = {
-	uuid: PropTypes.string.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default EditContents;

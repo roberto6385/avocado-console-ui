@@ -29,6 +29,29 @@ function* messageReader(data, payload) {
 							console.log(resPut.getProgress());
 							console.log(resPut.getLast());
 
+							if (
+								resPut.getLast() &&
+								resPut.getProgress() === 100
+							) {
+								yield put({
+									type: PUT_SUCCESS,
+									payload: {
+										uuid: payload.uuid,
+										percent: resPut.getProgress(),
+									},
+								});
+								yield put({
+									type: ADD_HISTORY,
+									payload: {
+										uuid: payload.uuid,
+										name: payload.uploadFile.name,
+										size: payload.uploadFile.size,
+										todo: 'put',
+										progress: resPut.getProgress(),
+									},
+								});
+							}
+
 							return {
 								type: PUT_SUCCESS,
 								last: resPut.getLast(),
@@ -52,9 +75,7 @@ function* messageReader(data, payload) {
 }
 
 function* sendCommand({payload}) {
-	// for (let value of payload.files) {
 	const channel = yield call(subscribe, payload.socket);
-	// console.log(value);
 	yield call(sftp_ws, {
 		keyword: 'CommandByPut',
 		ws: payload.socket,
@@ -65,25 +86,25 @@ function* sendCommand({payload}) {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload);
-			if (res.last && res.percent === 100) {
-				yield put({
-					type: PUT_SUCCESS,
-					payload: {
-						uuid: payload.uuid,
-						percent: res.percent,
-					},
-				});
-				yield put({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: payload.uuid,
-						name: res.uploadFile.name,
-						size: res.uploadFile.size,
-						todo: 'put',
-						progress: res.percent,
-					},
-				});
-			}
+			// if (res.last && res.percent === 100) {
+			// 	yield put({
+			// 		type: PUT_SUCCESS,
+			// 		payload: {
+			// 			uuid: payload.uuid,
+			// 			percent: res.percent,
+			// 		},
+			// 	});
+			// 	yield put({
+			// 		type: ADD_HISTORY,
+			// 		payload: {
+			// 			uuid: payload.uuid,
+			// 			name: res.uploadFile.name,
+			// 			size: res.uploadFile.size,
+			// 			todo: 'put',
+			// 			progress: res.percent,
+			// 		},
+			// 	});
+			// }
 		}
 	} catch (err) {
 		console.log(err);

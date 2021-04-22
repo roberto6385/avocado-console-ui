@@ -14,6 +14,9 @@ import {
 	commandMkdirAction,
 	commandRmAction,
 	commandRmdirAction,
+	REMOVE_HISTORY,
+	commandPutAction,
+	CLOSE_EDITOR,
 } from '../../reducers/sftp';
 
 const ConfirmMessage = {
@@ -46,7 +49,7 @@ const SAVE_KEYWORDS = [
 const FORM_KEYWORDS = ['rename_work', 'sftp_new_folder', 'add_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, server}) => {
-	const {uuid, path, highlight, mode} = server;
+	const {uuid, path, highlight, mode, editFile, text, editText} = server;
 
 	const dispatch = useDispatch();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -56,7 +59,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 	const justExit = useCallback(() => {
 		dispatch({
 			type: CHANGE_MODE,
-			data: {uuid, mode: 'list'},
+			payload: {uuid, mode: 'list'},
 		});
 	}, []);
 
@@ -108,12 +111,23 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 
 				break;
 			case 'edit_file':
-				// editFile(curText).then(() =>
-				// 	dispatch({
-				// 		type: SFTP_SAVE_CURRENT_MODE,
-				// 		data: {uuid, mode: 'normal'},
-				// 	}),
-				// );
+				// eslint-disable-next-line no-case-declarations
+				const uploadFile = new File([editText], editFile.fileName, {
+					type: 'text/plain',
+				});
+				dispatch(commandPutAction({...server, uploadFile}));
+				dispatch({type: CLOSE_EDITOR, payload: {uuid}});
+				dispatch({
+					type: CHANGE_MODE,
+					payload: {uuid, mode: 'list'},
+				});
+				break;
+
+			case 'delete_history':
+				dispatch({
+					type: REMOVE_HISTORY,
+					payload: {uuid},
+				});
 				break;
 
 			default:

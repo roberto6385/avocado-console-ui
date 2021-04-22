@@ -3,7 +3,6 @@ import {PropTypes} from 'prop-types';
 import FileList from './FileList/FileList';
 import History from './History/History';
 
-import {useSelector} from 'react-redux';
 import Edit from './Edit/Edit';
 import {SftpContainer} from '../../styles/sftp';
 

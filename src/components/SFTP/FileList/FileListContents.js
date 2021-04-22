@@ -21,6 +21,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	commandEditAction,
 	commandGetAction,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
@@ -42,6 +43,16 @@ const FileListContents = ({server}) => {
 				dispatch(
 					commandGetAction({...server, fileName: item.fileName}),
 				);
+			}
+		},
+		[server],
+	);
+	const edit = useCallback(
+		(item) => (e) => {
+			e.stopPropagation();
+			if (item.fileName !== '..' && item.fileType !== 'directory') {
+				// 현재는 디렉토리 다운로드 막아두었음.
+				dispatch(commandEditAction({...server, editFile: item}));
 			}
 		},
 		[server],
@@ -130,11 +141,9 @@ const FileListContents = ({server}) => {
 										item.lastModified}
 								</CustomTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
-								<CustomRightTh
-									onClick={download(item)}
-									flex={0.3}
-								>
+								<CustomRightTh flex={0.3}>
 									<CustomThBtn
+										onClick={edit(item)}
 										color={
 											item.fileType === 'directory'
 												? 'transparent'
@@ -144,6 +153,7 @@ const FileListContents = ({server}) => {
 										<MdEdit />
 									</CustomThBtn>
 									<CustomThBtn
+										onClick={download(item)}
 										color={
 											item.fileName === '..'
 												? 'transparent'
