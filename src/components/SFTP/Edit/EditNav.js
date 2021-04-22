@@ -44,7 +44,7 @@ const EditNav = ({server}) => {
 			type: 'text/plain',
 		});
 		dispatch({type: SAVE_TEXT, payload: {uuid, text: editText}});
-		dispatch(commandPutAction({...server, uploadFile}));
+		dispatch(commandPutAction({...server, uploadFile, keyword: 'edit'}));
 	}, [server]);
 
 	const toNormalMode = useCallback(() => {

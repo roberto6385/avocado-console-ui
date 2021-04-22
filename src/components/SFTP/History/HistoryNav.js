@@ -27,7 +27,13 @@ const HistoryNav = ({server}) => {
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
 			for await (let value of files) {
-				dispatch(commandPutAction({...server, uploadFile: value}));
+				dispatch(
+					commandPutAction({
+						...server,
+						uploadFile: value,
+						keyword: 'put',
+					}),
+				);
 			}
 			console.log('end');
 		};

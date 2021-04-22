@@ -40,16 +40,29 @@ function* messageReader(data, payload) {
 										percent: resPut.getProgress(),
 									},
 								});
-								yield put({
-									type: ADD_HISTORY,
-									payload: {
-										uuid: payload.uuid,
-										name: payload.uploadFile.name,
-										size: payload.uploadFile.size,
-										todo: 'put',
-										progress: resPut.getProgress(),
-									},
-								});
+								if (payload.keyword === 'put') {
+									yield put({
+										type: ADD_HISTORY,
+										payload: {
+											uuid: payload.uuid,
+											name: payload.uploadFile.name,
+											size: payload.uploadFile.size,
+											todo: 'put',
+											progress: resPut.getProgress(),
+										},
+									});
+								} else {
+									yield put({
+										type: ADD_HISTORY,
+										payload: {
+											uuid: payload.uuid,
+											name: payload.uploadFile.name,
+											size: payload.uploadFile.size,
+											todo: 'edit',
+											progress: resPut.getProgress(),
+										},
+									});
+								}
 							}
 
 							return {

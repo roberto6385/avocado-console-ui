@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {toEditMode} from '../commands';
 import useSftpCommands from '../../../hooks/useSftpCommands';
-import {commandGetAction} from '../../../reducers/sftp';
+import {commandEditAction, commandGetAction} from '../../../reducers/sftp';
 
 const FileListContextMenu = ({server}) => {
 	const {uuid, highlight} = server;
@@ -16,14 +16,18 @@ const FileListContextMenu = ({server}) => {
 	// const {downloadWork} = useSftpCommands({ws: socket, uuid});
 
 	const MENU_ID = uuid + 'fileList';
-	const contextDownload = async () => {
+	const contextDownload = () => {
 		// downloadWork(currentlistMode?.mode, highlightItem?.list)
-		for await (let value of highlight) {
+		for (let value of highlight) {
 			dispatch(commandGetAction({...server, fileName: value.fileName}));
 		}
 	};
 
-	const contextEdit = (e) => {};
+	const contextEdit = () => {
+		for (let value of highlight) {
+			dispatch(commandEditAction({...server, editFile: value}));
+		}
+	};
 
 	const handleItemClick = ({event}) => {
 		setKeyword(event.currentTarget.id);

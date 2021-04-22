@@ -115,7 +115,9 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 				const uploadFile = new File([editText], editFile.fileName, {
 					type: 'text/plain',
 				});
-				dispatch(commandPutAction({...server, uploadFile}));
+				dispatch(
+					commandPutAction({...server, uploadFile, keyword: 'edit'}),
+				);
 				dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 				dispatch({
 					type: CHANGE_MODE,
