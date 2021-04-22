@@ -1,6 +1,6 @@
-import {END, eventChannel} from 'redux-saga';
+import {buffers, END, eventChannel} from 'redux-saga';
 
-export function subscribe(socket) {
+export function subscribe(socket, buffer) {
 	return eventChannel((emit) => {
 		socket.onmessage = (event) => {
 			emit(event.data);
@@ -15,9 +15,9 @@ export function subscribe(socket) {
 		};
 
 		return () => {
-			// socket.onmessage = null;
+			socket.close();
 		};
-	});
+	}, buffer || buffers.none());
 }
 
 export function closeChannel(channel) {

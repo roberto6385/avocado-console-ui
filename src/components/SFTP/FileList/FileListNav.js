@@ -30,7 +30,7 @@ const FileListNav = ({server}) => {
 	const [currentPath, setCurrentPath] = useState('');
 	const {initialWork} = useSftpCommands({socket, uuid});
 
-	const goHome = (e, nextPath = '/root') => {
+	const goHome = (e, nextPath = '/home/avocado') => {
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...server, newPath: nextPath}));
 	};

@@ -11,6 +11,7 @@ import {NavItem} from '../../../styles/sftp';
 import {useDispatch} from 'react-redux';
 import {commandPutAction, REMOVE_HISTORY} from '../../../reducers/sftp';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
+import sftp_ws from '../../../ws/sftp_ws';
 
 const HistoryNav = ({server}) => {
 	const dispatch = useDispatch();
@@ -34,8 +35,13 @@ const HistoryNav = ({server}) => {
 						keyword: 'put',
 					}),
 				);
+				sftp_ws({
+					keyword: 'CommandByPut',
+					ws: server.socket,
+					path: server.path,
+					uploadFile: value,
+				});
 			}
-			console.log('end');
 		};
 		document.body.removeChild(uploadInput);
 	};
