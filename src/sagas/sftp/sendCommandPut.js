@@ -52,44 +52,43 @@ function* messageReader(data, payload) {
 }
 
 function* sendCommand({payload}) {
-	yield console.log(payload.files);
-	for (let value of payload.files) {
-		console.log(value);
-		yield call(sftp_ws, {
-			keyword: 'CommandByPut',
-			ws: payload.socket,
-			path: payload.path,
-			uploadFile: value,
-		});
-		try {
-			while (true) {
-				const channel = yield call(subscribe, payload.socket);
-				const data = yield take(channel);
-				const res = yield call(messageReader, data, payload);
-				if (res.last && res.percent === 100) {
-					yield put({
-						type: PUT_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							percent: res.percent,
-						},
-					});
-					yield put({
-						type: ADD_HISTORY,
-						payload: {
-							uuid: payload.uuid,
-							name: res.uploadFile.name,
-							size: res.uploadFile.size,
-							todo: 'put',
-							progress: res.percent,
-						},
-					});
-				}
+	// for (let value of payload.files) {
+	const channel = yield call(subscribe, payload.socket);
+	// console.log(value);
+	yield call(sftp_ws, {
+		keyword: 'CommandByPut',
+		ws: payload.socket,
+		path: payload.path,
+		uploadFile: payload.uploadFile,
+	});
+	try {
+		while (true) {
+			const data = yield take(channel);
+			const res = yield call(messageReader, data, payload);
+			if (res.last && res.percent === 100) {
+				yield put({
+					type: PUT_SUCCESS,
+					payload: {
+						uuid: payload.uuid,
+						percent: res.percent,
+					},
+				});
+				yield put({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: payload.uuid,
+						name: res.uploadFile.name,
+						size: res.uploadFile.size,
+						todo: 'put',
+						progress: res.percent,
+					},
+				});
 			}
-		} catch (err) {
-			console.log(err);
 		}
+	} catch (err) {
+		console.log(err);
 	}
+	// }
 }
 
 function* watchSendCommand() {

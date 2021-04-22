@@ -25,9 +25,9 @@ const HistoryNav = ({server}) => {
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
-			// for await (let value of files) {
-			dispatch(commandPutAction({...server, files}));
-			// }
+			for await (let value of files) {
+				dispatch(commandPutAction({...server, uploadFile: value}));
+			}
 			console.log('end');
 		};
 		document.body.removeChild(uploadInput);
