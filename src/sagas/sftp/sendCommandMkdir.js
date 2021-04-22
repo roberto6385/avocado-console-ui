@@ -1,7 +1,7 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	commandLsAction,
+	commandPwdAction,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
@@ -70,7 +70,7 @@ function* sendCommand(payload) {
 		switch (res.type) {
 			case MKDIR_SUCCESS:
 				console.log('mkdir success!');
-				yield put(commandLsAction(payload));
+				yield put(commandPwdAction(payload));
 				break;
 			default:
 				break;

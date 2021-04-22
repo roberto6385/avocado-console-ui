@@ -8,7 +8,7 @@ import useSftpCommands from '../../../hooks/useSftpCommands';
 import {commandEditAction, commandGetAction} from '../../../reducers/sftp';
 
 const FileListContextMenu = ({server}) => {
-	const {uuid, highlight} = server;
+	const {uuid, highlight, path, mode} = server;
 
 	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
@@ -42,7 +42,15 @@ const FileListContextMenu = ({server}) => {
 				setOpen(true);
 				break;
 			case 'rename_work':
-				setOpen(true);
+				if (
+					mode === 'drop' &&
+					path ===
+						`${highlight[0].path}/${highlight[0].item.fileName}`
+				) {
+					alert('현재 경로의 폴더 이름은 변경할 수 없습니다.');
+				} else {
+					setOpen(true);
+				}
 				break;
 			case 'delete_work':
 				setOpen(true);

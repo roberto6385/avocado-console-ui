@@ -86,16 +86,18 @@ const FileListDropDown = ({server}) => {
 	};
 
 	const contextMenuOpen = (e, {item, path}) => {
+		e.preventDefault();
+		displayMenu(e);
+		e.stopPropagation();
+
 		console.log(item, path);
-		item !== undefined &&
+		highlight.length < 2 &&
+			item !== undefined &&
 			path !== undefined &&
 			dispatch({
 				type: ADD_ONE_HIGHLIGHT,
 				payload: {uuid, item, path},
 			});
-		e.preventDefault();
-		displayMenu(e);
-		e.stopPropagation();
 	};
 
 	return fileList !== undefined ? (

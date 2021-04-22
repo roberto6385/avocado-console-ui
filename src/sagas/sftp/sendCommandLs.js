@@ -11,7 +11,7 @@ import {subscribe} from './channel';
 import {listConversion} from '../../components/SFTP/commands';
 
 function* messageReader(data, payload) {
-	const {uuid} = payload;
+	const {uuid, pathList} = payload;
 	console.log(payload);
 	console.log(data);
 	try {

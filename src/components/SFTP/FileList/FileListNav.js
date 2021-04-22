@@ -23,12 +23,9 @@ const SearchPath = styled.input`
 `;
 
 const FileListNav = ({server}) => {
-	const {socket, uuid, path} = server;
+	const {uuid, path} = server;
 	const dispatch = useDispatch();
-	// const {currentPath} = useSelector((state) => state.sftp);
-	// const pathItem = currentPath.find((item) => item.uuid === uuid);
 	const [currentPath, setCurrentPath] = useState('');
-	const {initialWork} = useSftpCommands({socket, uuid});
 
 	const goHome = (e, nextPath = '/home/avocado') => {
 		nextPath !== undefined &&

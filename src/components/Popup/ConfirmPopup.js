@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
 
@@ -49,7 +49,7 @@ const SAVE_KEYWORDS = [
 const FORM_KEYWORDS = ['rename_work', 'sftp_new_folder', 'add_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, server}) => {
-	const {uuid, path, highlight, mode, editFile, text, editText} = server;
+	const {uuid, path, highlight, mode, editFile, editText} = server;
 
 	const dispatch = useDispatch();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -59,7 +59,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 	const justExit = useCallback(() => {
 		dispatch({
 			type: CHANGE_MODE,
-			payload: {uuid, mode: 'list'},
+			payload: {uuid, mode: mode},
 		});
 	}, []);
 
@@ -72,32 +72,63 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 		switch (keyword) {
 			case 'delete_work':
 				for (let value of highlight) {
-					value.fileType === 'file'
-						? dispatch(
-								commandRmAction({
-									...server,
-									fileName: value.fileName,
-									fileSize: value.fileSize,
-								}),
-						  )
-						: dispatch(
-								commandRmdirAction({
-									...server,
-									fileName: value.fileName,
-									fileSize: value.fileSize,
-								}),
-						  );
+					if (mode === 'list') {
+						value.fileType === 'file'
+							? dispatch(
+									commandRmAction({
+										...server,
+										fileName: value.fileName,
+										fileSize: value.fileSize,
+									}),
+							  )
+							: dispatch(
+									commandRmdirAction({
+										...server,
+										fileName: value.fileName,
+										fileSize: value.fileSize,
+									}),
+							  );
+					} else if (mode === 'drop') {
+						value.item.fileType === 'file'
+							? dispatch(
+									commandRmAction({
+										...server,
+										fileName: value.item.fileName,
+										fileSize: value.item.fileSize,
+										path: value.path,
+									}),
+							  )
+							: dispatch(
+									commandRmdirAction({
+										...server,
+										fileName: value.item.fileName,
+										fileSize: value.item.fileSize,
+										path: value.path,
+									}),
+							  );
+					}
 				}
 				break;
 			case 'rename_work':
 				for (let value of highlight) {
-					dispatch(
-						commandRenameAction({
-							...server,
-							prevName: value.fileName,
-							nextName: formValue,
-						}),
-					);
+					if (mode === 'list') {
+						dispatch(
+							commandRenameAction({
+								...server,
+								prevName: value.fileName,
+								nextName: formValue,
+							}),
+						);
+					} else if (mode === 'drop') {
+						dispatch(
+							commandRenameAction({
+								...server,
+								prevName: value.item.fileName,
+								nextName: formValue,
+								path: value.path,
+							}),
+						);
+					}
 				}
 				break;
 			case 'sftp_new_folder':

@@ -1,7 +1,7 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	commandLsAction,
+	commandPwdAction,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
@@ -69,7 +69,7 @@ function* sendCommand(payload) {
 		switch (res.type) {
 			case RENAME_SUCCESS:
 				console.log('rename success!');
-				yield put(commandLsAction(payload));
+				yield put(commandPwdAction(payload));
 				break;
 			default:
 				break;
