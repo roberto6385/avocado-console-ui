@@ -45,7 +45,7 @@ const HistoryNav = ({server}) => {
 					},
 				});
 			}
-			// dispatch(commandLsAction(server));
+			dispatch(commandPutAction({...server, keyword: 'ls'}));
 		};
 		document.body.removeChild(uploadInput);
 	}, [server]);

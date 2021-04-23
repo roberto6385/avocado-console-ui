@@ -48,6 +48,7 @@ export async function messageReader({data, payload}) {
 				) {
 					const disconnect = response.getDisconnect();
 					console.log(disconnect);
+
 					return {type: DISCONNECTION_SUCCESS};
 				} else if (
 					response.getResponseCase() ===
@@ -104,9 +105,7 @@ export async function messageReader({data, payload}) {
 							const mkdir = command.getMkdir();
 							console.log('command : mkdir', mkdir);
 
-							return {
-								type: MKDIR_SUCCESS,
-							};
+							return {type: MKDIR_SUCCESS};
 						}
 						case SFTP.CommandResponse.CommandCase.RMDIR: {
 							const rmdir = command.getRmdir();
@@ -219,7 +218,7 @@ export async function messageReader({data, payload}) {
 									document.body.appendChild(a);
 									a.setAttribute('hidden', true);
 									a.href = url;
-									a.download = payload.fileName;
+									a.download = payload.file.name;
 									a.click();
 									window.URL.revokeObjectURL(url);
 									fileBuffer = new ArrayBuffer(0);

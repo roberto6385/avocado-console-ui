@@ -74,12 +74,20 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 					dispatch(
 						commandRmAction({
 							...server,
-							file: value.item,
+							file: mode === 'list' ? value : value.item,
 							path: mode === 'list' ? server.path : value.path,
-							keyword: value.type === 'file' ? 'rm' : 'rmdir',
+							keyword:
+								mode === 'list'
+									? value.type === 'file'
+										? 'rm'
+										: 'rmdir'
+									: value.item.type === 'file'
+									? 'rm'
+									: 'rmdir',
 						}),
 					);
 				}
+				dispatch(commandRmAction({...server, keyword: 'ls'}));
 				break;
 			case 'rename_work':
 				for (let value of highlight) {

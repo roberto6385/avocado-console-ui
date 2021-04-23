@@ -22,7 +22,6 @@ function* sendCommand(action) {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, {data, payload});
-
 			switch (res.type) {
 				case CD_SUCCESS:
 					yield put({

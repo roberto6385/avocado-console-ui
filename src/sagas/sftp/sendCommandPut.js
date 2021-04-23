@@ -1,9 +1,10 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
-	commandPwdAction,
+	commandLsAction,
 	EDIT_PUT_SUCCESS,
 	FIND_HISTORY,
+	LS_SUCCESS,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
@@ -15,12 +16,21 @@ import {messageReader} from './messageReader';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	yield call(messageSender, {
-		keyword: 'CommandByPut',
-		ws: payload.socket,
-		path: payload.path,
-		uploadFile: payload.file,
-	});
+
+	if (payload.keyword === 'ls') {
+		yield call(messageSender, {
+			keyword: 'CommandByLs',
+			ws: payload.socket,
+			path: payload.path,
+		});
+	} else {
+		yield call(messageSender, {
+			keyword: 'CommandByPut',
+			ws: payload.socket,
+			path: payload.path,
+			uploadFile: payload.file,
+		});
+	}
 
 	try {
 		while (true) {
@@ -62,8 +72,21 @@ function* sendCommand(action) {
 								progress: 100,
 							},
 						});
+
+						yield put(commandLsAction(payload));
 						return {type: 'end'};
 					}
+					break;
+
+				case LS_SUCCESS:
+					yield put({
+						type: LS_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+							fileList: res.fileList,
+						},
+					});
+					return {type: 'end'};
 			}
 		}
 	} catch (err) {
