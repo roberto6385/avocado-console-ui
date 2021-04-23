@@ -65,11 +65,11 @@ const FileListDropDown = ({server}) => {
 						payload: {uuid, item},
 				  });
 		} else {
-			if (item.fileType === 'directory') {
+			if (item.type === 'directory') {
 				dispatch(
 					commandCdAction({
 						...server,
-						newPath: `${pathList[listindex]}/${item.fileName}`,
+						newPath: `${pathList[listindex]}/${item.name}`,
 					}),
 				);
 			} else {
@@ -135,12 +135,12 @@ const FileListDropDown = ({server}) => {
 										})
 									}
 								>
-									{item.fileType === 'directory' ? (
+									{item.type === 'directory' ? (
 										<DirectoryIcon />
 									) : (
 										<FileIcon />
 									)}
-									{item.fileName}
+									{item.name}
 								</DropdownLi>
 							);
 						})}

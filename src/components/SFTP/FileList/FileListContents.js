@@ -22,7 +22,6 @@ import {
 	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
-	commandEditAction,
 	commandGetAction,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
@@ -39,12 +38,12 @@ const FileListContents = ({server}) => {
 		(item) => (e) => {
 			e.stopPropagation();
 			console.log(server);
-			if (item.fileName !== '..' && item.fileType !== 'directory') {
+			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
 					commandGetAction({
 						...server,
-						fileName: item.fileName,
+						file: item,
 						keyword: 'get',
 					}),
 				);
@@ -52,8 +51,8 @@ const FileListContents = ({server}) => {
 					type: ADD_HISTORY,
 					payload: {
 						uuid: server.uuid,
-						name: item.fileName,
-						size: item.fileSize,
+						name: item.name,
+						size: item.size,
 						todo: 'get',
 						progress: 0,
 					},
@@ -65,9 +64,15 @@ const FileListContents = ({server}) => {
 	const edit = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
-			if (item.fileName !== '..' && item.fileType !== 'directory') {
+			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch(commandEditAction({...server, editFile: item}));
+				dispatch(
+					commandGetAction({
+						...server,
+						file: item,
+						keyword: 'edit',
+					}),
+				);
 			}
 		},
 		[server],
@@ -111,9 +116,9 @@ const FileListContents = ({server}) => {
 
 	const changePath = useCallback(
 		(item) => () => {
-			if (item.fileType === 'directory') {
+			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch(commandCdAction({...server, newPath: item.fileName}));
+				dispatch(commandCdAction({...server, newPath: item.name}));
 			}
 		},
 		[server],
@@ -143,27 +148,26 @@ const FileListContents = ({server}) => {
 							>
 								<CustomNameTh flex={10}>
 									<FileListP className='filelist_p'>
-										{item.fileType === 'directory' ? (
+										{item.type === 'directory' ? (
 											<DirectoryIcon />
 										) : (
 											<FileIcon />
 										)}
-										{item.fileName}
+										{item.name}
 									</FileListP>
 								</CustomNameTh>
 								<CustomRightTh flex={2}>
-									{item.fileName !== '..' && item.fileSize}
+									{item.name !== '..' && item.size}
 								</CustomRightTh>
 								<CustomTh flex={3}>
-									{item.fileName !== '..' &&
-										item.lastModified}
+									{item.name !== '..' && item.lastModified}
 								</CustomTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomRightTh flex={0.3}>
 									<CustomThBtn
 										onClick={edit(item)}
 										color={
-											item.fileType === 'directory'
+											item.type === 'directory'
 												? 'transparent'
 												: 'black'
 										}
@@ -173,7 +177,7 @@ const FileListContents = ({server}) => {
 									<CustomThBtn
 										onClick={download(item)}
 										color={
-											item.fileName === '..'
+											item.name === '..'
 												? 'transparent'
 												: 'black'
 										}

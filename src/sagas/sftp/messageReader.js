@@ -3,7 +3,8 @@ import {
 	CD_SUCCESS,
 	CONNECTION_SUCCESS,
 	DISCONNECTION_SUCCESS,
-	EDIT_SUCCESS,
+	EDIT_GET_SUCCESS,
+	EDIT_PUT_SUCCESS,
 	GET_SUCCESS,
 	LS_SUCCESS,
 	MKDIR_SUCCESS,
@@ -12,7 +13,7 @@ import {
 	RENAME_SUCCESS,
 	RM_SUCCESS,
 } from '../../reducers/sftp';
-import {listConversion} from '../../components/SFTP/commands';
+import {listConversion} from '../../components/SFTP/listConversion';
 
 let fileBuffer = new ArrayBuffer(0);
 
@@ -25,7 +26,7 @@ const appendBuffer = (buffer1, buffer2) => {
 
 let getReceiveSum = 0;
 
-export function messageReader({data, payload}) {
+export async function messageReader({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -188,7 +189,10 @@ export function messageReader({data, payload}) {
 							console.log('command : put', commandPut);
 
 							return {
-								type: PUT_SUCCESS,
+								type:
+									payload.keyword === 'put'
+										? PUT_SUCCESS
+										: EDIT_PUT_SUCCESS,
 								last: commandPut.getLast(),
 								percent: commandPut.getProgress(),
 							};
@@ -203,9 +207,9 @@ export function messageReader({data, payload}) {
 							// 프로그래스바
 							let sum = getReceiveSum + data.length;
 							const percent = (sum * 100) / get.getFilesize();
+							let text = '';
 
 							if (get.getLast() === true) {
-								let text = '';
 								const blob = new Blob([fileBuffer]);
 
 								if (payload.keyword === 'get') {
@@ -218,21 +222,22 @@ export function messageReader({data, payload}) {
 									a.download = payload.fileName;
 									a.click();
 									window.URL.revokeObjectURL(url);
+									fileBuffer = new ArrayBuffer(0);
 								} else if (payload.keyword === 'edit') {
-									// text = await new Response(blob).text();
+									text = await new Response(blob).text();
+									fileBuffer = new ArrayBuffer(0);
 								}
-
-								fileBuffer = new ArrayBuffer(0);
 							}
 
 							return {
 								type:
 									payload.keyword === 'get'
 										? GET_SUCCESS
-										: EDIT_SUCCESS,
+										: EDIT_GET_SUCCESS,
 								last: get.getLast(),
 								keyword: payload.keyword,
 								percent,
+								text,
 							};
 						}
 					}

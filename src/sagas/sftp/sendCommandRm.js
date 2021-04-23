@@ -15,7 +15,7 @@ function* sendCommand(action) {
 	yield call(messageSender, {
 		keyword: payload.keyword === 'rm' ? 'CommandByRm' : 'CommandByRmdir',
 		ws: payload.socket,
-		path: `${payload.path}/${payload.fileName}`,
+		path: `${payload.path}/${payload.file.name}`,
 	});
 
 	try {
@@ -29,8 +29,8 @@ function* sendCommand(action) {
 						type: ADD_HISTORY,
 						payload: {
 							uuid: payload.uuid,
-							name: payload.fileName,
-							size: payload.fileSize,
+							name: payload.file.name,
+							size: payload.file.size,
 							todo: 'rm',
 							progress: 100,
 						},

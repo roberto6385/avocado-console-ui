@@ -48,9 +48,8 @@ export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 export const GET_FAILURE = 'sftp/GET_FAILURE';
 
 // edit
-export const EDIT_REQUEST = 'sftp/EDIT_REQUEST';
-export const EDIT_SUCCESS = 'sftp/EDIT_SUCCESS';
-export const EDIT_FAILURE = 'sftp/EDIT_FAILURE';
+export const EDIT_PUT_SUCCESS = 'sftp/EDIT_PUT_SUCCESS';
+export const EDIT_GET_SUCCESS = 'sftp/EDIT_GET_SUCCESS';
 
 // 에러
 
@@ -90,10 +89,6 @@ export const commandGetAction = (payload) => ({
 	type: GET_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
-export const commandEditAction = (payload) => ({
-	type: EDIT_REQUEST,
-	payload,
-});
 
 export const disconnectAction = (payload) => ({
 	type: DISCONNECTION_REQUEST,
@@ -126,11 +121,6 @@ export const commandCdAction = (payload) => ({
 });
 export const commandRenameAction = (payload) => ({
 	type: RENAME_REQUEST,
-	payload,
-});
-
-export const addHistoryAction = (payload) => ({
-	type: ADD_HISTORY,
 	payload,
 });
 

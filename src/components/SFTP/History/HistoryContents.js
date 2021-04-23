@@ -31,7 +31,7 @@ const HistoryContents = ({server}) => {
 				dispatch(
 					commandPutAction({
 						...server,
-						uploadFile: value,
+						file: value,
 						keyword: 'put',
 					}),
 				);

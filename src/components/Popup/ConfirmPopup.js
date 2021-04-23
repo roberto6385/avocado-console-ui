@@ -74,10 +74,9 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 					dispatch(
 						commandRmAction({
 							...server,
-							fileName: value.fileName,
-							fileSize: value.fileSize,
+							file: value.item,
 							path: mode === 'list' ? server.path : value.path,
-							keyword: value.fileType === 'file' ? 'rm' : 'rmdir',
+							keyword: value.type === 'file' ? 'rm' : 'rmdir',
 						}),
 					);
 				}
@@ -88,7 +87,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 						dispatch(
 							commandRenameAction({
 								...server,
-								prevName: value.fileName,
+								prevName: value.name,
 								nextName: formValue,
 							}),
 						);
@@ -96,7 +95,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 						dispatch(
 							commandRenameAction({
 								...server,
-								prevName: value.item.fileName,
+								prevName: value.item.name,
 								nextName: formValue,
 								path: value.path,
 							}),
@@ -116,11 +115,15 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 				break;
 			case 'edit_file':
 				// eslint-disable-next-line no-case-declarations
-				const uploadFile = new File([editText], editFile.fileName, {
+				const uploadFile = new File([editText], editFile.name, {
 					type: 'text/plain',
 				});
 				dispatch(
-					commandPutAction({...server, uploadFile, keyword: 'edit'}),
+					commandPutAction({
+						...server,
+						file: uploadFile,
+						keyword: 'edit',
+					}),
 				);
 				dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 				dispatch({
@@ -151,8 +154,8 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 		setFormValue(
 			keyword === 'rename_work'
 				? mode === 'list'
-					? highlight[0].fileName
-					: highlight[0].item.fileName
+					? highlight[0].name
+					: highlight[0].item.name
 				: '',
 		);
 		inputRef.current?.focus();

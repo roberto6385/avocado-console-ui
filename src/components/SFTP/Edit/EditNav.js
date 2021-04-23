@@ -19,7 +19,7 @@ const EditNav = ({server}) => {
 
 	const editedFileDownload = useCallback(() => {
 		let link = document.createElement('a');
-		link.download = editFile.fileName;
+		link.download = editFile.name;
 		let blob = new Blob([editText], {type: 'text/plain'});
 		link.href = URL.createObjectURL(blob);
 		link.click();
@@ -28,11 +28,11 @@ const EditNav = ({server}) => {
 			type: ADD_HISTORY,
 			payload: {
 				uuid,
-				name: editFile.fileName,
+				name: editFile.name,
 				path: path,
 				size: blob.size,
 				todo: 'get',
-				progress: 100,
+				progress: 0,
 				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
@@ -40,11 +40,17 @@ const EditNav = ({server}) => {
 	}, [server]);
 
 	const editedFileSave = useCallback(async () => {
-		const uploadFile = new File([editText], editFile.fileName, {
+		const uploadFile = new File([editText], editFile.name, {
 			type: 'text/plain',
 		});
 		dispatch({type: SAVE_TEXT, payload: {uuid, text: editText}});
-		dispatch(commandPutAction({...server, uploadFile, keyword: 'edit'}));
+		dispatch(
+			commandPutAction({
+				...server,
+				file: uploadFile,
+				keyword: 'edit',
+			}),
+		);
 	}, [server]);
 
 	const toNormalMode = useCallback(() => {
@@ -61,9 +67,7 @@ const EditNav = ({server}) => {
 
 	return (
 		<Navbar>
-			<span style={{fontSize: '14px'}}>
-				{`${path}/${editFile.fileName}`}
-			</span>
+			<span style={{fontSize: '14px'}}>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
 				<NavItem onClick={editedFileDownload}>
 					<MdFileDownload />

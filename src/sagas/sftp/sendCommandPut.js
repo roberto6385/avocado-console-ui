@@ -1,5 +1,8 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
+	ADD_HISTORY,
+	commandPwdAction,
+	EDIT_PUT_SUCCESS,
 	FIND_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,
@@ -16,7 +19,7 @@ function* sendCommand(action) {
 		keyword: 'CommandByPut',
 		ws: payload.socket,
 		path: payload.path,
-		uploadFile: payload.uploadFile,
+		uploadFile: payload.file,
 	});
 
 	try {
@@ -29,8 +32,8 @@ function* sendCommand(action) {
 						type: FIND_HISTORY,
 						payload: {
 							uuid: payload.uuid,
-							name: payload.uploadFile.name,
-							size: payload.uploadFile.size,
+							name: payload.file.name,
+							size: payload.file.size,
 							todo: payload.keyword,
 							progress: res.percent,
 						},
@@ -43,9 +46,24 @@ function* sendCommand(action) {
 								percent: res.percent,
 							},
 						});
+
 						return {type: 'end'};
 					}
 					break;
+				case EDIT_PUT_SUCCESS:
+					if (res.last && res.percent === 100) {
+						yield put({
+							type: ADD_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: 'edit',
+								progress: 100,
+							},
+						});
+						return {type: 'end'};
+					}
 			}
 		}
 	} catch (err) {

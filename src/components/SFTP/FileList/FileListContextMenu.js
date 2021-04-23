@@ -3,11 +3,7 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
-import {
-	ADD_HISTORY,
-	commandEditAction,
-	commandGetAction,
-} from '../../../reducers/sftp';
+import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
 
 const FileListContextMenu = ({server}) => {
 	const {uuid, highlight, path, mode} = server;
@@ -24,7 +20,7 @@ const FileListContextMenu = ({server}) => {
 			dispatch(
 				commandGetAction({
 					...server,
-					fileName: value.fileName,
+					file: value,
 					keyword: 'get',
 				}),
 			);
@@ -32,8 +28,8 @@ const FileListContextMenu = ({server}) => {
 				type: ADD_HISTORY,
 				payload: {
 					uuid: server.uuid,
-					name: value.fileName,
-					size: value.fileSize,
+					name: value.name,
+					size: value.size,
 					todo: 'get',
 					progress: 0,
 				},
@@ -43,7 +39,13 @@ const FileListContextMenu = ({server}) => {
 
 	const contextEdit = () => {
 		for (let value of highlight) {
-			dispatch(commandEditAction({...server, editFile: value}));
+			dispatch(
+				commandGetAction({
+					...server,
+					file: value,
+					keyword: 'edit',
+				}),
+			);
 		}
 	};
 
@@ -62,8 +64,7 @@ const FileListContextMenu = ({server}) => {
 			case 'rename_work':
 				if (
 					mode === 'drop' &&
-					path ===
-						`${highlight[0].path}/${highlight[0].item.fileName}`
+					path === `${highlight[0].path}/${highlight[0].item.name}`
 				) {
 					alert('현재 경로의 폴더 이름은 변경할 수 없습니다.');
 				} else {

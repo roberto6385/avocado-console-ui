@@ -5,7 +5,7 @@ import {
 	SFTP_SAVE_CURRENT_PATH,
 	SFTP_SAVE_DROPLIST_HIGHLIGHT,
 } from '../reducers/subSftp';
-import {listConversion} from '../components/SFTP/commands';
+import {listConversion} from '../components/SFTP/listConversion';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import newSftp_ws from '../sagas/sftp/messageSender';

@@ -10,7 +10,6 @@ import {PropTypes} from 'prop-types';
 import {useDispatch} from 'react-redux';
 import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
-import useSftpCommands from '../../../hooks/useSftpCommands';
 import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp';
 
 const SearchPath = styled.input`
