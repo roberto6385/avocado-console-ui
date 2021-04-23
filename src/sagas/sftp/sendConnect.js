@@ -5,7 +5,7 @@ import {
 	CONNECTION_SUCCESS,
 } from '../../reducers/sftp';
 import {subscribe} from './channel';
-import sftp_ws from '../../ws/sftp_ws';
+import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {messageReader} from './messageReader';
 import {OPEN_TAB} from '../../reducers/common';
@@ -18,7 +18,7 @@ function* sendCommand(action) {
 
 	socket = yield call(createWebsocket, payload);
 	channel = yield call(subscribe, socket);
-	yield call(sftp_ws, {
+	yield call(messageSender, {
 		keyword: 'Connection',
 		ws: socket,
 		data: payload,

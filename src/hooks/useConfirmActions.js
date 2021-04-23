@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch} from 'react-redux';
 
-import newSftp_ws from '../ws/sftp_ws';
+import newSftp_ws from '../sagas/sftp/messageSender';
 import useSftpCommands from './useSftpCommands';
 import {
 	SFTP_DELETE_HISTORY,

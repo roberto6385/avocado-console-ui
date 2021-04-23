@@ -8,7 +8,7 @@ import {
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
-import sftp_ws from '../../ws/sftp_ws';
+import messageSender from './messageSender';
 import {subscribe} from './channel';
 let fileBuffer = new ArrayBuffer(0);
 
@@ -71,7 +71,7 @@ function* sendCommand({payload}) {
 	console.log(payload);
 	const channel = yield call(subscribe, payload.socket);
 	console.log(payload.editFile);
-	yield call(sftp_ws, {
+	yield call(messageSender, {
 		keyword: 'CommandByGet',
 		ws: payload.socket,
 		path: payload.path,

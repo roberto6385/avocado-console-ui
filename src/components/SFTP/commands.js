@@ -3,7 +3,7 @@ import {
 	SFTP_SAVE_CURRENT_MODE,
 	SFTP_SAVE_CURRENT_TEXT,
 } from '../../reducers/subSftp';
-import newSftp_ws from '../../ws/sftp_ws';
+import newSftp_ws from '../../sagas/sftp/messageSender';
 
 export const listConversion = (result) => {
 	console.log('run listConversion');

@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
 import {IconButton} from '../../styles/common';
 import {OPEN_TAB} from '../../reducers/common';
-import newSftp_ws from '../../ws/sftp_ws';
+import newSftp_ws from '../../sagas/sftp/messageSender';
 import {SFTP_SAVE_LIST_MODE} from '../../reducers/subSftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
