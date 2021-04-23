@@ -165,7 +165,6 @@ const sftp = (state = initialState, action) =>
 				draft.server.push({
 					socket: action.payload.socket,
 					status: 'none',
-					responseStatus: action.payload.responseStatus,
 					errorMessage: '',
 					uuid: action.payload.uuid,
 					path: '',

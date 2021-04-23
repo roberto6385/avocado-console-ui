@@ -15,7 +15,7 @@ export function subscribe(socket, buffer) {
 		};
 
 		return () => {
-			socket.close();
+			socket.onmessage = null;
 		};
 	}, buffer || buffers.none());
 }

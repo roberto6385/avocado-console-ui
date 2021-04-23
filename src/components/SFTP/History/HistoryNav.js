@@ -9,7 +9,11 @@ import {
 import {PropTypes} from 'prop-types';
 import {NavItem} from '../../../styles/sftp';
 import {useDispatch} from 'react-redux';
-import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	commandLsAction,
+	commandPutAction,
+} from '../../../reducers/sftp';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 
 const HistoryNav = ({server}) => {
@@ -45,6 +49,7 @@ const HistoryNav = ({server}) => {
 					},
 				});
 			}
+			dispatch(commandLsAction(server));
 		};
 		document.body.removeChild(uploadInput);
 	}, [server]);

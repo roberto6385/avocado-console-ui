@@ -1,5 +1,4 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
-import SFTP from '../../dist/sftp_pb';
 import {
 	CD_FAILURE,
 	CD_REQUEST,
@@ -8,72 +7,34 @@ import {
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
+import {messageReader} from './messageReader';
 
-function* messageReader(data, payload) {
-	const {uuid} = payload;
-	console.log(payload);
-	console.log(data);
+function* sendCommand(action) {
+	const {payload} = action;
+	const channel = yield call(subscribe, payload.socket);
+	yield call(sftp_ws, {
+		keyword: 'CommandByCd',
+		ws: payload.socket,
+		path: payload.newPath,
+	});
+
 	try {
-		if (data instanceof ArrayBuffer) {
-			const message = SFTP.Message.deserializeBinary(data);
+		while (true) {
+			const data = yield take(channel);
+			const res = yield call(messageReader, {data, payload});
 
-			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
-				const response = message.getResponse();
-				console.log('response status: ', response.getStatus());
-				if (
-					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.COMMAND
-				) {
-					const command = response.getCommand();
-
-					switch (command.getCommandCase()) {
-						case SFTP.CommandResponse.CommandCase.CD: {
-							const cd = command.getCd();
-							console.log('command : cd', cd);
-							yield put({
-								type: CD_SUCCESS,
-								payload: {uuid},
-							});
-							return {
-								type: CD_SUCCESS,
-							};
-						}
-					}
-				}
+			switch (res.type) {
+				case CD_SUCCESS:
+					yield put({
+						type: CD_SUCCESS,
+						payload: {uuid: payload.uuid},
+					});
+					yield put(commandPwdAction(payload));
+					return {type: 'end'};
 			}
 		}
 	} catch (err) {
-		yield put({
-			type: CD_FAILURE,
-			payload: {
-				errorMessage: 'Error while command cd',
-			},
-		});
-	}
-}
-
-function* sendCommand(payload) {
-	try {
-		const channel = yield call(subscribe, payload.socket);
-		yield call(sftp_ws, {
-			keyword: 'CommandByCd',
-			ws: payload.socket,
-			path: payload.newPath,
-		});
-
-		const data = yield take(channel);
-		const res = yield call(messageReader, data, payload);
-
-		switch (res.type) {
-			case CD_SUCCESS:
-				console.log('cd success!');
-				yield put(commandPwdAction(payload));
-				// }
-				break;
-			default:
-				break;
-		}
-	} catch (err) {
+		yield put({type: CD_FAILURE});
 		console.log(err);
 	}
 }
@@ -81,8 +42,9 @@ function* sendCommand(payload) {
 function* watchSendCommand() {
 	const reqChannel = yield actionChannel(CD_REQUEST);
 	while (true) {
-		const {payload} = yield take(reqChannel);
-		yield call(sendCommand, payload);
+		const action = yield take(reqChannel);
+		const res = yield call(sendCommand, action);
+		yield console.log(res);
 	}
 }
 

@@ -64,19 +64,7 @@ function* messageReader(data, payload) {
 								a.click();
 								window.URL.revokeObjectURL(url);
 							}
-							yield put({
-								type: FIND_HISTORY,
-								payload: {
-									uuid: payload.uuid,
-									name: payload.fileName,
-									todo: payload.keyword,
-									progress: percent,
-								},
-							});
-							return {
-								last: get.getLast(),
-								percent,
-							};
+
 						}
 					}
 				}

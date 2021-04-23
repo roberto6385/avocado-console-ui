@@ -41,18 +41,8 @@ const TabNavBar = () => {
 	const onClickDelete = useCallback(
 		(id) => async () => {
 			const clicked_tab = tab.find((x) => x.id === id);
-			// const {ws, uuid} = clicked_tab.socket;
-			//
 			if (clicked_tab.type === 'SSHT') {
-				// 	ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-				//
-				// 	ws.onmessage = (evt) => {
-				// 		const message = GetMessage(evt);
-				//
-				// 		if (message.type === 'DISCONNECT')
 				dispatch({type: CLOSE_TAB, data: id});
-				// 		else console.log('V TabNavBar onmessage: ', message);
-				// 	};
 			} else {
 				const {uuid} = clicked_tab.socket;
 				const currentServer = server.find((it) => it.uuid === uuid);
