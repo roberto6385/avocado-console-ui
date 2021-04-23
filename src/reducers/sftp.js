@@ -68,8 +68,9 @@ export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 
 export const ADD_HISTORY = 'sftp/ADD_HISTORY';
 export const FIND_HISTORY = 'sftp/FIND_HISTORY';
-
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
+
+export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
 
 let HISTORY_ID = 0;
 
@@ -173,6 +174,7 @@ const sftp = (state = initialState, action) =>
 					text: '',
 					editText: '',
 					editFile: {},
+					tempPath: '',
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -197,8 +199,6 @@ const sftp = (state = initialState, action) =>
 			// 현재 경로 조회
 			case PWD_REQUEST:
 				draft.loading = true;
-				target.fileList = [];
-				target.highlight = [];
 				target.pathList = [];
 
 				break;
@@ -206,6 +206,8 @@ const sftp = (state = initialState, action) =>
 				draft.loading = false;
 				target.path = action.payload.path;
 				target.pathList = action.payload.pathList;
+				target.fileList = [];
+				target.highlight = [];
 
 				break;
 			case PWD_FAILURE:
@@ -318,6 +320,10 @@ const sftp = (state = initialState, action) =>
 				break;
 			case REMOVE_HISTORY:
 				target.history = [];
+				break;
+
+			case SAVE_TEMP_PATH:
+				target.tempPath = action.payload.path;
 				break;
 
 			default:

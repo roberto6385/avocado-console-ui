@@ -1,7 +1,8 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
-	LS_SUCCESS,
+	commandLsAction,
+	PWD_SUCCESS,
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,
@@ -14,11 +15,10 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
-	if (payload.keyword === 'ls') {
+	if (payload.keyword === 'pwd') {
 		yield call(messageSender, {
-			keyword: 'CommandByLs',
+			keyword: 'CommandByPwd',
 			ws: payload.socket,
-			path: payload.path,
 		});
 	} else {
 		yield call(messageSender, {
@@ -48,14 +48,18 @@ function* sendCommand(action) {
 					});
 					return {type: 'end'};
 
-				case LS_SUCCESS:
+				case PWD_SUCCESS:
 					yield put({
-						type: LS_SUCCESS,
+						type: PWD_SUCCESS,
 						payload: {
 							uuid: payload.uuid,
-							fileList: res.fileList,
+							path: res.path,
+							pathList: res.pathList,
 						},
 					});
+					for (let value of res.pathList) {
+						yield put(commandLsAction({...payload, path: value}));
+					}
 					return {type: 'end'};
 			}
 		}

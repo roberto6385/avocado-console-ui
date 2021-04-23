@@ -2,12 +2,13 @@ import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
 	commandLsAction,
+	commandPwdAction,
 	EDIT_PUT_SUCCESS,
 	FIND_HISTORY,
-	LS_SUCCESS,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
+	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {subscribe} from './channel';
 import messageSender from './messageSender';
@@ -17,11 +18,10 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
-	if (payload.keyword === 'ls') {
+	if (payload.keyword === 'pwd') {
 		yield call(messageSender, {
-			keyword: 'CommandByLs',
+			keyword: 'CommandByPwd',
 			ws: payload.socket,
-			path: payload.path,
 		});
 	} else {
 		yield call(messageSender, {
@@ -73,19 +73,23 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put(commandLsAction(payload));
+						yield put(commandPwdAction(payload));
 						return {type: 'end'};
 					}
 					break;
 
-				case LS_SUCCESS:
+				case PWD_SUCCESS:
 					yield put({
-						type: LS_SUCCESS,
+						type: PWD_SUCCESS,
 						payload: {
 							uuid: payload.uuid,
-							fileList: res.fileList,
+							path: res.path,
+							pathList: res.pathList,
 						},
 					});
+					for (let value of res.pathList) {
+						yield put(commandLsAction({...payload, path: value}));
+					}
 					return {type: 'end'};
 			}
 		}

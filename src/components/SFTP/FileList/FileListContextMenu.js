@@ -20,7 +20,7 @@ const FileListContextMenu = ({server}) => {
 			dispatch(
 				commandGetAction({
 					...server,
-					file: value,
+					file: mode === 'list' ? value : value.item,
 					keyword: 'get',
 				}),
 			);
@@ -28,8 +28,8 @@ const FileListContextMenu = ({server}) => {
 				type: ADD_HISTORY,
 				payload: {
 					uuid: server.uuid,
-					name: value.name,
-					size: value.size,
+					name: mode === 'list' ? value.name : value.item.name,
+					size: mode === 'list' ? value.size : value.item.size,
 					todo: 'get',
 					progress: 0,
 				},
@@ -42,7 +42,7 @@ const FileListContextMenu = ({server}) => {
 			dispatch(
 				commandGetAction({
 					...server,
-					file: value,
+					file: mode === 'list' ? value : value.item,
 					keyword: 'edit',
 				}),
 			);

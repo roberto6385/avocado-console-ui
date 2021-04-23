@@ -2,15 +2,10 @@ import React, {useCallback, useEffect} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import SFTP_Component from './SFTP';
-import {
-	ADD_ONE_HIGHLIGHT,
-	commandPwdAction,
-	INITIALIZING_HIGHLIGHT,
-} from '../../reducers/sftp';
+import {commandPwdAction, INITIALIZING_HIGHLIGHT} from '../../reducers/sftp';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	// const {initialWork} = useSftpCommands({ws, uuid});
 	const {server} = useSelector((state) => state.sftp);
 	const currentServer = server.find((it) => it.uuid === uuid);
 	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
@@ -22,13 +17,7 @@ const SFTPContainer = ({uuid}) => {
 				return;
 			}
 			const root = evt.target;
-			const tbody = Array.from(
-				evt.currentTarget.querySelectorAll('tbody'),
-			);
 			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
-			const ul = Array.from(
-				evt.currentTarget.querySelectorAll('#fileList_ul'),
-			);
 			const li = Array.from(
 				evt.currentTarget.querySelectorAll('.highlight_list'),
 			);
@@ -41,9 +30,7 @@ const SFTPContainer = ({uuid}) => {
 				),
 			);
 			if (
-				!tbody.includes(root) &&
 				!th.includes(root) &&
-				!ul.includes(root) &&
 				!li.includes(root) &&
 				!p.includes(root) &&
 				!context.includes(root)

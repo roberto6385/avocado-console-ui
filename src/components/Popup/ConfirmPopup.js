@@ -48,7 +48,7 @@ const SAVE_KEYWORDS = [
 const FORM_KEYWORDS = ['rename_work', 'sftp_new_folder', 'add_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, server}) => {
-	const {uuid, path, highlight, mode, editFile, editText} = server;
+	const {uuid, path, highlight, mode, editFile, editText, tempPath} = server;
 
 	const dispatch = useDispatch();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -87,7 +87,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 						}),
 					);
 				}
-				dispatch(commandRmAction({...server, keyword: 'ls'}));
+				dispatch(commandRmAction({...server, keyword: 'pwd'}));
 				break;
 			case 'rename_work':
 				for (let value of highlight) {
@@ -112,13 +112,23 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 				}
 				break;
 			case 'sftp_new_folder':
-				formValue !== '' &&
+				if (formValue === '') return;
+				if (mode === 'drop' && tempPath !== '') {
+					console.log(mode, tempPath);
+					dispatch(
+						commandMkdirAction({
+							...server,
+							newPath: `${tempPath}/${formValue}`,
+						}),
+					);
+				} else {
 					dispatch(
 						commandMkdirAction({
 							...server,
 							newPath: `${path}/${formValue}`,
 						}),
 					);
+				}
 
 				break;
 			case 'edit_file':

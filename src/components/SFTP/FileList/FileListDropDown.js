@@ -11,6 +11,7 @@ import {
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	REMOVE_HIGHLIGHT,
+	SAVE_TEMP_PATH,
 } from '../../../reducers/sftp';
 
 const DropdownUl = styled.ul`
@@ -51,27 +52,32 @@ const FileListDropDown = ({server}) => {
 		show(e);
 	}
 
-	const selectFile = (e, {item, listindex}) => {
-		if (e.shiftKey) {
-			highlight.find(
-				(it) => it.item === item && it.path === pathList[listindex],
-			) === undefined
-				? dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item, path: pathList[listindex]},
-				  })
-				: dispatch({
-						type: REMOVE_HIGHLIGHT,
-						payload: {uuid, item},
-				  });
-		} else {
-			if (item.type === 'directory') {
-				dispatch(
-					commandCdAction({
-						...server,
-						newPath: `${pathList[listindex]}/${item.name}`,
-					}),
-				);
+	const changePath = useCallback(
+		({item, listindex}) => () => {
+			dispatch(
+				commandCdAction({
+					...server,
+					newPath: `${pathList[listindex]}/${item.name}`,
+				}),
+			);
+		},
+		[server],
+	);
+
+	const selectFile = useCallback(
+		({item, listindex}) => (e) => {
+			if (e.shiftKey) {
+				highlight.find(
+					(it) => it.item === item && it.path === pathList[listindex],
+				) === undefined
+					? dispatch({
+							type: ADD_HIGHLIGHT,
+							payload: {uuid, item, path: pathList[listindex]},
+					  })
+					: dispatch({
+							type: REMOVE_HIGHLIGHT,
+							payload: {uuid, item},
+					  });
 			} else {
 				// 그냥 클릭했을 때 , 타입이 file 일 때
 				highlight.find(
@@ -82,23 +88,28 @@ const FileListDropDown = ({server}) => {
 						payload: {uuid, item, path: pathList[listindex]},
 					});
 			}
-		}
-	};
+		},
+		[server],
+	);
 
-	const contextMenuOpen = (e, {item, path}) => {
-		e.preventDefault();
-		displayMenu(e);
-		e.stopPropagation();
+	const contextMenuOpen = useCallback(
+		({item, path}) => (e) => {
+			e.preventDefault();
+			displayMenu(e);
+			e.stopPropagation();
+			dispatch({type: SAVE_TEMP_PATH, payload: {uuid, path}});
 
-		console.log(item, path);
-		highlight.length < 2 &&
-			item !== undefined &&
-			path !== undefined &&
-			dispatch({
-				type: ADD_ONE_HIGHLIGHT,
-				payload: {uuid, item, path},
-			});
-	};
+			console.log(item, path);
+			highlight.length < 2 &&
+				item !== undefined &&
+				path !== undefined &&
+				dispatch({
+					type: ADD_ONE_HIGHLIGHT,
+					payload: {uuid, item, path},
+				});
+		},
+		[server],
+	);
 
 	return fileList !== undefined ? (
 		<>
@@ -107,7 +118,9 @@ const FileListDropDown = ({server}) => {
 					<DropdownUl
 						id='fileList_ul'
 						key={listindex}
-						onContextMenu={(e) => contextMenuOpen(e, {})}
+						onContextMenu={contextMenuOpen({
+							path: pathList[listindex],
+						})}
 					>
 						{listItem.map((item, index) => {
 							return (
@@ -122,18 +135,18 @@ const FileListDropDown = ({server}) => {
 											: 'highlight_list'
 									}
 									key={index}
-									onContextMenu={(e) =>
-										contextMenuOpen(e, {
-											item,
-											path: pathList[listindex],
-										})
-									}
-									onClick={(e) =>
-										selectFile(e, {
-											item,
-											listindex,
-										})
-									}
+									onContextMenu={contextMenuOpen({
+										item,
+										path: pathList[listindex],
+									})}
+									onClick={selectFile({
+										item,
+										listindex,
+									})}
+									onDoubleClick={changePath({
+										item,
+										listindex,
+									})}
 								>
 									{item.type === 'directory' ? (
 										<DirectoryIcon />

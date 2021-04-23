@@ -1,6 +1,6 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
-	commandLsAction,
+	commandPwdAction,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
@@ -30,7 +30,7 @@ function* sendCommand(action) {
 						type: RENAME_SUCCESS,
 						payload: {uuid: payload.uuid},
 					});
-					yield put(commandLsAction(payload));
+					yield put(commandPwdAction(payload));
 					return {type: 'end'};
 			}
 		}

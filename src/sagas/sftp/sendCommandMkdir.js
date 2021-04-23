@@ -1,9 +1,10 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
-	commandLsAction,
+	commandPwdAction,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
+	SAVE_TEMP_PATH,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {subscribe} from './channel';
@@ -13,6 +14,8 @@ function* sendCommand(action) {
 	const {payload} = action;
 
 	const channel = yield call(subscribe, payload.socket);
+
+	console.log(payload);
 	yield call(messageSender, {
 		keyword: 'CommandByMkdir',
 		ws: payload.socket,
@@ -32,7 +35,14 @@ function* sendCommand(action) {
 							uuid: payload.uuid,
 						},
 					});
-					yield put(commandLsAction(payload));
+					yield put({
+						type: SAVE_TEMP_PATH,
+						payload: {
+							uuid: payload.uuid,
+							path: '',
+						},
+					});
+					yield put(commandPwdAction(payload));
 					return {type: 'end'};
 			}
 		}

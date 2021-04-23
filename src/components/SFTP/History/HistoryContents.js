@@ -22,7 +22,7 @@ import {
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 
 const HistoryContents = ({server}) => {
-	const {socket, uuid, history} = server;
+	const {history} = server;
 	const dispatch = useDispatch();
 
 	const upload = useCallback(
@@ -46,6 +46,7 @@ const HistoryContents = ({server}) => {
 					},
 				});
 			}
+			dispatch(commandPutAction({...server, keyword: 'pwd'}));
 		},
 		[server],
 	);
