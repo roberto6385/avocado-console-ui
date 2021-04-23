@@ -6,7 +6,6 @@ import {
 	put,
 	takeEvery,
 	actionChannel,
-	flush,
 	delay,
 } from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
@@ -16,9 +15,9 @@ import {
 	PUT_REQUEST,
 	PUT_SUCCESS,
 } from '../../reducers/sftp';
-import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
 import {buffers} from 'redux-saga';
+import sftp_ws from '../../ws/sftp_ws';
 
 function* messageReader(data, payload) {
 	try {
@@ -40,6 +39,17 @@ function* messageReader(data, payload) {
 							console.log(resPut.getProgress());
 							console.log(resPut.getLast());
 
+							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.uploadFile.name,
+									size: payload.uploadFile.size,
+									todo: payload.keyword,
+									progress: resPut.getProgress(),
+								},
+							});
+
 							// if (
 							// 	resPut.getLast() &&
 							// 	resPut.getProgress() === 100
@@ -49,7 +59,6 @@ function* messageReader(data, payload) {
 							return {
 								last: resPut.getLast(),
 								percent: resPut.getProgress(),
-								uploadFile: payload.uploadFile,
 							};
 						}
 					}
@@ -67,20 +76,25 @@ function* messageReader(data, payload) {
 	}
 }
 
-function* sendCommand({payload}) {
+function* sendCommand(payload) {
 	const channel = yield call(
 		subscribe,
 		payload.socket,
-		buffers.expanding(10),
+		// buffers.expanding(10),
 	);
-
-	console.log(payload.uploadFile);
+	sftp_ws({
+		keyword: 'CommandByPut',
+		ws: payload.socket,
+		path: payload.path,
+		uploadFile: payload.uploadFile,
+	});
 
 	try {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload);
 			if (res.last && res.percent === 100) {
+				yield console.log('업로드 클리어!');
 				yield put({
 					type: PUT_SUCCESS,
 					payload: {
@@ -88,18 +102,8 @@ function* sendCommand({payload}) {
 						percent: res.percent,
 					},
 				});
-				yield put({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: payload.uuid,
-						name: payload.uploadFile.name,
-						size: payload.uploadFile.size,
-						todo: payload.keyword,
-						progress: res.percent,
-					},
-				});
+				return {type: 'end'};
 			}
-			yield delay(100);
 		}
 	} catch (err) {
 		console.log(err);
@@ -107,12 +111,13 @@ function* sendCommand({payload}) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PUT_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(PUT_REQUEST);
-	// while (true) {
-	// 	const {payload} = yield take(reqChannel);
-	// 	yield call(sendCommand, payload);
-	// }
+	// yield takeEvery(PUT_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(PUT_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		const res = yield call(sendCommand, payload);
+		yield console.log(res);
+	}
 }
 
 export default function* commandPutSaga() {

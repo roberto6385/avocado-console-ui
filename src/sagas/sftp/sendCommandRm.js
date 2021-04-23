@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	takeEvery,
+	delay,
+} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
@@ -8,6 +17,7 @@ import {
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
+import {buffers} from 'redux-saga';
 
 function* messageReader(data, payload) {
 	const {uuid} = payload;
@@ -66,26 +76,37 @@ function* messageReader(data, payload) {
 }
 
 function* sendCommand(payload) {
+	const channel = yield call(
+		subscribe,
+		payload.socket,
+		buffers.expanding(10),
+	);
+	yield call(sftp_ws, {
+		keyword: 'CommandByRm',
+		ws: payload.socket,
+		path: `${payload.path}/${payload.fileName}`,
+	});
 	try {
-		const channel = yield call(subscribe, payload.socket);
-		yield call(sftp_ws, {
-			keyword: 'CommandByRm',
-			ws: payload.socket,
-			path: `${payload.path}/${payload.fileName}`,
-		});
-		const data = yield take(channel);
-		yield call(messageReader, data, payload);
+		while (true) {
+			const data = yield take(channel);
+			const res = yield call(messageReader, data, payload);
+			if (res.type === RM_SUCCESS) {
+				yield console.log('삭제 클리어');
+				return {type: 'end'};
+			}
+		}
 	} catch (err) {
 		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
+	// yield takeEvery(RM_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(RM_REQUEST);
 	while (true) {
 		const {payload} = yield take(reqChannel);
-		yield call(sendCommand, payload);
-		// yield takeLatest(RM_SUCCESS, yield call(commandLsAction, payload));
+		const res = yield call(sendCommand, payload);
+		yield console.log(res);
 	}
 }
 

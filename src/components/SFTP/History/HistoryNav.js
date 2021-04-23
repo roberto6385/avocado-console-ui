@@ -35,12 +35,6 @@ const HistoryNav = ({server}) => {
 						keyword: 'put',
 					}),
 				);
-				sftp_ws({
-					keyword: 'CommandByPut',
-					ws: server.socket,
-					path: server.path,
-					uploadFile: value,
-				});
 			}
 		};
 		document.body.removeChild(uploadInput);
