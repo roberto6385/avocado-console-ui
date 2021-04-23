@@ -18,7 +18,7 @@ function* sendCommand(action) {
 
 	socket = yield call(createWebsocket, payload);
 	channel = yield call(subscribe, socket);
-	sftp_ws({
+	yield call(sftp_ws, {
 		keyword: 'Connection',
 		ws: socket,
 		data: payload,

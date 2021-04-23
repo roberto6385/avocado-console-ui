@@ -1,14 +1,9 @@
-import {put} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	ADD_HISTORY,
 	CD_SUCCESS,
 	CONNECTION_SUCCESS,
 	DISCONNECTION_SUCCESS,
-	EDIT_REQUEST,
 	EDIT_SUCCESS,
-	FIND_HISTORY,
-	GET_REQUEST,
 	GET_SUCCESS,
 	LS_SUCCESS,
 	MKDIR_SUCCESS,
@@ -30,7 +25,7 @@ const appendBuffer = (buffer1, buffer2) => {
 
 let getReceiveSum = 0;
 
-export function* messageReader({type, data, payload}) {
+export function messageReader({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -128,12 +123,6 @@ export function* messageReader({type, data, payload}) {
 							const rename = command.getRename();
 							console.log('command : rename', rename);
 
-							yield put({
-								type: RENAME_SUCCESS,
-								payload: {
-									uuid: payload.uuid,
-								},
-							});
 							return {type: RENAME_SUCCESS};
 						}
 						case SFTP.CommandResponse.CommandCase.LN: {
@@ -198,17 +187,6 @@ export function* messageReader({type, data, payload}) {
 							const commandPut = command.getPut();
 							console.log('command : put', commandPut);
 
-							yield put({
-								type: FIND_HISTORY,
-								payload: {
-									uuid: payload.uuid,
-									name: payload.uploadFile.name,
-									size: payload.uploadFile.size,
-									todo: payload.keyword,
-									progress: commandPut.getProgress(),
-								},
-							});
-
 							return {
 								type: PUT_SUCCESS,
 								last: commandPut.getLast(),
@@ -230,7 +208,7 @@ export function* messageReader({type, data, payload}) {
 								let text = '';
 								const blob = new Blob([fileBuffer]);
 
-								if (type === GET_REQUEST) {
+								if (payload.keyword === 'get') {
 									const url = URL.createObjectURL(blob);
 
 									const a = document.createElement('a');
@@ -240,24 +218,16 @@ export function* messageReader({type, data, payload}) {
 									a.download = payload.fileName;
 									a.click();
 									window.URL.revokeObjectURL(url);
-								} else if (type === EDIT_REQUEST) {
+								} else if (payload.keyword === 'edit') {
 									// text = await new Response(blob).text();
 								}
 
 								fileBuffer = new ArrayBuffer(0);
 							}
-							yield put({
-								type: FIND_HISTORY,
-								payload: {
-									uuid: payload.uuid,
-									name: payload.fileName,
-									todo: payload.keyword,
-									progress: percent,
-								},
-							});
+
 							return {
 								type:
-									type === GET_REQUEST
+									payload.keyword === 'get'
 										? GET_SUCCESS
 										: EDIT_SUCCESS,
 								last: get.getLast(),

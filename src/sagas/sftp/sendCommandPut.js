@@ -1,14 +1,18 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
-import {PUT_REQUEST, PUT_SUCCESS} from '../../reducers/sftp';
+import {
+	FIND_HISTORY,
+	PUT_FAILURE,
+	PUT_REQUEST,
+	PUT_SUCCESS,
+} from '../../reducers/sftp';
 import {subscribe} from './channel';
 import sftp_ws from '../../ws/sftp_ws';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
-	let channel;
-	const {type, payload} = action;
-	channel = yield call(subscribe, payload.socket);
-	sftp_ws({
+	const {payload} = action;
+	const channel = yield call(subscribe, payload.socket);
+	yield call(sftp_ws, {
 		keyword: 'CommandByPut',
 		ws: payload.socket,
 		path: payload.path,
@@ -18,15 +22,20 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const data = yield take(channel);
-			const res = yield call(messageReader, {
-				type,
-				data,
-				payload,
-			});
+			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case PUT_SUCCESS:
+					yield put({
+						type: FIND_HISTORY,
+						payload: {
+							uuid: payload.uuid,
+							name: payload.uploadFile.name,
+							size: payload.uploadFile.size,
+							todo: payload.keyword,
+							progress: res.percent,
+						},
+					});
 					if (res.last && res.percent === 100) {
-						yield console.log('업로드 클리어!');
 						yield put({
 							type: PUT_SUCCESS,
 							payload: {
@@ -40,6 +49,7 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
+		yield put({type: PUT_FAILURE});
 		console.log(err);
 	}
 }

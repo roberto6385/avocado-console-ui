@@ -12,7 +12,7 @@ import {messageReader} from './messageReader';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	sftp_ws({
+	yield call(sftp_ws, {
 		keyword: 'CommandByPwd',
 		ws: payload.socket,
 	});

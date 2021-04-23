@@ -49,7 +49,7 @@ const HistoryNav = ({server}) => {
 					},
 				});
 			}
-			dispatch(commandLsAction(server));
+			// dispatch(commandLsAction(server));
 		};
 		document.body.removeChild(uploadInput);
 	}, [server]);

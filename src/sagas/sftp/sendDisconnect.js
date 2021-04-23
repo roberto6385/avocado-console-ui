@@ -14,7 +14,7 @@ function* sendCommand(action) {
 
 	const channel = yield call(subscribe, payload.socket);
 
-	sftp_ws({
+	yield call(sftp_ws, {
 		keyword: 'Disconnection',
 		ws: payload.socket,
 	});
