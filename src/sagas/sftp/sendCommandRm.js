@@ -5,6 +5,7 @@ import {
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,
+	RMDIR_SUCCESS,
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
@@ -29,27 +30,34 @@ function* messageReader(data, payload) {
 						case SFTP.CommandResponse.CommandCase.RM: {
 							const rm = command.getRm();
 							console.log('command : rm', rm);
-							yield put({
-								type: ADD_HISTORY,
-								payload: {
-									uuid,
-									name: payload.fileName,
-									size: payload.fileSize,
-									todo: 'rm',
-									progress: 100,
-								},
-							});
-							yield put({
-								type: RM_SUCCESS,
-								payload: {
-									uuid,
-								},
-							});
-							return {
-								type: RM_SUCCESS,
-							};
+							break;
+						}
+						case SFTP.CommandResponse.CommandCase.RMDIR: {
+							const rmdir = command.getRmdir();
+							console.log('command : rmdir', rmdir);
+
+							break;
 						}
 					}
+					yield put({
+						type: ADD_HISTORY,
+						payload: {
+							uuid,
+							name: payload.fileName,
+							size: payload.fileSize,
+							todo: 'rm',
+							progress: 100,
+						},
+					});
+					yield put({
+						type: RM_SUCCESS,
+						payload: {
+							uuid,
+						},
+					});
+					return {
+						type: RM_SUCCESS,
+					};
 				}
 			}
 		}
@@ -67,7 +75,7 @@ function* messageReader(data, payload) {
 function* sendCommand(payload) {
 	const channel = yield call(subscribe, payload.socket);
 	yield call(sftp_ws, {
-		keyword: 'CommandByRm',
+		keyword: payload.keyword === 'rm' ? 'CommandByRm' : 'CommandByRmdir',
 		ws: payload.socket,
 		path: `${payload.path}/${payload.fileName}`,
 	});

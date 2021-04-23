@@ -99,19 +99,21 @@ const FileListContents = ({server}) => {
 					  })
 					: dispatch({type: REMOVE_HIGHLIGHT, payload: {uuid, item}});
 			} else {
-				if (item.fileType === 'directory') {
-					// 디렉토리 클릭시 해당 디렉토리로 이동
-					dispatch(
-						commandCdAction({...server, newPath: item.fileName}),
-					);
-				} else {
-					//파일 클릭시 하이라이팅!
-					!highlight.includes(item) &&
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item},
-						});
-				}
+				!highlight.includes(item) &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item},
+					});
+			}
+		},
+		[server],
+	);
+
+	const changePath = useCallback(
+		(item) => () => {
+			if (item.fileType === 'directory') {
+				// 디렉토리 클릭시 해당 디렉토리로 이동
+				dispatch(commandCdAction({...server, newPath: item.fileName}));
 			}
 		},
 		[server],
@@ -130,6 +132,7 @@ const FileListContents = ({server}) => {
 							<tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
 								onClick={selectItem(item)}
+								onDoubleClick={changePath(item)}
 								style={{display: 'flex', cursor: 'pointer'}}
 								key={index + uuid}
 								className={

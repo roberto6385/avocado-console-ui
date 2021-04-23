@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
 
@@ -13,7 +13,6 @@ import {
 	commandRenameAction,
 	commandMkdirAction,
 	commandRmAction,
-	commandRmdirAction,
 	REMOVE_HISTORY,
 	commandPutAction,
 	CLOSE_EDITOR,
@@ -72,41 +71,15 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 		switch (keyword) {
 			case 'delete_work':
 				for (let value of highlight) {
-					if (mode === 'list') {
-						value.fileType === 'file'
-							? dispatch(
-									commandRmAction({
-										...server,
-										fileName: value.fileName,
-										fileSize: value.fileSize,
-									}),
-							  )
-							: dispatch(
-									commandRmdirAction({
-										...server,
-										fileName: value.fileName,
-										fileSize: value.fileSize,
-									}),
-							  );
-					} else if (mode === 'drop') {
-						value.item.fileType === 'file'
-							? dispatch(
-									commandRmAction({
-										...server,
-										fileName: value.item.fileName,
-										fileSize: value.item.fileSize,
-										path: value.path,
-									}),
-							  )
-							: dispatch(
-									commandRmdirAction({
-										...server,
-										fileName: value.item.fileName,
-										fileSize: value.item.fileSize,
-										path: value.path,
-									}),
-							  );
-					}
+					dispatch(
+						commandRmAction({
+							...server,
+							fileName: value.fileName,
+							fileSize: value.fileSize,
+							path: mode === 'list' ? server.path : value.path,
+							keyword: value.fileType === 'file' ? 'rm' : 'rmdir',
+						}),
+					);
 				}
 				break;
 			case 'rename_work':

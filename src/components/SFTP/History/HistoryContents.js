@@ -1,7 +1,7 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from '../Dropzone';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -19,7 +19,6 @@ import {
 	FlexSpaceBetween,
 	NoHistory,
 } from '../../../styles/sftp';
-import useSftpCommands from '../../../hooks/useSftpCommands';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 
 const HistoryContents = ({server}) => {
@@ -51,30 +50,15 @@ const HistoryContents = ({server}) => {
 		[server],
 	);
 
-	const selectItem = useCallback((e, history) => {
-		// if (e.shiftKey) {
-		// 	if (!highlight.includes(history)) {
-		// 		setHighlight([...highlight, history]);
-		// 	}
-		// } else {
-		// 	if (highlight.includes(history)) {
-		// 		setHighlight([]);
-		// 	} else {
-		// 		setHighlight([history]);
-		// 	}
-		// }
-	}, []);
+	// const selectItem = useCallback((e, history) => {}, []);
 
-	const {show} = useContextMenu({
-		id: uuid + 'history',
-	});
+	// const {show} = useContextMenu({
+	// 	id: uuid + 'history',
+	// });
 
-	const contextMenuOpen = useCallback((e, history) => {
-		// if (!highlight.includes(history)) {
-		// 	setHighlight([history]);
-		// }
-		show(e);
-	}, []);
+	// const contextMenuOpen = useCallback((e, history) => {
+	// 	show(e);
+	// }, []);
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
@@ -90,16 +74,8 @@ const HistoryContents = ({server}) => {
 					{history.map((history) => {
 						return (
 							<CustomLi
-								onContextMenu={(e) =>
-									contextMenuOpen(e, history)
-								}
 								key={history.HISTORY_ID}
-								// className={
-								// highlight.includes(history)
-								// 	? 'history_list active'
-								// 	: 'history_list'
-								// }
-								onClick={(e) => selectItem(e, history)}
+								// onClick={(e) => selectItem(e, history)}
 							>
 								<FlexSpaceBetween>
 									<CustomP minWidth={'15px'}>
