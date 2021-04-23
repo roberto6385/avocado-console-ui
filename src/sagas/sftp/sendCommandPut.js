@@ -1,7 +1,6 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	ADD_HISTORY,
 	FIND_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,

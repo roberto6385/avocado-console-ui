@@ -1,7 +1,7 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
-	ADD_HISTORY,
+	FIND_HISTORY,
 	GET_FAILURE,
 	GET_REQUEST,
 	GET_SUCCESS,
@@ -64,8 +64,16 @@ function* messageReader(data, payload) {
 								a.click();
 								window.URL.revokeObjectURL(url);
 							}
+							yield put({
+								type: FIND_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.fileName,
+									todo: payload.keyword,
+									progress: percent,
+								},
+							});
 							return {
-								type: GET_SUCCESS,
 								last: get.getLast(),
 								percent,
 							};
@@ -75,6 +83,7 @@ function* messageReader(data, payload) {
 			}
 		}
 	} catch (err) {
+		console.log(err);
 		yield put({
 			type: GET_FAILURE,
 			payload: {
@@ -84,10 +93,9 @@ function* messageReader(data, payload) {
 	}
 }
 
-function* sendCommand({payload}) {
-	console.log(payload);
+function* sendCommand(payload) {
 	const channel = yield call(subscribe, payload.socket);
-	yield call(sftp_ws, {
+	sftp_ws({
 		keyword: 'CommandByGet',
 		ws: payload.socket,
 		path: payload.path,
@@ -97,6 +105,7 @@ function* sendCommand({payload}) {
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, data, payload);
+			console.log(res);
 			if (res.last && res.percent === 100) {
 				yield put({
 					type: GET_SUCCESS,
@@ -105,16 +114,7 @@ function* sendCommand({payload}) {
 						percent: res.percent,
 					},
 				});
-				yield put({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: payload.uuid,
-						name: payload.fileName,
-						size: payload.fileSize,
-						todo: 'get',
-						progress: res.percent,
-					},
-				});
+				return {type: 'end'};
 			}
 		}
 	} catch (err) {
@@ -123,7 +123,12 @@ function* sendCommand({payload}) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(GET_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(GET_REQUEST);
+	while (true) {
+		const {payload} = yield take(reqChannel);
+		const res = yield call(sendCommand, payload);
+		yield console.log(res);
+	}
 }
 
 export default function* commandGetSaga() {

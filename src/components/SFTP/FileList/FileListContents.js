@@ -19,6 +19,7 @@ import {
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
+	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandEditAction,
@@ -41,8 +42,22 @@ const FileListContents = ({server}) => {
 			if (item.fileName !== '..' && item.fileType !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
-					commandGetAction({...server, fileName: item.fileName}),
+					commandGetAction({
+						...server,
+						fileName: item.fileName,
+						keyword: 'get',
+					}),
 				);
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: server.uuid,
+						name: item.fileName,
+						size: item.fileSize,
+						todo: 'get',
+						progress: 0,
+					},
+				});
 			}
 		},
 		[server],

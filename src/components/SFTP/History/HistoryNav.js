@@ -14,10 +14,10 @@ import ConfirmPopup from '../../Popup/ConfirmPopup';
 
 const HistoryNav = ({server}) => {
 	const dispatch = useDispatch();
-	const {uuid, history} = server;
+	const {history} = server;
 	const [open, setOpen] = useState(false);
 
-	const upload = async () => {
+	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
 		document.body.appendChild(uploadInput);
 		uploadInput.setAttribute('type', 'file');
@@ -47,7 +47,7 @@ const HistoryNav = ({server}) => {
 			}
 		};
 		document.body.removeChild(uploadInput);
-	};
+	}, [server]);
 
 	const historyDelete = useCallback(() => {
 		// if exist highlighting history

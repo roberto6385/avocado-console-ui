@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from '../Dropzone';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -20,18 +20,36 @@ import {
 	NoHistory,
 } from '../../../styles/sftp';
 import useSftpCommands from '../../../hooks/useSftpCommands';
+import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 
 const HistoryContents = ({server}) => {
 	const {socket, uuid, history} = server;
-	// const {initialWork} = useSftpCommands({ws: socket, uuid});
-	const {History} = useSelector((state) => state.subSftp);
-	const eachHistory = History.filter((it) => it.uuid === uuid);
-	// const [highlight, setHighlight] = useState([]);
-	const {uploadWork} = useSftpCommands({ws: socket, uuid});
+	const dispatch = useDispatch();
 
-	const upload = useCallback(async (files) => {
-		// uploadWork(files).then(() => initialWork());
-	}, []);
+	const upload = useCallback(
+		async (files) => {
+			for await (let value of files) {
+				dispatch(
+					commandPutAction({
+						...server,
+						uploadFile: value,
+						keyword: 'put',
+					}),
+				);
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: server.uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'put',
+						progress: 0,
+					},
+				});
+			}
+		},
+		[server],
+	);
 
 	const selectItem = useCallback((e, history) => {
 		// if (e.shiftKey) {

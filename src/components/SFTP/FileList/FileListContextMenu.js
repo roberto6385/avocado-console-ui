@@ -3,9 +3,11 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
-import {toEditMode} from '../commands';
-import useSftpCommands from '../../../hooks/useSftpCommands';
-import {commandEditAction, commandGetAction} from '../../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	commandEditAction,
+	commandGetAction,
+} from '../../../reducers/sftp';
 
 const FileListContextMenu = ({server}) => {
 	const {uuid, highlight, path, mode} = server;
@@ -19,7 +21,23 @@ const FileListContextMenu = ({server}) => {
 	const contextDownload = () => {
 		// downloadWork(currentlistMode?.mode, highlightItem?.list)
 		for (let value of highlight) {
-			dispatch(commandGetAction({...server, fileName: value.fileName}));
+			dispatch(
+				commandGetAction({
+					...server,
+					fileName: value.fileName,
+					keyword: 'get',
+				}),
+			);
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: server.uuid,
+					name: value.fileName,
+					size: value.fileSize,
+					todo: 'get',
+					progress: 0,
+				},
+			});
 		}
 	};
 
