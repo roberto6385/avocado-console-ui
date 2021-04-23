@@ -1,22 +1,13 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	actionChannel,
-	delay,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
+	FIND_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
 } from '../../reducers/sftp';
 import {subscribe} from './channel';
-import {buffers} from 'redux-saga';
 import sftp_ws from '../../ws/sftp_ws';
 
 function* messageReader(data, payload) {
@@ -40,7 +31,7 @@ function* messageReader(data, payload) {
 							console.log(resPut.getLast());
 
 							yield put({
-								type: ADD_HISTORY,
+								type: FIND_HISTORY,
 								payload: {
 									uuid: payload.uuid,
 									name: payload.uploadFile.name,
@@ -49,12 +40,6 @@ function* messageReader(data, payload) {
 									progress: resPut.getProgress(),
 								},
 							});
-
-							// if (
-							// 	resPut.getLast() &&
-							// 	resPut.getProgress() === 100
-							// ) {
-							// }
 
 							return {
 								last: resPut.getLast(),

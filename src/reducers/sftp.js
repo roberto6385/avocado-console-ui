@@ -72,6 +72,8 @@ export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 
 export const ADD_HISTORY = 'sftp/ADD_HISTORY';
+export const FIND_HISTORY = 'sftp/FIND_HISTORY';
+
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 
 let HISTORY_ID = 0;
@@ -320,6 +322,19 @@ const sftp = (state = initialState, action) =>
 			case ADD_HISTORY:
 				target.history.unshift({...action.payload, HISTORY_ID});
 				HISTORY_ID++;
+				break;
+
+			case FIND_HISTORY:
+				// eslint-disable-next-line no-case-declarations
+				const index = target.history.findIndex(
+					(h) =>
+						h.name === action.payload.name &&
+						h.todo === action.payload.todo,
+				);
+				console.log(index);
+				if (index !== -1) {
+					target.history[index].progress = action.payload.progress;
+				}
 				break;
 			case REMOVE_HISTORY:
 				target.history = [];

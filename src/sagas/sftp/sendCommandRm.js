@@ -1,13 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	actionChannel,
-	takeEvery,
-	delay,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import SFTP from '../../dist/sftp_pb';
 import {
 	ADD_HISTORY,
@@ -17,13 +8,11 @@ import {
 } from '../../reducers/sftp';
 import sftp_ws from '../../ws/sftp_ws';
 import {subscribe} from './channel';
-import {buffers} from 'redux-saga';
 
 function* messageReader(data, payload) {
 	const {uuid} = payload;
 	console.log(payload);
 	console.log(data);
-	// return new Promise(function (resolve) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -76,11 +65,7 @@ function* messageReader(data, payload) {
 }
 
 function* sendCommand(payload) {
-	const channel = yield call(
-		subscribe,
-		payload.socket,
-		buffers.expanding(10),
-	);
+	const channel = yield call(subscribe, payload.socket);
 	yield call(sftp_ws, {
 		keyword: 'CommandByRm',
 		ws: payload.socket,

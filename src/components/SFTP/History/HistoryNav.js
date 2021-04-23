@@ -9,9 +9,8 @@ import {
 import {PropTypes} from 'prop-types';
 import {NavItem} from '../../../styles/sftp';
 import {useDispatch} from 'react-redux';
-import {commandPutAction, REMOVE_HISTORY} from '../../../reducers/sftp';
+import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
-import sftp_ws from '../../../ws/sftp_ws';
 
 const HistoryNav = ({server}) => {
 	const dispatch = useDispatch();
@@ -35,6 +34,16 @@ const HistoryNav = ({server}) => {
 						keyword: 'put',
 					}),
 				);
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: server.uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'put',
+						progress: 0,
+					},
+				});
 			}
 		};
 		document.body.removeChild(uploadInput);

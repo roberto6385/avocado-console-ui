@@ -123,7 +123,7 @@ const HistoryContents = ({server}) => {
 								<CustomP>
 									{history.progress === 100
 										? 'Complete'
-										: 'Progress'}
+										: history.progress}
 								</CustomP>
 							</CustomLi>
 						);
