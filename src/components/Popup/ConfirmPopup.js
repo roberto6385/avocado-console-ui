@@ -160,7 +160,7 @@ const ConfirmPopup = () => {
 					break;
 				}
 
-				case 'edit_file': {
+				case 'sftp_edit_file': {
 					const {editText, editFile} = corServer;
 					const uploadFile = new File([editText], editFile.name, {
 						type: 'text/plain',
@@ -204,7 +204,7 @@ const ConfirmPopup = () => {
 	);
 
 	const cancelFunction = useCallback(() => {
-		confirm_popup.key === 'edit_file' && justExit();
+		confirm_popup.key === 'sftp_edit_file' && justExit();
 		handleClose();
 	}, [confirm_popup]);
 
