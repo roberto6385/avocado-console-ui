@@ -14,7 +14,6 @@ import find from './auth/find';
 
 import download from './download';
 import upload from './upload';
-import subSftp from './subSftp';
 import sftp from './sftp';
 
 const rootReducer = combineReducers({
@@ -31,7 +30,6 @@ const rootReducer = combineReducers({
 	find,
 	download,
 	upload,
-	subSftp,
 });
 
 export default rootReducer;
