@@ -5,21 +5,21 @@ import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
 import {HistoryBody, HistoryBox} from '../../../styles/sftp';
 
-const History = ({server}) => {
+const History = ({uuid}) => {
 	return (
 		<HistoryBox>
 			<Card.Header>
-				<HistoryNav server={server} />
+				<HistoryNav uuid={uuid} />
 			</Card.Header>
 			<HistoryBody>
-				<HistoryContents server={server} />
+				<HistoryContents uuid={uuid} />
 			</HistoryBody>
 		</HistoryBox>
 	);
 };
 
 History.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default History;

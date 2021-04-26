@@ -53,7 +53,7 @@ const SFTPContainer = ({uuid}) => {
 		dispatch(commandPwdAction(currentServer));
 	}, []);
 
-	return currentServer ? <SFTP_Component server={currentServer} /> : <></>;
+	return currentServer ? <SFTP_Component uuid={uuid} /> : <></>;
 };
 
 SFTPContainer.propTypes = {

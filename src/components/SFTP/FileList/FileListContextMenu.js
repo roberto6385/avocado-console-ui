@@ -1,24 +1,23 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
-const FileListContextMenu = ({server}) => {
-	const {uuid, highlight, path, mode} = server;
+const FileListContextMenu = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {highlight, path, mode} = corServer;
 
-	const [keyword, setKeyword] = useState('');
 	const dispatch = useDispatch();
-	// const {downloadWork} = useSftpCommands({ws: socket, uuid});
 
 	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
-		// downloadWork(currentlistMode?.mode, highlightItem?.list)
 		for (let value of highlight) {
 			dispatch(
 				commandGetAction({
-					...server,
+					...corServer,
 					file: mode === 'list' ? value : value.item,
 					keyword: 'get',
 				}),
@@ -26,7 +25,7 @@ const FileListContextMenu = ({server}) => {
 			dispatch({
 				type: ADD_HISTORY,
 				payload: {
-					uuid: server.uuid,
+					uuid: uuid,
 					name: mode === 'list' ? value.name : value.item.name,
 					size: mode === 'list' ? value.size : value.item.size,
 					todo: 'get',
@@ -40,7 +39,7 @@ const FileListContextMenu = ({server}) => {
 		for (let value of highlight) {
 			dispatch(
 				commandGetAction({
-					...server,
+					...corServer,
 					file: mode === 'list' ? value : value.item,
 					keyword: 'edit',
 				}),
@@ -49,7 +48,6 @@ const FileListContextMenu = ({server}) => {
 	};
 
 	const handleItemClick = ({event}) => {
-		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
 			case 'Download':
 				contextDownload();
@@ -60,7 +58,7 @@ const FileListContextMenu = ({server}) => {
 			case 'sftp_new_folder':
 				dispatch({
 					type: OPEN_CONFIRM_POPUP,
-					data: {key: 'sftp_new_folder', uuid: server.uuid},
+					data: {key: 'sftp_new_folder', uuid: uuid},
 				});
 				break;
 			case 'rename_work':
@@ -74,7 +72,7 @@ const FileListContextMenu = ({server}) => {
 						type: OPEN_CONFIRM_POPUP,
 						data: {
 							key: 'sftp_rename_file_folder',
-							uuid: server.uuid,
+							uuid: uuid,
 						},
 					});
 				}
@@ -82,7 +80,7 @@ const FileListContextMenu = ({server}) => {
 			case 'delete_work':
 				dispatch({
 					type: OPEN_CONFIRM_POPUP,
-					data: {key: 'sftp_delete_file_folder', uuid: server.uuid},
+					data: {key: 'sftp_delete_file_folder', uuid: uuid},
 				});
 				break;
 			default:
@@ -136,7 +134,7 @@ const FileListContextMenu = ({server}) => {
 };
 
 FileListContextMenu.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default FileListContextMenu;

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import {Navbar, NavItem} from '../../../styles/sftp';
 import {
@@ -12,8 +12,10 @@ import {
 } from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
-const EditNav = ({server}) => {
-	const {uuid, text, editText, editFile, path, prevMode, mode} = server;
+const EditNav = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {text, editText, editFile, path, prevMode, mode} = corServer;
 	const dispatch = useDispatch();
 
 	const editedFileDownload = useCallback(() => {
@@ -36,7 +38,7 @@ const EditNav = ({server}) => {
 				// 삭제, dispatch, 삭제 해서 progress 100 만들기
 			},
 		});
-	}, [server]);
+	}, [corServer]);
 
 	const editedFileSave = useCallback(() => {
 		const uploadFile = new File([editText], editFile.name, {
@@ -45,18 +47,18 @@ const EditNav = ({server}) => {
 		dispatch({type: SAVE_TEXT, payload: {uuid, text: editText}});
 		dispatch(
 			commandPutAction({
-				...server,
+				...corServer,
 				file: uploadFile,
 				keyword: 'edit',
 			}),
 		);
-	}, [server]);
+	}, [corServer]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
 			dispatch({
 				type: OPEN_CONFIRM_POPUP,
-				data: {type: 'sftp_edit_file', uuid: server.uuid},
+				data: {type: 'sftp_edit_file', uuid},
 			});
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});
@@ -65,7 +67,7 @@ const EditNav = ({server}) => {
 				payload: {uuid, mode: prevMode, currentMode: mode},
 			});
 		}
-	}, [server]);
+	}, [corServer]);
 
 	return (
 		<Navbar>
@@ -86,7 +88,7 @@ const EditNav = ({server}) => {
 };
 
 EditNav.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default EditNav;

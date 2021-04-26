@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	DirectoryIcon,
 	DropdownLi,
@@ -17,8 +17,10 @@ import {
 	SAVE_TEMP_PATH,
 } from '../../../reducers/sftp';
 
-const FileListDropDown = ({server}) => {
-	const {uuid, fileList, pathList, highlight} = server;
+const FileListDropDown = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {fileList, pathList, highlight} = corServer;
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -32,12 +34,12 @@ const FileListDropDown = ({server}) => {
 		({item, listindex}) => () => {
 			dispatch(
 				commandCdAction({
-					...server,
+					...corServer,
 					newPath: `${pathList[listindex]}/${item.name}`,
 				}),
 			);
 		},
-		[server],
+		[corServer],
 	);
 
 	const selectFile = useCallback(
@@ -84,7 +86,7 @@ const FileListDropDown = ({server}) => {
 					payload: {uuid, item, path},
 				});
 		},
-		[server],
+		[corServer],
 	);
 
 	return fileList !== undefined ? (
@@ -136,7 +138,7 @@ const FileListDropDown = ({server}) => {
 					</DropdownUl>
 				);
 			})}
-			<FileListContextMenu server={server} />
+			<FileListContextMenu uuid={uuid} />
 		</>
 	) : (
 		<div>loading...</div>
@@ -144,6 +146,6 @@ const FileListDropDown = ({server}) => {
 };
 
 FileListDropDown.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 export default FileListDropDown;

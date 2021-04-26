@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	CustomNameTh,
@@ -26,8 +26,10 @@ import {
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 
-const FileListContents = ({server}) => {
-	const {uuid, fileList, highlight} = server;
+const FileListContents = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {fileList, highlight} = corServer;
 	const dispatch = useDispatch();
 
 	const {show} = useContextMenu({
@@ -37,12 +39,11 @@ const FileListContents = ({server}) => {
 	const download = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
-			console.log(server);
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
 					commandGetAction({
-						...server,
+						...corServer,
 						file: item,
 						keyword: 'get',
 					}),
@@ -50,7 +51,7 @@ const FileListContents = ({server}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: server.uuid,
+						uuid: uuid,
 						name: item.name,
 						size: item.size,
 						todo: 'get',
@@ -59,7 +60,7 @@ const FileListContents = ({server}) => {
 				});
 			}
 		},
-		[server],
+		[corServer],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -68,14 +69,14 @@ const FileListContents = ({server}) => {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
 					commandGetAction({
-						...server,
+						...corServer,
 						file: item,
 						keyword: 'edit',
 					}),
 				);
 			}
 		},
-		[server],
+		[corServer],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -111,17 +112,17 @@ const FileListContents = ({server}) => {
 					});
 			}
 		},
-		[server],
+		[corServer],
 	);
 
 	const changePath = useCallback(
 		(item) => () => {
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch(commandCdAction({...server, newPath: item.name}));
+				dispatch(commandCdAction({...corServer, newPath: item.name}));
 			}
 		},
-		[server],
+		[corServer],
 	);
 
 	return (
@@ -190,13 +191,13 @@ const FileListContents = ({server}) => {
 					})}
 				</CustomTbody>
 			</CustomTable>
-			<FileListContextMenu server={server} />
+			<FileListContextMenu uuid={uuid} />
 		</>
 	);
 };
 
 FileListContents.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default FileListContents;

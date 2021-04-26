@@ -7,7 +7,7 @@ import {
 	MdHome,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp';
@@ -21,14 +21,17 @@ const SearchPath = styled.input`
 	background: ${HIGHLIGHT_COLOR};
 `;
 
-const FileListNav = ({server}) => {
-	const {uuid, path, mode} = server;
+const FileListNav = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {path, mode} = corServer;
+
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
 		nextPath !== undefined &&
-			dispatch(commandCdAction({...server, newPath: nextPath}));
+			dispatch(commandCdAction({...corServer, newPath: nextPath}));
 	};
 
 	const goBack = (e) => {
@@ -82,7 +85,7 @@ const FileListNav = ({server}) => {
 
 	useEffect(() => {
 		setCurrentPath(path);
-	}, [server]);
+	}, [corServer]);
 
 	return (
 		<>
@@ -116,7 +119,7 @@ const FileListNav = ({server}) => {
 };
 
 FileListNav.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default FileListNav;

@@ -8,14 +8,17 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {NavItem} from '../../../styles/sftp';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
-const HistoryNav = ({server}) => {
+const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {history} = server;
+
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {history} = corServer;
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -29,7 +32,7 @@ const HistoryNav = ({server}) => {
 			for await (let value of files) {
 				dispatch(
 					commandPutAction({
-						...server,
+						...corServer,
 						file: value,
 						keyword: 'put',
 					}),
@@ -37,7 +40,7 @@ const HistoryNav = ({server}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: server.uuid,
+						uuid: uuid,
 						name: value.name,
 						size: value.size,
 						todo: 'put',
@@ -45,19 +48,19 @@ const HistoryNav = ({server}) => {
 					},
 				});
 			}
-			dispatch(commandPutAction({...server, keyword: 'pwd'}));
+			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
 		};
 		document.body.removeChild(uploadInput);
-	}, [server]);
+	}, [corServer]);
 
 	const historyDelete = useCallback(() => {
 		// if exist highlighting history
 		history.length > 0 &&
 			dispatch({
 				type: OPEN_CONFIRM_POPUP,
-				data: {key: 'sftp_delete_history', uuid: server.uuid},
+				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
-	}, [server, history]);
+	}, [corServer, history]);
 
 	return (
 		<>
@@ -81,7 +84,7 @@ const HistoryNav = ({server}) => {
 };
 
 HistoryNav.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default HistoryNav;

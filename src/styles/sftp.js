@@ -259,7 +259,8 @@ export const CustomUl = styled.ul`
 	flex-direction: column;
 	white-space: nowrap;
 	flex: 1;
-	width: 250px;
+	min-width: 250px;
+	width: 100%;
 
 	// 드래그 방지
 	-webkit-user-select: none;
@@ -278,7 +279,8 @@ export const CustomLi = styled.li`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
-	width: 250px;
+	min-width: 250px;
+	width: 100%;
 	// overflow: scroll;
 `;
 

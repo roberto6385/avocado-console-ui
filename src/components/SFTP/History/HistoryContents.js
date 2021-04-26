@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from '../Dropzone';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	FaArrowAltCircleDown,
 	FaArrowAltCircleUp,
@@ -20,8 +20,10 @@ import {
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 
-const HistoryContents = ({server}) => {
-	const {history} = server;
+const HistoryContents = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {history} = corServer;
 	const dispatch = useDispatch();
 
 	const upload = useCallback(
@@ -29,7 +31,7 @@ const HistoryContents = ({server}) => {
 			for await (let value of files) {
 				dispatch(
 					commandPutAction({
-						...server,
+						...corServer,
 						file: value,
 						keyword: 'put',
 					}),
@@ -37,7 +39,7 @@ const HistoryContents = ({server}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: server.uuid,
+						uuid: uuid,
 						name: value.name,
 						size: value.size,
 						todo: 'put',
@@ -45,9 +47,9 @@ const HistoryContents = ({server}) => {
 					},
 				});
 			}
-			dispatch(commandPutAction({...server, keyword: 'pwd'}));
+			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
 		},
-		[server],
+		[corServer],
 	);
 
 	// const selectItem = useCallback((e, history) => {}, []);
@@ -138,7 +140,7 @@ const HistoryContents = ({server}) => {
 	);
 };
 HistoryContents.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default HistoryContents;

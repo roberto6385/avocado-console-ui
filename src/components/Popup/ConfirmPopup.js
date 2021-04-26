@@ -67,13 +67,14 @@ const ConfirmPopup = () => {
 
 	const justExit = useCallback(() => {
 		const uuid = confirm_popup.uuid;
-		const corServer = server.find((x) => x.uuid === uuid);
+		const corServer = server.find((it) => it.uuid === uuid);
+		const {prevMode, mode} = corServer;
 		dispatch({
 			type: CHANGE_MODE,
 			payload: {
 				uuid: uuid,
-				mode: corServer.prevMode,
-				currentMode: corServer.mode,
+				mode: prevMode,
+				currentMode: mode,
 			},
 		});
 	}, [confirm_popup]);
@@ -86,24 +87,20 @@ const ConfirmPopup = () => {
 		(e) => {
 			e.preventDefault();
 
+			const uuid = confirm_popup.uuid;
+			const corServer = server.find((it) => it.uuid === uuid);
+
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
-					for (let value of corServer.highlight) {
+					const {highlight, mode, path} = corServer;
+					for (let value of highlight) {
 						dispatch(
 							commandRmAction({
 								...corServer,
-								file:
-									corServer.mode === 'list'
-										? value
-										: value.item,
-								path:
-									corServer.mode === 'list'
-										? corServer.path
-										: value.path,
+								file: mode === 'list' ? value : value.item,
+								path: mode === 'list' ? path : value.path,
 								keyword:
-									corServer.mode === 'list'
+									mode === 'list'
 										? value.type === 'file'
 											? 'rm'
 											: 'rmdir'
@@ -118,10 +115,9 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_rename_file_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
-					for (let value of corServer.highlight) {
-						if (corServer.mode === 'list') {
+					const {highlight, mode} = corServer;
+					for (let value of highlight) {
+						if (mode === 'list') {
 							dispatch(
 								commandRenameAction({
 									...corServer,
@@ -129,7 +125,7 @@ const ConfirmPopup = () => {
 									nextName: formValue,
 								}),
 							);
-						} else if (corServer.mode === 'drop') {
+						} else if (mode === 'drop') {
 							dispatch(
 								commandRenameAction({
 									...corServer,
@@ -144,25 +140,20 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_new_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
-					console.log(corServer, formValue);
+					const {mode, path, tempPath} = corServer;
 					if (formValue === '') return;
-					if (
-						corServer.mode === 'drop' &&
-						corServer.tempPath !== ''
-					) {
+					if (mode === 'drop' && tempPath !== '') {
 						dispatch(
 							commandMkdirAction({
 								...corServer,
-								newPath: `${corServer.tempPath}/${formValue}`,
+								newPath: `${tempPath}/${formValue}`,
 							}),
 						);
 					} else {
 						dispatch(
 							commandMkdirAction({
 								...corServer,
-								newPath: `${corServer.path}/${formValue}`,
+								newPath: `${path}/${formValue}`,
 							}),
 						);
 					}
@@ -170,15 +161,10 @@ const ConfirmPopup = () => {
 				}
 
 				case 'edit_file': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
-					const uploadFile = new File(
-						[corServer.editText],
-						corServer.editFile.name,
-						{
-							type: 'text/plain',
-						},
-					);
+					const {editText, editFile} = corServer;
+					const uploadFile = new File([editText], editFile.name, {
+						type: 'text/plain',
+					});
 					dispatch(
 						commandPutAction({
 							...corServer,
@@ -214,7 +200,7 @@ const ConfirmPopup = () => {
 			}
 			handleClose();
 		},
-		[clicked_server, confirm_popup, formValue, server],
+		[clicked_server, confirm_popup, formValue],
 	);
 
 	const cancelFunction = useCallback(() => {

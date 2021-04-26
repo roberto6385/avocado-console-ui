@@ -1,11 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {TextAreaWrapper} from '../../../styles/sftp';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 
-const EditContents = ({server}) => {
-	const {uuid, editText} = server;
+const EditContents = ({uuid}) => {
+	const {server} = useSelector((state) => state.sftp);
+	const corServer = server.find((it) => it.uuid === uuid);
+	const {editText} = corServer;
 	const dispatch = useDispatch();
 	const checked = window.localStorage.getItem('editorCheck');
 
@@ -28,7 +30,7 @@ const EditContents = ({server}) => {
 };
 
 EditContents.propTypes = {
-	server: PropTypes.object.isRequired,
+	uuid: PropTypes.string.isRequired,
 };
 
 export default EditContents;
