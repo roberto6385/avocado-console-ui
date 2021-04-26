@@ -57,7 +57,6 @@ const FORM_KEYWORDS = [
 
 const ConfirmPopup = () => {
 	const dispatch = useDispatch();
-
 	const {confirm_popup} = useSelector((state) => state.popup);
 	const {clicked_server} = useSelector((state) => state.common);
 	const {server} = useSelector((state) => state.sftp);
@@ -66,17 +65,16 @@ const ConfirmPopup = () => {
 	const buttonRef = useRef(null);
 
 	const justExit = useCallback(() => {
-		const uuid = confirm_popup.uuid;
-		const corServer = server.find((x) => x.uuid === uuid);
+		const corServer = server.find((x) => x.uuid === confirm_popup.uuid);
 		dispatch({
 			type: CHANGE_MODE,
 			payload: {
-				uuid: uuid,
+				uuid: confirm_popup.uuid,
 				mode: corServer.prevMode,
 				currentMode: corServer.mode,
 			},
 		});
-	}, [confirm_popup]);
+	}, [confirm_popup, server]);
 
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
@@ -88,8 +86,9 @@ const ConfirmPopup = () => {
 
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
+					const corServer = server.find(
+						(x) => x.uuid === confirm_popup.uuid,
+					);
 					for (let value of corServer.highlight) {
 						dispatch(
 							commandRmAction({
@@ -118,8 +117,9 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_rename_file_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
+					const corServer = server.find(
+						(x) => x.uuid === confirm_popup.uuid,
+					);
 					for (let value of corServer.highlight) {
 						if (corServer.mode === 'list') {
 							dispatch(
@@ -144,8 +144,9 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_new_folder': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
+					const corServer = server.find(
+						(x) => x.uuid === confirm_popup.uuid,
+					);
 					console.log(corServer, formValue);
 					if (formValue === '') return;
 					if (
@@ -169,9 +170,10 @@ const ConfirmPopup = () => {
 					break;
 				}
 
-				case 'edit_file': {
-					const uuid = confirm_popup.uuid;
-					const corServer = server.find((x) => x.uuid === uuid);
+				case 'sftp_edit_file': {
+					const corServer = server.find(
+						(x) => x.uuid === confirm_popup.uid,
+					);
 					const uploadFile = new File(
 						[corServer.editText],
 						corServer.editFile.name,
@@ -186,29 +188,33 @@ const ConfirmPopup = () => {
 							keyword: 'edit',
 						}),
 					);
-					dispatch({type: CLOSE_EDITOR, payload: {uuid}});
+					dispatch({
+						type: CLOSE_EDITOR,
+						payload: {uuid: confirm_popup.uuid},
+					});
 					dispatch({
 						type: CHANGE_MODE,
-						payload: {uuid, mode: 'list'},
+						payload: {uuid: confirm_popup.uuid, mode: 'list'},
 					});
 					break;
 				}
 
 				case 'sftp_delete_history': {
-					const uuid = confirm_popup.uuid;
 					dispatch({
 						type: REMOVE_HISTORY,
-						payload: {uuid},
+						payload: {uuid: confirm_popup.uuid},
 					});
 					break;
 				}
 				case 'delete_server_folder':
 					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
 					break;
+
 				case 'new_folder':
 					formValue !== '' &&
 						dispatch({type: ADD_FOLDER, data: formValue});
 					break;
+
 				default:
 					break;
 			}
@@ -218,7 +224,7 @@ const ConfirmPopup = () => {
 	);
 
 	const cancelFunction = useCallback(() => {
-		confirm_popup.key === 'edit_file' && justExit();
+		confirm_popup.key === 'sftp_edit_file' && justExit();
 		handleClose();
 	}, [confirm_popup]);
 

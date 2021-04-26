@@ -1,13 +1,13 @@
 import {
 	all,
 	fork,
-	put,
 	takeLatest,
-	call,
-	throttle,
 	takeEvery,
+	put,
+	actionChannel,
+	take,
+	call,
 } from 'redux-saga/effects';
-import axios from 'axios';
 
 import {
 	SSHT_SEND_CONNECTION_REQUEST,
@@ -22,21 +22,21 @@ import {
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_SUCCESS,
 	SSHT_SEND_WINDOW_CHANGE_FAILURE,
-} from '../reducers/ssht';
+} from '../../reducers/common';
 
 function* SendConnection(action) {
 	try {
-		// const result = yield call(deleteVideoAPI, action.data);
-		// yield put({
-		// 	type: SSHT_SEND_CONNECTION_SUCCESS,
-		// 	data: result.data,
-		// });
+		const result = yield call(deleteVideoAPI, action.data);
+		yield put({
+			type: SSHT_SEND_CONNECTION_SUCCESS,
+			data: result.data,
+		});
 	} catch (err) {
-		// console.error(err);
-		// yield put({
-		// 	type: SSHT_SEND_CONNECTION_FAILURE,
-		// 	error: err.response.data,
-		// });
+		console.error(err);
+		yield put({
+			type: SSHT_SEND_CONNECTION_FAILURE,
+			error: err.response.data,
+		});
 	}
 }
 
@@ -89,7 +89,11 @@ function* sendWindowChange(action) {
 }
 
 function* watchSendConnection() {
-	yield takeEvery(SSHT_SEND_CONNECTION_REQUEST, SendConnection);
+	const reqChannel = yield actionChannel(SSHT_SEND_CONNECTION_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		const res = yield call(SendConnection, action);
+	}
 }
 
 function* watchSendDisconnection() {

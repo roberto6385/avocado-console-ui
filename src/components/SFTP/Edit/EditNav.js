@@ -56,7 +56,7 @@ const EditNav = ({server}) => {
 		if (text !== editText) {
 			dispatch({
 				type: OPEN_CONFIRM_POPUP,
-				data: {type: 'sftp_edit_file', uuid: server.uuid},
+				data: {key: 'sftp_edit_file', uuid: server.uuid},
 			});
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});

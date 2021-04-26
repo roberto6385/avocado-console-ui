@@ -3,7 +3,7 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch} from 'react-redux';
 import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
-import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {OPEN_ALERT_POPUP, OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({server}) => {
 	const {uuid, highlight, path, mode} = server;
@@ -51,13 +51,13 @@ const FileListContextMenu = ({server}) => {
 	const handleItemClick = ({event}) => {
 		setKeyword(event.currentTarget.id);
 		switch (event.currentTarget.id) {
-			case 'Download':
+			case 'download':
 				contextDownload();
 				break;
-			case 'Edit':
+			case 'edit':
 				contextEdit(event);
 				break;
-			case 'sftp_new_folder':
+			case 'new_folder':
 				dispatch({
 					type: OPEN_CONFIRM_POPUP,
 					data: {key: 'sftp_new_folder', uuid: server.uuid},
@@ -68,7 +68,7 @@ const FileListContextMenu = ({server}) => {
 					mode === 'drop' &&
 					path === `${highlight[0].path}/${highlight[0].item.name}`
 				) {
-					alert('현재 경로의 폴더 이름은 변경할 수 없습니다.');
+					dispatch({type: OPEN_ALERT_POPUP, data: 'current_path'});
 				} else {
 					dispatch({
 						type: OPEN_CONFIRM_POPUP,
@@ -98,21 +98,21 @@ const FileListContextMenu = ({server}) => {
 			>
 				<Item
 					disabled={highlight[0] === null || undefined}
-					id='Download'
+					id='download'
 					onClick={handleItemClick}
 				>
 					Download
 				</Item>
 				<Item
 					disabled={highlight[0] === null || highlight.length !== 1}
-					id='Edit'
+					id='edit'
 					onClick={handleItemClick}
 				>
 					Edit
 				</Item>
 				<Separator />
 
-				<Item id='sftp_new_folder' onClick={handleItemClick}>
+				<Item id='new_folder' onClick={handleItemClick}>
 					New Folder
 				</Item>
 				<Item
