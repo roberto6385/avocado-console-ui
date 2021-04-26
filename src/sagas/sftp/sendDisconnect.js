@@ -10,7 +10,7 @@ import {CLOSE_TAB} from '../../reducers/common';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
-	const {type, payload} = action;
+	const {payload} = action;
 
 	const channel = yield call(subscribe, payload.socket);
 
@@ -22,11 +22,7 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const data = yield take(channel);
-			const res = yield call(messageReader, {
-				type,
-				data,
-				payload,
-			});
+			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case DISCONNECTION_SUCCESS:
 					yield put({

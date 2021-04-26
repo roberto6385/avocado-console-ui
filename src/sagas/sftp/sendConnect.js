@@ -14,7 +14,7 @@ function* sendCommand(action) {
 	console.log(action);
 	let socket;
 	let channel;
-	const {type, payload} = action;
+	const {payload} = action;
 
 	socket = yield call(createWebsocket, payload);
 	channel = yield call(subscribe, socket);
@@ -27,12 +27,7 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const data = yield take(channel);
-			const res = yield call(messageReader, {
-				type,
-				data,
-				payload,
-				socket,
-			});
+			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case CONNECTION_SUCCESS:
 					yield put({

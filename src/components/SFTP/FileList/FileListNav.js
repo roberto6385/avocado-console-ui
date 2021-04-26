@@ -32,9 +32,11 @@ const FileListNav = ({server}) => {
 	};
 
 	const goBack = (e) => {
+		console.log(path);
 		if (path !== '/') {
 			let tempPath = path.split('/');
 			tempPath.pop();
+			console.log(tempPath);
 			let nextPath = tempPath.join('/').trim();
 			console.log(nextPath);
 			goHome(e, nextPath === '' ? '/' : nextPath);
