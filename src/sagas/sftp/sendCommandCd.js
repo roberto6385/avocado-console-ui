@@ -17,7 +17,6 @@ import {
 import messageSender from './messageSender';
 import {subscribe} from './channel';
 import {messageReader} from './messageReader';
-import {buffers} from 'redux-saga';
 
 function* sendCommand(action) {
 	try {
@@ -31,10 +30,9 @@ function* sendCommand(action) {
 		});
 
 		const {timeout, data} = yield race({
-			timeout: delay(3000),
+			timeout: delay(1000),
 			data: take(channel),
 		});
-		// const data = yield take(channel);
 		if (timeout) {
 			alert('해당 경로는 존재하지 않습니다.');
 		} else {

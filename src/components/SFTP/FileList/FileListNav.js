@@ -22,12 +22,11 @@ const SearchPath = styled.input`
 `;
 
 const FileListNav = ({server}) => {
-	const {uuid, path} = server;
+	const {uuid, path, mode} = server;
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
-		console.log(nextPath);
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...server, newPath: nextPath}));
 	};
@@ -58,23 +57,27 @@ const FileListNav = ({server}) => {
 	};
 
 	const dropdownList = () => {
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'drop',
-			},
-		});
+		mode !== 'drop' &&
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'drop',
+					currentMode: mode,
+				},
+			});
 	};
 
 	const basicList = () => {
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'list',
-			},
-		});
+		mode !== 'list' &&
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'list',
+					currentMode: mode,
+				},
+			});
 	};
 
 	useEffect(() => {

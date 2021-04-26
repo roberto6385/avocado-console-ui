@@ -42,7 +42,6 @@ const DropdownLi = styled.li`
 
 const FileListDropDown = ({server}) => {
 	const {uuid, fileList, pathList, highlight} = server;
-	console.log(highlight);
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({

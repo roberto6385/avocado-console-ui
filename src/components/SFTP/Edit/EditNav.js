@@ -13,7 +13,7 @@ import {
 } from '../../../reducers/sftp';
 
 const EditNav = ({server}) => {
-	const {uuid, text, editText, editFile, path} = server;
+	const {uuid, text, editText, editFile, path, prevMode, mode} = server;
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 
@@ -39,7 +39,7 @@ const EditNav = ({server}) => {
 		});
 	}, [server]);
 
-	const editedFileSave = useCallback(async () => {
+	const editedFileSave = useCallback(() => {
 		const uploadFile = new File([editText], editFile.name, {
 			type: 'text/plain',
 		});
@@ -53,14 +53,14 @@ const EditNav = ({server}) => {
 		);
 	}, [server]);
 
-	const toNormalMode = useCallback(() => {
+	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
 			setOpen(true);
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 			dispatch({
 				type: CHANGE_MODE,
-				payload: {uuid, mode: 'list'},
+				payload: {uuid, mode: prevMode, currentMode: mode},
 			});
 		}
 	}, [server]);
@@ -75,7 +75,7 @@ const EditNav = ({server}) => {
 				<NavItem onClick={editedFileSave}>
 					<MdSave />
 				</NavItem>
-				<NavItem onClick={toNormalMode}>
+				<NavItem onClick={closeEditMode}>
 					<MdCancel />
 				</NavItem>
 			</div>

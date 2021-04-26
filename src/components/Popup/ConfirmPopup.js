@@ -48,7 +48,16 @@ const SAVE_KEYWORDS = [
 const FORM_KEYWORDS = ['rename_work', 'sftp_new_folder', 'add_folder'];
 
 const ConfirmPopup = ({keyword, open, setOpen, server}) => {
-	const {uuid, path, highlight, mode, editFile, editText, tempPath} = server;
+	const {
+		uuid,
+		path,
+		highlight,
+		mode,
+		editFile,
+		editText,
+		tempPath,
+		prevMode,
+	} = server;
 
 	const dispatch = useDispatch();
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -58,7 +67,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 	const justExit = useCallback(() => {
 		dispatch({
 			type: CHANGE_MODE,
-			payload: {uuid, mode: 'list'},
+			payload: {uuid, mode: prevMode, currentMode: mode},
 		});
 	}, [server]);
 
@@ -146,7 +155,7 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 				dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 				dispatch({
 					type: CHANGE_MODE,
-					payload: {uuid, mode: 'list'},
+					payload: {uuid, mode: prevMode, currentMode: mode},
 				});
 				break;
 

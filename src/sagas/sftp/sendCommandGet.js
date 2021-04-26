@@ -90,6 +90,7 @@ function* sendCommand(action) {
 							payload: {
 								uuid: payload.uuid,
 								mode: 'edit',
+								currentMode: payload.mode,
 							},
 						});
 						return {type: 'end'};

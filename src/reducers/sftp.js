@@ -167,6 +167,7 @@ const sftp = (state = initialState, action) =>
 					getFileName: '',
 					getReceiveSum: 0,
 					mode: 'list',
+					prevMode: '',
 					pathList: [],
 					fileList: [],
 					highlight: [],
@@ -243,6 +244,7 @@ const sftp = (state = initialState, action) =>
 			case CHANGE_MODE:
 				target.mode = action.payload.mode;
 				target.highlight = [];
+				target.prevMode = action.payload.currentMode;
 				break;
 
 			// 텍스트 저장
