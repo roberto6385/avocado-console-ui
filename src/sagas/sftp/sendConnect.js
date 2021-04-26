@@ -12,12 +12,10 @@ import {OPEN_TAB} from '../../reducers/common';
 
 function* sendCommand(action) {
 	console.log(action);
-	let socket;
-	let channel;
 	const {payload} = action;
 
-	socket = yield call(createWebsocket, payload);
-	channel = yield call(subscribe, socket);
+	const socket = yield call(createWebsocket, payload);
+	const channel = yield call(subscribe, socket);
 	yield call(messageSender, {
 		keyword: 'Connection',
 		ws: socket,

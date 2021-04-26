@@ -215,6 +215,7 @@ export const PathSpan = styled.span`
 
 export const HistoryBox = styled.div`
 	min-width: 220px;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	.card-header {
@@ -282,11 +283,12 @@ export const CustomLi = styled.li`
 `;
 
 export const NoHistory = styled.div`
+	margin: auto;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
 	width: 250px;
 `;
 
