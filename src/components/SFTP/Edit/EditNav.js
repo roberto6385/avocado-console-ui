@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {useDispatch} from 'react-redux';
 import {PropTypes} from 'prop-types';

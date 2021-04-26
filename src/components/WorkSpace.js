@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 
