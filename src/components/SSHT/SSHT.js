@@ -20,6 +20,7 @@ const SSHT = ({index, height, width}) => {
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const terminalRef = useRef(null);
+	const terminalSearchRef = useRef(null);
 	const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	const [prompt, setPrompt] = useState('');
 
