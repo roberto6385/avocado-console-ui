@@ -50,7 +50,7 @@ const LeftContainer = () => {
 	const onClickAddFolder = useCallback(() => {
 		dispatch({
 			type: OPEN_CONFIRM_POPUP,
-			data: {key: 'add_folder'},
+			data: {key: 'new_folder'},
 		});
 	}, []);
 

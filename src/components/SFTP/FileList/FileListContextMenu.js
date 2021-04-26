@@ -1,14 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import ConfirmPopup from '../../Popup/ConfirmPopup';
+import {useDispatch} from 'react-redux';
 import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({server}) => {
 	const {uuid, highlight, path, mode} = server;
 
-	const [open, setOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const dispatch = useDispatch();
 	// const {downloadWork} = useSftpCommands({ws: socket, uuid});
@@ -59,7 +58,10 @@ const FileListContextMenu = ({server}) => {
 				contextEdit(event);
 				break;
 			case 'sftp_new_folder':
-				setOpen(true);
+				dispatch({
+					type: OPEN_CONFIRM_POPUP,
+					data: {key: 'sftp_new_folder', uuid: server.uuid},
+				});
 				break;
 			case 'rename_work':
 				if (
@@ -68,11 +70,20 @@ const FileListContextMenu = ({server}) => {
 				) {
 					alert('현재 경로의 폴더 이름은 변경할 수 없습니다.');
 				} else {
-					setOpen(true);
+					dispatch({
+						type: OPEN_CONFIRM_POPUP,
+						data: {
+							key: 'sftp_rename_file_folder',
+							uuid: server.uuid,
+						},
+					});
 				}
 				break;
 			case 'delete_work':
-				setOpen(true);
+				dispatch({
+					type: OPEN_CONFIRM_POPUP,
+					data: {key: 'sftp_delete_file_folder', uuid: server.uuid},
+				});
 				break;
 			default:
 				return;
@@ -120,12 +131,6 @@ const FileListContextMenu = ({server}) => {
 					Delete
 				</Item>
 			</Menu>
-			<ConfirmPopup
-				keyword={keyword}
-				open={open}
-				setOpen={setOpen}
-				server={server}
-			/>
 		</>
 	);
 };

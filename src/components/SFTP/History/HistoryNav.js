@@ -11,11 +11,11 @@ import {NavItem} from '../../../styles/sftp';
 import {useDispatch} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import ConfirmPopup from '../../Popup/ConfirmPopup';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const HistoryNav = ({server}) => {
 	const dispatch = useDispatch();
 	const {history} = server;
-	const [open, setOpen] = useState(false);
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -52,8 +52,12 @@ const HistoryNav = ({server}) => {
 
 	const historyDelete = useCallback(() => {
 		// if exist highlighting history
-		history.length > 0 && setOpen(true);
-	}, [server]);
+		history.length > 0 &&
+			dispatch({
+				type: OPEN_CONFIRM_POPUP,
+				data: {key: 'sftp_delete_history', uuid: server.uuid},
+			});
+	}, [server, history]);
 
 	return (
 		<>
@@ -72,12 +76,6 @@ const HistoryNav = ({server}) => {
 			<NavItem onClick={historyDelete}>
 				<MdDelete />
 			</NavItem>
-			<ConfirmPopup
-				keyword={'delete_history'}
-				server={server}
-				setOpen={setOpen}
-				open={open}
-			/>
 		</>
 	);
 };

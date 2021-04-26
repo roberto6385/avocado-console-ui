@@ -32,7 +32,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 				case 'new_folder':
 					dispatch({
 						type: OPEN_CONFIRM_POPUP,
-						data: {key: 'add_folder'},
+						data: {key: 'new_folder'},
 					});
 					break;
 				case 'rename':

@@ -8,7 +8,7 @@ import 'xterm/css/xterm.css';
 import {NotFound, Main, Login, Setting} from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
 import AddServerForm from './components/Form/AddServerForm';
-import ConfirmPopupTemp from './components/Popup/ConfirmPopupTemp';
+import ConfirmPopup from './components/Popup/ConfirmPopup';
 
 class App extends Component {
 	render() {
@@ -22,7 +22,7 @@ class App extends Component {
 				</Switch>
 				<AlertPopup />
 				<AddServerForm />
-				<ConfirmPopupTemp />
+				<ConfirmPopup />
 			</BrowserRouter>
 		);
 	}

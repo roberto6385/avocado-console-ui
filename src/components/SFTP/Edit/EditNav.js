@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {useDispatch} from 'react-redux';
 import {PropTypes} from 'prop-types';
-import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {Navbar, NavItem} from '../../../styles/sftp';
 import {
 	ADD_HISTORY,
@@ -11,11 +10,11 @@ import {
 	commandPutAction,
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const EditNav = ({server}) => {
 	const {uuid, text, editText, editFile, path} = server;
 	const dispatch = useDispatch();
-	const [open, setOpen] = useState(false);
 
 	const editedFileDownload = useCallback(() => {
 		let link = document.createElement('a');
@@ -55,7 +54,10 @@ const EditNav = ({server}) => {
 
 	const toNormalMode = useCallback(() => {
 		if (text !== editText) {
-			setOpen(true);
+			dispatch({
+				type: OPEN_CONFIRM_POPUP,
+				data: {type: 'sftp_edit_file', uuid: server.uuid},
+			});
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 			dispatch({
@@ -79,12 +81,6 @@ const EditNav = ({server}) => {
 					<MdCancel />
 				</NavItem>
 			</div>
-			<ConfirmPopup
-				keyword={'edit_file'}
-				open={open}
-				setOpen={setOpen}
-				server={server}
-			/>
 		</Navbar>
 	);
 };
