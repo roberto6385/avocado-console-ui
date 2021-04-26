@@ -30,6 +30,10 @@ const SSHContainer = ({index, server_id}) => {
 				sshtBody.current?.clientHeight,
 				sshtBody.current?.clientWidth,
 			);
+			console.log(
+				sshtBody.current?.clientHeight,
+				sshtBody.current?.clientWidth,
+			);
 		} else setSize(0, 0);
 	});
 

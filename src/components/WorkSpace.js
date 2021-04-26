@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 
@@ -9,6 +9,20 @@ import '../styles/resize.css';
 const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
+
+	// const container = (i) => (
+	// 	<TabContentContainer
+	// 		key={visibleTab[i].id}mm
+	// 		index={visibleTab[i].id}
+	// 		type={visibleTab[i].type}
+	// 		server={visibleTab[i].server}
+	// 		socket={visibleTab[i].socket}
+	// 	/>
+	// );
+
+	const onChangeSize = useCallback((size) => {
+		console.log(size);
+	}, []);
 
 	return (
 		<WorkSpaceContainer className={'fix-height'}>
@@ -21,7 +35,11 @@ const WorkSpace = () => {
 					socket={visibleTab[0].socket}
 				/>
 			) : visibleTab.length === 2 ? (
-				<SplitPane split='vertical' defaultSize={'50%'}>
+				<SplitPane
+					split='vertical'
+					defaultSize={'50%'}
+					onChange={onChangeSize}
+				>
 					<TabContentContainer
 						key={visibleTab[0].id}
 						index={visibleTab[0].id}

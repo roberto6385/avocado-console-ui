@@ -33,7 +33,6 @@ export const SendDisconnect = () => {
 
 export const SendCommand = (data) => {
 	console.log('SEND COMMAND');
-	console.log(data);
 
 	const message = new SSH.Message();
 	const request = new SSH.Request();
@@ -88,6 +87,7 @@ export const GetMessage = (evt) => {
 			) {
 				const command = response.getCommand();
 				console.log('COMMAND');
+				// console.log(JSON.stringify(command));
 				return {
 					type: 'COMMAND',
 					result: command.getMessage(),
