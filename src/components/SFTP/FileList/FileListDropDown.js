@@ -1,9 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
-import {DEEP_GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
-import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
+import {useDispatch} from 'react-redux';
+import {
+	DirectoryIcon,
+	DropdownLi,
+	DropdownUl,
+	FileIcon,
+} from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
 import {
@@ -13,32 +16,6 @@ import {
 	REMOVE_HIGHLIGHT,
 	SAVE_TEMP_PATH,
 } from '../../../reducers/sftp';
-
-const DropdownUl = styled.ul`
-	margin: 0;
-	padding: 0;
-	min-width: 180px !important;
-	border-right: 1px solid ${DEEP_GRAY_COLOR};
-	list-style: none;
-	overflow-y: scroll;
-	.highlight_list.active {
-		background: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-const DropdownLi = styled.li`
-	padding: 2px;
-	white-space: nowrap;
-	width: 150px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-
-	// 드래그 방지
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-`;
 
 const FileListDropDown = ({server}) => {
 	const {uuid, fileList, pathList, highlight} = server;

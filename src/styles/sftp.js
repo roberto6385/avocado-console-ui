@@ -16,6 +16,33 @@ export const ConvertIcon = styled(BsArrowUpDown)`
 	font-size: 21px;
 `;
 
+// Dropdown List
+export const DropdownUl = styled.ul`
+	margin: 0;
+	padding: 0;
+	min-width: 180px !important;
+	border-right: 1px solid ${DEEP_GRAY_COLOR};
+	list-style: none;
+	overflow-y: scroll;
+	.highlight_list.active {
+		background: ${HIGHLIGHT_COLOR};
+	}
+`;
+
+export const DropdownLi = styled.li`
+	padding: 2px;
+	white-space: nowrap;
+	width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	// 드래그 방지
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+`;
+
 // Dropzone
 export const DropzoneBox = styled.div`
 	height: 100%;

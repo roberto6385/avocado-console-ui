@@ -10,8 +10,6 @@ import {
 	MdRemoveCircle,
 } from 'react-icons/all';
 import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../../styles/global';
-import {useContextMenu} from 'react-contexify';
-import HistoryContextMenu from './HistoryContextMenu';
 import {
 	CustomLi,
 	CustomP,
@@ -20,6 +18,7 @@ import {
 	NoHistory,
 } from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
+import {ProgressBar} from 'react-bootstrap';
 
 const HistoryContents = ({server}) => {
 	const {history} = server;
@@ -116,9 +115,14 @@ const HistoryContents = ({server}) => {
 									</CustomP>
 								</FlexSpaceBetween>
 								<CustomP>
-									{history.progress === 100
-										? 'Complete'
-										: history.progress}
+									{history.progress === 100 ? (
+										'Complete'
+									) : (
+										<ProgressBar
+											now={history.progress}
+											label={`${history.progress}%`}
+										/>
+									)}
 								</CustomP>
 							</CustomLi>
 						);
