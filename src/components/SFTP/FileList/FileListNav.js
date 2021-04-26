@@ -26,7 +26,7 @@ const FileListNav = ({server}) => {
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
-	const goHome = (e, nextPath = '/home/avocado') => {
+	const goHome = (e, nextPath = '/root') => {
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...server, newPath: nextPath}));
 	};

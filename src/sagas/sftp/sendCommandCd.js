@@ -10,17 +10,19 @@ import {subscribe} from './channel';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
-	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
-	yield call(messageSender, {
-		keyword: 'CommandByCd',
-		ws: payload.socket,
-		path: payload.newPath,
-	});
-
 	try {
+		const {payload} = action;
+		console.log(payload);
+		const channel = yield call(subscribe, payload.socket);
+		yield call(messageSender, {
+			keyword: 'CommandByCd',
+			ws: payload.socket,
+			path: payload.newPath,
+		});
+
 		while (true) {
 			const data = yield take(channel);
+			console.log(data);
 			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case CD_SUCCESS:
