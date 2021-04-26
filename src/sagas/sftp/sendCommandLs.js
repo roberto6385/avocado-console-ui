@@ -30,8 +30,9 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: LS_FAILURE});
 		console.log(err);
+		yield put({type: LS_FAILURE});
+		return {type: 'error'};
 	}
 }
 

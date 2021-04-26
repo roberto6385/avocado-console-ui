@@ -64,9 +64,9 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: RM_FAILURE});
-
 		console.log(err);
+		yield put({type: RM_FAILURE});
+		return {type: 'error'};
 	}
 }
 

@@ -58,9 +58,9 @@ const ConfirmPopup = ({keyword, open, setOpen, server}) => {
 	const justExit = useCallback(() => {
 		dispatch({
 			type: CHANGE_MODE,
-			payload: {uuid, mode: mode},
+			payload: {uuid, mode: 'list'},
 		});
-	}, []);
+	}, [server]);
 
 	const handleClose = useCallback(() => {
 		setOpen(false);

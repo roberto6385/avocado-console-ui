@@ -8,6 +8,7 @@ import {
 	PUT_FAILURE,
 	PUT_REQUEST,
 	PUT_SUCCESS,
+	PWD_FAILURE,
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {subscribe} from './channel';
@@ -94,8 +95,11 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: PUT_FAILURE});
 		console.log(err);
+		payload.keyword === 'pwd'
+			? yield put({type: PWD_FAILURE})
+			: yield put({type: PUT_FAILURE});
+		return {type: 'error'};
 	}
 }
 

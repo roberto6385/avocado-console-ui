@@ -35,13 +35,15 @@ function* sendCommand(action) {
 							uuid: payload.uuid,
 						},
 					});
-					yield put({type: CLOSE_TAB, data: payload.id});
 					return {type: 'end'};
 			}
 		}
 	} catch (err) {
-		yield put({type: DISCONNECTION_FAILURE});
 		console.log(err);
+		yield put({type: DISCONNECTION_FAILURE});
+		return {type: 'error'};
+	} finally {
+		yield put({type: CLOSE_TAB, data: payload.id});
 	}
 }
 

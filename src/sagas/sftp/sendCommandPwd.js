@@ -39,8 +39,9 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: PWD_FAILURE});
 		console.log(err);
+		yield put({type: PWD_FAILURE});
+		return {type: 'error'};
 	}
 }
 

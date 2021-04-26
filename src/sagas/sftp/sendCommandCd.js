@@ -33,8 +33,9 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: CD_FAILURE});
 		console.log(err);
+		yield put({type: CD_FAILURE});
+		return {type: 'error'};
 	}
 }
 

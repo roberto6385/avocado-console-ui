@@ -98,8 +98,9 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: GET_FAILURE});
 		console.log(err);
+		yield put({type: GET_FAILURE});
+		return {type: 'error'};
 	}
 }
 

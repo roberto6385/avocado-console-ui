@@ -57,6 +57,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		yield put({type: CONNECTION_FAILURE});
 		console.log(err);
+		return {type: 'error'};
 	}
 }
 
