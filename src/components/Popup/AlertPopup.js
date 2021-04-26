@@ -10,11 +10,13 @@ import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
 	lost_server: '해당 서버의 정보가 손상되거나 삭제되었습니다.',
+	current_path: '현재 경로의 폴더 이름은 변경할 수 없습니다.',
 };
 
 const AlertHeader = {
 	invalid_server: 'Invalid Server',
 	lost_server: 'Lost Server Data',
+	current_path: 'Not Allow to Chnage Folder Name',
 };
 
 const AlertPopup = () => {

@@ -57,7 +57,6 @@ const FORM_KEYWORDS = [
 
 const ConfirmPopup = () => {
 	const dispatch = useDispatch();
-
 	const {confirm_popup} = useSelector((state) => state.popup);
 	const {clicked_server} = useSelector((state) => state.common);
 	const {server} = useSelector((state) => state.sftp);
@@ -66,18 +65,17 @@ const ConfirmPopup = () => {
 	const buttonRef = useRef(null);
 
 	const justExit = useCallback(() => {
-		const uuid = confirm_popup.uuid;
-		const corServer = server.find((it) => it.uuid === uuid);
+		const corServer = server.find((it) => it.uuid === confirm_popup.uuid);
 		const {prevMode, mode} = corServer;
 		dispatch({
 			type: CHANGE_MODE,
 			payload: {
-				uuid: uuid,
+				uuid: confirm_popup.uuid,
 				mode: prevMode,
 				currentMode: mode,
 			},
 		});
-	}, [confirm_popup]);
+	}, [confirm_popup, server]);
 
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
@@ -141,6 +139,7 @@ const ConfirmPopup = () => {
 
 				case 'sftp_new_folder': {
 					const {mode, path, tempPath} = corServer;
+
 					if (formValue === '') return;
 					if (mode === 'drop' && tempPath !== '') {
 						dispatch(
@@ -165,6 +164,7 @@ const ConfirmPopup = () => {
 					const uploadFile = new File([editText], editFile.name, {
 						type: 'text/plain',
 					});
+
 					dispatch(
 						commandPutAction({
 							...corServer,
@@ -172,29 +172,33 @@ const ConfirmPopup = () => {
 							keyword: 'edit',
 						}),
 					);
-					dispatch({type: CLOSE_EDITOR, payload: {uuid}});
+					dispatch({
+						type: CLOSE_EDITOR,
+						payload: {uuid: confirm_popup.uuid},
+					});
 					dispatch({
 						type: CHANGE_MODE,
-						payload: {uuid, mode: 'list'},
+						payload: {uuid: confirm_popup.uuid, mode: 'list'},
 					});
 					break;
 				}
 
 				case 'sftp_delete_history': {
-					const uuid = confirm_popup.uuid;
 					dispatch({
 						type: REMOVE_HISTORY,
-						payload: {uuid},
+						payload: {uuid: confirm_popup.uuid},
 					});
 					break;
 				}
 				case 'delete_server_folder':
 					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
 					break;
+
 				case 'new_folder':
 					formValue !== '' &&
 						dispatch({type: ADD_FOLDER, data: formValue});
 					break;
+
 				default:
 					break;
 			}
