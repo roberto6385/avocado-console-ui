@@ -65,7 +65,7 @@ const TabContentContainer = ({index, type, server, socket}) => {
 			{type === 'SSHT' ? (
 				<SSHTContainer index={index} server_id={server.id} />
 			) : (
-				<SFTPContainer uuid={socket.uuid} data={server} />
+				<SFTPContainer uuid={socket.uuid} />
 			)}
 		</TabContentCard>
 	);

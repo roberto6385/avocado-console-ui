@@ -25,19 +25,19 @@ import {
 } from '../reducers/ssht';
 
 function* SendConnection(action) {
-	// try {
-	// 	const result = yield call(deleteVideoAPI, action.data);
-	// 	yield put({
-	// 		type: SSHT_SEND_CONNECTION_SUCCESS,
-	// 		data: result.data,
-	// 	});
-	// } catch (err) {
-	// 	console.error(err);
-	// 	yield put({
-	// 		type: SSHT_SEND_CONNECTION_FAILURE,
-	// 		error: err.response.data,
-	// 	});
-	// }
+	try {
+		// const result = yield call(deleteVideoAPI, action.data);
+		// yield put({
+		// 	type: SSHT_SEND_CONNECTION_SUCCESS,
+		// 	data: result.data,
+		// });
+	} catch (err) {
+		// console.error(err);
+		// yield put({
+		// 	type: SSHT_SEND_CONNECTION_FAILURE,
+		// 	error: err.response.data,
+		// });
+	}
 }
 
 function* sendDisconnection(action) {

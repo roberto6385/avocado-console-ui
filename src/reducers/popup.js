@@ -43,11 +43,9 @@ const reducer = (state = initialState, action) => {
 					key: action.data.key,
 				};
 
-				if (action.data.ws) {
-					draft.confirm_popup.ws = action.data.ws;
+				if (action.data.uuid) {
 					draft.confirm_popup.uuid = action.data.uuid;
 				}
-
 				break;
 			}
 			case CLOSE_CONFIRM_POPUP:
