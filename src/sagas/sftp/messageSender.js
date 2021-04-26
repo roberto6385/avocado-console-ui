@@ -34,6 +34,7 @@ const sendDisconnect = (ws) => {
 };
 
 const sendCommandByCd = (ws, path) => {
+	console.log(ws, path);
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -43,7 +44,7 @@ const sendCommandByCd = (ws, path) => {
 	cmd.setCd(cd);
 	request.setCommand(cmd);
 	message.setRequest(request);
-
+	console.log(message.serializeBinary());
 	ws.send(message.serializeBinary());
 };
 

@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	CD_FAILURE,
 	CD_REQUEST,
@@ -8,6 +17,7 @@ import {
 import messageSender from './messageSender';
 import {subscribe} from './channel';
 import {messageReader} from './messageReader';
+import {buffers} from 'redux-saga';
 
 function* sendCommand(action) {
 	try {
@@ -20,10 +30,16 @@ function* sendCommand(action) {
 			path: payload.newPath,
 		});
 
-		while (true) {
-			const data = yield take(channel);
-			console.log(data);
+		const {timeout, data} = yield race({
+			timeout: delay(3000),
+			data: take(channel),
+		});
+		// const data = yield take(channel);
+		if (timeout) {
+			alert('해당 경로는 존재하지 않습니다.');
+		} else {
 			const res = yield call(messageReader, {data, payload});
+			console.log(res);
 			switch (res.type) {
 				case CD_SUCCESS:
 					yield put({

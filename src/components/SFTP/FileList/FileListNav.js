@@ -27,18 +27,17 @@ const FileListNav = ({server}) => {
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
+		console.log(nextPath);
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...server, newPath: nextPath}));
 	};
 
 	const goBack = (e) => {
-		console.log(path);
 		if (path !== '/') {
 			let tempPath = path.split('/');
 			tempPath.pop();
 			console.log(tempPath);
 			let nextPath = tempPath.join('/').trim();
-			console.log(nextPath);
 			goHome(e, nextPath === '' ? '/' : nextPath);
 		}
 	};
