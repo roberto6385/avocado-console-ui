@@ -60,7 +60,7 @@ const FileListContents = ({uuid}) => {
 				});
 			}
 		},
-		[corServer],
+		[server],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -76,7 +76,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[corServer],
+		[server],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -122,7 +122,7 @@ const FileListContents = ({uuid}) => {
 				dispatch(commandCdAction({...corServer, newPath: item.name}));
 			}
 		},
-		[corServer],
+		[server],
 	);
 
 	return (
