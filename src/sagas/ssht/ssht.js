@@ -24,6 +24,10 @@ import {
 	SSHT_SEND_WINDOW_CHANGE_FAILURE,
 } from '../../reducers/common';
 
+const deleteVideoAPI = () => {
+	console.log('delete Video API...');
+};
+
 function* SendConnection(action) {
 	try {
 		const result = yield call(deleteVideoAPI, action.data);

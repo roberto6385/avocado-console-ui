@@ -452,26 +452,15 @@ const reducer = (state = initialState, action) => {
 			case OPEN_TAB: {
 				//fill in new tab info
 				let new_tab = {
-					id: draft.tab_index,
 					type: action.data.type,
 					display: true,
-					server: {
-						id: action.data.id,
-						key: draft.server.find((v) => v.id === action.data.id)
-							.key,
-						name: draft.server.find((v) => v.id === action.data.id)
-							.name,
-					},
-					socket: {
-						ws: action.data.ws,
-						uuid: action.data.uuid,
-					},
+					server: action.data.server,
+					uuid: action.data.uuid,
+					socket: action.data.socket,
 				};
 				//save ssht/sftp info
 				if (action.data.type === 'SSHT') {
 					new_tab.terminal = action.data.terminal;
-				} else if (action.data.type === 'SFTP') {
-					new_tab.mode = action.data.mode;
 				}
 				//save new tab info
 				draft.tab.push(new_tab);
@@ -493,7 +482,7 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CLOSE_TAB: {
-				draft.tab = draft.tab.filter((v) => v.id !== action.data);
+				draft.tab = draft.tab.filter((v) => v.uuid !== action.data);
 				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,

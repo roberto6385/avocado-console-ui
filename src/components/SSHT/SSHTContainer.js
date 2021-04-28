@@ -8,7 +8,7 @@ import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTBody, SSHTContainer} from '../../styles/ssht';
 import {IconButton} from '../../styles/common';
 
-const SSHContainer = ({index, server_id}) => {
+const SSHContainer = ({uuid, server_key}) => {
 	const [height, setHeight] = useState(0);
 	const [width, setWidth] = useState(0);
 	const sshtBody = useRef(null);
@@ -53,18 +53,18 @@ const SSHContainer = ({index, server_id}) => {
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>
-				<ConvertSFTP server_id={server_id} />
+				<ConvertSFTP server_key={server_key} />
 			</Card.Header>
 			<SSHTBody ref={sshtBody}>
-				<SSHT index={index} height={height} width={width} />
+				<SSHT uuid={uuid} height={height} width={width} />
 			</SSHTBody>
 		</SSHTContainer>
 	);
 };
 
 SSHContainer.propTypes = {
-	index: PropTypes.number.isRequired,
-	server_id: PropTypes.number.isRequired,
+	uuid: PropTypes.string.isRequired,
+	server_key: PropTypes.string.isRequired,
 };
 
 export default SSHContainer;

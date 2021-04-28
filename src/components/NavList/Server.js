@@ -42,7 +42,7 @@ const Server = ({data, indent}) => {
 
 	const onHybridClick = useDoubleClick(
 		() => {
-			const correspondedServer = server.find((i) => i.id === data.id);
+			const correspondedServer = server.find((i) => i.key === data.key);
 			const ws = new WebSocket(
 				'ws://' + correspondedServer.host + ':8081/ws/ssh',
 			);
@@ -69,10 +69,10 @@ const Server = ({data, indent}) => {
 						dispatch({
 							type: OPEN_TAB,
 							data: {
-								id: data.id,
 								type: 'SSHT',
-								ws: ws,
+								socket: ws,
 								uuid: message.result,
+								server: correspondedServer,
 								terminal: new Terminal({
 									cursorBlink: true,
 									minimumContrastRatio: 7,

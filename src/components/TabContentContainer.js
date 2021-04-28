@@ -20,62 +20,58 @@ const TabContentCard = styled(Card)`
 	width: 100%;
 `;
 
-const TabContentContainer = ({index, type, server, socket}) => {
+const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {ws} = socket;
 	const {tab, current_tab} = useSelector((state) => state.common);
-	const clicked_tab = tab.find((x) => x.id === index);
+	const clicked_tab = tab.find((x) => x.uuid === uuid);
+	const {socket} = clicked_tab;
 
 	const onClickDelete = useCallback(() => {
 		if (type === 'SSHT') {
-			ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+			ssht_ws_request({keyword: 'SendDisconnect', ws: socket});
 
-			ws.onmessage = (evt) => {
+			socket.onmessage = (evt) => {
 				const message = GetMessage(evt);
 				console.log(message);
 
 				if (message.type === 'DISCONNECT')
-					dispatch({type: CLOSE_TAB, data: index});
+					dispatch({type: CLOSE_TAB, data: uuid});
 				else console.log('V TabContentContainer onmessage: ', message);
 			};
 		} else if (type === 'SFTP') {
-			const channel = clicked_tab.channel;
-			// disconnection , connection 부분도 sendCommand 처럼
-			// server를 보내는걸로 변경하면 좋을것 같음 (보류)
-			dispatch(disconnectAction({socket: ws, channel, id: index}));
+			dispatch(disconnectAction(uuid));
 		}
 	}, [dispatch]);
 
 	const onClickChangeTab = useCallback(() => {
-		if (current_tab !== index)
-			dispatch({type: CHANGE_CURRENT_TAB, data: index});
-	}, [index]);
+		if (current_tab !== uuid)
+			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
+	}, [uuid]);
 
 	return (
 		<TabContentCard onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<TabContentCardHeader as='h6'>
 					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
-					{server?.name}
+					{server.name}
 					<span className='right'>
 						<FaTimes onClick={onClickDelete} />
 					</span>
 				</TabContentCardHeader>
 			)}
 			{type === 'SSHT' ? (
-				<SSHTContainer index={index} server_id={server.id} />
+				<SSHTContainer uuid={uuid} server_key={server.key} />
 			) : (
-				<SFTPContainer uuid={socket.uuid} />
+				<SFTPContainer uuid={uuid} />
 			)}
 		</TabContentCard>
 	);
 };
 
 TabContentContainer.propTypes = {
-	index: PropTypes.number.isRequired,
+	uuid: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	server: PropTypes.object.isRequired,
-	socket: PropTypes.object.isRequired,
 };
 
 export default TabContentContainer;

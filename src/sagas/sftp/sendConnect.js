@@ -37,10 +37,10 @@ function* sendCommand(action) {
 					yield put({
 						type: OPEN_TAB,
 						data: {
-							id: payload.id,
 							type: 'SFTP',
-							ws: socket,
+							socket: socket,
 							uuid: res.uuid,
+							server: payload,
 						},
 					});
 					return {type: 'end'};

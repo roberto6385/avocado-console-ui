@@ -11,12 +11,12 @@ import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {useCookies} from 'react-cookie';
 
-const SSHT = ({index, height, width}) => {
+const SSHT = ({uuid, height, width}) => {
 	const {current_tab, tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const sshTerm = tab.find((v) => v.id === index).terminal;
-	const ws = tab.find((v) => v.id === index).socket.ws;
+	const sshTerm = tab.find((v) => v.uuid === uuid).terminal;
+	const ws = tab.find((v) => v.uuid === uuid).socket;
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const terminalRef = useRef(null);
@@ -92,7 +92,7 @@ const SSHT = ({index, height, width}) => {
 				}
 			} else console.log('V SSHT onmessage: ', message);
 		};
-	}, [index, ws, sshTerm, prompt, cookies]);
+	}, [uuid, ws, sshTerm, prompt, cookies]);
 	//terminal setting
 	useEffect(() => {
 		sshTerm.loadAddon(fitAddon.current);
@@ -108,11 +108,11 @@ const SSHT = ({index, height, width}) => {
 				data: data,
 			});
 		});
-	}, [index, ws, sshTerm]);
+	}, [uuid, ws, sshTerm]);
 	//current tab terminal is focused
 	useEffect(() => {
-		if (current_tab === index) sshTerm.focus();
-	}, [current_tab, index, sshTerm]);
+		if (current_tab === uuid) sshTerm.focus();
+	}, [current_tab, uuid, sshTerm]);
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
@@ -125,23 +125,21 @@ const SSHT = ({index, height, width}) => {
 	}, [font_size, sshTerm, ws, width, height]);
 	//click search button
 	useEffect(() => {
-		if (current_tab === index && search_mode) {
-			document.getElementById('search_' + String(index)).style.display =
-				'block';
+		if (current_tab === uuid && search_mode) {
+			document.getElementById('search_' + uuid).style.display = 'block';
 		} else {
-			document.getElementById('search_' + String(index)).style.display =
-				'none';
+			document.getElementById('search_' + uuid).style.display = 'none';
 			setSearch('');
 			searchAddon.current.findPrevious('');
 		}
-	}, [current_tab, index, search_mode]);
+	}, [current_tab, uuid, search_mode]);
 	//search a word on the terminal
 	useEffect(() => {
-		if (current_tab === index && search !== '') {
+		if (current_tab === uuid && search !== '') {
 			searchAddon.current.findPrevious('');
 			searchAddon.current.findPrevious(search);
 		}
-	}, [current_tab, index, search]);
+	}, [current_tab, uuid, search]);
 
 	return (
 		<SSHTerminal>
@@ -163,7 +161,7 @@ const SSHT = ({index, height, width}) => {
 					))}
 			</ListGroup>
 			<TerminalSearchForm
-				id={`search_${String(index)}`}
+				id={`search_${uuid}`}
 				onChange={onChangeSearch}
 				onKeyPress={onSubmitSearch}
 				value={search}
@@ -176,7 +174,7 @@ const SSHT = ({index, height, width}) => {
 };
 
 SSHT.propTypes = {
-	index: PropTypes.number.isRequired,
+	uuid: PropTypes.string.isRequired,
 	height: PropTypes.number.isRequired,
 	width: PropTypes.number.isRequired,
 };
