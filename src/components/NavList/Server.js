@@ -8,6 +8,7 @@ import {
 	OPEN_TAB,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
+	SSHT_SEND_CONNECTION_REQUEST,
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
@@ -43,49 +44,60 @@ const Server = ({data, indent}) => {
 	const onHybridClick = useDoubleClick(
 		() => {
 			const correspondedServer = server.find((i) => i.id === data.id);
-			const ws = new WebSocket(
-				'ws://' + correspondedServer.host + ':8081/ws/ssh',
-			);
 
-			ws.binaryType = 'arraybuffer';
-
-			ws.onopen = () => {
-				ssht_ws_request({
-					keyword: 'SendConnect',
-					ws: ws,
-					data: {
-						token: userTicket.access_token,
-						host: correspondedServer.host,
-						user: correspondedServer.user,
-						password: correspondedServer.password,
-						port: correspondedServer.port,
-					},
-				});
-
-				ws.onmessage = (evt) => {
-					const message = GetMessage(evt);
-
-					if (message.type === 'CONNECT')
-						dispatch({
-							type: OPEN_TAB,
-							data: {
-								id: data.id,
-								type: 'SSHT',
-								ws: ws,
-								uuid: message.result,
-								terminal: new Terminal({
-									cursorBlink: true,
-									minimumContrastRatio: 7,
-									fontFamily: font,
-									theme: {
-										selection: '#FCFD08',
-									},
-								}),
-							},
-						});
-					else console.log('V ServerNavBar onmessage: ', message);
-				};
-			};
+			dispatch({
+				type: SSHT_SEND_CONNECTION_REQUEST,
+				data: {
+					token: userTicket,
+					host: correspondedServer.host,
+					user: correspondedServer.user,
+					password: correspondedServer.password,
+					port: correspondedServer.port,
+				},
+			});
+			// const ws = new WebSocket(
+			// 	'ws://' + correspondedServer.host + ':8081/ws/ssh',
+			// );
+			//
+			// ws.binaryType = 'arraybuffer';
+			//
+			// ws.onopen = () => {
+			// 	ssht_ws_request({
+			// 		keyword: 'SendConnect',
+			// 		ws: ws,
+			// 		data: {
+			// 			token: userTicket.access_token,
+			// 			host: correspondedServer.host,
+			// 			user: correspondedServer.user,
+			// 			password: correspondedServer.password,
+			// 			port: correspondedServer.port,
+			// 		},
+			// 	});
+			//
+			// 	ws.onmessage = (evt) => {
+			// 		const message = GetMessage(evt);
+			//
+			// 		if (message.type === 'CONNECT')
+			// 			dispatch({
+			// 				type: OPEN_TAB,
+			// 				data: {
+			// 					id: data.id,
+			// 					type: 'SSHT',
+			// 					ws: ws,
+			// 					uuid: message.result,
+			// 					terminal: new Terminal({
+			// 						cursorBlink: true,
+			// 						minimumContrastRatio: 7,
+			// 						fontFamily: font,
+			// 						theme: {
+			// 							selection: '#FCFD08',
+			// 						},
+			// 					}),
+			// 				},
+			// 			});
+			// 		else console.log('V ServerNavBar onmessage: ', message);
+			// 	};
+			// };
 		},
 		() => {
 			if (clicked_server === data.key)

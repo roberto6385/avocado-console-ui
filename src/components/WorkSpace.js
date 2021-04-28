@@ -81,7 +81,7 @@ const WorkSpace = () => {
 						socket={visibleTab[2].socket}
 					/>
 				</SplitPane>
-			) : visibleTab.length === 3 && cols === 2 ? (
+			) : visibleTab.length === 3 && cols === 3 ? (
 				<SplitPane split='vertical' defaultSize={'66%'}>
 					<SplitPane split='vertical' defaultSize={'50%'}>
 						<TabContentContainer

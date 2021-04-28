@@ -1,3 +1,5 @@
+import SFTP from '../dist/sftp_pb';
+
 const SSH = require('../dist/ssh_pb');
 
 export const SendConnect = (token, host, user, password, port) => {
@@ -11,6 +13,9 @@ export const SendConnect = (token, host, user, password, port) => {
 	connect.setUser(user);
 	connect.setPassword(password);
 	connect.setPort(port);
+
+	connect.setKeepalivecount(2);
+	connect.setKeepaliveinterval(6000);
 
 	request.setConnect(connect);
 	message.setRequest(request);
@@ -62,65 +67,74 @@ export const SendWindowChange = (cols, rows, width, height) => {
 	return message.serializeBinary();
 };
 
-export const GetMessage = (evt) => {
-	if (evt.data instanceof ArrayBuffer) {
-		const message = SSH.Message.deserializeBinary(evt.data);
-
-		if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
-			const response = message.getResponse();
-
-			if (
-				response.getResponseCase() === SSH.Response.ResponseCase.CONNECT
-			) {
-				const connect = response.getConnect();
-				console.log('CONNECT');
-				return {type: 'CONNECT', result: connect.getUuid()};
-			} else if (
-				response.getResponseCase() ===
-				SSH.Response.ResponseCase.DISCONNECT
-			) {
-				const disconnect = response.getDisconnect();
-				console.log('DISCONNECT');
-				return {type: 'DISCONNECT'};
-			} else if (
-				response.getResponseCase() === SSH.Response.ResponseCase.COMMAND
-			) {
-				const command = response.getCommand();
-				console.log('COMMAND');
-				// console.log(JSON.stringify(command));
-				return {
-					type: 'COMMAND',
-					result: command.getMessage(),
-				};
-			} else if (
-				response.getResponseCase() ===
-				SSH.Response.ResponseCase.WINDOWCHANGE
-			) {
-				// const window = response.getWindowchange();
-				console.log('WINDOWCHANGE');
-				return {
-					type: 'WINDOWCHANGE',
-					// result: window,
-				};
-			} else if (
-				response.getResponseCase() === SSH.Response.ResponseCase.ERROR
-			) {
-				const error = response.getError();
-				console.log('ERROR');
-				return {
-					type: 'ERROR',
-					result: error,
-				};
+export const GetMessage = async (data) => {
+	try {
+		if (data instanceof ArrayBuffer) {
+			console.log('HH');
+			const message = SSH.Message.deserializeBinary(data);
+			console.log(message);
+			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
+				console.log('HH');
+				const response = message.getResponse();
+				console.log('response status: ', response.getStatus());
+				if (
+					response.getResponseCase() ===
+					SSH.Response.ResponseCase.CONNECT
+				) {
+					const connect = response.getConnect();
+					console.log('CONNECT');
+					return {type: 'CONNECT', result: connect.getUuid()};
+				} else if (
+					response.getResponseCase() ===
+					SSH.Response.ResponseCase.DISCONNECT
+				) {
+					const disconnect = response.getDisconnect();
+					console.log('DISCONNECT');
+					return {type: 'DISCONNECT'};
+				} else if (
+					response.getResponseCase() ===
+					SSH.Response.ResponseCase.COMMAND
+				) {
+					const command = response.getCommand();
+					console.log('COMMAND');
+					// console.log(JSON.stringify(command));
+					return {
+						type: 'COMMAND',
+						result: command.getMessage(),
+					};
+				} else if (
+					response.getResponseCase() ===
+					SSH.Response.ResponseCase.WINDOWCHANGE
+				) {
+					// const window = response.getWindowchange();
+					console.log('WINDOWCHANGE');
+					return {
+						type: 'WINDOWCHANGE',
+						// result: window,
+					};
+				} else if (
+					response.getResponseCase() ===
+					SSH.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log('ERROR');
+					return {
+						type: 'ERROR',
+						result: error,
+					};
+				}
 			}
-		}
-	} else {
-		const message = JSON.parse(evt.data);
+		} else {
+			const message = JSON.parse(data);
 
-		if (message['status'] === 'connected') {
-			console.log('CONNECT');
-			return {type: 'CONNECT', result: message.uuid};
+			if (message['status'] === 'connected') {
+				console.log('CONNECT');
+				return {type: 'CONNECT', result: message.uuid};
+			}
+			console.log('COMMAND');
+			return {type: 'COMMAND', result: message.result};
 		}
-		console.log('COMMAND');
-		return {type: 'COMMAND', result: message.result};
+	} catch (e) {
+		console.log(e);
 	}
 };

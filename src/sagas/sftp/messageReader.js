@@ -30,7 +30,6 @@ export async function messageReader({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
-
 			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
 

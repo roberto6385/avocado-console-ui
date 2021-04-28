@@ -2,7 +2,8 @@ import {buffers, END, eventChannel} from 'redux-saga';
 
 export function initWebsocket(host) {
 	return new Promise((resolve, reject) => {
-		const ws = new WebSocket(`ws://${host}:8081/ws/sftp`);
+		console.log(host);
+		const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
 		ws.binaryType = 'arraybuffer';
 
 		ws.onopen = function () {
@@ -10,27 +11,28 @@ export function initWebsocket(host) {
 		};
 
 		ws.onerror = function (e) {
+			console.log(e);
 			reject(e);
 		};
 	});
 }
 
-export function initChannel(ws, buffer) {
+export function initChannel(socket, buffer) {
 	return eventChannel((emit) => {
-		ws.onmessage = (e) => {
-			emit(e.data);
+		socket.onmessage = (event) => {
+			emit(event.data);
 		};
 
-		ws.onerror = () => {
-			ws.close();
+		socket.onerror = () => {
+			socket.close();
 		};
 
-		ws.onclose = () => {
+		socket.onclose = () => {
 			emit(END);
 		};
 
 		return () => {
-			ws.onmessage = null;
+			socket.onmessage = null;
 		};
 	}, buffer || buffers.none());
 }

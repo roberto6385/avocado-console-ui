@@ -914,7 +914,9 @@ proto.proto.ssh.ConnectRequest.toObject = function(includeInstance, msg) {
     terminalcols: jspb.Message.getFieldWithDefault(msg, 7, 0),
     terminalrows: jspb.Message.getFieldWithDefault(msg, 8, 0),
     terminalwidth: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    terminalheight: jspb.Message.getFieldWithDefault(msg, 10, 0)
+    terminalheight: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    keepalivecount: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    keepaliveinterval: jspb.Message.getFieldWithDefault(msg, 12, 0)
   };
 
   if (includeInstance) {
@@ -990,6 +992,14 @@ proto.proto.ssh.ConnectRequest.deserializeBinaryFromReader = function(msg, reade
     case 10:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setTerminalheight(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setKeepalivecount(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setKeepaliveinterval(value);
       break;
     default:
       reader.skipField();
@@ -1087,6 +1097,20 @@ proto.proto.ssh.ConnectRequest.serializeBinaryToWriter = function(message, write
   if (f !== 0) {
     writer.writeInt32(
       10,
+      f
+    );
+  }
+  f = message.getKeepalivecount();
+  if (f !== 0) {
+    writer.writeInt32(
+      11,
+      f
+    );
+  }
+  f = message.getKeepaliveinterval();
+  if (f !== 0) {
+    writer.writeInt32(
+      12,
       f
     );
   }
@@ -1270,6 +1294,42 @@ proto.proto.ssh.ConnectRequest.prototype.getTerminalheight = function() {
  */
 proto.proto.ssh.ConnectRequest.prototype.setTerminalheight = function(value) {
   return jspb.Message.setProto3IntField(this, 10, value);
+};
+
+
+/**
+ * optional int32 keepAliveCount = 11;
+ * @return {number}
+ */
+proto.proto.ssh.ConnectRequest.prototype.getKeepalivecount = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.ssh.ConnectRequest} returns this
+ */
+proto.proto.ssh.ConnectRequest.prototype.setKeepalivecount = function(value) {
+  return jspb.Message.setProto3IntField(this, 11, value);
+};
+
+
+/**
+ * optional int32 keepAliveInterval = 12;
+ * @return {number}
+ */
+proto.proto.ssh.ConnectRequest.prototype.getKeepaliveinterval = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.proto.ssh.ConnectRequest} returns this
+ */
+proto.proto.ssh.ConnectRequest.prototype.setKeepaliveinterval = function(value) {
+  return jspb.Message.setProto3IntField(this, 12, value);
 };
 
 
