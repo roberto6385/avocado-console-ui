@@ -30,10 +30,7 @@ const SFTP_Component = ({uuid}) => {
 					{/*<Pane className={'sftp_container_pane'}>*/}
 					<FileList uuid={uuid} />
 					{/*</Pane>*/}
-					{/*<Pane*/}
-					{/*	className={'sftp_container_pane'}*/}
-					{/*	style={{height: '100%'}}*/}
-					{/*>*/}
+					{/*<Pane className={'sftp_container_pane'}>*/}
 					<History uuid={uuid} />
 					{/*</Pane>*/}
 				</SplitPane>

@@ -43,7 +43,7 @@ const Server = ({data, indent}) => {
 
 	const onHybridClick = useDoubleClick(
 		() => {
-			const correspondedServer = server.find((i) => i.id === data.id);
+			const correspondedServer = server.find((i) => i.key === data.key);
 
 			dispatch({
 				type: SSHT_SEND_CONNECTION_REQUEST,
@@ -85,6 +85,51 @@ const Server = ({data, indent}) => {
 			// 					type: 'SSHT',
 			// 					ws: ws,
 			// 					uuid: message.result,
+			// 					terminal: new Terminal({
+			// 						cursorBlink: true,
+			// 						minimumContrastRatio: 7,
+			// 						fontFamily: font,
+			// 						theme: {
+			// 							selection: '#FCFD08',
+			// 						},
+			// 					}),
+			// 				},
+			// 			});
+			// 		else console.log('V ServerNavBar onmessage: ', message);
+			// 	};
+			// };
+
+			// const correspondedServer = server.find((i) => i.key === data.key);
+			// const ws = new WebSocket(
+			// 	'ws://' + correspondedServer.host + ':8081/ws/ssh',
+			// );
+			//
+			// ws.binaryType = 'arraybuffer';
+			//
+			// ws.onopen = () => {
+			// 	ssht_ws_request({
+			// 		keyword: 'SendConnect',
+			// 		ws: ws,
+			// 		data: {
+			// 			token: userTicket.access_token,
+			// 			host: correspondedServer.host,
+			// 			user: correspondedServer.user,
+			// 			password: correspondedServer.password,
+			// 			port: correspondedServer.port,
+			// 		},
+			// 	});
+			//
+			// 	ws.onmessage = (evt) => {
+			// 		const message = GetMessage(evt);
+			//
+			// 		if (message.type === 'CONNECT')
+			// 			dispatch({
+			// 				type: OPEN_TAB,
+			// 				data: {
+			// 					type: 'SSHT',
+			// 					socket: ws,
+			// 					uuid: message.result,
+			// 					server: correspondedServer,
 			// 					terminal: new Terminal({
 			// 						cursorBlink: true,
 			// 						minimumContrastRatio: 7,

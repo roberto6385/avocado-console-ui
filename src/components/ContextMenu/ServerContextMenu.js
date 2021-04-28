@@ -27,6 +27,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	const {font} = useSelector((state) => state.ssht);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
+	const correspondedServer = server.find((i) => i.key === data.key);
 
 	const handleItemClick = useCallback(
 		(e) => () => {
@@ -60,7 +61,6 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	);
 
 	const openSFTP = useCallback(() => {
-		const correspondedServer = server.find((i) => i.id === data.id);
 		dispatch(
 			connectionAction({
 				...correspondedServer,
@@ -70,7 +70,6 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	}, [server, userTicket, data]);
 
 	const openSSHT = useCallback(() => {
-		const correspondedServer = server.find((i) => i.id === data.id);
 		const ws = new WebSocket(
 			'ws://' + correspondedServer.host + ':8081/ws/ssh',
 		);
@@ -82,7 +81,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 				keyword: 'SendConnect',
 				ws: ws,
 				data: {
-					token: userTicket.access_token,
+					token: userTicket,
 					host: correspondedServer.host,
 					user: correspondedServer.user,
 					password: correspondedServer.password,
@@ -98,10 +97,10 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 					dispatch({
 						type: OPEN_TAB,
 						data: {
-							id: data.id,
 							type: 'SSHT',
-							ws: ws,
+							socket: ws,
 							uuid: message.result,
+							server: correspondedServer,
 							terminal: new Terminal({
 								cursorBlink: true,
 								minimumContrastRatio: 7,

@@ -11,9 +11,6 @@ import refreshTicket from './auth/refreshTicket';
 import verify from './auth/verify';
 import revoke from './auth/revoke';
 import find from './auth/find';
-
-import download from './download';
-import upload from './upload';
 import sftp from './sftp';
 
 const rootReducer = combineReducers({
@@ -28,8 +25,6 @@ const rootReducer = combineReducers({
 	verify,
 	revoke,
 	find,
-	download,
-	upload,
 });
 
 export default rootReducer;

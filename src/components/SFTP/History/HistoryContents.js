@@ -116,7 +116,7 @@ const HistoryContents = ({uuid}) => {
 										{history.size} byte
 									</CustomP>
 								</FlexSpaceBetween>
-								<CustomP>
+								<div style={{padding: '0px 4px'}}>
 									{history.progress === 100 ? (
 										'Complete'
 									) : (
@@ -125,7 +125,7 @@ const HistoryContents = ({uuid}) => {
 											label={`${history.progress}%`}
 										/>
 									)}
-								</CustomP>
+								</div>
 							</CustomLi>
 						);
 					})}

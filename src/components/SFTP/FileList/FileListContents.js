@@ -25,11 +25,13 @@ import {
 	commandGetAction,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
+import {Spinner} from 'react-bootstrap';
+import {MAIN_COLOR} from '../../../styles/global';
 
 const FileListContents = ({uuid}) => {
 	const {server} = useSelector((state) => state.sftp);
 	const corServer = server.find((it) => it.uuid === uuid);
-	const {fileList, highlight} = corServer;
+	const {fileList, highlight, pathList} = corServer;
 	const dispatch = useDispatch();
 
 	const {show} = useContextMenu({
@@ -60,7 +62,7 @@ const FileListContents = ({uuid}) => {
 				});
 			}
 		},
-		[corServer],
+		[server],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -76,7 +78,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[corServer],
+		[server],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -122,10 +124,10 @@ const FileListContents = ({uuid}) => {
 				dispatch(commandCdAction({...corServer, newPath: item.name}));
 			}
 		},
-		[corServer],
+		[server],
 	);
 
-	return (
+	return fileList.length === pathList.length ? (
 		<>
 			<CustomTable>
 				<TableHead />
@@ -193,6 +195,8 @@ const FileListContents = ({uuid}) => {
 			</CustomTable>
 			<FileListContextMenu uuid={uuid} />
 		</>
+	) : (
+		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);
 };
 

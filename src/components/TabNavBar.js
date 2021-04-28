@@ -39,14 +39,11 @@ const TabNavBar = () => {
 	);
 
 	const onClickDelete = useCallback(
-		(id) => async () => {
-			const clicked_tab = tab.find((x) => x.id === id);
-			if (clicked_tab.type === 'SSHT') {
-				dispatch({type: CLOSE_TAB, data: id});
+		(data) => async () => {
+			if (data.type === 'SSHT') {
+				dispatch({type: CLOSE_TAB, data: data.uuid});
 			} else {
-				const {uuid} = clicked_tab.socket;
-				const currentServer = server.find((it) => it.uuid === uuid);
-				dispatch(disconnectAction({...currentServer, id}));
+				dispatch(disconnectAction(data));
 			}
 		},
 		[tab],
@@ -101,7 +98,7 @@ const TabNavBar = () => {
 					{tab &&
 						tab.map((data) => (
 							<TabNavItem
-								key={data.id.toString()}
+								key={data.uuid}
 								draggable='true'
 								onDragStart={prevPutItem(data)}
 								onDrop={nextPutItem(data)}
@@ -114,11 +111,9 @@ const TabNavBar = () => {
 									}
 									as={Link}
 									to='/'
-									eventKey={data.id}
+									eventKey={data.uuid}
 								>
-									<IconSpan
-										onClick={changeVisibleTab(data.id)}
-									>
+									<IconSpan onClick={changeVisibleTab(data)}>
 										{data.type === 'SSHT' ? (
 											<TabSSHTIcon />
 										) : (
@@ -126,9 +121,7 @@ const TabNavBar = () => {
 										)}
 										{data.server.name}
 									</IconSpan>
-									<IconButton
-										onClick={onClickDelete(data.id)}
-									>
+									<IconButton onClick={onClickDelete(data)}>
 										<FaTimes />
 									</IconButton>
 								</NavLink>

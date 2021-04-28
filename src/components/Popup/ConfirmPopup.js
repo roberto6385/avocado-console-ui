@@ -60,7 +60,7 @@ const ConfirmPopup = () => {
 	const {confirm_popup} = useSelector((state) => state.popup);
 	const {clicked_server} = useSelector((state) => state.common);
 	const {server} = useSelector((state) => state.sftp);
-	const [formValue, onChangeFormValue] = useInput('');
+	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const buttonRef = useRef(null);
 
@@ -212,9 +212,31 @@ const ConfirmPopup = () => {
 		handleClose();
 	}, [confirm_popup]);
 
+	const inputFunction = useCallback(() => {
+		if (confirm_popup.key === 'sftp_rename_file_folder') {
+			const corServer = server.find(
+				(it) => it.uuid === confirm_popup.uuid,
+			);
+			const {highlight, mode} = corServer;
+			console.log(highlight, mode);
+			mode === 'list'
+				? setFormValue(highlight[0].name)
+				: setFormValue(highlight[0].item.name);
+			inputRef.current?.focus();
+			// buttonRef.current?.focus();
+		} else if (confirm_popup.key === 'sftp_new_folder') {
+			setFormValue('');
+			inputRef.current?.focus();
+		}
+	}, [confirm_popup, server]);
+
 	useEffect(() => {
-		buttonRef.current?.focus();
-	}, [buttonRef]);
+		inputFunction();
+	}, [confirm_popup]);
+
+	// useEffect(() => {
+	// 	buttonRef.current?.focus();
+	// }, [buttonRef]);
 
 	return (
 		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
@@ -237,7 +259,7 @@ const ConfirmPopup = () => {
 					<Form onSubmit={submitFunction}>
 						<Form.Control
 							ref={inputRef}
-							value={formValue}
+							value={formValue || ''}
 							type='text'
 							placeholder={
 								Object.prototype.hasOwnProperty.call(

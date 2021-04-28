@@ -28,6 +28,10 @@ import {initChannel, initWebsocket} from './sshSocket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 
+const deleteVideoAPI = () => {
+	console.log('delete Video API...');
+};
+
 function* SendConnection(data) {
 	const ws = yield call(initWebsocket, data.host);
 	const channel = yield call(initChannel, ws);
