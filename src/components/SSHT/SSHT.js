@@ -20,7 +20,7 @@ const SSHT = ({uuid, height, width}) => {
 		(state) => state.ssht,
 	);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const sshTerm = useRef(ssht.find((v) => v.uuid === uuid).terminal);
+	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
@@ -45,8 +45,8 @@ const SSHT = ({uuid, height, width}) => {
 					ws: ws.current,
 					uuid: uuid,
 					data: {
-						cols: sshTerm.current.cols,
-						rows: sshTerm.current.rows,
+						cols: sshTerm.cols,
+						rows: sshTerm.rows,
 						width: width,
 						height: height,
 					},
@@ -65,15 +65,15 @@ const SSHT = ({uuid, height, width}) => {
 
 	//terminal setting
 	useEffect(() => {
-		sshTerm.current.loadAddon(fitAddon.current);
-		sshTerm.current.loadAddon(searchAddon.current);
-		sshTerm.current.open(terminalRef.current);
+		sshTerm.loadAddon(fitAddon.current);
+		sshTerm.loadAddon(searchAddon.current);
+		sshTerm.open(terminalRef.current);
 		fitAddon.current.fit();
 		// setCookie('search_cokkies', []);
 	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
 	useEffect(() => {
-		sshTerm.current.onData((data) => {
+		sshTerm.onData((data) => {
 			dispatch({
 				type: SSHT_SEND_COMMAND_REQUEST,
 				data: {
@@ -86,16 +86,16 @@ const SSHT = ({uuid, height, width}) => {
 	}, [uuid, ws, sshTerm]);
 	//current tab terminal is focused
 	useEffect(() => {
-		if (current_tab === uuid) sshTerm.current.focus();
+		if (current_tab === uuid) sshTerm.focus();
 	}, [current_tab, uuid, sshTerm]);
 	//change font
 	useEffect(() => {
-		sshTerm.current.setOption('fontFamily', font);
+		sshTerm.setOption('fontFamily', font);
 		resizeRequest();
 	}, [font, sshTerm, ssht, width, height]);
 	//change font size
 	useEffect(() => {
-		sshTerm.current.setOption('fontSize', font_size);
+		sshTerm.setOption('fontSize', font_size);
 		resizeRequest();
 	}, [font_size, sshTerm, ssht, width, height]);
 	//click search button
