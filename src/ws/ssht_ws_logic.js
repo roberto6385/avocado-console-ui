@@ -1,5 +1,3 @@
-import SFTP from '../dist/sftp_pb';
-
 const SSH = require('../dist/ssh_pb');
 
 export const SendConnect = (token, host, user, password, port) => {
@@ -70,13 +68,11 @@ export const SendWindowChange = (cols, rows, width, height) => {
 export const GetMessage = async (data) => {
 	try {
 		if (data instanceof ArrayBuffer) {
-			console.log('HH');
 			const message = SSH.Message.deserializeBinary(data);
-			console.log(message);
+
 			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
-				console.log('HH');
 				const response = message.getResponse();
-				console.log('response status: ', response.getStatus());
+
 				if (
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.CONNECT
@@ -88,7 +84,6 @@ export const GetMessage = async (data) => {
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.DISCONNECT
 				) {
-					const disconnect = response.getDisconnect();
 					console.log('DISCONNECT');
 					return {type: 'DISCONNECT'};
 				} else if (
@@ -97,7 +92,7 @@ export const GetMessage = async (data) => {
 				) {
 					const command = response.getCommand();
 					console.log('COMMAND');
-					// console.log(JSON.stringify(command));
+					console.log(JSON.stringify(command));
 					return {
 						type: 'COMMAND',
 						result: command.getMessage(),

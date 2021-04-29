@@ -12,7 +12,7 @@ const RightContainer = () => {
 	return (
 		<OutlineCol flex={1} className={'fix-height'}>
 			<TabNavBar />
-			{tab.length !== 0 ? <WorkSpace /> : <MainPage />}
+			{tab.length ? <WorkSpace /> : <MainPage />}
 			{current_tab !== null && <Footer />}
 		</OutlineCol>
 	);

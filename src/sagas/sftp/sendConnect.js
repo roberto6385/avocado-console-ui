@@ -38,9 +38,8 @@ function* sendCommand(action) {
 						type: OPEN_TAB,
 						data: {
 							type: 'SFTP',
-							socket: socket,
 							uuid: res.uuid,
-							server: payload,
+							server: {id: payload.id, name: payload.name},
 						},
 					});
 					return {type: 'end'};

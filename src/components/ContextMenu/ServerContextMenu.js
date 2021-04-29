@@ -2,16 +2,13 @@ import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
-import {Terminal} from 'xterm';
 
-import {ssht_ws_request} from '../../ws/ssht_ws_request';
-import {GetMessage} from '../../ws/ssht_ws_logic';
-import {OPEN_TAB} from '../../reducers/common';
 import {connectionAction} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
+import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 
 const ServerContextMenuMessage = {
 	connect: 'Connect',
@@ -70,50 +67,15 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	}, [server, userTicket, data]);
 
 	const openSSHT = useCallback(() => {
-		const ws = new WebSocket(
-			'ws://' + correspondedServer.host + ':8081/ws/ssh',
-		);
+		const correspondedServer = server.find((i) => i.key === data.key);
 
-		ws.binaryType = 'arraybuffer';
-
-		ws.onopen = () => {
-			ssht_ws_request({
-				keyword: 'SendConnect',
-				ws: ws,
-				data: {
-					token: userTicket,
-					host: correspondedServer.host,
-					user: correspondedServer.user,
-					password: correspondedServer.password,
-					port: correspondedServer.port,
-				},
-			});
-
-			ws.onmessage = (evt) => {
-				const message = GetMessage(evt);
-				console.log(message);
-
-				if (message.type === 'CONNECT')
-					dispatch({
-						type: OPEN_TAB,
-						data: {
-							type: 'SSHT',
-							socket: ws,
-							uuid: message.result,
-							server: correspondedServer,
-							terminal: new Terminal({
-								cursorBlink: true,
-								minimumContrastRatio: 7,
-								fontFamily: font,
-								theme: {
-									selection: '#FCFD08',
-								},
-							}),
-						},
-					});
-				else console.log('V ServerNavBar onmessage: ', message);
-			};
-		};
+		dispatch({
+			type: SSHT_SEND_CONNECTION_REQUEST,
+			data: {
+				token: userTicket,
+				...correspondedServer,
+			},
+		});
 	}, [server, data, font]);
 
 	return (

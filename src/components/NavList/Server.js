@@ -1,24 +1,20 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
+import {useContextMenu} from 'react-contexify';
+import styled from 'styled-components';
 
 import {FaServerIcon, ServerNavItem} from '../../styles/common';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
-	OPEN_TAB,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
-	SSHT_SEND_CONNECTION_REQUEST,
 } from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
-import {GetMessage} from '../../ws/ssht_ws_logic';
-import {ssht_ws_request} from '../../ws/ssht_ws_request';
-import {useContextMenu} from 'react-contexify';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
-import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import {Terminal} from 'xterm';
+import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -39,116 +35,24 @@ const Server = ({data, indent}) => {
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
-	const {font} = useSelector((state) => state.ssht);
 
 	const onHybridClick = useDoubleClick(
 		() => {
-			const correspondedServer = server.find((i) => i.key === data.key);
-
+			const correspondedServer = server.find((i) => i.id === data.id);
 			dispatch({
 				type: SSHT_SEND_CONNECTION_REQUEST,
 				data: {
 					token: userTicket,
-					host: correspondedServer.host,
-					user: correspondedServer.user,
-					password: correspondedServer.password,
-					port: correspondedServer.port,
+					...correspondedServer,
 				},
 			});
-			// const ws = new WebSocket(
-			// 	'ws://' + correspondedServer.host + ':8081/ws/ssh',
-			// );
-			//
-			// ws.binaryType = 'arraybuffer';
-			//
-			// ws.onopen = () => {
-			// 	ssht_ws_request({
-			// 		keyword: 'SendConnect',
-			// 		ws: ws,
-			// 		data: {
-			// 			token: userTicket.access_token,
-			// 			host: correspondedServer.host,
-			// 			user: correspondedServer.user,
-			// 			password: correspondedServer.password,
-			// 			port: correspondedServer.port,
-			// 		},
-			// 	});
-			//
-			// 	ws.onmessage = (evt) => {
-			// 		const message = GetMessage(evt);
-			//
-			// 		if (message.type === 'CONNECT')
-			// 			dispatch({
-			// 				type: OPEN_TAB,
-			// 				data: {
-			// 					id: data.id,
-			// 					type: 'SSHT',
-			// 					ws: ws,
-			// 					uuid: message.result,
-			// 					terminal: new Terminal({
-			// 						cursorBlink: true,
-			// 						minimumContrastRatio: 7,
-			// 						fontFamily: font,
-			// 						theme: {
-			// 							selection: '#FCFD08',
-			// 						},
-			// 					}),
-			// 				},
-			// 			});
-			// 		else console.log('V ServerNavBar onmessage: ', message);
-			// 	};
-			// };
-
-			// const correspondedServer = server.find((i) => i.key === data.key);
-			// const ws = new WebSocket(
-			// 	'ws://' + correspondedServer.host + ':8081/ws/ssh',
-			// );
-			//
-			// ws.binaryType = 'arraybuffer';
-			//
-			// ws.onopen = () => {
-			// 	ssht_ws_request({
-			// 		keyword: 'SendConnect',
-			// 		ws: ws,
-			// 		data: {
-			// 			token: userTicket.access_token,
-			// 			host: correspondedServer.host,
-			// 			user: correspondedServer.user,
-			// 			password: correspondedServer.password,
-			// 			port: correspondedServer.port,
-			// 		},
-			// 	});
-			//
-			// 	ws.onmessage = (evt) => {
-			// 		const message = GetMessage(evt);
-			//
-			// 		if (message.type === 'CONNECT')
-			// 			dispatch({
-			// 				type: OPEN_TAB,
-			// 				data: {
-			// 					type: 'SSHT',
-			// 					socket: ws,
-			// 					uuid: message.result,
-			// 					server: correspondedServer,
-			// 					terminal: new Terminal({
-			// 						cursorBlink: true,
-			// 						minimumContrastRatio: 7,
-			// 						fontFamily: font,
-			// 						theme: {
-			// 							selection: '#FCFD08',
-			// 						},
-			// 					}),
-			// 				},
-			// 			});
-			// 		else console.log('V ServerNavBar onmessage: ', message);
-			// 	};
-			// };
 		},
 		() => {
 			if (clicked_server === data.key)
 				dispatch({type: SET_CLICKED_SERVER, data: null});
 			else dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		},
+		[clicked_server, data, userTicket, server],
 	);
 
 	const {show} = useContextMenu({

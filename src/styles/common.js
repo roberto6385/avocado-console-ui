@@ -12,7 +12,6 @@ import {
 } from './global';
 import background from '../images/bg_3.png';
 import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
-import GridLayout from 'react-grid-layout';
 
 export const PopupButton = styled(Button).attrs((props) => ({
 	style: {

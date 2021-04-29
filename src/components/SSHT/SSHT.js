@@ -1,28 +1,32 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 
 import useInput from '../../hooks/useInput';
 import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
-import {ssht_ws_request} from '../../ws/ssht_ws_request';
-import {GetMessage} from '../../ws/ssht_ws_logic';
 import {useCookies} from 'react-cookie';
+import {
+	SSHT_SEND_COMMAND_REQUEST,
+	SSHT_SEND_WINDOW_CHANGE_REQUEST,
+} from '../../reducers/ssht';
 
 const SSHT = ({uuid, height, width}) => {
-	const {current_tab, tab} = useSelector((state) => state.common);
-	const {font, font_size, search_mode} = useSelector((state) => state.ssht);
+	const dispatch = useDispatch();
+	const {current_tab} = useSelector((state) => state.common);
+	const {font, font_size, search_mode, ssht} = useSelector(
+		(state) => state.ssht,
+	);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const sshTerm = tab.find((v) => v.uuid === uuid).terminal;
-	const ws = tab.find((v) => v.uuid === uuid).socket;
+	const sshTerm = useRef(ssht.find((v) => v.uuid === uuid).terminal);
+	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const terminalRef = useRef(null);
-	const terminalSearchRef = useRef(null);
-	const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
-	const [prompt, setPrompt] = useState('');
+	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
+	// const [prompt, setPrompt] = useState('');
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -35,94 +39,65 @@ const SSHT = ({uuid, height, width}) => {
 		if (width > 0 && height > 0) {
 			fitAddon.current.fit();
 
-			ssht_ws_request({
-				keyword: 'SendWindowChange',
-				ws: ws,
+			dispatch({
+				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
 				data: {
-					cols: sshTerm.cols,
-					rows: sshTerm.rows,
-					width: width,
-					height: height,
+					ws: ws.current,
+					uuid: uuid,
+					data: {
+						cols: sshTerm.current.cols,
+						rows: sshTerm.current.rows,
+						width: width,
+						height: height,
+					},
 				},
 			});
 		}
-	}, [ws, sshTerm, width, height]);
+	}, [sshTerm, width, height, uuid, ws]);
 
-	const onClickCommand = useCallback(
-		(v) => () => {
-			console.log(v);
-			sshTerm.write(v.substring(prompt.length));
-		},
-		[prompt, sshTerm],
-	);
-	//websocket setting
-	useEffect(() => {
-		ws.onerror = () => {
-			console.log('Terminal Error');
-		};
+	// const onClickCommand = useCallback(
+	// 	(v) => () => {
+	// 		console.log(v);
+	// 		sshTerm.write(v.substring(prompt.length));
+	// 	},
+	// 	[prompt, sshTerm],
+	// );
 
-		ws.onmessage = (evt) => {
-			const message = GetMessage(evt);
-			if (message.type === 'COMMAND') {
-				sshTerm.write(message.result);
-				// console.log(message.result);
-				// console.log(sshTerm.buffer);
-				// console.log(sshTerm._bufferService.buffer.x);
-				// console.log(sshTerm._bufferService.buffer.y);
-				if (message.result.length === 1) {
-					setPrompt(prompt + message.result);
-				} else if (
-					message.result.charCodeAt(0) === 8 &&
-					message.result.length === 4
-				) {
-					setPrompt(prompt.slice(0, -1));
-				} else {
-					if (
-						prompt !== '' &&
-						message.result.slice(0, 2) === '\r\n'
-					) {
-						if (!cookies['search_cokkies'].includes(prompt))
-							setCookie('search_cokkies', [
-								...cookies['search_cokkies'],
-								prompt,
-							]);
-						setPrompt('');
-						console.log('cookies:', cookies['search_cokkies']);
-					}
-				}
-			} else console.log('V SSHT onmessage: ', message);
-		};
-	}, [uuid, ws, sshTerm, prompt, cookies]);
 	//terminal setting
 	useEffect(() => {
-		sshTerm.loadAddon(fitAddon.current);
-		sshTerm.loadAddon(searchAddon.current);
-		sshTerm.open(terminalRef.current);
+		sshTerm.current.loadAddon(fitAddon.current);
+		sshTerm.current.loadAddon(searchAddon.current);
+		sshTerm.current.open(terminalRef.current);
 		fitAddon.current.fit();
-		setCookie('search_cokkies', []);
+		// setCookie('search_cokkies', []);
+	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
-		sshTerm.onData(function (data) {
-			ssht_ws_request({
-				keyword: 'SendCommand',
-				ws: ws,
-				data: data,
+	useEffect(() => {
+		sshTerm.current.onData((data) => {
+			dispatch({
+				type: SSHT_SEND_COMMAND_REQUEST,
+				data: {
+					uuid: uuid,
+					ws: ws.current,
+					input: data,
+				},
 			});
 		});
 	}, [uuid, ws, sshTerm]);
 	//current tab terminal is focused
 	useEffect(() => {
-		if (current_tab === uuid) sshTerm.focus();
+		if (current_tab === uuid) sshTerm.current.focus();
 	}, [current_tab, uuid, sshTerm]);
 	//change font
 	useEffect(() => {
-		sshTerm.setOption('fontFamily', font);
+		sshTerm.current.setOption('fontFamily', font);
 		resizeRequest();
-	}, [font, sshTerm, ws, width, height]);
+	}, [font, sshTerm, ssht, width, height]);
 	//change font size
 	useEffect(() => {
-		sshTerm.setOption('fontSize', font_size);
+		sshTerm.current.setOption('fontSize', font_size);
 		resizeRequest();
-	}, [font_size, sshTerm, ws, width, height]);
+	}, [font_size, sshTerm, ssht, width, height]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -152,13 +127,13 @@ const SSHT = ({uuid, height, width}) => {
 					zIndex: '999',
 				}}
 			>
-				{cookies['search_cokkies']
-					.filter((v) => v.indexOf(prompt) === 0 && prompt !== '')
-					.map((v) => (
-						<ListGroup.Item onClick={onClickCommand(v)} key={v}>
-							{v}
-						</ListGroup.Item>
-					))}
+				{/*{cookies['search_cokkies']*/}
+				{/*	.filter((v) => v.indexOf(prompt) === 0 && prompt !== '')*/}
+				{/*	.map((v) => (*/}
+				{/*		<ListGroup.Item onClick={onClickCommand(v)} key={v}>*/}
+				{/*			{v}*/}
+				{/*		</ListGroup.Item>*/}
+				{/*	))}*/}
 			</ListGroup>
 			<TerminalSearchForm
 				id={`search_${uuid}`}

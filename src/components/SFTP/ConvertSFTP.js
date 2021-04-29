@@ -6,13 +6,13 @@ import {IconButton} from '../../styles/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
 
-const ConvertSFTP = ({server_key}) => {
+const ConvertSFTP = ({server_id}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
 
 	const connection = useCallback(() => {
-		const correspondedServer = server.find((x) => x.key === server_key);
+		const correspondedServer = server.find((x) => x.id === server_id);
 		if (server.includes(correspondedServer)) {
 			dispatch(
 				connectionAction({
@@ -23,7 +23,7 @@ const ConvertSFTP = ({server_key}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [server_key, userTicket]);
+	}, [server_id, userTicket]);
 
 	return (
 		<IconButton onClick={connection}>
@@ -33,7 +33,7 @@ const ConvertSFTP = ({server_key}) => {
 };
 
 ConvertSFTP.propTypes = {
-	server_key: PropTypes.string.isRequired,
+	server_id: PropTypes.number.isRequired,
 };
 
 export default ConvertSFTP;

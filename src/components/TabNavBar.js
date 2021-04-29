@@ -3,9 +3,10 @@ import {NavLink} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
+import Sortable from 'sortablejs';
 
 import SplitBar from './SplitBar';
-import {CHANGE_VISIBLE_TAB, CLOSE_TAB, SORT_TAB} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {
 	FlexBox,
 	IconButton,
@@ -16,24 +17,20 @@ import {
 	TabSSHTIcon,
 	TabSFTPIcon,
 } from '../styles/common';
-import newSftp_ws from '../sagas/sftp/messageSender';
-import {ssht_ws_request} from '../ws/ssht_ws_request';
-import {GetMessage} from '../ws/ssht_ws_logic';
-import Sortable from 'sortablejs';
-import {sendDisconnect} from '../sagas/sftp';
 import {disconnectAction} from '../reducers/sftp';
+import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
 	const [active, setActive] = useState('');
 	const {tab, current_tab} = useSelector((state) => state.common);
-	const {server} = useSelector((state) => state.sftp);
+	const {ssht} = useSelector((state) => state.ssht);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 
 	const changeVisibleTab = useCallback(
-		(tab_id) => () => {
-			dispatch({type: CHANGE_VISIBLE_TAB, data: tab_id});
+		(uuid) => () => {
+			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
 		[],
 	);
@@ -41,12 +38,18 @@ const TabNavBar = () => {
 	const onClickDelete = useCallback(
 		(data) => async () => {
 			if (data.type === 'SSHT') {
-				dispatch({type: CLOSE_TAB, data: data.uuid});
-			} else {
+				dispatch({
+					type: SSHT_SEND_DISCONNECTION_REQUEST,
+					data: {
+						uuid: data.uuid,
+						ws: ssht.find((v) => v.uuid === data.uuid).ws,
+					},
+				});
+			} else if (data.type === 'SFTP') {
 				dispatch(disconnectAction(data));
 			}
 		},
-		[tab],
+		[dispatch, ssht],
 	);
 
 	const prevPutItem = useCallback(
@@ -105,7 +108,7 @@ const TabNavBar = () => {
 							>
 								<NavLink
 									className={
-										data.id === current_tab
+										data.uuid === current_tab
 											? 'tab_navLink active_tab_item'
 											: 'tab_navLink'
 									}
@@ -113,7 +116,9 @@ const TabNavBar = () => {
 									to='/'
 									eventKey={data.uuid}
 								>
-									<IconSpan onClick={changeVisibleTab(data)}>
+									<IconSpan
+										onClick={changeVisibleTab(data.uuid)}
+									>
 										{data.type === 'SSHT' ? (
 											<TabSSHTIcon />
 										) : (

@@ -135,7 +135,6 @@ export const initialState = {
 		},
 	],
 
-	tab_index: 0,
 	tab: [],
 };
 
@@ -154,9 +153,6 @@ export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const EDIT_SERVER = 'EDIT_SERVER';
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
-export const SSHT_SEND_CONNECTION_REQUEST = 'SSHT_SEND_CONNECTION_REQUEST';
-export const SSHT_SEND_CONNECTION_SUCCESS = 'SSHT_SEND_CONNECTION_SUCCESS';
-export const SSHT_SEND_CONNECTION_FAILURE = 'SSHT_SEND_CONNECTION_FAILURE';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -167,7 +163,7 @@ const fillTabs = (tab, max_display_tab, current_tab) => {
 		for (let i = 0; i < tab.length; i++) {
 			if (visible_tab_length === max_display_tab) break;
 			else if (visible_tab_length > max_display_tab) {
-				if (tab[i].display && tab[i].id !== current_tab) {
+				if (tab[i].display && tab[i].uuid !== current_tab) {
 					tab[i].display = false;
 					visible_tab_length--;
 				}
@@ -179,8 +175,8 @@ const fillTabs = (tab, max_display_tab, current_tab) => {
 			}
 		}
 
-		if (tab.find((v) => v.id === current_tab && v.display) === undefined)
-			current_tab = tab.find((x) => x.display).id;
+		if (tab.find((v) => v.uuid === current_tab && v.display) === undefined)
+			current_tab = tab.find((x) => x.display).uuid;
 	}
 	return current_tab;
 };
@@ -451,27 +447,21 @@ const reducer = (state = initialState, action) => {
 
 			case OPEN_TAB: {
 				//fill in new tab info
-				let new_tab = {
+				const new_tab = {
+					uuid: action.data.uuid,
 					type: action.data.type,
 					display: true,
 					server: action.data.server,
-					uuid: action.data.uuid,
-					socket: action.data.socket,
 				};
-				//save ssht/sftp info
-				if (action.data.type === 'SSHT') {
-					new_tab.terminal = action.data.terminal;
-				}
 				//save new tab info
 				draft.tab.push(new_tab);
-
-				draft.current_tab = draft.tab_index;
+				//set current tab
+				draft.current_tab = action.data.uuid;
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,
 					draft.current_tab,
 				);
-				draft.tab_index++;
 				break;
 			}
 
@@ -494,10 +484,10 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_VISIBLE_TAB: {
 				draft.tab[
-					draft.tab.findIndex((v) => v.id === action.data)
+					draft.tab.findIndex((v) => v.uuid === action.data)
 				].display = true;
-				draft.current_tab = action.data;
 
+				draft.current_tab = action.data;
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.max_display_tab,

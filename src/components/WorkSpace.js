@@ -9,7 +9,6 @@ import '../styles/resize.css';
 const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
-	console.log(visibleTab);
 
 	// const container = (i) => (
 	// 	<TabContentContainer
