@@ -46,24 +46,24 @@ const FileListDropDown = ({uuid}) => {
 
 	const selectFile = useCallback(
 		({item, listindex}) => (e) => {
+			// 파일이 디렉토리 인데
+			const finalPath =
+				pathList[listindex] === '/'
+					? `${pathList[listindex]}${item.name}`
+					: `${pathList[listindex]}/${item.name}`;
+			console.log(`path : ${path}`);
+			console.log(`finalPath : ${finalPath}`);
+
 			if (e.metaKey) {
 				// command를 누르고 파일을 선택했는데
 				if (item.type === 'directory') {
-					// 파일이 디렉토리 인데
-					const finalPath =
-						pathList[listindex] === '/'
-							? `${pathList[listindex]}${item.name}`
-							: `${pathList[listindex]}/${item.name}`;
-					console.log(`path : ${path}`);
-					console.log(`finalPath : ${finalPath}`);
-
 					if (path !== finalPath) {
 						// 현재 경로가 해당 디렉토리가 아니라면
 						dispatch(
 							commandCdAction({
 								// 경로를 이동시키고
 								...corServer,
-								newPath: finalPath,
+								newPath: pathList[listindex],
 							}),
 						);
 					} else {
@@ -121,15 +121,16 @@ const FileListDropDown = ({uuid}) => {
 				}
 			} else {
 				// 일반 클릭했을경우
+				if (path === finalPath) return; // 이건 디렉토리 일 경우만 가능해서 자동 필터링 됨
+
 				if (`${pathList[listindex]}` === path) {
 					// 클릭한 아이템의 경로가 현재 경로인데
 					if (item.type === 'directory') {
-						// 타입이 디렉토리라면
-						// 헤당 디렉토리로 이동하고
+						// 타입이 디렉토리라면 해당 디렉토리로 이동
 						dispatch(
 							commandCdAction({
 								...corServer,
-								newPath: `${pathList[listindex]}/${item.name}`,
+								newPath: finalPath,
 							}),
 						);
 						// 여기서 선택한 디렉토리 하이라이팅 해줘야 함.
@@ -231,12 +232,25 @@ const FileListDropDown = ({uuid}) => {
 										listindex,
 									})}
 								>
-									{item.type === 'directory' ? (
-										<DirectoryIcon />
-									) : (
-										<FileIcon />
-									)}
-									{item.name}
+									<p
+										style={{
+											margin: 0,
+											padding: 0,
+											color:
+												pathList[listindex + 1]
+													?.split('/')
+													.pop() === item.name
+													? 'red'
+													: 'black',
+										}}
+									>
+										{item.type === 'directory' ? (
+											<DirectoryIcon />
+										) : (
+											<FileIcon />
+										)}
+										{item.name}
+									</p>
 								</DropdownLi>
 							);
 						})}
