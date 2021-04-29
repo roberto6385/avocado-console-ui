@@ -99,7 +99,7 @@ const FileListContents = ({uuid}) => {
 
 	const selectItem = useCallback(
 		(item) => (e) => {
-			if (e.shiftKey) {
+			if (e.metaKey) {
 				!highlight.includes(item)
 					? dispatch({
 							type: ADD_HIGHLIGHT,

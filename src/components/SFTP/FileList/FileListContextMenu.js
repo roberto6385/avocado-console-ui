@@ -3,7 +3,7 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
-import {OPEN_ALERT_POPUP, OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
 	const {server} = useSelector((state) => state.sftp);
@@ -62,25 +62,21 @@ const FileListContextMenu = ({uuid}) => {
 				});
 				break;
 			case 'rename_work':
-				if (
-					mode === 'drop' &&
-					path === `${highlight[0].path}/${highlight[0].item.name}`
-				) {
-					dispatch({type: OPEN_ALERT_POPUP, data: 'current_path'});
-				} else {
-					dispatch({
-						type: OPEN_CONFIRM_POPUP,
-						data: {
-							key: 'sftp_rename_file_folder',
-							uuid: uuid,
-						},
-					});
-				}
+				dispatch({
+					type: OPEN_CONFIRM_POPUP,
+					data: {
+						key: 'sftp_rename_file_folder',
+						uuid: uuid,
+					},
+				});
 				break;
 			case 'delete_work':
 				dispatch({
 					type: OPEN_CONFIRM_POPUP,
-					data: {key: 'sftp_delete_file_folder', uuid: uuid},
+					data: {
+						key: 'sftp_delete_file_folder',
+						uuid: uuid,
+					},
 				});
 				break;
 			default:

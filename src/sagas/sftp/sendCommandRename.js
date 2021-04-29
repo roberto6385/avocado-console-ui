@@ -8,6 +8,7 @@ import {
 import messageSender from './messageSender';
 import {subscribe} from './channel';
 import {messageReader} from './messageReader';
+import {OPEN_CONFIRM_POPUP} from '../../reducers/popup';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -16,8 +17,8 @@ function* sendCommand(action) {
 	yield call(messageSender, {
 		keyword: 'CommandByRename',
 		ws: payload.socket,
-		path: `${payload.path}/${payload.prevName}`,
-		newPath: `${payload.path}/${payload.nextName}`,
+		path: `${payload.newPath}/${payload.prevName}`,
+		newPath: `${payload.newPath}/${payload.nextName}`,
 	});
 	try {
 		while (true) {
@@ -30,7 +31,6 @@ function* sendCommand(action) {
 						type: RENAME_SUCCESS,
 						payload: {uuid: payload.uuid},
 					});
-					yield put(commandPwdAction(payload));
 					return {type: 'end'};
 			}
 		}

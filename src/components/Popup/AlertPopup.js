@@ -10,18 +10,22 @@ import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
 	lost_server: '해당 서버의 정보가 손상되거나 삭제되었습니다.',
-	current_path: '현재 경로의 폴더 이름은 변경할 수 없습니다.',
+	current_path_name: '현재 경로의 폴더 이름은 변경할 수 없습니다.',
+	current_path_delete: '현재 경로상의 상위폴더는 삭제할 수 없습니다.',
 };
 
 const AlertHeader = {
 	invalid_server: 'Invalid Server',
 	lost_server: 'Lost Server Data',
-	current_path: 'Not Allow to Chnage Folder Name',
+	current_path_name: 'Not Allow to Chnage Folder Name',
+	current_path_delete: 'Not Allow to Remove Folder',
 };
 
 const AlertPopup = () => {
 	const dispatch = useDispatch();
 	const {alert_popup} = useSelector((state) => state.popup);
+
+	console.log(alert_popup.key);
 
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
@@ -50,7 +54,7 @@ const AlertPopup = () => {
 					onClick={handleClose}
 					back={`${SUB_COLOR}`}
 				>
-					Cancel
+					Ok
 				</PopupButton>
 			</ModalFooter>
 		</CustomModal>

@@ -55,6 +55,7 @@ export const DropzoneBox = styled.div`
 
 export const FlexBox = styled.div`
 	flex: 1;
+	height: 100%;
 	display: flex;
 	overflow: scroll;
 	flex-direction: column;
