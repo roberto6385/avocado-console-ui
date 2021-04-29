@@ -44,6 +44,7 @@ function* sendCommand(action) {
 						type: CD_SUCCESS,
 						payload: {uuid: payload.uuid},
 					});
+
 					yield put(commandPwdAction(payload));
 					return {type: 'end'};
 			}

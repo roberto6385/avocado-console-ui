@@ -208,7 +208,7 @@ const sftp = (state = initialState, action) =>
 				target.path = action.payload.path;
 				target.pathList = action.payload.pathList;
 				target.fileList = [];
-				target.highlight = [];
+				// target.highlight = [];
 
 				break;
 			case PWD_FAILURE:
@@ -232,10 +232,11 @@ const sftp = (state = initialState, action) =>
 			// 경로 변경
 			case CD_REQUEST:
 				draft.loading = true;
+				target.highlight = [];
+
 				break;
 			case CD_SUCCESS:
 				draft.loading = false;
-				target.highlight = [];
 
 				break;
 			case CD_FAILURE:

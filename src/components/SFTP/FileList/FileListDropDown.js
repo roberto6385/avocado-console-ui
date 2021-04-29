@@ -20,7 +20,7 @@ import {
 const FileListDropDown = ({uuid}) => {
 	const {server} = useSelector((state) => state.sftp);
 	const corServer = server.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight} = corServer;
+	const {fileList, pathList, highlight, path} = corServer;
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -30,39 +30,153 @@ const FileListDropDown = ({uuid}) => {
 		show(e);
 	}
 
-	const changePath = useCallback(
-		({item, listindex}) => () => {
-
-		},
-		[corServer],
-	);
+	// item.type === 'directory'
+	// 	? dispatch(
+	// 	commandCdAction({
+	// 		...corServer,
+	// 		newPath: `${pathList[listindex]}/${item.name}`,
+	// 	}),
+	// 	)
+	// 	: dispatch(
+	// 	commandCdAction({
+	// 		...corServer,
+	// 		newPath: `${pathList[listindex]}`,
+	// 	}),
+	// 	);
 
 	const selectFile = useCallback(
 		({item, listindex}) => (e) => {
-
 			if (e.metaKey) {
-				highlight.find(
-					(it) => it.item === item && it.path === pathList[listindex],
-				) === undefined
-					? dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item, path: pathList[listindex]},
-					  })
-					: dispatch({
-							type: REMOVE_HIGHLIGHT,
-							payload: {uuid, item},
-					  });
+				// command를 누르고 파일을 선택했는데
+				if (item.type === 'directory') {
+					// 파일이 디렉토리 인데
+					const finalPath =
+						pathList[listindex] === '/'
+							? `${pathList[listindex]}${item.name}`
+							: `${pathList[listindex]}/${item.name}`;
+					console.log(`path : ${path}`);
+					console.log(`finalPath : ${finalPath}`);
+
+					if (path !== finalPath) {
+						// 현재 경로가 해당 디렉토리가 아니라면
+						dispatch(
+							commandCdAction({
+								// 경로를 이동시키고
+								...corServer,
+								newPath: finalPath,
+							}),
+						);
+					} else {
+						// 해당 디렉토리면 하이라이팅을 한다.
+						highlight.find(
+							(it) =>
+								it.item === item &&
+								it.path === pathList[listindex],
+						) === undefined
+							? dispatch({
+									type: ADD_HIGHLIGHT,
+									payload: {
+										uuid,
+										item,
+										path: pathList[listindex],
+									},
+							  })
+							: dispatch({
+									type: REMOVE_HIGHLIGHT,
+									payload: {uuid, item},
+							  });
+					}
+				} else {
+					// command를 누르고 파일을 선택했는데 파일 형태가 file 이라면
+					if (path === pathList[listindex]) {
+						// 그 경로가 해당 디렉토리 라면
+						// 하이리이팅 처리를 해준다
+						highlight.find(
+							(it) =>
+								it.item === item &&
+								it.path === pathList[listindex],
+						) === undefined
+							? dispatch({
+									type: ADD_HIGHLIGHT,
+									payload: {
+										uuid,
+										item,
+										path: pathList[listindex],
+									},
+							  })
+							: dispatch({
+									type: REMOVE_HIGHLIGHT,
+									payload: {uuid, item},
+							  });
+					} else {
+						// 선택한 파일의 경로가 현재 경로와 다르다면
+						// 해당 파일의 경로로 경로를 이동시킨다
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: pathList[listindex],
+							}),
+						);
+					}
+				}
 			} else {
-				highlight.find(
-					(it) => it.item === item && it.path === pathList[listindex],
-				) === undefined &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item, path: pathList[listindex]},
-					});
+				// 일반 클릭했을경우
+				if (`${pathList[listindex]}` === path) {
+					// 클릭한 아이템의 경로가 현재 경로인데
+					if (item.type === 'directory') {
+						// 타입이 디렉토리라면
+						// 헤당 디렉토리로 이동하고
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: `${pathList[listindex]}/${item.name}`,
+							}),
+						);
+						// 여기서 선택한 디렉토리 하이라이팅 해줘야 함.
+					} else {
+						// 타입이 파일이라면
+						// 그냥 하이라이팅 해준다
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {
+								uuid,
+								item,
+								path: pathList[listindex],
+							},
+						});
+					}
+				} else {
+					// 클릭한 아이템의 경로가 현재 경로가 아니라면
+					if (item.type === 'directory') {
+						// 아이템의 타입이 디렉토리면
+						// 해당 디렉토리로 이동시키고
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: `${pathList[listindex]}/${item.name}`,
+							}),
+						);
+						// if (path !== finalPath) {
+						// 	dispatch(
+						// 		commandCdAction({
+						// 			...corServer,
+						// 			newPath: `${pathList[listindex]}/${item.name}`,
+						// 		}),
+						// 	);
+					} else {
+						// 타입이 파일이면
+						// 해당 파일이 위치한 디렉토리로 이동시키고
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: `${pathList[listindex]}`,
+							}),
+						);
+					}
+				}
 			}
 		},
-		[server],
+		[corServer],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -84,6 +198,8 @@ const FileListDropDown = ({uuid}) => {
 		[corServer],
 	);
 
+	console.log(highlight);
+
 	return fileList !== undefined ? (
 		<>
 			{fileList.map((listItem, listindex) => {
@@ -100,9 +216,7 @@ const FileListDropDown = ({uuid}) => {
 								<DropdownLi
 									className={
 										highlight.find(
-											(it) =>
-												it.item === item &&
-												it.path === pathList[listindex],
+											(it) => it.item === item,
 										) !== undefined
 											? 'highlight_list active'
 											: 'highlight_list'
@@ -113,10 +227,6 @@ const FileListDropDown = ({uuid}) => {
 										path: pathList[listindex],
 									})}
 									onClick={selectFile({
-										item,
-										listindex,
-									})}
-									onDoubleClick={changePath({
 										item,
 										listindex,
 									})}
