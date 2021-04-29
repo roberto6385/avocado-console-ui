@@ -54,7 +54,7 @@ const AlertPopup = () => {
 					onClick={handleClose}
 					back={`${SUB_COLOR}`}
 				>
-					Cancel
+					Ok
 				</PopupButton>
 			</ModalFooter>
 		</CustomModal>

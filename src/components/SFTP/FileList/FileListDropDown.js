@@ -32,19 +32,15 @@ const FileListDropDown = ({uuid}) => {
 
 	const changePath = useCallback(
 		({item, listindex}) => () => {
-			dispatch(
-				commandCdAction({
-					...corServer,
-					newPath: `${pathList[listindex]}/${item.name}`,
-				}),
-			);
+
 		},
 		[corServer],
 	);
 
 	const selectFile = useCallback(
 		({item, listindex}) => (e) => {
-			if (e.shiftKey) {
+
+			if (e.metaKey) {
 				highlight.find(
 					(it) => it.item === item && it.path === pathList[listindex],
 				) === undefined
@@ -57,7 +53,6 @@ const FileListDropDown = ({uuid}) => {
 							payload: {uuid, item},
 					  });
 			} else {
-				// 그냥 클릭했을 때 , 타입이 file 일 때
 				highlight.find(
 					(it) => it.item === item && it.path === pathList[listindex],
 				) === undefined &&

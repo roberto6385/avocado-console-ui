@@ -24,6 +24,8 @@ function* sendCommand(action) {
 			console.log(res);
 			switch (res.type) {
 				case PWD_SUCCESS:
+					console.log(res.path);
+					console.log(res.pathList);
 					yield put({
 						type: PWD_SUCCESS,
 						payload: {

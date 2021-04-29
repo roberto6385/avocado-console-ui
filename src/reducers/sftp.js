@@ -235,6 +235,8 @@ const sftp = (state = initialState, action) =>
 				break;
 			case CD_SUCCESS:
 				draft.loading = false;
+				target.highlight = [];
+
 				break;
 			case CD_FAILURE:
 				draft.loading = false;

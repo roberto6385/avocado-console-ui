@@ -113,7 +113,7 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_rename_file_folder': {
-					const {highlight, mode} = corServer;
+					const {highlight, mode, path} = corServer;
 					for (let value of highlight) {
 						if (mode === 'list') {
 							dispatch(
@@ -121,6 +121,7 @@ const ConfirmPopup = () => {
 									...corServer,
 									prevName: value.name,
 									nextName: formValue,
+									newPath: path,
 								}),
 							);
 						} else if (mode === 'drop') {
@@ -129,7 +130,7 @@ const ConfirmPopup = () => {
 									...corServer,
 									prevName: value.item.name,
 									nextName: formValue,
-									path: value.path,
+									newPath: value.path,
 								}),
 							);
 						}

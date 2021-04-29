@@ -3,7 +3,7 @@ import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
-import {OPEN_ALERT_POPUP, OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
 	const {server} = useSelector((state) => state.sftp);
@@ -62,116 +62,22 @@ const FileListContextMenu = ({uuid}) => {
 				});
 				break;
 			case 'rename_work':
-				if (mode === 'drop') {
-					let curPath = path === '/' ? [''] : path.split('/');
-					let hiPath =
-						highlight[0]?.path !== '/'
-							? highlight[0]?.path.split('/')
-							: [''];
-					hiPath?.push(highlight[0]?.item.name);
-					console.log(curPath);
-					console.log(hiPath);
-
-					if (curPath.length >= hiPath.length) {
-						let i = 0;
-						hiPath.forEach((item) => {
-							if (item !== curPath[i]) {
-								// 삭제 가능
-								dispatch({
-									type: OPEN_CONFIRM_POPUP,
-									data: {
-										key: 'sftp_rename_file_folder',
-										uuid: uuid,
-									},
-								});
-								return;
-							} else if (
-								item === curPath[i] &&
-								hiPath.length === i + 1
-							) {
-								dispatch({
-									type: OPEN_ALERT_POPUP,
-									data: 'current_path_name',
-								});
-								return;
-							}
-							i++;
-						});
-					} else {
-						// 삭제 가능
-						dispatch({
-							type: OPEN_CONFIRM_POPUP,
-							data: {
-								key: 'sftp_rename_file_folder',
-								uuid: uuid,
-							},
-						});
-					}
-				} else {
-					dispatch({
-						type: OPEN_CONFIRM_POPUP,
-						data: {
-							key: 'sftp_rename_file_folder',
-							uuid: uuid,
-						},
-					});
-				}
+				dispatch({
+					type: OPEN_CONFIRM_POPUP,
+					data: {
+						key: 'sftp_rename_file_folder',
+						uuid: uuid,
+					},
+				});
 				break;
 			case 'delete_work':
-				if (mode === 'drop') {
-					let curPath = path === '/' ? [''] : path.split('/');
-					let hiPath =
-						highlight[0]?.path !== '/'
-							? highlight[0]?.path.split('/')
-							: [''];
-					hiPath?.push(highlight[0]?.item.name);
-					console.log(curPath);
-					console.log(hiPath);
-
-					if (curPath.length >= hiPath.length) {
-						let i = 0;
-						hiPath.forEach((item) => {
-							if (item !== curPath[i]) {
-								// 삭제 가능
-								dispatch({
-									type: OPEN_CONFIRM_POPUP,
-									data: {
-										key: 'sftp_delete_file_folder',
-										uuid: uuid,
-									},
-								});
-								return;
-							} else if (
-								item === curPath[i] &&
-								hiPath.length === i + 1
-							) {
-								dispatch({
-									type: OPEN_ALERT_POPUP,
-									data: 'current_path_delete',
-								});
-								return;
-							}
-							i++;
-						});
-					} else {
-						// 삭제 가능
-						dispatch({
-							type: OPEN_CONFIRM_POPUP,
-							data: {
-								key: 'sftp_delete_file_folder',
-								uuid: uuid,
-							},
-						});
-					}
-				} else {
-					dispatch({
-						type: OPEN_CONFIRM_POPUP,
-						data: {
-							key: 'sftp_delete_file_folder',
-							uuid: uuid,
-						},
-					});
-				}
+				dispatch({
+					type: OPEN_CONFIRM_POPUP,
+					data: {
+						key: 'sftp_delete_file_folder',
+						uuid: uuid,
+					},
+				});
 				break;
 			default:
 				return;
