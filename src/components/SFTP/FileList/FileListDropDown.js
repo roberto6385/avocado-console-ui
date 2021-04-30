@@ -13,6 +13,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 	SAVE_TEMP_PATH,
 } from '../../../reducers/sftp';
@@ -71,55 +72,81 @@ const FileListDropDown = ({uuid}) => {
 
 			/// 여기서 부터 case 나누기
 			if (path !== finalPath) {
-				if (highlight.length === 0) {
-					console.log('하이라이팅 아이템 없음.');
-					console.log(
-						'선택한 아이템의 경로가 현재 경로와 다르므로 경로 이동합니다!',
-					);
-					console.log(finalPath);
+				console.log('우선 다른경로');
+				if (e.metaKey) {
+					if (highlight.length === 0) {
+						console.log('하이라이팅 아이템 없음, 경로이동');
+						console.log(finalPath);
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: finalPath,
+							}),
+						);
+						dispatch({
+							type: INITIALIZING_HIGHLIGHT,
+							payload: {uuid},
+						});
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {
+								uuid,
+								item,
+								path: pathList[listindex],
+							},
+						});
+					} else {
+						if (path !== finalPath) {
+							dispatch(
+								commandCdAction({
+									...corServer,
+									newPath: finalPath,
+								}),
+							);
+							dispatch({
+								type: INITIALIZING_HIGHLIGHT,
+								payload: {uuid},
+							});
+						} else {
+							highlight.find(
+								(it) =>
+									it.item.name === item.name &&
+									it.path === pathList[listindex],
+							) === undefined
+								? dispatch({
+										type: ADD_HIGHLIGHT,
+										payload: {
+											uuid,
+											item,
+											path: pathList[listindex],
+										},
+								  })
+								: dispatch({
+										type: REMOVE_HIGHLIGHT,
+										payload: {uuid, item},
+								  });
+						}
+					}
+				} else {
 					dispatch(
 						commandCdAction({
 							...corServer,
 							newPath: finalPath,
 						}),
 					);
+
 					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {
-							uuid,
-							item,
-							path: pathList[listindex],
-						},
+						type: INITIALIZING_HIGHLIGHT,
+						payload: {uuid},
 					});
-				} else {
-					console.log(
-						'하이라이팅 아이템 존재. 외부 경로에서 아이템 추가.',
-					);
-					highlight.find(
-						(it) =>
-							it.item === item && it.path === pathList[listindex],
-					) === undefined
-						? dispatch({
-								type: ADD_HIGHLIGHT,
-								payload: {
-									uuid,
-									item,
-									path: pathList[listindex],
-								},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
-								payload: {uuid, item},
-						  });
 				}
 			} else {
 				console.log('현재 경로의 아이템 입니다!!');
 				if (e.metaKey) {
-					// press key with command key
-					// 여러 아이템 하이라이팅!
 					highlight.find(
 						(it) =>
-							it.item === item && it.path === pathList[listindex],
+							it.item.name === item.name &&
+							it.path === pathList[listindex],
 					) === undefined
 						? dispatch({
 								type: ADD_HIGHLIGHT,
@@ -134,14 +161,21 @@ const FileListDropDown = ({uuid}) => {
 								payload: {uuid, item},
 						  });
 				} else {
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {
-							uuid,
-							item,
-							path: pathList[listindex],
-						},
-					});
+					item.type === 'directory'
+						? dispatch(
+								commandCdAction({
+									...corServer,
+									newPath: finalPath,
+								}),
+						  )
+						: dispatch({
+								type: ADD_ONE_HIGHLIGHT,
+								payload: {
+									uuid,
+									item,
+									path: pathList[listindex],
+								},
+						  });
 				}
 			}
 		},
@@ -184,13 +218,15 @@ const FileListDropDown = ({uuid}) => {
 						{listItem.map((item, index) => {
 							return (
 								<DropdownLi
-									// className={
-									// 	highlight.findIndex(
-									// 		(it) => it.item === item,
-									// 	) === -1
-									// 		? 'highlight_list'
-									// 		: 'highlight_list active'
-									// }
+									className={
+										highlight.findIndex(
+											(it) =>
+												it.item.name === item.name &&
+												it.path === pathList[listindex],
+										) === -1
+											? 'highlight_list'
+											: 'highlight_list active'
+									}
 									key={index}
 									onContextMenu={contextMenuOpen({
 										item,

@@ -233,7 +233,6 @@ const sftp = (state = initialState, action) =>
 			case CD_REQUEST:
 				console.log('CD_REQUEST,CD_REQUEST,CD_REQUEST');
 				draft.loading = true;
-				target.highlight = [];
 
 				break;
 			case CD_SUCCESS:
