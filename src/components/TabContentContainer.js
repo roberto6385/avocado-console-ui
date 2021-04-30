@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
@@ -9,7 +9,7 @@ import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {TabContentCardHeader, TabSFTPIcon, TabSSHTIcon} from '../styles/common';
-import {disconnectAction} from '../reducers/sftp';
+import {commandPwdAction, disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 
 const TabContentCard = styled(Card)`
@@ -21,7 +21,7 @@ const TabContentCard = styled(Card)`
 
 const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab} = useSelector((state) => state.common);
+	const {tab, current_tab, cols} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 

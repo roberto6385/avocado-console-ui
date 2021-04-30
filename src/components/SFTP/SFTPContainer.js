@@ -45,17 +45,17 @@ const SFTPContainer = ({uuid}) => {
 	);
 
 	useEffect(() => {
-		console.log('rendering...');
-		dispatch(commandPwdAction(currentServer));
-	}, []);
-
-	useEffect(() => {
 		body.addEventListener('click', focusOut);
 
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);
 		};
 	}, [currentServer]);
+
+	useEffect(() => {
+		console.log('rendering...');
+		dispatch(commandPwdAction(currentServer));
+	}, [uuid, dispatch]);
 
 	return currentServer ? (
 		<SFTP_Component uuid={uuid} />
