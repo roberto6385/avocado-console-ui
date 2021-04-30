@@ -105,7 +105,6 @@ export const GetMessage = async (data) => {
 					console.log('WINDOWCHANGE');
 					return {
 						type: 'WINDOWCHANGE',
-						// result: window,
 					};
 				} else if (
 					response.getResponseCase() ===

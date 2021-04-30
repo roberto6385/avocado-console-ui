@@ -73,7 +73,7 @@ const SSHT = ({uuid, height, width}) => {
 	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
 	useEffect(() => {
-		sshTerm.onData((data) => {
+		const processInput = sshTerm.onData((data) => {
 			dispatch({
 				type: SSHT_SEND_COMMAND_REQUEST,
 				data: {
@@ -83,6 +83,10 @@ const SSHT = ({uuid, height, width}) => {
 				},
 			});
 		});
+
+		return () => {
+			processInput.dispose();
+		};
 	}, [uuid, ws, sshTerm]);
 	//current tab terminal is focused
 	useEffect(() => {

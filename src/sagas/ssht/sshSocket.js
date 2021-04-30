@@ -16,22 +16,22 @@ export function initWebsocket(host) {
 	});
 }
 
-export function initChannel(socket, buffer) {
+export function initChannel(ws, buffer) {
 	return eventChannel((emit) => {
-		socket.onmessage = (event) => {
+		ws.onmessage = (event) => {
 			emit(event.data);
 		};
 
-		socket.onerror = () => {
-			socket.close();
+		ws.onerror = () => {
+			ws.close();
 		};
 
-		socket.onclose = () => {
+		ws.onclose = () => {
 			emit(END);
 		};
 
 		return () => {
-			socket.onmessage = null;
+			ws.onmessage = null;
 		};
 	}, buffer || buffers.none());
 }

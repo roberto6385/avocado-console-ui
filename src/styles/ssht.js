@@ -9,7 +9,7 @@ export const SSHTBody = styled(Card.Body)`
 	background: black;
 `;
 
-export const SSHTContainer = styled.div`
+export const SSHTComponents = styled.div`
 	flex: 1;
 	display: flex;
 	align-items: stretch;

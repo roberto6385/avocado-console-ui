@@ -2,15 +2,14 @@ import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
+import {Card} from 'react-bootstrap';
+import styled from 'styled-components';
 
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {TabContentCardHeader, TabSFTPIcon, TabSSHTIcon} from '../styles/common';
-
 import {disconnectAction} from '../reducers/sftp';
-import {Card} from 'react-bootstrap';
-import styled from 'styled-components';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 
 const TabContentCard = styled(Card)`

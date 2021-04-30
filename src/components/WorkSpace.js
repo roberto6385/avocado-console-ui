@@ -10,20 +10,6 @@ const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
 
-	// const container = (i) => (
-	// 	<TabContentContainer
-	// 		key={visibleTab[i].id}mm
-	// 		index={visibleTab[i].id}
-	// 		type={visibleTab[i].type}
-	// 		server={visibleTab[i].server}
-	// 		socket={visibleTab[i].socket}
-	// 	/>
-	// );
-
-	const onChangeSize = useCallback((size) => {
-		console.log(size);
-	}, []);
-
 	return (
 		<WorkSpaceContainer className={'fix-height'}>
 			{visibleTab.length === 1 ? (
@@ -33,11 +19,7 @@ const WorkSpace = () => {
 					server={visibleTab[0].server}
 				/>
 			) : visibleTab.length === 2 ? (
-				<SplitPane
-					split='vertical'
-					defaultSize={'50%'}
-					onChange={onChangeSize}
-				>
+				<SplitPane split='vertical' defaultSize={'50%'}>
 					<TabContentContainer
 						uuid={visibleTab[0].uuid}
 						type={visibleTab[0].type}

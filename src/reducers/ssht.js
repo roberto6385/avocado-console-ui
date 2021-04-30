@@ -50,6 +50,9 @@ const reducer = (state = initialState, action) => {
 						},
 					}),
 				});
+
+
+
 				break;
 
 			case SSHT_SEND_CONNECTION_FAILURE:
