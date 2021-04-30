@@ -21,6 +21,7 @@ import {closeChannel, subscribe} from './channel';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
+	console.log('다시 요청!');
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',
@@ -29,7 +30,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(30000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -54,7 +55,6 @@ function* sendCommand(action) {
 								commandLsAction({
 									...payload,
 									path: value,
-									channel,
 								}),
 							);
 						}
@@ -64,7 +64,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
-		alert('에러발생 채널종료!');
+		alert('PWD 에러발생 채널종료!');
 		closeChannel(channel);
 	}
 }
