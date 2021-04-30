@@ -51,6 +51,7 @@ const SFTPContainer = ({uuid}) => {
 
 	useEffect(() => {
 		body.addEventListener('click', focusOut);
+
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);
 		};

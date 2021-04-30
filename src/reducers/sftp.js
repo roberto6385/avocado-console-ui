@@ -231,7 +231,6 @@ const sftp = (state = initialState, action) =>
 
 			// 경로 변경
 			case CD_REQUEST:
-				console.log('CD_REQUEST,CD_REQUEST,CD_REQUEST');
 				draft.loading = true;
 
 				break;

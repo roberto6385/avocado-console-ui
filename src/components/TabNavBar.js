@@ -51,7 +51,6 @@ const TabNavBar = () => {
 					disconnectAction({
 						uuid: data.uuid,
 						socket: sftp.find((v) => v.uuid === data.uuid).socket,
-						channel: sftp.find((v) => v.uuid === data.uuid).channel,
 					}),
 				);
 			}

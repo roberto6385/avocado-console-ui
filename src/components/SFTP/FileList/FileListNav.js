@@ -30,12 +30,14 @@ const FileListNav = ({uuid}) => {
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
+		console.log(nextPath);
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...corServer, newPath: nextPath}));
 	};
 
 	const goBack = (e) => {
 		if (path !== '/') {
+			console.log(path);
 			let tempPath = path.split('/');
 			tempPath.pop();
 			console.log(tempPath);

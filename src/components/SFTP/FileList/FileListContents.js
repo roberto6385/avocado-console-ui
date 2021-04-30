@@ -99,6 +99,8 @@ const FileListContents = ({uuid}) => {
 	);
 
 	const compareNumber = (list, first, second) => {
+		dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+
 		if (first <= second) {
 			for (let i = first; i <= second; i++) {
 				dispatch({
@@ -132,7 +134,6 @@ const FileListContents = ({uuid}) => {
 						payload: {uuid, item},
 					});
 				} else {
-					dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 					const corList = fileList[fileList.length - 1];
 					const firstIndex = corList.findIndex(
 						(it) => it.name === highlight[0].name,

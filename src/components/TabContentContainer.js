@@ -39,7 +39,6 @@ const TabContentContainer = ({uuid, type, server}) => {
 				disconnectAction({
 					uuid,
 					socket: sftp.find((v) => v.uuid === uuid).socket,
-					channel: sftp.find((v) => v.uuid === uuid).channel,
 				}),
 			);
 		}

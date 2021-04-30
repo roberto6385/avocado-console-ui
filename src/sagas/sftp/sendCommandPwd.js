@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeLatest,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	commandLsAction,
 	PWD_FAILURE,
@@ -7,41 +16,56 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {messageReader} from './messageReader';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	yield call(messageSender, {
-		keyword: 'CommandByPwd',
-		ws: payload.socket,
-	});
-
 	try {
+		yield call(messageSender, {
+			keyword: 'CommandByPwd',
+			ws: payload.socket,
+		});
+
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
-			console.log(res);
-			switch (res.type) {
-				case PWD_SUCCESS:
-					console.log(res.path);
-					console.log(res.pathList);
-					yield put({
-						type: PWD_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							path: res.path,
-							pathList: res.pathList,
-						},
-					});
-					for (let value of res.pathList) {
-						yield put(commandLsAction({...payload, path: value}));
-					}
+			const {timeout, data} = yield race({
+				timeout: delay(5000),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('PWD 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				const res = yield call(messageReader, {data, payload});
+				switch (res.type) {
+					case PWD_SUCCESS:
+						console.log(res.path);
+						console.log(res.pathList);
+						yield put({
+							type: PWD_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								path: res.path,
+								pathList: res.pathList,
+							},
+						});
+						for (let value of res.pathList) {
+							yield put(
+								commandLsAction({
+									...payload,
+									path: value,
+									channel,
+								}),
+							);
+						}
+				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
+		alert('에러발생 채널종료!');
+		closeChannel(channel);
 	}
 }
 

@@ -1,29 +1,19 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	actionChannel,
-	takeEvery,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {subscribe} from './channel';
+import {closeChannel} from './channel';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
-	yield call(messageSender, {
-		keyword: 'CommandByLs',
-		ws: payload.socket,
-		path: payload.path,
-	});
-
 	try {
+		yield call(messageSender, {
+			keyword: 'CommandByLs',
+			ws: payload.socket,
+			path: payload.path,
+		});
 		while (true) {
-			const data = yield take(channel);
+			const data = yield take(payload.channel);
 			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case LS_SUCCESS:
@@ -39,17 +29,13 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: LS_FAILURE});
+		alert('에러발생 채널종료!');
+		closeChannel(payload.channel);
 	}
 }
 
 function* watchSendCommand() {
 	yield takeEvery(LS_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(LS_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	const res = yield call(sendCommand, action);
-	// 	yield console.log(res);
-	// }
 }
 
 export default function* commandLsSaga() {

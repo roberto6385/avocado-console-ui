@@ -2,6 +2,7 @@ import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
 	commandLsAction,
+	INITIALIZING_HIGHLIGHT,
 	PWD_SUCCESS,
 	RM_FAILURE,
 	RM_REQUEST,
@@ -49,6 +50,10 @@ function* sendCommand(action) {
 					return {type: 'end'};
 
 				case PWD_SUCCESS:
+					yield put({
+						type: INITIALIZING_HIGHLIGHT,
+						payload: {uuid: payload.uuid},
+					});
 					yield put({
 						type: PWD_SUCCESS,
 						payload: {
