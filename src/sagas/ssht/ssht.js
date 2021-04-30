@@ -166,8 +166,6 @@ function* sendWindowChange(action) {
 			const res = yield call(GetMessage, result);
 			console.log(res);
 			switch (res.type) {
-				case 'WINDOWCHANGE':
-					break;
 				case 'COMMAND':
 					yield put({
 						type: SSHT_WRITE_ON_TERMINAL,

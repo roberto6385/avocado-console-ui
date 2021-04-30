@@ -21,10 +21,8 @@ const ServerContextMenuMessage = {
 const ServerContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
-	const {font} = useSelector((state) => state.ssht);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
-	const correspondedServer = server.find((i) => i.key === data.key);
 
 	const handleItemClick = useCallback(
 		(e) => () => {
@@ -58,6 +56,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	);
 
 	const openSFTP = useCallback(() => {
+		const correspondedServer = server.find((i) => i.key === data.key);
 		dispatch(
 			connectionAction({
 				...correspondedServer,
@@ -68,7 +67,6 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 
 	const openSSHT = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-
 		dispatch({
 			type: SSHT_SEND_CONNECTION_REQUEST,
 			data: {
@@ -76,7 +74,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 				...correspondedServer,
 			},
 		});
-	}, [server, data, font]);
+	}, [server, data]);
 
 	return (
 		<Menu
