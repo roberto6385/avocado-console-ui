@@ -5,6 +5,8 @@ import {
 	take,
 	call,
 	takeLatest,
+	throttle,
+	debounce,
 	takeEvery,
 } from 'redux-saga/effects';
 
@@ -198,7 +200,8 @@ function* watchSendCommand() {
 }
 
 function* watchSendWindowChange() {
-	yield takeLatest(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	// yield takeLatest(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield debounce(10000, SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

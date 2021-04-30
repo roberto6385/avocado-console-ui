@@ -50,9 +50,6 @@ const reducer = (state = initialState, action) => {
 						},
 					}),
 				});
-
-
-
 				break;
 
 			case SSHT_SEND_CONNECTION_FAILURE:
@@ -68,6 +65,9 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSHT_SEND_DISCONNECTION_SUCCESS:
+				draft.ssht
+					.find((v) => v.uuid === action.data)
+					.terminal.dispose();
 				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 

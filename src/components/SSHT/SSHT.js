@@ -4,10 +4,10 @@ import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
+import {useCookies} from 'react-cookie';
 
 import useInput from '../../hooks/useInput';
 import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
-import {useCookies} from 'react-cookie';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
@@ -67,9 +67,12 @@ const SSHT = ({uuid, height, width}) => {
 	useEffect(() => {
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
-		sshTerm.open(terminalRef.current);
-		fitAddon.current.fit();
+		sshTerm.open(document.getElementById('terminal_' + uuid));
 		// setCookie('search_cokkies', []);
+		// return () => {
+		// 	openTerminal.dispose();
+		// };
+
 	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
 	useEffect(() => {
@@ -96,12 +99,12 @@ const SSHT = ({uuid, height, width}) => {
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
 		resizeRequest();
-	}, [font, sshTerm, ssht, width, height]);
+	}, [font, sshTerm, width, height, uuid, ws]);
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
 		resizeRequest();
-	}, [font_size, sshTerm, ssht, width, height]);
+	}, [font_size, sshTerm, width, height, uuid, ws]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -122,7 +125,7 @@ const SSHT = ({uuid, height, width}) => {
 
 	return (
 		<SSHTerminal>
-			<SSHTerminal ref={terminalRef} />
+			<SSHTerminal id={`terminal_${uuid}`} ref={terminalRef} />
 			<ListGroup
 				style={{
 					position: 'absolute',
