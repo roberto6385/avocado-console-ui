@@ -23,6 +23,7 @@ import {
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandGetAction,
+	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
@@ -122,6 +123,7 @@ const FileListContents = ({uuid}) => {
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				dispatch(commandCdAction({...corServer, newPath: item.name}));
+				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
 		[sftp],

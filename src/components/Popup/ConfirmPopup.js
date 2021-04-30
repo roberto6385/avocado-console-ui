@@ -13,6 +13,7 @@ import {
 	CLOSE_EDITOR,
 	commandMkdirAction,
 	commandPutAction,
+	commandPwdAction,
 	commandRenameAction,
 	commandRmAction,
 	REMOVE_HISTORY,

@@ -8,7 +8,6 @@ import {
 import messageSender from './messageSender';
 import {subscribe} from './channel';
 import {messageReader} from './messageReader';
-import {OPEN_CONFIRM_POPUP} from '../../reducers/popup';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -31,6 +30,7 @@ function* sendCommand(action) {
 						type: RENAME_SUCCESS,
 						payload: {uuid: payload.uuid},
 					});
+					yield put(commandPwdAction(payload));
 					return {type: 'end'};
 			}
 		}

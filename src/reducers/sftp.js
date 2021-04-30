@@ -301,7 +301,7 @@ const sftp = (state = initialState, action) =>
 					  ))
 					: (target.highlight = plainTarget.highlight.filter(
 							(it) =>
-								it.item !== action.payload.item &&
+								it.item.name !== action.payload.item.name &&
 								it.path !== action.payload.path,
 					  ));
 				break;

@@ -47,13 +47,11 @@ const TabNavBar = () => {
 					},
 				});
 			} else if (data.type === 'SFTP') {
-				console.log(data.uuid);
-				console.log(sftp);
-				console.log(sftp.find((v) => v.uuid === data.uuid));
 				dispatch(
 					disconnectAction({
 						uuid: data.uuid,
 						socket: sftp.find((v) => v.uuid === data.uuid).socket,
+						channel: sftp.find((v) => v.uuid === data.uuid).channel,
 					}),
 				);
 			}

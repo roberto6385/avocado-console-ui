@@ -1,4 +1,4 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
 import {
 	commandLsAction,
 	PWD_FAILURE,
@@ -6,8 +6,8 @@ import {
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {subscribe} from './channel';
 import {messageReader} from './messageReader';
+import {subscribe} from './channel';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -37,23 +37,16 @@ function* sendCommand(action) {
 					for (let value of res.pathList) {
 						yield put(commandLsAction({...payload, path: value}));
 					}
-					return {type: 'end'};
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
-		return {type: 'error'};
 	}
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(PWD_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
-	}
+	yield takeLatest(PWD_REQUEST, sendCommand);
 }
 
 export default function* commandPwdSaga() {

@@ -1,4 +1,4 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
 import {
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
@@ -53,12 +53,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(CONNECTION_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
-	}
+	yield takeLatest(CONNECTION_REQUEST, sendCommand);
 }
 
 export default function* connectSaga() {

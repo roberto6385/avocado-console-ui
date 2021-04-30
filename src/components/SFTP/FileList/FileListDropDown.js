@@ -96,36 +96,29 @@ const FileListDropDown = ({uuid}) => {
 							},
 						});
 					} else {
-						if (path !== finalPath) {
-							dispatch(
-								commandCdAction({
-									...corServer,
-									newPath: finalPath,
-								}),
-							);
-							dispatch({
-								type: INITIALIZING_HIGHLIGHT,
-								payload: {uuid},
-							});
-						} else {
-							highlight.find(
-								(it) =>
-									it.item.name === item.name &&
-									it.path === pathList[listindex],
-							) === undefined
-								? dispatch({
-										type: ADD_HIGHLIGHT,
-										payload: {
-											uuid,
-											item,
-											path: pathList[listindex],
-										},
-								  })
-								: dispatch({
-										type: REMOVE_HIGHLIGHT,
-										payload: {uuid, item},
-								  });
-						}
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: pathList[listindex],
+							}),
+						);
+						highlight.find(
+							(it) =>
+								it.item.name === item.name &&
+								it.path === pathList[listindex],
+						) === undefined
+							? dispatch({
+									type: ADD_HIGHLIGHT,
+									payload: {
+										uuid,
+										item,
+										path: pathList[listindex],
+									},
+							  })
+							: dispatch({
+									type: REMOVE_HIGHLIGHT,
+									payload: {uuid, item},
+							  });
 					}
 				} else {
 					dispatch(

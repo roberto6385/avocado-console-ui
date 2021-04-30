@@ -1,26 +1,24 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {subscribe} from './channel';
 import {CLOSE_TAB} from '../../reducers/common';
 import {messageReader} from './messageReader';
+import {subscribe} from './channel';
 
 function* sendCommand(action) {
-	const {payload} = action;
-	console.log(action);
-
-	const channel = yield call(subscribe, payload.socket);
-
-	yield call(messageSender, {
-		keyword: 'Disconnection',
-		ws: payload.socket,
-	});
-
 	try {
+		const {payload} = action;
+		const channel = yield call(subscribe, payload.socket);
+
+		messageSender({
+			keyword: 'Disconnection',
+			ws: payload.socket,
+		});
+
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, {data, payload});
@@ -33,23 +31,16 @@ function* sendCommand(action) {
 						},
 					});
 					yield put({type: CLOSE_TAB, data: payload.uuid});
-					return {type: 'end'};
 			}
 		}
 	} catch (err) {
-		console.log(err);
 		yield put({type: DISCONNECTION_FAILURE});
-		return {type: 'error'};
+		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(DISCONNECTION_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
-	}
+	yield takeLatest(DISCONNECTION_REQUEST, sendCommand);
 }
 
 export default function* disconnectSaga() {

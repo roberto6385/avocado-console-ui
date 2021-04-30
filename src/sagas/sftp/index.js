@@ -14,16 +14,16 @@ import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 export default function* sftpSaga() {
 	yield all([
-		yield fork(connectSaga),
-		yield fork(disconnectSaga),
-		yield fork(commandPwdSaga),
-		yield fork(commandLsSaga),
-		yield fork(commandCdSaga),
-		yield fork(commandMkdirSaga),
-		yield fork(commandRmSaga),
-		yield fork(commandPutSaga),
-		yield fork(commandGetSaga),
-		yield fork(commandRenameSaga),
+		fork(connectSaga),
+		fork(disconnectSaga),
+		fork(commandPwdSaga),
+		fork(commandLsSaga),
+		fork(commandCdSaga),
+		fork(commandMkdirSaga),
+		fork(commandRmSaga),
+		fork(commandPutSaga),
+		fork(commandGetSaga),
+		fork(commandRenameSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
 }

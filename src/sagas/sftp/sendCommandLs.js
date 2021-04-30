@@ -1,4 +1,12 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	takeEvery,
+} from 'redux-saga/effects';
 import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {subscribe} from './channel';
@@ -26,23 +34,22 @@ function* sendCommand(action) {
 							fileList: res.fileList,
 						},
 					});
-					return {type: 'end'};
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: LS_FAILURE});
-		return {type: 'error'};
 	}
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(LS_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
-	}
+	yield takeEvery(LS_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(LS_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	const res = yield call(sendCommand, action);
+	// 	yield console.log(res);
+	// }
 }
 
 export default function* commandLsSaga() {
