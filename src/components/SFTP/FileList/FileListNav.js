@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	BsLayoutThreeColumns,
 	GoThreeBars,
-	GoArrowLeft,
 	MdHome,
+	GoArrowUp,
+	BsArrowClockwise,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
-import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp';
+import {
+	CHANGE_MODE,
+	commandCdAction,
+	commandPwdAction,
+} from '../../../reducers/sftp';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -85,6 +90,10 @@ const FileListNav = ({uuid}) => {
 			});
 	};
 
+	const refresh = useCallback(() => {
+		dispatch(commandPwdAction(corServer));
+	}, [corServer, dispatch]);
+
 	useEffect(() => {
 		setCurrentPath(path);
 	}, [corServer]);
@@ -97,11 +106,8 @@ const FileListNav = ({uuid}) => {
 			<NavItem>
 				<GoThreeBars onClick={basicList} />
 			</NavItem>
-			<NavItem onClick={goHome}>
-				<MdHome />
-			</NavItem>
 			<NavItem onClick={goBack}>
-				<GoArrowLeft />
+				<GoArrowUp />
 			</NavItem>
 			<form
 				style={{display: 'flex', width: '100%'}}
@@ -116,6 +122,13 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</form>
+
+			<NavItem onClick={goHome}>
+				<MdHome />
+			</NavItem>
+			<NavItem onClick={refresh}>
+				<BsArrowClockwise />
+			</NavItem>
 		</>
 	);
 };

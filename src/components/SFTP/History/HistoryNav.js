@@ -10,7 +10,6 @@ import {PropTypes} from 'prop-types';
 import {NavItem} from '../../../styles/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
-import ConfirmPopup from '../../Popup/ConfirmPopup';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const HistoryNav = ({uuid}) => {

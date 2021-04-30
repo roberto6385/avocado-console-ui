@@ -129,12 +129,14 @@ const FileListDropDown = ({uuid}) => {
 								},
 							});
 						} else {
-							dispatch(
-								commandCdAction({
-									...corServer,
-									newPath: pathList[listindex],
-								}),
-							);
+							if (corServer.path !== pathList[listindex]) {
+								dispatch(
+									commandCdAction({
+										...corServer,
+										newPath: pathList[listindex],
+									}),
+								);
+							}
 							highlight.find(
 								(it) =>
 									it.item.name === item.name &&
@@ -186,21 +188,14 @@ const FileListDropDown = ({uuid}) => {
 									payload: {uuid, item},
 							  });
 					} else {
-						item.type === 'directory'
-							? dispatch(
-									commandCdAction({
-										...corServer,
-										newPath: finalPath,
-									}),
-							  )
-							: dispatch({
-									type: ADD_ONE_HIGHLIGHT,
-									payload: {
-										uuid,
-										item,
-										path: pathList[listindex],
-									},
-							  });
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {
+								uuid,
+								item,
+								path: pathList[listindex],
+							},
+						});
 					}
 				}
 			}
