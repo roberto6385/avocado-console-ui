@@ -59,13 +59,13 @@ const ConfirmPopup = () => {
 	const dispatch = useDispatch();
 	const {confirm_popup} = useSelector((state) => state.popup);
 	const {clicked_server} = useSelector((state) => state.common);
-	const {server} = useSelector((state) => state.sftp);
+	const {sftp} = useSelector((state) => state.sftp);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const buttonRef = useRef(null);
 
 	const justExit = useCallback(() => {
-		const corServer = server.find((it) => it.uuid === confirm_popup.uuid);
+		const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
 		const {prevMode, mode} = corServer;
 		dispatch({
 			type: CHANGE_MODE,
@@ -75,7 +75,7 @@ const ConfirmPopup = () => {
 				currentMode: mode,
 			},
 		});
-	}, [confirm_popup, server]);
+	}, [confirm_popup, sftp]);
 
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
@@ -86,7 +86,7 @@ const ConfirmPopup = () => {
 			e.preventDefault();
 
 			const uuid = confirm_popup.uuid;
-			const corServer = server.find((it) => it.uuid === uuid);
+			const corServer = sftp.find((it) => it.uuid === uuid);
 
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
@@ -215,9 +215,7 @@ const ConfirmPopup = () => {
 
 	const inputFunction = useCallback(() => {
 		if (confirm_popup.key === 'sftp_rename_file_folder') {
-			const corServer = server.find(
-				(it) => it.uuid === confirm_popup.uuid,
-			);
+			const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
 			const {highlight, mode} = corServer;
 			console.log(highlight, mode);
 			mode === 'list'
@@ -229,7 +227,7 @@ const ConfirmPopup = () => {
 			setFormValue('');
 			inputRef.current?.focus();
 		}
-	}, [confirm_popup, server]);
+	}, [confirm_popup, sftp]);
 
 	useEffect(() => {
 		inputFunction();

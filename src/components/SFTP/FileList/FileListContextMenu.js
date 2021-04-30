@@ -6,8 +6,8 @@ import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {highlight, path, mode} = corServer;
 
 	const dispatch = useDispatch();

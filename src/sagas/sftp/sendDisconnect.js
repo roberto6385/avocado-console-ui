@@ -11,6 +11,7 @@ import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
 	const {payload} = action;
+	console.log(action);
 
 	const channel = yield call(subscribe, payload.socket);
 

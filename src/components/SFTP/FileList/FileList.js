@@ -8,8 +8,8 @@ import FileListDropDown from './FileListDropDown';
 import {useSelector} from 'react-redux';
 
 const FileList = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {mode} = corServer;
 	return (
 		<FlexBox>

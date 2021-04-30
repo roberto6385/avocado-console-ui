@@ -127,7 +127,7 @@ export const commandRenameAction = (payload) => ({
 
 // initial State
 const initialState = {
-	server: [],
+	sftp: [],
 	loading: false,
 };
 
@@ -139,9 +139,9 @@ const ObjFinder = (target, uuid) => {
 const sftp = (state = initialState, action) =>
 	produce(state, (draft) => {
 		// 직접 변형 가능
-		const target = ObjFinder(draft.server, action.payload?.uuid);
+		const target = ObjFinder(draft.sftp, action.payload?.uuid);
 		// 직접 변경 불가능
-		const plainTarget = ObjFinder(state.server, action.payload?.uuid);
+		const plainTarget = ObjFinder(state.sftp, action.payload?.uuid);
 		// target === plainTarget => false
 
 		switch (action.type) {
@@ -153,7 +153,7 @@ const sftp = (state = initialState, action) =>
 
 			case CONNECTION_SUCCESS:
 				draft.loading = false;
-				draft.server.push({
+				draft.sftp.push({
 					socket: action.payload.socket,
 					status: 'none',
 					errorMessage: '',
@@ -189,7 +189,7 @@ const sftp = (state = initialState, action) =>
 				break;
 			case DISCONNECTION_SUCCESS:
 				draft.loading = false;
-				draft.server = state.server.filter(
+				draft.sftp = state.sftp.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
 				break;
@@ -231,6 +231,7 @@ const sftp = (state = initialState, action) =>
 
 			// 경로 변경
 			case CD_REQUEST:
+				console.log('CD_REQUEST,CD_REQUEST,CD_REQUEST');
 				draft.loading = true;
 				target.highlight = [];
 

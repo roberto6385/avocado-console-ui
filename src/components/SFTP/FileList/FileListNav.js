@@ -22,8 +22,8 @@ const SearchPath = styled.input`
 `;
 
 const FileListNav = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {path, mode} = corServer;
 
 	const dispatch = useDispatch();

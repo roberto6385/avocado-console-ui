@@ -13,8 +13,8 @@ import {
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 
 const EditNav = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {text, editText, editFile, path, prevMode, mode} = corServer;
 	const dispatch = useDispatch();
 

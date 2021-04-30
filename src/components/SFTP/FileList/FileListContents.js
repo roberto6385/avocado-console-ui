@@ -29,8 +29,8 @@ import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 
 const FileListContents = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {fileList, highlight, pathList} = corServer;
 	const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ const FileListContents = ({uuid}) => {
 				});
 			}
 		},
-		[server],
+		[sftp],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -78,7 +78,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[server],
+		[sftp],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -94,7 +94,7 @@ const FileListContents = ({uuid}) => {
 					payload: {uuid, item},
 				});
 		},
-		[server],
+		[sftp],
 	);
 
 	const selectItem = useCallback(
@@ -114,7 +114,7 @@ const FileListContents = ({uuid}) => {
 					});
 			}
 		},
-		[corServer],
+		[sftp],
 	);
 
 	const changePath = useCallback(
@@ -124,7 +124,7 @@ const FileListContents = ({uuid}) => {
 				dispatch(commandCdAction({...corServer, newPath: item.name}));
 			}
 		},
-		[server],
+		[sftp],
 	);
 
 	return fileList.length === pathList.length ? (

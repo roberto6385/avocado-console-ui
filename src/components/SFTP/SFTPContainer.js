@@ -6,8 +6,8 @@ import {commandPwdAction, INITIALIZING_HIGHLIGHT} from '../../reducers/sftp';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.sftp);
-	const currentServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const currentServer = sftp.find((it) => it.uuid === uuid);
 	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
 
 	const body = document.getElementById('root');
@@ -17,12 +17,16 @@ const SFTPContainer = ({uuid}) => {
 				return;
 			}
 			const root = evt.target;
+			console.log(root);
 			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
-			const li = Array.from(
-				evt.currentTarget.querySelectorAll('.highlight_list'),
-			);
+			// const li = Array.from(
+			// 	evt.currentTarget.querySelectorAll('.highlight_list'),
+			// );
 			const p = Array.from(
 				evt.currentTarget.querySelectorAll('.filelist_p'),
+			);
+			const hiP = Array.from(
+				evt.currentTarget.querySelectorAll('.highlight_list_p'),
 			);
 			const context = Array.from(
 				evt.currentTarget.querySelectorAll(
@@ -31,12 +35,12 @@ const SFTPContainer = ({uuid}) => {
 			);
 			if (
 				!th.includes(root) &&
-				!li.includes(root) &&
+				!hiP.includes(root) &&
 				!p.includes(root) &&
 				!context.includes(root)
 				// 현재 처음에만 적용되고 이후에는 모든 조건이 성립하는 에러있음.
 			) {
-				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+				// dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
 		[currentServer?.highlight],

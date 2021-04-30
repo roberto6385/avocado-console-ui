@@ -9,8 +9,8 @@ import SplitPane, {Pane} from 'react-split-pane';
 import {useSelector} from 'react-redux';
 
 const SFTP_Component = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {mode} = corServer;
 
 	const onChangeSize = useCallback((size) => {

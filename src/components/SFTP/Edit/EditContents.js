@@ -5,8 +5,8 @@ import {TextAreaWrapper} from '../../../styles/sftp';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 
 const EditContents = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {editText} = corServer;
 	const dispatch = useDispatch();
 	const checked = window.localStorage.getItem('editorCheck');

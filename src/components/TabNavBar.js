@@ -46,7 +46,13 @@ const TabNavBar = () => {
 					},
 				});
 			} else if (data.type === 'SFTP') {
-				dispatch(disconnectAction(data));
+				const {sftp} = useSelector((state) => state.sftp);
+				dispatch(
+					disconnectAction({
+						uuid: data.uuid,
+						socket: sftp.find((v) => v.uuid === data.uuid).socket,
+					}),
+				);
 			}
 		},
 		[dispatch, ssht],

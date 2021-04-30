@@ -21,8 +21,8 @@ import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 
 const HistoryContents = ({uuid}) => {
-	const {server} = useSelector((state) => state.sftp);
-	const corServer = server.find((it) => it.uuid === uuid);
+	const {sftp} = useSelector((state) => state.sftp);
+	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {history} = corServer;
 	const dispatch = useDispatch();
 

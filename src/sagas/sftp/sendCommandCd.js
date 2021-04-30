@@ -9,10 +9,12 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	ADD_HIGHLIGHT,
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
 	commandPwdAction,
+	REMOVE_HIGHLIGHT,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {subscribe} from './channel';
@@ -30,11 +32,12 @@ function* sendCommand(action) {
 		});
 
 		const {timeout, data} = yield race({
-			timeout: delay(1000),
+			timeout: delay(10000),
 			data: take(channel),
 		});
 		if (timeout) {
-			alert('해당 경로는 존재하지 않습니다.');
+			alert('경로 탐색에 실패하였습니다.');
+			return {type: 'timeover'};
 		} else {
 			const res = yield call(messageReader, {data, payload});
 			console.log(res);

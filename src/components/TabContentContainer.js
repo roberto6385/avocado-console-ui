@@ -24,6 +24,7 @@ const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 	const {tab, current_tab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
+	const {sftp} = useSelector((state) => state.sftp);
 
 	const onClickDelete = useCallback(() => {
 		if (type === 'SSHT') {
@@ -35,7 +36,12 @@ const TabContentContainer = ({uuid, type, server}) => {
 				},
 			});
 		} else if (type === 'SFTP') {
-			dispatch(disconnectAction(uuid));
+			dispatch(
+				disconnectAction({
+					uuid,
+					socket: sftp.find((v) => v.uuid === uuid).socket,
+				}),
+			);
 		}
 	}, [ssht, uuid, type]);
 
