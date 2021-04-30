@@ -21,7 +21,7 @@ import {
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight, path} = corServer;
+	const {fileList, pathList, highlight} = corServer;
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -71,7 +71,7 @@ const FileListDropDown = ({uuid}) => {
 					: pathList[listindex];
 
 			/// 여기서 부터 case 나누기
-			if (path !== finalPath) {
+			if (corServer.path !== finalPath) {
 				console.log('우선 다른경로');
 				if (e.metaKey) {
 					if (highlight.length === 0) {
@@ -183,6 +183,15 @@ const FileListDropDown = ({uuid}) => {
 			e.preventDefault();
 			displayMenu(e);
 			e.stopPropagation();
+			if (corServer.path !== path) {
+				dispatch(
+					commandCdAction({
+						...corServer,
+						newPath: path,
+					}),
+				);
+			}
+
 			dispatch({type: SAVE_TEMP_PATH, payload: {uuid, path}});
 
 			console.log(item, path);
