@@ -7,6 +7,7 @@ import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTBody, SSHTComponents} from '../../styles/ssht';
 import {IconButton} from '../../styles/common';
+import _ from 'lodash';
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const [height, setHeight] = useState(0);
@@ -24,27 +25,32 @@ const SSHTContainer = ({uuid, server_id}) => {
 		}
 	}, []);
 
+	// useEffect(() => {
+	// 	const windowReizer = _.debounce(() => {
+	// 		setSize(
+	// 			sshtBody.current?.clientHeight,
+	// 			sshtBody.current?.clientWidth,
+	// 		);
+	// 		console.log(
+	// 			sshtBody.current?.clientHeight,
+	// 			sshtBody.current?.clientWidth,
+	// 		);
+	// 	}, 1000);
+	// });
+
 	useEffect(() => {
-		if (sshtBody && sshtBody.current) {
+		const windowReizer = _.debounce(() => {
 			setSize(
 				sshtBody.current?.clientHeight,
 				sshtBody.current?.clientWidth,
 			);
-			// console.log(
-			// 	sshtBody.current?.clientHeight,
-			// 	sshtBody.current?.clientWidth,
-			// );
-		} else setSize(0, 0);
-	});
+		}, 1000);
 
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			if (sshtBody && sshtBody.current)
-				setSize(
-					sshtBody.current?.clientHeight,
-					sshtBody.current?.clientWidth,
-				);
-		});
+		window.addEventListener('resize', windowReizer);
+
+		return () => {
+			window.removeEventListener('resize', windowReizer);
+		};
 	}, [sshtBody]);
 
 	return (
