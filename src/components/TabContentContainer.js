@@ -43,7 +43,7 @@ const TabContentContainer = ({uuid, type, server}) => {
 				}),
 			);
 		}
-	}, [ssht, uuid, type]);
+	}, [ssht, sftp, uuid, type]);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)

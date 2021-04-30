@@ -38,13 +38,17 @@ const SFTPContainer = ({uuid}) => {
 				!hiP.includes(root) &&
 				!p.includes(root) &&
 				!context.includes(root)
-				// 현재 처음에만 적용되고 이후에는 모든 조건이 성립하는 에러있음.
 			) {
-				// dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
 		[currentServer?.highlight],
 	);
+
+	useEffect(() => {
+		console.log('rendering...');
+		dispatch(commandPwdAction(currentServer));
+	}, []);
 
 	useEffect(() => {
 		body.addEventListener('click', focusOut);
@@ -52,10 +56,6 @@ const SFTPContainer = ({uuid}) => {
 			body.removeEventListener('click', focusOut);
 		};
 	}, [currentServer]);
-
-	useEffect(() => {
-		dispatch(commandPwdAction(currentServer));
-	}, []);
 
 	return currentServer ? (
 		<SFTP_Component uuid={uuid} />

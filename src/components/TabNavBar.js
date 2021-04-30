@@ -25,6 +25,7 @@ const TabNavBar = () => {
 	const [active, setActive] = useState('');
 	const {tab, current_tab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
+	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 
@@ -36,7 +37,7 @@ const TabNavBar = () => {
 	);
 
 	const onClickDelete = useCallback(
-		(data) => async () => {
+		(data) => () => {
 			if (data.type === 'SSHT') {
 				dispatch({
 					type: SSHT_SEND_DISCONNECTION_REQUEST,
@@ -46,7 +47,9 @@ const TabNavBar = () => {
 					},
 				});
 			} else if (data.type === 'SFTP') {
-				const {sftp} = useSelector((state) => state.sftp);
+				console.log(data.uuid);
+				console.log(sftp);
+				console.log(sftp.find((v) => v.uuid === data.uuid));
 				dispatch(
 					disconnectAction({
 						uuid: data.uuid,
@@ -55,7 +58,7 @@ const TabNavBar = () => {
 				);
 			}
 		},
-		[dispatch, ssht],
+		[dispatch, ssht, sftp],
 	);
 
 	const prevPutItem = useCallback(
