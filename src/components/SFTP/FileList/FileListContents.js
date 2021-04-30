@@ -98,8 +98,26 @@ const FileListContents = ({uuid}) => {
 		[sftp],
 	);
 
+	const compareNumber = (list, first, second) => {
+		if (first <= second) {
+			for (let i = first; i <= second; i++) {
+				dispatch({
+					type: ADD_HIGHLIGHT,
+					payload: {uuid, item: list[i]},
+				});
+			}
+		} else {
+			for (let i = first; i >= second; i--) {
+				dispatch({
+					type: ADD_HIGHLIGHT,
+					payload: {uuid, item: list[i]},
+				});
+			}
+		}
+	};
+
 	const selectItem = useCallback(
-		(item) => (e) => {
+		({item, index}) => (e) => {
 			if (e.metaKey) {
 				!highlight.includes(item)
 					? dispatch({
@@ -107,6 +125,20 @@ const FileListContents = ({uuid}) => {
 							payload: {uuid, item},
 					  })
 					: dispatch({type: REMOVE_HIGHLIGHT, payload: {uuid, item}});
+			} else if (e.shiftKey) {
+				if (highlight.length === 0) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item},
+					});
+				} else {
+					dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+					const corList = fileList[fileList.length - 1];
+					const firstIndex = corList.findIndex(
+						(it) => it.name === highlight[0].name,
+					);
+					compareNumber(corList, firstIndex, index);
+				}
 			} else {
 				!highlight.includes(item) &&
 					dispatch({
@@ -141,7 +173,7 @@ const FileListContents = ({uuid}) => {
 						return (
 							<tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
-								onClick={selectItem(item)}
+								onClick={selectItem({item, index})}
 								onDoubleClick={changePath(item)}
 								style={{display: 'flex', cursor: 'pointer'}}
 								key={index + uuid}

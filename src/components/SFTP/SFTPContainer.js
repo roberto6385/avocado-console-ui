@@ -17,7 +17,6 @@ const SFTPContainer = ({uuid}) => {
 				return;
 			}
 			const root = evt.target;
-			console.log(root);
 			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
 			// const li = Array.from(
 			// 	evt.currentTarget.querySelectorAll('.highlight_list'),
