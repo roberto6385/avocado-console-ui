@@ -207,6 +207,7 @@ const sftp = (state = initialState, action) =>
 			case PWD_REQUEST:
 				draft.loading = true;
 				target.pathList = [];
+				target.deleteWorks = [];
 
 				break;
 			case PWD_SUCCESS:
