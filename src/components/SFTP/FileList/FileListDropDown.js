@@ -198,29 +198,29 @@ const FileListDropDown = ({uuid}) => {
 	console.log(highlight);
 
 	const contextMenuOpen = useCallback(
-		({item, path}) => (e) => {
+		({item, clickedPath}) => (e) => {
 			e.preventDefault();
-			displayMenu(e);
 			e.stopPropagation();
-			if (corServer.path !== path) {
+
+			if (path !== clickedPath) {
 				dispatch(
 					commandCdAction({
 						...corServer,
-						newPath: path,
+						newPath: clickedPath,
 					}),
 				);
 			}
 
-			dispatch({type: SAVE_TEMP_PATH, payload: {uuid, path}});
+			dispatch({type: SAVE_TEMP_PATH, payload: {uuid, clickedPath}});
 
-			console.log(item, path);
 			highlight.length < 2 &&
 				item !== undefined &&
-				path !== undefined &&
+				clickedPath !== undefined &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
 					payload: {uuid, item},
 				});
+			displayMenu(e);
 		},
 		[corServer],
 	);
@@ -233,7 +233,7 @@ const FileListDropDown = ({uuid}) => {
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
-							path: pathList[listindex],
+							clickedPath: pathList[listindex],
 						})}
 					>
 						{listItem.map((item, index) => {
@@ -251,7 +251,7 @@ const FileListDropDown = ({uuid}) => {
 									key={index}
 									onContextMenu={contextMenuOpen({
 										item,
-										path: pathList[listindex],
+										clickedPath: pathList[listindex],
 									})}
 									onClick={selectFile({
 										item,

@@ -91,21 +91,14 @@ const ConfirmPopup = () => {
 
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
-					const {highlight, mode, path} = corServer;
+					const {highlight, path} = corServer;
 					for (let value of highlight) {
 						dispatch(
 							commandRmAction({
 								...corServer,
-								file: mode === 'list' ? value : value.item,
-								path: mode === 'list' ? path : value.path,
-								keyword:
-									mode === 'list'
-										? value.type === 'file'
-											? 'rm'
-											: 'rmdir'
-										: value.item.type === 'file'
-										? 'rm'
-										: 'rmdir',
+								file: value,
+								path: path,
+								keyword: value.type === 'file' ? 'rm' : 'rmdir',
 							}),
 						);
 					}
