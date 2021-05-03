@@ -16,7 +16,9 @@ import {
 	commandCdAction,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
+	REMOVE_TEMP_HIGHLIGHT,
 	SAVE_TEMP_PATH,
+	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
@@ -24,7 +26,7 @@ import {MAIN_COLOR} from '../../../styles/global';
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight, path} = corServer;
+	const {fileList, pathList, highlight, path, tempItem} = corServer;
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -74,15 +76,6 @@ const FileListDropDown = ({uuid}) => {
 
 	const selectFile = useCallback(
 		({item, listindex, itemIndex}) => (e) => {
-			const finalPath =
-				// 타입이 디렉토리면 해당 디렉토리로 내부 경로
-				// 파일이면 해당 파일의 경로
-				item.type === 'directory'
-					? pathList[listindex] === '/'
-						? `${pathList[listindex]}${item.name}`
-						: `${pathList[listindex]}/${item.name}`
-					: pathList[listindex];
-
 			if (e.shiftKey) {
 				if (corServer.path !== pathList[listindex]) {
 					dispatch(
@@ -115,76 +108,87 @@ const FileListDropDown = ({uuid}) => {
 						compareNumber(corList, firstIndex, itemIndex);
 					}
 				}
-			} else {
-				/// 여기서 부터 case 나누기
-				if (corServer.path !== finalPath) {
-					console.log('우선 다른경로');
-					if (e.metaKey) {
-						if (highlight.length === 0) {
-							console.log('하이라이팅 아이템 없음, 경로이동');
-							console.log(finalPath);
-							dispatch(
-								commandCdAction({
-									...corServer,
-									newPath: finalPath,
-								}),
-							);
-							dispatch({
-								type: ADD_ONE_HIGHLIGHT,
-								payload: {uuid, item},
-							});
-						} else {
-							if (corServer.path !== pathList[listindex]) {
-								dispatch(
-									commandCdAction({
-										...corServer,
-										newPath: pathList[listindex],
-									}),
-								);
-							}
-							highlight.find((it) => it.name === item.name) ===
-							undefined
-								? dispatch({
-										type: ADD_HIGHLIGHT,
-										payload: {uuid, item},
-								  })
-								: dispatch({
-										type: REMOVE_HIGHLIGHT,
-										payload: {uuid, item},
-								  });
-						}
-					} else {
+			} else if (e.metaKey) {
+				if (path !== pathList[listindex]) {
+					if (
+						tempItem !== null &&
+						tempItem.path === pathList[listindex]
+					) {
 						dispatch(
 							commandCdAction({
 								...corServer,
-								newPath: finalPath,
+								newPath: pathList[listindex],
+							}),
+						);
+						dispatch({
+							type: ADD_HIGHLIGHT,
+							payload: {uuid, item},
+						});
+						dispatch({
+							type: ADD_HIGHLIGHT,
+							payload: {uuid, item: tempItem.item},
+						});
+						dispatch({
+							type: REMOVE_TEMP_HIGHLIGHT,
+							payload: {uuid},
+						});
+						return;
+					}
+
+					if (item.type === 'file') {
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: pathList[listindex],
 							}),
 						);
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
 							payload: {uuid, item},
 						});
-					}
-				} else {
-					console.log('현재 경로의 아이템 입니다!!');
-					if (e.metaKey) {
-						highlight.find((it) => it?.name === item.name) ===
-						undefined
-							? dispatch({
-									type: ADD_HIGHLIGHT,
-									payload: {uuid, item},
-							  })
-							: dispatch({
-									type: REMOVE_HIGHLIGHT,
-									payload: {uuid, item},
-							  });
 					} else {
+						dispatch(
+							commandCdAction({
+								...corServer,
+								newPath: `${pathList[listindex]}/${item.name}`,
+							}),
+						);
 						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item},
+							type: TEMP_HIGHLIGHT,
+							payload: {uuid, item, path: pathList[listindex]},
 						});
 					}
+				} else {
+					highlight.find((it) => it.name === item.name) === undefined
+						? dispatch({
+								type: ADD_HIGHLIGHT,
+								payload: {uuid, item},
+						  })
+						: dispatch({
+								type: REMOVE_HIGHLIGHT,
+								payload: {uuid, item},
+						  });
 				}
+			} else {
+				const finalPath =
+					item.type === 'directory'
+						? pathList[listindex] === '/'
+							? `${pathList[listindex]}${item.name}`
+							: `${pathList[listindex]}/${item.name}`
+						: pathList[listindex];
+				if (path !== finalPath) {
+					dispatch(
+						commandCdAction({
+							...corServer,
+							newPath: finalPath,
+						}),
+					);
+				}
+				item.type === 'file' &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item},
+					});
 			}
 		},
 		[corServer],

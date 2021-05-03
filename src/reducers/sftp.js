@@ -65,6 +65,8 @@ export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
 export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
+export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
+export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
 export const ADD_HISTORY = 'sftp/ADD_HISTORY';
 export const FIND_HISTORY = 'sftp/FIND_HISTORY';
@@ -176,6 +178,7 @@ const sftp = (state = initialState, action) =>
 					editText: '',
 					editFile: {},
 					tempPath: '',
+					tempItem: null,
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -232,6 +235,7 @@ const sftp = (state = initialState, action) =>
 			// 경로 변경
 			case CD_REQUEST:
 				draft.loading = true;
+				target.highlight = [];
 
 				break;
 			case CD_SUCCESS:
@@ -272,6 +276,15 @@ const sftp = (state = initialState, action) =>
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
 				target.highlight.push(action.payload.item);
+				break;
+			case TEMP_HIGHLIGHT:
+				target.tempItem = {
+					item: action.payload.item,
+					path: action.payload.path,
+				};
+				break;
+			case REMOVE_TEMP_HIGHLIGHT:
+				target.tempItem = null;
 				break;
 			case INITIALIZING_HIGHLIGHT:
 				target.highlight = [];
