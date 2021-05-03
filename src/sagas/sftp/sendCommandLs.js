@@ -4,10 +4,8 @@ import {
 	fork,
 	take,
 	put,
-	takeEvery,
-	race,
-	delay,
 	actionChannel,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
@@ -15,7 +13,6 @@ import {
 	LS_FAILURE,
 	LS_REQUEST,
 	LS_SUCCESS,
-	PUT_REQUEST,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from './channel';
@@ -23,6 +20,7 @@ import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
 	const {payload} = action;
+	console.log(payload);
 	const channel = yield call(subscribe, payload.socket);
 	// 현재 드롭 리스트에 필요한 모든 경로를 개별 탐색하므로 경로당 채널 생성 발생.
 	// 채널을 하나만 사용하는 방향으로 수정 필요.
@@ -33,54 +31,63 @@ function* sendCommand(action) {
 			ws: payload.socket,
 			path: payload.path,
 		});
-		// const {timeout, data} = yield race({
-		// 	timeout: delay(30000),
-		// 	data: take(channel),
-		// });
-		// if (timeout) {
-		// 	console.log('LS 채널 사용이 없습니다. 종료합니다.');
-		// 	closeChannel(channel);
-		// } else {
-		const data = yield take(channel);
-		const res = yield call(messageReader, {data, payload});
-		switch (res.type) {
-			case LS_SUCCESS:
-				if (payload.keyword !== 'pathFinder') {
-					yield put({
-						type: LS_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							fileList: res.fileList,
-						},
-					});
-				} else {
-					res.fileList.shift();
-					if (res.fileList.length !== 0) {
+		while (true) {
+			const data = yield take(channel);
+			const res = yield call(messageReader, {data, payload});
+			switch (res.type) {
+				case LS_SUCCESS:
+					if (payload.keyword !== 'pathFinder') {
 						yield put({
-							type: DELETE_WORK_LIST,
+							type: LS_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
-								list: res.fileList,
-								path: payload.path,
+								fileList: res.fileList,
 							},
 						});
-					}
-					res.fileList.length === 0 &&
-						console.log(payload.deleteWorks);
+					} else {
+						res.fileList.shift();
 
-					for (let item of res.fileList) {
-						if (item.type === 'directory' && item.name !== '..') {
-							yield put(
-								commandLsAction({
-									...payload,
-									path: `${payload.path}/${item.name}`,
-									keyword: 'pathFinder',
-								}),
-							);
+						if (res.fileList.length !== 0) {
+							console.log({
+								path: payload.path,
+								list: res.fileList,
+							});
+							yield put({
+								type: DELETE_WORK_LIST,
+								payload: {
+									uuid: payload.uuid,
+									list: res.fileList,
+									path: payload.path,
+								},
+							});
+
+							for (let item of res.fileList) {
+								if (
+									item.type === 'directory' &&
+									item.name !== '..'
+								) {
+									yield put(
+										commandLsAction({
+											...payload,
+											path: `${payload.path}/${item.name}`,
+											keyword: 'pathFinder',
+											deleteWorks: [
+												...payload.deleteWorks,
+												{
+													list: res.fileList,
+													path: payload.path,
+												},
+											],
+										}),
+									);
+								}
+							}
+						} else {
+							console.log('end');
 						}
 					}
-				}
-			// }
+					return;
+			}
 		}
 	} catch (err) {
 		console.log(err);

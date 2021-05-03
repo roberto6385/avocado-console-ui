@@ -2,8 +2,14 @@ import React from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {ADD_HISTORY, commandGetAction} from '../../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	commandGetAction,
+	commandLsAction,
+	DELETE_WORK_LIST,
+} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {put} from 'redux-saga/effects';
 
 const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -71,6 +77,28 @@ const FileListContextMenu = ({uuid}) => {
 				});
 				break;
 			case 'delete_work':
+				dispatch({
+					type: DELETE_WORK_LIST,
+					payload: {
+						uuid: uuid,
+						list: highlight,
+						path: path,
+					},
+				});
+
+				for (let item of highlight) {
+					console.log(item);
+					if (item.type === 'directory' && item.name !== '..') {
+						console.log(path, item.name);
+						dispatch(
+							commandLsAction({
+								...corServer,
+								path: `${path}/${item.name}`,
+								keyword: 'pathFinder',
+							}),
+						);
+					}
+				}
 				dispatch({
 					type: OPEN_CONFIRM_POPUP,
 					data: {

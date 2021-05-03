@@ -85,38 +85,30 @@ const ConfirmPopup = () => {
 	}, []);
 
 	const submitFunction = useCallback(
-		async (e) => {
+		(e) => {
 			e.preventDefault();
 
 			const uuid = confirm_popup.uuid;
 			const corServer = sftp.find((it) => it.uuid === uuid);
+			console.log(corServer);
 
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
-					const {highlight, path} = corServer;
-
-					for await (let item of highlight) {
-						console.log(item);
-						if (item.type === 'directory' && item.name !== '..') {
-							console.log(path, item.name);
+					for (let value of corServer.deleteWorks) {
+						for (let item of value.list) {
 							dispatch(
-								commandLsAction({
+								commandRmAction({
 									...corServer,
-									path: `${path}/${item.name}`,
-									keyword: 'pathFinder',
+									file: item,
+									path: value.path,
+									keyword:
+										item.type === 'file' ? 'rm' : 'rmdir',
 								}),
 							);
+							// console.log(`${item.name}/${value.path}`);
 						}
 					}
-					console.log('delete!!!');
-
-					// for (let value of deleteWorks) {
-					// 	for (let item of value.list) {
-					// 		console.log(`${item.name}/${value.path}`);
-					//
-					// 	}
-					// }
-					// dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
+					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
 					break;
 				}
 
@@ -213,7 +205,7 @@ const ConfirmPopup = () => {
 			}
 			handleClose();
 		},
-		[clicked_server, confirm_popup, formValue],
+		[clicked_server, confirm_popup, formValue, sftp],
 	);
 
 	const cancelFunction = useCallback(() => {
