@@ -31,16 +31,25 @@ export const DropdownUl = styled.ul`
 
 export const DropdownLi = styled.li`
 	padding: 2px;
-	white-space: nowrap;
 	width: 150px;
-	text-overflow: ellipsis;
+	white-space: nowrap;
 	overflow: hidden;
+	text-overflow: ellipsis;
 
 	// 드래그 방지
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+`;
+
+export const DropdownP = styled.p`
+	margin: 0;
+	padding: 0;
+	width: 150px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 // Dropzone

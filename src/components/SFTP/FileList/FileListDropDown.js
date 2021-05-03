@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	DirectoryIcon,
 	DropdownLi,
+	DropdownP,
 	DropdownUl,
 	FileIcon,
 } from '../../../styles/sftp';
@@ -23,7 +24,7 @@ import {MAIN_COLOR} from '../../../styles/global';
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight} = corServer;
+	const {fileList, pathList, highlight, path} = corServer;
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -34,23 +35,38 @@ const FileListDropDown = ({uuid}) => {
 	}
 
 	const compareNumber = (list, first, second) => {
-		dispatch({
-			type: INITIALIZING_HIGHLIGHT,
-			payload: {uuid},
-		});
+		console.log(list);
+		console.log(first);
+		console.log(second);
 
-		if (first <= second) {
+		if (first === -1) {
+			dispatch({
+				type: ADD_HIGHLIGHT,
+				payload: {uuid, item: list[second]},
+			});
+			return;
+		}
+
+		if (first !== -1 && first <= second) {
+			dispatch({
+				type: INITIALIZING_HIGHLIGHT,
+				payload: {uuid},
+			});
 			for (let i = first; i <= second; i++) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i], path: corServer.path},
+					payload: {uuid, item: list[i]},
 				});
 			}
 		} else {
+			dispatch({
+				type: INITIALIZING_HIGHLIGHT,
+				payload: {uuid},
+			});
 			for (let i = first; i >= second; i--) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i], path: corServer.path},
+					payload: {uuid, item: list[i]},
 				});
 			}
 		}
@@ -58,6 +74,15 @@ const FileListDropDown = ({uuid}) => {
 
 	const selectFile = useCallback(
 		({item, listindex, itemIndex}) => (e) => {
+			const finalPath =
+				// 타입이 디렉토리면 해당 디렉토리로 내부 경로
+				// 파일이면 해당 파일의 경로
+				item.type === 'directory'
+					? pathList[listindex] === '/'
+						? `${pathList[listindex]}${item.name}`
+						: `${pathList[listindex]}/${item.name}`
+					: pathList[listindex];
+
 			if (e.shiftKey) {
 				if (corServer.path !== pathList[listindex]) {
 					dispatch(
@@ -68,41 +93,29 @@ const FileListDropDown = ({uuid}) => {
 					);
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
-						payload: {
-							uuid,
-							item,
-							path: pathList[listindex],
-						},
+						payload: {uuid, item},
 					});
 				} else {
 					if (highlight.length === 0) {
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
-							payload: {
-								uuid,
-								item,
-								path: pathList[listindex],
-							},
+							payload: {uuid, item},
 						});
 					} else {
+						if (highlight[0].name === path.split('/').pop()) {
+							dispatch({
+								type: INITIALIZING_HIGHLIGHT,
+								payload: {uuid},
+							});
+						}
 						const corList = fileList[listindex];
-						console.log(corList);
 						const firstIndex = corList.findIndex(
-							(it) => it.name === highlight[0].item.name,
+							(it) => it?.name === highlight[0].name,
 						);
 						compareNumber(corList, firstIndex, itemIndex);
 					}
 				}
 			} else {
-				const finalPath =
-					// 타입이 디렉토리면 해당 디렉토리로 내부 경로
-					// 파일이면 해당 파일의 경로
-					item.type === 'directory'
-						? pathList[listindex] === '/'
-							? `${pathList[listindex]}${item.name}`
-							: `${pathList[listindex]}/${item.name}`
-						: pathList[listindex];
-
 				/// 여기서 부터 case 나누기
 				if (corServer.path !== finalPath) {
 					console.log('우선 다른경로');
@@ -117,16 +130,8 @@ const FileListDropDown = ({uuid}) => {
 								}),
 							);
 							dispatch({
-								type: INITIALIZING_HIGHLIGHT,
-								payload: {uuid},
-							});
-							dispatch({
 								type: ADD_ONE_HIGHLIGHT,
-								payload: {
-									uuid,
-									item,
-									path: pathList[listindex],
-								},
+								payload: {uuid, item},
 							});
 						} else {
 							if (corServer.path !== pathList[listindex]) {
@@ -137,18 +142,11 @@ const FileListDropDown = ({uuid}) => {
 									}),
 								);
 							}
-							highlight.find(
-								(it) =>
-									it.item.name === item.name &&
-									it.path === pathList[listindex],
-							) === undefined
+							highlight.find((it) => it.name === item.name) ===
+							undefined
 								? dispatch({
 										type: ADD_HIGHLIGHT,
-										payload: {
-											uuid,
-											item,
-											path: pathList[listindex],
-										},
+										payload: {uuid, item},
 								  })
 								: dispatch({
 										type: REMOVE_HIGHLIGHT,
@@ -164,24 +162,17 @@ const FileListDropDown = ({uuid}) => {
 						);
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item, path: pathList[listindex]},
+							payload: {uuid, item},
 						});
 					}
 				} else {
 					console.log('현재 경로의 아이템 입니다!!');
 					if (e.metaKey) {
-						highlight.find(
-							(it) =>
-								it.item.name === item.name &&
-								it.path === pathList[listindex],
-						) === undefined
+						highlight.find((it) => it?.name === item.name) ===
+						undefined
 							? dispatch({
 									type: ADD_HIGHLIGHT,
-									payload: {
-										uuid,
-										item,
-										path: pathList[listindex],
-									},
+									payload: {uuid, item},
 							  })
 							: dispatch({
 									type: REMOVE_HIGHLIGHT,
@@ -190,11 +181,7 @@ const FileListDropDown = ({uuid}) => {
 					} else {
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
-							payload: {
-								uuid,
-								item,
-								path: pathList[listindex],
-							},
+							payload: {uuid, item},
 						});
 					}
 				}
@@ -228,7 +215,7 @@ const FileListDropDown = ({uuid}) => {
 				path !== undefined &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item, path},
+					payload: {uuid, item},
 				});
 		},
 		[corServer],
@@ -251,8 +238,8 @@ const FileListDropDown = ({uuid}) => {
 									className={
 										highlight.findIndex(
 											(it) =>
-												it.item.name === item.name &&
-												it.path === pathList[listindex],
+												it?.name === item.name &&
+												path === pathList[listindex],
 										) === -1
 											? 'highlight_list'
 											: 'highlight_list active'
@@ -268,11 +255,9 @@ const FileListDropDown = ({uuid}) => {
 										itemIndex: index,
 									})}
 								>
-									<p
+									<DropdownP
 										className={'highlight_list_p'}
 										style={{
-											margin: 0,
-											padding: 0,
 											color:
 												pathList[listindex + 1]
 													?.split('/')
@@ -287,7 +272,7 @@ const FileListDropDown = ({uuid}) => {
 											<FileIcon />
 										)}
 										{item.name}
-									</p>
+									</DropdownP>
 								</DropdownLi>
 							);
 						})}

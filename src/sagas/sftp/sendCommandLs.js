@@ -16,6 +16,8 @@ import {messageReader} from './messageReader';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
+	// 현재 드롭 리스트에 필요한 모든 경로를 개별 탐색하므로 경로당 채널 생성 발생.
+	// 채널을 하나만 사용하는 방향으로 수정 필요.
 
 	try {
 		yield call(messageSender, {

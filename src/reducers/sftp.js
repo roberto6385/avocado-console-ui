@@ -271,12 +271,7 @@ const sftp = (state = initialState, action) =>
 
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
-				target.mode === 'list'
-					? target.highlight.push(action.payload.item)
-					: target.highlight.push({
-							item: action.payload.item,
-							path: action.payload.path,
-					  });
+				target.highlight.push(action.payload.item);
 				break;
 			case INITIALIZING_HIGHLIGHT:
 				target.highlight = [];
@@ -285,24 +280,13 @@ const sftp = (state = initialState, action) =>
 				target.highlight.splice(
 					0,
 					Number.MAX_VALUE,
-					target.mode === 'list'
-						? action.payload.item
-						: {
-								item: action.payload.item,
-								path: action.payload.path,
-						  },
+					action.payload.item,
 				);
 				break;
 			case REMOVE_HIGHLIGHT:
-				target.mode === 'list'
-					? (target.highlight = plainTarget.highlight.filter(
-							(item) => item !== action.payload.item,
-					  ))
-					: (target.highlight = plainTarget.highlight.filter(
-							(it) =>
-								it.item.name !== action.payload.item.name &&
-								it.path !== action.payload.path,
-					  ));
+				target.highlight = plainTarget.highlight.filter(
+					(item) => item !== action.payload.item,
+				);
 				break;
 
 			case ADD_HISTORY:

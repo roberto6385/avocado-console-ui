@@ -23,6 +23,7 @@ import {
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandGetAction,
+	commandLsAction,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
@@ -34,6 +35,16 @@ const FileListContents = ({uuid}) => {
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {fileList, highlight, pathList} = corServer;
 	const dispatch = useDispatch();
+
+	const pathFinder = (h) => {
+		console.log(h);
+		// commandLsAction({
+		// 	...corServer,
+		// 	path: value,
+		// keyword:'findInnerItem'
+		// });
+	};
+	pathFinder(highlight);
 
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
