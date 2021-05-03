@@ -36,16 +36,6 @@ const FileListContents = ({uuid}) => {
 	const {fileList, highlight, pathList} = corServer;
 	const dispatch = useDispatch();
 
-	// const pathFinder = (h) => {
-	// 	console.log(h);
-	// 	commandLsAction({
-	// 		...corServer,
-	// 		// path: value,
-	// 		keyword: 'findInnerItem',
-	// 	});
-	// };
-	// pathFinder(highlight);
-
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});

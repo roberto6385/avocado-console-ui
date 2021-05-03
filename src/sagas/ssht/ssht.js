@@ -8,6 +8,7 @@ import {
 	throttle,
 	debounce,
 	takeEvery,
+	actionChannel,
 } from 'redux-saga/effects';
 
 import {
@@ -29,6 +30,7 @@ import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initChannel, initWebsocket} from './sshSocket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
+import {PUT_REQUEST} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	try {
@@ -197,6 +199,12 @@ function* watchSendDisconnection() {
 
 function* watchSendCommand() {
 	yield takeEvery(SSHT_SEND_COMMAND_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(SSHT_SEND_COMMAND_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	const res = yield fork(sendCommand, action);
+	// 	yield console.log(res);
+	// }
 }
 
 function* watchSendWindowChange() {

@@ -10,15 +10,14 @@ import {messageReader} from './messageReader';
 import {subscribe} from './channel';
 
 function* sendCommand(action) {
+	const {payload} = action;
+	const channel = yield call(subscribe, payload.socket);
+
+	messageSender({
+		keyword: 'Disconnection',
+		ws: payload.socket,
+	});
 	try {
-		const {payload} = action;
-		const channel = yield call(subscribe, payload.socket);
-
-		messageSender({
-			keyword: 'Disconnection',
-			ws: payload.socket,
-		});
-
 		while (true) {
 			const data = yield take(channel);
 			const res = yield call(messageReader, {data, payload});
@@ -30,12 +29,13 @@ function* sendCommand(action) {
 							uuid: payload.uuid,
 						},
 					});
-					yield put({type: CLOSE_TAB, data: payload.uuid});
 			}
 		}
 	} catch (err) {
 		yield put({type: DISCONNECTION_FAILURE});
 		console.log(err);
+	} finally {
+		yield put({type: CLOSE_TAB, data: payload.uuid});
 	}
 }
 

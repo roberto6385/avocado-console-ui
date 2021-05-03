@@ -1,4 +1,12 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	takeEvery,
+} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
 	commandLsAction,
@@ -104,6 +112,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
+	// yield takeEvery(PUT_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(PUT_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

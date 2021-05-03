@@ -72,6 +72,8 @@ export const ADD_HISTORY = 'sftp/ADD_HISTORY';
 export const FIND_HISTORY = 'sftp/FIND_HISTORY';
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 
+export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
+
 export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
 
 let HISTORY_ID = 0;
@@ -179,6 +181,7 @@ const sftp = (state = initialState, action) =>
 					editFile: {},
 					tempPath: '',
 					tempItem: null,
+					deleteWorks: [],
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -321,6 +324,13 @@ const sftp = (state = initialState, action) =>
 				break;
 			case REMOVE_HISTORY:
 				target.history = [];
+				break;
+
+			case DELETE_WORK_LIST:
+				target.deleteWorks.unshift({
+					list: action.payload.list,
+					path: action.payload.path,
+				});
 				break;
 
 			case SAVE_TEMP_PATH:

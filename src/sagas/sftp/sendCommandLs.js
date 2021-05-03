@@ -7,8 +7,16 @@ import {
 	takeEvery,
 	race,
 	delay,
+	actionChannel,
 } from 'redux-saga/effects';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {
+	commandLsAction,
+	DELETE_WORK_LIST,
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+	PUT_REQUEST,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from './channel';
 import {messageReader} from './messageReader';
@@ -25,27 +33,54 @@ function* sendCommand(action) {
 			ws: payload.socket,
 			path: payload.path,
 		});
-		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(30000),
-				data: take(channel),
-			});
-			if (timeout) {
-				console.log('LS 채널 사용이 없습니다. 종료합니다.');
-				closeChannel(channel);
-			} else {
-				const res = yield call(messageReader, {data, payload});
-				switch (res.type) {
-					case LS_SUCCESS:
+		// const {timeout, data} = yield race({
+		// 	timeout: delay(30000),
+		// 	data: take(channel),
+		// });
+		// if (timeout) {
+		// 	console.log('LS 채널 사용이 없습니다. 종료합니다.');
+		// 	closeChannel(channel);
+		// } else {
+		const data = yield take(channel);
+		const res = yield call(messageReader, {data, payload});
+		switch (res.type) {
+			case LS_SUCCESS:
+				if (payload.keyword !== 'pathFinder') {
+					yield put({
+						type: LS_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+							fileList: res.fileList,
+						},
+					});
+				} else {
+					res.fileList.shift();
+					if (res.fileList.length !== 0) {
 						yield put({
-							type: LS_SUCCESS,
+							type: DELETE_WORK_LIST,
 							payload: {
 								uuid: payload.uuid,
-								fileList: res.fileList,
+								list: res.fileList,
+								path: payload.path,
 							},
 						});
+					}
+					res.fileList.length === 0 &&
+						console.log(payload.deleteWorks);
+
+					for (let item of res.fileList) {
+						if (item.type === 'directory' && item.name !== '..') {
+							yield put(
+								commandLsAction({
+									...payload,
+									path: `${payload.path}/${item.name}`,
+									keyword: 'pathFinder',
+								}),
+							);
+						}
+					}
 				}
-			}
+			// }
 		}
 	} catch (err) {
 		console.log(err);
@@ -56,7 +91,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	// yield takeEvery(LS_REQUEST, sendCommand);
+
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* commandLsSaga() {

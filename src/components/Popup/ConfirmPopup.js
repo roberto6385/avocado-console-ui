@@ -11,6 +11,7 @@ import {ADD_FOLDER, DELETE_SERVER_FOLDER} from '../../reducers/common';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
+	commandLsAction,
 	commandMkdirAction,
 	commandPutAction,
 	commandPwdAction,
@@ -18,6 +19,7 @@ import {
 	commandRmAction,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
+import {put} from 'redux-saga/effects';
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
@@ -83,7 +85,7 @@ const ConfirmPopup = () => {
 	}, []);
 
 	const submitFunction = useCallback(
-		(e) => {
+		async (e) => {
 			e.preventDefault();
 
 			const uuid = confirm_popup.uuid;
@@ -92,17 +94,29 @@ const ConfirmPopup = () => {
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
 					const {highlight, path} = corServer;
-					for (let value of highlight) {
-						dispatch(
-							commandRmAction({
-								...corServer,
-								file: value,
-								path: path,
-								keyword: value.type === 'file' ? 'rm' : 'rmdir',
-							}),
-						);
+
+					for await (let item of highlight) {
+						console.log(item);
+						if (item.type === 'directory' && item.name !== '..') {
+							console.log(path, item.name);
+							dispatch(
+								commandLsAction({
+									...corServer,
+									path: `${path}/${item.name}`,
+									keyword: 'pathFinder',
+								}),
+							);
+						}
 					}
-					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
+					console.log('delete!!!');
+
+					// for (let value of deleteWorks) {
+					// 	for (let item of value.list) {
+					// 		console.log(`${item.name}/${value.path}`);
+					//
+					// 	}
+					// }
+					// dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
 					break;
 				}
 
