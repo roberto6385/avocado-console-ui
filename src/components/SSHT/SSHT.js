@@ -5,15 +5,17 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import {useCookies} from 'react-cookie';
+import debounce from 'lodash/debounce';
+import useResizeObserver from 'use-resize-observer';
 
 import useInput from '../../hooks/useInput';
-import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
+import {SSHTBody, SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
 
-const SSHT = ({uuid, height, width}) => {
+const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
@@ -27,6 +29,7 @@ const SSHT = ({uuid, height, width}) => {
 	const terminalRef = useRef(null);
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
+	const {ref, width, height} = useResizeObserver();
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -34,26 +37,6 @@ const SSHT = ({uuid, height, width}) => {
 		},
 		[search],
 	);
-
-	const resizeRequest = useCallback(() => {
-		if (width > 0 && height > 0) {
-			fitAddon.current.fit();
-
-			dispatch({
-				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
-				data: {
-					ws: ws.current,
-					uuid: uuid,
-					data: {
-						cols: sshTerm.cols,
-						rows: sshTerm.rows,
-						width: width,
-						height: height,
-					},
-				},
-			});
-		}
-	}, [sshTerm, width, height, uuid, ws]);
 
 	// const onClickCommand = useCallback(
 	// 	(v) => () => {
@@ -67,12 +50,13 @@ const SSHT = ({uuid, height, width}) => {
 	useEffect(() => {
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
-		sshTerm.open(document.getElementById('terminal_' + uuid));
+		const openTerminal = sshTerm.open(
+			document.getElementById('terminal_' + uuid),
+		);
 		// setCookie('search_cokkies', []);
-		// return () => {
-		// 	openTerminal.dispose();
-		// };
-
+		return () => {
+			sshTerm.dispose();
+		};
 	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
 	useEffect(() => {
@@ -91,6 +75,7 @@ const SSHT = ({uuid, height, width}) => {
 			processInput.dispose();
 		};
 	}, [uuid, ws, sshTerm]);
+
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
@@ -98,13 +83,33 @@ const SSHT = ({uuid, height, width}) => {
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
-		resizeRequest();
-	}, [font, sshTerm, width, height, uuid, ws]);
+	}, [font]);
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
-		resizeRequest();
-	}, [font_size, sshTerm, width, height, uuid, ws]);
+	}, [font_size]);
+
+	useEffect(() => {
+		const windowChangeDebounce = debounce(() => {
+			fitAddon.current.fit();
+			dispatch({
+				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+				data: {
+					ws: ws.current,
+					uuid: uuid,
+					data: {
+						cols: sshTerm.cols,
+						rows: sshTerm.rows,
+						width: width,
+						height: height,
+					},
+				},
+			});
+		}, 500);
+
+		windowChangeDebounce();
+		return windowChangeDebounce.cancel;
+	}, [uuid, sshTerm, width, height]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -124,7 +129,7 @@ const SSHT = ({uuid, height, width}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHTerminal>
+		<SSHTBody ref={ref}>
 			<SSHTerminal id={`terminal_${uuid}`} ref={terminalRef} />
 			<ListGroup
 				style={{
@@ -151,14 +156,12 @@ const SSHT = ({uuid, height, width}) => {
 				size='sm'
 				type='text'
 			/>
-		</SSHTerminal>
+		</SSHTBody>
 	);
 };
 
 SSHT.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	height: PropTypes.number.isRequired,
-	width: PropTypes.number.isRequired,
 };
 
 export default SSHT;

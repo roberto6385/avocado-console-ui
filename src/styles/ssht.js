@@ -6,7 +6,7 @@ import {NAV_HEIGHT} from './global';
 export const SSHTBody = styled(Card.Body)`
 	padding: 0px;
 	flex: 1;
-	background: black;
+	// background: black;
 `;
 
 export const SSHTComponents = styled.div`
