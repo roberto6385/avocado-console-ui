@@ -116,9 +116,14 @@ export const IconButton = styled.button`
 	background: transparent;
 	outline: none;
 	border: none;
+	padding: 0px 8px;
 	&:hover {
 		color: ${MAIN_COLOR};
 	}
+`;
+
+export const UserButton = styled(IconButton)`
+	color: ${MAIN_COLOR};
 `;
 
 export const SidebarShow = styled.div`
@@ -204,6 +209,9 @@ export const SplitButtonContainer = styled.div`
 	height: ${NAV_HEIGHT};
 	display: flex;
 	align-items: center;
+	.dropdown {
+		line-height: 0px;
+	}
 `;
 
 // Tab Contents Container

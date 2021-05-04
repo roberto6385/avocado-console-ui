@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaTh, AiTwotoneSetting} from 'react-icons/all';
+import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {SplitButtonContainer} from '../styles/common';
+import {SplitButtonContainer, UserButton} from '../styles/common';
 import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
 
 const SplitBar = () => {
@@ -38,6 +38,9 @@ const SplitBar = () => {
 
 	return (
 		<SplitButtonContainer>
+			<UserButton>
+				<HiUserCircle />
+			</UserButton>
 			<Avocado_Dropdown
 				icon={<AiTwotoneSetting style={{color: MAIN_COLOR}} />}
 				menu={setting_list}

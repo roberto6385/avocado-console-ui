@@ -4,16 +4,29 @@ import {Dropdown, DropdownButton} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const _Dropdown = styled(DropdownButton)`
-	#dropdown-basic-button {
+	button {
+		line-height: 0px;
 		border: none;
 		padding: 0;
 		margin: 0px 8px;
 		background-color: transparent;
+
 		::after {
 			content: none;
 		}
+		&:hover {
+			background-color: transparent;
+			border: none;
+		}
+		&:focus {
+			background-color: transparent;
+			border: none;
+			outline: none;
+		}
 	}
 	.dropdown-menu.show {
+		line-height: initial;
+		transform: translate3d(-136px, 24px, 0px) !important;
 		padding: 4px 0px;
 	}
 `;
