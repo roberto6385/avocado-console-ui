@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaTh, AiTwotoneSetting} from 'react-icons/all';
+import {FaTh, AiTwotoneSetting, FaUserAlt} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {SplitButtonContainer} from '../styles/common';
+import {IconButton, SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
 
 const SplitBar = () => {

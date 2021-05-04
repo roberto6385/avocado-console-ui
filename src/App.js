@@ -5,7 +5,7 @@ import './styles/default.css'; //html, body => padding,margin : 0, box-sizing : 
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
 
-import {NotFound, Main, Login, Setting} from './pages';
+import {NotFound, Main, Login, Account, Preferences, Identities} from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
 import AddServerForm from './components/Form/AddServerForm';
 import ConfirmPopup from './components/Popup/ConfirmPopup';
@@ -16,7 +16,9 @@ class App extends Component {
 			<BrowserRouter>
 				<Switch>
 					<Route path='/login' component={Login} />
-					<Route path='/setting' component={Setting} />
+					<Route path='/account' component={Account} />
+					<Route path='/preferences' component={Preferences} />
+					<Route path='/identities' component={Identities} />
 					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>

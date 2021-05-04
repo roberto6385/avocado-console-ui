@@ -6,7 +6,6 @@ import {
 	FaBars,
 	FaPlus,
 	FaRegTrashAlt,
-	FaSearch,
 	FiSettings,
 	GiToken,
 	GrLogout,
@@ -140,9 +139,6 @@ const LeftContainer = () => {
 					<IconButton onClick={onClickDeleteServer}>
 						<FaRegTrashAlt />
 					</IconButton>
-					{/*<IconButton onClick={onClickOpenSearch}>*/}
-					{/*	<FaSearch />*/}
-					{/*</IconButton>*/}
 					<IconButton onClick={refresh}>
 						<MdRefresh />
 					</IconButton>
@@ -152,20 +148,18 @@ const LeftContainer = () => {
 					<IconButton onClick={onClickLogout}>
 						<GrLogout />
 					</IconButton>
-
 					<IconButton onClick={findActiveToken}>
 						<GiToken />
 					</IconButton>
-
 					<IconButton onClick={sideBarhandleSize(true)}>
 						<AiFillEyeInvisible />
 					</IconButton>
-					<IconButton as={Link} to='/setting'>
+					<IconButton as={Link} to='/account'>
 						<FiSettings />
 					</IconButton>
 				</Nav.Item>
 			</Header>
-			{/*<Collapse in={activeSearch}>*/}
+
 			<Nav.Item key='search'>
 				<ServerSearchForm
 					type='text'
@@ -174,7 +168,7 @@ const LeftContainer = () => {
 					placeholder='Search...'
 				/>
 			</Nav.Item>
-			{/*</Collapse>*/}
+
 			<NavList search={search} />
 		</OutlineCol>
 	) : (
