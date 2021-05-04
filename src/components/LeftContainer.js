@@ -25,7 +25,6 @@ import {
 import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 
 import NavList from './NavList/NavList';
-import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 
 import {getRefreshTicket} from '../reducers/auth/refreshTicket';
