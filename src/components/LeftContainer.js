@@ -1,8 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import {Collapse, Nav} from 'react-bootstrap';
+import {Nav} from 'react-bootstrap';
 import {
 	AiFillEyeInvisible,
 	AiOutlineCheck,
+	FaBars,
 	FaPlus,
 	FaRegTrashAlt,
 	FaSearch,
@@ -45,7 +46,7 @@ const LeftContainer = () => {
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const [activeSearch, setActiveSearch] = useState(false);
+	// const [activeSearch, setActiveSearch] = useState(false);
 
 	const onClickAddFolder = useCallback(() => {
 		dispatch({
@@ -70,10 +71,10 @@ const LeftContainer = () => {
 		}
 	}, [clicked_server]);
 
-	const onClickOpenSearch = useCallback(() => {
-		if (activeSearch) setSearch('');
-		setActiveSearch(!activeSearch);
-	}, [activeSearch]);
+	// const onClickOpenSearch = useCallback(() => {
+	// 	if (activeSearch) setSearch('');
+	// 	setActiveSearch(!activeSearch);
+	// }, [activeSearch]);
 
 	const onClickLogout = useCallback(() => {
 		dispatch(
@@ -120,7 +121,15 @@ const LeftContainer = () => {
 	return !minimize ? (
 		<OutlineCol>
 			<Header>
-				<Nav.Item className='left_header'>SSHTerminal / SFTP</Nav.Item>
+				<Nav.Item
+					style={{display: 'flex', justifyContent: 'flex-start'}}
+					className='left_header'
+				>
+					<IconButton>
+						<FaBars style={{color: 'white'}} />
+					</IconButton>
+					<span>LOGO</span>
+				</Nav.Item>
 				<Nav.Item className='left_header_icons'>
 					<IconButton onClick={onClickAddFolder}>
 						<RiFolderAddLine />
@@ -131,9 +140,9 @@ const LeftContainer = () => {
 					<IconButton onClick={onClickDeleteServer}>
 						<FaRegTrashAlt />
 					</IconButton>
-					<IconButton onClick={onClickOpenSearch}>
-						<FaSearch />
-					</IconButton>
+					{/*<IconButton onClick={onClickOpenSearch}>*/}
+					{/*	<FaSearch />*/}
+					{/*</IconButton>*/}
 					<IconButton onClick={refresh}>
 						<MdRefresh />
 					</IconButton>
@@ -156,16 +165,16 @@ const LeftContainer = () => {
 					</IconButton>
 				</Nav.Item>
 			</Header>
-			<Collapse in={activeSearch}>
-				<Nav.Item key='search'>
-					<ServerSearchForm
-						type='text'
-						onChange={onChangeSearch}
-						value={search}
-						placeholder='Search...'
-					/>
-				</Nav.Item>
-			</Collapse>
+			{/*<Collapse in={activeSearch}>*/}
+			<Nav.Item key='search'>
+				<ServerSearchForm
+					type='text'
+					onChange={onChangeSearch}
+					value={search}
+					placeholder='Search...'
+				/>
+			</Nav.Item>
+			{/*</Collapse>*/}
 			<NavList search={search} />
 		</OutlineCol>
 	) : (

@@ -66,7 +66,7 @@ const NavList = ({search}) => {
 				data.type === 'folder' ? (
 					<Folder
 						key={data.key}
-						open={search ? true : false}
+						open={!!search}
 						data={data}
 						indent={1}
 					/>
