@@ -7,7 +7,7 @@ import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTComponents} from '../../styles/ssht';
 import {IconButton} from '../../styles/common';
-import Avocado_Dropdown from '../../styles/components/Avocado_Dropdown';
+import Avocado_Dropdown from '../Avocado_Dropdown';
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const onCLickFullScreen = useCallback(() => {

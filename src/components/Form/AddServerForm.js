@@ -13,7 +13,7 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import {IconButton, PopupButton} from '../../styles/components/Avocado_Button';
+import {IconButton, PopupButton} from '../../styles/components/buttons';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();

@@ -7,7 +7,7 @@ import '../styles/resize.css';
 import TabContentContainer from './TabContentContainer';
 import styled from 'styled-components';
 import background from '../images/bg_3.png';
-import {AddServerButton} from '../styles/components/Avocado_Button';
+import {AddServerButton} from '../styles/components/buttons';
 
 const Background = styled.div`
 	flex: 1;

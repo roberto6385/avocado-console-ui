@@ -20,7 +20,7 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {put} from 'redux-saga/effects';
-import {PopupButton} from '../../styles/components/Avocado_Button';
+import {PopupButton} from '../../styles/components/buttons';
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
