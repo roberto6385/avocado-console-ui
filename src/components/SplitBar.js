@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {SplitButtonContainer, UserButton} from '../styles/common';
+import {SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
+import {UserButton} from '../styles/components/Avocado_Button';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();

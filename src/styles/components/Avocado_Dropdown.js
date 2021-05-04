@@ -15,17 +15,17 @@ const _Dropdown = styled(DropdownButton)`
 			content: none;
 		}
 		&:hover {
-			background-color: transparent;
-			border: none;
+			background-color: transparent !important;
+			border: none !important;
 		}
 		&:focus {
-			background-color: transparent;
-			border: none;
-			outline: none;
+			background-color: transparent !important;
+			border: none !important;
+			outline: none !important;
 		}
 	}
 	.dropdown-menu.show {
-		line-height: initial;
+		line-height: initial !important;
 		transform: translate3d(-136px, 24px, 0px) !important;
 		padding: 4px 0px;
 	}

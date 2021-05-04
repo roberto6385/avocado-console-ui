@@ -122,10 +122,6 @@ export const IconButton = styled.button`
 	}
 `;
 
-export const UserButton = styled(IconButton)`
-	color: ${MAIN_COLOR};
-`;
-
 export const SidebarShow = styled.div`
 	display: flex;
 	align-items: center;
