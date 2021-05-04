@@ -154,9 +154,6 @@ const LeftContainer = () => {
 					<IconButton onClick={sideBarhandleSize(true)}>
 						<AiFillEyeInvisible />
 					</IconButton>
-					<IconButton as={Link} to='/account'>
-						<FiSettings />
-					</IconButton>
 				</Nav.Item>
 			</Header>
 

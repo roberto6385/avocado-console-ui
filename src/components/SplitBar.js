@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTh, AiTwotoneSetting, FaUserAlt} from 'react-icons/all';
+import {useHistory} from 'react-router-dom';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
@@ -9,7 +10,7 @@ import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();
-	// const {cols} = useSelector((state) => state.common);
+	const history = useHistory();
 
 	const changeColumn = useCallback(
 		(cols, max) => () => {
@@ -22,9 +23,9 @@ const SplitBar = () => {
 	);
 
 	const setting_list = [
-		{onClick: () => console.log('some action!'), title: 'Edit Setting'},
-		{onClick: () => console.log('some action!'), title: 'Preferences'},
-		{onClick: () => console.log('some action!'), title: 'Identities'},
+		{onClick: () => history.push('/account'), title: 'Edit Setting'},
+		{onClick: () => history.push('/preferences'), title: 'Preferences'},
+		{onClick: () => history.push('/identities'), title: 'Identities'},
 		{title: 'divider'},
 		{onClick: () => console.log('some action!'), title: 'Logout'},
 	];
