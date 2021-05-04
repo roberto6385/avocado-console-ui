@@ -3,6 +3,7 @@ import {
 	CustomRightTh,
 	CustomTh,
 	CustomThBtn,
+	CustomTimeTh,
 	FileListP,
 	HeaderTr,
 } from '../../../styles/sftp';
@@ -16,7 +17,7 @@ const TableHead = () => {
 					<FileListP>Name</FileListP>
 				</CustomTh>
 				<CustomRightTh flex={2}>Size</CustomRightTh>
-				<CustomTh flex={3}>Modified</CustomTh>
+				<CustomTimeTh flex={3}>Modified</CustomTimeTh>
 				<CustomTh flex={3}>Permission</CustomTh>
 				<CustomRightTh flex={0.3}>
 					<CustomThBtn disabled style={{color: 'white'}}>

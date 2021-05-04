@@ -12,6 +12,7 @@ import {
 	CustomTbody,
 	CustomTh,
 	CustomThBtn,
+	CustomTimeTh,
 	DirectoryIcon,
 	FileIcon,
 	FileListP,
@@ -198,9 +199,9 @@ const FileListContents = ({uuid}) => {
 								<CustomRightTh flex={2}>
 									{item.name !== '..' && item.size}
 								</CustomRightTh>
-								<CustomTh flex={3}>
+								<CustomTimeTh flex={3}>
 									{item.name !== '..' && item.lastModified}
-								</CustomTh>
+								</CustomTimeTh>
 								<CustomTh flex={3}>{item.permission}</CustomTh>
 								<CustomRightTh flex={0.3}>
 									<CustomThBtn

@@ -169,6 +169,14 @@ export const CustomTh = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
+export const CustomTimeTh = styled.th`
+	flex: ${(props) => props.flex};
+	// text-align: left;
+	min-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
 export const FileListP = styled.p`
 	width: 200px;
 	margin: 0;
@@ -180,7 +188,7 @@ export const FileListP = styled.p`
 
 export const CustomRightTh = styled.th`
 	flex: ${(props) => props.flex};
-	min-width: 100px;
+	min-width: 105px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-align: right;
