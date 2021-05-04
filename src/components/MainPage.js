@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
-import {AddServerButton} from '../styles/common';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import SplitPane, {Pane} from 'react-split-pane';
 import '../styles/resize.css';
 import TabContentContainer from './TabContentContainer';
 import styled from 'styled-components';
 import background from '../images/bg_3.png';
+import {AddServerButton} from '../styles/components/Avocado_Button';
 
 const Background = styled.div`
 	flex: 1;

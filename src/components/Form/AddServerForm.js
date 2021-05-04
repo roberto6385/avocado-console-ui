@@ -6,18 +6,14 @@ import {FaTimes} from 'react-icons/all';
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {
-	AddServerButtonContainer,
-	AddServerModal,
-	IconButton,
-	PopupButton,
-} from '../../styles/common';
+import {AddServerButtonContainer, AddServerModal} from '../../styles/common';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
+import {IconButton, PopupButton} from '../../styles/components/Avocado_Button';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -291,17 +287,12 @@ const AddServerForm = () => {
 
 					<AddServerButtonContainer>
 						<PopupButton
-							variant='default'
 							onClick={onClickCloseForm}
-							back={`${SUB_COLOR}`}
+							back={SUB_COLOR}
 						>
 							Cancel
 						</PopupButton>
-						<PopupButton
-							variant='default'
-							type='submit'
-							back={`${MAIN_COLOR}`}
-						>
+						<PopupButton type='submit' back={MAIN_COLOR}>
 							Save
 						</PopupButton>
 					</AddServerButtonContainer>

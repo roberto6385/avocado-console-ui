@@ -3,7 +3,7 @@ import {Card, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
-import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
+import {CustomModal, ModalFooter} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
@@ -20,6 +20,7 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {put} from 'redux-saga/effects';
+import {PopupButton} from '../../styles/components/Avocado_Button';
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
@@ -273,16 +274,11 @@ const ConfirmPopup = () => {
 			</Card.Body>
 
 			<ModalFooter>
-				<PopupButton
-					variant='default'
-					onClick={cancelFunction}
-					back={`${SUB_COLOR}`}
-				>
+				<PopupButton onClick={cancelFunction} back={`${SUB_COLOR}`}>
 					Cancel
 				</PopupButton>
 				<PopupButton
 					ref={buttonRef}
-					variant='default'
 					onClick={submitFunction}
 					back={`${MAIN_COLOR}`}
 				>

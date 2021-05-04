@@ -7,7 +7,6 @@ import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
 import {IconButton, SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
-import {UserButton} from '../styles/components/Avocado_Button';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();
@@ -40,9 +39,9 @@ const SplitBar = () => {
 
 	return (
 		<SplitButtonContainer>
-			<UserButton>
+			<IconButton>
 				<HiUserCircle />
-			</UserButton>
+			</IconButton>
 			<Avocado_Dropdown
 				icon={<AiTwotoneSetting style={{color: MAIN_COLOR}} />}
 				menu={setting_list}

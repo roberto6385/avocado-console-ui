@@ -3,9 +3,10 @@ import {Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SUB_COLOR} from '../../styles/global';
-import {CustomModal, ModalFooter, PopupButton} from '../../styles/common';
+import {CustomModal, ModalFooter} from '../../styles/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
+import {PopupButton} from '../../styles/components/Avocado_Button';
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
@@ -49,11 +50,7 @@ const AlertPopup = () => {
 				) && <Card.Text>{AlertMessage[alert_popup.key]}</Card.Text>}
 			</Card.Body>
 			<ModalFooter>
-				<PopupButton
-					variant='default'
-					onClick={handleClose}
-					back={`${SUB_COLOR}`}
-				>
+				<PopupButton onClick={handleClose} back={`${SUB_COLOR}`}>
 					Ok
 				</PopupButton>
 			</ModalFooter>

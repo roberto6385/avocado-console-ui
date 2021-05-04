@@ -1,39 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Dropdown, DropdownButton} from 'react-bootstrap';
+import {Dropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const _Dropdown = styled(DropdownButton)`
+const _Dropdown = styled(Dropdown)`
+	line-height: 0px;
 	button {
-		line-height: 0px;
-		border: none;
+		line-height: 0px !important;
+		border: none !important;
 		padding: 0;
 		margin: 0px 8px;
-		background-color: transparent;
-
+		outline: none !important;
+		background-color: transparent !important;
+		color: black !important;
+		font-size: 18px;
 		::after {
 			content: none;
 		}
-		&:hover {
-			background-color: transparent !important;
-			border: none !important;
-		}
-		&:focus {
-			background-color: transparent !important;
-			border: none !important;
-			outline: none !important;
-		}
 	}
-	.dropdown-menu.show {
+	div {
 		line-height: initial !important;
-		transform: translate3d(-136px, 24px, 0px) !important;
 		padding: 4px 0px;
+		.dropdown-divider {
+			padding: 0px;
+			margin: 0px;
+		}
 	}
 `;
 
 const _Item = styled(Dropdown.Item)`
 	font-size: 12px;
-	padding: 4px 12px;
+	padding: 8px 12px;
 `;
 const _Divider = styled(Dropdown.Divider)`
 	margin: 6px;
@@ -41,16 +38,21 @@ const _Divider = styled(Dropdown.Divider)`
 
 const Avocado_Dropdown = ({icon, menu}) => {
 	return (
-		<_Dropdown id='dropdown-basic-button' title={icon}>
-			{menu.map((item, index) => {
-				return item.title === 'divider' ? (
-					<_Divider key={index} />
-				) : (
-					<_Item key={index} onClick={item.onClick}>
-						{item.title}
-					</_Item>
-				);
-			})}
+		<_Dropdown>
+			<Dropdown.Toggle split id='dropdown-split-basic'>
+				{icon}
+			</Dropdown.Toggle>
+			<Dropdown.Menu>
+				{menu.map((v, i) => {
+					return v.title === 'divider' ? (
+						<_Divider key={i} />
+					) : (
+						<_Item key={i} onClick={v.onClick}>
+							{v.title}
+						</_Item>
+					);
+				})}
+			</Dropdown.Menu>
 		</_Dropdown>
 	);
 };

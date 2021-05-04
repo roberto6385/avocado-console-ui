@@ -13,22 +13,6 @@ import {
 import background from '../images/bg_3.png';
 import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
 
-export const PopupButton = styled(Button).attrs((props) => ({
-	style: {
-		backgroundColor: props.back,
-	},
-}))`
-	width: 100px;
-	margin: 10px;
-	border: none;
-	color: white;
-	&:hover {
-		filter: brightness(85%);
-		color: white;
-	}
-	outline: none;
-`;
-
 // ConfirmPopup
 export const ModalFooter = styled.div`
 	flex: 1;
@@ -164,19 +148,6 @@ export const Background = styled.div`
 	background-size: cover;
 	background-position: center;
 	position: relative;
-`;
-
-export const AddServerButton = styled.button`
-	background-color: ${MAIN_COLOR};
-	&:hover {
-		filter: brightness(85%);
-	}
-	padding: 10px 40px;
-	border: none;
-	color: ${WHITE_COLOR};
-	border-radius: 8px;
-	position: absolute;
-	top: 60%;
 `;
 
 // ServerNavBar
