@@ -3,10 +3,10 @@ import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 import {MainContainer, MainRow} from '../styles/page';
-import RightSetting from '../components/Setting/RightSetting';
 import LeftSetting from '../components/Setting/LeftSetting';
+import IdentitiesContainer from "../components/Setting/IdentitiesContainer";
 
-const Setting = () => {
+const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
 	// useEffect(() => {
@@ -17,10 +17,10 @@ const Setting = () => {
 		<MainContainer fluid>
 			<MainRow className={'fix-height'}>
 				<LeftSetting />
-				<RightSetting />
+				<IdentitiesContainer />
 			</MainRow>
 		</MainContainer>
 	);
 };
 
-export default Setting;
+export default Identities;

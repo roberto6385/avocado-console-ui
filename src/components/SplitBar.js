@@ -1,16 +1,17 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {SplitButtonContainer} from '../styles/common';
+import {IconButton, SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from '../styles/components/Avocado_Dropdown';
 import {UserButton} from '../styles/components/Avocado_Button';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();
-	// const {cols} = useSelector((state) => state.common);
+	const history = useHistory();
 
 	const changeColumn = useCallback(
 		(cols, max) => () => {
@@ -23,9 +24,9 @@ const SplitBar = () => {
 	);
 
 	const setting_list = [
-		{onClick: () => console.log('some action!'), title: 'Edit Setting'},
-		{onClick: () => console.log('some action!'), title: 'Preferences'},
-		{onClick: () => console.log('some action!'), title: 'Identities'},
+		{onClick: () => history.push('/account'), title: 'Edit Setting'},
+		{onClick: () => history.push('/preferences'), title: 'Preferences'},
+		{onClick: () => history.push('/identities'), title: 'Identities'},
 		{title: 'divider'},
 		{onClick: () => console.log('some action!'), title: 'Logout'},
 	];
