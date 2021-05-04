@@ -65,14 +65,13 @@ export const SendWindowChange = (cols, rows, width, height) => {
 	return message.serializeBinary();
 };
 
-export const GetMessage = async (data) => {
+export const GetMessage = (data) => {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SSH.Message.deserializeBinary(data);
-
 			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
-
+				console.log(response);
 				if (
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.CONNECT

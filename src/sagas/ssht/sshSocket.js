@@ -18,11 +18,12 @@ export function initWebsocket(host) {
 
 export function initChannel(ws, buffer) {
 	return eventChannel((emit) => {
-		ws.onmessage = (event) => {
-			emit(event.data);
+		ws.onmessage = (e) => {
+			emit(e.data);
 		};
 
-		ws.onerror = () => {
+		ws.onerror = (err) => {
+			console.log(err);
 			ws.close();
 		};
 
@@ -34,4 +35,8 @@ export function initChannel(ws, buffer) {
 			ws.onmessage = null;
 		};
 	}, buffer || buffers.none());
+}
+
+export function closeChannel(channel) {
+	channel && channel.close();
 }

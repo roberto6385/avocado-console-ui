@@ -5,10 +5,7 @@ import {
 	take,
 	call,
 	takeLatest,
-	throttle,
-	debounce,
 	takeEvery,
-	actionChannel,
 } from 'redux-saga/effects';
 
 import {
@@ -30,14 +27,14 @@ import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initChannel, initWebsocket} from './sshSocket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {PUT_REQUEST} from '../../reducers/sftp';
+import {closeChannel} from '../sftp/channel';
 
 function* sendConnection(action) {
+	const ws = yield call(initWebsocket, action.data.host);
+	const channel = yield call(initChannel, ws);
+	let uuid;
+
 	try {
-		console.log(action);
-		const ws = yield call(initWebsocket, action.data.host);
-		const channel = yield call(initChannel, ws);
-		let uuid;
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
 			ws: ws,
@@ -86,14 +83,15 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: SSHT_SEND_CONNECTION_FAILURE});
 	}
 }
 
 function* sendDisconnection(action) {
-	try {
-		const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(initChannel, action.data.ws);
 
+	try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendDisconnect',
 			ws: action.data.ws,
@@ -117,14 +115,15 @@ function* sendDisconnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: SSHT_SEND_CONNECTION_FAILURE});
 	}
 }
 
 function* sendCommand(action) {
-	try {
-		const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(initChannel, action.data.ws);
 
+	try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendCommand',
 			ws: action.data.ws,
@@ -151,14 +150,15 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: SSHT_SEND_COMMAND_FAILURE});
 	}
 }
 
 function* sendWindowChange(action) {
-	try {
-		const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(initChannel, action.data.ws);
 
+	try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendWindowChange',
 			ws: action.data.ws,
@@ -168,7 +168,7 @@ function* sendWindowChange(action) {
 		while (true) {
 			const result = yield take(channel);
 			const res = yield call(GetMessage, result);
-			console.log(res);
+
 			switch (res.type) {
 				case 'COMMAND':
 					yield put({
@@ -185,6 +185,7 @@ function* sendWindowChange(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: SSHT_SEND_WINDOW_CHANGE_FAILURE});
 	}
 }
@@ -199,17 +200,16 @@ function* watchSendDisconnection() {
 
 function* watchSendCommand() {
 	yield takeEvery(SSHT_SEND_COMMAND_REQUEST, sendCommand);
+
 	// const reqChannel = yield actionChannel(SSHT_SEND_COMMAND_REQUEST);
 	// while (true) {
 	// 	const action = yield take(reqChannel);
-	// 	const res = yield fork(sendCommand, action);
-	// 	yield console.log(res);
+	// 	yield call(sendCommand, action);
 	// }
 }
 
 function* watchSendWindowChange() {
-	// yield takeLatest(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
-	yield debounce(10000, SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield takeEvery(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {
