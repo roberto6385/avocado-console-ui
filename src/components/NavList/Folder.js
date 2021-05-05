@@ -9,7 +9,7 @@ import {
 	RiFolder2Line,
 } from 'react-icons/all';
 
-import {IconButton, ServerNavItem} from '../../styles/common';
+import {ServerNavItem} from '../../styles/common';
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
@@ -20,6 +20,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
+import {IconButton} from '../../styles/buttons';
 
 const RenameForm = styled.form`
 	display: inline-block;

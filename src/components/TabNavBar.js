@@ -9,7 +9,6 @@ import SplitBar from './SplitBar';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {
 	FlexBox,
-	IconButton,
 	IconSpan,
 	TabNavItem,
 	TabContainer,
@@ -19,6 +18,7 @@ import {
 } from '../styles/common';
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {IconButton} from '../styles/buttons';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();

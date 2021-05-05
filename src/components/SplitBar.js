@@ -5,8 +5,9 @@ import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {IconButton, SplitButtonContainer} from '../styles/common';
+import {SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from './Avocado_Dropdown';
+import {IconButton} from '../styles/buttons';
 
 const SplitBar = () => {
 	const dispatch = useDispatch();

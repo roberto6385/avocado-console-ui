@@ -2,9 +2,9 @@ import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
-import {IconButton} from '../../styles/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
+import {IconButton} from '../../styles/buttons';
 
 const ConvertSFTP = ({server_id}) => {
 	const dispatch = useDispatch();

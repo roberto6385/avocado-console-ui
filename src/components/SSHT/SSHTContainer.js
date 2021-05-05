@@ -6,8 +6,8 @@ import {CgMaximizeAlt, FiFile} from 'react-icons/all';
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTComponents} from '../../styles/ssht';
-import {IconButton} from '../../styles/common';
 import Avocado_Dropdown from '../Avocado_Dropdown';
+import {IconButton} from '../../styles/buttons';
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const onCLickFullScreen = useCallback(() => {

@@ -6,7 +6,7 @@ import {SUB_COLOR} from '../../styles/global';
 import {CustomModal, ModalFooter} from '../../styles/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
-import {PopupButton} from '../../styles/components/buttons';
+import {PopupButton} from "../../styles/buttons";
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',

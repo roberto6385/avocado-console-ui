@@ -16,7 +16,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {
 	Header,
-	IconButton,
 	OutlineCol,
 	RotateButton,
 	ServerSearchForm,
@@ -37,6 +36,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
+import {IconButton} from '../styles/buttons';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
