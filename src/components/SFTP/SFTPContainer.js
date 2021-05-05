@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import SFTP_Component from './SFTP';
 import {commandPwdAction, INITIALIZING_HIGHLIGHT} from '../../reducers/sftp';
+import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -57,11 +57,7 @@ const SFTPContainer = ({uuid}) => {
 		dispatch(commandPwdAction(currentServer));
 	}, [uuid, dispatch]);
 
-	return currentServer ? (
-		<SFTP_Component uuid={uuid} />
-	) : (
-		<div>서버 없음.</div>
-	);
+	return currentServer ? <SFTP uuid={uuid} /> : <div>서버 없음.</div>;
 };
 
 SFTPContainer.propTypes = {

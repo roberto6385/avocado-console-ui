@@ -51,14 +51,6 @@ export const DropdownP = styled.p`
 	text-overflow: ellipsis;
 `;
 
-// Dropzone
-export const DropzoneBox = styled.div`
-	height: 100%;
-	overflow-y: scroll;
-	outline: none;
-	border-left: 1px solid ${DEEP_GRAY_COLOR};
-`;
-
 //Edit
 
 export const FlexBox = styled.div`
@@ -138,6 +130,8 @@ export const CustomTable = styled(BTable)`
 	white-space: nowrap;
 	height: 100%;
 	margin: 0;
+	border: none;
+	border-right: 1px solid black;
 	// 드래그 방지
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -198,6 +192,14 @@ export const CustomThBtn = styled.button`
 `;
 
 export const CustomTbody = styled.tbody`
+	flex: 1;
+	tr {
+		border: none;
+		border-bottom: 1px solid black;
+		th {
+			border: none;
+		}
+	}
 	tr.highlight_tbody {
 		color: black;
 	}
@@ -289,20 +291,4 @@ export const CustomLi = styled.li`
 	// overflow: scroll;
 `;
 
-export const NoHistory = styled.div`
-	margin: auto;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 250px;
-`;
-
 // SFTPContainer
-
-export const SftpContainer = styled.div`
-	display: flex;
-	height: 100%;
-	overflow: scroll;
-`;

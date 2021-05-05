@@ -15,10 +15,10 @@ import {
 	CustomP,
 	CustomUl,
 	FlexSpaceBetween,
-	NoHistory,
 } from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
+import {ColBox} from '../../../styles/divs';
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -65,12 +65,12 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<NoHistory>
+				<ColBox>
 					<FaCloudUploadAlt
 						style={{fontSize: '50px', color: `${MAIN_COLOR}`}}
 					/>
 					<div>Drop files here to upload</div>
-				</NoHistory>
+				</ColBox>
 			) : (
 				<CustomUl>
 					{history.map((history) => {

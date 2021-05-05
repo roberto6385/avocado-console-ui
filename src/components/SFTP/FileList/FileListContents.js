@@ -24,7 +24,6 @@ import {
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandGetAction,
-	commandLsAction,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';

@@ -1,16 +1,11 @@
 import React, {useCallback, useState} from 'react';
-import {
-	BsArrowClockwise,
-	BsCheck,
-	MdFileUpload,
-	MdPause,
-	MdDelete,
-} from 'react-icons/all';
+import {BsCheck, MdFileUpload, MdPause, MdDelete} from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {NavItem} from '../../../styles/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {MainHeader} from '../../../styles/cards';
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -62,10 +57,7 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history]);
 
 	return (
-		<>
-			<NavItem>
-				<BsArrowClockwise />
-			</NavItem>
+		<MainHeader>
 			<NavItem>
 				<BsCheck />
 			</NavItem>
@@ -78,7 +70,7 @@ const HistoryNav = ({uuid}) => {
 			<NavItem onClick={historyDelete}>
 				<MdDelete />
 			</NavItem>
-		</>
+		</MainHeader>
 	);
 };
 

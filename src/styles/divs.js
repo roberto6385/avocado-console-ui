@@ -6,7 +6,10 @@ export const FlexBox = styled.div`
 	margin: 0px;
 	width: 100;
 `;
-export const RowBox = styled(FlexBox)``;
+export const RowBox = styled(FlexBox)`
+	overflow-y: scroll;
+	height: 100%;
+`;
 
 export const ColBox = styled(FlexBox)`
 	flex-direction: column;

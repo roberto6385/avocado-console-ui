@@ -13,7 +13,7 @@ const FileList = ({uuid}) => {
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {mode} = corServer;
 	return (
-		<BaseCard flex={1}>
+		<BaseCard flex={4}>
 			<FileListNav uuid={uuid} />
 			{mode === 'list' ? (
 				<FileListContents uuid={uuid} />

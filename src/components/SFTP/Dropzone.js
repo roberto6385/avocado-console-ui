@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import {DropzoneBox} from '../../styles/sftp';
+import {SFTPBody} from '../../styles/cards';
 
 // eslint-disable-next-line react/prop-types
 const Dropzone = ({children, onDrop, accept}) => {
@@ -8,7 +8,11 @@ const Dropzone = ({children, onDrop, accept}) => {
 		onDrop,
 		accept,
 	});
-	return <DropzoneBox {...getRootProps()}>{children}</DropzoneBox>;
+	return (
+		<SFTPBody direction='column' {...getRootProps()}>
+			{children}
+		</SFTPBody>
+	);
 };
 
 export default Dropzone;

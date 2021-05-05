@@ -3,18 +3,22 @@ import {NAV_HEIGHT, SECOND_NAV_HEIGHT} from './global';
 import {Card} from 'react-bootstrap';
 
 export const BaseCard = styled(Card)`
-	flex: ${(props) => props?.flex || 0};
+	flex: ${(props) => props?.flex};
+	min-width: ${(props) => props?.min};
 	padding: 0px;
 	margin: 0px;
-	width: 100%;
+	border: none;
+	width: ${(props) => props?.width || '100%'};
 	.card-header {
 		display: flex;
 		padding: 0px;
 		margin: 0px;
+		border: none;
 	}
 	.card-body {
 		padding: 0px;
 		margin: 0px;
+		border: none;
 	}
 `;
 
@@ -31,6 +35,7 @@ export const SSHTBody = styled(BaseCard.Body)`
 `;
 export const SFTPBody = styled(BaseCard.Body)`
 	display: flex;
+	flex-direction: ${(props) => props?.direction};
 	overflow: scroll;
 `;
 
