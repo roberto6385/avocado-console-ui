@@ -16,6 +16,7 @@ import {
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp';
+import {MainHeader} from '../../../styles/cards';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -99,7 +100,7 @@ const FileListNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<>
+		<MainHeader>
 			<NavItem>
 				<BsLayoutThreeColumns onClick={dropdownList} />
 			</NavItem>
@@ -129,7 +130,7 @@ const FileListNav = ({uuid}) => {
 			<NavItem onClick={refresh}>
 				<BsArrowClockwise />
 			</NavItem>
-		</>
+		</MainHeader>
 	);
 };
 

@@ -7,6 +7,7 @@ import Edit from './Edit/Edit';
 import {SftpContainer} from '../../styles/sftp';
 import SplitPane, {Pane} from 'react-split-pane';
 import {useSelector} from 'react-redux';
+import {RowBox} from '../../styles/divs';
 
 const SFTP_Component = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -22,18 +23,10 @@ const SFTP_Component = ({uuid}) => {
 			{mode === 'edit' ? (
 				<Edit uuid={uuid} />
 			) : (
-				<SplitPane
-					split='vertical'
-					defaultSize={'75%'}
-					onChange={onChangeSize}
-				>
-					{/*<Pane className={'sftp_container_pane'}>*/}
+				<RowBox>
 					<FileList uuid={uuid} />
-					{/*</Pane>*/}
-					{/*<Pane className={'sftp_container_pane'}>*/}
 					<History uuid={uuid} />
-					{/*</Pane>*/}
-				</SplitPane>
+				</RowBox>
 			)}
 		</SftpContainer>
 	);

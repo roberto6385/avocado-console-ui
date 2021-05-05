@@ -30,6 +30,7 @@ import {
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
+import {SFTPBody} from '../../../styles/cards';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -165,7 +166,7 @@ const FileListContents = ({uuid}) => {
 	);
 
 	return fileList.length === pathList.length ? (
-		<>
+		<SFTPBody>
 			<CustomTable>
 				<TableHead />
 				<CustomTbody
@@ -231,7 +232,7 @@ const FileListContents = ({uuid}) => {
 				</CustomTbody>
 			</CustomTable>
 			<FileListContextMenu uuid={uuid} />
-		</>
+		</SFTPBody>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);

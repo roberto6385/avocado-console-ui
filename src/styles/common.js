@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import {Button, Card, FormControl, Modal, Nav, Tab} from 'react-bootstrap';
+import {FormControl, Modal, Nav, Tab} from 'react-bootstrap';
 import {
 	HIGHLIGHT_COLOR,
 	MAIN_COLOR,
@@ -11,7 +11,7 @@ import {
 	WHITE_COLOR,
 } from './global';
 import background from '../images/bg_3.png';
-import {FaServer, RiTerminalFill, RiArrowUpDownLine} from 'react-icons/all';
+import {FaServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
 
 // ConfirmPopup
 export const ModalFooter = styled.div`
@@ -168,22 +168,6 @@ export const SplitButtonContainer = styled.div`
 	.dropdown {
 		line-height: 0px;
 	}
-`;
-
-// Tab Contents Container
-export const TabContentCardHeader = styled(Card.Header)`
-	padding: 7px 20px;
-	margin: 0;
-	height: ${SECOND_NAV_HEIGHT};
-	background: rgba(0, 0, 0, 0.03);
-`;
-
-export const TabContentCard = styled(Card)`
-	display: flex;
-	resize: horizontal;
-	flex-direction: column;
-	height: ${(props) => props.h};
-	width: ${(props) => props.w};
 `;
 
 // Tab Nav Bar

@@ -1,20 +1,19 @@
 import React from 'react';
-import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
-import {HistoryBody, HistoryBox} from '../../../styles/sftp';
+import {BaseCard, MainHeader, SFTPHistoryBody} from '../../../styles/cards';
 
 const History = ({uuid}) => {
 	return (
-		<HistoryBox>
-			<Card.Header>
+		<BaseCard>
+			<MainHeader>
 				<HistoryNav uuid={uuid} />
-			</Card.Header>
-			<HistoryBody>
+			</MainHeader>
+			<SFTPHistoryBody>
 				<HistoryContents uuid={uuid} />
-			</HistoryBody>
-		</HistoryBox>
+			</SFTPHistoryBody>
+		</BaseCard>
 	);
 };
 

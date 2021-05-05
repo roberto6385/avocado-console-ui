@@ -3,7 +3,8 @@ import {PropTypes} from 'prop-types';
 import {Card} from 'react-bootstrap';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
-import {FlexBox, SFTPBody} from '../../../styles/sftp';
+import {FlexBox} from '../../../styles/sftp';
+import {SFTPBody} from "../../../styles/cards";
 
 const Edit = ({uuid}) => {
 	return (

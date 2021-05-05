@@ -9,11 +9,12 @@ import debounce from 'lodash/debounce';
 import useResizeObserver from 'use-resize-observer';
 
 import useInput from '../../hooks/useInput';
-import {SSHTBody, SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
+import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
+import {SSHTBody} from "../../styles/cards";
 
 const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();

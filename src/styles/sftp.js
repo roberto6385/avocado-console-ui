@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {Card} from 'react-bootstrap';
 import {
 	DEEP_GRAY_COLOR,
 	GRAY_COLOR,
@@ -125,13 +124,6 @@ export const NavItem = styled.button`
 
 // FileList
 
-export const SFTPBody = styled(Card.Body)`
-	padding: 0px;
-	display: flex;
-	overflow: scroll;
-	width: 100%;
-`;
-
 // FileListContents
 
 export const DirectoryIcon = styled(GoFileDirectory)`
@@ -232,7 +224,7 @@ export const PathSpan = styled.span`
 // History
 
 export const HistoryBox = styled.div`
-	min-width: 220px;
+	min-width: 200px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -243,11 +235,6 @@ export const HistoryBox = styled.div`
 		position: relative;
 		height: ${NAV_HEIGHT};
 	}
-`;
-
-export const HistoryBody = styled(Card.Body)`
-	padding: 0px;
-	border-left: 1px solid ${GRAY_COLOR};
 `;
 
 // HistoryContents

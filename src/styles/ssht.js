@@ -1,13 +1,6 @@
 import styled from 'styled-components';
-import {Card, Form} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import {NAV_HEIGHT} from './global';
-
-//SSHT Container
-export const SSHTBody = styled(Card.Body)`
-	padding: 0px;
-	flex: 1;
-	// background: black;
-`;
 
 export const SSHTComponents = styled.div`
 	flex: 1;

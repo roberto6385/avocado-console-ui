@@ -3,27 +3,24 @@ import {Card} from 'react-bootstrap';
 import {PropTypes} from 'prop-types';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
-import {FlexBox, SFTPBody} from '../../../styles/sftp';
+import {FlexBox} from '../../../styles/sftp';
 import FileListDropDown from './FileListDropDown';
 import {useSelector} from 'react-redux';
+import {BaseCard, MainHeader, SFTPBody} from '../../../styles/cards';
 
 const FileList = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {mode} = corServer;
 	return (
-		<FlexBox>
-			<Card.Header>
-				<FileListNav uuid={uuid} />
-			</Card.Header>
-			<SFTPBody>
-				{mode === 'list' ? (
-					<FileListContents uuid={uuid} />
-				) : (
-					<FileListDropDown uuid={uuid} />
-				)}
-			</SFTPBody>
-		</FlexBox>
+		<BaseCard flex={1}>
+			<FileListNav uuid={uuid} />
+			{mode === 'list' ? (
+				<FileListContents uuid={uuid} />
+			) : (
+				<FileListDropDown uuid={uuid} />
+			)}
+		</BaseCard>
 	);
 };
 
