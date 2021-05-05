@@ -95,17 +95,6 @@ export const OutlineCol = styled.div`
 	min-width: 250px;
 `;
 
-export const IconButton = styled.button`
-	line-height: 0;
-	background: transparent;
-	outline: none;
-	border: none;
-	padding: 0px 8px;
-	&:hover {
-		color: ${MAIN_COLOR};
-	}
-`;
-
 export const SidebarShow = styled.div`
 	display: flex;
 	align-items: center;
