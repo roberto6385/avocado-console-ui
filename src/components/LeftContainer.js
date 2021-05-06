@@ -24,7 +24,6 @@ import {
 import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 
 import NavList from './NavList/NavList';
-import {Link} from 'react-router-dom';
 import useInput from '../hooks/useInput';
 
 import {getRefreshTicket} from '../reducers/auth/refreshTicket';
@@ -60,15 +59,6 @@ const LeftContainer = () => {
 			data: {type: 'add'},
 		});
 	}, []);
-
-	const onClickDeleteServer = useCallback(() => {
-		if (clicked_server !== null) {
-			dispatch({
-				type: OPEN_CONFIRM_POPUP,
-				data: {key: 'delete_server_folder'},
-			});
-		}
-	}, [clicked_server]);
 
 	// const onClickOpenSearch = useCallback(() => {
 	// 	if (activeSearch) setSearch('');
@@ -124,36 +114,30 @@ const LeftContainer = () => {
 					style={{display: 'flex', justifyContent: 'flex-start'}}
 					className='left_header'
 				>
-					<IconButton>
+					<IconButton onClick={sideBarhandleSize(true)}>
 						<FaBars style={{color: 'white'}} />
 					</IconButton>
 					<span>LOGO</span>
 				</Nav.Item>
-				<Nav.Item className='left_header_icons'>
-					<IconButton onClick={onClickAddFolder}>
-						<RiFolderAddLine />
-					</IconButton>
+				<Nav.Item>
 					<IconButton onClick={onClickVisibleForm}>
 						<FaPlus />
 					</IconButton>
-					<IconButton onClick={onClickDeleteServer}>
-						<FaRegTrashAlt />
+					<IconButton onClick={onClickAddFolder}>
+						<RiFolderAddLine />
 					</IconButton>
-					<IconButton onClick={refresh}>
-						<MdRefresh />
-					</IconButton>
-					<IconButton onClick={verify}>
-						<AiOutlineCheck />
-					</IconButton>
-					<IconButton onClick={onClickLogout}>
-						<GrLogout />
-					</IconButton>
-					<IconButton onClick={findActiveToken}>
-						<GiToken />
-					</IconButton>
-					<IconButton onClick={sideBarhandleSize(true)}>
-						<AiFillEyeInvisible />
-					</IconButton>
+					{/*<IconButton onClick={refresh}>*/}
+					{/*	<MdRefresh />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={verify}>*/}
+					{/*	<AiOutlineCheck />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={onClickLogout}>*/}
+					{/*	<GrLogout />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={findActiveToken}>*/}
+					{/*	<GiToken />*/}
+					{/*</IconButton>*/}
 				</Nav.Item>
 			</Header>
 

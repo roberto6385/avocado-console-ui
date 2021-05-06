@@ -11,15 +11,12 @@ import {ADD_FOLDER, DELETE_SERVER_FOLDER} from '../../reducers/common';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	commandLsAction,
 	commandMkdirAction,
 	commandPutAction,
-	commandPwdAction,
 	commandRenameAction,
 	commandRmAction,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {put} from 'redux-saga/effects';
 import {PopupButton} from '../../styles/buttons';
 
 const ConfirmMessage = {

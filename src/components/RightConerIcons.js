@@ -1,15 +1,16 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
 import {SplitButtonContainer} from '../styles/common';
+
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
 
-const SplitBar = () => {
+const RightConerIcons = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -23,10 +24,17 @@ const SplitBar = () => {
 		[],
 	);
 
+	const changePath = useCallback(
+		(path) => () => {
+			history.push(path);
+		},
+		[],
+	);
+
 	const setting_list = [
-		{onClick: () => history.push('/account'), title: 'Edit Setting'},
-		{onClick: () => history.push('/preferences'), title: 'Preferences'},
-		{onClick: () => history.push('/identities'), title: 'Identities'},
+		{onClick: changePath('/account'), title: 'Edit Setting'},
+		{onClick: changePath('/preferences'), title: 'Preferences'},
+		{onClick: changePath('/identities'), title: 'Identities'},
 		{title: 'divider'},
 		{onClick: () => console.log('some action!'), title: 'Logout'},
 	];
@@ -55,4 +63,4 @@ const SplitBar = () => {
 	);
 };
 
-export default SplitBar;
+export default RightConerIcons;

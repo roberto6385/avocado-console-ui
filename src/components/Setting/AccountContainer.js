@@ -1,10 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import {OutlineCol} from '../../styles/common';
+import ChangePasswordForm from '../Form/ChangePasswordForm';
 
 const AccountContainer = () => {
 	const [authorization, setAuthorization] = useState('id-password');
 	const [MFA, setMFA] = useState('true');
+	const [open, setOpen] = useState(false);
 
 	const onChangeAuthorization = useCallback((e) => {
 		setAuthorization(e.target.value);
@@ -12,6 +14,10 @@ const AccountContainer = () => {
 
 	const onChangeMFA = useCallback((e) => {
 		setMFA(e.target.value);
+	}, []);
+
+	const onClickOpenForm = useCallback(() => {
+		setOpen(true);
 	}, []);
 
 	return (
@@ -41,7 +47,10 @@ const AccountContainer = () => {
 					<option value='id-password'>ID/Password</option>
 					<option value='alternative-auth'>AlternativeAuthN</option>
 				</Form.Control>
-				<Button disabled={authorization === 'alternative-auth' && true}>
+				<Button
+					disabled={authorization === 'alternative-auth' && true}
+					onClick={onClickOpenForm}
+				>
 					Change Password
 				</Button>
 			</Form.Group>
@@ -106,6 +115,7 @@ const AccountContainer = () => {
 					disabled={MFA === 'false' && true}
 				/>
 			</Form.Group>
+			<ChangePasswordForm open={open} setOpen={setOpen} />
 		</OutlineCol>
 	);
 };

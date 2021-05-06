@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 import Sortable from 'sortablejs';
 
-import SplitBar from './SplitBar';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {
 	FlexBox,
@@ -19,6 +18,7 @@ import {
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {IconButton} from '../styles/buttons';
+import RightConerIcons from './RightConerIcons';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -139,7 +139,7 @@ const TabNavBar = () => {
 							</TabNavItem>
 						))}
 				</TabNav>
-				<SplitBar />
+				<RightConerIcons />
 			</FlexBox>
 		</TabContainer>
 	);

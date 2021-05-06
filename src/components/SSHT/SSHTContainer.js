@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
-import {CgMaximizeAlt, FiFile} from 'react-icons/all';
+import {CgMaximizeAlt, FiFile, AiOutlineFile} from 'react-icons/all';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';

@@ -108,6 +108,7 @@ function* sendDisconnection(action) {
 						type: SSHT_SEND_DISCONNECTION_SUCCESS,
 						data: action.data.uuid,
 					});
+
 					break;
 				default:
 					break;
