@@ -8,6 +8,7 @@ import ConvertSFTP from '../SFTP/ConvertSFTP';
 import {SSHTComponents} from '../../styles/ssht';
 import Avocado_Dropdown from '../Avocado_Dropdown';
 import {IconButton} from '../../styles/buttons';
+import {MainHeader} from '../../styles/cards';
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const onCLickFullScreen = useCallback(() => {
@@ -31,13 +32,13 @@ const SSHTContainer = ({uuid, server_id}) => {
 
 	return (
 		<SSHTComponents className={'fix-height'}>
-			<Card.Header>
+			<MainHeader>
 				<Avocado_Dropdown icon={<FiFile />} menu={column_list} />
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>
 				<ConvertSFTP server_id={server_id} />
-			</Card.Header>
+			</MainHeader>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
 		</SSHTComponents>
 	);

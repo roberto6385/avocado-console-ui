@@ -5,6 +5,7 @@ import {MAIN_COLOR} from './global';
 // 모든 버튼은 background-color, color를 props로 사용 가능하다.
 export const BaseButton = styled.button`
 	background-color: ${(props) => props?.back || 'transparent'};
+	color: ${(props) => props?.color || 'black'};
 	font-size: 18px;
 	line-height: 0;
 	outline: none;

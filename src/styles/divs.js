@@ -16,6 +16,7 @@ export const RowBox = styled(FlexBox)`
 
 export const ColBox = styled(FlexBox)`
 	flex-direction: column;
+	width: ${(props) => props?.width};
 	overflow: ${(props) => props?.overflow};
 `;
 export const Background = styled(RowBox)`

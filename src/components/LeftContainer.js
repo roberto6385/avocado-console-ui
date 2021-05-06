@@ -36,6 +36,9 @@ import {
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
 import {IconButton} from '../styles/buttons';
+import {MainHeader, SubHeader} from '../styles/cards';
+import {MAIN_COLOR} from '../styles/global';
+import {ColBox} from '../styles/divs';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -108,38 +111,33 @@ const LeftContainer = () => {
 	}, [encodeData, userTicket]);
 
 	return !minimize ? (
-		<OutlineCol>
-			<Header>
-				<Nav.Item
-					style={{display: 'flex', justifyContent: 'flex-start'}}
-					className='left_header'
-				>
-					<IconButton onClick={sideBarhandleSize(true)}>
-						<FaBars style={{color: 'white'}} />
-					</IconButton>
-					<span>LOGO</span>
-				</Nav.Item>
-				<Nav.Item>
-					<IconButton onClick={onClickVisibleForm}>
-						<FaPlus />
-					</IconButton>
-					<IconButton onClick={onClickAddFolder}>
-						<RiFolderAddLine />
-					</IconButton>
-					{/*<IconButton onClick={refresh}>*/}
-					{/*	<MdRefresh />*/}
-					{/*</IconButton>*/}
-					{/*<IconButton onClick={verify}>*/}
-					{/*	<AiOutlineCheck />*/}
-					{/*</IconButton>*/}
-					{/*<IconButton onClick={onClickLogout}>*/}
-					{/*	<GrLogout />*/}
-					{/*</IconButton>*/}
-					{/*<IconButton onClick={findActiveToken}>*/}
-					{/*	<GiToken />*/}
-					{/*</IconButton>*/}
-				</Nav.Item>
-			</Header>
+		<ColBox width={'250px'}>
+			<MainHeader back={MAIN_COLOR} color={'white'}>
+				<IconButton onClick={sideBarhandleSize(true)}>
+					<FaBars style={{color: 'white'}} />
+				</IconButton>
+				<span>LOGO</span>
+			</MainHeader>
+			<SubHeader>
+				<IconButton onClick={onClickVisibleForm}>
+					<FaPlus />
+				</IconButton>
+				<IconButton onClick={onClickAddFolder}>
+					<RiFolderAddLine />
+				</IconButton>
+				{/*<IconButton onClick={refresh}>*/}
+				{/*	<MdRefresh />*/}
+				{/*</IconButton>*/}
+				{/*<IconButton onClick={verify}>*/}
+				{/*	<AiOutlineCheck />*/}
+				{/*</IconButton>*/}
+				{/*<IconButton onClick={onClickLogout}>*/}
+				{/*	<GrLogout />*/}
+				{/*</IconButton>*/}
+				{/*<IconButton onClick={findActiveToken}>*/}
+				{/*	<GiToken />*/}
+				{/*</IconButton>*/}
+			</SubHeader>
 
 			<Nav.Item key='search'>
 				<ServerSearchForm
@@ -151,7 +149,7 @@ const LeftContainer = () => {
 			</Nav.Item>
 
 			<NavList search={search} />
-		</OutlineCol>
+		</ColBox>
 	) : (
 		<SidebarShow>
 			<RotateButton onClick={sideBarhandleSize(false)}>

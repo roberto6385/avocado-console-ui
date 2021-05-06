@@ -46,17 +46,6 @@ export const BottomBar = styled.div`
 	height: ${NAV_HEIGHT};
 `;
 
-export const ButtonsContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	height: 100%;
-`;
-
-export const HostInfo = styled.div`
-	// margin: 8px;
-`;
-
 // LeftContainer
 export const Header = styled(Nav)`
 	height: ${NAV_HEIGHT_SUM};

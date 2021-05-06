@@ -12,21 +12,16 @@ export const BaseCard = styled(Card)`
 	border: none;
 	width: ${(props) => props.width || '100%'};
 	height: ${(props) => props.height || '100%'};
-	.card-header {
-		display: flex;
-		padding: 0px;
-		margin: 0px;
-		border: none;
-	}
-	.card-body {
-		padding: 0px;
-		margin: 0px;
-		border: none;
-	}
 `;
 
 export const MainHeader = styled(BaseCard.Header)`
+	display: flex;
+	padding: 0px;
+	margin: 0px;
+	border: none;
 	height: ${NAV_HEIGHT};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color || 'black'};
 	justify-content: ${(props) => props.justify};
 	align-items: center;
 	width: ${(props) => props.width || '100%'};
@@ -36,10 +31,17 @@ export const SubHeader = styled(MainHeader)`
 `;
 
 export const SSHTBody = styled(BaseCard.Body)`
+	display: flex;
+	padding: 0px;
+	margin: 0px;
+	border: none;
 	flex: 1;
 `;
 export const SFTPBody = styled(BaseCard.Body)`
 	display: flex;
+	padding: 0px;
+	margin: 0px;
+	border: none;
 	flex: ${(props) => props?.flex};
 	width: ${(props) => props.width || '100%'};
 	flex-direction: ${(props) => props?.direction};

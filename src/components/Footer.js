@@ -7,9 +7,8 @@ import {
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
-import {BottomBar, ButtonsContainer, HostInfo} from '../styles/common';
 import {IconButton} from '../styles/buttons';
-import {FlexBox} from '../styles/divs';
+import {MainHeader} from '../styles/cards';
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -28,33 +27,29 @@ const Footer = () => {
 	}, [current_tab]);
 
 	return (
-		<BottomBar>
-			<ButtonsContainer>
-				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
-					0 && (
-					<FlexBox>
-						<IconButton onClick={onClickDeceaseFont}>
-							<FaSearchMinus />
-						</IconButton>
-						<IconButton onClick={onClickIncreaseFont}>
-							<FaSearchPlus />
-						</IconButton>
-						<IconButton onClick={onClickOpenSearchBar}>
-							<FaSearch />
-						</IconButton>
-					</FlexBox>
-				)}
-				<FlexBox justify={'flex-end'} padding={'2px 4px'}>
-					{current_tab &&
-						server.find(
-							(v) =>
-								v.id ===
-								tab.find((i) => i.uuid === current_tab).server
-									.id,
-						).host}
-				</FlexBox>
-			</ButtonsContainer>
-		</BottomBar>
+		<MainHeader>
+			{tab.filter((v) => v.display && v.type === 'SSHT').length !== 0 && (
+				<>
+					<IconButton onClick={onClickDeceaseFont}>
+						<FaSearchMinus />
+					</IconButton>
+					<IconButton onClick={onClickIncreaseFont}>
+						<FaSearchPlus />
+					</IconButton>
+					<IconButton onClick={onClickOpenSearchBar}>
+						<FaSearch />
+					</IconButton>
+				</>
+			)}
+			<span>
+				{current_tab &&
+					server.find(
+						(v) =>
+							v.id ===
+							tab.find((i) => i.uuid === current_tab).server.id,
+					).host}
+			</span>
+		</MainHeader>
 	);
 };
 
