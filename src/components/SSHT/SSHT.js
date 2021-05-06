@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
@@ -29,6 +29,7 @@ const SSHT = ({uuid}) => {
 	const terminalRef = useRef(null);
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
+	const [currentLine, setCurrentLine] = useState('');
 	const {ref, width, height} = useResizeObserver();
 
 	const onSubmitSearch = useCallback(
@@ -50,17 +51,16 @@ const SSHT = ({uuid}) => {
 	useEffect(() => {
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
-		const openTerminal = sshTerm.open(
-			document.getElementById('terminal_' + uuid),
-		);
+		sshTerm.open(document.getElementById('terminal_' + uuid));
 		// setCookie('search_cokkies', []);
-		return () => {
-			sshTerm.dispose();
-		};
+		// return () => {
+		// sshTerm.reset();
+		// };
 	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
+			// setCurrentLine(currentLine + data);
 			dispatch({
 				type: SSHT_SEND_COMMAND_REQUEST,
 				data: {
@@ -72,9 +72,10 @@ const SSHT = ({uuid}) => {
 		});
 
 		return () => {
+			// console.log(currentLine);
 			processInput.dispose();
 		};
-	}, [uuid, ws, sshTerm]);
+	}, [uuid, ws, sshTerm, currentLine]);
 
 	//current tab terminal is focused
 	useEffect(() => {

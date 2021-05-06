@@ -71,13 +71,15 @@ export const GetMessage = (data) => {
 			const message = SSH.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
-				console.log(response);
+				// console.log(response);
+				// console.log(response.getStatus());
 				if (
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.CONNECT
 				) {
 					const connect = response.getConnect();
 					console.log('CONNECT');
+					// console.log(JSON.stringify(connect));
 					return {type: 'CONNECT', result: connect.getUuid()};
 				} else if (
 					response.getResponseCase() ===
@@ -90,7 +92,7 @@ export const GetMessage = (data) => {
 					SSH.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
-					console.log('COMMAND');
+					// console.log('COMMAND');
 					console.log(JSON.stringify(command));
 					return {
 						type: 'COMMAND',

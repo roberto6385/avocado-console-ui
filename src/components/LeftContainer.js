@@ -128,7 +128,7 @@ const LeftContainer = () => {
 					</IconButton>
 					<span>LOGO</span>
 				</Nav.Item>
-				<Nav.Item className='left_header_icons'>
+				<Nav.Item>
 					<IconButton onClick={onClickAddFolder}>
 						<RiFolderAddLine />
 					</IconButton>

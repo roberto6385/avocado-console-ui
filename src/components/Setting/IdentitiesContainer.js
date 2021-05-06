@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {OutlineCol} from '../../styles/common';
+import {IconButton, OutlineCol} from '../../styles/common';
 import {Col, Container, Form, Row, Table} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
+import {FaPlus, FaRegTrashAlt} from 'react-icons/all';
 
 const IdentitiesContainer = () => {
 	const {server} = useSelector((state) => state.common);
@@ -43,6 +44,12 @@ const IdentitiesContainer = () => {
 								<tr>
 									<th colSpan='4'>
 										[Cloude Server] Account List
+										<IconButton className='right'>
+											<FaPlus />
+										</IconButton>
+										<IconButton className='right'>
+											<FaRegTrashAlt />
+										</IconButton>
 									</th>
 								</tr>
 								<tr>
