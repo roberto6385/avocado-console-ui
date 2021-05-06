@@ -14,13 +14,7 @@ import {
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {
-	Header,
-	OutlineCol,
-	RotateButton,
-	ServerSearchForm,
-	SidebarShow,
-} from '../styles/common';
+import {RotateButton, ServerSearchForm, SidebarShow} from '../styles/common';
 import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 
 import NavList from './NavList/NavList';

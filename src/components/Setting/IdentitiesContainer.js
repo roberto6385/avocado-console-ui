@@ -1,16 +1,16 @@
 import React from 'react';
 
-import {OutlineCol} from '../../styles/common';
 import {Col, Container, Form, Row, Table} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 import {FaPlus, FaRegTrashAlt} from 'react-icons/all';
 import {IconButton} from '../../styles/buttons';
+import {ColBox} from '../../styles/divs';
 
 const IdentitiesContainer = () => {
 	const {server} = useSelector((state) => state.common);
 
 	return (
-		<OutlineCol flex={1} className={'fix-height'}>
+		<ColBox flex={1}>
 			<h4>Identities</h4>
 			<Container>
 				<Row>
@@ -74,7 +74,7 @@ const IdentitiesContainer = () => {
 					</Col>
 				</Row>
 			</Container>
-		</OutlineCol>
+		</ColBox>
 	);
 };
 

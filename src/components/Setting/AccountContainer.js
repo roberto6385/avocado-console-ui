@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import {OutlineCol} from '../../styles/common';
 import ChangePasswordForm from '../Form/ChangePasswordForm';
+import {ColBox} from '../../styles/divs';
 
 const AccountContainer = () => {
 	const [authorization, setAuthorization] = useState('id-password');
@@ -21,7 +21,7 @@ const AccountContainer = () => {
 	}, []);
 
 	return (
-		<OutlineCol flex={1} className={'fix-height'}>
+		<ColBox flex={1}>
 			<h4>Account</h4>
 			<Form.Group>
 				<Form.Label>Account</Form.Label>
@@ -116,7 +116,7 @@ const AccountContainer = () => {
 				/>
 			</Form.Group>
 			<ChangePasswordForm open={open} setOpen={setOpen} />
-		</OutlineCol>
+		</ColBox>
 	);
 };
 

@@ -41,49 +41,11 @@ export const CustomModal = styled(Modal)`
     }
 `;
 
-// Footer
-export const BottomBar = styled.div`
-	height: ${NAV_HEIGHT};
-`;
-
-// LeftContainer
-export const Header = styled(Nav)`
-	height: ${NAV_HEIGHT_SUM};
-	display: block;
-	.left_header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: ${NAV_HEIGHT};
-		background: ${MAIN_COLOR};
-		color: ${WHITE_COLOR};
-	}
-	.left_header_icons {
-		height: ${SECOND_NAV_HEIGHT};
-		background: ${WHITE_COLOR};
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		border: none;
-		border-bottom: solid;
-		border-width: 1px;
-		border-color: ${HIGHLIGHT_COLOR};
-	}
-`;
-
 export const ServerNavBarContainer = styled(Nav)`
 	flex: 1;
 `;
 
-export const OutlineCol = styled.div`
-	display: flex;
-	flex-direction: column;
-	flex: ${(props) => props.flex};
-	margin: 0;
-	padding: 0;
-	min-width: 250px;
-`;
-
+// SidebarShow, RotateButton 삭제 예정.
 export const SidebarShow = styled.div`
 	display: flex;
 	align-items: center;
@@ -112,20 +74,6 @@ export const ServerSearchForm = styled(FormControl)`
 	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
 	outline: none;
 	border: 'none';
-`;
-
-// MainPage
-export const Background = styled.div`
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	height: 100%;
-	background-image: url(${background});
-	background-size: cover;
-	background-position: center;
-	position: relative;
 `;
 
 // ServerNavBar

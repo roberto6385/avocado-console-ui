@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import {OutlineCol} from '../../styles/common';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {SSHT_SET_FONT} from '../../reducers/ssht';
+import {ColBox} from '../../styles/divs';
 
 const PreferencesContainer = () => {
 	const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const PreferencesContainer = () => {
 	}, []);
 
 	return (
-		<OutlineCol flex={1} className={'fix-height'}>
+		<ColBox flex={1}>
 			<h4>General</h4>
 
 			<div>UI Theme</div>
@@ -58,7 +58,7 @@ const PreferencesContainer = () => {
 					<option>theme2</option>
 				</Form.Control>
 			</Form.Group>
-		</OutlineCol>
+		</ColBox>
 	);
 };
 
