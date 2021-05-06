@@ -179,7 +179,7 @@ const Folder = ({open, data, indent}) => {
 };
 
 Folder.propTypes = {
-	open: PropTypes.bool,
+	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
