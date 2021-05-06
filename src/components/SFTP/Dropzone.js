@@ -9,7 +9,7 @@ const Dropzone = ({children, onDrop, accept}) => {
 		accept,
 	});
 	return (
-		<SFTPBody direction='column' {...getRootProps()}>
+		<SFTPBody direction='column' width={'200px'} {...getRootProps()}>
 			{children}
 		</SFTPBody>
 	);

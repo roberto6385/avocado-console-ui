@@ -57,7 +57,7 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history]);
 
 	return (
-		<MainHeader>
+		<MainHeader width={'200px'}>
 			<NavItem>
 				<BsCheck />
 			</NavItem>

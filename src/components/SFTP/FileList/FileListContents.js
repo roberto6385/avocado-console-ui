@@ -165,7 +165,7 @@ const FileListContents = ({uuid}) => {
 	);
 
 	return fileList.length === pathList.length ? (
-		<SFTPBody>
+		<SFTPBody flex={1}>
 			<CustomTable>
 				<TableHead />
 				<CustomTbody
