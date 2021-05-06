@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
-import {HIGHLIGHT_COLOR, SUB_COLOR} from './global';
+import {HIGHLIGHT_COLOR} from './global';
 
 export const BaseNav = styled(Nav)`
 	display: flex;
@@ -13,10 +13,6 @@ export const ServerNavItem = styled(Nav.Item)`
 	padding: 15px;
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
-`;
-export const TabNav = styled(Nav)`
-	flex-wrap: nowrap;
-	overflow-x: scroll;
 `;
 export const TabNavItem = styled(Nav.Item)`
 	.tab_navLink {
