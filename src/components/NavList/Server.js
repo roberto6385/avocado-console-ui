@@ -75,11 +75,11 @@ const Server = ({data, indent}) => {
 
 			dispatch({
 				type: CHANGE_SERVER_FOLDER_NAME,
-				data: renameValue,
+				data: {key: data.key, name: renameValue},
 			});
 			setOpenRename(false);
 		},
-		[renameValue],
+		[data, renameValue],
 	);
 
 	const EscapeKey = useCallback((e) => {
@@ -99,17 +99,17 @@ const Server = ({data, indent}) => {
 		},
 		[data],
 	);
-
-	const onBlurOpenRename = useCallback(() => {
-		setOpenRename(false);
-	}, []);
-
+	//fill re-name vlaue
 	useEffect(() => {
 		setRenameValue(data.name);
-		if (renameRef.current) {
+	}, [data]);
+	//when re-name form is open focus and select name value
+	useEffect(() => {
+		if (openRename) {
 			renameRef.current.focus();
+			renameRef.current.select();
 		}
-	}, [data, renameRef]);
+	}, [openRename, renameRef]);
 
 	return (
 		<>
@@ -124,10 +124,7 @@ const Server = ({data, indent}) => {
 			>
 				<FaServerIcon />
 				{openRename ? (
-					<RenameForm
-						onSubmit={handleSubmit}
-						onBlur={onBlurOpenRename}
-					>
+					<RenameForm onSubmit={handleSubmit} onBlur={handleSubmit}>
 						<RenameInput
 							ref={renameRef}
 							type='text'

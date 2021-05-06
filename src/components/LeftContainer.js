@@ -125,10 +125,10 @@ const LeftContainer = () => {
 
 			<Nav.Item key='search'>
 				<ServerSearchForm
-					type='text'
 					onChange={onChangeSearch}
 					value={search}
-					placeholder='Search...'
+					type='search'
+					placeholder='Search'
 				/>
 			</Nav.Item>
 

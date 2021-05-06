@@ -121,6 +121,7 @@ export const ServerSearchForm = styled(FormControl)`
 	font-size: 12px;
 	border: none;
 	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
+	border-top: 1px solid ${HIGHLIGHT_COLOR};
 	outline: none;
 	border: 'none';
 `;

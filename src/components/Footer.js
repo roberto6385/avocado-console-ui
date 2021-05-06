@@ -7,7 +7,7 @@ import {
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
-import {BottomBar, ButtonsContainer, HostInfo} from '../styles/common';
+import {BottomBar, ButtonsContainer} from '../styles/common';
 import {IconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
 

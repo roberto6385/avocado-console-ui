@@ -52,7 +52,7 @@ const AddServerForm = () => {
 					keyword: 'SendConnect',
 					ws: ws,
 					data: {
-						token: userTicket.access_token,
+						token: userTicket,
 						host: host,
 						user: user,
 						password: password,
@@ -63,7 +63,7 @@ const AddServerForm = () => {
 
 			ws.onmessage = (evt) => {
 				const message = GetMessage(evt);
-
+				console.log(message);
 				if (message.type === 'CONNECT') {
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 					const newData = {

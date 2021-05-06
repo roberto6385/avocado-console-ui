@@ -1,11 +1,10 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 
 import TabContentContainer from './TabContentContainer';
 import {WorkSpaceContainer} from '../styles/common';
 import '../styles/resize.css';
-import {RowBox} from '../styles/divs';
 
 const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);
@@ -21,7 +20,7 @@ const WorkSpace = () => {
 				/>
 			) : visibleTab.length === 2 ? (
 				<SplitPane split='vertical' defaultSize={'50%'}>
-					{/*<RowBox>*/}
+
 					<TabContentContainer
 						uuid={visibleTab[0].uuid}
 						type={visibleTab[0].type}
@@ -32,7 +31,7 @@ const WorkSpace = () => {
 						type={visibleTab[1].type}
 						server={visibleTab[1].server}
 					/>
-					{/*</RowBox>*/}
+
 				</SplitPane>
 			) : visibleTab.length === 3 && cols === 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
