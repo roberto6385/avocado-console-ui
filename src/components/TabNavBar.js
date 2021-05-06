@@ -18,7 +18,7 @@ import {
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {IconButton} from '../styles/buttons';
-import RightConerIcons from './RightConerIcons';
+import RightCornerIcons from './RightCornerIcons';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -139,7 +139,7 @@ const TabNavBar = () => {
 							</TabNavItem>
 						))}
 				</TabNav>
-				<RightConerIcons />
+				<RightCornerIcons />
 			</FlexBox>
 		</TabContainer>
 	);

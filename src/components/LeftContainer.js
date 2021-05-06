@@ -1,17 +1,6 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {Nav} from 'react-bootstrap';
-import {
-	AiFillEyeInvisible,
-	AiOutlineCheck,
-	FaBars,
-	FaPlus,
-	FaRegTrashAlt,
-	FiSettings,
-	GiToken,
-	GrLogout,
-	MdRefresh,
-	RiFolderAddLine,
-} from 'react-icons/all';
+import {FaBars, FaPlus, IoFolderOpenOutline} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -39,12 +28,9 @@ import {IconButton} from '../styles/buttons';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
-	const {minimize, clicked_server, encodeData} = useSelector(
-		(state) => state.common,
-	);
+	const {minimize, encodeData} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const [search, onChangeSearch, setSearch] = useInput('');
-	// const [activeSearch, setActiveSearch] = useState(false);
+	const [search, onChangeSearch] = useInput('');
 
 	const onClickAddFolder = useCallback(() => {
 		dispatch({
@@ -59,11 +45,6 @@ const LeftContainer = () => {
 			data: {type: 'add'},
 		});
 	}, []);
-
-	// const onClickOpenSearch = useCallback(() => {
-	// 	if (activeSearch) setSearch('');
-	// 	setActiveSearch(!activeSearch);
-	// }, [activeSearch]);
 
 	const onClickLogout = useCallback(() => {
 		dispatch(
@@ -123,8 +104,9 @@ const LeftContainer = () => {
 					<IconButton onClick={onClickVisibleForm}>
 						<FaPlus />
 					</IconButton>
+					New Resource
 					<IconButton onClick={onClickAddFolder}>
-						<RiFolderAddLine />
+						<IoFolderOpenOutline />
 					</IconButton>
 					{/*<IconButton onClick={refresh}>*/}
 					{/*	<MdRefresh />*/}

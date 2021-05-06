@@ -10,7 +10,13 @@ import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
 
 function searchTreeNode(node, name) {
 	if (node.type === 'server' || !node.contain.length) {
-		if (node.name.includes(name)) return node;
+		if (
+			node.name
+				.toLowerCase()
+				.replace(/ /g, '')
+				.includes(name.toLowerCase().replace(/ /g, ''))
+		)
+			return node;
 		else return null;
 	}
 
@@ -21,7 +27,14 @@ function searchTreeNode(node, name) {
 	}
 	const val = {...node, contain: tempContain};
 
-	if (!tempContain.length && !node.name.includes(name)) return null;
+	if (
+		!tempContain.length &&
+		!node.name
+			.toLowerCase()
+			.replace(/ /g, '')
+			.includes(name.toLowerCase().replace(/ /g, ''))
+	)
+		return null;
 	return val;
 }
 
