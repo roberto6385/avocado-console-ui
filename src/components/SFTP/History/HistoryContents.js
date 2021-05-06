@@ -10,15 +10,11 @@ import {
 	MdRemoveCircle,
 } from 'react-icons/all';
 import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../../styles/global';
-import {
-	CustomLi,
-	CustomP,
-	CustomUl,
-	FlexSpaceBetween,
-} from '../../../styles/sftp';
+import {CustomLi, CustomP, CustomUl} from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
-import {ColBox} from '../../../styles/divs';
+import {ColBox, FlexBox} from '../../../styles/divs';
+import {formatByteSizeString} from '../listConversion';
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -79,7 +75,7 @@ const HistoryContents = ({uuid}) => {
 								key={history.HISTORY_ID}
 								// onClick={(e) => selectItem(e, history)}
 							>
-								<FlexSpaceBetween>
+								<FlexBox justify={'space-between'}>
 									<CustomP minWidth={'15px'}>
 										{history.todo === 'put' && (
 											<FaArrowAltCircleUp
@@ -113,9 +109,9 @@ const HistoryContents = ({uuid}) => {
 									</CustomP>
 									<CustomP flex={1}>{history.name}</CustomP>
 									<CustomP minWidth={'90px'} align={'right'}>
-										{history.size} byte
+										{formatByteSizeString(history.size)}
 									</CustomP>
-								</FlexSpaceBetween>
+								</FlexBox>
 								<div style={{padding: '0px 4px'}}>
 									{history.progress === 100 ? (
 										'Complete'

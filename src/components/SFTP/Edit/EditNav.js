@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
-import {NavItem} from '../../../styles/sftp';
 import {
 	ADD_HISTORY,
 	CHANGE_MODE,
@@ -12,6 +11,7 @@ import {
 } from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {MainHeader} from '../../../styles/cards';
+import {IconButton} from '../../../styles/buttons';
 
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -74,15 +74,15 @@ const EditNav = ({uuid}) => {
 		<MainHeader justify={'space-between'}>
 			<span style={{fontSize: '14px'}}>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
-				<NavItem onClick={editedFileDownload}>
+				<IconButton onClick={editedFileDownload}>
 					<MdFileDownload />
-				</NavItem>
-				<NavItem onClick={editedFileSave}>
+				</IconButton>
+				<IconButton onClick={editedFileSave}>
 					<MdSave />
-				</NavItem>
-				<NavItem onClick={closeEditMode}>
+				</IconButton>
+				<IconButton onClick={closeEditMode}>
 					<MdCancel />
-				</NavItem>
+				</IconButton>
 			</div>
 		</MainHeader>
 	);

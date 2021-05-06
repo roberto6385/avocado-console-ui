@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
 import {BsCheck, MdFileUpload, MdPause, MdDelete} from 'react-icons/all';
 import {PropTypes} from 'prop-types';
-import {NavItem} from '../../../styles/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {MainHeader} from '../../../styles/cards';
+import {IconButton} from '../../../styles/buttons';
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -58,18 +58,18 @@ const HistoryNav = ({uuid}) => {
 
 	return (
 		<MainHeader width={'200px'}>
-			<NavItem>
+			<IconButton>
 				<BsCheck />
-			</NavItem>
-			<NavItem id='btn-upload' onClick={upload}>
+			</IconButton>
+			<IconButton id='btn-upload' onClick={upload}>
 				<MdFileUpload />
-			</NavItem>
-			<NavItem>
+			</IconButton>
+			<IconButton>
 				<MdPause />
-			</NavItem>
-			<NavItem onClick={historyDelete}>
+			</IconButton>
+			<IconButton onClick={historyDelete}>
 				<MdDelete />
-			</NavItem>
+			</IconButton>
 		</MainHeader>
 	);
 };

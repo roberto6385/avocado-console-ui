@@ -29,7 +29,7 @@ const dateConversion = ({month, day, time}) => {
 	}`;
 };
 
-function formatByteSizeString(bytes, decimals = 0) {
+export function formatByteSizeString(bytes, decimals = 0) {
 	if (bytes === 0) {
 		return '0 Byte';
 	}

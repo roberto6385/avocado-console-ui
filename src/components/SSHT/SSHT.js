@@ -4,17 +4,17 @@ import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
-import {useCookies} from 'react-cookie';
 import debounce from 'lodash/debounce';
 import useResizeObserver from 'use-resize-observer';
 
 import useInput from '../../hooks/useInput';
-import {SSHTerminal, TerminalSearchForm} from '../../styles/ssht';
+import {TerminalSearchForm} from '../../styles/ssht';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
-import {SSHTBody} from "../../styles/cards";
+import {SSHTBody} from '../../styles/cards';
+import {SSHTerminal} from '../../styles/divs';
 
 const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();

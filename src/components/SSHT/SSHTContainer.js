@@ -1,11 +1,9 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
-import {Card} from 'react-bootstrap';
-import {CgMaximizeAlt, FiFile, AiOutlineFile} from 'react-icons/all';
+import {CgMaximizeAlt, FiFile} from 'react-icons/all';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
-import {SSHTComponents} from '../../styles/ssht';
 import Avocado_Dropdown from '../Avocado_Dropdown';
 import {IconButton} from '../../styles/buttons';
 import {MainHeader} from '../../styles/cards';
@@ -31,7 +29,8 @@ const SSHTContainer = ({uuid, server_id}) => {
 	];
 
 	return (
-		<SSHTComponents className={'fix-height'}>
+		// <ColBox flex={1} align={'stretch'}>
+		<>
 			<MainHeader>
 				<Avocado_Dropdown icon={<FiFile />} menu={column_list} />
 				<IconButton>
@@ -40,7 +39,8 @@ const SSHTContainer = ({uuid, server_id}) => {
 				<ConvertSFTP server_id={server_id} />
 			</MainHeader>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
-		</SSHTComponents>
+		</>
+		// </ColBox>
 	);
 };
 

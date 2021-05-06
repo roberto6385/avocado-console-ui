@@ -5,7 +5,6 @@ import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
 import {MAIN_COLOR} from '../styles/global';
-import {SplitButtonContainer} from '../styles/common';
 
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
@@ -47,7 +46,7 @@ const RightCornerIcons = () => {
 	];
 
 	return (
-		<SplitButtonContainer>
+		<>
 			<IconButton>
 				<HiUserCircle />
 			</IconButton>
@@ -59,7 +58,7 @@ const RightCornerIcons = () => {
 				icon={<FaTh style={{color: MAIN_COLOR}} />}
 				menu={column_list}
 			/>
-		</SplitButtonContainer>
+		</>
 	);
 };
 

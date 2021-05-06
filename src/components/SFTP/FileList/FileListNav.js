@@ -9,7 +9,6 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {NavItem} from '../../../styles/sftp';
 import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
 import {
 	CHANGE_MODE,
@@ -17,6 +16,7 @@ import {
 	commandPwdAction,
 } from '../../../reducers/sftp';
 import {MainHeader} from '../../../styles/cards';
+import {IconButton} from '../../../styles/buttons';
 
 const SearchPath = styled.input`
 	flex: 1;
@@ -101,15 +101,15 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<MainHeader>
-			<NavItem>
+			<IconButton>
 				<BsLayoutThreeColumns onClick={dropdownList} />
-			</NavItem>
-			<NavItem>
+			</IconButton>
+			<IconButton>
 				<GoThreeBars onClick={basicList} />
-			</NavItem>
-			<NavItem onClick={goBack}>
+			</IconButton>
+			<IconButton onClick={goBack}>
 				<GoArrowUp />
-			</NavItem>
+			</IconButton>
 			<form
 				style={{display: 'flex', width: '100%'}}
 				onSubmit={searchPath}
@@ -124,12 +124,12 @@ const FileListNav = ({uuid}) => {
 				/>
 			</form>
 
-			<NavItem onClick={goHome}>
+			<IconButton onClick={goHome}>
 				<MdHome />
-			</NavItem>
-			<NavItem onClick={refresh}>
+			</IconButton>
+			<IconButton onClick={refresh}>
 				<BsArrowClockwise />
-			</NavItem>
+			</IconButton>
 		</MainHeader>
 	);
 };

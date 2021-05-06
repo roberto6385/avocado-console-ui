@@ -6,7 +6,7 @@ import {FaTimes} from 'react-icons/all';
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {AddServerButtonContainer, AddServerModal} from '../../styles/common';
+import {AddServerModal} from '../../styles/common';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {
@@ -14,6 +14,7 @@ import {
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
 import {IconButton, PopupButton} from '../../styles/buttons';
+import {FlexBox} from '../../styles/divs';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -285,7 +286,7 @@ const AddServerForm = () => {
 						/>
 					</Form.Group>
 
-					<AddServerButtonContainer>
+					<FlexBox justify={'center'}>
 						<PopupButton
 							onClick={onClickCloseForm}
 							back={SUB_COLOR}
@@ -295,7 +296,7 @@ const AddServerForm = () => {
 						<PopupButton type='submit' back={MAIN_COLOR}>
 							Save
 						</PopupButton>
-					</AddServerButtonContainer>
+					</FlexBox>
 				</Form>
 			</Modal.Body>
 		</AddServerModal>

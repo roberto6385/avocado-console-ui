@@ -27,3 +27,34 @@ export const Background = styled(RowBox)`
 	background-position: center;
 	position: relative;
 `;
+
+//SSHT
+export const SSHTerminal = styled.div`
+	height: 100%;
+	width: 100%;
+	max-height: 100%;
+	max-width: 100%;
+	position: relative;
+`;
+export const TextAreaWrapper = styled.div`
+	display: inline-block;
+	background: black;
+	background-size: 100% 32px;
+	background-position: left 10px;
+	width: 100%;
+	textarea {
+		color: white;
+		background: url(http://i.imgur.com/2cOaJ.png);
+		background-attachment: local;
+		background-repeat: no-repeat;
+		padding-left: 35px;
+		padding-top: 10px;
+		outline: none;
+		border: none;
+		width: 100%;
+		height: 100%;
+		font-size: 13px;
+		line-height: 16px;
+		resize: none;
+	}
+`;

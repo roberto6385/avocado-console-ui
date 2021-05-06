@@ -9,7 +9,6 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {
 	IconSpan,
 	TabNavItem,
-	TabContainer,
 	TabNav,
 	TabSSHTIcon,
 	TabSFTPIcon,
@@ -18,7 +17,7 @@ import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {IconButton} from '../styles/buttons';
 import RightCornerIcons from './RightCornerIcons';
-import {FlexBox} from '../styles/divs';
+import {MainHeader} from '../styles/cards';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -97,51 +96,43 @@ const TabNavBar = () => {
 	}, [Sortable]);
 
 	return (
-		<TabContainer
-			activeKey={active}
-			defaultActiveKey={active}
-			onSelect={(i) => setActive(i)}
-		>
-			<FlexBox>
-				<TabNav id='sortableTabNav'>
-					{tab &&
-						tab.map((data) => (
-							<TabNavItem
-								key={data.uuid}
-								draggable='true'
-								onDragStart={prevPutItem(data)}
-								onDrop={nextPutItem(data)}
+		<MainHeader>
+			<TabNav id='sortableTabNav'>
+				{tab &&
+					tab.map((data) => (
+						<TabNavItem
+							key={data.uuid}
+							draggable='true'
+							onDragStart={prevPutItem(data)}
+							onDrop={nextPutItem(data)}
+						>
+							<NavLink
+								className={
+									data.uuid === current_tab
+										? 'tab_navLink active_tab_item'
+										: 'tab_navLink'
+								}
+								as={Link}
+								to='/'
+								eventKey={data.uuid}
 							>
-								<NavLink
-									className={
-										data.uuid === current_tab
-											? 'tab_navLink active_tab_item'
-											: 'tab_navLink'
-									}
-									as={Link}
-									to='/'
-									eventKey={data.uuid}
-								>
-									<IconSpan
-										onClick={changeVisibleTab(data.uuid)}
-									>
-										{data.type === 'SSHT' ? (
-											<TabSSHTIcon />
-										) : (
-											<TabSFTPIcon />
-										)}
-										{data.server.name}
-									</IconSpan>
-									<IconButton onClick={onClickDelete(data)}>
-										<FaTimes />
-									</IconButton>
-								</NavLink>
-							</TabNavItem>
-						))}
-				</TabNav>
-				<RightCornerIcons />
-			</FlexBox>
-		</TabContainer>
+								<IconSpan onClick={changeVisibleTab(data.uuid)}>
+									{data.type === 'SSHT' ? (
+										<TabSSHTIcon />
+									) : (
+										<TabSFTPIcon />
+									)}
+									{data.server.name}
+								</IconSpan>
+								<IconButton onClick={onClickDelete(data)}>
+									<FaTimes />
+								</IconButton>
+							</NavLink>
+						</TabNavItem>
+					))}
+			</TabNav>
+			<RightCornerIcons />
+		</MainHeader>
 	);
 };
 

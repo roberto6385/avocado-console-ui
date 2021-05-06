@@ -44,7 +44,7 @@ const TabContentContainer = ({uuid, type, server}) => {
 	return (
 		<BaseCard onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<SubHeader justify='space-between'>
+				<SubHeader padding={'2px 4px'} justify='space-between'>
 					<div>
 						{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
 						{server.name}

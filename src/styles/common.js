@@ -1,27 +1,8 @@
 import styled from 'styled-components';
 
-import {FormControl, Modal, Nav, Tab} from 'react-bootstrap';
-import {
-	HIGHLIGHT_COLOR,
-	MAIN_COLOR,
-	NAV_HEIGHT,
-	NAV_HEIGHT_SUM,
-	SECOND_NAV_HEIGHT,
-	SUB_COLOR,
-	WHITE_COLOR,
-} from './global';
-import background from '../images/bg_3.png';
+import {FormControl, Modal, Nav} from 'react-bootstrap';
+import {HIGHLIGHT_COLOR, MAIN_COLOR, SUB_COLOR} from './global';
 import {FaServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
-
-// ConfirmPopup
-export const ModalFooter = styled.div`
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	padding: 4px 12px;
-	margin: 10px;
-`;
 
 export const CustomModal = styled(Modal)`
     .modal-dialog{
@@ -97,23 +78,7 @@ export const ServerNavItem = styled(Nav.Item).attrs((props) => ({
 	}
 `;
 
-// Split Bar
-export const SplitButtonContainer = styled.div`
-	height: ${NAV_HEIGHT};
-	display: flex;
-	align-items: center;
-	.dropdown {
-		line-height: 0px;
-	}
-`;
-
-// Tab Nav Bar
-export const TabContainer = styled(Tab.Container)`
-	display: flex !important;
-	height: ${NAV_HEIGHT};
-`;
 export const TabNav = styled(Nav)`
-	height: ${NAV_HEIGHT};
 	flex: 1;
 	flex-wrap: nowrap;
 	overflow-x: scroll;
@@ -150,6 +115,7 @@ export const TabSFTPIcon = styled(RiArrowUpDownLine)`
 `;
 
 // Work Space
+// 이건 split pane이랑 연결되어 있어서 다음에..
 export const WorkSpaceContainer = styled.div`
 	flex: 1;
 	margin: 0;
@@ -166,9 +132,4 @@ export const AddServerModal = styled(Modal)`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-`;
-
-export const AddServerButtonContainer = styled.div`
-	display: flex;
-	justify-content: center;
 `;

@@ -6,8 +6,8 @@ import {Card} from 'react-bootstrap';
 export const BaseCard = styled(Card)`
 	display: flex;
 	flex-direction: column;
-	min-width: ${(props) => props.min};
-	padding: 0px;
+	min-width: ${(props) => props?.min};
+	padding: ${(props) => props?.padding || '0px'};
 	margin: 0px;
 	border: none;
 	width: ${(props) => props.width || '100%'};
@@ -16,7 +16,7 @@ export const BaseCard = styled(Card)`
 
 export const MainHeader = styled(BaseCard.Header)`
 	display: flex;
-	padding: 0px;
+	padding: ${(props) => props?.padding || '0px'};
 	margin: 0px;
 	border: none;
 	height: ${NAV_HEIGHT};
