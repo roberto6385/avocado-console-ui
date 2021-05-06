@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Dropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import {MAIN_COLOR} from '../styles/global';
 
 const _Dropdown = styled(Dropdown)`
 	line-height: 0px;
@@ -12,10 +13,13 @@ const _Dropdown = styled(Dropdown)`
 		margin: 0px 8px;
 		outline: none !important;
 		background-color: transparent !important;
-		color: black !important;
+		color: black;
 		font-size: 18px;
 		::after {
 			content: none;
+		}
+		&:hover {
+			color: ${MAIN_COLOR};
 		}
 	}
 	div {

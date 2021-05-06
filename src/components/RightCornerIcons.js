@@ -51,14 +51,8 @@ const RightCornerIcons = () => {
 			<IconButton>
 				<HiUserCircle />
 			</IconButton>
-			<Avocado_Dropdown
-				icon={<AiTwotoneSetting style={{color: MAIN_COLOR}} />}
-				menu={setting_list}
-			/>
-			<Avocado_Dropdown
-				icon={<FaTh style={{color: MAIN_COLOR}} />}
-				menu={column_list}
-			/>
+			<Avocado_Dropdown icon={<AiTwotoneSetting />} menu={setting_list} />
+			<Avocado_Dropdown icon={<FaTh />} menu={column_list} />
 		</>
 	);
 };
