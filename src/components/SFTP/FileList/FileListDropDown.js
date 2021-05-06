@@ -5,8 +5,8 @@ import {
 	DirectoryIcon,
 	DropdownLi,
 	DropdownP,
-	DropdownUl,
-	FileIcon,
+	DropdownUl, FileIcon,
+
 } from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';

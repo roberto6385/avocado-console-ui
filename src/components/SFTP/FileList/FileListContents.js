@@ -5,18 +5,7 @@ import 'react-contexify/dist/ReactContexify.css';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
-import {
-	CustomNameTh,
-	CustomRightTh,
-	CustomTable,
-	CustomTbody,
-	CustomTh,
-	CustomThBtn,
-	CustomTimeTh,
-	DirectoryIcon,
-	FileIcon,
-	FileListP,
-} from '../../../styles/sftp';
+import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
@@ -30,6 +19,15 @@ import {
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
+import {
+	CustomNameTh,
+	BaseTable,
+	CustomTbody,
+	CustomThBtn,
+	CustomTimeTh,
+	FileListP,
+	Th,
+} from '../../../styles/tables';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -166,7 +164,7 @@ const FileListContents = ({uuid}) => {
 
 	return fileList.length === pathList.length ? (
 		<SFTPBody flex={1}>
-			<CustomTable>
+			<BaseTable>
 				<TableHead />
 				<CustomTbody
 					id='filelist_tbody'
@@ -196,14 +194,14 @@ const FileListContents = ({uuid}) => {
 										{item.name}
 									</FileListP>
 								</CustomNameTh>
-								<CustomRightTh flex={2}>
+								<Th flex={2}>
 									{item.name !== '..' && item.size}
-								</CustomRightTh>
+								</Th>
 								<CustomTimeTh flex={3}>
 									{item.name !== '..' && item.lastModified}
 								</CustomTimeTh>
-								<CustomTh flex={3}>{item.permission}</CustomTh>
-								<CustomRightTh flex={0.3}>
+								<Th flex={3}>{item.permission}</Th>
+								<Th flex={0.3}>
 									<CustomThBtn
 										onClick={edit(item)}
 										color={
@@ -224,12 +222,12 @@ const FileListContents = ({uuid}) => {
 									>
 										<MdFileDownload />
 									</CustomThBtn>
-								</CustomRightTh>
+								</Th>
 							</tr>
 						);
 					})}
 				</CustomTbody>
-			</CustomTable>
+			</BaseTable>
 			<FileListContextMenu uuid={uuid} />
 		</SFTPBody>
 	) : (

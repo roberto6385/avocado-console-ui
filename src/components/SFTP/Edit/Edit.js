@@ -4,18 +4,15 @@ import {Card} from 'react-bootstrap';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
 import {FlexBox} from '../../../styles/sftp';
-import {SFTPBody} from "../../../styles/cards";
+import {SFTPBody} from '../../../styles/cards';
+import {ColBox} from '../../../styles/divs';
 
 const Edit = ({uuid}) => {
 	return (
-		<FlexBox>
-			<Card.Header>
-				<EditNav uuid={uuid} />
-			</Card.Header>
-			<SFTPBody>
-				<EditContents uuid={uuid} />
-			</SFTPBody>
-		</FlexBox>
+		<ColBox>
+			<EditNav uuid={uuid} />
+			<EditContents uuid={uuid} />
+		</ColBox>
 	);
 };
 

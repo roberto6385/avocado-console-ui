@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {NAV_HEIGHT, SECOND_NAV_HEIGHT} from './global';
 import {Card} from 'react-bootstrap';
 
+// 추가하실 속성 있으시면 props로 전달 하셔서 사용하시면 됩니다.
 export const BaseCard = styled(Card)`
 	display: flex;
 	flex-direction: column;
@@ -26,13 +27,14 @@ export const BaseCard = styled(Card)`
 
 export const MainHeader = styled(BaseCard.Header)`
 	height: ${NAV_HEIGHT};
+	justify-content: ${(props) => props.justify};
+	align-items: center;
 	width: ${(props) => props.width || '100%'};
 `;
-export const SubHeader = styled(BaseCard.Header)`
+export const SubHeader = styled(MainHeader)`
 	height: ${SECOND_NAV_HEIGHT};
 `;
 
-// 추가하실 속성 있으시면 props로 전달 하셔서 사용하시면 됩니다.
 export const SSHTBody = styled(BaseCard.Body)`
 	flex: 1;
 `;
@@ -40,7 +42,6 @@ export const SFTPBody = styled(BaseCard.Body)`
 	display: flex;
 	flex: ${(props) => props?.flex};
 	width: ${(props) => props.width || '100%'};
-
 	flex-direction: ${(props) => props?.direction};
 	overflow: scroll;
 `;

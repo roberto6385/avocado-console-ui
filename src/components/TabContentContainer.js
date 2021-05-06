@@ -9,16 +9,9 @@ import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import {TabSFTPIcon, TabSSHTIcon} from '../styles/common';
-import {commandPwdAction, disconnectAction} from '../reducers/sftp';
+import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {BaseCard, SubHeader} from '../styles/cards';
-
-const TabContentCard = styled(Card)`
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	width: 100%;
-`;
 
 const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
@@ -53,9 +46,11 @@ const TabContentContainer = ({uuid, type, server}) => {
 	return (
 		<BaseCard onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<SubHeader>
-					{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
-					{server.name}
+				<SubHeader justify='space-between'>
+					<div>
+						{type === 'SSHT' ? <TabSSHTIcon /> : <TabSFTPIcon />}
+						{server.name}
+					</div>
 					<span className='right'>
 						<FaTimes onClick={onClickDelete} />
 					</span>

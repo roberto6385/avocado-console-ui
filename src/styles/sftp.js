@@ -1,12 +1,5 @@
 import styled from 'styled-components';
-import {
-	DEEP_GRAY_COLOR,
-	GRAY_COLOR,
-	HIGHLIGHT_COLOR,
-	MAIN_COLOR,
-	NAV_HEIGHT,
-} from './global';
-import BTable from 'react-bootstrap/Table';
+import {DEEP_GRAY_COLOR, GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT,} from './global';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {BsArrowUpDown} from 'react-icons/all';
 
@@ -118,104 +111,6 @@ export const NavItem = styled.button`
 
 // FileListContents
 
-export const DirectoryIcon = styled(GoFileDirectory)`
-	margin-right: 4px;
-`;
-
-export const FileIcon = styled(GoFile)`
-	margin-right: 4px;
-`;
-
-export const CustomTable = styled(BTable)`
-	white-space: nowrap;
-	height: 100%;
-	margin: 0;
-	border: none;
-	border-right: 1px solid black;
-	// 드래그 방지
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-`;
-
-export const CustomNameTh = styled.th`
-	flex: ${(props) => props.flex};
-	// text-align: left;
-	min-width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
-export const CustomTh = styled.th`
-	flex: ${(props) => props.flex};
-	// text-align: left;
-	min-width: 130px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
-export const CustomTimeTh = styled.th`
-	flex: ${(props) => props.flex};
-	// text-align: left;
-	min-width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
-export const FileListP = styled.p`
-	width: 200px;
-	margin: 0;
-	padding: 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
-
-export const CustomRightTh = styled.th`
-	flex: ${(props) => props.flex};
-	min-width: 105px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	text-align: right;
-	z-index: 1;
-`;
-
-export const CustomThBtn = styled.button`
-	background: transparent;
-	margin-left: 8px;
-	border: none;
-	font-size: 18px;
-	line-height: 0px;
-	z-index: 1;
-	color: ${(props) => props.color};
-`;
-
-export const CustomTbody = styled.tbody`
-	flex: 1;
-	tr {
-		border: none;
-		border-bottom: 1px solid black;
-		th {
-			border: none;
-		}
-	}
-	tr.highlight_tbody {
-		color: black;
-	}
-	tr.highlight_tbody.active {
-		background: ${HIGHLIGHT_COLOR};
-	}
-`;
-
-export const HeaderTr = styled.tr`
-	display: flex;
-	position: sticky;
-	top: 0px;
-	background: white;
-	z-index: 999;
-`;
-
 // FileList Nav
 
 export const PathSpan = styled.span`
@@ -292,3 +187,9 @@ export const CustomLi = styled.li`
 `;
 
 // SFTPContainer
+export const FileIcon = styled(GoFile)`
+	margin-right: 4px;
+`;
+export const DirectoryIcon = styled(GoFileDirectory)`
+	margin-right: 4px;
+`;

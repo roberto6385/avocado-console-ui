@@ -15,7 +15,7 @@ const SFTP = ({uuid}) => {
 	return mode === 'edit' ? (
 		<Edit uuid={uuid} />
 	) : (
-		<RowBox>
+		<RowBox flex={1}>
 			<FileList uuid={uuid} />
 			<History uuid={uuid} />
 		</RowBox>
