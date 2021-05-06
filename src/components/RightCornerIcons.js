@@ -8,6 +8,7 @@ import {MAIN_COLOR} from '../styles/global';
 
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
+import {RowBox} from '../styles/divs';
 
 const RightCornerIcons = () => {
 	const dispatch = useDispatch();

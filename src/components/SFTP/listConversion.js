@@ -52,7 +52,6 @@ export const listConversion = (result) => {
 					name: splitedList.slice(8).join(' '),
 					size: formatByteSizeString(parseInt(splitedList[4])),
 					type: splitedList[0][0] === 'd' ? 'directory' : 'file',
-					// lastModified: `${splitedList[5]} ${splitedList[6]} ${splitedList[7]}`, // 월 , 일 ,시간 or 년도
 					lastModified: dateConversion({
 						month: splitedList[5],
 						day: splitedList[6],

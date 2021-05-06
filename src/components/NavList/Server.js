@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import styled from 'styled-components';
 
-import {FaServerIcon, ServerNavItem} from '../../styles/common';
+import {FaServerIcon} from '../../styles/common';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
@@ -15,6 +15,7 @@ import {HIGHLIGHT_COLOR} from '../../styles/global';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
+import {ServerNavItem} from '../../styles/navs';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -107,7 +108,7 @@ const Server = ({data, indent}) => {
 	useEffect(() => {
 		setRenameValue(data.name);
 		if (renameRef.current) {
-			renameRef.current.focus();
+			renameRef.current?.focus();
 		}
 	}, [data, renameRef]);
 

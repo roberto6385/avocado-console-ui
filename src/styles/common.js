@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
-import {FormControl, Modal, Nav} from 'react-bootstrap';
-import {HIGHLIGHT_COLOR, MAIN_COLOR, SUB_COLOR} from './global';
-import {FaServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
+import {FormControl, Modal} from 'react-bootstrap';
+import {HIGHLIGHT_COLOR, MAIN_COLOR} from './global';
+import {
+	FaServer,
+	FiServer,
+	RiArrowUpDownLine,
+	RiTerminalFill,
+} from 'react-icons/all';
 
 export const CustomModal = styled(Modal)`
     .modal-dialog{
@@ -20,10 +25,6 @@ export const CustomModal = styled(Modal)`
             }
         }
     }
-`;
-
-export const ServerNavBarContainer = styled(Nav)`
-	flex: 1;
 `;
 
 // SidebarShow, RotateButton 삭제 예정.
@@ -58,44 +59,11 @@ export const ServerSearchForm = styled(FormControl)`
 `;
 
 // ServerNavBar
-export const FaServerIcon = styled(FaServer)`
-	vertical-align: middle;
-	margin-right: 15px;
-	font-size: 25px;
-`;
-
-export const ServerNavItem = styled(Nav.Item).attrs((props) => ({
-	style: {
-		paddingLeft: props.left,
-		backgroundColor: props.back,
-	},
-}))`
-	display: flex;
-	align-items: center;
-	padding: 15px;
-	&:hover {
-		background-color: ${SUB_COLOR};
-	}
-`;
-
-export const TabNav = styled(Nav)`
-	flex: 1;
-	flex-wrap: nowrap;
-	overflow-x: scroll;
-`;
-
-export const TabNavItem = styled(Nav.Item)`
-	.tab_navLink {
-		display: flex;
-		align-items: center;
-		height: 100%;
-	}
-	.active_tab_item {
-		background-color: ${HIGHLIGHT_COLOR};
-	}
-	&:hover {
-		background-color: ${HIGHLIGHT_COLOR};
-	}
+export const FaServerIcon = styled(FiServer)`
+	// vertical-align: middle;
+	margin-right: 4px;
+	color: ${MAIN_COLOR};
+	// font-size: 25px;
 `;
 
 export const IconSpan = styled.span`

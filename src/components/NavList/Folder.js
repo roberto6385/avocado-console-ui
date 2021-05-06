@@ -6,10 +6,9 @@ import {Collapse} from 'react-bootstrap';
 import {
 	MdKeyboardArrowDown,
 	MdKeyboardArrowRight,
-	RiFolder2Line,
+	RiFolder2Fill,
 } from 'react-icons/all';
 
-import {ServerNavItem} from '../../styles/common';
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
@@ -21,6 +20,7 @@ import {HIGHLIGHT_COLOR} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton} from '../../styles/buttons';
+import {ServerNavItem} from '../../styles/navs';
 
 const RenameForm = styled.form`
 	display: inline-block;
@@ -34,7 +34,7 @@ const RenameInput = styled.input`
 	border-bottom: 1px solid black;
 `;
 
-const Folder2Line = styled(RiFolder2Line)`
+const Folder2Line = styled(RiFolder2Fill)`
 	margin-right: 4px;
 `;
 

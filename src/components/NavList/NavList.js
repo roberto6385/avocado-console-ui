@@ -2,11 +2,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
 
-import {ServerNavBarContainer} from '../../styles/common';
 import Folder from './Folder';
 import Server from './Server';
 import Sortable from 'sortablejs';
 import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
+import {BaseNav} from '../../styles/navs';
 
 function searchTreeNode(node, name) {
 	if (node.type === 'server' || !node.contain.length) {
@@ -57,10 +57,10 @@ const NavList = ({search}) => {
 	}, [nav, search]);
 
 	return (
-		<ServerNavBarContainer
+		<BaseNav
 			onDrop={dropNavList}
 			id='sortableServerNav'
-			className={'flex-column'}
+			direction={'column'}
 		>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
@@ -74,7 +74,7 @@ const NavList = ({search}) => {
 					<Server key={data.key} data={data} indent={1} />
 				),
 			)}
-		</ServerNavBarContainer>
+		</BaseNav>
 	);
 };
 

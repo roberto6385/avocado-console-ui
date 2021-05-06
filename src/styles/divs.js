@@ -11,7 +11,7 @@ export const FlexBox = styled.div`
 	align-items: ${(props) => props?.align};
 `;
 export const RowBox = styled(FlexBox)`
-	height: 100%;
+	height: ${(props) => props?.height};
 `;
 
 export const ColBox = styled(FlexBox)`
