@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {Form, Button, Modal} from 'react-bootstrap';
 
 import useInput from '../../hooks/useInput';
-import {AddServerModal, IconButton} from '../../styles/common';
+import {IconButton} from '../../styles/common';
 import {FaTimes} from 'react-icons/all';
 import * as PropTypes from 'prop-types';
 

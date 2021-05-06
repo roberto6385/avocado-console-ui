@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
-import {CgMaximizeAlt} from 'react-icons/all';
+import {AiOutlineFile, CgMaximizeAlt} from 'react-icons/all';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
@@ -16,6 +16,9 @@ const SSHTContainer = ({uuid, server_id}) => {
 	return (
 		<SSHTComponents className={'fix-height'}>
 			<Card.Header>
+				<IconButton>
+					<AiOutlineFile />
+				</IconButton>
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>

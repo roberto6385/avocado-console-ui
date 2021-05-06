@@ -60,15 +60,6 @@ const LeftContainer = () => {
 		});
 	}, []);
 
-	const onClickDeleteServer = useCallback(() => {
-		if (clicked_server !== null) {
-			dispatch({
-				type: OPEN_CONFIRM_POPUP,
-				data: {key: 'delete_server_folder'},
-			});
-		}
-	}, [clicked_server]);
-
 	// const onClickOpenSearch = useCallback(() => {
 	// 	if (activeSearch) setSearch('');
 	// 	setActiveSearch(!activeSearch);
@@ -123,36 +114,30 @@ const LeftContainer = () => {
 					style={{display: 'flex', justifyContent: 'flex-start'}}
 					className='left_header'
 				>
-					<IconButton>
+					<IconButton onClick={sideBarhandleSize(true)}>
 						<FaBars style={{color: 'white'}} />
 					</IconButton>
 					<span>LOGO</span>
 				</Nav.Item>
 				<Nav.Item>
-					<IconButton onClick={onClickAddFolder}>
-						<RiFolderAddLine />
-					</IconButton>
 					<IconButton onClick={onClickVisibleForm}>
 						<FaPlus />
 					</IconButton>
-					<IconButton onClick={onClickDeleteServer}>
-						<FaRegTrashAlt />
+					<IconButton onClick={onClickAddFolder}>
+						<RiFolderAddLine />
 					</IconButton>
-					<IconButton onClick={refresh}>
-						<MdRefresh />
-					</IconButton>
-					<IconButton onClick={verify}>
-						<AiOutlineCheck />
-					</IconButton>
-					<IconButton onClick={onClickLogout}>
-						<GrLogout />
-					</IconButton>
-					<IconButton onClick={findActiveToken}>
-						<GiToken />
-					</IconButton>
-					<IconButton onClick={sideBarhandleSize(true)}>
-						<AiFillEyeInvisible />
-					</IconButton>
+					{/*<IconButton onClick={refresh}>*/}
+					{/*	<MdRefresh />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={verify}>*/}
+					{/*	<AiOutlineCheck />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={onClickLogout}>*/}
+					{/*	<GrLogout />*/}
+					{/*</IconButton>*/}
+					{/*<IconButton onClick={findActiveToken}>*/}
+					{/*	<GiToken />*/}
+					{/*</IconButton>*/}
 				</Nav.Item>
 			</Header>
 
