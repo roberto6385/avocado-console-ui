@@ -54,7 +54,7 @@ export const ButtonsContainer = styled.div`
 `;
 
 export const HostInfo = styled.div`
-	margin: 8px;
+	// margin: 8px;
 `;
 
 // LeftContainer

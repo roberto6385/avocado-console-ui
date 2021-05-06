@@ -19,15 +19,8 @@ import {
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
-import {
-	CustomNameTh,
-	BaseTable,
-	CustomTbody,
-	CustomThBtn,
-	CustomTimeTh,
-	FileListP,
-	Th,
-} from '../../../styles/tables';
+import {BaseTable, FileListP, Th} from '../../../styles/tables';
+import {BaseButton} from '../../../styles/buttons';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -166,17 +159,13 @@ const FileListContents = ({uuid}) => {
 		<SFTPBody flex={1}>
 			<BaseTable>
 				<TableHead />
-				<CustomTbody
-					id='filelist_tbody'
-					onContextMenu={contextMenuOpen}
-				>
+				<tbody onContextMenu={contextMenuOpen}>
 					{fileList[fileList.length - 1]?.map((item, index) => {
 						return (
 							<tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
 								onClick={selectItem({item, index})}
 								onDoubleClick={changePath(item)}
-								style={{display: 'flex', cursor: 'pointer'}}
 								key={index + uuid}
 								className={
 									highlight.includes(item)
@@ -184,7 +173,7 @@ const FileListContents = ({uuid}) => {
 										: 'highlight_tbody'
 								}
 							>
-								<CustomNameTh flex={10}>
+								<Th min={'150px'} flex={1}>
 									<FileListP className='filelist_p'>
 										{item.type === 'directory' ? (
 											<DirectoryIcon />
@@ -193,40 +182,30 @@ const FileListContents = ({uuid}) => {
 										)}
 										{item.name}
 									</FileListP>
-								</CustomNameTh>
-								<Th flex={2}>
+								</Th>
+								<Th min={'130px'} textAlign='right'>
 									{item.name !== '..' && item.size}
 								</Th>
-								<CustomTimeTh flex={3}>
+								<Th min={'200px'}>
 									{item.name !== '..' && item.lastModified}
-								</CustomTimeTh>
-								<Th flex={3}>{item.permission}</Th>
-								<Th flex={0.3}>
-									<CustomThBtn
-										onClick={edit(item)}
-										color={
-											item.type === 'directory'
-												? 'transparent'
-												: 'black'
-										}
-									>
-										<MdEdit />
-									</CustomThBtn>
-									<CustomThBtn
-										onClick={download(item)}
-										color={
-											item.name === '..'
-												? 'transparent'
-												: 'black'
-										}
-									>
-										<MdFileDownload />
-									</CustomThBtn>
+								</Th>
+								<Th min={'130px'}>{item.permission}</Th>
+								<Th min={'100px'} textAlign={'right'}>
+									{item.type === 'file' && (
+										<BaseButton onClick={edit(item)}>
+											<MdEdit />
+										</BaseButton>
+									)}
+									{item.name !== '..' && (
+										<BaseButton onClick={download(item)}>
+											<MdFileDownload />
+										</BaseButton>
+									)}
 								</Th>
 							</tr>
 						);
 					})}
-				</CustomTbody>
+				</tbody>
 			</BaseTable>
 			<FileListContextMenu uuid={uuid} />
 		</SFTPBody>

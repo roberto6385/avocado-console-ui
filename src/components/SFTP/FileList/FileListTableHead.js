@@ -1,25 +1,19 @@
 import React from 'react';
-import {MdFileDownload} from 'react-icons/md';
-import {CustomThBtn, CustomTimeTh, FileListP, Th} from '../../../styles/tables';
+import {FileListP, Th} from '../../../styles/tables';
 
 const TableHead = () => {
 	return (
 		<thead>
 			<tr>
-				<Th flex={10}>
+				<Th min={'150px'} flex={1}>
 					<FileListP>Name</FileListP>
 				</Th>
-				<Th flex={2}>Size</Th>
-				<CustomTimeTh flex={3}>Modified</CustomTimeTh>
-				<Th flex={3}>Permission</Th>
-				<Th flex={0.3}>
-					<CustomThBtn disabled style={{color: 'white'}}>
-						<MdFileDownload />
-					</CustomThBtn>
-					<CustomThBtn disabled style={{color: 'white'}}>
-						<MdFileDownload />
-					</CustomThBtn>
+				<Th min={'130px'} textAlign='right'>
+					Size
 				</Th>
+				<Th min={'200px'}>Modified</Th>
+				<Th min={'130px'}>Permission</Th>
+				<Th min={'100px'} />
 			</tr>
 		</thead>
 	);

@@ -9,6 +9,7 @@ import {
 } from '../reducers/ssht';
 import {BottomBar, ButtonsContainer, HostInfo} from '../styles/common';
 import {IconButton} from '../styles/buttons';
+import {FlexBox} from '../styles/divs';
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const Footer = () => {
 			<ButtonsContainer>
 				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
 					0 && (
-					<div>
+					<FlexBox>
 						<IconButton onClick={onClickDeceaseFont}>
 							<FaSearchMinus />
 						</IconButton>
@@ -41,9 +42,9 @@ const Footer = () => {
 						<IconButton onClick={onClickOpenSearchBar}>
 							<FaSearch />
 						</IconButton>
-					</div>
+					</FlexBox>
 				)}
-				<HostInfo>
+				<FlexBox justify={'flex-end'} padding={'2px 4px'}>
 					{current_tab &&
 						server.find(
 							(v) =>
@@ -51,7 +52,7 @@ const Footer = () => {
 								tab.find((i) => i.uuid === current_tab).server
 									.id,
 						).host}
-				</HostInfo>
+				</FlexBox>
 			</ButtonsContainer>
 		</BottomBar>
 	);

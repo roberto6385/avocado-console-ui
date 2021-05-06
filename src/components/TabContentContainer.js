@@ -2,8 +2,6 @@ import React, {useCallback, useEffect} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
-import {Card} from 'react-bootstrap';
-import styled from 'styled-components';
 
 import SSHTContainer from './SSHT/SSHTContainer';
 import SFTPContainer from './SFTP/SFTPContainer';

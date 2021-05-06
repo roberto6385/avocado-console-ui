@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import {DEEP_GRAY_COLOR, GRAY_COLOR, HIGHLIGHT_COLOR, MAIN_COLOR, NAV_HEIGHT,} from './global';
+import {
+	DEEP_GRAY_COLOR,
+	GRAY_COLOR,
+	HIGHLIGHT_COLOR,
+	MAIN_COLOR,
+	NAV_HEIGHT,
+} from './global';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {BsArrowUpDown} from 'react-icons/all';
 
@@ -43,24 +49,6 @@ export const DropdownP = styled.p`
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
-
-//Edit
-
-export const FlexBox = styled.div`
-	flex: 1;
-	height: 100%;
-	display: flex;
-	overflow: scroll;
-	flex-direction: column;
-	.card-header {
-		display: flex;
-		align-items: center;
-		position: relative;
-		height: ${NAV_HEIGHT};
-	}
-`;
-
-// EditContents
 
 export const TextAreaWrapper = styled.div`
 	display: inline-block;

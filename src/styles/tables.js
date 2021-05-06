@@ -19,8 +19,12 @@ export const BaseTable = styled(Table)`
 		}
 	}
 	tbody {
+		.highlight_tbody.active {
+			background: ${HIGHLIGHT_COLOR};
+		}
 		tr {
-			// display: flex;
+			cursor: pointer;
+			display: flex;
 		}
 	}
 	//
@@ -33,30 +37,14 @@ export const BaseTable = styled(Table)`
 `;
 
 export const Th = styled.th`
-	// flex: ${(props) => props?.flex};
-	text-align: ${(props) => props.textAlign || 'right'};
+	min-width: ${(props) => props?.min};
+	flex: ${(props) => props.flex};
+	text-align: ${(props) => props.textAlign || 'left'};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
 
-export const CustomNameTh = styled.th`
-	flex: ${(props) => props.flex};
-	// text-align: left;
-	min-width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
-
-export const CustomTimeTh = styled.th`
-	flex: ${(props) => props.flex};
-	// text-align: left;
-	min-width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-`;
 export const FileListP = styled.p`
 	width: 200px;
 	margin: 0;
@@ -64,29 +52,4 @@ export const FileListP = styled.p`
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-`;
-export const CustomThBtn = styled.button`
-	background: transparent;
-	margin-left: 8px;
-	border: none;
-	font-size: 18px;
-	line-height: 0px;
-	z-index: 1;
-	color: ${(props) => props.color};
-`;
-export const CustomTbody = styled.tbody`
-	flex: 1;
-	tr {
-		border: none;
-		border-bottom: 1px solid gray;
-		th {
-			border: none;
-		}
-	}
-	tr.highlight_tbody {
-		color: black;
-	}
-	tr.highlight_tbody.active {
-		background: ${HIGHLIGHT_COLOR};
-	}
 `;
