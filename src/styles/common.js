@@ -212,10 +212,6 @@ export const TabSFTPIcon = styled(RiArrowUpDownLine)`
 	margin-right: 5px;
 `;
 
-export const FlexBox = styled.div`
-	display: flex;
-`;
-
 // Work Space
 export const WorkSpaceContainer = styled.div`
 	flex: 1;

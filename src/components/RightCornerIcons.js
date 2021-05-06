@@ -10,7 +10,7 @@ import {SplitButtonContainer} from '../styles/common';
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
 
-const RightConerIcons = () => {
+const RightCornerIcons = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -63,4 +63,4 @@ const RightConerIcons = () => {
 	);
 };
 
-export default RightConerIcons;
+export default RightCornerIcons;

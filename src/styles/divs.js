@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import background from '../images/bg_3.png';
 
 export const FlexBox = styled.div`
 	display: flex;
@@ -16,4 +17,12 @@ export const RowBox = styled(FlexBox)`
 export const ColBox = styled(FlexBox)`
 	flex-direction: column;
 	overflow: ${(props) => props?.overflow};
+`;
+export const Background = styled(RowBox)`
+	flex: 1;
+	justify-content: center;
+	background-image: url(${background});
+	background-size: cover;
+	background-position: center;
+	position: relative;
 `;

@@ -7,7 +7,6 @@ import Sortable from 'sortablejs';
 
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {
-	FlexBox,
 	IconSpan,
 	TabNavItem,
 	TabContainer,
@@ -18,7 +17,8 @@ import {
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {IconButton} from '../styles/buttons';
-import RightConerIcons from './RightConerIcons';
+import RightCornerIcons from './RightCornerIcons';
+import {FlexBox} from '../styles/divs';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -139,7 +139,7 @@ const TabNavBar = () => {
 							</TabNavItem>
 						))}
 				</TabNav>
-				<RightConerIcons />
+				<RightCornerIcons />
 			</FlexBox>
 		</TabContainer>
 	);

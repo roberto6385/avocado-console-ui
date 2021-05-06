@@ -2,25 +2,10 @@ import React, {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
-import SplitPane, {Pane} from 'react-split-pane';
 import '../styles/resize.css';
-import TabContentContainer from './TabContentContainer';
-import styled from 'styled-components';
-import background from '../images/bg_3.png';
 import {AddServerButton} from '../styles/buttons';
-
-const Background = styled.div`
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	height: 100%;
-	background-image: url(${background});
-	background-size: cover;
-	background-position: center;
-	position: relative;
-`;
+import {Background} from '../styles/divs';
+import {MAIN_COLOR} from '../styles/global';
 
 const MainPage = () => {
 	const dispatch = useDispatch();
@@ -31,7 +16,7 @@ const MainPage = () => {
 
 	return (
 		<Background>
-			<AddServerButton onClick={onClickVisibleForm}>
+			<AddServerButton back={MAIN_COLOR} onClick={onClickVisibleForm}>
 				Add Server
 			</AddServerButton>
 		</Background>

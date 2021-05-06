@@ -5,7 +5,6 @@ import SplitPane from 'react-split-pane';
 import TabContentContainer from './TabContentContainer';
 import {WorkSpaceContainer} from '../styles/common';
 import '../styles/resize.css';
-import {RowBox} from '../styles/divs';
 
 const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);

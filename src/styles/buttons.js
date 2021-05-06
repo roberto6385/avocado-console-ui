@@ -34,6 +34,7 @@ export const PopupButton = styled(BaseButton)`
 
 export const AddServerButton = styled(BaseButton)`
 	padding: 20px 40px;
+	color: white;
 	border-radius: 8px;
 	position: absolute;
 	top: 60%;
