@@ -360,24 +360,28 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_SERVER_FOLDER_NAME: {
-				if (draft.clicked_server[0] === 's') {
+				console.log(action.data);
+				if (action.data.key[0] === 's') {
 					const keyIndex = draft.server.findIndex(
-						(v) => v.key === draft.clicked_server,
+						(v) => v.key === action.data.key,
 					);
 					const newServer = {
 						...state.server[keyIndex],
-						name: action.data,
+						name: action.data.name,
 					};
 
 					draft.server.splice(keyIndex, 1, newServer);
 				}
 
-				searchTreeStart(draft.nav, draft.clicked_server).name =
-					action.data;
+				searchTreeStart(draft.nav, action.data.key).name =
+					action.data.name;
 
 				draft.tab = draft.tab.map((v) => {
-					if (v.server.key === draft.clicked_server)
-						return {...v, server: {...v.server, name: action.data}};
+					if (v.server.key === action.data.key)
+						return {
+							...v,
+							server: {...v.server, name: action.data.name},
+						};
 					else return v;
 				});
 				break;
@@ -413,7 +417,7 @@ const reducer = (state = initialState, action) => {
 				};
 
 				addDataOnNode(draft.nav, draft.clicked_server, data);
-				draft.clicked_server++;
+
 				draft.server.push({
 					id: draft.server_index,
 					key: 's_' + draft.server_index.toString(),

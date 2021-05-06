@@ -7,6 +7,7 @@ import {
 	SSHT_DECREASE_FONT_SIZE,
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
+
 import {IconButton} from '../styles/buttons';
 import {MainHeader} from '../styles/cards';
 

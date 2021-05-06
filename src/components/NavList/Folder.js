@@ -44,7 +44,7 @@ const Folder = ({open, data, indent}) => {
 
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
-	const [openTabRename, setOpenRename] = useState(false);
+	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
 	const onCLickFolder = useCallback(() => {
@@ -71,15 +71,18 @@ const Folder = ({open, data, indent}) => {
 		[data],
 	);
 
-	const handleSubmit = useCallback((e) => {
-		e.preventDefault();
+	const handleSubmit = useCallback(
+		(e) => {
+			e.preventDefault();
 
-		dispatch({
-			type: CHANGE_SERVER_FOLDER_NAME,
-			data: renameValue,
-		});
-		setOpenRename(false);
-	}, []);
+			dispatch({
+				type: CHANGE_SERVER_FOLDER_NAME,
+				data: {key: data.key, name: renameValue},
+			});
+			setOpenRename(false);
+		},
+		[data, renameValue],
+	);
 
 	const EscapeKey = useCallback((e) => {
 		if (e.keyCode === 27) setOpenRename(false);
@@ -101,15 +104,17 @@ const Folder = ({open, data, indent}) => {
 		},
 		[data, indent],
 	);
-
-	const onBlurOpenRename = useCallback(() => {
-		setOpenRename(false);
-	}, []);
-
+	//fill re-name vlaue
 	useEffect(() => {
 		setRenameValue(data.name);
-		if (renameRef.current) renameRef.current.focus();
-	}, [renameRef, data]);
+	}, [data]);
+	//when re-name form is open focus and select name value
+	useEffect(() => {
+		if (openRename) {
+			renameRef.current.focus();
+			renameRef.current.select();
+		}
+	}, [openRename, renameRef]);
 
 	useEffect(() => {
 		setOpenTab(open);
@@ -127,11 +132,8 @@ const Folder = ({open, data, indent}) => {
 				left={(indent * 15).toString() + 'px'}
 			>
 				<Folder2Line />
-				{openTabRename ? (
-					<RenameForm
-						onSubmit={handleSubmit}
-						onBlur={onBlurOpenRename}
-					>
+				{openRename ? (
+					<RenameForm onSubmit={handleSubmit} onBlur={handleSubmit}>
 						<RenameInput
 							ref={renameRef}
 							type='text'
@@ -179,7 +181,7 @@ const Folder = ({open, data, indent}) => {
 };
 
 Folder.propTypes = {
-	open: PropTypes.bool,
+	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };

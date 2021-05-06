@@ -4,7 +4,10 @@ import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
-import debounce from 'lodash/debounce';
+
+import {useCookies} from 'react-cookie';
+import {debounce, throttle} from 'lodash';
+
 import useResizeObserver from 'use-resize-observer';
 
 import useInput from '../../hooks/useInput';
@@ -14,6 +17,7 @@ import {
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
 import {SSHTBody} from '../../styles/cards';
+
 import {SSHTerminal} from '../../styles/divs';
 
 const SSHT = ({uuid}) => {
@@ -50,14 +54,14 @@ const SSHT = ({uuid}) => {
 
 	//terminal setting
 	useEffect(() => {
+		console.log(sshTerm);
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
-		sshTerm.open(document.getElementById('terminal_' + uuid));
+		// sshTerm.open(document.getElementById('terminal_' + uuid));
+		sshTerm.open(terminalRef.current);
 		// setCookie('search_cokkies', []);
-		// return () => {
-		// sshTerm.reset();
-		// };
-	}, [sshTerm, terminalRef, fitAddon, searchAddon]);
+		return () => {};
+	}, [terminalRef]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -77,7 +81,6 @@ const SSHT = ({uuid}) => {
 			processInput.dispose();
 		};
 	}, [uuid, ws, sshTerm, currentLine]);
-
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
