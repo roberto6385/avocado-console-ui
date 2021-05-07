@@ -59,16 +59,17 @@ const FORM_KEYWORDS = [
 
 const ConfirmPopup = () => {
 	const dispatch = useDispatch();
+	const inputRef = useRef(null);
 	const {confirm_popup} = useSelector((state) => state.popup);
 	const {clicked_server} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
-	const inputRef = useRef(null);
-	const buttonRef = useRef(null);
 
 	const justExit = useCallback(() => {
-		const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
-		const {prevMode, mode} = corServer;
+		const {prevMode, mode} = sftp.find(
+			(it) => it.uuid === confirm_popup.uuid,
+		);
+
 		dispatch({
 			type: CHANGE_MODE,
 			payload: {
@@ -112,8 +113,8 @@ const ConfirmPopup = () => {
 				case 'sftp_rename_file_folder': {
 					const uuid = confirm_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
-
 					const {highlight, mode, path} = corServer;
+
 					for (let value of highlight) {
 						if (mode === 'list') {
 							dispatch(
@@ -216,53 +217,35 @@ const ConfirmPopup = () => {
 		confirm_popup.key === 'sftp_edit_file' && justExit();
 		handleClose();
 	}, [confirm_popup]);
-
-	// const inputFunction = useCallback(() => {
-	// 	if (confirm_popup.key === 'sftp_rename_file_folder') {
-	// 		const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
-	// 		const {highlight, mode} = corServer;
-	// 		console.log(highlight, mode);
-	// 		mode === 'list'
-	// 			? setFormValue(highlight[0].name)
-	// 			: setFormValue(highlight[0].item.name);
-	// 		inputRef.current?.focus();
-	// 	} else if (confirm_popup.key === 'sftp_new_folder') {
-	// 		setFormValue('');
-	// 		inputRef.current?.focus();
-	// 	}
-	// }, [confirm_popup, sftp]);
-	//
-	// useEffect(() => {
-	// 	inputFunction();
-	// }, [confirm_popup]);
-
-	// useEffect(() => {
-	// 	buttonRef.current?.focus();
-	// }, [buttonRef]);
-
+	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
-		if (confirm_popup.open) {
-			if (confirm_popup.key === 'sftp_rename_file_folder') {
-				const corServer = sftp.find(
-					(it) => it.uuid === confirm_popup.uuid,
-				);
-				const {highlight, mode} = corServer;
+		const fillInForm = async () => {
+			if (confirm_popup.open) {
+				if (confirm_popup.key === 'sftp_rename_file_folder') {
+					const {highlight, mode} = sftp.find(
+						(it) => it.uuid === confirm_popup.uuid,
+					);
 
-				mode === 'list'
-					? setFormValue(highlight[0].name)
-					: setFormValue(highlight[0].item.name);
-
-				inputRef.current?.focus();
-				inputRef.current.select();
-			} else if (
-				confirm_popup.key === 'sftp_new_folder' ||
-				confirm_popup.key === 'new_folder'
-			) {
-				setFormValue('');
-				inputRef.current?.focus();
+					if (mode === 'list') await setFormValue(highlight[0].name);
+					else await setFormValue(highlight[0].item.name);
+				} else if (
+					confirm_popup.key === 'sftp_new_folder' ||
+					confirm_popup.key === 'new_folder'c
+				) {
+					await setFormValue('');
+				}
+				await inputRef.current.select();
+				await inputRef.current.focus();
 			}
-		}
-	}, [confirm_popup, inputRef, sftp]);
+		};
+		fillInForm();
+	}, [confirm_popup, sftp]);
+
+	// useEffect(() => {
+	// 	if (confirm_popup.open) {
+	//
+	// 	}
+	// }, [confirm_popup, inputRef]);
 
 	return (
 		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
@@ -279,14 +262,14 @@ const ConfirmPopup = () => {
 				{Object.prototype.hasOwnProperty.call(
 					ConfirmMessage,
 					confirm_popup.key,
-				) && <p>{ConfirmMessage[confirm_popup.key]}</p>}
+				) && <Card.Text>{ConfirmMessage[confirm_popup.key]}</Card.Text>}
 
 				{FORM_KEYWORDS.includes(confirm_popup.key) && (
 					<Form onSubmit={submitFunction}>
 						<Form.Control
 							ref={inputRef}
-							value={formValue}
 							type='text'
+							value={formValue}
 							placeholder={
 								Object.prototype.hasOwnProperty.call(
 									ConfirmPlaceholder,
@@ -299,20 +282,20 @@ const ConfirmPopup = () => {
 						/>
 					</Form>
 				)}
+				<FlexBox padding={'4px 12px'} justify={'flex-end'}>
+					<PopupButton onClick={cancelFunction} back={`${SUB_COLOR}`}>
+						Cancel
+					</PopupButton>
+					<PopupButton
+						onClick={submitFunction}
+						back={`${MAIN_COLOR}`}
+					>
+						{SAVE_KEYWORDS.includes(confirm_popup.key)
+							? 'SAVE'
+							: 'OK'}
+					</PopupButton>
+				</FlexBox>
 			</Card.Body>
-
-			<FlexBox padding={'4px 12px'} justify={'flex-end'}>
-				<PopupButton onClick={cancelFunction} back={`${SUB_COLOR}`}>
-					Cancel
-				</PopupButton>
-				<PopupButton
-					ref={buttonRef}
-					onClick={submitFunction}
-					back={`${MAIN_COLOR}`}
-				>
-					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
-				</PopupButton>
-			</FlexBox>
 		</CustomModal>
 	);
 };

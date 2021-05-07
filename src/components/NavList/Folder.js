@@ -92,17 +92,17 @@ const Folder = ({open, data, indent}) => {
 		},
 		[data, indent],
 	);
-	//fill re-name vlaue
+	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
-		setRenameValue(data.name);
-	}, [data]);
-	//when re-name form is open focus and select name value
-	useEffect(() => {
-		if (openRename) {
-			renameRef.current.focus();
-			renameRef.current.select();
-		}
-	}, [openRename, renameRef]);
+		const fillInForm = async () => {
+			if (openRename) {
+				await setRenameValue(data.name);
+				await renameRef.current.focus();
+				await renameRef.current.select();
+			}
+		};
+		fillInForm();
+	}, [openRename, renameRef, data]);
 
 	useEffect(() => {
 		setOpenTab(open);

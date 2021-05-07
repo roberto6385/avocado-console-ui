@@ -2,18 +2,18 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {Form} from 'react-bootstrap';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {FaServerIcon} from '../../styles/common';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
+import ServerContextMenu from '../ContextMenu/ServerContextMenu';
+import useInput from '../../hooks/useInput';
+import {FaServerIcon} from '../../styles/common';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
-import ServerContextMenu from '../ContextMenu/ServerContextMenu';
-import useInput from '../../hooks/useInput';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {ServerNavItem} from '../../styles/navs';
 
@@ -88,17 +88,17 @@ const Server = ({data, indent}) => {
 		},
 		[data],
 	);
-	//fill re-name vlaue
+	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
-		setRenameValue(data.name);
-	}, [data]);
-	//when re-name form is open focus and select name value
-	useEffect(() => {
-		if (openRename) {
-			renameRef.current.focus();
-			renameRef.current.select();
-		}
-	}, [openRename, renameRef]);
+		const fillInForm = async () => {
+			if (openRename) {
+				await setRenameValue(data.name);
+				await renameRef.current.focus();
+				await renameRef.current.select();
+			}
+		};
+		fillInForm();
+	}, [openRename, renameRef, data]);
 
 	return (
 		<>
