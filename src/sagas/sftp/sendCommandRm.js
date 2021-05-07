@@ -36,6 +36,7 @@ function* sendCommand(action) {
 			const res = yield call(messageReader, {data, payload});
 			switch (res.type) {
 				case RM_SUCCESS:
+					console.log(payload.file);
 					yield put({type: RM_SUCCESS});
 					yield put({
 						type: ADD_HISTORY,

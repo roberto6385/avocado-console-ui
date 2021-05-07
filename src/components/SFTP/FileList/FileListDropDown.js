@@ -1,12 +1,7 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	DirectoryIcon,
-	DropdownLi,
-	DropdownUl,
-	FileIcon,
-} from '../../../styles/sftp';
+import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
 import {
@@ -20,9 +15,10 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
-import {MAIN_COLOR} from '../../../styles/global';
+import {HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
 import {EllipsisSpan} from '../../../styles/texts';
+import {BaseLi, BaseUl} from '../../../styles/lists';
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -230,7 +226,7 @@ const FileListDropDown = ({uuid}) => {
 		<SFTPBody>
 			{fileList.map((listItem, listindex) => {
 				return (
-					<DropdownUl
+					<BaseUl
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
@@ -239,15 +235,15 @@ const FileListDropDown = ({uuid}) => {
 					>
 						{listItem.map((item, index) => {
 							return (
-								<DropdownLi
-									className={
+								<BaseLi
+									width={'200px'}
+									padding={'2px 4px'}
+									back={
 										highlight.findIndex(
 											(it) =>
 												it?.name === item.name &&
 												path === pathList[listindex],
-										) === -1
-											? 'highlight_list'
-											: 'highlight_list active'
+										) > -1 && HIGHLIGHT_COLOR
 									}
 									key={index}
 									onContextMenu={contextMenuOpen({
@@ -279,10 +275,10 @@ const FileListDropDown = ({uuid}) => {
 										)}
 										{item.name}
 									</EllipsisSpan>
-								</DropdownLi>
+								</BaseLi>
 							);
 						})}
-					</DropdownUl>
+					</BaseUl>
 				);
 			})}
 			<FileListContextMenu uuid={uuid} />

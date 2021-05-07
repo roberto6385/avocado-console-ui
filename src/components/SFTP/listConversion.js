@@ -50,7 +50,7 @@ export const listConversion = (result) => {
 			if (splitedList[splitedList.length - 1] !== '.') {
 				fileList.push({
 					name: splitedList.slice(8).join(' '),
-					size: formatByteSizeString(parseInt(splitedList[4])),
+					size: parseInt(splitedList[4]),
 					type: splitedList[0][0] === 'd' ? 'directory' : 'file',
 					lastModified: dateConversion({
 						month: splitedList[5],

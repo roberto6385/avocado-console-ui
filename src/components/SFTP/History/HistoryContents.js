@@ -15,12 +15,12 @@ import {
 	RED_COLOR,
 	SMALL_FONT,
 } from '../../../styles/global';
-import {CustomLi, CustomUl} from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
+import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -74,10 +74,11 @@ const HistoryContents = ({uuid}) => {
 					<div>Drop files here to upload</div>
 				</ColBox>
 			) : (
-				<CustomUl>
+				<BaseUl>
 					{history.map((history) => {
 						return (
-							<CustomLi
+							<BaseLi
+								padding={'4px'}
 								key={history.HISTORY_ID}
 								// onClick={(e) => selectItem(e, history)}
 							>
@@ -132,10 +133,10 @@ const HistoryContents = ({uuid}) => {
 										/>
 									)}
 								</BaseSpan>
-							</CustomLi>
+							</BaseLi>
 						);
 					})}
-				</CustomUl>
+				</BaseUl>
 			)}
 			{/*<HistoryContextMenu*/}
 			{/*	uuid={uuid}*/}

@@ -21,6 +21,7 @@ import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
 import {BaseTable, FileListP, Th} from '../../../styles/tables';
 import {BaseButton} from '../../../styles/buttons';
+import {formatByteSizeString} from '../listConversion';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -184,7 +185,8 @@ const FileListContents = ({uuid}) => {
 									</FileListP>
 								</Th>
 								<Th min={'130px'} textAlign='right'>
-									{item.name !== '..' && item.size}
+									{item.name !== '..' &&
+										formatByteSizeString(item.size)}
 								</Th>
 								<Th min={'200px'}>
 									{item.name !== '..' && item.lastModified}

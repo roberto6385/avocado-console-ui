@@ -1,3 +1,10 @@
+export const PreventDragCopy = `
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+`;
+
 // height
 export const NAV_HEIGHT = '42px';
 export const NAV_HEIGHT_SUM = '76px';
