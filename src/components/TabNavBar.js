@@ -98,7 +98,6 @@ const TabNavBar = () => {
 				id='sortableTabNav'
 				overflow={'scroll'}
 				height={NAV_HEIGHT}
-				shrink={1}
 			>
 				{tab &&
 					tab.map((data) => (

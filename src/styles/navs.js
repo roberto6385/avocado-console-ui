@@ -5,7 +5,6 @@ import {HIGHLIGHT_COLOR} from './global';
 export const BaseNav = styled(Nav)`
 	display: flex;
 	flex-wrap: nowrap;
-	flex-shrink: ${(props) => props.shrink || 'initial'};
 	flex-direction: ${(props) => props?.direction};
 	overflow: ${(props) => props.overflow || 'initial'};
 	height: ${(props) => props.height || 'initial'};
