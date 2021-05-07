@@ -22,9 +22,9 @@ class App extends Component {
 					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>
-				<AlertPopup />
 				<AddServerForm />
 				<ConfirmPopup />
+				<AlertPopup />
 			</BrowserRouter>
 		);
 	}

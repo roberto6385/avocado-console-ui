@@ -87,12 +87,11 @@ const ConfirmPopup = () => {
 		(e) => {
 			e.preventDefault();
 
-			const uuid = confirm_popup.uuid;
-			const corServer = sftp.find((it) => it.uuid === uuid);
-			console.log(corServer);
-
 			switch (confirm_popup.key) {
 				case 'sftp_delete_file_folder': {
+					const uuid = confirm_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
+
 					for (let value of corServer.deleteWorks) {
 						for (let item of value.list) {
 							dispatch(
@@ -104,7 +103,6 @@ const ConfirmPopup = () => {
 										item.type === 'file' ? 'rm' : 'rmdir',
 								}),
 							);
-							// console.log(`${item.name}/${value.path}`);
 						}
 					}
 					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
@@ -112,6 +110,9 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_rename_file_folder': {
+					const uuid = confirm_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
+
 					const {highlight, mode, path} = corServer;
 					for (let value of highlight) {
 						if (mode === 'list') {
@@ -138,6 +139,8 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_new_folder': {
+					const uuid = confirm_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
 					const {mode, path, tempPath} = corServer;
 
 					if (formValue === '') return;
@@ -160,6 +163,8 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_edit_file': {
+					const uuid = confirm_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
 					const {editText, editFile} = corServer;
 					const uploadFile = new File([editText], editFile.name, {
 						type: 'text/plain',
@@ -212,29 +217,51 @@ const ConfirmPopup = () => {
 		handleClose();
 	}, [confirm_popup]);
 
-	const inputFunction = useCallback(() => {
-		if (confirm_popup.key === 'sftp_rename_file_folder') {
-			const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
-			const {highlight, mode} = corServer;
-			console.log(highlight, mode);
-			mode === 'list'
-				? setFormValue(highlight[0].name)
-				: setFormValue(highlight[0].item.name);
-			inputRef.current?.focus();
-			// buttonRef.current?.focus();
-		} else if (confirm_popup.key === 'sftp_new_folder') {
-			setFormValue('');
-			inputRef.current?.focus();
-		}
-	}, [confirm_popup, sftp]);
-
-	useEffect(() => {
-		inputFunction();
-	}, [confirm_popup]);
+	// const inputFunction = useCallback(() => {
+	// 	if (confirm_popup.key === 'sftp_rename_file_folder') {
+	// 		const corServer = sftp.find((it) => it.uuid === confirm_popup.uuid);
+	// 		const {highlight, mode} = corServer;
+	// 		console.log(highlight, mode);
+	// 		mode === 'list'
+	// 			? setFormValue(highlight[0].name)
+	// 			: setFormValue(highlight[0].item.name);
+	// 		inputRef.current?.focus();
+	// 	} else if (confirm_popup.key === 'sftp_new_folder') {
+	// 		setFormValue('');
+	// 		inputRef.current?.focus();
+	// 	}
+	// }, [confirm_popup, sftp]);
+	//
+	// useEffect(() => {
+	// 	inputFunction();
+	// }, [confirm_popup]);
 
 	// useEffect(() => {
 	// 	buttonRef.current?.focus();
 	// }, [buttonRef]);
+
+	useEffect(() => {
+		if (confirm_popup.open) {
+			if (confirm_popup.key === 'sftp_rename_file_folder') {
+				const corServer = sftp.find(
+					(it) => it.uuid === confirm_popup.uuid,
+				);
+				const {highlight, mode} = corServer;
+
+				mode === 'list'
+					? setFormValue(highlight[0].name)
+					: setFormValue(highlight[0].item.name);
+
+				inputRef.current?.focus();
+				inputRef.current.select();
+			} else if (
+				confirm_popup.key === ('sftp_new_folder' || 'new_folder')
+			) {
+				setFormValue('');
+				inputRef.current?.focus();
+			}
+		} else setFormValue('');
+	}, [confirm_popup, inputRef, sftp]);
 
 	return (
 		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
@@ -257,13 +284,15 @@ const ConfirmPopup = () => {
 					<Form onSubmit={submitFunction}>
 						<Form.Control
 							ref={inputRef}
-							value={formValue || ''}
+							value={formValue}
 							type='text'
 							placeholder={
 								Object.prototype.hasOwnProperty.call(
 									ConfirmPlaceholder,
 									confirm_popup.key,
-								) && ConfirmPlaceholder[confirm_popup.key]
+								)
+									? ConfirmPlaceholder[confirm_popup.key]
+									: null
 							}
 							onChange={onChangeFormValue}
 						/>

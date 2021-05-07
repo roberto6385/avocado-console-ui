@@ -27,8 +27,6 @@ const AlertPopup = () => {
 	const dispatch = useDispatch();
 	const {alert_popup} = useSelector((state) => state.popup);
 
-	console.log(alert_popup.key);
-
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
 	}, []);
