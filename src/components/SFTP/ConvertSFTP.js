@@ -7,6 +7,7 @@ import {connectionAction} from '../../reducers/sftp';
 import {IconButton} from '../../styles/buttons';
 
 const ConvertSFTP = ({server_id}) => {
+	console.log(server_id);
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
@@ -23,7 +24,7 @@ const ConvertSFTP = ({server_id}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [server_id, userTicket]);
+	}, [server_id, userTicket, dispatch]);
 
 	return (
 		<IconButton onClick={connection}>

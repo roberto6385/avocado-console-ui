@@ -162,6 +162,8 @@ const FileListContents = ({uuid}) => {
 				<TableHead />
 				<tbody onContextMenu={contextMenuOpen}>
 					{fileList[fileList.length - 1]?.map((item, index) => {
+						// . 파일은 표시하지 않음.
+						if (item.name === '.') return;
 						return (
 							<tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
@@ -188,18 +190,24 @@ const FileListContents = ({uuid}) => {
 									{item.name !== '..' &&
 										formatByteSizeString(item.size)}
 								</Th>
-								<Th min={'200px'}>
+								<Th min={'260px'}>
 									{item.name !== '..' && item.lastModified}
 								</Th>
 								<Th min={'130px'}>{item.permission}</Th>
 								<Th min={'100px'} textAlign={'right'}>
 									{item.type === 'file' && (
-										<BaseButton onClick={edit(item)}>
+										<BaseButton
+											zIndex={1}
+											onClick={edit(item)}
+										>
 											<MdEdit />
 										</BaseButton>
 									)}
 									{item.name !== '..' && (
-										<BaseButton onClick={download(item)}>
+										<BaseButton
+											zIndex={1}
+											onClick={download(item)}
+										>
 											<MdFileDownload />
 										</BaseButton>
 									)}

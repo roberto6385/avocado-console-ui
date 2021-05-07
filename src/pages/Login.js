@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 
-import {MainContainer} from '../styles/page';
 import UserAuthForm from '../components/Form/UserAuthForm';
+import {RowBox} from '../styles/divs';
 
 const Login = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -13,9 +12,9 @@ const Login = () => {
 	// }, [userTicket]);
 
 	return (
-		<MainContainer>
+		<RowBox height={'100vh'}>
 			<UserAuthForm />
-		</MainContainer>
+		</RowBox>
 	);
 };
 

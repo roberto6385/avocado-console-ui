@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 
-import {MainContainer, MainRow} from '../styles/page';
 import LeftSetting from '../components/Setting/LeftSetting';
-import IdentitiesContainer from "../components/Setting/IdentitiesContainer";
+import IdentitiesContainer from '../components/Setting/IdentitiesContainer';
+import {RowBox} from '../styles/divs';
 
 const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -14,12 +13,10 @@ const Identities = () => {
 	// }, [userTicket]);
 
 	return (
-		<MainContainer fluid>
-			<MainRow className={'fix-height'}>
-				<LeftSetting />
-				<IdentitiesContainer />
-			</MainRow>
-		</MainContainer>
+		<RowBox height={'100vh'}>
+			<LeftSetting />
+			<IdentitiesContainer />
+		</RowBox>
 	);
 };
 

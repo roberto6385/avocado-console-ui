@@ -47,8 +47,8 @@ const Footer = () => {
 					server.find(
 						(v) =>
 							v.id ===
-							tab.find((i) => i.uuid === current_tab).server.id,
-					).host}
+							tab.find((i) => i.uuid === current_tab)?.server.id,
+					)?.host}
 			</span>
 		</MainHeader>
 	);

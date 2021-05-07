@@ -21,6 +21,7 @@ import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton} from '../../styles/buttons';
 import {ServerNavItem} from '../../styles/navs';
+import {BaseForm, BaseInput} from '../../styles/forms';
 
 const Folder2Line = styled(RiFolder2Fill)`
 	margin-right: 4px;
@@ -121,15 +122,15 @@ const Folder = ({open, data, indent}) => {
 			>
 				<Folder2Line />
 				{openRename ? (
-					<Form onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<Form.Control
+					<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
+						<BaseInput
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
-					</Form>
+					</BaseForm>
 				) : (
 					data.name
 				)}

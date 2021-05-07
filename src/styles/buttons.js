@@ -12,7 +12,7 @@ export const BaseButton = styled.button`
 	border: none;
 	padding: 0px 8px;
 	cursor: pointer;
-	z-index: 999;
+	z-index: ${(props) => props.zIndex};
 `;
 
 // 하위의 요소들은 Base Ele의 속성을 상속받아 사용.

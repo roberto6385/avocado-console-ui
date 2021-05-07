@@ -13,7 +13,6 @@ import {
 	RENAME_SUCCESS,
 	RM_SUCCESS,
 } from '../../reducers/sftp';
-import {listConversion} from '../../components/SFTP/listConversion';
 
 let fileBuffer = new ArrayBuffer(0);
 
@@ -134,28 +133,46 @@ export async function messageReader({data, payload}) {
 							console.log('command : ls', ls);
 
 							const entryList = ls.getEntryList();
-							// console.log('entry ', entryList.length);
+							console.log('entry ', entryList.length);
 
+							// const list = [];
 							const list = [];
 							for (let i = 0; i < entryList.length; i++) {
 								const entry = entryList[i];
-								console.log(entry.getAttributes());
-								console.log(entry.getFilename());
-								console.log(entry.getAttributes().getSize());
-								console.log(
-									entry.getAttributes().getMtimestring(),
-								);
-								console.log(
-									entry
+								// list.push(entry.getLongname());
+
+								// new pure list
+								const splitedValue = entry
+									.getLongname()
+									.replace(/\s{2,}/gi, ' ')
+									.split(' ');
+								// 나중에 longname에서 가져와야 할 정보나 값이 생기면
+								// splitedValue 에서 사용하기 바람.
+								console.log(splitedValue);
+
+								list.push({
+									name: entry.getFilename(),
+									size: entry.getAttributes().getSize(),
+									type:
+										entry
+											.getAttributes()
+											.getPermissionsstring()
+											.charAt(0) === 'd'
+											? 'directory'
+											: 'file',
+									lastModified: entry
+										.getAttributes()
+										.getMtimestring(),
+									permission: entry
 										.getAttributes()
 										.getPermissionsstring(),
-								);
-								list.push(entry.getLongname());
-								console.log('entry : ', entry.getLongname());
+									link: splitedValue[1],
+									owner: splitedValue[2],
+									group: splitedValue[3],
+								});
 							}
-							const fileList = listConversion(list);
-
-							return {type: LS_SUCCESS, fileList};
+							// const fileList = listConversion(list);
+							return {type: LS_SUCCESS, list};
 						}
 						case SFTP.CommandResponse.CommandCase.STAT: {
 							const stat = command.getStat();

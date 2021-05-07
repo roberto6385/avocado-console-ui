@@ -6,7 +6,6 @@ import {FaTimes} from 'react-icons/all';
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {AddServerModal} from '../../styles/common';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {
@@ -15,6 +14,9 @@ import {
 } from '../../reducers/popup';
 import {IconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
+import {BaseModal} from '../../styles/modals';
+import {MainHeader} from '../../styles/cards';
+import {BaseSpan} from '../../styles/texts';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -86,7 +88,10 @@ const AddServerForm = () => {
 								data: newData,
 							},
 						});
-				} else if (message.type === 'DISCONNECT') {
+				} else if (
+					message !== undefined &&
+					message.type === 'DISCONNECT'
+				) {
 					dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
 				} else console.log('V AddServerForm onmessage: ', message);
 			};
@@ -133,18 +138,18 @@ const AddServerForm = () => {
 	}, [add_server_form_popup]);
 
 	return (
-		<AddServerModal
+		<BaseModal
 			show={add_server_form_popup.open}
 			onHide={onClickCloseForm}
 			backdrop='static'
-			keyboard={false}
+			width={'700px'}
 		>
-			<Modal.Header as='h5'>
-				Add Server
+			<MainHeader justify={'space-between'}>
+				<BaseSpan padding={'0px 8px'}>Add Server</BaseSpan>
 				<IconButton className={'right'}>
 					<FaTimes onClick={onClickCloseForm} />
 				</IconButton>
-			</Modal.Header>
+			</MainHeader>
 			<Modal.Body>
 				<Form onSubmit={onSubmitForm}>
 					<Form.Row className={'add-server-form-row'}>
@@ -251,7 +256,7 @@ const AddServerForm = () => {
 							/>
 						</Form.Group>
 					) : (
-						<div>
+						<>
 							<Form.Group className={'add-server-form-row'}>
 								<Form.Label>Private Key File</Form.Label>
 								<Form.File
@@ -272,7 +277,7 @@ const AddServerForm = () => {
 									required
 								/>
 							</Form.Group>
-						</div>
+						</>
 					)}
 
 					<Form.Group className={'add-server-form-row'}>
@@ -298,7 +303,7 @@ const AddServerForm = () => {
 					</FlexBox>
 				</Form>
 			</Modal.Body>
-		</AddServerModal>
+		</BaseModal>
 	);
 };
 

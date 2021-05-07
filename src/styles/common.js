@@ -1,26 +1,6 @@
 import styled from 'styled-components';
-
-import {FormControl, Modal} from 'react-bootstrap';
-import {HIGHLIGHT_COLOR, MAIN_COLOR} from './global';
+import {MAIN_COLOR} from './global';
 import {FiServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
-
-export const CustomModal = styled(Modal)`
-    .modal-dialog{
-        height:100%;
-        margin:auto;
-        display:flex;
-        align-items:center;
-        justify-contents:center;
-        
-        .modal-content{
-            margin:auto;
-            width:450px;
-            height:200px;
-            flex-direction:column;
-            }
-        }
-    }
-`;
 
 // SidebarShow, RotateButton 삭제 예정.
 export const SidebarShow = styled.div`
@@ -45,21 +25,10 @@ export const RotateButton = styled.button`
 	}
 `;
 
-export const ServerSearchForm = styled(FormControl)`
-	font-size: 12px;
-	border: none;
-	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
-	border-top: 1px solid ${HIGHLIGHT_COLOR};
-	outline: none;
-	border: 'none';
-`;
-
 // ServerNavBar
 export const FaServerIcon = styled(FiServer)`
-	// vertical-align: middle;
 	margin-right: 4px;
 	color: ${MAIN_COLOR};
-	// font-size: 25px;
 `;
 
 export const TabSSHTIcon = styled(RiTerminalFill)`
@@ -83,11 +52,3 @@ export const WorkSpaceContainer = styled.div`
 	// flex-wrap: wrap;
 `;
 
-//Add Server Form
-export const AddServerModal = styled(Modal)`
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-`;

@@ -3,11 +3,13 @@ import {Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SUB_COLOR} from '../../styles/global';
-import {CustomModal} from '../../styles/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
-import {PopupButton} from '../../styles/buttons';
+import {IconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
+import {BaseModal} from '../../styles/modals';
+import {MainHeader} from '../../styles/cards';
+import {BaseSpan} from '../../styles/texts';
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
@@ -32,16 +34,18 @@ const AlertPopup = () => {
 	}, []);
 
 	return (
-		<CustomModal size='lg' show={alert_popup.open} onHide={handleClose}>
-			<Card.Header as='h5'>
-				{Object.prototype.hasOwnProperty.call(
-					AlertHeader,
-					alert_popup.key,
-				) && AlertHeader[alert_popup.key]}
-				<span className={'right'} onClick={handleClose}>
-					<FaTimes />
-				</span>
-			</Card.Header>
+		<BaseModal show={alert_popup.open} onHide={handleClose}>
+			<MainHeader justify={'space-between'}>
+				<BaseSpan padding={'0px 8px'}>
+					{Object.prototype.hasOwnProperty.call(
+						AlertHeader,
+						alert_popup.key,
+					) && AlertHeader[alert_popup.key]}
+				</BaseSpan>
+				<IconButton className={'right'}>
+					<FaTimes onClick={handleClose} />
+				</IconButton>
+			</MainHeader>
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(
 					AlertMessage,
@@ -53,7 +57,7 @@ const AlertPopup = () => {
 					Ok
 				</PopupButton>
 			</FlexBox>
-		</CustomModal>
+		</BaseModal>
 	);
 };
 
