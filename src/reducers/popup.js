@@ -17,10 +17,12 @@ const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case OPEN_ALERT_POPUP:
+				console.log('OPEN ALERT POPUP');
 				draft.alert_popup = {open: true, key: action.data};
 				break;
 
 			case CLOSE_ALERT_POPUP:
+				console.log('CLOSE ALERT POPUP');
 				draft.alert_popup = {open: false};
 				break;
 

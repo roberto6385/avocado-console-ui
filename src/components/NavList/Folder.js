@@ -2,12 +2,13 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
-import {Collapse} from 'react-bootstrap';
+import {Collapse, Form} from 'react-bootstrap';
 import {
 	MdKeyboardArrowDown,
 	MdKeyboardArrowRight,
 	RiFolder2Fill,
 } from 'react-icons/all';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Server from './Server';
 import {
@@ -15,24 +16,11 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {useDispatch, useSelector} from 'react-redux';
 import {HIGHLIGHT_COLOR} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton} from '../../styles/buttons';
 import {ServerNavItem} from '../../styles/navs';
-
-const RenameForm = styled.form`
-	display: inline-block;
-`;
-
-const RenameInput = styled.input`
-	display: inline-block;
-	height: 24px;
-	border: none;
-	outline: none;
-	border-bottom: 1px solid black;
-`;
 
 const Folder2Line = styled(RiFolder2Fill)`
 	margin-right: 4px;
@@ -133,15 +121,15 @@ const Folder = ({open, data, indent}) => {
 			>
 				<Folder2Line />
 				{openRename ? (
-					<RenameForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<RenameInput
+					<Form onSubmit={handleSubmit} onBlur={handleSubmit}>
+						<Form.Control
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
-					</RenameForm>
+					</Form>
 				) : (
 					data.name
 				)}

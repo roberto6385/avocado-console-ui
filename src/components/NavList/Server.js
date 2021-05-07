@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import styled from 'styled-components';
+import {Form} from 'react-bootstrap';
 
 import {FaServerIcon} from '../../styles/common';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
@@ -16,18 +16,6 @@ import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {ServerNavItem} from '../../styles/navs';
-
-const RenameForm = styled.form`
-	display: inline-block;
-`;
-
-const RenameInput = styled.input`
-	display: inline-block;
-	height: 24px;
-	border: none;
-	outline: none;
-	border-bottom: 1px solid black;
-`;
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -125,15 +113,15 @@ const Server = ({data, indent}) => {
 			>
 				<FaServerIcon />
 				{openRename ? (
-					<RenameForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<RenameInput
+					<Form onSubmit={handleSubmit} onBlur={handleSubmit}>
+						<Form.Control
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
-					</RenameForm>
+					</Form>
 				) : (
 					data.name
 				)}
