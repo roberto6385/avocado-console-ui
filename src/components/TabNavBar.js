@@ -13,7 +13,7 @@ import {IconButton} from '../styles/buttons';
 import RightCornerIcons from './RightCornerIcons';
 import {MainHeader} from '../styles/cards';
 import {BaseNav, TabNavItem} from '../styles/navs';
-import {IconSpan} from "../styles/texts";
+import {BaseSpan} from '../styles/texts';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -113,14 +113,14 @@ const TabNavBar = () => {
 								to='/'
 								eventKey={data.uuid}
 							>
-								<IconSpan onClick={changeVisibleTab(data.uuid)}>
+								<BaseSpan onClick={changeVisibleTab(data.uuid)}>
 									{data.type === 'SSHT' ? (
 										<TabSSHTIcon />
 									) : (
 										<TabSFTPIcon />
 									)}
 									{data.server.name}
-								</IconSpan>
+								</BaseSpan>
 								<IconButton onClick={onClickDelete(data)}>
 									<FaTimes />
 								</IconButton>

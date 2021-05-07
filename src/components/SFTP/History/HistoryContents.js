@@ -9,13 +9,18 @@ import {
 	FaEdit,
 	MdRemoveCircle,
 } from 'react-icons/all';
-import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../../styles/global';
+import {
+	BLUE_COLOR,
+	MAIN_COLOR,
+	RED_COLOR,
+	SMALL_FONT,
+} from '../../../styles/global';
 import {CustomLi, CustomUl} from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
-import {CustomP} from "../../../styles/texts";
+import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -77,7 +82,11 @@ const HistoryContents = ({uuid}) => {
 								// onClick={(e) => selectItem(e, history)}
 							>
 								<FlexBox justify={'space-between'}>
-									<CustomP minWidth={'15px'}>
+									<EllipsisSpan
+										// 나중에 split pane 만들면 반응형으로!
+										width={'120px'}
+										fontSize={SMALL_FONT}
+									>
 										{history.todo === 'put' && (
 											<FaArrowAltCircleUp
 												style={{
@@ -107,13 +116,13 @@ const HistoryContents = ({uuid}) => {
 												}}
 											/>
 										)}
-									</CustomP>
-									<CustomP flex={1}>{history.name}</CustomP>
-									<CustomP minWidth={'90px'} align={'right'}>
+										{history.name}
+									</EllipsisSpan>
+									<EllipsisSpan fontSize={SMALL_FONT}>
 										{formatByteSizeString(history.size)}
-									</CustomP>
+									</EllipsisSpan>
 								</FlexBox>
-								<div style={{padding: '0px 4px'}}>
+								<BaseSpan fontSize={SMALL_FONT}>
 									{history.progress === 100 ? (
 										'Complete'
 									) : (
@@ -122,7 +131,7 @@ const HistoryContents = ({uuid}) => {
 											label={`${history.progress}%`}
 										/>
 									)}
-								</div>
+								</BaseSpan>
 							</CustomLi>
 						);
 					})}

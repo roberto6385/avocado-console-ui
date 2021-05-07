@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	DirectoryIcon,
 	DropdownLi,
-	DropdownUl, FileIcon,
-
+	DropdownUl,
+	FileIcon,
 } from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
@@ -22,7 +22,7 @@ import {
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
-import {DropdownP} from "../../../styles/texts";
+import {EllipsisSpan} from '../../../styles/texts';
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -260,16 +260,17 @@ const FileListDropDown = ({uuid}) => {
 										itemIndex: index,
 									})}
 								>
-									<DropdownP
+									<EllipsisSpan
+										// focus 때문에 생성한 clsaaName!
+										// style 때문에 아님! 삭제 ㄴㄴ
 										className={'highlight_list_p'}
-										style={{
-											color:
-												pathList[listindex + 1]
-													?.split('/')
-													.pop() === item.name
-													? MAIN_COLOR
-													: 'black',
-										}}
+										color={
+											pathList[listindex + 1]
+												?.split('/')
+												.pop() === item.name
+												? MAIN_COLOR
+												: 'black'
+										}
 									>
 										{item.type === 'directory' ? (
 											<DirectoryIcon />
@@ -277,7 +278,7 @@ const FileListDropDown = ({uuid}) => {
 											<FileIcon />
 										)}
 										{item.name}
-									</DropdownP>
+									</EllipsisSpan>
 								</DropdownLi>
 							);
 						})}

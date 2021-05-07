@@ -43,7 +43,6 @@ export const CustomUl = styled.ul`
 	flex-direction: column;
 	white-space: nowrap;
 	flex: 1;
-	min-width: 250px;
 	width: 100%;
 
 	// 드래그 방지
@@ -63,9 +62,8 @@ export const CustomLi = styled.li`
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid ${GRAY_COLOR};
-	min-width: 250px;
-	width: 100%;
-	// overflow: scroll;
+	width: 200px;
+	padding: 4px;
 `;
 
 // SFTPContainer
