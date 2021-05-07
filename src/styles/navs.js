@@ -5,7 +5,10 @@ import {HIGHLIGHT_COLOR} from './global';
 export const BaseNav = styled(Nav)`
 	display: flex;
 	flex-wrap: nowrap;
+	flex-shrink: ${(props) => props.shrink || 'initial'};
 	flex-direction: ${(props) => props?.direction};
+	overflow: ${(props) => props.overflow || 'initial'};
+	height: ${(props) => props.height || 'initial'};
 `;
 export const ServerNavItem = styled(Nav.Item)`
 	display: flex;
@@ -27,3 +30,5 @@ export const TabNavItem = styled(Nav.Item)`
 		background-color: ${HIGHLIGHT_COLOR};
 	}
 `;
+
+export const BaseNavLink = styled(Nav.Link)``;

@@ -9,6 +9,7 @@ export const FlexBox = styled.div`
 	width: ${(props) => props.width || '100%'};
 	justify-content: ${(props) => props?.justify};
 	align-items: ${(props) => props?.align};
+	background: ${(props) => props.back || 'initial'};
 `;
 export const RowBox = styled(FlexBox)`
 	height: ${(props) => props?.height};

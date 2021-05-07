@@ -8,7 +8,7 @@ import {MAIN_COLOR} from '../styles/global';
 
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
-import {RowBox} from '../styles/divs';
+import {FlexBox, RowBox} from '../styles/divs';
 
 const RightCornerIcons = () => {
 	const dispatch = useDispatch();
@@ -47,13 +47,13 @@ const RightCornerIcons = () => {
 	];
 
 	return (
-		<>
+		<FlexBox align={'center'} width={'fit-content'}>
 			<IconButton>
 				<HiUserCircle />
 			</IconButton>
 			<Avocado_Dropdown icon={<AiTwotoneSetting />} menu={setting_list} />
 			<Avocado_Dropdown icon={<FaTh />} menu={column_list} />
-		</>
+		</FlexBox>
 	);
 };
 

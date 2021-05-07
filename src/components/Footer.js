@@ -10,6 +10,8 @@ import {
 
 import {IconButton} from '../styles/buttons';
 import {MainHeader} from '../styles/cards';
+import {BaseSpan} from '../styles/texts';
+import {SMALL_FONT} from '../styles/global';
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const Footer = () => {
 	}, [current_tab]);
 
 	return (
-		<MainHeader>
+		<MainHeader justify={'flex-end'}>
 			{tab.filter((v) => v.display && v.type === 'SSHT').length !== 0 && (
 				<>
 					<IconButton onClick={onClickDeceaseFont}>
@@ -42,14 +44,14 @@ const Footer = () => {
 					</IconButton>
 				</>
 			)}
-			<span>
+			<BaseSpan padding={'0px 8px'} fontSize={'14px'}>
 				{current_tab &&
 					server.find(
 						(v) =>
 							v.id ===
 							tab.find((i) => i.uuid === current_tab)?.server.id,
 					)?.host}
-			</span>
+			</BaseSpan>
 		</MainHeader>
 	);
 };

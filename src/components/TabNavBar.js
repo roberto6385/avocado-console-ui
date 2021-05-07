@@ -14,6 +14,8 @@ import RightCornerIcons from './RightCornerIcons';
 import {MainHeader} from '../styles/cards';
 import {BaseNav, TabNavItem} from '../styles/navs';
 import {BaseSpan} from '../styles/texts';
+import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
+import {RowBox} from '../styles/divs';
 
 const TabNavBar = () => {
 	const dispatch = useDispatch();
@@ -91,41 +93,36 @@ const TabNavBar = () => {
 	}, [Sortable]);
 
 	return (
-		<MainHeader
-		// justify={'space-between'}
-		>
-			<BaseNav id='sortableTabNav'>
+		<MainHeader justify={'space-between'}>
+			<BaseNav
+				id='sortableTabNav'
+				overflow={'scroll'}
+				height={NAV_HEIGHT}
+				shrink={1}
+			>
 				{tab &&
 					tab.map((data) => (
-						<TabNavItem
+						<RowBox
+							padding={'8px'}
 							key={data.uuid}
 							draggable='true'
 							onDragStart={prevPutItem(data)}
 							onDrop={nextPutItem(data)}
+							back={data.uuid === current_tab && HIGHLIGHT_COLOR}
 						>
-							<NavLink
-								className={
-									data.uuid === current_tab
-										? 'tab_navLink active_tab_item'
-										: 'tab_navLink'
-								}
-								as={Link}
-								to='/'
-								eventKey={data.uuid}
-							>
-								<BaseSpan onClick={changeVisibleTab(data.uuid)}>
-									{data.type === 'SSHT' ? (
-										<TabSSHTIcon />
-									) : (
-										<TabSFTPIcon />
-									)}
-									{data.server.name}
-								</BaseSpan>
-								<IconButton onClick={onClickDelete(data)}>
-									<FaTimes />
-								</IconButton>
-							</NavLink>
-						</TabNavItem>
+							<BaseSpan onClick={changeVisibleTab(data.uuid)}>
+								{data.type === 'SSHT' ? (
+									<TabSSHTIcon />
+								) : (
+									<TabSFTPIcon />
+								)}
+								{data.server.name}
+							</BaseSpan>
+							<IconButton onClick={onClickDelete(data)}>
+								<FaTimes />
+							</IconButton>
+							{/*</NavLink>*/}
+						</RowBox>
 					))}
 			</BaseNav>
 			<RightCornerIcons />
