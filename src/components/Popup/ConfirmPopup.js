@@ -16,9 +16,11 @@ import {
 	commandRmAction,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {PopupButton} from '../../styles/buttons';
+import {IconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
+import {MainHeader} from '../../styles/cards';
+import {BaseSpan} from '../../styles/texts';
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
@@ -266,15 +268,17 @@ const ConfirmPopup = () => {
 
 	return (
 		<BaseModal show={confirm_popup.open} onHide={handleClose}>
-			<Card.Header as='h5'>
-				{Object.prototype.hasOwnProperty.call(
-					ConfirmTopMessage,
-					confirm_popup.key,
-				) && ConfirmTopMessage[confirm_popup.key]}
-				<span className={'right'} onClick={handleClose}>
-					<FaTimes />
-				</span>
-			</Card.Header>
+			<MainHeader justify={'space-between'}>
+				<BaseSpan padding={'0px 8px'}>
+					{Object.prototype.hasOwnProperty.call(
+						ConfirmTopMessage,
+						confirm_popup.key,
+					) && ConfirmTopMessage[confirm_popup.key]}
+				</BaseSpan>
+				<IconButton className={'right'}>
+					<FaTimes onClick={handleClose} />
+				</IconButton>
+			</MainHeader>
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(
 					ConfirmMessage,

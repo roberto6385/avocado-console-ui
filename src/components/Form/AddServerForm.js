@@ -15,6 +15,8 @@ import {
 import {IconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
+import {MainHeader} from '../../styles/cards';
+import {BaseSpan} from '../../styles/texts';
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -144,12 +146,12 @@ const AddServerForm = () => {
 			backdrop='static'
 			width={'700px'}
 		>
-			<Modal.Header as='h5'>
-				Add Server
+			<MainHeader justify={'space-between'}>
+				<BaseSpan padding={'0px 8px'}>Add Server</BaseSpan>
 				<IconButton className={'right'}>
 					<FaTimes onClick={onClickCloseForm} />
 				</IconButton>
-			</Modal.Header>
+			</MainHeader>
 			<Modal.Body>
 				<Form onSubmit={onSubmitForm}>
 					<Form.Row className={'add-server-form-row'}>
