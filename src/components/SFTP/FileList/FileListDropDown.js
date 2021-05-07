@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	DirectoryIcon,
 	DropdownLi,
-	DropdownP,
 	DropdownUl, FileIcon,
 
 } from '../../../styles/sftp';
@@ -23,6 +22,7 @@ import {
 import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
+import {DropdownP} from "../../../styles/texts";
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);

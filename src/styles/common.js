@@ -2,12 +2,7 @@ import styled from 'styled-components';
 
 import {FormControl, Modal} from 'react-bootstrap';
 import {HIGHLIGHT_COLOR, MAIN_COLOR} from './global';
-import {
-	FaServer,
-	FiServer,
-	RiArrowUpDownLine,
-	RiTerminalFill,
-} from 'react-icons/all';
+import {FiServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
 
 export const CustomModal = styled(Modal)`
     .modal-dialog{
@@ -65,12 +60,6 @@ export const FaServerIcon = styled(FiServer)`
 	margin-right: 4px;
 	color: ${MAIN_COLOR};
 	// font-size: 25px;
-`;
-
-export const IconSpan = styled.span`
-	// color: black;
-	display: flex;
-	align-items: center;
 `;
 
 export const TabSSHTIcon = styled(RiTerminalFill)`

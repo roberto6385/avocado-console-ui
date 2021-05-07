@@ -32,7 +32,7 @@ export async function messageReader({data, payload}) {
 			const message = SFTP.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
-
+				console.log(response);
 				console.log('response status: ', response.getStatus());
 
 				if (
@@ -65,6 +65,8 @@ export async function messageReader({data, payload}) {
 						case SFTP.CommandResponse.CommandCase.PWD: {
 							const pwd = command.getPwd();
 							console.log('command : pwd', pwd);
+
+							console.log(pwd.get());
 
 							let pathList = ['/'];
 							let tempPathList = pwd.getMessage().split('/');

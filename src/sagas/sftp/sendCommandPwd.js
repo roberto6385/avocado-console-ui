@@ -7,11 +7,9 @@ import {
 	race,
 	delay,
 	takeEvery,
-	actionChannel,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
-	PUT_REQUEST,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
@@ -53,12 +51,13 @@ function* sendCommand(action) {
 							},
 						});
 						for (let value of res.pathList) {
-							yield put(
-								commandLsAction({
-									...payload,
-									path: value,
-								}),
-							);
+							console.log(value);
+							// yield put(
+							// 	commandLsAction({
+							// 		...payload,
+							// 		path: value,
+							// 	}),
+							// );
 						}
 				}
 			}

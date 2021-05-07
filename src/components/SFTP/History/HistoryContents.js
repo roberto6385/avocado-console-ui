@@ -10,11 +10,12 @@ import {
 	MdRemoveCircle,
 } from 'react-icons/all';
 import {BLUE_COLOR, MAIN_COLOR, RED_COLOR} from '../../../styles/global';
-import {CustomLi, CustomP, CustomUl} from '../../../styles/sftp';
+import {CustomLi, CustomUl} from '../../../styles/sftp';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
+import {CustomP} from "../../../styles/texts";
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);

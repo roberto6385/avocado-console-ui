@@ -13,13 +13,13 @@ const _Dropdown = styled(Dropdown)`
 		margin: 0px 8px;
 		outline: none !important;
 		background-color: transparent !important;
-		color: black;
+		color: black !important;
 		font-size: 18px;
 		::after {
 			content: none;
 		}
 		&:hover {
-			color: ${MAIN_COLOR};
+			color: ${MAIN_COLOR} !important;
 		}
 	}
 	div {
