@@ -230,7 +230,7 @@ const ConfirmPopup = () => {
 					else await setFormValue(highlight[0].item.name);
 				} else if (
 					confirm_popup.key === 'sftp_new_folder' ||
-					confirm_popup.key === 'new_folder'c
+					confirm_popup.key === 'new_folder'
 				) {
 					await setFormValue('');
 				}
@@ -240,12 +240,6 @@ const ConfirmPopup = () => {
 		};
 		fillInForm();
 	}, [confirm_popup, sftp]);
-
-	// useEffect(() => {
-	// 	if (confirm_popup.open) {
-	//
-	// 	}
-	// }, [confirm_popup, inputRef]);
 
 	return (
 		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
