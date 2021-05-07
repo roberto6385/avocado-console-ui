@@ -255,12 +255,13 @@ const ConfirmPopup = () => {
 				inputRef.current?.focus();
 				inputRef.current.select();
 			} else if (
-				confirm_popup.key === ('sftp_new_folder' || 'new_folder')
+				confirm_popup.key === 'sftp_new_folder' ||
+				confirm_popup.key === 'new_folder'
 			) {
 				setFormValue('');
 				inputRef.current?.focus();
 			}
-		} else setFormValue('');
+		}
 	}, [confirm_popup, inputRef, sftp]);
 
 	return (
