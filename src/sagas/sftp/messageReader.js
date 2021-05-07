@@ -66,15 +66,13 @@ export async function messageReader({data, payload}) {
 							const pwd = command.getPwd();
 							console.log('command : pwd', pwd);
 
-							console.log(pwd.get());
-
 							let pathList = ['/'];
-							let tempPathList = pwd.getMessage().split('/');
+							let tempPathList = pwd.getPath().split('/');
 							tempPathList.reduce(function (
 								accumulator,
 								currentValue,
 							) {
-								pwd.getMessage() !== '/' &&
+								pwd.getPath() !== '/' &&
 									pathList.push(
 										accumulator + '/' + currentValue,
 									);
@@ -83,7 +81,7 @@ export async function messageReader({data, payload}) {
 
 							return {
 								type: PWD_SUCCESS,
-								path: pwd.getMessage(),
+								path: pwd.getPath(),
 								pathList,
 							};
 						}
@@ -136,11 +134,22 @@ export async function messageReader({data, payload}) {
 							console.log('command : ls', ls);
 
 							const entryList = ls.getEntryList();
-							console.log('entry ', entryList.length);
+							// console.log('entry ', entryList.length);
 
 							const list = [];
 							for (let i = 0; i < entryList.length; i++) {
 								const entry = entryList[i];
+								console.log(entry.getAttributes());
+								console.log(entry.getFilename());
+								console.log(entry.getAttributes().getSize());
+								console.log(
+									entry.getAttributes().getMtimestring(),
+								);
+								console.log(
+									entry
+										.getAttributes()
+										.getPermissionsstring(),
+								);
 								list.push(entry.getLongname());
 								console.log('entry : ', entry.getLongname());
 							}

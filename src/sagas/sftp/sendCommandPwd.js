@@ -51,13 +51,13 @@ function* sendCommand(action) {
 							},
 						});
 						for (let value of res.pathList) {
-							console.log(value);
-							// yield put(
-							// 	commandLsAction({
-							// 		...payload,
-							// 		path: value,
-							// 	}),
-							// );
+							// console.log(value);
+							yield put(
+								commandLsAction({
+									...payload,
+									path: value,
+								}),
+							);
 						}
 				}
 			}
