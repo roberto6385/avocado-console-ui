@@ -13,7 +13,7 @@ export const BaseInput = styled(Form.Control)`
 	font-size: ${(props) => props.fontSize || SMALL_FONT};
 	border: none;
 	outline: none;
-	z-index: 999;
+	z-index: 1;
 `;
 
 export const TerminalSearchForm = styled(BaseForm)`
@@ -22,5 +22,5 @@ export const TerminalSearchForm = styled(BaseForm)`
 	bottom: 0;
 	width: 200px;
 	display: none;
-	z-index: 999;
+	z-index: 1;
 `;

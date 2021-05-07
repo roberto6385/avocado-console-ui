@@ -55,7 +55,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 		<Menu
 			id={MENU_ID}
 			animation={animation.slide}
-			style={{fontSize: '14px'}}
+			style={{fontSize: '14px', background: 'white'}}
 		>
 			{Object.keys(FolderContextMenuMessage).map((v) => (
 				<Item onClick={handleItemClick(v)} key={v}>

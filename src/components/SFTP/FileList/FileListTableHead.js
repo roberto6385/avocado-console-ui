@@ -11,7 +11,7 @@ const TableHead = () => {
 				<Th min={'130px'} textAlign='right'>
 					Size
 				</Th>
-				<Th min={'200px'}>Modified</Th>
+				<Th min={'260px'}>Modified</Th>
 				<Th min={'130px'}>Permission</Th>
 				<Th min={'100px'} />
 			</tr>

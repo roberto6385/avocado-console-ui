@@ -17,6 +17,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from './channel';
 import {messageReader} from './messageReader';
+import {sortFunction} from '../../components/SFTP/listConversion';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -41,27 +42,27 @@ function* sendCommand(action) {
 							type: LS_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
-								fileList: res.fileList,
+								fileList: sortFunction(res.list),
 							},
 						});
 					} else {
-						res.fileList.shift();
+						res.list.shift();
 
-						if (res.fileList.length !== 0) {
+						if (res.list.length !== 0) {
 							console.log({
 								path: payload.path,
-								list: res.fileList,
+								list: res.list,
 							});
 							yield put({
 								type: DELETE_WORK_LIST,
 								payload: {
 									uuid: payload.uuid,
-									list: res.fileList,
+									list: res.list,
 									path: payload.path,
 								},
 							});
 
-							for (let item of res.fileList) {
+							for (let item of res.list) {
 								if (
 									item.type === 'directory' &&
 									item.name !== '..'
@@ -74,7 +75,7 @@ function* sendCommand(action) {
 											deleteWorks: [
 												...payload.deleteWorks,
 												{
-													list: res.fileList,
+													list: res.list,
 													path: payload.path,
 												},
 											],

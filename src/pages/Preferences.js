@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
-import {MainContainer, MainRow} from '../styles/page';
 import LeftSetting from '../components/Setting/LeftSetting';
 import PreferencesContainer from '../components/Setting/PreferencesContainer';
+import {RowBox} from '../styles/divs';
 
 const Preferences = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -14,12 +14,10 @@ const Preferences = () => {
 	// }, [userTicket]);
 
 	return (
-		<MainContainer fluid>
-			<MainRow className={'fix-height'}>
-				<LeftSetting />
-				<PreferencesContainer />
-			</MainRow>
-		</MainContainer>
+		<RowBox height={'100vh'}>
+			<LeftSetting />
+			<PreferencesContainer />
+		</RowBox>
 	);
 };
 

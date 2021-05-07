@@ -16,6 +16,7 @@ import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {ServerNavItem} from '../../styles/navs';
+import {BaseForm, BaseInput} from '../../styles/forms';
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -113,15 +114,15 @@ const Server = ({data, indent}) => {
 			>
 				<FaServerIcon />
 				{openRename ? (
-					<Form onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<Form.Control
+					<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
+						<BaseInput
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
 							onKeyDown={EscapeKey}
 						/>
-					</Form>
+					</BaseForm>
 				) : (
 					data.name
 				)}

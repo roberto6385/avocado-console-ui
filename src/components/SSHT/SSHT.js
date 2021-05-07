@@ -143,7 +143,6 @@ const SSHT = ({uuid}) => {
 					position: 'absolute',
 					right: '0',
 					bottom: '0',
-					zIndex: '999',
 				}}
 			>
 				{/*{cookies['search_cokkies']*/}

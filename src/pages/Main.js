@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 
 import LeftContainer from '../components/LeftContainer';
 import RightContainer from '../components/RightContainer';
-import {MainContainer, MainRow} from '../styles/page';
 import {useSelector} from 'react-redux';
+import {RowBox} from '../styles/divs';
 
 const Main = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -13,12 +13,10 @@ const Main = () => {
 	// }, [userTicket]);
 
 	return (
-		<MainContainer fluid>
-			<MainRow className={'fix-height'}>
-				<LeftContainer />
-				<RightContainer />
-			</MainRow>
-		</MainContainer>
+		<RowBox height={'100vh'}>
+			<LeftContainer />
+			<RightContainer />
+		</RowBox>
 	);
 };
 
