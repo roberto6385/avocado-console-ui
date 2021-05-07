@@ -33,7 +33,7 @@ function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
 	const channel = yield call(initChannel, ws);
 	let uuid;
-
+	console.log(action.data);
 	try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',

@@ -40,8 +40,7 @@ const AddServerForm = () => {
 		(e) => {
 			e.preventDefault();
 
-			const ws = new WebSocket('ws://' + host + ':8081/ws/ssh');
-
+			const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
 			ws.binaryType = 'arraybuffer';
 
 			ws.onerror = () => {
@@ -63,8 +62,8 @@ const AddServerForm = () => {
 			};
 
 			ws.onmessage = (evt) => {
-				const message = GetMessage(evt);
-				console.log(message);
+				const message = GetMessage(evt.data);
+
 				if (message.type === 'CONNECT') {
 					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
 					const newData = {
