@@ -11,7 +11,6 @@ import {debounce, throttle} from 'lodash';
 import useResizeObserver from 'use-resize-observer';
 
 import useInput from '../../hooks/useInput';
-import {TerminalSearchForm} from '../../styles/ssht';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
@@ -19,6 +18,7 @@ import {
 import {SSHTBody} from '../../styles/cards';
 
 import {SSHTerminal} from '../../styles/divs';
+import {BaseInput, TerminalSearchForm} from '../../styles/forms';
 
 const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -39,7 +39,8 @@ const SSHT = ({uuid}) => {
 
 	const onSubmitSearch = useCallback(
 		(e) => {
-			if (e.key === 'Enter') searchAddon.current.findPrevious(search);
+			e.preventDefault();
+			searchAddon.current.findPrevious(search);
 		},
 		[search],
 	);
@@ -115,6 +116,7 @@ const SSHT = ({uuid}) => {
 		windowChangeDebounce();
 		return windowChangeDebounce.cancel;
 	}, [uuid, sshTerm, width, height]);
+
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -152,15 +154,16 @@ const SSHT = ({uuid}) => {
 				{/*		</ListGroup.Item>*/}
 				{/*	))}*/}
 			</ListGroup>
-			<TerminalSearchForm
-				id={`search_${uuid}`}
-				onChange={onChangeSearch}
-				onKeyPress={onSubmitSearch}
-				value={search}
-				placeholder='Search...'
-				size='sm'
-				type='text'
-			/>
+			<TerminalSearchForm onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+				<BaseInput
+					flex={1}
+					onChange={onChangeSearch}
+					value={search}
+					placeholder='Search...'
+					// size='sm'
+					type='text'
+				/>
+			</TerminalSearchForm>
 		</SSHTBody>
 	);
 };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import {FormControl, Modal} from 'react-bootstrap';
-import {HIGHLIGHT_COLOR, MAIN_COLOR} from './global';
+import {Modal} from 'react-bootstrap';
+import {MAIN_COLOR} from './global';
 import {FiServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
 
 export const CustomModal = styled(Modal)`
@@ -45,21 +45,10 @@ export const RotateButton = styled.button`
 	}
 `;
 
-export const ServerSearchForm = styled(FormControl)`
-	font-size: 12px;
-	border: none;
-	border-bottom: 1px solid ${HIGHLIGHT_COLOR};
-	border-top: 1px solid ${HIGHLIGHT_COLOR};
-	outline: none;
-	border: 'none';
-`;
-
 // ServerNavBar
 export const FaServerIcon = styled(FiServer)`
-	// vertical-align: middle;
 	margin-right: 4px;
 	color: ${MAIN_COLOR};
-	// font-size: 25px;
 `;
 
 export const TabSSHTIcon = styled(RiTerminalFill)`

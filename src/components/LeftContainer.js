@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
-import {Nav} from 'react-bootstrap';
 import {FaBars, FaPlus, RiFolderAddLine} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {RotateButton, ServerSearchForm, SidebarShow} from '../styles/common';
+import {RotateButton, SidebarShow} from '../styles/common';
 import {CHANGE_SIDEBAR_DISPLAY} from '../reducers/common';
 
 import NavList from './NavList/NavList';
@@ -22,6 +21,7 @@ import {IconButton} from '../styles/buttons';
 import {MainHeader, SubHeader} from '../styles/cards';
 import {MAIN_COLOR} from '../styles/global';
 import {ColBox} from '../styles/divs';
+import {BaseForm, BaseInput} from '../styles/forms';
 
 const LeftContainer = () => {
 	const dispatch = useDispatch();
@@ -113,16 +113,15 @@ const LeftContainer = () => {
 				{/*	<GiToken />*/}
 				{/*</IconButton>*/}
 			</SubHeader>
-
-			<Nav.Item key='search'>
-				<ServerSearchForm
+			<BaseForm key='search'>
+				<BaseInput
+					flex={1}
 					onChange={onChangeSearch}
 					value={search}
 					type='search'
 					placeholder='Search'
 				/>
-			</Nav.Item>
-
+			</BaseForm>
 			<NavList search={search} />
 		</ColBox>
 	) : (
