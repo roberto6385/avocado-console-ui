@@ -1,26 +1,6 @@
 import styled from 'styled-components';
-
-import {Modal} from 'react-bootstrap';
 import {MAIN_COLOR} from './global';
 import {FiServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
-
-export const CustomModal = styled(Modal)`
-    .modal-dialog{
-        height:100%;
-        margin:auto;
-        display:flex;
-        align-items:center;
-        justify-contents:center;
-        
-        .modal-content{
-            margin:auto;
-            width:450px;
-            height:200px;
-            flex-direction:column;
-            }
-        }
-    }
-`;
 
 // SidebarShow, RotateButton 삭제 예정.
 export const SidebarShow = styled.div`
@@ -72,11 +52,3 @@ export const WorkSpaceContainer = styled.div`
 	// flex-wrap: wrap;
 `;
 
-//Add Server Form
-export const AddServerModal = styled(Modal)`
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-`;

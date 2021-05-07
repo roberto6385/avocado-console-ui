@@ -3,11 +3,11 @@ import {Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
 import {SUB_COLOR} from '../../styles/global';
-import {CustomModal} from '../../styles/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import {PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
+import {BaseModal} from '../../styles/modals';
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
@@ -32,7 +32,7 @@ const AlertPopup = () => {
 	}, []);
 
 	return (
-		<CustomModal size='lg' show={alert_popup.open} onHide={handleClose}>
+		<BaseModal show={alert_popup.open} onHide={handleClose}>
 			<Card.Header as='h5'>
 				{Object.prototype.hasOwnProperty.call(
 					AlertHeader,
@@ -53,7 +53,7 @@ const AlertPopup = () => {
 					Ok
 				</PopupButton>
 			</FlexBox>
-		</CustomModal>
+		</BaseModal>
 	);
 };
 

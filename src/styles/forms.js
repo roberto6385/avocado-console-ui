@@ -6,6 +6,7 @@ export const BaseForm = styled(Form)`
 	border: 1px solid ${MAIN_COLOR};
 	display: flex;
 	padding: 2px;
+	z-index: ${(props) => props?.zIndex || 1};
 `;
 
 export const BaseInput = styled(Form.Control)`
@@ -13,7 +14,6 @@ export const BaseInput = styled(Form.Control)`
 	font-size: ${(props) => props.fontSize || SMALL_FONT};
 	border: none;
 	outline: none;
-	z-index: 1;
 `;
 
 export const TerminalSearchForm = styled(BaseForm)`
@@ -22,5 +22,6 @@ export const TerminalSearchForm = styled(BaseForm)`
 	bottom: 0;
 	width: 200px;
 	display: none;
-	z-index: 1;
+	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
+	z-index: 5;
 `;

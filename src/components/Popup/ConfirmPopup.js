@@ -3,7 +3,6 @@ import {Card, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 
-import {CustomModal} from '../../styles/common';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
@@ -19,6 +18,7 @@ import {
 } from '../../reducers/sftp';
 import {PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
+import {BaseModal} from '../../styles/modals';
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
@@ -265,7 +265,7 @@ const ConfirmPopup = () => {
 	}, [confirm_popup, inputRef, sftp]);
 
 	return (
-		<CustomModal size='lg' show={confirm_popup.open} onHide={handleClose}>
+		<BaseModal show={confirm_popup.open} onHide={handleClose}>
 			<Card.Header as='h5'>
 				{Object.prototype.hasOwnProperty.call(
 					ConfirmTopMessage,
@@ -313,7 +313,7 @@ const ConfirmPopup = () => {
 					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
 				</PopupButton>
 			</FlexBox>
-		</CustomModal>
+		</BaseModal>
 	);
 };
 

@@ -159,7 +159,6 @@ const SSHT = ({uuid}) => {
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
-					// size='sm'
 					type='text'
 				/>
 			</TerminalSearchForm>
