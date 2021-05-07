@@ -236,8 +236,8 @@ const ConfirmPopup = () => {
 				) {
 					await setFormValue('');
 				}
-				await inputRef.current.select();
-				await inputRef.current.focus();
+				await inputRef.current?.select();
+				await inputRef.current?.focus();
 			}
 		};
 		fillInForm();
