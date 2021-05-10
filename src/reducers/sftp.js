@@ -76,6 +76,8 @@ export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 
 export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
 
+export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
+
 let HISTORY_ID = 0;
 
 // actions
@@ -182,6 +184,8 @@ const sftp = (state = initialState, action) =>
 					tempPath: '',
 					tempItem: null,
 					deleteWorks: [],
+					sortKeyword: 'name',
+					toggle: true,
 				});
 				break;
 			case CONNECTION_FAILURE:
@@ -276,7 +280,11 @@ const sftp = (state = initialState, action) =>
 				target.editText = '';
 				target.editFile = {};
 				break;
-
+			// 정렬 키워드 변경
+			case CHANGE_SORT_KEYWORD:
+				target.sortKeyword = action.payload.keyword;
+				target.toggle = !target.toggle;
+				break;
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
 				target.highlight.push(action.payload.item);

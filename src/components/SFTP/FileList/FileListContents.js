@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
@@ -21,13 +21,21 @@ import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
 import {BaseTable, FileListP, Th} from '../../../styles/tables';
 import {BaseButton} from '../../../styles/buttons';
-import {formatByteSizeString} from '../listConversion';
+import {
+	formatByteSizeString,
+	sortFunction,
+	dataFormater,
+} from '../listConversion';
+import * as path from 'path';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, highlight, pathList} = corServer;
+	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
 	const dispatch = useDispatch();
+
+	const [currentFileList, setCurrentFileList] = useState([]);
+	const [currentKey, setCurrentKey] = useState(sortKeyword);
 
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
@@ -156,12 +164,40 @@ const FileListContents = ({uuid}) => {
 		[sftp],
 	);
 
-	return fileList.length === pathList.length ? (
+	// useEffect(() => {
+	// 	console.log('sort Function run');
+	// 	fileList.forEach((item, index) => {
+	// 		const newList = sortFunction({
+	// 			fileList: item,
+	// 			keyword: sortKeyword,
+	// 		});
+	// 		fileList.splice(index, 1, newList);
+	// 	});
+	// }, [fileList, sortKeyword]);
+	useEffect(() => {
+		if (
+			fileList.length === pathList.length &&
+			pathList.length !== 0 &&
+			fileList.length !== 0
+		) {
+			let nextList = fileList[fileList.length - 1];
+			const sortedList = sortFunction({
+				fileList: nextList,
+				keyword: sortKeyword,
+				toggle: currentKey === sortKeyword ? toggle : true,
+			});
+			setCurrentKey(sortKeyword);
+			setCurrentFileList(sortedList);
+		}
+	}, [fileList, sortKeyword, toggle]);
+
+	return currentFileList.length !== 0 ? (
+		// return fileList.length === pathList.length ? (
 		<SFTPBody flex={1}>
 			<BaseTable>
-				<TableHead />
+				<TableHead uuid={uuid} />
 				<tbody onContextMenu={contextMenuOpen}>
-					{fileList[fileList.length - 1]?.map((item, index) => {
+					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (item.name === '.') return;
 						return (
@@ -191,7 +227,11 @@ const FileListContents = ({uuid}) => {
 										formatByteSizeString(item.size)}
 								</Th>
 								<Th min={'260px'}>
-									{item.name !== '..' && item.lastModified}
+									{item.name !== '..' &&
+										dataFormater({
+											modify: item.lastModified,
+											keyword: 'format',
+										})}
 								</Th>
 								<Th min={'130px'}>{item.permission}</Th>
 								<Th min={'100px'} textAlign={'right'}>

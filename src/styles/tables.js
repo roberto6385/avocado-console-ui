@@ -44,6 +44,16 @@ export const Th = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
+export const HeaderTh = styled.th`
+	min-width: ${(props) => props?.min};
+	flex: ${(props) => props.flex};
+	border-bottom: ${(props) => props?.borderColor} !important;
+	background: ${(props) => props?.back} !important;
+	text-align: ${(props) => props.textAlign || 'left'};
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
 
 export const FileListP = styled.p`
 	width: 200px;

@@ -42,7 +42,11 @@ function* sendCommand(action) {
 							type: LS_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
-								fileList: sortFunction(res.list),
+								fileList: sortFunction({
+									fileList: res.list,
+									keyword: 'name',
+									toggle: true,
+								}),
 							},
 						});
 					} else {

@@ -22,33 +22,31 @@ function* sendCommand(action) {
 	});
 
 	try {
-		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
-			switch (res.type) {
-				case CONNECTION_SUCCESS:
-					yield put({
-						type: CONNECTION_SUCCESS,
-						payload: {
-							uuid: res.uuid,
-							socket: socket,
-						},
-					});
-					yield put({
-						type: OPEN_TAB,
-						data: {
-							type: 'SFTP',
-							uuid: res.uuid,
-							server: {id: payload.id, name: payload.name},
-						},
-					});
-					return {type: 'end'};
-			}
+		// while (true) {
+		const data = yield take(channel);
+		const res = yield call(messageReader, {data, payload});
+		switch (res.type) {
+			case CONNECTION_SUCCESS:
+				yield put({
+					type: CONNECTION_SUCCESS,
+					payload: {
+						uuid: res.uuid,
+						socket: socket,
+					},
+				});
+				yield put({
+					type: OPEN_TAB,
+					data: {
+						type: 'SFTP',
+						uuid: res.uuid,
+						server: {id: payload.id, name: payload.name},
+					},
+				});
+			// }
 		}
 	} catch (err) {
 		yield put({type: CONNECTION_FAILURE});
 		console.log(err);
-		return {type: 'error'};
 	}
 }
 
