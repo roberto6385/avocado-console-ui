@@ -128,6 +128,7 @@ const HistoryContents = ({uuid}) => {
 										'Complete'
 									) : (
 										<ProgressBar
+											style={{width: '100%'}}
 											now={history.progress}
 											label={`${history.progress}%`}
 										/>

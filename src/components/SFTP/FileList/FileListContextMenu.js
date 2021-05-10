@@ -88,8 +88,13 @@ const FileListContextMenu = ({uuid}) => {
 
 				for (let item of highlight) {
 					console.log(item);
-					if (item.type === 'directory' && item.name !== '..') {
-						console.log(path, item.name);
+					if (
+						item.type === 'directory' &&
+						item.name !== '..' &&
+						item.name !== '.'
+					) {
+						console.log(path);
+						console.log(item.name);
 						dispatch(
 							commandLsAction({
 								...corServer,

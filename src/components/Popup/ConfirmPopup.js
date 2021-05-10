@@ -97,6 +97,8 @@ const ConfirmPopup = () => {
 
 					for (let value of corServer.deleteWorks) {
 						for (let item of value.list) {
+							console.log(item);
+							console.log(value.path);
 							dispatch(
 								commandRmAction({
 									...corServer,

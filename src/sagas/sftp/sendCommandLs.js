@@ -1,12 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	actionChannel,
-	takeEvery,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import {
 	commandLsAction,
 	DELETE_WORK_LIST,
@@ -50,8 +42,7 @@ function* sendCommand(action) {
 							},
 						});
 					} else {
-						res.list.shift();
-
+						// res.list.shift();
 						if (res.list.length !== 0) {
 							console.log({
 								path: payload.path,
@@ -69,7 +60,8 @@ function* sendCommand(action) {
 							for (let item of res.list) {
 								if (
 									item.type === 'directory' &&
-									item.name !== '..'
+									item.name !== '..' &&
+									item.name !== '.'
 								) {
 									yield put(
 										commandLsAction({

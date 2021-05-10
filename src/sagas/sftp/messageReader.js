@@ -130,10 +130,10 @@ export async function messageReader({data, payload}) {
 						}
 						case SFTP.CommandResponse.CommandCase.LS: {
 							const ls = command.getLs();
-							console.log('command : ls', ls);
+							// console.log('command : ls', ls);
 
 							const entryList = ls.getEntryList();
-							console.log('entry ', entryList.length);
+							// console.log('entry ', entryList.length);
 
 							// const list = [];
 							const list = [];
@@ -148,7 +148,7 @@ export async function messageReader({data, payload}) {
 									.split(' ');
 								// 나중에 longname에서 가져와야 할 정보나 값이 생기면
 								// splitedValue 에서 사용하기 바람.
-								console.log(splitedValue);
+								// console.log(splitedValue);
 
 								list.push({
 									name: entry.getFilename(),

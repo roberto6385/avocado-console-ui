@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
 	commandLsAction,
@@ -11,7 +20,7 @@ import {
 	PWD_FAILURE,
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 import messageSender from './messageSender';
 import {messageReader} from './messageReader';
 
@@ -35,63 +44,70 @@ function* sendCommand(action) {
 
 	try {
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
-			switch (res.type) {
-				case PUT_SUCCESS:
-					yield put({
-						type: FIND_HISTORY,
-						payload: {
-							uuid: payload.uuid,
-							name: payload.file.name,
-							size: payload.file.size,
-							todo: payload.keyword,
-							progress: res.percent,
-						},
-					});
-					if (res.last && res.percent === 100) {
+			const {timeout, data} = yield race({
+				timeout: delay(200),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('PUT 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				// const data = yield take(channel);
+				const res = yield call(messageReader, {data, payload});
+				switch (res.type) {
+					case PUT_SUCCESS:
 						yield put({
-							type: PUT_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								percent: res.percent,
-							},
-						});
-
-						return {type: 'end'};
-					}
-					break;
-				case EDIT_PUT_SUCCESS:
-					if (res.last && res.percent === 100) {
-						yield put({
-							type: ADD_HISTORY,
+							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
 								name: payload.file.name,
 								size: payload.file.size,
-								todo: 'edit',
-								progress: 100,
+								todo: payload.keyword,
+								progress: res.percent,
 							},
 						});
+						if (res.last && res.percent === 100) {
+							yield put({
+								type: PUT_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									percent: res.percent,
+								},
+							});
+						}
+						break;
+					case EDIT_PUT_SUCCESS:
+						if (res.last && res.percent === 100) {
+							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.file.name,
+									size: payload.file.size,
+									todo: 'edit',
+									progress: 100,
+								},
+							});
 
-						yield put(commandPwdAction(payload));
-						return {type: 'end'};
-					}
-					break;
+							yield put(commandPwdAction(payload));
+						}
+						break;
 
-				case PWD_SUCCESS:
-					yield put({
-						type: PWD_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							path: res.path,
-							pathList: res.pathList,
-						},
-					});
-					for (let value of res.pathList) {
-						yield put(commandLsAction({...payload, path: value}));
-					}
-					return {type: 'end'};
+					case PWD_SUCCESS:
+						yield put({
+							type: PWD_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								path: res.path,
+								pathList: res.pathList,
+							},
+						});
+						for (let value of res.pathList) {
+							yield put(
+								commandLsAction({...payload, path: value}),
+							);
+						}
+				}
 			}
 		}
 	} catch (err) {
@@ -99,7 +115,6 @@ function* sendCommand(action) {
 		payload.keyword === 'pwd'
 			? yield put({type: PWD_FAILURE})
 			: yield put({type: PUT_FAILURE});
-		return {type: 'error'};
 	}
 }
 
@@ -107,8 +122,7 @@ function* watchSendCommand() {
 	const reqChannel = yield actionChannel(PUT_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
+		yield call(sendCommand, action);
 	}
 }
 
