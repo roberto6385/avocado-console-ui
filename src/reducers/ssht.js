@@ -6,6 +6,11 @@ export const initialState = {
 	font_size: 15,
 	search_mode: false,
 	ssht: [],
+	snippets: [
+		{id: 0, name: 'File List', content: 'ls'},
+		{id: 1, name: 'Current Path', content: 'pwd'},
+	],
+	snippents_index: 2,
 };
 
 export const SSHT_SET_FONT = 'SSHT_SET_FONT';
@@ -31,6 +36,8 @@ export const SSHT_SEND_WINDOW_CHANGE_SUCCESS =
 	'SSHT_SEND_WINDOW_CHANGE_SUCCESS';
 export const SSHT_SEND_WINDOW_CHANGE_FAILURE =
 	'SSHT_SEND_WINDOW_CHANGE_FAILURE';
+export const SSHT_ADD_SNIPPET = 'SSHT_ADD_SNIPPET';
+export const SSHT_DELETE_SNIPPET = 'SSHT_DELETE_SNIPPET';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -106,6 +113,21 @@ const reducer = (state = initialState, action) => {
 
 			case SET_SEARCH_MODE:
 				draft.search_mode = !draft.search_mode;
+				break;
+
+			case SSHT_ADD_SNIPPET:
+				draft.snippets.push({
+					id: draft.snippents_index,
+					name: action.data.name,
+					content: action.data.content,
+				});
+				draft.snippents_index++;
+				break;
+
+			case SSHT_DELETE_SNIPPET:
+				draft.snippets = draft.snippets.filter(
+					(x) => x.id !== action.data,
+				);
 				break;
 
 			default:

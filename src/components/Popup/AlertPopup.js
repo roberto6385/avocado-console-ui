@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Card} from 'react-bootstrap';
 import {FaTimes} from 'react-icons/all';
 
@@ -28,7 +28,6 @@ const AlertHeader = {
 const AlertPopup = () => {
 	const dispatch = useDispatch();
 	const {alert_popup} = useSelector((state) => state.popup);
-
 	const handleClose = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
 	}, []);

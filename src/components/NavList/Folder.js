@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
-import {Collapse, Form} from 'react-bootstrap';
+import {Collapse} from 'react-bootstrap';
 import {
 	MdKeyboardArrowDown,
 	MdKeyboardArrowRight,
@@ -64,10 +64,11 @@ const Folder = ({open, data, indent}) => {
 		(e) => {
 			e.preventDefault();
 
-			dispatch({
-				type: CHANGE_SERVER_FOLDER_NAME,
-				data: {key: data.key, name: renameValue},
-			});
+			if (renameValue !== data.name)
+				dispatch({
+					type: CHANGE_SERVER_FOLDER_NAME,
+					data: {key: data.key, name: renameValue},
+				});
 			setOpenRename(false);
 		},
 		[data, renameValue],

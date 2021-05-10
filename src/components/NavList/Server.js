@@ -63,10 +63,11 @@ const Server = ({data, indent}) => {
 		(e) => {
 			e.preventDefault();
 
-			dispatch({
-				type: CHANGE_SERVER_FOLDER_NAME,
-				data: {key: data.key, name: renameValue},
-			});
+			if (renameValue !== data.name)
+				dispatch({
+					type: CHANGE_SERVER_FOLDER_NAME,
+					data: {key: data.key, name: renameValue},
+				});
 			setOpenRename(false);
 		},
 		[data, renameValue],

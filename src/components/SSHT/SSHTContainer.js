@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {CgMaximizeAlt, FiFile} from 'react-icons/all';
 
@@ -7,14 +7,17 @@ import ConvertSFTP from '../SFTP/ConvertSFTP';
 import Avocado_Dropdown from '../Avocado_Dropdown';
 import {IconButton} from '../../styles/buttons';
 import {MainHeader} from '../../styles/cards';
+import SnippetsManeger from '../SnippetsManager';
 
 const SSHTContainer = ({uuid, server_id}) => {
+	const [open, setOpen] = useState(true);
+
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('full_ssht_' + uuid).requestFullscreen();
 	}, []);
 
 	const column_list = [
-		{onClick: () => console.log('5 Columns'), title: 'Edit Snippets'},
+		{onClick: () => setOpen(true), title: 'Edit Snippets'},
 		{
 			onClick: () => console.log('5 Columns'),
 			title: 'Find large files on Linux',
@@ -29,7 +32,6 @@ const SSHTContainer = ({uuid, server_id}) => {
 	];
 
 	return (
-		// <ColBox flex={1} align={'stretch'}>
 		<>
 			<MainHeader>
 				<Avocado_Dropdown icon={<FiFile />} menu={column_list} />
@@ -39,8 +41,8 @@ const SSHTContainer = ({uuid, server_id}) => {
 				<ConvertSFTP server_id={server_id} />
 			</MainHeader>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
+			<SnippetsManeger setOpen={setOpen} open={open} />
 		</>
-		// </ColBox>
 	);
 };
 
