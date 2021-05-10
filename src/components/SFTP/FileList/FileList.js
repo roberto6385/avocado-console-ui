@@ -11,7 +11,7 @@ const FileList = ({uuid}) => {
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {mode} = corServer;
 	return (
-		<ColBox overflow='scroll'>
+		<ColBox flex={4} overflow='scroll'>
 			<FileListNav uuid={uuid} />
 			{mode === 'list' ? (
 				<FileListContents uuid={uuid} />

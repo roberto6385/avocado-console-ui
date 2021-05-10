@@ -86,7 +86,7 @@ const LeftContainer = () => {
 	}, [encodeData, userTicket]);
 
 	return !minimize ? (
-		<ColBox width={'250px'} style={{display: 'inline-flex'}}>
+		<ColBox minWidth={'250px'} style={{display: 'inline-flex'}}>
 			<MainHeader back={MAIN_COLOR} color={'white'}>
 				<IconButton onClick={sideBarhandleSize(true)}>
 					<FaBars style={{color: 'white'}} />

@@ -6,7 +6,8 @@ export const FlexBox = styled.div`
 	flex: ${(props) => props?.flex};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: 0px;
-	width: ${(props) => props.width || '100%'};
+	width: ${(props) => props.width};
+	min-width: ${(props) => props.minWidth};
 	justify-content: ${(props) => props?.justify};
 	align-items: ${(props) => props?.align};
 	background: ${(props) => props.back || 'initial'};

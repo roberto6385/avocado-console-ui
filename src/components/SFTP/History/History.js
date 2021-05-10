@@ -6,7 +6,7 @@ import {ColBox} from '../../../styles/divs';
 
 const History = ({uuid}) => {
 	return (
-		<ColBox flex={1}>
+		<ColBox minWidth={'200px'} flex={1}>
 			<HistoryNav uuid={uuid} />
 			<HistoryContents uuid={uuid} />
 		</ColBox>
