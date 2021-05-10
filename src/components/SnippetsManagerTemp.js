@@ -9,24 +9,28 @@ import {BaseSpan} from '../styles/texts';
 import {IconButton, PopupButton} from '../styles/buttons';
 import {MainHeader} from '../styles/cards';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
-import {SSHT_CHANGE_SNIPPET} from '../reducers/ssht';
+import {SSHT_ADD_SNIPPET, SSHT_CHANGE_SNIPPET} from '../reducers/ssht';
 
-const SnippetsManeger = ({open, setOpen}) => {
+const SnippetsManegerTemp = ({open, setOpen}) => {
 	const dispatch = useDispatch();
-	const {snippets, snippents_index} = useSelector((state) => state.ssht);
-	const [tempSnippets, setTempSnippets] = useState(snippets);
-	const [index, setIndex] = useState(snippents_index);
+	const {snippets} = useSelector((state) => state.ssht);
+	const [tempSnippets, setTempSnippets] = useState(
+		snippets.map((v, i) => {
+			return {index: i, ...v};
+		}),
+	);
+	const [index, setIndex] = useState(snippets.length);
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [currentSnippet, setCurrentSnippet] = useState(null);
 
 	const onChangeName = useCallback(
 		(e) => {
-			// console.log(e.target.value);
+			console.log(e.target.value);
 			setName(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
-					if (v.id === currentSnippet)
+					if (v.index === currentSnippet)
 						return {...v, name: e.target.value};
 					else return v;
 				}),
@@ -41,7 +45,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setContent(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
-					if (v.id === currentSnippet)
+					if (v.index === currentSnippet)
 						return {...v, content: e.target.value};
 					else return v;
 				}),
@@ -53,22 +57,45 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const onClickCancel = useCallback(() => {
 		setName('');
 		setContent('');
-		setTempSnippets(snippets);
-		setIndex(snippents_index);
+		setTempSnippets(
+			snippets.map((v, i) => {
+				return {index: i, ...v};
+			}),
+		);
+		setIndex(snippets.length);
 		setOpen(false);
-	}, [snippets, snippents_index]);
+	}, [snippets]);
 
 	const onClickSubmit = useCallback(() => {
-		dispatch({
-			type: SSHT_CHANGE_SNIPPET,
-			data: {snippets: tempSnippets, snippents_index: index},
-		});
-	}, [snippets, tempSnippets, index]);
+		//Delete
+		// snippets.filter((v) => tempSnippets.includes(v.id));
+		//Change
+		const temp = snippets
+			.filter((v) => v.id !== undefined)
+			.map((v) => {
+				return v.id;
+			});
+		console.log(temp);
+
+		for (let i of tempSnippets.filter((v) => temp.includes(v.id))) {
+			dispatch({
+				type: SSHT_CHANGE_SNIPPET,
+				data: {id: i.id, name: i.name, content: i.content},
+			});
+		}
+		//Add
+		for (let i of tempSnippets.filter((v) => v.id === undefined)) {
+			dispatch({
+				type: SSHT_ADD_SNIPPET,
+				data: {name: i.name, content: i.content},
+			});
+		}
+	}, [snippets, tempSnippets]);
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
-			setName(tempSnippets.find((v) => v.id === id).name);
-			setContent(tempSnippets.find((v) => v.id === id).content);
+			setName(tempSnippets.find((v) => v.index === id).name);
+			setContent(tempSnippets.find((v) => v.index === id).content);
 			setCurrentSnippet(id);
 		},
 		[tempSnippets],
@@ -78,9 +105,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 		setTempSnippets([
 			...tempSnippets,
 			{
-				id: index,
 				name: 'name',
 				content: '',
+				index: index,
 			},
 		]);
 		setCurrentSnippet(index);
@@ -92,21 +119,25 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const onClickDeleteSnippet = useCallback(() => {
 		if (currentSnippet !== null) {
 			setTempSnippets(
-				tempSnippets.filter((x) => x.id !== currentSnippet),
+				tempSnippets.filter((x) => x.index !== currentSnippet),
 			);
 			if (tempSnippets.length !== 0)
-				setCurrentSnippet(tempSnippets[0].id);
+				setCurrentSnippet(tempSnippets[0].index);
 			else setCurrentSnippet(null);
 		}
 	}, [currentSnippet, tempSnippets]);
 
 	useEffect(() => {
 		if (tempSnippets.length !== 0) {
-			setCurrentSnippet(tempSnippets[0].id);
+			setCurrentSnippet(tempSnippets[0].index);
 			setName(tempSnippets[0].name);
 			setContent(tempSnippets[0].content);
 		} else setCurrentSnippet(null);
 	}, [snippets]);
+
+	// useEffect(() => {
+	// 	console.log(tempSnippets);
+	// }, [tempSnippets]);
 
 	return (
 		<BaseModal show={open} onHide={onClickCancel} width={'1000px'}>
@@ -130,10 +161,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 						<ListGroup>
 							{tempSnippets.map((v) => (
 								<ListGroup.Item
-									key={v.id}
-									onClick={onClickSnippet(v.id)}
+									key={v.index}
+									onClick={onClickSnippet(v.index)}
 									variant={
-										currentSnippet === v.id && 'primary'
+										currentSnippet === v.index && 'primary'
 									}
 								>
 									<GiHamburgerMenu />
@@ -177,9 +208,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 	);
 };
 
-SnippetsManeger.propTypes = {
+SnippetsManegerTemp.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default SnippetsManeger;
+export default SnippetsManegerTemp;

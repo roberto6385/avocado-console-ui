@@ -38,6 +38,7 @@ export const SSHT_SEND_WINDOW_CHANGE_FAILURE =
 	'SSHT_SEND_WINDOW_CHANGE_FAILURE';
 export const SSHT_ADD_SNIPPET = 'SSHT_ADD_SNIPPET';
 export const SSHT_DELETE_SNIPPET = 'SSHT_DELETE_SNIPPET';
+export const SSHT_CHANGE_SNIPPET = 'SSHT_CHANGE_SNIPPET';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -128,6 +129,20 @@ const reducer = (state = initialState, action) => {
 				draft.snippets = draft.snippets.filter(
 					(x) => x.id !== action.data,
 				);
+				break;
+
+			case SSHT_CHANGE_SNIPPET:
+				// draft.snippets = draft.snippets.map((x) => {
+				// 	if (x.id === action.data.id) return x;
+				// 	else
+				// 		return {
+				// 			...x,
+				// 			name: action.data.name,
+				// 			content: action.data.content,
+				// 		};
+				// });
+				draft.snippets = action.data.snippets;
+				draft.snippents_index = action.data.snippents_index;
 				break;
 
 			default:

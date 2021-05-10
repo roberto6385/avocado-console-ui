@@ -15,7 +15,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
 	const {ssht, snippets} = useSelector((state) => state.ssht);
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 	const [column, setColumn] = useState([]);
 
 	const onCLickFullScreen = useCallback(() => {
