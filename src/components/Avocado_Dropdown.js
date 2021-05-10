@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Dropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
 import {MAIN_COLOR} from '../styles/global';
 
 const _Dropdown = styled(Dropdown)`

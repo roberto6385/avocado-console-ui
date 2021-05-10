@@ -4,11 +4,8 @@ import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
-import {MAIN_COLOR} from '../styles/global';
-
 import Avocado_Dropdown from './Avocado_Dropdown';
 import {IconButton} from '../styles/buttons';
-import {RowBox} from '../styles/divs';
 
 const RightCornerIcons = () => {
 	const dispatch = useDispatch();
@@ -36,7 +33,7 @@ const RightCornerIcons = () => {
 		{onClick: changePath('/preferences'), title: 'Preferences'},
 		{onClick: changePath('/identities'), title: 'Identities'},
 		{title: 'divider'},
-		{onClick: () => console.log('some action!'), title: 'Logout'},
+		{onClick: () => console.log('Logout Action'), title: 'Logout'},
 	];
 	const column_list = [
 		{onClick: changeColumn(1, 1), title: 'No Columns'},

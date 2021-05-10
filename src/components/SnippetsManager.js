@@ -22,7 +22,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const handleClose = useCallback(() => {
 		setOpen(false);
-	});
+	}, []);
 
 	const onClickCancel = useCallback(() => {
 		setName('');
