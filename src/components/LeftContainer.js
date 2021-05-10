@@ -93,7 +93,7 @@ const LeftContainer = () => {
 				</IconButton>
 				<span>LOGO</span>
 			</MainHeader>
-			<SubHeader>
+			<MainHeader>
 				<IconButton onClick={onClickVisibleForm}>
 					<FaPlus />
 				</IconButton>
@@ -112,7 +112,7 @@ const LeftContainer = () => {
 				{/*<IconButton onClick={findActiveToken}>*/}
 				{/*	<GiToken />*/}
 				{/*</IconButton>*/}
-			</SubHeader>
+			</MainHeader>
 			<BaseForm key='search'>
 				<BaseInput
 					flex={1}

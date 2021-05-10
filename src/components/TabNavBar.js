@@ -94,7 +94,7 @@ const TabNavBar = () => {
 
 	return (
 		<MainHeader justify={'space-between'}>
-			<BaseNav
+			<sdBaseNav
 				id='sortableTabNav'
 				overflow={'scroll'}
 				height={NAV_HEIGHT}
@@ -123,7 +123,7 @@ const TabNavBar = () => {
 							{/*</NavLink>*/}
 						</RowBox>
 					))}
-			</BaseNav>
+			</sdBaseNav>
 			<RightCornerIcons />
 		</MainHeader>
 	);
