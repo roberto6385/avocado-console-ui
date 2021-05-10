@@ -1,6 +1,7 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {CgMaximizeAlt, FiFile} from 'react-icons/all';
+import {useSelector} from 'react-redux';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
@@ -10,31 +11,31 @@ import {MainHeader} from '../../styles/cards';
 import SnippetsManeger from '../SnippetsManager';
 
 const SSHTContainer = ({uuid, server_id}) => {
+	const {snippets} = useSelector((state) => state.ssht);
+
 	const [open, setOpen] = useState(true);
+	const [column, setColumn] = useState([]);
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('full_ssht_' + uuid).requestFullscreen();
 	}, []);
 
-	const column_list = [
-		{onClick: () => setOpen(true), title: 'Edit Snippets'},
-		{
-			onClick: () => console.log('5 Columns'),
-			title: 'Find large files on Linux',
-		},
-		{onClick: () => console.log('5 Columns'), title: 'Display disk usege'},
-		{onClick: () => console.log('5 Columns'), title: 'Extract tar file'},
-		{title: 'divider'},
-		{
-			onClick: () => console.log('5 Columns'),
-			title: 'View running processes',
-		},
-	];
+	useEffect(() => {
+		const temp = [
+			{onClick: () => setOpen(true), title: 'Edit Snippets'},
+			{title: 'divider'},
+		];
+
+		snippets.map((v) =>
+			temp.push({onClick: () => console.log(v.content), title: v.name}),
+		);
+		setColumn(temp);
+	}, [snippets]);
 
 	return (
 		<>
 			<MainHeader>
-				<Avocado_Dropdown icon={<FiFile />} menu={column_list} />
+				<Avocado_Dropdown icon={<FiFile />} menu={column} />
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>
