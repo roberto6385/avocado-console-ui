@@ -58,6 +58,8 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
+	// takeEvery로 하는경우 37 line이 request만큼 발생한다.
+	// 그러나 takeLatest로 하는경우 동일 라인이 한번만 출력된다.
 	yield takeLatest(CD_REQUEST, sendCommand);
 }
 

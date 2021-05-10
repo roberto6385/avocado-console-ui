@@ -96,7 +96,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	// yield takeEvery(LS_REQUEST, sendCommand);
-
 	const reqChannel = yield actionChannel(LS_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

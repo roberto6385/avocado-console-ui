@@ -6,7 +6,7 @@ import {
 	put,
 	race,
 	delay,
-	takeEvery,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
@@ -30,7 +30,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(3000),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -71,13 +71,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PWD_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(PWD_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	const res = yield call(sendCommand, action);
-	// 	yield console.log(res);
-	// }
+	yield takeLatest(PWD_REQUEST, sendCommand);
 }
 
 export default function* commandPwdSaga() {

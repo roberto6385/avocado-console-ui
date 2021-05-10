@@ -31,13 +31,12 @@ function* sendCommand(action) {
 						payload: {uuid: payload.uuid},
 					});
 					yield put(commandPwdAction(payload));
-					return {type: 'end'};
+					break;
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: RENAME_FAILURE});
-		return {type: 'error'};
 	}
 }
 
@@ -45,8 +44,7 @@ function* watchSendCommand() {
 	const reqChannel = yield actionChannel(RENAME_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
+		yield call(sendCommand, action);
 	}
 }
 

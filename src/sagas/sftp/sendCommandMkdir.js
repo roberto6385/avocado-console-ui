@@ -43,13 +43,12 @@ function* sendCommand(action) {
 						},
 					});
 					yield put(commandPwdAction(payload));
-					return {type: 'end'};
+					break;
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: MKDIR_FAILURE});
-		return {type: 'error'};
 	}
 }
 
@@ -57,8 +56,7 @@ function* watchSendCommand() {
 	const reqChannel = yield actionChannel(MKDIR_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
+		yield call(sendCommand, action);
 	}
 }
 
