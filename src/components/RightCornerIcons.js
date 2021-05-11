@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
-import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
+import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
 import {IconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
@@ -29,13 +29,24 @@ const RightCornerIcons = () => {
 		[],
 	);
 
+	const openPreferences = useCallback(
+		(key) => () => {
+			dispatch({type: RIGHT_SIDE_KEY, payload: key});
+			document.getElementById('right_side_menu').style.width = '300px';
+		},
+		[],
+	);
+
 	const setting_list = [
 		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
-			onClick: () => console.log('여기서 사이드바 열고 닫고'),
+			onClick: openPreferences('Preferences'),
 			title: 'Preferences',
 		},
-		{onClick: changePath('/identities'), title: 'Identities'},
+		{
+			onClick: openPreferences('Identities'),
+			title: 'Identities',
+		},
 		{title: 'divider'},
 		{onClick: () => console.log('Logout Action'), title: 'Logout'},
 	];
@@ -49,7 +60,7 @@ const RightCornerIcons = () => {
 
 	return (
 		<FlexBox align={'center'} width={'fit-content'}>
-			<IconButton>
+			<IconButton onClick={openPreferences('Account')}>
 				<HiUserCircle />
 			</IconButton>
 			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />

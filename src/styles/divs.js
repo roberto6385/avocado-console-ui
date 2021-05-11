@@ -13,23 +13,24 @@ export const FlexBox = styled.div`
 	background: ${(props) => props.back || 'initial'};
 	position: ${(props) => props?.position};
 	opacity: ${(props) => props.opacity};
+	overflow: ${(props) => props?.overflow};
 `;
 export const RowBox = styled(FlexBox)`
 	height: ${(props) => props?.height};
 `;
 
-export const SideBox = styled(FlexBox)`
+export const RightSideBox = styled(FlexBox)`
 	z-index: 5;
 	height: ${(props) => props?.height};
 	top: ${(props) => props?.top};
 	bottom: ${(props) => props?.bottom};
 	left: ${(props) => props?.left};
 	right: ${(props) => props?.right};
+	transition: 0.5s;
 `;
 
 export const ColBox = styled(FlexBox)`
 	flex-direction: column;
-	overflow: ${(props) => props?.overflow};
 	height: 100%;
 `;
 export const Background = styled(RowBox)`

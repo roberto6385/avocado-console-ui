@@ -52,7 +52,7 @@ const DropdownMenu = ({icon, menu}) => {
 					return v.title === 'divider' ? (
 						<_Divider key={i} />
 					) : (
-						<_Item key={i} onClick={v.onClick}>
+						<_Item id={v.title} key={i} onClick={v.onClick}>
 							{v.title}
 						</_Item>
 					);

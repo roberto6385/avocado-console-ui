@@ -13,7 +13,7 @@ import {BaseCard, SubHeader} from '../styles/cards';
 
 const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab, cols} = useSelector((state) => state.common);
+	const {tab, current_tab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 

@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import Footer from './Footer';
 import MainPage from './MainPage';
 import {ColBox, RowBox} from '../styles/divs';
-import SideMenuContainer from './SideMenuContainer';
+import SideMenuContainer from './RightSide/SideMenuContainer';
 
 const RightContainer = () => {
 	const {tab, current_tab} = useSelector((state) => state.common);

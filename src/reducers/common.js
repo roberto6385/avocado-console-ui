@@ -9,6 +9,7 @@ export const initialState = {
 	minimize: false,
 	server_index: 4,
 	folder_index: 5,
+	rightSideKey: '',
 	nav: [
 		{
 			type: 'folder',
@@ -153,6 +154,8 @@ export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const EDIT_SERVER = 'EDIT_SERVER';
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
+
+export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -515,6 +518,9 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data;
 				break;
 
+			case RIGHT_SIDE_KEY:
+				draft.rightSideKey = action.payload;
+				break;
 			default:
 				break;
 		}
