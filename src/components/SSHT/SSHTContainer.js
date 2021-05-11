@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
-import Avocado_Dropdown from '../Avocado_Dropdown';
+import DropdownMenu from '../DropdownMenu';
 import {IconButton} from '../../styles/buttons';
 import {MainHeader} from '../../styles/cards';
 import SnippetsManeger from '../SnippetsManager';
@@ -54,7 +54,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 	return (
 		<>
 			<MainHeader>
-				<Avocado_Dropdown icon={<FiFile />} menu={column} />
+				<DropdownMenu icon={<FiFile />} menu={column} />
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />
 				</IconButton>

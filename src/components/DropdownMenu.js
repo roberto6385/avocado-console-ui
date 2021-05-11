@@ -41,7 +41,7 @@ const _Divider = styled(Dropdown.Divider)`
 	margin: 6px;
 `;
 
-const Avocado_Dropdown = ({icon, menu}) => {
+const DropdownMenu = ({icon, menu}) => {
 	return (
 		<_Dropdown>
 			<Dropdown.Toggle split id='dropdown-split-basic'>
@@ -62,9 +62,9 @@ const Avocado_Dropdown = ({icon, menu}) => {
 	);
 };
 
-Avocado_Dropdown.propTypes = {
+DropdownMenu.propTypes = {
 	menu: PropTypes.array.isRequired,
 	icon: PropTypes.element.isRequired,
 };
 
-export default Avocado_Dropdown;
+export default DropdownMenu;

@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS} from '../reducers/common';
-import Avocado_Dropdown from './Avocado_Dropdown';
+import DropdownMenu from './DropdownMenu';
 import {IconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
 
@@ -49,8 +49,8 @@ const RightCornerIcons = () => {
 			<IconButton>
 				<HiUserCircle />
 			</IconButton>
-			<Avocado_Dropdown icon={<AiTwotoneSetting />} menu={setting_list} />
-			<Avocado_Dropdown icon={<FaTh />} menu={column_list} />
+			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />
+			<DropdownMenu icon={<FaTh />} menu={column_list} />
 		</FlexBox>
 	);
 };
