@@ -5,13 +5,14 @@ import SplitPane from 'react-split-pane';
 import TabContentContainer from './TabContentContainer';
 import {WorkSpaceContainer} from '../styles/common';
 import '../styles/resize.css';
+import {ColBox, RowBox} from '../styles/divs';
 
 const WorkSpace = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
 
 	return (
-		<WorkSpaceContainer className={'fix-height'}>
+		<>
 			{visibleTab.length === 1 ? (
 				<TabContentContainer
 					uuid={visibleTab[0].uuid}
@@ -20,7 +21,6 @@ const WorkSpace = () => {
 				/>
 			) : visibleTab.length === 2 ? (
 				<SplitPane split='vertical' defaultSize={'50%'}>
-
 					<TabContentContainer
 						uuid={visibleTab[0].uuid}
 						type={visibleTab[0].type}
@@ -31,7 +31,6 @@ const WorkSpace = () => {
 						type={visibleTab[1].type}
 						server={visibleTab[1].server}
 					/>
-
 				</SplitPane>
 			) : visibleTab.length === 3 && cols === 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
@@ -101,7 +100,7 @@ const WorkSpace = () => {
 					</SplitPane>
 				</SplitPane>
 			)}
-		</WorkSpaceContainer>
+		</>
 	);
 };
 

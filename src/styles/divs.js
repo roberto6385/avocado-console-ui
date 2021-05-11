@@ -3,6 +3,7 @@ import background from '../images/bg_3.png';
 
 export const FlexBox = styled.div`
 	display: flex;
+	position: ${(props) => props?.position};
 	flex: ${(props) => props?.flex};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: 0px;

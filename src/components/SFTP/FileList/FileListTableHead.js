@@ -56,7 +56,7 @@ const TableHead = ({uuid}) => {
 	return (
 		<thead>
 			<tr>
-				{tableHeaders.map((item, index) => {
+				{tableHeaders.map((item) => {
 					return (
 						<HeaderTh
 							key={item.key}

@@ -45,10 +45,10 @@ export const TabSFTPIcon = styled(RiArrowUpDownLine)`
 // 이건 split pane이랑 연결되어 있어서 다음에..
 export const WorkSpaceContainer = styled.div`
 	flex: 1;
+	overflow: scroll;
 	margin: 0;
 	padding: 0;
 	position: relative;
 	// display: flex;
 	// flex-wrap: wrap;
 `;
-

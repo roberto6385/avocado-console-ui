@@ -8,14 +8,13 @@ export const BaseTable = styled(Table)`
 	margin: 0;
 	padding: 0;
 	border: none;
-	overflow: scroll;
 	thead {
 		tr {
 			display: flex;
 			position: sticky;
 			top: 0px;
 			background: white;
-			z-index: 1;
+			// z-index: 1;
 		}
 	}
 	tbody {
