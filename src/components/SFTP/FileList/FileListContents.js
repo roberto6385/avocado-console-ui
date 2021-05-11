@@ -20,7 +20,7 @@ import {Spinner} from 'react-bootstrap';
 import {MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
 import {BaseTable, FileListP, Th} from '../../../styles/tables';
-import {BaseButton} from '../../../styles/buttons';
+import {IconButton} from '../../../styles/buttons';
 import {
 	formatByteSizeString,
 	sortFunction,
@@ -236,20 +236,20 @@ const FileListContents = ({uuid}) => {
 								<Th min={'130px'}>{item.permission}</Th>
 								<Th min={'100px'} textAlign={'right'}>
 									{item.type === 'file' && (
-										<BaseButton
+										<IconButton
 											zIndex={1}
 											onClick={edit(item)}
 										>
 											<MdEdit />
-										</BaseButton>
+										</IconButton>
 									)}
 									{item.name !== '..' && (
-										<BaseButton
+										<IconButton
 											zIndex={1}
 											onClick={download(item)}
 										>
 											<MdFileDownload />
-										</BaseButton>
+										</IconButton>
 									)}
 								</Th>
 							</tr>

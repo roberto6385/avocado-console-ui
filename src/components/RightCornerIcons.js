@@ -31,7 +31,10 @@ const RightCornerIcons = () => {
 
 	const setting_list = [
 		{onClick: changePath('/account'), title: 'Edit Setting'},
-		{onClick: changePath('/preferences'), title: 'Preferences'},
+		{
+			onClick: () => console.log('여기서 사이드바 열고 닫고'),
+			title: 'Preferences',
+		},
 		{onClick: changePath('/identities'), title: 'Identities'},
 		{title: 'divider'},
 		{onClick: () => console.log('Logout Action'), title: 'Logout'},

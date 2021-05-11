@@ -47,3 +47,12 @@ export const SFTPBody = styled(BaseCard.Body)`
 	flex-direction: ${(props) => props?.direction};
 	overflow: scroll;
 `;
+export const SideBody = styled(BaseCard.Body)`
+	display: flex;
+	padding: ${(props) => props?.padding || '0px'};
+	margin: ${(props) => props?.margin || '0px'};
+	border: none;
+	flex: ${(props) => props?.flex};
+	width: ${(props) => props.width || '100%'};
+	flex-direction: ${(props) => props?.direction};
+`;

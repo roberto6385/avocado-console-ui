@@ -3,7 +3,6 @@ import background from '../images/bg_3.png';
 
 export const FlexBox = styled.div`
 	display: flex;
-	position: ${(props) => props?.position};
 	flex: ${(props) => props?.flex};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: 0px;
@@ -12,14 +11,26 @@ export const FlexBox = styled.div`
 	justify-content: ${(props) => props?.justify};
 	align-items: ${(props) => props?.align};
 	background: ${(props) => props.back || 'initial'};
+	position: ${(props) => props?.position};
+	opacity: ${(props) => props.opacity};
 `;
 export const RowBox = styled(FlexBox)`
 	height: ${(props) => props?.height};
 `;
 
+export const SideBox = styled(FlexBox)`
+	z-index: 5;
+	height: ${(props) => props?.height};
+	top: ${(props) => props?.top};
+	bottom: ${(props) => props?.bottom};
+	left: ${(props) => props?.left};
+	right: ${(props) => props?.right};
+`;
+
 export const ColBox = styled(FlexBox)`
 	flex-direction: column;
 	overflow: ${(props) => props?.overflow};
+	height: 100%;
 `;
 export const Background = styled(RowBox)`
 	flex: 1;

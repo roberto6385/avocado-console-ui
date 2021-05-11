@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {MIDDLE_FONT} from './global';
+import {MAIN_COLOR, MIDDLE_FONT} from './global';
 
 export const BaseSpan = styled.span`
 	display: flex;
@@ -8,6 +8,17 @@ export const BaseSpan = styled.span`
 	padding: ${(props) => props?.padding || '0px'};
 	color: ${(props) => props?.color || 'black'};
 	font-size: ${(props) => props?.fontSize || MIDDLE_FONT};
+`;
+
+export const BaseP = styled.p`
+	display: flex;
+	padding: ${(props) => props?.padding || '0px'};
+	color: ${(props) => props?.color || 'black'};
+	font-size: ${(props) => props?.fontSize || MIDDLE_FONT};
+`;
+
+export const BorderBottomP = styled(BaseP)`
+	border-bottom: 2px solid ${MAIN_COLOR};
 `;
 
 export const EllipsisSpan = styled(BaseSpan)`

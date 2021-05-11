@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import Footer from './Footer';
 import MainPage from './MainPage';
 import {ColBox, RowBox} from '../styles/divs';
+import SideMenuContainer from './SideMenuContainer';
 
 const RightContainer = () => {
 	const {tab, current_tab} = useSelector((state) => state.common);
@@ -12,8 +13,9 @@ const RightContainer = () => {
 	return (
 		<ColBox flex={1}>
 			<TabNavBar />
-			<RowBox flex={1} height={'100px'}>
+			<RowBox position={'relative'} flex={1} height={'100px'}>
 				{tab.length ? <WorkSpace /> : <MainPage />}
+				<SideMenuContainer />
 			</RowBox>
 			{current_tab !== null && <Footer />}
 		</ColBox>
