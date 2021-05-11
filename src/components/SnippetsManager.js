@@ -63,6 +63,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			type: SSHT_CHANGE_SNIPPET,
 			data: {snippets: tempSnippets, snippents_index: index},
 		});
+		setOpen(false);
 	}, [snippets, tempSnippets, index]);
 
 	const onClickSnippet = useCallback(
