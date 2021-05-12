@@ -17,7 +17,12 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
-import {CLOUDY_BLUE, HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
+import {
+	CLOUDY_BLUE,
+	HIGHLIGHT_COLOR,
+	light_Background,
+	MAIN_COLOR,
+} from '../../../styles/global';
 import {MainHeader, SFTPBody, SubHeader} from '../../../styles/cards';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, DropListUl} from '../../../styles/lists';
@@ -280,6 +285,7 @@ const FileListDropDown = ({uuid}) => {
 						width={
 							pathList.length - 1 === listindex ? '100%' : '250px'
 						}
+						back={light_Background}
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
@@ -308,7 +314,8 @@ const FileListDropDown = ({uuid}) => {
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
-												CLOUDY_BLUE)
+												CLOUDY_BLUE) ||
+											light_Background
 										}
 										key={index}
 										onContextMenu={contextMenuOpen({
@@ -376,6 +383,7 @@ const FileListDropDown = ({uuid}) => {
 					</DropListUl>
 				);
 			})}
+			<FileListContextMenu uuid={uuid} />
 		</SFTPBody>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />

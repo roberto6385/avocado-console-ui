@@ -9,12 +9,11 @@ import {
 	DELETE_WORK_LIST,
 } from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
-import {put} from 'redux-saga/effects';
 
 const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {highlight, path, mode} = corServer;
+	const {highlight, path} = corServer;
 
 	const dispatch = useDispatch();
 
@@ -24,7 +23,7 @@ const FileListContextMenu = ({uuid}) => {
 			dispatch(
 				commandGetAction({
 					...corServer,
-					file: mode === 'list' ? value : value.item,
+					file: value,
 					keyword: 'get',
 				}),
 			);
@@ -32,8 +31,8 @@ const FileListContextMenu = ({uuid}) => {
 				type: ADD_HISTORY,
 				payload: {
 					uuid: uuid,
-					name: mode === 'list' ? value.name : value.item.name,
-					size: mode === 'list' ? value.size : value.item.size,
+					name: value.name,
+					size: value.size,
 					todo: 'get',
 					progress: 0,
 				},
@@ -46,7 +45,7 @@ const FileListContextMenu = ({uuid}) => {
 			dispatch(
 				commandGetAction({
 					...corServer,
-					file: mode === 'list' ? value : value.item,
+					file: value,
 					keyword: 'edit',
 				}),
 			);
@@ -117,48 +116,46 @@ const FileListContextMenu = ({uuid}) => {
 		}
 	};
 	return (
-		<>
-			<Menu
-				id={MENU_ID}
-				animation={animation.slide}
-				style={{fontSize: '14px'}}
+		<Menu
+			id={MENU_ID}
+			animation={animation.slide}
+			style={{fontSize: '14px'}}
+		>
+			<Item
+				disabled={highlight[0] === null || undefined}
+				id='download'
+				onClick={handleItemClick}
 			>
-				<Item
-					disabled={highlight[0] === null || undefined}
-					id='download'
-					onClick={handleItemClick}
-				>
-					Download
-				</Item>
-				<Item
-					disabled={highlight[0] === null || highlight.length !== 1}
-					id='edit'
-					onClick={handleItemClick}
-				>
-					Edit
-				</Item>
-				<Separator />
+				Download
+			</Item>
+			<Item
+				disabled={highlight[0] === null || highlight.length !== 1}
+				id='edit'
+				onClick={handleItemClick}
+			>
+				Edit
+			</Item>
+			<Separator />
 
-				<Item id='new_folder' onClick={handleItemClick}>
-					New Folder
-				</Item>
-				<Item
-					disabled={highlight[0] === null || highlight.length !== 1}
-					id='rename_work'
-					onClick={handleItemClick}
-				>
-					Rename
-				</Item>
-				<Separator />
-				<Item
-					disabled={highlight[0] === null || undefined}
-					id='delete_work'
-					onClick={handleItemClick}
-				>
-					Delete
-				</Item>
-			</Menu>
-		</>
+			<Item id='new_folder' onClick={handleItemClick}>
+				New Folder
+			</Item>
+			<Item
+				disabled={highlight[0] === null || highlight.length !== 1}
+				id='rename_work'
+				onClick={handleItemClick}
+			>
+				Rename
+			</Item>
+			<Separator />
+			<Item
+				disabled={highlight[0] === null || undefined}
+				id='delete_work'
+				onClick={handleItemClick}
+			>
+				Delete
+			</Item>
+		</Menu>
 	);
 };
 

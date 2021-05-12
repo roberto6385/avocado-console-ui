@@ -163,16 +163,6 @@ const FileListContents = ({uuid}) => {
 		[sftp],
 	);
 
-	// useEffect(() => {
-	// 	console.log('sort Function run');
-	// 	fileList.forEach((item, index) => {
-	// 		const newList = sortFunction({
-	// 			fileList: item,
-	// 			keyword: sortKeyword,
-	// 		});
-	// 		fileList.splice(index, 1, newList);
-	// 	});
-	// }, [fileList, sortKeyword]);
 	useEffect(() => {
 		if (
 			fileList.length === pathList.length &&

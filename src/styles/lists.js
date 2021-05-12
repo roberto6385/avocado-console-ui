@@ -14,11 +14,14 @@ export const BaseUl = styled.ul`
 export const DropListUl = styled(BaseUl)`
 	border-right: 1px solid ${MAIN_COLOR};
 	flex: ${(props) => props.flex};
+	background: ${(props) => props.back};
+	min-width: 250px;
 `;
 export const BaseLi = styled.li`
 	width: ${(props) => props?.width};
 	padding: ${(props) => props.padding};
-	background: ${(props) => props.back || 'white'};
+	background: ${(props) => props.back};
+	white-space: nowrap;
 `;
 
 export const CustomLi = styled.li`
