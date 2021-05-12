@@ -45,51 +45,55 @@ function* sendCommand(action) {
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(messageReader, {data, payload});
-				if (payload.newPath === '.' || payload.newPath === '..') return;
-				if (payload.keyword !== 'pathFinder') {
-					yield put({
-						type: LS_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							fileList: sortFunction({
-								fileList: res.list,
-								keyword: 'name',
-								toggle: true,
-							}),
-						},
-					});
-				} else {
-					yield put({
-						type: DELETE_WORK_LIST,
-						payload: {
-							uuid: payload.uuid,
-							list: res.list,
-							path: payload.newPath,
-						},
-					});
+				switch (res.type) {
+					case LS_SUCCESS:
+						if (payload.newPath === '.' || payload.newPath === '..')
+							return;
+						if (payload.keyword !== 'pathFinder') {
+							yield put({
+								type: LS_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									fileList: sortFunction({
+										fileList: res.list,
+										keyword: 'name',
+										toggle: true,
+									}),
+								},
+							});
+						} else {
+							yield put({
+								type: DELETE_WORK_LIST,
+								payload: {
+									uuid: payload.uuid,
+									list: res.list,
+									path: payload.newPath,
+								},
+							});
 
-					for (let item of res.list) {
-						if (
-							item.type === 'directory' &&
-							item.name !== '..' &&
-							item.name !== '.'
-						) {
-							yield put(
-								commandLsAction({
-									...payload,
-									newPath: `${payload.newPath}/${item.name}`,
-									keyword: 'pathFinder',
-									deleteWorks: [
-										...payload.deleteWorks,
-										{
-											list: res.list,
-											path: payload.newPath,
-										},
-									],
-								}),
-							);
+							for (let item of res.list) {
+								if (
+									item.type === 'directory' &&
+									item.name !== '..' &&
+									item.name !== '.'
+								) {
+									yield put(
+										commandLsAction({
+											...payload,
+											newPath: `${payload.newPath}/${item.name}`,
+											keyword: 'pathFinder',
+											deleteWorks: [
+												...payload.deleteWorks,
+												{
+													list: res.list,
+													path: payload.newPath,
+												},
+											],
+										}),
+									);
+								}
+							}
 						}
-					}
 				}
 			}
 		}

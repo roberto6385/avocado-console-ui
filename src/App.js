@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import './styles/default.css'; //html, body => padding,margin : 0, box-sizing : border-box 로 설정
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
 
@@ -9,6 +8,7 @@ import {NotFound, Main, Login, Account, Preferences, Identities} from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
 import AddServerForm from './components/Form/AddServerForm';
 import ConfirmPopup from './components/Popup/ConfirmPopup';
+import AddAccountForm from './components/Form/AddAccountForm';
 
 class App extends Component {
 	render() {
@@ -22,6 +22,7 @@ class App extends Component {
 					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>
+				<AddAccountForm />
 				<AddServerForm />
 				<ConfirmPopup />
 				<AlertPopup />

@@ -137,6 +137,15 @@ export const initialState = {
 		},
 	],
 
+	account: [
+		{
+			id: 0,
+			name: 'mainAccount',
+			username: 'root',
+			type: 'key',
+		},
+	],
+
 	tab: [],
 };
 
