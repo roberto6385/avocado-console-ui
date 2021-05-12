@@ -1,4 +1,14 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	takeLatest,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	commandPwdAction,
 	RENAME_FAILURE,
@@ -6,7 +16,7 @@ import {
 	RENAME_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
@@ -21,17 +31,26 @@ function* sendCommand(action) {
 	});
 	try {
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
+			const {timeout, data} = yield race({
+				timeout: delay(5000),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('RENAME 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				// const data = yield take(channel);
+				const res = yield call(messageReader, {data, payload});
 
-			switch (res.type) {
-				case RENAME_SUCCESS:
-					yield put({
-						type: RENAME_SUCCESS,
-						payload: {uuid: payload.uuid},
-					});
-					yield put(commandPwdAction(payload));
-					break;
+				switch (res.type) {
+					case RENAME_SUCCESS:
+						yield put({
+							type: RENAME_SUCCESS,
+							payload: {uuid: payload.uuid},
+						});
+						yield put(commandPwdAction(payload));
+						break;
+				}
 			}
 		}
 	} catch (err) {
@@ -41,11 +60,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(RENAME_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	yield takeLatest(RENAME_REQUEST, sendCommand);
+
+	// const reqChannel = yield actionChannel(RENAME_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandRenameSaga() {

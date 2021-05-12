@@ -97,7 +97,7 @@ const FileListContextMenu = ({uuid}) => {
 						dispatch(
 							commandLsAction({
 								...corServer,
-								path: `${path}/${item.name}`,
+								newPath: `${path}/${item.name}`,
 								keyword: 'pathFinder',
 							}),
 						);

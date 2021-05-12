@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeLatest,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
@@ -7,28 +16,38 @@ import {
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
 import {messageReader} from './messageReader';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
-	messageSender({
-		keyword: 'Disconnection',
-		ws: payload.socket,
-	});
 	try {
+		messageSender({
+			keyword: 'Disconnection',
+			ws: payload.socket,
+		});
+
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
-			switch (res.type) {
-				case DISCONNECTION_SUCCESS:
-					yield put({
-						type: DISCONNECTION_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-						},
-					});
+			const {timeout, data} = yield race({
+				timeout: delay(5000),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('Disconnection 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				const data = yield take(channel);
+				const res = yield call(messageReader, {data, payload});
+				switch (res.type) {
+					case DISCONNECTION_SUCCESS:
+						yield put({
+							type: DISCONNECTION_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+							},
+						});
+				}
 			}
 		}
 	} catch (err) {

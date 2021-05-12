@@ -55,7 +55,7 @@ function* sendCommand(action) {
 							yield put(
 								commandLsAction({
 									...payload,
-									path: value,
+									newPath: value,
 								}),
 							);
 						}

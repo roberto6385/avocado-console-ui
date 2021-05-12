@@ -171,7 +171,6 @@ export async function messageReader({data, payload}) {
 									group: splitedValue[3],
 								});
 							}
-							// const fileList = listConversion(list);
 							return {type: LS_SUCCESS, list};
 						}
 						case SFTP.CommandResponse.CommandCase.STAT: {

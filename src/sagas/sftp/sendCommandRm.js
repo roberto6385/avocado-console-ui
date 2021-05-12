@@ -5,13 +5,13 @@ import {
 	take,
 	put,
 	actionChannel,
-	takeEvery,
 	race,
 	delay,
 } from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
 	commandLsAction,
+	INIT_DELETE_WORK_LIST,
 	INITIALIZING_HIGHLIGHT,
 	PWD_SUCCESS,
 	RM_FAILURE,
@@ -25,24 +25,22 @@ import {messageReader} from './messageReader';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-
-	if (payload.keyword === 'pwd') {
-		yield call(messageSender, {
-			keyword: 'CommandByPwd',
-			ws: payload.socket,
-		});
-	} else {
-		yield call(messageSender, {
-			keyword:
-				payload.keyword === 'rm' ? 'CommandByRm' : 'CommandByRmdir',
-			ws: payload.socket,
-			path: `${payload.path}/${payload.file.name}`,
-		});
-	}
-
 	try {
+		if (payload.keyword === 'pwd') {
+			yield call(messageSender, {
+				keyword: 'CommandByPwd',
+				ws: payload.socket,
+			});
+		} else {
+			yield call(messageSender, {
+				keyword:
+					payload.keyword === 'rm' ? 'CommandByRm' : 'CommandByRmdir',
+				ws: payload.socket,
+				path: `${payload.newPath}/${payload.file.name}`,
+			});
+		}
+
 		while (true) {
-			// const data = yield take(channel);
 			const {timeout, data} = yield race({
 				timeout: delay(200),
 				data: take(channel),
@@ -56,16 +54,19 @@ function* sendCommand(action) {
 					case RM_SUCCESS:
 						console.log(payload.file);
 						yield put({type: RM_SUCCESS});
-						yield put({
-							type: ADD_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								size: payload.file.size,
-								todo: 'rm',
-								progress: 100,
-							},
-						});
+
+						if (payload.newPath === payload.path) {
+							yield put({
+								type: ADD_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.file.name,
+									size: payload.file.size,
+									todo: 'rm',
+									progress: 100,
+								},
+							});
+						}
 						break;
 
 					case PWD_SUCCESS:
@@ -73,6 +74,11 @@ function* sendCommand(action) {
 							type: INITIALIZING_HIGHLIGHT,
 							payload: {uuid: payload.uuid},
 						});
+						yield put({
+							type: INIT_DELETE_WORK_LIST,
+							payload: {uuid: payload.uuid},
+						});
+
 						yield put({
 							type: PWD_SUCCESS,
 							payload: {
@@ -83,7 +89,10 @@ function* sendCommand(action) {
 						});
 						for (let value of res.pathList) {
 							yield put(
-								commandLsAction({...payload, path: value}),
+								commandLsAction({
+									...payload,
+									newPath: value,
+								}),
 							);
 						}
 						break;
@@ -97,8 +106,6 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(RM_REQUEST, sendCommand);
-
 	const reqChannel = yield actionChannel(RM_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

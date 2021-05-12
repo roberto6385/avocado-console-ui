@@ -105,7 +105,7 @@ function* sendCommand(action) {
 						});
 						for (let value of res.pathList) {
 							yield put(
-								commandLsAction({...payload, path: value}),
+								commandLsAction({...payload, newPath: value}),
 							);
 						}
 				}

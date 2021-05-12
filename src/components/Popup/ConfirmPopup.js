@@ -104,6 +104,7 @@ const ConfirmPopup = () => {
 									...corServer,
 									file: item,
 									path: value.path,
+									newPath: value.path,
 									keyword:
 										item.type === 'file' ? 'rm' : 'rmdir',
 								}),

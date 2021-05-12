@@ -1,10 +1,19 @@
-import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeLatest,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 } from '../../reducers/sftp';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {messageReader} from './messageReader';
@@ -15,34 +24,42 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const socket = yield call(createWebsocket, payload.host);
 	const channel = yield call(subscribe, socket);
-	yield call(messageSender, {
-		keyword: 'Connection',
-		ws: socket,
-		data: payload,
-	});
-
 	try {
-		// while (true) {
-		const data = yield take(channel);
-		const res = yield call(messageReader, {data, payload});
-		switch (res.type) {
-			case CONNECTION_SUCCESS:
-				yield put({
-					type: CONNECTION_SUCCESS,
-					payload: {
-						uuid: res.uuid,
-						socket: socket,
-					},
-				});
-				yield put({
-					type: OPEN_TAB,
-					data: {
-						type: 'SFTP',
-						uuid: res.uuid,
-						server: {id: payload.id, name: payload.name},
-					},
-				});
-			// }
+		yield call(messageSender, {
+			keyword: 'Connection',
+			ws: socket,
+			data: payload,
+		});
+
+		while (true) {
+			const {timeout, data} = yield race({
+				timeout: delay(5000),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				const res = yield call(messageReader, {data, payload});
+				switch (res.type) {
+					case CONNECTION_SUCCESS:
+						yield put({
+							type: CONNECTION_SUCCESS,
+							payload: {
+								uuid: res.uuid,
+								socket: socket,
+							},
+						});
+						yield put({
+							type: OPEN_TAB,
+							data: {
+								type: 'SFTP',
+								uuid: res.uuid,
+								server: {id: payload.id, name: payload.name},
+							},
+						});
+				}
+			}
 		}
 	} catch (err) {
 		yield put({type: CONNECTION_FAILURE});

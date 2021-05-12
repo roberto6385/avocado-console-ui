@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	actionChannel,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
 	EDIT_GET_SUCCESS,
@@ -11,7 +20,7 @@ import {
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {subscribe} from './channel';
+import {closeChannel, subscribe} from './channel';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
@@ -26,82 +35,90 @@ function* sendCommand(action) {
 	});
 	try {
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(messageReader, {data, payload});
+			const {timeout, data} = yield race({
+				timeout: delay(200),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('GET 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				const res = yield call(messageReader, {data, payload});
 
-			switch (res.type) {
-				case GET_SUCCESS:
-					yield put({
-						type: FIND_HISTORY,
-						payload: {
-							uuid: payload.uuid,
-							name: payload.file.name,
-							todo: payload.keyword,
-							progress: res.percent,
-						},
-					});
-					if (res.last && res.percent === 100) {
+				switch (res.type) {
+					case GET_SUCCESS:
 						yield put({
-							type: GET_SUCCESS,
+							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
-								percent: res.percent,
+								name: payload.file.name,
+								todo: payload.keyword,
+								progress: res.percent,
 							},
 						});
-						return {type: 'end'};
-					}
-					break;
+						if (res.last && res.percent === 100) {
+							yield put({
+								type: GET_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									percent: res.percent,
+								},
+							});
+						}
+						break;
 
-				case EDIT_GET_SUCCESS:
-					yield put({
-						type: FIND_HISTORY,
-						payload: {
-							uuid: payload.uuid,
-							name: payload.file.name,
-							todo: payload.keyword,
-							progress: res.percent,
-						},
-					});
-					if (res.last && res.percent === 100) {
+					case EDIT_GET_SUCCESS:
 						yield put({
-							type: EDIT_GET_SUCCESS,
+							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
-								percent: res.percent,
+								name: payload.file.name,
+								todo: payload.keyword,
+								progress: res.percent,
 							},
 						});
-						yield put({
-							type: SAVE_TEXT,
-							payload: {uuid: payload.uuid, text: res.text},
-						});
-						yield put({
-							type: SAVE_EDITTEXT,
-							payload: {uuid: payload.uuid, editText: res.text},
-						});
-						yield put({
-							type: SAVE_FILE_FOR_EDIT,
-							payload: {
-								uuid: payload.uuid,
-								editFile: payload.file,
-							},
-						});
-						yield put({
-							type: CHANGE_MODE,
-							payload: {
-								uuid: payload.uuid,
-								mode: 'edit',
-								currentMode: payload.mode,
-							},
-						});
-						return {type: 'end'};
-					}
-					break;
+						if (res.last && res.percent === 100) {
+							yield put({
+								type: EDIT_GET_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									percent: res.percent,
+								},
+							});
+							yield put({
+								type: SAVE_TEXT,
+								payload: {uuid: payload.uuid, text: res.text},
+							});
+							yield put({
+								type: SAVE_EDITTEXT,
+								payload: {
+									uuid: payload.uuid,
+									editText: res.text,
+								},
+							});
+							yield put({
+								type: SAVE_FILE_FOR_EDIT,
+								payload: {
+									uuid: payload.uuid,
+									editFile: payload.file,
+								},
+							});
+							yield put({
+								type: CHANGE_MODE,
+								payload: {
+									uuid: payload.uuid,
+									mode: 'edit',
+									currentMode: payload.mode,
+								},
+							});
+						}
+						break;
+				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: GET_FAILURE});
-		return {type: 'error'};
 	}
 }
 
@@ -109,8 +126,7 @@ function* watchSendCommand() {
 	const reqChannel = yield actionChannel(GET_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);
-		const res = yield call(sendCommand, action);
-		yield console.log(res);
+		yield call(sendCommand, action);
 	}
 }
 

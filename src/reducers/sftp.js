@@ -73,6 +73,7 @@ export const FIND_HISTORY = 'sftp/FIND_HISTORY';
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
+export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
 
@@ -340,6 +341,9 @@ const sftp = (state = initialState, action) =>
 					list: action.payload.list,
 					path: action.payload.path,
 				});
+				break;
+			case INIT_DELETE_WORK_LIST:
+				target.deleteWorks = [];
 				break;
 
 			case SAVE_TEMP_PATH:

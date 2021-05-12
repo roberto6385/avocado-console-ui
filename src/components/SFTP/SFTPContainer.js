@@ -53,7 +53,6 @@ const SFTPContainer = ({uuid}) => {
 	}, [currentServer]);
 
 	useEffect(() => {
-		console.log('rendering...');
 		dispatch(commandPwdAction(currentServer));
 	}, [uuid, dispatch]);
 

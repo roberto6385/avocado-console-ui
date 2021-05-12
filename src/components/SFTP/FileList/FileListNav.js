@@ -9,11 +9,7 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	GRAY_COLOR,
-	HIGHLIGHT_COLOR,
-	light_Background,
-} from '../../../styles/global';
+import {GRAY_COLOR, light_Background} from '../../../styles/global';
 import {
 	CHANGE_MODE,
 	commandCdAction,
@@ -39,10 +35,13 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
+	const pathInput = document.getElementById('fileListNavInput');
+
 	const goHome = (e, nextPath = '/root') => {
 		console.log(nextPath);
 		nextPath !== undefined &&
-			dispatch(commandCdAction({...corServer, newPath: nextPath}));
+			dispatch(commandCdAction({...corServer, newPath: nextPath})) &&
+			pathInput.blur();
 	};
 
 	const goBack = (e) => {
@@ -68,6 +67,7 @@ const FileListNav = ({uuid}) => {
 	const EscapeKey = (e) => {
 		if (e.keyCode === 27) {
 			setCurrentPath(path);
+			pathInput.blur();
 		}
 	};
 
