@@ -14,6 +14,7 @@ import {
 	commandPutAction,
 	commandRenameAction,
 	commandRmAction,
+	INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {IconButton, PopupButton} from '../../styles/buttons';
@@ -103,7 +104,6 @@ const ConfirmPopup = () => {
 								commandRmAction({
 									...corServer,
 									file: item,
-									path: value.path,
 									newPath: value.path,
 									keyword:
 										item.type === 'file' ? 'rm' : 'rmdir',
@@ -220,6 +220,11 @@ const ConfirmPopup = () => {
 
 	const cancelFunction = useCallback(() => {
 		confirm_popup.key === 'sftp_edit_file' && justExit();
+		confirm_popup.key === 'sftp_delete_file_folder' &&
+			dispatch({
+				type: INIT_DELETE_WORK_LIST,
+				payload: {uuid: confirm_popup.uuid},
+			});
 		handleClose();
 	}, [confirm_popup]);
 	//when form is open, fill in pre-value and focus and select it

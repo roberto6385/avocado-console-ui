@@ -171,7 +171,7 @@ export async function messageReader({data, payload}) {
 									group: splitedValue[3],
 								});
 							}
-							return {type: LS_SUCCESS, list};
+							return {type: LS_SUCCESS, list: list};
 						}
 						case SFTP.CommandResponse.CommandCase.STAT: {
 							const stat = command.getStat();

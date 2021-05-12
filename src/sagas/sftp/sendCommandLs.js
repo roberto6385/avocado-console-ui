@@ -45,57 +45,51 @@ function* sendCommand(action) {
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(messageReader, {data, payload});
-				switch (res.type) {
-					case LS_SUCCESS:
-						if (payload.keyword !== 'pathFinder') {
-							yield put({
-								type: LS_SUCCESS,
-								payload: {
-									uuid: payload.uuid,
-									fileList: sortFunction({
-										fileList: res.list,
-										keyword: 'name',
-										toggle: true,
-									}),
-								},
-							});
-						} else {
-							console.log({
-								path: payload.path,
-								list: res.list,
-							});
-							yield put({
-								type: DELETE_WORK_LIST,
-								payload: {
-									uuid: payload.uuid,
-									list: res.list,
-									path: payload.path,
-								},
-							});
+				if (payload.newPath === '.' || payload.newPath === '..') return;
+				if (payload.keyword !== 'pathFinder') {
+					yield put({
+						type: LS_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+							fileList: sortFunction({
+								fileList: res.list,
+								keyword: 'name',
+								toggle: true,
+							}),
+						},
+					});
+				} else {
+					yield put({
+						type: DELETE_WORK_LIST,
+						payload: {
+							uuid: payload.uuid,
+							list: res.list,
+							path: payload.newPath,
+						},
+					});
 
-							for (let item of res.list) {
-								if (
-									item.type === 'directory' &&
-									item.name !== '..' &&
-									item.name !== '.'
-								) {
-									yield put(
-										commandLsAction({
-											...payload,
-											newPath: `${payload.path}/${item.name}`,
-											keyword: 'pathFinder',
-											deleteWorks: [
-												...payload.deleteWorks,
-												{
-													list: res.list,
-													path: payload.path,
-												},
-											],
-										}),
-									);
-								}
-							}
+					for (let item of res.list) {
+						if (
+							item.type === 'directory' &&
+							item.name !== '..' &&
+							item.name !== '.'
+						) {
+							yield put(
+								commandLsAction({
+									...payload,
+									newPath: `${payload.newPath}/${item.name}`,
+									keyword: 'pathFinder',
+									deleteWorks: [
+										...payload.deleteWorks,
+										{
+											list: res.list,
+											path: payload.newPath,
+										},
+									],
+								}),
+							);
 						}
+					}
 				}
 			}
 		}
@@ -108,13 +102,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeLatest(LS_REQUEST, sendCommand);
+	// yield takeLatest(LS_REQUEST, sendCommand);
 
-	// const reqChannel = yield actionChannel(LS_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* commandLsSaga() {
