@@ -57,16 +57,16 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history]);
 
 	return (
-		<MainHeader>
-			<IconButton>
-				<BsCheck />
-			</IconButton>
+		<MainHeader justify={'flex-end'}>
+			{/*<IconButton>*/}
+			{/*	<BsCheck />*/}
+			{/*</IconButton>*/}
 			<IconButton id='btn-upload' onClick={upload}>
 				<MdFileUpload />
 			</IconButton>
-			<IconButton>
-				<MdPause />
-			</IconButton>
+			{/*<IconButton>*/}
+			{/*	<MdPause />*/}
+			{/*</IconButton>*/}
 			<IconButton onClick={historyDelete}>
 				<MdDelete />
 			</IconButton>

@@ -6,8 +6,10 @@ import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from './FileListContextMenu';
 import {
 	ADD_HIGHLIGHT,
+	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	commandGetAction,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
@@ -16,9 +18,12 @@ import {
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
 import {HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
-import {SFTPBody} from '../../../styles/cards';
-import {EllipsisSpan} from '../../../styles/texts';
-import {BaseLi, BaseUl} from '../../../styles/lists';
+import {MainHeader, SFTPBody, SubHeader} from '../../../styles/cards';
+import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
+import {BaseLi, BaseUl, DropListUl} from '../../../styles/lists';
+import {RowBox} from '../../../styles/divs';
+import {MdEdit, MdFileDownload} from 'react-icons/md';
+import {IconButton} from '../../../styles/buttons';
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -194,6 +199,50 @@ const FileListDropDown = ({uuid}) => {
 	console.log('현재 하이라이팅 아이템');
 	console.log(highlight);
 
+	const edit = useCallback(
+		(item) => (e) => {
+			e.stopPropagation();
+			if (item.name !== '..' && item.type !== 'directory') {
+				// 현재는 디렉토리 다운로드 막아두었음.
+				dispatch(
+					commandGetAction({
+						...corServer,
+						file: item,
+						keyword: 'edit',
+					}),
+				);
+			}
+		},
+		[sftp],
+	);
+
+	const download = useCallback(
+		(item) => (e) => {
+			e.stopPropagation();
+			if (item.name !== '..' && item.type !== 'directory') {
+				// 현재는 디렉토리 다운로드 막아두었음.
+				dispatch(
+					commandGetAction({
+						...corServer,
+						file: item,
+						keyword: 'get',
+					}),
+				);
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: item.name,
+						size: item.size,
+						todo: 'get',
+						progress: 0,
+					},
+				});
+			}
+		},
+		[sftp],
+	);
+
 	const contextMenuOpen = useCallback(
 		({item, clickedPath}) => (e) => {
 			e.preventDefault();
@@ -226,62 +275,111 @@ const FileListDropDown = ({uuid}) => {
 		<SFTPBody>
 			{fileList.map((listItem, listindex) => {
 				return (
-					<BaseUl
+					<DropListUl
+						flex={pathList.length - 1 === listindex && 1}
+						width={
+							pathList.length - 1 === listindex ? '100%' : '250px'
+						}
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
 							clickedPath: pathList[listindex],
 						})}
 					>
+						<MainHeader>
+							<BaseSpan padding={'4px'}>
+								{/*{listindex === 0 && 'Name'}*/}
+							</BaseSpan>
+						</MainHeader>
 						{listItem.map((item, index) => {
+							if (listindex === 0 && item.name === '..') return;
 							return (
-								<BaseLi
-									width={'200px'}
-									padding={'2px 4px'}
-									back={
-										highlight.findIndex(
-											(it) =>
-												it?.name === item.name &&
-												path === pathList[listindex],
-										) > -1 && HIGHLIGHT_COLOR
-									}
-									key={index}
-									onContextMenu={contextMenuOpen({
-										item,
-										clickedPath: pathList[listindex],
-									})}
-									onClick={selectFile({
-										item,
-										listindex,
-										itemIndex: index,
-									})}
-								>
-									<EllipsisSpan
-										// focus 때문에 생성한 clsaaName!
-										// style 때문에 아님! 삭제 ㄴㄴ
-										className={'highlight_list_p'}
-										color={
-											pathList[listindex + 1]
-												?.split('/')
-												.pop() === item.name
-												? MAIN_COLOR
-												: 'black'
+								item.name !== '.' && (
+									<BaseLi
+										padding={'2px 4px'}
+										back={
+											highlight.findIndex(
+												(it) =>
+													it?.name === item.name &&
+													path ===
+														pathList[listindex],
+											) > -1 && HIGHLIGHT_COLOR
 										}
+										key={index}
+										onContextMenu={contextMenuOpen({
+											item,
+											clickedPath: pathList[listindex],
+										})}
+										onClick={selectFile({
+											item,
+											listindex,
+											itemIndex: index,
+										})}
 									>
-										{item.type === 'directory' ? (
-											<DirectoryIcon />
-										) : (
-											<FileIcon />
-										)}
-										{item.name}
-									</EllipsisSpan>
-								</BaseLi>
+										<RowBox justify={'space-between'}>
+											<EllipsisSpan
+												// focus 때문에 생성한 clsaaName!
+												// style 때문에 아님! 삭제 ㄴㄴ
+												className={'highlight_list_p'}
+												color={
+													pathList[listindex + 1]
+														?.split('/')
+														.pop() === item.name
+														? MAIN_COLOR
+														: 'black'
+												}
+											>
+												{item.type === 'directory' ? (
+													<DirectoryIcon />
+												) : (
+													<FileIcon />
+												)}
+												{item.name}
+											</EllipsisSpan>
+											{pathList.length - 1 ===
+												listindex && (
+												<RowBox>
+													<BaseSpan>
+														{item.permission}
+													</BaseSpan>
+													<RowBox
+														width={'76px'}
+														padding={'4px'}
+														justify={'flex-end'}
+													>
+														{item.type === 'file' &&
+															item.name !==
+																'..' && (
+																<IconButton
+																	zIndex={1}
+																	onClick={edit(
+																		item,
+																	)}
+																>
+																	<MdEdit />
+																</IconButton>
+															)}
+														{item.name !== '..' && (
+															<IconButton
+																zIndex={1}
+																onClick={download(
+																	item,
+																)}
+															>
+																<MdFileDownload />
+															</IconButton>
+														)}
+													</RowBox>
+												</RowBox>
+											)}
+										</RowBox>
+									</BaseLi>
+								)
 							);
 						})}
-					</BaseUl>
+					</DropListUl>
 				);
 			})}
-			<FileListContextMenu uuid={uuid} />
 		</SFTPBody>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />

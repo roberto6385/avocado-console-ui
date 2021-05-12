@@ -14,7 +14,9 @@ export const BaseTable = styled(Table)`
 			position: sticky;
 			top: 0px;
 			background: white;
-			// z-index: 1;
+			th {
+				padding: 8px !important;
+			}
 		}
 	}
 	tbody {
@@ -24,6 +26,9 @@ export const BaseTable = styled(Table)`
 		tr {
 			cursor: pointer;
 			display: flex;
+			th {
+				padding: 8px !important;
+			}
 		}
 	}
 	//

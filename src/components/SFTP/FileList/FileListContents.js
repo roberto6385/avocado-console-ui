@@ -26,7 +26,6 @@ import {
 	sortFunction,
 	dataFormater,
 } from '../listConversion';
-import * as path from 'path';
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -199,6 +198,11 @@ const FileListContents = ({uuid}) => {
 				<tbody onContextMenu={contextMenuOpen}>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
+						if (
+							pathList[pathList.length - 1] === '/' &&
+							item.name === '..'
+						)
+							return;
 						if (item.name === '.') return;
 						return (
 							<tr

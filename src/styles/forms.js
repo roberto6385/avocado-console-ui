@@ -5,7 +5,7 @@ import {MAIN_COLOR, SMALL_FONT} from './global';
 export const BaseForm = styled(Form)`
 	border: 1px solid ${MAIN_COLOR};
 	display: flex;
-	padding: 2px;
+	padding: 4px;
 	z-index: ${(props) => props?.zIndex || 1};
 `;
 
