@@ -21,6 +21,8 @@ import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
+import {useContextMenu} from 'react-contexify';
+import HistoryContextMenu from './HistoryContextMenu';
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -54,7 +56,12 @@ const HistoryContents = ({uuid}) => {
 		[corServer],
 	);
 
-	// const selectItem = useCallback((e, history) => {}, []);
+	const selectItem = useCallback(
+		(history) => () => {
+			console.log(history);
+		},
+		[],
+	);
 
 	// const {show} = useContextMenu({
 	// 	id: uuid + 'history',
@@ -80,7 +87,7 @@ const HistoryContents = ({uuid}) => {
 							<BaseLi
 								padding={'4px'}
 								key={history.HISTORY_ID}
-								// onClick={(e) => selectItem(e, history)}
+								onClick={selectItem(history)}
 							>
 								<FlexBox justify={'space-between'}>
 									<EllipsisSpan
@@ -141,8 +148,8 @@ const HistoryContents = ({uuid}) => {
 			)}
 			{/*<HistoryContextMenu*/}
 			{/*	uuid={uuid}*/}
-			{/*	highlight={highlight}*/}
-			{/*	setHighlight={setHighlight}*/}
+			{/*	// highlight={highlight}*/}
+			{/*	// setHighlight={setHighlight}*/}
 			{/*/>*/}
 		</Dropzone>
 	);
