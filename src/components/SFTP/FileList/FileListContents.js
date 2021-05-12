@@ -17,9 +17,9 @@ import {
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
-import {MAIN_COLOR} from '../../../styles/global';
+import {light_Background, MAIN_COLOR} from '../../../styles/global';
 import {SFTPBody} from '../../../styles/cards';
-import {BaseTable, FileListP, Th} from '../../../styles/tables';
+import {BaseTable, FileListP, Tbody, Th} from '../../../styles/tables';
 import {IconButton} from '../../../styles/buttons';
 import {
 	formatByteSizeString,
@@ -193,9 +193,9 @@ const FileListContents = ({uuid}) => {
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
 		<SFTPBody flex={1}>
-			<BaseTable>
+			<BaseTable back={light_Background}>
 				<TableHead uuid={uuid} />
-				<tbody onContextMenu={contextMenuOpen}>
+				<Tbody onContextMenu={contextMenuOpen}>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (
@@ -259,7 +259,7 @@ const FileListContents = ({uuid}) => {
 							</tr>
 						);
 					})}
-				</tbody>
+				</Tbody>
 			</BaseTable>
 			<FileListContextMenu uuid={uuid} />
 		</SFTPBody>

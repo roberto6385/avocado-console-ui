@@ -10,6 +10,7 @@ export const initialState = {
 	server_index: 4,
 	folder_index: 5,
 	rightSideKey: '',
+	theme: 'light', // 우선 redux로 구현
 	nav: [
 		{
 			type: 'folder',
@@ -156,6 +157,7 @@ export const EDIT_SERVER = 'EDIT_SERVER';
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
+export const CHANGE_THEME = 'common/CHANGE_THEME';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {

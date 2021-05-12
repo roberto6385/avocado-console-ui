@@ -13,7 +13,7 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {HIGHLIGHT_COLOR} from '../../styles/global';
+import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {ServerNavItem} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
@@ -110,7 +110,11 @@ const Server = ({data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
+				back={
+					clicked_server === data.key
+						? HIGHLIGHT_COLOR
+						: light_Background
+				}
 				left={(indent * 15).toString() + 'px'}
 			>
 				<FaServerIcon />

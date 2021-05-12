@@ -19,7 +19,7 @@ import {
 } from '../reducers/popup';
 import {IconButton} from '../styles/buttons';
 import {MainHeader, SubHeader} from '../styles/cards';
-import {MAIN_COLOR} from '../styles/global';
+import {light_Background, MAIN_COLOR} from '../styles/global';
 import {ColBox} from '../styles/divs';
 import {BaseForm, BaseInput} from '../styles/forms';
 
@@ -86,14 +86,18 @@ const LeftContainer = () => {
 	}, [encodeData, userTicket]);
 
 	return !minimize ? (
-		<ColBox minWidth={'250px'} style={{display: 'inline-flex'}}>
+		<ColBox
+			minWidth={'250px'}
+			style={{display: 'inline-flex'}}
+			back={light_Background}
+		>
 			<MainHeader back={MAIN_COLOR} color={'white'}>
 				<IconButton onClick={sideBarhandleSize(true)}>
 					<FaBars style={{color: 'white'}} />
 				</IconButton>
 				<span>LOGO</span>
 			</MainHeader>
-			<MainHeader>
+			<MainHeader back={light_Background}>
 				<IconButton onClick={onClickVisibleForm}>
 					<FaPlus />
 				</IconButton>

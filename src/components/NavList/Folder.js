@@ -16,7 +16,7 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {HIGHLIGHT_COLOR} from '../../styles/global';
+import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton} from '../../styles/buttons';
@@ -118,7 +118,11 @@ const Folder = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				back={clicked_server === data.key ? HIGHLIGHT_COLOR : 'white'}
+				back={
+					clicked_server === data.key
+						? HIGHLIGHT_COLOR
+						: light_Background
+				}
 				left={(indent * 15).toString() + 'px'}
 			>
 				<Folder2Line />

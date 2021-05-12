@@ -10,6 +10,7 @@ import {IconButton} from '../../styles/buttons';
 import {MainHeader} from '../../styles/cards';
 import SnippetsManeger from '../SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
+import {light_Background} from '../../styles/global';
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 
 	return (
 		<>
-			<MainHeader>
+			<MainHeader back={light_Background}>
 				<DropdownMenu icon={<FiFile />} menu={column} />
 				<IconButton>
 					<CgMaximizeAlt onClick={onCLickFullScreen} />

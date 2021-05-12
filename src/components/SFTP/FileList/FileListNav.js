@@ -9,7 +9,11 @@ import {
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {GRAY_COLOR, HIGHLIGHT_COLOR} from '../../../styles/global';
+import {
+	GRAY_COLOR,
+	HIGHLIGHT_COLOR,
+	light_Background,
+} from '../../../styles/global';
 import {
 	CHANGE_MODE,
 	commandCdAction,
@@ -24,7 +28,7 @@ const SearchPath = styled.input`
 	border: 1px solid ${GRAY_COLOR};
 	padding: 0px 8px;
 	outline: none;
-	background: ${HIGHLIGHT_COLOR};
+	background: ${(props) => props.back};
 `;
 
 const FileListNav = ({uuid}) => {
@@ -100,7 +104,7 @@ const FileListNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<MainHeader>
+		<MainHeader back={light_Background}>
 			<IconButton>
 				<BsLayoutThreeColumns onClick={dropdownList} />
 			</IconButton>
@@ -120,6 +124,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
+					back={light_Background}
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</form>

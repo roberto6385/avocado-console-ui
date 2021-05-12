@@ -10,6 +10,7 @@ import {TabSFTPIcon, TabSSHTIcon} from '../styles/common';
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {BaseCard, SubHeader} from '../styles/cards';
+import {light_Background} from '../styles/global';
 
 const TabContentContainer = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const TabContentContainer = ({uuid, type, server}) => {
 	}, [current_tab, uuid]);
 
 	return (
-		<BaseCard onClick={onClickChangeTab}>
+		<BaseCard onClick={onClickChangeTab} back={light_Background}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<SubHeader padding={'2px 4px'} justify='space-between'>
 					<div>

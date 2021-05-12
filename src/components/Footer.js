@@ -11,7 +11,7 @@ import {
 import {IconButton} from '../styles/buttons';
 import {MainHeader} from '../styles/cards';
 import {BaseSpan} from '../styles/texts';
-import {SMALL_FONT} from '../styles/global';
+import {light_Background, SMALL_FONT} from '../styles/global';
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Footer = () => {
 	}, [current_tab]);
 
 	return (
-		<MainHeader justify={'flex-end'}>
+		<MainHeader justify={'flex-end'} back={light_Background}>
 			{tab.filter((v) => v.display && v.type === 'SSHT').length !== 0 && (
 				<>
 					<IconButton onClick={onClickDeceaseFont}>

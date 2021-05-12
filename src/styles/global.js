@@ -7,7 +7,6 @@ export const PreventDragCopy = `
 
 // height
 export const NAV_HEIGHT = '42px';
-export const NAV_HEIGHT_SUM = '76px';
 export const SECOND_NAV_HEIGHT = '34px';
 
 // color
@@ -16,10 +15,12 @@ export const RED_COLOR = '#F5513D';
 export const BLUE_COLOR = '#3D88F5';
 export const SUB_COLOR = '#d9b08c';
 export const HIGHLIGHT_COLOR = '#edeae5';
-export const WHITE_COLOR = '#fcfcfc';
 export const GRAY_COLOR = '#F7F7F7';
-export const DEEP_GRAY_COLOR = '#DDDDDD';
 export const CLOUDY_BLUE = '#B2D5DF';
+
+//theme
+export const light_Background = '#fcfcfc';
+export const dark_Background = '#313131';
 
 // font-size
 export const SMALL_FONT = '12px';

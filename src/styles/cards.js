@@ -12,6 +12,8 @@ export const BaseCard = styled(Card)`
 	border: none;
 	width: ${(props) => props.width || '100%'};
 	height: ${(props) => props.height || '100%'};
+	background: ${(props) => props.back};
+	border-radius: 0px !important;
 `;
 
 export const MainHeader = styled(BaseCard.Header)`
@@ -25,6 +27,7 @@ export const MainHeader = styled(BaseCard.Header)`
 	justify-content: ${(props) => props.justify};
 	align-items: center;
 	width: ${(props) => props.width || '100%'};
+	border-radius: 0px !important;
 `;
 export const SubHeader = styled(MainHeader)`
 	height: ${SECOND_NAV_HEIGHT};
@@ -36,6 +39,7 @@ export const SSHTBody = styled(BaseCard.Body)`
 	margin: 0px;
 	border: none;
 	flex: 1;
+	border-radius: 0px !important;
 `;
 export const SFTPBody = styled(BaseCard.Body)`
 	display: flex;
@@ -46,6 +50,7 @@ export const SFTPBody = styled(BaseCard.Body)`
 	width: ${(props) => props.width || '100%'};
 	flex-direction: ${(props) => props?.direction};
 	overflow: scroll;
+	border-radius: 0px !important;
 `;
 export const SideBody = styled(BaseCard.Body)`
 	display: flex;
@@ -55,4 +60,5 @@ export const SideBody = styled(BaseCard.Body)`
 	flex: ${(props) => props?.flex};
 	width: ${(props) => props.width || '100%'};
 	flex-direction: ${(props) => props?.direction};
+	border-radius: 0px !important;
 `;

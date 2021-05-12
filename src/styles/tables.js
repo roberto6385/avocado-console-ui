@@ -8,36 +8,37 @@ export const BaseTable = styled(Table)`
 	margin: 0;
 	padding: 0;
 	border: none;
-	thead {
-		tr {
-			display: flex;
-			position: sticky;
-			top: 0px;
-			background: white;
-			th {
-				padding: 8px !important;
-			}
-		}
-	}
-	tbody {
-		.highlight_tbody.active {
-			background: ${HIGHLIGHT_COLOR};
-		}
-		tr {
-			cursor: pointer;
-			display: flex;
-			th {
-				padding: 8px !important;
-			}
-		}
-	}
-	//
-	//
 	// 드래그 방지
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+`;
+
+export const Thead = styled.thead`
+	background-color: ${(props) => props?.back};
+	tr {
+		display: flex;
+		position: sticky;
+		top: 0px;
+		background: white;
+		th {
+			padding: 8px !important;
+		}
+	}
+`;
+export const Tbody = styled.tbody`
+	background-color: ${(props) => props?.back};
+	.highlight_tbody.active {
+		background: ${HIGHLIGHT_COLOR};
+	}
+	tr {
+		cursor: pointer;
+		display: flex;
+		th {
+			padding: 8px !important;
+		}
+	}
 `;
 
 export const Th = styled.th`

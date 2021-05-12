@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {HeaderTh, Th} from '../../../styles/tables';
+import {HeaderTh, Th, Thead} from '../../../styles/tables';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {MAIN_COLOR} from '../../../styles/global';
+import {light_Background, MAIN_COLOR} from '../../../styles/global';
 
 const TableHead = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -54,8 +54,8 @@ const TableHead = ({uuid}) => {
 	];
 
 	return (
-		<thead>
-			<tr>
+		<Thead>
+			<tr style={{background: `${light_Background}`}}>
 				{tableHeaders.map((item) => {
 					return (
 						<HeaderTh
@@ -76,7 +76,7 @@ const TableHead = ({uuid}) => {
 				})}
 				<Th min={'100px'} />
 			</tr>
-		</thead>
+		</Thead>
 	);
 };
 

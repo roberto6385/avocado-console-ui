@@ -6,6 +6,7 @@ import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {MainHeader} from '../../../styles/cards';
 import {IconButton} from '../../../styles/buttons';
+import {light_Background} from '../../../styles/global';
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history]);
 
 	return (
-		<MainHeader justify={'flex-end'}>
+		<MainHeader justify={'flex-end'} back={light_Background}>
 			{/*<IconButton>*/}
 			{/*	<BsCheck />*/}
 			{/*</IconButton>*/}

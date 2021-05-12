@@ -14,7 +14,7 @@ import RightCornerIcons from './RightCornerIcons';
 import {MainHeader} from '../styles/cards';
 import {BaseNav, TabNavItem} from '../styles/navs';
 import {BaseSpan} from '../styles/texts';
-import {HIGHLIGHT_COLOR, NAV_HEIGHT} from '../styles/global';
+import {HIGHLIGHT_COLOR, light_Background, NAV_HEIGHT} from '../styles/global';
 import {RowBox} from '../styles/divs';
 
 const TabNavBar = () => {
@@ -93,7 +93,7 @@ const TabNavBar = () => {
 	}, [Sortable]);
 
 	return (
-		<MainHeader justify={'space-between'}>
+		<MainHeader justify={'space-between'} back={light_Background}>
 			<BaseNav
 				id='sortableTabNav'
 				overflow={'scroll'}
