@@ -226,7 +226,7 @@ const FileListContents = ({uuid}) => {
 										{item.name}
 									</FileListP>
 								</Th>
-								<Th min={'130px'} textAlign='right'>
+								<Th min={'100px'} textAlign='right'>
 									{item.name !== '..' &&
 										formatByteSizeString(item.size)}
 								</Th>

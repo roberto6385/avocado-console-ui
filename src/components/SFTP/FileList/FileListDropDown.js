@@ -17,7 +17,7 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
-import {HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
+import {CLOUDY_BLUE, HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
 import {MainHeader, SFTPBody, SubHeader} from '../../../styles/cards';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, DropListUl} from '../../../styles/lists';
@@ -298,12 +298,17 @@ const FileListDropDown = ({uuid}) => {
 									<BaseLi
 										padding={'2px 4px'}
 										back={
-											highlight.findIndex(
+											(highlight.findIndex(
 												(it) =>
 													it?.name === item.name &&
 													path ===
 														pathList[listindex],
-											) > -1 && HIGHLIGHT_COLOR
+											) > -1 &&
+												HIGHLIGHT_COLOR) ||
+											(pathList[listindex + 1]
+												?.split('/')
+												.pop() === item.name &&
+												CLOUDY_BLUE)
 										}
 										key={index}
 										onContextMenu={contextMenuOpen({
@@ -318,16 +323,7 @@ const FileListDropDown = ({uuid}) => {
 									>
 										<RowBox justify={'space-between'}>
 											<EllipsisSpan
-												// focus 때문에 생성한 clsaaName!
-												// style 때문에 아님! 삭제 ㄴㄴ
 												className={'highlight_list_p'}
-												color={
-													pathList[listindex + 1]
-														?.split('/')
-														.pop() === item.name
-														? MAIN_COLOR
-														: 'black'
-												}
 											>
 												{item.type === 'directory' ? (
 													<DirectoryIcon />

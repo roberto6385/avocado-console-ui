@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {FileListP, HeaderTh, Th} from '../../../styles/tables';
+import {HeaderTh, Th} from '../../../styles/tables';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {HIGHLIGHT_COLOR, MAIN_COLOR} from '../../../styles/global';
+import {MAIN_COLOR} from '../../../styles/global';
 
 const TableHead = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const TableHead = ({uuid}) => {
 
 	const tableHeaders = [
 		{title: 'Name', key: 'name', min: '150px', flex: 1},
-		{title: 'Size', key: 'size', min: '130px'},
+		{title: 'Size', key: 'size', min: '100px'},
 		{title: 'Modified', key: 'modified', min: '260px'},
 		{title: 'Permission', key: 'permission', min: '130px'},
 	];
@@ -64,6 +64,7 @@ const TableHead = ({uuid}) => {
 								sortKeyword === item.key &&
 								`2px solid ${MAIN_COLOR}`
 							}
+							textAlign={item.key === 'size' && 'right'}
 							// back={sortKeyword === item.key && HIGHLIGHT_COLOR}
 							onClick={Sorting}
 							min={item.min}

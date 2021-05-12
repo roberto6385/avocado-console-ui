@@ -19,6 +19,7 @@ export const HIGHLIGHT_COLOR = '#edeae5';
 export const WHITE_COLOR = '#fcfcfc';
 export const GRAY_COLOR = '#F7F7F7';
 export const DEEP_GRAY_COLOR = '#DDDDDD';
+export const CLOUDY_BLUE = '#B2D5DF';
 
 // font-size
 export const SMALL_FONT = '12px';
