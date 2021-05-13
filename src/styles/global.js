@@ -20,6 +20,7 @@ export const CLOUDY_BLUE = '#B2D5DF';
 
 //theme
 export const light_Background = '#fcfcfc';
+// export const light_Background = '';
 export const dark_Background = '#313131';
 
 // font-size

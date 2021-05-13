@@ -330,7 +330,7 @@ const FileListDropDown = ({uuid}) => {
 									>
 										<RowBox justify={'space-between'}>
 											<EllipsisSpan
-												className={'highlight_list_p'}
+												className={'filelist_contents'}
 											>
 												{item.type === 'directory' ? (
 													<DirectoryIcon />

@@ -207,7 +207,7 @@ const FileListContents = ({uuid}) => {
 								}
 							>
 								<Th min={'150px'} flex={1}>
-									<FileListP className='filelist_p'>
+									<FileListP className='filelist_contents'>
 										{item.type === 'directory' ? (
 											<DirectoryIcon />
 										) : (

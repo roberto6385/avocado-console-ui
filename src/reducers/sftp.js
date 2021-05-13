@@ -72,6 +72,9 @@ export const ADD_HISTORY = 'sftp/ADD_HISTORY';
 export const FIND_HISTORY = 'sftp/FIND_HISTORY';
 export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 
+export const ADD_HISTORY_HI = 'sftp/ADD_HISTORY_HI';
+export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
+
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
@@ -179,6 +182,7 @@ const sftp = (state = initialState, action) =>
 					fileList: [],
 					highlight: [],
 					history: [],
+					history_highlight: [],
 					text: '',
 					editText: '',
 					editFile: {},
@@ -334,6 +338,14 @@ const sftp = (state = initialState, action) =>
 				break;
 			case REMOVE_HISTORY:
 				target.history = [];
+				break;
+
+			case ADD_HISTORY_HI:
+				target.history_highlight = action.payload.history;
+				break;
+
+			case INITIAL_HISTORY_HI:
+				target.history_highlight = [];
 				break;
 
 			case DELETE_WORK_LIST:
