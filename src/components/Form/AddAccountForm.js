@@ -11,11 +11,13 @@ import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
 import {BaseSpan} from '../../styles/texts';
-import {SAVE_ACCOUT} from '../../reducers/common';
+import {ACCOUT_CONTROL_ID, SAVE_ACCOUT} from '../../reducers/common';
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common);
+	const {server, account, accountListControlId} = useSelector(
+		(state) => state.common,
+	);
 	const {account_form_popup} = useSelector((state) => state.popup);
 
 	const [
@@ -60,7 +62,31 @@ const AddAccountForm = () => {
 
 	const onClickCloseForm = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
+		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
 	}, []);
+
+	useEffect(() => {
+		if (accountListControlId !== null) {
+			if (account_form_popup.open) {
+				const item = account
+					.slice()
+					.find((item) => item.id === accountListControlId);
+				console.log(item);
+				if (item) {
+					setAuthentication(
+						item.type === 'password' ? 'Password' : 'Key file',
+					);
+					setIdentity(item.name || '');
+					setUsername(item.username || '');
+				}
+			}
+		} else {
+			setAuthentication('Password');
+			setIdentity('');
+			setUsername('');
+			setPassword('');
+		}
+	}, [account_form_popup.open, accountListControlId]);
 
 	// useEffect(() => {
 	// 	if (account_form_popup.open) {

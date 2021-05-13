@@ -6,7 +6,12 @@ import {FaTimes} from 'react-icons/all';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
-import {ADD_FOLDER, DELETE_SERVER_FOLDER} from '../../reducers/common';
+import {
+	ACCOUT_CONTROL_ID,
+	ADD_FOLDER,
+	DELETE_ACCOUT,
+	DELETE_SERVER_FOLDER,
+} from '../../reducers/common';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
@@ -30,6 +35,7 @@ const ConfirmMessage = {
 	sftp_delete_server: '선택한 서버를 삭제하시겠습니까?',
 	sftp_delete_history: '선택한 다운로드/업로드 이력을 삭제하시겠습니까?',
 	delete_server_folder: '선택한 서버/폴더를 삭제하시겠습니까?',
+	delete_account: '선택한 계정을 삭제하시겠습니까?',
 };
 
 const ConfirmTopMessage = {
@@ -41,6 +47,7 @@ const ConfirmTopMessage = {
 	sftp_delete_history: 'Delete History',
 	delete_server_folder: 'Delete Server or Folder',
 	new_folder: 'New Folder',
+	delete_account: 'Delete Account',
 };
 
 const ConfirmPlaceholder = {
@@ -65,7 +72,11 @@ const ConfirmPopup = () => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const {confirm_popup} = useSelector((state) => state.popup);
-	const {clicked_server} = useSelector((state) => state.common);
+	const {
+		clicked_server,
+		accountListControlId,
+		accountCheckList,
+	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 
@@ -113,6 +124,29 @@ const ConfirmPopup = () => {
 						}
 					}
 					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
+					break;
+				}
+
+				case 'delete_account': {
+					if (accountListControlId && accountCheckList.length === 0) {
+						dispatch({
+							type: DELETE_ACCOUT,
+							payload: {id: accountListControlId},
+						});
+
+						dispatch({
+							type: ACCOUT_CONTROL_ID,
+							payload: {id: null},
+						});
+					} else {
+						accountCheckList.forEach((id) => {
+							dispatch({
+								type: DELETE_ACCOUT,
+								payload: {id},
+							});
+						});
+					}
+
 					break;
 				}
 
@@ -227,7 +261,7 @@ const ConfirmPopup = () => {
 			}
 			handleClose();
 		},
-		[clicked_server, confirm_popup, formValue, sftp],
+		[clicked_server, accountListControlId, confirm_popup, formValue, sftp],
 	);
 
 	const cancelFunction = useCallback(() => {

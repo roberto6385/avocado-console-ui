@@ -137,11 +137,25 @@ export const initialState = {
 		},
 	],
 
-	accountId: 1,
+	accountId: 3,
+	accountListControlId: null,
+	accountCheckList: [],
 	account: [
 		{
 			id: 0,
 			name: 'mainAccount',
+			username: 'root',
+			type: 'key',
+		},
+		{
+			id: 1,
+			name: 'netand',
+			username: 'root',
+			type: 'key',
+		},
+		{
+			id: 2,
+			name: 'avocado',
 			username: 'root',
 			type: 'key',
 		},
@@ -169,6 +183,9 @@ export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
 export const CHANGE_THEME = 'common/CHANGE_THEME';
 export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
+export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
+export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
+export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -473,6 +490,21 @@ const reducer = (state = initialState, action) => {
 					type: action.payload.type,
 				});
 				draft.accountId++;
+				break;
+
+			case DELETE_ACCOUT:
+				draft.account = draft.account
+					.slice()
+					.filter((it) => it.id !== action.payload.id);
+
+				break;
+
+			case ACCOUT_CONTROL_ID:
+				draft.accountListControlId = action.payload.id;
+				break;
+
+			case ACCOUT_CHECKLIST:
+				draft.accountCheckList = action.payload.check;
 				break;
 			case OPEN_TAB: {
 				//fill in new tab info

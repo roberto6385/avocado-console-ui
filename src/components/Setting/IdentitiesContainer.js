@@ -8,24 +8,76 @@ import {ColBox, RowBox} from '../../styles/divs';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
+import AccountContextMenu from './AccountContextMenu';
+import {ADD_ONE_HIGHLIGHT} from '../../reducers/sftp';
+import {useContextMenu} from 'react-contexify';
+import {ACCOUT_CHECKLIST, ACCOUT_CONTROL_ID} from '../../reducers/common';
 
 const IdentitiesContainer = () => {
-	const {server, account} = useSelector((state) => state.common);
+	const {server, account, accountCheckList} = useSelector(
+		(state) => state.common,
+	);
 	const dispatch = useDispatch();
-	const onClickVisibleAddServerForm = useCallback(() => {
-		dispatch({
-			type: OPEN_ADD_SERVER_FORM_POPUP,
-			data: {type: 'add'},
-		});
-	}, []);
 
 	const onClickVisibleAddAccountForm = useCallback(() => {
+		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
+
 		dispatch({
 			type: OPEN_ADD_ACCOUT_FORM_POPUP,
 			data: {type: 'add'},
 		});
 	}, []);
+
+	const {show} = useContextMenu({
+		id: 'account',
+	});
+
+	const deleteAccount = useCallback(() => {
+		if (accountCheckList.length !== 0) {
+			dispatch({
+				type: OPEN_CONFIRM_POPUP,
+				data: {
+					key: 'delete_account',
+				},
+			});
+		}
+	}, [dispatch, accountCheckList]);
+
+	const contextMenuOpen = useCallback(
+		(id) => (e) => {
+			e.preventDefault();
+			console.log(id);
+			dispatch({type: ACCOUT_CONTROL_ID, payload: {id}});
+			show(e);
+			e.stopPropagation();
+		},
+		[dispatch],
+	);
+
+	const checkManager = useCallback(
+		(id) => (e) => {
+			const {checked} = e.target;
+			const prevCheck = accountCheckList.slice();
+			if (checked) {
+				prevCheck.push(id);
+				dispatch({
+					type: ACCOUT_CHECKLIST,
+					payload: {check: prevCheck},
+				});
+			} else {
+				const nextCheck = prevCheck.filter((item) => item !== id);
+				dispatch({
+					type: ACCOUT_CHECKLIST,
+					payload: {
+						check: nextCheck,
+					},
+				});
+			}
+		},
+		[dispatch, accountCheckList],
+	);
 	return (
 		<ColBox flex={1}>
 			<h4>Identities</h4>
@@ -85,7 +137,9 @@ const IdentitiesContainer = () => {
 												>
 													<FaPlus />
 												</IconButton>
-												<IconButton>
+												<IconButton
+													onClick={deleteAccount}
+												>
 													<FaRegTrashAlt />
 												</IconButton>
 											</RowBox>
@@ -102,9 +156,18 @@ const IdentitiesContainer = () => {
 							<tbody>
 								{account.map((item) => {
 									return (
-										<tr key={item.id}>
+										<tr
+											key={item.id}
+											onContextMenu={contextMenuOpen(
+												item.id,
+											)}
+										>
 											<td>
-												<Form.Check />
+												<Form.Check
+													onChange={checkManager(
+														item.id,
+													)}
+												/>
 											</td>
 											<td>{item.name}</td>
 											<td>{item.username}</td>
@@ -117,6 +180,7 @@ const IdentitiesContainer = () => {
 					</Col>
 				</Row>
 			</Container>
+			<AccountContextMenu />
 		</ColBox>
 	);
 };
