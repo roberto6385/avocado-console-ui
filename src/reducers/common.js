@@ -137,6 +137,7 @@ export const initialState = {
 		},
 	],
 
+	accountId: 1,
 	account: [
 		{
 			id: 0,
@@ -167,6 +168,7 @@ export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
 export const CHANGE_THEME = 'common/CHANGE_THEME';
+export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -463,6 +465,15 @@ const reducer = (state = initialState, action) => {
 				draft.minimize = action.data;
 				break;
 
+			case SAVE_ACCOUT:
+				draft.account.push({
+					id: draft.accountId,
+					name: action.payload.identity,
+					username: action.payload.username,
+					type: action.payload.type,
+				});
+				draft.accountId++;
+				break;
 			case OPEN_TAB: {
 				//fill in new tab info
 				const new_tab = {

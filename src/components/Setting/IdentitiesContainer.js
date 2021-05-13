@@ -11,7 +11,7 @@ import {
 } from '../../reducers/popup';
 
 const IdentitiesContainer = () => {
-	const {server} = useSelector((state) => state.common);
+	const {server, account} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 	const onClickVisibleAddServerForm = useCallback(() => {
 		dispatch({
@@ -38,21 +38,6 @@ const IdentitiesContainer = () => {
 									<th colSpan='5'>
 										<RowBox justify={'space-between'}>
 											<span>Resource List</span>
-											<RowBox>
-												<form action=''>
-													<input
-														type='text'
-														placeholder={'search'}
-													/>
-												</form>
-												<IconButton
-													onClick={
-														onClickVisibleAddServerForm
-													}
-												>
-													<FaPlus />
-												</IconButton>
-											</RowBox>
 										</RowBox>
 									</th>
 								</tr>
@@ -71,7 +56,7 @@ const IdentitiesContainer = () => {
 										<td>{v.host}</td>
 										<td>SSHv2</td>
 										<td>{v.port}</td>
-										<td></td>
+										<td />
 									</tr>
 								))}
 							</tbody>
@@ -108,21 +93,25 @@ const IdentitiesContainer = () => {
 									</th>
 								</tr>
 								<tr>
-									<th></th>
+									<th />
 									<th>Name</th>
 									<th>User Name</th>
 									<th>Type</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>
-										<Form.Check></Form.Check>
-									</td>
-									<td>mainAccount</td>
-									<td>root</td>
-									<td>key</td>
-								</tr>
+								{account.map((item) => {
+									return (
+										<tr key={item.id}>
+											<td>
+												<Form.Check />
+											</td>
+											<td>{item.name}</td>
+											<td>{item.username}</td>
+											<td>{item.type}</td>
+										</tr>
+									);
+								})}
 							</tbody>
 						</Table>
 					</Col>

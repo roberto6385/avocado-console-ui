@@ -11,6 +11,7 @@ import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
 import {BaseSpan} from '../../styles/texts';
+import {SAVE_ACCOUT} from '../../reducers/common';
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
@@ -22,19 +23,37 @@ const AddAccountForm = () => {
 		onChangeAuthentication,
 		setAuthentication,
 	] = useInput('Password');
-	const [identity, onChangeIdentity, setIdentity] = useInput('');
-	const [username, onChangeUsername, setUsername] = useInput('');
-	const [key, onChangeKey] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
+	const [identity, onChangeIdentity, setIdentity] = useInput('Avocado');
+	const [username, onChangeUsername, setUsername] = useInput('root');
+	const [key, onChangeKey, setKey] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('Netand141)');
 	const [note, onChangeNote, setNote] = useInput('');
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-
-			// ws.onerror = () => {
-			// 	dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
-			// };
+			if (authentication === 'Password') {
+				if (identity !== '' && username !== '' && password !== '') {
+					dispatch({
+						type: SAVE_ACCOUT,
+						payload: {
+							identity,
+							username,
+							type: 'password',
+						},
+					});
+				}
+			} else {
+				if (
+					identity !== '' &&
+					username !== '' &&
+					key !== '' &&
+					password !== ''
+				) {
+					console.log('키파일 정보 저장');
+				}
+			}
+			onClickCloseForm();
 		},
 		[identity, password, dispatch, account_form_popup],
 	);
@@ -151,7 +170,8 @@ const AddAccountForm = () => {
 								<Form.Label>Private Key File</Form.Label>
 								<Form.File
 									value={key}
-									onChange={onChangeKey}
+									onChange={(e) => console.log(e)}
+									// 파일 저장?
 									label='Private Key File'
 									custom
 								/>

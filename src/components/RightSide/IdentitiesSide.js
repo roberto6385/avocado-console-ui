@@ -1,27 +1,17 @@
 import React, {useCallback} from 'react';
 import {MainHeader, SideBody} from '../../styles/cards';
-import {
-	AiTwotoneSetting,
-	FaEdit,
-	FaMinus,
-	FaPlus,
-	FaTimes,
-} from 'react-icons/all';
-import {BaseSpan, BorderBottomP} from '../../styles/texts';
-import {IconButton, TextButton} from '../../styles/buttons';
+import {AiTwotoneSetting, FaEdit, FaTimes, MdDelete} from 'react-icons/all';
+import {BaseSpan} from '../../styles/texts';
+import {IconButton} from '../../styles/buttons';
 import {ColBox, RowBox} from '../../styles/divs';
 import {useHistory} from 'react-router-dom';
 import {Form, Table} from 'react-bootstrap';
+import {OPEN_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
+import {useDispatch} from 'react-redux';
 
 const IdentitiesSide = () => {
 	const history = useHistory();
-
-	const changePath = useCallback(
-		(path) => () => {
-			history.push(path);
-		},
-		[],
-	);
+	const dispatch = useDispatch();
 
 	const closeSide = useCallback(
 		() => () => {
@@ -45,11 +35,19 @@ const IdentitiesSide = () => {
 		},
 	];
 
+	const onClickVisibleAddAccountForm = useCallback(() => {
+		history.push('/identities');
+
+		dispatch({
+			type: OPEN_ADD_ACCOUT_FORM_POPUP,
+			data: {type: 'add'},
+		});
+	}, []);
+
 	return (
 		<ColBox width={'100%'}>
 			<MainHeader justify={'space-between'}>
 				<div
-					onClick={changePath('/identities')}
 					style={{
 						cursor: 'pointer',
 						display: 'flex',
@@ -66,20 +64,17 @@ const IdentitiesSide = () => {
 			<SideBody padding={'4px 12px'} direction={'column'}>
 				<ColBox>
 					<RowBox justify={'flex-end'} padding={'8px 4px'}>
-						<IconButton>
-							<FaPlus />
-						</IconButton>
-						<IconButton>
-							<FaMinus />
-						</IconButton>
-						<IconButton onClick={changePath('/identities')}>
+						<IconButton onClick={onClickVisibleAddAccountForm}>
 							<FaEdit />
+						</IconButton>
+						<IconButton>
+							<MdDelete />
 						</IconButton>
 					</RowBox>
 					<Table>
 						<thead>
 							<tr>
-								<th></th>
+								<th />
 								<th>Account</th>
 								<th>Authentication</th>
 							</tr>
@@ -89,7 +84,7 @@ const IdentitiesSide = () => {
 								return (
 									<tr key={index}>
 										<th>
-											<Form.Check></Form.Check>
+											<Form.Check />
 										</th>
 										<th>{item.Account}</th>
 										<th>{item.Authentication}</th>
