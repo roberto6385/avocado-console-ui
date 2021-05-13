@@ -15,6 +15,7 @@ import {
 	commandRenameAction,
 	commandRmAction,
 	INIT_DELETE_WORK_LIST,
+	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {IconButton, PopupButton} from '../../styles/buttons';
@@ -24,11 +25,11 @@ import {MainHeader} from '../../styles/cards';
 import {BaseSpan} from '../../styles/texts';
 
 const ConfirmMessage = {
-	sftp_delete_file_folder: '선택하신 파일/폴더를 삭제하시겠습니까?',
+	sftp_delete_file_folder: '선택한 파일/폴더를 삭제하시겠습니까?',
 	sftp_edit_file: '변경사항이 있습니다. 저장하시겠습니까?',
-	sftp_delete_server: '선택하신 서버를 삭제하시겠습니까?',
-	sftp_delete_history: '모든 다운로드/업로드 이력을 삭제하시겠습니까?',
-	delete_server_folder: '선택하신 서버/폴더를 삭제하시겠습니까?',
+	sftp_delete_server: '선택한 서버를 삭제하시겠습니까?',
+	sftp_delete_history: '선택한 다운로드/업로드 이력을 삭제하시겠습니까?',
+	delete_server_folder: '선택한 서버/폴더를 삭제하시겠습니까?',
 };
 
 const ConfirmTopMessage = {
@@ -195,8 +196,19 @@ const ConfirmPopup = () => {
 				}
 
 				case 'sftp_delete_history': {
+					const corServer = sftp.find(
+						(it) => it.uuid === confirm_popup.uuid,
+					);
+					const {history_highlight} = corServer;
+					history_highlight.forEach((item) => {
+						console.log(item);
+						dispatch({
+							type: REMOVE_HISTORY,
+							payload: {uuid: confirm_popup.uuid, history: item},
+						});
+					});
 					dispatch({
-						type: REMOVE_HISTORY,
+						type: INITIAL_HISTORY_HI,
 						payload: {uuid: confirm_popup.uuid},
 					});
 					break;

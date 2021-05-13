@@ -26,6 +26,9 @@ const SFTPContainer = ({uuid}) => {
 
 			if (highlight.length !== 0 || history_highlight.length !== 0) {
 				const th = Array.from(evt.currentTarget.querySelectorAll('th'));
+				const path = Array.from(
+					evt.currentTarget.querySelectorAll('path'),
+				);
 				const filelist_contents = Array.from(
 					evt.currentTarget.querySelectorAll('.filelist_contents'),
 				);
@@ -40,6 +43,7 @@ const SFTPContainer = ({uuid}) => {
 				);
 				if (
 					!th.includes(root) &&
+					!path.includes(root) &&
 					!filelist_contents.includes(root) &&
 					!history_contents.includes(root) &&
 					!context.includes(root)

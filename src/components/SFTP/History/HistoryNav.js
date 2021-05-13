@@ -13,7 +13,7 @@ const HistoryNav = ({uuid}) => {
 
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {history} = corServer;
+	const {history_highlight} = corServer;
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -50,12 +50,12 @@ const HistoryNav = ({uuid}) => {
 
 	const historyDelete = useCallback(() => {
 		// if exist highlighting history
-		history.length > 0 &&
+		history_highlight.length > 0 &&
 			dispatch({
 				type: OPEN_CONFIRM_POPUP,
 				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
-	}, [corServer, history]);
+	}, [corServer, history_highlight]);
 
 	return (
 		<MainHeader justify={'flex-end'} back={light_Background}>
@@ -68,8 +68,8 @@ const HistoryNav = ({uuid}) => {
 			{/*<IconButton>*/}
 			{/*	<MdPause />*/}
 			{/*</IconButton>*/}
-			<IconButton onClick={historyDelete}>
-				<MdDelete />
+			<IconButton className={'history_contents'} onClick={historyDelete}>
+				<MdDelete className={'history_contents'} />
 			</IconButton>
 		</MainHeader>
 	);

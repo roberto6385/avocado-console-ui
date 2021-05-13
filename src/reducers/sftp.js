@@ -336,8 +336,11 @@ const sftp = (state = initialState, action) =>
 					target.history[index].progress = action.payload.progress;
 				}
 				break;
+
 			case REMOVE_HISTORY:
-				target.history = [];
+				target.history = plainTarget.history.filter(
+					(it) => it !== action.payload.history,
+				);
 				break;
 
 			case ADD_HISTORY_HI:
