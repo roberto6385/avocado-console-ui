@@ -15,11 +15,11 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<Switch>
+					<Route path='/' component={Main} />
 					<Route path='/login' component={Login} />
 					<Route path='/account' component={Account} />
 					<Route path='/preferences' component={Preferences} />
 					<Route path='/identities' component={Identities} />
-					<Route path='/' component={Main} />
 					<Route component={NotFound} />
 				</Switch>
 				<AddAccountForm />

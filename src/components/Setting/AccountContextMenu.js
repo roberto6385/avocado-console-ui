@@ -1,17 +1,12 @@
 import React, {useCallback} from 'react';
-import {animation, Item, Menu, Separator} from 'react-contexify';
-import {PropTypes} from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import {ACCOUT_CONTROL_ID, DELETE_ACCOUT} from '../../reducers/common';
+import {animation, Item, Menu} from 'react-contexify';
+import {useDispatch} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
 
 const AccountContextMenu = () => {
-	const {account, accountListControlId} = useSelector(
-		(state) => state.common,
-	);
 	const dispatch = useDispatch();
 
 	const MENU_ID = 'account';

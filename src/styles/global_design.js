@@ -28,4 +28,4 @@ export const AVOCADO_FONTSIZE = '14px';
 export const AVOCADO_LOGO_FONTSIZE = '24px';
 
 // font family
-export const ROBOTO_FONT = 'Roboto';
+export const ROBOTO_FONT = 'Roboto'; // 기본 font 아니면 가져와야 함.
