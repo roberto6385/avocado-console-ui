@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
 import {Collapse} from 'react-bootstrap';
 import {
+	IoMdFolder,
+	IoMdFolderOpen,
 	MdKeyboardArrowDown,
 	MdKeyboardArrowRight,
-	RiFolder2Fill,
+	RiArrowDropDownFill,
+	RiArrowDropRightFill,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -20,12 +23,18 @@ import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton} from '../../styles/buttons';
-import {ServerNavItem} from '../../styles/navs';
+import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
-
-const Folder2Line = styled(RiFolder2Fill)`
-	margin-right: 4px;
-`;
+import {
+	AVOCADO_COLOR,
+	AVOCADO_HOVER_COLOR,
+	Button,
+	ICON_LIGHT_COLOR,
+	Avocado_span,
+	MIDDLE_FONTSIZE,
+	LIGHT_MODE_BACK_COLOR,
+	AVOCADO_FONTSIZE,
+} from '../../styles/global_design';
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
@@ -112,41 +121,59 @@ const Folder = ({open, data, indent}) => {
 
 	return (
 		<>
-			<ServerNavItem
+			<Folder_Server_Nav_Item
 				onClick={onCLickFolder}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
+				border={
+					clicked_server === data.key && `2px solid ${AVOCADO_COLOR}`
+				}
 				back={
 					clicked_server === data.key
-						? HIGHLIGHT_COLOR
-						: light_Background
+						? AVOCADO_HOVER_COLOR
+						: LIGHT_MODE_BACK_COLOR
 				}
-				left={(indent * 15).toString() + 'px'}
+				left={(indent * 8 + 8).toString() + 'px'}
 			>
-				<Folder2Line />
-				{openRename ? (
-					<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<BaseInput
-							ref={renameRef}
-							type='text'
-							value={renameValue}
-							onChange={onChangeRenameValue}
-							onKeyDown={EscapeKey}
-						/>
-					</BaseForm>
-				) : (
-					data.name
-				)}
-				<IconButton onClick={onClickOpen}>
-					{openTab ? (
-						<MdKeyboardArrowDown />
+				<Avocado_span
+					size={MIDDLE_FONTSIZE}
+					color={
+						clicked_server === data.key
+							? AVOCADO_COLOR
+							: ICON_LIGHT_COLOR
+					}
+				>
+					{clicked_server === data.key ? (
+						<IoMdFolder />
 					) : (
-						<MdKeyboardArrowRight />
+						<IoMdFolderOpen />
 					)}
-				</IconButton>
-			</ServerNavItem>
+				</Avocado_span>
+				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
+					{openRename ? (
+						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
+							<BaseInput
+								ref={renameRef}
+								type='text'
+								value={renameValue}
+								onChange={onChangeRenameValue}
+								onKeyDown={EscapeKey}
+							/>
+						</BaseForm>
+					) : (
+						data.name
+					)}
+				</Avocado_span>
+				<Button onClick={onClickOpen}>
+					{openTab ? (
+						<RiArrowDropDownFill />
+					) : (
+						<RiArrowDropRightFill />
+					)}
+				</Button>
+			</Folder_Server_Nav_Item>
 			{data.contain.length !== 0 && (
 				<Collapse in={openTab}>
 					<div>

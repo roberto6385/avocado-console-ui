@@ -6,7 +6,7 @@ import Folder from './Folder';
 import Server from './Server';
 import Sortable from 'sortablejs';
 import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
-import {BaseNav} from '../../styles/navs';
+import {Folder_Server_Nav} from '../../styles/navs';
 
 function searchTreeNode(node, name) {
 	if (node.type === 'server' || !node.contain.length) {
@@ -70,7 +70,7 @@ const NavList = ({search}) => {
 	}, [nav, search]);
 
 	return (
-		<BaseNav
+		<Folder_Server_Nav
 			onDrop={dropNavList}
 			id='sortableServerNav'
 			direction={'column'}
@@ -87,7 +87,7 @@ const NavList = ({search}) => {
 					<Server key={data.key} data={data} indent={1} />
 				),
 			)}
-		</BaseNav>
+		</Folder_Server_Nav>
 	);
 };
 

@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../hooks/useDoubleClick';
@@ -15,8 +14,17 @@ import {
 } from '../../reducers/common';
 import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
-import {ServerNavItem} from '../../styles/navs';
+import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
+import {
+	AVOCADO_COLOR,
+	AVOCADO_FONTSIZE,
+	AVOCADO_HOVER_COLOR,
+	Avocado_span,
+	ICON_LIGHT_COLOR,
+	LIGHT_MODE_BACK_COLOR,
+	MIDDLE_FONTSIZE,
+} from '../../styles/global_design';
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -103,21 +111,31 @@ const Server = ({data, indent}) => {
 	}, [openRename, renameRef, data]);
 
 	return (
-		<>
-			<ServerNavItem
-				onClick={onHybridClick}
-				draggable='true'
-				onDragStart={prevPutItem}
-				onDrop={nextPutItem}
-				onContextMenu={contextMenuOpen}
-				back={
+		<Folder_Server_Nav_Item
+			onClick={onHybridClick}
+			draggable='true'
+			onDragStart={prevPutItem}
+			onDrop={nextPutItem}
+			onContextMenu={contextMenuOpen}
+			back={
+				clicked_server === data.key
+					? AVOCADO_HOVER_COLOR
+					: LIGHT_MODE_BACK_COLOR
+			}
+			border={clicked_server === data.key && `2px solid ${AVOCADO_COLOR}`}
+			left={(indent * 8 + 8).toString() + 'px'}
+		>
+			<Avocado_span
+				size={MIDDLE_FONTSIZE}
+				color={
 					clicked_server === data.key
-						? HIGHLIGHT_COLOR
-						: light_Background
+						? AVOCADO_COLOR
+						: ICON_LIGHT_COLOR
 				}
-				left={(indent * 15).toString() + 'px'}
 			>
 				<FaServerIcon />
+			</Avocado_span>
+			<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
 				{openRename ? (
 					<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
 						<BaseInput
@@ -131,9 +149,9 @@ const Server = ({data, indent}) => {
 				) : (
 					data.name
 				)}
-			</ServerNavItem>
+			</Avocado_span>
 			<ServerContextMenu data={data} setOpenRename={setOpenRename} />
-		</>
+		</Folder_Server_Nav_Item>
 	);
 };
 
