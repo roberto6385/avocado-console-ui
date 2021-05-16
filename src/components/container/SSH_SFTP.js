@@ -39,7 +39,6 @@ const SSH_SFTP_Header = styled.div`
 const SSH_SFTP = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 	const {tab, current_tab} = useSelector((state) => state.common);
-	const visibleTab = tab.filter((v) => v.display === true);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 

@@ -14,7 +14,7 @@ const SSH_SFTP_TabPanel = styled(TabPanel)`
 const WorkSpace_TabPanels = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
-
+	console.log(visibleTab);
 	return visibleTab.length === 1 ? (
 		<SSH_SFTP_TabPanel forceRender={true}>
 			<SSH_SFTP

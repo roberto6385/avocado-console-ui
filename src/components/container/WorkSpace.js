@@ -26,28 +26,31 @@ import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
-import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
+
+const SSH_SFTP_TabPanel = styled(TabPanel)`
+	flex: 1;
+`;
 
 const WorkSpace_Tabs = styled(Tabs)`
 	display: flex;
 	flex: 1;
+	overflow: hidden;
 	flex-direction: column;
+
 	.hidden {
 		display: none;
 	}
 	.react-tabs__tab-list {
+		overflow: scroll;
 		display: flex;
+		flex-shrink: 1;
+		flex: 1;
 		li {
 			display: flex;
-			height: ${MAIN_HEIGHT};
 			width: ${TAB_WIDTH};
+			height: ${MAIN_HEIGHT};
 			background: ${LIGHT_BACK_COLOR};
 		}
-	}
-
-	.react-tabs__tab-panel {
-	}
-	.react-tabs__tab-panel--selected {
 	}
 `;
 
@@ -63,9 +66,15 @@ const TabItem = styled.div`
 	font-weight: bold;
 `;
 
+const TabNavbar = styled.div`
+	display: flex;
+	flex-warp: nowrap;
+	align-items: center;
+	justify-content: space-between;
+`;
+
 const WorkSpace = () => {
 	const dispatch = useDispatch();
-	const [activePanelOnly, setActivePanelOnly] = useState(false);
 	const {tab, current_tab} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
 	const {ssht} = useSelector((state) => state.ssht);
@@ -114,6 +123,7 @@ const WorkSpace = () => {
 	const nextPutItem = useCallback(
 		(item) => (e) => {
 			e.preventDefault();
+			if (item === undefined) return;
 			const newOlder = tab.findIndex((it) => it === item);
 			console.log(oldOlder);
 			console.log(newOlder);
@@ -133,122 +143,84 @@ const WorkSpace = () => {
 
 	return (
 		<WorkSpace_Tabs>
-			<TabList>
-				{tab.map((data) => {
-					return (
-						<Tab key={data.uuid}>
-							<TabItem
-								draggable='true'
-								onDragStart={prevPutItem(data)}
-								onClick={changeVisibleTab(data.uuid)}
-								back={
-									current_tab === data.uuid &&
-									LIGHT_MODE_BACK_COLOR
-								}
-								color={
-									current_tab === data.uuid
-										? AVOCADO_COLOR
-										: 'black'
-								}
-								border={
-									current_tab === data.uuid
-										? `2px solid ${AVOCADO_COLOR}`
-										: undefined
-								}
+			<TabNavbar>
+				<TabList>
+					{tab.map((data) => {
+						return (
+							<Tab
+								key={data.uuid}
+								onDragOver={(e) => e.preventDefault()}
+								onDrop={nextPutItem(data)}
 							>
-								<Avocado_span size={EIGHTEEN}>
-									{data.type === 'SSHT' ? (
-										<RiTerminalFill />
-									) : (
-										<RiArrowUpDownLine />
-									)}
-								</Avocado_span>
-								<Avocado_span flex={1} padding={'0px'}>
-									{data.server.name}
-								</Avocado_span>
-								<Button
-									size={EIGHTEEN}
-									onClick={onClickDelete(data)}
-									color={ICON_DARK_COLOR}
+								<TabItem
+									draggable='true'
+									onDragStart={prevPutItem(data)}
+									onClick={changeVisibleTab(data.uuid)}
+									back={
+										current_tab === data.uuid &&
+										LIGHT_MODE_BACK_COLOR
+									}
+									color={
+										current_tab === data.uuid
+											? AVOCADO_COLOR
+											: 'black'
+									}
+									border={
+										current_tab === data.uuid
+											? `2px solid ${AVOCADO_COLOR}`
+											: undefined
+									}
 								>
-									<IoCloseOutline />
-								</Button>
-							</TabItem>
-						</Tab>
-					);
-				})}
+									<Avocado_span size={EIGHTEEN}>
+										{data.type === 'SSHT' ? (
+											<RiTerminalFill />
+										) : (
+											<RiArrowUpDownLine />
+										)}
+									</Avocado_span>
+									<Avocado_span flex={1} padding={'0px'}>
+										{data.server.name}
+									</Avocado_span>
+									<Button
+										size={EIGHTEEN}
+										onClick={onClickDelete(data)}
+										color={ICON_DARK_COLOR}
+									>
+										<IoCloseOutline />
+									</Button>
+								</TabItem>
+							</Tab>
+						);
+					})}
+				</TabList>
 				<RightCornerIcons />
-			</TabList>
-			<WorkSpace_TabPanels />
+			</TabNavbar>
+			{/*tab 수 만큼 TabPanel 있어야 함. display:none;*/}
+			{tab.map((data) => {
+				return (
+					<SSH_SFTP_TabPanel
+						key={data.uuid}
+						className={
+							visibleTab
+								.slice()
+								.findIndex(
+									(item) => item.uuid === data.uuid,
+								) === -1
+								? 'hidden'
+								: undefined
+						}
+						forceRender={true}
+					>
+						<SSH_SFTP
+							uuid={data.uuid}
+							type={data.type}
+							server={data.server}
+						/>
+					</SSH_SFTP_TabPanel>
+				);
+			})}
+			{/*<WorkSpace_TabPanels />*/}
 		</WorkSpace_Tabs>
-		// <WorkSpace_Tabs renderActiveTabPanelOnly={activePanelOnly}>
-		// 	{tab.map((data) => {
-		// 		console.log(
-		// 			visibleTab.slice().findIndex((it) => it.uuid === data.uuid),
-		// 		);
-		// 		return (
-		// 			<Tab
-		// 				key={data.uuid}
-		// 				className={
-		// 					visibleTab
-		// 						.slice()
-		// 						.findIndex((it) => it.uuid === data.uuid) ===
-		// 						-1 && 'hidden'
-		// 				}
-		// 				id={data.uuid}
-		// 				onDragOver={(e) => e.preventDefault()}
-		// 				onDrop={nextPutItem(data)}
-		// 				title={
-		// 					<TabItem
-		// 						draggable='true'
-		// 						onDragStart={prevPutItem(data)}
-		// 						onClick={changeVisibleTab(data.uuid)}
-		// 						back={
-		// 							current_tab === data.uuid &&
-		// 							LIGHT_MODE_BACK_COLOR
-		// 						}
-		// 						color={
-		// 							current_tab === data.uuid
-		// 								? AVOCADO_COLOR
-		// 								: 'black'
-		// 						}
-		// 						border={
-		// 							current_tab === data.uuid
-		// 								? `2px solid ${AVOCADO_COLOR}`
-		// 								: undefined
-		// 						}
-		// 					>
-		// 						<Avocado_span size={EIGHTEEN}>
-		// 							{data.type === 'SSHT' ? (
-		// 								<RiTerminalFill />
-		// 							) : (
-		// 								<RiArrowUpDownLine />
-		// 							)}
-		// 						</Avocado_span>
-		// 						<Avocado_span flex={1} padding={'0px'}>
-		// 							{data.server.name}
-		// 						</Avocado_span>
-		// 						<Button
-		// 							size={EIGHTEEN}
-		// 							onClick={onClickDelete(data)}
-		// 							color={ICON_DARK_COLOR}
-		// 						>
-		// 							<IoCloseOutline />
-		// 						</Button>
-		// 					</TabItem>
-		// 				}
-		// 				panel={
-		// 					<SSH_SFTP
-		// 						uuid={data.uuid}
-		// 						type={data.type}
-		// 						server={data.server}
-		// 					/>
-		// 				}
-		// 			/>
-		// 		);
-		// 	})}
-		// 	<RightCornerIcons />
-		// </WorkSpace_Tabs>
 	);
 };
 
