@@ -6,6 +6,7 @@ import History from './History/History';
 import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
+
 const SFTP_Container = styled.div`
 	display: flex;
 	flex: 1 1 0;
@@ -18,9 +19,11 @@ const SFTP = ({uuid}) => {
 	const {mode} = corServer;
 
 	return mode === 'edit' ? (
-		<Edit uuid={uuid} />
+		<SFTP_Container>
+			<Edit uuid={uuid} />
+		</SFTP_Container>
 	) : (
-		<SFTP_Container className={'hello_hello_hello_hello_hello'}>
+		<SFTP_Container>
 			<FileList uuid={uuid} />
 			<History uuid={uuid} />
 		</SFTP_Container>

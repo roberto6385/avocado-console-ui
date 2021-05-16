@@ -12,6 +12,7 @@ export const SFTP_DIRECTORY_COLOR = '#4ca6a8';
 export const POPUP_SIDE_COLOR = '#f8f9fa';
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const LIGHT_MODE_BACK_COLOR = '#ffffff';
+export const BORDER_COLOR = '#e5e5e5';
 
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
@@ -20,12 +21,13 @@ export const THIRD_HEIGHT = '48px'; // aside form height, sftp table height
 export const FOLDER_HEIGHT = '40px'; // folder, server height
 export const FOOTER_HEIGHT = '26px'; // footer height
 export const SEARCH_INPUT_HEIGHT = '36px';
+export const PATH_SEARCH_INPUT_HEIGHT = '34px';
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 
 export const BUTTON_HEIGHT = '20px';
 
 // width
-export const LEFT_SIDE_WIDTH = '256px'; // left side main nav width
+export const SIDE_WIDTH = '256px'; // side main nav width
 export const RIGHT_SIDE_WIDTH = '300px';
 export const SEARCH_INPUT_WIDTH = '165px';
 export const TAB_WIDTH = '160px';

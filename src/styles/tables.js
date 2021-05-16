@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Table from 'react-bootstrap/Table';
 import {HIGHLIGHT_COLOR} from './global';
+import {AVOCADO_FONTSIZE, BORDER_COLOR} from './global_design';
 
 export const BaseTable = styled(Table)`
 	width: 100%;
@@ -8,6 +9,7 @@ export const BaseTable = styled(Table)`
 	margin: 0;
 	padding: 0;
 	border: none;
+	font-size: ${AVOCADO_FONTSIZE};
 	// 드래그 방지
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -46,18 +48,20 @@ export const Th = styled.th`
 	flex: ${(props) => props.flex};
 	text-align: ${(props) => props.textAlign || 'left'};
 	white-space: nowrap;
+	border: none !important;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	line-height: 2;
 `;
 export const HeaderTh = styled.th`
 	min-width: ${(props) => props?.min};
 	flex: ${(props) => props.flex};
-	border-bottom: ${(props) => props?.borderColor} !important;
-	background: ${(props) => props?.back} !important;
+	border: none !important;
 	text-align: ${(props) => props.textAlign || 'left'};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	line-height: 2;
 `;
 
 export const FileListP = styled.p`

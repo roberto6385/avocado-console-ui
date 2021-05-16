@@ -2,14 +2,18 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
-import {ColBox} from '../../../styles/divs';
-
+import styled from 'styled-components';
+const Edit_Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+`;
 const Edit = ({uuid}) => {
 	return (
-		<ColBox>
+		<Edit_Container>
 			<EditNav uuid={uuid} />
 			<EditContents uuid={uuid} />
-		</ColBox>
+		</Edit_Container>
 	);
 };
 

@@ -8,7 +8,7 @@ import {
 	ICON_DARK_COLOR,
 	ICON_LIGHT_COLOR,
 	Avocado_span,
-	LEFT_SIDE_WIDTH,
+	SIDE_WIDTH,
 	LOGO_FONTSIZE,
 	MAIN_HEIGHT,
 	MIDDLE_FONTSIZE,
@@ -16,6 +16,7 @@ import {
 	SEARCH_INPUT_WIDTH,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
+	BORDER_COLOR,
 } from '../../styles/global_design';
 import {
 	AiOutlinePlus,
@@ -29,8 +30,9 @@ import useInput from '../../hooks/useInput';
 const Aside_Container = styled.aside`
 	display: flex;
 	flex-direction: column;
-	width: ${LEFT_SIDE_WIDTH};
-	min-width: ${LEFT_SIDE_WIDTH};
+	width: ${SIDE_WIDTH};
+	min-width: ${SIDE_WIDTH};
+	border-right: 1px solid ${BORDER_COLOR};
 `;
 
 const Aside_Header = styled.div`

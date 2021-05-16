@@ -155,12 +155,10 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<ColBox>
-					<FaCloudUploadAlt
-						style={{fontSize: '50px', color: `${MAIN_COLOR}`}}
-					/>
+				<div>
+					<FaCloudUploadAlt />
 					<div>Drop files here to upload</div>
-				</ColBox>
+				</div>
 			) : (
 				<BaseUl>
 					{history.map((history, index) => {

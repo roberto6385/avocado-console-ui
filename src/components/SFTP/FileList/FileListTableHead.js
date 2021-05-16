@@ -1,15 +1,18 @@
 import React, {useCallback} from 'react';
 import {HeaderTh, Th, Thead} from '../../../styles/tables';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {light_Background, MAIN_COLOR} from '../../../styles/global';
+import styled from 'styled-components';
+import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
+
+const FileList_Tr = styled.tr`
+	height: ${THIRD_HEIGHT};
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
 
 const TableHead = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {sortKeyword} = corServer;
 
 	const Sorting = useCallback(
 		(e) => {
@@ -48,22 +51,22 @@ const TableHead = ({uuid}) => {
 
 	const tableHeaders = [
 		{title: 'Name', key: 'name', min: '150px', flex: 1},
-		{title: 'Size', key: 'size', min: '100px'},
-		{title: 'Modified', key: 'modified', min: '260px'},
-		{title: 'Permission', key: 'permission', min: '130px'},
+		{title: 'Size', key: 'size', min: '135px'},
+		{title: 'Modified', key: 'modified', min: '212px'},
+		{title: 'Permission', key: 'permission', min: '105px'},
 	];
 
 	return (
 		<Thead>
-			<tr style={{background: `${light_Background}`}}>
+			<FileList_Tr>
 				{tableHeaders.map((item) => {
 					return (
 						<HeaderTh
 							key={item.key}
-							borderColor={
-								sortKeyword === item.key &&
-								`2px solid ${MAIN_COLOR}`
-							}
+							// borderColor={
+							// 	sortKeyword === item.key &&
+							// 	`2px solid ${MAIN_COLOR}`
+							// }
 							textAlign={item.key === 'size' && 'right'}
 							// back={sortKeyword === item.key && HIGHLIGHT_COLOR}
 							onClick={Sorting}
@@ -75,7 +78,7 @@ const TableHead = ({uuid}) => {
 					);
 				})}
 				<Th min={'100px'} />
-			</tr>
+			</FileList_Tr>
 		</Thead>
 	);
 };

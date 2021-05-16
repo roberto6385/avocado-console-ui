@@ -45,11 +45,11 @@ const WorkSpace_Tabs = styled(Tabs)`
 		display: flex;
 		flex-shrink: 1;
 		flex: 1;
+		background: ${LIGHT_BACK_COLOR};
 		li {
 			display: flex;
 			width: ${TAB_WIDTH};
 			height: ${MAIN_HEIGHT};
-			background: ${LIGHT_BACK_COLOR};
 		}
 	}
 `;

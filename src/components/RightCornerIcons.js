@@ -7,6 +7,15 @@ import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
 import {IconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
+import {LIGHT_BACK_COLOR} from '../styles/global_design';
+import styled from 'styled-components';
+
+const CornerIcons_Container = styled.div`
+	display: flex;
+	align-items: center;
+	background: ${LIGHT_BACK_COLOR};
+	height: 100%;
+`;
 
 const RightCornerIcons = () => {
 	const dispatch = useDispatch();
@@ -59,13 +68,13 @@ const RightCornerIcons = () => {
 	];
 
 	return (
-		<FlexBox align={'center'} width={'fit-content'}>
+		<CornerIcons_Container>
 			<IconButton onClick={openPreferences('Account')}>
 				<HiUserCircle />
 			</IconButton>
 			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />
 			<DropdownMenu icon={<FaTh />} menu={column_list} />
-		</FlexBox>
+		</CornerIcons_Container>
 	);
 };
 

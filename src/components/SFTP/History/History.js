@@ -2,16 +2,20 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
-import {ColBox, RowBox} from '../../../styles/divs';
+import styled from 'styled-components';
+import {SIDE_WIDTH} from '../../../styles/global_design';
+
+const History_Container = styled.div`
+	min-width: ${SIDE_WIDTH};
+	width: ${SIDE_WIDTH};
+`;
 
 const History = ({uuid}) => {
 	return (
-		<RowBox minWidth={'250px'}>
-			<ColBox width={'100%'}>
-				<HistoryNav uuid={uuid} />
-				<HistoryContents uuid={uuid} />
-			</ColBox>
-		</RowBox>
+		<History_Container>
+			<HistoryNav uuid={uuid} />
+			<HistoryContents uuid={uuid} />
+		</History_Container>
 	);
 };
 

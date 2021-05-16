@@ -7,6 +7,8 @@ import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {MainHeader} from '../../../styles/cards';
 import {IconButton} from '../../../styles/buttons';
 import {light_Background} from '../../../styles/global';
+import styled from 'styled-components';
+const HistoryNav_Container = styled.div``;
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -58,7 +60,7 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history_highlight]);
 
 	return (
-		<MainHeader justify={'flex-end'} back={light_Background}>
+		<HistoryNav_Container>
 			{/*<IconButton>*/}
 			{/*	<BsCheck />*/}
 			{/*</IconButton>*/}
@@ -71,7 +73,7 @@ const HistoryNav = ({uuid}) => {
 			<IconButton className={'history_contents'} onClick={historyDelete}>
 				<MdDelete className={'history_contents'} />
 			</IconButton>
-		</MainHeader>
+		</HistoryNav_Container>
 	);
 };
 

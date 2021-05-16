@@ -15,16 +15,31 @@ import {
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp';
-import {MainHeader} from '../../../styles/cards';
 import {IconButton} from '../../../styles/buttons';
+import {
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	LIGHT_BACK_COLOR,
+	PATH_SEARCH_INPUT_HEIGHT,
+	SUB_HEIGHT,
+} from '../../../styles/global_design';
 
 const SearchPath = styled.input`
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	flex: 1;
 	border-radius: 4px;
-	border: 1px solid ${GRAY_COLOR};
-	padding: 0px 8px;
+	font-size: ${AVOCADO_FONTSIZE};
+	border: none;
+	padding: 0px 13px;
 	outline: none;
-	background: ${(props) => props.back};
+	background: ${LIGHT_BACK_COLOR};
+`;
+
+const FileListNav_Container = styled.div`
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid ${BORDER_COLOR};
+	height: ${SUB_HEIGHT};
 `;
 
 const FileListNav = ({uuid}) => {
@@ -104,7 +119,7 @@ const FileListNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<MainHeader back={light_Background}>
+		<FileListNav_Container>
 			<IconButton>
 				<BsLayoutThreeColumns onClick={dropdownList} />
 			</IconButton>
@@ -135,7 +150,7 @@ const FileListNav = ({uuid}) => {
 			<IconButton onClick={refresh}>
 				<BsArrowClockwise />
 			</IconButton>
-		</MainHeader>
+		</FileListNav_Container>
 	);
 };
 
