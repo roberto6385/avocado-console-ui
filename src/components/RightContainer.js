@@ -1,6 +1,6 @@
 import React from 'react';
 import TabNavBar from './TabNavBar';
-import WorkSpace from './WorkSpace';
+import WorkSpace from './WorkSpace_TabPanels';
 import {useSelector} from 'react-redux';
 import Footer from './Footer';
 import MainPage from './MainPage';

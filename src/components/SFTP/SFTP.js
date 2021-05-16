@@ -5,7 +5,12 @@ import History from './History/History';
 
 import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
-import {RowBox} from '../../styles/divs';
+import styled from 'styled-components';
+const SFTP_Container = styled.div`
+	display: flex;
+	flex: 1 1 0;
+	overflow: hidden;
+`;
 
 const SFTP = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -15,10 +20,10 @@ const SFTP = ({uuid}) => {
 	return mode === 'edit' ? (
 		<Edit uuid={uuid} />
 	) : (
-		<RowBox height={'100%'}>
+		<SFTP_Container className={'hello_hello_hello_hello_hello'}>
 			<FileList uuid={uuid} />
 			<History uuid={uuid} />
-		</RowBox>
+		</SFTP_Container>
 	);
 };
 

@@ -10,6 +10,7 @@ import {
 	Avocado_span,
 	Button,
 	ICON_DARK_COLOR,
+	LIGHT_MODE_BACK_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
 } from '../../styles/global_design';
 import {
@@ -31,6 +32,8 @@ const SSH_SFTP_Header = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	z-index: 1;
+	background: ${LIGHT_MODE_BACK_COLOR};
 `;
 
 const SSH_SFTP = ({uuid, type, server}) => {

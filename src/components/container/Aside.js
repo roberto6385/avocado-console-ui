@@ -24,14 +24,13 @@ import {
 	MdSearch,
 } from 'react-icons/all';
 import NavList from '../NavList/NavList';
-import {ColBox} from '../../styles/divs';
 import useInput from '../../hooks/useInput';
-import {BaseInput} from '../../styles/forms';
 
 const Aside_Container = styled.aside`
 	display: flex;
 	flex-direction: column;
 	width: ${LEFT_SIDE_WIDTH};
+	min-width: ${LEFT_SIDE_WIDTH};
 `;
 
 const Aside_Header = styled.div`
