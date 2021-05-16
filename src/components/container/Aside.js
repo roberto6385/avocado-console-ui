@@ -26,6 +26,7 @@ import {
 import NavList from '../NavList/NavList';
 import {ColBox} from '../../styles/divs';
 import useInput from '../../hooks/useInput';
+import {BaseInput} from '../../styles/forms';
 
 const Aside_Container = styled.aside`
 	display: flex;
@@ -102,7 +103,12 @@ const Aside = () => {
 						style={{fontSize: '20px', color: ICON_LIGHT_COLOR}}
 					/>
 				</Avocado_span>
-				<Aside_Form_Input type='text' placeholder={'Search'} />
+				<Aside_Form_Input
+					onChange={onChangeSearch}
+					value={search}
+					type='text'
+					placeholder={'Search'}
+				/>
 			</Aside_Form>
 			<Folder_Server_Container>
 				<NavList search={search} />

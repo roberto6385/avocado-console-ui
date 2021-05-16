@@ -128,7 +128,9 @@ const Folder = ({open, data, indent}) => {
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				border={
-					clicked_server === data.key && `2px solid ${AVOCADO_COLOR}`
+					clicked_server === data.key
+						? `2px solid ${AVOCADO_COLOR}`
+						: undefined
 				}
 				back={
 					clicked_server === data.key

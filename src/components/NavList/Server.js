@@ -122,7 +122,11 @@ const Server = ({data, indent}) => {
 					? AVOCADO_HOVER_COLOR
 					: LIGHT_MODE_BACK_COLOR
 			}
-			border={clicked_server === data.key && `2px solid ${AVOCADO_COLOR}`}
+			border={
+				clicked_server === data.key
+					? `2px solid ${AVOCADO_COLOR}`
+					: undefined
+			}
 			left={(indent * 8 + 8).toString() + 'px'}
 		>
 			<Avocado_span

@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Aside from './Aside';
-import Main from './Main';
+import WorkSpace from './WorkSpace';
+import {useSelector} from 'react-redux';
+import MainPage from '../MainPage';
 
 const Container = styled.div`
 	display: flex;
@@ -9,10 +11,12 @@ const Container = styled.div`
 `;
 
 const Avocado_Main = () => {
+	const {tab} = useSelector((state) => state.common);
+
 	return (
 		<Container>
 			<Aside />
-			<Main />
+			{tab.length ? <WorkSpace /> : <MainPage />}
 		</Container>
 	);
 };

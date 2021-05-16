@@ -27,6 +27,7 @@ export const BUTTON_HEIGHT = '20px';
 export const LEFT_SIDE_WIDTH = '256px'; // left side main nav width
 export const RIGHT_SIDE_WIDTH = '300px';
 export const SEARCH_INPUT_WIDTH = '165px';
+export const TAB_WIDTH = '160px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
@@ -36,8 +37,8 @@ export const LOGO_FONTSIZE = '24px';
 // span
 export const Avocado_span = styled.span`
 	flex: ${(props) => props?.flex};
-	font-size: ${(props) => props?.size};
-	padding: 6px;
+	font-size: ${(props) => props?.size || AVOCADO_FONTSIZE};
+	padding: ${(props) => props.padding || '6px'};
 	line-height: 0px;
 	color: ${(props) => props.color};
 `;
