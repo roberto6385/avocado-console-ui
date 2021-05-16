@@ -20,6 +20,7 @@ export const THIRD_HEIGHT = '48px'; // aside form height, sftp table height
 export const FOLDER_HEIGHT = '40px'; // folder, server height
 export const FOOTER_HEIGHT = '26px'; // footer height
 export const SEARCH_INPUT_HEIGHT = '36px';
+export const SSH_SFTP_HEADER_HEIGHT = '30px';
 
 export const BUTTON_HEIGHT = '20px';
 
@@ -31,6 +32,7 @@ export const TAB_WIDTH = '160px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
+export const EIGHTEEN = '18px';
 export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';
 
@@ -49,6 +51,6 @@ export const Button = styled.button`
 	border: none;
 	line-height: 0px;
 	padding: 6px;
-	font-size: ${MIDDLE_FONTSIZE};
+	font-size: ${(props) => props?.size || MIDDLE_FONTSIZE};
 	color: ${(props) => props.color};
 `;

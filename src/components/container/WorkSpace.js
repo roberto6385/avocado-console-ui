@@ -10,6 +10,7 @@ import {
 	AVOCADO_COLOR,
 	Avocado_span,
 	Button,
+	EIGHTEEN,
 	ICON_DARK_COLOR,
 	LIGHT_BACK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
@@ -23,13 +24,11 @@ import {
 } from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
-import Sortable from 'sortablejs';
-import {RowBox} from '../../styles/divs';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
-import {useDropzone} from 'react-dropzone';
-import {SFTPBody} from '../../styles/cards';
 
 const WorkSpace_Tabs = styled(Tabs)`
+	display: flex;
+	flex-direction: column;
 	flex: 1;
 	.bp3-tab-list {
 		display: flex;
@@ -43,6 +42,13 @@ const WorkSpace_Tabs = styled(Tabs)`
 		.bp3-tab-indicator-wrapper {
 			display: none;
 		}
+	}
+	.bp3-tab-panel {
+		min-height: 0;
+		flex: 1 1 0;
+	}
+	.bp3-tab-panel.hidden {
+		display: none;
 	}
 `;
 
@@ -58,14 +64,19 @@ const TabItem = styled.div`
 	font-weight: bold;
 `;
 
+const TabPanel = styled(Tab)``;
+
 const WorkSpace = () => {
 	const dispatch = useDispatch();
-	const [activePanelOnly, setActivePanelOnly] = useState(true);
+	const [activePanelOnly, setActivePanelOnly] = useState(false);
 	const {tab, current_tab} = useSelector((state) => state.common);
+	const visibleTab = tab.filter((v) => v.display === true);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
+
+	console.log(visibleTab);
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
@@ -126,8 +137,17 @@ const WorkSpace = () => {
 	return (
 		<WorkSpace_Tabs renderActiveTabPanelOnly={activePanelOnly}>
 			{tab.map((data) => {
+				console.log(
+					visibleTab.slice().findIndex((it) => it.uuid === data.uuid),
+				);
 				return (
 					<Tab
+						className={
+							visibleTab
+								.slice()
+								.findIndex((it) => it.uuid === data.uuid) ===
+								-1 && 'hidden'
+						}
 						key={data.uuid}
 						id={data.uuid}
 						onDragOver={(e) => e.preventDefault()}
@@ -152,7 +172,7 @@ const WorkSpace = () => {
 										: undefined
 								}
 							>
-								<Avocado_span>
+								<Avocado_span size={EIGHTEEN}>
 									{data.type === 'SSHT' ? (
 										<RiTerminalFill />
 									) : (
@@ -163,6 +183,7 @@ const WorkSpace = () => {
 									{data.server.name}
 								</Avocado_span>
 								<Button
+									size={EIGHTEEN}
 									onClick={onClickDelete(data)}
 									color={ICON_DARK_COLOR}
 								>
@@ -170,7 +191,13 @@ const WorkSpace = () => {
 								</Button>
 							</TabItem>
 						}
-						panel={<SSH_SFTP uuid={data.uuid} />}
+						panel={
+							<SSH_SFTP
+								uuid={data.uuid}
+								type={data.type}
+								server={data.server}
+							/>
+						}
 					/>
 				);
 			})}
