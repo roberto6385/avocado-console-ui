@@ -22,7 +22,6 @@ const SFTPContainer = ({uuid}) => {
 				return;
 			}
 			const root = evt.target;
-			console.log(root);
 
 			if (highlight.length !== 0 || history_highlight.length !== 0) {
 				const th = Array.from(evt.currentTarget.querySelectorAll('th'));
@@ -42,20 +41,24 @@ const SFTPContainer = ({uuid}) => {
 					),
 				);
 				if (
+					highlight.length !== 0 &&
 					!th.includes(root) &&
 					!path.includes(root) &&
 					!filelist_contents.includes(root) &&
+					!context.includes(root)
+				) {
+					dispatch({
+						type: INITIALIZING_HIGHLIGHT,
+						payload: {uuid},
+					});
+				} else if (
+					history_highlight.length !== 0 &&
+					!th.includes(root) &&
+					!path.includes(root) &&
 					!history_contents.includes(root) &&
 					!context.includes(root)
 				) {
-					highlight.length !== 0 &&
-						dispatch({
-							type: INITIALIZING_HIGHLIGHT,
-							payload: {uuid},
-						});
-
-					history_highlight.length !== 0 &&
-						dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
+					dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 				}
 			}
 		},

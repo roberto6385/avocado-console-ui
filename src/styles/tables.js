@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import Table from 'react-bootstrap/Table';
 import {HIGHLIGHT_COLOR} from './global';
-import {AVOCADO_FONTSIZE, BORDER_COLOR} from './global_design';
+import {
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	POPUP_SIDE_COLOR,
+} from './global_design';
 
 export const BaseTable = styled(Table)`
 	flex: 1 1 0;
@@ -35,7 +39,7 @@ export const Tbody = styled.tbody`
 	overflow: scroll;
 	flex: 1;
 	.highlight_tbody.active {
-		background: ${HIGHLIGHT_COLOR};
+		background: ${POPUP_SIDE_COLOR};
 	}
 	tr {
 		cursor: pointer;

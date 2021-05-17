@@ -6,6 +6,7 @@ import {
 	MdHome,
 	GoArrowUp,
 	BsArrowClockwise,
+	IoMdRefresh,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,6 +20,8 @@ import {IconButton} from '../../../styles/buttons';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
+	Button,
+	ICON_LIGHT_COLOR,
 	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
@@ -40,6 +43,10 @@ const FileListNav_Container = styled.div`
 	align-items: center;
 	border-bottom: 1px solid ${BORDER_COLOR};
 	height: ${SUB_HEIGHT};
+`;
+
+const FileList_Button = styled(Button)`
+	color: ${ICON_LIGHT_COLOR};
 `;
 
 const FileListNav = ({uuid}) => {
@@ -120,15 +127,15 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<FileListNav_Container>
-			<IconButton>
+			<FileList_Button>
 				<BsLayoutThreeColumns onClick={dropdownList} />
-			</IconButton>
-			<IconButton>
+			</FileList_Button>
+			<FileList_Button>
 				<GoThreeBars onClick={basicList} />
-			</IconButton>
-			<IconButton onClick={goBack}>
+			</FileList_Button>
+			<FileList_Button onClick={goBack}>
 				<GoArrowUp />
-			</IconButton>
+			</FileList_Button>
 			<form
 				style={{display: 'flex', width: '100%'}}
 				onSubmit={searchPath}
@@ -143,13 +150,12 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</form>
-
-			<IconButton onClick={goHome}>
+			<FileList_Button onClick={refresh}>
+				<IoMdRefresh />
+			</FileList_Button>
+			<FileList_Button onClick={goHome}>
 				<MdHome />
-			</IconButton>
-			<IconButton onClick={refresh}>
-				<BsArrowClockwise />
-			</IconButton>
+			</FileList_Button>
 		</FileListNav_Container>
 	);
 };

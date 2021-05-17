@@ -82,8 +82,6 @@ const WorkSpace = () => {
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 
-	console.log(visibleTab);
-
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});

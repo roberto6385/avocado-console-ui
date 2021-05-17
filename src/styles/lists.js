@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {GRAY_COLOR, MAIN_COLOR, PreventDragCopy} from './global';
+import {BORDER_COLOR, THIRD_HEIGHT} from './global_design';
 
 export const BaseUl = styled.ul`
 	// 드래그 방지
@@ -9,6 +10,8 @@ export const BaseUl = styled.ul`
 	overflow-y: scroll;
 	margin: 0px;
 	padding: 0px;
+	outline: none;
+	position: relative;
 `;
 
 export const DropListUl = styled(BaseUl)`
@@ -18,10 +21,15 @@ export const DropListUl = styled(BaseUl)`
 	min-width: 250px;
 `;
 export const BaseLi = styled.li`
+	position: relative;
 	width: ${(props) => props?.width};
-	padding: ${(props) => props.padding};
+	height: ${THIRD_HEIGHT};
+	display: flex;
+	align-items: center;
+	padding: 0px;
 	background: ${(props) => props.back};
 	white-space: nowrap;
+	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
 export const CustomLi = styled.li`

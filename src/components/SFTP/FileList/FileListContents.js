@@ -235,7 +235,7 @@ const FileListContents = ({uuid}) => {
 									})}
 							</Th>
 							<Th min={'105px'}>{item.permission}</Th>
-							<Th min={'100px'} textAlign={'right'}>
+							<Th min={'100px'} justify={'flex-end'}>
 								{item.type === 'file' && (
 									<IconButton zIndex={1} onClick={edit(item)}>
 										<MdEdit />

@@ -1,9 +1,10 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
-import {SFTPBody} from '../../styles/cards';
 import styled from 'styled-components';
 
-const Dropzone_Container = styled.div``;
+const Dropzone_Container = styled.div`
+	outline: none;
+`;
 // eslint-disable-next-line react/prop-types
 const Dropzone = ({children, onDrop, accept}) => {
 	const {getRootProps} = useDropzone({

@@ -7,6 +7,10 @@ import {
 	FaArrowAltCircleUp,
 	FaCloudUploadAlt,
 	FaEdit,
+	IoArrowDownCircleOutline,
+	IoArrowUpCircleOutline,
+	IoCloseOutline,
+	IoPauseCircleOutline,
 	MdFileUpload,
 	MdRemoveCircle,
 } from 'react-icons/all';
@@ -22,6 +26,7 @@ import {
 	ADD_HISTORY,
 	commandPutAction,
 	INITIAL_HISTORY_HI,
+	REMOVE_HISTORY,
 } from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
 import {ColBox, FlexBox} from '../../../styles/divs';
@@ -30,10 +35,15 @@ import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
 import {
 	AVOCADO_COLOR,
+	AVOCADO_HOVER_COLOR,
 	Avocado_span,
 	BORDER_COLOR,
 	Button,
 	DROP_SPACE_HEIGHT,
+	EIGHTEEN,
+	FONT_COLOR,
+	HISTORY_FONTSIZE,
+	HISTORY_ITEM_WIDTH,
 	ICON_LIGHT_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	TAB_WIDTH,
@@ -58,6 +68,32 @@ const DropSpace_Button = styled.button`
 	border-radius: 4px;
 	border: none;
 	margin: 16px 40px 30px 40px;
+`;
+
+const ItemName_Span = styled(Avocado_span)`
+	width: ${HISTORY_ITEM_WIDTH};
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: initial;
+	padding: 6px;
+`;
+
+const IconSpan = styled.span`
+	font-size: ${EIGHTEEN};
+	color: ${(props) => props.color};
+	padding-left: 16px;
+`;
+
+const Progress = styled.div`
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+`;
+const Bar = styled.div`
+	width: ${(props) => props?.width || '0%'};
+	height: 2px;
+	background: ${AVOCADO_COLOR};
 `;
 
 const HistoryContents = ({uuid}) => {
@@ -125,10 +161,11 @@ const HistoryContents = ({uuid}) => {
 		[corServer],
 	);
 
+	console.log(history_highlight);
 	const selectItem = useCallback(
 		(selectValue, index) => (e) => {
 			e.stopPropagation();
-			console.log(history);
+			console.log(selectValue, index);
 			const prev_history = history.slice();
 			const prev_history_hi = history_highlight.slice();
 			if (e.metaKey) {
@@ -167,15 +204,13 @@ const HistoryContents = ({uuid}) => {
 					);
 				}
 			} else {
-				if (!prev_history_hi.find((item) => item === selectValue)) {
-					dispatch({
-						type: ADD_HISTORY_HI,
-						payload: {
-							uuid,
-							history: [selectValue],
-						},
-					});
-				}
+				dispatch({
+					type: ADD_HISTORY_HI,
+					payload: {
+						uuid,
+						history: [selectValue],
+					},
+				});
 			}
 		},
 		[dispatch, history, history_highlight],
@@ -204,7 +239,12 @@ const HistoryContents = ({uuid}) => {
 		});
 	};
 
-	console.log(history_highlight);
+	const removeHistory = useCallback(
+		(history) => () => {
+			dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
+		},
+		[dispatch],
+	);
 
 	// const {show} = useContextMenu({
 	// 	id: uuid + 'history',
@@ -241,68 +281,71 @@ const HistoryContents = ({uuid}) => {
 								back={
 									history_highlight.find(
 										(item) => item === history,
-									) && HIGHLIGHT_COLOR
+									) && AVOCADO_HOVER_COLOR
 								}
+								borderWidth={`${history.progress}%`}
 							>
-								<FlexBox justify={'space-between'}>
-									<EllipsisSpan
-										// 나중에 split pane 만들면 반응형으로!
-										width={'120px'}
-										fontSize={SMALL_FONT}
-										className={'history_contents'}
-									>
-										{history.todo === 'put' && (
-											<FaArrowAltCircleUp
-												style={{
-													marginRight: '4px',
-													color: `${MAIN_COLOR}`,
-												}}
-											/>
-										)}
-										{history.todo === 'get' && (
-											<FaArrowAltCircleDown
-												style={{
-													marginRight: '4px',
-													color: `${BLUE_COLOR}`,
-												}}
-											/>
-										)}
-										{history.todo === 'edit' && (
-											<FaEdit
-												style={{marginRight: '4px'}}
-											/>
-										)}
-										{history.todo === 'rm' && (
-											<MdRemoveCircle
-												style={{
-													marginRight: '4px',
-													color: `${RED_COLOR}`,
-												}}
-											/>
-										)}
-										{history.name}
-									</EllipsisSpan>
-									<EllipsisSpan
-										fontSize={SMALL_FONT}
-										className={'history_contents'}
-									>
-										{formatByteSizeString(history.size)}
-									</EllipsisSpan>
-								</FlexBox>
-								<BaseSpan
-									fontSize={SMALL_FONT}
+								<IconSpan
+									// 나중에 split pane 만들면 반응형으로!
+									className={'history_contents'}
+									color={
+										history.progress !== 100
+											? ICON_LIGHT_COLOR
+											: AVOCADO_COLOR
+									}
+								>
+									{history.progress !== 100 ? (
+										<IoPauseCircleOutline />
+									) : history.todo === 'put' ? (
+										<IoArrowUpCircleOutline />
+									) : history.todo === 'get' ? (
+										<IoArrowDownCircleOutline />
+									) : history.todo === 'edit' ? (
+										<FaEdit />
+									) : (
+										history.todo === 'rm' && (
+											<MdRemoveCircle />
+										)
+									)}
+								</IconSpan>
+								<ItemName_Span
+									className={'history_contents'}
+									flex={1}
+									color={
+										history.progress !== 100
+											? ICON_LIGHT_COLOR
+											: 'black'
+									}
+								>
+									{history.name}
+								</ItemName_Span>
+								<Avocado_span
+									color={ICON_LIGHT_COLOR}
+									size={HISTORY_FONTSIZE}
 									className={'history_contents'}
 								>
-									{history.progress === 100 ? (
-										'Complete'
-									) : (
-										<ProgressBar
-											style={{width: '100%'}}
-											now={history.progress}
-											label={`${history.progress}%`}
-										/>
-									)}
-								</BaseSpan>
+									{formatByteSizeString(history.size)}
+								</Avocado_span>
+								<Button
+									onClick={removeHistory(history)}
+									className={'history_contents'}
+									padding={'0px 16px 0px 6px'}
+									color={
+										history_highlight.find(
+											(item) => item === history,
+										)
+											? FONT_COLOR
+											: ICON_LIGHT_COLOR
+									}
+								>
+									<IoCloseOutline />
+								</Button>
+
+								{history.progress !== 100 && (
+									<Progress>
+										<Bar width={`${history.progress}%`} />
+									</Progress>
+								)}
 							</BaseLi>
 						);
 					})}
