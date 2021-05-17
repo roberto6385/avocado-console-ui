@@ -1,14 +1,26 @@
 import React, {useCallback, useState} from 'react';
-import {BsCheck, MdFileUpload, MdPause, MdDelete} from 'react-icons/all';
+import {MdFileUpload, MdDelete, IoCheckmarkDoneSharp} from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
-import {MainHeader} from '../../../styles/cards';
 import {IconButton} from '../../../styles/buttons';
-import {light_Background} from '../../../styles/global';
 import styled from 'styled-components';
-const HistoryNav_Container = styled.div``;
+import {
+	Avocado_span,
+	BORDER_COLOR,
+	Button,
+	ICON_LIGHT_COLOR,
+	SUB_HEIGHT,
+} from '../../../styles/global_design';
+const HistoryNav_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0px 16px;
+	height: ${SUB_HEIGHT};
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -61,18 +73,26 @@ const HistoryNav = ({uuid}) => {
 
 	return (
 		<HistoryNav_Container>
-			{/*<IconButton>*/}
-			{/*	<BsCheck />*/}
-			{/*</IconButton>*/}
-			<IconButton id='btn-upload' onClick={upload}>
-				<MdFileUpload />
-			</IconButton>
-			{/*<IconButton>*/}
-			{/*	<MdPause />*/}
-			{/*</IconButton>*/}
-			<IconButton className={'history_contents'} onClick={historyDelete}>
-				<MdDelete className={'history_contents'} />
-			</IconButton>
+			<Avocado_span>Transfer</Avocado_span>
+			<div>
+				<Button color={ICON_LIGHT_COLOR}>
+					<IoCheckmarkDoneSharp />
+				</Button>
+				<Button
+					color={ICON_LIGHT_COLOR}
+					id='btn-upload'
+					onClick={upload}
+				>
+					<MdFileUpload />
+				</Button>
+				<Button
+					color={ICON_LIGHT_COLOR}
+					className={'history_contents'}
+					onClick={historyDelete}
+				>
+					<MdDelete className={'history_contents'} />
+				</Button>
+			</div>
 		</HistoryNav_Container>
 	);
 };

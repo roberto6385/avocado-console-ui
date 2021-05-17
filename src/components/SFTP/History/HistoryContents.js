@@ -7,6 +7,7 @@ import {
 	FaArrowAltCircleUp,
 	FaCloudUploadAlt,
 	FaEdit,
+	MdFileUpload,
 	MdRemoveCircle,
 } from 'react-icons/all';
 import {
@@ -20,7 +21,6 @@ import {
 	ADD_HISTORY_HI,
 	ADD_HISTORY,
 	commandPutAction,
-	ADD_HIGHLIGHT,
 	INITIAL_HISTORY_HI,
 } from '../../../reducers/sftp';
 import {ProgressBar} from 'react-bootstrap';
@@ -28,14 +28,76 @@ import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
-import {useContextMenu} from 'react-contexify';
-import HistoryContextMenu from './HistoryContextMenu';
+import {
+	AVOCADO_COLOR,
+	Avocado_span,
+	BORDER_COLOR,
+	Button,
+	DROP_SPACE_HEIGHT,
+	ICON_LIGHT_COLOR,
+	PATH_SEARCH_INPUT_HEIGHT,
+	TAB_WIDTH,
+} from '../../../styles/global_design';
+import styled from 'styled-components';
+
+const DropSpaceDiv = styled.div`
+	height: ${DROP_SPACE_HEIGHT};
+	margin: 8px;
+	border: 1px dashed ${BORDER_COLOR};
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+`;
+
+const DropSpace_Button = styled.button`
+	width: ${TAB_WIDTH};
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	background: ${AVOCADO_COLOR};
+	color: white;
+	border-radius: 4px;
+	border: none;
+	margin: 16px 40px 30px 40px;
+`;
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {history, history_highlight} = corServer;
 	const dispatch = useDispatch();
+
+	const openUpload = useCallback(async () => {
+		const uploadInput = document.createElement('input');
+		document.body.appendChild(uploadInput);
+		uploadInput.setAttribute('type', 'file');
+		uploadInput.setAttribute('multiple', 'multiple');
+		uploadInput.setAttribute('style', 'display:none');
+		uploadInput.click();
+		uploadInput.onchange = async (e) => {
+			const files = e.target.files;
+			for await (let value of files) {
+				dispatch(
+					commandPutAction({
+						...corServer,
+						file: value,
+						keyword: 'put',
+					}),
+				);
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'put',
+						progress: 0,
+					},
+				});
+			}
+			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
+		};
+		document.body.removeChild(uploadInput);
+	}, [corServer]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -155,10 +217,18 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<div>
-					<FaCloudUploadAlt />
-					<div>Drop files here to upload</div>
-				</div>
+				<DropSpaceDiv>
+					<Avocado_span
+						color={ICON_LIGHT_COLOR}
+						padding={'32px 30px 12px 30px'}
+					>
+						Drop files or folders here, or
+					</Avocado_span>
+					<DropSpace_Button onClick={openUpload}>
+						<MdFileUpload />
+						<Avocado_span>Browse file</Avocado_span>
+					</DropSpace_Button>
+				</DropSpaceDiv>
 			) : (
 				<BaseUl>
 					{history.map((history, index) => {

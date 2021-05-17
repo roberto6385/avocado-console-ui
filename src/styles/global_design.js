@@ -21,8 +21,9 @@ export const THIRD_HEIGHT = '48px'; // aside form height, sftp table height
 export const FOLDER_HEIGHT = '40px'; // folder, server height
 export const FOOTER_HEIGHT = '26px'; // footer height
 export const SEARCH_INPUT_HEIGHT = '36px';
-export const PATH_SEARCH_INPUT_HEIGHT = '34px';
+export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
+export const DROP_SPACE_HEIGHT = '132px';
 
 export const BUTTON_HEIGHT = '20px';
 
@@ -30,7 +31,7 @@ export const BUTTON_HEIGHT = '20px';
 export const SIDE_WIDTH = '256px'; // side main nav width
 export const RIGHT_SIDE_WIDTH = '300px';
 export const SEARCH_INPUT_WIDTH = '165px';
-export const TAB_WIDTH = '160px';
+export const TAB_WIDTH = '160px'; // tab, history button
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
