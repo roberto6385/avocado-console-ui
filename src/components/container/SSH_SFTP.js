@@ -25,6 +25,10 @@ const SSH_SFTP_Container = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+
+	.hidden {
+		display: none;
+	}
 `;
 
 const SSH_SFTP_Header = styled.div`
@@ -38,7 +42,7 @@ const SSH_SFTP_Header = styled.div`
 
 const SSH_SFTP = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab} = useSelector((state) => state.common);
+	const {tab, current_tab, visibleTab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 

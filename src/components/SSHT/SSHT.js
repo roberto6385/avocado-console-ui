@@ -20,7 +20,9 @@ import {SSHTerminal} from '../../styles/divs';
 import {BaseInput, TerminalSearchForm} from '../../styles/forms';
 import styled from 'styled-components';
 
-const SSHT_Container = styled.div``;
+const SSHT_Container = styled.div`
+	height: 100%;
+`;
 
 const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();

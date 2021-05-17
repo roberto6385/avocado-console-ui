@@ -26,32 +26,17 @@ import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
+import {Nav} from 'react-bootstrap';
+import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
 
-const SSH_SFTP_TabPanel = styled(TabPanel)`
-	flex: 1;
+const WorkSpace_Container = styled.div`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
 `;
 
-const WorkSpace_Tabs = styled(Tabs)`
-	display: flex;
+const SSHT_SFTP_Container = styled.div`
 	flex: 1;
-	overflow: hidden;
-	flex-direction: column;
-
-	.hidden {
-		display: none;
-	}
-	.react-tabs__tab-list {
-		overflow: scroll;
-		display: flex;
-		flex-shrink: 1;
-		flex: 1;
-		background: ${LIGHT_BACK_COLOR};
-		li {
-			display: flex;
-			width: ${TAB_WIDTH};
-			height: ${MAIN_HEIGHT};
-		}
-	}
 `;
 
 const TabItem = styled.div`
@@ -140,85 +125,73 @@ const WorkSpace = () => {
 	);
 
 	return (
-		<WorkSpace_Tabs>
-			<TabNavbar>
-				<TabList>
-					{tab.map((data) => {
-						return (
-							<Tab
-								key={data.uuid}
-								onDragOver={(e) => e.preventDefault()}
-								onDrop={nextPutItem(data)}
+		<WorkSpace_Container>
+			<Nav>
+				{tab.map((data) => {
+					return (
+						<TabNavbar
+							key={data.uuid}
+							onDragOver={(e) => e.preventDefault()}
+							onDrop={nextPutItem(data)}
+						>
+							<TabItem
+								draggable='true'
+								onDragStart={prevPutItem(data)}
+								onClick={changeVisibleTab(data.uuid)}
+								back={
+									current_tab === data.uuid &&
+									LIGHT_MODE_BACK_COLOR
+								}
+								color={
+									current_tab === data.uuid
+										? AVOCADO_COLOR
+										: 'black'
+								}
+								border={
+									current_tab === data.uuid
+										? `2px solid ${AVOCADO_COLOR}`
+										: undefined
+								}
 							>
-								<TabItem
-									draggable='true'
-									onDragStart={prevPutItem(data)}
-									onClick={changeVisibleTab(data.uuid)}
-									back={
-										current_tab === data.uuid &&
-										LIGHT_MODE_BACK_COLOR
-									}
-									color={
-										current_tab === data.uuid
-											? AVOCADO_COLOR
-											: 'black'
-									}
-									border={
-										current_tab === data.uuid
-											? `2px solid ${AVOCADO_COLOR}`
-											: undefined
-									}
+								<Avocado_span size={EIGHTEEN}>
+									{data.type === 'SSHT' ? (
+										<RiTerminalFill />
+									) : (
+										<RiArrowUpDownLine />
+									)}
+								</Avocado_span>
+								<Avocado_span flex={1} padding={'0px'}>
+									{data.server.name}
+								</Avocado_span>
+								<Button
+									size={EIGHTEEN}
+									onClick={onClickDelete(data)}
+									color={ICON_DARK_COLOR}
 								>
-									<Avocado_span size={EIGHTEEN}>
-										{data.type === 'SSHT' ? (
-											<RiTerminalFill />
-										) : (
-											<RiArrowUpDownLine />
-										)}
-									</Avocado_span>
-									<Avocado_span flex={1} padding={'0px'}>
-										{data.server.name}
-									</Avocado_span>
-									<Button
-										size={EIGHTEEN}
-										onClick={onClickDelete(data)}
-										color={ICON_DARK_COLOR}
-									>
-										<IoCloseOutline />
-									</Button>
-								</TabItem>
-							</Tab>
-						);
-					})}
-				</TabList>
+									<IoCloseOutline />
+								</Button>
+							</TabItem>
+						</TabNavbar>
+					);
+				})}
+				{/*tab 수 만큼 TabPanel 있어야 함. display:none;*/}
+				{/*<WorkSpace_TabPanels />*/}
 				<RightCornerIcons />
-			</TabNavbar>
-			{/*tab 수 만큼 TabPanel 있어야 함. display:none;*/}
-			{tab.map((data) => {
-				return (
-					<SSH_SFTP_TabPanel
-						key={data.uuid}
-						className={
-							visibleTab
-								.slice()
-								.findIndex(
-									(item) => item.uuid === data.uuid,
-								) === -1
-								? 'hidden'
-								: undefined
-						}
-						forceRender={true}
-					>
-						<SSH_SFTP
-							uuid={data.uuid}
-							type={data.type}
-							server={data.server}
-						/>
-					</SSH_SFTP_TabPanel>
-				);
-			})}
-			{/*<WorkSpace_TabPanels />*/}
-		</WorkSpace_Tabs>
+			</Nav>
+			<WorkSpace_TabPanels />
+			{/*<SSHT_SFTP_Container>*/}
+			{/*	{tab.map((data) => {*/}
+			{/*		return (*/}
+			{/*			<SSH_SFTP*/}
+			{/*				key={data.uuid}*/}
+			{/*				uuid={data.uuid}*/}
+			{/*				type={data.type}*/}
+			{/*				server={data.server}*/}
+			{/*			/>*/}
+			{/*		);*/}
+			{/*	})}*/}
+			{/*</SSHT_SFTP_Container>*/}
+		</WorkSpace_Container>
 	);
 };
 
