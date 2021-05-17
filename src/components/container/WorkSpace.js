@@ -35,8 +35,10 @@ const WorkSpace_Container = styled.div`
 	flex-direction: column;
 `;
 
-const SSHT_SFTP_Container = styled.div`
-	flex: 1;
+const WorkSpace_Nav = styled(Nav)`
+	display: flex;
+	align-items: center;
+	background: ${LIGHT_BACK_COLOR};
 `;
 
 const TabItem = styled.div`
@@ -126,7 +128,7 @@ const WorkSpace = () => {
 
 	return (
 		<WorkSpace_Container>
-			<Nav>
+			<WorkSpace_Nav>
 				{tab.map((data) => {
 					return (
 						<TabNavbar
@@ -139,8 +141,9 @@ const WorkSpace = () => {
 								onDragStart={prevPutItem(data)}
 								onClick={changeVisibleTab(data.uuid)}
 								back={
-									current_tab === data.uuid &&
-									LIGHT_MODE_BACK_COLOR
+									current_tab === data.uuid
+										? LIGHT_MODE_BACK_COLOR
+										: LIGHT_BACK_COLOR
 								}
 								color={
 									current_tab === data.uuid
@@ -174,23 +177,9 @@ const WorkSpace = () => {
 						</TabNavbar>
 					);
 				})}
-				{/*tab 수 만큼 TabPanel 있어야 함. display:none;*/}
-				{/*<WorkSpace_TabPanels />*/}
 				<RightCornerIcons />
-			</Nav>
+			</WorkSpace_Nav>
 			<WorkSpace_TabPanels />
-			{/*<SSHT_SFTP_Container>*/}
-			{/*	{tab.map((data) => {*/}
-			{/*		return (*/}
-			{/*			<SSH_SFTP*/}
-			{/*				key={data.uuid}*/}
-			{/*				uuid={data.uuid}*/}
-			{/*				type={data.type}*/}
-			{/*				server={data.server}*/}
-			{/*			/>*/}
-			{/*		);*/}
-			{/*	})}*/}
-			{/*</SSHT_SFTP_Container>*/}
 		</WorkSpace_Container>
 	);
 };
