@@ -23,12 +23,14 @@ import {
 	light_Background,
 	MAIN_COLOR,
 } from '../../../styles/global';
-import {MainHeader, SFTPBody, SubHeader} from '../../../styles/cards';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
-import {BaseLi, BaseUl, DropListUl} from '../../../styles/lists';
+import {BaseLi, DropListUl} from '../../../styles/lists';
 import {RowBox} from '../../../styles/divs';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {IconButton} from '../../../styles/buttons';
+import styled from 'styled-components';
+
+const DropList_Container = styled.div``;
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -277,7 +279,7 @@ const FileListDropDown = ({uuid}) => {
 	);
 
 	return fileList.length === pathList.length ? (
-		<SFTPBody>
+		<DropList_Container>
 			{fileList.map((listItem, listindex) => {
 				return (
 					<DropListUl
@@ -292,11 +294,11 @@ const FileListDropDown = ({uuid}) => {
 							clickedPath: pathList[listindex],
 						})}
 					>
-						<MainHeader>
+						<div>
 							<BaseSpan padding={'4px'}>
 								{/*{listindex === 0 && 'Name'}*/}
 							</BaseSpan>
-						</MainHeader>
+						</div>
 						{listItem.map((item, index) => {
 							if (listindex === 0 && item.name === '..') return;
 							return (
@@ -384,7 +386,7 @@ const FileListDropDown = ({uuid}) => {
 				);
 			})}
 			<FileListContextMenu uuid={uuid} />
-		</SFTPBody>
+		</DropList_Container>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);

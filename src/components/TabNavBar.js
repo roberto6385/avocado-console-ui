@@ -1,6 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {NavLink} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaTimes} from 'react-icons/all';
 import Sortable from 'sortablejs';

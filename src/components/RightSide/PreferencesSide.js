@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {MainHeader, SideBody} from '../../styles/cards';
+import {MainHeader} from '../../styles/cards';
 import {AiTwotoneSetting, FaTimes} from 'react-icons/all';
 import {BaseSpan, BorderBottomP} from '../../styles/texts';
 import {IconButton, TextButton} from '../../styles/buttons';
@@ -41,7 +41,7 @@ const PreferencesSide = () => {
 					<FaTimes />
 				</IconButton>
 			</MainHeader>
-			<SideBody padding={'4px 12px'} direction={'column'}>
+			<div>
 				<ColBox>
 					<BorderBottomP>General</BorderBottomP>
 					<p>UI Theme</p>
@@ -95,7 +95,7 @@ const PreferencesSide = () => {
 						<option value='ccc'>ccc</option>
 					</select>
 				</ColBox>
-			</SideBody>
+			</div>
 		</ColBox>
 	);
 };

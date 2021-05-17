@@ -29,36 +29,3 @@ export const MainHeader = styled(BaseCard.Header)`
 	width: ${(props) => props.width || '100%'};
 	border-radius: 0px !important;
 `;
-export const SubHeader = styled(MainHeader)`
-	height: ${SECOND_NAV_HEIGHT};
-`;
-
-export const SSHTBody = styled(BaseCard.Body)`
-	display: flex;
-	padding: 0px;
-	margin: 0px;
-	border: none;
-	flex: 1;
-	border-radius: 0px !important;
-`;
-export const SFTPBody = styled(BaseCard.Body)`
-	display: flex;
-	padding: 0px;
-	margin: 0px;
-	border: none;
-	flex: ${(props) => props?.flex};
-	width: ${(props) => props.width || '100%'};
-	flex-direction: ${(props) => props?.direction};
-	overflow: scroll;
-	border-radius: 0px !important;
-`;
-export const SideBody = styled(BaseCard.Body)`
-	display: flex;
-	padding: ${(props) => props?.padding || '0px'};
-	margin: ${(props) => props?.margin || '0px'};
-	border: none;
-	flex: ${(props) => props?.flex};
-	width: ${(props) => props.width || '100%'};
-	flex-direction: ${(props) => props?.direction};
-	border-radius: 0px !important;
-`;

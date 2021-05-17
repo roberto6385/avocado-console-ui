@@ -70,11 +70,7 @@ const NavList = ({search}) => {
 	}, [nav, search]);
 
 	return (
-		<Folder_Server_Nav
-			onDrop={dropNavList}
-			id='sortableServerNav'
-			direction={'column'}
-		>
+		<Folder_Server_Nav onDrop={dropNavList} id='sortableServerNav'>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
 					<Folder

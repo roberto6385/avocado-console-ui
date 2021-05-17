@@ -18,7 +18,6 @@ import {
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
 import {IconButton} from '../styles/buttons';
-import {MainHeader, SubHeader} from '../styles/cards';
 import {light_Background, MAIN_COLOR} from '../styles/global';
 import {ColBox} from '../styles/divs';
 import {BaseForm, BaseInput} from '../styles/forms';
@@ -91,13 +90,13 @@ const LeftContainer = () => {
 			style={{display: 'inline-flex'}}
 			back={light_Background}
 		>
-			<MainHeader back={MAIN_COLOR} color={'white'}>
+			<div>
 				<IconButton onClick={sideBarhandleSize(true)}>
 					<FaBars style={{color: 'white'}} />
 				</IconButton>
 				<span>LOGO</span>
-			</MainHeader>
-			<MainHeader back={light_Background}>
+			</div>
+			<div>
 				<IconButton onClick={onClickVisibleForm}>
 					<FaPlus />
 				</IconButton>
@@ -116,7 +115,7 @@ const LeftContainer = () => {
 				{/*<IconButton onClick={findActiveToken}>*/}
 				{/*	<GiToken />*/}
 				{/*</IconButton>*/}
-			</MainHeader>
+			</div>
 			<BaseForm key='search'>
 				<BaseInput
 					flex={1}

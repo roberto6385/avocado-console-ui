@@ -15,10 +15,12 @@ import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
-import {SSHTBody} from '../../styles/cards';
 
 import {SSHTerminal} from '../../styles/divs';
 import {BaseInput, TerminalSearchForm} from '../../styles/forms';
+import styled from 'styled-components';
+
+const SSHT_Container = styled.div``;
 
 const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -136,7 +138,7 @@ const SSHT = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHTBody ref={ref}>
+		<SSHT_Container ref={ref}>
 			<SSHTerminal id={`terminal_${uuid}`} ref={terminalRef} />
 			<ListGroup
 				style={{
@@ -162,7 +164,7 @@ const SSHT = ({uuid}) => {
 					type='text'
 				/>
 			</TerminalSearchForm>
-		</SSHTBody>
+		</SSHT_Container>
 	);
 };
 

@@ -10,8 +10,6 @@ import {
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
-import {MainHeader} from '../../../styles/cards';
-import {IconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,

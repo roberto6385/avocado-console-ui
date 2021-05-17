@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {HIGHLIGHT_COLOR} from './global';
-import {Navbar} from '@blueprintjs/core';
 import {FOLDER_HEIGHT} from './global_design';
 
-export const Folder_Server_Nav = styled(Navbar)``;
-export const Folder_Server_Nav_Item = styled(Navbar.Group)`
+export const Folder_Server_Nav = styled(Nav)`
+	display: flex;
+	flex-direction: column;
+`;
+export const Folder_Server_Nav_Item = styled(Nav.Item)`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

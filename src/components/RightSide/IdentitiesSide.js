@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {MainHeader, SideBody} from '../../styles/cards';
+import {MainHeader} from '../../styles/cards';
 import {AiTwotoneSetting, FaEdit, FaTimes, MdDelete} from 'react-icons/all';
 import {BaseSpan} from '../../styles/texts';
 import {IconButton} from '../../styles/buttons';
@@ -61,7 +61,7 @@ const IdentitiesSide = () => {
 					<FaTimes />
 				</IconButton>
 			</MainHeader>
-			<SideBody padding={'4px 12px'} direction={'column'}>
+			<div>
 				<ColBox>
 					<RowBox justify={'flex-end'} padding={'8px 4px'}>
 						<IconButton onClick={onClickVisibleAddAccountForm}>
@@ -94,7 +94,7 @@ const IdentitiesSide = () => {
 						</tbody>
 					</Table>
 				</ColBox>
-			</SideBody>
+			</div>
 		</ColBox>
 	);
 };

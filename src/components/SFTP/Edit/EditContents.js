@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
-import {SFTPBody} from '../../../styles/cards';
 import {TextAreaWrapper} from '../../../styles/divs';
 
 const EditContents = ({uuid}) => {

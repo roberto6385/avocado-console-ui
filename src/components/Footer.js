@@ -9,7 +9,6 @@ import {
 } from '../reducers/ssht';
 
 import {IconButton} from '../styles/buttons';
-import {MainHeader} from '../styles/cards';
 import {BaseSpan} from '../styles/texts';
 import {light_Background, SMALL_FONT} from '../styles/global';
 
@@ -30,7 +29,7 @@ const Footer = () => {
 	}, [current_tab]);
 
 	return (
-		<MainHeader justify={'flex-end'} back={light_Background}>
+		<div>
 			{tab.filter((v) => v.display && v.type === 'SSHT').length !== 0 && (
 				<>
 					<IconButton onClick={onClickDeceaseFont}>
@@ -52,7 +51,7 @@ const Footer = () => {
 							tab.find((i) => i.uuid === current_tab)?.server.id,
 					)?.host}
 			</BaseSpan>
-		</MainHeader>
+		</div>
 	);
 };
 

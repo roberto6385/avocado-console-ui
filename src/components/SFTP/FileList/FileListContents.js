@@ -18,7 +18,6 @@ import {
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
 import {light_Background, MAIN_COLOR} from '../../../styles/global';
-import {SFTPBody} from '../../../styles/cards';
 import {BaseTable, FileListP, Tbody, Th} from '../../../styles/tables';
 import {IconButton} from '../../../styles/buttons';
 import {

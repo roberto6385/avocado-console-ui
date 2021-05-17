@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {MainHeader, SideBody} from '../../styles/cards';
+import {MainHeader} from '../../styles/cards';
 import {AiTwotoneSetting, FaTimes} from 'react-icons/all';
 import {BaseSpan, BorderBottomP} from '../../styles/texts';
 import {IconButton, TextButton} from '../../styles/buttons';
@@ -40,7 +40,7 @@ const AccountSide = () => {
 					<FaTimes />
 				</IconButton>
 			</MainHeader>
-			<SideBody padding={'4px 12px'} direction={'column'}>
+			<div>
 				<ColBox>
 					<p>Account</p>
 					<input type='text' />
@@ -56,7 +56,7 @@ const AccountSide = () => {
 						Change Authorization
 					</button>
 				</ColBox>
-			</SideBody>
+			</div>
 		</ColBox>
 	);
 };
