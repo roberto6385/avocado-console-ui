@@ -12,6 +12,28 @@ import {
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {MainHeader} from '../../../styles/cards';
 import {IconButton} from '../../../styles/buttons';
+import styled from 'styled-components';
+import {
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	Button,
+	ICON_LIGHT_COLOR,
+	SUB_HEIGHT,
+} from '../../../styles/global_design';
+import {AiFillCloseSquare} from 'react-icons/all';
+
+const EditNav_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0px 20px;
+	border-bottom: 1px solid ${BORDER_COLOR};
+	height: ${SUB_HEIGHT};
+`;
+
+const Edit_Button = styled(Button)`
+	color: ${ICON_LIGHT_COLOR};
+`;
 
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -71,20 +93,22 @@ const EditNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<MainHeader justify={'space-between'}>
-			<span style={{fontSize: '14px'}}>{`${path}/${editFile.name}`}</span>
+		<EditNav_Container justify={'space-between'}>
+			<span
+				style={{fontSize: AVOCADO_FONTSIZE}}
+			>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
-				<IconButton onClick={editedFileDownload}>
-					<MdFileDownload />
-				</IconButton>
-				<IconButton onClick={editedFileSave}>
+				<Edit_Button onClick={editedFileSave}>
 					<MdSave />
-				</IconButton>
-				<IconButton onClick={closeEditMode}>
-					<MdCancel />
-				</IconButton>
+				</Edit_Button>
+				<Edit_Button onClick={editedFileDownload}>
+					<MdFileDownload />
+				</Edit_Button>
+				<Edit_Button onClick={closeEditMode}>
+					<AiFillCloseSquare />
+				</Edit_Button>
 			</div>
-		</MainHeader>
+		</EditNav_Container>
 	);
 };
 

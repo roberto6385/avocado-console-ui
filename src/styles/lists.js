@@ -21,6 +21,7 @@ export const DropListUl = styled(BaseUl)`
 	min-width: 250px;
 `;
 export const BaseLi = styled.li`
+	line-height: 0;
 	position: relative;
 	width: ${(props) => props?.width};
 	height: ${THIRD_HEIGHT};

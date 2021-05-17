@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import {SFTPBody} from '../../../styles/cards';
-import {TextAreaWrapper} from "../../../styles/divs";
+import {TextAreaWrapper} from '../../../styles/divs';
 
 const EditContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -18,17 +18,15 @@ const EditContents = ({uuid}) => {
 	}, []);
 
 	return (
-		<SFTPBody>
-			<TextAreaWrapper>
-				<textarea
-					wrap={JSON.parse(checked) ? 'soft' : 'off'}
-					rows='50'
-					cols='40'
-					value={editText}
-					onChange={writeText}
-				/>
-			</TextAreaWrapper>
-		</SFTPBody>
+		<TextAreaWrapper>
+			<textarea
+				// wrap={JSON.parse(checked) ? 'soft' : 'off'}
+				rows='50'
+				cols='40'
+				value={editText}
+				onChange={writeText}
+			/>
+		</TextAreaWrapper>
 	);
 };
 
