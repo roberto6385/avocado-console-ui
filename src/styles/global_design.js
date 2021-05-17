@@ -34,6 +34,7 @@ export const TAB_WIDTH = '160px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
+export const FOOTER_FONTSIZE = '10px';
 export const EIGHTEEN = '18px';
 export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';

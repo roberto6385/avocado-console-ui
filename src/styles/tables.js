@@ -4,8 +4,10 @@ import {HIGHLIGHT_COLOR} from './global';
 import {AVOCADO_FONTSIZE, BORDER_COLOR} from './global_design';
 
 export const BaseTable = styled(Table)`
-	width: 100%;
-	height: 100%;
+	flex: 1 1 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	border: none;
@@ -21,7 +23,6 @@ export const Thead = styled.thead`
 	background-color: ${(props) => props?.back};
 	tr {
 		display: flex;
-		position: sticky;
 		top: 0px;
 		background: white;
 		th {
@@ -31,6 +32,8 @@ export const Thead = styled.thead`
 `;
 export const Tbody = styled.tbody`
 	background-color: ${(props) => props?.back};
+	overflow: scroll;
+	flex: 1;
 	.highlight_tbody.active {
 		background: ${HIGHLIGHT_COLOR};
 	}
@@ -44,14 +47,15 @@ export const Tbody = styled.tbody`
 `;
 
 export const Th = styled.th`
+	display: flex;
+	align-items: center;
 	min-width: ${(props) => props?.min};
 	flex: ${(props) => props.flex};
-	text-align: ${(props) => props.textAlign || 'left'};
+	justify-content: ${(props) => props.justify || 'flex-start'};
 	white-space: nowrap;
 	border: none !important;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: 2;
 `;
 export const HeaderTh = styled.th`
 	min-width: ${(props) => props?.min};

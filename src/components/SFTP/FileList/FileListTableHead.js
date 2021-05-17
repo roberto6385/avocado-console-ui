@@ -8,6 +8,9 @@ import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
 
 const FileList_Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
+	display: flex;
+	align-items: center;
+	padding: 8px;
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 

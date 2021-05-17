@@ -7,7 +7,9 @@ import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 const FileList_Container = styled.div`
+	display: flex;
 	flex: 1;
+	flex-direction: column;
 `;
 
 const FileList = ({uuid}) => {

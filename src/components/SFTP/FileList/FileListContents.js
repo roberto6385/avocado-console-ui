@@ -31,6 +31,7 @@ import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
 
 const FileList_Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
+	padding: 8px;
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
@@ -189,77 +190,72 @@ const FileListContents = ({uuid}) => {
 
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
-		<div>
-			<BaseTable back={light_Background}>
-				<TableHead uuid={uuid} />
-				<Tbody onContextMenu={contextMenuOpen}>
-					{currentFileList.map((item, index) => {
-						// . 파일은 표시하지 않음.
-						if (
-							pathList[pathList.length - 1] === '/' &&
-							item.name === '..'
-						)
-							return;
-						if (item.name === '.') return;
-						return (
-							<FileList_Tr
-								onContextMenu={(e) => contextMenuOpen(e, item)}
-								onClick={selectItem({item, index})}
-								onDoubleClick={changePath(item)}
-								key={index + uuid}
-								className={
-									highlight.includes(item)
-										? 'highlight_tbody active'
-										: 'highlight_tbody'
-								}
-							>
-								<Th min={'150px'} flex={1}>
-									<FileListP className='filelist_contents'>
-										{item.type === 'directory' ? (
-											<DirectoryIcon />
-										) : (
-											<FileIcon />
-										)}
-										{item.name}
-									</FileListP>
-								</Th>
-								<Th min={'135px'} textAlign='right'>
-									{item.name !== '..' &&
-										formatByteSizeString(item.size)}
-								</Th>
-								<Th min={'212px'}>
-									{item.name !== '..' &&
-										dataFormater({
-											modify: item.lastModified,
-											keyword: 'format',
-										})}
-								</Th>
-								<Th min={'105px'}>{item.permission}</Th>
-								<Th min={'100px'} textAlign={'right'}>
-									{item.type === 'file' && (
-										<IconButton
-											zIndex={1}
-											onClick={edit(item)}
-										>
-											<MdEdit />
-										</IconButton>
+		<BaseTable back={light_Background}>
+			<TableHead uuid={uuid} />
+			<Tbody onContextMenu={contextMenuOpen}>
+				{currentFileList.map((item, index) => {
+					// . 파일은 표시하지 않음.
+					if (
+						pathList[pathList.length - 1] === '/' &&
+						item.name === '..'
+					)
+						return;
+					if (item.name === '.') return;
+					return (
+						<FileList_Tr
+							onContextMenu={(e) => contextMenuOpen(e, item)}
+							onClick={selectItem({item, index})}
+							onDoubleClick={changePath(item)}
+							key={index + uuid}
+							className={
+								highlight.includes(item)
+									? 'highlight_tbody active'
+									: 'highlight_tbody'
+							}
+						>
+							<Th min={'150px'} flex={1}>
+								<FileListP className='filelist_contents'>
+									{item.type === 'directory' ? (
+										<DirectoryIcon />
+									) : (
+										<FileIcon />
 									)}
-									{item.name !== '..' && (
-										<IconButton
-											zIndex={1}
-											onClick={download(item)}
-										>
-											<MdFileDownload />
-										</IconButton>
-									)}
-								</Th>
-							</FileList_Tr>
-						);
-					})}
-				</Tbody>
-			</BaseTable>
+									{item.name}
+								</FileListP>
+							</Th>
+							<Th min={'135px'} justify='flex-end'>
+								{item.name !== '..' &&
+									formatByteSizeString(item.size)}
+							</Th>
+							<Th min={'212px'}>
+								{item.name !== '..' &&
+									dataFormater({
+										modify: item.lastModified,
+										keyword: 'format',
+									})}
+							</Th>
+							<Th min={'105px'}>{item.permission}</Th>
+							<Th min={'100px'} textAlign={'right'}>
+								{item.type === 'file' && (
+									<IconButton zIndex={1} onClick={edit(item)}>
+										<MdEdit />
+									</IconButton>
+								)}
+								{item.name !== '..' && (
+									<IconButton
+										zIndex={1}
+										onClick={download(item)}
+									>
+										<MdFileDownload />
+									</IconButton>
+								)}
+							</Th>
+						</FileList_Tr>
+					);
+				})}
+			</Tbody>
 			<FileListContextMenu uuid={uuid} />
-		</div>
+		</BaseTable>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);
