@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import {GoFile, GoFileDirectory} from 'react-icons/go';
-import {BsArrowUpDown, BsFileEarmark, IoMdFolderOpen} from 'react-icons/all';
+import {
+	BsArrowUpDown,
+	BsFileEarmark,
+	IoMdFolderOpen,
+	RiArrowUpDownLine,
+} from 'react-icons/all';
 import {
 	AVOCADO_COLOR,
 	ICON_LIGHT_COLOR,
@@ -9,8 +14,8 @@ import {
 } from './global_design';
 
 // ConvertSFTP
-export const ConvertIcon = styled(BsArrowUpDown)`
-	font-size: 21px;
+export const ConvertIcon = styled(RiArrowUpDownLine)`
+	font-size: 18px;
 `;
 
 // SFTPContainer

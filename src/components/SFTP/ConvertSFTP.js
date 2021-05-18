@@ -5,6 +5,8 @@ import {ConvertIcon} from '../../styles/sftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
 import {IconButton} from '../../styles/buttons';
+import {Button} from '../../styles/global_design';
+import {RiArrowUpDownLine} from 'react-icons/all';
 
 const ConvertSFTP = ({server_id}) => {
 	console.log(server_id);
@@ -27,9 +29,9 @@ const ConvertSFTP = ({server_id}) => {
 	}, [server_id, userTicket, dispatch]);
 
 	return (
-		<IconButton onClick={connection}>
-			<ConvertIcon />
-		</IconButton>
+		<Button onClick={connection}>
+			<RiArrowUpDownLine />
+		</Button>
 	);
 };
 

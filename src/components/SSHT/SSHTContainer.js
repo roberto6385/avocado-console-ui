@@ -1,16 +1,22 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {CgMaximizeAlt, FiFile} from 'react-icons/all';
+import {IoMdExpand, RiFileTextLine} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
 import SSHT from './SSHT';
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import DropdownMenu from '../DropdownMenu';
-import {IconButton} from '../../styles/buttons';
-import {MainHeader} from '../../styles/cards';
 import SnippetsManeger from '../SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
 import {light_Background} from '../../styles/global';
+import {Button, SUB_HEIGHT} from '../../styles/global_design';
+import styled from 'styled-components';
+
+const SSHT_Container = styled.div`
+	display: flex;
+	align-items: center;
+	height: ${SUB_HEIGHT};
+`;
 
 const SSHTContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
@@ -54,13 +60,13 @@ const SSHTContainer = ({uuid, server_id}) => {
 
 	return (
 		<>
-			<MainHeader back={light_Background}>
-				<DropdownMenu icon={<FiFile />} menu={column} />
-				<IconButton>
-					<CgMaximizeAlt onClick={onCLickFullScreen} />
-				</IconButton>
+			<SSHT_Container back={light_Background}>
+				<DropdownMenu icon={<RiFileTextLine />} menu={column} />
+				<Button onClick={onCLickFullScreen}>
+					<IoMdExpand />
+				</Button>
 				<ConvertSFTP server_id={server_id} />
-			</MainHeader>
+			</SSHT_Container>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />
 		</>

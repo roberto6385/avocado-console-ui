@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {NAV_HEIGHT, SECOND_NAV_HEIGHT} from './global';
+import {NAV_HEIGHT} from './global';
 import {Card} from 'react-bootstrap';
 
 // 추가하실 속성 있으시면 props로 전달 하셔서 사용하시면 됩니다.

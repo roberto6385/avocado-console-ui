@@ -24,6 +24,7 @@ export const SEARCH_INPUT_HEIGHT = '36px';
 export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
+export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
 
 export const BUTTON_HEIGHT = '20px';
 
@@ -33,6 +34,7 @@ export const RIGHT_SIDE_WIDTH = '300px';
 export const SEARCH_INPUT_WIDTH = '165px';
 export const TAB_WIDTH = '160px'; // tab, history button
 export const HISTORY_ITEM_WIDTH = '134px';
+export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';

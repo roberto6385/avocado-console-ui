@@ -17,11 +17,46 @@ import {
 } from '../../reducers/ssht';
 
 import {SSHTerminal} from '../../styles/divs';
-import {BaseInput, TerminalSearchForm} from '../../styles/forms';
 import styled from 'styled-components';
+import {
+	AVOCADO_FONTSIZE,
+	Button,
+	ICON_DARK_COLOR,
+	LIGHT_MODE_BACK_COLOR,
+	TERMINAL_SEARCH_FORM_HEIGHT,
+	TERMINAL_SEARCH_FORM_WIDTH,
+} from '../../styles/global_design';
+import {
+	IoCloseOutline,
+	MdKeyboardArrowDown,
+	MdKeyboardArrowUp,
+	MdSearch,
+} from 'react-icons/all';
 
 const SSHT_Container = styled.div`
 	height: 100%;
+`;
+
+const SSHT_Form = styled.form`
+	position: absolute;
+	right: 3px;
+	bottom: 31px;
+	width: ${TERMINAL_SEARCH_FORM_WIDTH};
+	display: none;
+
+	align-items: center;
+	border-radius: 4px;
+	padding: 12px;
+	height: ${TERMINAL_SEARCH_FORM_HEIGHT};
+	background: ${LIGHT_MODE_BACK_COLOR};
+	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
+	z-index: 5;
+`;
+const SSHT_Input = styled.input`
+	flex: 1;
+	margin: 0px 5px;
+	font-size: ${AVOCADO_FONTSIZE};
+	border: none;
 `;
 
 const SSHT = ({uuid}) => {
@@ -99,32 +134,32 @@ const SSHT = ({uuid}) => {
 		sshTerm.setOption('fontSize', font_size);
 	}, [font_size]);
 
-	useEffect(() => {
-		const windowChangeDebounce = debounce(() => {
-			fitAddon.current.fit();
-			dispatch({
-				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
-				data: {
-					ws: ws.current,
-					uuid: uuid,
-					data: {
-						cols: sshTerm.cols,
-						rows: sshTerm.rows,
-						width: width,
-						height: height,
-					},
-				},
-			});
-		}, 500);
-
-		windowChangeDebounce();
-		return windowChangeDebounce.cancel;
-	}, [uuid, sshTerm, width, height]);
+	// useEffect(() => {
+	// 	const windowChangeDebounce = debounce(() => {
+	// 		fitAddon.current.fit();
+	// 		dispatch({
+	// 			type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+	// 			data: {
+	// 				ws: ws.current,
+	// 				uuid: uuid,
+	// 				data: {
+	// 					cols: sshTerm.cols,
+	// 					rows: sshTerm.rows,
+	// 					width: width,
+	// 					height: height,
+	// 				},
+	// 			},
+	// 		});
+	// 	}, 500);
+	//
+	// 	windowChangeDebounce();
+	// 	return windowChangeDebounce.cancel;
+	// }, [uuid, sshTerm, width, height]);
 
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
-			document.getElementById('search_' + uuid).style.display = 'block';
+			document.getElementById('search_' + uuid).style.display = 'flex';
 		} else {
 			document.getElementById('search_' + uuid).style.display = 'none';
 			setSearch('');
@@ -157,15 +192,25 @@ const SSHT = ({uuid}) => {
 				{/*		</ListGroup.Item>*/}
 				{/*	))}*/}
 			</ListGroup>
-			<TerminalSearchForm onSubmit={onSubmitSearch} id={`search_${uuid}`}>
-				<BaseInput
-					flex={1}
+			<SSHT_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+				<MdSearch />
+				<SSHT_Input
+					// flex={1}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
 					type='text'
 				/>
-			</TerminalSearchForm>
+				<Button color={ICON_DARK_COLOR}>
+					<MdKeyboardArrowUp />
+				</Button>
+				<Button color={ICON_DARK_COLOR}>
+					<MdKeyboardArrowDown />
+				</Button>
+				<Button color={ICON_DARK_COLOR}>
+					<IoCloseOutline />
+				</Button>
+			</SSHT_Form>
 		</SSHT_Container>
 	);
 };
