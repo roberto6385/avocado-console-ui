@@ -13,12 +13,10 @@ const IdentitiesSide = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const closeSide = useCallback(
-		() => () => {
-			document.getElementById('right_side_menu').style.width = '0px';
-		},
-		[],
-	);
+	const closeSide = useCallback(() => {
+		document.getElementById('right_side_menu').style.display = 'none';
+		document.getElementById('right_side_menu').style.width = '0px';
+	}, []);
 
 	const AccountList = [
 		{
@@ -57,7 +55,7 @@ const IdentitiesSide = () => {
 					<AiTwotoneSetting />
 					<BaseSpan>Identities</BaseSpan>
 				</div>
-				<IconButton onClick={closeSide()}>
+				<IconButton onClick={closeSide}>
 					<FaTimes />
 				</IconButton>
 			</MainHeader>

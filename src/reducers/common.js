@@ -192,7 +192,31 @@ export const initialState = {
 									id: 23,
 									key: 'f_23',
 									name: 'Folder8',
-									contain: [],
+									contain: [
+										{
+											type: 'folder',
+											id: 24,
+											key: 'f_24',
+											name: 'Folder8',
+											contain: [
+												{
+													type: 'folder',
+													id: 25,
+													key: 'f_25',
+													name: 'Folder8',
+													contain: [
+														{
+															type: 'folder',
+															id: 26,
+															key: 'f_26',
+															name: 'Folder8',
+															contain: [],
+														},
+													],
+												},
+											],
+										},
+									],
 								},
 							],
 						},

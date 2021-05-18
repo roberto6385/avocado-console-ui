@@ -75,9 +75,9 @@ const HistoryNav = ({uuid}) => {
 		<HistoryNav_Container>
 			<Avocado_span>Transfer</Avocado_span>
 			<div>
-				<Button color={ICON_LIGHT_COLOR}>
-					<IoCheckmarkDoneSharp />
-				</Button>
+				{/*<Button>*/}
+				{/*	<IoCheckmarkDoneSharp />*/}
+				{/*</Button>*/}
 				<Button
 					color={ICON_LIGHT_COLOR}
 					id='btn-upload'

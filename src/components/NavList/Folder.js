@@ -27,7 +27,7 @@ import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
 import {
 	AVOCADO_COLOR,
-	AVOCADO_HOVER_COLOR,
+	SERVER_HOVER_COLOR,
 	Button,
 	ICON_LIGHT_COLOR,
 	Avocado_span,
@@ -134,10 +134,10 @@ const Folder = ({open, data, indent}) => {
 				}
 				back={
 					clicked_server === data.key
-						? AVOCADO_HOVER_COLOR
+						? SERVER_HOVER_COLOR
 						: LIGHT_MODE_BACK_COLOR
 				}
-				left={(indent * 8 + 8).toString() + 'px'}
+				left={(indent * 6 + 6).toString() + 'px'}
 			>
 				<Avocado_span
 					size={MIDDLE_FONTSIZE}

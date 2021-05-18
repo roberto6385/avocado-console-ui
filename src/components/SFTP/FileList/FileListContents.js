@@ -19,14 +19,17 @@ import {
 import {Spinner} from 'react-bootstrap';
 import {light_Background, MAIN_COLOR} from '../../../styles/global';
 import {BaseTable, FileListP, Tbody, Th} from '../../../styles/tables';
-import {IconButton} from '../../../styles/buttons';
 import {
 	formatByteSizeString,
 	sortFunction,
 	dataFormater,
 } from '../listConversion';
 import styled from 'styled-components';
-import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
+import {
+	BORDER_COLOR,
+	Button,
+	THIRD_HEIGHT,
+} from '../../../styles/global_design';
 
 const FileList_Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
@@ -236,17 +239,14 @@ const FileListContents = ({uuid}) => {
 							<Th min={'105px'}>{item.permission}</Th>
 							<Th min={'100px'} justify={'flex-end'}>
 								{item.type === 'file' && (
-									<IconButton zIndex={1} onClick={edit(item)}>
+									<Button onClick={edit(item)}>
 										<MdEdit />
-									</IconButton>
+									</Button>
 								)}
 								{item.name !== '..' && (
-									<IconButton
-										zIndex={1}
-										onClick={download(item)}
-									>
+									<Button onClick={download(item)}>
 										<MdFileDownload />
-									</IconButton>
+									</Button>
 								)}
 							</Th>
 						</FileList_Tr>

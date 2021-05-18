@@ -15,7 +15,7 @@ const RightContainer = () => {
 			<TabNavBar />
 			<RowBox position={'relative'} flex={1} height={'100px'}>
 				{tab.length ? <WorkSpace /> : <MainPage />}
-				<SideMenuContainer />
+				{/*<SideMenuContainer />*/}
 			</RowBox>
 			{current_tab !== null && <Footer />}
 		</ColBox>

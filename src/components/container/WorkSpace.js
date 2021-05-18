@@ -28,6 +28,7 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
 import {Nav} from 'react-bootstrap';
 import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
+import SideMenuContainer from '../RightSide/SideMenuContainer';
 
 const WorkSpace_Container = styled.div`
 	display: flex;
@@ -179,7 +180,10 @@ const WorkSpace = () => {
 				})}
 				<RightCornerIcons />
 			</WorkSpace_Nav>
-			<WorkSpace_TabPanels />
+			<div style={{display: 'flex', flex: 1, position: 'relative'}}>
+				<WorkSpace_TabPanels />
+				<SideMenuContainer />
+			</div>
 		</WorkSpace_Container>
 	);
 };

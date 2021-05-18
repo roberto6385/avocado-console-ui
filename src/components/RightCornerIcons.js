@@ -7,7 +7,7 @@ import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
 import {IconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
-import {LIGHT_BACK_COLOR} from '../styles/global_design';
+import {LIGHT_BACK_COLOR, RIGHT_SIDE_WIDTH} from '../styles/global_design';
 import styled from 'styled-components';
 
 const CornerIcons_Container = styled.div`
@@ -41,7 +41,13 @@ const RightCornerIcons = () => {
 	const openPreferences = useCallback(
 		(key) => () => {
 			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			document.getElementById('right_side_menu').style.width = '300px';
+			document.getElementById('right_side_menu').style.display = 'block';
+			document.getElementById(
+				'right_side_menu',
+			).style.width = RIGHT_SIDE_WIDTH;
+			document.getElementById(
+				'right_side_menu',
+			).style.maxWidth = RIGHT_SIDE_WIDTH;
 		},
 		[],
 	);

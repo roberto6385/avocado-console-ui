@@ -19,7 +19,7 @@ import {BaseForm, BaseInput} from '../../styles/forms';
 import {
 	AVOCADO_COLOR,
 	AVOCADO_FONTSIZE,
-	AVOCADO_HOVER_COLOR,
+	SERVER_HOVER_COLOR,
 	Avocado_span,
 	ICON_LIGHT_COLOR,
 	LIGHT_MODE_BACK_COLOR,
@@ -119,7 +119,7 @@ const Server = ({data, indent}) => {
 			onContextMenu={contextMenuOpen}
 			back={
 				clicked_server === data.key
-					? AVOCADO_HOVER_COLOR
+					? SERVER_HOVER_COLOR
 					: LIGHT_MODE_BACK_COLOR
 			}
 			border={
@@ -127,7 +127,7 @@ const Server = ({data, indent}) => {
 					? `2px solid ${AVOCADO_COLOR}`
 					: undefined
 			}
-			left={(indent * 8 + 8).toString() + 'px'}
+			left={(indent * 6 + 6).toString() + 'px'}
 		>
 			<Avocado_span
 				size={MIDDLE_FONTSIZE}

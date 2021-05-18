@@ -16,12 +16,10 @@ const PreferencesSide = () => {
 		[],
 	);
 
-	const closeSide = useCallback(
-		() => () => {
-			document.getElementById('right_side_menu').style.width = '0px';
-		},
-		[],
-	);
+	const closeSide = useCallback(() => {
+		document.getElementById('right_side_menu').style.display = 'none';
+		document.getElementById('right_side_menu').style.width = '0px';
+	}, []);
 
 	return (
 		<ColBox width={'100%'}>
@@ -37,9 +35,9 @@ const PreferencesSide = () => {
 					<AiTwotoneSetting />
 					<BaseSpan>Preferences</BaseSpan>
 				</div>
-				<IconButton onClick={closeSide()}>
+				<button style={{zIndex: '10px'}} onClick={closeSide}>
 					<FaTimes />
-				</IconButton>
+				</button>
 			</MainHeader>
 			<div>
 				<ColBox>

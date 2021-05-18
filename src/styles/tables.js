@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import Table from 'react-bootstrap/Table';
-import {HIGHLIGHT_COLOR} from './global';
-import {
-	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
-	POPUP_SIDE_COLOR,
-} from './global_design';
+import {AVOCADO_FONTSIZE, POPUP_SIDE_COLOR} from './global_design';
 
 export const BaseTable = styled(Table)`
 	flex: 1 1 0;

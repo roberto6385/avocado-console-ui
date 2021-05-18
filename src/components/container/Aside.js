@@ -86,7 +86,7 @@ const Aside = () => {
 	return (
 		<Aside_Container>
 			<Aside_Header>
-				<Button color={ICON_LIGHT_COLOR}>
+				<Button>
 					<GiHamburgerMenu />
 				</Button>
 				<Header_Span>Avocado</Header_Span>
@@ -96,7 +96,9 @@ const Aside = () => {
 					<AiOutlinePlus />
 				</Button>
 				<Server_Container_Span>New Server</Server_Container_Span>
-				<MdCreateNewFolder />
+				<Button>
+					<MdCreateNewFolder />
+				</Button>
 			</Add_Server_Container>
 			<Aside_Form>
 				<Avocado_span size={MIDDLE_FONTSIZE}>

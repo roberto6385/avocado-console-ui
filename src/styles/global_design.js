@@ -2,10 +2,10 @@
 import styled from 'styled-components';
 
 export const AVOCADO_COLOR = '#178082'; // logo, active icon color
-export const AVOCADO_HOVER_COLOR = '#e4f3f4'; // folder,server highlight color
+export const SERVER_HOVER_COLOR = '#e4f3f4'; // folder,server highlight color
+export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
-export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.54)'; // tab icon color
 export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
 export const FOOTER_BACK_COLOR = '#dee1e6';
 export const SFTP_DIRECTORY_COLOR = '#4ca6a8';
@@ -14,6 +14,11 @@ export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const LIGHT_MODE_BACK_COLOR = '#ffffff';
 export const BORDER_COLOR = '#e5e5e5';
 
+// Button color
+export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
+export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
+export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
+
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
 export const SUB_HEIGHT = '50px'; // new folder container, (ssht, sftp nav)
@@ -21,7 +26,7 @@ export const THIRD_HEIGHT = '48px'; // aside form height, sftp table height
 export const FOLDER_HEIGHT = '40px'; // folder, server height
 export const FOOTER_HEIGHT = '26px'; // footer height
 export const SEARCH_INPUT_HEIGHT = '36px';
-export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button
+export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button, Account Button
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
@@ -35,12 +40,14 @@ export const SEARCH_INPUT_WIDTH = '165px';
 export const TAB_WIDTH = '160px'; // tab, history button
 export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
+export const ACCOUNT_BUTTON_WIDTH = '268px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
 export const FOOTER_FONTSIZE = '10px';
 export const HISTORY_FONTSIZE = '12px';
 export const EIGHTEEN = '18px';
+export const SIXTEEN = '16px';
 export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';
 
@@ -60,5 +67,12 @@ export const Button = styled.button`
 	line-height: 0px;
 	padding: ${(props) => props?.padding || '6px'};
 	font-size: ${(props) => props?.size || MIDDLE_FONTSIZE};
-	color: ${(props) => props.color};
+	color: ${(props) => props.color || ICON_LIGHT_COLOR};
+
+	&:hover {
+		color: ${(props) => props?.hover || ICON_HOVER_LIGHT_COLOR};
+	}
+	&:active {
+		color: ${(props) => props?.hover || ICON_ACTIVE_LIGHT_COLOR};
+	}
 `;

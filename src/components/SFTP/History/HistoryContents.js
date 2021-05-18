@@ -35,7 +35,7 @@ import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
 import {
 	AVOCADO_COLOR,
-	AVOCADO_HOVER_COLOR,
+	SERVER_HOVER_COLOR,
 	Avocado_span,
 	BORDER_COLOR,
 	Button,
@@ -47,6 +47,7 @@ import {
 	ICON_LIGHT_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	TAB_WIDTH,
+	AVOCADO_HOVER_COLOR,
 } from '../../../styles/global_design';
 import styled from 'styled-components';
 
@@ -68,6 +69,9 @@ const DropSpace_Button = styled.button`
 	border-radius: 4px;
 	border: none;
 	margin: 16px 40px 30px 40px;
+	&:hover {
+		background: ${AVOCADO_HOVER_COLOR};
+	}
 `;
 
 const ItemName_Span = styled(Avocado_span)`
@@ -281,7 +285,7 @@ const HistoryContents = ({uuid}) => {
 								back={
 									history_highlight.find(
 										(item) => item === history,
-									) && AVOCADO_HOVER_COLOR
+									) && SERVER_HOVER_COLOR
 								}
 								borderWidth={`${history.progress}%`}
 							>
