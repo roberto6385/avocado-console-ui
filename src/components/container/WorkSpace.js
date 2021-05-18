@@ -4,7 +4,7 @@ import * as React from 'react';
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import SSH_SFTP from './SSH_SFTP';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import RightCornerIcons from '../RightCornerIcons';
 import {
 	AVOCADO_COLOR,
@@ -15,6 +15,7 @@ import {
 	LIGHT_BACK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
 	MAIN_HEIGHT,
+	RIGHT_SIDE_WIDTH,
 	TAB_WIDTH,
 } from '../../styles/global_design';
 import {
@@ -59,6 +60,36 @@ const TabNavbar = styled.div`
 	flex-warp: nowrap;
 	align-items: center;
 	justify-content: space-between;
+`;
+
+const slide = keyframes`
+  0% {
+    opacity: 0;
+	transform: translateX(300px);
+	visibility: hidden;
+	width:0px;
+  }
+  100% {
+    opacity: 1;
+	transform: translateX(0px);
+	visibility: visible;
+	width: ${RIGHT_SIDE_WIDTH};
+  }
+`;
+
+const Main_Container = styled.div`
+	display: flex;
+	flex: 1;
+	position: relative;
+	#right_side_menu {
+		width: 0px;
+		max-width: ${RIGHT_SIDE_WIDTH};
+		display: none;
+	}
+	#right_side_menu.active {
+		display: block;
+		width: ${RIGHT_SIDE_WIDTH};
+	}
 `;
 
 const WorkSpace = () => {
@@ -180,10 +211,10 @@ const WorkSpace = () => {
 				})}
 				<RightCornerIcons />
 			</WorkSpace_Nav>
-			<div style={{display: 'flex', flex: 1, position: 'relative'}}>
+			<Main_Container>
 				<WorkSpace_TabPanels />
 				<SideMenuContainer />
-			</div>
+			</Main_Container>
 		</WorkSpace_Container>
 	);
 };

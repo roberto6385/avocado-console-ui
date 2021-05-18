@@ -9,6 +9,8 @@ import styled from 'styled-components';
 const FileList_Container = styled.div`
 	display: flex;
 	flex: 1;
+	width: 100%;
+	overflow: hidden;
 	flex-direction: column;
 `;
 

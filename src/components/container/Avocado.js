@@ -8,6 +8,7 @@ import SideMenuContainer from '../RightSide/SideMenuContainer';
 
 const Container = styled.div`
 	display: flex;
+	overflow: hidden;
 	flex: 1;
 `;
 

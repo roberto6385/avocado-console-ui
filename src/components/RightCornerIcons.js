@@ -40,16 +40,11 @@ const RightCornerIcons = () => {
 
 	const openPreferences = useCallback(
 		(key) => () => {
+			const sideMenu = document.querySelector('#right_side_menu');
 			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			document.getElementById('right_side_menu').style.display = 'block';
-			document.getElementById(
-				'right_side_menu',
-			).style.width = RIGHT_SIDE_WIDTH;
-			document.getElementById(
-				'right_side_menu',
-			).style.maxWidth = RIGHT_SIDE_WIDTH;
+			sideMenu.classList.add('active');
 		},
-		[],
+		[dispatch],
 	);
 
 	const setting_list = [

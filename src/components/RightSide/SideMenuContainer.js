@@ -41,8 +41,8 @@ const SideMenuContainer = () => {
 	const {rightSideKey} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
-		document.getElementById('right_side_menu').style.display = 'none';
-		document.getElementById('right_side_menu').style.width = '0px';
+		const sideMenu = document.querySelector('#right_side_menu');
+		sideMenu.classList.remove('active');
 	}, []);
 
 	return (
