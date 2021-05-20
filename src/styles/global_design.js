@@ -40,7 +40,7 @@ export const SEARCH_INPUT_WIDTH = '165px';
 export const TAB_WIDTH = '160px'; // tab, history button
 export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
-export const ACCOUNT_BUTTON_WIDTH = '268px';
+export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';

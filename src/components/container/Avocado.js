@@ -4,7 +4,6 @@ import Aside from './Aside';
 import WorkSpace from './WorkSpace';
 import {useSelector} from 'react-redux';
 import MainPage from '../MainPage';
-import SideMenuContainer from '../RightSide/SideMenuContainer';
 
 const Container = styled.div`
 	display: flex;

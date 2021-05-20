@@ -30,7 +30,11 @@ import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {IconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 
-const DropList_Container = styled.div``;
+const DropList_Container = styled.div`
+	display: flex;
+`;
+
+const DropList_li = styled.li``;
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -294,17 +298,14 @@ const FileListDropDown = ({uuid}) => {
 							clickedPath: pathList[listindex],
 						})}
 					>
-						<div>
-							<BaseSpan padding={'4px'}>
-								{/*{listindex === 0 && 'Name'}*/}
-							</BaseSpan>
-						</div>
+						<BaseSpan padding={'4px'}>
+							{/*{listindex === 0 && 'Name'}*/}
+						</BaseSpan>
 						{listItem.map((item, index) => {
 							if (listindex === 0 && item.name === '..') return;
 							return (
 								item.name !== '.' && (
-									<BaseLi
-										padding={'2px 4px'}
+									<DropList_li
 										back={
 											(highlight.findIndex(
 												(it) =>
@@ -378,7 +379,7 @@ const FileListDropDown = ({uuid}) => {
 												</RowBox>
 											)}
 										</RowBox>
-									</BaseLi>
+									</DropList_li>
 								)
 							);
 						})}

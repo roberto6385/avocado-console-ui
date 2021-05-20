@@ -12,6 +12,7 @@ import Preferences_Container from '../container/Preferences_Container';
 import Identities_Container from '../container/Identities_Container';
 import {IoCloseOutline} from 'react-icons/all';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
+import Account_Container from '../container/Account_Container';
 
 const Container = styled.div`
 	display: none;
@@ -55,7 +56,7 @@ const SideMenuContainer = () => {
 			</Header>
 			{rightSideKey === 'Preferences' && <Preferences_Container />}
 			{rightSideKey === 'Identities' && <Identities_Container />}
-			{/*{rightSideKey === 'Account' && <AccountSide />}*/}
+			{rightSideKey === 'Account' && <Account_Container />}
 		</Container>
 	);
 };

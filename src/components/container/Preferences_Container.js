@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Select_Container from './Select_Container';
 import styled from 'styled-components';
 import {BORDER_COLOR, SIXTEEN} from '../../styles/global_design';
+import Checkbox_Container from './Checkbox_Container';
 
 const P = styled.p`
 	padding: 0px 0px 12px 0px;
@@ -20,6 +21,9 @@ const background_theme = [
 ];
 
 const Preferences_Container = () => {
+	const [textCompletion, setTextCompletion] = useState(false);
+	const [copyText, setCopyText] = useState(false);
+
 	return (
 		<React.Fragment>
 			<Item_Container>
@@ -30,6 +34,16 @@ const Preferences_Container = () => {
 				<P>Terminal</P>
 				<Select_Container title='UI Theme' options={background_theme} />
 				<Select_Container title='UI Theme' options={background_theme} />
+				<Checkbox_Container
+					title={'Text completion (IntelliSense)'}
+					value={textCompletion}
+					setValue={setTextCompletion}
+				/>
+				<Checkbox_Container
+					title={'Copy text on selection'}
+					value={copyText}
+					setValue={setCopyText}
+				/>
 			</Item_Container>
 			<Item_Container>
 				<P>SFTP</P>
