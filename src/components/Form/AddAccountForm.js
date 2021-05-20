@@ -1,17 +1,109 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Col, Form, Modal} from 'react-bootstrap';
-import {FaTimes} from 'react-icons/all';
-
 import useInput from '../../hooks/useInput';
-import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
-import {PrevIconButton, PopupButton} from '../../styles/buttons';
-import {FlexBox} from '../../styles/divs';
-import {BaseModal} from '../../styles/modals';
-import {MainHeader} from '../../styles/cards';
-import {BaseSpan} from '../../styles/texts';
 import {ACCOUT_CONTROL_ID, SAVE_ACCOUT} from '../../reducers/common';
+import styled from 'styled-components';
+import Modal from 'react-modal';
+import {
+	ACCOUNT_BUTTON_WIDTH,
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	Default_Button,
+	FOLDER_HEIGHT,
+	IconButton,
+	MAIN_HEIGHT,
+	PATH_SEARCH_INPUT_HEIGHT,
+	Primary_Button,
+} from '../../styles/global_design';
+import {IoCloseOutline} from 'react-icons/all';
+import Input_Container from '../container/Input_Container';
+import Select_Container from '../container/Select_Container';
+
+const _Modal = styled(Modal)`
+	border: 1px solid ${BORDER_COLOR};
+	position: absolute;
+	z-index: 5;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	transform: translate(-50%, -50%);
+	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
+	background: white;
+	border-radius: 4px;
+	width: 600px;
+`;
+
+const Item_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const Input = styled.input`
+	width: ${ACCOUNT_BUTTON_WIDTH};
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+`;
+
+const BrowseButton = styled(Primary_Button)`
+	margin-top: 8px;
+`;
+
+const LongInput = styled(Input)`
+	width: 100%;
+`;
+
+const FileInput = styled.input`
+	display: none;
+`;
+
+const _Label = styled.label`
+	width: 100%;
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+	margin: 0;
+	cursor: pointer;
+`;
+
+const _Header = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${FOLDER_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: space-between;
+	padding: 0px 16px;
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+
+const Span = styled.span`
+	line-height: ${FOLDER_HEIGHT};
+`;
+
+const _Footer = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${MAIN_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: flex-end;
+	padding: 13px 8px;
+	border-top: 1px solid ${BORDER_COLOR};
+`;
+
+const _Form = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	font-size: ${AVOCADO_FONTSIZE};
+	padding: 18px 16px 29px 16px;
+`;
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
@@ -27,9 +119,14 @@ const AddAccountForm = () => {
 	] = useInput('Password');
 	const [identity, onChangeIdentity, setIdentity] = useInput('Avocado');
 	const [username, onChangeUsername, setUsername] = useInput('root');
-	const [key, onChangeKey, setKey] = useInput('');
+	const [keyFile, onChangeKeyFile] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('Netand141)');
-	const [note, onChangeNote, setNote] = useInput('');
+	const [note, onChangeNote] = useInput('');
+
+	const authentication_options = [
+		{value: 'Password', label: 'Password'},
+		{value: 'KeyFile', label: 'Key File'},
+	];
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -49,18 +146,18 @@ const AddAccountForm = () => {
 				if (
 					identity !== '' &&
 					username !== '' &&
-					key !== '' &&
+					keyFile !== '' &&
 					password !== ''
 				) {
 					console.log('키파일 정보 저장');
 				}
 			}
-			onClickCloseForm();
+			closeModal();
 		},
 		[identity, password, dispatch, account_form_popup],
 	);
 
-	const onClickCloseForm = useCallback(() => {
+	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
 	}, []);
@@ -104,141 +201,122 @@ const AddAccountForm = () => {
 	// }, [account_form_popup]);
 
 	return (
-		<BaseModal
-			show={account_form_popup.open}
-			onHide={onClickCloseForm}
-			backdrop='static'
-			width={'700px'}
+		<_Modal
+			isOpen={account_form_popup.open}
+			onRequestClose={closeModal}
+			ariaHideApp={false}
+			shouldCloseOnOverlayClick={false}
 		>
-			<MainHeader justify={'space-between'}>
-				<BaseSpan padding={'0px 8px'}>Add Account</BaseSpan>
-				<PrevIconButton className={'right'}>
-					<FaTimes onClick={onClickCloseForm} />
-				</PrevIconButton>
-			</MainHeader>
-			<Modal.Body>
-				<Form onSubmit={onSubmitForm}>
-					<Form.Row>
-						<Form.Label column sm={2}>
-							Identity
-						</Form.Label>
-						<Col sm={4}>
-							<Form.Control
-								onChange={onChangeIdentity}
-								value={identity}
-								type='text'
-								placeholder='temp Account'
-								required
+			<_Header>
+				<Span>Add Account</Span>
+				<IconButton onClick={closeModal}>
+					<IoCloseOutline />
+				</IconButton>
+			</_Header>
+			<_Form onSubmit={onSubmitForm}>
+				<Item_Container>
+					<Input_Container title={'Identity'}>
+						<Input
+							value={identity}
+							onChange={onChangeIdentity}
+							placeholder={'temp Account'}
+						/>
+					</Input_Container>
+					<Select_Container
+						title='Authentication'
+						options={authentication_options}
+						value={authentication}
+						setValue={setAuthentication}
+					/>
+				</Item_Container>
+				<Item_Container>
+					<Input_Container title={'Username'}>
+						<LongInput
+							value={username}
+							onChange={onChangeUsername}
+							placeholder={'Username'}
+						/>
+					</Input_Container>
+				</Item_Container>
+				{authentication === 'Password' ? (
+					<Item_Container>
+						<Input_Container title={'Password'}>
+							<LongInput
+								type='password'
+								value={password}
+								onChange={onChangePassword}
+								placeholder={'Password'}
 							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Authentication
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								as='select'
-								value={authentication}
-								onChange={onChangeAuthentication}
-								required
+						</Input_Container>
+					</Item_Container>
+				) : (
+					<React.Fragment>
+						<Item_Container>
+							<Input_Container title={'Private Key File'}>
+								<_Label htmlFor={'add_server_form_type_file'}>
+									{keyFile}
+									<FileInput
+										id={'add_server_form_type_file'}
+										type='file'
+										value={keyFile}
+										onChange={onChangeKeyFile}
+										placeholder={'Key File'}
+									/>
+								</_Label>
+							</Input_Container>
+							<BrowseButton
+								onClick={() =>
+									document
+										.getElementById(
+											'add_server_form_type_file',
+										)
+										.click()
+								}
 							>
-								<option value='Password'>Password</option>
-								<option value='Key file'>Key file</option>
-							</Form.Control>
-						</Col>
-					</Form.Row>
+								Browse
+							</BrowseButton>
+						</Item_Container>
 
-					{authentication === 'Password' ? (
-						<>
-							<Form.Group>
-								<Form.Label>Username</Form.Label>
-								<Form.Control
-									value={username}
-									onChange={onChangeUsername}
-									type='text'
-									placeholder='Username'
-									required
-								/>
-							</Form.Group>
-							<Form.Group>
-								<Form.Label>Password</Form.Label>
-								<Form.Control
+						<Item_Container>
+							<Input_Container title={'Key File Password'}>
+								<LongInput
+									type='password'
 									value={password}
 									onChange={onChangePassword}
-									type='password'
-									placeholder='Login Password'
-									required
+									placeholder={'Password'}
 								/>
-							</Form.Group>
-							<Form.Group>
-								<Form.Label>Note</Form.Label>
-								<Form.Control
-									value={note}
-									onChange={onChangeNote}
-									type='text'
-									placeholder='Note'
-								/>
-							</Form.Group>
-						</>
-					) : (
-						<>
-							<Form.Group>
-								<Form.Label>Username</Form.Label>
-								<Form.Control
-									value={username}
-									onChange={onChangeUsername}
-									type='text'
-									placeholder='Username'
-									required
-								/>
-							</Form.Group>
-							<Form.Group>
-								<Form.Label>Private Key File</Form.Label>
-								<Form.File
-									value={key}
-									onChange={(e) => console.log(e)}
-									// 파일 저장?
-									label='Private Key File'
-									custom
-								/>
-							</Form.Group>
-
-							<Form.Group>
-								<Form.Label>Key File Password</Form.Label>
-								<Form.Control
-									value={password}
-									onChange={onChangePassword}
-									type='password'
-									placeholder='Key File Password'
-									required
-								/>
-							</Form.Group>
-							<Form.Group>
-								<Form.Label>Note</Form.Label>
-								<Form.Control
-									value={note}
-									onChange={onChangeNote}
-									type='text'
-									placeholder='Note'
-								/>
-							</Form.Group>
-						</>
-					)}
-
-					<FlexBox justify={'center'}>
-						<PopupButton
-							onClick={onClickCloseForm}
-							back={SUB_COLOR}
-						>
-							Cancel
-						</PopupButton>
-						<PopupButton type='submit' back={MAIN_COLOR}>
-							Save
-						</PopupButton>
-					</FlexBox>
-				</Form>
-			</Modal.Body>
-		</BaseModal>
+							</Input_Container>
+						</Item_Container>
+					</React.Fragment>
+				)}
+				<Item_Container>
+					<Input_Container title={'Note'}>
+						<LongInput
+							value={note}
+							onChange={onChangeNote}
+							placeholder={'Note'}
+						/>
+					</Input_Container>
+				</Item_Container>
+				<button
+					type='submit'
+					id={'add_account_form_submit_button'}
+					style={{display: 'none'}}
+				/>
+			</_Form>
+			<_Footer>
+				<Default_Button onClick={closeModal}>Cancel</Default_Button>
+				<Primary_Button
+					onClick={() =>
+						document
+							.getElementById('add_account_form_submit_button')
+							.click()
+					}
+				>
+					Save
+				</Primary_Button>
+			</_Footer>
+		</_Modal>
 	);
 };
 

@@ -1,15 +1,72 @@
-import React, {useCallback, useState} from 'react';
-import {Card} from 'react-bootstrap';
-import {FaTimes} from 'react-icons/all';
+import React, {useCallback} from 'react';
+import {IoCloseOutline} from 'react-icons/all';
 
-import {SUB_COLOR} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
-import {PrevIconButton, PopupButton} from '../../styles/buttons';
-import {FlexBox} from '../../styles/divs';
-import {BaseModal} from '../../styles/modals';
-import {MainHeader} from '../../styles/cards';
-import {BaseSpan} from '../../styles/texts';
+import styled from 'styled-components';
+import Modal from 'react-modal';
+import {
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	Default_Button,
+	FOLDER_HEIGHT,
+	IconButton,
+	MAIN_HEIGHT,
+} from '../../styles/global_design';
+
+const _Modal = styled(Modal)`
+	border: 1px solid ${BORDER_COLOR};
+	position: absolute;
+	z-index: 5;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	transform: translate(-50%, -50%);
+	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
+	background: white;
+	border-radius: 4px;
+	width: 400px;
+`;
+
+const _Header = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${FOLDER_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: space-between;
+	padding: 0px 16px;
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+
+const _Form = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	font-size: ${AVOCADO_FONTSIZE};
+	padding: 18px 16px 29px 16px;
+`;
+
+const Span = styled.span`
+	line-height: ${FOLDER_HEIGHT};
+`;
+
+const _Footer = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${MAIN_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: flex-end;
+	padding: 13px 8px;
+	// border-top: 1px solid ${BORDER_COLOR};
+`;
+
+const Item_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px;
+`;
 
 const AlertMessage = {
 	invalid_server: '입력하신 서버의 정보가 잘못되었습니다.',
@@ -28,35 +85,40 @@ const AlertHeader = {
 const AlertPopup = () => {
 	const dispatch = useDispatch();
 	const {alert_popup} = useSelector((state) => state.popup);
-	const handleClose = useCallback(() => {
+	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
-	}, []);
+	}, [dispatch]);
 
 	return (
-		<BaseModal show={alert_popup.open} onHide={handleClose}>
-			<MainHeader justify={'space-between'}>
-				<BaseSpan padding={'0px 8px'}>
+		<_Modal
+			isOpen={alert_popup.open}
+			onRequestClose={closeModal}
+			ariaHideApp={false}
+			shouldCloseOnOverlayClick={false}
+		>
+			<_Header>
+				<Span>
 					{Object.prototype.hasOwnProperty.call(
 						AlertHeader,
 						alert_popup.key,
 					) && AlertHeader[alert_popup.key]}
-				</BaseSpan>
-				<PrevIconButton className={'right'}>
-					<FaTimes onClick={handleClose} />
-				</PrevIconButton>
-			</MainHeader>
-			<Card.Body>
-				{Object.prototype.hasOwnProperty.call(
-					AlertMessage,
-					alert_popup.key,
-				) && <Card.Text>{AlertMessage[alert_popup.key]}</Card.Text>}
-			</Card.Body>
-			<FlexBox padding={'4px 12px'} justify={'flex-end'}>
-				<PopupButton onClick={handleClose} back={`${SUB_COLOR}`}>
-					Ok
-				</PopupButton>
-			</FlexBox>
-		</BaseModal>
+				</Span>
+				<IconButton onClick={closeModal}>
+					<IoCloseOutline />
+				</IconButton>
+			</_Header>
+			{Object.prototype.hasOwnProperty.call(
+				AlertMessage,
+				alert_popup.key,
+			) && (
+				<Item_Container>
+					<Span>{AlertMessage[alert_popup.key]}</Span>
+				</Item_Container>
+			)}
+			<_Footer>
+				<Default_Button onClick={closeModal}>OK</Default_Button>
+			</_Footer>
+		</_Modal>
 	);
 };
 

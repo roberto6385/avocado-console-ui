@@ -594,6 +594,7 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 			case DELETE_SERVER_FOLDER: {
+				console.log(draft.clicked_server);
 				if (draft.clicked_server[0] === 's')
 					draft.server = draft.server.filter(
 						(v) => v.key !== draft.clicked_server,

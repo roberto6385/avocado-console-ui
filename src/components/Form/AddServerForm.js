@@ -18,7 +18,6 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	NameButton,
 	Default_Button,
 	Primary_Button,
 } from '../../styles/global_design';
@@ -30,6 +29,7 @@ import Select_Container from '../container/Select_Container';
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
 	position: absolute;
+	z-index: 5;
 	top: 50%;
 	left: 50%;
 	right: auto;
@@ -266,7 +266,7 @@ const AddServerForm = () => {
 					<Input_Container title={'Name'}>
 						<Input
 							value={name}
-							onChange={(e) => setName(e.target.value)}
+							onChange={onChangeName}
 							placeholder={'Server Name'}
 						/>
 					</Input_Container>
@@ -281,7 +281,7 @@ const AddServerForm = () => {
 					<Input_Container title={'Address'}>
 						<Input
 							value={host}
-							onChange={(e) => setHost(e.target.value)}
+							onChange={onChangeHost}
 							placeholder={'Host or IP'}
 						/>
 					</Input_Container>
@@ -292,7 +292,7 @@ const AddServerForm = () => {
 					>
 						<Input
 							value={port}
-							onChange={(e) => setPort(e.target.value)}
+							onChange={onChangePort}
 							placeholder={'Port'}
 						/>
 					</Input_Container>
@@ -315,7 +315,7 @@ const AddServerForm = () => {
 					<Input_Container title={'Username'}>
 						<LongInput
 							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							onChange={onChangeUsername}
 							placeholder={'Username'}
 						/>
 					</Input_Container>
@@ -326,7 +326,7 @@ const AddServerForm = () => {
 							<LongInput
 								type='password'
 								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={onChangePassword}
 								placeholder={'Password'}
 							/>
 						</Input_Container>
@@ -341,9 +341,7 @@ const AddServerForm = () => {
 										id={'add_server_form_type_file'}
 										type='file'
 										value={keyFile}
-										onChange={(e) =>
-											setKeyFile(e.target.value)
-										}
+										onChange={onChangeKeyFile}
 										placeholder={'Key File'}
 									/>
 								</_Label>
@@ -366,9 +364,7 @@ const AddServerForm = () => {
 								<LongInput
 									type='password'
 									value={password}
-									onChange={(e) =>
-										setPassword(e.target.value)
-									}
+									onChange={onChangePassword}
 									placeholder={'Password'}
 								/>
 							</Input_Container>
@@ -379,7 +375,7 @@ const AddServerForm = () => {
 					<Input_Container title={'Note'}>
 						<LongInput
 							value={note}
-							onChange={(e) => setNote(e.target.value)}
+							onChange={onChangeNote}
 							placeholder={'Note'}
 						/>
 					</Input_Container>

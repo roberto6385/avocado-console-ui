@@ -46,11 +46,16 @@ const Server = ({data, indent}) => {
 			});
 		},
 		() => {
-			if (clicked_server === data.key)
+			if (clicked_server === data.key) {
+				console.log('여기실행');
 				dispatch({type: SET_CLICKED_SERVER, data: null});
-			else dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			} else {
+				console.log('여기실행');
+
+				dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			}
 		},
-		[clicked_server, data, userTicket, server],
+		[clicked_server, data, userTicket, server, dispatch],
 	);
 
 	const {show} = useContextMenu({
@@ -60,11 +65,11 @@ const Server = ({data, indent}) => {
 	const contextMenuOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-
+			console.log('contextMenuOpen item');
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data],
+		[data, dispatch],
 	);
 
 	const handleSubmit = useCallback(
@@ -86,8 +91,9 @@ const Server = ({data, indent}) => {
 	}, []);
 
 	const prevPutItem = useCallback(() => {
+		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	}, [data]);
+	}, [data, dispatch]);
 
 	const nextPutItem = useCallback(
 		(e) => {
@@ -111,51 +117,53 @@ const Server = ({data, indent}) => {
 	}, [openRename, renameRef, data]);
 
 	return (
-		<Folder_Server_Nav_Item
-			onClick={onHybridClick}
-			draggable='true'
-			onDragStart={prevPutItem}
-			onDrop={nextPutItem}
-			onContextMenu={contextMenuOpen}
-			back={
-				clicked_server === data.key
-					? SERVER_HOVER_COLOR
-					: LIGHT_MODE_BACK_COLOR
-			}
-			border={
-				clicked_server === data.key
-					? `2px solid ${GREEN_COLOR}`
-					: undefined
-			}
-			left={(indent * 6 + 6).toString() + 'px'}
-		>
-			<Avocado_span
-				size={MIDDLE_FONTSIZE}
-				color={
+		<React.Fragment>
+			<Folder_Server_Nav_Item
+				onClick={onHybridClick}
+				draggable='true'
+				onDragStart={prevPutItem}
+				onDrop={nextPutItem}
+				onContextMenu={contextMenuOpen}
+				back={
 					clicked_server === data.key
-						? GREEN_COLOR
-						: ICON_LIGHT_COLOR
+						? SERVER_HOVER_COLOR
+						: LIGHT_MODE_BACK_COLOR
 				}
+				border={
+					clicked_server === data.key
+						? `2px solid ${GREEN_COLOR}`
+						: undefined
+				}
+				left={(indent * 6 + 6).toString() + 'px'}
 			>
-				<FaServerIcon />
-			</Avocado_span>
-			<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
-				{openRename ? (
-					<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-						<BaseInput
-							ref={renameRef}
-							type='text'
-							value={renameValue}
-							onChange={onChangeRenameValue}
-							onKeyDown={EscapeKey}
-						/>
-					</BaseForm>
-				) : (
-					data.name
-				)}
-			</Avocado_span>
+				<Avocado_span
+					size={MIDDLE_FONTSIZE}
+					color={
+						clicked_server === data.key
+							? GREEN_COLOR
+							: ICON_LIGHT_COLOR
+					}
+				>
+					<FaServerIcon />
+				</Avocado_span>
+				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
+					{openRename ? (
+						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
+							<BaseInput
+								ref={renameRef}
+								type='text'
+								value={renameValue}
+								onChange={onChangeRenameValue}
+								onKeyDown={EscapeKey}
+							/>
+						</BaseForm>
+					) : (
+						data.name
+					)}
+				</Avocado_span>
+			</Folder_Server_Nav_Item>
 			<ServerContextMenu data={data} setOpenRename={setOpenRename} />
-		</Folder_Server_Nav_Item>
+		</React.Fragment>
 	);
 };
 

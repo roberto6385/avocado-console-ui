@@ -1,9 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import {Card, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaTimes, IoCloseOutline} from 'react-icons/all';
-
-import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
+import {IoCloseOutline} from 'react-icons/all';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
 import {
@@ -23,11 +20,6 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {PrevIconButton, PopupButton} from '../../styles/buttons';
-import {FlexBox} from '../../styles/divs';
-import {BaseModal} from '../../styles/modals';
-import {MainHeader} from '../../styles/cards';
-import {BaseSpan} from '../../styles/texts';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
@@ -46,6 +38,7 @@ import Input_Container from '../container/Input_Container';
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
 	position: absolute;
+	z-index: 5;
 	top: 50%;
 	left: 50%;
 	right: auto;
@@ -172,7 +165,7 @@ const ConfirmPopup = () => {
 				currentMode: mode,
 			},
 		});
-	}, [confirm_popup, sftp]);
+	}, [confirm_popup, sftp, dispatch]);
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
@@ -186,7 +179,7 @@ const ConfirmPopup = () => {
 				payload: {uuid: confirm_popup.uuid},
 			});
 		closeModal();
-	}, [confirm_popup]);
+	}, [confirm_popup, dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -337,6 +330,7 @@ const ConfirmPopup = () => {
 					break;
 				}
 				case 'delete_server_folder':
+					console.log(clicked_server);
 					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
 					break;
 
@@ -350,7 +344,14 @@ const ConfirmPopup = () => {
 			}
 			closeModal();
 		},
-		[clicked_server, accountListControlId, confirm_popup, formValue, sftp],
+		[
+			clicked_server,
+			accountListControlId,
+			confirm_popup,
+			dispatch,
+			formValue,
+			sftp,
+		],
 	);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {

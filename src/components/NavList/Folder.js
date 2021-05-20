@@ -46,10 +46,14 @@ const Folder = ({open, data, indent}) => {
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
 	const onCLickFolder = useCallback(() => {
-		if (clicked_server === data.key)
+		if (clicked_server === data.key) {
+			console.log('여기실행');
 			dispatch({type: SET_CLICKED_SERVER, data: null});
-		else dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	}, [clicked_server, data]);
+		} else {
+			console.log('여기실행');
+			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+		}
+	}, [clicked_server, data, dispatch]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
@@ -62,11 +66,11 @@ const Folder = ({open, data, indent}) => {
 	const contextMenuOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-
+			console.log('여기실행');
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data],
+		[data, dispatch],
 	);
 
 	const handleSubmit = useCallback(
@@ -88,6 +92,7 @@ const Folder = ({open, data, indent}) => {
 	}, []);
 
 	const prevPutItem = useCallback(() => {
+		console.log('여기실행');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 	}, [data]);
 
@@ -120,7 +125,7 @@ const Folder = ({open, data, indent}) => {
 	}, [open]);
 
 	return (
-		<>
+		<React.Fragment>
 			<Folder_Server_Nav_Item
 				onClick={onCLickFolder}
 				draggable='true'
@@ -199,7 +204,7 @@ const Folder = ({open, data, indent}) => {
 				</Collapse>
 			)}
 			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
-		</>
+		</React.Fragment>
 	);
 };
 
