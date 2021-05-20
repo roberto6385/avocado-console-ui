@@ -192,69 +192,71 @@ const FileListContents = ({uuid}) => {
 
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
-		<BaseTable back={light_Background}>
-			<TableHead uuid={uuid} />
-			<Tbody onContextMenu={contextMenuOpen}>
-				{currentFileList.map((item, index) => {
-					// . 파일은 표시하지 않음.
-					if (
-						pathList[pathList.length - 1] === '/' &&
-						item.name === '..'
-					)
-						return;
-					if (item.name === '.') return;
-					return (
-						<FileList_Tr
-							onContextMenu={(e) => contextMenuOpen(e, item)}
-							onClick={selectItem({item, index})}
-							onDoubleClick={changePath(item)}
-							key={index + uuid}
-							className={
-								highlight.includes(item)
-									? 'highlight_tbody active'
-									: 'highlight_tbody'
-							}
-						>
-							<Th min={'150px'} flex={1}>
-								<FileListP className='filelist_contents'>
-									{item.type === 'directory' ? (
-										<DirectoryIcon />
-									) : (
-										<FileIcon />
+		<React.Fragment>
+			<BaseTable back={light_Background}>
+				<TableHead uuid={uuid} />
+				<Tbody onContextMenu={contextMenuOpen}>
+					{currentFileList.map((item, index) => {
+						// . 파일은 표시하지 않음.
+						if (
+							pathList[pathList.length - 1] === '/' &&
+							item.name === '..'
+						)
+							return;
+						if (item.name === '.') return;
+						return (
+							<FileList_Tr
+								onContextMenu={(e) => contextMenuOpen(e, item)}
+								onClick={selectItem({item, index})}
+								onDoubleClick={changePath(item)}
+								key={index + uuid}
+								className={
+									highlight.includes(item)
+										? 'highlight_tbody active'
+										: 'highlight_tbody'
+								}
+							>
+								<Th min={'150px'} flex={1}>
+									<FileListP className='filelist_contents'>
+										{item.type === 'directory' ? (
+											<DirectoryIcon />
+										) : (
+											<FileIcon />
+										)}
+										{item.name}
+									</FileListP>
+								</Th>
+								<Th min={'135px'} justify='flex-end'>
+									{item.name !== '..' &&
+										formatByteSizeString(item.size)}
+								</Th>
+								<Th min={'212px'}>
+									{item.name !== '..' &&
+										dataFormater({
+											modify: item.lastModified,
+											keyword: 'format',
+										})}
+								</Th>
+								<Th min={'105px'}>{item.permission}</Th>
+								<Th min={'100px'} justify={'flex-end'}>
+									{item.type === 'file' && (
+										<IconButton onClick={edit(item)}>
+											<MdEdit />
+										</IconButton>
 									)}
-									{item.name}
-								</FileListP>
-							</Th>
-							<Th min={'135px'} justify='flex-end'>
-								{item.name !== '..' &&
-									formatByteSizeString(item.size)}
-							</Th>
-							<Th min={'212px'}>
-								{item.name !== '..' &&
-									dataFormater({
-										modify: item.lastModified,
-										keyword: 'format',
-									})}
-							</Th>
-							<Th min={'105px'}>{item.permission}</Th>
-							<Th min={'100px'} justify={'flex-end'}>
-								{item.type === 'file' && (
-									<IconButton onClick={edit(item)}>
-										<MdEdit />
-									</IconButton>
-								)}
-								{item.name !== '..' && (
-									<IconButton onClick={download(item)}>
-										<MdFileDownload />
-									</IconButton>
-								)}
-							</Th>
-						</FileList_Tr>
-					);
-				})}
-			</Tbody>
+									{item.name !== '..' && (
+										<IconButton onClick={download(item)}>
+											<MdFileDownload />
+										</IconButton>
+									)}
+								</Th>
+							</FileList_Tr>
+						);
+					})}
+				</Tbody>
+			</BaseTable>
 			<FileListContextMenu uuid={uuid} />
-		</BaseTable>
+		</React.Fragment>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);

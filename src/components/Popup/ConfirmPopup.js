@@ -31,11 +31,17 @@ import {BaseSpan} from '../../styles/texts';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
+	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
+	Default_Button,
 	FOLDER_HEIGHT,
 	IconButton,
+	MAIN_HEIGHT,
+	PATH_SEARCH_INPUT_HEIGHT,
+	Primary_Button,
 } from '../../styles/global_design';
+import Input_Container from '../container/Input_Container';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -48,7 +54,7 @@ const _Modal = styled(Modal)`
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
 	background: white;
 	border-radius: 4px;
-	width: 600px;
+	width: 400px;
 `;
 const _Header = styled.div`
 	display: flex;
@@ -70,6 +76,36 @@ const _Form = styled.form`
 
 const Span = styled.span`
 	line-height: ${FOLDER_HEIGHT};
+`;
+
+const Input = styled.input`
+	width: ${ACCOUNT_BUTTON_WIDTH};
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+`;
+const LongInput = styled(Input)`
+	width: 100%;
+`;
+
+const _Footer = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${MAIN_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: flex-end;
+	padding: 13px 8px;
+	// border-top: 1px solid ${BORDER_COLOR};
+`;
+
+const Item_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px;
 `;
 
 const ConfirmMessage = {
@@ -141,6 +177,16 @@ const ConfirmPopup = () => {
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
 	}, [dispatch]);
+
+	const cancelFunction = useCallback(() => {
+		confirm_popup.key === 'sftp_edit_file' && justExit();
+		confirm_popup.key === 'sftp_delete_file_folder' &&
+			dispatch({
+				type: INIT_DELETE_WORK_LIST,
+				payload: {uuid: confirm_popup.uuid},
+			});
+		closeModal();
+	}, [confirm_popup]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -306,16 +352,6 @@ const ConfirmPopup = () => {
 		},
 		[clicked_server, accountListControlId, confirm_popup, formValue, sftp],
 	);
-
-	const cancelFunction = useCallback(() => {
-		confirm_popup.key === 'sftp_edit_file' && justExit();
-		confirm_popup.key === 'sftp_delete_file_folder' &&
-			dispatch({
-				type: INIT_DELETE_WORK_LIST,
-				payload: {uuid: confirm_popup.uuid},
-			});
-		closeModal();
-	}, [confirm_popup]);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -348,12 +384,50 @@ const ConfirmPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>Add Server</Span>
+				<Span>
+					{Object.prototype.hasOwnProperty.call(
+						ConfirmTopMessage,
+						confirm_popup.key,
+					) && ConfirmTopMessage[confirm_popup.key]}
+				</Span>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
-			</_Header>{' '}
-			<_Form onSubmit={submitFunction}>{/*form*/}</_Form>
+			</_Header>
+			{Object.prototype.hasOwnProperty.call(
+				ConfirmMessage,
+				confirm_popup.key,
+			) && (
+				<Item_Container>
+					<Span>{ConfirmMessage[confirm_popup.key]}</Span>
+				</Item_Container>
+			)}
+			{FORM_KEYWORDS.includes(confirm_popup.key) && (
+				<_Form onSubmit={submitFunction}>
+					<Input_Container title={'Name'}>
+						<LongInput
+							ref={inputRef}
+							value={formValue}
+							onChange={onChangeFormValue}
+							placeholder={
+								Object.prototype.hasOwnProperty.call(
+									ConfirmPlaceholder,
+									confirm_popup.key,
+								)
+									? ConfirmPlaceholder[confirm_popup.key]
+									: null
+							}
+						/>
+					</Input_Container>
+				</_Form>
+			)}
+
+			<_Footer>
+				<Default_Button onClick={cancelFunction}>Cancel</Default_Button>
+				<Primary_Button onClick={submitFunction}>
+					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
+				</Primary_Button>
+			</_Footer>
 		</_Modal>
 	);
 };
