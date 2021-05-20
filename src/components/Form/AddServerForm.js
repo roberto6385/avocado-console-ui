@@ -205,13 +205,14 @@ const AddServerForm = () => {
 		},
 		[
 			name,
+			protocol,
 			host,
+			port,
 			identity,
 			password,
-			port,
-			dispatch,
 			add_server_form_popup,
 			userTicket,
+			dispatch,
 		],
 	);
 
@@ -383,10 +384,23 @@ const AddServerForm = () => {
 						/>
 					</Input_Container>
 				</Item_Container>
+				<button
+					type='submit'
+					id={'add_server_form_submit_button'}
+					style={{display: 'none'}}
+				/>
 			</_Form>
 			<_Footer>
-				<Default_Button>Cancel</Default_Button>
-				<Primary_Button type={'submit'}>Save</Primary_Button>
+				<Default_Button onClick={closeModal}>Cancel</Default_Button>
+				<Primary_Button
+					onClick={() =>
+						document
+							.getElementById('add_server_form_submit_button')
+							.click()
+					}
+				>
+					Save
+				</Primary_Button>
 			</_Footer>
 		</_Modal>
 	);
