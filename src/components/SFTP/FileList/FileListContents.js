@@ -96,17 +96,16 @@ const FileListContents = ({uuid}) => {
 	const contextMenuOpen = useCallback(
 		(e, item = '') => {
 			e.preventDefault();
-			show(e);
 			e.stopPropagation();
-			item !== '' &&
-				// highlight.length < 2 &&
-				!highlight.includes(item) &&
+			if (item.name === '..' || item.name === '') return;
+			show(e);
+			!highlight.includes(item) &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
 					payload: {uuid, item},
 				});
 		},
-		[sftp],
+		[dispatch],
 	);
 
 	const compareNumber = (list, first, second) => {
@@ -131,6 +130,7 @@ const FileListContents = ({uuid}) => {
 
 	const selectItem = useCallback(
 		({item, index}) => (e) => {
+			if (item.name === '..') return;
 			if (e.metaKey) {
 				!highlight.includes(item)
 					? dispatch({
