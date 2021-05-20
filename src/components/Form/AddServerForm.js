@@ -74,8 +74,26 @@ const Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
+const BrowseButton = styled(Primary_Button)`
+	margin-top: 8px;
+`;
+
 const LongInput = styled(Input)`
 	width: 100%;
+`;
+
+const FileInput = styled.input`
+	display: none;
+`;
+
+const _Label = styled.label`
+	width: 100%;
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+	margin: 0;
+	cursor: pointer;
 `;
 
 const _Form = styled.form`
@@ -107,7 +125,7 @@ const AddServerForm = () => {
 		onChangeAuthentication,
 		setAuthentication,
 	] = useInput('Password');
-	const [key, onChangeKey] = useInput('');
+	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 
 	const [username, onChangeUsername, setUsername] = useInput('root');
 	const [password, onChangePassword, setPassword] = useInput('Netand141)');
@@ -211,6 +229,9 @@ const AddServerForm = () => {
 				setIdentity('root');
 				setAuthentication('Password');
 				setPassword('Netand141)');
+				setKeyFile('');
+				setUsername('');
+				setNote('');
 			} else {
 				const data = server.find(
 					(v) => v.id === add_server_form_popup.id,
@@ -239,7 +260,7 @@ const AddServerForm = () => {
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>
-			<_Form>
+			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
 					<Input_Container title={'Name'}>
 						<Input
@@ -298,16 +319,61 @@ const AddServerForm = () => {
 						/>
 					</Input_Container>
 				</Item_Container>
-				<Item_Container>
-					<Input_Container title={'Password'}>
-						<LongInput
-							type='password'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							placeholder={'Password'}
-						/>
-					</Input_Container>
-				</Item_Container>
+				{authentication === 'Password' ? (
+					<Item_Container>
+						<Input_Container title={'Password'}>
+							<LongInput
+								type='password'
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								placeholder={'Password'}
+							/>
+						</Input_Container>
+					</Item_Container>
+				) : (
+					<React.Fragment>
+						<Item_Container>
+							<Input_Container title={'Private Key File'}>
+								<_Label htmlFor={'add_server_form_type_file'}>
+									{keyFile}
+									<FileInput
+										id={'add_server_form_type_file'}
+										type='file'
+										value={keyFile}
+										onChange={(e) =>
+											setKeyFile(e.target.value)
+										}
+										placeholder={'Key File'}
+									/>
+								</_Label>
+							</Input_Container>
+							<BrowseButton
+								onClick={() =>
+									document
+										.getElementById(
+											'add_server_form_type_file',
+										)
+										.click()
+								}
+							>
+								Browse
+							</BrowseButton>
+						</Item_Container>
+
+						<Item_Container>
+							<Input_Container title={'Key File Password'}>
+								<LongInput
+									type='password'
+									value={password}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
+									placeholder={'Password'}
+								/>
+							</Input_Container>
+						</Item_Container>
+					</React.Fragment>
+				)}
 				<Item_Container>
 					<Input_Container title={'Note'}>
 						<LongInput
@@ -320,7 +386,7 @@ const AddServerForm = () => {
 			</_Form>
 			<_Footer>
 				<Default_Button>Cancel</Default_Button>
-				<Primary_Button>Save</Primary_Button>
+				<Primary_Button type={'submit'}>Save</Primary_Button>
 			</_Footer>
 		</_Modal>
 	);
