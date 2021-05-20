@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {Card, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaTimes} from 'react-icons/all';
+import {FaTimes, IoCloseOutline} from 'react-icons/all';
 
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
@@ -28,6 +28,49 @@ import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
 import {BaseSpan} from '../../styles/texts';
+import styled from 'styled-components';
+import Modal from 'react-modal';
+import {
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	FOLDER_HEIGHT,
+	IconButton,
+} from '../../styles/global_design';
+
+const _Modal = styled(Modal)`
+	border: 1px solid ${BORDER_COLOR};
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	transform: translate(-50%, -50%);
+	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
+	background: white;
+	border-radius: 4px;
+	width: 600px;
+`;
+const _Header = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${FOLDER_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: space-between;
+	padding: 0px 16px;
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+
+const _Form = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	font-size: ${AVOCADO_FONTSIZE};
+	padding: 18px 16px 29px 16px;
+`;
+
+const Span = styled.span`
+	line-height: ${FOLDER_HEIGHT};
+`;
 
 const ConfirmMessage = {
 	sftp_delete_file_folder: '선택한 파일/폴더를 삭제하시겠습니까?',
@@ -95,9 +138,9 @@ const ConfirmPopup = () => {
 		});
 	}, [confirm_popup, sftp]);
 
-	const handleClose = useCallback(() => {
+	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_CONFIRM_POPUP});
-	}, []);
+	}, [dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -259,7 +302,7 @@ const ConfirmPopup = () => {
 				default:
 					break;
 			}
-			handleClose();
+			closeModal();
 		},
 		[clicked_server, accountListControlId, confirm_popup, formValue, sftp],
 	);
@@ -271,7 +314,7 @@ const ConfirmPopup = () => {
 				type: INIT_DELETE_WORK_LIST,
 				payload: {uuid: confirm_popup.uuid},
 			});
-		handleClose();
+		closeModal();
 	}, [confirm_popup]);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -298,57 +341,20 @@ const ConfirmPopup = () => {
 	}, [confirm_popup, sftp]);
 
 	return (
-		<BaseModal show={confirm_popup.open} onHide={handleClose}>
-			<MainHeader justify={'space-between'}>
-				<BaseSpan padding={'0px 8px'}>
-					{Object.prototype.hasOwnProperty.call(
-						ConfirmTopMessage,
-						confirm_popup.key,
-					) && ConfirmTopMessage[confirm_popup.key]}
-				</BaseSpan>
-				<PrevIconButton className={'right'}>
-					<FaTimes onClick={handleClose} />
-				</PrevIconButton>
-			</MainHeader>
-			<Card.Body>
-				{Object.prototype.hasOwnProperty.call(
-					ConfirmMessage,
-					confirm_popup.key,
-				) && <Card.Text>{ConfirmMessage[confirm_popup.key]}</Card.Text>}
-
-				{FORM_KEYWORDS.includes(confirm_popup.key) && (
-					<Form onSubmit={submitFunction}>
-						<Form.Control
-							ref={inputRef}
-							type='text'
-							value={formValue}
-							placeholder={
-								Object.prototype.hasOwnProperty.call(
-									ConfirmPlaceholder,
-									confirm_popup.key,
-								)
-									? ConfirmPlaceholder[confirm_popup.key]
-									: null
-							}
-							onChange={onChangeFormValue}
-						/>
-					</Form>
-				)}
-				<FlexBox padding={'4px 12px'} justify={'flex-end'}>
-					<PopupButton onClick={cancelFunction} back={`${SUB_COLOR}`}>
-						Cancel
-					</PopupButton>
-					<PopupButton
-						onClick={submitFunction}
-						back={`${MAIN_COLOR}`}
-					>
-						{SAVE_KEYWORDS.includes(confirm_popup.key)
-							? 'SAVE'
-							: 'OK'}
-					</PopupButton>
-				</FlexBox>
-			</Card.Body>
-		</BaseModal>
+		<_Modal
+			isOpen={confirm_popup.open}
+			onRequestClose={closeModal}
+			ariaHideApp={false}
+			shouldCloseOnOverlayClick={false}
+		>
+			<_Header>
+				<Span>Add Server</Span>
+				<IconButton onClick={closeModal}>
+					<IoCloseOutline />
+				</IconButton>
+			</_Header>{' '}
+			<_Form onSubmit={submitFunction}>{/*form*/}</_Form>
+		</_Modal>
 	);
 };
 
