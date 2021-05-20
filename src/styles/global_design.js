@@ -125,3 +125,11 @@ export const Danger_Button = styled(Default_Button)`
 		background: ${RED_ACTIVE_COLOR};
 	}
 `;
+
+// 복사방지
+export const PreventDragCopy = `
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+`;

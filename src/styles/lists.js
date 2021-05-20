@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {GRAY_COLOR, MAIN_COLOR, PreventDragCopy} from './global';
-import {BORDER_COLOR, THIRD_HEIGHT} from './global_design';
+import {GRAY_COLOR, MAIN_COLOR} from './global';
+import {BORDER_COLOR, PreventDragCopy, THIRD_HEIGHT} from './global_design';
 
 export const BaseUl = styled.ul`
 	// 드래그 방지

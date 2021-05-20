@@ -1,30 +1,24 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
-import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
-import {Collapse} from 'react-bootstrap';
 import {
 	IoMdFolder,
 	IoMdFolderOpen,
-	MdKeyboardArrowDown,
-	MdKeyboardArrowRight,
 	RiArrowDropDownFill,
 	RiArrowDropRightFill,
 } from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
-
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
-import {PrevIconButton} from '../../styles/buttons';
 import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
+
 import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
@@ -35,6 +29,7 @@ import {
 	LIGHT_MODE_BACK_COLOR,
 	AVOCADO_FONTSIZE,
 } from '../../styles/global_design';
+import Collapse_Container from '../container/Collapse_Container';
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
@@ -47,10 +42,8 @@ const Folder = ({open, data, indent}) => {
 
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
-			console.log('여기실행');
 			dispatch({type: SET_CLICKED_SERVER, data: null});
 		} else {
-			console.log('여기실행');
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
 	}, [clicked_server, data, dispatch]);
@@ -66,7 +59,6 @@ const Folder = ({open, data, indent}) => {
 	const contextMenuOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('여기실행');
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
@@ -92,7 +84,6 @@ const Folder = ({open, data, indent}) => {
 	}, []);
 
 	const prevPutItem = useCallback(() => {
-		console.log('여기실행');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 	}, [data]);
 
@@ -182,8 +173,8 @@ const Folder = ({open, data, indent}) => {
 				</IconButton>
 			</Folder_Server_Nav_Item>
 			{data.contain.length !== 0 && (
-				<Collapse in={openTab}>
-					<div>
+				<Collapse_Container open={openTab}>
+					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
 								<Folder
@@ -200,8 +191,8 @@ const Folder = ({open, data, indent}) => {
 								/>
 							),
 						)}
-					</div>
-				</Collapse>
+					</React.Fragment>
+				</Collapse_Container>
 			)}
 			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
 		</React.Fragment>

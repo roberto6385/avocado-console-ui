@@ -69,6 +69,10 @@ const NavList = ({search}) => {
 		setfilteredNav(searchTreeStart(nav, search));
 	}, [nav, search]);
 
+	useEffect(()=>{
+
+	},[])
+
 	return (
 		<Folder_Server_Nav onDrop={dropNavList} id='sortableServerNav'>
 			{filteredNav.map((data) =>

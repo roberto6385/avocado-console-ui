@@ -38,11 +38,11 @@ const RightCornerIcons = () => {
 		[],
 	);
 
-	const openPreferences = useCallback(
+	const openSideMenu = useCallback(
 		(key) => () => {
 			const sideMenu = document.querySelector('#right_side_menu');
 			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			sideMenu.classList.add('active');
+			sideMenu.classList.toggle('active');
 		},
 		[dispatch],
 	);
@@ -50,11 +50,11 @@ const RightCornerIcons = () => {
 	const setting_list = [
 		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
-			onClick: openPreferences('Preferences'),
+			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
 		},
 		{
-			onClick: openPreferences('Identities'),
+			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
 		{title: 'divider'},
@@ -70,7 +70,7 @@ const RightCornerIcons = () => {
 
 	return (
 		<CornerIcons_Container>
-			<PrevIconButton onClick={openPreferences('Account')}>
+			<PrevIconButton onClick={openSideMenu('Account')}>
 				<HiUserCircle />
 			</PrevIconButton>
 			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />

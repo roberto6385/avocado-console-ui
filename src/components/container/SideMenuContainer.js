@@ -43,7 +43,7 @@ const SideMenuContainer = () => {
 
 	const close_sidebar = useCallback(() => {
 		const sideMenu = document.querySelector('#right_side_menu');
-		sideMenu.classList.remove('active');
+		sideMenu.classList.toggle('active');
 	}, []);
 
 	return (
