@@ -1,7 +1,6 @@
 // color
 import styled from 'styled-components';
 
-export const AVOCADO_COLOR = '#178082'; // logo, active icon color
 export const SERVER_HOVER_COLOR = '#e4f3f4'; // folder,server highlight color
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
@@ -18,6 +17,17 @@ export const BORDER_COLOR = '#e5e5e5';
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
 export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
 export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
+
+export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
+export const GRAY_COLOR = '#a9b0b2';
+export const GRAY_HOVER_COLOR = 'rgba(60, 76 ,81, 0.38)';
+export const GRAY_ACTIVE_COLOR = 'rgba(60 ,76, 81, 0.56)';
+export const GREEN_COLOR = '#178082'; // logo, active icon color
+export const GREEN_HOVER_COLOR = '#389193';
+export const GREEN_ACTIVE_COLOR = '#0a6f71';
+export const RED_COLOR = '#d45959';
+export const RED_HOVER_COLOR = '#de6565';
+export const RED_ACTIVE_COLOR = '#b84646';
 
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
@@ -61,7 +71,7 @@ export const Avocado_span = styled.span`
 `;
 
 // button
-export const Button = styled.button`
+export const IconButton = styled.button`
 	background: transparent;
 	border: none;
 	line-height: 0px;
@@ -74,5 +84,44 @@ export const Button = styled.button`
 	}
 	&:active {
 		color: ${(props) => props?.hover || ICON_ACTIVE_LIGHT_COLOR};
+	}
+`;
+
+export const Default_Button = styled.button`
+	height: 34px;
+	width: 120px; // s,m,l 사이즈 정해지면 넣을 예정.
+	background: transparent;
+	border: none;
+	line-height: 0px;
+	padding: 7px 16px;
+	margin: 0px 8px;
+	font-size: 14px;
+	color: white;
+	border-radius: 4px;
+	background: ${GRAY_COLOR};
+	&:hover {
+		background: ${GRAY_HOVER_COLOR};
+	}
+	&:active {
+		background: ${GRAY_ACTIVE_COLOR};
+	}
+`;
+
+export const Primary_Button = styled(Default_Button)`
+	background: ${GREEN_COLOR};
+	&:hover {
+		background: ${GREEN_HOVER_COLOR};
+	}
+	&:active {
+		background: ${GREEN_ACTIVE_COLOR};
+	}
+`;
+export const Danger_Button = styled(Default_Button)`
+	background: ${RED_COLOR};
+	&:hover {
+		background: ${RED_HOVER_COLOR};
+	}
+	&:active {
+		background: ${RED_ACTIVE_COLOR};
 	}
 `;

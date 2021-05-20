@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
@@ -29,7 +29,7 @@ const EditNav_Container = styled.div`
 	height: ${SUB_HEIGHT};
 `;
 
-const Edit_Button = styled(Button)`
+const Edit_Button = styled(IconButton)`
 	color: ${ICON_LIGHT_COLOR};
 `;
 

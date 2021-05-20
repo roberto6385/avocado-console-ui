@@ -22,13 +22,13 @@ import {
 import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
-import {IconButton} from '../../styles/buttons';
+import {PrevIconButton} from '../../styles/buttons';
 import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
-	Button,
+	IconButton,
 	ICON_LIGHT_COLOR,
 	Avocado_span,
 	MIDDLE_FONTSIZE,
@@ -129,7 +129,7 @@ const Folder = ({open, data, indent}) => {
 				onContextMenu={contextMenuOpen}
 				border={
 					clicked_server === data.key
-						? `2px solid ${AVOCADO_COLOR}`
+						? `2px solid ${GREEN_COLOR}`
 						: undefined
 				}
 				back={
@@ -143,7 +143,7 @@ const Folder = ({open, data, indent}) => {
 					size={MIDDLE_FONTSIZE}
 					color={
 						clicked_server === data.key
-							? AVOCADO_COLOR
+							? GREEN_COLOR
 							: ICON_LIGHT_COLOR
 					}
 				>
@@ -168,13 +168,13 @@ const Folder = ({open, data, indent}) => {
 						data.name
 					)}
 				</Avocado_span>
-				<Button onClick={onClickOpen}>
+				<IconButton onClick={onClickOpen}>
 					{openTab ? (
 						<RiArrowDropDownFill />
 					) : (
 						<RiArrowDropRightFill />
 					)}
-				</Button>
+				</IconButton>
 			</Folder_Server_Nav_Item>
 			{data.contain.length !== 0 && (
 				<Collapse in={openTab}>

@@ -20,7 +20,7 @@ import {SSHTerminal} from '../../styles/divs';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
-	Button,
+	IconButton,
 	ICON_DARK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
@@ -201,15 +201,15 @@ const SSHT = ({uuid}) => {
 					placeholder='Search...'
 					type='text'
 				/>
-				<Button color={ICON_DARK_COLOR}>
+				<IconButton color={ICON_DARK_COLOR}>
 					<MdKeyboardArrowUp />
-				</Button>
-				<Button color={ICON_DARK_COLOR}>
+				</IconButton>
+				<IconButton color={ICON_DARK_COLOR}>
 					<MdKeyboardArrowDown />
-				</Button>
-				<Button color={ICON_DARK_COLOR}>
+				</IconButton>
+				<IconButton color={ICON_DARK_COLOR}>
 					<IoCloseOutline />
-				</Button>
+				</IconButton>
 			</SSHT_Form>
 		</SSHT_Container>
 	);

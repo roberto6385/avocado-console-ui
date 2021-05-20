@@ -15,7 +15,7 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<Switch>
-					<Route path='/' component={Main} />
+					<Route path='/' exact component={Main} />
 					<Route path='/login' component={Login} />
 					<Route path='/account' component={Account} />
 					<Route path='/preferences' component={Preferences} />

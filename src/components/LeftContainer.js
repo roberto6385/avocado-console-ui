@@ -17,7 +17,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
-import {IconButton} from '../styles/buttons';
+import {PrevIconButton} from '../styles/buttons';
 import {light_Background, MAIN_COLOR} from '../styles/global';
 import {ColBox} from '../styles/divs';
 import {BaseForm, BaseInput} from '../styles/forms';
@@ -91,18 +91,18 @@ const LeftContainer = () => {
 			back={light_Background}
 		>
 			<div>
-				<IconButton onClick={sideBarhandleSize(true)}>
+				<PrevIconButton onClick={sideBarhandleSize(true)}>
 					<FaBars style={{color: 'white'}} />
-				</IconButton>
+				</PrevIconButton>
 				<span>LOGO</span>
 			</div>
 			<div>
-				<IconButton onClick={onClickVisibleForm}>
+				<PrevIconButton onClick={onClickVisibleForm}>
 					<FaPlus />
-				</IconButton>
-				<IconButton onClick={onClickAddFolder}>
+				</PrevIconButton>
+				<PrevIconButton onClick={onClickAddFolder}>
 					<RiFolderAddLine />
-				</IconButton>
+				</PrevIconButton>
 				{/*<IconButton onClick={refresh}>*/}
 				{/*	<MdRefresh />*/}
 				{/*</IconButton>*/}

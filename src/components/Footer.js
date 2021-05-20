@@ -8,7 +8,7 @@ import {
 	SET_SEARCH_MODE,
 } from '../reducers/ssht';
 
-import {IconButton} from '../styles/buttons';
+import {PrevIconButton} from '../styles/buttons';
 import {BaseSpan} from '../styles/texts';
 import {light_Background, SMALL_FONT} from '../styles/global';
 
@@ -32,15 +32,15 @@ const Footer = () => {
 		<div>
 			{tab.filter((v) => v.display && v.type === 'SSHT').length !== 0 && (
 				<>
-					<IconButton onClick={onClickDeceaseFont}>
+					<PrevIconButton onClick={onClickDeceaseFont}>
 						<FaSearchMinus />
-					</IconButton>
-					<IconButton onClick={onClickIncreaseFont}>
+					</PrevIconButton>
+					<PrevIconButton onClick={onClickIncreaseFont}>
 						<FaSearchPlus />
-					</IconButton>
-					<IconButton onClick={onClickOpenSearchBar}>
+					</PrevIconButton>
+					<PrevIconButton onClick={onClickOpenSearchBar}>
 						<FaSearch />
-					</IconButton>
+					</PrevIconButton>
 				</>
 			)}
 			<BaseSpan padding={'0px 8px'} fontSize={'14px'}>

@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types';
 
 import {BaseModal} from '../styles/modals';
 import {BaseSpan} from '../styles/texts';
-import {IconButton, PopupButton} from '../styles/buttons';
+import {PrevIconButton, PopupButton} from '../styles/buttons';
 import {MainHeader} from '../styles/cards';
 import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
 import {SSHT_CHANGE_SNIPPET} from '../reducers/ssht';
@@ -114,16 +114,16 @@ const SnippetsManeger = ({open, setOpen}) => {
 			<MainHeader justify={'space-between'}>
 				<BaseSpan padding={'0px 8px'}>
 					Snippets Manager
-					<IconButton onClick={onClickDeleteSnippet}>
+					<PrevIconButton onClick={onClickDeleteSnippet}>
 						<FaMinus />
-					</IconButton>
-					<IconButton onClick={onClickAddSnippet}>
+					</PrevIconButton>
+					<PrevIconButton onClick={onClickAddSnippet}>
 						<FaPlus />
-					</IconButton>
+					</PrevIconButton>
 				</BaseSpan>
-				<IconButton className={'right'}>
+				<PrevIconButton className={'right'}>
 					<FaTimes onClick={onClickCancel} />
-				</IconButton>
+				</PrevIconButton>
 			</MainHeader>
 			<Card.Body>
 				<Row>

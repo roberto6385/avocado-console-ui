@@ -1,22 +1,95 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Col, Form, Modal} from 'react-bootstrap';
-import {FaTimes} from 'react-icons/all';
 
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
-import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import {IconButton, PopupButton} from '../../styles/buttons';
-import {FlexBox} from '../../styles/divs';
-import {BaseModal} from '../../styles/modals';
-import {MainHeader} from '../../styles/cards';
-import {BaseSpan} from '../../styles/texts';
+import Modal from 'react-modal';
+import {
+	ACCOUNT_BUTTON_WIDTH,
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
+	IconButton,
+	FOLDER_HEIGHT,
+	MAIN_HEIGHT,
+	PATH_SEARCH_INPUT_HEIGHT,
+	NameButton,
+	Default_Button,
+	Primary_Button,
+} from '../../styles/global_design';
+import {IoCloseOutline} from 'react-icons/all';
+import styled from 'styled-components';
+import Input_Container from '../container/Input_Container';
+import Select_Container from '../container/Select_Container';
+
+const _Modal = styled(Modal)`
+	border: 1px solid ${BORDER_COLOR};
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	transform: translate(-50%, -50%);
+	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
+	background: white;
+	border-radius: 4px;
+	width: 600px;
+`;
+
+const _Header = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${FOLDER_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: space-between;
+	padding: 0px 16px;
+	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+const _Footer = styled.div`
+	display: flex;
+	ailgn-items: center;
+	height: ${MAIN_HEIGHT};
+	font-size: ${AVOCADO_FONTSIZE};
+	justify-content: flex-end;
+	padding: 13px 8px;
+	border-top: 1px solid ${BORDER_COLOR};
+`;
+
+const Span = styled.span`
+	line-height: ${FOLDER_HEIGHT};
+`;
+
+const Input = styled.input`
+	width: ${ACCOUNT_BUTTON_WIDTH};
+	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+`;
+
+const LongInput = styled(Input)`
+	width: 100%;
+`;
+
+const _Form = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	font-size: ${AVOCADO_FONTSIZE};
+	padding: 18px 16px 29px 16px;
+`;
+const Item_Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
@@ -28,15 +101,34 @@ const AddServerForm = () => {
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
 	const [port, onChangePort, setPort] = useInput(10021);
-	const [user, onChangeUser, setUser] = useInput('root');
+	const [identity, onChangeIdentity, setIdentity] = useInput('root');
 	const [
 		authentication,
 		onChangeAuthentication,
 		setAuthentication,
 	] = useInput('Password');
 	const [key, onChangeKey] = useInput('');
+
+	const [username, onChangeUsername, setUsername] = useInput('root');
 	const [password, onChangePassword, setPassword] = useInput('Netand141)');
 	const [note, onChangeNote, setNote] = useInput('');
+
+	const protocol_options = [
+		{value: 'SSH2', label: 'SSH2'},
+		{value: 'SFTP', label: 'SFTP'},
+	];
+	const authentication_options = [
+		{value: 'Password', label: 'Password'},
+		{value: 'KeyFile', label: 'Key File'},
+	];
+
+	// user option은 reducer-common에서 account와 연결된다.
+	// 현재는 디자인 작업을 위해 option을 별도로 생성했다.
+	// options와 account의 저장 방식을 통일할 필요가 있다.
+	const user_options = [
+		{value: 'root', label: 'root'},
+		{value: 'ctl', label: 'ctl'},
+	];
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -56,7 +148,7 @@ const AddServerForm = () => {
 					data: {
 						token: userTicket,
 						host: host,
-						user: user,
+						user: identity,
 						password: password,
 						port: port,
 					},
@@ -71,7 +163,7 @@ const AddServerForm = () => {
 					const newData = {
 						name: name,
 						host: host,
-						user: user,
+						user: identity,
 						password: password,
 						port: port,
 					};
@@ -88,10 +180,7 @@ const AddServerForm = () => {
 								data: newData,
 							},
 						});
-				} else if (
-					message !== undefined &&
-					message.type === 'DISCONNECT'
-				) {
+				} else if (message.type === 'DISCONNECT') {
 					dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
 				} else console.log('V AddServerForm onmessage: ', message);
 			};
@@ -99,7 +188,7 @@ const AddServerForm = () => {
 		[
 			name,
 			host,
-			user,
+			identity,
 			password,
 			port,
 			dispatch,
@@ -108,9 +197,9 @@ const AddServerForm = () => {
 		],
 	);
 
-	const onClickCloseForm = useCallback(() => {
+	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (add_server_form_popup.open) {
@@ -119,7 +208,7 @@ const AddServerForm = () => {
 				setProtocol('SSH2');
 				setHost('211.253.10.9');
 				setPort(10021);
-				setUser('root');
+				setIdentity('root');
 				setAuthentication('Password');
 				setPassword('Netand141)');
 			} else {
@@ -130,7 +219,7 @@ const AddServerForm = () => {
 				setProtocol('SSH2');
 				setHost(data.host);
 				setPort(data.port);
-				setUser(data.user);
+				setIdentity(data.user);
 				setAuthentication('Password');
 				setPassword(data.password);
 			}
@@ -138,172 +227,102 @@ const AddServerForm = () => {
 	}, [add_server_form_popup]);
 
 	return (
-		<BaseModal
-			show={add_server_form_popup.open}
-			onHide={onClickCloseForm}
-			backdrop='static'
-			width={'700px'}
+		<_Modal
+			isOpen={add_server_form_popup.open}
+			onRequestClose={closeModal}
+			ariaHideApp={false}
+			shouldCloseOnOverlayClick={false}
 		>
-			<MainHeader justify={'space-between'}>
-				<BaseSpan padding={'0px 8px'}>Add Server</BaseSpan>
-				<IconButton className={'right'}>
-					<FaTimes onClick={onClickCloseForm} />
+			<_Header>
+				<Span>Add Server</Span>
+				<IconButton onClick={closeModal}>
+					<IoCloseOutline />
 				</IconButton>
-			</MainHeader>
-			<Modal.Body>
-				<Form onSubmit={onSubmitForm}>
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column sm={2}>
-							Name
-						</Form.Label>
-						<Col sm={4}>
-							<Form.Control
-								onChange={onChangeName}
-								value={name}
-								type='text'
-								placeholder='Server Name'
-								required
-							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Protocol
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								as='select'
-								value={protocol}
-								onChange={onChangeProtocol}
-								required
-							>
-								<option key='SSH2' value='SSH2'>
-									SSH2
-								</option>
-								<option key='protocol2' value='protocol2'>
-									protocol2
-								</option>
-							</Form.Control>
-						</Col>
-					</Form.Row>
-
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column sm={2}>
-							Address
-						</Form.Label>
-						<Col sm={4}>
-							<Form.Control
-								onChange={onChangeHost}
-								value={host}
-								type='text'
-								placeholder='Host Name or IP'
-								required
-							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Port
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								onChange={onChangePort}
-								value={port}
-								type='number'
-								placeholder='Port'
-								required
-							/>
-						</Col>
-					</Form.Row>
-
-					<Form.Row className={'add-server-form-row'}>
-						<Form.Label column sm={2}>
-							Username
-						</Form.Label>
-						<Col sm={4}>
-							<Form.Control
-								onChange={onChangeUser}
-								value={user}
-								type='text'
-								placeholder='Login Username'
-								required
-							/>
-						</Col>
-						<Col xs={1} />
-						<Form.Label column sm={2}>
-							Authentication
-						</Form.Label>
-						<Col sm={3}>
-							<Form.Control
-								as='select'
-								value={authentication}
-								onChange={onChangeAuthentication}
-								required
-							>
-								<option value='Password'>Password</option>
-								<option value='Key file'>Key file</option>
-							</Form.Control>
-						</Col>
-					</Form.Row>
-
-					{authentication === 'Password' ? (
-						<Form.Group className={'add-server-form-row'}>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
-								value={password}
-								onChange={onChangePassword}
-								type='password'
-								placeholder='password'
-								required
-							/>
-						</Form.Group>
-					) : (
-						<>
-							<Form.Group className={'add-server-form-row'}>
-								<Form.Label>Private Key File</Form.Label>
-								<Form.File
-									value={key}
-									onChange={onChangeKey}
-									label='Login Password'
-									custom
-								/>
-							</Form.Group>
-
-							<Form.Group className={'add-server-form-row'}>
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									value={password}
-									onChange={onChangePassword}
-									type='password'
-									placeholder='Key File Password'
-									required
-								/>
-							</Form.Group>
-						</>
-					)}
-
-					<Form.Group className={'add-server-form-row'}>
-						<Form.Label>Note</Form.Label>
-						<Form.Control
-							value={note}
-							onChange={onChangeNote}
-							type='text'
-							placeholder='Note'
+			</_Header>
+			<_Form>
+				<Item_Container>
+					<Input_Container title={'Name'}>
+						<Input
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							placeholder={'Server Name'}
 						/>
-					</Form.Group>
+					</Input_Container>
+					<Select_Container
+						title='Protocol'
+						options={protocol_options}
+						value={protocol}
+						setValue={setProtocol}
+					/>
+				</Item_Container>
+				<Item_Container>
+					<Input_Container title={'Address'}>
+						<Input
+							value={host}
+							onChange={(e) => setHost(e.target.value)}
+							placeholder={'Host or IP'}
+						/>
+					</Input_Container>
 
-					<FlexBox justify={'center'}>
-						<PopupButton
-							onClick={onClickCloseForm}
-							back={SUB_COLOR}
-						>
-							Cancel
-						</PopupButton>
-						<PopupButton type='submit' back={MAIN_COLOR}>
-							Save
-						</PopupButton>
-					</FlexBox>
-				</Form>
-			</Modal.Body>
-		</BaseModal>
+					<Input_Container
+						title={'Port'}
+						width={ACCOUNT_BUTTON_WIDTH}
+					>
+						<Input
+							value={port}
+							onChange={(e) => setPort(e.target.value)}
+							placeholder={'Port'}
+						/>
+					</Input_Container>
+				</Item_Container>
+				<Item_Container>
+					<Select_Container
+						title='Identity'
+						options={user_options}
+						value={identity}
+						setValue={setIdentity}
+					/>
+					<Select_Container
+						title='Authentication'
+						options={authentication_options}
+						value={authentication}
+						setValue={setAuthentication}
+					/>
+				</Item_Container>
+				<Item_Container>
+					<Input_Container title={'Username'}>
+						<LongInput
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+							placeholder={'Username'}
+						/>
+					</Input_Container>
+				</Item_Container>
+				<Item_Container>
+					<Input_Container title={'Password'}>
+						<LongInput
+							type='password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							placeholder={'Password'}
+						/>
+					</Input_Container>
+				</Item_Container>
+				<Item_Container>
+					<Input_Container title={'Note'}>
+						<LongInput
+							value={note}
+							onChange={(e) => setNote(e.target.value)}
+							placeholder={'Note'}
+						/>
+					</Input_Container>
+				</Item_Container>
+			</_Form>
+			<_Footer>
+				<Default_Button>Cancel</Default_Button>
+				<Primary_Button>Save</Primary_Button>
+			</_Footer>
+		</_Modal>
 	);
 };
 

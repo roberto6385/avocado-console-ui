@@ -5,7 +5,7 @@ import useInput from '../../hooks/useInput';
 
 import {FaTimes} from 'react-icons/all';
 import * as PropTypes from 'prop-types';
-import {IconButton} from '../../styles/buttons';
+import {PrevIconButton} from '../../styles/buttons';
 
 const ChangePasswordForm = ({open, setOpen}) => {
 	const [currentPassword, onChangeCurrentPassword] = useInput('');
@@ -37,9 +37,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 		>
 			<Modal.Header as='h5'>
 				Change Password
-				<IconButton className={'right'}>
+				<PrevIconButton className={'right'}>
 					<FaTimes onClick={onClickCloseForm} />
-				</IconButton>
+				</PrevIconButton>
 			</Modal.Header>
 			<Modal.Body>
 				<Form onSubmit={onSubmitForm}>

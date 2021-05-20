@@ -5,7 +5,7 @@ import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
-import {IconButton} from '../styles/buttons';
+import {PrevIconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
 import {LIGHT_BACK_COLOR, RIGHT_SIDE_WIDTH} from '../styles/global_design';
 import styled from 'styled-components';
@@ -70,9 +70,9 @@ const RightCornerIcons = () => {
 
 	return (
 		<CornerIcons_Container>
-			<IconButton onClick={openPreferences('Account')}>
+			<PrevIconButton onClick={openPreferences('Account')}>
 				<HiUserCircle />
-			</IconButton>
+			</PrevIconButton>
 			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />
 			<DropdownMenu icon={<FaTh />} menu={column_list} />
 		</CornerIcons_Container>

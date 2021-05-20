@@ -3,7 +3,7 @@ import React, {useCallback} from 'react';
 import {Col, Container, Form, Row, Table} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaPlus, FaRegTrashAlt} from 'react-icons/all';
-import {IconButton} from '../../styles/buttons';
+import {PrevIconButton} from '../../styles/buttons';
 import {ColBox, RowBox} from '../../styles/divs';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
@@ -130,18 +130,18 @@ const IdentitiesContainer = () => {
 														placeholder={'search'}
 													/>
 												</form>
-												<IconButton
+												<PrevIconButton
 													onClick={
 														onClickVisibleAddAccountForm
 													}
 												>
 													<FaPlus />
-												</IconButton>
-												<IconButton
+												</PrevIconButton>
+												<PrevIconButton
 													onClick={deleteAccount}
 												>
 													<FaRegTrashAlt />
-												</IconButton>
+												</PrevIconButton>
 											</RowBox>
 										</RowBox>
 									</th>

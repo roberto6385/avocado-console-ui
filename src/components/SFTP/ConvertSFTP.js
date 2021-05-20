@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ConvertIcon} from '../../styles/sftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
-import {IconButton} from '../../styles/buttons';
-import {Button} from '../../styles/global_design';
+import {PrevIconButton} from '../../styles/buttons';
+import {IconButton} from '../../styles/global_design';
 import {RiArrowUpDownLine} from 'react-icons/all';
 
 const ConvertSFTP = ({server_id}) => {
@@ -29,9 +29,9 @@ const ConvertSFTP = ({server_id}) => {
 	}, [server_id, userTicket, dispatch]);
 
 	return (
-		<Button onClick={connection}>
+		<IconButton onClick={connection}>
 			<RiArrowUpDownLine />
-		</Button>
+		</IconButton>
 	);
 };
 

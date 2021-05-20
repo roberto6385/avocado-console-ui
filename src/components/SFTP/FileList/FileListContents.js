@@ -27,7 +27,7 @@ import {
 import styled from 'styled-components';
 import {
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	THIRD_HEIGHT,
 } from '../../../styles/global_design';
 
@@ -239,14 +239,14 @@ const FileListContents = ({uuid}) => {
 							<Th min={'105px'}>{item.permission}</Th>
 							<Th min={'100px'} justify={'flex-end'}>
 								{item.type === 'file' && (
-									<Button onClick={edit(item)}>
+									<IconButton onClick={edit(item)}>
 										<MdEdit />
-									</Button>
+									</IconButton>
 								)}
 								{item.name !== '..' && (
-									<Button onClick={download(item)}>
+									<IconButton onClick={download(item)}>
 										<MdFileDownload />
-									</Button>
+									</IconButton>
 								)}
 							</Th>
 						</FileList_Tr>

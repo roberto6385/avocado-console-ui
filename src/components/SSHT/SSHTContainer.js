@@ -9,7 +9,7 @@ import DropdownMenu from '../DropdownMenu';
 import SnippetsManeger from '../SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
 import {light_Background} from '../../styles/global';
-import {Button, SUB_HEIGHT} from '../../styles/global_design';
+import {IconButton, SUB_HEIGHT} from '../../styles/global_design';
 import styled from 'styled-components';
 
 const SSHT_Container = styled.div`
@@ -62,9 +62,9 @@ const SSHTContainer = ({uuid, server_id}) => {
 		<>
 			<SSHT_Container back={light_Background}>
 				<DropdownMenu icon={<RiFileTextLine />} menu={column} />
-				<Button onClick={onCLickFullScreen}>
+				<IconButton onClick={onCLickFullScreen}>
 					<IoMdExpand />
-				</Button>
+				</IconButton>
 				<ConvertSFTP server_id={server_id} />
 			</SSHT_Container>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />

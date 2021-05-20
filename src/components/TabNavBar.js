@@ -7,7 +7,7 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {TabSSHTIcon, TabSFTPIcon} from '../styles/common';
 import {disconnectAction} from '../reducers/sftp';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
-import {IconButton} from '../styles/buttons';
+import {PrevIconButton} from '../styles/buttons';
 import RightCornerIcons from './RightCornerIcons';
 import {MainHeader} from '../styles/cards';
 import {BaseNav, TabNavItem} from '../styles/navs';
@@ -115,9 +115,9 @@ const TabNavBar = () => {
 								)}
 								{data.server.name}
 							</BaseSpan>
-							<IconButton onClick={onClickDelete(data)}>
+							<PrevIconButton onClick={onClickDelete(data)}>
 								<FaTimes />
-							</IconButton>
+							</PrevIconButton>
 							{/*</NavLink>*/}
 						</RowBox>
 					))}

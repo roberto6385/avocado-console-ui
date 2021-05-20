@@ -12,7 +12,7 @@ const P = styled.p`
 `;
 
 const Item_Container = styled.div`
-	padding: 16px 22px;
+	padding: 16px;
 `;
 
 const background_theme = [
@@ -23,17 +23,33 @@ const background_theme = [
 const Preferences_Container = () => {
 	const [textCompletion, setTextCompletion] = useState(false);
 	const [copyText, setCopyText] = useState(false);
+	const [generalTheme, setGeneralTheme] = useState('light_mode');
 
 	return (
 		<React.Fragment>
 			<Item_Container>
 				<P>General</P>
-				<Select_Container title='UI Theme' options={background_theme} />
+				<Select_Container
+					title='UI Theme'
+					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
+				/>
 			</Item_Container>
 			<Item_Container>
 				<P>Terminal</P>
-				<Select_Container title='UI Theme' options={background_theme} />
-				<Select_Container title='UI Theme' options={background_theme} />
+				<Select_Container
+					title='UI Theme'
+					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
+				/>
+				<Select_Container
+					title='UI Theme'
+					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
+				/>
 				<Checkbox_Container
 					title={'Text completion (IntelliSense)'}
 					value={textCompletion}
@@ -50,6 +66,8 @@ const Preferences_Container = () => {
 				<Select_Container
 					title='Editor Theme'
 					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
 				/>
 			</Item_Container>
 		</React.Fragment>

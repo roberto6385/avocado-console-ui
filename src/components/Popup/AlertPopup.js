@@ -5,7 +5,7 @@ import {FaTimes} from 'react-icons/all';
 import {SUB_COLOR} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
-import {IconButton, PopupButton} from '../../styles/buttons';
+import {PrevIconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
@@ -41,9 +41,9 @@ const AlertPopup = () => {
 						alert_popup.key,
 					) && AlertHeader[alert_popup.key]}
 				</BaseSpan>
-				<IconButton className={'right'}>
+				<PrevIconButton className={'right'}>
 					<FaTimes onClick={handleClose} />
-				</IconButton>
+				</PrevIconButton>
 			</MainHeader>
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(

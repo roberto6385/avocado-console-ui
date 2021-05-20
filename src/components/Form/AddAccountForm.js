@@ -6,7 +6,7 @@ import {FaTimes} from 'react-icons/all';
 import useInput from '../../hooks/useInput';
 import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
-import {IconButton, PopupButton} from '../../styles/buttons';
+import {PrevIconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
@@ -112,9 +112,9 @@ const AddAccountForm = () => {
 		>
 			<MainHeader justify={'space-between'}>
 				<BaseSpan padding={'0px 8px'}>Add Account</BaseSpan>
-				<IconButton className={'right'}>
+				<PrevIconButton className={'right'}>
 					<FaTimes onClick={onClickCloseForm} />
-				</IconButton>
+				</PrevIconButton>
 			</MainHeader>
 			<Modal.Body>
 				<Form onSubmit={onSubmitForm}>

@@ -17,7 +17,7 @@ import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	SERVER_HOVER_COLOR,
 	Avocado_span,
@@ -124,7 +124,7 @@ const Server = ({data, indent}) => {
 			}
 			border={
 				clicked_server === data.key
-					? `2px solid ${AVOCADO_COLOR}`
+					? `2px solid ${GREEN_COLOR}`
 					: undefined
 			}
 			left={(indent * 6 + 6).toString() + 'px'}
@@ -133,7 +133,7 @@ const Server = ({data, indent}) => {
 				size={MIDDLE_FONTSIZE}
 				color={
 					clicked_server === data.key
-						? AVOCADO_COLOR
+						? GREEN_COLOR
 						: ICON_LIGHT_COLOR
 				}
 			>

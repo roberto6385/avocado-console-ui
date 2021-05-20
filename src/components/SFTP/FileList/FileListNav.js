@@ -16,11 +16,11 @@ import {
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp';
-import {IconButton} from '../../../styles/buttons';
+import {PrevIconButton} from '../../../styles/buttons';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	ICON_LIGHT_COLOR,
 	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
@@ -45,7 +45,7 @@ const FileListNav_Container = styled.div`
 	height: ${SUB_HEIGHT};
 `;
 
-const FileList_Button = styled(Button)`
+const FileList_Button = styled(IconButton)`
 	color: ${ICON_LIGHT_COLOR};
 `;
 

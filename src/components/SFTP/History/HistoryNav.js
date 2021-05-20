@@ -4,12 +4,12 @@ import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
-import {IconButton} from '../../../styles/buttons';
+import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 import {
 	Avocado_span,
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
@@ -78,20 +78,20 @@ const HistoryNav = ({uuid}) => {
 				{/*<Button>*/}
 				{/*	<IoCheckmarkDoneSharp />*/}
 				{/*</Button>*/}
-				<Button
+				<IconButton
 					color={ICON_LIGHT_COLOR}
 					id='btn-upload'
 					onClick={upload}
 				>
 					<MdFileUpload />
-				</Button>
-				<Button
+				</IconButton>
+				<IconButton
 					color={ICON_LIGHT_COLOR}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
 					<MdDelete className={'history_contents'} />
-				</Button>
+				</IconButton>
 			</div>
 		</HistoryNav_Container>
 	);

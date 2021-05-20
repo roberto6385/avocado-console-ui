@@ -6,9 +6,9 @@ import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SSHTContainer from '../SSHT/SSHTContainer';
 import SFTPContainer from '../SFTP/SFTPContainer';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	Avocado_span,
-	Button,
+	IconButton,
 	ICON_DARK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
@@ -76,7 +76,7 @@ const SSH_SFTP = ({uuid, type, server}) => {
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<SSH_SFTP_Header>
 					<Avocado_span
-						color={current_tab === uuid ? AVOCADO_COLOR : undefined}
+						color={current_tab === uuid ? GREEN_COLOR : undefined}
 					>
 						{type === 'SSHT' ? (
 							<RiTerminalFill />
@@ -85,9 +85,9 @@ const SSH_SFTP = ({uuid, type, server}) => {
 						)}
 						<Avocado_span>{server.name}</Avocado_span>
 					</Avocado_span>
-					<Button color={ICON_DARK_COLOR} onClick={onClickDelete}>
+					<IconButton color={ICON_DARK_COLOR} onClick={onClickDelete}>
 						<IoCloseOutline />
-					</Button>
+					</IconButton>
 				</SSH_SFTP_Header>
 			)}
 			{type === 'SSHT' ? (

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
-	Button,
+	IconButton,
 	FONT_COLOR,
 	ICON_DARK_COLOR,
 	ICON_LIGHT_COLOR,
@@ -26,6 +26,11 @@ import {
 } from 'react-icons/all';
 import NavList from '../NavList/NavList';
 import useInput from '../../hooks/useInput';
+import {
+	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_CONFIRM_POPUP,
+} from '../../reducers/popup';
+import {useDispatch} from 'react-redux';
 
 const Aside_Container = styled.aside`
 	display: flex;
@@ -64,7 +69,7 @@ const Folder_Server_Container = styled.div`
 const Header_Span = styled.span`
 	font-family: 'Roboto Slab', serif;
 	font-size: ${LOGO_FONTSIZE};
-	color: ${AVOCADO_COLOR};
+	color: ${GREEN_COLOR};
 `;
 const Server_Container_Span = styled.span`
 	font-size: ${AVOCADO_FONTSIZE};
@@ -81,24 +86,39 @@ const Aside_Form_Input = styled.input`
 `;
 
 const Aside = () => {
+	const dispatch = useDispatch();
 	const [search, onChangeSearch] = useInput('');
+
+	const newFolder = useCallback(() => {
+		dispatch({
+			type: OPEN_CONFIRM_POPUP,
+			data: {key: 'new_folder'},
+		});
+	}, [dispatch]);
+
+	const newServer = useCallback(() => {
+		dispatch({
+			type: OPEN_ADD_SERVER_FORM_POPUP,
+			data: {type: 'add'},
+		});
+	}, [dispatch]);
 
 	return (
 		<Aside_Container>
 			<Aside_Header>
-				<Button>
+				<IconButton>
 					<GiHamburgerMenu />
-				</Button>
+				</IconButton>
 				<Header_Span>Avocado</Header_Span>
 			</Aside_Header>
 			<Add_Server_Container>
-				<Button color={FONT_COLOR}>
+				<IconButton color={FONT_COLOR} onClick={newServer}>
 					<AiOutlinePlus />
-				</Button>
+				</IconButton>
 				<Server_Container_Span>New Server</Server_Container_Span>
-				<Button>
+				<IconButton onClick={newFolder}>
 					<MdCreateNewFolder />
-				</Button>
+				</IconButton>
 			</Add_Server_Container>
 			<Aside_Form>
 				<Avocado_span size={MIDDLE_FONTSIZE}>

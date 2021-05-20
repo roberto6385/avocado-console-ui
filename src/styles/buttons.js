@@ -34,7 +34,7 @@ export const TextButton = styled.button`
 `;
 
 // 하위의 요소들은 Base Ele의 속성을 상속받아 사용.
-export const IconButton = styled(BaseButton)`
+export const PrevIconButton = styled(BaseButton)`
 	background-color: ${(props) => props?.back || 'transparent'};
 	&:hover {
 		color: ${MAIN_COLOR};

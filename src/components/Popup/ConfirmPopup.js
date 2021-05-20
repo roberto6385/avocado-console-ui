@@ -23,7 +23,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {IconButton, PopupButton} from '../../styles/buttons';
+import {PrevIconButton, PopupButton} from '../../styles/buttons';
 import {FlexBox} from '../../styles/divs';
 import {BaseModal} from '../../styles/modals';
 import {MainHeader} from '../../styles/cards';
@@ -306,9 +306,9 @@ const ConfirmPopup = () => {
 						confirm_popup.key,
 					) && ConfirmTopMessage[confirm_popup.key]}
 				</BaseSpan>
-				<IconButton className={'right'}>
+				<PrevIconButton className={'right'}>
 					<FaTimes onClick={handleClose} />
-				</IconButton>
+				</PrevIconButton>
 			</MainHeader>
 			<Card.Body>
 				{Object.prototype.hasOwnProperty.call(

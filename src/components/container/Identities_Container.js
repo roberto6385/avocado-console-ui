@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	AVOCADO_HOVER_COLOR,
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	LIGHT_MODE_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
@@ -54,7 +54,7 @@ const Account_Button = styled.button`
 	width: ${ACCOUNT_BUTTON_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	border: none;
-	background: ${AVOCADO_COLOR};
+	background: ${GREEN_COLOR};
 	border-radius: 4px;
 	font-size: ${AVOCADO_FONTSIZE};
 	color: white;
@@ -97,9 +97,9 @@ const Identities_Container = () => {
 								<Span>{item.type}</Span>
 							</Authentication_Container>
 							<Button_Container>
-								<Button>
+								<IconButton>
 									<MdDelete />
-								</Button>
+								</IconButton>
 							</Button_Container>
 						</Li_Container>
 					);

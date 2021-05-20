@@ -3,16 +3,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
 	SUB_HEIGHT,
 } from '../../styles/global_design';
-import Preferences_Container from '../container/Preferences_Container';
-import Identities_Container from '../container/Identities_Container';
+import Preferences_Container from './Preferences_Container';
+import Identities_Container from './Identities_Container';
 import {IoCloseOutline} from 'react-icons/all';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
-import Account_Container from '../container/Account_Container';
+import Account_Container from './Account_Container';
 
 const Container = styled.div`
 	display: none;
@@ -34,7 +34,7 @@ const Header = styled.div`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const Close_Button = styled(Button)`
+const Close_Button = styled(IconButton)`
 	padding: 6px 0px 6px 6px;
 `;
 

@@ -12,7 +12,7 @@ import {
 import {ColBox} from '../../styles/divs';
 import {MainHeader} from '../../styles/cards';
 import {MAIN_COLOR} from '../../styles/global';
-import {IconButton} from '../../styles/buttons';
+import {PrevIconButton} from '../../styles/buttons';
 
 const LeftSetting = () => {
 	const [open, setOpen] = useState(false);
@@ -24,9 +24,9 @@ const LeftSetting = () => {
 	return (
 		<ColBox width={'250px'}>
 			<MainHeader back={MAIN_COLOR} color={'white'}>
-				<IconButton>
+				<PrevIconButton>
 					<FaBars style={{color: 'white'}} />
-				</IconButton>
+				</PrevIconButton>
 				<span>LOGO</span>
 			</MainHeader>
 

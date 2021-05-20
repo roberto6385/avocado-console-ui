@@ -34,11 +34,11 @@ import {formatByteSizeString} from '../listConversion';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
 	Avocado_span,
 	BORDER_COLOR,
-	Button,
+	IconButton,
 	DROP_SPACE_HEIGHT,
 	EIGHTEEN,
 	FONT_COLOR,
@@ -64,7 +64,7 @@ const DropSpaceDiv = styled.div`
 const DropSpace_Button = styled.button`
 	width: ${TAB_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	background: ${AVOCADO_COLOR};
+	background: ${GREEN_COLOR};
 	color: white;
 	border-radius: 4px;
 	border: none;
@@ -97,7 +97,7 @@ const Progress = styled.div`
 const Bar = styled.div`
 	width: ${(props) => props?.width || '0%'};
 	height: 2px;
-	background: ${AVOCADO_COLOR};
+	background: ${GREEN_COLOR};
 `;
 
 const HistoryContents = ({uuid}) => {
@@ -295,7 +295,7 @@ const HistoryContents = ({uuid}) => {
 									color={
 										history.progress !== 100
 											? ICON_LIGHT_COLOR
-											: AVOCADO_COLOR
+											: GREEN_COLOR
 									}
 								>
 									{history.progress !== 100 ? (
@@ -330,7 +330,7 @@ const HistoryContents = ({uuid}) => {
 								>
 									{formatByteSizeString(history.size)}
 								</Avocado_span>
-								<Button
+								<IconButton
 									onClick={removeHistory(history)}
 									className={'history_contents'}
 									padding={'0px 16px 0px 6px'}
@@ -343,7 +343,7 @@ const HistoryContents = ({uuid}) => {
 									}
 								>
 									<IoCloseOutline />
-								</Button>
+								</IconButton>
 
 								{history.progress !== 100 && (
 									<Progress>

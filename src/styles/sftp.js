@@ -7,7 +7,7 @@ import {
 	RiArrowUpDownLine,
 } from 'react-icons/all';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	ICON_LIGHT_COLOR,
 	LOGO_FONTSIZE,
 	MIDDLE_FONTSIZE,
@@ -27,5 +27,5 @@ export const FileIcon = styled(BsFileEarmark)`
 export const DirectoryIcon = styled(IoMdFolderOpen)`
 	font-size: ${MIDDLE_FONTSIZE};
 	margin-right: 8px;
-	color: ${AVOCADO_COLOR};
+	color: ${GREEN_COLOR};
 `;

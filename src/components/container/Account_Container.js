@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Input_Container from './Input_Container';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 } from '../../styles/global_design';
+import {useHistory} from 'react-router-dom';
 
 const Container = styled.div`
 	padding: 15px 16px;
@@ -23,6 +24,15 @@ const Input = styled.input`
 `;
 
 const Account_Container = () => {
+	const history = useHistory();
+
+	const changePath = useCallback(
+		(path) => () => {
+			history.push(path);
+		},
+		[],
+	);
+
 	const [account, setAccount] = useState('');
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -51,9 +61,10 @@ const Account_Container = () => {
 			</Input_Container>
 			<Input_Container title={'Authorization'}>
 				<Input
+					onClick={changePath('/account')}
 					type='button'
 					value={'Change Authorization'}
-					back={AVOCADO_COLOR}
+					back={GREEN_COLOR}
 					color={'white'}
 				/>
 			</Input_Container>

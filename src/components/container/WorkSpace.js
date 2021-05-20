@@ -7,9 +7,9 @@ import SSH_SFTP from './SSH_SFTP';
 import styled, {keyframes} from 'styled-components';
 import RightCornerIcons from '../RightCornerIcons';
 import {
-	AVOCADO_COLOR,
+	GREEN_COLOR,
 	Avocado_span,
-	Button,
+	IconButton,
 	EIGHTEEN,
 	ICON_DARK_COLOR,
 	LIGHT_BACK_COLOR,
@@ -29,7 +29,7 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
 import {Nav} from 'react-bootstrap';
 import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
-import SideMenuContainer from '../RightSide/SideMenuContainer';
+import SideMenuContainer from './SideMenuContainer';
 
 const WorkSpace_Container = styled.div`
 	display: flex;
@@ -179,12 +179,12 @@ const WorkSpace = () => {
 								}
 								color={
 									current_tab === data.uuid
-										? AVOCADO_COLOR
+										? GREEN_COLOR
 										: 'black'
 								}
 								border={
 									current_tab === data.uuid
-										? `2px solid ${AVOCADO_COLOR}`
+										? `2px solid ${GREEN_COLOR}`
 										: undefined
 								}
 							>
@@ -198,13 +198,13 @@ const WorkSpace = () => {
 								<Avocado_span flex={1} padding={'0px'}>
 									{data.server.name}
 								</Avocado_span>
-								<Button
+								<IconButton
 									size={EIGHTEEN}
 									onClick={onClickDelete(data)}
 									color={ICON_DARK_COLOR}
 								>
 									<IoCloseOutline />
-								</Button>
+								</IconButton>
 							</TabItem>
 						</TabNavbar>
 					);

@@ -27,7 +27,7 @@ import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
 import {BaseLi, DropListUl} from '../../../styles/lists';
 import {RowBox} from '../../../styles/divs';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
-import {IconButton} from '../../../styles/buttons';
+import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 
 const DropList_Container = styled.div`
@@ -356,24 +356,24 @@ const FileListDropDown = ({uuid}) => {
 														{item.type === 'file' &&
 															item.name !==
 																'..' && (
-																<IconButton
+																<PrevIconButton
 																	zIndex={1}
 																	onClick={edit(
 																		item,
 																	)}
 																>
 																	<MdEdit />
-																</IconButton>
+																</PrevIconButton>
 															)}
 														{item.name !== '..' && (
-															<IconButton
+															<PrevIconButton
 																zIndex={1}
 																onClick={download(
 																	item,
 																)}
 															>
 																<MdFileDownload />
-															</IconButton>
+															</PrevIconButton>
 														)}
 													</RowBox>
 												</RowBox>

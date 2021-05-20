@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
-import {AVOCADO_COLOR, AVOCADO_FONTSIZE} from '../../styles/global_design';
+import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global_design';
 
 const Container = styled.div`
 	display: flex;
@@ -25,7 +25,7 @@ const Label = styled.label`
 
 const Svg = styled.svg`
 	border-radius: 4px;
-	background: ${AVOCADO_COLOR};
+	background: ${GREEN_COLOR};
 	font-size: 15px !important;
 `;
 
