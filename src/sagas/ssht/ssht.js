@@ -33,7 +33,7 @@ function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
 	const channel = yield call(initChannel, ws);
 	let uuid;
-	console.log(action.data);
+
 	try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
@@ -201,12 +201,6 @@ function* watchSendDisconnection() {
 
 function* watchSendCommand() {
 	yield takeEvery(SSHT_SEND_COMMAND_REQUEST, sendCommand);
-
-	// const reqChannel = yield actionChannel(SSHT_SEND_COMMAND_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 function* watchSendWindowChange() {

@@ -19,7 +19,7 @@ import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
-import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
+import WorkSpaceTabPanels from '../WorkSpaceTabPanels';
 import SideMenuContainer from './SideMenuContainer';
 
 const WorkSpace_Container = styled.div`
@@ -201,7 +201,7 @@ const WorkSpace = () => {
 				<RightCornerIcons />
 			</WorkSpace_Nav>
 			<Main_Container>
-				<WorkSpace_TabPanels />
+				<WorkSpaceTabPanels />
 				<SideMenuContainer />
 			</Main_Container>
 		</WorkSpace_Container>
