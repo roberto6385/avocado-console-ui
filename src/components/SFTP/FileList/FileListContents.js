@@ -44,25 +44,27 @@ const Table = styled.table`
 const Tbody = styled.tbody`
 	background-color: ${(props) => props?.back};
 	flex: 1;
+	width: 100%;
+	min-width: 718px;
 	position: absolute;
 	top: ${THIRD_HEIGHT};
-	overflow: scroll;
+	// right: 0;
+	// left: 0;
+	// bottom: 0;
 	.active {
 		background: ${POPUP_SIDE_COLOR};
-	}
-	tr {
-		cursor: pointer;
-		display: flex;
-		th {
-			padding: 8px !important;
-		}
 	}
 `;
 
 const FileList_Tr = styled.tr`
+	display: flex;
 	height: ${THIRD_HEIGHT};
 	padding: 8px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+	cursor: pointer;
+	th {
+		padding: 8px !important;
+	}
 `;
 
 const FileListContents = ({uuid}) => {
