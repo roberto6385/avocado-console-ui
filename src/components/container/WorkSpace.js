@@ -80,7 +80,6 @@ const Tab_Container = styled.div`
 const WorkSpace = () => {
 	const dispatch = useDispatch();
 	const {tab, current_tab} = useSelector((state) => state.common);
-	const visibleTab = tab.filter((v) => v.display === true);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);

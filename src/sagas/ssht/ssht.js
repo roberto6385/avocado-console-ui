@@ -204,7 +204,7 @@ function* watchSendCommand() {
 }
 
 function* watchSendWindowChange() {
-	yield takeEvery(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield takeLatest(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

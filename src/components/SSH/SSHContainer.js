@@ -17,7 +17,7 @@ const SSHT_Container = styled.div`
 	height: ${SUB_HEIGHT};
 `;
 
-const SSHTContainer = ({uuid, server_id}) => {
+const SSHContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
 	const {ssht, snippets} = useSelector((state) => state.ssht);
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
@@ -26,7 +26,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('full_ssht_' + uuid).requestFullscreen();
-	}, []);
+	}, [uuid]);
 
 	useEffect(() => {
 		const temp = [
@@ -81,9 +81,9 @@ const SSHTContainer = ({uuid, server_id}) => {
 	);
 };
 
-SSHTContainer.propTypes = {
+SSHContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	server_id: PropTypes.number.isRequired,
 };
 
-export default SSHTContainer;
+export default SSHContainer;

@@ -1,17 +1,10 @@
 import styled from 'styled-components';
-import {GoFile, GoFileDirectory} from 'react-icons/go';
 import {
-	BsArrowUpDown,
 	BsFileEarmark,
 	IoMdFolderOpen,
 	RiArrowUpDownLine,
 } from 'react-icons/all';
-import {
-	GREEN_COLOR,
-	ICON_LIGHT_COLOR,
-	LOGO_FONTSIZE,
-	MIDDLE_FONTSIZE,
-} from './global_design';
+import {GREEN_COLOR, ICON_LIGHT_COLOR, MIDDLE_FONTSIZE} from './global_design';
 
 // ConvertSFTP
 export const ConvertIcon = styled(RiArrowUpDownLine)`

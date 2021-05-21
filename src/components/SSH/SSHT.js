@@ -5,17 +5,11 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 
-import {useCookies} from 'react-cookie';
-import {debounce, throttle} from 'lodash';
-
-import useResizeObserver from 'use-resize-observer';
-
 import useInput from '../../hooks/useInput';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
-
 import {SSHTerminal} from '../../styles/divs';
 import styled from 'styled-components';
 import {
@@ -32,6 +26,7 @@ import {
 	MdKeyboardArrowUp,
 	MdSearch,
 } from 'react-icons/all';
+import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
 const SSHT_Container = styled.div`
 	height: 100%;
@@ -73,7 +68,7 @@ const SSHT = ({uuid}) => {
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
 	const [currentLine, setCurrentLine] = useState('');
-	const {ref, width, height} = useResizeObserver();
+	const {ref, width, height} = useDebouncedResizeObserver(500);
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -138,29 +133,23 @@ const SSHT = ({uuid}) => {
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
 	}, [font_size]);
-
-	// useEffect(() => {
-	// 	const windowChangeDebounce = debounce(() => {
-	// 		fitAddon.current.fit();
-	// 		dispatch({
-	// 			type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
-	// 			data: {
-	// 				ws: ws.current,
-	// 				uuid: uuid,
-	// 				data: {
-	// 					cols: sshTerm.cols,
-	// 					rows: sshTerm.rows,
-	// 					width: width,
-	// 					height: height,
-	// 				},
-	// 			},
-	// 		});
-	// 	}, 500);
-	//
-	// 	windowChangeDebounce();
-	// 	return windowChangeDebounce.cancel;
-	// }, [uuid, sshTerm, width, height]);
-
+	//window size change
+	useEffect(() => {
+		console.log(width, height);
+		dispatch({
+			type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+			data: {
+				ws: ws.current,
+				uuid: uuid,
+				data: {
+					cols: sshTerm.cols,
+					rows: sshTerm.rows,
+					width: width,
+					height: height,
+				},
+			},
+		});
+	}, [ws, uuid, sshTerm, width, height]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
