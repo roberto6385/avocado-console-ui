@@ -17,7 +17,7 @@ const SSHT_Container = styled.div`
 	height: ${SUB_HEIGHT};
 `;
 
-const SSHTContainer = ({uuid, server_id}) => {
+const SSHContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
 	const {ssht, snippets} = useSelector((state) => state.ssht);
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
@@ -26,7 +26,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('full_ssht_' + uuid).requestFullscreen();
-	}, []);
+	}, [uuid]);
 
 	useEffect(() => {
 		const temp = [
@@ -58,7 +58,7 @@ const SSHTContainer = ({uuid, server_id}) => {
 	}, [snippets, uuid, ws]);
 
 	return (
-		<>
+		<div style={{width: '100%', height: '100%'}}>
 			<SSHT_Container back={light_Background}>
 				<DropdownMenu
 					icon={
@@ -77,13 +77,13 @@ const SSHTContainer = ({uuid, server_id}) => {
 			</SSHT_Container>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />
-		</>
+		</div>
 	);
 };
 
-SSHTContainer.propTypes = {
+SSHContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	server_id: PropTypes.number.isRequired,
 };
 
-export default SSHTContainer;
+export default SSHContainer;

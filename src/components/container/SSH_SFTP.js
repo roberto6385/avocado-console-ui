@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../../reducers/common';
-import SSHTContainer from '../SSHT/SSHTContainer';
+import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/SFTPContainer';
 import {
 	GREEN_COLOR,
@@ -53,7 +53,7 @@ const Span = styled.span`
 
 const SSH_SFTP = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab, visibleTab} = useSelector((state) => state.common);
+	const {tab, current_tab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 
@@ -82,7 +82,6 @@ const SSH_SFTP = ({uuid, type, server}) => {
 	}, [ssht, sftp, uuid, type]);
 
 	return (
-		// visibleTab.slice().findIndex((it) => it.uuid === uuid) !== -1 && (
 		<SSH_SFTP_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<SSH_SFTP_Header>
@@ -104,13 +103,12 @@ const SSH_SFTP = ({uuid, type, server}) => {
 				</SSH_SFTP_Header>
 			)}
 			{type === 'SSHT' ? (
-				<SSHTContainer uuid={uuid} server_id={server.id} />
+				<SSHContainer uuid={uuid} server_id={server.id} />
 			) : (
 				<SFTPContainer uuid={uuid} />
 			)}
 		</SSH_SFTP_Container>
 	);
-	// );
 };
 
 SSH_SFTP.propTypes = {

@@ -1,18 +1,11 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
-import {PrevIconButton} from '../styles/buttons';
-import {FlexBox} from '../styles/divs';
-import {
-	IconButton,
-	LIGHT_BACK_COLOR,
-	RIGHT_SIDE_WIDTH,
-} from '../styles/global_design';
+import {IconButton, LIGHT_BACK_COLOR} from '../styles/global_design';
 
 const CornerIcons_Container = styled.div`
 	display: flex;

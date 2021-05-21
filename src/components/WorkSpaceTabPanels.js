@@ -1,9 +1,21 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import SplitPane from 'react-split-pane';
+
 import '../styles/resize.css';
 import SSH_SFTP from './container/SSH_SFTP';
-import {WorkSpaceContainer} from '../styles/common';
-import SplitPane from 'react-split-pane';
+
+import styled from 'styled-components';
+
+export const WorkSpaceContainer = styled.div`
+	flex: 1;
+	overflow: scroll;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: 100%;
+	height: 100%;
+`;
 
 const Panels = (tab) => {
 	if (tab.length === 1)
@@ -14,6 +26,7 @@ const Panels = (tab) => {
 				server={tab[0].server}
 			/>
 		);
+
 	if (tab.length === 2)
 		return (
 			<SplitPane split='vertical' defaultSize={'50%'}>
@@ -29,6 +42,7 @@ const Panels = (tab) => {
 				/>
 			</SplitPane>
 		);
+
 	if (tab.length === 3)
 		return (
 			<SplitPane split='vertical' defaultSize={'66%'}>
@@ -51,6 +65,7 @@ const Panels = (tab) => {
 				/>
 			</SplitPane>
 		);
+
 	if (tab.length === 4)
 		return (
 			<SplitPane split='vertical' defaultSize={'75%'}>
@@ -80,6 +95,7 @@ const Panels = (tab) => {
 				/>
 			</SplitPane>
 		);
+
 	if (tab.length === 5)
 		return (
 			<SplitPane split='vertical' defaultSize={'80%'}>
@@ -123,7 +139,7 @@ const WorkSpaceTabPanels = () => {
 	const visibleTab = tab.filter((v) => v.display === true);
 
 	return (
-		<WorkSpaceContainer className={'fix-height'}>
+		<WorkSpaceContainer>
 			{visibleTab.length <= cols ? (
 				Panels(visibleTab)
 			) : (
