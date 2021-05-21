@@ -40,6 +40,7 @@ const WorkSpace_Container = styled.div`
 const WorkSpace_Nav = styled(Nav)`
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	background: ${LIGHT_BACK_COLOR};
 `;
 
@@ -48,6 +49,7 @@ const TabItem = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px;
+	height: 100%;
 	background: ${(props) => props?.back};
 	color: ${(props) => props.color};
 	width: ${TAB_WIDTH};
@@ -90,6 +92,13 @@ const Main_Container = styled.div`
 		display: block;
 		width: ${RIGHT_SIDE_WIDTH};
 	}
+`;
+
+const Tab_Container = styled.div`
+	display: flex;
+	overflow: scroll;
+	max-width: calc(100% - 152px);
+	height: ${MAIN_HEIGHT};
 `;
 
 const WorkSpace = () => {
@@ -161,54 +170,56 @@ const WorkSpace = () => {
 	return (
 		<WorkSpace_Container>
 			<WorkSpace_Nav>
-				{tab.map((data) => {
-					return (
-						<TabNavbar
-							key={data.uuid}
-							onDragOver={(e) => e.preventDefault()}
-							onDrop={nextPutItem(data)}
-						>
-							<TabItem
-								draggable='true'
-								onDragStart={prevPutItem(data)}
-								onClick={changeVisibleTab(data.uuid)}
-								back={
-									current_tab === data.uuid
-										? LIGHT_MODE_BACK_COLOR
-										: LIGHT_BACK_COLOR
-								}
-								color={
-									current_tab === data.uuid
-										? GREEN_COLOR
-										: 'black'
-								}
-								border={
-									current_tab === data.uuid
-										? `2px solid ${GREEN_COLOR}`
-										: undefined
-								}
+				<Tab_Container>
+					{tab.map((data) => {
+						return (
+							<TabNavbar
+								key={data.uuid}
+								onDragOver={(e) => e.preventDefault()}
+								onDrop={nextPutItem(data)}
 							>
-								<Avocado_span size={EIGHTEEN}>
-									{data.type === 'SSHT' ? (
-										<RiTerminalFill />
-									) : (
-										<RiArrowUpDownLine />
-									)}
-								</Avocado_span>
-								<Avocado_span flex={1} padding={'0px'}>
-									{data.server.name}
-								</Avocado_span>
-								<IconButton
-									size={EIGHTEEN}
-									onClick={onClickDelete(data)}
-									color={ICON_DARK_COLOR}
+								<TabItem
+									draggable='true'
+									onDragStart={prevPutItem(data)}
+									onClick={changeVisibleTab(data.uuid)}
+									back={
+										current_tab === data.uuid
+											? LIGHT_MODE_BACK_COLOR
+											: LIGHT_BACK_COLOR
+									}
+									color={
+										current_tab === data.uuid
+											? GREEN_COLOR
+											: 'black'
+									}
+									border={
+										current_tab === data.uuid
+											? `2px solid ${GREEN_COLOR}`
+											: undefined
+									}
 								>
-									<IoCloseOutline />
-								</IconButton>
-							</TabItem>
-						</TabNavbar>
-					);
-				})}
+									<Avocado_span size={EIGHTEEN}>
+										{data.type === 'SSHT' ? (
+											<RiTerminalFill />
+										) : (
+											<RiArrowUpDownLine />
+										)}
+									</Avocado_span>
+									<Avocado_span flex={1} padding={'0px'}>
+										{data.server.name}
+									</Avocado_span>
+									<IconButton
+										size={EIGHTEEN}
+										onClick={onClickDelete(data)}
+										color={ICON_DARK_COLOR}
+									>
+										<IoCloseOutline />
+									</IconButton>
+								</TabItem>
+							</TabNavbar>
+						);
+					})}
+				</Tab_Container>
 				<RightCornerIcons />
 			</WorkSpace_Nav>
 			<Main_Container>

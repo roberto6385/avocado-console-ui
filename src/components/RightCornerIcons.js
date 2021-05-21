@@ -7,7 +7,11 @@ import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu from './DropdownMenu';
 import {PrevIconButton} from '../styles/buttons';
 import {FlexBox} from '../styles/divs';
-import {LIGHT_BACK_COLOR, RIGHT_SIDE_WIDTH} from '../styles/global_design';
+import {
+	IconButton,
+	LIGHT_BACK_COLOR,
+	RIGHT_SIDE_WIDTH,
+} from '../styles/global_design';
 import styled from 'styled-components';
 
 const CornerIcons_Container = styled.div`
@@ -70,11 +74,20 @@ const RightCornerIcons = () => {
 
 	return (
 		<CornerIcons_Container>
-			<PrevIconButton onClick={openSideMenu('Account')}>
-				<HiUserCircle />
-			</PrevIconButton>
-			<DropdownMenu icon={<AiTwotoneSetting />} menu={setting_list} />
-			<DropdownMenu icon={<FaTh />} menu={column_list} />
+			<IconButton onClick={openSideMenu('Account')}>
+				<span className='material-icons'>person</span>
+			</IconButton>
+			<DropdownMenu
+				icon={<span className='material-icons'>settings</span>}
+				menu={setting_list}
+			/>
+			<DropdownMenu
+				icon={<span className='material-icons'>grid_view</span>}
+				menu={column_list}
+			/>
+			<IconButton>
+				<span className='material-icons'>notifications</span>
+			</IconButton>
 		</CornerIcons_Container>
 	);
 };

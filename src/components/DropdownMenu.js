@@ -4,6 +4,11 @@ import {Dropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import {MAIN_COLOR} from '../styles/global';
+import {
+	GRAY_ACTIVE_COLOR,
+	GRAY_COLOR,
+	GRAY_HOVER_COLOR,
+} from '../styles/global_design';
 
 const _Dropdown = styled(Dropdown)`
 	line-height: 0px;
@@ -14,13 +19,16 @@ const _Dropdown = styled(Dropdown)`
 		margin: 0px 8px;
 		outline: none !important;
 		background-color: transparent !important;
-		color: black !important;
+		color: ${GRAY_COLOR} !important;
 		font-size: 18px;
 		::after {
 			content: none;
 		}
 		&:hover {
-			color: ${MAIN_COLOR} !important;
+			color: ${GRAY_HOVER_COLOR} !important;
+		}
+		&:active {
+			color: ${GRAY_ACTIVE_COLOR} !important;
 		}
 	}
 	div {
