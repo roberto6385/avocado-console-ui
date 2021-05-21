@@ -132,20 +132,21 @@ const Server = ({data, indent}) => {
 				border={
 					clicked_server === data.key
 						? `2px solid ${GREEN_COLOR}`
-						: undefined
+						: `2px solid white`
 				}
 				left={(indent * 6 + 6).toString() + 'px'}
 			>
-				<Avocado_span
-					size={MIDDLE_FONTSIZE}
-					color={
-						clicked_server === data.key
-							? GREEN_COLOR
-							: ICON_LIGHT_COLOR
-					}
-				>
-					<FaServerIcon />
-				</Avocado_span>
+				{/*<Avocado_span*/}
+				{/*	size={MIDDLE_FONTSIZE}*/}
+				{/*	color={*/}
+				{/*		clicked_server === data.key*/}
+				{/*			? GREEN_COLOR*/}
+				{/*			: ICON_LIGHT_COLOR*/}
+				{/*	}*/}
+				{/*>*/}
+				{/*	<FaServerIcon />*/}
+				{/*</Avocado_span>*/}
+				<span className='material-icons'>dns</span>
 				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>

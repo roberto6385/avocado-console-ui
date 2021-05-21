@@ -31,6 +31,7 @@ import {
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
 import {useDispatch} from 'react-redux';
+import {Folder_Server_Nav_Item} from '../../styles/navs';
 
 const Aside_Container = styled.aside`
 	display: flex;
@@ -107,25 +108,21 @@ const Aside = () => {
 		<Aside_Container>
 			<Aside_Header>
 				<IconButton>
-					<GiHamburgerMenu />
+					<span className='material-icons'>menu</span>
 				</IconButton>
 				<Header_Span>Avocado</Header_Span>
 			</Aside_Header>
 			<Add_Server_Container>
 				<IconButton color={FONT_COLOR} onClick={newServer}>
-					<AiOutlinePlus />
+					<span className='material-icons'>add</span>
 				</IconButton>
 				<Server_Container_Span>New Server</Server_Container_Span>
 				<IconButton onClick={newFolder}>
-					<MdCreateNewFolder />
+					<span className='material-icons'>create_new_folder</span>
 				</IconButton>
 			</Add_Server_Container>
 			<Aside_Form>
-				<Avocado_span size={MIDDLE_FONTSIZE}>
-					<MdSearch
-						style={{fontSize: '20px', color: ICON_LIGHT_COLOR}}
-					/>
-				</Avocado_span>
+				<span className='material-icons'>search</span>
 				<Aside_Form_Input
 					onChange={onChangeSearch}
 					value={search}

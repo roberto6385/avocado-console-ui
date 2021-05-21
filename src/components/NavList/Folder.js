@@ -126,7 +126,7 @@ const Folder = ({open, data, indent}) => {
 				border={
 					clicked_server === data.key
 						? `2px solid ${GREEN_COLOR}`
-						: undefined
+						: `2px solid white`
 				}
 				back={
 					clicked_server === data.key
@@ -135,20 +135,20 @@ const Folder = ({open, data, indent}) => {
 				}
 				left={(indent * 6 + 6).toString() + 'px'}
 			>
-				<Avocado_span
-					size={MIDDLE_FONTSIZE}
-					color={
-						clicked_server === data.key
-							? GREEN_COLOR
-							: ICON_LIGHT_COLOR
-					}
-				>
-					{clicked_server === data.key ? (
-						<IoMdFolder />
-					) : (
-						<IoMdFolderOpen />
-					)}
-				</Avocado_span>
+				{/*<Avocado_span*/}
+				{/*	size={MIDDLE_FONTSIZE}*/}
+				{/*	color={*/}
+				{/*		clicked_server === data.key*/}
+				{/*			? GREEN_COLOR*/}
+				{/*			: ICON_LIGHT_COLOR*/}
+				{/*	}*/}
+				{/*>*/}
+				{clicked_server === data.key ? (
+					<span className='material-icons'>folder</span>
+				) : (
+					<span className='material-icons'>folder_open</span>
+				)}
+				{/*</Avocado_span>*/}
 				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>

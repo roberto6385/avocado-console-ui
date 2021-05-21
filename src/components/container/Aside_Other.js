@@ -1,7 +1,17 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {BORDER_COLOR, SIDE_WIDTH, SUB_HEIGHT} from '../../styles/global_design';
-import {RiArrowLeftSLine} from 'react-icons/all';
+import {
+	BORDER_COLOR,
+	FOLDER_HEIGHT,
+	SIDE_WIDTH,
+	SUB_HEIGHT,
+} from '../../styles/global_design';
+import {
+	HiUser,
+	IoSettingsSharp,
+	MdPermIdentity,
+	RiArrowLeftSLine,
+} from 'react-icons/all';
 import {useHistory} from 'react-router-dom';
 
 const Container = styled.div`
@@ -21,9 +31,18 @@ const Back_Container = styled.div`
 	cursor: pointer;
 `;
 
-const Span = styled.span``;
-const OtherPage_Container = styled.div`
+const Span = styled.span`
+	padding: 0px 12px;
+`;
+const OtherPage_Container = styled.ul`
 	padding: 8px 0px;
+`;
+
+const ListItem = styled.li`
+	display: flex;
+	align-items: center;
+	padding: 10px 16px;
+	height: ${FOLDER_HEIGHT};
 `;
 
 const Aside_Other = () => {
@@ -39,13 +58,22 @@ const Aside_Other = () => {
 	return (
 		<Container>
 			<Back_Container onClick={changePath('/')}>
-				<RiArrowLeftSLine
-					style={{fontSize: '24px', marginRight: '5px'}}
-				/>
+				<span className='material-icons'>chevron_left</span>
 				<Span>Back</Span>
 			</Back_Container>
 			<OtherPage_Container>
-
+				<ListItem>
+					<span className='material-icons'>person</span>
+					<Span>Account</Span>
+				</ListItem>
+				<ListItem>
+					<span className='material-icons'>settings</span>
+					<Span>Preferences</Span>
+				</ListItem>
+				<ListItem>
+					<span className='material-icons'>assignment_ind</span>
+					<Span>Identity</Span>
+				</ListItem>
 			</OtherPage_Container>
 		</Container>
 	);
