@@ -105,15 +105,25 @@ const MainPage = () => {
 		<Container>
 			<Header>
 				<DropdownMenu
-					icon={<span className='material-icons'>person</span>}
+					icon={
+						<span className='material-icons button_large'>
+							person
+						</span>
+					}
 					menu={account_list}
 				/>
 				<DropdownMenu
-					icon={<span className='material-icons'>settings</span>}
+					icon={
+						<span className='material-icons button_large'>
+							settings
+						</span>
+					}
 					menu={setting_list}
 				/>
 				<IconButton>
-					<span className='material-icons'>notifications</span>
+					<span className='material-icons button_large'>
+						notifications
+					</span>
 				</IconButton>
 			</Header>
 			<Body>

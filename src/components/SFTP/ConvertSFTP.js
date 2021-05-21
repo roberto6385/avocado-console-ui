@@ -27,7 +27,7 @@ const ConvertSFTP = ({server_id}) => {
 
 	return (
 		<IconButton onClick={connection}>
-			<span className='material-icons'>swap_vert</span>
+			<span className='material-icons button_large'>swap_vert</span>
 		</IconButton>
 	);
 };

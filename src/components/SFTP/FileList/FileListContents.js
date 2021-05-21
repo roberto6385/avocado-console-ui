@@ -217,16 +217,18 @@ const FileListContents = ({uuid}) => {
 								}
 							>
 								<Th min={'150px'} flex={1}>
-									<FileListP className='filelist_contents'>
-										{item.type === 'directory' ? (
-											<span className='material-icons'>
-												folder_open
-											</span>
-										) : (
-											<FileIcon />
-										)}
+									{item.type === 'directory' ? (
+										<span className='material-icons button_large'>
+											folder_open
+										</span>
+									) : (
+										<span className='material-icons button_large'>
+											insert_drive_file
+										</span>
+									)}
+									<span className='filelist_contents'>
 										{item.name}
-									</FileListP>
+									</span>
 								</Th>
 								<Th min={'135px'} justify='flex-end'>
 									{item.name !== '..' &&
@@ -243,14 +245,14 @@ const FileListContents = ({uuid}) => {
 								<Th min={'100px'} justify={'flex-end'}>
 									{item.type === 'file' && (
 										<IconButton onClick={edit(item)}>
-											<span className='material-icons'>
+											<span className='material-icons button_large'>
 												edit
 											</span>
 										</IconButton>
 									)}
 									{item.name !== '..' && (
 										<IconButton onClick={download(item)}>
-											<span className='material-icons'>
+											<span className='material-icons button_large'>
 												file_download
 											</span>
 										</IconButton>

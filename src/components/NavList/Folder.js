@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {RiArrowDropDownFill, RiArrowDropRightFill} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import Server from './Server';
 import {
@@ -137,9 +136,11 @@ const Folder = ({open, data, indent}) => {
 				{/*	}*/}
 				{/*>*/}
 				{clicked_server === data.key ? (
-					<span className='material-icons'>folder</span>
+					<span className='material-icons button_midium'>folder</span>
 				) : (
-					<span className='material-icons'>folder_open</span>
+					<span className='material-icons button_midium'>
+						folder_open
+					</span>
 				)}
 				{/*</Avocado_span>*/}
 				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
@@ -159,9 +160,13 @@ const Folder = ({open, data, indent}) => {
 				</Avocado_span>
 				<IconButton onClick={onClickOpen}>
 					{openTab ? (
-						<RiArrowDropDownFill />
+						<span className='material-icons button_midium'>
+							arrow_drop_down
+						</span>
 					) : (
-						<RiArrowDropRightFill />
+						<span className='material-icons button_midium'>
+							arrow_right
+						</span>
 					)}
 				</IconButton>
 			</Folder_Server_Nav_Item>

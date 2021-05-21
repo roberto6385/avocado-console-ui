@@ -32,3 +32,17 @@ ul {
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
 	cursor: col-resize;
 }
+
+/* button size */
+.button_large {
+	font-size: 24px;
+}
+.button_midium {
+	font-size: 20px;
+}
+.button_small {
+	font-size: 18px;
+}
+.button_micro {
+	font-size: 16px;
+}

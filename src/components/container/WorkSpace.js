@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 import RightCornerIcons from '../RightCornerIcons';
 import {
 	GREEN_COLOR,
@@ -15,11 +15,7 @@ import {
 	RIGHT_SIDE_WIDTH,
 	TAB_WIDTH,
 } from '../../styles/global_design';
-import {
-	IoCloseOutline,
-	RiArrowUpDownLine,
-	RiTerminalFill,
-} from 'react-icons/all';
+import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
@@ -178,15 +174,13 @@ const WorkSpace = () => {
 											: undefined
 									}
 								>
-									<Avocado_span size={EIGHTEEN}>
-										{data.type === 'SSHT' ? (
-											<RiTerminalFill />
-										) : (
-											<span className='material-icons'>
-												swap_vert
-											</span>
-										)}
-									</Avocado_span>
+									{data.type === 'SSHT' ? (
+										<RiTerminalFill />
+									) : (
+										<span className='material-icons button_small'>
+											swap_vert
+										</span>
+									)}
 									<Avocado_span flex={1} padding={'0px'}>
 										{data.server.name}
 									</Avocado_span>
@@ -195,7 +189,7 @@ const WorkSpace = () => {
 										onClick={onClickDelete(data)}
 										color={ICON_DARK_COLOR}
 									>
-										<span className='material-icons'>
+										<span className='material-icons button_small'>
 											close
 										</span>
 									</IconButton>

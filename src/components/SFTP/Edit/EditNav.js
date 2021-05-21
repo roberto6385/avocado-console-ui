@@ -95,13 +95,17 @@ const EditNav = ({uuid}) => {
 			>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
 				<Edit_Button onClick={editedFileSave}>
-					<span className='material-icons'>save</span>
+					<span className='material-icons button_large'>save</span>
 				</Edit_Button>
 				<Edit_Button onClick={editedFileDownload}>
-					<span className='material-icons'>file_download</span>
+					<span className='material-icons button_large'>
+						file_download
+					</span>
 				</Edit_Button>
 				<Edit_Button onClick={closeEditMode}>
-					<span className='material-icons'>disabled_by_default</span>
+					<span className='material-icons button_large'>
+						disabled_by_default
+					</span>
 				</Edit_Button>
 			</div>
 		</EditNav_Container>

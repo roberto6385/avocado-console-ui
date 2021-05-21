@@ -58,20 +58,26 @@ const Aside_Other = () => {
 	return (
 		<Container>
 			<Back_Container onClick={changePath('/')}>
-				<span className='material-icons'>chevron_left</span>
+				<span className='material-icons button_large'>
+					chevron_left
+				</span>
 				<Span>Back</Span>
 			</Back_Container>
 			<OtherPage_Container>
 				<ListItem>
-					<span className='material-icons'>person</span>
+					<span className='material-icons button_midium'>person</span>
 					<Span>Account</Span>
 				</ListItem>
 				<ListItem>
-					<span className='material-icons'>settings</span>
+					<span className='material-icons button_midium'>
+						settings
+					</span>
 					<Span>Preferences</Span>
 				</ListItem>
 				<ListItem>
-					<span className='material-icons'>assignment_ind</span>
+					<span className='material-icons button_midium'>
+						assignment_ind
+					</span>
 					<Span>Identity</Span>
 				</ListItem>
 			</OtherPage_Container>

@@ -75,17 +75,16 @@ const HistoryNav = ({uuid}) => {
 		<HistoryNav_Container>
 			<Avocado_span>Transfer</Avocado_span>
 			<div>
-				{/*<Button>*/}
-				{/*	<IoCheckmarkDoneSharp />*/}
-				{/*</Button>*/}
 				<IconButton onClick={upload}>
-					<span className='material-icons'>file_upload</span>
+					<span className='material-icons button_large'>
+						file_upload
+					</span>
 				</IconButton>
 				<IconButton
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
-					<span className='material-icons'>delete</span>
+					<span className='material-icons button_large'>delete</span>
 				</IconButton>
 			</div>
 		</HistoryNav_Container>

@@ -6,13 +6,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
-import {FaServerIcon} from '../../styles/common';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {HIGHLIGHT_COLOR, light_Background} from '../../styles/global';
 import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {Folder_Server_Nav_Item} from '../../styles/navs';
 import {BaseForm, BaseInput} from '../../styles/forms';
@@ -21,9 +19,7 @@ import {
 	AVOCADO_FONTSIZE,
 	SERVER_HOVER_COLOR,
 	Avocado_span,
-	ICON_LIGHT_COLOR,
 	LIGHT_MODE_BACK_COLOR,
-	MIDDLE_FONTSIZE,
 } from '../../styles/global_design';
 
 const Server = ({data, indent}) => {
@@ -146,7 +142,7 @@ const Server = ({data, indent}) => {
 				{/*>*/}
 				{/*	<FaServerIcon />*/}
 				{/*</Avocado_span>*/}
-				<span className='material-icons'>dns</span>
+				<span className='material-icons button_midium'>dns</span>
 				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>

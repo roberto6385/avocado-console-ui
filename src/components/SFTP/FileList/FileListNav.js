@@ -127,13 +127,15 @@ const FileListNav = ({uuid}) => {
 	return (
 		<FileListNav_Container>
 			<FileList_Button onClick={dropdownList}>
-				<span className='material-icons'>view_column</span>
+				<span className='material-icons button_large'>view_column</span>
 			</FileList_Button>
 			<FileList_Button onClick={basicList}>
-				<span className='material-icons'>view_list</span>
+				<span className='material-icons button_large'>view_list</span>
 			</FileList_Button>
 			<FileList_Button onClick={goBack}>
-				<span className='material-icons'>arrow_upward</span>
+				<span className='material-icons button_large'>
+					arrow_upward
+				</span>
 			</FileList_Button>
 			<form
 				style={{display: 'flex', width: '100%'}}
@@ -150,10 +152,10 @@ const FileListNav = ({uuid}) => {
 				/>
 			</form>
 			<FileList_Button onClick={refresh}>
-				<span className='material-icons'>refresh</span>
+				<span className='material-icons button_large'>refresh</span>
 			</FileList_Button>
 			<FileList_Button onClick={goHome}>
-				<span className='material-icons'>home</span>
+				<span className='material-icons button_large'>home</span>
 			</FileList_Button>
 		</FileListNav_Container>
 	);

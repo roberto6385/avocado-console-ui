@@ -281,15 +281,15 @@ const HistoryContents = ({uuid}) => {
 									}
 								>
 									{history.progress !== 100 ? (
-										<span className='material-icons-outlined'>
+										<span className='material-icons button_small'>
 											pause_circle
 										</span>
 									) : history.todo === 'put' ? (
-										<span className='material-icons-outlined'>
+										<span className='material-icons button_small'>
 											arrow_circle_up
 										</span>
 									) : history.todo === 'get' ? (
-										<span className='material-icons-outlined'>
+										<span className='material-icons-outlined button_small'>
 											arrow_circle_down
 										</span>
 									) : history.todo === 'edit' ? (
@@ -330,7 +330,7 @@ const HistoryContents = ({uuid}) => {
 											: ICON_LIGHT_COLOR
 									}
 								>
-									<span className='material-icons'>
+									<span className='material-icons button_midium'>
 										delete
 									</span>
 								</IconButton>

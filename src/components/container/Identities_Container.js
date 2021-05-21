@@ -7,21 +7,11 @@ import {
 	AVOCADO_HOVER_COLOR,
 	BORDER_COLOR,
 	IconButton,
-	LIGHT_MODE_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
-	SIXTEEN,
 	THIRD_HEIGHT,
 } from '../../styles/global_design';
 import {useSelector} from 'react-redux';
-import {MdDelete} from 'react-icons/all';
-
-const P = styled.p`
-	padding: 0px 0px 12px 0px;
-	margin: 0px 0px 16px 0px;
-	border-bottom: 1px solid ${BORDER_COLOR};
-	font-size: ${SIXTEEN};
-`;
 
 const Li_Container = styled.li`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -98,7 +88,9 @@ const Identities_Container = () => {
 							</Authentication_Container>
 							<Button_Container>
 								<IconButton>
-									<MdDelete />
+									<span className='material-icons button_midium'>
+										delete
+									</span>
 								</IconButton>
 							</Button_Container>
 						</Li_Container>

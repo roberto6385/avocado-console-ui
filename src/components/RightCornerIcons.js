@@ -81,21 +81,32 @@ const RightCornerIcons = () => {
 	return (
 		<CornerIcons_Container>
 			<DropdownMenu
-				icon={<span className='material-icons'>person</span>}
+				icon={
+					<span className='material-icons button_large'>person</span>
+				}
 				menu={account_list}
 			/>
 			<DropdownMenu
-				icon={<span className='material-icons'>settings</span>}
+				icon={
+					<span className='material-icons button_large'>
+						settings
+					</span>
+				}
 				menu={setting_list}
 			/>
-			<IconButton>
-				<span className='material-icons'>notifications</span>
-			</IconButton>
-
 			<DropdownMenu
-				icon={<span className='material-icons'>grid_view</span>}
+				icon={
+					<span className='material-icons button_large'>
+						grid_view
+					</span>
+				}
 				menu={column_list}
 			/>
+			<IconButton>
+				<span className='material-icons button_large'>
+					notifications
+				</span>
+			</IconButton>
 		</CornerIcons_Container>
 	);
 };

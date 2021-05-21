@@ -1,14 +1,11 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	AVOCADO_FONTSIZE,
 	Avocado_span,
 	FOOTER_BACK_COLOR,
-	FOOTER_FONTSIZE,
 	FOOTER_HEIGHT,
 	HISTORY_FONTSIZE,
 } from '../../styles/global_design';
-import {FaSearch, FaSearchMinus, FaSearchPlus} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
@@ -58,13 +55,22 @@ const Footer = () => {
 					0 && (
 					<>
 						<Footer_Button onClick={onClickDeceaseFont}>
-							<FaSearchMinus />
+							<span className='material-icons button_micro'>
+								zoom_out
+							</span>
 						</Footer_Button>
 						<Footer_Button onClick={onClickIncreaseFont}>
-							<FaSearchPlus />
+							<span className='material-icons button_micro'>
+								zoom_in
+							</span>
 						</Footer_Button>
 						<Footer_Button onClick={onClickOpenSearchBar}>
-							<FaSearch />
+							<span
+								className='material-icons button_micro'
+								onClick={onClickOpenSearchBar}
+							>
+								search
+							</span>
 						</Footer_Button>
 					</>
 				)}

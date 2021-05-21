@@ -6,24 +6,15 @@ import {
 	IconButton,
 	FONT_COLOR,
 	ICON_DARK_COLOR,
-	ICON_LIGHT_COLOR,
-	Avocado_span,
 	SIDE_WIDTH,
 	LOGO_FONTSIZE,
 	MAIN_HEIGHT,
-	MIDDLE_FONTSIZE,
 	SEARCH_INPUT_HEIGHT,
 	SEARCH_INPUT_WIDTH,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
 	BORDER_COLOR,
 } from '../../styles/global_design';
-import {
-	AiOutlinePlus,
-	GiHamburgerMenu,
-	MdCreateNewFolder,
-	MdSearch,
-} from 'react-icons/all';
 import NavList from '../NavList/NavList';
 import useInput from '../../hooks/useInput';
 import {
@@ -31,7 +22,6 @@ import {
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
 import {useDispatch} from 'react-redux';
-import {Folder_Server_Nav_Item} from '../../styles/navs';
 
 const Aside_Container = styled.aside`
 	display: flex;
@@ -108,21 +98,23 @@ const Aside = () => {
 		<Aside_Container>
 			<Aside_Header>
 				<IconButton>
-					<span className='material-icons'>menu</span>
+					<span className='material-icons button_large'>menu</span>
 				</IconButton>
 				<Header_Span>Avocado</Header_Span>
 			</Aside_Header>
 			<Add_Server_Container>
 				<IconButton color={FONT_COLOR} onClick={newServer}>
-					<span className='material-icons'>add</span>
+					<span className='material-icons button_large'>add</span>
 				</IconButton>
 				<Server_Container_Span>New Server</Server_Container_Span>
 				<IconButton onClick={newFolder}>
-					<span className='material-icons'>create_new_folder</span>
+					<span className='material-icons button_large'>
+						create_new_folder
+					</span>
 				</IconButton>
 			</Add_Server_Container>
 			<Aside_Form>
-				<span className='material-icons'>search</span>
+				<span className='material-icons button_large'>search</span>
 				<Aside_Form_Input
 					onChange={onChangeSearch}
 					value={search}
