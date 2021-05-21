@@ -1,12 +1,9 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {ConvertIcon} from '../../styles/sftp';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
-import {PrevIconButton} from '../../styles/buttons';
 import {IconButton} from '../../styles/global_design';
-import {RiArrowUpDownLine} from 'react-icons/all';
 
 const ConvertSFTP = ({server_id}) => {
 	console.log(server_id);
@@ -30,7 +27,7 @@ const ConvertSFTP = ({server_id}) => {
 
 	return (
 		<IconButton onClick={connection}>
-			<RiArrowUpDownLine />
+			<span className='material-icons'>swap_vert</span>
 		</IconButton>
 	);
 };

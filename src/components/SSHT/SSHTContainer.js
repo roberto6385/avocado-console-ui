@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
-import {IoMdExpand, RiFileTextLine} from 'react-icons/all';
+import {RiFileTextLine} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 
 import SSHT from './SSHT';
@@ -61,11 +61,14 @@ const SSHTContainer = ({uuid, server_id}) => {
 	return (
 		<>
 			<SSHT_Container back={light_Background}>
-				<DropdownMenu icon={<RiFileTextLine />} menu={column} />
-				<IconButton onClick={onCLickFullScreen}>
-					<IoMdExpand />
-				</IconButton>
+				<DropdownMenu
+					icon={<span className='material-icons'>text_snippet</span>}
+					menu={column}
+				/>
 				<ConvertSFTP server_id={server_id} />
+				<IconButton onClick={onCLickFullScreen}>
+					<span className='material-icons'>fullscreen</span>
+				</IconButton>
 			</SSHT_Container>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />

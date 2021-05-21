@@ -83,7 +83,6 @@ const MainPage = () => {
 	);
 
 	const setting_list = [
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -92,16 +91,23 @@ const MainPage = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{title: 'divider'},
+		{onClick: changePath('/account'), title: 'Edit Setting'},
+	];
+	const account_list = [
+		{
+			onClick: openSideMenu('Account'),
+			title: 'Account',
+		},
 		{onClick: () => console.log('Logout Action'), title: 'Logout'},
 	];
 
 	return (
 		<Container>
 			<Header>
-				<IconButton onClick={openSideMenu('Account')}>
-					<span className='material-icons'>person</span>
-				</IconButton>
+				<DropdownMenu
+					icon={<span className='material-icons'>person</span>}
+					menu={account_list}
+				/>
 				<DropdownMenu
 					icon={<span className='material-icons'>settings</span>}
 					menu={setting_list}

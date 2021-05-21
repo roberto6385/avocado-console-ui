@@ -50,9 +50,7 @@ const RightCornerIcons = () => {
 		},
 		[dispatch],
 	);
-
 	const setting_list = [
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -61,9 +59,9 @@ const RightCornerIcons = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{title: 'divider'},
-		{onClick: () => console.log('Logout Action'), title: 'Logout'},
+		{onClick: changePath('/account'), title: 'Edit Setting'},
 	];
+
 	const column_list = [
 		{onClick: changeColumn(1, 1), title: 'No Columns'},
 		{onClick: changeColumn(2, 4), title: '2 Columns'},
@@ -72,22 +70,32 @@ const RightCornerIcons = () => {
 		{onClick: () => console.log('5 Columns'), title: '5 Columns'},
 	];
 
+	const account_list = [
+		{
+			onClick: openSideMenu('Account'),
+			title: 'Account',
+		},
+		{onClick: () => console.log('Logout Action'), title: 'Logout'},
+	];
+
 	return (
 		<CornerIcons_Container>
-			<IconButton onClick={openSideMenu('Account')}>
-				<span className='material-icons'>person</span>
-			</IconButton>
+			<DropdownMenu
+				icon={<span className='material-icons'>person</span>}
+				menu={account_list}
+			/>
 			<DropdownMenu
 				icon={<span className='material-icons'>settings</span>}
 				menu={setting_list}
 			/>
+			<IconButton>
+				<span className='material-icons'>notifications</span>
+			</IconButton>
+
 			<DropdownMenu
 				icon={<span className='material-icons'>grid_view</span>}
 				menu={column_list}
 			/>
-			<IconButton>
-				<span className='material-icons'>notifications</span>
-			</IconButton>
 		</CornerIcons_Container>
 	);
 };
