@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
 import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
@@ -79,6 +78,7 @@ const FileListContents = ({uuid}) => {
 	const edit = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
+			console.log(item);
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
@@ -219,7 +219,9 @@ const FileListContents = ({uuid}) => {
 								<Th min={'150px'} flex={1}>
 									<FileListP className='filelist_contents'>
 										{item.type === 'directory' ? (
-											<DirectoryIcon />
+											<span className='material-icons'>
+												folder_open
+											</span>
 										) : (
 											<FileIcon />
 										)}
@@ -241,12 +243,16 @@ const FileListContents = ({uuid}) => {
 								<Th min={'100px'} justify={'flex-end'}>
 									{item.type === 'file' && (
 										<IconButton onClick={edit(item)}>
-											<MdEdit />
+											<span className='material-icons'>
+												edit
+											</span>
 										</IconButton>
 									)}
 									{item.name !== '..' && (
 										<IconButton onClick={download(item)}>
-											<MdFileDownload />
+											<span className='material-icons'>
+												file_download
+											</span>
 										</IconButton>
 									)}
 								</Th>

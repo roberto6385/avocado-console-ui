@@ -1,26 +1,8 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {PropTypes} from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	FaArrowAltCircleDown,
-	FaArrowAltCircleUp,
-	FaCloudUploadAlt,
-	FaEdit,
-	IoArrowDownCircleOutline,
-	IoArrowUpCircleOutline,
-	IoCloseOutline,
-	IoPauseCircleOutline,
-	MdFileUpload,
-	MdRemoveCircle,
-} from 'react-icons/all';
-import {
-	BLUE_COLOR,
-	HIGHLIGHT_COLOR,
-	MAIN_COLOR,
-	RED_COLOR,
-	SMALL_FONT,
-} from '../../../styles/global';
+import {FaEdit, MdRemoveCircle} from 'react-icons/all';
 import {
 	ADD_HISTORY_HI,
 	ADD_HISTORY,
@@ -28,11 +10,8 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp';
-import {ProgressBar} from 'react-bootstrap';
-import {ColBox, FlexBox} from '../../../styles/divs';
 import {formatByteSizeString} from '../listConversion';
-import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
-import {BaseLi, BaseUl, CustomLi} from '../../../styles/lists';
+import {BaseLi, BaseUl} from '../../../styles/lists';
 import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
@@ -62,6 +41,9 @@ const DropSpaceDiv = styled.div`
 `;
 
 const DropSpace_Button = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: ${TAB_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	background: ${GREEN_COLOR};
@@ -269,7 +251,7 @@ const HistoryContents = ({uuid}) => {
 						Drop files or folders here, or
 					</Avocado_span>
 					<DropSpace_Button onClick={openUpload}>
-						<MdFileUpload />
+						<span className='material-icons'>file_upload</span>
 						<Avocado_span>Browse file</Avocado_span>
 					</DropSpace_Button>
 				</DropSpaceDiv>
@@ -299,11 +281,17 @@ const HistoryContents = ({uuid}) => {
 									}
 								>
 									{history.progress !== 100 ? (
-										<IoPauseCircleOutline />
+										<span className='material-icons-outlined'>
+											pause_circle
+										</span>
 									) : history.todo === 'put' ? (
-										<IoArrowUpCircleOutline />
+										<span className='material-icons-outlined'>
+											arrow_circle_up
+										</span>
 									) : history.todo === 'get' ? (
-										<IoArrowDownCircleOutline />
+										<span className='material-icons-outlined'>
+											arrow_circle_down
+										</span>
 									) : history.todo === 'edit' ? (
 										<FaEdit />
 									) : (
@@ -342,7 +330,9 @@ const HistoryContents = ({uuid}) => {
 											: ICON_LIGHT_COLOR
 									}
 								>
-									<IoCloseOutline />
+									<span className='material-icons'>
+										delete
+									</span>
 								</IconButton>
 
 								{history.progress !== 100 && (

@@ -78,19 +78,14 @@ const HistoryNav = ({uuid}) => {
 				{/*<Button>*/}
 				{/*	<IoCheckmarkDoneSharp />*/}
 				{/*</Button>*/}
-				<IconButton
-					color={ICON_LIGHT_COLOR}
-					id='btn-upload'
-					onClick={upload}
-				>
-					<MdFileUpload />
+				<IconButton onClick={upload}>
+					<span className='material-icons'>file_upload</span>
 				</IconButton>
 				<IconButton
-					color={ICON_LIGHT_COLOR}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
-					<MdDelete className={'history_contents'} />
+					<span className='material-icons'>delete</span>
 				</IconButton>
 			</div>
 		</HistoryNav_Container>

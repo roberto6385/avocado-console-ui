@@ -5,7 +5,6 @@ import {
 	GoThreeBars,
 	MdHome,
 	GoArrowUp,
-	BsArrowClockwise,
 	IoMdRefresh,
 } from 'react-icons/all';
 import {PropTypes} from 'prop-types';
@@ -127,14 +126,14 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<FileListNav_Container>
-			<FileList_Button>
-				<BsLayoutThreeColumns onClick={dropdownList} />
+			<FileList_Button onClick={dropdownList}>
+				<span className='material-icons'>view_column</span>
 			</FileList_Button>
-			<FileList_Button>
-				<GoThreeBars onClick={basicList} />
+			<FileList_Button onClick={basicList}>
+				<span className='material-icons'>view_list</span>
 			</FileList_Button>
 			<FileList_Button onClick={goBack}>
-				<GoArrowUp />
+				<span className='material-icons'>arrow_upward</span>
 			</FileList_Button>
 			<form
 				style={{display: 'flex', width: '100%'}}
@@ -151,10 +150,10 @@ const FileListNav = ({uuid}) => {
 				/>
 			</form>
 			<FileList_Button onClick={refresh}>
-				<IoMdRefresh />
+				<span className='material-icons'>refresh</span>
 			</FileList_Button>
 			<FileList_Button onClick={goHome}>
-				<MdHome />
+				<span className='material-icons'>home</span>
 			</FileList_Button>
 		</FileListNav_Container>
 	);

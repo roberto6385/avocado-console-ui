@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {MdCancel, MdFileDownload, MdSave} from 'react-icons/md';
 import {useDispatch, useSelector} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import {
@@ -18,7 +17,6 @@ import {
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
-import {AiFillCloseSquare} from 'react-icons/all';
 
 const EditNav_Container = styled.div`
 	display: flex;
@@ -97,13 +95,13 @@ const EditNav = ({uuid}) => {
 			>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
 				<Edit_Button onClick={editedFileSave}>
-					<MdSave />
+					<span className='material-icons'>save</span>
 				</Edit_Button>
 				<Edit_Button onClick={editedFileDownload}>
-					<MdFileDownload />
+					<span className='material-icons'>file_download</span>
 				</Edit_Button>
 				<Edit_Button onClick={closeEditMode}>
-					<AiFillCloseSquare />
+					<span className='material-icons'>disabled_by_default</span>
 				</Edit_Button>
 			</div>
 		</EditNav_Container>

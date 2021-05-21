@@ -182,7 +182,9 @@ const WorkSpace = () => {
 										{data.type === 'SSHT' ? (
 											<RiTerminalFill />
 										) : (
-											<RiArrowUpDownLine />
+											<span className='material-icons'>
+												swap_vert
+											</span>
 										)}
 									</Avocado_span>
 									<Avocado_span flex={1} padding={'0px'}>
@@ -193,7 +195,9 @@ const WorkSpace = () => {
 										onClick={onClickDelete(data)}
 										color={ICON_DARK_COLOR}
 									>
-										<IoCloseOutline />
+										<span className='material-icons'>
+											close
+										</span>
 									</IconButton>
 								</TabItem>
 							</TabNavbar>

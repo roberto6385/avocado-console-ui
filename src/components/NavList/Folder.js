@@ -1,12 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {
-	IoMdFolder,
-	IoMdFolderOpen,
-	RiArrowDropDownFill,
-	RiArrowDropRightFill,
-} from 'react-icons/all';
+import {RiArrowDropDownFill, RiArrowDropRightFill} from 'react-icons/all';
 import {useDispatch, useSelector} from 'react-redux';
 import Server from './Server';
 import {
@@ -23,9 +18,7 @@ import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
 	IconButton,
-	ICON_LIGHT_COLOR,
 	Avocado_span,
-	MIDDLE_FONTSIZE,
 	LIGHT_MODE_BACK_COLOR,
 	AVOCADO_FONTSIZE,
 } from '../../styles/global_design';

@@ -52,7 +52,7 @@ const SideMenuContainer = () => {
 			<Header>
 				{rightSideKey}
 				<Close_Button onClick={close_sidebar}>
-					<IoCloseOutline />
+					<span className='material-icons'>close</span>
 				</Close_Button>
 			</Header>
 			{rightSideKey === 'Preferences' && <Preferences_Container />}
