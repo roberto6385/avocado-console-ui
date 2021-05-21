@@ -70,7 +70,6 @@ const SSHT = ({uuid}) => {
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
-	const terminalRef = useRef(null);
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
 	const [currentLine, setCurrentLine] = useState('');
@@ -94,14 +93,20 @@ const SSHT = ({uuid}) => {
 
 	//terminal setting
 	useEffect(() => {
-		console.log(sshTerm);
+		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
+			document
+				.getElementById('terminal_' + uuid)
+				.removeChild(
+					document.getElementById('terminal_' + uuid).firstChild,
+				);
+		}
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
-		// sshTerm.open(document.getElementById('terminal_' + uuid));
-		sshTerm.open(terminalRef.current);
+		sshTerm.open(document.getElementById('terminal_' + uuid));
+
 		// setCookie('search_cokkies', []);
 		return () => {};
-	}, [terminalRef]);
+	}, [uuid]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -176,7 +181,7 @@ const SSHT = ({uuid}) => {
 
 	return (
 		<SSHT_Container ref={ref}>
-			<SSHTerminal id={`terminal_${uuid}`} ref={terminalRef} />
+			<SSHTerminal id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',

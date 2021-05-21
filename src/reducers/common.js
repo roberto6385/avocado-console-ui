@@ -4,7 +4,6 @@ export const initialState = {
 	encodeData: null,
 	current_tab: null,
 	clicked_server: null,
-	max_display_tab: 1,
 	cols: 1,
 	minimize: false,
 	server_index: 4,
@@ -654,7 +653,7 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data.uuid;
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.max_display_tab,
+					draft.cols * 2,
 					draft.current_tab,
 				);
 				break;
@@ -671,7 +670,7 @@ const reducer = (state = initialState, action) => {
 				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.max_display_tab,
+					draft.cols * 2,
 					draft.current_tab,
 				);
 				break;
@@ -685,7 +684,7 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data;
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.max_display_tab,
+					draft.cols * 2,
 					draft.current_tab,
 				);
 				break;
@@ -693,11 +692,10 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_NUMBER_OF_COLUMNS: {
 				draft.cols = action.data.cols;
-				draft.max_display_tab = action.data.max;
 
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.max_display_tab,
+					draft.cols * 2,
 					draft.current_tab,
 				);
 				break;
