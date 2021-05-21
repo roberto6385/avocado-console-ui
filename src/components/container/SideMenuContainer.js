@@ -17,6 +17,7 @@ import Account_Container from './Account_Container';
 const Container = styled.div`
 	display: none;
 	width: 0px;
+	height: 100%;
 	// width: ${RIGHT_SIDE_WIDTH};
 	// max-width: ${RIGHT_SIDE_WIDTH};
 	flex: 1;
@@ -43,7 +44,7 @@ const SideMenuContainer = () => {
 
 	const close_sidebar = useCallback(() => {
 		const sideMenu = document.querySelector('#right_side_menu');
-		sideMenu.classList.toggle('active');
+		sideMenu.classList.remove('active');
 	}, []);
 
 	return (

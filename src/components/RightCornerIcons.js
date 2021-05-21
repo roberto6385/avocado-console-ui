@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {FaTh, AiTwotoneSetting, HiUserCircle} from 'react-icons/all';
 
@@ -44,9 +44,9 @@ const RightCornerIcons = () => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			const sideMenu = document.querySelector('#right_side_menu');
 			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			sideMenu.classList.toggle('active');
+			const sideMenu = document.querySelector('#right_side_menu');
+			sideMenu.classList.add('active');
 		},
 		[dispatch],
 	);

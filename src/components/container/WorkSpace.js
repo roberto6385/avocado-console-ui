@@ -1,9 +1,6 @@
 import * as React from 'react';
-
-// import {Tab, Tabs} from '@blueprintjs/core';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import SSH_SFTP from './SSH_SFTP';
 import styled, {keyframes} from 'styled-components';
 import RightCornerIcons from '../RightCornerIcons';
 import {
@@ -26,8 +23,6 @@ import {
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
-import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
-import {Nav} from 'react-bootstrap';
 import WorkSpace_TabPanels from '../WorkSpace_TabPanels';
 import SideMenuContainer from './SideMenuContainer';
 
@@ -37,7 +32,7 @@ const WorkSpace_Container = styled.div`
 	flex-direction: column;
 `;
 
-const WorkSpace_Nav = styled(Nav)`
+const WorkSpace_Nav = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -62,21 +57,6 @@ const TabNavbar = styled.div`
 	flex-warp: nowrap;
 	align-items: center;
 	justify-content: space-between;
-`;
-
-const slide = keyframes`
-  0% {
-    opacity: 0;
-	transform: translateX(300px);
-	visibility: hidden;
-	width:0px;
-  }
-  100% {
-    opacity: 1;
-	transform: translateX(0px);
-	visibility: visible;
-	width: ${RIGHT_SIDE_WIDTH};
-  }
 `;
 
 const Main_Container = styled.div`
