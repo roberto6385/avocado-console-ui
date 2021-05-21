@@ -65,10 +65,7 @@ const Footer = () => {
 							</span>
 						</Footer_Button>
 						<Footer_Button onClick={onClickOpenSearchBar}>
-							<span
-								className='material-icons button_micro'
-								onClick={onClickOpenSearchBar}
-							>
+							<span className='material-icons button_micro'>
 								search
 							</span>
 						</Footer_Button>
