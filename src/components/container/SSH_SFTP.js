@@ -72,7 +72,7 @@ const SSH_SFTP = ({uuid, type, server}) => {
 	}, [ssht, sftp, uuid, type]);
 
 	return (
-		<SSH_SFTP_Container onClick={onClickChangeTab} >
+		<SSH_SFTP_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<SSH_SFTP_Header>
 					<Avocado_span

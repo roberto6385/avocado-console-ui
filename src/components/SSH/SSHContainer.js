@@ -58,7 +58,7 @@ const SSHContainer = ({uuid, server_id}) => {
 	}, [snippets, uuid, ws]);
 
 	return (
-		<>
+		<div style={{width: '100%', height: '100%'}}>
 			<SSHT_Container back={light_Background}>
 				<DropdownMenu
 					icon={
@@ -77,7 +77,7 @@ const SSHContainer = ({uuid, server_id}) => {
 			</SSHT_Container>
 			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />
-		</>
+		</div>
 	);
 };
 

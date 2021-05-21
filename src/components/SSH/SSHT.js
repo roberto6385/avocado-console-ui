@@ -68,7 +68,9 @@ const SSHT = ({uuid}) => {
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
 	const [currentLine, setCurrentLine] = useState('');
-	const {ref, width, height} = useDebouncedResizeObserver(500);
+	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
+		1000,
+	);
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -136,19 +138,22 @@ const SSHT = ({uuid}) => {
 	//window size change
 	useEffect(() => {
 		console.log(width, height);
-		dispatch({
-			type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
-			data: {
-				ws: ws.current,
-				uuid: uuid,
-				data: {
-					cols: sshTerm.cols,
-					rows: sshTerm.rows,
-					width: width,
-					height: height,
-				},
-			},
-		});
+		// if (width > 0 && height > 0) {
+		// 	dispatch({
+		// 		type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+		// 		data: {
+		// 			ws: ws.current,
+		// 			uuid: uuid,
+		// 			data: {
+		// 				cols: sshTerm.cols,
+		// 				rows: sshTerm.rows,
+		// 				width: width,
+		// 				height: height,
+		// 			},
+		// 		},
+		// 	});
+		// 	fitAddon.current.fit();
+		// }
 	}, [ws, uuid, sshTerm, width, height]);
 	//click search button
 	useEffect(() => {
@@ -189,7 +194,6 @@ const SSHT = ({uuid}) => {
 			<SSHT_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				<MdSearch />
 				<SSHT_Input
-					// flex={1}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
