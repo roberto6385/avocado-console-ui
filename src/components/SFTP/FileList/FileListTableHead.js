@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {HeaderTh, Th, Thead} from '../../../styles/tables';
+import {HeaderTh, Th} from '../../../styles/tables';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch} from 'react-redux';
 import * as PropTypes from 'prop-types';
@@ -12,6 +12,22 @@ const FileList_Tr = styled.tr`
 	align-items: center;
 	padding: 8px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+
+const Thead = styled.thead`
+	position: sticky;
+	top: 0px;
+	z-index: 1;
+	background: white;
+	min-width: 718px;
+	tr {
+		display: flex;
+		top: 0px;
+		background: white;
+		th {
+			padding: 8px !important;
+		}
+	}
 `;
 
 const TableHead = ({uuid}) => {

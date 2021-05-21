@@ -1,9 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import '../styles/resize.css';
-import {TabPanel} from 'react-tabs';
 import SSH_SFTP from './container/SSH_SFTP';
-import styled from 'styled-components';
 import {WorkSpaceContainer} from '../styles/common';
 import SplitPane from 'react-split-pane';
 

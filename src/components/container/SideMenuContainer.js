@@ -21,6 +21,7 @@ const Container = styled.div`
 	// width: ${RIGHT_SIDE_WIDTH};
 	// max-width: ${RIGHT_SIDE_WIDTH};
 	flex: 1;
+	border-left: 1px solid ${BORDER_COLOR};
 	z-index: 5; // terminal보다 높아야 함.
 	background: white;
 `;

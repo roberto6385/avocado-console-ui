@@ -15,7 +15,6 @@ export const BaseUl = styled.ul`
 `;
 
 export const DropListUl = styled(BaseUl)`
-	border-right: 1px solid ${MAIN_COLOR};
 	flex: ${(props) => props.flex};
 	background: ${(props) => props.back};
 	min-width: 250px;

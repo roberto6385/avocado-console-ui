@@ -28,7 +28,7 @@ import {
 
 const SearchPath = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	flex: 1;
+	width: 100%;
 	border-radius: 4px;
 	font-size: ${AVOCADO_FONTSIZE};
 	border: none;
@@ -46,6 +46,11 @@ const FileListNav_Container = styled.div`
 
 const FileList_Button = styled(IconButton)`
 	color: ${ICON_LIGHT_COLOR};
+`;
+
+const Form = styled.form`
+	display: flex;
+	flex: 1;
 `;
 
 const FileListNav = ({uuid}) => {
@@ -137,10 +142,7 @@ const FileListNav = ({uuid}) => {
 					arrow_upward
 				</span>
 			</FileList_Button>
-			<form
-				style={{display: 'flex', width: '100%'}}
-				onSubmit={searchPath}
-			>
+			<Form onSubmit={searchPath}>
 				<SearchPath
 					id='fileListNavInput'
 					type='text'
@@ -150,7 +152,7 @@ const FileListNav = ({uuid}) => {
 					back={light_Background}
 					onBlur={() => setCurrentPath(path)}
 				/>
-			</form>
+			</Form>
 			<FileList_Button onClick={refresh}>
 				<span className='material-icons button_large'>refresh</span>
 			</FileList_Button>

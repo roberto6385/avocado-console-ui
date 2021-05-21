@@ -4,7 +4,6 @@ import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {useDispatch, useSelector} from 'react-redux';
 import FileListContextMenu from './FileListContextMenu';
-import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
@@ -17,7 +16,7 @@ import {
 } from '../../../reducers/sftp';
 import {Spinner} from 'react-bootstrap';
 import {light_Background, MAIN_COLOR} from '../../../styles/global';
-import {BaseTable, FileListP, Tbody, Th} from '../../../styles/tables';
+import {Th} from '../../../styles/tables';
 import {
 	formatByteSizeString,
 	sortFunction,
@@ -27,8 +26,38 @@ import styled from 'styled-components';
 import {
 	BORDER_COLOR,
 	IconButton,
+	POPUP_SIDE_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global_design';
+
+const Table = styled.table`
+	display: flex;
+	position: relative;
+	flex: 1;
+	flex-direction: column;
+	overflow: scroll;
+	margin: 0;
+	padding: 0;
+	border: none;
+`;
+
+const Tbody = styled.tbody`
+	background-color: ${(props) => props?.back};
+	flex: 1;
+	position: absolute;
+	top: ${THIRD_HEIGHT};
+	overflow: scroll;
+	.active {
+		background: ${POPUP_SIDE_COLOR};
+	}
+	tr {
+		cursor: pointer;
+		display: flex;
+		th {
+			padding: 8px !important;
+		}
+	}
+`;
 
 const FileList_Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
@@ -193,7 +222,7 @@ const FileListContents = ({uuid}) => {
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
 		<React.Fragment>
-			<BaseTable back={light_Background}>
+			<Table back={light_Background}>
 				<TableHead uuid={uuid} />
 				<Tbody onContextMenu={contextMenuOpen}>
 					{currentFileList.map((item, index) => {
@@ -262,7 +291,7 @@ const FileListContents = ({uuid}) => {
 						);
 					})}
 				</Tbody>
-			</BaseTable>
+			</Table>
 			<FileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	) : (

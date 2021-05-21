@@ -9,7 +9,6 @@ const History_Container = styled.div`
 	min-width: ${SIDE_WIDTH};
 	width: ${SIDE_WIDTH};
 	border-left: 1px solid ${BORDER_COLOR};
-	border-right: 1px solid ${BORDER_COLOR};
 `;
 
 const History = ({uuid}) => {

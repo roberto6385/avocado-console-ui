@@ -12,6 +12,8 @@ import {
 	ICON_DARK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
+	AVOCADO_FONTSIZE,
+	BORDER_COLOR,
 } from '../../styles/global_design';
 import {
 	IoCloseOutline,
@@ -23,6 +25,7 @@ import {disconnectAction} from '../../reducers/sftp';
 
 const SSH_SFTP_Container = styled.div`
 	height: 100%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 
@@ -36,8 +39,16 @@ const SSH_SFTP_Header = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0px 6px;
 	z-index: 1;
+	border-bottom: 1px solid ${BORDER_COLOR};
 	background: ${LIGHT_MODE_BACK_COLOR};
+`;
+
+const Span = styled.span`
+	display: flex;
+	align-items: center;
+	font-size: ${AVOCADO_FONTSIZE};
 `;
 
 const SSH_SFTP = ({uuid, type, server}) => {
@@ -75,18 +86,20 @@ const SSH_SFTP = ({uuid, type, server}) => {
 		<SSH_SFTP_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<SSH_SFTP_Header>
-					<Avocado_span
-						color={current_tab === uuid ? GREEN_COLOR : undefined}
-					>
+					<Span>
 						{type === 'SSHT' ? (
 							<RiTerminalFill />
 						) : (
-							<RiArrowUpDownLine />
+							<span className='material-icons button_small'>
+								swap_vert
+							</span>
 						)}
-						<Avocado_span>{server.name}</Avocado_span>
-					</Avocado_span>
+						{server.name}
+					</Span>
 					<IconButton color={ICON_DARK_COLOR} onClick={onClickDelete}>
-						<IoCloseOutline />
+						<span className='material-icons button_small'>
+							close
+						</span>
 					</IconButton>
 				</SSH_SFTP_Header>
 			)}

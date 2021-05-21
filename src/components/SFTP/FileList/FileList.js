@@ -9,7 +9,7 @@ import styled from 'styled-components';
 const FileList_Container = styled.div`
 	display: flex;
 	flex: 1;
-	width: 100%;
+	width: 0px;
 	overflow: hidden;
 	flex-direction: column;
 `;
