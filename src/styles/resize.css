@@ -47,3 +47,13 @@
 .Resizer.disabled:hover {
 	border-color: transparent;
 }
+.Pane1 {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+.Pane2 {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
