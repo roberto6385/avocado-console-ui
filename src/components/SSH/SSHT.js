@@ -30,6 +30,7 @@ import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver
 
 const SSHT_Container = styled.div`
 	height: 100%;
+	overflow: hidden;
 `;
 
 const SSHT_Form = styled.form`
@@ -54,7 +55,7 @@ const SSHT_Input = styled.input`
 	border: none;
 `;
 
-const SSHT = ({uuid}) => {
+const SSHT = ({uuid, height, width}) => {
 	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
@@ -68,9 +69,6 @@ const SSHT = ({uuid}) => {
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
 	const [currentLine, setCurrentLine] = useState('');
-	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
-		1000,
-	);
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -174,7 +172,7 @@ const SSHT = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHT_Container ref={ref}>
+		<SSHT_Container>
 			<SSHTerminal id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
@@ -215,6 +213,8 @@ const SSHT = ({uuid}) => {
 
 SSHT.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	height: PropTypes.number.isRequired,
+	width: PropTypes.number.isRequired,
 };
 
 export default SSHT;

@@ -6,8 +6,6 @@ import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/SFTPContainer';
 import {
-	GREEN_COLOR,
-	Avocado_span,
 	IconButton,
 	ICON_DARK_COLOR,
 	LIGHT_MODE_BACK_COLOR,
@@ -15,11 +13,7 @@ import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
 } from '../../styles/global_design';
-import {
-	IoCloseOutline,
-	RiArrowUpDownLine,
-	RiTerminalFill,
-} from 'react-icons/all';
+import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
 import {disconnectAction} from '../../reducers/sftp';
 
@@ -28,7 +22,7 @@ const SSH_SFTP_Container = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-
+	overflow: hidden;
 	.hidden {
 		display: none;
 	}

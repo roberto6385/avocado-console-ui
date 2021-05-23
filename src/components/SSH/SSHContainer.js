@@ -10,11 +10,13 @@ import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
 import {light_Background} from '../../styles/global';
 import {IconButton, SUB_HEIGHT} from '../../styles/global_design';
 import styled from 'styled-components';
+import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
 const SSHT_Container = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
+	overflow: hidden;
 `;
 
 const SSHContainer = ({uuid, server_id}) => {
@@ -23,6 +25,9 @@ const SSHContainer = ({uuid, server_id}) => {
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const [open, setOpen] = useState(false);
 	const [column, setColumn] = useState([]);
+	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
+		1000,
+	);
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('full_ssht_' + uuid).requestFullscreen();
@@ -58,7 +63,7 @@ const SSHContainer = ({uuid, server_id}) => {
 	}, [snippets, uuid, ws]);
 
 	return (
-		<div style={{width: '100%', height: '100%'}}>
+		<div>
 			<SSHT_Container back={light_Background}>
 				<DropdownMenu
 					icon={
@@ -75,7 +80,14 @@ const SSHContainer = ({uuid, server_id}) => {
 					</span>
 				</IconButton>
 			</SSHT_Container>
-			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
+			<SSHT
+				ref={ref}
+				id={`full_ssht_${uuid}`}
+				uuid={uuid}
+				height={height}
+				width={width}
+			/>
+			{/*<div>Hiii</div>*/}
 			<SnippetsManeger setOpen={setOpen} open={open} />
 		</div>
 	);
