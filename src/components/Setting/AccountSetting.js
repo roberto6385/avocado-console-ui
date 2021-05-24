@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+
+import Input_ from '../RecycleComponents/Input_';
+import Radio_ from '../RecycleComponents/Radio_';
+import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_INPUT_WIDTH,
 	BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 } from '../../styles/global_design';
-import Input_Container from './Input_Container';
-import Select_ from '../RecycleComponents/Select_';
-import _Radio from '../RecycleComponents/Radio_';
 
 const _Container = styled.div`
 	display: flex;
@@ -59,27 +60,27 @@ const AccountSetting = () => {
 		<_Container>
 			<_Title>Account</_Title>
 			<_ContentsContainer>
-				<Input_Container title={'Account'}>
+				<Input_ title={'Account'}>
 					<_Input
 						value={account}
 						onChange={(e) => setAccount(e.target.value)}
 						placeholder={'Account'}
 					/>
-				</Input_Container>
-				<Input_Container title={'Full name'}>
+				</Input_>
+				<Input_ title={'Full name'}>
 					<_Input
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						placeholder={'Name'}
 					/>
-				</Input_Container>
-				<Input_Container title={'Email Address'}>
+				</Input_>
+				<Input_ title={'Email Address'}>
 					<_Input
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder={'Email Address'}
 					/>
-				</Input_Container>
+				</Input_>
 			</_ContentsContainer>
 			<_Title>Authorization</_Title>
 			<_ContentsContainer>
@@ -89,7 +90,7 @@ const AccountSetting = () => {
 					value={authType}
 					setValue={setAuthType}
 				/>
-				<_Radio
+				<Radio_
 					radioName={'AlternativeAuth'}
 					options={AlternativeAuthOptions}
 					value={authValue}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SettingNav from './SettingNav';
-import AccountSetting from '../AccountSetting';
+import AccountSetting from './AccountSetting';
 
 const _Container = styled.div`
 	display: flex;
