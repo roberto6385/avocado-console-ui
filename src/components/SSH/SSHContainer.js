@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import SSHT from './SSHT';
+
 import ConvertSFTP from '../SFTP/ConvertSFTP';
 import DropdownMenu from '../DropdownMenu';
 import SnippetsManeger from '../SnippetsManager';
@@ -10,6 +10,7 @@ import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
 import {light_Background} from '../../styles/global';
 import {IconButton, SUB_HEIGHT} from '../../styles/global_design';
 import styled from 'styled-components';
+import SSH from "./SSH";
 
 const SSHT_Container = styled.div`
 	display: flex;
@@ -83,7 +84,7 @@ const SSHContainer = ({uuid, server_id}) => {
 					</span>
 				</IconButton>
 			</SSHT_Container>
-			<SSHT id={`full_ssht_${uuid}`} uuid={uuid} />
+			<SSH id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />
 		</div>
 	);

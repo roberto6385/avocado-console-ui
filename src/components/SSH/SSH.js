@@ -8,8 +8,8 @@ import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {
-	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
+	SSHT_SEND_COMMAND_REQUEST,
 } from '../../reducers/ssht';
 
 import {
@@ -28,13 +28,13 @@ import {
 } from 'react-icons/all';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
-const SSHT_Container = styled.div`
+const SSH_Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 `;
 
-const SSHT_Form = styled.form`
+const SSH_Form = styled.form`
 	position: absolute;
 	right: 3px;
 	bottom: 31px;
@@ -49,14 +49,14 @@ const SSHT_Form = styled.form`
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
-const SSHT_Input = styled.input`
+const SSH_Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
 	font-size: ${AVOCADO_FONTSIZE};
 	border: none;
 `;
 
-const SSHT = ({uuid}) => {
+const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
@@ -176,8 +176,8 @@ const SSHT = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHT_Container ref={ref}>
-			<SSHT_Container id={`terminal_${uuid}`} />
+		<SSH_Container ref={ref}>
+			<SSH_Container id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',
@@ -193,9 +193,9 @@ const SSHT = ({uuid}) => {
 				{/*		</ListGroup.Item>*/}
 				{/*	))}*/}
 			</ListGroup>
-			<SSHT_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+			<SSH_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				<MdSearch />
-				<SSHT_Input
+				<SSH_Input
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
@@ -210,13 +210,13 @@ const SSHT = ({uuid}) => {
 				<IconButton color={ICON_DARK_COLOR}>
 					<IoCloseOutline />
 				</IconButton>
-			</SSHT_Form>
-		</SSHT_Container>
+			</SSH_Form>
+		</SSH_Container>
 	);
 };
 
-SSHT.propTypes = {
+SSH.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default SSHT;
+export default SSH;

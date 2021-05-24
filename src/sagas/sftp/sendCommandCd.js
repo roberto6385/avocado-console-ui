@@ -15,7 +15,7 @@ import {
 	commandPwdAction,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from './channel';
+import {closeChannel, subscribe} from '../channel';
 import {messageReader} from './messageReader';
 
 function* sendCommand(action) {

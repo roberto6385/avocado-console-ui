@@ -16,7 +16,7 @@ import {
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
 import {messageReader} from './messageReader';
-import {closeChannel, subscribe} from './channel';
+import {closeChannel, subscribe} from '../channel';
 
 function* sendCommand(action) {
 	const {payload} = action;
