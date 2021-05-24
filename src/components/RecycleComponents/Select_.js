@@ -22,6 +22,7 @@ const _Select = styled(Select)`
 	}
 	.css-g1d714-ValueContainer {
 		top: -2px;
+		padding: 0px 8px;
 	}
 	.css-1hb7zxy-IndicatorsContainer {
 		position: relative;
