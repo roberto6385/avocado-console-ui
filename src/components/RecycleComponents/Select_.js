@@ -16,6 +16,10 @@ const _Container = styled.div`
 const _Select = styled(Select)`
 	width: 268px;
 	margin-top: 6px;
+	.css-26l3qy-menu {
+		z-index: 10;
+		// 드롭메뉴 z-index 속성 추가.
+	}
 	.css-yk16xz-control {
 		height: 34px;
 		min-height: 34px !important;

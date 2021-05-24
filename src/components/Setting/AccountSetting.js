@@ -43,10 +43,22 @@ const authOptions = [
 	{value: 'first_option', label: 'ID / Password'},
 	{value: 'second_option', label: 'AlternativeAuthN (대체인증)'},
 ];
+const mfaOptions = [
+	{value: 'use', label: '사용'},
+	{value: 'not_use', label: '사용안함'},
+];
 const AlternativeAuthOptions = [
 	{value: 'google', label: 'Google'},
 	{value: 'kakao', label: 'Kakao'},
 	{value: 'naver', label: 'Naver'},
+];
+
+const MFAOptions = [
+	{value: 'otp', label: 'OTP'},
+	{value: 'mail', label: 'Mail'},
+	{value: 'sms', label: 'SMS'},
+	{value: 'finger_print', label: 'Finger Print'},
+	{value: 'face_id', label: 'Face ID'},
 ];
 
 const AccountSetting = () => {
@@ -54,7 +66,9 @@ const AccountSetting = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [authType, setAuthType] = useState('first_option');
+	const [mfaType, setMfaType] = useState('use');
 	const [authValue, setAuthValue] = useState('google');
+	const [mfaValue, setMfaValue] = useState('otp');
 
 	return (
 		<_Container>
@@ -96,6 +110,21 @@ const AccountSetting = () => {
 					value={authValue}
 					setValue={setAuthValue}
 					disabled={authType === 'first_option'}
+				/>
+			</_ContentsContainer>
+			<_ContentsContainer>
+				<Select_
+					title='MFA'
+					options={mfaOptions}
+					value={mfaType}
+					setValue={setMfaType}
+				/>
+				<Radio_
+					radioName={'MFA'}
+					options={MFAOptions}
+					value={mfaValue}
+					setValue={setMfaValue}
+					disabled={mfaType === 'not_use'}
 				/>
 			</_ContentsContainer>
 		</_Container>
