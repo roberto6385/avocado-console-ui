@@ -7,7 +7,7 @@ import SSH_SFTP from './container/SSH_SFTP';
 
 import styled from 'styled-components';
 
-export const WorkSpaceContainer = styled.div`
+export const _Container = styled.div`
 	flex: 1;
 	margin: 0;
 	padding: 0;
@@ -136,7 +136,7 @@ const WorkSpaceTabPanels = () => {
 	const visibleTab = tab.filter((v) => v.display === true);
 
 	return (
-		<WorkSpaceContainer>
+		<_Container>
 			{visibleTab.length <= cols ? (
 				Panels(visibleTab)
 			) : (
@@ -145,7 +145,7 @@ const WorkSpaceTabPanels = () => {
 					{Panels(visibleTab.slice(cols))}
 				</SplitPane>
 			)}
-		</WorkSpaceContainer>
+		</_Container>
 	);
 };
 

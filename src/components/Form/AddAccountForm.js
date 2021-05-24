@@ -35,7 +35,7 @@ const _Modal = styled(Modal)`
 	width: 600px;
 `;
 
-const Item_Container = styled.div`
+const _Item = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -83,7 +83,7 @@ const _Header = styled.div`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const Span = styled.span`
+const _Span = styled.span`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -107,7 +107,7 @@ const _Form = styled.form`
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
-	const {server, account, accountListControlId} = useSelector(
+	const {account, accountListControlId} = useSelector(
 		(state) => state.common,
 	);
 	const {account_form_popup} = useSelector((state) => state.popup);
@@ -208,13 +208,13 @@ const AddAccountForm = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>Add Account</Span>
+				<_Span>Add Account</_Span>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
-				<Item_Container>
+				<_Item>
 					<Input_Container title={'Identity'}>
 						<Input
 							value={identity}
@@ -228,8 +228,8 @@ const AddAccountForm = () => {
 						value={authentication}
 						setValue={setAuthentication}
 					/>
-				</Item_Container>
-				<Item_Container>
+				</_Item>
+				<_Item>
 					<Input_Container title={'Username'}>
 						<LongInput
 							value={username}
@@ -237,9 +237,9 @@ const AddAccountForm = () => {
 							placeholder={'Username'}
 						/>
 					</Input_Container>
-				</Item_Container>
+				</_Item>
 				{authentication === 'Password' ? (
-					<Item_Container>
+					<_Item>
 						<Input_Container title={'Password'}>
 							<LongInput
 								type='password'
@@ -248,10 +248,10 @@ const AddAccountForm = () => {
 								placeholder={'Password'}
 							/>
 						</Input_Container>
-					</Item_Container>
+					</_Item>
 				) : (
 					<React.Fragment>
-						<Item_Container>
+						<_Item>
 							<Input_Container title={'Private Key File'}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
@@ -275,9 +275,9 @@ const AddAccountForm = () => {
 							>
 								Browse
 							</BrowseButton>
-						</Item_Container>
+						</_Item>
 
-						<Item_Container>
+						<_Item>
 							<Input_Container title={'Key File Password'}>
 								<LongInput
 									type='password'
@@ -286,10 +286,10 @@ const AddAccountForm = () => {
 									placeholder={'Password'}
 								/>
 							</Input_Container>
-						</Item_Container>
+						</_Item>
 					</React.Fragment>
 				)}
-				<Item_Container>
+				<_Item>
 					<Input_Container title={'Note'}>
 						<LongInput
 							value={note}
@@ -297,7 +297,7 @@ const AddAccountForm = () => {
 							placeholder={'Note'}
 						/>
 					</Input_Container>
-				</Item_Container>
+				</_Item>
 				<button
 					type='submit'
 					id={'add_account_form_submit_button'}
