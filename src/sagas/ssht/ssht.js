@@ -24,14 +24,14 @@ import {
 	SSHT_SEND_WINDOW_CHANGE_FAILURE,
 } from '../../reducers/ssht';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
-import {initChannel, initWebsocket} from './sshSocket';
+import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
-import {closeChannel} from '../sftp/channel';
+import {closeChannel, subscribe} from '../channel';
 
 function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
-	const channel = yield call(initChannel, ws);
+	const channel = yield call(subscribe, ws);
 	let uuid;
 
 	try {
@@ -89,7 +89,7 @@ function* sendConnection(action) {
 }
 
 function* sendDisconnection(action) {
-	const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(subscribe, action.data.ws);
 
 	try {
 		yield call(ssht_ws_request, {
@@ -122,7 +122,7 @@ function* sendDisconnection(action) {
 }
 
 function* sendCommand(action) {
-	const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(subscribe, action.data.ws);
 
 	try {
 		yield call(ssht_ws_request, {
@@ -157,7 +157,7 @@ function* sendCommand(action) {
 }
 
 function* sendWindowChange(action) {
-	const channel = yield call(initChannel, action.data.ws);
+	const channel = yield call(subscribe, action.data.ws);
 
 	try {
 		yield call(ssht_ws_request, {

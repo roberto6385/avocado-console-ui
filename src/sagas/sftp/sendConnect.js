@@ -13,7 +13,7 @@ import {
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 } from '../../reducers/sftp';
-import {closeChannel, subscribe} from './channel';
+import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {messageReader} from './messageReader';
