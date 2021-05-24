@@ -1,12 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import Input_Container from './Input_Container';
+import Input_ from '../../RecycleComponents/Input_';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	GREEN_COLOR,
 	BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
-} from '../../styles/global_design';
+} from '../../../styles/global_design';
 import {useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
@@ -38,28 +38,28 @@ const AccountAside = () => {
 	const [email, setEmail] = useState('');
 	return (
 		<_Container>
-			<Input_Container title={'Account'}>
+			<Input_ title={'Account'}>
 				<_Input
 					value={account}
 					onChange={(e) => setAccount(e.target.value)}
 					placeholder={'Account'}
 				/>
-			</Input_Container>
-			<Input_Container title={'Full name'}>
+			</Input_>
+			<Input_ title={'Full name'}>
 				<_Input
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					placeholder={'Name'}
 				/>
-			</Input_Container>
-			<Input_Container title={'Email Address'}>
+			</Input_>
+			<Input_ title={'Email Address'}>
 				<_Input
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					placeholder={'Email Address'}
 				/>
-			</Input_Container>
-			<Input_Container title={'Authorization'}>
+			</Input_>
+			<Input_ title={'Authorization'}>
 				<_Input
 					onClick={changePath('/account')}
 					type='button'
@@ -67,7 +67,7 @@ const AccountAside = () => {
 					back={GREEN_COLOR}
 					color={'white'}
 				/>
-			</Input_Container>
+			</Input_>
 		</_Container>
 	);
 };

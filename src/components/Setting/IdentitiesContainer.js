@@ -7,11 +7,10 @@ import {PrevIconButton} from '../../styles/buttons';
 import {ColBox, RowBox} from '../../styles/divs';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
-	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import AccountContextMenu from './AccountContextMenu';
-import {ADD_ONE_HIGHLIGHT} from '../../reducers/sftp';
+import AccountContextMenu from '../ContextMenu/AccountContextMenu';
+
 import {useContextMenu} from 'react-contexify';
 import {ACCOUT_CHECKLIST, ACCOUT_CONTROL_ID} from '../../reducers/common';
 

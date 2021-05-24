@@ -27,13 +27,13 @@ import {
 } from '../../styles/global_design';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
-const SSHWrapper = styled.div`
+const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 `;
 
-const SSHSearchForm = styled.form`
+const _Form = styled.form`
 	position: absolute;
 	right: 3px;
 	bottom: 31px;
@@ -48,7 +48,7 @@ const SSHSearchForm = styled.form`
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
-const SSHSearchInput = styled.input`
+const _Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
 	font-size: ${AVOCADO_FONTSIZE};
@@ -175,8 +175,8 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHWrapper ref={ref}>
-			<SSHWrapper id={`terminal_${uuid}`} />
+		<_Container ref={ref}>
+			<_Container id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',
@@ -192,9 +192,9 @@ const SSH = ({uuid}) => {
 				{/*		</ListGroup.Item>*/}
 				{/*	))}*/}
 			</ListGroup>
-			<SSHSearchForm onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				<MdSearch />
-				<SSHSearchInput
+				<_Input
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
@@ -209,8 +209,8 @@ const SSH = ({uuid}) => {
 				<IconButton color={ICON_DARK_COLOR}>
 					<IoCloseOutline />
 				</IconButton>
-			</SSHSearchForm>
-		</SSHWrapper>
+			</_Form>
+		</_Container>
 	);
 };
 

@@ -2,9 +2,9 @@ import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {CHANGE_CURRENT_TAB} from '../../reducers/common';
-import SSHContainer from '../SSH/SSHContainer';
-import SFTPContainer from '../SFTP/SFTPContainer';
+import {CHANGE_CURRENT_TAB} from '../reducers/common';
+import SSHContainer from './SSH/SSHContainer';
+import SFTPContainer from './SFTP/SFTPContainer';
 import {
 	IconButton,
 	ICON_DARK_COLOR,
@@ -12,10 +12,10 @@ import {
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-} from '../../styles/global_design';
+} from '../styles/global_design';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
-import {disconnectAction} from '../../reducers/sftp';
+import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {disconnectAction} from '../reducers/sftp';
 
 const _Container = styled.div`
 	height: 100%;
@@ -45,7 +45,7 @@ const _Span = styled.span`
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const SSH_SFTP = ({uuid, type, server}) => {
+const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 	const {tab, current_tab} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
@@ -105,10 +105,10 @@ const SSH_SFTP = ({uuid, type, server}) => {
 	);
 };
 
-SSH_SFTP.propTypes = {
+Pane.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	server: PropTypes.object.isRequired,
 };
 
-export default SSH_SFTP;
+export default Pane;

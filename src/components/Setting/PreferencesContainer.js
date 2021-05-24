@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {Button, Form} from 'react-bootstrap';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {SSHT_SET_FONT} from '../../reducers/ssht';
+import {SSH_SET_FONT} from '../../reducers/ssht';
 import {ColBox} from '../../styles/divs';
 
 const PreferencesContainer = () => {
@@ -10,7 +10,7 @@ const PreferencesContainer = () => {
 	const {font} = useSelector((state) => state.ssht);
 
 	const onChangeTerminalFont = useCallback((e) => {
-		dispatch({type: SSHT_SET_FONT, data: e.target.value});
+		dispatch({type: SSH_SET_FONT, data: e.target.value});
 	}, []);
 
 	return (

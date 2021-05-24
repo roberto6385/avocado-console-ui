@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	Default_Button,
+	DefaultButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
@@ -39,15 +39,7 @@ const _Header = styled.div`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const _Form = styled.form`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	font-size: ${AVOCADO_FONTSIZE};
-	padding: 18px 16px 29px 16px;
-`;
-
-const Span = styled.span`
+const _Span = styled.span`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -61,7 +53,7 @@ const _Footer = styled.div`
 	// border-top: 1px solid ${BORDER_COLOR};
 `;
 
-const Item_Container = styled.div`
+const _Message = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -97,12 +89,12 @@ const AlertPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>
+				<_Span>
 					{Object.prototype.hasOwnProperty.call(
 						AlertHeader,
 						alert_popup.key,
 					) && AlertHeader[alert_popup.key]}
-				</Span>
+				</_Span>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -111,12 +103,12 @@ const AlertPopup = () => {
 				AlertMessage,
 				alert_popup.key,
 			) && (
-				<Item_Container>
-					<Span>{AlertMessage[alert_popup.key]}</Span>
-				</Item_Container>
+				<_Message>
+					<_Span>{AlertMessage[alert_popup.key]}</_Span>
+				</_Message>
 			)}
 			<_Footer>
-				<Default_Button onClick={closeModal}>OK</Default_Button>
+				<DefaultButton onClick={closeModal}>OK</DefaultButton>
 			</_Footer>
 		</_Modal>
 	);

@@ -23,17 +23,16 @@ import {
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
-	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	Default_Button,
+	DefaultButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	Primary_Button,
+	PrimaryButton,
 } from '../../styles/global_design';
-import Input_Container from '../container/Input_Container';
+import Input_ from '../RecycleComponents/Input_';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -67,21 +66,18 @@ const _Form = styled.form`
 	padding: 18px 16px 29px 16px;
 `;
 
-const Span = styled.span`
+const _Span = styled.span`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
-const Input = styled.input`
-	width: ${ACCOUNT_BUTTON_WIDTH};
+const _Input = styled.input`
+	width: 100%;
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid ${BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-`;
-const LongInput = styled(Input)`
-	width: 100%;
 `;
 
 const _Footer = styled.div`
@@ -94,7 +90,7 @@ const _Footer = styled.div`
 	// border-top: 1px solid ${BORDER_COLOR};
 `;
 
-const Item_Container = styled.div`
+const _Message = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -385,12 +381,12 @@ const ConfirmPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>
+				<_Span>
 					{Object.prototype.hasOwnProperty.call(
 						ConfirmTopMessage,
 						confirm_popup.key,
 					) && ConfirmTopMessage[confirm_popup.key]}
-				</Span>
+				</_Span>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -399,14 +395,14 @@ const ConfirmPopup = () => {
 				ConfirmMessage,
 				confirm_popup.key,
 			) && (
-				<Item_Container>
-					<Span>{ConfirmMessage[confirm_popup.key]}</Span>
-				</Item_Container>
+				<_Message>
+					<_Span>{ConfirmMessage[confirm_popup.key]}</_Span>
+				</_Message>
 			)}
 			{FORM_KEYWORDS.includes(confirm_popup.key) && (
 				<_Form onSubmit={submitFunction}>
-					<Input_Container title={'Name'}>
-						<LongInput
+					<Input_ title={'Name'}>
+						<_Input
 							ref={inputRef}
 							value={formValue}
 							onChange={onChangeFormValue}
@@ -419,15 +415,15 @@ const ConfirmPopup = () => {
 									: null
 							}
 						/>
-					</Input_Container>
+					</Input_>
 				</_Form>
 			)}
 
 			<_Footer>
-				<Default_Button onClick={cancelFunction}>Cancel</Default_Button>
-				<Primary_Button onClick={submitFunction}>
+				<DefaultButton onClick={cancelFunction}>Cancel</DefaultButton>
+				<PrimaryButton onClick={submitFunction}>
 					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
-				</Primary_Button>
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 
 const ServerContextMenuMessage = {
 	connect: 'Connect',
@@ -68,7 +68,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	const openSSHT = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 		dispatch({
-			type: SSHT_SEND_CONNECTION_REQUEST,
+			type: SSH_SEND_CONNECTION_REQUEST,
 			data: {
 				token: userTicket,
 				...correspondedServer,

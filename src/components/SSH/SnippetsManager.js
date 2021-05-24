@@ -4,12 +4,12 @@ import {FaMinus, FaPlus, FaTimes, GiHamburgerMenu} from 'react-icons/all';
 import {Card, Col, Form, ListGroup, Row} from 'react-bootstrap';
 import * as PropTypes from 'prop-types';
 
-import {BaseModal} from '../styles/modals';
-import {BaseSpan} from '../styles/texts';
-import {PrevIconButton, PopupButton} from '../styles/buttons';
-import {MainHeader} from '../styles/cards';
-import {MAIN_COLOR, SUB_COLOR} from '../styles/global';
-import {SSHT_CHANGE_SNIPPET} from '../reducers/ssht';
+import {BaseModal} from '../../styles/modals';
+import {BaseSpan} from '../../styles/texts';
+import {PrevIconButton, PopupButton} from '../../styles/buttons';
+import {MainHeader} from '../../styles/cards';
+import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
+import {SSHT_CHANGE_SNIPPET} from '../../reducers/ssht';
 
 const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();

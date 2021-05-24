@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import Select_ from '../RecycleComponents/Select_';
+import Select_ from '../../RecycleComponents/Select_';
 import styled from 'styled-components';
-import {BORDER_COLOR, SIXTEEN} from '../../styles/global_design';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
+import {BORDER_COLOR, SIXTEEN} from '../../../styles/global_design';
+import Checkbox_ from '../../RecycleComponents/Checkbox_';
 
 const _P = styled.p`
 	padding: 0px 0px 12px 0px;

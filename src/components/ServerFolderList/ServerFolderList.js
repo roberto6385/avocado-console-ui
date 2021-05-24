@@ -6,7 +6,14 @@ import Folder from './Folder';
 import Server from './Server';
 import Sortable from 'sortablejs';
 import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
-import {Folder_Server_Nav} from '../../styles/navs';
+
+import styled from 'styled-components';
+import {Nav} from 'react-bootstrap';
+
+export const _Nav = styled(Nav)`
+	display: flex;
+	flex-direction: column;
+`;
 
 function searchTreeNode(node, name) {
 	if (node.type === 'server' || !node.contain.length) {
@@ -47,7 +54,7 @@ function searchTreeStart(root, name) {
 	return tempRoot;
 }
 
-const NavList = ({search}) => {
+const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
 
 	const {nav} = useSelector((state) => state.common);
@@ -69,12 +76,10 @@ const NavList = ({search}) => {
 		setfilteredNav(searchTreeStart(nav, search));
 	}, [nav, search]);
 
-	useEffect(()=>{
-
-	},[])
+	useEffect(() => {}, []);
 
 	return (
-		<Folder_Server_Nav onDrop={dropNavList} id='sortableServerNav'>
+		<_Nav onDrop={dropNavList} id='sortableServerNav'>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
 					<Folder
@@ -87,12 +92,12 @@ const NavList = ({search}) => {
 					<Server key={data.key} data={data} indent={1} />
 				),
 			)}
-		</Folder_Server_Nav>
+		</_Nav>
 	);
 };
 
-NavList.propTypes = {
+ServerFolderList.propTypes = {
 	search: PropTypes.string.isRequired,
 };
 
-export default NavList;
+export default ServerFolderList;

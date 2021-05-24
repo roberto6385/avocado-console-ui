@@ -7,13 +7,14 @@ import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 import {
-	Avocado_span,
+	Span,
 	BORDER_COLOR,
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
-const HistoryNav_Container = styled.div`
+
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -72,8 +73,8 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history_highlight]);
 
 	return (
-		<HistoryNav_Container>
-			<Avocado_span>Transfer</Avocado_span>
+		<_Container>
+			<Span>Transfer</Span>
 			<div>
 				<IconButton onClick={upload}>
 					<span className='material-icons button_large'>
@@ -87,7 +88,7 @@ const HistoryNav = ({uuid}) => {
 					<span className='material-icons button_large'>delete</span>
 				</IconButton>
 			</div>
-		</HistoryNav_Container>
+		</_Container>
 	);
 };
 

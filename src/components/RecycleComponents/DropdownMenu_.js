@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Dropdown} from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import {
 	GRAY_ACTIVE_COLOR,

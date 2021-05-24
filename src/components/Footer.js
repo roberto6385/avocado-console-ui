@@ -1,17 +1,17 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	Avocado_span,
+	Span,
 	FOOTER_BACK_COLOR,
 	FOOTER_HEIGHT,
 	HISTORY_FONTSIZE,
-} from '../../styles/global_design';
+} from '../styles/global_design';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
-	SSHT_DECREASE_FONT_SIZE,
-	SSHT_INCREASE_FONT_SIZE,
-} from '../../reducers/ssht';
+	SSH_DECREASE_FONT_SIZE,
+	SSH_INCREASE_FONT_SIZE,
+} from '../reducers/ssht';
 
 const _Footer = styled.footer`
 	height: ${FOOTER_HEIGHT};
@@ -35,11 +35,11 @@ const Footer = () => {
 	const {server, tab, current_tab} = useSelector((state) => state.common);
 
 	const onClickIncreaseFont = useCallback(() => {
-		dispatch({type: SSHT_INCREASE_FONT_SIZE});
+		dispatch({type: SSH_INCREASE_FONT_SIZE});
 	}, [dispatch]);
 
 	const onClickDeceaseFont = useCallback(() => {
-		dispatch({type: SSHT_DECREASE_FONT_SIZE});
+		dispatch({type: SSH_DECREASE_FONT_SIZE});
 	}, [dispatch]);
 
 	const onClickOpenSearchBar = useCallback(() => {
@@ -47,7 +47,7 @@ const Footer = () => {
 	}, [current_tab, dispatch]);
 	return (
 		<_Footer>
-			<Avocado_span size={HISTORY_FONTSIZE}>Avocado v1.0</Avocado_span>
+			<Span size={HISTORY_FONTSIZE}>Avocado v1.0</Span>
 			<div>
 				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
 					0 && (

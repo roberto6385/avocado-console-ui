@@ -8,22 +8,22 @@ import {
 	LIGHT_BACK_COLOR,
 	MAIN_HEIGHT,
 	POPUP_SIDE_COLOR,
-	Primary_Button,
+	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
 } from '../styles/global_design';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {useHistory} from 'react-router-dom';
-import SideMenuContainer from './container/SideMenuContainer';
+import AsideContainer from './Setting/AsideContainer';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	flex: 1;
 	flex-direction: column;
 `;
 
-const Header = styled.div`
+const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -32,7 +32,7 @@ const Header = styled.div`
 	background: ${LIGHT_BACK_COLOR};
 `;
 
-const Body = styled.div`
+const _Body = styled.div`
 	display: flex;
 	align-items: center;
 	flex: 1;
@@ -49,7 +49,7 @@ const Body = styled.div`
 	}
 `;
 
-const Contents = styled.div`
+const _Contents = styled.div`
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -102,8 +102,8 @@ const MainPage = () => {
 	];
 
 	return (
-		<Container>
-			<Header>
+		<_Container>
+			<_Header>
 				<DropdownMenu_
 					icon={
 						<span className='material-icons button_large'>
@@ -125,21 +125,21 @@ const MainPage = () => {
 						notifications
 					</span>
 				</IconButton>
-			</Header>
-			<Body>
-				<Contents>
+			</_Header>
+			<_Body>
+				<_Contents>
 					<span>Hello! Start Avocado</span>
 					<span>
 						Select a server to start a session via SSH, SFTP, RDP,
 						VNC or Telnet. Or
 					</span>
-					<Primary_Button onClick={onClickVisibleForm}>
+					<PrimaryButton onClick={onClickVisibleForm}>
 						Add Server
-					</Primary_Button>
-				</Contents>
-				<SideMenuContainer />
-			</Body>
-		</Container>
+					</PrimaryButton>
+				</_Contents>
+				<AsideContainer />
+			</_Body>
+		</_Container>
 	);
 };
 

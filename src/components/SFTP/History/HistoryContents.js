@@ -15,7 +15,7 @@ import {BaseLi, BaseUl} from '../../../styles/lists';
 import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
-	Avocado_span,
+	Span,
 	BORDER_COLOR,
 	IconButton,
 	DROP_SPACE_HEIGHT,
@@ -56,7 +56,7 @@ const DropSpace_Button = styled.button`
 	}
 `;
 
-const ItemName_Span = styled(Avocado_span)`
+const ItemName_Span = styled(Span)`
 	width: ${HISTORY_ITEM_WIDTH};
 	white-space: nowrap;
 	overflow: hidden;
@@ -244,15 +244,15 @@ const HistoryContents = ({uuid}) => {
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
 				<DropSpaceDiv>
-					<Avocado_span
+					<Span
 						color={ICON_LIGHT_COLOR}
 						padding={'32px 30px 12px 30px'}
 					>
 						Drop files or folders here, or
-					</Avocado_span>
+					</Span>
 					<DropSpace_Button onClick={openUpload}>
 						<span className='material-icons'>file_upload</span>
-						<Avocado_span>Browse file</Avocado_span>
+						<Span>Browse file</Span>
 					</DropSpace_Button>
 				</DropSpaceDiv>
 			) : (
@@ -311,13 +311,13 @@ const HistoryContents = ({uuid}) => {
 								>
 									{history.name}
 								</ItemName_Span>
-								<Avocado_span
+								<Span
 									color={ICON_LIGHT_COLOR}
 									size={HISTORY_FONTSIZE}
 									className={'history_contents'}
 								>
 									{formatByteSizeString(history.size)}
-								</Avocado_span>
+								</Span>
 								<IconButton
 									onClick={removeHistory(history)}
 									className={'history_contents'}

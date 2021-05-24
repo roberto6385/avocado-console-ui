@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
-import FileListContextMenu from './FileListContextMenu';
+import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import {
 	ADD_HIGHLIGHT,
 	ADD_HISTORY,
@@ -24,17 +24,15 @@ import {
 	MAIN_COLOR,
 } from '../../../styles/global';
 import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
-import {BaseLi, DropListUl} from '../../../styles/lists';
+import {DropListUl} from '../../../styles/lists';
 import {RowBox} from '../../../styles/divs';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 
-const DropList_Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 `;
-
-const DropList_li = styled.li``;
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -283,7 +281,7 @@ const FileListDropDown = ({uuid}) => {
 	);
 
 	return fileList.length === pathList.length ? (
-		<DropList_Container>
+		<_Container>
 			{fileList.map((listItem, listindex) => {
 				return (
 					<DropListUl
@@ -305,7 +303,7 @@ const FileListDropDown = ({uuid}) => {
 							if (listindex === 0 && item.name === '..') return;
 							return (
 								item.name !== '.' && (
-									<DropList_li
+									<ls
 										back={
 											(highlight.findIndex(
 												(it) =>
@@ -379,7 +377,7 @@ const FileListDropDown = ({uuid}) => {
 												</RowBox>
 											)}
 										</RowBox>
-									</DropList_li>
+									</ls>
 								)
 							);
 						})}
@@ -387,7 +385,7 @@ const FileListDropDown = ({uuid}) => {
 				);
 			})}
 			<FileListContextMenu uuid={uuid} />
-		</DropList_Container>
+		</_Container>
 	) : (
 		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
 	);

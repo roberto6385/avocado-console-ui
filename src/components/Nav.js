@@ -14,16 +14,16 @@ import {
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
 	BORDER_COLOR,
-} from '../../styles/global_design';
-import NavList from '../NavList/NavList';
-import useInput from '../../hooks/useInput';
+} from '../styles/global_design';
+import ServerFolderList from './ServerFolderList/ServerFolderList';
+import useInput from '../hooks/useInput';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
-} from '../../reducers/popup';
+} from '../reducers/popup';
 import {useDispatch} from 'react-redux';
 
-const _Container = styled.aside`
+const _Aside = styled.aside`
 	display: flex;
 	flex-direction: column;
 	width: ${SIDE_WIDTH};
@@ -95,7 +95,7 @@ const Nav = () => {
 	}, [dispatch]);
 
 	return (
-		<_Container>
+		<_Aside>
 			<_Header>
 				<IconButton>
 					<span className='material-icons button_large'>menu</span>
@@ -123,9 +123,9 @@ const Nav = () => {
 				/>
 			</_Form>
 			<_FolderServerContainer>
-				<NavList search={search} />
+				<ServerFolderList search={search} />
 			</_FolderServerContainer>
-		</_Container>
+		</_Aside>
 	);
 };
 

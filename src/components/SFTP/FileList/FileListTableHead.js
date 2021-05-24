@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
 
-const FileList_Tr = styled.tr`
+const _Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
 	display: flex;
 	align-items: center;
@@ -14,7 +14,7 @@ const FileList_Tr = styled.tr`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const Thead = styled.thead`
+const _Thead = styled.thead`
 	position: sticky;
 	top: 0px;
 	z-index: 1;
@@ -76,8 +76,8 @@ const TableHead = ({uuid}) => {
 	];
 
 	return (
-		<Thead>
-			<FileList_Tr>
+		<_Thead>
+			<_Tr>
 				{tableHeaders.map((item) => {
 					return (
 						<HeaderTh
@@ -97,8 +97,8 @@ const TableHead = ({uuid}) => {
 					);
 				})}
 				<Th min={'100px'} />
-			</FileList_Tr>
-		</Thead>
+			</_Tr>
+		</_Thead>
 	);
 };
 

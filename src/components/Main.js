@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Nav from './Nav';
 import WorkSpace from './WorkSpace';
 import {useSelector} from 'react-redux';
-import MainPage from '../MainPage';
+import MainPage from './MainPage';
 
 const _Container = styled.div`
 	display: flex;

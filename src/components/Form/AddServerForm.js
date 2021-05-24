@@ -18,12 +18,12 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	Default_Button,
-	Primary_Button,
+	DefaultButton,
+	PrimaryButton,
 } from '../../styles/global_design';
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
-import Input_Container from '../container/Input_Container';
+import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 
 const _Modal = styled(Modal)`
@@ -74,7 +74,7 @@ const Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const BrowseButton = styled(Primary_Button)`
+const BrowseButton = styled(PrimaryButton)`
 	margin-top: 8px;
 `;
 
@@ -263,13 +263,13 @@ const AddServerForm = () => {
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
-					<Input_Container title={'Name'}>
+					<Input_ title={'Name'}>
 						<Input
 							value={name}
 							onChange={onChangeName}
 							placeholder={'Server Name'}
 						/>
-					</Input_Container>
+					</Input_>
 					<Select_
 						title='Protocol'
 						options={protocol_options}
@@ -278,15 +278,15 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_Container title={'Address'}>
+					<Input_ title={'Address'}>
 						<Input
 							value={host}
 							onChange={onChangeHost}
 							placeholder={'Host or IP'}
 						/>
-					</Input_Container>
+					</Input_>
 
-					<Input_Container
+					<Input_
 						title={'Port'}
 						width={ACCOUNT_BUTTON_WIDTH}
 					>
@@ -295,7 +295,7 @@ const AddServerForm = () => {
 							onChange={onChangePort}
 							placeholder={'Port'}
 						/>
-					</Input_Container>
+					</Input_>
 				</Item_Container>
 				<Item_Container>
 					<Select_
@@ -312,29 +312,29 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_Container title={'Username'}>
+					<Input_ title={'Username'}>
 						<LongInput
 							value={username}
 							onChange={onChangeUsername}
 							placeholder={'Username'}
 						/>
-					</Input_Container>
+					</Input_>
 				</Item_Container>
 				{authentication === 'Password' ? (
 					<Item_Container>
-						<Input_Container title={'Password'}>
+						<Input_ title={'Password'}>
 							<LongInput
 								type='password'
 								value={password}
 								onChange={onChangePassword}
 								placeholder={'Password'}
 							/>
-						</Input_Container>
+						</Input_>
 					</Item_Container>
 				) : (
 					<React.Fragment>
 						<Item_Container>
-							<Input_Container title={'Private Key File'}>
+							<Input_ title={'Private Key File'}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<FileInput
@@ -345,7 +345,7 @@ const AddServerForm = () => {
 										placeholder={'Key File'}
 									/>
 								</_Label>
-							</Input_Container>
+							</Input_>
 							<BrowseButton
 								onClick={() =>
 									document
@@ -360,25 +360,25 @@ const AddServerForm = () => {
 						</Item_Container>
 
 						<Item_Container>
-							<Input_Container title={'Key File Password'}>
+							<Input_ title={'Key File Password'}>
 								<LongInput
 									type='password'
 									value={password}
 									onChange={onChangePassword}
 									placeholder={'Password'}
 								/>
-							</Input_Container>
+							</Input_>
 						</Item_Container>
 					</React.Fragment>
 				)}
 				<Item_Container>
-					<Input_Container title={'Note'}>
+					<Input_ title={'Note'}>
 						<LongInput
 							value={note}
 							onChange={onChangeNote}
 							placeholder={'Note'}
 						/>
-					</Input_Container>
+					</Input_>
 				</Item_Container>
 				<button
 					type='submit'
@@ -387,8 +387,8 @@ const AddServerForm = () => {
 				/>
 			</_Form>
 			<_Footer>
-				<Default_Button onClick={closeModal}>Cancel</Default_Button>
-				<Primary_Button
+				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
+				<PrimaryButton
 					onClick={() =>
 						document
 							.getElementById('add_server_form_submit_button')
@@ -396,7 +396,7 @@ const AddServerForm = () => {
 					}
 				>
 					Save
-				</Primary_Button>
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

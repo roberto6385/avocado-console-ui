@@ -62,7 +62,7 @@ export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';
 
 // span
-export const Avocado_span = styled.span`
+export const Span = styled.span`
 	flex: ${(props) => props?.flex};
 	font-size: ${(props) => props?.size || AVOCADO_FONTSIZE};
 	padding: ${(props) => props.padding || '6px'};
@@ -87,7 +87,7 @@ export const IconButton = styled.button`
 	}
 `;
 
-export const Default_Button = styled.button`
+export const DefaultButton = styled.button`
 	height: 34px;
 	width: 120px; // s,m,l 사이즈 정해지면 넣을 예정.
 	background: transparent;
@@ -107,7 +107,7 @@ export const Default_Button = styled.button`
 	}
 `;
 
-export const Primary_Button = styled(Default_Button)`
+export const PrimaryButton = styled(DefaultButton)`
 	background: ${GREEN_COLOR};
 	&:hover {
 		background: ${GREEN_HOVER_COLOR};
@@ -116,7 +116,7 @@ export const Primary_Button = styled(Default_Button)`
 		background: ${GREEN_ACTIVE_COLOR};
 	}
 `;
-export const Danger_Button = styled(Default_Button)`
+export const DangerButton = styled(DefaultButton)`
 	background: ${RED_COLOR};
 	&:hover {
 		background: ${RED_HOVER_COLOR};
