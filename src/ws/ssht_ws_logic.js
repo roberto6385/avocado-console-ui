@@ -92,8 +92,8 @@ export const GetMessage = (data) => {
 					SSH.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
-					// console.log('COMMAND');
-					console.log(JSON.stringify(command));
+					console.log('COMMAND');
+					// console.log(JSON.stringify(command));
 					return {
 						type: 'COMMAND',
 						result: command.getMessage(),

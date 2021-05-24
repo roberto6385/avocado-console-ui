@@ -4,14 +4,14 @@ import {SearchAddon} from 'xterm-addon-search';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
+import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {
 	SSHT_SEND_COMMAND_REQUEST,
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 } from '../../reducers/ssht';
-import {SSHTerminal} from '../../styles/divs';
-import styled from 'styled-components';
+
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
@@ -30,6 +30,7 @@ import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver
 
 const SSHT_Container = styled.div`
 	height: 100%;
+	width: 100%;
 	overflow: hidden;
 `;
 
@@ -55,7 +56,7 @@ const SSHT_Input = styled.input`
 	border: none;
 `;
 
-const SSHT = ({uuid, height, width}) => {
+const SSHT = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
@@ -69,6 +70,9 @@ const SSHT = ({uuid, height, width}) => {
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
 	const [currentLine, setCurrentLine] = useState('');
+	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
+		1000,
+	);
 
 	const onSubmitSearch = useCallback(
 		(e) => {
@@ -136,22 +140,22 @@ const SSHT = ({uuid, height, width}) => {
 	//window size change
 	useEffect(() => {
 		console.log(width, height);
-		// if (width > 0 && height > 0) {
-		// 	dispatch({
-		// 		type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
-		// 		data: {
-		// 			ws: ws.current,
-		// 			uuid: uuid,
-		// 			data: {
-		// 				cols: sshTerm.cols,
-		// 				rows: sshTerm.rows,
-		// 				width: width,
-		// 				height: height,
-		// 			},
-		// 		},
-		// 	});
-		// 	fitAddon.current.fit();
-		// }
+		if (width > 0 && height > 0) {
+			fitAddon.current.fit();
+			dispatch({
+				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+				data: {
+					ws: ws.current,
+					uuid: uuid,
+					data: {
+						cols: sshTerm.cols,
+						rows: sshTerm.rows,
+						width: width - 40,
+						height: height - 40,
+					},
+				},
+			});
+		}
 	}, [ws, uuid, sshTerm, width, height]);
 	//click search button
 	useEffect(() => {
@@ -172,8 +176,8 @@ const SSHT = ({uuid, height, width}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSHT_Container>
-			<SSHTerminal id={`terminal_${uuid}`} />
+		<SSHT_Container ref={ref}>
+			<SSHT_Container id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',
@@ -213,8 +217,6 @@ const SSHT = ({uuid, height, width}) => {
 
 SSHT.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	height: PropTypes.number.isRequired,
-	width: PropTypes.number.isRequired,
 };
 
 export default SSHT;
