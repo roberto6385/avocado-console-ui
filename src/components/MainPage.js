@@ -83,6 +83,7 @@ const MainPage = () => {
 	);
 
 	const setting_list = [
+		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -91,7 +92,6 @@ const MainPage = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 	];
 	const account_list = [
 		{

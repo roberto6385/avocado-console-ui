@@ -44,6 +44,7 @@ const RightCornerIcons = () => {
 		[dispatch],
 	);
 	const setting_list = [
+		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -52,7 +53,6 @@ const RightCornerIcons = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 	];
 
 	const column_list = [

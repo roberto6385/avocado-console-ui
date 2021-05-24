@@ -14,7 +14,7 @@ const _Container = styled.div`
 `;
 
 const _Select = styled(Select)`
-	width: 268px;
+	width: ${(props) => props.width || '268px'};
 	margin-top: 6px;
 	.css-26l3qy-menu {
 		z-index: 10;
@@ -44,7 +44,7 @@ const _Select = styled(Select)`
 	}
 `;
 
-const Select_ = ({title, options, value, setValue}) => {
+const Select_ = ({title, options, value, setValue, width}) => {
 	return (
 		<_Container>
 			<_Span>{title}</_Span>
@@ -54,6 +54,7 @@ const Select_ = ({title, options, value, setValue}) => {
 				})}
 				options={options}
 				onChange={(e) => setValue(e.value)}
+				width={width}
 			/>
 		</_Container>
 	);
@@ -64,6 +65,7 @@ Select_.propTypes = {
 	options: PropTypes.array.isRequired,
 	value: PropTypes.string.isRequired,
 	setValue: PropTypes.func.isRequired,
+	width: PropTypes.string,
 };
 
 export default Select_;
