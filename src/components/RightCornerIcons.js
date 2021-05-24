@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {IconButton, LIGHT_BACK_COLOR} from '../styles/global_design';
 
 const CornerIcons_Container = styled.div`
@@ -73,13 +73,13 @@ const RightCornerIcons = () => {
 
 	return (
 		<CornerIcons_Container>
-			<DropdownMenu
+			<DropdownMenu_
 				icon={
 					<span className='material-icons button_large'>person</span>
 				}
 				menu={account_list}
 			/>
-			<DropdownMenu
+			<DropdownMenu_
 				icon={
 					<span className='material-icons button_large'>
 						settings
@@ -87,7 +87,7 @@ const RightCornerIcons = () => {
 				}
 				menu={setting_list}
 			/>
-			<DropdownMenu
+			<DropdownMenu_
 				icon={
 					<span className='material-icons button_large'>
 						grid_view

@@ -5,13 +5,18 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
+import {
+	IoCloseOutline,
+	MdKeyboardArrowDown,
+	MdKeyboardArrowUp,
+	MdSearch,
+} from 'react-icons/all';
 
 import useInput from '../../hooks/useInput';
 import {
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 	SSHT_SEND_COMMAND_REQUEST,
 } from '../../reducers/ssht';
-
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
@@ -20,21 +25,15 @@ import {
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
 } from '../../styles/global_design';
-import {
-	IoCloseOutline,
-	MdKeyboardArrowDown,
-	MdKeyboardArrowUp,
-	MdSearch,
-} from 'react-icons/all';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
-const SSH_Container = styled.div`
+const SSHWrapper = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 `;
 
-const SSH_Form = styled.form`
+const SSHSearchForm = styled.form`
 	position: absolute;
 	right: 3px;
 	bottom: 31px;
@@ -49,7 +48,7 @@ const SSH_Form = styled.form`
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
-const SSH_Input = styled.input`
+const SSHSearchInput = styled.input`
 	flex: 1;
 	margin: 0px 5px;
 	font-size: ${AVOCADO_FONTSIZE};
@@ -176,8 +175,8 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 
 	return (
-		<SSH_Container ref={ref}>
-			<SSH_Container id={`terminal_${uuid}`} />
+		<SSHWrapper ref={ref}>
+			<SSHWrapper id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',
@@ -193,9 +192,9 @@ const SSH = ({uuid}) => {
 				{/*		</ListGroup.Item>*/}
 				{/*	))}*/}
 			</ListGroup>
-			<SSH_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+			<SSHSearchForm onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				<MdSearch />
-				<SSH_Input
+				<SSHSearchInput
 					onChange={onChangeSearch}
 					value={search}
 					placeholder='Search...'
@@ -210,8 +209,8 @@ const SSH = ({uuid}) => {
 				<IconButton color={ICON_DARK_COLOR}>
 					<IoCloseOutline />
 				</IconButton>
-			</SSH_Form>
-		</SSH_Container>
+			</SSHSearchForm>
+		</SSHWrapper>
 	);
 };
 

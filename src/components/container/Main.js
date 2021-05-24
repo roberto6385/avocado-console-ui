@@ -1,25 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-import Aside from './Aside';
+import Nav from './Nav';
 import WorkSpace from './WorkSpace';
 import {useSelector} from 'react-redux';
 import MainPage from '../MainPage';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	overflow: hidden;
 	flex: 1;
 `;
 
-const Avocado_Main = () => {
+const Main = () => {
 	const {tab} = useSelector((state) => state.common);
 
 	return (
-		<Container>
-			<Aside />
+		<_Container>
+			<Nav />
 			{tab.length ? <WorkSpace /> : <MainPage />}
-		</Container>
+		</_Container>
 	);
 };
 
-export default Avocado_Main;
+export default Main;

@@ -6,7 +6,7 @@ import {
 	MAIN_HEIGHT,
 } from '../../styles/global_design';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-item: center;
 	padding: 20px 46px;
@@ -14,17 +14,18 @@ const Container = styled.div`
 	font-family: 'Roboto Slab', serif;
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
-const Span = styled.span`
+const _Span = styled.span`
 	font-size: 23px;
 	line-height: 20px;
 	color: ${GREEN_COLOR};
 `;
-const Header = () => {
+
+const SettingHeader = () => {
 	return (
-		<Container>
-			<Span>Avocado</Span>
-		</Container>
+		<_Container>
+			<_Span>Avocado</_Span>
+		</_Container>
 	);
 };
 
-export default Header;
+export default SettingHeader;

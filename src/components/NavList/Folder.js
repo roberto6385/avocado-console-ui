@@ -21,7 +21,7 @@ import {
 	LIGHT_MODE_BACK_COLOR,
 	AVOCADO_FONTSIZE,
 } from '../../styles/global_design';
-import Collapse_Container from '../container/Collapse_Container';
+import Collapse_ from '../RecycleComponents/Collapse_';
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
@@ -171,7 +171,7 @@ const Folder = ({open, data, indent}) => {
 				</IconButton>
 			</Folder_Server_Nav_Item>
 			{data.contain.length !== 0 && (
-				<Collapse_Container open={openTab}>
+				<Collapse_ open={openTab}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
@@ -190,7 +190,7 @@ const Folder = ({open, data, indent}) => {
 							),
 						)}
 					</React.Fragment>
-				</Collapse_Container>
+				</Collapse_>
 			)}
 			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
 		</React.Fragment>

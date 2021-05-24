@@ -7,8 +7,8 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const WorkSpace_Other = () => {
+const AccountSetting = () => {
 	return <Container>work space</Container>;
 };
 
-export default WorkSpace_Other;
+export default AccountSetting;

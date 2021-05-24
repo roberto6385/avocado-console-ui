@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import Avocado_Main from '../components/container/Avocado';
+import Main from '../components/container/Main';
 import Footer from '../components/container/Footer';
 import styled from 'styled-components';
-import Avocado_Other from '../components/container/Avocado_Other';
-import Header from '../components/container/Header';
+import SettingMain from '../components/container/SettingMain';
+import SettingHeader from '../components/container/SettingHeader';
 
 const Container = styled.div`
 	display: flex;
@@ -22,8 +22,8 @@ const Account = () => {
 
 	return (
 		<Container>
-			<Header />
-			<Avocado_Other />
+			<SettingHeader />
+			<SettingMain />
 			<Footer />
 		</Container>
 	);

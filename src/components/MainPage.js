@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import '../styles/resize.css';
@@ -13,7 +13,7 @@ import {
 } from '../styles/global_design';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {useHistory} from 'react-router-dom';
 import SideMenuContainer from './container/SideMenuContainer';
 
@@ -104,7 +104,7 @@ const MainPage = () => {
 	return (
 		<Container>
 			<Header>
-				<DropdownMenu
+				<DropdownMenu_
 					icon={
 						<span className='material-icons button_large'>
 							person
@@ -112,7 +112,7 @@ const MainPage = () => {
 					}
 					menu={account_list}
 				/>
-				<DropdownMenu
+				<DropdownMenu_
 					icon={
 						<span className='material-icons button_large'>
 							settings

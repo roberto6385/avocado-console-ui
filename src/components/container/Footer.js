@@ -13,7 +13,7 @@ import {
 	SSHT_INCREASE_FONT_SIZE,
 } from '../../reducers/ssht';
 
-const Footer_Container = styled.footer`
+const _Footer = styled.footer`
 	height: ${FOOTER_HEIGHT};
 	display: flex;
 	justify-content: space-between;
@@ -23,14 +23,12 @@ const Footer_Container = styled.footer`
 	padding: 0 16px;
 `;
 
-const Footer_Button = styled.button`
+const _Button = styled.button`
 	font-size: ${HISTORY_FONTSIZE};
 	background: transparent;
 	border: none;
 	padding: 4px;
 `;
-
-const Footer_Info = styled.div``;
 
 const Footer = () => {
 	const dispatch = useDispatch();
@@ -48,27 +46,27 @@ const Footer = () => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
 	}, [current_tab, dispatch]);
 	return (
-		<Footer_Container>
+		<_Footer>
 			<Avocado_span size={HISTORY_FONTSIZE}>Avocado v1.0</Avocado_span>
-			<Footer_Info>
+			<div>
 				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
 					0 && (
 					<>
-						<Footer_Button onClick={onClickDeceaseFont}>
+						<_Button onClick={onClickDeceaseFont}>
 							<span className='material-icons button_micro'>
 								zoom_out
 							</span>
-						</Footer_Button>
-						<Footer_Button onClick={onClickIncreaseFont}>
+						</_Button>
+						<_Button onClick={onClickIncreaseFont}>
 							<span className='material-icons button_micro'>
 								zoom_in
 							</span>
-						</Footer_Button>
-						<Footer_Button onClick={onClickOpenSearchBar}>
+						</_Button>
+						<_Button onClick={onClickOpenSearchBar}>
 							<span className='material-icons button_micro'>
 								search
 							</span>
-						</Footer_Button>
+						</_Button>
 					</>
 				)}
 				{current_tab &&
@@ -77,8 +75,8 @@ const Footer = () => {
 							v.id ===
 							tab.find((i) => i.uuid === current_tab)?.server.id,
 					)?.host}
-			</Footer_Info>
-		</Footer_Container>
+			</div>
+		</_Footer>
 	);
 };
 

@@ -1,4 +1,4 @@
-export {default as Main} from './Main';
+export {default as Main} from './Home';
 export {default as Login} from './Login';
 export {default as Account} from './Account';
 export {default as Preferences} from './Preferences';

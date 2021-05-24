@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
 import {AVOCADO_FONTSIZE} from '../../styles/global_design';
-const Span = styled.span`
+
+const _Span = styled.span`
 	padding-bottom: 6px;
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const Container_Box = styled.div`
+const _Container = styled.div`
 	display: flex;
 	width: ${(props) => props?.width};
 	flex-direction: column;
@@ -17,10 +18,10 @@ const Container_Box = styled.div`
 
 const Input_Container = ({title, children, width = '100%'}) => {
 	return (
-		<Container_Box width={width}>
-			<Span>{title}</Span>
+		<_Container width={width}>
+			<_Span>{title}</_Span>
 			{children}
-		</Container_Box>
+		</_Container>
 	);
 };
 

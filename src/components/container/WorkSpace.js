@@ -22,20 +22,20 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import WorkSpaceTabPanels from '../WorkSpaceTabPanels';
 import SideMenuContainer from './SideMenuContainer';
 
-const WorkSpace_Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
 `;
 
-const WorkSpace_Nav = styled.div`
+const _Nav = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background: ${LIGHT_BACK_COLOR};
 `;
 
-const TabItem = styled.div`
+const _TabItem = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -48,14 +48,14 @@ const TabItem = styled.div`
 	font-weight: bold;
 `;
 
-const TabNavbar = styled.div`
+const _Tab = styled.div`
 	display: flex;
 	flex-warp: nowrap;
 	align-items: center;
 	justify-content: space-between;
 `;
 
-const Main_Container = styled.div`
+const _WorkSpaceContainer = styled.div`
 	display: flex;
 	flex: 1;
 	position: relative;
@@ -73,7 +73,7 @@ const Main_Container = styled.div`
 	}
 `;
 
-const Tab_Container = styled.div`
+const _TabContianer = styled.div`
 	display: flex;
 	overflow: scroll;
 	max-width: calc(100% - 152px);
@@ -146,17 +146,17 @@ const WorkSpace = () => {
 	);
 
 	return (
-		<WorkSpace_Container>
-			<WorkSpace_Nav>
-				<Tab_Container>
+		<_Container>
+			<_Nav>
+				<_TabContianer>
 					{tab.map((data) => {
 						return (
-							<TabNavbar
+							<_Tab
 								key={data.uuid}
 								onDragOver={(e) => e.preventDefault()}
 								onDrop={nextPutItem(data)}
 							>
-								<TabItem
+								<_TabItem
 									draggable='true'
 									onDragStart={prevPutItem(data)}
 									onClick={changeVisibleTab(data.uuid)}
@@ -195,18 +195,18 @@ const WorkSpace = () => {
 											close
 										</span>
 									</IconButton>
-								</TabItem>
-							</TabNavbar>
+								</_TabItem>
+							</_Tab>
 						);
 					})}
-				</Tab_Container>
+				</_TabContianer>
 				<RightCornerIcons />
-			</WorkSpace_Nav>
-			<Main_Container>
+			</_Nav>
+			<_WorkSpaceContainer>
 				<WorkSpaceTabPanels />
 				<SideMenuContainer />
-			</Main_Container>
-		</WorkSpace_Container>
+			</_WorkSpaceContainer>
+		</_Container>
 	);
 };
 

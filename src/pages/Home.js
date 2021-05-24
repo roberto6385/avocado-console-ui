@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import Avocado_Main from '../components/container/Avocado';
+import Main from '../components/container/Main';
 import Footer from '../components/container/Footer';
 
 const Container = styled.div`
@@ -11,7 +11,7 @@ const Container = styled.div`
 	font-family: 'Roboto', sans-serif;
 `;
 
-const Main = () => {
+const Home = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
 	// useEffect(() => {
@@ -20,10 +20,10 @@ const Main = () => {
 
 	return (
 		<Container>
-			<Avocado_Main />
+			<Main />
 			<Footer />
 		</Container>
 	);
 };
 
-export default Main;
+export default Home;

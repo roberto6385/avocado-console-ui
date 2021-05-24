@@ -13,7 +13,7 @@ import {
 } from '../../styles/global_design';
 import {useSelector} from 'react-redux';
 
-const Li_Container = styled.li`
+const _Li = styled.li`
 	width: ${RIGHT_SIDE_WIDTH};
 	height: ${THIRD_HEIGHT};
 	display: flex;
@@ -21,26 +21,26 @@ const Li_Container = styled.li`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const Account_Container = styled.div`
+const _AccountContainer = styled.div`
 	width: 109px;
 	display: flex;
 	align-items: center;
 	padding: 6px 16px;
 `;
-const Authentication_Container = styled(Account_Container)`
+const _AuthenticationContainer = styled(_AccountContainer)`
 	width: 142px;
 `;
-const Button_Container = styled(Account_Container)`
+const _ButtonContainer = styled(_AccountContainer)`
 	justify-content: center;
 	padding: 0;
 	width: 49px;
 `;
 
-const Span = styled.span`
+const _Span = styled.span`
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const Account_Button = styled.button`
+const _Button = styled.button`
 	width: ${ACCOUNT_BUTTON_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	border: none;
@@ -54,52 +54,51 @@ const Account_Button = styled.button`
 	}
 `;
 
-const Container = styled.div`
+const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
 	display: flex;
 	flex-direction: column;
-
 	align-items: center;
 `;
 
-const Identities_Container = () => {
+const IdentitiesAside = () => {
 	const {account} = useSelector((state) => state.common);
 
 	return (
-		<Container>
+		<_Container>
 			<ul>
-				<Li_Container>
-					<Account_Container>
-						<Span>Account</Span>
-					</Account_Container>
-					<Authentication_Container>
-						<Span>Authentication</Span>
-					</Authentication_Container>
-					<Button_Container />
-				</Li_Container>
+				<_Li>
+					<_AccountContainer>
+						<_Span>Account</_Span>
+					</_AccountContainer>
+					<_AuthenticationContainer>
+						<_Span>Authentication</_Span>
+					</_AuthenticationContainer>
+					<_ButtonContainer />
+				</_Li>
 				{account.map((item) => {
 					return (
-						<Li_Container key={item.id}>
-							<Account_Container>
-								<Span>{item.name}</Span>
-							</Account_Container>
-							<Authentication_Container>
-								<Span>{item.type}</Span>
-							</Authentication_Container>
-							<Button_Container>
+						<_Li key={item.id}>
+							<_AccountContainer>
+								<_Span>{item.name}</_Span>
+							</_AccountContainer>
+							<_AuthenticationContainer>
+								<_Span>{item.type}</_Span>
+							</_AuthenticationContainer>
+							<_ButtonContainer>
 								<IconButton>
 									<span className='material-icons button_midium'>
 										delete
 									</span>
 								</IconButton>
-							</Button_Container>
-						</Li_Container>
+							</_ButtonContainer>
+						</_Li>
 					);
 				})}
 			</ul>
-			<Account_Button>Edit more account settings</Account_Button>
-		</Container>
+			<_Button>Edit more account settings</_Button>
+		</_Container>
 	);
 };
 
-export default Identities_Container;
+export default IdentitiesAside;

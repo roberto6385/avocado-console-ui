@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {
 	BORDER_COLOR,
@@ -8,13 +8,11 @@ import {
 	SIXTEEN,
 	SUB_HEIGHT,
 } from '../../styles/global_design';
-import Preferences_Container from './Preferences_Container';
-import Identities_Container from './Identities_Container';
-import {IoCloseOutline} from 'react-icons/all';
-import {RIGHT_SIDE_KEY} from '../../reducers/common';
-import Account_Container from './Account_Container';
+import PreferencesAside from './PreferencesAside';
+import IdentitiesAside from './IdentitiesAside';
+import AccountAside from './AccountAside';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: none;
 	width: 0px;
 	height: 100%;
@@ -26,7 +24,7 @@ const Container = styled.div`
 	background: white;
 `;
 
-const Header = styled.div`
+const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -36,7 +34,7 @@ const Header = styled.div`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const Close_Button = styled(IconButton)`
+const _IconButton = styled(IconButton)`
 	padding: 6px 0px 6px 6px;
 `;
 
@@ -49,17 +47,17 @@ const SideMenuContainer = () => {
 	}, []);
 
 	return (
-		<Container id={'right_side_menu'}>
-			<Header>
+		<_Container id={'right_side_menu'}>
+			<_Header>
 				{rightSideKey}
-				<Close_Button onClick={close_sidebar}>
+				<_IconButton onClick={close_sidebar}>
 					<span className='material-icons button_midium'>close</span>
-				</Close_Button>
-			</Header>
-			{rightSideKey === 'Preferences' && <Preferences_Container />}
-			{rightSideKey === 'Identities' && <Identities_Container />}
-			{rightSideKey === 'Account' && <Account_Container />}
-		</Container>
+				</_IconButton>
+			</_Header>
+			{rightSideKey === 'Preferences' && <PreferencesAside />}
+			{rightSideKey === 'Identities' && <IdentitiesAside />}
+			{rightSideKey === 'Account' && <AccountAside />}
+		</_Container>
 	);
 };
 

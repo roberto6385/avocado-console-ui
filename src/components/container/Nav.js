@@ -23,7 +23,7 @@ import {
 } from '../../reducers/popup';
 import {useDispatch} from 'react-redux';
 
-const Aside_Container = styled.aside`
+const _Container = styled.aside`
 	display: flex;
 	flex-direction: column;
 	width: ${SIDE_WIDTH};
@@ -31,44 +31,44 @@ const Aside_Container = styled.aside`
 	border-right: 1px solid ${BORDER_COLOR};
 `;
 
-const Aside_Header = styled.div`
+const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${MAIN_HEIGHT};
 	padding: 16px;
 `;
-const Add_Server_Container = styled.div`
+const _AddFolerServerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	padding: 16px;
 `;
-const Aside_Form = styled.form`
+const _Form = styled.form`
 	display: flex;
 	align-items: center;
 	padding: 16px;
 	height: ${THIRD_HEIGHT};
 `;
-const Folder_Server_Container = styled.div`
+const _FolderServerContainer = styled.div`
 	min-height: 0;
 	flex: 1 1 0;
 	overflow-y: scroll;
 	// overflow : scroll 속성 주기
 `;
 
-const Header_Span = styled.span`
+const _HeaderSpan = styled.span`
 	font-family: 'Roboto Slab', serif;
 	font-size: ${LOGO_FONTSIZE};
 	color: ${GREEN_COLOR};
 `;
-const Server_Container_Span = styled.span`
+const _NewServerSpan = styled.span`
 	font-size: ${AVOCADO_FONTSIZE};
 	color: ${FONT_COLOR};
 	flex: 1;
 `;
 
-const Aside_Form_Input = styled.input`
+const _Input = styled.input`
 	width: ${SEARCH_INPUT_WIDTH};
 	height: ${SEARCH_INPUT_HEIGHT};
 	border: none;
@@ -76,7 +76,7 @@ const Aside_Form_Input = styled.input`
 	color: ${ICON_DARK_COLOR};
 `;
 
-const Aside = () => {
+const Nav = () => {
 	const dispatch = useDispatch();
 	const [search, onChangeSearch] = useInput('');
 
@@ -95,38 +95,38 @@ const Aside = () => {
 	}, [dispatch]);
 
 	return (
-		<Aside_Container>
-			<Aside_Header>
+		<_Container>
+			<_Header>
 				<IconButton>
 					<span className='material-icons button_large'>menu</span>
 				</IconButton>
-				<Header_Span>Avocado</Header_Span>
-			</Aside_Header>
-			<Add_Server_Container>
+				<_HeaderSpan>Avocado</_HeaderSpan>
+			</_Header>
+			<_AddFolerServerContainer>
 				<IconButton color={FONT_COLOR} onClick={newServer}>
 					<span className='material-icons button_large'>add</span>
 				</IconButton>
-				<Server_Container_Span>New Server</Server_Container_Span>
+				<_NewServerSpan>New Server</_NewServerSpan>
 				<IconButton onClick={newFolder}>
 					<span className='material-icons button_large'>
 						create_new_folder
 					</span>
 				</IconButton>
-			</Add_Server_Container>
-			<Aside_Form>
+			</_AddFolerServerContainer>
+			<_Form>
 				<span className='material-icons button_large'>search</span>
-				<Aside_Form_Input
+				<_Input
 					onChange={onChangeSearch}
 					value={search}
 					type='text'
 					placeholder={'Search'}
 				/>
-			</Aside_Form>
-			<Folder_Server_Container>
+			</_Form>
+			<_FolderServerContainer>
 				<NavList search={search} />
-			</Folder_Server_Container>
-		</Aside_Container>
+			</_FolderServerContainer>
+		</_Container>
 	);
 };
 
-export default Aside;
+export default Nav;

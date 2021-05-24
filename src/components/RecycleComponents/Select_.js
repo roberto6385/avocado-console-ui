@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
 import {AVOCADO_FONTSIZE, EIGHTEEN} from '../../styles/global_design';
-const Span = styled.span`
+
+const _Span = styled.span`
 	padding-bottom: 6px;
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const Container_Box = styled.div`
+const _Container = styled.div`
 	padding-bottom: ${EIGHTEEN};
 `;
 
@@ -38,10 +39,10 @@ const _Select = styled(Select)`
 	}
 `;
 
-const Select_Container = ({title, options, value, setValue}) => {
+const Select_ = ({title, options, value, setValue}) => {
 	return (
-		<Container_Box>
-			<Span>{title}</Span>
+		<_Container>
+			<_Span>{title}</_Span>
 			<_Select
 				value={options.find((op) => {
 					return op.value === value;
@@ -49,15 +50,15 @@ const Select_Container = ({title, options, value, setValue}) => {
 				options={options}
 				onChange={(e) => setValue(e.value)}
 			/>
-		</Container_Box>
+		</_Container>
 	);
 };
 
-Select_Container.propTypes = {
+Select_.propTypes = {
 	title: PropTypes.string.isRequired,
 	options: PropTypes.array.isRequired,
 	value: PropTypes.string.isRequired,
 	setValue: PropTypes.func.isRequired,
 };
 
-export default Select_Container;
+export default Select_;

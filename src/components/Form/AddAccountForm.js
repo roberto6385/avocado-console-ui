@@ -18,7 +18,7 @@ import {
 } from '../../styles/global_design';
 import {IoCloseOutline} from 'react-icons/all';
 import Input_Container from '../container/Input_Container';
-import Select_Container from '../container/Select_Container';
+import Select_ from '../RecycleComponents/Select_';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -222,7 +222,7 @@ const AddAccountForm = () => {
 							placeholder={'temp Account'}
 						/>
 					</Input_Container>
-					<Select_Container
+					<Select_
 						title='Authentication'
 						options={authentication_options}
 						value={authentication}

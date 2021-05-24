@@ -6,15 +6,10 @@ import {
 	SIDE_WIDTH,
 	SUB_HEIGHT,
 } from '../../styles/global_design';
-import {
-	HiUser,
-	IoSettingsSharp,
-	MdPermIdentity,
-	RiArrowLeftSLine,
-} from 'react-icons/all';
+
 import {useHistory} from 'react-router-dom';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: ${SIDE_WIDTH};
@@ -22,7 +17,7 @@ const Container = styled.div`
 	border-right: 1px solid ${BORDER_COLOR};
 `;
 
-const Back_Container = styled.div`
+const _BackContainer = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
@@ -31,21 +26,22 @@ const Back_Container = styled.div`
 	cursor: pointer;
 `;
 
-const Span = styled.span`
+const _Span = styled.span`
 	padding: 0px 12px;
 `;
-const OtherPage_Container = styled.ul`
+
+const _Ul = styled.ul`
 	padding: 8px 0px;
 `;
 
-const ListItem = styled.li`
+const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	padding: 10px 16px;
 	height: ${FOLDER_HEIGHT};
 `;
 
-const Aside_Other = () => {
+const SettingNav = () => {
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -56,33 +52,33 @@ const Aside_Other = () => {
 	);
 
 	return (
-		<Container>
-			<Back_Container onClick={changePath('/')}>
+		<_Container>
+			<_BackContainer onClick={changePath('/')}>
 				<span className='material-icons button_large'>
 					chevron_left
 				</span>
-				<Span>Back</Span>
-			</Back_Container>
-			<OtherPage_Container>
-				<ListItem>
+				<_Span>Back</_Span>
+			</_BackContainer>
+			<_Ul>
+				<_Li>
 					<span className='material-icons button_midium'>person</span>
-					<Span>Account</Span>
-				</ListItem>
-				<ListItem>
+					<_Span>Account</_Span>
+				</_Li>
+				<_Li>
 					<span className='material-icons button_midium'>
 						settings
 					</span>
-					<Span>Preferences</Span>
-				</ListItem>
-				<ListItem>
+					<_Span>Preferences</_Span>
+				</_Li>
+				<_Li>
 					<span className='material-icons button_midium'>
 						assignment_ind
 					</span>
-					<Span>Identity</Span>
-				</ListItem>
-			</OtherPage_Container>
-		</Container>
+					<_Span>Identity</_Span>
+				</_Li>
+			</_Ul>
+		</_Container>
 	);
 };
 
-export default Aside_Other;
+export default SettingNav;

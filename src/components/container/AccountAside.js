@@ -9,11 +9,11 @@ import {
 } from '../../styles/global_design';
 import {useHistory} from 'react-router-dom';
 
-const Container = styled.div`
+const _Container = styled.div`
 	padding: 15px 16px;
 `;
 
-const Input = styled.input`
+const _Input = styled.input`
 	width: ${ACCOUNT_BUTTON_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
@@ -23,7 +23,7 @@ const Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const Account_Container = () => {
+const AccountAside = () => {
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -37,30 +37,30 @@ const Account_Container = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	return (
-		<Container>
+		<_Container>
 			<Input_Container title={'Account'}>
-				<Input
+				<_Input
 					value={account}
 					onChange={(e) => setAccount(e.target.value)}
 					placeholder={'Account'}
 				/>
 			</Input_Container>
 			<Input_Container title={'Full name'}>
-				<Input
+				<_Input
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					placeholder={'Name'}
 				/>
 			</Input_Container>
 			<Input_Container title={'Email Address'}>
-				<Input
+				<_Input
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					placeholder={'Email Address'}
 				/>
 			</Input_Container>
 			<Input_Container title={'Authorization'}>
-				<Input
+				<_Input
 					onClick={changePath('/account')}
 					type='button'
 					value={'Change Authorization'}
@@ -68,8 +68,8 @@ const Account_Container = () => {
 					color={'white'}
 				/>
 			</Input_Container>
-		</Container>
+		</_Container>
 	);
 };
 
-export default Account_Container;
+export default AccountAside;

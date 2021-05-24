@@ -24,7 +24,7 @@ import {
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Input_Container from '../container/Input_Container';
-import Select_Container from '../container/Select_Container';
+import Select_ from '../RecycleComponents/Select_';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -270,7 +270,7 @@ const AddServerForm = () => {
 							placeholder={'Server Name'}
 						/>
 					</Input_Container>
-					<Select_Container
+					<Select_
 						title='Protocol'
 						options={protocol_options}
 						value={protocol}
@@ -298,13 +298,13 @@ const AddServerForm = () => {
 					</Input_Container>
 				</Item_Container>
 				<Item_Container>
-					<Select_Container
+					<Select_
 						title='Identity'
 						options={user_options}
 						value={identity}
 						setValue={setIdentity}
 					/>
-					<Select_Container
+					<Select_
 						title='Authentication'
 						options={authentication_options}
 						value={authentication}
