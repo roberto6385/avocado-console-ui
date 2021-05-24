@@ -1,25 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import Footer from '../components/Footer';
-import styled from 'styled-components';
-import SettingMain from '../components/Setting/SettingMain';
-import SettingHeader from '../components/Setting/SettingHeader';
-import SettingNav from '../components/Setting/SettingNav';
 import AccountSetting from '../components/Setting/AccountSetting';
-
-const _Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	font-family: 'Roboto', sans-serif;
-`;
-
-const _ContentsContainer = styled.div`
-	display: flex;
-	overflow: hidden;
-	flex: 1;
-`;
+import SettingAppLayout from '../components/Setting/SettingLayout';
 
 const Account = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -29,14 +12,9 @@ const Account = () => {
 	// }, [userTicket]);
 
 	return (
-		<_Container>
-			<SettingHeader />
-			<_ContentsContainer>
-				<SettingNav />
-				<AccountSetting />
-			</_ContentsContainer>
-			<Footer />
-		</_Container>
+		<SettingAppLayout>
+			<AccountSetting />
+		</SettingAppLayout>
 	);
 };
 

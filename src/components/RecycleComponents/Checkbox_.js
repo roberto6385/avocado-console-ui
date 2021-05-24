@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global_design';
 
 const _LabelContainer = styled.div`

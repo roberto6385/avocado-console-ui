@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';

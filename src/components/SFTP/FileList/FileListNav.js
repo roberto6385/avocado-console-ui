@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {light_Background} from '../../../styles/global';

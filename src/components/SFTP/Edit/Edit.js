@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import EditNav from './EditNav';
 import EditContents from './EditContents';
 import styled from 'styled-components';

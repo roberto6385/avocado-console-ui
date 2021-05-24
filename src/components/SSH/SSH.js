@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';

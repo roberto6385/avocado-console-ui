@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useState} from 'react';
 import {FaMinus, FaPlus, FaTimes, GiHamburgerMenu} from 'react-icons/all';
 import {Card, Col, Form, ListGroup, Row} from 'react-bootstrap';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import {BaseModal} from '../../styles/modals';
 import {BaseSpan} from '../../styles/texts';

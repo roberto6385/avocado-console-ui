@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import {TextAreaWrapper} from '../../../styles/divs';

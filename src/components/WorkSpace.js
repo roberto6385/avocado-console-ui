@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -73,7 +73,7 @@ const _WorkSpaceContainer = styled.div`
 	}
 `;
 
-const _TabContianer = styled.div`
+const _TabsContianer = styled.div`
 	display: flex;
 	overflow: scroll;
 	max-width: calc(100% - 152px);
@@ -148,7 +148,7 @@ const WorkSpace = () => {
 	return (
 		<_Container>
 			<_Nav>
-				<_TabContianer>
+				<_TabsContianer>
 					{tab.map((data) => {
 						return (
 							<_Tab
@@ -199,7 +199,7 @@ const WorkSpace = () => {
 							</_Tab>
 						);
 					})}
-				</_TabContianer>
+				</_TabsContianer>
 				<RightCornerIcons />
 			</_Nav>
 			<_WorkSpaceContainer>

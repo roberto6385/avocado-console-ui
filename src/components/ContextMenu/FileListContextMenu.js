@@ -1,6 +1,6 @@
 import React from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,

@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {MdFileUpload, MdDelete, IoCheckmarkDoneSharp} from 'react-icons/all';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';

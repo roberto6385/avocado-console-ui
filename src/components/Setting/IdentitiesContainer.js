@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
-
 import {Col, Container, Form, Row, Table} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaPlus, FaRegTrashAlt} from 'react-icons/all';
+
 import {PrevIconButton} from '../../styles/buttons';
 import {ColBox, RowBox} from '../../styles/divs';
 import {

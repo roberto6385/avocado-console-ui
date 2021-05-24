@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
 	ADD_HISTORY,
 	CHANGE_MODE,
