@@ -60,17 +60,17 @@ const SettingNav = () => {
 				<_Span>Back</_Span>
 			</_BackContainer>
 			<_Ul>
-				<_Li>
+				<_Li onClick={changePath('/account')}>
 					<span className='material-icons button_midium'>person</span>
 					<_Span>Account</_Span>
 				</_Li>
-				<_Li>
+				<_Li onClick={changePath('/preferences')}>
 					<span className='material-icons button_midium'>
 						settings
 					</span>
 					<_Span>Preferences</_Span>
 				</_Li>
-				<_Li>
+				<_Li onClick={changePath('/identities')}>
 					<span className='material-icons button_midium'>
 						assignment_ind
 					</span>

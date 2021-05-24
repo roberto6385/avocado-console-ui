@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaEdit, MdRemoveCircle} from 'react-icons/all';

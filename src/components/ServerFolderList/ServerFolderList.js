@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Folder from './Folder';
 import Server from './Server';

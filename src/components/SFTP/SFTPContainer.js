@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	commandPwdAction,

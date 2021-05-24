@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 import Table from 'react-bootstrap/Table';
-import {
-	AVOCADO_FONTSIZE,
-	POPUP_SIDE_COLOR,
-	THIRD_HEIGHT,
-} from './global_design';
 
 export const BaseTable = styled(Table)`
 	flex: 1 1 0;

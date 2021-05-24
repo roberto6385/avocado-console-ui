@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {animation, Item, Menu} from 'react-contexify';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 
 const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {

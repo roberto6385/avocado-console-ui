@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {useDispatch, useSelector} from 'react-redux';

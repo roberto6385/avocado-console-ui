@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
+import PropTypes from 'prop-types';
 import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
 import styled from 'styled-components';
