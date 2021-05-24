@@ -51,6 +51,7 @@ export const TAB_WIDTH = '160px'; // tab, history button
 export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
+export const ACCOUNT_INPUT_WIDTH = '500px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
