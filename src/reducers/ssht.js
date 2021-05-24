@@ -13,13 +13,13 @@ export const initialState = {
 	snippents_index: 2,
 };
 
-export const SSHT_SET_FONT = 'SSHT_SET_FONT';
-export const SSHT_INCREASE_FONT_SIZE = 'SSHT_INCREASE_FONT_SIZE';
-export const SSHT_DECREASE_FONT_SIZE = 'SSHT_DECREASE_FONT_SIZE';
+export const SSH_SET_FONT = 'SSH_SET_FONT';
+export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
+export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
 export const SET_SEARCH_MODE = 'SET_SEARCH_MODE';
-export const SSHT_SEND_CONNECTION_REQUEST = 'SSHT_SEND_CONNECTION_REQUEST';
-export const SSHT_SEND_CONNECTION_SUCCESS = 'SSHT_SEND_CONNECTION_SUCCESS';
-export const SSHT_SEND_CONNECTION_FAILURE = 'SSHT_SEND_CONNECTION_FAILURE';
+export const SSH_SEND_CONNECTION_REQUEST = 'SSH_SEND_CONNECTION_REQUEST';
+export const SSH_SEND_CONNECTION_SUCCESS = 'SSH_SEND_CONNECTION_SUCCESS';
+export const SSH_SEND_CONNECTION_FAILURE = 'SSH_SEND_CONNECTION_FAILURE';
 export const SSHT_WRITE_ON_TERMINAL = 'SSHT_WRITE_ON_TERMINAL';
 export const SSHT_SEND_DISCONNECTION_REQUEST =
 	'SSHT_SEND_DISCONNECTION_REQUEST';
@@ -43,10 +43,10 @@ export const SSHT_CHANGE_SNIPPET = 'SSHT_CHANGE_SNIPPET';
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case SSHT_SEND_CONNECTION_REQUEST:
+			case SSH_SEND_CONNECTION_REQUEST:
 				break;
 
-			case SSHT_SEND_CONNECTION_SUCCESS:
+			case SSH_SEND_CONNECTION_SUCCESS:
 				draft.ssht.push({
 					...action.data,
 					terminal: new Terminal({
@@ -60,7 +60,7 @@ const reducer = (state = initialState, action) => {
 				});
 				break;
 
-			case SSHT_SEND_CONNECTION_FAILURE:
+			case SSH_SEND_CONNECTION_FAILURE:
 				break;
 
 			case SSHT_WRITE_ON_TERMINAL:
@@ -100,15 +100,15 @@ const reducer = (state = initialState, action) => {
 			case SSHT_SEND_WINDOW_CHANGE_FAILURE:
 				break;
 
-			case SSHT_SET_FONT:
+			case SSH_SET_FONT:
 				draft.font = action.data;
 				break;
 
-			case SSHT_INCREASE_FONT_SIZE:
+			case SSH_INCREASE_FONT_SIZE:
 				draft.font_size++;
 				break;
 
-			case SSHT_DECREASE_FONT_SIZE:
+			case SSH_DECREASE_FONT_SIZE:
 				draft.font_size--;
 				break;
 

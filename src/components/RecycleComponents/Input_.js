@@ -16,7 +16,7 @@ const _Container = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const Input_Container = ({title, children, width = '100%'}) => {
+const Input_ = ({title, children, width = '100%'}) => {
 	return (
 		<_Container width={width}>
 			<_Span>{title}</_Span>
@@ -25,10 +25,10 @@ const Input_Container = ({title, children, width = '100%'}) => {
 	);
 };
 
-Input_Container.propTypes = {
+Input_.propTypes = {
 	title: PropTypes.string.isRequired,
 	width: PropTypes.string,
 	children: PropTypes.element.isRequired,
 };
 
-export default Input_Container;
+export default Input_;

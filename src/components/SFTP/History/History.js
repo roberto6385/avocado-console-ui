@@ -5,7 +5,7 @@ import HistoryNav from './HistoryNav';
 import styled from 'styled-components';
 import {BORDER_COLOR, SIDE_WIDTH} from '../../../styles/global_design';
 
-const History_Container = styled.div`
+const _Container = styled.div`
 	min-width: ${SIDE_WIDTH};
 	width: ${SIDE_WIDTH};
 	border-left: 1px solid ${BORDER_COLOR};
@@ -13,10 +13,10 @@ const History_Container = styled.div`
 
 const History = ({uuid}) => {
 	return (
-		<History_Container>
+		<_Container>
 			<HistoryNav uuid={uuid} />
 			<HistoryContents uuid={uuid} />
-		</History_Container>
+		</_Container>
 	);
 };
 

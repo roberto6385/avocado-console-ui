@@ -7,8 +7,8 @@ import {
 	commandGetAction,
 	commandLsAction,
 	DELETE_WORK_LIST,
-} from '../../../reducers/sftp';
-import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+} from '../../reducers/sftp';
+import {OPEN_CONFIRM_POPUP} from '../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);

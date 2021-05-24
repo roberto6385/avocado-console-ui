@@ -8,9 +8,9 @@ import {
 	SIXTEEN,
 	SUB_HEIGHT,
 } from '../../styles/global_design';
-import PreferencesAside from './PreferencesAside';
-import IdentitiesAside from './IdentitiesAside';
-import AccountAside from './AccountAside';
+import PreferencesAside from './Aside/PreferencesAside';
+import IdentitiesAside from './Aside/IdentitiesAside';
+import AccountAside from './Aside/AccountAside';
 
 const _Container = styled.div`
 	display: none;
@@ -38,7 +38,7 @@ const _IconButton = styled(IconButton)`
 	padding: 6px 0px 6px 6px;
 `;
 
-const SideMenuContainer = () => {
+const AsideContainer = () => {
 	const {rightSideKey} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
@@ -61,4 +61,4 @@ const SideMenuContainer = () => {
 	);
 };
 
-export default SideMenuContainer;
+export default AsideContainer;

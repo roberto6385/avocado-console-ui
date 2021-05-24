@@ -9,15 +9,15 @@ import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	Default_Button,
+	DefaultButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	Primary_Button,
+	PrimaryButton,
 } from '../../styles/global_design';
 import {IoCloseOutline} from 'react-icons/all';
-import Input_Container from '../container/Input_Container';
+import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 
 const _Modal = styled(Modal)`
@@ -41,7 +41,7 @@ const _Item = styled.div`
 	justify-content: space-between;
 `;
 
-const Input = styled.input`
+const _Input = styled.input`
 	width: ${ACCOUNT_BUTTON_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
@@ -51,15 +51,15 @@ const Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const BrowseButton = styled(Primary_Button)`
+const _PrimaryButton = styled(PrimaryButton)`
 	margin-top: 8px;
 `;
 
-const LongInput = styled(Input)`
+const _LongInput = styled(_Input)`
 	width: 100%;
 `;
 
-const FileInput = styled.input`
+const _FileInput = styled.input`
 	display: none;
 `;
 
@@ -215,13 +215,13 @@ const AddAccountForm = () => {
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
-					<Input_Container title={'Identity'}>
-						<Input
+					<Input_ title={'Identity'}>
+						<_Input
 							value={identity}
 							onChange={onChangeIdentity}
 							placeholder={'temp Account'}
 						/>
-					</Input_Container>
+					</Input_>
 					<Select_
 						title='Authentication'
 						options={authentication_options}
@@ -230,32 +230,32 @@ const AddAccountForm = () => {
 					/>
 				</_Item>
 				<_Item>
-					<Input_Container title={'Username'}>
-						<LongInput
+					<Input_ title={'Username'}>
+						<_LongInput
 							value={username}
 							onChange={onChangeUsername}
 							placeholder={'Username'}
 						/>
-					</Input_Container>
+					</Input_>
 				</_Item>
 				{authentication === 'Password' ? (
 					<_Item>
-						<Input_Container title={'Password'}>
-							<LongInput
+						<Input_ title={'Password'}>
+							<_LongInput
 								type='password'
 								value={password}
 								onChange={onChangePassword}
 								placeholder={'Password'}
 							/>
-						</Input_Container>
+						</Input_>
 					</_Item>
 				) : (
 					<React.Fragment>
 						<_Item>
-							<Input_Container title={'Private Key File'}>
+							<Input_ title={'Private Key File'}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
-									<FileInput
+									<_FileInput
 										id={'add_server_form_type_file'}
 										type='file'
 										value={keyFile}
@@ -263,8 +263,8 @@ const AddAccountForm = () => {
 										placeholder={'Key File'}
 									/>
 								</_Label>
-							</Input_Container>
-							<BrowseButton
+							</Input_>
+							<_PrimaryButton
 								onClick={() =>
 									document
 										.getElementById(
@@ -274,29 +274,29 @@ const AddAccountForm = () => {
 								}
 							>
 								Browse
-							</BrowseButton>
+							</_PrimaryButton>
 						</_Item>
 
 						<_Item>
-							<Input_Container title={'Key File Password'}>
-								<LongInput
+							<Input_ title={'Key File Password'}>
+								<_LongInput
 									type='password'
 									value={password}
 									onChange={onChangePassword}
 									placeholder={'Password'}
 								/>
-							</Input_Container>
+							</Input_>
 						</_Item>
 					</React.Fragment>
 				)}
 				<_Item>
-					<Input_Container title={'Note'}>
-						<LongInput
+					<Input_ title={'Note'}>
+						<_LongInput
 							value={note}
 							onChange={onChangeNote}
 							placeholder={'Note'}
 						/>
-					</Input_Container>
+					</Input_>
 				</_Item>
 				<button
 					type='submit'
@@ -305,8 +305,8 @@ const AddAccountForm = () => {
 				/>
 			</_Form>
 			<_Footer>
-				<Default_Button onClick={closeModal}>Cancel</Default_Button>
-				<Primary_Button
+				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
+				<PrimaryButton
 					onClick={() =>
 						document
 							.getElementById('add_account_form_submit_button')
@@ -314,7 +314,7 @@ const AddAccountForm = () => {
 					}
 				>
 					Save
-				</Primary_Button>
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

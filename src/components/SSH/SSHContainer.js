@@ -2,16 +2,16 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import ConvertSFTP from '../SFTP/ConvertSFTP';
+import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
-import SnippetsManeger from '../SnippetsManager';
+import SnippetsManeger from './SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
 import {light_Background} from '../../styles/global';
 import {IconButton, SUB_HEIGHT} from '../../styles/global_design';
 import styled from 'styled-components';
 import SSH from './SSH';
 
-const SSHContainerWrapper = styled.div`
+const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
@@ -19,7 +19,7 @@ const SSHContainerWrapper = styled.div`
 	flex-direction: column;
 `;
 
-const SSHTopBar = styled.div`
+const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
@@ -66,8 +66,8 @@ const SSHContainer = ({uuid, server_id}) => {
 	}, [snippets, uuid, ws]);
 
 	return (
-		<SSHContainerWrapper>
-			<SSHTopBar back={light_Background}>
+		<_Container>
+			<_Header back={light_Background}>
 				<DropdownMenu_
 					icon={
 						<span className='material-icons button_large'>
@@ -76,16 +76,16 @@ const SSHContainer = ({uuid, server_id}) => {
 					}
 					menu={column}
 				/>
-				<ConvertSFTP server_id={server_id} />
+				<SFTPConvertButton server_id={server_id} />
 				<IconButton onClick={onCLickFullScreen}>
 					<span className='material-icons button_large'>
 						fullscreen
 					</span>
 				</IconButton>
-			</SSHTopBar>
+			</_Header>
 			<SSH id={`full_ssht_${uuid}`} uuid={uuid} />
 			<SnippetsManeger setOpen={setOpen} open={open} />
-		</SSHContainerWrapper>
+		</_Container>
 	);
 };
 

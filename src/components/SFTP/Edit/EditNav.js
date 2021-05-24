@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {
 	ADD_HISTORY,
 	CHANGE_MODE,
@@ -18,7 +18,7 @@ import {
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
 
-const EditNav_Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -27,7 +27,7 @@ const EditNav_Container = styled.div`
 	height: ${SUB_HEIGHT};
 `;
 
-const Edit_Button = styled(IconButton)`
+const _Button = styled(IconButton)`
 	color: ${ICON_LIGHT_COLOR};
 `;
 
@@ -89,26 +89,26 @@ const EditNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<EditNav_Container justify={'space-between'}>
+		<_Container justify={'space-between'}>
 			<span
 				style={{fontSize: AVOCADO_FONTSIZE}}
 			>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
-				<Edit_Button onClick={editedFileSave}>
+				<_Button onClick={editedFileSave}>
 					<span className='material-icons button_large'>save</span>
-				</Edit_Button>
-				<Edit_Button onClick={editedFileDownload}>
+				</_Button>
+				<_Button onClick={editedFileDownload}>
 					<span className='material-icons button_large'>
 						file_download
 					</span>
-				</Edit_Button>
-				<Edit_Button onClick={closeEditMode}>
+				</_Button>
+				<_Button onClick={closeEditMode}>
 					<span className='material-icons button_large'>
 						disabled_by_default
 					</span>
-				</Edit_Button>
+				</_Button>
 			</div>
-		</EditNav_Container>
+		</_Container>
 	);
 };
 

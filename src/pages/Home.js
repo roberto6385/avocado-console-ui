@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import Main from '../components/container/Main';
-import Footer from '../components/container/Footer';
+import Main from '../components/Main';
+import Footer from '../components/Footer';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -19,10 +19,10 @@ const Home = () => {
 	// }, [userTicket]);
 
 	return (
-		<Container>
+		<_Container>
 			<Main />
 			<Footer />
-		</Container>
+		</_Container>
 	);
 };
 

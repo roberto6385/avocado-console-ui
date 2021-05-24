@@ -2,10 +2,10 @@ import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import RightCornerIcons from '../RightCornerIcons';
+import RightCornerIcons from './RightCornerIcons';
 import {
 	GREEN_COLOR,
-	Avocado_span,
+	Span,
 	IconButton,
 	EIGHTEEN,
 	ICON_DARK_COLOR,
@@ -14,13 +14,13 @@ import {
 	MAIN_HEIGHT,
 	RIGHT_SIDE_WIDTH,
 	TAB_WIDTH,
-} from '../../styles/global_design';
+} from '../styles/global_design';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSHT_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssht';
-import {disconnectAction} from '../../reducers/sftp';
-import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
-import WorkSpaceTabPanels from '../WorkSpaceTabPanels';
-import SideMenuContainer from './SideMenuContainer';
+import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {disconnectAction} from '../reducers/sftp';
+import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
+import PanesContainer from './PanesContainer';
+import AsideContainer from './Setting/AsideContainer';
 
 const _Container = styled.div`
 	display: flex;
@@ -183,9 +183,9 @@ const WorkSpace = () => {
 											swap_vert
 										</span>
 									)}
-									<Avocado_span flex={1} padding={'0px'}>
+									<Span flex={1} padding={'0px'}>
 										{data.server.name}
-									</Avocado_span>
+									</Span>
 									<IconButton
 										size={EIGHTEEN}
 										onClick={onClickDelete(data)}
@@ -203,8 +203,8 @@ const WorkSpace = () => {
 				<RightCornerIcons />
 			</_Nav>
 			<_WorkSpaceContainer>
-				<WorkSpaceTabPanels />
-				<SideMenuContainer />
+				<PanesContainer />
+				<AsideContainer />
 			</_WorkSpaceContainer>
 		</_Container>
 	);

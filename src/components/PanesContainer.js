@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 
 import '../styles/resize.css';
-import SSH_SFTP from './container/SSH_SFTP';
+import Pane from './Pane';
 
 import styled from 'styled-components';
 
@@ -14,10 +14,10 @@ export const _Container = styled.div`
 	position: relative;
 `;
 
-const Panels = (tab) => {
+const Panes = (tab) => {
 	if (tab.length === 1)
 		return (
-			<SSH_SFTP
+			<Pane
 				uuid={tab[0].uuid}
 				type={tab[0].type}
 				server={tab[0].server}
@@ -27,12 +27,12 @@ const Panels = (tab) => {
 	if (tab.length === 2)
 		return (
 			<SplitPane split='vertical' defaultSize={'50%'}>
-				<SSH_SFTP
+				<Pane
 					uuid={tab[0].uuid}
 					type={tab[0].type}
 					server={tab[0].server}
 				/>
-				<SSH_SFTP
+				<Pane
 					uuid={tab[1].uuid}
 					type={tab[1].type}
 					server={tab[1].server}
@@ -44,18 +44,18 @@ const Panels = (tab) => {
 		return (
 			<SplitPane split='vertical' defaultSize={'66%'}>
 				<SplitPane split='vertical' defaultSize={'50%'}>
-					<SSH_SFTP
+					<Pane
 						uuid={tab[0].uuid}
 						type={tab[0].type}
 						server={tab[0].server}
 					/>
-					<SSH_SFTP
+					<Pane
 						uuid={tab[1].uuid}
 						type={tab[1].type}
 						server={tab[1].server}
 					/>
 				</SplitPane>
-				<SSH_SFTP
+				<Pane
 					uuid={tab[2].uuid}
 					type={tab[2].type}
 					server={tab[2].server}
@@ -68,24 +68,24 @@ const Panels = (tab) => {
 			<SplitPane split='vertical' defaultSize={'75%'}>
 				<SplitPane split='vertical' defaultSize={'66%'}>
 					<SplitPane split='vertical' defaultSize={'50%'}>
-						<SSH_SFTP
+						<Pane
 							uuid={tab[0].uuid}
 							type={tab[0].type}
 							server={tab[0].server}
 						/>
-						<SSH_SFTP
+						<Pane
 							uuid={tab[1].uuid}
 							type={tab[1].type}
 							server={tab[1].server}
 						/>
 					</SplitPane>
-					<SSH_SFTP
+					<Pane
 						uuid={tab[2].uuid}
 						type={tab[2].type}
 						server={tab[2].server}
 					/>
 				</SplitPane>
-				<SSH_SFTP
+				<Pane
 					uuid={tab[3].uuid}
 					type={tab[3].type}
 					server={tab[3].server}
@@ -99,30 +99,30 @@ const Panels = (tab) => {
 				<SplitPane split='vertical' defaultSize={'75%'}>
 					<SplitPane split='vertical' defaultSize={'66%'}>
 						<SplitPane split='vertical' defaultSize={'50%'}>
-							<SSH_SFTP
+							<Pane
 								uuid={tab[0].uuid}
 								type={tab[0].type}
 								server={tab[0].server}
 							/>
-							<SSH_SFTP
+							<Pane
 								uuid={tab[1].uuid}
 								type={tab[1].type}
 								server={tab[1].server}
 							/>
 						</SplitPane>
-						<SSH_SFTP
+						<Pane
 							uuid={tab[2].uuid}
 							type={tab[2].type}
 							server={tab[2].server}
 						/>
 					</SplitPane>
-					<SSH_SFTP
+					<Pane
 						uuid={tab[3].uuid}
 						type={tab[3].type}
 						server={tab[3].server}
 					/>
 				</SplitPane>
-				<SSH_SFTP
+				<Pane
 					uuid={tab[4].uuid}
 					type={tab[4].type}
 					server={tab[4].server}
@@ -131,22 +131,22 @@ const Panels = (tab) => {
 		);
 };
 
-const WorkSpaceTabPanels = () => {
+const PanesContainer = () => {
 	const {tab, cols} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
 
 	return (
 		<_Container>
 			{visibleTab.length <= cols ? (
-				Panels(visibleTab)
+				Panes(visibleTab)
 			) : (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
-					{Panels(visibleTab.slice(0, cols))}
-					{Panels(visibleTab.slice(cols))}
+					{Panes(visibleTab.slice(0, cols))}
+					{Panes(visibleTab.slice(cols))}
 				</SplitPane>
 			)}
 		</_Container>
 	);
 };
 
-export default WorkSpaceTabPanels;
+export default PanesContainer;

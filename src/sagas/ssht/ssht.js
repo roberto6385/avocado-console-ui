@@ -9,9 +9,9 @@ import {
 } from 'redux-saga/effects';
 
 import {
-	SSHT_SEND_CONNECTION_REQUEST,
-	SSHT_SEND_CONNECTION_SUCCESS,
-	SSHT_SEND_CONNECTION_FAILURE,
+	SSH_SEND_CONNECTION_REQUEST,
+	SSH_SEND_CONNECTION_SUCCESS,
+	SSH_SEND_CONNECTION_FAILURE,
 	SSHT_WRITE_ON_TERMINAL,
 	SSHT_SEND_DISCONNECTION_REQUEST,
 	SSHT_SEND_DISCONNECTION_SUCCESS,
@@ -49,7 +49,7 @@ function* sendConnection(action) {
 				case 'CONNECT':
 					uuid = res.result;
 					yield put({
-						type: SSHT_SEND_CONNECTION_SUCCESS,
+						type: SSH_SEND_CONNECTION_SUCCESS,
 						data: {
 							uuid: uuid,
 							ws: ws,
@@ -84,7 +84,7 @@ function* sendConnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSHT_SEND_CONNECTION_FAILURE});
+		yield put({type: SSH_SEND_CONNECTION_FAILURE});
 	}
 }
 
@@ -117,7 +117,7 @@ function* sendDisconnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSHT_SEND_CONNECTION_FAILURE});
+		yield put({type: SSH_SEND_CONNECTION_FAILURE});
 	}
 }
 
@@ -192,7 +192,7 @@ function* sendWindowChange(action) {
 }
 
 function* watchSendConnection() {
-	yield takeLatest(SSHT_SEND_CONNECTION_REQUEST, sendConnection);
+	yield takeLatest(SSH_SEND_CONNECTION_REQUEST, sendConnection);
 }
 
 function* watchSendDisconnection() {

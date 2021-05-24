@@ -1,21 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {
-	BsLayoutThreeColumns,
-	GoThreeBars,
-	MdHome,
-	GoArrowUp,
-	IoMdRefresh,
-} from 'react-icons/all';
 import {PropTypes} from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {GRAY_COLOR, light_Background} from '../../../styles/global';
+
+import {light_Background} from '../../../styles/global';
 import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp';
-import {PrevIconButton} from '../../../styles/buttons';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
@@ -26,7 +19,7 @@ import {
 	SUB_HEIGHT,
 } from '../../../styles/global_design';
 
-const SearchPath = styled.input`
+const _input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	width: 100%;
 	border-radius: 4px;
@@ -37,18 +30,18 @@ const SearchPath = styled.input`
 	background: ${LIGHT_BACK_COLOR};
 `;
 
-const FileListNav_Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid ${BORDER_COLOR};
 	height: ${SUB_HEIGHT};
 `;
 
-const FileList_Button = styled(IconButton)`
+const _IconButton = styled(IconButton)`
 	color: ${ICON_LIGHT_COLOR};
 `;
 
-const Form = styled.form`
+const _Form = styled.form`
 	display: flex;
 	flex: 1;
 `;
@@ -130,20 +123,20 @@ const FileListNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<FileListNav_Container>
-			<FileList_Button onClick={dropdownList}>
+		<_Container>
+			<_IconButton onClick={dropdownList}>
 				<span className='material-icons button_large'>view_column</span>
-			</FileList_Button>
-			<FileList_Button onClick={basicList}>
+			</_IconButton>
+			<_IconButton onClick={basicList}>
 				<span className='material-icons button_large'>view_list</span>
-			</FileList_Button>
-			<FileList_Button onClick={goBack}>
+			</_IconButton>
+			<_IconButton onClick={goBack}>
 				<span className='material-icons button_large'>
 					arrow_upward
 				</span>
-			</FileList_Button>
-			<Form onSubmit={searchPath}>
-				<SearchPath
+			</_IconButton>
+			<_Form onSubmit={searchPath}>
+				<_input
 					id='fileListNavInput'
 					type='text'
 					value={currentPath}
@@ -152,14 +145,14 @@ const FileListNav = ({uuid}) => {
 					back={light_Background}
 					onBlur={() => setCurrentPath(path)}
 				/>
-			</Form>
-			<FileList_Button onClick={refresh}>
+			</_Form>
+			<_IconButton onClick={refresh}>
 				<span className='material-icons button_large'>refresh</span>
-			</FileList_Button>
-			<FileList_Button onClick={goHome}>
+			</_IconButton>
+			<_IconButton onClick={goHome}>
 				<span className='material-icons button_large'>home</span>
-			</FileList_Button>
-		</FileListNav_Container>
+			</_IconButton>
+		</_Container>
 	);
 };
 

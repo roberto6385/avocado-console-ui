@@ -6,7 +6,7 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
 import {IconButton} from '../../styles/global_design';
 
-const ConvertSFTP = ({server_id}) => {
+const SFTPConvertButton = ({server_id}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {server} = useSelector((state) => state.common);
@@ -32,8 +32,8 @@ const ConvertSFTP = ({server_id}) => {
 	);
 };
 
-ConvertSFTP.propTypes = {
+SFTPConvertButton.propTypes = {
 	server_id: PropTypes.number.isRequired,
 };
 
-export default ConvertSFTP;
+export default SFTPConvertButton;

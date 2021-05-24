@@ -6,7 +6,7 @@ import {
 } from 'react-icons/all';
 import {GREEN_COLOR, ICON_LIGHT_COLOR, MIDDLE_FONTSIZE} from './global_design';
 
-// ConvertSFTP
+// SFTPConvertButton
 export const ConvertIcon = styled(RiArrowUpDownLine)`
 	font-size: 18px;
 `;

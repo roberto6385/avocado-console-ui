@@ -3,20 +3,6 @@ import {Nav} from 'react-bootstrap';
 import {HIGHLIGHT_COLOR} from './global';
 import {FOLDER_HEIGHT} from './global_design';
 
-export const Folder_Server_Nav = styled(Nav)`
-	display: flex;
-	flex-direction: column;
-`;
-export const Folder_Server_Nav_Item = styled(Nav.Item)`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: ${FOLDER_HEIGHT};
-	padding: auto 16px;
-	padding-left: ${(props) => props?.left};
-	background-color: ${(props) => props.back};
-	border-left: ${(props) => props.border};
-`;
 // blue print로 변경중...
 
 export const BaseNav = styled(Nav)`

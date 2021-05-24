@@ -3,7 +3,7 @@ import {PropTypes} from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {useDispatch, useSelector} from 'react-redux';
-import FileListContextMenu from './FileListContextMenu';
+import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
@@ -30,7 +30,7 @@ import {
 	THIRD_HEIGHT,
 } from '../../../styles/global_design';
 
-const Table = styled.table`
+const _Table = styled.table`
 	display: flex;
 	position: relative;
 	flex: 1;
@@ -41,7 +41,7 @@ const Table = styled.table`
 	border: none;
 `;
 
-const Tbody = styled.tbody`
+const _Tbody = styled.tbody`
 	background-color: ${(props) => props?.back};
 	flex: 1;
 	width: 100%;
@@ -56,7 +56,7 @@ const Tbody = styled.tbody`
 	}
 `;
 
-const FileList_Tr = styled.tr`
+const _Tr = styled.tr`
 	display: flex;
 	height: ${THIRD_HEIGHT};
 	padding: 8px;
@@ -224,9 +224,9 @@ const FileListContents = ({uuid}) => {
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
 		<React.Fragment>
-			<Table back={light_Background}>
+			<_Table back={light_Background}>
 				<TableHead uuid={uuid} />
-				<Tbody onContextMenu={contextMenuOpen}>
+				<_Tbody onContextMenu={contextMenuOpen}>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (
@@ -236,7 +236,7 @@ const FileListContents = ({uuid}) => {
 							return;
 						if (item.name === '.') return;
 						return (
-							<FileList_Tr
+							<_Tr
 								onContextMenu={(e) => contextMenuOpen(e, item)}
 								onClick={selectItem({item, index})}
 								onDoubleClick={changePath(item)}
@@ -289,11 +289,11 @@ const FileListContents = ({uuid}) => {
 										</IconButton>
 									)}
 								</Th>
-							</FileList_Tr>
+							</_Tr>
 						);
 					})}
-				</Tbody>
-			</Table>
+				</_Tbody>
+			</_Table>
 			<FileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	) : (

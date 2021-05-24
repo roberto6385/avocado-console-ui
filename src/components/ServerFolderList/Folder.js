@@ -2,66 +2,69 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
-
-import {useDoubleClick} from '../../hooks/useDoubleClick';
-import ServerContextMenu from '../ContextMenu/ServerContextMenu';
-import useInput from '../../hooks/useInput';
+import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {SSHT_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
-import {Folder_Server_Nav_Item} from '../../styles/navs';
+import FolderContextMenu from '../ContextMenu/FolderContextMenu';
+import useInput from '../../hooks/useInput';
+
 import {BaseForm, BaseInput} from '../../styles/forms';
+
 import {
 	GREEN_COLOR,
-	AVOCADO_FONTSIZE,
 	SERVER_HOVER_COLOR,
-	Avocado_span,
+	IconButton,
+	Span,
 	LIGHT_MODE_BACK_COLOR,
+	AVOCADO_FONTSIZE,
+	FOLDER_HEIGHT,
 } from '../../styles/global_design';
+import Collapse_ from '../RecycleComponents/Collapse_';
+import styled from 'styled-components';
+import {Nav} from 'react-bootstrap';
 
-const Server = ({data, indent}) => {
+export const _NavItem = styled(Nav.Item)`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: ${FOLDER_HEIGHT};
+	padding: auto 16px;
+	padding-left: ${(props) => props?.left};
+	background-color: ${(props) => props.back};
+	border-left: ${(props) => props.border};
+`;
+
+const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const [openRename, setOpenRename] = useState(false);
+	const {clicked_server} = useSelector((state) => state.common);
+
 	const renameRef = useRef(null);
+	const [openTab, setOpenTab] = useState(false);
+	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	const onHybridClick = useDoubleClick(
-		() => {
-			const correspondedServer = server.find((i) => i.id === data.id);
-			dispatch({
-				type: SSHT_SEND_CONNECTION_REQUEST,
-				data: {
-					token: userTicket,
-					...correspondedServer,
-				},
-			});
-		},
-		() => {
-			if (clicked_server === data.key) {
-				console.log('여기실행');
-				dispatch({type: SET_CLICKED_SERVER, data: null});
-			} else {
-				console.log('여기실행');
+	const onCLickFolder = useCallback(() => {
+		if (clicked_server === data.key) {
+			dispatch({type: SET_CLICKED_SERVER, data: null});
+		} else {
+			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+		}
+	}, [clicked_server, data, dispatch]);
 
-				dispatch({type: SET_CLICKED_SERVER, data: data.key});
-			}
-		},
-		[clicked_server, data, userTicket, server, dispatch],
-	);
+	const onClickOpen = useCallback(() => {
+		setOpenTab(!openTab);
+	}, [openTab]);
 
 	const {show} = useContextMenu({
-		id: data.key + 'server',
+		id: data.key + 'folder',
 	});
 
 	const contextMenuOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('contextMenuOpen item');
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
@@ -87,18 +90,20 @@ const Server = ({data, indent}) => {
 	}, []);
 
 	const prevPutItem = useCallback(() => {
-		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	}, [data, dispatch]);
+	}, [data]);
 
 	const nextPutItem = useCallback(
 		(e) => {
 			e.stopPropagation();
 
 			data.type === 'folder' &&
-				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
+				dispatch({
+					type: SORT_SERVER_AND_FOLDER,
+					data: {next: data, indent: parseInt(indent)},
+				});
 		},
-		[data],
+		[data, indent],
 	);
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -112,23 +117,27 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data]);
 
+	useEffect(() => {
+		setOpenTab(open);
+	}, [open]);
+
 	return (
 		<React.Fragment>
-			<Folder_Server_Nav_Item
-				onClick={onHybridClick}
+			<_NavItem
+				onClick={onCLickFolder}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				back={
-					clicked_server === data.key
-						? SERVER_HOVER_COLOR
-						: LIGHT_MODE_BACK_COLOR
-				}
 				border={
 					clicked_server === data.key
 						? `2px solid ${GREEN_COLOR}`
 						: `2px solid white`
+				}
+				back={
+					clicked_server === data.key
+						? SERVER_HOVER_COLOR
+						: LIGHT_MODE_BACK_COLOR
 				}
 				left={(indent * 6 + 6).toString() + 'px'}
 			>
@@ -140,10 +149,15 @@ const Server = ({data, indent}) => {
 				{/*			: ICON_LIGHT_COLOR*/}
 				{/*	}*/}
 				{/*>*/}
-				{/*	<FaServerIcon />*/}
+				{clicked_server === data.key ? (
+					<span className='material-icons button_midium'>folder</span>
+				) : (
+					<span className='material-icons button_midium'>
+						folder_open
+					</span>
+				)}
 				{/*</Avocado_span>*/}
-				<span className='material-icons button_midium'>dns</span>
-				<Avocado_span flex={1} size={AVOCADO_FONTSIZE}>
+				<Span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<BaseInput
@@ -157,16 +171,50 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-				</Avocado_span>
-			</Folder_Server_Nav_Item>
-			<ServerContextMenu data={data} setOpenRename={setOpenRename} />
+				</Span>
+				<IconButton onClick={onClickOpen}>
+					{openTab ? (
+						<span className='material-icons button_midium'>
+							arrow_drop_down
+						</span>
+					) : (
+						<span className='material-icons button_midium'>
+							arrow_right
+						</span>
+					)}
+				</IconButton>
+			</_NavItem>
+			{data.contain.length !== 0 && (
+				<Collapse_ open={openTab}>
+					<React.Fragment>
+						{data.contain.map((i) =>
+							i.type === 'folder' ? (
+								<Folder
+									key={i.key}
+									open={open}
+									data={i}
+									indent={indent + 1}
+								/>
+							) : (
+								<Server
+									key={i.key}
+									data={i}
+									indent={indent + 1}
+								/>
+							),
+						)}
+					</React.Fragment>
+				</Collapse_>
+			)}
+			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
 		</React.Fragment>
 	);
 };
 
-Server.propTypes = {
+Folder.propTypes = {
+	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default Server;
+export default Folder;

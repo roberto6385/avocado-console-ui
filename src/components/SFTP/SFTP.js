@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
+import * as PropTypes from 'prop-types';
 import FileList from './FileList/FileList';
 import History from './History/History';
 
@@ -7,7 +7,7 @@ import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-const SFTP_Container = styled.div`
+const _SFTP = styled.div`
 	display: flex;
 	flex: 1 1 0;
 	overflow: hidden;
@@ -19,14 +19,14 @@ const SFTP = ({uuid}) => {
 	const {mode} = corServer;
 
 	return mode === 'edit' ? (
-		<SFTP_Container>
+		<_SFTP>
 			<Edit uuid={uuid} />
-		</SFTP_Container>
+		</_SFTP>
 	) : (
-		<SFTP_Container>
+		<_SFTP>
 			<FileList uuid={uuid} />
 			<History uuid={uuid} />
-		</SFTP_Container>
+		</_SFTP>
 	);
 };
 
