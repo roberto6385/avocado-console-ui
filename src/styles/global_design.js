@@ -18,6 +18,9 @@ export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
 export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
 export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
 
+export const DARK_GREEN_COLOR = '#126466';
+export const ANCHOR_GRAY_COLOR = '#5e5e5e';
+
 export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
 export const GRAY_COLOR = '#a9b0b2';
 export const GRAY_HOVER_COLOR = 'rgba(60, 76 ,81, 0.38)';
@@ -40,6 +43,7 @@ export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button, Accoun
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
+export const AUTH_FORM_HEIGHT = '550px';
 
 export const BUTTON_HEIGHT = '20px';
 
@@ -52,6 +56,7 @@ export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 export const ACCOUNT_INPUT_WIDTH = '500px';
+export const AUTH_FORM_WIDTH = '480px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
@@ -61,6 +66,7 @@ export const EIGHTEEN = '18px';
 export const SIXTEEN = '16px';
 export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';
+export const LOGIN_LOGO_FONTSIZE = '29px';
 
 // span
 export const Span = styled.span`

@@ -98,7 +98,7 @@ const _HideSpace = styled.div`
 const Nav = () => {
 	const dispatch = useDispatch();
 	const [search, onChangeSearch] = useInput('');
-	const [toggle, setToggle] = useState(false);
+	const [toggle, setToggle] = useState(true);
 
 	const newFolder = useCallback(() => {
 		dispatch({

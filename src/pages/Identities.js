@@ -9,6 +9,7 @@ import SettingNav from '../components/Setting/SettingNav';
 import AccountSetting from '../components/Setting/AccountSetting';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
+import {Redirect, useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,10 +26,14 @@ const _ContentsContainer = styled.div`
 
 const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const history = useHistory();
 
-	// useEffect(() => {
-	// 	if (!userTicket) return <Redirect to='/login' />;
-	// }, [userTicket]);
+	useEffect(() => {
+		// if (!userTicket) return <Redirect to='/login' />;
+		if (!userTicket) {
+			history.push('/login');
+		}
+	}, [userTicket]);
 
 	return (
 		<_Container>

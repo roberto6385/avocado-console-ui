@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 import Footer from '../components/Footer';
@@ -7,6 +7,7 @@ import SettingMain from '../components/Setting/SettingMain';
 import SettingHeader from '../components/Setting/SettingHeader';
 import SettingNav from '../components/Setting/SettingNav';
 import AccountSetting from '../components/Setting/AccountSetting';
+import {Redirect, useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
 	display: flex;
@@ -23,10 +24,16 @@ const _ContentsContainer = styled.div`
 
 const Account = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const history = useHistory();
 
-	// useEffect(() => {
-	// 	if (!userTicket) return <Redirect to='/login' />;
-	// }, [userTicket]);
+	useEffect(() => {
+		// if (!userTicket) return <Redirect to='/login' />;
+		// if (!userTicket) return <Redirect to={{pathname: '/login'}} />;
+
+		if (!userTicket) {
+			history.push('/login');
+		}
+	}, [userTicket]);
 
 	return (
 		<_Container>

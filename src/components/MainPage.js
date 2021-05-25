@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import '../styles/resize.css';
@@ -16,6 +16,7 @@ import {RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {useHistory} from 'react-router-dom';
 import AsideContainer from './Setting/AsideContainer';
+import {getRevoke} from '../reducers/auth/revoke';
 
 const _Container = styled.div`
 	display: flex;
@@ -62,6 +63,17 @@ const MainPage = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const {userTicket} = useSelector((state) => state.userTicket);
+
+	const logout = useCallback(
+		() => () => {
+			dispatch(
+				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+			);
+		},
+		[userTicket, dispatch],
+	);
+
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
 	}, []);
@@ -98,7 +110,7 @@ const MainPage = () => {
 			onClick: openSideMenu('Account'),
 			title: 'Account',
 		},
-		{onClick: () => console.log('Logout Action'), title: 'Logout'},
+		{onClick: logout(), title: 'Logout'},
 	];
 
 	return (

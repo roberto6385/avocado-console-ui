@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 
 import LeftSetting from '../components/Setting/LeftSetting';
 import PreferencesContainer from '../components/Setting/PreferencesContainer';
@@ -26,10 +26,14 @@ const _ContentsContainer = styled.div`
 
 const Preferences = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const history = useHistory();
 
-	// useEffect(() => {
-	// 	if (!userTicket) return <Redirect to='/login' />;
-	// }, [userTicket]);
+	useEffect(() => {
+		// if (!userTicket) return <Redirect to='/login' />;
+		if (!userTicket) {
+			history.push('/login');
+		}
+	}, [userTicket]);
 
 	return (
 		<_Container>

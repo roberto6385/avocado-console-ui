@@ -15,7 +15,7 @@ export const getUserTicket = (params) => ({
 
 // initial State
 const initialState = {
-	userTicket: 'token',
+	userTicket: null,
 	loading: false,
 };
 
