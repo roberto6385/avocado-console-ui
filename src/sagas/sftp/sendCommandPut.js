@@ -37,7 +37,7 @@ function* sendCommand(action) {
 		yield call(messageSender, {
 			keyword: 'CommandByPut',
 			ws: payload.socket,
-			path: payload.path,
+			path: payload.path + '/' + payload.file.name,
 			uploadFile: payload.file,
 		});
 	}

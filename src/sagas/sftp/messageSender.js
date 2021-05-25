@@ -151,7 +151,7 @@ const sendCommandByGet = (ws, path, fileName) => {
 	var cmd = new SFTP.CommandRequest();
 	var get = new SFTP.GetRequest();
 	get.setPath(path);
-	get.setFilename(fileName);
+	// get.setFilename(fileName);
 
 	cmd.setGet(get);
 	request.setCommand(cmd);
@@ -181,7 +181,8 @@ const upload = (ws, path, uploadFile) => {
 		var cmd = new SFTP.CommandRequest();
 		var put = new SFTP.PutRequest();
 		put.setPath(path);
-		put.setFilename(uploadFileName);
+		// put.setFilename(uploadFileName);
+		put.setMode(1);
 		put.setFilesize(uploadFileSize);
 		put.setData(Buffer.from(data.buffer));
 		put.setOffset(1); // 임시로 1로 사용. 실제 offset 값 필요.

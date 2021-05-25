@@ -30,7 +30,7 @@ function* sendCommand(action) {
 	yield call(messageSender, {
 		keyword: 'CommandByGet',
 		ws: payload.socket,
-		path: payload.path,
+		path: payload.path + '/' + payload.file.name,
 		fileName: payload.file.name,
 	});
 	try {
