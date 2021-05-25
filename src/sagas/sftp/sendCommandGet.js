@@ -27,10 +27,15 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
+	const filepath =
+		payload.path === '/'
+			? `${payload.path}${payload.file.name}`
+			: `${payload.path}/${payload.file.name}`;
+
 	yield call(messageSender, {
 		keyword: 'CommandByGet',
 		ws: payload.socket,
-		path: payload.path + '/' + payload.file.name,
+		path: filepath,
 		fileName: payload.file.name,
 	});
 	try {
