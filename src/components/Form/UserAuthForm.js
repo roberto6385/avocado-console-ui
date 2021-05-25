@@ -13,6 +13,7 @@ import {
 	BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
+	IconButton,
 	LOGIN_LOGO_FONTSIZE,
 	PrimaryButton,
 } from '../../styles/global_design';
@@ -47,10 +48,10 @@ const _Form = styled.form`
 	right: 378px;
 `;
 const _Input = styled.input`
-	width: 100%;
+	flex: 1;
 	height: ${FOLDER_HEIGHT};
 	font-size: 16px;
-	padding: 6px 10px;
+	padding: 10px;
 	border-radius: 4px;
 	border: 1px solid ${BORDER_COLOR};
 	background: ${(props) => props.back};
@@ -60,6 +61,22 @@ const _Input = styled.input`
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;
 	}
+`;
+
+const _PasswordContainer = styled.div`
+	display: flex;
+	align-items: center;
+	height: ${FOLDER_HEIGHT};
+	font-size: 16px;
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${BORDER_COLOR};
+`;
+
+const _PasswordInput = styled(_Input)`
+	padding: 0px;
+	height: auto;
+	border: none;
 `;
 
 const _LogoSpan = styled.span`
@@ -105,6 +122,7 @@ const UserAuthForm = () => {
 	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
+	const [visible, setVisible] = useState(true);
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);
 	const emailRef = useRef(null);
@@ -123,6 +141,14 @@ const UserAuthForm = () => {
 			);
 		},
 		[user, password],
+	);
+
+	const typeChange = useCallback(
+		(e) => {
+			e.preventDefault();
+			setVisible(!visible);
+		},
+		[visible],
 	);
 
 	useEffect(() => {
@@ -148,12 +174,26 @@ const UserAuthForm = () => {
 						/>
 					</Input_>
 					<Input_ title={'Password'}>
-						<_Input
-							value={password}
-							color={password === '' ? BORDER_COLOR : 'black'}
-							onChange={onChangePassword}
-							placeholder={'Password'}
-						/>
+						<_PasswordContainer>
+							<_PasswordInput
+								type={visible ? 'password' : 'text'}
+								value={password}
+								color={password === '' ? BORDER_COLOR : 'black'}
+								onChange={onChangePassword}
+								placeholder={'Password'}
+							/>
+							<IconButton onClick={typeChange}>
+								{visible ? (
+									<span className='material-icons'>
+										visibility
+									</span>
+								) : (
+									<span className='material-icons'>
+										visibility_off
+									</span>
+								)}
+							</IconButton>
+						</_PasswordContainer>
 					</Input_>
 					<_CheckboxAnchorContainer>
 						<Checkbox_

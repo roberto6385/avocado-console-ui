@@ -10,6 +10,7 @@ import SettingHeader from '../components/Setting/SettingHeader';
 import SettingNav from '../components/Setting/SettingNav';
 import AccountSetting from '../components/Setting/AccountSetting';
 import Footer from '../components/Footer';
+import PreferencesSetting from '../components/Setting/PreferencesSetting';
 
 const _Container = styled.div`
 	display: flex;
@@ -40,7 +41,7 @@ const Preferences = () => {
 			<SettingHeader />
 			<_ContentsContainer>
 				<SettingNav />
-				<PreferencesContainer />
+				<PreferencesSetting />
 			</_ContentsContainer>
 			<Footer />
 		</_Container>

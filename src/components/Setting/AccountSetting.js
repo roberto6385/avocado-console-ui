@@ -8,6 +8,7 @@ import {
 	ACCOUNT_INPUT_WIDTH,
 	BORDER_COLOR,
 	GREEN_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 	TAB_WIDTH,
@@ -18,6 +19,7 @@ const _Container = styled.div`
 	width: 100%;
 	flex-direction: column;
 	padding: 0px 16px;
+	background: ${LIGHT_BACKGROUND_COLOR};
 `;
 
 const _Title = styled.div`
@@ -43,9 +45,9 @@ const _Input = styled.input`
 `;
 
 const _Button = styled(_Input)`
-	position: absolute;
-	right: 520px;
-	top: 27px;
+	// position: absolute;
+	// right: 520px;
+	// top: 27px;
 `;
 
 const _Section = styled.section`

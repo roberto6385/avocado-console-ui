@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Table from 'react-bootstrap/Table';
 import {
 	AVOCADO_FONTSIZE,
-	POPUP_SIDE_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	THIRD_HEIGHT,
 } from './global_design';
 

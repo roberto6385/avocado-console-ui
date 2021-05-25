@@ -8,7 +8,6 @@ export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
 export const FOOTER_BACK_COLOR = '#dee1e6';
 export const SFTP_DIRECTORY_COLOR = '#4ca6a8';
-export const POPUP_SIDE_COLOR = '#f8f9fa'; // and filelist highlighting color
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const LIGHT_MODE_BACK_COLOR = '#ffffff';
 export const BORDER_COLOR = '#e5e5e5';
@@ -20,6 +19,7 @@ export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
 
 export const DARK_GREEN_COLOR = '#126466';
 export const ANCHOR_GRAY_COLOR = '#5e5e5e';
+export const LIGHT_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
 
 export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
 export const GRAY_COLOR = '#a9b0b2';
@@ -76,6 +76,13 @@ export const Span = styled.span`
 	line-height: 0px;
 	color: ${(props) => props.color};
 `;
+
+// font
+export const NOTO_SANS_KR = `'Noto Sans KR', sans-serif`;
+export const ROBOTO = `'Roboto', sans-serif`;
+export const ROBOTO_MONO = `'Roboto Mono', monospace`;
+export const ROBOTO_SLAP = `'Roboto Slab', serif`;
+export const MONTSERRAT = `'Montserrat', sans-serif`;
 
 // button
 export const IconButton = styled.button`

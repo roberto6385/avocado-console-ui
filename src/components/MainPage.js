@@ -7,7 +7,7 @@ import {
 	IconButton,
 	LIGHT_BACK_COLOR,
 	MAIN_HEIGHT,
-	POPUP_SIDE_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
 } from '../styles/global_design';
@@ -37,7 +37,7 @@ const _Body = styled.div`
 	display: flex;
 	align-items: center;
 	flex: 1;
-	background: ${POPUP_SIDE_COLOR};
+	background: ${LIGHT_BACKGROUND_COLOR};
 	position: relative;
 	#right_side_menu {
 		width: 0px;

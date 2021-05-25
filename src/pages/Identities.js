@@ -10,6 +10,7 @@ import AccountSetting from '../components/Setting/AccountSetting';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import {Redirect, useHistory} from 'react-router-dom';
+import IdentitiesSetting from '../components/Setting/IdentitiesSetting';
 
 const _Container = styled.div`
 	display: flex;
@@ -40,7 +41,7 @@ const Identities = () => {
 			<SettingHeader />
 			<_ContentsContainer>
 				<SettingNav />
-				<IdentitiesContainer />
+				<IdentitiesSetting />
 			</_ContentsContainer>
 			<Footer />
 		</_Container>

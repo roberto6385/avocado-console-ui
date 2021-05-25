@@ -8,6 +8,11 @@ import SettingHeader from '../components/Setting/SettingHeader';
 import SettingNav from '../components/Setting/SettingNav';
 import AccountSetting from '../components/Setting/AccountSetting';
 import {Redirect, useHistory} from 'react-router-dom';
+import PreferencesAside from '../components/Setting/Aside/PreferencesAside';
+import IdentitiesAside from '../components/Setting/Aside/IdentitiesAside';
+import AccountAside from '../components/Setting/Aside/AccountAside';
+import PreferencesSetting from '../components/Setting/PreferencesSetting';
+import IdentitiesSetting from '../components/Setting/IdentitiesSetting';
 
 const _Container = styled.div`
 	display: flex;

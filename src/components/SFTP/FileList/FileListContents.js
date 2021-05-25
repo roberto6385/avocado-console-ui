@@ -26,7 +26,7 @@ import styled from 'styled-components';
 import {
 	BORDER_COLOR,
 	IconButton,
-	POPUP_SIDE_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global_design';
 
@@ -52,7 +52,7 @@ const _Tbody = styled.tbody`
 	// left: 0;
 	// bottom: 0;
 	.active {
-		background: ${POPUP_SIDE_COLOR};
+		background: ${LIGHT_BACKGROUND_COLOR};
 	}
 `;
 

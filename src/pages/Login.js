@@ -12,11 +12,7 @@ const Login = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (!userTicket) {
-			history.push('/login');
-		} else {
-			history.push('/');
-		}
+		if (userTicket) history.push('/');
 	}, [userTicket]);
 
 	return (
