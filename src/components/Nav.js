@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {
 	GREEN_COLOR,
@@ -14,6 +14,7 @@ import {
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
 	BORDER_COLOR,
+	DefaultButton,
 } from '../styles/global_design';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -76,9 +77,28 @@ const _Input = styled.input`
 	color: ${ICON_DARK_COLOR};
 `;
 
+const _OpenButton = styled(DefaultButton)`
+	-webkit-transform: rotate(
+		-90deg
+	); /* to support Safari and Android browser */
+	-ms-transform: rotate(-90deg); /* to support IE 9 */
+	transform: rotate(-90deg);
+
+	position: absolute;
+	right: -44px;
+`;
+
+const _HideSpace = styled.div`
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 47px;
+`;
+
 const Nav = () => {
 	const dispatch = useDispatch();
 	const [search, onChangeSearch] = useInput('');
+	const [toggle, setToggle] = useState(false);
 
 	const newFolder = useCallback(() => {
 		dispatch({
@@ -94,10 +114,10 @@ const Nav = () => {
 		});
 	}, [dispatch]);
 
-	return (
+	return toggle ? (
 		<_Aside>
 			<_Header>
-				<IconButton>
+				<IconButton onClick={() => setToggle(!toggle)}>
 					<span className='material-icons button_large'>menu</span>
 				</IconButton>
 				<_HeaderSpan>Avocado</_HeaderSpan>
@@ -126,6 +146,10 @@ const Nav = () => {
 				<ServerFolderList search={search} />
 			</_FolderServerContainer>
 		</_Aside>
+	) : (
+		<_HideSpace>
+			<_OpenButton onClick={() => setToggle(!toggle)}>open</_OpenButton>
+		</_HideSpace>
 	);
 };
 
