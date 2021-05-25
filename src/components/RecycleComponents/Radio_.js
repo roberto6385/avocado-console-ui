@@ -9,6 +9,10 @@ const _Container = styled.div`
 	justify-content: space-between;
 	height: ${(props) => props?.height};
 
+	.pretty.p-default.p-round {
+		z-index: 0;
+	}
+
 	.pretty.p-default input:checked ~ .state label:after {
 		background-color: ${GREEN_COLOR} !important;
 	}

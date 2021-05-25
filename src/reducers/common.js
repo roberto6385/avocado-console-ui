@@ -239,6 +239,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10021,
 		},
 		{
@@ -248,6 +249,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 		{
@@ -257,6 +259,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 		{
@@ -266,6 +269,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 	],
