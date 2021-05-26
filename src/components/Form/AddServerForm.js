@@ -26,6 +26,7 @@ import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
+import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -103,7 +104,7 @@ const _Form = styled.form`
 	width: 100%;
 	flex-direction: column;
 	font-size: ${AVOCADO_FONTSIZE};
-	padding: 18px 8px 29px 8px;
+	padding: 18px 8px 12px 8px;
 `;
 const Item_Container = styled.div`
 	display: flex;
