@@ -45,8 +45,6 @@ export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
 export const AUTH_FORM_HEIGHT = '550px';
 
-export const BUTTON_HEIGHT = '20px';
-
 // width
 export const SIDE_WIDTH = '256px'; // side main nav width
 export const RIGHT_SIDE_WIDTH = '300px';

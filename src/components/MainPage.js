@@ -74,6 +74,34 @@ const MainPage = () => {
 		[userTicket, dispatch],
 	);
 
+	// 삭제 ㄴㄴ
+	//
+	// const refresh = useCallback(() => {
+	// 	dispatch(
+	// 		getRefreshTicket({
+	// 			Authorization: 'Basic ' + encodeData,
+	// 			refresh_token: userTicket.refresh_token,
+	// 		}),
+	// 	);
+	// }, [userTicket, dispatch, encodeData]);
+	//
+	// const verify = useCallback(() => {
+	// 	dispatch(
+	// 		getVerify({
+	// 			Authorization: 'Bearer ' + userTicket.access_token,
+	// 		}),
+	// 	);
+	// }, [userTicket, dispatch]);
+	//
+	// const findActiveToken = useCallback(() => {
+	// 	dispatch(
+	// 		findToken({
+	// 			offset: 0, //레코드 넘버
+	// 			limit: 20, // 조회할 데이터 개수
+	// 		}),
+	// 	);
+	// }, [encodeData, userTicket]);
+
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
 	}, []);
