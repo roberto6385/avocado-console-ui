@@ -103,7 +103,6 @@ export const IconButton = styled.button`
 export const DefaultButton = styled.button`
 	height: 34px;
 	width: 120px; // s,m,l 사이즈 정해지면 넣을 예정.
-	background: transparent;
 	border: none;
 	line-height: 0px;
 	padding: 7px 16px;

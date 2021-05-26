@@ -105,7 +105,7 @@ const _Form = styled.form`
 	width: 100%;
 	flex-direction: column;
 	font-size: ${AVOCADO_FONTSIZE};
-	padding: 18px 16px 29px 16px;
+	padding: 18px 8px 12px 8px;
 `;
 
 const AddAccountForm = () => {
@@ -219,14 +219,15 @@ const AddAccountForm = () => {
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
-					<Input_ title={'Identity'}>
-						<_Input
+					<Input_ title={'Identity'} flex={1}>
+						<_LongInput
 							value={identity}
 							onChange={onChangeIdentity}
 							placeholder={'temp Account'}
 						/>
 					</Input_>
 					<Select_
+						width={'178px'}
 						title='Authentication'
 						options={authentication_options}
 						value={authentication}
@@ -234,7 +235,7 @@ const AddAccountForm = () => {
 					/>
 				</_Item>
 				<_Item>
-					<Input_ title={'Username'}>
+					<Input_ title={'Username'} flex={1}>
 						<_LongInput
 							value={username}
 							onChange={onChangeUsername}
@@ -244,7 +245,7 @@ const AddAccountForm = () => {
 				</_Item>
 				{authentication === 'Password' ? (
 					<_Item>
-						<Input_ title={'Password'}>
+						<Input_ title={'Password'} flex={1}>
 							<_LongInput
 								type='password'
 								value={password}
@@ -256,7 +257,7 @@ const AddAccountForm = () => {
 				) : (
 					<React.Fragment>
 						<_Item>
-							<Input_ title={'Private Key File'}>
+							<Input_ title={'Private Key File'} flex={1}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<_FileInput
@@ -282,7 +283,7 @@ const AddAccountForm = () => {
 						</_Item>
 
 						<_Item>
-							<Input_ title={'Key File Password'}>
+							<Input_ title={'Key File Password'} flex={1}>
 								<_LongInput
 									type='password'
 									value={password}
@@ -294,7 +295,7 @@ const AddAccountForm = () => {
 					</React.Fragment>
 				)}
 				<_Item>
-					<Input_ title={'Note'}>
+					<Input_ title={'Note'} flex={1}>
 						<_LongInput
 							value={note}
 							onChange={onChangeNote}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
@@ -12,6 +12,7 @@ import {
 	THIRD_HEIGHT,
 } from '../../../styles/global';
 import {useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 const _Li = styled.li`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -63,7 +64,14 @@ const _Container = styled.div`
 
 const IdentitiesAside = () => {
 	const {account} = useSelector((state) => state.common);
+	const history = useHistory();
 
+	const changePath = useCallback(
+		(path) => () => {
+			history.push(path);
+		},
+		[],
+	);
 	return (
 		<_Container>
 			<ul>
@@ -96,7 +104,9 @@ const IdentitiesAside = () => {
 					);
 				})}
 			</ul>
-			<_Button>Edit more account settings</_Button>
+			<_Button onClick={changePath('/account')}>
+				Edit more account settings
+			</_Button>
 		</_Container>
 	);
 };
