@@ -14,12 +14,12 @@ const _Container = styled.div`
 
 const Main = () => {
 	const {tab} = useSelector((state) => state.common);
-	const [open, setOpen] = useState(true);
+	// const [open, setOpen] = useState(true);
 	return (
 		<_Container>
 			<Nav />
 			{tab.length ? <WorkSpace /> : <MainPage />}
-			<SnippetsManeger setOpen={setOpen} open={open} />
+			{/*<SnippetsManeger setOpen={setOpen} open={open} />*/}
 		</_Container>
 	);
 };

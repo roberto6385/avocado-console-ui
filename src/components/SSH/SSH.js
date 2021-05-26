@@ -39,7 +39,6 @@ const _Form = styled.form`
 	bottom: 31px;
 	width: ${TERMINAL_SEARCH_FORM_WIDTH};
 	display: none;
-
 	align-items: center;
 	border-radius: 4px;
 	padding: 12px;
@@ -125,9 +124,9 @@ const SSH = ({uuid}) => {
 		};
 	}, [uuid, ws, sshTerm, currentLine]);
 	//current tab terminal is focused
-	useEffect(() => {
-		if (current_tab === uuid) sshTerm.focus();
-	}, [current_tab, uuid, sshTerm]);
+	// useEffect(() => {
+	// 	if (current_tab === uuid) sshTerm.focus();
+	// }, [current_tab, uuid, sshTerm]);
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);

@@ -1,46 +1,26 @@
 import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-	FaMinus,
-	FaPlus,
-	FaTimes,
-	GiHamburgerMenu,
-	IoCloseOutline,
-} from 'react-icons/all';
-import {Card, Col, Form, ListGroup, Row} from 'react-bootstrap';
+import {IoCloseOutline} from 'react-icons/all';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-
-import {BaseModal} from '../../styles/modals';
-import {BaseSpan} from '../../styles/texts';
-import {PrevIconButton, PopupButton} from '../../styles/buttons';
-import {MainHeader} from '../../styles/cards';
-import {MAIN_COLOR, SUB_COLOR} from '../../styles/global';
-import {SSHT_CHANGE_SNIPPET} from '../../reducers/ssht';
 import styled from 'styled-components';
+
+import {SSHT_CHANGE_SNIPPET} from '../../reducers/ssht';
 import {
-	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
 	DefaultButton,
 	FOLDER_HEIGHT,
-	FONT_COLOR,
 	GREEN_COLOR,
 	ICON_DARK_COLOR,
-	ICON_LIGHT_COLOR,
 	IconButton,
-	LIGHT_MODE_BACK_COLOR,
-	MAIN_HEIGHT,
-	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-	SERVER_HOVER_COLOR,
-	THIRD_HEIGHT,
 } from '../../styles/global_design';
 import Input_ from '../RecycleComponents/Input_';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const _Modal = styled(Modal)`
 	position: absolute;
-	z-index: 5;
 	top: 50%;
 	left: 50%;
 	right: auto;
@@ -53,6 +33,8 @@ const _Modal = styled(Modal)`
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.22);
 	border: solid 1px #e3e5e5;
 	background-color: #ffffff;
+	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
+	z-index: 5;
 `;
 
 const _Header = styled.div`
@@ -127,6 +109,12 @@ const _Li = styled.li`
 	justify-content: space-between;
 `;
 
+const _ClickedLi = styled(_Li)`
+	border-left: 2px solid ${GREEN_COLOR};
+	background-color: #ffffff;
+	padding: 1px 15px 3px 12px;
+`;
+
 const _HeaderLi = styled(_Li)`
 	padding: 2px 14px;
 `;
@@ -154,6 +142,11 @@ const _Input_ = styled(Input_)`
 	letter-spacing: 0.14px;
 	text-align: left;
 	color: #212121;
+`;
+
+const _ListContainer = styled.div`
+	display: flex;
+	flex-direction: row;
 `;
 
 const SnippetsManeger = ({open, setOpen}) => {
@@ -204,11 +197,19 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [snippets, snippents_index]);
 
 	const onClickSubmit = useCallback(() => {
-		dispatch({
-			type: SSHT_CHANGE_SNIPPET,
-			data: {snippets: tempSnippets, snippents_index: index},
+		const name = tempSnippets.map((v) => {
+			return v.name;
 		});
-		setOpen(false);
+
+		if (new Set(name).size !== name.length) {
+			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
+		} else {
+			dispatch({
+				type: SSHT_CHANGE_SNIPPET,
+				data: {snippets: tempSnippets, snippents_index: index},
+			});
+			setOpen(false);
+		}
 	}, [snippets, tempSnippets, index]);
 
 	const onClickSnippet = useCallback(
@@ -267,12 +268,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-				}}
-			>
+			<_ListContainer>
 				<_Ul>
 					<_HeaderLi>
 						<_Text>Snippet List</_Text>
@@ -291,27 +287,29 @@ const SnippetsManeger = ({open, setOpen}) => {
 						</IconButton>
 					</_HeaderLi>
 
-					{tempSnippets.map((v) => (
-						<_Li
-							height={'40px'}
-							width={'193px'}
-							key={v.id}
-							onClick={onClickSnippet(v.id)}
-							variant={clickedSnippet === v.id && 'primary'}
-							style={{
-								borderLeft:
-									clickedSnippet === v.id &&
-									`2px solid ${GREEN_COLOR}`,
-								backgroundColor:
-									clickedSnippet === v.id && '#ffffff',
-								padding:
-									clickedSnippet === v.id &&
-									'1px 15px 3px 12px',
-							}}
-						>
-							<_Text>{v.name}</_Text>
-						</_Li>
-					))}
+					{tempSnippets.map((v) =>
+						clickedSnippet === v.id ? (
+							<_ClickedLi
+								height={'40px'}
+								width={'193px'}
+								key={v.id}
+								onClick={onClickSnippet(v.id)}
+								variant={clickedSnippet === v.id && 'primary'}
+							>
+								<_Text>{v.name}</_Text>
+							</_ClickedLi>
+						) : (
+							<_Li
+								height={'40px'}
+								width={'193px'}
+								key={v.id}
+								onClick={onClickSnippet(v.id)}
+								variant={clickedSnippet === v.id && 'primary'}
+							>
+								<_Text>{v.name}</_Text>
+							</_Li>
+						),
+					)}
 				</_Ul>
 				<_Form>
 					<_Input_ title={'Name'}>
@@ -333,10 +331,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 						/>
 					</_Input_>
 				</_Form>
-			</div>
+			</_ListContainer>
 			<_Footer>
 				<DefaultButton onClick={onClickCancel}>Cancel</DefaultButton>
-				<PrimaryButton onClick={onClickCancel}>Save</PrimaryButton>
+				<PrimaryButton onClick={onClickSubmit}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);
