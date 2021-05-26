@@ -38,7 +38,7 @@ const _Header = styled.div`
 	height: ${FOLDER_HEIGHT};
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
-	padding: 0px 16px;
+	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
