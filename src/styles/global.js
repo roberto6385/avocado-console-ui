@@ -55,6 +55,7 @@ export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 export const ACCOUNT_INPUT_WIDTH = '500px';
 export const AUTH_FORM_WIDTH = '480px';
+export const SERVER_FORM_INPUT_WIDTH = '178px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';

@@ -21,6 +21,7 @@ import {
 	DefaultButton,
 	PrimaryButton,
 	ICON_DARK_COLOR,
+	SERVER_FORM_INPUT_WIDTH,
 } from '../../styles/global';
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
@@ -67,7 +68,7 @@ const _Title = styled.div`
 `;
 
 const Input = styled.input`
-	width: ${ACCOUNT_BUTTON_WIDTH};
+	width: ${SERVER_FORM_INPUT_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
@@ -77,7 +78,7 @@ const Input = styled.input`
 `;
 
 const BrowseButton = styled(PrimaryButton)`
-	margin-top: 8px;
+	margin: 10px 8px 0px 8px;
 `;
 
 const LongInput = styled(Input)`
@@ -103,7 +104,7 @@ const _Form = styled.form`
 	width: 100%;
 	flex-direction: column;
 	font-size: ${AVOCADO_FONTSIZE};
-	padding: 18px 16px 29px 16px;
+	padding: 18px 8px 29px 8px;
 `;
 const Item_Container = styled.div`
 	display: flex;
@@ -266,14 +267,15 @@ const AddServerForm = () => {
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
-					<Input_ title={'Name'}>
-						<Input
+					<Input_ title={'Name'} flex={1}>
+						<LongInput
 							value={name}
 							onChange={onChangeName}
 							placeholder={'Server Name'}
 						/>
 					</Input_>
 					<Select_
+						width={'178px'}
 						title='Protocol'
 						options={protocol_options}
 						value={protocol}
@@ -281,16 +283,17 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={'Address'}>
-						<Input
+					<Input_ title={'Address'} flex={1}>
+						<LongInput
 							value={host}
 							onChange={onChangeHost}
 							placeholder={'Host or IP'}
 						/>
 					</Input_>
 
-					<Input_ title={'Port'} width={ACCOUNT_BUTTON_WIDTH}>
+					<Input_ title={'Port'}>
 						<Input
+							width={'178px'}
 							value={port}
 							onChange={onChangePort}
 							placeholder={'Port'}
@@ -300,11 +303,13 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Select_
 						title='Identity'
+						flex={1}
 						options={user_options}
 						value={identity}
 						setValue={setIdentity}
 					/>
 					<Select_
+						width={'178px'}
 						title='Authentication'
 						options={authentication_options}
 						value={authentication}
@@ -312,7 +317,7 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={'Username'}>
+					<Input_ title={'Username'} flex={1}>
 						<LongInput
 							value={username}
 							onChange={onChangeUsername}
@@ -322,7 +327,7 @@ const AddServerForm = () => {
 				</Item_Container>
 				{authentication === 'Password' ? (
 					<Item_Container>
-						<Input_ title={'Password'}>
+						<Input_ title={'Password'} flex={1}>
 							<LongInput
 								type='password'
 								value={password}
@@ -334,7 +339,7 @@ const AddServerForm = () => {
 				) : (
 					<React.Fragment>
 						<Item_Container>
-							<Input_ title={'Private Key File'}>
+							<Input_ title={'Private Key File'} flex={1}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<FileInput
@@ -360,7 +365,7 @@ const AddServerForm = () => {
 						</Item_Container>
 
 						<Item_Container>
-							<Input_ title={'Key File Password'}>
+							<Input_ title={'Key File Password'} flex={1}>
 								<LongInput
 									type='password'
 									value={password}
@@ -372,7 +377,7 @@ const AddServerForm = () => {
 					</React.Fragment>
 				)}
 				<Item_Container>
-					<Input_ title={'Note'}>
+					<Input_ title={'Note'} flex={1}>
 						<LongInput
 							value={note}
 							onChange={onChangeNote}

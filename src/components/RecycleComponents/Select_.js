@@ -11,10 +11,12 @@ const _Span = styled.span`
 
 const _Container = styled.div`
 	padding-bottom: ${EIGHTEEN};
+	margin: 0px 8px;
+	flex: ${(props) => props.flex};
 `;
 
 const _Select = styled(Select)`
-	width: ${(props) => props.width || '268px'};
+	width: ${(props) => props.width};
 	margin-top: 6px;
 	.css-26l3qy-menu {
 		z-index: 10;
@@ -44,9 +46,9 @@ const _Select = styled(Select)`
 	}
 `;
 
-const Select_ = ({title, options, value, setValue, width}) => {
+const Select_ = ({title, options, value, setValue, width, flex}) => {
 	return (
-		<_Container>
+		<_Container flex={flex}>
 			<_Span>{title}</_Span>
 			<_Select
 				value={options.find((op) => {
@@ -65,6 +67,7 @@ Select_.propTypes = {
 	options: PropTypes.array.isRequired,
 	value: PropTypes.string.isRequired,
 	setValue: PropTypes.func.isRequired,
+	flex: PropTypes.string,
 	width: PropTypes.string,
 };
 

@@ -10,15 +10,16 @@ const _Span = styled.span`
 
 const _Container = styled.div`
 	display: flex;
-	width: ${(props) => props?.width};
+	flex: ${(props) => props?.flex};
 	flex-direction: column;
 	padding-bottom: 18px;
+	margin: 0px 8px;
 	font-size: ${AVOCADO_FONTSIZE};
 `;
 
-const Input_ = ({title, children, width = '100%'}) => {
+const Input_ = ({title, children, flex}) => {
 	return (
-		<_Container width={width}>
+		<_Container flex={flex}>
 			<_Span>{title}</_Span>
 			{children}
 		</_Container>
@@ -27,8 +28,8 @@ const Input_ = ({title, children, width = '100%'}) => {
 
 Input_.propTypes = {
 	title: PropTypes.string.isRequired,
-	width: PropTypes.string,
 	children: PropTypes.element.isRequired,
+	flex: PropTypes.string,
 };
 
 export default Input_;

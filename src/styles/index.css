@@ -16,6 +16,11 @@ body {
 	outline: none;
 }
 
+/* modal background */
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+	z-index: 5;
+}
+
 ul {
 	list-style: none;
 	padding: 0;
