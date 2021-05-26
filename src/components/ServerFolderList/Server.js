@@ -23,6 +23,7 @@ import {
 } from '../../styles/global_design';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
+import {connectionAction} from '../../reducers/sftp';
 
 export const _NavItem = styled(Nav.Item)`
 	display: flex;
@@ -46,21 +47,27 @@ const Server = ({data, indent}) => {
 	const onHybridClick = useDoubleClick(
 		() => {
 			const correspondedServer = server.find((i) => i.id === data.id);
-			dispatch({
-				type: SSH_SEND_CONNECTION_REQUEST,
-				data: {
-					token: userTicket,
-					...correspondedServer,
-				},
-			});
+			if (correspondedServer.protocol === 'SSH2') {
+				dispatch({
+					type: SSH_SEND_CONNECTION_REQUEST,
+					data: {
+						token: userTicket,
+						...correspondedServer,
+					},
+				});
+			} else if (correspondedServer.protocol === 'SFTP') {
+				dispatch(
+					connectionAction({
+						token: userTicket,
+						...correspondedServer,
+					}),
+				);
+			}
 		},
 		() => {
 			if (clicked_server === data.key) {
-				console.log('여기실행');
 				dispatch({type: SET_CLICKED_SERVER, data: null});
 			} else {
-				console.log('여기실행');
-
 				dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			}
 		},

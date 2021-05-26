@@ -10,9 +10,16 @@ import {
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 
-const ServerContextMenuMessage = {
+const Ssh2ServerContextMenuMessage = {
 	connect: 'Connect',
 	open_sftp: 'Open SFTP',
+	rename: 'Rename',
+	delete: 'Delete',
+	properties: 'Properties',
+};
+
+const SftpServerContextMenuMessage = {
+	connect: 'Open SFTP',
 	rename: 'Rename',
 	delete: 'Delete',
 	properties: 'Properties',
@@ -23,6 +30,9 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	const {server} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
+	const correspondedServer = server.find((i) => i.key === data.key);
+
+	console.log(data);
 
 	const handleItemClick = useCallback(
 		(e) => () => {
@@ -82,11 +92,17 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>
-			{Object.keys(ServerContextMenuMessage).map((v) => (
-				<Item onClick={handleItemClick(v)} key={v}>
-					{ServerContextMenuMessage[v]}
-				</Item>
-			))}
+			{correspondedServer.protocol === 'SSH2'
+				? Object.keys(Ssh2ServerContextMenuMessage).map((v) => (
+						<Item onClick={handleItemClick(v)} key={v}>
+							{Ssh2ServerContextMenuMessage[v]}
+						</Item>
+				  ))
+				: Object.keys(SftpServerContextMenuMessage).map((v) => (
+						<Item onClick={handleItemClick(v)} key={v}>
+							{SftpServerContextMenuMessage[v]}
+						</Item>
+				  ))}
 		</Menu>
 	);
 };
