@@ -11,6 +11,7 @@ import {
 	BORDER_COLOR,
 	DefaultButton,
 	FOLDER_HEIGHT,
+	ICON_DARK_COLOR,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
@@ -81,9 +82,10 @@ const _Header = styled.div`
 	justify-content: space-between;
 	padding: 0px 16px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+	font-weight: 500;
 `;
 
-const _Span = styled.span`
+const _Title = styled.div`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -208,8 +210,8 @@ const AddAccountForm = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_Span>Add Account</_Span>
-				<IconButton onClick={closeModal}>
+				<_Title>Add Account</_Title>
+				<IconButton color={ICON_DARK_COLOR} onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>
