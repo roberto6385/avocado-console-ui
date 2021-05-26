@@ -139,6 +139,22 @@ export const DangerButton = styled(DefaultButton)`
 	}
 `;
 
+export const BoarderButton = styled(DefaultButton)`
+	background-color: #ffffff;
+	border: solid 1px rgba(168, 168, 168, 0.7);
+	color: #687578;
+	&:hover {
+		background-color: #ffffff;
+		border: solid 1px rgba(168, 168, 168, 0.6);
+		color: rgba(114, 125, 128, 0.87);
+	}
+	&:active {
+		background-color: #ffffff;
+		border: solid 1px #a8a8a8;
+		color: #556367;
+	}
+`;
+
 // 복사방지
 export const PreventDragCopy = `
 	-webkit-user-select: none;

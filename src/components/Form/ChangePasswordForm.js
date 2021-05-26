@@ -11,10 +11,11 @@ import {
 	BoarderButton,
 	BORDER_COLOR,
 	FOLDER_HEIGHT,
+	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-} from '../../styles/global_design';
+} from '../../styles/global';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
