@@ -11,7 +11,6 @@ const Identities = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		// if (!userTicket) return <Redirect to='/login' />;
 		if (!userTicket) {
 			history.push('/login');
 		}

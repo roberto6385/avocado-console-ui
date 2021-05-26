@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
+	BoarderButton,
 	BORDER_COLOR,
 	DefaultButton,
 	FOLDER_HEIGHT,
@@ -130,26 +131,11 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={'New Password'}
 					/>
 				</Input_>
-				<button
-					type='submit'
-					id={'change_password_form_submit_button'}
-					style={{display: 'none'}}
-				/>
 			</_Form>
 
 			<_Footer>
-				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
-				<PrimaryButton
-					onClick={() =>
-						document
-							.getElementById(
-								'change_password_form_submit_button',
-							)
-							.click()
-					}
-				>
-					Save
-				</PrimaryButton>
+				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

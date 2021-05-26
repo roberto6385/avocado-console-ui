@@ -8,8 +8,8 @@ import Modal from 'react-modal';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
+	BoarderButton,
 	BORDER_COLOR,
-	DefaultButton,
 	FOLDER_HEIGHT,
 	ICON_DARK_COLOR,
 	IconButton,
@@ -303,16 +303,8 @@ const AddAccountForm = () => {
 				</_Item>
 			</_Form>
 			<_Footer>
-				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
-				<PrimaryButton
-					onClick={() =>
-						document
-							.getElementById('add_account_form_submit_button')
-							.click()
-					}
-				>
-					Save
-				</PrimaryButton>
+				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

@@ -1,18 +1,19 @@
 import React from 'react';
-import App from './App';
 import ReactDOM from 'react-dom';
-import reportWebVitals from './reportWebVitals';
-import './styles/index.css';
-
+import {CookiesProvider} from 'react-cookie';
+import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 
-import store from './store/configureStore';
-import {CookiesProvider} from 'react-cookie';
+import App from './App';
+import {store, persistor} from './store/configureStore';
+import './styles/index.css';
 
 ReactDOM.render(
 	<CookiesProvider>
 		<Provider store={store}>
-			<App />
+			<PersistGate persistor={persistor}>
+				<App />
+			</PersistGate>
 		</Provider>
 	</CookiesProvider>,
 	document.getElementById('root'),
@@ -21,4 +22,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();

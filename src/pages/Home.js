@@ -17,8 +17,6 @@ const Home = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		// if (!userTicket) return <Redirect to={{pathname: '/login'}} />;
-
 		if (!userTicket) {
 			history.push('/login');
 		}

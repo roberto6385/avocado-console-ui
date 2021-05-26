@@ -18,9 +18,9 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	DefaultButton,
 	PrimaryButton,
 	ICON_DARK_COLOR,
+	BoarderButton,
 } from '../../styles/global_design';
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
@@ -111,6 +111,28 @@ const Item_Container = styled.div`
 	justify-content: space-between;
 `;
 
+const isValidHostname = (host) => {
+	if (
+		/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+			host,
+		)
+	)
+		return true;
+	return false;
+};
+
+const duplicationTest = (server, name, host, port, protocol) => {
+	const nameArray = server.filter((v) => name === v.name);
+	//name 제외
+	if (nameArray.length > 0) return false;
+	//host, port, protocol
+	const hostArray = server.filter((v) => host === v.host);
+	for (let i of hostArray) {
+		if (i.port === port && i.protocol === protocol) return false;
+	}
+	return true;
+};
+
 const AddServerForm = () => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common);
@@ -120,7 +142,7 @@ const AddServerForm = () => {
 	const [name, onChangeName, setName] = useInput('Test');
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
-	const [port, onChangePort, setPort] = useInput(10021);
+	const [port, onChangePort, setPort] = useInput(10022);
 	const [identity, onChangeIdentity, setIdentity] = useInput('root');
 	const [
 		authentication,
@@ -154,57 +176,63 @@ const AddServerForm = () => {
 		(e) => {
 			e.preventDefault();
 
-			const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
-			ws.binaryType = 'arraybuffer';
-
-			ws.onerror = () => {
+			if (!duplicationTest(server, name, host, port, protocol)) {
+				dispatch({type: OPEN_ALERT_POPUP, data: 'server_duplicate'});
+			} else if (!isValidHostname(host)) {
 				dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
-			};
+			} else {
+				const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
+				ws.binaryType = 'arraybuffer';
 
-			ws.onopen = () => {
-				ssht_ws_request({
-					keyword: 'SendConnect',
-					ws: ws,
-					data: {
-						token: userTicket,
-						host: host,
-						user: identity,
-						password: password,
-						port: port,
-					},
-				});
-			};
+				ws.onerror = () => {
+					dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
+				};
 
-			ws.onmessage = (evt) => {
-				const message = GetMessage(evt.data);
+				ws.onopen = () => {
+					ssht_ws_request({
+						keyword: 'SendConnect',
+						ws: ws,
+						data: {
+							token: userTicket,
+							host: host,
+							user: identity,
+							password: password,
+							port: port,
+						},
+					});
+				};
 
-				if (message.type === 'CONNECT') {
-					ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-					const newData = {
-						name: name,
-						host: host,
-						user: identity,
-						protocol: protocol,
-						password: password,
-						port: port,
-					};
-					if (add_server_form_popup.type === 'add')
-						dispatch({
-							type: SAVE_SERVER,
-							data: newData,
-						});
-					else if (add_server_form_popup.type === 'edit')
-						dispatch({
-							type: EDIT_SERVER,
-							data: {
-								id: add_server_form_popup.id,
+				ws.onmessage = (evt) => {
+					const message = GetMessage(evt.data);
+					console.log(message);
+					if (message.type === 'CONNECT') {
+						ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
+						const newData = {
+							name: name,
+							host: host,
+							user: identity,
+							protocol: protocol,
+							password: password,
+							port: port,
+						};
+						if (add_server_form_popup.type === 'add')
+							dispatch({
+								type: SAVE_SERVER,
 								data: newData,
-							},
-						});
-				} else if (message.type === 'DISCONNECT') {
-					dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-				} else console.log('V AddServerForm onmessage: ', message);
-			};
+							});
+						else if (add_server_form_popup.type === 'edit')
+							dispatch({
+								type: EDIT_SERVER,
+								data: {
+									id: add_server_form_popup.id,
+									data: newData,
+								},
+							});
+					} else if (message.type === 'DISCONNECT') {
+						dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
+					} else console.log('V AddServerForm onmessage: ', message);
+				};
+			}
 		},
 		[
 			name,
@@ -215,7 +243,6 @@ const AddServerForm = () => {
 			password,
 			add_server_form_popup,
 			userTicket,
-			dispatch,
 		],
 	);
 
@@ -229,7 +256,7 @@ const AddServerForm = () => {
 				setName('Test');
 				setProtocol('SSH2');
 				setHost('211.253.10.9');
-				setPort(10021);
+				setPort(10022);
 				setIdentity('root');
 				setAuthentication('Password');
 				setPassword('Netand141)');
@@ -380,23 +407,10 @@ const AddServerForm = () => {
 						/>
 					</Input_>
 				</Item_Container>
-				<button
-					type='submit'
-					id={'add_server_form_submit_button'}
-					style={{display: 'none'}}
-				/>
 			</_Form>
 			<_Footer>
-				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
-				<PrimaryButton
-					onClick={() =>
-						document
-							.getElementById('add_server_form_submit_button')
-							.click()
-					}
-				>
-					Save
-				</PrimaryButton>
+				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);
