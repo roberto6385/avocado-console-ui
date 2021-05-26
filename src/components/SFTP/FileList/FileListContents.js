@@ -14,9 +14,6 @@ import {
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {Spinner} from 'react-bootstrap';
-import {light_Background, MAIN_COLOR} from '../../../styles/global';
-import {Th} from '../../../styles/tables';
 import {
 	formatByteSizeString,
 	sortFunction,
@@ -27,6 +24,7 @@ import {
 	BORDER_COLOR,
 	IconButton,
 	LIGHT_BACKGROUND_COLOR,
+	PreventDragCopy,
 	THIRD_HEIGHT,
 } from '../../../styles/global_design';
 
@@ -39,6 +37,7 @@ const _Table = styled.table`
 	margin: 0;
 	padding: 0;
 	border: none;
+	${PreventDragCopy};
 `;
 
 const _Tbody = styled.tbody`
@@ -54,6 +53,18 @@ const _Tbody = styled.tbody`
 	.active {
 		background: ${LIGHT_BACKGROUND_COLOR};
 	}
+`;
+
+const Th = styled.th`
+	display: flex;
+	align-items: center;
+	min-width: ${(props) => props?.min};
+	flex: ${(props) => props.flex};
+	justify-content: ${(props) => props.justify || 'flex-start'};
+	white-space: nowrap;
+	border: none !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const _Tr = styled.tr`
@@ -224,7 +235,7 @@ const FileListContents = ({uuid}) => {
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
 		<React.Fragment>
-			<_Table back={light_Background}>
+			<_Table>
 				<TableHead uuid={uuid} />
 				<_Tbody onContextMenu={contextMenuOpen}>
 					{currentFileList.map((item, index) => {
@@ -297,7 +308,7 @@ const FileListContents = ({uuid}) => {
 			<FileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	) : (
-		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
+		<div>loading...</div>
 	);
 };
 

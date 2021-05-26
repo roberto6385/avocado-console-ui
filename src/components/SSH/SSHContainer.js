@@ -6,8 +6,11 @@ import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
-import {light_Background} from '../../styles/global';
-import {IconButton, SUB_HEIGHT} from '../../styles/global_design';
+import {
+	IconButton,
+	LIGHT_BACK_COLOR,
+	SUB_HEIGHT,
+} from '../../styles/global_design';
 import styled from 'styled-components';
 import SSH from './SSH';
 
@@ -67,7 +70,7 @@ const SSHContainer = ({uuid, server_id}) => {
 
 	return (
 		<_Container>
-			<_Header back={light_Background}>
+			<_Header back={LIGHT_BACK_COLOR}>
 				<DropdownMenu_
 					icon={
 						<span className='material-icons button_large'>

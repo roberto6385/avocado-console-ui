@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {MAIN_COLOR} from './global';
 import {FiServer, RiArrowUpDownLine, RiTerminalFill} from 'react-icons/all';
+import {GREEN_COLOR} from './global_design';
 
 // SidebarShow, RotateButton 삭제 예정.
 export const SidebarShow = styled.div`
@@ -21,22 +21,22 @@ export const RotateButton = styled.button`
 	-webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
 	transform: rotate(-90deg);
 	&:hover {
-		color: ${MAIN_COLOR};
+		color: ${GREEN_COLOR};
 	}
 `;
 
 // ServerNavBar
 export const FaServerIcon = styled(FiServer)`
 	margin-right: 4px;
-	color: ${MAIN_COLOR};
+	color: ${GREEN_COLOR};
 `;
 
 export const TabSSHTIcon = styled(RiTerminalFill)`
-	color: ${MAIN_COLOR};
+	color: ${GREEN_COLOR};
 	margin-right: 5px;
 `;
 
 export const TabSFTPIcon = styled(RiArrowUpDownLine)`
-	color: ${MAIN_COLOR};
+	color: ${GREEN_COLOR};
 	margin-right: 5px;
 `;

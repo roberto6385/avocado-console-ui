@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {DirectoryIcon, FileIcon} from '../../../styles/sftp';
 import {useContextMenu} from 'react-contexify';
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import {
@@ -16,22 +15,26 @@ import {
 	SAVE_TEMP_PATH,
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {Spinner} from 'react-bootstrap';
-import {
-	CLOUDY_BLUE,
-	HIGHLIGHT_COLOR,
-	light_Background,
-	MAIN_COLOR,
-} from '../../../styles/global';
-import {BaseSpan, EllipsisSpan} from '../../../styles/texts';
+import {CLOUDY_BLUE, HIGHLIGHT_COLOR} from '../../../styles/global';
+import {BaseSpan} from '../../../styles/texts';
 import {DropListUl} from '../../../styles/lists';
 import {RowBox} from '../../../styles/divs';
 import {MdEdit, MdFileDownload} from 'react-icons/md';
 import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
+import {LIGHT_BACK_COLOR} from '../../../styles/global_design';
 
 const _Container = styled.div`
 	display: flex;
+`;
+
+const _EllipsisSpan = styled.span`
+	margin: 0px;
+	padding: 0px;
+	width: 150px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const FileListDropDown = ({uuid}) => {
@@ -289,7 +292,7 @@ const FileListDropDown = ({uuid}) => {
 						width={
 							pathList.length - 1 === listindex ? '100%' : '250px'
 						}
-						back={light_Background}
+						back={LIGHT_BACK_COLOR}
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
@@ -316,7 +319,7 @@ const FileListDropDown = ({uuid}) => {
 												?.split('/')
 												.pop() === item.name &&
 												CLOUDY_BLUE) ||
-											light_Background
+											LIGHT_BACK_COLOR
 										}
 										key={index}
 										onContextMenu={contextMenuOpen({
@@ -330,16 +333,20 @@ const FileListDropDown = ({uuid}) => {
 										})}
 									>
 										<RowBox justify={'space-between'}>
-											<EllipsisSpan
+											<_EllipsisSpan
 												className={'filelist_contents'}
 											>
 												{item.type === 'directory' ? (
-													<DirectoryIcon />
+													<span className='material-icons button_large'>
+														folder_open
+													</span>
 												) : (
-													<FileIcon />
+													<span className='material-icons button_large'>
+														insert_drive_file
+													</span>
 												)}
 												{item.name}
-											</EllipsisSpan>
+											</_EllipsisSpan>
 											{pathList.length - 1 ===
 												listindex && (
 												<RowBox>
@@ -387,7 +394,7 @@ const FileListDropDown = ({uuid}) => {
 			<FileListContextMenu uuid={uuid} />
 		</_Container>
 	) : (
-		<Spinner style={{color: MAIN_COLOR}} animation='border' role='status' />
+		<div>loading...</div>
 	);
 };
 
