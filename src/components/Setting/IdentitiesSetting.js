@@ -81,27 +81,39 @@ const _Li = styled.li`
 `;
 
 const _Name = styled.div`
-	width: 298px;
+	// max-width: 298px;
+	min-width: 100px;
+	flex: 6;
 	display: flex;
 	align-items: center;
 	padding: 6px 16px;
 `;
 const _ResourceName = styled(_Name)`
-	width: 219px;
+	// max-width: 219px;
+	min-width: 100px;
+	flex: 4;
 `;
 const _AddressName = styled(_Name)`
-	width: 149px;
+	// max-width: 149px;
+	min-width: 100px;
+	flex: 3;
 `;
 const _ProtocolPortName = styled(_Name)`
-	width: 115px;
+	// max-width: 115px;
+	min-width: 100px;
+	flex: 2;
 `;
 const _UserNameType = styled(_Name)`
-	width: 266px;
+	// max-width: 266px;
+	min-width: 100px;
+	flex: 5;
 `;
 const _ButtonContainer = styled(_Name)`
 	justify-content: center;
 	padding: 0;
-	width: 126px;
+	// max-width: 126px;
+	min-width: 100px;
+	flex: 2;
 `;
 
 const _AccountListUl = styled.ul`
@@ -112,8 +124,9 @@ const _AccountListUl = styled.ul`
 `;
 const _ResourceListUl = styled.ul`
 	border: 1px solid ${BORDER_COLOR};
+	flex: 1;
 	background: white;
-	width: 600px;
+	// width: 600px;
 	margin: 16px 8px;
 `;
 

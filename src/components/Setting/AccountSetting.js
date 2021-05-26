@@ -13,6 +13,7 @@ import {
 	SUB_HEIGHT,
 	TAB_WIDTH,
 } from '../../styles/global_design';
+import ChangePasswordForm from '../Form/ChangePasswordForm';
 
 const _Container = styled.div`
 	display: flex;
@@ -79,6 +80,7 @@ const MFAOptions = [
 ];
 
 const AccountSetting = () => {
+	const [open, setOpen] = useState(false);
 	const [account, setAccount] = useState('');
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -124,7 +126,7 @@ const AccountSetting = () => {
 						width={ACCOUNT_INPUT_WIDTH}
 					/>
 					<_Button
-						// onClick={changePath('/account')}
+						onClick={() => setOpen(true)}
 						type='button'
 						value={'Change Password'}
 						back={GREEN_COLOR}
@@ -157,6 +159,7 @@ const AccountSetting = () => {
 					disabled={mfaType === 'not_use'}
 				/>
 			</_ContentsContainer>
+			<ChangePasswordForm open={open} setOpen={setOpen} />
 		</_Container>
 	);
 };
