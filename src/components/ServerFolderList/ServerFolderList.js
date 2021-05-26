@@ -13,6 +13,7 @@ import {Nav} from 'react-bootstrap';
 export const _Nav = styled(Nav)`
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 `;
 
 function searchTreeNode(node, name) {
@@ -61,8 +62,9 @@ const ServerFolderList = ({search}) => {
 	const [filteredNav, setfilteredNav] = useState(nav);
 
 	const dropNavList = useCallback(() => {
+		console.log('check');
 		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');
@@ -75,8 +77,6 @@ const ServerFolderList = ({search}) => {
 	useEffect(() => {
 		setfilteredNav(searchTreeStart(nav, search));
 	}, [nav, search]);
-
-	useEffect(() => {}, []);
 
 	return (
 		<_Nav onDrop={dropNavList} id='sortableServerNav'>
