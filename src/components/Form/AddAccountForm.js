@@ -20,6 +20,7 @@ import {
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
+	SecondaryButtonGreen,
 } from '../../styles/global';
 
 const _Modal = styled(Modal)`
@@ -53,8 +54,8 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _PrimaryButton = styled(PrimaryButton)`
-	margin-top: 8px;
+const _BrowseButton = styled(SecondaryButtonGreen)`
+	margin: 10px 8px 0px 8px;
 `;
 
 const _LongInput = styled(_Input)`
@@ -269,17 +270,18 @@ const AddAccountForm = () => {
 									/>
 								</_Label>
 							</Input_>
-							<_PrimaryButton
-								onClick={() =>
+							<_BrowseButton
+								onClick={(e) => {
+									e.preventDefault();
 									document
 										.getElementById(
 											'add_server_form_type_file',
 										)
-										.click()
-								}
+										.click();
+								}}
 							>
 								Browse
-							</_PrimaryButton>
+							</_BrowseButton>
 						</_Item>
 
 						<_Item>

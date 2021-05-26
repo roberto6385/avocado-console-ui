@@ -20,6 +20,7 @@ import {
 	PrimaryButton,
 	ICON_DARK_COLOR,
 	BorderButton,
+	SecondaryButtonGreen,
 } from '../../styles/global';
 
 import {IoCloseOutline} from 'react-icons/all';
@@ -77,7 +78,7 @@ const Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const BrowseButton = styled(PrimaryButton)`
+const BrowseButton = styled(SecondaryButtonGreen)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -379,13 +380,14 @@ const AddServerForm = () => {
 								</_Label>
 							</Input_>
 							<BrowseButton
-								onClick={() =>
+								onClick={(e) => {
+									e.preventDefault();
 									document
 										.getElementById(
 											'add_server_form_type_file',
 										)
-										.click()
-								}
+										.click();
+								}}
 							>
 								Browse
 							</BrowseButton>

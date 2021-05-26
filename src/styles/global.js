@@ -32,6 +32,13 @@ export const RED_COLOR = '#d45959';
 export const RED_HOVER_COLOR = '#de6565';
 export const RED_ACTIVE_COLOR = '#b84646';
 
+export const CANCEL_BUTTON_DEFAULT_BORDER = `rgba(168, 168, 168, 0.7)`;
+export const CANCEL_BUTTON_DEFAULT_COLOR = '#687578';
+export const CANCEL_BUTTON_DEFAULT_HOVER_BORDER = `rgba(168, 168, 168, 0.6)`;
+export const CANCEL_BUTTON_DEFAULT_HOVER_COLOR = `rgba(114, 125, 128, 0.87)`;
+export const CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER = `#a8a8a8`;
+export const CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR = `#556367`;
+
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
 export const SUB_HEIGHT = '50px'; // new folder container, (ssht, sftp nav)
@@ -139,18 +146,44 @@ export const DangerButton = styled(DefaultButton)`
 `;
 
 export const BorderButton = styled(DefaultButton)`
-	background-color: #ffffff;
-	border: solid 1px rgba(168, 168, 168, 0.7);
-	color: #687578;
+	background-color: white;
+	border: solid 1px ${CANCEL_BUTTON_DEFAULT_BORDER};
+	color: ${CANCEL_BUTTON_DEFAULT_COLOR};
 	&:hover {
-		background-color: #ffffff;
-		border: solid 1px rgba(168, 168, 168, 0.6);
-		color: rgba(114, 125, 128, 0.87);
+		background-color: white;
+		border: solid 1px ${CANCEL_BUTTON_DEFAULT_HOVER_BORDER};
+		color: ${CANCEL_BUTTON_DEFAULT_HOVER_COLOR};
 	}
 	&:active {
-		background-color: #ffffff;
-		border: solid 1px #a8a8a8;
-		color: #556367;
+		background-color: white;
+		border: solid 1px ${CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER};
+		color: ${CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR};
+	}
+`;
+
+export const SecondaryButtonGreen = styled(BorderButton)`
+	border: solid 1px ${GREEN_COLOR};
+	color: ${GREEN_COLOR};
+	&:hover {
+		border: solid 1px ${GREEN_HOVER_COLOR};
+		color: ${GREEN_HOVER_COLOR};
+	}
+	&:active {
+		border: solid 1px ${GREEN_COLOR};
+		color: ${GREEN_ACTIVE_COLOR};
+	}
+`;
+
+export const SecondaryButtonRed = styled(BorderButton)`
+	border: solid 1px ${RED_COLOR};
+	color: ${RED_COLOR};
+	&:hover {
+		border: solid 1px ${RED_HOVER_COLOR};
+		color: ${RED_HOVER_COLOR};
+	}
+	&:active {
+		border: solid 1px ${RED_COLOR};
+		color: ${RED_ACTIVE_COLOR};
 	}
 `;
 
