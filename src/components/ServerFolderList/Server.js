@@ -12,7 +12,6 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
-import {BaseForm, BaseInput} from '../../styles/forms';
 import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
@@ -24,6 +23,18 @@ import {
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
+
+export const _Form = styled.form`
+	border: 1px solid ${GREEN_COLOR};
+	display: flex;
+	padding: 4px;
+`;
+
+export const _Input = styled.input`
+	font-size: 14px;
+	border: none;
+	outline: none;
+`;
 
 export const _NavItem = styled(Nav.Item)`
 	display: flex;
@@ -165,15 +176,15 @@ const Server = ({data, indent}) => {
 				<span className='material-icons button_midium'>dns</span>
 				<Span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
-						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-							<BaseInput
+						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
+							<_Input
 								ref={renameRef}
 								type='text'
 								value={renameValue}
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
 							/>
-						</BaseForm>
+						</_Form>
 					) : (
 						data.name
 					)}

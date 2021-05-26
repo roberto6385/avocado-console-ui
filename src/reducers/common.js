@@ -390,6 +390,19 @@ function searchParentTreeNode(parent, node, key) {
 	return null;
 }
 
+function searchServerTreePath(parent, node, key) {
+	if (node.key === key) {
+		return parent;
+	} else if (node.contain && node.contain.length > 0) {
+		let result = null;
+		for (let i = 0; !result && i < node.contain.length; i++) {
+			result = searchServerTreePath(node, node.contain[i], key);
+		}
+		return result;
+	}
+	return null;
+}
+
 function searchParentTreeStart(root, key) {
 	for (let x of root) {
 		let result = searchParentTreeNode(root, x, key);
