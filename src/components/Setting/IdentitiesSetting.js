@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
@@ -18,7 +18,11 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import {ACCOUT_CHECKLIST, ACCOUT_CONTROL_ID} from '../../reducers/common';
+import {
+	ACCOUT_CHECKLIST,
+	ACCOUT_CONTROL_ID,
+	CHANGE_CURRENT_RESOURCE_KEY,
+} from '../../reducers/common';
 import {useContextMenu} from 'react-contexify';
 import AccountContextMenu from '../ContextMenu/AccountContextMenu';
 import {ColBox} from '../../styles/divs';
@@ -80,8 +84,14 @@ const _Li = styled.li`
 	}
 `;
 
-const _Name = styled.div`
+const _ResourceLi = styled(_Li)`
+	cursor: pointer;
+	background: ${(props) => props?.back};
+`;
+
+const _Name = styled.span`
 	// max-width: 298px;
+	white-space: nowrap;
 	min-width: 100px;
 	flex: 6;
 	display: flex;
@@ -152,9 +162,12 @@ Checkbox.propTypes = {
 };
 
 const IdentitiesSetting = () => {
-	const {account, server, accountCheckList} = useSelector(
-		(state) => state.common,
-	);
+	const {
+		account,
+		server,
+		accountCheckList,
+		currentResourceListKey,
+	} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 
 	const {show} = useContextMenu({
@@ -175,6 +188,16 @@ const IdentitiesSetting = () => {
 			data: {type: 'add'},
 		});
 	}, []);
+
+	const selectResourceList = useCallback(
+		(item) => (e) => {
+			dispatch({
+				type: CHANGE_CURRENT_RESOURCE_KEY,
+				payload: {key: item.key},
+			});
+		},
+		[],
+	);
 
 	const checkManager = useCallback(
 		(id) => (e) => {
@@ -221,6 +244,13 @@ const IdentitiesSetting = () => {
 		}
 	}, [dispatch, accountCheckList]);
 
+	useEffect(() => {
+		dispatch({
+			type: CHANGE_CURRENT_RESOURCE_KEY,
+			payload: {key: server[0].key},
+		});
+	}, []);
+
 	return (
 		<_Container>
 			<_Title>Identities</_Title>
@@ -239,10 +269,19 @@ const IdentitiesSetting = () => {
 						<_AddressName>Address</_AddressName>
 						<_ProtocolPortName>Protocol </_ProtocolPortName>
 						<_ProtocolPortName>Port</_ProtocolPortName>
+						<_ProtocolPortName>Note</_ProtocolPortName>
 					</_Li>
 					{server.map((item) => {
 						return (
-							<_Li key={item.id}>
+							<_ResourceLi
+								key={item.id}
+								onClick={selectResourceList(item)}
+								back={
+									item.key === currentResourceListKey
+										? LIGHT_BACKGROUND_COLOR
+										: 'white'
+								}
+							>
 								<_ResourceName>{item.name}</_ResourceName>
 								<_AddressName>{item.host}</_AddressName>
 								<_ProtocolPortName>
@@ -251,7 +290,8 @@ const IdentitiesSetting = () => {
 								<_ProtocolPortName>
 									{item.port}
 								</_ProtocolPortName>
-							</_Li>
+								<_ProtocolPortName>Note</_ProtocolPortName>
+							</_ResourceLi>
 						);
 					})}
 				</_ResourceListUl>
@@ -283,9 +323,10 @@ const IdentitiesSetting = () => {
 						<_Name>Name</_Name>
 						<_UserNameType>User Name</_UserNameType>
 						<_UserNameType>Type</_UserNameType>
-						<_ButtonContainer>Edit</_ButtonContainer>
+						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{account.map((item) => {
+						if (item.key !== currentResourceListKey) return;
 						return (
 							<_Li
 								key={item.id}
@@ -300,18 +341,18 @@ const IdentitiesSetting = () => {
 								<_Name>{item.name}</_Name>
 								<_UserNameType>{item.username}</_UserNameType>
 								<_UserNameType>{item.type}</_UserNameType>
-								<_ButtonContainer>
-									<IconButton>
-										<span className='material-icons button_large'>
-											edit
-										</span>
-									</IconButton>
-									<IconButton>
-										<span className='material-icons button_midium'>
-											delete
-										</span>
-									</IconButton>
-								</_ButtonContainer>
+								{/*<_ButtonContainer>*/}
+								{/*	<IconButton>*/}
+								{/*		<span className='material-icons button_large'>*/}
+								{/*			edit*/}
+								{/*		</span>*/}
+								{/*	</IconButton>*/}
+								{/*	<IconButton>*/}
+								{/*		<span className='material-icons button_midium'>*/}
+								{/*			delete*/}
+								{/*		</span>*/}
+								{/*	</IconButton>*/}
+								{/*</_ButtonContainer>*/}
 							</_Li>
 						);
 					})}

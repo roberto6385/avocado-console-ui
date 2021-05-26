@@ -277,24 +277,28 @@ export const initialState = {
 	accountId: 3,
 	accountListControlId: null,
 	accountCheckList: [],
+	currentResourceListKey: null,
 	account: [
 		{
 			id: 0,
 			name: 'mainAccount',
 			username: 'root',
 			type: 'key',
+			key: 's_1',
 		},
 		{
 			id: 1,
 			name: 'netand',
 			username: 'root',
 			type: 'key',
+			key: 's_1',
 		},
 		{
 			id: 2,
 			name: 'avocado',
 			username: 'root',
 			type: 'key',
+			key: 's_2',
 		},
 	],
 
@@ -323,6 +327,7 @@ export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
 export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
+export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -626,6 +631,7 @@ const reducer = (state = initialState, action) => {
 					name: action.payload.identity,
 					username: action.payload.username,
 					type: action.payload.type,
+					key: action.payload.key,
 				});
 				draft.accountId++;
 				break;
@@ -639,6 +645,10 @@ const reducer = (state = initialState, action) => {
 
 			case ACCOUT_CONTROL_ID:
 				draft.accountListControlId = action.payload.id;
+				break;
+
+			case CHANGE_CURRENT_RESOURCE_KEY:
+				draft.currentResourceListKey = action.payload.key;
 				break;
 
 			case ACCOUT_CHECKLIST:

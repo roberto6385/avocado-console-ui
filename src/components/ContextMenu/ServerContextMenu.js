@@ -92,7 +92,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>
-			{correspondedServer.protocol === 'SSH2'
+			{correspondedServer?.protocol === 'SSH2'
 				? Object.keys(Ssh2ServerContextMenuMessage).map((v) => (
 						<Item onClick={handleItemClick(v)} key={v}>
 							{Ssh2ServerContextMenuMessage[v]}
