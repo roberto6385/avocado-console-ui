@@ -37,7 +37,7 @@ import Input_ from '../RecycleComponents/Input_';
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
 	position: absolute;
-	z-index: 5;
+	z-index: 10;
 	top: 50%;
 	left: 50%;
 	right: auto;
