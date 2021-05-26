@@ -12,7 +12,7 @@ import {
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-} from '../styles/global_design';
+} from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {disconnectAction} from '../reducers/sftp';

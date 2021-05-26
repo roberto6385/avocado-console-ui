@@ -9,7 +9,7 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 	SIXTEEN,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';

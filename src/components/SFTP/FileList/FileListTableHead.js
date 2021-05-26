@@ -3,7 +3,7 @@ import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global_design';
+import {BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global';
 
 const _Tr = styled.tr`
 	height: ${THIRD_HEIGHT};

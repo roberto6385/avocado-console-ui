@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global_design';
+import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global';
 
 const _LabelContainer = styled.div`
 	display: flex;

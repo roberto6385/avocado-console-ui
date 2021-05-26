@@ -18,7 +18,7 @@ import {
 	LIGHT_MODE_BACK_COLOR,
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
 

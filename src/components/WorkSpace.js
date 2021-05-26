@@ -14,7 +14,7 @@ import {
 	MAIN_HEIGHT,
 	RIGHT_SIDE_WIDTH,
 	TAB_WIDTH,
-} from '../styles/global_design';
+} from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {disconnectAction} from '../reducers/sftp';

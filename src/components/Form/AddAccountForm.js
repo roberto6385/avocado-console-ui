@@ -16,7 +16,7 @@ import {
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import {IoCloseOutline} from 'react-icons/all';
 import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';

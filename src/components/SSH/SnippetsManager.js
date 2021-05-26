@@ -15,7 +15,7 @@ import {
 	ICON_DARK_COLOR,
 	IconButton,
 	PrimaryButton,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 

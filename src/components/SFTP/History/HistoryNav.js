@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
-import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
 import {
 	Span,
@@ -12,7 +11,7 @@ import {
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 
 const _Container = styled.div`
 	display: flex;

@@ -24,7 +24,7 @@ import {
 	LIGHT_MODE_BACK_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 
 const _Container = styled.div`

@@ -12,7 +12,7 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 	TAB_WIDTH,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 
 const _Container = styled.div`

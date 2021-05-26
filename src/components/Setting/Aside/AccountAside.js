@@ -6,7 +6,7 @@ import {
 	GREEN_COLOR,
 	BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 import {useHistory} from 'react-router-dom';
 
 const _Container = styled.div`

@@ -7,7 +7,7 @@ import {
 	GRAY_ACTIVE_COLOR,
 	GRAY_COLOR,
 	GRAY_HOVER_COLOR,
-} from '../../styles/global_design';
+} from '../../styles/global';
 
 const _Dropdown = styled(Dropdown)`
 	line-height: 0px;

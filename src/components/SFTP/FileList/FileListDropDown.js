@@ -15,17 +15,42 @@ import {
 	SAVE_TEMP_PATH,
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {CLOUDY_BLUE, HIGHLIGHT_COLOR} from '../../../styles/global';
-import {BaseSpan} from '../../../styles/texts';
-import {DropListUl} from '../../../styles/lists';
-import {RowBox} from '../../../styles/divs';
-import {MdEdit, MdFileDownload} from 'react-icons/md';
-import {PrevIconButton} from '../../../styles/buttons';
 import styled from 'styled-components';
-import {LIGHT_BACK_COLOR} from '../../../styles/global_design';
+import {
+	CLOUDY_BLUE,
+	IconButton,
+	LIGHT_BACK_COLOR,
+	LIGHT_BACKGROUND_COLOR,
+	PreventDragCopy,
+} from '../../../styles/global';
 
 const _Container = styled.div`
 	display: flex;
+`;
+
+export const _ItemContainer = styled.div`
+	display: flex;
+	padding: 0px;
+	margin: 0px;
+	justify-content: ${(props) => props?.justify};
+`;
+
+const _Ul = styled.ul`
+	${PreventDragCopy}
+	width:${(props) => props.width};
+	min-width: 250px;
+	list-style: none;
+	overflow-y: scroll;
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	position: relative;
+	flex: ${(props) => props.flex};
+	background: ${(props) => props.back};
+`;
+
+const _Span = styled.span`
+	padding: 4px;
 `;
 
 const _EllipsisSpan = styled.span`
@@ -287,7 +312,7 @@ const FileListDropDown = ({uuid}) => {
 		<_Container>
 			{fileList.map((listItem, listindex) => {
 				return (
-					<DropListUl
+					<_Ul
 						flex={pathList.length - 1 === listindex && 1}
 						width={
 							pathList.length - 1 === listindex ? '100%' : '250px'
@@ -299,9 +324,7 @@ const FileListDropDown = ({uuid}) => {
 							clickedPath: pathList[listindex],
 						})}
 					>
-						<BaseSpan padding={'4px'}>
-							{/*{listindex === 0 && 'Name'}*/}
-						</BaseSpan>
+						<_Span>{/*{listindex === 0 && 'Name'}*/}</_Span>
 						{listItem.map((item, index) => {
 							if (listindex === 0 && item.name === '..') return;
 							return (
@@ -314,7 +337,7 @@ const FileListDropDown = ({uuid}) => {
 													path ===
 														pathList[listindex],
 											) > -1 &&
-												HIGHLIGHT_COLOR) ||
+												LIGHT_BACKGROUND_COLOR) ||
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
@@ -332,7 +355,9 @@ const FileListDropDown = ({uuid}) => {
 											itemIndex: index,
 										})}
 									>
-										<RowBox justify={'space-between'}>
+										<_ItemContainer
+											justify={'space-between'}
+										>
 											<_EllipsisSpan
 												className={'filelist_contents'}
 											>
@@ -349,46 +374,44 @@ const FileListDropDown = ({uuid}) => {
 											</_EllipsisSpan>
 											{pathList.length - 1 ===
 												listindex && (
-												<RowBox>
-													<BaseSpan>
+												<_ItemContainer>
+													<_Span>
 														{item.permission}
-													</BaseSpan>
-													<RowBox
-														width={'76px'}
-														padding={'4px'}
-														justify={'flex-end'}
-													>
-														{item.type === 'file' &&
-															item.name !==
-																'..' && (
-																<PrevIconButton
-																	zIndex={1}
-																	onClick={edit(
-																		item,
-																	)}
-																>
-																	<MdEdit />
-																</PrevIconButton>
-															)}
-														{item.name !== '..' && (
-															<PrevIconButton
+													</_Span>
+													{item.type === 'file' &&
+														item.name !== '..' && (
+															<IconButton
 																zIndex={1}
-																onClick={download(
+																onClick={edit(
 																	item,
 																)}
 															>
-																<MdFileDownload />
-															</PrevIconButton>
+																{' '}
+																<span className='material-icons button_large'>
+																	edit
+																</span>
+															</IconButton>
 														)}
-													</RowBox>
-												</RowBox>
+													{item.name !== '..' && (
+														<IconButton
+															zIndex={1}
+															onClick={download(
+																item,
+															)}
+														>
+															<span className='material-icons button_large'>
+																file_download
+															</span>
+														</IconButton>
+													)}
+												</_ItemContainer>
 											)}
-										</RowBox>
+										</_ItemContainer>
 									</ls>
 								)
 							);
 						})}
-					</DropListUl>
+					</_Ul>
 				);
 			})}
 			<FileListContextMenu uuid={uuid} />

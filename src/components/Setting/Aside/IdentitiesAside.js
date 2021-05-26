@@ -10,7 +10,7 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
 	THIRD_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 import {useSelector} from 'react-redux';
 
 const _Li = styled.li`

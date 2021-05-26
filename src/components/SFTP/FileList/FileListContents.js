@@ -26,7 +26,7 @@ import {
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
 	THIRD_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 
 const _Table = styled.table`
 	display: flex;

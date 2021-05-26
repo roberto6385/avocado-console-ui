@@ -10,7 +10,7 @@ import {
 	LIGHT_BACKGROUND_COLOR,
 	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
-} from '../styles/global_design';
+} from '../styles/global';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';

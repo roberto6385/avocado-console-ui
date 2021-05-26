@@ -15,7 +15,7 @@ import {
 	THIRD_HEIGHT,
 	BORDER_COLOR,
 	DefaultButton,
-} from '../styles/global_design';
+} from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
 import {

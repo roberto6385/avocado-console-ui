@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {AVOCADO_FONTSIZE, EIGHTEEN} from '../../styles/global_design';
+import {AVOCADO_FONTSIZE, EIGHTEEN} from '../../styles/global';
 
 const _Span = styled.span`
 	padding-bottom: 6px;

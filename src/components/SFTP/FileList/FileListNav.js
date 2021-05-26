@@ -16,7 +16,7 @@ import {
 	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 
 const _input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};

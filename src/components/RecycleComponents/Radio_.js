@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {GREEN_COLOR} from '../../styles/global_design';
+import {GREEN_COLOR} from '../../styles/global';
 
 const _Container = styled.div`
 	display: flex;

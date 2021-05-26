@@ -5,7 +5,7 @@ import {
 	FOLDER_HEIGHT,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 
 import {useHistory} from 'react-router-dom';
 

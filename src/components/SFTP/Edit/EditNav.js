@@ -16,7 +16,7 @@ import {
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 
 const _Container = styled.div`
 	display: flex;

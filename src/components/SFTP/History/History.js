@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HistoryContents from './HistoryContents';
 import HistoryNav from './HistoryNav';
 import styled from 'styled-components';
-import {BORDER_COLOR, SIDE_WIDTH} from '../../../styles/global_design';
+import {BORDER_COLOR, SIDE_WIDTH} from '../../../styles/global';
 
 const _Container = styled.div`
 	min-width: ${SIDE_WIDTH};

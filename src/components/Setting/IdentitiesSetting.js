@@ -10,7 +10,7 @@ import {
 	ROBOTO,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -25,7 +25,6 @@ import {
 } from '../../reducers/common';
 import {useContextMenu} from 'react-contexify';
 import AccountContextMenu from '../ContextMenu/AccountContextMenu';
-import {ColBox} from '../../styles/divs';
 
 const _Container = styled.div`
 	display: flex;

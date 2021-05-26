@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
 	LIGHT_BACK_COLOR,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 
 const _Container = styled.div`
 	flex: 1;

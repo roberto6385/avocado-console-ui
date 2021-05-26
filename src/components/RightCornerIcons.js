@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
-import {IconButton, LIGHT_BACK_COLOR} from '../styles/global_design';
+import {IconButton, LIGHT_BACK_COLOR} from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
 
 const CornerIcons_Container = styled.div`

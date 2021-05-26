@@ -21,7 +21,7 @@ import {
 	DefaultButton,
 	PrimaryButton,
 	ICON_DARK_COLOR,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';

@@ -5,7 +5,7 @@ import {
 	FOOTER_BACK_COLOR,
 	FOOTER_HEIGHT,
 	HISTORY_FONTSIZE,
-} from '../styles/global_design';
+} from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,

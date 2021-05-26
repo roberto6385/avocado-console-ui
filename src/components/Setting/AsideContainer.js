@@ -7,7 +7,7 @@ import {
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
 	SUB_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';

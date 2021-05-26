@@ -16,7 +16,7 @@ import {
 	IconButton,
 	LOGIN_LOGO_FONTSIZE,
 	PrimaryButton,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import background from '../../images/login.png';
 import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';

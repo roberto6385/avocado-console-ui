@@ -8,7 +8,7 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 	SIXTEEN,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {SSH_SET_FONT} from '../../../reducers/ssht';
 import {useDispatch} from 'react-redux';

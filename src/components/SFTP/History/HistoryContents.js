@@ -28,7 +28,7 @@ import {
 	AVOCADO_HOVER_COLOR,
 	PreventDragCopy,
 	THIRD_HEIGHT,
-} from '../../../styles/global_design';
+} from '../../../styles/global';
 import styled from 'styled-components';
 
 const DropSpaceDiv = styled.div`

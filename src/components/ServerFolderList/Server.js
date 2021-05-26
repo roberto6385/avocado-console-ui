@@ -19,7 +19,7 @@ import {
 	Span,
 	LIGHT_MODE_BACK_COLOR,
 	FOLDER_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';

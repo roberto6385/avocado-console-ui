@@ -8,7 +8,7 @@ import {
 	BORDER_COLOR,
 	GREEN_COLOR,
 	MAIN_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 
 const _Container = styled.div`
 	display: flex;

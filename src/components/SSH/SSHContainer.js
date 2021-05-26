@@ -10,7 +10,7 @@ import {
 	IconButton,
 	LIGHT_BACK_COLOR,
 	SUB_HEIGHT,
-} from '../../styles/global_design';
+} from '../../styles/global';
 import styled from 'styled-components';
 import SSH from './SSH';
 
