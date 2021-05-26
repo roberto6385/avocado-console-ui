@@ -39,7 +39,7 @@ const _Header = styled.div`
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
-const _Span = styled.span`
+const _Text = styled.div`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -65,13 +65,7 @@ const AlertMessage = {
 	lost_server: '해당 서버의 정보가 손상되거나 삭제되었습니다.',
 	current_path_name: '현재 경로의 폴더 이름은 변경할 수 없습니다.',
 	current_path_delete: '현재 경로상의 상위폴더는 삭제할 수 없습니다.',
-};
-
-const AlertHeader = {
-	invalid_server: 'Invalid Server',
-	lost_server: 'Lost Server Data',
-	current_path_name: 'Not Allow to Chnage Folder Name',
-	current_path_delete: 'Not Allow to Remove Folder',
+	snippets_name_duplicate: 'Snippet의 이름이 중복되었습니다.',
 };
 
 const AlertPopup = () => {
@@ -89,12 +83,7 @@ const AlertPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_Span>
-					{Object.prototype.hasOwnProperty.call(
-						AlertHeader,
-						alert_popup.key,
-					) && AlertHeader[alert_popup.key]}
-				</_Span>
+				<_Text>Alert</_Text>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -104,7 +93,7 @@ const AlertPopup = () => {
 				alert_popup.key,
 			) && (
 				<_Message>
-					<_Span>{AlertMessage[alert_popup.key]}</_Span>
+					<_Text>{AlertMessage[alert_popup.key]}</_Text>
 				</_Message>
 			)}
 			<_Footer>

@@ -20,6 +20,7 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	DefaultButton,
 	PrimaryButton,
+	ICON_DARK_COLOR,
 } from '../../styles/global_design';
 import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
@@ -49,6 +50,7 @@ const _Header = styled.div`
 	justify-content: space-between;
 	padding: 0px 16px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+	font-weight: 500;
 `;
 const _Footer = styled.div`
 	display: flex;
@@ -60,7 +62,7 @@ const _Footer = styled.div`
 	border-top: 1px solid ${BORDER_COLOR};
 `;
 
-const Span = styled.span`
+const _Title = styled.div`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -257,8 +259,8 @@ const AddServerForm = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>Add Server</Span>
-				<IconButton onClick={closeModal}>
+				<_Title>Add Server</_Title>
+				<IconButton color={ICON_DARK_COLOR} onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>

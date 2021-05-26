@@ -139,10 +139,18 @@ const PanesContainer = () => {
 		<_Container>
 			{visibleTab.length <= cols ? (
 				Panes(visibleTab)
-			) : (
+			) : visibleTab.length <= cols * 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
 					{Panes(visibleTab.slice(0, cols))}
 					{Panes(visibleTab.slice(cols))}
+				</SplitPane>
+			) : (
+				<SplitPane split='horizontal' defaultSize={'66%'}>
+					<SplitPane split='horizontal' defaultSize={'50%'}>
+						{Panes(visibleTab.slice(0, cols))}
+						{Panes(visibleTab.slice(cols, cols * 2))}
+					</SplitPane>
+					{Panes(visibleTab.slice(cols * 2))}
 				</SplitPane>
 			)}
 		</_Container>

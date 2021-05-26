@@ -681,7 +681,7 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data.uuid;
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.cols * 2,
+					draft.cols === 1 ? 1 : draft.cols * 3,
 					draft.current_tab,
 				);
 				break;
@@ -698,7 +698,7 @@ const reducer = (state = initialState, action) => {
 				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.cols * 2,
+					draft.cols === 1 ? 1 : draft.cols * 3,
 					draft.current_tab,
 				);
 				break;
@@ -712,7 +712,7 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.data;
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.cols * 2,
+					draft.cols === 1 ? 1 : draft.cols * 3,
 					draft.current_tab,
 				);
 				break;
@@ -723,7 +723,7 @@ const reducer = (state = initialState, action) => {
 
 				draft.current_tab = fillTabs(
 					draft.tab,
-					draft.cols * 2,
+					action.data.cols === 1 ? 1 : draft.cols * 3,
 					draft.current_tab,
 				);
 				break;
