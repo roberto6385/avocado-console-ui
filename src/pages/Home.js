@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import Main from '../components/Main';
 import Footer from '../components/Footer';
+import {Redirect, useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
 	display: flex;
@@ -13,10 +14,15 @@ const _Container = styled.div`
 
 const Home = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const history = useHistory();
 
-	// useEffect(() => {
-	// 	if (!userTicket) return <Redirect to='/login' />;
-	// }, [userTicket]);
+	useEffect(() => {
+		// if (!userTicket) return <Redirect to={{pathname: '/login'}} />;
+
+		if (!userTicket) {
+			history.push('/login');
+		}
+	}, [userTicket]);
 
 	return (
 		<_Container>

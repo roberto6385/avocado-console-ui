@@ -182,6 +182,7 @@ const AddServerForm = () => {
 						name: name,
 						host: host,
 						user: identity,
+						protocol: protocol,
 						password: password,
 						port: port,
 					};
@@ -286,10 +287,7 @@ const AddServerForm = () => {
 						/>
 					</Input_>
 
-					<Input_
-						title={'Port'}
-						width={ACCOUNT_BUTTON_WIDTH}
-					>
+					<Input_ title={'Port'} width={ACCOUNT_BUTTON_WIDTH}>
 						<Input
 							value={port}
 							onChange={onChangePort}

@@ -10,9 +10,6 @@ import {
 } from '../../reducers/common';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
-
-import {BaseForm, BaseInput} from '../../styles/forms';
-
 import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
@@ -24,9 +21,8 @@ import {
 } from '../../styles/global_design';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
-import {Nav} from 'react-bootstrap';
 
-export const _NavItem = styled(Nav.Item)`
+export const _NavItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -35,6 +31,18 @@ export const _NavItem = styled(Nav.Item)`
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
 	border-left: ${(props) => props.border};
+`;
+
+export const _Form = styled.form`
+	border: 1px solid ${GREEN_COLOR};
+	display: flex;
+	padding: 4px;
+`;
+
+export const _Input = styled.input`
+	font-size: 14px;
+	border: none;
+	outline: none;
 `;
 
 const Folder = ({open, data, indent}) => {
@@ -159,15 +167,15 @@ const Folder = ({open, data, indent}) => {
 				{/*</Avocado_span>*/}
 				<Span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
-						<BaseForm onSubmit={handleSubmit} onBlur={handleSubmit}>
-							<BaseInput
+						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
+							<_Input
 								ref={renameRef}
 								type='text'
 								value={renameValue}
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
 							/>
-						</BaseForm>
+						</_Form>
 					) : (
 						data.name
 					)}

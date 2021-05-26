@@ -39,6 +39,7 @@ const _Li = styled.li`
 	align-items: center;
 	padding: 10px 16px;
 	height: ${FOLDER_HEIGHT};
+	cursor: pointer;
 `;
 
 const SettingNav = () => {

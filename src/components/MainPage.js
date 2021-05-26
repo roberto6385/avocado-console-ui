@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import '../styles/resize.css';
@@ -7,7 +7,7 @@ import {
 	IconButton,
 	LIGHT_BACK_COLOR,
 	MAIN_HEIGHT,
-	POPUP_SIDE_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
 } from '../styles/global_design';
@@ -16,6 +16,7 @@ import {RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {useHistory} from 'react-router-dom';
 import AsideContainer from './Setting/AsideContainer';
+import {getRevoke} from '../reducers/auth/revoke';
 
 const _Container = styled.div`
 	display: flex;
@@ -36,7 +37,7 @@ const _Body = styled.div`
 	display: flex;
 	align-items: center;
 	flex: 1;
-	background: ${POPUP_SIDE_COLOR};
+	background: ${LIGHT_BACKGROUND_COLOR};
 	position: relative;
 	#right_side_menu {
 		width: 0px;
@@ -62,6 +63,45 @@ const MainPage = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const {userTicket} = useSelector((state) => state.userTicket);
+
+	const logout = useCallback(
+		() => () => {
+			dispatch(
+				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+			);
+		},
+		[userTicket, dispatch],
+	);
+
+	// 삭제 ㄴㄴ
+	//
+	// const refresh = useCallback(() => {
+	// 	dispatch(
+	// 		getRefreshTicket({
+	// 			Authorization: 'Basic ' + encodeData,
+	// 			refresh_token: userTicket.refresh_token,
+	// 		}),
+	// 	);
+	// }, [userTicket, dispatch, encodeData]);
+	//
+	// const verify = useCallback(() => {
+	// 	dispatch(
+	// 		getVerify({
+	// 			Authorization: 'Bearer ' + userTicket.access_token,
+	// 		}),
+	// 	);
+	// }, [userTicket, dispatch]);
+	//
+	// const findActiveToken = useCallback(() => {
+	// 	dispatch(
+	// 		findToken({
+	// 			offset: 0, //레코드 넘버
+	// 			limit: 20, // 조회할 데이터 개수
+	// 		}),
+	// 	);
+	// }, [encodeData, userTicket]);
+
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
 	}, []);
@@ -83,6 +123,7 @@ const MainPage = () => {
 	);
 
 	const setting_list = [
+		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -91,14 +132,13 @@ const MainPage = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 	];
 	const account_list = [
 		{
 			onClick: openSideMenu('Account'),
 			title: 'Account',
 		},
-		{onClick: () => console.log('Logout Action'), title: 'Logout'},
+		{onClick: logout(), title: 'Logout'},
 	];
 
 	return (

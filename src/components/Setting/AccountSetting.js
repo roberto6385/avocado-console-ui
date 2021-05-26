@@ -7,15 +7,20 @@ import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_INPUT_WIDTH,
 	BORDER_COLOR,
+	GREEN_COLOR,
+	LIGHT_BACKGROUND_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
+	TAB_WIDTH,
 } from '../../styles/global_design';
+import ChangePasswordForm from '../Form/ChangePasswordForm';
 
 const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
 	padding: 0px 16px;
+	background: ${LIGHT_BACKGROUND_COLOR};
 `;
 
 const _Title = styled.div`
@@ -27,16 +32,29 @@ const _Title = styled.div`
 
 const _ContentsContainer = styled.div`
 	padding: 15px 0px;
+	font-size: 14px;
 `;
 
 const _Input = styled.input`
-	width: ${ACCOUNT_INPUT_WIDTH};
+	width: ${(props) => props?.width || ACCOUNT_INPUT_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid ${BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
+`;
+
+const _Button = styled(_Input)`
+	// position: absolute;
+	// right: 520px;
+	// top: 27px;
+`;
+
+const _Section = styled.section`
+	display: flex;
+	align-items: center;
+	position: relative;
 `;
 
 const authOptions = [
@@ -62,6 +80,7 @@ const MFAOptions = [
 ];
 
 const AccountSetting = () => {
+	const [open, setOpen] = useState(false);
 	const [account, setAccount] = useState('');
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -98,12 +117,24 @@ const AccountSetting = () => {
 			</_ContentsContainer>
 			<_Title>Authorization</_Title>
 			<_ContentsContainer>
-				<Select_
-					title='Default Authorization'
-					options={authOptions}
-					value={authType}
-					setValue={setAuthType}
-				/>
+				<_Section>
+					<Select_
+						title='Default Authorization'
+						options={authOptions}
+						value={authType}
+						setValue={setAuthType}
+						width={ACCOUNT_INPUT_WIDTH}
+					/>
+					<_Button
+						onClick={() => setOpen(true)}
+						type='button'
+						value={'Change Password'}
+						back={GREEN_COLOR}
+						color={'white'}
+						width={TAB_WIDTH}
+					/>
+				</_Section>
+
 				<Radio_
 					radioName={'AlternativeAuth'}
 					options={AlternativeAuthOptions}
@@ -118,6 +149,7 @@ const AccountSetting = () => {
 					options={mfaOptions}
 					value={mfaType}
 					setValue={setMfaType}
+					width={ACCOUNT_INPUT_WIDTH}
 				/>
 				<Radio_
 					radioName={'MFA'}
@@ -127,6 +159,7 @@ const AccountSetting = () => {
 					disabled={mfaType === 'not_use'}
 				/>
 			</_ContentsContainer>
+			<ChangePasswordForm open={open} setOpen={setOpen} />
 		</_Container>
 	);
 };

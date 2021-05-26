@@ -2,14 +2,35 @@ import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
-import {TextAreaWrapper} from '../../../styles/divs';
+import styled from 'styled-components';
+import {
+	AVOCADO_FONTSIZE,
+	LIGHT_BACK_COLOR,
+} from '../../../styles/global_design';
 
+const _Container = styled.div`
+	flex: 1;
+	display: inline-block;
+	background: black;
+	background-size: 100% 32px;
+	background-position: left 10px;
+	overflow: hidden;
+	textarea {
+		background: ${LIGHT_BACK_COLOR};
+		height: 100%;
+		padding: 20px;
+		outline: none;
+		border: none;
+		width: 100%;
+		font-size: ${AVOCADO_FONTSIZE};
+		resize: none;
+	}
+`;
 const EditContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {editText} = corServer;
 	const dispatch = useDispatch();
-	const checked = window.localStorage.getItem('editorCheck');
 
 	const writeText = useCallback((e) => {
 		const {value} = e.target;
@@ -17,7 +38,7 @@ const EditContents = ({uuid}) => {
 	}, []);
 
 	return (
-		<TextAreaWrapper>
+		<_Container>
 			<textarea
 				// wrap={JSON.parse(checked) ? 'soft' : 'off'}
 				rows='50'
@@ -25,7 +46,7 @@ const EditContents = ({uuid}) => {
 				value={editText}
 				onChange={writeText}
 			/>
-		</TextAreaWrapper>
+		</_Container>
 	);
 };
 

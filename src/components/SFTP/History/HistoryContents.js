@@ -11,7 +11,6 @@ import {
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp';
 import {formatByteSizeString} from '../listConversion';
-import {BaseLi, BaseUl} from '../../../styles/lists';
 import {
 	GREEN_COLOR,
 	SERVER_HOVER_COLOR,
@@ -27,6 +26,8 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	TAB_WIDTH,
 	AVOCADO_HOVER_COLOR,
+	PreventDragCopy,
+	THIRD_HEIGHT,
 } from '../../../styles/global_design';
 import styled from 'styled-components';
 
@@ -38,6 +39,29 @@ const DropSpaceDiv = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+`;
+
+const _Ul = styled.ul`
+	${PreventDragCopy}
+	width:${(props) => props.width};
+	list-style: none;
+	overflow-y: scroll;
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	position: relative;
+`;
+
+const _Li = styled.li`
+	line-height: 0;
+	position: relative;
+	height: ${THIRD_HEIGHT};
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	background: ${(props) => props.back};
+	white-space: nowrap;
+	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
 const DropSpace_Button = styled.button`
@@ -256,11 +280,10 @@ const HistoryContents = ({uuid}) => {
 					</DropSpace_Button>
 				</DropSpaceDiv>
 			) : (
-				<BaseUl>
+				<_Ul>
 					{history.map((history, index) => {
 						return (
-							<BaseLi
-								padding={'4px'}
+							<_Li
 								className={'history_contents'}
 								key={history.HISTORY_ID}
 								onClick={selectItem(history, index)}
@@ -340,10 +363,10 @@ const HistoryContents = ({uuid}) => {
 										<Bar width={`${history.progress}%`} />
 									</Progress>
 								)}
-							</BaseLi>
+							</_Li>
 						);
 					})}
-				</BaseUl>
+				</_Ul>
 			)}
 			{/*<HistoryContextMenu*/}
 			{/*	uuid={uuid}*/}

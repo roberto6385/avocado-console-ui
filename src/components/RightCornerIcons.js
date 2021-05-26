@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {IconButton, LIGHT_BACK_COLOR} from '../styles/global_design';
+import {getRevoke} from '../reducers/auth/revoke';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -17,6 +18,16 @@ const CornerIcons_Container = styled.div`
 const RightCornerIcons = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const {userTicket} = useSelector((state) => state.userTicket);
+
+	const logout = useCallback(
+		() => () => {
+			dispatch(
+				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+			);
+		},
+		[userTicket, dispatch],
+	);
 
 	const changeColumn = useCallback(
 		(cols) => () => {
@@ -44,6 +55,7 @@ const RightCornerIcons = () => {
 		[dispatch],
 	);
 	const setting_list = [
+		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -52,7 +64,6 @@ const RightCornerIcons = () => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
-		{onClick: changePath('/account'), title: 'Edit Setting'},
 	];
 
 	const column_list = [
@@ -68,7 +79,7 @@ const RightCornerIcons = () => {
 			onClick: openSideMenu('Account'),
 			title: 'Account',
 		},
-		{onClick: () => console.log('Logout Action'), title: 'Logout'},
+		{onClick: logout(), title: 'Logout'},
 	];
 
 	return (

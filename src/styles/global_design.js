@@ -8,7 +8,6 @@ export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
 export const FOOTER_BACK_COLOR = '#dee1e6';
 export const SFTP_DIRECTORY_COLOR = '#4ca6a8';
-export const POPUP_SIDE_COLOR = '#f8f9fa'; // and filelist highlighting color
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const LIGHT_MODE_BACK_COLOR = '#ffffff';
 export const BORDER_COLOR = '#e5e5e5';
@@ -17,6 +16,10 @@ export const BORDER_COLOR = '#e5e5e5';
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
 export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
 export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
+
+export const DARK_GREEN_COLOR = '#126466';
+export const ANCHOR_GRAY_COLOR = '#5e5e5e';
+export const LIGHT_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
 
 export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
 export const GRAY_COLOR = '#a9b0b2';
@@ -40,8 +43,7 @@ export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button, Accoun
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
-
-export const BUTTON_HEIGHT = '20px';
+export const AUTH_FORM_HEIGHT = '550px';
 
 // width
 export const SIDE_WIDTH = '256px'; // side main nav width
@@ -52,6 +54,7 @@ export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 export const ACCOUNT_INPUT_WIDTH = '500px';
+export const AUTH_FORM_WIDTH = '480px';
 
 // font-size
 export const AVOCADO_FONTSIZE = '14px';
@@ -61,6 +64,7 @@ export const EIGHTEEN = '18px';
 export const SIXTEEN = '16px';
 export const MIDDLE_FONTSIZE = '20px';
 export const LOGO_FONTSIZE = '24px';
+export const LOGIN_LOGO_FONTSIZE = '29px';
 
 // span
 export const Span = styled.span`
@@ -70,6 +74,13 @@ export const Span = styled.span`
 	line-height: 0px;
 	color: ${(props) => props.color};
 `;
+
+// font
+export const NOTO_SANS_KR = `'Noto Sans KR', sans-serif`;
+export const ROBOTO = `'Roboto', sans-serif`;
+export const ROBOTO_MONO = `'Roboto Mono', monospace`;
+export const ROBOTO_SLAP = `'Roboto Slab', serif`;
+export const MONTSERRAT = `'Montserrat', sans-serif`;
 
 // button
 export const IconButton = styled.button`

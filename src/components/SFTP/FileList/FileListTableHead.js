@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {HeaderTh, Th} from '../../../styles/tables';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,6 +11,17 @@ const _Tr = styled.tr`
 	align-items: center;
 	padding: 8px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+`;
+
+const HeaderTh = styled.th`
+	min-width: ${(props) => props?.min};
+	flex: ${(props) => props.flex};
+	border: none !important;
+	text-align: ${(props) => props.textAlign || 'left'};
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 2;
 `;
 
 const _Thead = styled.thead`
@@ -28,6 +38,18 @@ const _Thead = styled.thead`
 			padding: 8px !important;
 		}
 	}
+`;
+
+const Th = styled.th`
+	display: flex;
+	align-items: center;
+	min-width: ${(props) => props?.min};
+	flex: ${(props) => props.flex};
+	justify-content: ${(props) => props.justify || 'flex-start'};
+	white-space: nowrap;
+	border: none !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const TableHead = ({uuid}) => {

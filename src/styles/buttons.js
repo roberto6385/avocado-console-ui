@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import {MAIN_COLOR} from './global';
+import {GREEN_COLOR} from './global_design';
 
 // Base가 되는 element의 속성은 건들지 않기로 약속.
 // 모든 버튼은 background-color, color를 props로 사용 가능하다.
 
 export const BaseButton = styled.button`
-	background-color: ${(props) => props?.back || `${MAIN_COLOR}`};
+	background-color: ${(props) => props?.back || `${GREEN_COLOR}`};
 	color: ${(props) => props?.color || 'black'};
 	font-size: 18px;
 	line-height: 0;
@@ -37,7 +37,7 @@ export const TextButton = styled.button`
 export const PrevIconButton = styled(BaseButton)`
 	background-color: ${(props) => props?.back || 'transparent'};
 	&:hover {
-		color: ${MAIN_COLOR};
+		color: ${GREEN_COLOR};
 	}
 `;
 

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {light_Background} from '../../../styles/global';
 import {
 	CHANGE_MODE,
 	commandCdAction,
@@ -142,7 +141,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={light_Background}
+					back={LIGHT_BACK_COLOR}
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>

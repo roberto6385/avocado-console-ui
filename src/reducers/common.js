@@ -239,6 +239,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10021,
 		},
 		{
@@ -248,6 +249,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 		{
@@ -257,6 +259,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 		{
@@ -266,6 +269,7 @@ export const initialState = {
 			host: '211.253.10.9',
 			user: 'root',
 			password: 'Netand141)',
+			protocol: 'SSH2',
 			port: 10022,
 		},
 	],
@@ -273,24 +277,28 @@ export const initialState = {
 	accountId: 3,
 	accountListControlId: null,
 	accountCheckList: [],
+	currentResourceListKey: null,
 	account: [
 		{
 			id: 0,
 			name: 'mainAccount',
 			username: 'root',
 			type: 'key',
+			key: 's_1',
 		},
 		{
 			id: 1,
 			name: 'netand',
 			username: 'root',
 			type: 'key',
+			key: 's_1',
 		},
 		{
 			id: 2,
 			name: 'avocado',
 			username: 'root',
 			type: 'key',
+			key: 's_2',
 		},
 	],
 
@@ -319,6 +327,7 @@ export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
 export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
+export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -375,6 +384,19 @@ function searchParentTreeNode(parent, node, key) {
 		let result = null;
 		for (let i = 0; !result && i < node.contain.length; i++) {
 			result = searchParentTreeNode(node, node.contain[i], key);
+		}
+		return result;
+	}
+	return null;
+}
+
+function searchServerTreePath(parent, node, key) {
+	if (node.key === key) {
+		return parent;
+	} else if (node.contain && node.contain.length > 0) {
+		let result = null;
+		for (let i = 0; !result && i < node.contain.length; i++) {
+			result = searchServerTreePath(node, node.contain[i], key);
 		}
 		return result;
 	}
@@ -622,6 +644,7 @@ const reducer = (state = initialState, action) => {
 					name: action.payload.identity,
 					username: action.payload.username,
 					type: action.payload.type,
+					key: action.payload.key,
 				});
 				draft.accountId++;
 				break;
@@ -635,6 +658,10 @@ const reducer = (state = initialState, action) => {
 
 			case ACCOUT_CONTROL_ID:
 				draft.accountListControlId = action.payload.id;
+				break;
+
+			case CHANGE_CURRENT_RESOURCE_KEY:
+				draft.currentResourceListKey = action.payload.key;
 				break;
 
 			case ACCOUT_CHECKLIST:

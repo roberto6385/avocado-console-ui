@@ -22,7 +22,6 @@ const IdentitiesContainer = () => {
 
 	const onClickVisibleAddAccountForm = useCallback(() => {
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-
 		dispatch({
 			type: OPEN_ADD_ACCOUT_FORM_POPUP,
 			data: {type: 'add'},

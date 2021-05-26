@@ -107,7 +107,7 @@ const _Form = styled.form`
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
-	const {account, accountListControlId} = useSelector(
+	const {account, accountListControlId, currentResourceListKey} = useSelector(
 		(state) => state.common,
 	);
 	const {account_form_popup} = useSelector((state) => state.popup);
@@ -139,6 +139,7 @@ const AddAccountForm = () => {
 							identity,
 							username,
 							type: 'password',
+							key: currentResourceListKey,
 						},
 					});
 				}
