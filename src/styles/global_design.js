@@ -138,7 +138,7 @@ export const DangerButton = styled(DefaultButton)`
 	}
 `;
 
-export const BoarderButton = styled(DefaultButton)`
+export const BorderButton = styled(DefaultButton)`
 	background-color: #ffffff;
 	border: solid 1px rgba(168, 168, 168, 0.7);
 	color: #687578;

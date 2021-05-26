@@ -67,7 +67,7 @@ Select_.propTypes = {
 	options: PropTypes.array.isRequired,
 	value: PropTypes.string.isRequired,
 	setValue: PropTypes.func.isRequired,
-	flex: PropTypes.string,
+	flex: PropTypes.number,
 	width: PropTypes.string,
 };
 

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
 	AVOCADO_FONTSIZE,
-	BoarderButton,
+	BorderButton,
 	BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
@@ -99,7 +99,7 @@ const AlertPopup = () => {
 				</_Message>
 			)}
 			<_Footer>
-				<BoarderButton onClick={closeModal}>Cancle</BoarderButton>
+				<BorderButton onClick={closeModal}>Cancle</BorderButton>
 				<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
 			</_Footer>
 		</_Modal>

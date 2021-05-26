@@ -19,7 +19,7 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
 	ICON_DARK_COLOR,
-	BoarderButton,
+	BorderButton,
 } from '../../styles/global_design';
 
 import {IoCloseOutline} from 'react-icons/all';
@@ -414,7 +414,7 @@ const AddServerForm = () => {
 				</Item_Container>
 			</_Form>
 			<_Footer>
-				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<BorderButton onClick={closeModal}>Cancel</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>

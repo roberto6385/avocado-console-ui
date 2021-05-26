@@ -29,7 +29,7 @@ const Input_ = ({title, children, flex}) => {
 Input_.propTypes = {
 	title: PropTypes.string.isRequired,
 	children: PropTypes.element.isRequired,
-	flex: PropTypes.string,
+	flex: PropTypes.number,
 };
 
 export default Input_;

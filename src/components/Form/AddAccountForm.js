@@ -12,7 +12,7 @@ import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
-	BoarderButton,
+	BorderButton,
 	BORDER_COLOR,
 	FOLDER_HEIGHT,
 	ICON_DARK_COLOR,
@@ -304,7 +304,7 @@ const AddAccountForm = () => {
 				</_Item>
 			</_Form>
 			<_Footer>
-				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<BorderButton onClick={closeModal}>Cancel</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
