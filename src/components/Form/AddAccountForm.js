@@ -5,21 +5,22 @@ import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID, SAVE_ACCOUT} from '../../reducers/common';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+
+import {IoCloseOutline} from 'react-icons/all';
+import Input_ from '../RecycleComponents/Input_';
+import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
+	BoarderButton,
 	BORDER_COLOR,
-	DefaultButton,
 	FOLDER_HEIGHT,
 	ICON_DARK_COLOR,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-} from '../../styles/global';
-import {IoCloseOutline} from 'react-icons/all';
-import Input_ from '../RecycleComponents/Input_';
-import Select_ from '../RecycleComponents/Select_';
+} from '../../styles/global_design';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -303,16 +304,8 @@ const AddAccountForm = () => {
 				</_Item>
 			</_Form>
 			<_Footer>
-				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
-				<PrimaryButton
-					onClick={() =>
-						document
-							.getElementById('add_account_form_submit_button')
-							.click()
-					}
-				>
-					Save
-				</PrimaryButton>
+				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

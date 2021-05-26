@@ -3,19 +3,18 @@ import useInput from '../../hooks/useInput';
 import Modal from 'react-modal';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+import {IoCloseOutline} from 'react-icons/all';
+import Input_ from '../RecycleComponents/Input_';
 import {
-	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
+	BoarderButton,
 	BORDER_COLOR,
-	DefaultButton,
 	FOLDER_HEIGHT,
-	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-} from '../../styles/global';
-import {IoCloseOutline} from 'react-icons/all';
-import Input_ from '../RecycleComponents/Input_';
+} from '../../styles/global_design';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -130,26 +129,11 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={'New Password'}
 					/>
 				</Input_>
-				<button
-					type='submit'
-					id={'change_password_form_submit_button'}
-					style={{display: 'none'}}
-				/>
 			</_Form>
 
 			<_Footer>
-				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>
-				<PrimaryButton
-					onClick={() =>
-						document
-							.getElementById(
-								'change_password_form_submit_button',
-							)
-							.click()
-					}
-				>
-					Save
-				</PrimaryButton>
+				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

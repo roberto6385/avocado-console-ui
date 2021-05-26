@@ -7,12 +7,13 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
 	AVOCADO_FONTSIZE,
+	BoarderButton,
 	BORDER_COLOR,
-	DefaultButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
-} from '../../styles/global';
+	PrimaryButton,
+} from '../../styles/global_design';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
@@ -66,6 +67,7 @@ const AlertMessage = {
 	current_path_name: '현재 경로의 폴더 이름은 변경할 수 없습니다.',
 	current_path_delete: '현재 경로상의 상위폴더는 삭제할 수 없습니다.',
 	snippets_name_duplicate: 'Snippet의 이름이 중복되었습니다.',
+	server_duplicate: '서버의 정보가 중복되었습니다. ',
 };
 
 const AlertPopup = () => {
@@ -97,7 +99,8 @@ const AlertPopup = () => {
 				</_Message>
 			)}
 			<_Footer>
-				<DefaultButton onClick={closeModal}>OK</DefaultButton>
+				<BoarderButton onClick={closeModal}>Cancle</BoarderButton>
+				<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);
