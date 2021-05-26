@@ -298,11 +298,6 @@ const AddAccountForm = () => {
 						/>
 					</Input_>
 				</_Item>
-				<button
-					type='submit'
-					id={'add_account_form_submit_button'}
-					style={{display: 'none'}}
-				/>
 			</_Form>
 			<_Footer>
 				<DefaultButton onClick={closeModal}>Cancel</DefaultButton>

@@ -60,7 +60,7 @@ const _Footer = styled.div`
 	border-top: 1px solid ${BORDER_COLOR};
 `;
 
-const Span = styled.span`
+const _Title = styled.div`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
@@ -256,7 +256,7 @@ const AddServerForm = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<Span>Add Server</Span>
+				<_Title>Add Server</_Title>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -286,10 +286,7 @@ const AddServerForm = () => {
 						/>
 					</Input_>
 
-					<Input_
-						title={'Port'}
-						width={ACCOUNT_BUTTON_WIDTH}
-					>
+					<Input_ title={'Port'} width={ACCOUNT_BUTTON_WIDTH}>
 						<Input
 							value={port}
 							onChange={onChangePort}

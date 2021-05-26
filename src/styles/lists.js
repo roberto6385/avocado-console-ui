@@ -23,7 +23,7 @@ export const BaseLi = styled.li`
 	line-height: 0;
 	position: relative;
 	width: ${(props) => props?.width};
-	height: ${THIRD_HEIGHT};
+	height: ${(props) => props.height || {THIRD_HEIGHT}};
 	display: flex;
 	align-items: center;
 	padding: 0px;
