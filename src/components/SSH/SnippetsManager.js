@@ -39,7 +39,7 @@ const _Modal = styled(Modal)`
 
 const _Header = styled.div`
 	display: flex;
-	ailgn-items: center;
+	align-items: center;
 	justify-content: space-between;
 	height: 40px;
 	font-size: ${AVOCADO_FONTSIZE};
@@ -83,6 +83,11 @@ const _Text = styled.div`
 	font-size: 14px;
 	flex: 1;
 	vertical-align: middle;
+`;
+
+const _Title = styled.span`
+	line-height: ${FOLDER_HEIGHT};
+	font-size: 14px;
 `;
 
 const _Ul = styled.ul`
@@ -263,7 +268,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_Text>Snippets Manager</_Text>
+				<_Title>Snippets Manager</_Title>
 				<IconButton color={ICON_DARK_COLOR} onClick={onClickCancel}>
 					<IoCloseOutline />
 				</IconButton>

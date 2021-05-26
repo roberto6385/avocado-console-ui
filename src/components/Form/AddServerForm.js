@@ -44,7 +44,7 @@ const _Modal = styled(Modal)`
 
 const _Header = styled.div`
 	display: flex;
-	ailgn-items: center;
+	align-items: center;
 	height: ${FOLDER_HEIGHT};
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;

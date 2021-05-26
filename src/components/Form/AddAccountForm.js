@@ -24,7 +24,7 @@ import Select_ from '../RecycleComponents/Select_';
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
 	position: absolute;
-	z-index: 5;
+	z-index: 10;
 	top: 50%;
 	left: 50%;
 	right: auto;
@@ -76,7 +76,7 @@ const _Label = styled.label`
 
 const _Header = styled.div`
 	display: flex;
-	ailgn-items: center;
+	align-items: center;
 	height: ${FOLDER_HEIGHT};
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
