@@ -8,7 +8,7 @@ import {IoCloseOutline} from 'react-icons/all';
 import Input_ from '../RecycleComponents/Input_';
 import {
 	AVOCADO_FONTSIZE,
-	BoarderButton,
+	BorderButton,
 	BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
@@ -133,7 +133,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			</_Form>
 
 			<_Footer>
-				<BoarderButton onClick={closeModal}>Cancel</BoarderButton>
+				<BorderButton onClick={closeModal}>Cancel</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>

@@ -13,7 +13,7 @@ import {
 	IconButton,
 	MAIN_HEIGHT,
 	PrimaryButton,
-} from '../../styles/global_design';
+} from '../../styles/global';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${BORDER_COLOR};
