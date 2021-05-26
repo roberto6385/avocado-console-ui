@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import PreferencesContainer from '../components/Setting/PreferencesContainer';
 import SettingAppLayout from '../components/Setting/SettingLayout';
+import PreferencesSetting from '../components/Setting/PreferencesSetting';
 
 const Preferences = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -18,7 +18,7 @@ const Preferences = () => {
 
 	return (
 		<SettingAppLayout>
-			<PreferencesContainer />
+			<PreferencesSetting />
 		</SettingAppLayout>
 	);
 };

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
-import IdentitiesContainer from '../components/Setting/IdentitiesContainer';
 import SettingAppLayout from '../components/Setting/SettingLayout';
 
 import {useHistory} from 'react-router-dom';
+import IdentitiesSetting from '../components/Setting/IdentitiesSetting';
 
 const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -19,7 +19,7 @@ const Identities = () => {
 
 	return (
 		<SettingAppLayout>
-			<IdentitiesContainer />
+			<IdentitiesSetting />
 		</SettingAppLayout>
 	);
 };
