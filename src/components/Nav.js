@@ -16,7 +16,8 @@ import {
 	BORDER_COLOR,
 	DefaultButton,
 	IconContainer,
-	ICON_GRAY_COLOR,
+	DARK_MODE_COLOR,
+	LIGHT_MODE_BACK_COLOR,
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -24,7 +25,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	burgerMenuIcon,
 	newFolderIcon,
@@ -45,6 +46,7 @@ const _Header = styled.div`
 	align-items: center;
 	height: ${MAIN_HEIGHT};
 	padding: 16px 10px;
+	background: ${(props) => props.back};
 `;
 const _AddFolerServerContainer = styled.div`
 	display: flex;
@@ -102,6 +104,7 @@ const _HideSpace = styled.div`
 
 const Nav = () => {
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
 	const [search, onChangeSearch] = useInput('');
 	const [toggle, setToggle] = useState(true);
 
@@ -121,7 +124,11 @@ const Nav = () => {
 
 	return toggle ? (
 		<_Aside>
-			<_Header>
+			<_Header
+				back={
+					theme === 'lignt' ? LIGHT_MODE_BACK_COLOR : DARK_MODE_COLOR
+				}
+			>
 				<IconButton onClick={() => setToggle(!toggle)}>
 					{burgerMenuIcon}
 				</IconButton>

@@ -7,13 +7,19 @@ export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
 export const FOOTER_BACK_COLOR = '#dee1e6';
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
-export const LIGHT_MODE_BACK_COLOR = '#ffffff';
 export const BORDER_COLOR = '#e5e5e5';
 
-// icon color
+// lightmode icon color
 export const ICON_MINT_COLOR = '#4ca6a8';
+export const LIGHT_MODE_BACK_COLOR = '#ffffff';
 export const BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
 export const ICON_GRAY_COLOR = '#959ea1';
+// darkmode color
+export const ICON_GRAY_COLOR_DARK = `rgba(255,255,255,0.54)`;
+export const DARK_MODE_COLOR = '#2c2d33';
+export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
+export const DARK_MODE_BACK_COLOR = '#18191f';
+
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
 export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
