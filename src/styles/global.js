@@ -194,4 +194,12 @@ export const PreventDragCopy = `
 	-ms-user-select: none;
 	user-select: none;
 `;
+// 스크롤 숨기기 (동작 O)
+export const HiddenScroll = `
+-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, Opera*/
+	}
+`;
 export const CLOUDY_BLUE = '#B2D5DF';

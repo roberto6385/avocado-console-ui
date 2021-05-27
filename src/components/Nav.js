@@ -51,12 +51,6 @@ const _Form = styled.form`
 	padding: 16px;
 	height: ${THIRD_HEIGHT};
 `;
-const _FolderServerContainer = styled.div`
-	min-height: 0;
-	flex: 1 1 0;
-	overflow-y: scroll;
-	// overflow : scroll 속성 주기
-`;
 
 const _HeaderSpan = styled.span`
 	font-family: 'Roboto Slab', serif;
@@ -142,9 +136,7 @@ const Nav = () => {
 					placeholder={'Search'}
 				/>
 			</_Form>
-			<_FolderServerContainer>
-				<ServerFolderList search={search} />
-			</_FolderServerContainer>
+			<ServerFolderList search={search} />
 		</_Aside>
 	) : (
 		<_HideSpace>

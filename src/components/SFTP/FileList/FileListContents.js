@@ -22,6 +22,7 @@ import {
 import styled from 'styled-components';
 import {
 	BORDER_COLOR,
+	HiddenScroll,
 	IconButton,
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
@@ -38,6 +39,7 @@ const _Table = styled.table`
 	padding: 0;
 	border: none;
 	${PreventDragCopy};
+	${HiddenScroll};
 `;
 
 const _Tbody = styled.tbody`
@@ -136,18 +138,19 @@ const FileListContents = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		(e, item = '') => {
+		(item = '') => (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			if (item.name === '..' || item.name === '') return;
 			show(e);
-			!highlight.includes(item) &&
+			!highlight.slice().includes(item) &&
+				item !== '' &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
 					payload: {uuid, item},
 				});
 		},
-		[dispatch],
+		[dispatch, highlight],
 	);
 
 	const compareNumber = (list, first, second) => {
@@ -232,12 +235,14 @@ const FileListContents = ({uuid}) => {
 		}
 	}, [fileList, sortKeyword, toggle]);
 
+	console.log(highlight);
+
 	return currentFileList.length !== 0 ? (
 		// return fileList.length === pathList.length ? (
 		<React.Fragment>
-			<_Table>
+			<_Table onContextMenu={contextMenuOpen()}>
 				<TableHead uuid={uuid} />
-				<_Tbody onContextMenu={contextMenuOpen}>
+				<_Tbody>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (
@@ -248,7 +253,7 @@ const FileListContents = ({uuid}) => {
 						if (item.name === '.') return;
 						return (
 							<_Tr
-								onContextMenu={(e) => contextMenuOpen(e, item)}
+								onContextMenu={contextMenuOpen(item)}
 								onClick={selectItem({item, index})}
 								onDoubleClick={changePath(item)}
 								key={index + uuid}

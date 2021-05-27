@@ -122,14 +122,14 @@ const FileListContextMenu = ({uuid}) => {
 			style={{fontSize: '14px'}}
 		>
 			<Item
-				disabled={highlight[0] === null || undefined}
+				disabled={highlight.length === 0}
 				id='download'
 				onClick={handleItemClick}
 			>
 				Download
 			</Item>
 			<Item
-				disabled={highlight[0] === null || highlight.length !== 1}
+				disabled={highlight.length === 0 || highlight.length !== 1}
 				id='edit'
 				onClick={handleItemClick}
 			>
@@ -141,7 +141,7 @@ const FileListContextMenu = ({uuid}) => {
 				New Folder
 			</Item>
 			<Item
-				disabled={highlight[0] === null || highlight.length !== 1}
+				disabled={highlight.length === 0 || highlight.length !== 1}
 				id='rename_work'
 				onClick={handleItemClick}
 			>
@@ -149,7 +149,7 @@ const FileListContextMenu = ({uuid}) => {
 			</Item>
 			<Separator />
 			<Item
-				disabled={highlight[0] === null || undefined}
+				disabled={highlight.length === 0}
 				id='delete_work'
 				onClick={handleItemClick}
 			>

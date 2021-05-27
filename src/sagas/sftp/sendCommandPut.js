@@ -28,17 +28,17 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
-	const filepath =
-		payload.path === '/'
-			? `${payload.path}${payload.file.name}`
-			: `${payload.path}/${payload.file.name}`;
-
 	if (payload.keyword === 'pwd') {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',
 			ws: payload.socket,
 		});
 	} else {
+		const filepath =
+			payload.path === '/'
+				? `${payload.path}${payload.file.name}`
+				: `${payload.path}/${payload.file.name}`;
+
 		yield call(messageSender, {
 			keyword: 'CommandByPut',
 			ws: payload.socket,

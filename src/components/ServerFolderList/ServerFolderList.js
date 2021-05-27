@@ -9,11 +9,14 @@ import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
 
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
+import {HiddenScroll} from '../../styles/global';
 
 export const _Nav = styled(Nav)`
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+	display: block;
+	min-height: 0;
+	flex: 1 1 0;
+	overflow-y: scroll;
+	${HiddenScroll}
 `;
 
 function searchTreeNode(node, name) {
