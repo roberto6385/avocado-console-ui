@@ -88,8 +88,11 @@ const _ResourceLi = styled(_Li)`
 	background: ${(props) => props?.back};
 `;
 
-const _Name = styled.span`
+const _Name = styled.div`
 	// max-width: 298px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	white-space: nowrap;
 	min-width: 100px;
 	flex: 6;
@@ -160,12 +163,35 @@ Checkbox.propTypes = {
 	onChange: PropTypes.func,
 };
 
+function searchTreeNode(node, key) {
+	if (node.type === 'server' || !node.contain.length) {
+		if (node.key === key) return node.name;
+		else return false;
+	}
+
+	for (let x of node.contain) {
+		let result = searchTreeNode(x, key);
+		if (result) return node.name + ' > ' + result;
+	}
+
+	return '';
+}
+
+function searchTreeStart(root, key) {
+	for (let x of root) {
+		const result = searchTreeNode(x, key);
+		if (result) return result;
+	}
+	return false;
+}
+
 const IdentitiesSpace = () => {
 	const {
 		account,
 		server,
 		accountCheckList,
 		currentResourceListKey,
+		nav,
 	} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 
@@ -281,7 +307,9 @@ const IdentitiesSpace = () => {
 										: 'white'
 								}
 							>
-								<_ResourceName>{item.name}</_ResourceName>
+								<_ResourceName>
+									{searchTreeStart(nav, item.key)}
+								</_ResourceName>
 								<_AddressName>{item.host}</_AddressName>
 								<_ProtocolPortName>
 									{item.protocol}
