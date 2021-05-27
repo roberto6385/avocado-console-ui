@@ -12,6 +12,11 @@ import {
 	SSH_DECREASE_FONT_SIZE,
 	SSH_INCREASE_FONT_SIZE,
 } from '../reducers/ssht';
+import {
+	searchIconMicro,
+	zoomInIconMicro,
+	zoomOutIconMicro,
+} from '../icons/icons';
 
 const _Footer = styled.footer`
 	height: ${FOOTER_HEIGHT};
@@ -53,19 +58,13 @@ const Footer = () => {
 					0 && (
 					<>
 						<_Button onClick={onClickDeceaseFont}>
-							<span className='material-icons button_micro'>
-								zoom_out
-							</span>
+							{zoomOutIconMicro}
 						</_Button>
 						<_Button onClick={onClickIncreaseFont}>
-							<span className='material-icons button_micro'>
-								zoom_in
-							</span>
+							{zoomInIconMicro}
 						</_Button>
 						<_Button onClick={onClickOpenSearchBar}>
-							<span className='material-icons button_micro'>
-								search
-							</span>
+							{searchIconMicro}
 						</_Button>
 					</>
 				)}

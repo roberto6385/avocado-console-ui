@@ -17,12 +17,17 @@ import {
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global';
+import {
+	fileDownloadIcon,
+	saveIcon,
+	squareDeleteIcon,
+} from '../../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0px 20px;
+	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${BORDER_COLOR};
 	height: ${SUB_HEIGHT};
 `;
@@ -94,19 +99,11 @@ const EditNav = ({uuid}) => {
 				style={{fontSize: AVOCADO_FONTSIZE}}
 			>{`${path}/${editFile.name}`}</span>
 			<div style={{display: 'flex', alignItems: 'center'}}>
-				<_Button onClick={editedFileSave}>
-					<span className='material-icons button_large'>save</span>
-				</_Button>
+				<_Button onClick={editedFileSave}>{saveIcon}</_Button>
 				<_Button onClick={editedFileDownload}>
-					<span className='material-icons button_large'>
-						file_download
-					</span>
+					{fileDownloadIcon}
 				</_Button>
-				<_Button onClick={closeEditMode}>
-					<span className='material-icons button_large'>
-						disabled_by_default
-					</span>
-				</_Button>
+				<_Button onClick={closeEditMode}>{squareDeleteIcon}</_Button>
 			</div>
 		</_Container>
 	);

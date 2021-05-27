@@ -12,6 +12,7 @@ import {
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global';
+import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -75,16 +76,12 @@ const HistoryNav = ({uuid}) => {
 		<_Container>
 			<Span>Transfer</Span>
 			<div>
-				<IconButton onClick={upload}>
-					<span className='material-icons button_large'>
-						file_upload
-					</span>
-				</IconButton>
+				<IconButton onClick={upload}>{fileUploadIcon}</IconButton>
 				<IconButton
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
-					<span className='material-icons button_large'>delete</span>
+					{deleteIcon}
 				</IconButton>
 			</div>
 		</_Container>

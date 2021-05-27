@@ -16,6 +16,7 @@ import useInput from '../../hooks/useInput';
 import {
 	SSHT_SEND_WINDOW_CHANGE_REQUEST,
 	SSHT_SEND_COMMAND_REQUEST,
+	SET_SEARCH_MODE,
 } from '../../reducers/ssht';
 import {
 	AVOCADO_FONTSIZE,
@@ -26,6 +27,11 @@ import {
 	TERMINAL_SEARCH_FORM_WIDTH,
 } from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
+import {
+	arrowDropDownIconMidium,
+	arrowDropUpIconMidium,
+	closeIconMedium,
+} from '../../icons/icons';
 
 const _Container = styled.div`
 	height: 100%;
@@ -155,6 +161,10 @@ const SSH = ({uuid}) => {
 			});
 		}
 	}, [ws, uuid, sshTerm, width, height]);
+
+	const onClickOpenSearchBar = useCallback(() => {
+		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
+	}, [current_tab, dispatch]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -200,13 +210,16 @@ const SSH = ({uuid}) => {
 					type='text'
 				/>
 				<IconButton color={ICON_DARK_COLOR}>
-					<MdKeyboardArrowUp />
+					{arrowDropUpIconMidium}
 				</IconButton>
 				<IconButton color={ICON_DARK_COLOR}>
-					<MdKeyboardArrowDown />
+					{arrowDropDownIconMidium}
 				</IconButton>
-				<IconButton color={ICON_DARK_COLOR}>
-					<IoCloseOutline />
+				<IconButton
+					color={ICON_DARK_COLOR}
+					onClick={onClickOpenSearchBar}
+				>
+					{closeIconMedium}
 				</IconButton>
 			</_Form>
 		</_Container>

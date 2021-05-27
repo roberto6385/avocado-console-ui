@@ -18,6 +18,7 @@ import {
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
 	position: absolute;
@@ -270,7 +271,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			<_Header>
 				<_Title>Snippets Manager</_Title>
 				<IconButton color={ICON_DARK_COLOR} onClick={onClickCancel}>
-					<IoCloseOutline />
+					{closeIconMedium}
 				</IconButton>
 			</_Header>
 			<_ListContainer>
@@ -278,17 +279,13 @@ const SnippetsManeger = ({open, setOpen}) => {
 					<_HeaderLi>
 						<_Text>Snippet List</_Text>
 						<IconButton onClick={onClickAddSnippet}>
-							<span className='material-icons button_large'>
-								add
-							</span>
+							{plusIcon}
 						</IconButton>
 						<IconButton
 							padding={'2.5px 0px'}
 							onClick={onClickDeleteSnippet}
 						>
-							<span className='material-icons button_midium'>
-								delete
-							</span>
+							{deleteIconMidium}
 						</IconButton>
 					</_HeaderLi>
 

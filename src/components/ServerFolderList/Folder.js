@@ -25,10 +25,12 @@ import {
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
 import {
+	arrowDropDownIconMidium,
+	arrowRightIconMidium,
 	folderIcon,
-	folderIconMedium,
+	folderIconMidium,
 	folderOpenIcon,
-	folderOpenIconMedium,
+	folderOpenIconMidium,
 } from '../../icons/icons';
 
 export const _NavItem = styled.div`
@@ -171,14 +173,11 @@ const Folder = ({open, data, indent}) => {
 						margin={`0px 12px 0px 0px`}
 						color={ICON_MINT_COLOR}
 					>
-						{folderIconMedium}
+						{folderIconMidium}
 					</IconContainer>
 				) : (
-					<IconContainer
-						margin={`0px 12px 0px 0px`}
-						color={ICON_GRAY_COLOR}
-					>
-						{folderOpenIconMedium}
+					<IconContainer margin={`0px 12px 0px 0px`}>
+						{folderOpenIconMidium}
 					</IconContainer>
 				)}
 				{/*</Avocado_span>*/}
@@ -198,15 +197,7 @@ const Folder = ({open, data, indent}) => {
 					)}
 				</Span>
 				<IconButton onClick={onClickOpen}>
-					{openTab ? (
-						<span className='material-icons button_midium'>
-							arrow_drop_down
-						</span>
-					) : (
-						<span className='material-icons button_midium'>
-							arrow_right
-						</span>
-					)}
+					{openTab ? arrowDropDownIconMidium : arrowRightIconMidium}
 				</IconButton>
 			</_NavItem>
 			{data.contain.length !== 0 && (

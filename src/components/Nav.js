@@ -135,9 +135,7 @@ const Nav = () => {
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
 			<_Form>
-				<IconContainer color={ICON_GRAY_COLOR} margin={'6px'}>
-					{searchIcon}
-				</IconContainer>
+				<IconContainer margin={'6px'}>{searchIcon}</IconContainer>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}

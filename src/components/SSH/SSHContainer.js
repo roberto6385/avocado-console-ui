@@ -6,13 +6,10 @@ import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
-import {
-	IconButton,
-	LIGHT_BACK_COLOR,
-	SUB_HEIGHT,
-} from '../../styles/global';
+import {IconButton, LIGHT_BACK_COLOR, SUB_HEIGHT} from '../../styles/global';
 import styled from 'styled-components';
 import SSH from './SSH';
+import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 
 const _Container = styled.div`
 	height: 100%;
@@ -71,19 +68,10 @@ const SSHContainer = ({uuid, server_id}) => {
 	return (
 		<_Container>
 			<_Header back={LIGHT_BACK_COLOR}>
-				<DropdownMenu_
-					icon={
-						<span className='material-icons button_large'>
-							text_snippet
-						</span>
-					}
-					menu={column}
-				/>
+				<DropdownMenu_ icon={snippetIcon} menu={column} />
 				<SFTPConvertButton server_id={server_id} />
 				<IconButton onClick={onCLickFullScreen}>
-					<span className='material-icons button_large'>
-						fullscreen
-					</span>
+					{fullScreenIcon}
 				</IconButton>
 			</_Header>
 			<SSH id={`full_ssht_${uuid}`} uuid={uuid} />

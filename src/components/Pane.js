@@ -16,6 +16,7 @@ import {
 import {RiTerminalFill} from 'react-icons/all';
 import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {disconnectAction} from '../reducers/sftp';
+import {closeIconSmall, sftpIconSmall} from '../icons/icons';
 
 const _Container = styled.div`
 	height: 100%;
@@ -80,19 +81,11 @@ const Pane = ({uuid, type, server}) => {
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<_Header>
 					<_Span>
-						{type === 'SSHT' ? (
-							<RiTerminalFill />
-						) : (
-							<span className='material-icons button_small'>
-								swap_vert
-							</span>
-						)}
+						{type === 'SSHT' ? <RiTerminalFill /> : sftpIconSmall}
 						{server.name}
 					</_Span>
 					<IconButton color={ICON_DARK_COLOR} onClick={onClickDelete}>
-						<span className='material-icons button_small'>
-							close
-						</span>
+						{closeIconSmall}
 					</IconButton>
 				</_Header>
 			)}

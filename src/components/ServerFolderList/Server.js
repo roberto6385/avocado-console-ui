@@ -26,7 +26,7 @@ import {
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
-import {dnsIcon, dnsIconMedium, dnsOpenIcon} from '../../icons/icons';
+import {dnsIcon, dnsIconMidium, dnsOpenIcon} from '../../icons/icons';
 
 export const _Form = styled.form`
 	border: 1px solid ${GREEN_COLOR};
@@ -182,14 +182,11 @@ const Server = ({data, indent}) => {
 						margin={`0px 12px 0px 0px`}
 						color={ICON_MINT_COLOR}
 					>
-						{dnsIconMedium}
+						{dnsIconMidium}
 					</IconContainer>
 				) : (
-					<IconContainer
-						margin={`0px 12px 0px 0px`}
-						color={ICON_GRAY_COLOR}
-					>
-						{dnsIconMedium}
+					<IconContainer margin={`0px 12px 0px 0px`}>
+						{dnsIconMidium}
 					</IconContainer>
 				)}
 				<Span flex={1} size={AVOCADO_FONTSIZE}>

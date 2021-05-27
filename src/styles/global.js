@@ -209,7 +209,7 @@ export const HiddenScroll = `
 // 아이콘에 패딩, 마진, 컬러, 사이즈 넣을때 사용.
 export const IconContainer = styled.div`
 	line-height: 0;
-	color: ${(props) => props?.color};
+	color: ${(props) => props?.color || ICON_GRAY_COLOR};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: ${(props) => props.margin || '0px'};
 `;

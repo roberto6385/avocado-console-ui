@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectionAction} from '../../reducers/sftp';
 import {IconButton} from '../../styles/global';
+import {sftpIcon} from '../../icons/icons';
 
 const SFTPConvertButton = ({server_id}) => {
 	const dispatch = useDispatch();
@@ -25,11 +26,7 @@ const SFTPConvertButton = ({server_id}) => {
 		}
 	}, [server_id, userTicket, dispatch]);
 
-	return (
-		<IconButton onClick={connection}>
-			<span className='material-icons button_large'>swap_vert</span>
-		</IconButton>
-	);
+	return <IconButton onClick={connection}>{sftpIcon}</IconButton>;
 };
 
 SFTPConvertButton.propTypes = {

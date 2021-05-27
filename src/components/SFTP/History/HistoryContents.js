@@ -28,8 +28,19 @@ import {
 	AVOCADO_HOVER_COLOR,
 	PreventDragCopy,
 	THIRD_HEIGHT,
+	IconContainer,
+	ICON_GRAY_COLOR,
+	ICON_MINT_COLOR,
 } from '../../../styles/global';
 import styled from 'styled-components';
+import {
+	arrowCircleDownIconSmall,
+	arrowCircleUpIconSmall,
+	buildCircleIconSmall,
+	deleteIconMidium,
+	pauseCircleIconSmall,
+	removeCircleIconSmall,
+} from '../../../icons/icons';
 
 const DropSpaceDiv = styled.div`
 	height: ${DROP_SPACE_HEIGHT};
@@ -87,12 +98,6 @@ const ItemName_Span = styled(Span)`
 	text-overflow: ellipsis;
 	line-height: initial;
 	padding: 6px;
-`;
-
-const IconSpan = styled.span`
-	font-size: ${EIGHTEEN};
-	color: ${(props) => props.color};
-	padding-left: 16px;
 `;
 
 const Progress = styled.div`
@@ -294,39 +299,27 @@ const HistoryContents = ({uuid}) => {
 								}
 								borderWidth={`${history.progress}%`}
 							>
-								<IconSpan
+								<IconContainer
 									// 나중에 split pane 만들면 반응형으로!
+									padding={'0px 0px 0px 12px'}
 									className={'history_contents'}
 									color={
 										history.progress !== 100
-											? ICON_LIGHT_COLOR
-											: GREEN_COLOR
+											? ICON_GRAY_COLOR
+											: ICON_MINT_COLOR
 									}
 								>
-									{history.progress !== 100 ? (
-										<span className='material-icons button_small'>
-											pause_circle
-										</span>
-									) : history.todo === 'put' ? (
-										<span className='material-icons button_small'>
-											arrow_circle_up
-										</span>
-									) : history.todo === 'get' ? (
-										<span className='material-icons button_small'>
-											arrow_circle_down
-										</span>
-									) : history.todo === 'edit' ? (
-										<span className='material-icons button_small'>
-											build_circle
-										</span>
-									) : (
-										history.todo === 'rm' && (
-											<span className='material-icons button_small'>
-												remove_circle_outline
-											</span>
-										)
-									)}
-								</IconSpan>
+									{history.progress !== 100
+										? pauseCircleIconSmall
+										: history.todo === 'put'
+										? arrowCircleUpIconSmall
+										: history.todo === 'get'
+										? arrowCircleDownIconSmall
+										: history.todo === 'edit'
+										? buildCircleIconSmall
+										: history.todo === 'rm' &&
+										  removeCircleIconSmall}
+								</IconContainer>
 								<ItemName_Span
 									className={'history_contents'}
 									flex={1}
@@ -357,9 +350,7 @@ const HistoryContents = ({uuid}) => {
 											: ICON_LIGHT_COLOR
 									}
 								>
-									<span className='material-icons button_midium'>
-										delete
-									</span>
+									{deleteIconMidium}
 								</IconButton>
 
 								{history.progress !== 100 && (
