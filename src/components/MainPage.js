@@ -17,6 +17,7 @@ import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {useHistory} from 'react-router-dom';
 import AsideContainer from './Setting/AsideContainer';
 import {getRevoke} from '../reducers/auth/revoke';
+import {accountIcon, notificationIcon, settingIcon} from '../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -144,27 +145,9 @@ const MainPage = () => {
 	return (
 		<_Container>
 			<_Header>
-				<DropdownMenu_
-					icon={
-						<span className='material-icons button_large'>
-							person
-						</span>
-					}
-					menu={account_list}
-				/>
-				<DropdownMenu_
-					icon={
-						<span className='material-icons button_large'>
-							settings
-						</span>
-					}
-					menu={setting_list}
-				/>
-				<IconButton>
-					<span className='material-icons button_large'>
-						notifications
-					</span>
-				</IconButton>
+				<DropdownMenu_ icon={accountIcon} menu={account_list} />
+				<DropdownMenu_ icon={settingIcon} menu={setting_list} />
+				<IconButton>{notificationIcon}</IconButton>
 			</_Header>
 			<_Body>
 				<_Contents>

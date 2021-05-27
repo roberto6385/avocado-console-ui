@@ -15,6 +15,8 @@ import {
 	THIRD_HEIGHT,
 	BORDER_COLOR,
 	DefaultButton,
+	IconContainer,
+	ICON_GRAY_COLOR,
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -23,6 +25,12 @@ import {
 	OPEN_CONFIRM_POPUP,
 } from '../reducers/popup';
 import {useDispatch} from 'react-redux';
+import {
+	burgerMenuIcon,
+	newFolderIcon,
+	plusIcon,
+	searchIcon,
+} from '../icons/icons';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -36,20 +44,22 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${MAIN_HEIGHT};
-	padding: 16px;
+	padding: 16px 10px;
 `;
 const _AddFolerServerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: ${SUB_HEIGHT};
-	padding: 16px;
+	padding: 16px 10px;
 `;
 const _Form = styled.form`
 	display: flex;
 	align-items: center;
-	padding: 16px;
+	padding: 16px 10px;
 	height: ${THIRD_HEIGHT};
+	border-top: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
 const _HeaderSpan = styled.span`
@@ -67,6 +77,7 @@ const _Input = styled.input`
 	width: ${SEARCH_INPUT_WIDTH};
 	height: ${SEARCH_INPUT_HEIGHT};
 	border: none;
+	font-size: 14px;
 	padding: 0px;
 	color: ${ICON_DARK_COLOR};
 `;
@@ -112,23 +123,21 @@ const Nav = () => {
 		<_Aside>
 			<_Header>
 				<IconButton onClick={() => setToggle(!toggle)}>
-					<span className='material-icons button_large'>menu</span>
+					{burgerMenuIcon}
 				</IconButton>
 				<_HeaderSpan>Avocado</_HeaderSpan>
 			</_Header>
 			<_AddFolerServerContainer>
 				<IconButton color={FONT_COLOR} onClick={newServer}>
-					<span className='material-icons button_large'>add</span>
+					{plusIcon}
 				</IconButton>
 				<_NewServerSpan>New Server</_NewServerSpan>
-				<IconButton onClick={newFolder}>
-					<span className='material-icons button_large'>
-						create_new_folder
-					</span>
-				</IconButton>
+				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
 			<_Form>
-				<span className='material-icons button_large'>search</span>
+				<IconContainer color={ICON_GRAY_COLOR} margin={'6px'}>
+					{searchIcon}
+				</IconContainer>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}

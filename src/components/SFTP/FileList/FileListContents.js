@@ -27,15 +27,18 @@ import {
 	IconContainer,
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
+	ICON_MINT_COLOR,
+	ICON_GRAY_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
-import {fileIcon, folderIcon} from '../../../icons/icons';
+import {fileIcon, folderOpenIcon} from '../../../icons/icons';
 
 const _Table = styled.table`
 	display: flex;
 	position: relative;
 	flex: 1;
 	flex-direction: column;
+	font-size: 14px;
 	overflow: scroll;
 	margin: 0;
 	padding: 0;
@@ -51,9 +54,6 @@ const _Tbody = styled.tbody`
 	min-width: 718px;
 	position: absolute;
 	top: ${THIRD_HEIGHT};
-	// right: 0;
-	// left: 0;
-	// bottom: 0;
 	.active {
 		background: ${LIGHT_BACKGROUND_COLOR};
 	}
@@ -268,9 +268,10 @@ const FileListContents = ({uuid}) => {
 								<Th min={'150px'} flex={1}>
 									{item.type === 'directory' ? (
 										<IconContainer
+											color={ICON_MINT_COLOR}
 											margin={`0px 8px 0px 0px`}
 										>
-											{folderIcon}
+											{folderOpenIcon}
 										</IconContainer>
 									) : (
 										<IconContainer

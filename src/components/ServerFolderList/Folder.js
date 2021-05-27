@@ -18,9 +18,18 @@ import {
 	LIGHT_MODE_BACK_COLOR,
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
+	IconContainer,
+	ICON_MINT_COLOR,
+	ICON_GRAY_COLOR,
 } from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
+import {
+	folderIcon,
+	folderIconMedium,
+	folderOpenIcon,
+	folderOpenIconMedium,
+} from '../../icons/icons';
 
 export const _NavItem = styled.div`
 	display: flex;
@@ -147,7 +156,7 @@ const Folder = ({open, data, indent}) => {
 						? SERVER_HOVER_COLOR
 						: LIGHT_MODE_BACK_COLOR
 				}
-				left={(indent * 6 + 6).toString() + 'px'}
+				left={(indent * 6 + 10).toString() + 'px'}
 			>
 				{/*<Avocado_span*/}
 				{/*	size={MIDDLE_FONTSIZE}*/}
@@ -158,11 +167,19 @@ const Folder = ({open, data, indent}) => {
 				{/*	}*/}
 				{/*>*/}
 				{clicked_server === data.key ? (
-					<span className='material-icons button_midium'>folder</span>
+					<IconContainer
+						margin={`0px 12px 0px 0px`}
+						color={ICON_MINT_COLOR}
+					>
+						{folderIconMedium}
+					</IconContainer>
 				) : (
-					<span className='material-icons button_midium'>
-						folder_open
-					</span>
+					<IconContainer
+						margin={`0px 12px 0px 0px`}
+						color={ICON_GRAY_COLOR}
+					>
+						{folderOpenIconMedium}
+					</IconContainer>
 				)}
 				{/*</Avocado_span>*/}
 				<Span flex={1} size={AVOCADO_FONTSIZE}>

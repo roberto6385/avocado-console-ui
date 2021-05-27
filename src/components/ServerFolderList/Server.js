@@ -19,10 +19,14 @@ import {
 	Span,
 	LIGHT_MODE_BACK_COLOR,
 	FOLDER_HEIGHT,
+	IconContainer,
+	ICON_MINT_COLOR,
+	ICON_GRAY_COLOR,
 } from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
+import {dnsIcon, dnsIconMedium, dnsOpenIcon} from '../../icons/icons';
 
 export const _Form = styled.form`
 	border: 1px solid ${GREEN_COLOR};
@@ -161,7 +165,7 @@ const Server = ({data, indent}) => {
 						? `2px solid ${GREEN_COLOR}`
 						: `2px solid white`
 				}
-				left={(indent * 6 + 6).toString() + 'px'}
+				left={(indent * 6 + 10).toString() + 'px'}
 			>
 				{/*<Avocado_span*/}
 				{/*	size={MIDDLE_FONTSIZE}*/}
@@ -173,7 +177,21 @@ const Server = ({data, indent}) => {
 				{/*>*/}
 				{/*	<FaServerIcon />*/}
 				{/*</Avocado_span>*/}
-				<span className='material-icons button_midium'>dns</span>
+				{clicked_server === data.key ? (
+					<IconContainer
+						margin={`0px 12px 0px 0px`}
+						color={ICON_MINT_COLOR}
+					>
+						{dnsIconMedium}
+					</IconContainer>
+				) : (
+					<IconContainer
+						margin={`0px 12px 0px 0px`}
+						color={ICON_GRAY_COLOR}
+					>
+						{dnsIconMedium}
+					</IconContainer>
+				)}
 				<Span flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>

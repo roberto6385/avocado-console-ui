@@ -7,6 +7,12 @@ import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {IconButton, LIGHT_BACK_COLOR} from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
+import {
+	accountIcon,
+	notificationIcon,
+	settingIcon,
+	windowIcon,
+} from '../icons/icons';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -84,33 +90,10 @@ const RightCornerIcons = () => {
 
 	return (
 		<CornerIcons_Container>
-			<DropdownMenu_
-				icon={
-					<span className='material-icons button_large'>person</span>
-				}
-				menu={account_list}
-			/>
-			<DropdownMenu_
-				icon={
-					<span className='material-icons button_large'>
-						settings
-					</span>
-				}
-				menu={setting_list}
-			/>
-			<DropdownMenu_
-				icon={
-					<span className='material-icons button_large'>
-						grid_view
-					</span>
-				}
-				menu={column_list}
-			/>
-			<IconButton>
-				<span className='material-icons button_large'>
-					notifications
-				</span>
-			</IconButton>
+			<DropdownMenu_ icon={accountIcon} menu={account_list} />
+			<DropdownMenu_ icon={settingIcon} menu={setting_list} />
+			<DropdownMenu_ icon={windowIcon} menu={column_list} />
+			<IconButton>{notificationIcon}</IconButton>
 		</CornerIcons_Container>
 	);
 };
