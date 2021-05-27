@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
+
 import Nav from './Nav';
 import WorkSpace from './WorkSpace';
-import {useSelector} from 'react-redux';
 import MainPage from './MainPage';
-import SnippetsManeger from './SSH/SnippetsManager';
+import AlertPopup from './Popup/AlertPopup';
 
 const _Container = styled.div`
 	display: flex;
@@ -14,12 +15,11 @@ const _Container = styled.div`
 
 const Main = () => {
 	const {tab} = useSelector((state) => state.common);
-	// const [open, setOpen] = useState(true);
+
 	return (
 		<_Container>
 			<Nav />
 			{tab.length ? <WorkSpace /> : <MainPage />}
-			{/*<SnippetsManeger setOpen={setOpen} open={open} />*/}
 		</_Container>
 	);
 };
