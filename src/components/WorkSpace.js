@@ -16,7 +16,7 @@ import {
 	TAB_WIDTH,
 } from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
 import {disconnectAction} from '../reducers/sftp';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import PanesContainer from './PanesContainer';
@@ -24,6 +24,8 @@ import AsideContainer from './Setting/AsideContainer';
 
 const _Container = styled.div`
 	display: flex;
+	flex: 1;
+	overflow: hidden;
 	width: 100%;
 	flex-direction: column;
 `;
@@ -97,9 +99,9 @@ const WorkSpace = () => {
 
 	const onClickDelete = useCallback(
 		(data) => () => {
-			if (data.type === 'SSHT') {
+			if (data.type === 'SSH') {
 				dispatch({
-					type: SSHT_SEND_DISCONNECTION_REQUEST,
+					type: SSH_SEND_DISCONNECTION_REQUEST,
 					data: {
 						uuid: data.uuid,
 						ws: ssht.find((v) => v.uuid === data.uuid).ws,
@@ -176,9 +178,8 @@ const WorkSpace = () => {
 											: undefined
 									}
 								>
-									{data.type === 'SSHT' ? (
-										<RiTerminalFill />
-									) : (
+									{data.type === 'SSH' && <RiTerminalFill />}
+									{data.type === 'SFTP' && (
 										<span className='material-icons button_small'>
 											swap_vert
 										</span>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 
-import {SSHT_CHANGE_SNIPPET} from '../../reducers/ssht';
+import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssht';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
@@ -210,7 +210,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
 		} else {
 			dispatch({
-				type: SSHT_CHANGE_SNIPPET,
+				type: SSH_CHANGE_SNIPPET_REQUEST,
 				data: {snippets: tempSnippets, snippents_index: index},
 			});
 			setOpen(false);

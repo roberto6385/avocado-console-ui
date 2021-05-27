@@ -12,16 +12,13 @@ import {
 	SSH_SEND_CONNECTION_REQUEST,
 	SSH_SEND_CONNECTION_SUCCESS,
 	SSH_SEND_CONNECTION_FAILURE,
-	SSHT_WRITE_ON_TERMINAL,
-	SSHT_SEND_DISCONNECTION_REQUEST,
-	SSHT_SEND_DISCONNECTION_SUCCESS,
-	SSHT_SEND_DISCONNECTION_FAILURE,
-	SSHT_SEND_COMMAND_REQUEST,
-	SSHT_SEND_COMMAND_SUCCESS,
-	SSHT_SEND_COMMAND_FAILURE,
-	SSHT_SEND_WINDOW_CHANGE_REQUEST,
-	SSHT_SEND_WINDOW_CHANGE_SUCCESS,
-	SSHT_SEND_WINDOW_CHANGE_FAILURE,
+	SSH_SEND_DISCONNECTION_REQUEST,
+	SSH_SEND_DISCONNECTION_SUCCESS,
+	SSH_SEND_COMMAND_REQUEST,
+	SSH_SEND_COMMAND_SUCCESS,
+	SSH_SEND_COMMAND_FAILURE,
+	SSH_SEND_WINDOW_CHANGE_REQUEST,
+	SSH_SEND_WINDOW_CHANGE_FAILURE,
 } from '../../reducers/ssht';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initWebsocket} from './socket';
@@ -44,7 +41,7 @@ function* sendConnection(action) {
 		while (true) {
 			const result = yield take(channel);
 			const res = yield call(GetMessage, result);
-			console.log(res);
+
 			switch (res.type) {
 				case 'CONNECT':
 					uuid = res.result;
@@ -59,7 +56,7 @@ function* sendConnection(action) {
 						type: OPEN_TAB,
 						data: {
 							uuid: uuid,
-							type: 'SSHT',
+							type: 'SSH',
 							server: {
 								id: action.data.id,
 								name: action.data.name,
@@ -70,7 +67,7 @@ function* sendConnection(action) {
 					break;
 				case 'COMMAND':
 					yield put({
-						type: SSHT_WRITE_ON_TERMINAL,
+						type: SSH_SEND_COMMAND_SUCCESS,
 						data: {
 							uuid: uuid,
 							result: res.result,
@@ -84,7 +81,7 @@ function* sendConnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSH_SEND_CONNECTION_FAILURE});
+		yield put({type: SSH_SEND_CONNECTION_FAILURE, data: err});
 	}
 }
 
@@ -105,7 +102,7 @@ function* sendDisconnection(action) {
 				case 'DISCONNECT':
 					yield put({type: CLOSE_TAB, data: action.data.uuid});
 					yield put({
-						type: SSHT_SEND_DISCONNECTION_SUCCESS,
+						type: SSH_SEND_DISCONNECTION_SUCCESS,
 						data: action.data.uuid,
 					});
 
@@ -117,7 +114,11 @@ function* sendDisconnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSH_SEND_CONNECTION_FAILURE});
+		yield put({type: CLOSE_TAB, data: action.data.uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: action.data.uuid,
+		});
 	}
 }
 
@@ -138,7 +139,7 @@ function* sendCommand(action) {
 			switch (res.type) {
 				case 'COMMAND':
 					yield put({
-						type: SSHT_WRITE_ON_TERMINAL,
+						type: SSH_SEND_COMMAND_SUCCESS,
 						data: {
 							uuid: action.data.uuid,
 							result: res.result,
@@ -152,7 +153,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSHT_SEND_COMMAND_FAILURE});
+		yield put({type: SSH_SEND_COMMAND_FAILURE});
 	}
 }
 
@@ -173,7 +174,7 @@ function* sendWindowChange(action) {
 			switch (res.type) {
 				case 'COMMAND':
 					yield put({
-						type: SSHT_WRITE_ON_TERMINAL,
+						type: SSH_SEND_COMMAND_SUCCESS,
 						data: {
 							uuid: action.data.uuid,
 							result: res.result,
@@ -187,7 +188,7 @@ function* sendWindowChange(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: SSHT_SEND_WINDOW_CHANGE_FAILURE});
+		yield put({type: SSH_SEND_WINDOW_CHANGE_FAILURE});
 	}
 }
 
@@ -196,15 +197,15 @@ function* watchSendConnection() {
 }
 
 function* watchSendDisconnection() {
-	yield takeLatest(SSHT_SEND_DISCONNECTION_REQUEST, sendDisconnection);
+	yield takeLatest(SSH_SEND_DISCONNECTION_REQUEST, sendDisconnection);
 }
 
 function* watchSendCommand() {
-	yield takeEvery(SSHT_SEND_COMMAND_REQUEST, sendCommand);
+	yield takeEvery(SSH_SEND_COMMAND_REQUEST, sendCommand);
 }
 
 function* watchSendWindowChange() {
-	yield takeLatest(SSHT_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield takeLatest(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

@@ -10,7 +10,7 @@ import {
 	SIXTEEN,
 } from '../../../styles/global';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {SSH_SET_FONT} from '../../../reducers/ssht';
+import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssht';
 import {useDispatch} from 'react-redux';
 
 const _P = styled.p`
@@ -45,7 +45,7 @@ const PreferencesAside = () => {
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
 
 	useEffect(() => {
-		dispatch({type: SSH_SET_FONT, data: terminalFont});
+		dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
 	}, [terminalFont, dispatch]);
 
 	return (

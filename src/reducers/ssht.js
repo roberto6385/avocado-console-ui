@@ -14,39 +14,45 @@ export const initialState = {
 	snippents_index: 2,
 };
 
-export const SSH_SET_FONT = 'SSH_SET_FONT';
 export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
 export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
 export const SET_SEARCH_MODE = 'SET_SEARCH_MODE';
+
+export const SSH_SET_FONT_REQUEST = 'SSH_SET_FONT_REQUEST';
+export const SSH_SET_FONT_SUCCESS = 'SSH_SET_FONT_SUCCESS';
+export const SSH_SET_FONT_FAILURE = 'SSH_SET_FONT_FAILURE';
+
 export const SSH_SEND_CONNECTION_REQUEST = 'SSH_SEND_CONNECTION_REQUEST';
 export const SSH_SEND_CONNECTION_SUCCESS = 'SSH_SEND_CONNECTION_SUCCESS';
 export const SSH_SEND_CONNECTION_FAILURE = 'SSH_SEND_CONNECTION_FAILURE';
-export const SSHT_WRITE_ON_TERMINAL = 'SSHT_WRITE_ON_TERMINAL';
-export const SSHT_SEND_DISCONNECTION_REQUEST =
-	'SSHT_SEND_DISCONNECTION_REQUEST';
-export const SSHT_SEND_DISCONNECTION_SUCCESS =
-	'SSHT_SEND_DISCONNECTION_SUCCESS';
-export const SSHT_SEND_DISCONNECTION_FAILURE =
-	'SSHT_SEND_DISCONNECTION_FAILURE';
-export const SSHT_SEND_COMMAND_REQUEST = 'SSHT_SEND_COMMAND_REQUEST';
-export const SSHT_SEND_COMMAND_SUCCESS = 'SSHT_SEND_COMMAND_SUCCESS';
-export const SSHT_SEND_COMMAND_FAILURE = 'SSHT_SEND_COMMAND_FAILURE';
-export const SSHT_SEND_WINDOW_CHANGE_REQUEST =
-	'SSHT_SEND_WINDOW_CHANGE_REQUEST';
-export const SSHT_SEND_WINDOW_CHANGE_SUCCESS =
-	'SSHT_SEND_WINDOW_CHANGE_SUCCESS';
-export const SSHT_SEND_WINDOW_CHANGE_FAILURE =
-	'SSHT_SEND_WINDOW_CHANGE_FAILURE';
-export const SSHT_ADD_SNIPPET = 'SSHT_ADD_SNIPPET';
-export const SSHT_DELETE_SNIPPET = 'SSHT_DELETE_SNIPPET';
-export const SSHT_CHANGE_SNIPPET = 'SSHT_CHANGE_SNIPPET';
+
+export const SSH_SEND_DISCONNECTION_REQUEST = 'SSH_SEND_DISCONNECTION_REQUEST';
+export const SSH_SEND_DISCONNECTION_SUCCESS = 'SSH_SEND_DISCONNECTION_SUCCESS';
+export const SSH_SEND_DISCONNECTION_FAILURE = 'SSH_SEND_DISCONNECTION_FAILURE';
+
+export const SSH_SEND_COMMAND_REQUEST = 'SSH_SEND_COMMAND_REQUEST';
+export const SSH_SEND_COMMAND_SUCCESS = 'SSH_SEND_COMMAND_SUCCESS';
+export const SSH_SEND_COMMAND_FAILURE = 'SSH_SEND_COMMAND_FAILURE';
+
+export const SSH_SEND_WINDOW_CHANGE_REQUEST = 'SSH_SEND_WINDOW_CHANGE_REQUEST';
+export const SSH_SEND_WINDOW_CHANGE_SUCCESS = 'SSH_SEND_WINDOW_CHANGE_SUCCESS';
+export const SSH_SEND_WINDOW_CHANGE_FAILURE = 'SSH_SEND_WINDOW_CHANGE_FAILURE';
+
+export const SSH_ADD_SNIPPET_REQUEST = 'SSH_ADD_SNIPPET_REQUEST';
+export const SSH_ADD_SNIPPET_SUCCESS = 'SSH_ADD_SNIPPET_SUCCESS';
+export const SSH_ADD_SNIPPET_FAILURE = 'SSH_ADD_SNIPPET_FAILURE';
+
+export const SSH_DELETE_SNIPPET_REQUEST = 'SSH_DELETE_SNIPPET_REQUEST';
+export const SSH_DELETE_SNIPPET_SUCCESS = 'SSH_DELETE_SNIPPET_SUCCESS';
+export const SSH_DELETE_SNIPPET_FAILURE = 'SSH_DELETE_SNIPPET_FAILURE';
+
+export const SSH_CHANGE_SNIPPET_REQUEST = 'SSH_CHANGE_SNIPPET_REQUEST';
+export const SSH_CHANGE_SNIPPET_SUCCESS = 'SSH_CHANGE_SNIPPET_SUCCESS';
+export const SSH_CHANGE_SNIPPET_FAILURE = 'SSH_CHANGE_SNIPPET_FAILURE';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case SSH_SEND_CONNECTION_REQUEST:
-				break;
-
 			case SSH_SEND_CONNECTION_SUCCESS:
 				draft.ssht.push({
 					...action.data,
@@ -62,46 +68,56 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_CONNECTION_FAILURE:
-				break;
-
-			case SSHT_WRITE_ON_TERMINAL:
-				draft.ssht
-					.find((v) => v.uuid === action.data.uuid)
-					.terminal.write(action.data.result);
-				break;
-
-			case SSHT_SEND_DISCONNECTION_REQUEST:
-				break;
-
-			case SSHT_SEND_DISCONNECTION_SUCCESS:
+				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
 				draft.ssht
 					.find((v) => v.uuid === action.data)
 					.terminal.dispose();
 				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
-			case SSHT_SEND_DISCONNECTION_FAILURE:
+			case SSH_SEND_DISCONNECTION_REQUEST:
 				break;
 
-			case SSHT_SEND_COMMAND_REQUEST:
+			case SSH_SEND_DISCONNECTION_SUCCESS:
+				draft.ssht
+					.find((v) => v.uuid === action.data)
+					.terminal.dispose();
+				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
-			case SSHT_SEND_COMMAND_SUCCESS:
+			case SSH_SEND_DISCONNECTION_FAILURE:
+				draft.ssht
+					.find((v) => v.uuid === action.data)
+					.terminal.dispose();
+				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
-			case SSHT_SEND_COMMAND_FAILURE:
+			case SSH_SEND_COMMAND_REQUEST:
 				break;
 
-			case SSHT_SEND_WINDOW_CHANGE_REQUEST:
+			case SSH_SEND_COMMAND_SUCCESS:
+				draft.ssht
+					.find((v) => v.uuid === action.data.uuid)
+					.terminal.write(action.data.result);
 				break;
 
-			case SSHT_SEND_WINDOW_CHANGE_SUCCESS:
+			case SSH_SEND_COMMAND_FAILURE:
+				draft.ssht
+					.find((v) => v.uuid === action.data)
+					.terminal.dispose();
+				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
-			case SSHT_SEND_WINDOW_CHANGE_FAILURE:
+			case SSH_SEND_WINDOW_CHANGE_REQUEST:
 				break;
 
-			case SSH_SET_FONT:
+			case SSH_SEND_WINDOW_CHANGE_SUCCESS:
+				break;
+
+			case SSH_SEND_WINDOW_CHANGE_FAILURE:
+				break;
+
+			case SSH_SET_FONT_REQUEST:
 				draft.font = action.data;
 				break;
 
@@ -117,7 +133,7 @@ const reducer = (state = initialState, action) => {
 				draft.search_mode = !draft.search_mode;
 				break;
 
-			case SSHT_ADD_SNIPPET:
+			case SSH_ADD_SNIPPET_REQUEST:
 				draft.snippets.push({
 					id: draft.snippents_index,
 					name: action.data.name,
@@ -126,13 +142,13 @@ const reducer = (state = initialState, action) => {
 				draft.snippents_index++;
 				break;
 
-			case SSHT_DELETE_SNIPPET:
+			case SSH_DELETE_SNIPPET_REQUEST:
 				draft.snippets = draft.snippets.filter(
 					(x) => x.id !== action.data,
 				);
 				break;
 
-			case SSHT_CHANGE_SNIPPET:
+			case SSH_CHANGE_SNIPPET_REQUEST:
 				// draft.snippets = draft.snippets.map((x) => {
 				// 	if (x.id === action.data.id) return x;
 				// 	else
