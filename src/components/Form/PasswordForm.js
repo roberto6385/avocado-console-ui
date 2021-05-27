@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 import {
-	AUTH_FORM_HEIGHT,
+	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
@@ -24,7 +24,7 @@ const _Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	width: ${AUTH_FORM_WIDTH};
-	height: ${AUTH_FORM_HEIGHT};
+	height: ${AUTH_FORM_SUB_HEIGHT};
 	border: solid 1px #d6d6d6;
 	caret-color: black;
 
@@ -130,6 +130,15 @@ const PasswordForm = () => {
 		[id, email, password, passwordConfirm],
 	);
 
+	const sendAuth = useCallback((e) => {
+		e.preventDefault();
+		console.log('some action!');
+	}, []);
+	const checkAuth = useCallback((e) => {
+		e.preventDefault();
+		console.log('some action!');
+	}, []);
+
 	const typeChange = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -201,7 +210,7 @@ const PasswordForm = () => {
 					{/*<span>등록한 메일로 인증번호가 전송됩니다.</span>*/}
 				</Input_>
 
-				<_CustomButton>Send </_CustomButton>
+				<_CustomButton onClick={sendAuth}>Send </_CustomButton>
 			</Item_Container>
 			<Item_Container>
 				<Input_ flex={1}>
@@ -212,7 +221,7 @@ const PasswordForm = () => {
 						placeholder={'Authentication number'}
 					/>
 				</Input_>
-				<_CustomButton>Check</_CustomButton>
+				<_CustomButton onClick={checkAuth}>Check</_CustomButton>
 			</Item_Container>
 			<Input_>
 				<_PasswordContainer id={'password_container'}>

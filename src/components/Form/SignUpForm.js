@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 import {
-	AUTH_FORM_HEIGHT,
+	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
@@ -23,7 +23,7 @@ const _Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	width: ${AUTH_FORM_WIDTH};
-	height: ${AUTH_FORM_HEIGHT};
+	height: ${AUTH_FORM_SUB_HEIGHT};
 	border: solid 1px #d6d6d6;
 	caret-color: black;
 

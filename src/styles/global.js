@@ -51,6 +51,7 @@ export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
 export const AUTH_FORM_HEIGHT = '630px';
+export const AUTH_FORM_SUB_HEIGHT = '614px';
 
 // width
 export const SIDE_WIDTH = '256px'; // side main nav width

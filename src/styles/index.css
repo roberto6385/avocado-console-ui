@@ -12,9 +12,9 @@ body {
 	height: 100%;
 }
 
-*:focus {
-	outline: none;
-}
+/**:focus {*/
+/*	outline: none;*/
+/*}*/
 
 /* modal background */
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
