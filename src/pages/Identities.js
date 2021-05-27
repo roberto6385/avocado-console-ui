@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import SettingAppLayout from '../components/Setting/SettingLayout';
 
 import {useHistory} from 'react-router-dom';
-import IdentitiesSetting from '../components/Setting/IdentitiesSetting';
+import IdentitiesSpace from '../components/Setting/IdentitiesSpace';
 
 const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -18,7 +18,7 @@ const Identities = () => {
 
 	return (
 		<SettingAppLayout>
-			<IdentitiesSetting />
+			<IdentitiesSpace />
 		</SettingAppLayout>
 	);
 };

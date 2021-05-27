@@ -79,7 +79,7 @@ const MFAOptions = [
 	{value: 'face_id', label: 'Face ID'},
 ];
 
-const AccountSetting = () => {
+const AccountSpace = () => {
 	const [open, setOpen] = useState(false);
 	const [account, setAccount] = useState('');
 	const [name, setName] = useState('');
@@ -164,4 +164,4 @@ const AccountSetting = () => {
 	);
 };
 
-export default AccountSetting;
+export default AccountSpace;

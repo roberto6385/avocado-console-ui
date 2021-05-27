@@ -160,7 +160,7 @@ Checkbox.propTypes = {
 	onChange: PropTypes.func,
 };
 
-const IdentitiesSetting = () => {
+const IdentitiesSpace = () => {
 	const {
 		account,
 		server,
@@ -362,4 +362,4 @@ const IdentitiesSetting = () => {
 	);
 };
 
-export default IdentitiesSetting;
+export default IdentitiesSpace;

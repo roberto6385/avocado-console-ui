@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import SettingAppLayout from '../components/Setting/SettingLayout';
-import PreferencesSetting from '../components/Setting/PreferencesSetting';
+import PreferencesSpace from '../components/Setting/PreferencesSpace';
 
 const Preferences = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -17,7 +17,7 @@ const Preferences = () => {
 
 	return (
 		<SettingAppLayout>
-			<PreferencesSetting />
+			<PreferencesSpace />
 		</SettingAppLayout>
 	);
 };

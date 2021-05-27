@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SettingNav from './SettingNav';
-import AccountSetting from './AccountSetting';
+import AccountSpace from './AccountSpace';
 
 const _Container = styled.div`
 	display: flex;
@@ -13,7 +13,7 @@ const SettingMain = () => {
 	return (
 		<_Container>
 			<SettingNav />
-			<AccountSetting />
+			<AccountSpace />
 		</_Container>
 	);
 };

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
-import AccountSetting from '../components/Setting/AccountSetting';
+import AccountSpace from '../components/Setting/AccountSpace';
 
 import SettingAppLayout from '../components/Setting/SettingLayout';
 
@@ -19,7 +19,7 @@ const Account = () => {
 
 	return (
 		<SettingAppLayout>
-			<AccountSetting />
+			<AccountSpace />
 		</SettingAppLayout>
 	);
 };

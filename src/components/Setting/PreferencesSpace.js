@@ -44,7 +44,7 @@ const font_theme = [
 	{value: ROBOTO_SLAP, label: 'Rovoto Slap'},
 	{value: MONTSERRAT, label: 'Montserrat'},
 ];
-const PreferencesSetting = () => {
+const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const [textCompletion, setTextCompletion] = useState(false);
 	const [copyText, setCopyText] = useState(false);
@@ -116,4 +116,4 @@ const PreferencesSetting = () => {
 	);
 };
 
-export default PreferencesSetting;
+export default PreferencesSpace;
