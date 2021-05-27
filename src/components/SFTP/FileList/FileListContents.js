@@ -24,10 +24,12 @@ import {
 	BORDER_COLOR,
 	HiddenScroll,
 	IconButton,
+	IconContainer,
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
+import {fileIcon, folderIcon} from '../../../icons/icons';
 
 const _Table = styled.table`
 	display: flex;
@@ -265,14 +267,19 @@ const FileListContents = ({uuid}) => {
 							>
 								<Th min={'150px'} flex={1}>
 									{item.type === 'directory' ? (
-										<span className='material-icons button_large'>
-											folder_open
-										</span>
+										<IconContainer
+											margin={`0px 8px 0px 0px`}
+										>
+											{folderIcon}
+										</IconContainer>
 									) : (
-										<span className='material-icons button_large'>
-											insert_drive_file
-										</span>
+										<IconContainer
+											margin={`0px 8px 0px 0px`}
+										>
+											{fileIcon}
+										</IconContainer>
 									)}
+
 									<span className='filelist_contents'>
 										{item.name}
 									</span>

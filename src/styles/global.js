@@ -202,4 +202,12 @@ export const HiddenScroll = `
 		display: none; /* Chrome, Safari, Opera*/
 	}
 `;
+
+// 아이콘에 패딩, 마진 넣을때 사용.
+export const IconContainer = styled.div`
+	line-height: 0;
+	padding: ${(props) => props?.padding || '0px'};
+	margin: ${(props) => props.margin || '0px'};
+`;
+
 export const CLOUDY_BLUE = '#B2D5DF';

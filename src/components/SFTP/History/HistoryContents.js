@@ -312,14 +312,18 @@ const HistoryContents = ({uuid}) => {
 											arrow_circle_up
 										</span>
 									) : history.todo === 'get' ? (
-										<span className='material-icons-outlined button_small'>
+										<span className='material-icons button_small'>
 											arrow_circle_down
 										</span>
 									) : history.todo === 'edit' ? (
-										<FaEdit />
+										<span className='material-icons button_small'>
+											build_circle
+										</span>
 									) : (
 										history.todo === 'rm' && (
-											<MdRemoveCircle />
+											<span className='material-icons button_small'>
+												remove_circle_outline
+											</span>
 										)
 									)}
 								</IconSpan>
