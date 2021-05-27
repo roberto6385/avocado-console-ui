@@ -18,18 +18,30 @@ import {
 import styled from 'styled-components';
 import {
 	CLOUDY_BLUE,
+	HiddenScroll,
+	ICON_MINT_COLOR,
 	IconButton,
+	IconContainer,
 	LIGHT_BACK_COLOR,
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
 } from '../../../styles/global';
+import {
+	editIcon,
+	fileDownloadIcon,
+	fileIcon,
+	folderOpenIcon,
+} from '../../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
+	overflow: scroll;
+	font-size: 14px;
 `;
 
 export const _ItemContainer = styled.div`
 	display: flex;
+	align-items: center;
 	padding: 0px;
 	margin: 0px;
 	justify-content: ${(props) => props?.justify};
@@ -37,6 +49,8 @@ export const _ItemContainer = styled.div`
 
 const _Ul = styled.ul`
 	${PreventDragCopy}
+	${HiddenScroll}
+
 	width:${(props) => props.width};
 	min-width: 250px;
 	list-style: none;
@@ -356,22 +370,26 @@ const FileListDropDown = ({uuid}) => {
 										})}
 									>
 										<_ItemContainer
+											className={'filelist_contents'}
 											justify={'space-between'}
 										>
-											<_EllipsisSpan
-												className={'filelist_contents'}
-											>
+											<_ItemContainer>
 												{item.type === 'directory' ? (
-													<span className='material-icons button_large'>
-														folder_open
-													</span>
+													<IconContainer
+														color={ICON_MINT_COLOR}
+														margin={`0px 8px 0px 0px`}
+													>
+														{folderOpenIcon}
+													</IconContainer>
 												) : (
-													<span className='material-icons button_large'>
-														insert_drive_file
-													</span>
+													<IconContainer
+														margin={`0px 8px 0px 0px`}
+													>
+														{fileIcon}
+													</IconContainer>
 												)}
 												{item.name}
-											</_EllipsisSpan>
+											</_ItemContainer>
 											{pathList.length - 1 ===
 												listindex && (
 												<_ItemContainer>
@@ -386,10 +404,7 @@ const FileListDropDown = ({uuid}) => {
 																	item,
 																)}
 															>
-																{' '}
-																<span className='material-icons button_large'>
-																	edit
-																</span>
+																{editIcon}
 															</IconButton>
 														)}
 													{item.name !== '..' && (
@@ -399,9 +414,7 @@ const FileListDropDown = ({uuid}) => {
 																item,
 															)}
 														>
-															<span className='material-icons button_large'>
-																file_download
-															</span>
+															{fileDownloadIcon}
 														</IconButton>
 													)}
 												</_ItemContainer>

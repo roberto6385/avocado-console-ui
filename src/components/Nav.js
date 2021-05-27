@@ -52,13 +52,13 @@ const _AddFolerServerContainer = styled.div`
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	padding: 16px 10px;
+	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 const _Form = styled.form`
 	display: flex;
 	align-items: center;
 	padding: 16px 10px;
 	height: ${THIRD_HEIGHT};
-	border-top: 1px solid ${BORDER_COLOR};
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 

@@ -125,3 +125,17 @@ export const buildCircleIconSmall = (
 export const removeCircleIconSmall = (
 	<span className='material-icons button_small'>remove_circle_outline</span>
 );
+
+export const viewColumnIcon = (
+	<span className='material-icons '>view_column</span>
+);
+
+export const viewListIcon = <span className='material-icons '>view_list</span>;
+
+export const arrowUpwordIcon = (
+	<span className='material-icons '>arrow_upward</span>
+);
+
+export const refreshIcon = <span className='material-icons '>refresh</span>;
+export const homeIcon = <span className='material-icons '>home</span>;
+export const editIcon = <span className='material-icons '>edit</span>;

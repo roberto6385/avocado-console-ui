@@ -16,7 +16,16 @@ import {
 	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
+	ICON_MINT_COLOR,
+	ICON_GRAY_COLOR,
 } from '../../../styles/global';
+import {
+	arrowUpwordIcon,
+	homeIcon,
+	refreshIcon,
+	viewColumnIcon,
+	viewListIcon,
+} from '../../../icons/icons';
 
 const _input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
@@ -37,7 +46,10 @@ const _Container = styled.div`
 `;
 
 const _IconButton = styled(IconButton)`
-	color: ${ICON_LIGHT_COLOR};
+	color: ${(props) => props?.color || ICON_GRAY_COLOR};
+	&:hover {
+		color: ${(props) => props?.color || ICON_GRAY_COLOR};
+	}
 `;
 
 const _Form = styled.form`
@@ -123,17 +135,19 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container>
-			<_IconButton onClick={dropdownList}>
-				<span className='material-icons button_large'>view_column</span>
+			<_IconButton
+				color={mode === 'drop' && ICON_MINT_COLOR}
+				onClick={dropdownList}
+			>
+				{viewColumnIcon}
 			</_IconButton>
-			<_IconButton onClick={basicList}>
-				<span className='material-icons button_large'>view_list</span>
+			<_IconButton
+				color={mode === 'list' && ICON_MINT_COLOR}
+				onClick={basicList}
+			>
+				{viewListIcon}
 			</_IconButton>
-			<_IconButton onClick={goBack}>
-				<span className='material-icons button_large'>
-					arrow_upward
-				</span>
-			</_IconButton>
+			<_IconButton onClick={goBack}>{arrowUpwordIcon}</_IconButton>
 			<_Form onSubmit={searchPath}>
 				<_input
 					id='fileListNavInput'
@@ -145,12 +159,8 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<_IconButton onClick={refresh}>
-				<span className='material-icons button_large'>refresh</span>
-			</_IconButton>
-			<_IconButton onClick={goHome}>
-				<span className='material-icons button_large'>home</span>
-			</_IconButton>
+			<_IconButton onClick={refresh}>{refreshIcon}</_IconButton>
+			<_IconButton onClick={goHome}>{homeIcon}</_IconButton>
 		</_Container>
 	);
 };

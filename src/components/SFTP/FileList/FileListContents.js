@@ -31,7 +31,12 @@ import {
 	ICON_GRAY_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
-import {fileIcon, folderOpenIcon} from '../../../icons/icons';
+import {
+	editIcon,
+	fileDownloadIcon,
+	fileIcon,
+	folderOpenIcon,
+} from '../../../icons/icons';
 
 const _Table = styled.table`
 	display: flex;
@@ -300,16 +305,12 @@ const FileListContents = ({uuid}) => {
 								<Th min={'100px'} justify={'flex-end'}>
 									{item.type === 'file' && (
 										<IconButton onClick={edit(item)}>
-											<span className='material-icons button_large'>
-												edit
-											</span>
+											{editIcon}
 										</IconButton>
 									)}
 									{item.name !== '..' && (
 										<IconButton onClick={download(item)}>
-											<span className='material-icons button_large'>
-												file_download
-											</span>
+											{fileDownloadIcon}
 										</IconButton>
 									)}
 								</Th>
