@@ -50,7 +50,7 @@ export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button, Accoun
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
 export const DROP_SPACE_HEIGHT = '132px';
 export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
-export const AUTH_FORM_HEIGHT = '550px';
+export const AUTH_FORM_HEIGHT = '630px';
 
 // width
 export const SIDE_WIDTH = '256px'; // side main nav width
@@ -61,7 +61,7 @@ export const HISTORY_ITEM_WIDTH = '134px';
 export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 export const ACCOUNT_INPUT_WIDTH = '500px';
-export const AUTH_FORM_WIDTH = '480px';
+export const AUTH_FORM_WIDTH = '500px';
 export const SERVER_FORM_INPUT_WIDTH = '178px';
 
 // font-size

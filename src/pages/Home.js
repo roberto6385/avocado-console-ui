@@ -18,7 +18,7 @@ const Home = () => {
 
 	useEffect(() => {
 		if (!userTicket) {
-			history.push('/login');
+			history.push('/signin');
 		}
 	}, [userTicket]);
 

@@ -13,7 +13,7 @@ const Account = () => {
 		// if (!userTicket) return <Redirect to={{pathname: '/login'}} />;
 
 		if (!userTicket) {
-			history.push('/login');
+			history.push('/signin');
 		}
 	}, [userTicket]);
 

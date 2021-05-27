@@ -11,7 +11,7 @@ const Preferences = () => {
 
 	useEffect(() => {
 		if (!userTicket) {
-			history.push('/login');
+			history.push('/signin');
 		}
 	}, [userTicket]);
 

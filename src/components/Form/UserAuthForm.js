@@ -13,6 +13,7 @@ import {
 	BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
+	GREEN_COLOR,
 	IconButton,
 	LOGIN_LOGO_FONTSIZE,
 	PrimaryButton,
@@ -23,29 +24,35 @@ import Checkbox_ from '../RecycleComponents/Checkbox_';
 
 const _Container = styled.div`
 	background: ${DARK_GREEN_COLOR};
-	position: relative;
+	height: 100vh;
 `;
 
 const _BackgroundContainer = styled.div`
 	background-image: url(${background});
-	height: 100vh;
 	object-fit: contain;
+	height: 100%;
 	background-size: cover;
 	background-position: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 const _Form = styled.form`
 	background: white;
-	padding: 80px 68px;
-	border-radius: 12px;
+	padding: 70px 61px;
+	border-radius: 16px;
 	display: flex;
 	flex-direction: column;
 	width: ${AUTH_FORM_WIDTH};
 	height: ${AUTH_FORM_HEIGHT};
 	border: solid 1px #d6d6d6;
-	position: absolute;
-	bottom: 264px;
-	right: 378px;
+
+	.focus {
+		border-color: ${DARK_GREEN_COLOR};
+		outline: 0 none;
+	}
 `;
 const _Input = styled.input`
 	flex: 1;
@@ -79,30 +86,31 @@ const _PasswordInput = styled(_Input)`
 	border: none;
 `;
 
-const _LogoSpan = styled.span`
+const _Title = styled.span`
 	font-family: Roboto;
 	font-size: ${LOGIN_LOGO_FONTSIZE};
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
-	margin-bottom: 22px;
+	margin: 0px 8px 20px 8px;
 `;
 
 const _Span = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
-	margin-bottom: 44px;
+	margin: 0px 8px 52px 8px;
 
 	a {
 		color: ${DARK_GREEN_COLOR};
+		text-decoration: underline;
 	}
 `;
 
 const _SignInButton = styled(PrimaryButton)`
 	height: ${FOLDER_HEIGHT};
 	padding: 20px;
-	width: 100%;
-	background: ${DARK_GREEN_COLOR};
-	margin: 0px;
+	width: 360px;
+	background: ${GREEN_COLOR};
+	margin: 0px auto 39px;
 `;
 
 const _CheckboxAnchorContainer = styled.div`
@@ -110,12 +118,16 @@ const _CheckboxAnchorContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	font-size: ${AVOCADO_FONTSIZE};
-	margin-bottom: 40px;
+	margin: 0px 8px 40px 8px;
 
 	a {
 		color: ${ANCHOR_GRAY_COLOR};
 		text-decoration: underline;
 	}
+`;
+
+const _OAuthContainer = styled.div`
+	margin: 8px;
 `;
 
 const UserAuthForm = () => {
@@ -151,6 +163,15 @@ const UserAuthForm = () => {
 		[visible],
 	);
 
+	const focusin = useCallback(() => {
+		const passwordContainer = document.getElementById('password_container');
+		passwordContainer.classList.add('focus');
+	}, []);
+	const focusout = useCallback(() => {
+		const passwordContainer = document.getElementById('password_container');
+		passwordContainer.classList.remove('focus');
+	}, []);
+
 	useEffect(() => {
 		emailRef.current?.focus();
 	}, []);
@@ -159,12 +180,12 @@ const UserAuthForm = () => {
 		<_Container>
 			<_BackgroundContainer>
 				<_Form onSubmit={onSubmitForm}>
-					<_LogoSpan>Sign in to Avocado</_LogoSpan>
+					<_Title>Sign in to Avocado</_Title>
 					<_Span>
 						Don’t have an account? <a href='/'> sign up now </a>
 					</_Span>
 
-					<Input_ title={'Email'}>
+					<Input_>
 						<_Input
 							ref={emailRef}
 							value={user}
@@ -173,9 +194,11 @@ const UserAuthForm = () => {
 							placeholder={'Email'}
 						/>
 					</Input_>
-					<Input_ title={'Password'}>
-						<_PasswordContainer>
+					<Input_>
+						<_PasswordContainer id={'password_container'}>
 							<_PasswordInput
+								onFocus={focusin}
+								onBlur={focusout}
 								type={visible ? 'password' : 'text'}
 								value={password}
 								color={password === '' ? BORDER_COLOR : 'black'}
@@ -204,6 +227,8 @@ const UserAuthForm = () => {
 						<a href='#'>Forget Password?</a>
 					</_CheckboxAnchorContainer>
 					<_SignInButton type='submit'>Sign in</_SignInButton>
+					<_OAuthContainer>oauth</_OAuthContainer>
+					<_OAuthContainer>oauth</_OAuthContainer>
 				</_Form>
 			</_BackgroundContainer>
 		</_Container>

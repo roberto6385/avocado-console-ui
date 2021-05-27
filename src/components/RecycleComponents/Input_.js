@@ -20,14 +20,14 @@ const _Container = styled.div`
 const Input_ = ({title, children, flex}) => {
 	return (
 		<_Container flex={flex}>
-			<_Span>{title}</_Span>
+			{title && <_Span>{title}</_Span>}
 			{children}
 		</_Container>
 	);
 };
 
 Input_.propTypes = {
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	children: PropTypes.element.isRequired,
 	flex: PropTypes.number,
 };

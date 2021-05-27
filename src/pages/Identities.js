@@ -12,7 +12,7 @@ const Identities = () => {
 
 	useEffect(() => {
 		if (!userTicket) {
-			history.push('/login');
+			history.push('/signin');
 		}
 	}, [userTicket]);
 

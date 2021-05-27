@@ -5,9 +5,13 @@ import UserAuthForm from '../components/Form/UserAuthForm';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
-const _Container = styled.div``;
+const _Container = styled.div`
+	height: 100vh;
+	width: 100%;
+	position: relative;
+`;
 
-const Login = () => {
+const Password = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const history = useHistory();
 
@@ -22,4 +26,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Password;

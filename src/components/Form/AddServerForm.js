@@ -68,7 +68,7 @@ const _Title = styled.div`
 	line-height: ${FOLDER_HEIGHT};
 `;
 
-const Input = styled.input`
+const _Input = styled.input`
 	width: ${SERVER_FORM_INPUT_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
@@ -82,7 +82,7 @@ const BrowseButton = styled(SecondaryButtonGreen)`
 	margin: 10px 8px 0px 8px;
 `;
 
-const LongInput = styled(Input)`
+const LongInput = styled(_Input)`
 	width: 100%;
 `;
 
@@ -320,8 +320,7 @@ const AddServerForm = () => {
 					</Input_>
 
 					<Input_ title={'Port'}>
-						<Input
-							width={'178px'}
+						<_Input
 							value={port}
 							onChange={onChangePort}
 							placeholder={'Port'}
