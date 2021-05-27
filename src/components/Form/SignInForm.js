@@ -18,31 +18,15 @@ import {
 	LOGIN_LOGO_FONTSIZE,
 	PrimaryButton,
 } from '../../styles/global';
-import background from '../../images/login.png';
 import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
-
-const _Container = styled.div`
-	background: ${DARK_GREEN_COLOR};
-	height: 100vh;
-`;
-
-const _BackgroundContainer = styled.div`
-	background-image: url(${background});
-	object-fit: contain;
-	height: 100%;
-	background-size: cover;
-	background-position: center;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
 
 const _Form = styled.form`
 	background: white;
 	padding: 70px 61px;
 	border-radius: 16px;
+	caret-color: black;
+
 	display: flex;
 	flex-direction: column;
 	width: ${AUTH_FORM_WIDTH};
@@ -57,7 +41,7 @@ const _Form = styled.form`
 const _Input = styled.input`
 	flex: 1;
 	height: ${FOLDER_HEIGHT};
-	font-size: 16px;
+	font-size: 14px;
 	padding: 10px;
 	border-radius: 4px;
 	border: 1px solid ${BORDER_COLOR};
@@ -130,7 +114,7 @@ const _OAuthContainer = styled.div`
 	margin: 8px;
 `;
 
-const UserAuthForm = () => {
+const SignInForm = () => {
 	const dispatch = useDispatch();
 	const [user, onChangeUser] = useInput('web');
 	const [password, onChangePassword] = useInput('123456789');
@@ -177,64 +161,58 @@ const UserAuthForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Container>
-			<_BackgroundContainer>
-				<_Form onSubmit={onSubmitForm}>
-					<_Title>Sign in to Avocado</_Title>
-					<_Span>
-						Don’t have an account? <a href='/'> sign up now </a>
-					</_Span>
+		<_Form onSubmit={onSubmitForm}>
+			<_Title>Sign in to Avocado</_Title>
+			<_Span>
+				Don’t have an account? <a href={'/signup'}> sign up now </a>
+			</_Span>
 
-					<Input_>
-						<_Input
-							ref={emailRef}
-							value={user}
-							color={user === '' ? BORDER_COLOR : 'black'}
-							onChange={onChangeUser}
-							placeholder={'Email'}
-						/>
-					</Input_>
-					<Input_>
-						<_PasswordContainer id={'password_container'}>
-							<_PasswordInput
-								onFocus={focusin}
-								onBlur={focusout}
-								type={visible ? 'password' : 'text'}
-								value={password}
-								color={password === '' ? BORDER_COLOR : 'black'}
-								onChange={onChangePassword}
-								placeholder={'Password'}
-							/>
-							<IconButton onClick={typeChange}>
-								{visible ? (
-									<span className='material-icons'>
-										visibility
-									</span>
-								) : (
-									<span className='material-icons'>
-										visibility_off
-									</span>
-								)}
-							</IconButton>
-						</_PasswordContainer>
-					</Input_>
-					<_CheckboxAnchorContainer>
-						<Checkbox_
-							title={'Remember Password'}
-							value={rememberPassword}
-							setValue={setRememberPassword}
-						/>
-						<a href='#'>Forget Password?</a>
-					</_CheckboxAnchorContainer>
-					<_SignInButton type='submit'>Sign in</_SignInButton>
-					<_OAuthContainer>oauth</_OAuthContainer>
-					<_OAuthContainer>oauth</_OAuthContainer>
-				</_Form>
-			</_BackgroundContainer>
-		</_Container>
+			<Input_>
+				<_Input
+					ref={emailRef}
+					value={user}
+					color={user === '' ? BORDER_COLOR : 'black'}
+					onChange={onChangeUser}
+					placeholder={'Email'}
+				/>
+			</Input_>
+			<Input_>
+				<_PasswordContainer id={'password_container'}>
+					<_PasswordInput
+						onFocus={focusin}
+						onBlur={focusout}
+						type={visible ? 'password' : 'text'}
+						value={password}
+						color={password === '' ? BORDER_COLOR : 'black'}
+						onChange={onChangePassword}
+						placeholder={'Password'}
+					/>
+					<IconButton onClick={typeChange}>
+						{visible ? (
+							<span className='material-icons'>visibility</span>
+						) : (
+							<span className='material-icons'>
+								visibility_off
+							</span>
+						)}
+					</IconButton>
+				</_PasswordContainer>
+			</Input_>
+			<_CheckboxAnchorContainer>
+				<Checkbox_
+					title={'Remember Password'}
+					value={rememberPassword}
+					setValue={setRememberPassword}
+				/>
+				<a href={'/password'}>Forget Password?</a>
+			</_CheckboxAnchorContainer>
+			<_SignInButton type='submit'>Sign in</_SignInButton>
+			<_OAuthContainer>oauth 는 확정 이후 디자인</_OAuthContainer>
+			<_OAuthContainer>oauth</_OAuthContainer>
+		</_Form>
 	) : (
 		<div>loading...</div>
 	);
 };
 
-export default UserAuthForm;
+export default SignInForm;
