@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {IoCloseOutline} from 'react-icons/all';
-import {CLOSE_CONFIRM_POPUP} from '../../reducers/popup';
+import {CLOSE_CONFIRM_POPUP, OPEN_ALERT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
 import {
 	ACCOUT_CONTROL_ID,
@@ -136,6 +136,20 @@ const FORM_KEYWORDS = [
 	'new_folder',
 ];
 
+const isValidFolderName = (folderArray, name) => {
+	let pass = true;
+
+	for (let i of folderArray) {
+		if (i.type === 'folder') {
+			if (i.name === name) return false;
+			else if (i.contain.length > 0) {
+				pass = pass && isValidFolderName(i.contain, name);
+			}
+		}
+	}
+	return pass;
+};
+
 const ConfirmPopup = () => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
@@ -144,6 +158,7 @@ const ConfirmPopup = () => {
 		clicked_server,
 		accountListControlId,
 		accountCheckList,
+		nav,
 	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -331,8 +346,13 @@ const ConfirmPopup = () => {
 					break;
 
 				case 'new_folder':
-					formValue !== '' &&
+					if (formValue !== '' && isValidFolderName(nav, formValue)) {
 						dispatch({type: ADD_FOLDER, data: formValue});
+					} else
+						dispatch({
+							type: OPEN_ALERT_POPUP,
+							data: 'folder_name_duplicate',
+						});
 					break;
 
 				default:
@@ -347,6 +367,7 @@ const ConfirmPopup = () => {
 			dispatch,
 			formValue,
 			sftp,
+			nav,
 		],
 	);
 	//when form is open, fill in pre-value and focus and select it

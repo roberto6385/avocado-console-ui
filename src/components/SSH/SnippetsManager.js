@@ -9,7 +9,7 @@ import {SSHT_CHANGE_SNIPPET} from '../../reducers/ssht';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
-	DefaultButton,
+	BorderButton,
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
 	ICON_DARK_COLOR,
@@ -338,7 +338,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 				</_Form>
 			</_ListContainer>
 			<_Footer>
-				<DefaultButton onClick={onClickCancel}>Cancel</DefaultButton>
+				<BorderButton onClick={onClickCancel}>Cancel</BorderButton>
 				<PrimaryButton onClick={onClickSubmit}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
