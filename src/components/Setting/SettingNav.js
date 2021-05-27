@@ -3,11 +3,21 @@ import styled from 'styled-components';
 import {
 	BORDER_COLOR,
 	FOLDER_HEIGHT,
+	ICON_MINT_COLOR,
+	IconContainer,
+	BACKGROUND_MINT_COLOR,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
 } from '../../styles/global';
 
-import {useHistory} from 'react-router-dom';
+import {useHistory, withRouter} from 'react-router-dom';
+import {
+	accountIconMidium,
+	chevronLeftIcon,
+	identityIconMidium,
+	settingIconMidium,
+} from '../../icons/icons';
+import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	display: flex;
@@ -40,9 +50,10 @@ const _Li = styled.li`
 	padding: 10px 16px;
 	height: ${FOLDER_HEIGHT};
 	cursor: pointer;
+	background: ${(props) => props.back};
 `;
 
-const SettingNav = () => {
+const SettingNav = ({match}) => {
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -52,29 +63,71 @@ const SettingNav = () => {
 		[],
 	);
 
+	console.log(match);
+
 	return (
 		<_Container>
 			<_BackContainer onClick={changePath('/')}>
-				<span className='material-icons button_large'>
-					chevron_left
-				</span>
+				{chevronLeftIcon}
 				<_Span>Back</_Span>
 			</_BackContainer>
 			<_Ul>
-				<_Li onClick={changePath('/account')}>
-					<span className='material-icons button_midium'>person</span>
+				<_Li
+					onClick={changePath('/account')}
+					back={
+						match.path === '/account'
+							? BACKGROUND_MINT_COLOR
+							: undefined
+					}
+				>
+					<IconContainer
+						color={
+							match.path === '/account'
+								? ICON_MINT_COLOR
+								: undefined
+						}
+					>
+						{accountIconMidium}
+					</IconContainer>
 					<_Span>Account</_Span>
 				</_Li>
-				<_Li onClick={changePath('/preferences')}>
-					<span className='material-icons button_midium'>
-						settings
-					</span>
+				<_Li
+					onClick={changePath('/preferences')}
+					back={
+						match.path === '/preferences'
+							? BACKGROUND_MINT_COLOR
+							: undefined
+					}
+				>
+					<IconContainer
+						color={
+							match.path === '/preferences'
+								? ICON_MINT_COLOR
+								: undefined
+						}
+					>
+						{settingIconMidium}
+					</IconContainer>
+
 					<_Span>Preferences</_Span>
 				</_Li>
-				<_Li onClick={changePath('/identities')}>
-					<span className='material-icons button_midium'>
-						assignment_ind
-					</span>
+				<_Li
+					onClick={changePath('/identities')}
+					back={
+						match.path === '/identities'
+							? BACKGROUND_MINT_COLOR
+							: undefined
+					}
+				>
+					<IconContainer
+						color={
+							match.path === '/identities'
+								? ICON_MINT_COLOR
+								: undefined
+						}
+					>
+						{identityIconMidium}
+					</IconContainer>
 					<_Span>Identity</_Span>
 				</_Li>
 			</_Ul>
@@ -82,4 +135,8 @@ const SettingNav = () => {
 	);
 };
 
-export default SettingNav;
+SettingNav.propTypes = {
+	match: PropTypes.object,
+};
+
+export default withRouter(SettingNav);

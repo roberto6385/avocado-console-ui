@@ -43,9 +43,7 @@ ul {
 }
 
 /* button size */
-.button_large {
-	font-size: 24px;
-}
+/*기본 버튼 사이즈가 24px 이라서 className을 부여하지 않아도 됨*/
 .button_midium {
 	font-size: 20px;
 }

@@ -13,7 +13,7 @@ import {
 import {formatByteSizeString} from '../listConversion';
 import {
 	GREEN_COLOR,
-	SERVER_HOVER_COLOR,
+	BACKGROUND_MINT_COLOR,
 	Span,
 	BORDER_COLOR,
 	IconButton,
@@ -295,7 +295,7 @@ const HistoryContents = ({uuid}) => {
 								back={
 									history_highlight.find(
 										(item) => item === history,
-									) && SERVER_HOVER_COLOR
+									) && BACKGROUND_MINT_COLOR
 								}
 								borderWidth={`${history.progress}%`}
 							>

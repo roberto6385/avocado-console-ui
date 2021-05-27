@@ -15,7 +15,7 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
 import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
-	SERVER_HOVER_COLOR,
+	BACKGROUND_MINT_COLOR,
 	Span,
 	LIGHT_MODE_BACK_COLOR,
 	FOLDER_HEIGHT,
@@ -157,7 +157,7 @@ const Server = ({data, indent}) => {
 				onContextMenu={contextMenuOpen}
 				back={
 					clicked_server === data.key
-						? SERVER_HOVER_COLOR
+						? BACKGROUND_MINT_COLOR
 						: LIGHT_MODE_BACK_COLOR
 				}
 				border={

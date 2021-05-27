@@ -13,6 +13,7 @@ import {
 } from '../../../styles/global';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {deleteIconMidium} from '../../../icons/icons';
 
 const _Li = styled.li`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -94,17 +95,13 @@ const IdentitiesAside = () => {
 								<_Span>{item.type}</_Span>
 							</_AuthenticationContainer>
 							<_ButtonContainer>
-								<IconButton>
-									<span className='material-icons button_midium'>
-										delete
-									</span>
-								</IconButton>
+								<IconButton>{deleteIconMidium}</IconButton>
 							</_ButtonContainer>
 						</_Li>
 					);
 				})}
 			</ul>
-			<_Button onClick={changePath('/account')}>
+			<_Button onClick={changePath('/identities')}>
 				Edit more account settings
 			</_Button>
 		</_Container>

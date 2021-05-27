@@ -7,9 +7,10 @@ import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_INPUT_WIDTH,
 	BORDER_COLOR,
-	GREEN_COLOR,
+	DefaultButton,
 	LIGHT_BACKGROUND_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
+	PrimaryButton,
 	SUB_HEIGHT,
 	TAB_WIDTH,
 } from '../../styles/global';
@@ -26,7 +27,9 @@ const _Container = styled.div`
 const _Title = styled.div`
 	display: flex;
 	align-items: center;
+	margin: 0px 8px;
 	height: ${SUB_HEIGHT};
+	min-height: ${SUB_HEIGHT};
 	border-bottom: 1px solid ${BORDER_COLOR};
 `;
 
@@ -45,10 +48,13 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _Button = styled(_Input)`
-	// position: absolute;
-	// right: 520px;
-	// top: 27px;
+const _PrimaryButton = styled(PrimaryButton)`
+	margin-top: 8px;
+	width: ${TAB_WIDTH};
+`;
+const _DisabledButton = styled(DefaultButton)`
+	margin-top: 8px;
+	width: ${TAB_WIDTH};
 `;
 
 const _Section = styled.section`
@@ -125,14 +131,18 @@ const AccountSpace = () => {
 						setValue={setAuthType}
 						width={ACCOUNT_INPUT_WIDTH}
 					/>
-					<_Button
-						onClick={() => setOpen(true)}
-						type='button'
-						value={'Change Password'}
-						back={GREEN_COLOR}
-						color={'white'}
-						width={TAB_WIDTH}
-					/>
+					{authType === 'first_option' ? (
+						<_PrimaryButton
+							onClick={() => setOpen(true)}
+							// disabled
+						>
+							Change Password
+						</_PrimaryButton>
+					) : (
+						<_DisabledButton onClick={() => setOpen(true)} disabled>
+							Change Password
+						</_DisabledButton>
+					)}
 				</_Section>
 
 				<Radio_

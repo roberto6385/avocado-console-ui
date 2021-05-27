@@ -11,6 +11,7 @@ import {
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
+import {closeIconMedium} from '../../icons/icons';
 
 const _Container = styled.div`
 	display: none;
@@ -51,7 +52,7 @@ const AsideContainer = () => {
 			<_Header>
 				{rightSideKey}
 				<_IconButton onClick={close_sidebar}>
-					<span className='material-icons button_midium'>close</span>
+					{closeIconMedium}
 				</_IconButton>
 			</_Header>
 			{rightSideKey === 'Preferences' && <PreferencesAside />}

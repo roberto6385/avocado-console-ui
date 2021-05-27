@@ -35,6 +35,7 @@ import {
 
 const _Container = styled.div`
 	display: flex;
+	flex: 1;
 	overflow: scroll;
 	font-size: 14px;
 `;
@@ -50,8 +51,9 @@ export const _ItemContainer = styled.div`
 const _Ul = styled.ul`
 	${PreventDragCopy}
 	${HiddenScroll}
+	height: 100%;
 
-	width:${(props) => props.width};
+	width: ${(props) => props.width};
 	min-width: 250px;
 	list-style: none;
 	overflow-y: scroll;

@@ -30,6 +30,13 @@ const _Svg = styled.svg`
 `;
 
 const _Container = styled.div`
+	padding: 7px 8px;
+	.pretty.p-curve .state label:after,
+	.pretty.p-curve .state label:before {
+		border-radius: 20%;
+		background: white;
+		border: 1px solid;
+	}
 	.pretty.p-default.p-round {
 		z-index: 0;
 	}

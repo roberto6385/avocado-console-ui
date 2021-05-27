@@ -10,11 +10,11 @@ import {
 import {useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
-	padding: 15px 16px;
+	padding: 15px 8px;
 `;
 
 const _Input = styled.input`
-	width: ${ACCOUNT_BUTTON_WIDTH};
+	width: 100%;
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;

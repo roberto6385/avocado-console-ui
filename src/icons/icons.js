@@ -1,6 +1,7 @@
 import React from 'react';
 import {ICON_GRAY_COLOR, IconButton} from '../styles/global';
 
+// sftp file icon
 export const fileIcon = (
 	// eslint-disable-next-line react/react-in-jsx-scope
 	<svg
@@ -15,10 +16,10 @@ export const fileIcon = (
 	</svg>
 );
 
+// nav - folder,server icon
 export const dnsIconMidium = (
 	<span className='material-icons button_midium'>dns</span>
 );
-
 export const folderOpenIcon = (
 	<span className='material-icons '>folder_open</span>
 );
@@ -29,40 +30,34 @@ export const folderIcon = <span className='material-icons '>folder</span>;
 export const folderIconMidium = (
 	<span className='material-icons button_midium'>folder</span>
 );
-
-export const windowIcon = <span className='material-icons'>window</span>;
-
-export const settingIcon = <span className='material-icons'>settings</span>;
-
-export const accountIcon = <span className='material-icons'>person</span>;
-
-export const notificationIcon = (
-	<span className='material-icons'>notifications</span>
-);
-
-export const plusIcon = <span className='material-icons'>add</span>;
-
-export const burgerMenuIcon = <span className='material-icons '>menu</span>;
-
-export const newFolderIcon = (
-	<span className='material-icons '>create_new_folder</span>
-);
-
-export const searchIcon = <span className='material-icons'>search</span>;
-export const searchIconMicro = (
-	<span className='material-icons button_micro'>search</span>
-);
-
-export const arrowDropDownIconMidium = (
-	<span className='material-icons button_midium'>arrow_drop_down</span>
-);
-export const arrowDropUpIconMidium = (
-	<span className='material-icons button_midium'>arrow_drop_up</span>
-);
 export const arrowRightIconMidium = (
 	<span className='material-icons button_midium'>arrow_right</span>
 );
 
+// right corner and setting icon
+export const windowIcon = <span className='material-icons'>window</span>;
+export const settingIcon = <span className='material-icons'>settings</span>;
+export const settingIconMidium = (
+	<span className='material-icons button_midium'>settings</span>
+);
+export const accountIcon = <span className='material-icons'>person</span>;
+export const accountIconMidium = (
+	<span className='material-icons button_midium'>person</span>
+);
+export const chevronLeftIcon = (
+	<span className='material-icons '>chevron_left</span>
+);
+export const identityIconMidium = (
+	<span className='material-icons button_midium'>assignment_ind</span>
+);
+export const notificationIcon = (
+	<span className='material-icons'>notifications</span>
+);
+
+// basic plus icon
+export const plusIcon = <span className='material-icons'>add</span>;
+
+// basic close icon
 export const closeIconSmall = (
 	<span className='material-icons button_small'>close</span>
 );
@@ -70,11 +65,29 @@ export const closeIconMedium = (
 	<span className='material-icons button_midium'>close</span>
 );
 
-export const sftpIconSmall = (
-	<span className='material-icons button_small'>swap_vert</span>
+// trash can icon
+export const deleteIcon = <span className='material-icons '>delete</span>;
+export const deleteIconMidium = (
+	<span className='material-icons button_midium'>delete</span>
 );
-export const sftpIcon = <span className='material-icons '>swap_vert</span>;
 
+// nav - bars icon
+export const burgerMenuIcon = <span className='material-icons '>menu</span>;
+// nav - new folder
+export const newFolderIcon = (
+	<span className='material-icons '>create_new_folder</span>
+);
+// nav and footer search icon
+export const searchIcon = <span className='material-icons'>search</span>;
+export const searchIconMicro = (
+	<span className='material-icons button_micro'>search</span>
+);
+export const arrowDropDownIconMidium = (
+	<span className='material-icons button_midium'>arrow_drop_down</span>
+);
+export const arrowDropUpIconMidium = (
+	<span className='material-icons button_midium'>arrow_drop_up</span>
+);
 export const zoomInIconMicro = (
 	<span className='material-icons button_micro'>zoom_in</span>
 );
@@ -82,37 +95,50 @@ export const zoomOutIconMicro = (
 	<span className='material-icons button_micro'>zoom_out</span>
 );
 
+// sftp terminal icon (현재는 터미널 아이콘 없음)
+export const sftpIconSmall = (
+	<span className='material-icons button_small'>swap_vert</span>
+);
+export const sftpIcon = <span className='material-icons '>swap_vert</span>;
+
 export const snippetIcon = (
 	<span className='material-icons '>text_snippet</span>
 );
-
 export const fullScreenIcon = (
 	<span className='material-icons '>fullscreen</span>
 );
 
-export const deleteIcon = <span className='material-icons '>delete</span>;
-export const deleteIconMidium = (
-	<span className='material-icons button_midium'>delete</span>
-);
+// edit - nav save icon
 
 export const saveIcon = <span className='material-icons '>save</span>;
-
-export const fileDownloadIcon = (
-	<span className='material-icons '>file_download</span>
-);
-
-export const fileUploadIcon = (
-	<span className='material-icons '>file_upload</span>
-);
 
 export const squareDeleteIcon = (
 	<span className='material-icons '>disabled_by_default</span>
 );
 
+// upload download icon
+export const fileDownloadIcon = (
+	<span className='material-icons '>file_download</span>
+);
+export const fileUploadIcon = (
+	<span className='material-icons '>file_upload</span>
+);
+
+// filelist nav 상위경로, drop, list, refresh 아이콘
+export const arrowUpwordIcon = (
+	<span className='material-icons '>arrow_upward</span>
+);
+export const viewListIcon = <span className='material-icons '>view_list</span>;
+export const viewColumnIcon = (
+	<span className='material-icons '>view_column</span>
+);
+export const refreshIcon = <span className='material-icons '>refresh</span>;
+export const homeIcon = <span className='material-icons '>home</span>;
+
+// history icon
 export const pauseCircleIconSmall = (
 	<span className='material-icons button_small'>pause_circle_outline</span>
 );
-
 export const arrowCircleUpIconSmall = (
 	<span className='material-icons button_small'>arrow_circle_up</span>
 );
@@ -126,16 +152,5 @@ export const removeCircleIconSmall = (
 	<span className='material-icons button_small'>remove_circle_outline</span>
 );
 
-export const viewColumnIcon = (
-	<span className='material-icons '>view_column</span>
-);
-
-export const viewListIcon = <span className='material-icons '>view_list</span>;
-
-export const arrowUpwordIcon = (
-	<span className='material-icons '>arrow_upward</span>
-);
-
-export const refreshIcon = <span className='material-icons '>refresh</span>;
-export const homeIcon = <span className='material-icons '>home</span>;
+// edit icon
 export const editIcon = <span className='material-icons '>edit</span>;

@@ -14,14 +14,14 @@ import {SSH_SET_FONT} from '../../../reducers/ssht';
 import {useDispatch} from 'react-redux';
 
 const _P = styled.p`
-	padding: 0px 0px 12px 0px;
-	margin: 0px 0px 16px 0px;
+	padding: 0px 0px 12px;
+	margin: 0px 8px 16px;
 	border-bottom: 1px solid ${BORDER_COLOR};
 	font-size: ${SIXTEEN};
 `;
 
 const _SectionContainer = styled.div`
-	padding: 16px;
+	padding: 16px 8px;
 `;
 
 const background_theme = [

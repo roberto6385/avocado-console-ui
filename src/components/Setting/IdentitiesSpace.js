@@ -25,6 +25,7 @@ import {
 } from '../../reducers/common';
 import {useContextMenu} from 'react-contexify';
 import AccountContextMenu from '../ContextMenu/AccountContextMenu';
+import {deleteIcon, plusIcon} from '../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -258,9 +259,7 @@ const IdentitiesSpace = () => {
 					<_Li className={'weight_bold'}>
 						<_ResourceName>Resource List</_ResourceName>
 						<IconButton color={FONT_COLOR} onClick={newServer}>
-							<span className='material-icons button_large'>
-								add
-							</span>
+							{plusIcon}
 						</IconButton>
 					</_Li>
 					<_Li className={'weight_bold'}>
@@ -302,15 +301,11 @@ const IdentitiesSpace = () => {
 								color={FONT_COLOR}
 								onClick={onClickVisibleAddAccountForm}
 							>
-								<span className='material-icons button_large'>
-									add
-								</span>
+								{plusIcon}
 							</IconButton>
 
 							<IconButton onClick={deleteAccount}>
-								<span className='material-icons button_large'>
-									delete
-								</span>
+								{deleteIcon}
 							</IconButton>
 						</div>
 					</_Li>

@@ -12,7 +12,7 @@ import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {
 	GREEN_COLOR,
-	SERVER_HOVER_COLOR,
+	BACKGROUND_MINT_COLOR,
 	IconButton,
 	Span,
 	LIGHT_MODE_BACK_COLOR,
@@ -155,7 +155,7 @@ const Folder = ({open, data, indent}) => {
 				}
 				back={
 					clicked_server === data.key
-						? SERVER_HOVER_COLOR
+						? BACKGROUND_MINT_COLOR
 						: LIGHT_MODE_BACK_COLOR
 				}
 				left={(indent * 6 + 10).toString() + 'px'}

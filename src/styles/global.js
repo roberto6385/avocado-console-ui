@@ -1,7 +1,6 @@
 // color
 import styled from 'styled-components';
 
-export const SERVER_HOVER_COLOR = '#e4f3f4'; // folder,server highlight color
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
@@ -13,6 +12,7 @@ export const BORDER_COLOR = '#e5e5e5';
 
 // icon color
 export const ICON_MINT_COLOR = '#4ca6a8';
+export const BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
 export const ICON_GRAY_COLOR = '#959ea1';
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
