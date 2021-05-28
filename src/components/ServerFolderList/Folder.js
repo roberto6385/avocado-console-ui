@@ -12,15 +12,19 @@ import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {
 	GREEN_COLOR,
-	BACKGROUND_MINT_COLOR,
+	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	IconButton,
 	Span,
 	LIGHT_MODE_SIDE_COLOR,
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
 	IconContainer,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
+	serverFolderBackColor,
+	sideColor,
+	fontColor,
+	iconColor,
 } from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
@@ -41,7 +45,8 @@ export const _NavItem = styled.div`
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
-	border-left: ${(props) => props.border};
+	border-left: 2px solid;
+	border-color: ${(props) => props.bColor};
 `;
 
 export const _Form = styled.form`
@@ -58,7 +63,7 @@ export const _Input = styled.input`
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server} = useSelector((state) => state.common);
+	const {clicked_server, theme} = useSelector((state) => state.common);
 
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
@@ -148,15 +153,15 @@ const Folder = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				border={
+				bColor={
 					clicked_server === data.key
-						? `2px solid ${GREEN_COLOR}`
-						: `2px solid white`
+						? MINT_COLOR
+						: sideColor[theme]
 				}
 				back={
 					clicked_server === data.key
-						? BACKGROUND_MINT_COLOR
-						: LIGHT_MODE_SIDE_COLOR
+						? serverFolderBackColor[theme]
+						: sideColor[theme]
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
@@ -171,17 +176,20 @@ const Folder = ({open, data, indent}) => {
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
-						color={ICON_MINT_COLOR}
+						color={MINT_COLOR}
 					>
 						{folderIconMidium}
 					</IconContainer>
 				) : (
-					<IconContainer margin={`0px 12px 0px 0px`}>
+					<IconContainer
+						color={iconColor[theme]}
+						margin={`0px 12px 0px 0px`}
+					>
 						{folderOpenIconMidium}
 					</IconContainer>
 				)}
 				{/*</Avocado_span>*/}
-				<Span flex={1} size={AVOCADO_FONTSIZE}>
+				<Span color={fontColor[theme]} flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<_Input

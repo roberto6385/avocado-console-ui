@@ -7,7 +7,13 @@ import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {IconButton, LIGHT_BACK_COLOR, SUB_HEIGHT} from '../../styles/global';
+import {
+	backColor,
+	IconButton,
+	LIGHT_BACK_COLOR,
+	sideColor,
+	SUB_HEIGHT,
+} from '../../styles/global';
 
 import styled from 'styled-components';
 import SSH from './SSH';
@@ -25,11 +31,13 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
+	background: ${(props) => props.back};
 `;
 
 const SSHContainer = ({uuid, server_id}) => {
 	const dispatch = useDispatch();
 	const {ssht, snippets} = useSelector((state) => state.ssht);
+	const {theme} = useSelector((state) => state.common);
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const [open, setOpen] = useState(false);
 	const [column, setColumn] = useState([]);
@@ -69,7 +77,7 @@ const SSHContainer = ({uuid, server_id}) => {
 
 	return (
 		<_Container>
-			<_Header back={LIGHT_BACK_COLOR}>
+			<_Header back={backColor[theme]}>
 				<DropdownMenu_ icon={snippetIcon} menu={column} />
 				<SFTPConvertButton server_id={server_id} />
 				<IconButton onClick={onCLickFullScreen}>

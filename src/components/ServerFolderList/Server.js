@@ -15,13 +15,17 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
-	BACKGROUND_MINT_COLOR,
+	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	Span,
 	LIGHT_MODE_SIDE_COLOR,
 	FOLDER_HEIGHT,
 	IconContainer,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
+	sideColor,
+	serverFolderBackColor,
+	iconColor,
+	fontColor,
 } from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
@@ -48,12 +52,15 @@ export const _NavItem = styled(Nav.Item)`
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
-	border-left: ${(props) => props.border};
+	border-left: 2px solid;
+	border-color: ${(props) => props.bColor};
 `;
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server} = useSelector((state) => state.common);
+	const {clicked_server, server, theme} = useSelector(
+		(state) => state.common,
+	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
@@ -155,15 +162,15 @@ const Server = ({data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
+				bColor={
+					clicked_server === data.key
+						? MINT_COLOR
+						: sideColor[theme]
+				}
 				back={
 					clicked_server === data.key
-						? BACKGROUND_MINT_COLOR
-						: LIGHT_MODE_SIDE_COLOR
-				}
-				border={
-					clicked_server === data.key
-						? `2px solid ${GREEN_COLOR}`
-						: `2px solid white`
+						? serverFolderBackColor[theme]
+						: sideColor[theme]
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
@@ -180,16 +187,19 @@ const Server = ({data, indent}) => {
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
-						color={ICON_MINT_COLOR}
+						color={MINT_COLOR}
 					>
 						{dnsIconMidium}
 					</IconContainer>
 				) : (
-					<IconContainer margin={`0px 12px 0px 0px`}>
+					<IconContainer
+						color={iconColor[theme]}
+						margin={`0px 12px 0px 0px`}
+					>
 						{dnsIconMidium}
 					</IconContainer>
 				)}
-				<Span flex={1} size={AVOCADO_FONTSIZE}>
+				<Span color={fontColor[theme]} flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<_Input

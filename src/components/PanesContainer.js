@@ -6,6 +6,7 @@ import '../styles/resize.css';
 import Pane from './Pane';
 
 import styled from 'styled-components';
+import {borderColor} from '../styles/global';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -133,11 +134,11 @@ const Panes = (tab) => {
 };
 
 const PanesContainer = () => {
-	const {tab, cols} = useSelector((state) => state.common);
+	const {tab, cols, theme} = useSelector((state) => state.common);
 	const visibleTab = tab.filter((v) => v.display === true);
 
 	return (
-		<_Container>
+		<_Container back={borderColor[theme]}>
 			{visibleTab.length <= cols ? (
 				Panes(visibleTab)
 			) : visibleTab.length <= cols * 2 ? (

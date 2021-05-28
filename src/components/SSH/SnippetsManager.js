@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	BorderButton,
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
@@ -45,7 +45,7 @@ const _Header = styled.div`
 	height: 40px;
 	font-size: ${AVOCADO_FONTSIZE};
 	padding: 2px 10px 2px 16px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	font-weight: 500;
 `;
 
@@ -76,7 +76,7 @@ const _Form = styled.form`
 	margin: 0;
 	padding: 18px 16px;
 	background-color: #ffffff;
-	border-left: 1px solid ${BORDER_COLOR};
+	border-left: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Text = styled.div`
@@ -132,7 +132,7 @@ const _Footer = styled.div`
 	margin: 1px 0 0;
 	padding: 13px 16px 13px 326px;
 	background-color: #ffffff;
-	border-top: 1px solid ${BORDER_COLOR};
+	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Input_ = styled(Input_)`

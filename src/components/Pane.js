@@ -11,7 +11,12 @@ import {
 	LIGHT_MODE_SIDE_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
+	sideColor,
+	backColor,
+	fontColor,
+	borderColor,
+	iconColor,
 } from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
@@ -36,19 +41,21 @@ const _Header = styled.div`
 	align-items: center;
 	padding: 0px 6px;
 	z-index: 1;
-	border-bottom: 1px solid ${BORDER_COLOR};
-	background: ${LIGHT_MODE_SIDE_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.bColor};
+	background: ${(props) => props.back};
 `;
 
 const _HeaderText = styled.div`
 	display: flex;
 	align-items: center;
 	font-size: ${AVOCADO_FONTSIZE};
+	color: ${(props) => props.color};
 `;
 
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab} = useSelector((state) => state.common);
+	const {tab, current_tab, theme} = useSelector((state) => state.common);
 	const {ssht} = useSelector((state) => state.ssht);
 	const {sftp} = useSelector((state) => state.sftp);
 
@@ -79,17 +86,16 @@ const Pane = ({uuid, type, server}) => {
 	return (
 		<_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<_Header>
-					<_HeaderText>
+				<_Header back={backColor[theme]} bColor={borderColor[theme]}>
+					<_HeaderText color={fontColor[theme]}>
 						{type === 'SSH' && <RiTerminalFill />}
-						{type === 'SFTP' && (
-							<span className='material-icons button_small'>
-								swap_vert
-							</span>
-						)}
+						{type === 'SFTP' && sftpIconSmall}
 						{server.name}
 					</_HeaderText>
-					<IconButton color={ICON_DARK_COLOR} onClick={onClickDelete}>
+					<IconButton
+						color={iconColor[theme]}
+						onClick={onClickDelete}
+					>
 						{closeIconSmall}
 					</IconButton>
 				</_Header>

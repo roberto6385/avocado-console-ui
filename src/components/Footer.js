@@ -2,9 +2,11 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
 	Span,
-	FOOTER_BACK_COLOR,
+	LIGHT_MODE_FOOTER_BACKGROUND_COLOR,
 	FOOTER_HEIGHT,
 	HISTORY_FONTSIZE,
+	footerColor,
+	fontColor,
 } from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -24,20 +26,30 @@ const _Footer = styled.footer`
 	justify-content: space-between;
 	align-items: center;
 	font-size: ${HISTORY_FONTSIZE};
-	background: ${FOOTER_BACK_COLOR};
+	background: ${(props) => props.back};
 	padding: 0 16px;
 `;
 
 const _Button = styled.button`
 	font-size: ${HISTORY_FONTSIZE};
+	height: 24px;
 	background: transparent;
 	border: none;
 	padding: 4px;
+	color: ${(props) => props.color};
+`;
+
+const _HostContainer = styled.div`
+	display: flex;
+	align-items: center;
+	color: ${(props) => props?.color};
 `;
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {server, tab, current_tab} = useSelector((state) => state.common);
+	const {server, tab, current_tab, theme} = useSelector(
+		(state) => state.common,
+	);
 
 	const onClickIncreaseFont = useCallback(() => {
 		dispatch({type: SSH_INCREASE_FONT_SIZE});
@@ -51,30 +63,40 @@ const Footer = () => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
 	}, [current_tab, dispatch]);
 	return (
-		<_Footer>
-			<Span size={HISTORY_FONTSIZE}>Avocado v1.0</Span>
-			<div>
-				{tab.filter((v) => v.display && v.type === 'SSH').length !==
-					0 && (
-					<>
-						<_Button onClick={onClickDeceaseFont}>
-							{zoomOutIconMicro}
-						</_Button>
-						<_Button onClick={onClickIncreaseFont}>
-							{zoomInIconMicro}
-						</_Button>
-						<_Button onClick={onClickOpenSearchBar}>
-							{searchIconMicro}
-						</_Button>
-					</>
-				)}
-				{current_tab &&
-					server.find(
-						(v) =>
-							v.id ===
-							tab.find((i) => i.uuid === current_tab)?.server.id,
-					)?.host}
-			</div>
+		<_Footer back={footerColor[theme]}>
+			<Span color={fontColor[theme]} size={HISTORY_FONTSIZE}>
+				Avocado v1.0
+			</Span>
+			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
+				<_HostContainer color={fontColor[theme]}>
+					<_Button
+						color={fontColor[theme]}
+						onClick={onClickDeceaseFont}
+					>
+						{zoomOutIconMicro}
+					</_Button>
+					<_Button
+						color={fontColor[theme]}
+						onClick={onClickIncreaseFont}
+					>
+						{zoomInIconMicro}
+					</_Button>
+					<_Button
+						color={fontColor[theme]}
+						onClick={onClickOpenSearchBar}
+					>
+						{searchIconMicro}
+					</_Button>
+
+					{current_tab &&
+						server.find(
+							(v) =>
+								v.id ===
+								tab.find((i) => i.uuid === current_tab)?.server
+									.id,
+						)?.host}
+				</_HostContainer>
+			)}
 		</_Footer>
 	);
 };

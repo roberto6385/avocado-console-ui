@@ -13,9 +13,9 @@ import {
 import {formatByteSizeString} from '../listConversion';
 import {
 	GREEN_COLOR,
-	BACKGROUND_MINT_COLOR,
+	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	Span,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	DROP_SPACE_HEIGHT,
 	EIGHTEEN,
@@ -30,7 +30,7 @@ import {
 	THIRD_HEIGHT,
 	IconContainer,
 	LIGHT_MODE_ICON_COLOR,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -45,7 +45,7 @@ import {
 const DropSpaceDiv = styled.div`
 	height: ${DROP_SPACE_HEIGHT};
 	margin: 8px;
-	border: 1px dashed ${BORDER_COLOR};
+	border: 1px dashed ${LIGHT_MODE_BORDER_COLOR};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -72,7 +72,7 @@ const _Li = styled.li`
 	align-items: center;
 	background: ${(props) => props.back};
 	white-space: nowrap;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const DropSpace_Button = styled.button`
@@ -295,7 +295,7 @@ const HistoryContents = ({uuid}) => {
 								back={
 									history_highlight.find(
 										(item) => item === history,
-									) && BACKGROUND_MINT_COLOR
+									) && LIGHT_MODE_BACKGROUND_MINT_COLOR
 								}
 								borderWidth={`${history.progress}%`}
 							>
@@ -306,7 +306,7 @@ const HistoryContents = ({uuid}) => {
 									color={
 										history.progress !== 100
 											? LIGHT_MODE_ICON_COLOR
-											: ICON_MINT_COLOR
+											: MINT_COLOR
 									}
 								>
 									{history.progress !== 100

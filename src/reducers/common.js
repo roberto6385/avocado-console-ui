@@ -9,7 +9,7 @@ export const initialState = {
 	server_index: 4,
 	folder_index: 5,
 	rightSideKey: '',
-	theme: 'light', // or dark우선 redux로 구현
+	theme: 1, // light === 0  and dark === 1 우선 redux로 구현
 	nav: [
 		{
 			type: 'folder',
@@ -328,6 +328,7 @@ export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
 export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
+export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -666,6 +667,10 @@ const reducer = (state = initialState, action) => {
 
 			case ACCOUT_CHECKLIST:
 				draft.accountCheckList = action.payload.check;
+				break;
+
+			case CHANGE_GENERAL_THEME:
+				draft.theme = action.payload.theme;
 				break;
 			case OPEN_TAB: {
 				//fill in new tab info

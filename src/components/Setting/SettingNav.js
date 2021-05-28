@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	IconContainer,
-	BACKGROUND_MINT_COLOR,
+	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
 } from '../../styles/global';
@@ -24,7 +24,7 @@ const _Container = styled.div`
 	flex-direction: column;
 	width: ${SIDE_WIDTH};
 	min-width: ${SIDE_WIDTH};
-	border-right: 1px solid ${BORDER_COLOR};
+	border-right: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _BackContainer = styled.div`
@@ -32,7 +32,7 @@ const _BackContainer = styled.div`
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	padding: 0px 16px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	cursor: pointer;
 `;
 
@@ -76,14 +76,14 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/account')}
 					back={
 						match.path === '/account'
-							? BACKGROUND_MINT_COLOR
+							? LIGHT_MODE_BACKGROUND_MINT_COLOR
 							: undefined
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/account'
-								? ICON_MINT_COLOR
+								? MINT_COLOR
 								: undefined
 						}
 					>
@@ -95,14 +95,14 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/preferences')}
 					back={
 						match.path === '/preferences'
-							? BACKGROUND_MINT_COLOR
+							? LIGHT_MODE_BACKGROUND_MINT_COLOR
 							: undefined
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/preferences'
-								? ICON_MINT_COLOR
+								? MINT_COLOR
 								: undefined
 						}
 					>
@@ -115,14 +115,14 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/identities')}
 					back={
 						match.path === '/identities'
-							? BACKGROUND_MINT_COLOR
+							? LIGHT_MODE_BACKGROUND_MINT_COLOR
 							: undefined
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/identities'
-								? ICON_MINT_COLOR
+								? MINT_COLOR
 								: undefined
 						}
 					>

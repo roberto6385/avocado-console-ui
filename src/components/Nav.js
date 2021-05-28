@@ -13,14 +13,15 @@ import {
 	SEARCH_INPUT_WIDTH,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	DefaultButton,
 	IconContainer,
 	DARK_MODE_SIDE_COLOR,
 	LIGHT_MODE_SIDE_COLOR,
-	backgroundTheme,
+	sideColor,
 	fontColor,
 	iconColor,
+	borderColor,
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -41,7 +42,8 @@ const _Aside = styled.aside`
 	flex-direction: column;
 	width: ${SIDE_WIDTH};
 	min-width: ${SIDE_WIDTH};
-	border-right: 1px solid ${BORDER_COLOR};
+	border-right: 1px solid;
+	border-color: ${(props) => props.bColor};
 `;
 
 const _Header = styled.div`
@@ -57,7 +59,8 @@ const _AddFolerServerContainer = styled.div`
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	padding: 16px 10px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.bColor};
 	background: ${(props) => props.back};
 `;
 const _Form = styled.form`
@@ -65,7 +68,9 @@ const _Form = styled.form`
 	align-items: center;
 	padding: 16px 10px;
 	height: ${THIRD_HEIGHT};
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.bColor};
+	background: ${(props) => props.back};
 `;
 
 const _HeaderSpan = styled.span`
@@ -85,7 +90,8 @@ const _Input = styled.input`
 	border: none;
 	font-size: 14px;
 	padding: 0px;
-	color: ${ICON_DARK_COLOR};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 `;
 
 const _OpenButton = styled(DefaultButton)`
@@ -104,6 +110,7 @@ const _HideSpace = styled.div`
 	align-items: center;
 	position: relative;
 	width: 47px;
+	background: ${(props) => props?.back};
 `;
 
 const Nav = () => {
@@ -127,12 +134,8 @@ const Nav = () => {
 	}, [dispatch]);
 
 	return toggle ? (
-		<_Aside>
-			<_Header
-				back={
-					theme === 'light' ? backgroundTheme[0] : backgroundTheme[1]
-				}
-			>
+		<_Aside bColor={borderColor[theme]}>
+			<_Header back={sideColor[theme]}>
 				<IconButton
 					color={theme === 'light' ? iconColor[0] : iconColor[1]}
 					onClick={() => setToggle(!toggle)}
@@ -142,36 +145,34 @@ const Nav = () => {
 				<_HeaderSpan>Avocado</_HeaderSpan>
 			</_Header>
 			<_AddFolerServerContainer
-				back={
-					theme === 'light' ? backgroundTheme[0] : backgroundTheme[1]
-				}
+				back={sideColor[theme]}
+				bColor={borderColor[theme]}
 			>
-				<IconButton
-					color={theme === 'light' ? fontColor[0] : fontColor[1]}
-					onClick={newServer}
-				>
+				<IconButton color={fontColor[theme]} onClick={newServer}>
 					{plusIcon}
 				</IconButton>
-				<_NewServerSpan
-					color={theme === 'light' ? fontColor[0] : fontColor[1]}
-				>
+				<_NewServerSpan color={fontColor[theme]}>
 					New Server
 				</_NewServerSpan>
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
-			<_Form>
-				<IconContainer margin={'6px'}>{searchIcon}</IconContainer>
+			<_Form back={sideColor[theme]} bColor={borderColor[theme]}>
+				<IconContainer color={iconColor[theme]} margin={'6px'}>
+					{searchIcon}
+				</IconContainer>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}
 					type='text'
 					placeholder={'Search'}
+					color={iconColor[theme]}
+					back={sideColor[theme]}
 				/>
 			</_Form>
 			<ServerFolderList search={search} />
 		</_Aside>
 	) : (
-		<_HideSpace>
+		<_HideSpace back={sideColor[theme]}>
 			<_OpenButton onClick={() => setToggle(!toggle)}>open</_OpenButton>
 		</_HideSpace>
 	);

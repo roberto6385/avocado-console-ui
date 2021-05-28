@@ -30,13 +30,16 @@ const _Dropdown = styled(Dropdown)`
 			color: ${GRAY_ACTIVE_COLOR} !important;
 		}
 	}
-	div {
+	.dropdown-menu {
 		line-height: initial !important;
 		padding: 4px 0px;
 		.dropdown-divider {
 			padding: 0px;
 			margin: 0px;
 		}
+	}
+	.dropdown-menu.show {
+		top: 5px !important;
 	}
 `;
 

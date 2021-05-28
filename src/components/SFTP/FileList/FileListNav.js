@@ -10,13 +10,13 @@ import {
 } from '../../../reducers/sftp';
 import {
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	ICON_LIGHT_COLOR,
 	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 } from '../../../styles/global';
 import {
@@ -41,7 +41,7 @@ const _input = styled.input`
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	height: ${SUB_HEIGHT};
 `;
 
@@ -136,13 +136,13 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container>
 			<_IconButton
-				color={mode === 'drop' && ICON_MINT_COLOR}
+				color={mode === 'drop' && MINT_COLOR}
 				onClick={dropdownList}
 			>
 				{viewColumnIcon}
 			</_IconButton>
 			<_IconButton
-				color={mode === 'list' && ICON_MINT_COLOR}
+				color={mode === 'list' && MINT_COLOR}
 				onClick={basicList}
 			>
 				{viewListIcon}

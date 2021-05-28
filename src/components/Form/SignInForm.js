@@ -10,7 +10,7 @@ import {
 	AUTH_FORM_HEIGHT,
 	AUTH_FORM_WIDTH,
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
@@ -44,7 +44,7 @@ const _Input = styled.input`
 	font-size: 14px;
 	padding: 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 
@@ -61,7 +61,7 @@ const _PasswordContainer = styled.div`
 	font-size: 16px;
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _PasswordInput = styled(_Input)`
@@ -173,7 +173,7 @@ const SignInForm = () => {
 				<_Input
 					ref={emailRef}
 					value={user}
-					color={user === '' ? BORDER_COLOR : 'black'}
+					color={user === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeUser}
 					placeholder={'Email'}
 				/>
@@ -185,7 +185,7 @@ const SignInForm = () => {
 						onBlur={focusout}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? BORDER_COLOR : 'black'}
+						color={password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 						onChange={onChangePassword}
 						placeholder={'Password'}
 					/>

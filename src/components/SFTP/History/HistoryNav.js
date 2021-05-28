@@ -7,7 +7,7 @@ import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	Span,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
@@ -20,7 +20,7 @@ const _Container = styled.div`
 	justify-content: space-between;
 	padding: 0px 16px;
 	height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const HistoryNav = ({uuid}) => {

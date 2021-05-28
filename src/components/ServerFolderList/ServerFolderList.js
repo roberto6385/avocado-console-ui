@@ -9,13 +9,15 @@ import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
 
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
-import {HiddenScroll} from '../../styles/global';
+import {sideColor, HiddenScroll} from '../../styles/global';
 
 export const _Nav = styled(Nav)`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;
 	overflow-y: scroll;
+	background: ${(props) => props?.back};
+
 	${HiddenScroll}
 `;
 
@@ -61,7 +63,7 @@ function searchTreeStart(root, name) {
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
 
-	const {nav} = useSelector((state) => state.common);
+	const {nav, theme} = useSelector((state) => state.common);
 	const [filteredNav, setfilteredNav] = useState(nav);
 
 	const dropNavList = useCallback(() => {
@@ -82,7 +84,11 @@ const ServerFolderList = ({search}) => {
 	}, [nav, search]);
 
 	return (
-		<_Nav onDrop={dropNavList} id='sortableServerNav'>
+		<_Nav
+			onDrop={dropNavList}
+			id='sortableServerNav'
+			back={sideColor[theme]}
+		>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
 					<Folder

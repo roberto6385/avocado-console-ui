@@ -6,7 +6,7 @@ import {
 	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
@@ -45,7 +45,7 @@ const _Input = styled.input`
 	font-size: 14px;
 	padding: 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 
@@ -62,7 +62,7 @@ const _PasswordContainer = styled.div`
 	font-size: 16px;
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _PasswordInput = styled(_Input)`
@@ -196,7 +196,7 @@ const PasswordForm = () => {
 				<_Input
 					ref={idRef}
 					value={id}
-					color={id === '' ? BORDER_COLOR : 'black'}
+					color={id === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeId}
 					placeholder={'ID'}
 				/>
@@ -216,7 +216,7 @@ const PasswordForm = () => {
 				<Input_ flex={1}>
 					<_Input
 						value={email}
-						color={email === '' ? BORDER_COLOR : 'black'}
+						color={email === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 						onChange={onChangeEmail}
 						placeholder={'Authentication number'}
 					/>
@@ -230,7 +230,7 @@ const PasswordForm = () => {
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? BORDER_COLOR : 'black'}
+						color={password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 						onChange={onChangePassword}
 						placeholder={'Password'}
 					/>
@@ -252,7 +252,7 @@ const PasswordForm = () => {
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
 						value={passwordConfirm}
-						color={passwordConfirm === '' ? BORDER_COLOR : 'black'}
+						color={passwordConfirm === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 						onChange={onChangePasswordConfirm}
 						placeholder={'Password Confirm'}
 					/>

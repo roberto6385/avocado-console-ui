@@ -5,22 +5,26 @@ export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
-export const FOOTER_BACK_COLOR = '#dee1e6';
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
-export const BORDER_COLOR = '#e5e5e5';
 
+export const MINT_COLOR = '#4ca6a8';
 // lightmode color
-export const ICON_MINT_COLOR = '#4ca6a8';
 export const LIGHT_MODE_SIDE_COLOR = '#ffffff';
 export const LIGHT_MODE_FONT_COLOR = '#212121';
-export const BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
+export const LIGHT_MODE_BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
 export const LIGHT_MODE_ICON_COLOR = '#959ea1';
+export const LIGHT_MODE_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
+export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
+export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
 // darkmode color
-export const DARK_MODE_SIDE_COLOR = '#2b3648';
+export const DARK_MODE_SIDE_COLOR = '#1e364d';
 export const DARK_MODE_FONT_COLOR = '#ffffff';
 export const DARK_MODE_ICON_COLOR = 'rgba(255,255,255,0.54)';
+export const DARK_MODE_BACKGROUND_MINT_COLOR = 'rgba(0,0,0,0.24)'; // folder,server highlight color
 export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
-export const DARK_MODE_BACK_COLOR = '#18191f';
+export const DARK_MODE_BACKGROUND_COLOR = '#212936';
+export const DARK_MODE_BORDER_COLOR = '#192836';
+export const DARK_MODE_FOOTER_BACKGROUND_COLOR = '#18191f';
 
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
@@ -29,7 +33,6 @@ export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
 
 export const DARK_GREEN_COLOR = '#126466';
 export const ANCHOR_GRAY_COLOR = '#5e5e5e';
-export const LIGHT_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
 
 export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
 export const GRAY_COLOR = '#a9b0b2';
@@ -50,9 +53,23 @@ export const CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER = `#a8a8a8`;
 export const CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR = `#556367`;
 
 // theme
-export const backgroundTheme = [LIGHT_MODE_SIDE_COLOR, DARK_MODE_SIDE_COLOR];
+export const backColor = [
+	LIGHT_MODE_BACKGROUND_COLOR,
+	DARK_MODE_BACKGROUND_COLOR,
+];
+export const sideColor = [LIGHT_MODE_SIDE_COLOR, DARK_MODE_SIDE_COLOR];
 export const fontColor = [LIGHT_MODE_FONT_COLOR, DARK_MODE_FONT_COLOR];
 export const iconColor = [LIGHT_MODE_ICON_COLOR, DARK_MODE_ICON_COLOR];
+export const borderColor = [LIGHT_MODE_BORDER_COLOR, DARK_MODE_BORDER_COLOR];
+export const serverFolderBackColor = [
+	LIGHT_MODE_BACKGROUND_MINT_COLOR,
+	DARK_MODE_BACKGROUND_MINT_COLOR,
+];
+export const footerColor = [
+	LIGHT_MODE_FOOTER_BACKGROUND_COLOR,
+	DARK_MODE_FOOTER_BACKGROUND_COLOR,
+];
+
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
 export const SUB_HEIGHT = '50px'; // new folder container, (ssht, sftp nav)
@@ -114,12 +131,12 @@ export const IconButton = styled.button`
 	font-size: ${(props) => props?.size || MIDDLE_FONTSIZE};
 	color: ${(props) => props.color || LIGHT_MODE_ICON_COLOR};
 
-	&:hover {
-		color: ${(props) => props?.hover || ICON_HOVER_LIGHT_COLOR};
-	}
-	&:active {
-		color: ${(props) => props?.active || ICON_ACTIVE_LIGHT_COLOR};
-	}
+	// &:hover {
+	// 	color: ${(props) => props?.hover || ICON_HOVER_LIGHT_COLOR};
+	// }
+	// &:active {
+	// 	color: ${(props) => props?.active || ICON_ACTIVE_LIGHT_COLOR};
+	// }
 `;
 
 export const DefaultButton = styled.button`
@@ -221,7 +238,7 @@ export const HiddenScroll = `
 // 아이콘에 패딩, 마진, 컬러, 사이즈 넣을때 사용.
 export const IconContainer = styled.div`
 	line-height: 0;
-	color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
+	color: ${(props) => props?.color};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: ${(props) => props.margin || '0px'};
 `;

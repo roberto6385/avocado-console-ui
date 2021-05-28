@@ -9,7 +9,7 @@ import {IconContext} from 'react-icons';
 import {
 	AVOCADO_FONTSIZE,
 	BorderButton,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
@@ -17,7 +17,7 @@ import {
 } from '../../styles/global';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	position: absolute;
 	z-index: 10;
 	top: 50%;
@@ -38,7 +38,7 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Text = styled.div`
@@ -58,7 +58,7 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	border-top: 1px solid ${BORDER_COLOR};
+	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Message = styled.div`

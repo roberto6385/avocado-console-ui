@@ -21,13 +21,13 @@ import {
 } from '../listConversion';
 import styled from 'styled-components';
 import {
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	HiddenScroll,
 	IconButton,
 	IconContainer,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	PreventDragCopy,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
@@ -60,7 +60,7 @@ const _Tbody = styled.tbody`
 	position: absolute;
 	top: ${THIRD_HEIGHT};
 	.active {
-		background: ${LIGHT_BACKGROUND_COLOR};
+		background: ${LIGHT_MODE_BACKGROUND_COLOR};
 	}
 `;
 
@@ -80,7 +80,7 @@ const _Tr = styled.tr`
 	display: flex;
 	height: ${THIRD_HEIGHT};
 	padding: 8px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	cursor: pointer;
 	th {
 		padding: 8px !important;
@@ -273,7 +273,7 @@ const FileListContents = ({uuid}) => {
 								<Th min={'150px'} flex={1}>
 									{item.type === 'directory' ? (
 										<IconContainer
-											color={ICON_MINT_COLOR}
+											color={MINT_COLOR}
 											margin={`0px 8px 0px 0px`}
 										>
 											{folderOpenIcon}

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	GREEN_COLOR,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 } from '../../../styles/global';
 import {useHistory} from 'react-router-dom';
@@ -18,7 +18,7 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;

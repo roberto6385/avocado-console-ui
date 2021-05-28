@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
@@ -17,7 +17,7 @@ const _Container = styled.div`
 	display: none;
 	height: 100%;
 	width: ${RIGHT_SIDE_WIDTH};
-	border-left: 1px solid ${BORDER_COLOR};
+	border-left: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	z-index: 5; // terminal보다 높아야 함.
 	background: white;
 `;
@@ -29,7 +29,7 @@ const _Header = styled.div`
 	height: ${SUB_HEIGHT};
 	padding: 16px;
 	font-size: ${SIXTEEN};
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _IconButton = styled(IconButton)`

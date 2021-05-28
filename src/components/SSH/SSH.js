@@ -26,6 +26,7 @@ import {
 	LIGHT_MODE_SIDE_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
+	iconColor,
 } from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
@@ -72,7 +73,7 @@ const _Input = styled.input`
 
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {current_tab} = useSelector((state) => state.common);
+	const {current_tab, theme} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
 		(state) => state.ssht,
 	);
@@ -219,14 +220,14 @@ const SSH = ({uuid}) => {
 					placeholder='Search...'
 					type='text'
 				/>
-				<IconButton color={ICON_DARK_COLOR}>
+				<IconButton color={iconColor[theme]}>
 					{arrowDropUpIconMidium}
 				</IconButton>
-				<IconButton color={ICON_DARK_COLOR}>
+				<IconButton color={iconColor[theme]}>
 					{arrowDropDownIconMidium}
 				</IconButton>
 				<IconButton
-					color={ICON_DARK_COLOR}
+					color={iconColor[theme]}
 					onClick={onClickOpenSearchBar}
 				>
 					{closeIconMedium}

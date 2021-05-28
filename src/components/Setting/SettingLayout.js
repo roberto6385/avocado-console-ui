@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import SettingNav from './SettingNav';
 import Footer from '../Footer';
 import {
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	GREEN_COLOR,
 	MAIN_HEIGHT,
 } from '../../styles/global';
@@ -29,7 +29,7 @@ const _Header = styled.div`
 	padding: 20px 46px;
 	height: ${MAIN_HEIGHT};
 	font-family: 'Roboto Slab', serif;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Span = styled.span`

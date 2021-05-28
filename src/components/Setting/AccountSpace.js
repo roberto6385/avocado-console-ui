@@ -6,9 +6,9 @@ import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_INPUT_WIDTH,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	DefaultButton,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
 	SUB_HEIGHT,
@@ -21,7 +21,7 @@ const _Container = styled.div`
 	width: 100%;
 	flex-direction: column;
 	padding: 0px 16px;
-	background: ${LIGHT_BACKGROUND_COLOR};
+	background: ${LIGHT_MODE_BACKGROUND_COLOR};
 `;
 
 const _Title = styled.div`
@@ -30,7 +30,7 @@ const _Title = styled.div`
 	margin: 0px 8px;
 	height: ${SUB_HEIGHT};
 	min-height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _ContentsContainer = styled.div`
@@ -43,7 +43,7 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;

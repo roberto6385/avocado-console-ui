@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
-	BORDER_COLOR,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	MONTSERRAT,
 	ROBOTO,
 	ROBOTO_MONO,
@@ -13,18 +13,19 @@ import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
 import {SSH_SET_FONT_REQUEST} from '../../reducers/ssh';
+import {CHANGE_GENERAL_THEME} from '../../reducers/common';
 
 const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	background: ${LIGHT_BACKGROUND_COLOR};
+	background: ${LIGHT_MODE_BACKGROUND_COLOR};
 `;
 
 const _P = styled.p`
 	padding: 0px 0px 12px 0px;
 	margin: 0px 0px 16px 0px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	font-size: ${SIXTEEN};
 `;
 
@@ -33,10 +34,17 @@ const _SectionContainer = styled.div`
 `;
 
 const background_theme = [
-	{value: 'light_mode', label: 'Light Mode'},
-	{value: 'dark_mode', label: 'Dark Mode'},
+	{value: 0, label: 'Light Mode'},
+	{value: 1, label: 'Dark Mode'},
 ];
-
+const terminal_theme = [
+	{value: 0, label: 'Light Mode'},
+	{value: 1, label: 'Dark Mode'},
+];
+const editor_theme = [
+	{value: 0, label: 'Light Mode'},
+	{value: 1, label: 'Dark Mode'},
+];
 const font_theme = [
 	{value: ROBOTO, label: 'Roboto, monospace'},
 	{value: ROBOTO_MONO, label: 'Roboto Mono, monospace'},
@@ -45,16 +53,24 @@ const font_theme = [
 ];
 const PreferencesSpace = () => {
 	const dispatch = useDispatch();
+	const {font} = useSelector((state) => state.ssht);
+	const {theme} = useSelector((state) => state.common);
+
 	const [textCompletion, setTextCompletion] = useState(false);
 	const [copyText, setCopyText] = useState(false);
-	const [generalTheme, setGeneralTheme] = useState('light_mode');
+	const [generalTheme, setGeneralTheme] = useState(theme);
+	const [terminalTheme, setTerminalTheme] = useState(0);
+	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
-	const {font} = useSelector((state) => state.ssht);
 
 	useEffect(() => {
 		if (font !== terminalFont)
 			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
 	}, [terminalFont, dispatch]);
+
+	useEffect(() => {
+		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
+	}, [generalTheme]);
 
 	return (
 		<_Container>
@@ -74,9 +90,9 @@ const PreferencesSpace = () => {
 					<Select_
 						width={'500px'}
 						title='UI Theme'
-						options={background_theme}
-						value={generalTheme}
-						setValue={setGeneralTheme}
+						options={terminal_theme}
+						value={terminalTheme}
+						setValue={setTerminalTheme}
 					/>
 					<Select_
 						width={'500px'}
@@ -101,9 +117,9 @@ const PreferencesSpace = () => {
 					<Select_
 						width={'500px'}
 						title='Editor Theme'
-						options={background_theme}
-						value={generalTheme}
-						setValue={setGeneralTheme}
+						options={editor_theme}
+						value={editorTheme}
+						setValue={setEditorTheme}
 					/>
 				</_SectionContainer>
 			</React.Fragment>

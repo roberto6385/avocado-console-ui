@@ -7,9 +7,14 @@ import {
 	IconButton,
 	LIGHT_BACK_COLOR,
 	MAIN_HEIGHT,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
+	sideColor,
+	IconContainer,
+	iconColor,
+	backColor,
+	fontColor,
 } from '../styles/global';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
@@ -31,14 +36,14 @@ const _Header = styled.div`
 	justify-content: flex-end;
 	height: ${MAIN_HEIGHT};
 	width: 100%;
-	background: ${LIGHT_BACK_COLOR};
+	background: ${(props) => props.back};
 `;
 
 const _Body = styled.div`
 	display: flex;
 	align-items: center;
 	flex: 1;
-	background: ${LIGHT_BACKGROUND_COLOR};
+	background: ${(props) => props?.back};
 	position: relative;
 	#right_side_menu {
 		width: 0px;
@@ -60,11 +65,16 @@ const _Contents = styled.div`
 	height: 130px;
 `;
 
+const _Span = styled.span`
+	color: ${(props) => props?.color};
+`;
+
 const MainPage = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const {theme} = useSelector((state) => state.common);
 
 	const logout = useCallback(
 		() => () => {
@@ -144,18 +154,32 @@ const MainPage = () => {
 
 	return (
 		<_Container>
-			<_Header>
-				<DropdownMenu_ icon={accountIcon} menu={account_list} />
-				<DropdownMenu_ icon={settingIcon} menu={setting_list} />
+			<_Header back={sideColor[theme]}>
+				<DropdownMenu_
+					icon={
+						<IconContainer color={iconColor[theme]}>
+							{accountIcon}
+						</IconContainer>
+					}
+					menu={account_list}
+				/>
+				<DropdownMenu_
+					icon={
+						<IconContainer color={iconColor[theme]}>
+							{settingIcon}
+						</IconContainer>
+					}
+					menu={setting_list}
+				/>
 				<IconButton>{notificationIcon}</IconButton>
 			</_Header>
-			<_Body>
+			<_Body back={backColor[theme]}>
 				<_Contents>
-					<span>Hello! Start Avocado</span>
-					<span>
+					<_Span color={fontColor[theme]}>Hello! Start Avocado</_Span>
+					<_Span color={fontColor[theme]}>
 						Select a server to start a session via SSH, SFTP, RDP,
 						VNC or Telnet. Or
-					</span>
+					</_Span>
 					<PrimaryButton onClick={onClickVisibleForm}>
 						Add Server
 					</PrimaryButton>

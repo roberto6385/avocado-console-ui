@@ -13,7 +13,7 @@ import {
 	ACCOUNT_BUTTON_WIDTH,
 	AVOCADO_FONTSIZE,
 	BorderButton,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	ICON_DARK_COLOR,
 	IconButton,
@@ -24,7 +24,7 @@ import {
 } from '../../styles/global';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	position: absolute;
 	z-index: 10;
 	top: 50%;
@@ -49,7 +49,7 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
@@ -71,7 +71,7 @@ const _Label = styled.label`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	margin: 0;
 	cursor: pointer;
 `;
@@ -83,7 +83,7 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	font-weight: 500;
 `;
 
@@ -98,7 +98,7 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	border-top: 1px solid ${BORDER_COLOR};
+	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Form = styled.form`

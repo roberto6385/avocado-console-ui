@@ -2,11 +2,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	FONT_COLOR,
 	GREEN_COLOR,
 	IconButton,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	ROBOTO,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
@@ -31,7 +31,7 @@ const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	background: ${LIGHT_BACKGROUND_COLOR};
+	background: ${LIGHT_MODE_BACKGROUND_COLOR};
 `;
 
 const _Title = styled.div`
@@ -39,7 +39,7 @@ const _Title = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _ContentContainer = styled.div`
@@ -53,7 +53,7 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	font-family: ${ROBOTO};
 	font-size: ${AVOCADO_FONTSIZE};
 	letter-spacing: 0.14px;
@@ -130,13 +130,13 @@ const _ButtonContainer = styled(_Name)`
 `;
 
 const _AccountListUl = styled.ul`
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: white;
 	flex: 1;
 	margin: 16px 8px;
 `;
 const _ResourceListUl = styled.ul`
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	flex: 1;
 	background: white;
 	// width: 600px;
@@ -302,7 +302,7 @@ const IdentitiesSpace = () => {
 								onClick={selectResourceList(item)}
 								back={
 									item.key === currentResourceListKey
-										? LIGHT_BACKGROUND_COLOR
+										? LIGHT_MODE_BACKGROUND_COLOR
 										: 'white'
 								}
 							>
@@ -354,7 +354,7 @@ const IdentitiesSpace = () => {
 								key={item.id}
 								back={
 									accountCheckList.includes(item.id)
-										? LIGHT_BACKGROUND_COLOR
+										? LIGHT_MODE_BACKGROUND_COLOR
 										: 'white'
 								}
 								onContextMenu={contextMenuOpen(item.id)}

@@ -5,7 +5,7 @@ import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	AVOCADO_HOVER_COLOR,
-	BORDER_COLOR,
+	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
@@ -20,7 +20,7 @@ const _Li = styled.li`
 	height: ${THIRD_HEIGHT};
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid ${BORDER_COLOR};
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _AccountContainer = styled.div`

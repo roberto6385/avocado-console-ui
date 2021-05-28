@@ -5,7 +5,13 @@ import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
-import {IconButton, LIGHT_BACK_COLOR} from '../styles/global';
+import {
+	IconButton,
+	iconColor,
+	IconContainer,
+	LIGHT_BACK_COLOR,
+	sideColor,
+} from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
 import {
 	accountIcon,
@@ -17,7 +23,7 @@ import {
 const CornerIcons_Container = styled.div`
 	display: flex;
 	align-items: center;
-	background: ${LIGHT_BACK_COLOR};
+	background: ${(props) => props?.back};
 	height: 100%;
 `;
 
@@ -25,6 +31,7 @@ const RightCornerIcons = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {userTicket} = useSelector((state) => state.userTicket);
+	const {theme} = useSelector((state) => state.common);
 
 	const logout = useCallback(
 		() => () => {
@@ -90,10 +97,31 @@ const RightCornerIcons = () => {
 	];
 
 	return (
-		<CornerIcons_Container>
-			<DropdownMenu_ icon={accountIcon} menu={account_list} />
-			<DropdownMenu_ icon={settingIcon} menu={setting_list} />
-			<DropdownMenu_ icon={windowIcon} menu={column_list} />
+		<CornerIcons_Container back={sideColor[theme]}>
+			<DropdownMenu_
+				icon={
+					<IconContainer color={iconColor[theme]}>
+						{accountIcon}
+					</IconContainer>
+				}
+				menu={account_list}
+			/>
+			<DropdownMenu_
+				icon={
+					<IconContainer color={iconColor[theme]}>
+						{settingIcon}
+					</IconContainer>
+				}
+				menu={setting_list}
+			/>
+			<DropdownMenu_
+				icon={
+					<IconContainer color={iconColor[theme]}>
+						{windowIcon}
+					</IconContainer>
+				}
+				menu={column_list}
+			/>
 			<IconButton>{notificationIcon}</IconButton>
 		</CornerIcons_Container>
 	);

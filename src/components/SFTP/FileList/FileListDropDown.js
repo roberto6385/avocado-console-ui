@@ -19,11 +19,11 @@ import styled from 'styled-components';
 import {
 	CLOUDY_BLUE,
 	HiddenScroll,
-	ICON_MINT_COLOR,
+	MINT_COLOR,
 	IconButton,
 	IconContainer,
 	LIGHT_BACK_COLOR,
-	LIGHT_BACKGROUND_COLOR,
+	LIGHT_MODE_BACKGROUND_COLOR,
 	PreventDragCopy,
 } from '../../../styles/global';
 import {
@@ -353,7 +353,7 @@ const FileListDropDown = ({uuid}) => {
 													path ===
 														pathList[listindex],
 											) > -1 &&
-												LIGHT_BACKGROUND_COLOR) ||
+												LIGHT_MODE_BACKGROUND_COLOR) ||
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
@@ -378,7 +378,7 @@ const FileListDropDown = ({uuid}) => {
 											<_ItemContainer>
 												{item.type === 'directory' ? (
 													<IconContainer
-														color={ICON_MINT_COLOR}
+														color={MINT_COLOR}
 														margin={`0px 8px 0px 0px`}
 													>
 														{folderOpenIcon}
