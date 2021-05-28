@@ -100,12 +100,7 @@ function* sendDisconnection(action) {
 
 			switch (res.type) {
 				case 'DISCONNECT':
-					yield put({type: CLOSE_TAB, data: action.data.uuid});
-					yield put({
-						type: SSH_SEND_DISCONNECTION_SUCCESS,
-						data: action.data.uuid,
-					});
-
+					//TODO: 우선은 finally에 구현
 					break;
 				default:
 					break;
@@ -114,6 +109,7 @@ function* sendDisconnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
+	} finally {
 		yield put({type: CLOSE_TAB, data: action.data.uuid});
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,

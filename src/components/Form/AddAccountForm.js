@@ -116,16 +116,16 @@ const AddAccountForm = () => {
 	);
 	const {account_form_popup} = useSelector((state) => state.popup);
 
+	const [identity, onChangeIdentity, setIdentity] = useInput('');
 	const [
 		authentication,
 		onChangeAuthentication,
 		setAuthentication,
 	] = useInput('Password');
-	const [identity, onChangeIdentity, setIdentity] = useInput('');
 	const [username, onChangeUsername, setUsername] = useInput('');
-	const [keyFile, onChangeKeyFile] = useInput('');
+	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [note, onChangeNote] = useInput('');
+	const [note, onChangeNote, setNote] = useInput('');
 
 	const authentication_options = [
 		{value: 'Password', label: 'Password'},
@@ -159,22 +159,23 @@ const AddAccountForm = () => {
 			}
 			closeModal();
 		},
-		[identity, password, dispatch, account_form_popup],
+		[identity, password, dispatch],
 	);
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-
 	}, []);
 
+	console.log(accountListControlId);
+
 	useEffect(() => {
-		if (accountListControlId !== null) {
-			if (account_form_popup.open) {
+		if (account_form_popup.open) {
+			if (accountListControlId !== null) {
 				const item = account
 					.slice()
 					.find((item) => item.id === accountListControlId);
-				console.log(item);
+
 				if (item) {
 					setAuthentication(
 						item.type === 'password' ? 'Password' : 'Key file',
@@ -182,29 +183,16 @@ const AddAccountForm = () => {
 					setIdentity(item.name || '');
 					setUsername(item.username || '');
 				}
+			} else {
+				setIdentity('');
+				setAuthentication('Password');
+				setUsername('');
+				setKeyFile('');
+				setPassword('');
+				setNote('');
 			}
-		} else {
-			setAuthentication('Password');
-			setIdentity('');
-			setUsername('');
-			setPassword('');
 		}
-	}, [account_form_popup.open, accountListControlId]);
-
-	// useEffect(() => {
-	// 	if (account_form_popup.open) {
-	// 		if (account_form_popup.type === 'add') {
-	// 			setIdentity('Test');
-	// 			setAuthentication('Password');
-	// 			setPassword('Netand141)');
-	// 		} else {
-	// 			const data = server.find((v) => v.id === account_form_popup.id);
-	// 			setIdentity(data.name);
-	// 			setAuthentication('Password');
-	// 			setPassword(data.password);
-	// 		}
-	// 	}
-	// }, [account_form_popup]);
+	}, [account_form_popup, accountListControlId]);
 
 	return (
 		<_Modal
@@ -223,6 +211,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={'Identity'} flex={1}>
 						<_LongInput
+							type='text'
 							value={identity}
 							onChange={onChangeIdentity}
 							placeholder={'temp Account'}
@@ -239,6 +228,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={'Username'} flex={1}>
 						<_LongInput
+							type='text'
 							value={username}
 							onChange={onChangeUsername}
 							placeholder={'Username'}
@@ -300,6 +290,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={'Note'} flex={1}>
 						<_LongInput
+							type='text'
 							value={note}
 							onChange={onChangeNote}
 							placeholder={'Note'}

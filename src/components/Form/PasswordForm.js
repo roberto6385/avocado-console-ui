@@ -215,6 +215,7 @@ const PasswordForm = () => {
 			<Item_Container>
 				<Input_ flex={1}>
 					<_Input
+						type='email'
 						value={email}
 						color={email === '' ? BORDER_COLOR : 'black'}
 						onChange={onChangeEmail}

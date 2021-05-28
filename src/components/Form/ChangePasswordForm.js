@@ -75,24 +75,41 @@ const _Form = styled.form`
 `;
 
 const ChangePasswordForm = ({open, setOpen}) => {
-	const [currentPassword, onChangeCurrentPassword] = useInput('');
-	const [password, onChangePassword] = useInput('');
-	const [confrimPassword, onChangeConfirmPassword] = useInput('');
+	const [
+		currentPassword,
+		onChangeCurrentPassword,
+		setCurrentPassword,
+	] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('');
+	const [
+		confrimPassword,
+		onChangeConfirmPassword,
+		setConfrimPassword,
+	] = useInput('');
 
-	const onSubmitForm = useCallback((e) => {
-		e.preventDefault();
-		console.log('some action');
-		closeModal();
-	}, []);
+	const onSubmitForm = useCallback(
+		(e) => {
+			e.preventDefault();
+			console.log(currentPassword, password, confrimPassword);
+			//TODO: add submit action
+
+			closeModal();
+		},
+		[currentPassword, password, confrimPassword],
+	);
 
 	const closeModal = useCallback(() => {
 		setOpen(false);
 	}, []);
 
 	useEffect(() => {
-		console.log(open);
+		if (open) {
+			setCurrentPassword('');
+			setPassword('');
+			setConfrimPassword('');
+		}
 	}, [open]);
-	// onClickCloseForm
+
 	return (
 		<_Modal
 			isOpen={open}
@@ -109,6 +126,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			<_Form onSubmit={onSubmitForm}>
 				<Input_ title={'Current Password'}>
 					<_Input
+						type='password'
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
 						placeholder={'Type in current password'}
@@ -117,6 +135,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 
 				<Input_ title={'New Password'}>
 					<_Input
+						type='password'
 						value={password}
 						onChange={onChangePassword}
 						placeholder={'New Password'}
@@ -125,6 +144,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 
 				<Input_ title={'Confirm new password'}>
 					<_Input
+						type='password'
 						value={confrimPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={'New Password'}
