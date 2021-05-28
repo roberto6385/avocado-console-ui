@@ -6,7 +6,7 @@ import {parse, stringify} from 'flatted';
 
 import user from './user';
 import common from './common';
-import ssht from './ssht';
+import ssht from './ssh';
 import sftp from './sftp';
 import popup from './popup';
 import clientTicket from './auth/clientTicket';

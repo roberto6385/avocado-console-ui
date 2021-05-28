@@ -3,7 +3,7 @@ import {Terminal} from 'xterm';
 import {ROBOTO} from '../styles/global';
 
 export const initialState = {
-	font: ROBOTO,
+	font: 'Roboto, monospace',
 	font_size: 14,
 	search_mode: false,
 	ssht: [],
@@ -60,7 +60,11 @@ const reducer = (state = initialState, action) => {
 						cursorBlink: true,
 						minimumContrastRatio: 7,
 						fontFamily: draft.font,
+						letterSpacing: 0,
+
 						theme: {
+							foreground: '#000000',
+							background: '#f8f9fa',
 							selection: '#FCFD08',
 						},
 					}),

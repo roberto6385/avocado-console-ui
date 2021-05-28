@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
-import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
+import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {
 	IconButton,
 	LIGHT_BACK_COLOR,

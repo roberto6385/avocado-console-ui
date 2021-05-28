@@ -19,7 +19,7 @@ import {
 	SSH_SEND_COMMAND_FAILURE,
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_WINDOW_CHANGE_FAILURE,
-} from '../../reducers/ssht';
+} from '../../reducers/ssh';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';

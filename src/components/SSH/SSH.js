@@ -16,7 +16,7 @@ import useInput from '../../hooks/useInput';
 import {
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_COMMAND_REQUEST,
-} from '../../reducers/ssht';
+} from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
@@ -31,6 +31,15 @@ const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	padding: 20px;
+	background-color: #f8f9fa;
+`;
+
+const _Terminal = styled(_Container)`
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	padding: 0px;
 `;
 
 const _Form = styled.form`
@@ -137,8 +146,7 @@ const SSH = ({uuid}) => {
 	}, [font_size]);
 	//window size change
 	useEffect(() => {
-		console.log(width, height);
-
+		// console.log(width, height);
 		if (width > 0 && height > 0) {
 			fitAddon.current.fit();
 			dispatch({
@@ -176,7 +184,7 @@ const SSH = ({uuid}) => {
 
 	return (
 		<_Container ref={ref}>
-			<_Container id={`terminal_${uuid}`} />
+			<_Terminal id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',

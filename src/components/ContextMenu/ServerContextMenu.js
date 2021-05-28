@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
 const Ssh2ServerContextMenuMessage = {
 	connect: 'Connect',

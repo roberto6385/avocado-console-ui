@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 
-import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssht';
+import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,

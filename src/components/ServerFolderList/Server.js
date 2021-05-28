@@ -11,7 +11,7 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,

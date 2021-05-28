@@ -12,7 +12,7 @@ import {
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
-import {SSH_SET_FONT_REQUEST} from '../../reducers/ssht';
+import {SSH_SET_FONT_REQUEST} from '../../reducers/ssh';
 
 const _Container = styled.div`
 	display: flex;
@@ -38,10 +38,10 @@ const background_theme = [
 ];
 
 const font_theme = [
-	{value: ROBOTO, label: 'Rovoto'},
-	{value: ROBOTO_MONO, label: 'Rovoto Mono'},
-	{value: ROBOTO_SLAP, label: 'Rovoto Slap'},
-	{value: MONTSERRAT, label: 'Montserrat'},
+	{value: ROBOTO, label: 'Roboto, monospace'},
+	{value: ROBOTO_MONO, label: 'Roboto Mono, monospace'},
+	{value: ROBOTO_SLAP, label: 'Roboto Slap, monospace'},
+	{value: MONTSERRAT, label: 'Montserrat, monospace'},
 ];
 const PreferencesSpace = () => {
 	const dispatch = useDispatch();
@@ -49,15 +49,11 @@ const PreferencesSpace = () => {
 	const [copyText, setCopyText] = useState(false);
 	const [generalTheme, setGeneralTheme] = useState('light_mode');
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
-
 	const {font} = useSelector((state) => state.ssht);
 
-	const onChangeTerminalFont = useCallback((e) => {
-		dispatch({type: SSH_SET_FONT_REQUEST, data: e.target.value});
-	}, []);
-
 	useEffect(() => {
-		dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
+		if (font !== terminalFont)
+			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
 	}, [terminalFont, dispatch]);
 
 	return (

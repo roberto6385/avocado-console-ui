@@ -7,7 +7,7 @@ import revoke from './auth/revoke';
 import find from './auth/find';
 
 import sftp from './sftp';
-import sshtSage from './ssht/ssht';
+import sshtSage from './ssh/ssh';
 
 export default function* rootSaga() {
 	yield all([

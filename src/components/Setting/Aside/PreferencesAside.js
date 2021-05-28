@@ -10,7 +10,7 @@ import {
 	SIXTEEN,
 } from '../../../styles/global';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssht';
+import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssh';
 import {useDispatch} from 'react-redux';
 
 const _P = styled.p`

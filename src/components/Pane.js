@@ -14,7 +14,7 @@ import {
 	BORDER_COLOR,
 } from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 
 const _Container = styled.div`
