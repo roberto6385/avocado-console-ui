@@ -116,8 +116,8 @@ const _OAuthContainer = styled.div`
 
 const SignInForm = () => {
 	const dispatch = useDispatch();
-	const [user, onChangeUser] = useInput('web');
-	const [password, onChangePassword] = useInput('123456789');
+	const [user, onChangeUser, setUser] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);
@@ -135,6 +135,8 @@ const SignInForm = () => {
 					password: password,
 				}),
 			);
+			setUser('');
+			setPassword('');
 		},
 		[user, password],
 	);

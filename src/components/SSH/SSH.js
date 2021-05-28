@@ -14,10 +14,11 @@ import {
 
 import useInput from '../../hooks/useInput';
 import {
-	SSHT_SEND_WINDOW_CHANGE_REQUEST,
-	SSHT_SEND_COMMAND_REQUEST,
+	SSH_SEND_WINDOW_CHANGE_REQUEST,
+	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
-} from '../../reducers/ssht';
+} from '../../reducers/ssh';
+
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
@@ -37,6 +38,15 @@ const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	padding: 20px;
+	background-color: #f8f9fa;
+`;
+
+const _Terminal = styled(_Container)`
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	padding: 0px;
 `;
 
 const _Form = styled.form`
@@ -115,7 +125,7 @@ const SSH = ({uuid}) => {
 		const processInput = sshTerm.onData((data) => {
 			// setCurrentLine(currentLine + data);
 			dispatch({
-				type: SSHT_SEND_COMMAND_REQUEST,
+				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
 					uuid: uuid,
 					ws: ws.current,
@@ -130,9 +140,9 @@ const SSH = ({uuid}) => {
 		};
 	}, [uuid, ws, sshTerm, currentLine]);
 	//current tab terminal is focused
-	// useEffect(() => {
-	// 	if (current_tab === uuid) sshTerm.focus();
-	// }, [current_tab, uuid, sshTerm]);
+	useEffect(() => {
+		if (current_tab === uuid) sshTerm.focus();
+	}, [current_tab, uuid, sshTerm]);
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
@@ -143,19 +153,19 @@ const SSH = ({uuid}) => {
 	}, [font_size]);
 	//window size change
 	useEffect(() => {
-		console.log(width, height);
+		// console.log(width, height);
 		if (width > 0 && height > 0) {
 			fitAddon.current.fit();
 			dispatch({
-				type: SSHT_SEND_WINDOW_CHANGE_REQUEST,
+				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
 				data: {
 					ws: ws.current,
 					uuid: uuid,
 					data: {
 						cols: sshTerm.cols,
 						rows: sshTerm.rows,
-						width: width - 40,
-						height: height - 40,
+						width: width,
+						height: height,
 					},
 				},
 			});
@@ -185,7 +195,7 @@ const SSH = ({uuid}) => {
 
 	return (
 		<_Container ref={ref}>
-			<_Container id={`terminal_${uuid}`} />
+			<_Terminal id={`terminal_${uuid}`} />
 			<ListGroup
 				style={{
 					position: 'absolute',

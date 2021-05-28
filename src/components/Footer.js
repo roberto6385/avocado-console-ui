@@ -11,7 +11,7 @@ import {
 	SET_SEARCH_MODE,
 	SSH_DECREASE_FONT_SIZE,
 	SSH_INCREASE_FONT_SIZE,
-} from '../reducers/ssht';
+} from '../reducers/ssh';
 import {
 	searchIconMicro,
 	zoomInIconMicro,
@@ -54,7 +54,7 @@ const Footer = () => {
 		<_Footer>
 			<Span size={HISTORY_FONTSIZE}>Avocado v1.0</Span>
 			<div>
-				{tab.filter((v) => v.display && v.type === 'SSHT').length !==
+				{tab.filter((v) => v.display && v.type === 'SSH').length !==
 					0 && (
 					<>
 						<_Button onClick={onClickDeceaseFont}>

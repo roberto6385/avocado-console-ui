@@ -130,11 +130,11 @@ const Nav = () => {
 		<_Aside>
 			<_Header
 				back={
-					theme === 'lignt' ? backgroundTheme[0] : backgroundTheme[1]
+					theme === 'light' ? backgroundTheme[0] : backgroundTheme[1]
 				}
 			>
 				<IconButton
-					color={theme === 'lignt' ? iconColor[0] : iconColor[1]}
+					color={theme === 'light' ? iconColor[0] : iconColor[1]}
 					onClick={() => setToggle(!toggle)}
 				>
 					{burgerMenuIcon}
@@ -143,17 +143,17 @@ const Nav = () => {
 			</_Header>
 			<_AddFolerServerContainer
 				back={
-					theme === 'lignt' ? backgroundTheme[0] : backgroundTheme[1]
+					theme === 'light' ? backgroundTheme[0] : backgroundTheme[1]
 				}
 			>
 				<IconButton
-					color={theme === 'lignt' ? fontColor[0] : fontColor[1]}
+					color={theme === 'light' ? fontColor[0] : fontColor[1]}
 					onClick={newServer}
 				>
 					{plusIcon}
 				</IconButton>
 				<_NewServerSpan
-					color={theme === 'lignt' ? fontColor[0] : fontColor[1]}
+					color={theme === 'light' ? fontColor[0] : fontColor[1]}
 				>
 					New Server
 				</_NewServerSpan>

@@ -14,7 +14,7 @@ import {
 	BORDER_COLOR,
 } from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSHT_SEND_DISCONNECTION_REQUEST} from '../reducers/ssht';
+import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {closeIconSmall, sftpIconSmall} from '../icons/icons';
 
@@ -40,7 +40,7 @@ const _Header = styled.div`
 	background: ${LIGHT_MODE_SIDE_COLOR};
 `;
 
-const _Span = styled.span`
+const _HeaderText = styled.div`
 	display: flex;
 	align-items: center;
 	font-size: ${AVOCADO_FONTSIZE};
@@ -58,9 +58,9 @@ const Pane = ({uuid, type, server}) => {
 	}, [current_tab, uuid]);
 
 	const onClickDelete = useCallback(() => {
-		if (type === 'SSHT') {
+		if (type === 'SSH') {
 			dispatch({
-				type: SSHT_SEND_DISCONNECTION_REQUEST,
+				type: SSH_SEND_DISCONNECTION_REQUEST,
 				data: {
 					uuid: uuid,
 					ws: ssht.find((v) => v.uuid === uuid).ws,
@@ -80,20 +80,25 @@ const Pane = ({uuid, type, server}) => {
 		<_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<_Header>
-					<_Span>
-						{type === 'SSHT' ? <RiTerminalFill /> : sftpIconSmall}
+					<_HeaderText>
+						{type === 'SSH' && <RiTerminalFill />}
+						{type === 'SFTP' && (
+							<span className='material-icons button_small'>
+								swap_vert
+							</span>
+						)}
 						{server.name}
-					</_Span>
+					</_HeaderText>
 					<IconButton color={ICON_DARK_COLOR} onClick={onClickDelete}>
 						{closeIconSmall}
 					</IconButton>
 				</_Header>
 			)}
-			{type === 'SSHT' ? (
+
+			{type === 'SSH' && (
 				<SSHContainer uuid={uuid} server_id={server.id} />
-			) : (
-				<SFTPContainer uuid={uuid} />
 			)}
+			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);
 };

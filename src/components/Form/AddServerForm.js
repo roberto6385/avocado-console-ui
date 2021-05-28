@@ -141,10 +141,10 @@ const AddServerForm = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {add_server_form_popup} = useSelector((state) => state.popup);
 
-	const [name, onChangeName, setName] = useInput('Test');
+	const [name, onChangeName, setName] = useInput('');
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
-	const [host, onChangeHost, setHost] = useInput('211.253.10.9');
-	const [port, onChangePort, setPort] = useInput(10022);
+	const [host, onChangeHost, setHost] = useInput('');
+	const [port, onChangePort, setPort] = useInput(0);
 	const [identity, onChangeIdentity, setIdentity] = useInput('root');
 	const [
 		authentication,
@@ -255,13 +255,13 @@ const AddServerForm = () => {
 	useEffect(() => {
 		if (add_server_form_popup.open) {
 			if (add_server_form_popup.type === 'add') {
-				setName('Test');
+				setName('');
 				setProtocol('SSH2');
-				setHost('211.253.10.9');
-				setPort(10022);
+				setHost('');
+				setPort(0);
 				setIdentity('root');
 				setAuthentication('Password');
-				setPassword('Netand141)');
+				setPassword('');
 				setKeyFile('');
 				setUsername('');
 				setNote('');

@@ -60,6 +60,7 @@ const RightCornerIcons = () => {
 		},
 		[dispatch],
 	);
+
 	const setting_list = [
 		{onClick: changePath('/account'), title: 'Edit Setting'},
 		{

@@ -121,10 +121,10 @@ const AddAccountForm = () => {
 		onChangeAuthentication,
 		setAuthentication,
 	] = useInput('Password');
-	const [identity, onChangeIdentity, setIdentity] = useInput('Avocado');
-	const [username, onChangeUsername, setUsername] = useInput('root');
+	const [identity, onChangeIdentity, setIdentity] = useInput('');
+	const [username, onChangeUsername, setUsername] = useInput('');
 	const [keyFile, onChangeKeyFile] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('Netand141)');
+	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote] = useInput('');
 
 	const authentication_options = [
@@ -165,6 +165,7 @@ const AddAccountForm = () => {
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
+
 	}, []);
 
 	useEffect(() => {

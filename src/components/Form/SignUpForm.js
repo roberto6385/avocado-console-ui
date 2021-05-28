@@ -93,11 +93,15 @@ const _SignInButton = styled(PrimaryButton)`
 
 const SignUpForm = () => {
 	const dispatch = useDispatch();
-	const [id, onChangeId] = useInput('');
-	const [name, onChangeName] = useInput('');
-	const [email, onChangeEmail] = useInput('');
-	const [password, onChangePassword] = useInput('');
-	const [passwordConfirm, onChangePasswordConfirm] = useInput('');
+	const [id, onChangeId, setId] = useInput('');
+	const [name, onChangeName, setName] = useInput('');
+	const [email, onChangeEmail, setEmail] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('');
+	const [
+		passwordConfirm,
+		onChangePasswordConfirm,
+		setPasswordConfirm,
+	] = useInput('');
 	const [visible, setVisible] = useState(true);
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);

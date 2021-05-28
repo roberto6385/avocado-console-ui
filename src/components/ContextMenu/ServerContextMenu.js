@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_CONFIRM_POPUP,
 } from '../../reducers/popup';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssht';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
 const Ssh2ServerContextMenuMessage = {
 	connect: 'Connect',
@@ -32,13 +32,11 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	const MENU_ID = data.key + 'server';
 	const correspondedServer = server.find((i) => i.key === data.key);
 
-	console.log(data);
-
 	const handleItemClick = useCallback(
 		(e) => () => {
 			switch (e) {
 				case 'connect':
-					openSSHT();
+					openSSH();
 					break;
 				case 'open_sftp':
 					openSFTP();
@@ -75,7 +73,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 		);
 	}, [server, userTicket, data]);
 
-	const openSSHT = useCallback(() => {
+	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,

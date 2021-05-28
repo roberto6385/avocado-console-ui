@@ -4,12 +4,13 @@ html,
 body {
 	margin: 0;
 	height: 100vh;
-	box-sizing: border-box;
 	width: 100%;
+	box-sizing: border-box;
 }
 
 #root {
 	height: 100%;
+	width: 100%;
 }
 
 *:focus {

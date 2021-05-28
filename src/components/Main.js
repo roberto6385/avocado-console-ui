@@ -11,6 +11,8 @@ const _Container = styled.div`
 	display: flex;
 	overflow: hidden;
 	flex: 1;
+	height: 100%;
+	width: 100%;
 `;
 
 const Main = () => {

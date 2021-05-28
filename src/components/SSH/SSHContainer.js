@@ -5,8 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
-import {SSHT_SEND_COMMAND_REQUEST} from '../../reducers/ssht';
+
+import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {IconButton, LIGHT_BACK_COLOR, SUB_HEIGHT} from '../../styles/global';
+
 import styled from 'styled-components';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
@@ -51,7 +53,7 @@ const SSHContainer = ({uuid, server_id}) => {
 			temp.push({
 				onClick: () => {
 					dispatch({
-						type: SSHT_SEND_COMMAND_REQUEST,
+						type: SSH_SEND_COMMAND_REQUEST,
 						data: {
 							uuid: uuid,
 							ws: ws.current,

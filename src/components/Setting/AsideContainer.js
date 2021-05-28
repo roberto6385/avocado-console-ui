@@ -15,11 +15,8 @@ import {closeIconMedium} from '../../icons/icons';
 
 const _Container = styled.div`
 	display: none;
-	width: 0px;
 	height: 100%;
-	// width: ${RIGHT_SIDE_WIDTH};
-	// max-width: ${RIGHT_SIDE_WIDTH};
-	flex: 1;
+	width: ${RIGHT_SIDE_WIDTH};
 	border-left: 1px solid ${BORDER_COLOR};
 	z-index: 5; // terminal보다 높아야 함.
 	background: white;

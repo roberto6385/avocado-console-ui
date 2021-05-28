@@ -12,6 +12,7 @@ export const _Container = styled.div`
 	margin: 0;
 	padding: 0;
 	position: relative;
+	width: 100%;
 `;
 
 const Panes = (tab) => {
