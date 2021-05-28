@@ -53,7 +53,7 @@ export const _NavItem = styled(Nav.Item)`
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.b_color};
 `;
 
 const Server = ({data, indent}) => {
@@ -162,10 +162,8 @@ const Server = ({data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				bColor={
-					clicked_server === data.key
-						? MINT_COLOR
-						: sideColor[theme]
+				b_color={
+					clicked_server === data.key ? MINT_COLOR : sideColor[theme]
 				}
 				back={
 					clicked_server === data.key

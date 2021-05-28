@@ -65,7 +65,7 @@ const Select_ = ({title, options, value, setValue, width, flex}) => {
 Select_.propTypes = {
 	title: PropTypes.string.isRequired,
 	options: PropTypes.array.isRequired,
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	setValue: PropTypes.func.isRequired,
 	flex: PropTypes.number,
 	width: PropTypes.string,
