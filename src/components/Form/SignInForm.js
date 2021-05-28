@@ -185,7 +185,9 @@ const SignInForm = () => {
 						onBlur={focusout}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
+						color={
+							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
+						}
 						onChange={onChangePassword}
 						placeholder={'Password'}
 					/>
@@ -209,8 +211,8 @@ const SignInForm = () => {
 				<a href={'/password'}>Forget Password?</a>
 			</_CheckboxAnchorContainer>
 			<_SignInButton type='submit'>Sign in</_SignInButton>
-			<_OAuthContainer>oauth 는 확정 이후 디자인</_OAuthContainer>
-			<_OAuthContainer>oauth</_OAuthContainer>
+			{/*<_OAuthContainer>oauth 는 확정 이후 디자인</_OAuthContainer>*/}
+			{/*<_OAuthContainer>oauth</_OAuthContainer>*/}
 		</_Form>
 	) : (
 		<div>loading...</div>
