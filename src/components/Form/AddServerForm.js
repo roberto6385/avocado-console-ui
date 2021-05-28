@@ -144,7 +144,7 @@ const AddServerForm = () => {
 	const [name, onChangeName, setName] = useInput('');
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
-	const [port, onChangePort, setPort] = useInput(0);
+	const [port, onChangePort, setPort] = useInput();
 	const [identity, onChangeIdentity, setIdentity] = useInput('root');
 	const [
 		authentication,
@@ -254,18 +254,20 @@ const AddServerForm = () => {
 
 	useEffect(() => {
 		if (add_server_form_popup.open) {
+			//add new server
 			if (add_server_form_popup.type === 'add') {
 				setName('');
 				setProtocol('SSH2');
 				setHost('');
-				setPort(0);
+				setPort();
 				setIdentity('root');
 				setAuthentication('Password');
 				setPassword('');
 				setKeyFile('');
 				setUsername('');
 				setNote('');
-			} else {
+				//edit exist server
+			} else if (add_server_form_popup.type === 'edit') {
 				const data = server.find(
 					(v) => v.id === add_server_form_popup.id,
 				);
@@ -276,6 +278,9 @@ const AddServerForm = () => {
 				setIdentity(data.user);
 				setAuthentication('Password');
 				setPassword(data.password);
+				setKeyFile('');
+				setUsername('');
+				setNote('');
 			}
 		}
 	}, [add_server_form_popup]);
@@ -297,6 +302,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Name'} flex={1}>
 						<LongInput
+							type='text'
 							value={name}
 							onChange={onChangeName}
 							placeholder={'Server Name'}
@@ -313,6 +319,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Address'} flex={1}>
 						<LongInput
+							type='text'
 							value={host}
 							onChange={onChangeHost}
 							placeholder={'Host or IP'}
@@ -321,6 +328,7 @@ const AddServerForm = () => {
 
 					<Input_ title={'Port'}>
 						<_Input
+							type='number'
 							value={port}
 							onChange={onChangePort}
 							placeholder={'Port'}
@@ -346,6 +354,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Username'} flex={1}>
 						<LongInput
+							type='text'
 							value={username}
 							onChange={onChangeUsername}
 							placeholder={'Username'}
@@ -370,8 +379,8 @@ const AddServerForm = () => {
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<FileInput
-										id={'add_server_form_type_file'}
 										type='file'
+										id={'add_server_form_type_file'}
 										value={keyFile}
 										onChange={onChangeKeyFile}
 										placeholder={'Key File'}
@@ -407,6 +416,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Note'} flex={1}>
 						<LongInput
+							type='text'
 							value={note}
 							onChange={onChangeNote}
 							placeholder={'Note'}
