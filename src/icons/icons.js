@@ -66,9 +66,11 @@ export const closeIconMedium = (
 );
 
 // trash can icon
-export const deleteIcon = <span className='material-icons '>delete</span>;
+export const deleteIcon = (
+	<span className='material-icons history_contents '>delete</span>
+);
 export const deleteIconMidium = (
-	<span className='material-icons button_midium'>delete</span>
+	<span className='material-icons button_midium '>delete</span>
 );
 
 // nav - bars icon

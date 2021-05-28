@@ -75,7 +75,7 @@ const HistoryNav = ({uuid}) => {
 				type: OPEN_CONFIRM_POPUP,
 				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
-	}, [corServer, history_highlight]);
+	}, [corServer, history_highlight, dispatch]);
 
 	return (
 		<_Container b_color={borderColor[theme]}>

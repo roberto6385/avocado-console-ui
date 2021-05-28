@@ -193,7 +193,7 @@ const ConfirmPopup = () => {
 	}, [confirm_popup, dispatch]);
 
 	const submitFunction = useCallback(
-		(e) => {
+		async (e) => {
 			e.preventDefault();
 
 			switch (confirm_popup.key) {
@@ -327,13 +327,13 @@ const ConfirmPopup = () => {
 						(it) => it.uuid === confirm_popup.uuid,
 					);
 					const {history_highlight} = corServer;
-					history_highlight.forEach((item) => {
+					for (const item of history_highlight) {
 						console.log(item);
 						dispatch({
 							type: REMOVE_HISTORY,
 							payload: {uuid: confirm_popup.uuid, history: item},
 						});
-					});
+					}
 					dispatch({
 						type: INITIAL_HISTORY_HI,
 						payload: {uuid: confirm_popup.uuid},
