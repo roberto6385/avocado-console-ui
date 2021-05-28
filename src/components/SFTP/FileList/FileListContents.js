@@ -30,6 +30,10 @@ import {
 	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	THIRD_HEIGHT,
+	fontColor,
+	borderColor,
+	iconColor,
+	serverFolderBackColor,
 } from '../../../styles/global';
 import {
 	editIcon,
@@ -53,14 +57,14 @@ const _Table = styled.table`
 `;
 
 const _Tbody = styled.tbody`
-	background-color: ${(props) => props?.back};
+	background: ${(props) => props?.back};
 	flex: 1;
 	width: 100%;
 	min-width: 718px;
 	position: absolute;
 	top: ${THIRD_HEIGHT};
 	.active {
-		background: ${LIGHT_MODE_BACKGROUND_COLOR};
+		background: ${(props) => props.active};
 	}
 `;
 
@@ -79,8 +83,10 @@ const Th = styled.th`
 const _Tr = styled.tr`
 	display: flex;
 	height: ${THIRD_HEIGHT};
+	color: ${(props) => props.color};
 	padding: 8px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 	cursor: pointer;
 	th {
 		padding: 8px !important;
@@ -89,6 +95,7 @@ const _Tr = styled.tr`
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
 	const dispatch = useDispatch();
@@ -249,7 +256,7 @@ const FileListContents = ({uuid}) => {
 		<React.Fragment>
 			<_Table onContextMenu={contextMenuOpen()}>
 				<TableHead uuid={uuid} />
-				<_Tbody>
+				<_Tbody active={serverFolderBackColor[theme]}>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (
@@ -260,6 +267,8 @@ const FileListContents = ({uuid}) => {
 						if (item.name === '.') return;
 						return (
 							<_Tr
+								color={fontColor[theme]}
+								b_color={borderColor[theme]}
 								onContextMenu={contextMenuOpen(item)}
 								onClick={selectItem({item, index})}
 								onDoubleClick={changePath(item)}
@@ -304,12 +313,18 @@ const FileListContents = ({uuid}) => {
 								<Th min={'105px'}>{item.permission}</Th>
 								<Th min={'100px'} justify={'flex-end'}>
 									{item.type === 'file' && (
-										<IconButton onClick={edit(item)}>
+										<IconButton
+											color={iconColor[theme]}
+											onClick={edit(item)}
+										>
 											{editIcon}
 										</IconButton>
 									)}
 									{item.name !== '..' && (
-										<IconButton onClick={download(item)}>
+										<IconButton
+											color={iconColor[theme]}
+											onClick={download(item)}
+										>
 											{fileDownloadIcon}
 										</IconButton>
 									)}

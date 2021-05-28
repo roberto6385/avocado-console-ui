@@ -17,6 +17,18 @@ body {
 	outline: none;
 }
 
+/*input type number up down arrow*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
 /* modal background */
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
 	z-index: 5;

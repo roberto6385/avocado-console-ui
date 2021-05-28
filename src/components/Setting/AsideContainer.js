@@ -7,6 +7,10 @@ import {
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
 	SUB_HEIGHT,
+	sideColor,
+	fontColor,
+	iconColor,
+	borderColor,
 } from '../../styles/global';
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
@@ -17,9 +21,10 @@ const _Container = styled.div`
 	display: none;
 	height: 100%;
 	width: ${RIGHT_SIDE_WIDTH};
-	border-left: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-left: 1px solid;
+	border-color: ${(props) => props.b_color};
 	z-index: 5; // terminal보다 높아야 함.
-	background: white;
+	background: ${(props) => props.back};
 `;
 
 const _Header = styled.div`
@@ -29,7 +34,10 @@ const _Header = styled.div`
 	height: ${SUB_HEIGHT};
 	padding: 16px;
 	font-size: ${SIXTEEN};
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
+
+	color: ${(props) => props.color};
 `;
 
 const _IconButton = styled(IconButton)`
@@ -37,7 +45,7 @@ const _IconButton = styled(IconButton)`
 `;
 
 const AsideContainer = () => {
-	const {rightSideKey} = useSelector((state) => state.common);
+	const {rightSideKey, theme} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
 		const sideMenu = document.querySelector('#right_side_menu');
@@ -45,10 +53,14 @@ const AsideContainer = () => {
 	}, []);
 
 	return (
-		<_Container id={'right_side_menu'}>
-			<_Header>
+		<_Container
+			id={'right_side_menu'}
+			back={sideColor[theme]}
+			b_color={borderColor[theme]}
+		>
+			<_Header color={fontColor[theme]} b_color={borderColor[theme]}>
 				{rightSideKey}
-				<_IconButton onClick={close_sidebar}>
+				<_IconButton color={iconColor[theme]} onClick={close_sidebar}>
 					{closeIconMedium}
 				</_IconButton>
 			</_Header>

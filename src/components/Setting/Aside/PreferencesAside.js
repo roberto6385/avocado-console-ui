@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Select_ from '../../RecycleComponents/Select_';
 import styled from 'styled-components';
 import {
+	borderColor,
+	fontColor,
+	inputColor,
 	LIGHT_MODE_BORDER_COLOR,
 	MONTSERRAT,
 	ROBOTO,
@@ -17,12 +20,14 @@ import {CHANGE_GENERAL_THEME} from '../../../reducers/common';
 const _P = styled.p`
 	padding: 0px 0px 12px;
 	margin: 0px 8px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
 	font-size: ${SIXTEEN};
 `;
 
 const _SectionContainer = styled.div`
 	padding: 16px 8px;
+	color: ${(props) => props?.color};
 `;
 
 const background_theme = [
@@ -62,28 +67,37 @@ const PreferencesAside = () => {
 
 	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
-	}, [generalTheme]);
+	}, [generalTheme, dispatch]);
 
 	return (
 		<React.Fragment>
-			<_SectionContainer>
-				<_P>General</_P>
+			<_SectionContainer color={fontColor[theme]}>
+				<_P b_color={borderColor[theme]}>General</_P>
 				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
 					title='UI Theme'
 					options={background_theme}
 					value={generalTheme}
 					setValue={setGeneralTheme}
 				/>
 			</_SectionContainer>
-			<_SectionContainer>
-				<_P>Terminal</_P>
+			<_SectionContainer color={fontColor[theme]}>
+				<_P b_color={borderColor[theme]}>Terminal</_P>
 				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
 					title='UI Theme'
 					options={terminal_theme}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
 				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
 					title='Terminal Font'
 					options={font_theme}
 					value={terminalFont}
@@ -100,9 +114,12 @@ const PreferencesAside = () => {
 					setValue={setCopyText}
 				/>
 			</_SectionContainer>
-			<_SectionContainer>
-				<_P>SFTP</_P>
+			<_SectionContainer color={fontColor[theme]}>
+				<_P b_color={borderColor[theme]}>SFTP</_P>
 				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
 					title='Editor Theme'
 					options={editor_theme}
 					value={editorTheme}

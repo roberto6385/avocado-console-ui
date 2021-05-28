@@ -16,6 +16,9 @@ import {
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
+	backColor,
+	fontColor,
+	iconColor,
 } from '../../../styles/global';
 import {
 	fileDownloadIcon,
@@ -28,16 +31,28 @@ const _Container = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	background: ${(props) => props?.back};
+	border-color: ${(props) => props?.b_color};
 	height: ${SUB_HEIGHT};
 `;
 
 const _Button = styled(IconButton)`
-	color: ${ICON_LIGHT_COLOR};
+	color: ${(props) => props?.color};
+`;
+
+const _Span = styled.span`
+	font-size: ${AVOCADO_FONTSIZE};
+	color: ${(props) => props.color};
+`;
+const _ButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {text, editText, editFile, path, prevMode, mode} = corServer;
 	const dispatch = useDispatch();
@@ -94,17 +109,19 @@ const EditNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<_Container justify={'space-between'}>
-			<span
-				style={{fontSize: AVOCADO_FONTSIZE}}
-			>{`${path}/${editFile.name}`}</span>
-			<div style={{display: 'flex', alignItems: 'center'}}>
-				<_Button onClick={editedFileSave}>{saveIcon}</_Button>
-				<_Button onClick={editedFileDownload}>
+		<_Container justify={'space-between'} back={backColor[theme]}>
+			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
+			<_ButtonContainer>
+				<_Button color={iconColor[theme]} onClick={editedFileSave}>
+					{saveIcon}
+				</_Button>
+				<_Button color={iconColor[theme]} onClick={editedFileDownload}>
 					{fileDownloadIcon}
 				</_Button>
-				<_Button onClick={closeEditMode}>{squareDeleteIcon}</_Button>
-			</div>
+				<_Button color={iconColor[theme]} onClick={closeEditMode}>
+					{squareDeleteIcon}
+				</_Button>
+			</_ButtonContainer>
 		</_Container>
 	);
 };

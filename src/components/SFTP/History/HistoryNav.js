@@ -11,6 +11,9 @@ import {
 	IconButton,
 	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
+	fontColor,
+	iconColor,
+	borderColor,
 } from '../../../styles/global';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 
@@ -20,13 +23,15 @@ const _Container = styled.div`
 	justify-content: space-between;
 	padding: 0px 16px;
 	height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {history_highlight} = corServer;
 
@@ -73,11 +78,14 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer, history_highlight]);
 
 	return (
-		<_Container>
-			<Span>Transfer</Span>
+		<_Container b_color={borderColor[theme]}>
+			<Span color={fontColor[theme]}>Transfer</Span>
 			<div>
-				<IconButton onClick={upload}>{fileUploadIcon}</IconButton>
+				<IconButton color={iconColor[theme]} onClick={upload}>
+					{fileUploadIcon}
+				</IconButton>
 				<IconButton
+					color={iconColor[theme]}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>

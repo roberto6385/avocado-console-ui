@@ -20,6 +20,7 @@ const _Label = styled.label`
 	::bofore,
 	::after {
 		font-size: 15px;
+		background: red;
 	}
 `;
 

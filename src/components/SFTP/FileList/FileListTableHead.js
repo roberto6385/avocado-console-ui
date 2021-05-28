@@ -1,16 +1,24 @@
 import React, {useCallback} from 'react';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {LIGHT_MODE_BORDER_COLOR, THIRD_HEIGHT} from '../../../styles/global';
+import {
+	backColor,
+	borderColor,
+	fontColor,
+	THIRD_HEIGHT,
+} from '../../../styles/global';
 
 const _Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
+	background: ${(props) => props?.back} !important;
 	display: flex;
 	align-items: center;
 	padding: 8px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
+	color: ${(props) => props.color};
 `;
 
 const HeaderTh = styled.th`
@@ -28,7 +36,6 @@ const _Thead = styled.thead`
 	position: sticky;
 	top: 0px;
 	z-index: 1;
-	background: white;
 	min-width: 718px;
 	tr {
 		display: flex;
@@ -54,6 +61,7 @@ const Th = styled.th`
 
 const TableHead = ({uuid}) => {
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
 
 	const Sorting = useCallback(
 		(e) => {
@@ -99,7 +107,11 @@ const TableHead = ({uuid}) => {
 
 	return (
 		<_Thead>
-			<_Tr>
+			<_Tr
+				back={backColor[theme]}
+				b_color={borderColor[theme]}
+				color={fontColor[theme]}
+			>
 				{tableHeaders.map((item) => {
 					return (
 						<HeaderTh

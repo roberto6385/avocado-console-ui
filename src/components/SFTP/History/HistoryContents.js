@@ -31,6 +31,16 @@ import {
 	IconContainer,
 	LIGHT_MODE_ICON_COLOR,
 	MINT_COLOR,
+	fontColor,
+	borderColor,
+	serverFolderBackColor,
+	backColor,
+	pauseColor,
+	uploadColor,
+	downloadColor,
+	editColor,
+	deleteColor,
+	iconColor,
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -45,7 +55,8 @@ import {
 const DropSpaceDiv = styled.div`
 	height: ${DROP_SPACE_HEIGHT};
 	margin: 8px;
-	border: 1px dashed ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px dashed;
+	border-color: ${(props) => props.b_color};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -72,7 +83,8 @@ const _Li = styled.li`
 	align-items: center;
 	background: ${(props) => props.back};
 	white-space: nowrap;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const DropSpace_Button = styled.button`
@@ -113,6 +125,7 @@ const Bar = styled.div`
 
 const HistoryContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {history, history_highlight} = corServer;
 	const dispatch = useDispatch();
@@ -272,9 +285,9 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<DropSpaceDiv>
+				<DropSpaceDiv b_color={borderColor[theme]}>
 					<Span
-						color={ICON_LIGHT_COLOR}
+						color={fontColor[theme]}
 						padding={'32px 30px 12px 30px'}
 					>
 						Drop files or folders here, or
@@ -295,8 +308,11 @@ const HistoryContents = ({uuid}) => {
 								back={
 									history_highlight.find(
 										(item) => item === history,
-									) && LIGHT_MODE_BACKGROUND_MINT_COLOR
+									)
+										? serverFolderBackColor[theme]
+										: backColor[theme]
 								}
+								b_color={borderColor[theme]}
 								borderWidth={`${history.progress}%`}
 							>
 								<IconContainer
@@ -309,16 +325,29 @@ const HistoryContents = ({uuid}) => {
 											: MINT_COLOR
 									}
 								>
-									{history.progress !== 100
-										? pauseCircleIconSmall
-										: history.todo === 'put'
-										? arrowCircleUpIconSmall
-										: history.todo === 'get'
-										? arrowCircleDownIconSmall
-										: history.todo === 'edit'
-										? buildCircleIconSmall
-										: history.todo === 'rm' &&
-										  removeCircleIconSmall}
+									{history.progress !== 100 ? (
+										<IconContainer color={pauseColor}>
+											{pauseCircleIconSmall}
+										</IconContainer>
+									) : history.todo === 'put' ? (
+										<IconContainer color={uploadColor}>
+											{arrowCircleUpIconSmall}
+										</IconContainer>
+									) : history.todo === 'get' ? (
+										<IconContainer color={downloadColor}>
+											{arrowCircleDownIconSmall}
+										</IconContainer>
+									) : history.todo === 'edit' ? (
+										<IconContainer color={editColor}>
+											{buildCircleIconSmall}
+										</IconContainer>
+									) : (
+										history.todo === 'rm' && (
+											<IconContainer color={deleteColor}>
+												{removeCircleIconSmall}
+											</IconContainer>
+										)
+									)}
 								</IconContainer>
 								<ItemName_Span
 									className={'history_contents'}
@@ -326,13 +355,13 @@ const HistoryContents = ({uuid}) => {
 									color={
 										history.progress !== 100
 											? ICON_LIGHT_COLOR
-											: 'black'
+											: fontColor[theme]
 									}
 								>
 									{history.name}
 								</ItemName_Span>
 								<Span
-									color={ICON_LIGHT_COLOR}
+									color={fontColor[theme]}
 									size={HISTORY_FONTSIZE}
 									className={'history_contents'}
 								>
@@ -346,8 +375,8 @@ const HistoryContents = ({uuid}) => {
 										history_highlight.find(
 											(item) => item === history,
 										)
-											? FONT_COLOR
-											: ICON_LIGHT_COLOR
+											? MINT_COLOR
+											: iconColor[theme]
 									}
 								>
 									{deleteIconMidium}

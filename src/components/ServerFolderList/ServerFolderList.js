@@ -17,7 +17,6 @@ export const _Nav = styled(Nav)`
 	flex: 1 1 0;
 	overflow-y: scroll;
 	background: ${(props) => props?.back};
-
 	${HiddenScroll}
 `;
 

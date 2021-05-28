@@ -8,6 +8,13 @@ export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 
 export const MINT_COLOR = '#4ca6a8';
+
+export const pauseColor = '#a8a8a8';
+export const downloadColor = '#a8a8a8';
+export const uploadColor = '#4285f4';
+export const editColor = '#E4E723';
+export const deleteColor = '#d45959';
+
 // lightmode color
 export const LIGHT_MODE_SIDE_COLOR = '#ffffff';
 export const LIGHT_MODE_FONT_COLOR = '#212121';
@@ -16,6 +23,9 @@ export const LIGHT_MODE_ICON_COLOR = '#959ea1';
 export const LIGHT_MODE_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
 export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
 export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
+export const LIGHT_MODE_FORM_BACKGROUND_COLOR = '#ffffff';
+export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#ffffff';
+
 // darkmode color
 export const DARK_MODE_SIDE_COLOR = '#1e364d';
 export const DARK_MODE_FONT_COLOR = '#ffffff';
@@ -25,6 +35,8 @@ export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
 export const DARK_MODE_BACKGROUND_COLOR = '#212936';
 export const DARK_MODE_BORDER_COLOR = '#192836';
 export const DARK_MODE_FOOTER_BACKGROUND_COLOR = '#18191f';
+export const DARK_MODE_FORM_BACKGROUND_COLOR = '#253c51';
+export const DARK_MODE_INPUT_BACKGROUND_COLOR = '#182e42';
 
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
@@ -68,6 +80,14 @@ export const serverFolderBackColor = [
 export const footerColor = [
 	LIGHT_MODE_FOOTER_BACKGROUND_COLOR,
 	DARK_MODE_FOOTER_BACKGROUND_COLOR,
+];
+export const formColor = [
+	LIGHT_MODE_FORM_BACKGROUND_COLOR,
+	DARK_MODE_FORM_BACKGROUND_COLOR,
+];
+export const inputColor = [
+	LIGHT_MODE_INPUT_BACKGROUND_COLOR,
+	DARK_MODE_INPUT_BACKGROUND_COLOR,
 ];
 
 // height
@@ -178,16 +198,16 @@ export const DangerButton = styled(DefaultButton)`
 `;
 
 export const BorderButton = styled(DefaultButton)`
-	background-color: white;
+	background-color: transparent;
 	border: solid 1px ${CANCEL_BUTTON_DEFAULT_BORDER};
-	color: ${CANCEL_BUTTON_DEFAULT_COLOR};
+	color: ${(props) => props.color || CANCEL_BUTTON_DEFAULT_COLOR};
 	&:hover {
-		background-color: white;
+		background-color: transparent;
 		border: solid 1px ${CANCEL_BUTTON_DEFAULT_HOVER_BORDER};
 		color: ${CANCEL_BUTTON_DEFAULT_HOVER_COLOR};
 	}
 	&:active {
-		background-color: white;
+		background-color: transparent;
 		border: solid 1px ${CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER};
 		color: ${CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR};
 	}

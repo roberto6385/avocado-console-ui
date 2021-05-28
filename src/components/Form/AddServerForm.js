@@ -21,6 +21,12 @@ import {
 	ICON_DARK_COLOR,
 	BorderButton,
 	SecondaryButtonGreen,
+	sideColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	formColor,
+	inputColor,
 } from '../../styles/global';
 
 import {IoCloseOutline} from 'react-icons/all';
@@ -28,9 +34,13 @@ import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
+import {closeIconSmall} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	position: absolute;
 	z-index: 5;
 	top: 50%;
@@ -39,7 +49,6 @@ const _Modal = styled(Modal)`
 	bottom: auto;
 	transform: translate(-50%, -50%);
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
 	border-radius: 4px;
 	width: 600px;
 `;
@@ -51,7 +60,9 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
+
 	font-weight: 500;
 `;
 const _Footer = styled.div`
@@ -61,7 +72,8 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-top: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Title = styled.div`
@@ -73,7 +85,8 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
@@ -88,6 +101,10 @@ const LongInput = styled(_Input)`
 
 const FileInput = styled.input`
 	display: none;
+	border: 1px solid;
+	border-color: ${(props) => props?.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 `;
 
 const _Label = styled.label`
@@ -95,7 +112,10 @@ const _Label = styled.label`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	margin: 0;
 	cursor: pointer;
 `;
@@ -137,7 +157,7 @@ const duplicationTest = (server, name, host, port, protocol) => {
 
 const AddServerForm = () => {
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common);
+	const {server, theme} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {add_server_form_popup} = useSelector((state) => state.popup);
 
@@ -291,17 +311,23 @@ const AddServerForm = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			back={formColor[theme]}
+			b_color={borderColor[theme]}
+			color={fontColor[theme]}
 		>
-			<_Header>
+			<_Header b_color={borderColor[theme]}>
 				<_Title>Add Server</_Title>
-				<IconButton color={ICON_DARK_COLOR} onClick={closeModal}>
-					<IoCloseOutline />
+				<IconButton color={iconColor[theme]} onClick={closeModal}>
+					{closeIconSmall}
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
 					<Input_ title={'Name'} flex={1}>
 						<LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={name}
 							onChange={onChangeName}
@@ -309,6 +335,9 @@ const AddServerForm = () => {
 						/>
 					</Input_>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'178px'}
 						title='Protocol'
 						options={protocol_options}
@@ -319,6 +348,9 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Address'} flex={1}>
 						<LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={host}
 							onChange={onChangeHost}
@@ -328,6 +360,9 @@ const AddServerForm = () => {
 
 					<Input_ title={'Port'}>
 						<_Input
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='number'
 							value={port}
 							onChange={onChangePort}
@@ -337,6 +372,9 @@ const AddServerForm = () => {
 				</Item_Container>
 				<Item_Container>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						title='Identity'
 						flex={1}
 						options={user_options}
@@ -344,6 +382,9 @@ const AddServerForm = () => {
 						setValue={setIdentity}
 					/>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'178px'}
 						title='Authentication'
 						options={authentication_options}
@@ -354,6 +395,9 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Username'} flex={1}>
 						<LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={username}
 							onChange={onChangeUsername}
@@ -365,6 +409,9 @@ const AddServerForm = () => {
 					<Item_Container>
 						<Input_ title={'Password'} flex={1}>
 							<LongInput
+								back={inputColor[theme]}
+								color={fontColor[theme]}
+								b_color={borderColor[theme]}
 								type='password'
 								value={password}
 								onChange={onChangePassword}
@@ -376,7 +423,12 @@ const AddServerForm = () => {
 					<React.Fragment>
 						<Item_Container>
 							<Input_ title={'Private Key File'} flex={1}>
-								<_Label htmlFor={'add_server_form_type_file'}>
+								<_Label
+									htmlFor={'add_server_form_type_file'}
+									back={inputColor[theme]}
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
+								>
 									{keyFile}
 									<FileInput
 										type='file'
@@ -404,6 +456,9 @@ const AddServerForm = () => {
 						<Item_Container>
 							<Input_ title={'Key File Password'} flex={1}>
 								<LongInput
+									back={inputColor[theme]}
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
 									type='password'
 									value={password}
 									onChange={onChangePassword}
@@ -416,6 +471,9 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={'Note'} flex={1}>
 						<LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={note}
 							onChange={onChangeNote}
@@ -424,8 +482,10 @@ const AddServerForm = () => {
 					</Input_>
 				</Item_Container>
 			</_Form>
-			<_Footer>
-				<BorderButton onClick={closeModal}>Cancel</BorderButton>
+			<_Footer b_color={borderColor[theme]}>
+				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+					Cancel
+				</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>

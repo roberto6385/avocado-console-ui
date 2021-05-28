@@ -43,7 +43,7 @@ const _Aside = styled.aside`
 	width: ${SIDE_WIDTH};
 	min-width: ${SIDE_WIDTH};
 	border-right: 1px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.b_Color};
 `;
 
 const _Header = styled.div`
@@ -60,7 +60,7 @@ const _AddFolerServerContainer = styled.div`
 	height: ${SUB_HEIGHT};
 	padding: 16px 10px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.b_Color};
 	background: ${(props) => props.back};
 `;
 const _Form = styled.form`
@@ -69,7 +69,7 @@ const _Form = styled.form`
 	padding: 16px 10px;
 	height: ${THIRD_HEIGHT};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.b_Color};
 	background: ${(props) => props.back};
 `;
 
@@ -134,10 +134,10 @@ const Nav = () => {
 	}, [dispatch]);
 
 	return toggle ? (
-		<_Aside bColor={borderColor[theme]}>
+		<_Aside b_Color={borderColor[theme]}>
 			<_Header back={sideColor[theme]}>
 				<IconButton
-					color={theme === 'light' ? iconColor[0] : iconColor[1]}
+					color={iconColor[theme]}
 					onClick={() => setToggle(!toggle)}
 				>
 					{burgerMenuIcon}
@@ -146,7 +146,7 @@ const Nav = () => {
 			</_Header>
 			<_AddFolerServerContainer
 				back={sideColor[theme]}
-				bColor={borderColor[theme]}
+				b_Color={borderColor[theme]}
 			>
 				<IconButton color={fontColor[theme]} onClick={newServer}>
 					{plusIcon}
@@ -156,7 +156,7 @@ const Nav = () => {
 				</_NewServerSpan>
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
-			<_Form back={sideColor[theme]} bColor={borderColor[theme]}>
+			<_Form back={sideColor[theme]} b_Color={borderColor[theme]}>
 				<IconContainer color={iconColor[theme]} margin={'6px'}>
 					{searchIcon}
 				</IconContainer>
@@ -165,7 +165,7 @@ const Nav = () => {
 					value={search}
 					type='text'
 					placeholder={'Search'}
-					color={iconColor[theme]}
+					color={fontColor[theme]}
 					back={sideColor[theme]}
 				/>
 			</_Form>

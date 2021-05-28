@@ -9,7 +9,7 @@ export const initialState = {
 	server_index: 4,
 	folder_index: 5,
 	rightSideKey: '',
-	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
+	theme: 1, // light === 0  and dark === 1 우선 redux로 구현
 	nav: [
 		{
 			type: 'folder',

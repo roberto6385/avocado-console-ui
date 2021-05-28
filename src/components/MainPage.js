@@ -5,9 +5,7 @@ import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import '../styles/resize.css';
 import {
 	IconButton,
-	LIGHT_BACK_COLOR,
 	MAIN_HEIGHT,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	PrimaryButton,
 	RIGHT_SIDE_WIDTH,
 	sideColor,

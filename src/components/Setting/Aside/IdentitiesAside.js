@@ -10,6 +10,9 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
 	THIRD_HEIGHT,
+	fontColor,
+	iconColor,
+	borderColor,
 } from '../../../styles/global';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
@@ -20,7 +23,8 @@ const _Li = styled.li`
 	height: ${THIRD_HEIGHT};
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _AccountContainer = styled.div`
@@ -61,10 +65,11 @@ const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	color: ${(props) => props.color};
 `;
 
 const IdentitiesAside = () => {
-	const {account} = useSelector((state) => state.common);
+	const {account, theme} = useSelector((state) => state.common);
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -74,9 +79,9 @@ const IdentitiesAside = () => {
 		[],
 	);
 	return (
-		<_Container>
+		<_Container color={fontColor[theme]}>
 			<ul>
-				<_Li>
+				<_Li b_color={borderColor[theme]}>
 					<_AccountContainer>
 						<_Span>Account</_Span>
 					</_AccountContainer>
@@ -87,7 +92,7 @@ const IdentitiesAside = () => {
 				</_Li>
 				{account.map((item) => {
 					return (
-						<_Li key={item.id}>
+						<_Li key={item.id} b_color={borderColor[theme]}>
 							<_AccountContainer>
 								<_Span>{item.name}</_Span>
 							</_AccountContainer>
@@ -95,7 +100,9 @@ const IdentitiesAside = () => {
 								<_Span>{item.type}</_Span>
 							</_AuthenticationContainer>
 							<_ButtonContainer>
-								<IconButton>{deleteIconMidium}</IconButton>
+								<IconButton color={iconColor[theme]}>
+									{deleteIconMidium}
+								</IconButton>
 							</_ButtonContainer>
 						</_Li>
 					);

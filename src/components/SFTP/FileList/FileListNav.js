@@ -12,12 +12,14 @@ import {
 	AVOCADO_FONTSIZE,
 	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
-	ICON_LIGHT_COLOR,
-	LIGHT_BACK_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
+	iconColor,
+	inputColor,
+	fontColor,
+	borderColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -35,13 +37,15 @@ const _input = styled.input`
 	border: none;
 	padding: 0px 13px;
 	outline: none;
-	background: ${LIGHT_BACK_COLOR};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 `;
 
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
 	height: ${SUB_HEIGHT};
 `;
 
@@ -59,6 +63,7 @@ const _Form = styled.form`
 
 const FileListNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {path, mode} = corServer;
 
@@ -134,20 +139,22 @@ const FileListNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<_Container>
+		<_Container b_color={borderColor[theme]}>
 			<_IconButton
-				color={mode === 'drop' && MINT_COLOR}
+				color={mode === 'drop' ? MINT_COLOR : iconColor[theme]}
 				onClick={dropdownList}
 			>
 				{viewColumnIcon}
 			</_IconButton>
 			<_IconButton
-				color={mode === 'list' && MINT_COLOR}
+				color={mode === 'list' ? MINT_COLOR : iconColor[theme]}
 				onClick={basicList}
 			>
 				{viewListIcon}
 			</_IconButton>
-			<_IconButton onClick={goBack}>{arrowUpwordIcon}</_IconButton>
+			<_IconButton color={iconColor[theme]} onClick={goBack}>
+				{arrowUpwordIcon}
+			</_IconButton>
 			<_Form onSubmit={searchPath}>
 				<_input
 					id='fileListNavInput'
@@ -155,12 +162,17 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={LIGHT_BACK_COLOR}
+					back={inputColor[theme]}
+					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<_IconButton onClick={refresh}>{refreshIcon}</_IconButton>
-			<_IconButton onClick={goHome}>{homeIcon}</_IconButton>
+			<_IconButton color={iconColor[theme]} onClick={refresh}>
+				{refreshIcon}
+			</_IconButton>
+			<_IconButton color={iconColor[theme]} onClick={goHome}>
+				{homeIcon}
+			</_IconButton>
 		</_Container>
 	);
 };

@@ -12,15 +12,12 @@ import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {
 	GREEN_COLOR,
-	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	IconButton,
 	Span,
-	LIGHT_MODE_SIDE_COLOR,
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
 	IconContainer,
 	MINT_COLOR,
-	LIGHT_MODE_ICON_COLOR,
 	serverFolderBackColor,
 	sideColor,
 	fontColor,
@@ -31,9 +28,7 @@ import styled from 'styled-components';
 import {
 	arrowDropDownIconMidium,
 	arrowRightIconMidium,
-	folderIcon,
 	folderIconMidium,
-	folderOpenIcon,
 	folderOpenIconMidium,
 } from '../../icons/icons';
 
@@ -46,7 +41,7 @@ export const _NavItem = styled.div`
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.b_Color};
 `;
 
 export const _Form = styled.form`
@@ -153,10 +148,8 @@ const Folder = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				bColor={
-					clicked_server === data.key
-						? MINT_COLOR
-						: sideColor[theme]
+				b_Color={
+					clicked_server === data.key ? MINT_COLOR : sideColor[theme]
 				}
 				back={
 					clicked_server === data.key
