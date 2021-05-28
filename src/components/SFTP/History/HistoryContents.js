@@ -29,7 +29,7 @@ import {
 	PreventDragCopy,
 	THIRD_HEIGHT,
 	IconContainer,
-	ICON_GRAY_COLOR,
+	LIGHT_MODE_ICON_COLOR,
 	ICON_MINT_COLOR,
 } from '../../../styles/global';
 import styled from 'styled-components';
@@ -305,7 +305,7 @@ const HistoryContents = ({uuid}) => {
 									className={'history_contents'}
 									color={
 										history.progress !== 100
-											? ICON_GRAY_COLOR
+											? LIGHT_MODE_ICON_COLOR
 											: ICON_MINT_COLOR
 									}
 								>

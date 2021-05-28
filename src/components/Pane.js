@@ -8,7 +8,7 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {
 	IconButton,
 	ICON_DARK_COLOR,
-	LIGHT_MODE_BACK_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
 	BORDER_COLOR,
@@ -37,7 +37,7 @@ const _Header = styled.div`
 	padding: 0px 6px;
 	z-index: 1;
 	border-bottom: 1px solid ${BORDER_COLOR};
-	background: ${LIGHT_MODE_BACK_COLOR};
+	background: ${LIGHT_MODE_SIDE_COLOR};
 `;
 
 const _Span = styled.span`

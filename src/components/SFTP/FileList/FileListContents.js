@@ -28,7 +28,7 @@ import {
 	LIGHT_BACKGROUND_COLOR,
 	PreventDragCopy,
 	ICON_MINT_COLOR,
-	ICON_GRAY_COLOR,
+	LIGHT_MODE_ICON_COLOR,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
 import {

@@ -9,14 +9,16 @@ export const FOOTER_BACK_COLOR = '#dee1e6';
 export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const BORDER_COLOR = '#e5e5e5';
 
-// lightmode icon color
+// lightmode color
 export const ICON_MINT_COLOR = '#4ca6a8';
-export const LIGHT_MODE_BACK_COLOR = '#ffffff';
+export const LIGHT_MODE_SIDE_COLOR = '#ffffff';
+export const LIGHT_MODE_FONT_COLOR = '#212121';
 export const BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
-export const ICON_GRAY_COLOR = '#959ea1';
+export const LIGHT_MODE_ICON_COLOR = '#959ea1';
 // darkmode color
-export const ICON_GRAY_COLOR_DARK = `rgba(255,255,255,0.54)`;
-export const DARK_MODE_COLOR = '#2c2d33';
+export const DARK_MODE_SIDE_COLOR = '#2b3648';
+export const DARK_MODE_FONT_COLOR = '#ffffff';
+export const DARK_MODE_ICON_COLOR = 'rgba(255,255,255,0.54)';
 export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
 export const DARK_MODE_BACK_COLOR = '#18191f';
 
@@ -47,6 +49,10 @@ export const CANCEL_BUTTON_DEFAULT_HOVER_COLOR = `rgba(114, 125, 128, 0.87)`;
 export const CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER = `#a8a8a8`;
 export const CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR = `#556367`;
 
+// theme
+export const backgroundTheme = [LIGHT_MODE_SIDE_COLOR, DARK_MODE_SIDE_COLOR];
+export const fontColor = [LIGHT_MODE_FONT_COLOR, DARK_MODE_FONT_COLOR];
+export const iconColor = [LIGHT_MODE_ICON_COLOR, DARK_MODE_ICON_COLOR];
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container
 export const SUB_HEIGHT = '50px'; // new folder container, (ssht, sftp nav)
@@ -106,13 +112,13 @@ export const IconButton = styled.button`
 	line-height: 0px;
 	padding: ${(props) => props?.padding || '6px'};
 	font-size: ${(props) => props?.size || MIDDLE_FONTSIZE};
-	color: ${(props) => props.color || ICON_GRAY_COLOR};
+	color: ${(props) => props.color || LIGHT_MODE_ICON_COLOR};
 
 	&:hover {
 		color: ${(props) => props?.hover || ICON_HOVER_LIGHT_COLOR};
 	}
 	&:active {
-		color: ${(props) => props?.hover || ICON_ACTIVE_LIGHT_COLOR};
+		color: ${(props) => props?.active || ICON_ACTIVE_LIGHT_COLOR};
 	}
 `;
 
@@ -215,7 +221,7 @@ export const HiddenScroll = `
 // 아이콘에 패딩, 마진, 컬러, 사이즈 넣을때 사용.
 export const IconContainer = styled.div`
 	line-height: 0;
-	color: ${(props) => props?.color || ICON_GRAY_COLOR};
+	color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: ${(props) => props.margin || '0px'};
 `;

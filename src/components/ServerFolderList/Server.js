@@ -17,11 +17,11 @@ import {
 	AVOCADO_FONTSIZE,
 	BACKGROUND_MINT_COLOR,
 	Span,
-	LIGHT_MODE_BACK_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
 	FOLDER_HEIGHT,
 	IconContainer,
 	ICON_MINT_COLOR,
-	ICON_GRAY_COLOR,
+	LIGHT_MODE_ICON_COLOR,
 } from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
@@ -158,7 +158,7 @@ const Server = ({data, indent}) => {
 				back={
 					clicked_server === data.key
 						? BACKGROUND_MINT_COLOR
-						: LIGHT_MODE_BACK_COLOR
+						: LIGHT_MODE_SIDE_COLOR
 				}
 				border={
 					clicked_server === data.key

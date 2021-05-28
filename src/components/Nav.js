@@ -16,8 +16,11 @@ import {
 	BORDER_COLOR,
 	DefaultButton,
 	IconContainer,
-	DARK_MODE_COLOR,
-	LIGHT_MODE_BACK_COLOR,
+	DARK_MODE_SIDE_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
+	backgroundTheme,
+	fontColor,
+	iconColor,
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -55,6 +58,7 @@ const _AddFolerServerContainer = styled.div`
 	height: ${SUB_HEIGHT};
 	padding: 16px 10px;
 	border-bottom: 1px solid ${BORDER_COLOR};
+	background: ${(props) => props.back};
 `;
 const _Form = styled.form`
 	display: flex;
@@ -71,7 +75,7 @@ const _HeaderSpan = styled.span`
 `;
 const _NewServerSpan = styled.span`
 	font-size: ${AVOCADO_FONTSIZE};
-	color: ${FONT_COLOR};
+	color: ${(props) => props.color};
 	flex: 1;
 `;
 
@@ -126,19 +130,33 @@ const Nav = () => {
 		<_Aside>
 			<_Header
 				back={
-					theme === 'lignt' ? LIGHT_MODE_BACK_COLOR : DARK_MODE_COLOR
+					theme === 'lignt' ? backgroundTheme[0] : backgroundTheme[1]
 				}
 			>
-				<IconButton onClick={() => setToggle(!toggle)}>
+				<IconButton
+					color={theme === 'lignt' ? iconColor[0] : iconColor[1]}
+					onClick={() => setToggle(!toggle)}
+				>
 					{burgerMenuIcon}
 				</IconButton>
 				<_HeaderSpan>Avocado</_HeaderSpan>
 			</_Header>
-			<_AddFolerServerContainer>
-				<IconButton color={FONT_COLOR} onClick={newServer}>
+			<_AddFolerServerContainer
+				back={
+					theme === 'lignt' ? backgroundTheme[0] : backgroundTheme[1]
+				}
+			>
+				<IconButton
+					color={theme === 'lignt' ? fontColor[0] : fontColor[1]}
+					onClick={newServer}
+				>
 					{plusIcon}
 				</IconButton>
-				<_NewServerSpan>New Server</_NewServerSpan>
+				<_NewServerSpan
+					color={theme === 'lignt' ? fontColor[0] : fontColor[1]}
+				>
+					New Server
+				</_NewServerSpan>
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
 			<_Form>

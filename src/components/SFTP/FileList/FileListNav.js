@@ -17,7 +17,7 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 	ICON_MINT_COLOR,
-	ICON_GRAY_COLOR,
+	LIGHT_MODE_ICON_COLOR,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -46,9 +46,9 @@ const _Container = styled.div`
 `;
 
 const _IconButton = styled(IconButton)`
-	color: ${(props) => props?.color || ICON_GRAY_COLOR};
+	color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
 	&:hover {
-		color: ${(props) => props?.color || ICON_GRAY_COLOR};
+		color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
 	}
 `;
 

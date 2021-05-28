@@ -22,7 +22,7 @@ import {
 	AVOCADO_FONTSIZE,
 	IconButton,
 	ICON_DARK_COLOR,
-	LIGHT_MODE_BACK_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
 } from '../../styles/global';
@@ -49,7 +49,7 @@ const _Form = styled.form`
 	border-radius: 4px;
 	padding: 12px;
 	height: ${TERMINAL_SEARCH_FORM_HEIGHT};
-	background: ${LIGHT_MODE_BACK_COLOR};
+	background: ${LIGHT_MODE_SIDE_COLOR};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;

@@ -9,7 +9,7 @@ export const initialState = {
 	server_index: 4,
 	folder_index: 5,
 	rightSideKey: '',
-	theme: 'dark', // 우선 redux로 구현
+	theme: 'light', // or dark우선 redux로 구현
 	nav: [
 		{
 			type: 'folder',

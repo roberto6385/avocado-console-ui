@@ -10,7 +10,7 @@ import {
 	EIGHTEEN,
 	ICON_DARK_COLOR,
 	LIGHT_BACK_COLOR,
-	LIGHT_MODE_BACK_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
 	MAIN_HEIGHT,
 	RIGHT_SIDE_WIDTH,
 	TAB_WIDTH,
@@ -162,7 +162,7 @@ const WorkSpace = () => {
 									onClick={changeVisibleTab(data.uuid)}
 									back={
 										current_tab === data.uuid
-											? LIGHT_MODE_BACK_COLOR
+											? LIGHT_MODE_SIDE_COLOR
 											: LIGHT_BACK_COLOR
 									}
 									color={

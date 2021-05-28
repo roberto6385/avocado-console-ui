@@ -15,12 +15,12 @@ import {
 	BACKGROUND_MINT_COLOR,
 	IconButton,
 	Span,
-	LIGHT_MODE_BACK_COLOR,
+	LIGHT_MODE_SIDE_COLOR,
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
 	IconContainer,
 	ICON_MINT_COLOR,
-	ICON_GRAY_COLOR,
+	LIGHT_MODE_ICON_COLOR,
 } from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
@@ -156,7 +156,7 @@ const Folder = ({open, data, indent}) => {
 				back={
 					clicked_server === data.key
 						? BACKGROUND_MINT_COLOR
-						: LIGHT_MODE_BACK_COLOR
+						: LIGHT_MODE_SIDE_COLOR
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
