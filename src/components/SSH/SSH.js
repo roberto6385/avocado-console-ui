@@ -1,16 +1,11 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
-import {
-	IoCloseOutline,
-	MdKeyboardArrowDown,
-	MdKeyboardArrowUp,
-	MdSearch,
-} from 'react-icons/all';
+import {MdSearch} from 'react-icons/all';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -18,15 +13,12 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
-	ICON_DARK_COLOR,
 	LIGHT_MODE_SIDE_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
-	iconColor,
 } from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
@@ -73,7 +65,7 @@ const _Input = styled.input`
 
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {current_tab, theme} = useSelector((state) => state.common);
+	const {current_tab} = useSelector((state) => state.common);
 	const {font, font_size, search_mode, ssht} = useSelector(
 		(state) => state.ssht,
 	);
@@ -84,7 +76,6 @@ const SSH = ({uuid}) => {
 	const searchAddon = useRef(new SearchAddon());
 	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
 	// const [prompt, setPrompt] = useState('');
-	const [currentLine, setCurrentLine] = useState('');
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		1000,
 	);
@@ -124,7 +115,6 @@ const SSH = ({uuid}) => {
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
-			// setCurrentLine(currentLine + data);
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
@@ -136,10 +126,9 @@ const SSH = ({uuid}) => {
 		});
 
 		return () => {
-			// console.log(currentLine);
 			processInput.dispose();
 		};
-	}, [uuid, ws, sshTerm, currentLine]);
+	}, [uuid, ws, sshTerm]);
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
@@ -220,16 +209,11 @@ const SSH = ({uuid}) => {
 					placeholder='Search...'
 					type='text'
 				/>
-				<IconButton color={iconColor[theme]}>
-					{arrowDropUpIconMidium}
-				</IconButton>
-				<IconButton color={iconColor[theme]}>
+				<IconButton color='#757575'>{arrowDropUpIconMidium}</IconButton>
+				<IconButton color='#757575'>
 					{arrowDropDownIconMidium}
 				</IconButton>
-				<IconButton
-					color={iconColor[theme]}
-					onClick={onClickOpenSearchBar}
-				>
+				<IconButton color='#757575' onClick={onClickOpenSearchBar}>
 					{closeIconMedium}
 				</IconButton>
 			</_Form>

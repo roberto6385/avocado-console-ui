@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import PropTypes, {symbol} from 'prop-types';
 import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global';
 
+const _Input = styled.input`
+	height: ${(props) => props.size};
+	width: ${(props) => props.size};
+`;
 const _LabelContainer = styled.div`
 	display: flex;
 	align-items: center;
@@ -43,7 +47,7 @@ const _Container = styled.div`
 	}
 `;
 
-const Checkbox_ = ({title, value, setValue}) => {
+const Checkbox_ = ({title, value, setValue, size}) => {
 	return (
 		<_Container>
 			<div className='pretty p-svg p-curve'>
@@ -70,6 +74,7 @@ Checkbox_.propTypes = {
 	title: PropTypes.string,
 	value: PropTypes.bool.isRequired,
 	setValue: PropTypes.func.isRequired,
+	size: PropTypes.string,
 };
 
 export default Checkbox_;

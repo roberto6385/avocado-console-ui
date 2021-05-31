@@ -7,6 +7,7 @@ export const initialState = {
 	font_size: 14,
 	search_mode: false,
 	ssht: [],
+	current_line: '',
 	snippets: [
 		{id: 0, name: 'File List', content: 'ls'},
 		{id: 1, name: 'Current Path', content: 'pwd'},
@@ -97,6 +98,8 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST:
+				// draft.current_line += action.data.result;
+				// console.log(draft.current_line);
 				break;
 
 			case SSH_SEND_COMMAND_SUCCESS:

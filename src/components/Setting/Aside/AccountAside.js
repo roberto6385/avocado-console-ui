@@ -9,13 +9,14 @@ import {
 	fontColor,
 	GREEN_COLOR,
 	inputColor,
-	LIGHT_MODE_BORDER_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
+	RIGHT_SIDE_WIDTH,
 } from '../../../styles/global';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 const _Container = styled.div`
+	width: ${RIGHT_SIDE_WIDTH};
 	padding: 15px 8px;
 	color: ${(props) => props?.color};
 `;

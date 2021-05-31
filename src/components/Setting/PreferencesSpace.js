@@ -7,7 +7,6 @@ import {
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-	SIXTEEN,
 	SUB_HEIGHT,
 } from '../../styles/global';
 import Select_ from '../RecycleComponents/Select_';

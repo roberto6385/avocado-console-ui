@@ -8,6 +8,7 @@ import {
 	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
+	LIGHT_MODE_ICON_COLOR,
 } from '../../styles/global';
 
 import {useHistory, withRouter} from 'react-router-dom';
@@ -36,7 +37,7 @@ const _BackContainer = styled.div`
 	cursor: pointer;
 `;
 
-const _Span = styled.span`
+const _Header = styled.div`
 	padding: 0px 12px;
 `;
 
@@ -69,7 +70,7 @@ const SettingNav = ({match}) => {
 		<_Container>
 			<_BackContainer onClick={changePath('/')}>
 				{chevronLeftIcon}
-				<_Span>Back</_Span>
+				<_Header>Back</_Header>
 			</_BackContainer>
 			<_Ul>
 				<_Li
@@ -84,12 +85,12 @@ const SettingNav = ({match}) => {
 						color={
 							match.path === '/account'
 								? MINT_COLOR
-								: undefined
+								: LIGHT_MODE_ICON_COLOR
 						}
 					>
 						{accountIconMidium}
 					</IconContainer>
-					<_Span>Account</_Span>
+					<_Header>Account</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/preferences')}
@@ -103,13 +104,13 @@ const SettingNav = ({match}) => {
 						color={
 							match.path === '/preferences'
 								? MINT_COLOR
-								: undefined
+								: LIGHT_MODE_ICON_COLOR
 						}
 					>
 						{settingIconMidium}
 					</IconContainer>
 
-					<_Span>Preferences</_Span>
+					<_Header>Preferences</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/identities')}
@@ -123,12 +124,12 @@ const SettingNav = ({match}) => {
 						color={
 							match.path === '/identities'
 								? MINT_COLOR
-								: undefined
+								: LIGHT_MODE_ICON_COLOR
 						}
 					>
 						{identityIconMidium}
 					</IconContainer>
-					<_Span>Identity</_Span>
+					<_Header>Identity</_Header>
 				</_Li>
 			</_Ul>
 		</_Container>
