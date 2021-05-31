@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
-import {FaEdit, MdRemoveCircle} from 'react-icons/all';
 import {
 	ADD_HISTORY_HI,
 	ADD_HISTORY,
@@ -13,13 +12,9 @@ import {
 import {formatByteSizeString} from '../listConversion';
 import {
 	GREEN_COLOR,
-	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	Span,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	DROP_SPACE_HEIGHT,
-	EIGHTEEN,
-	FONT_COLOR,
 	HISTORY_FONTSIZE,
 	HISTORY_ITEM_WIDTH,
 	ICON_LIGHT_COLOR,
@@ -186,7 +181,7 @@ const HistoryContents = ({uuid}) => {
 			}
 			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
 		},
-		[corServer],
+		[corServer, dispatch],
 	);
 
 	console.log(history_highlight);

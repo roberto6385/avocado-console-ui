@@ -7,6 +7,8 @@ import {borderColor, SIDE_WIDTH} from '../../../styles/global';
 import {useSelector} from 'react-redux';
 
 const _Container = styled.div`
+	display: flex;
+	flex-direction: column;
 	min-width: ${SIDE_WIDTH};
 	width: ${SIDE_WIDTH};
 	border-left: 1px solid;
