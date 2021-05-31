@@ -1,9 +1,9 @@
 import produce from 'immer';
 import {Terminal} from 'xterm';
-import {ROBOTO} from '../styles/global';
+import {ROBOTO, ROBOTO_MONO} from '../styles/global';
 
 export const initialState = {
-	font: 'Roboto, monospace',
+	font: ROBOTO_MONO,
 	font_size: 14,
 	search_mode: false,
 	ssht: [],
