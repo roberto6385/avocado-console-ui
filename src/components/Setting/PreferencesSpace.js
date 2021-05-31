@@ -8,6 +8,7 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 	SIXTEEN,
+	SUB_HEIGHT,
 } from '../../styles/global';
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
@@ -20,17 +21,22 @@ const _Container = styled.div`
 	width: 100%;
 	flex-direction: column;
 	background: ${LIGHT_MODE_BACKGROUND_COLOR};
+	overflow: scroll;
 `;
 
-const _P = styled.p`
-	padding: 0px 0px 12px 0px;
-	margin: 0px 0px 16px 0px;
+const _Title = styled.div`
+	margin: 0px 16px;
+	display: flex;
+	align-items: center;
+	height: ${SUB_HEIGHT};
+	min-height: ${SUB_HEIGHT};
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	font-size: ${SIXTEEN};
 `;
 
-const _SectionContainer = styled.div`
-	padding: 16px;
+const _ContentsContainer = styled.div`
+	padding: 15px 0px;
+	margin: 0px 8px;
+	font-size: 14px;
 `;
 
 const background_theme = [
@@ -74,55 +80,55 @@ const PreferencesSpace = () => {
 
 	return (
 		<_Container>
-			<React.Fragment>
-				<_SectionContainer>
-					<_P>General</_P>
-					<Select_
-						width={'500px'}
-						title='UI Theme'
-						options={background_theme}
-						value={generalTheme}
-						setValue={setGeneralTheme}
-					/>
-				</_SectionContainer>
-				<_SectionContainer>
-					<_P>Terminal</_P>
-					<Select_
-						width={'500px'}
-						title='UI Theme'
-						options={terminal_theme}
-						value={terminalTheme}
-						setValue={setTerminalTheme}
-					/>
-					<Select_
-						width={'500px'}
-						title='Terminal Font'
-						options={font_theme}
-						value={font}
-						setValue={setTerminalFont}
-					/>
-					<Checkbox_
-						title={'Text completion (IntelliSense)'}
-						value={textCompletion}
-						setValue={setTextCompletion}
-					/>
-					<Checkbox_
-						title={'Copy text on selection'}
-						value={copyText}
-						setValue={setCopyText}
-					/>
-				</_SectionContainer>
-				<_SectionContainer>
-					<_P>SFTP</_P>
-					<Select_
-						width={'500px'}
-						title='Editor Theme'
-						options={editor_theme}
-						value={editorTheme}
-						setValue={setEditorTheme}
-					/>
-				</_SectionContainer>
-			</React.Fragment>
+			<_Title>General</_Title>
+			<_ContentsContainer>
+				<Select_
+					width={'500px'}
+					title='UI Theme'
+					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
+				/>
+			</_ContentsContainer>
+
+			<_Title>Terminal</_Title>
+			<_ContentsContainer>
+				<Select_
+					width={'500px'}
+					title='UI Theme'
+					options={terminal_theme}
+					value={terminalTheme}
+					setValue={setTerminalTheme}
+				/>
+				<Select_
+					width={'500px'}
+					title='Terminal Font'
+					options={font_theme}
+					value={font}
+					setValue={setTerminalFont}
+				/>
+				<Checkbox_
+					title={'Text completion (IntelliSense)'}
+					value={textCompletion}
+					setValue={setTextCompletion}
+				/>
+				<Checkbox_
+					title={'Copy text on selection'}
+					value={copyText}
+					setValue={setCopyText}
+				/>
+			</_ContentsContainer>
+
+			<_Title>SFTP</_Title>
+			<_ContentsContainer>
+				<Select_
+					width={'500px'}
+					title='Editor Theme'
+					options={editor_theme}
+					value={editorTheme}
+					setValue={setEditorTheme}
+				/>
+			</_ContentsContainer>
 		</_Container>
 	);
 };

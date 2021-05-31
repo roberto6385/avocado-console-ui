@@ -32,6 +32,7 @@ const _Container = styled.div`
 	width: 100%;
 	flex-direction: column;
 	background: ${LIGHT_MODE_BACKGROUND_COLOR};
+	overflow: scroll;
 `;
 
 const _Title = styled.div`
