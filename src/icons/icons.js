@@ -1,5 +1,5 @@
 import React from 'react';
-import {LIGHT_MODE_ICON_COLOR, IconButton} from '../styles/global';
+import {LIGHT_MODE_ICON_COLOR} from '../styles/global';
 
 // sftp file icon
 export const fileIcon = (

@@ -51,12 +51,11 @@ const editor_theme = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
 ];
-
 const font_theme = [
-	{value: `${ROBOTO}`, label: 'Rovoto'},
-	{value: `${ROBOTO_MONO}`, label: 'Rovoto Mono'},
-	{value: `${ROBOTO_SLAP}`, label: 'Rovoto Slap'},
-	{value: `${MONTSERRAT}`, label: 'Montserrat'},
+	{value: ROBOTO, label: 'Roboto'},
+	{value: ROBOTO_MONO, label: 'Roboto Mono'},
+	{value: ROBOTO_SLAP, label: 'Roboto Slap'},
+	{value: MONTSERRAT, label: 'Montserrat'},
 ];
 
 const PreferencesAside = () => {
