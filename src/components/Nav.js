@@ -20,7 +20,11 @@ import {
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
-import {OPEN_ADD_SERVER_FORM_POPUP, OPEN_INPUT_POPUP} from '../reducers/popup';
+import {
+	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_ALERT_POPUP,
+	OPEN_INPUT_POPUP,
+} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	burgerMenuIcon,
@@ -28,6 +32,7 @@ import {
 	plusIcon,
 	searchIcon,
 } from '../icons/icons';
+import {ADD_FOLDER} from '../reducers/common';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -107,16 +112,38 @@ const _HideSpace = styled.div`
 
 const Nav = () => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const {nav, theme} = useSelector((state) => state.common);
 	const [search, onChangeSearch] = useInput('');
 	const [toggle, setToggle] = useState(true);
 
+	const isValidFolderName = (folderArray, name) => {
+		let pass = true;
+
+		for (let i of folderArray) {
+			if (i.type === 'folder') {
+				if (i.name === name) return false;
+				else if (i.contain.length > 0) {
+					pass = pass && isValidFolderName(i.contain, name);
+				}
+			}
+		}
+		return pass;
+	};
+
 	const newFolder = useCallback(() => {
-		dispatch({
-			type: OPEN_INPUT_POPUP,
-			data: {key: 'new_folder'},
-		});
-	}, [dispatch]);
+		console.log(isValidFolderName(nav, 'new folder'));
+		if (isValidFolderName(nav, 'new folder')) {
+			dispatch({type: ADD_FOLDER, data: 'new folder'});
+		} else
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'folder_name_duplicate',
+			});
+		// dispatch({
+		// 	type: OPEN_INPUT_POPUP,
+		// 	data: {key: 'new_folder'},
+		// });
+	}, [nav, dispatch]);
 
 	const newServer = useCallback(() => {
 		dispatch({
