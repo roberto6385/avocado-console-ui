@@ -16,8 +16,10 @@ import {
 } from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
 import AddServerForm from './components/Form/AddServerForm';
-import ConfirmPopup from './components/Popup/ConfirmPopup';
 import AddAccountForm from './components/Form/AddAccountForm';
+import WarningAlertPopup from './components/Popup/WarningAlertPopup';
+import InputPopup from './components/Popup/InputPopup';
+import SavePopup from './components/Popup/SavePopup';
 
 const App = () => {
 	return (
@@ -34,8 +36,10 @@ const App = () => {
 			</Switch>
 			<AddAccountForm />
 			<AddServerForm />
-			<ConfirmPopup />
 			<AlertPopup />
+			<WarningAlertPopup />
+			<InputPopup />
+			<SavePopup />
 		</BrowserRouter>
 	);
 };

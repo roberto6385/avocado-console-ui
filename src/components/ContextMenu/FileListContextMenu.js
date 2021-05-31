@@ -8,7 +8,7 @@ import {
 	commandLsAction,
 	DELETE_WORK_LIST,
 } from '../../reducers/sftp';
-import {OPEN_CONFIRM_POPUP} from '../../reducers/popup';
+import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
@@ -62,13 +62,13 @@ const FileListContextMenu = ({uuid}) => {
 				break;
 			case 'new_folder':
 				dispatch({
-					type: OPEN_CONFIRM_POPUP,
+					type: OPEN_INPUT_POPUP,
 					data: {key: 'sftp_new_folder', uuid: uuid},
 				});
 				break;
 			case 'rename_work':
 				dispatch({
-					type: OPEN_CONFIRM_POPUP,
+					type: OPEN_INPUT_POPUP,
 					data: {
 						key: 'sftp_rename_file_folder',
 						uuid: uuid,
@@ -104,7 +104,7 @@ const FileListContextMenu = ({uuid}) => {
 					}
 				}
 				dispatch({
-					type: OPEN_CONFIRM_POPUP,
+					type: OPEN_WARNING_ALERT_POPUP,
 					data: {
 						key: 'sftp_delete_file_folder',
 						uuid: uuid,

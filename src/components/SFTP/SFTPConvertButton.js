@@ -14,6 +14,7 @@ const SFTPConvertButton = ({server_id}) => {
 
 	const connection = useCallback(() => {
 		const correspondedServer = server.find((x) => x.id === server_id);
+
 		if (server.includes(correspondedServer)) {
 			dispatch(
 				connectionAction({
@@ -24,7 +25,7 @@ const SFTPConvertButton = ({server_id}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [server_id, userTicket, dispatch]);
+	}, [server, server_id, userTicket, dispatch]);
 
 	return <IconButton onClick={connection}>{sftpIcon}</IconButton>;
 };

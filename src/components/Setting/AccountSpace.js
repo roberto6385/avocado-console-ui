@@ -20,14 +20,13 @@ const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	padding: 0px 16px;
 	background: ${LIGHT_MODE_BACKGROUND_COLOR};
 `;
 
 const _Title = styled.div`
+	margin: 0px 16px;
 	display: flex;
 	align-items: center;
-	margin: 0px 8px;
 	height: ${SUB_HEIGHT};
 	min-height: ${SUB_HEIGHT};
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -35,13 +34,14 @@ const _Title = styled.div`
 
 const _ContentsContainer = styled.div`
 	padding: 15px 0px;
+	margin: 0px 8px;
 	font-size: 14px;
 `;
 
 const _Input = styled.input`
 	width: ${(props) => props?.width || ACCOUNT_INPUT_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	padding: 6px 10px;
+	padding: 0px 10px;
 	border-radius: 4px;
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};

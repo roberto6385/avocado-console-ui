@@ -1,42 +1,38 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {IoCloseOutline, IoHelpCircle} from 'react-icons/all';
-import {CLOSE_CONFIRM_POPUP, OPEN_ALERT_POPUP} from '../../reducers/popup';
-import useInput from '../../hooks/useInput';
+import {BsFillExclamationCircleFill, IoCloseOutline} from 'react-icons/all';
+import styled from 'styled-components';
+import Modal from 'react-modal';
+
+import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {
 	ACCOUT_CONTROL_ID,
-	ADD_FOLDER,
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	commandMkdirAction,
 	commandPutAction,
-	commandRenameAction,
 	commandRmAction,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import styled from 'styled-components';
-import Modal from 'react-modal';
 import {
 	AVOCADO_FONTSIZE,
-	BORDER_COLOR,
-	DefaultButton,
+	BorderButton,
+	DangerButton,
 	FOLDER_HEIGHT,
 	IconButton,
+	LIGHT_MODE_BORDER_COLOR,
 	MAIN_HEIGHT,
-	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
 } from '../../styles/global';
-import Input_ from '../RecycleComponents/Input_';
+
 import {IconContext} from 'react-icons';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${BORDER_COLOR};
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	position: absolute;
 	z-index: 10;
 	top: 50%;
@@ -47,8 +43,9 @@ const _Modal = styled(Modal)`
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
 	background: white;
 	border-radius: 4px;
-	width: 400px;
+	width: 290px;
 `;
+
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
@@ -56,29 +53,17 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${BORDER_COLOR};
-`;
-
-const _Form = styled.form`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	font-size: ${AVOCADO_FONTSIZE};
-	padding: 18px 16px 29px 16px;
+	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Text = styled.div`
-	line-height: ${FOLDER_HEIGHT};
+	font-size: 14px;
+	font-family: Roboto;
+	width: 226px;
 `;
 
-const _Input = styled.input`
-	width: 100%;
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid ${BORDER_COLOR};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+const _HeaderText = styled(_Text)`
+	font-weight: 500;
 `;
 
 const _Footer = styled.div`
@@ -88,35 +73,29 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	// border-top: 1px solid ${BORDER_COLOR};
+	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Message = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 16px;
+	justify-content: space-between; 
+	padding: 24px 16px;
 `;
 
-const ConfirmMessage = {
-	sftp_delete_file_folder: '선택한 파일/폴더를 삭제하시겠습니까?',
-	sftp_edit_file: '변경사항이 있습니다. 저장하시겠습니까?',
-	sftp_delete_server: '선택한 서버를 삭제하시겠습니까?',
-	sftp_delete_history: '선택한 다운로드/업로드 이력을 삭제하시겠습니까?',
-	delete_server_folder: '선택한 서버/폴더를 삭제하시겠습니까?',
-	delete_account: '선택한 계정을 삭제하시겠습니까?',
+const AlertMessage = {
+	sftp_delete_file_folder:
+		'Are you sure you want to delete this file or folder?',
+	sftp_delete_server: 'Are you sure you want to delete this server?',
+	sftp_delete_history: 'Are you sure you want to clear history?',
+	delete_server_folder:
+		'Are you sure you want to delete this server or folder?',
+	delete_account: 'Are you sure you want to delete this account?',
 };
-
-const SAVE_KEYWORDS = [
-	'sftp_rename_file_folder',
-	'sftp_new_folder',
-	'sftp_edit_file',
-	'new_folder',
-];
 
 const WarningAlertPopup = () => {
 	const dispatch = useDispatch();
-	const {confirm_popup} = useSelector((state) => state.popup);
+	const {warning_alert_popup} = useSelector((state) => state.popup);
 	const {
 		clicked_server,
 		accountListControlId,
@@ -125,42 +104,26 @@ const WarningAlertPopup = () => {
 	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
-	const justExit = useCallback(() => {
-		const {prevMode, mode} = sftp.find(
-			(it) => it.uuid === confirm_popup.uuid,
-		);
-
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid: confirm_popup.uuid,
-				mode: prevMode,
-				currentMode: mode,
-			},
-		});
-	}, [confirm_popup, sftp, dispatch]);
-
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_CONFIRM_POPUP});
+		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
 	}, [dispatch]);
 
 	const cancelFunction = useCallback(() => {
-		confirm_popup.key === 'sftp_edit_file' && justExit();
-		confirm_popup.key === 'sftp_delete_file_folder' &&
+		warning_alert_popup.key === 'sftp_delete_file_folder' &&
 			dispatch({
 				type: INIT_DELETE_WORK_LIST,
-				payload: {uuid: confirm_popup.uuid},
+				payload: {uuid: warning_alert_popup.uuid},
 			});
 		closeModal();
-	}, [confirm_popup, dispatch]);
+	}, [warning_alert_popup, dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
 
-			switch (confirm_popup.key) {
+			switch (warning_alert_popup.key) {
 				case 'sftp_delete_file_folder': {
-					const uuid = confirm_popup.uuid;
+					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
 
 					for (let value of corServer.deleteWorks) {
@@ -181,6 +144,59 @@ const WarningAlertPopup = () => {
 					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
 					break;
 				}
+
+				case 'sftp_edit_file': {
+					const uuid = warning_alert_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
+					const {editText, editFile} = corServer;
+					const uploadFile = new File([editText], editFile.name, {
+						type: 'text/plain',
+					});
+
+					dispatch(
+						commandPutAction({
+							...corServer,
+							file: uploadFile,
+							keyword: 'edit',
+						}),
+					);
+					dispatch({
+						type: CLOSE_EDITOR,
+						payload: {uuid: warning_alert_popup.uuid},
+					});
+					dispatch({
+						type: CHANGE_MODE,
+						payload: {uuid: warning_alert_popup.uuid, mode: 'list'},
+					});
+					break;
+				}
+
+				case 'sftp_delete_history': {
+					const corServer = sftp.find(
+						(it) => it.uuid === warning_alert_popup.uuid,
+					);
+					const {history_highlight} = corServer;
+					history_highlight.forEach((item) => {
+						console.log(item);
+						dispatch({
+							type: REMOVE_HISTORY,
+							payload: {
+								uuid: warning_alert_popup.uuid,
+								history: item,
+							},
+						});
+					});
+					dispatch({
+						type: INITIAL_HISTORY_HI,
+						payload: {uuid: warning_alert_popup.uuid},
+					});
+					break;
+				}
+
+				case 'delete_server_folder':
+					console.log(clicked_server);
+					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
+					break;
 
 				case 'delete_account': {
 					if (accountListControlId && accountCheckList.length === 0) {
@@ -205,55 +221,6 @@ const WarningAlertPopup = () => {
 					break;
 				}
 
-				case 'sftp_edit_file': {
-					const uuid = confirm_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {editText, editFile} = corServer;
-					const uploadFile = new File([editText], editFile.name, {
-						type: 'text/plain',
-					});
-
-					dispatch(
-						commandPutAction({
-							...corServer,
-							file: uploadFile,
-							keyword: 'edit',
-						}),
-					);
-					dispatch({
-						type: CLOSE_EDITOR,
-						payload: {uuid: confirm_popup.uuid},
-					});
-					dispatch({
-						type: CHANGE_MODE,
-						payload: {uuid: confirm_popup.uuid, mode: 'list'},
-					});
-					break;
-				}
-
-				case 'sftp_delete_history': {
-					const corServer = sftp.find(
-						(it) => it.uuid === confirm_popup.uuid,
-					);
-					const {history_highlight} = corServer;
-					history_highlight.forEach((item) => {
-						console.log(item);
-						dispatch({
-							type: REMOVE_HISTORY,
-							payload: {uuid: confirm_popup.uuid, history: item},
-						});
-					});
-					dispatch({
-						type: INITIAL_HISTORY_HI,
-						payload: {uuid: confirm_popup.uuid},
-					});
-					break;
-				}
-				case 'delete_server_folder':
-					console.log(clicked_server);
-					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
-					break;
-
 				default:
 					break;
 			}
@@ -262,7 +229,7 @@ const WarningAlertPopup = () => {
 		[
 			clicked_server,
 			accountListControlId,
-			confirm_popup,
+			warning_alert_popup,
 			dispatch,
 			sftp,
 			nav,
@@ -271,14 +238,14 @@ const WarningAlertPopup = () => {
 
 	return (
 		<_Modal
-			isOpen={confirm_popup.open}
-			onRequestClose={closeModal}
+			isOpen={warning_alert_popup.open}
+			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_Text>Alert</_Text>
-				<IconButton onClick={closeModal}>
+				<_HeaderText>Alert</_HeaderText>
+				<IconButton onClick={cancelFunction}>
 					<IoCloseOutline />
 				</IconButton>
 			</_Header>
@@ -286,23 +253,20 @@ const WarningAlertPopup = () => {
 			<_Message>
 				<IconContext.Provider
 					value={{
-						size: '33px',
-						color: '#178082',
-						style: {margin: '0px 4px 0px 0px', padding: '0px'},
+						size: '20px',
+						color: '#d45959',
 					}}
 				>
 					<div>
-						<IoHelpCircle />
+						<BsFillExclamationCircleFill />
 					</div>
 				</IconContext.Provider>
-				<_Text>{ConfirmMessage[confirm_popup.key]}</_Text>
+				<_Text>{AlertMessage[warning_alert_popup.key]}</_Text>
 			</_Message>
 
 			<_Footer>
-				<DefaultButton onClick={cancelFunction}>Cancel</DefaultButton>
-				<PrimaryButton onClick={submitFunction}>
-					{SAVE_KEYWORDS.includes(confirm_popup.key) ? 'SAVE' : 'OK'}
-				</PrimaryButton>
+				<BorderButton onClick={cancelFunction}>Cancel</BorderButton>
+				<DangerButton onClick={submitFunction}>Delete</DangerButton>
 			</_Footer>
 		</_Modal>
 	);
