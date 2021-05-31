@@ -52,6 +52,7 @@ const font_theme = [
 const PreferencesAside = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
+	const {font} = useSelector((state) => state.ssht);
 
 	const [textCompletion, setTextCompletion] = useState(false);
 	const [copyText, setCopyText] = useState(false);
@@ -61,12 +62,13 @@ const PreferencesAside = () => {
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
 
 	useEffect(() => {
-		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
-	}, [generalTheme, dispatch]);
+		if (font !== terminalFont)
+			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
+	}, [terminalFont, dispatch]);
 
 	useEffect(() => {
-		dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
-	}, [terminalFont, dispatch]);
+		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
+	}, [generalTheme, dispatch]);
 
 	return (
 		<React.Fragment>

@@ -10,6 +10,11 @@ import {
 	ROBOTO,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
+	formColor,
+	fontColor,
+	borderColor,
+	backColor,
+	serverFolderBackColor,
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -31,7 +36,8 @@ const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	background: ${LIGHT_MODE_BACKGROUND_COLOR};
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
 `;
 
 const _Title = styled.div`
@@ -40,7 +46,8 @@ const _Title = styled.div`
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	min-height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
 `;
 
 const _ContentContainer = styled.div`
@@ -55,11 +62,12 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
+	background: ${(props) => props.back};
 	font-family: ${ROBOTO};
 	font-size: ${AVOCADO_FONTSIZE};
 	letter-spacing: 0.14px;
-	background: ${(props) => props.back};
 
 	.pretty.p-svg.p-curve {
 		z-index: 0;
@@ -132,17 +140,19 @@ const _ButtonContainer = styled(_Name)`
 `;
 
 const _AccountListUl = styled.ul`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: white;
 	flex: 1;
 	margin: 16px 8px;
+
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
 `;
 const _ResourceListUl = styled.ul`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	flex: 1;
-	background: white;
-	// width: 600px;
 	margin: 16px 8px;
+
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
 `;
 
 const Checkbox = ({onChange}) => {
@@ -195,6 +205,7 @@ const IdentitiesSpace = () => {
 		accountCheckList,
 		currentResourceListKey,
 		nav,
+		theme,
 	} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 
@@ -280,17 +291,20 @@ const IdentitiesSpace = () => {
 	}, []);
 
 	return (
-		<_Container>
-			<_Title>Identities</_Title>
+		<_Container back={backColor[theme]} color={fontColor[theme]}>
+			<_Title b_color={borderColor[theme]}>Identities</_Title>
 			<_ContentContainer>
-				<_ResourceListUl>
-					<_Li className={'weight_bold'}>
+				<_ResourceListUl back={formColor[theme]}>
+					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_ResourceName>Resource List</_ResourceName>
-						<IconButton color={FONT_COLOR} onClick={newServer}>
+						<IconButton
+							color={fontColor[theme]}
+							onClick={newServer}
+						>
 							{plusIcon}
 						</IconButton>
 					</_Li>
-					<_Li className={'weight_bold'}>
+					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_ResourceName>Name</_ResourceName>
 						<_AddressName>Address</_AddressName>
 						<_ProtocolPortName>Protocol </_ProtocolPortName>
@@ -300,12 +314,13 @@ const IdentitiesSpace = () => {
 					{server.map((item) => {
 						return (
 							<_ResourceLi
+								b_color={borderColor[theme]}
 								key={item.id}
 								onClick={selectResourceList(item)}
 								back={
 									item.key === currentResourceListKey
-										? LIGHT_MODE_BACKGROUND_COLOR
-										: 'white'
+										? serverFolderBackColor[theme]
+										: formColor[theme]
 								}
 							>
 								<_ResourceName>
@@ -323,23 +338,27 @@ const IdentitiesSpace = () => {
 						);
 					})}
 				</_ResourceListUl>
-				<_AccountListUl>
-					<_Li className={'weight_bold'}>
+				<_AccountListUl back={formColor[theme]}>
+					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_Name>[ Cloud Server ] Account List</_Name>
 						<div>
 							<IconButton
-								color={FONT_COLOR}
+								color={fontColor[theme]}
 								onClick={onClickVisibleAddAccountForm}
 							>
 								{plusIcon}
 							</IconButton>
 
-							<IconButton onClick={deleteAccount}>
+							<IconButton
+								color={fontColor[theme]}
+								onClick={deleteAccount}
+							>
 								{deleteIcon}
 							</IconButton>
 						</div>
 					</_Li>
 					<_Li
+						b_color={borderColor[theme]}
 						className={'weight_bold'}
 						onContextMenu={contextMenuOpen(-1)}
 					>
@@ -353,11 +372,12 @@ const IdentitiesSpace = () => {
 						if (item.key !== currentResourceListKey) return;
 						return (
 							<_Li
+								b_color={borderColor[theme]}
 								key={item.id}
 								back={
 									accountCheckList.includes(item.id)
-										? LIGHT_MODE_BACKGROUND_COLOR
-										: 'white'
+										? serverFolderBackColor[theme]
+										: formColor[theme]
 								}
 								onContextMenu={contextMenuOpen(item.id)}
 							>

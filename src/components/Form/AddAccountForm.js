@@ -21,10 +21,20 @@ import {
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
 	SecondaryButtonGreen,
+	formColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	inputColor,
 } from '../../styles/global';
+import {closeIconSmall} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+
 	position: absolute;
 	z-index: 10;
 	top: 50%;
@@ -33,7 +43,6 @@ const _Modal = styled(Modal)`
 	bottom: auto;
 	transform: translate(-50%, -50%);
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
 	border-radius: 4px;
 	width: 600px;
 `;
@@ -49,7 +58,8 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
@@ -64,6 +74,10 @@ const _LongInput = styled(_Input)`
 
 const _FileInput = styled.input`
 	display: none;
+	border: 1px solid;
+	border-color: ${(props) => props?.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 `;
 
 const _Label = styled.label`
@@ -71,7 +85,10 @@ const _Label = styled.label`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	margin: 0;
 	cursor: pointer;
 `;
@@ -83,7 +100,8 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 	font-weight: 500;
 `;
 
@@ -98,7 +116,8 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-top: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Form = styled.form`
@@ -111,9 +130,12 @@ const _Form = styled.form`
 
 const AddAccountForm = () => {
 	const dispatch = useDispatch();
-	const {account, accountListControlId, currentResourceListKey} = useSelector(
-		(state) => state.common,
-	);
+	const {
+		account,
+		accountListControlId,
+		currentResourceListKey,
+		theme,
+	} = useSelector((state) => state.common);
 	const {account_form_popup} = useSelector((state) => state.popup);
 
 	const [identity, onChangeIdentity, setIdentity] = useInput('');
@@ -198,17 +220,23 @@ const AddAccountForm = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			back={formColor[theme]}
+			b_color={borderColor[theme]}
+			color={fontColor[theme]}
 		>
-			<_Header>
+			<_Header b_color={borderColor[theme]}>
 				<_Title>Add Account</_Title>
-				<IconButton color={ICON_DARK_COLOR} onClick={closeModal}>
-					<IoCloseOutline />
+				<IconButton color={iconColor[theme]} onClick={closeModal}>
+					{closeIconSmall}
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
 					<Input_ title={'Identity'} flex={1}>
 						<_LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={identity}
 							onChange={onChangeIdentity}
@@ -216,6 +244,9 @@ const AddAccountForm = () => {
 						/>
 					</Input_>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'178px'}
 						title='Authentication'
 						options={authentication_options}
@@ -226,6 +257,9 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={'Username'} flex={1}>
 						<_LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={username}
 							onChange={onChangeUsername}
@@ -237,6 +271,9 @@ const AddAccountForm = () => {
 					<_Item>
 						<Input_ title={'Password'} flex={1}>
 							<_LongInput
+								back={inputColor[theme]}
+								color={fontColor[theme]}
+								b_color={borderColor[theme]}
 								type='password'
 								value={password}
 								onChange={onChangePassword}
@@ -248,7 +285,12 @@ const AddAccountForm = () => {
 					<React.Fragment>
 						<_Item>
 							<Input_ title={'Private Key File'} flex={1}>
-								<_Label htmlFor={'add_server_form_type_file'}>
+								<_Label
+									htmlFor={'add_server_form_type_file'}
+									back={inputColor[theme]}
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
+								>
 									{keyFile}
 									<_FileInput
 										id={'add_server_form_type_file'}
@@ -276,6 +318,9 @@ const AddAccountForm = () => {
 						<_Item>
 							<Input_ title={'Key File Password'} flex={1}>
 								<_LongInput
+									back={inputColor[theme]}
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
 									type='password'
 									value={password}
 									onChange={onChangePassword}
@@ -288,6 +333,9 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={'Note'} flex={1}>
 						<_LongInput
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 							type='text'
 							value={note}
 							onChange={onChangeNote}
@@ -296,8 +344,10 @@ const AddAccountForm = () => {
 					</Input_>
 				</_Item>
 			</_Form>
-			<_Footer>
-				<BorderButton onClick={closeModal}>Cancel</BorderButton>
+			<_Footer b_color={borderColor[theme]}>
+				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+					Cancel
+				</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>

@@ -8,6 +8,12 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 	SIXTEEN,
+	formColor,
+	borderColor,
+	fontColor,
+	inputColor,
+	SUB_HEIGHT,
+	backColor,
 } from '../../styles/global';
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
@@ -19,13 +25,15 @@ const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	background: ${LIGHT_MODE_BACKGROUND_COLOR};
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
 `;
 
 const _P = styled.p`
-	padding: 0px 0px 12px 0px;
+	padding: 0px 0px 9px 0px;
 	margin: 0px 0px 16px 0px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
 	font-size: ${SIXTEEN};
 `;
 
@@ -70,14 +78,17 @@ const PreferencesSpace = () => {
 
 	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
-	}, [generalTheme]);
+	}, [generalTheme, dispatch]);
 
 	return (
-		<_Container>
+		<_Container back={backColor[theme]} color={fontColor[theme]}>
 			<React.Fragment>
 				<_SectionContainer>
-					<_P>General</_P>
+					<_P b_color={borderColor[theme]}>General</_P>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'500px'}
 						title='UI Theme'
 						options={background_theme}
@@ -86,8 +97,11 @@ const PreferencesSpace = () => {
 					/>
 				</_SectionContainer>
 				<_SectionContainer>
-					<_P>Terminal</_P>
+					<_P b_color={borderColor[theme]}>Terminal</_P>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'500px'}
 						title='UI Theme'
 						options={terminal_theme}
@@ -95,6 +109,9 @@ const PreferencesSpace = () => {
 						setValue={setTerminalTheme}
 					/>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'500px'}
 						title='Terminal Font'
 						options={font_theme}
@@ -113,8 +130,11 @@ const PreferencesSpace = () => {
 					/>
 				</_SectionContainer>
 				<_SectionContainer>
-					<_P>SFTP</_P>
+					<_P b_color={borderColor[theme]}>SFTP</_P>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						width={'500px'}
 						title='Editor Theme'
 						options={editor_theme}

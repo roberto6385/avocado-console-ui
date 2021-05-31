@@ -12,16 +12,13 @@ import {
 import Modal from 'react-modal';
 import {
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
-	ICON_DARK_COLOR,
 	BorderButton,
 	SecondaryButtonGreen,
-	sideColor,
 	borderColor,
 	fontColor,
 	iconColor,
@@ -29,7 +26,6 @@ import {
 	inputColor,
 } from '../../styles/global';
 
-import {IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';

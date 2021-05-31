@@ -13,14 +13,21 @@ import {
 	PrimaryButton,
 	SUB_HEIGHT,
 	TAB_WIDTH,
+	formColor,
+	fontColor,
+	borderColor,
+	inputColor,
+	backColor,
 } from '../../styles/global';
 import ChangePasswordForm from '../Form/ChangePasswordForm';
+import {useSelector} from 'react-redux';
 
 const _Container = styled.div`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	background: ${LIGHT_MODE_BACKGROUND_COLOR};
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
 `;
 
 const _Title = styled.div`
@@ -29,7 +36,8 @@ const _Title = styled.div`
 	align-items: center;
 	height: ${SUB_HEIGHT};
 	min-height: ${SUB_HEIGHT};
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props?.b_color};
 `;
 
 const _ContentsContainer = styled.div`
@@ -43,7 +51,8 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 0px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
@@ -86,6 +95,8 @@ const MFAOptions = [
 ];
 
 const AccountSpace = () => {
+	const {theme} = useSelector((state) => state.common);
+
 	const [open, setOpen] = useState(false);
 	const [account, setAccount] = useState('');
 	const [name, setName] = useState('');
@@ -96,11 +107,14 @@ const AccountSpace = () => {
 	const [mfaValue, setMfaValue] = useState('otp');
 
 	return (
-		<_Container>
-			<_Title>Account</_Title>
+		<_Container back={backColor[theme]} color={fontColor[theme]}>
+			<_Title b_color={borderColor[theme]}>Account</_Title>
 			<_ContentsContainer>
 				<Input_ title={'Account'}>
 					<_Input
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						value={account}
 						onChange={(e) => setAccount(e.target.value)}
 						placeholder={'Account'}
@@ -108,6 +122,9 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={'Full name'}>
 					<_Input
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						placeholder={'Name'}
@@ -115,16 +132,22 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={'Email Address'}>
 					<_Input
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder={'Email Address'}
 					/>
 				</Input_>
 			</_ContentsContainer>
-			<_Title>Authorization</_Title>
+			<_Title b_color={borderColor[theme]}>Authorization</_Title>
 			<_ContentsContainer>
 				<_Section>
 					<Select_
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 						title='Default Authorization'
 						options={authOptions}
 						value={authType}
@@ -155,6 +178,9 @@ const AccountSpace = () => {
 			</_ContentsContainer>
 			<_ContentsContainer>
 				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
 					title='MFA'
 					options={mfaOptions}
 					value={mfaType}

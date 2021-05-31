@@ -8,7 +8,10 @@ import {
 	LIGHT_MODE_BORDER_COLOR,
 	GREEN_COLOR,
 	MAIN_HEIGHT,
+	borderColor,
+	sideColor,
 } from '../../styles/global';
+import {useSelector} from 'react-redux';
 
 const _Container = styled.div`
 	display: flex;
@@ -30,6 +33,10 @@ const _Header = styled.div`
 	height: ${MAIN_HEIGHT};
 	font-family: 'Roboto Slab', serif;
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
 `;
 
 const _Span = styled.span`
@@ -39,9 +46,11 @@ const _Span = styled.span`
 `;
 
 const SettingAppLayout = ({children}) => {
+	const {theme} = useSelector((state) => state.common);
+
 	return (
 		<_Container>
-			<_Header>
+			<_Header b_color={borderColor[theme]} back={sideColor[theme]}>
 				<_Span>Avocado</_Span>
 			</_Header>
 			<_ContentsContainer>

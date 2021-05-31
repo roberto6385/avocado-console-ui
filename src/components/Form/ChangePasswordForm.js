@@ -15,10 +15,21 @@ import {
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
+	formColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	inputColor,
 } from '../../styles/global';
+import {useSelector} from 'react-redux';
+import {closeIconSmall} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+
 	position: absolute;
 	z-index: 5;
 	top: 50%;
@@ -27,7 +38,6 @@ const _Modal = styled(Modal)`
 	bottom: auto;
 	transform: translate(-50%, -50%);
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
 	border-radius: 4px;
 	width: 404px;
 `;
@@ -39,7 +49,9 @@ const _Header = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Span = styled.span`
@@ -51,7 +63,8 @@ const _Input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
@@ -63,7 +76,9 @@ const _Footer = styled.div`
 	font-size: ${AVOCADO_FONTSIZE};
 	justify-content: flex-end;
 	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+
+	border-top: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Form = styled.form`
@@ -75,6 +90,8 @@ const _Form = styled.form`
 `;
 
 const ChangePasswordForm = ({open, setOpen}) => {
+	const {theme} = useSelector((state) => state.common);
+
 	const [
 		currentPassword,
 		onChangeCurrentPassword,
@@ -116,11 +133,14 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			back={formColor[theme]}
+			b_color={borderColor[theme]}
+			color={fontColor[theme]}
 		>
-			<_Header>
+			<_Header b_color={borderColor[theme]}>
 				<_Span>Change Password</_Span>
-				<IconButton onClick={closeModal}>
-					<IoCloseOutline />
+				<IconButton color={iconColor[theme]} onClick={closeModal}>
+					{closeIconSmall}
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
@@ -130,6 +150,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
 						placeholder={'Type in current password'}
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 					/>
 				</Input_>
 
@@ -139,6 +162,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={password}
 						onChange={onChangePassword}
 						placeholder={'New Password'}
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 					/>
 				</Input_>
 
@@ -148,12 +174,17 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={confrimPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={'New Password'}
+						back={inputColor[theme]}
+						color={fontColor[theme]}
+						b_color={borderColor[theme]}
 					/>
 				</Input_>
 			</_Form>
 
-			<_Footer>
-				<BorderButton onClick={closeModal}>Cancel</BorderButton>
+			<_Footer b_color={borderColor[theme]}>
+				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+					Cancel
+				</BorderButton>
 				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>

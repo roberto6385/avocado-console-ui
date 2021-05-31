@@ -7,6 +7,7 @@ const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	margin: 0px 8px;
 	height: ${(props) => props?.height};
 
 	.pretty.p-default.p-round {
