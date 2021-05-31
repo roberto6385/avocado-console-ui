@@ -1,15 +1,14 @@
-import React, {useCallback, useState} from 'react';
-import {MdFileUpload, MdDelete, IoCheckmarkDoneSharp} from 'react-icons/all';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
-import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	Span,
 	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
-	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 } from '../../../styles/global';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
@@ -67,7 +66,7 @@ const HistoryNav = ({uuid}) => {
 		// if exist highlighting history
 		history_highlight.length > 0 &&
 			dispatch({
-				type: OPEN_CONFIRM_POPUP,
+				type: OPEN_WARNING_ALERT_POPUP,
 				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
 	}, [corServer, history_highlight]);

@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {connectionAction} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_CONFIRM_POPUP,
+	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
@@ -46,7 +46,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 					break;
 				case 'delete':
 					dispatch({
-						type: OPEN_CONFIRM_POPUP,
+						type: OPEN_WARNING_ALERT_POPUP,
 						data: {key: 'delete_server_folder'},
 					});
 					break;

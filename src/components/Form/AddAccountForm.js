@@ -167,8 +167,6 @@ const AddAccountForm = () => {
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
 	}, []);
 
-	console.log(accountListControlId);
-
 	useEffect(() => {
 		if (account_form_popup.open) {
 			if (accountListControlId !== null) {

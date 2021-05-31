@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_CONFIRM_POPUP,
+	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {
 	ACCOUT_CHECKLIST,
@@ -39,6 +39,7 @@ const _Title = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${SUB_HEIGHT};
+	min-height: ${SUB_HEIGHT};
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
@@ -46,6 +47,7 @@ const _ContentContainer = styled.div`
 	display: flex;
 	flex: 1;
 	margin: 0px 8px;
+	font-size: 14px;
 `;
 
 const _Li = styled.li`
@@ -262,7 +264,7 @@ const IdentitiesSpace = () => {
 	const deleteAccount = useCallback(() => {
 		if (accountCheckList.length !== 0) {
 			dispatch({
-				type: OPEN_CONFIRM_POPUP,
+				type: OPEN_WARNING_ALERT_POPUP,
 				data: {
 					key: 'delete_account',
 				},

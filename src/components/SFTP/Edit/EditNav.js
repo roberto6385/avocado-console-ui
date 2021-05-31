@@ -8,7 +8,7 @@ import {
 	commandPutAction,
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
-import {OPEN_CONFIRM_POPUP} from '../../../reducers/popup';
+import {OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
@@ -81,7 +81,7 @@ const EditNav = ({uuid}) => {
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
 			dispatch({
-				type: OPEN_CONFIRM_POPUP,
+				type: OPEN_SAVE_POPUP,
 				data: {key: 'sftp_edit_file', uuid},
 			});
 		} else {

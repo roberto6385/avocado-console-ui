@@ -3,7 +3,7 @@ import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
-	OPEN_CONFIRM_POPUP,
+	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 
 const AccountContextMenu = () => {
@@ -20,7 +20,7 @@ const AccountContextMenu = () => {
 
 	const deleteAccount = useCallback(() => {
 		dispatch({
-			type: OPEN_CONFIRM_POPUP,
+			type: OPEN_WARNING_ALERT_POPUP,
 			data: {
 				key: 'delete_account',
 			},

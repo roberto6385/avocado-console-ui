@@ -4,8 +4,6 @@ import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	IconButton,
-	FONT_COLOR,
-	ICON_DARK_COLOR,
 	SIDE_WIDTH,
 	LOGO_FONTSIZE,
 	MAIN_HEIGHT,
@@ -13,11 +11,8 @@ import {
 	SEARCH_INPUT_WIDTH,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
-	LIGHT_MODE_BORDER_COLOR,
 	DefaultButton,
 	IconContainer,
-	DARK_MODE_SIDE_COLOR,
-	LIGHT_MODE_SIDE_COLOR,
 	sideColor,
 	fontColor,
 	iconColor,
@@ -25,10 +20,7 @@ import {
 } from '../styles/global';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
-import {
-	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_CONFIRM_POPUP,
-} from '../reducers/popup';
+import {OPEN_ADD_SERVER_FORM_POPUP, OPEN_INPUT_POPUP} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	burgerMenuIcon,
@@ -121,7 +113,7 @@ const Nav = () => {
 
 	const newFolder = useCallback(() => {
 		dispatch({
-			type: OPEN_CONFIRM_POPUP,
+			type: OPEN_INPUT_POPUP,
 			data: {key: 'new_folder'},
 		});
 	}, [dispatch]);

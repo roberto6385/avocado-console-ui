@@ -5,7 +5,8 @@ import {useDispatch} from 'react-redux';
 
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_CONFIRM_POPUP,
+	OPEN_INPUT_POPUP,
+	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 
 const FolderContextMenuMessage = {
@@ -31,7 +32,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 					break;
 				case 'new_folder':
 					dispatch({
-						type: OPEN_CONFIRM_POPUP,
+						type: OPEN_INPUT_POPUP,
 						data: {key: 'new_folder'},
 					});
 					break;
@@ -40,7 +41,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 					break;
 				case 'delete':
 					dispatch({
-						type: OPEN_CONFIRM_POPUP,
+						type: OPEN_WARNING_ALERT_POPUP,
 						data: {key: 'delete_server_folder'},
 					});
 					break;

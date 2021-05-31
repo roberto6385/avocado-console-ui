@@ -1,12 +1,8 @@
 import React, {useCallback} from 'react';
-import {
-	BsFillQuestionCircleFill,
-	IoCloseOutline,
-
-} from 'react-icons/all';
+import {BsFillQuestionCircleFill, IoCloseOutline} from 'react-icons/all';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
+import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {IconContext} from 'react-icons';
@@ -19,6 +15,7 @@ import {
 	MAIN_HEIGHT,
 	PrimaryButton,
 } from '../../styles/global';
+import {CHANGE_MODE, CLOSE_EDITOR, commandPutAction} from '../../reducers/sftp';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -72,26 +69,61 @@ const _Message = styled.div`
 	padding: 24px 16px;
 `;
 
-const AlertMessage = {
-	invalid_server: 'The server information is not valid',
-	lost_server: 'The server information is damaged',
-	snippets_name_duplicate: 'There is already a snippet with the same name',
-	server_duplicate:
-		'There is already a server with the same name or information',
-	folder_name_duplicate: 'There is already a fodler with the same name',
+const SaveMessage = {
+	sftp_edit_file: 'Do you want to save changes?',
 };
 
-const AlertPopup = () => {
+const SavePopup = () => {
 	const dispatch = useDispatch();
-	const {alert_popup} = useSelector((state) => state.popup);
+	const {save_popup} = useSelector((state) => state.popup);
+	const {sftp} = useSelector((state) => state.sftp);
 
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_ALERT_POPUP});
+		dispatch({type: CLOSE_SAVE_POPUP});
 	}, [dispatch]);
+
+	const submitFunction = useCallback(
+		(e) => {
+			e.preventDefault();
+
+			switch (save_popup.key) {
+				case 'sftp_edit_file': {
+					const uuid = save_popup.uuid;
+					const corServer = sftp.find((it) => it.uuid === uuid);
+					const {editText, editFile} = corServer;
+					const uploadFile = new File([editText], editFile.name, {
+						type: 'text/plain',
+					});
+
+					dispatch(
+						commandPutAction({
+							...corServer,
+							file: uploadFile,
+							keyword: 'edit',
+						}),
+					);
+					dispatch({
+						type: CLOSE_EDITOR,
+						payload: {uuid: save_popup.uuid},
+					});
+					dispatch({
+						type: CHANGE_MODE,
+						payload: {uuid: save_popup.uuid, mode: 'list'},
+					});
+					break;
+				}
+
+				default:
+					break;
+			}
+			closeModal();
+		},
+		[save_popup, sftp],
+	);
 
 	return (
 		<_Modal
-			isOpen={alert_popup.open}
+			isOpen={save_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -114,15 +146,15 @@ const AlertPopup = () => {
 						<BsFillQuestionCircleFill />
 					</div>
 				</IconContext.Provider>
-				<_Text>{AlertMessage[alert_popup.key]}</_Text>
+				<_Text>{SaveMessage[save_popup.key]}</_Text>
 			</_Message>
 
 			<_Footer>
 				<BorderButton onClick={closeModal}>Cancle</BorderButton>
-				<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
+				<PrimaryButton onClick={submitFunction}>Save</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);
 };
 
-export default AlertPopup;
+export default SavePopup;
