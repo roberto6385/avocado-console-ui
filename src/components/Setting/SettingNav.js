@@ -1,18 +1,17 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	MINT_COLOR,
 	IconContainer,
-	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
-	formColor,
 	borderColor,
 	fontColor,
 	serverFolderBackColor,
 	sideColor,
+	LIGHT_MODE_ICON_COLOR,
+	iconColor,
 } from '../../styles/global';
 
 import {useHistory, withRouter} from 'react-router-dom';
@@ -47,7 +46,7 @@ const _BackContainer = styled.div`
 	cursor: pointer;
 `;
 
-const _Span = styled.span`
+const _Header = styled.div`
 	padding: 0px 12px;
 `;
 
@@ -88,7 +87,7 @@ const SettingNav = ({match}) => {
 				b_color={borderColor[theme]}
 			>
 				{chevronLeftIcon}
-				<_Span>Back</_Span>
+				<_Header>Back</_Header>
 			</_BackContainer>
 			<_Ul>
 				<_Li
@@ -101,12 +100,14 @@ const SettingNav = ({match}) => {
 				>
 					<IconContainer
 						color={
-							match.path === '/account' ? MINT_COLOR : undefined
+							match.path === '/account'
+								? MINT_COLOR
+								: iconColor[theme]
 						}
 					>
 						{accountIconMidium}
 					</IconContainer>
-					<_Span>Account</_Span>
+					<_Header>Account</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/preferences')}
@@ -120,13 +121,13 @@ const SettingNav = ({match}) => {
 						color={
 							match.path === '/preferences'
 								? MINT_COLOR
-								: undefined
+								: iconColor[theme]
 						}
 					>
 						{settingIconMidium}
 					</IconContainer>
 
-					<_Span>Preferences</_Span>
+					<_Header>Preferences</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/identities')}
@@ -140,12 +141,12 @@ const SettingNav = ({match}) => {
 						color={
 							match.path === '/identities'
 								? MINT_COLOR
-								: undefined
+								: iconColor[theme]
 						}
 					>
 						{identityIconMidium}
 					</IconContainer>
-					<_Span>Identity</_Span>
+					<_Header>Identity</_Header>
 				</_Li>
 			</_Ul>
 		</_Container>

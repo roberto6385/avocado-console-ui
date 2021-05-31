@@ -38,6 +38,7 @@ const _Container = styled.div`
 	flex-direction: column;
 	background: ${(props) => props?.back};
 	color: ${(props) => props.color};
+	overflow: scroll;
 `;
 
 const _Title = styled.div`

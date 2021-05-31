@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,

@@ -7,13 +7,7 @@ import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {
-	backColor,
-	IconButton,
-	LIGHT_BACK_COLOR,
-	sideColor,
-	SUB_HEIGHT,
-} from '../../styles/global';
+import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
 
 import styled from 'styled-components';
 import SSH from './SSH';
@@ -43,7 +37,7 @@ const SSHContainer = ({uuid, server_id}) => {
 	const [column, setColumn] = useState([]);
 
 	const onCLickFullScreen = useCallback(() => {
-		document.getElementById('full_ssht_' + uuid).requestFullscreen();
+		document.getElementById('terminal_' + uuid).requestFullscreen();
 	}, [uuid]);
 
 	useEffect(() => {
@@ -84,7 +78,7 @@ const SSHContainer = ({uuid, server_id}) => {
 					{fullScreenIcon}
 				</IconButton>
 			</_Header>
-			<SSH id={`full_ssht_${uuid}`} uuid={uuid} />
+			<SSH uuid={uuid} />
 			<SnippetsManeger open={open} setOpen={setOpen} />
 		</_Container>
 	);

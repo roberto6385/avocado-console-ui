@@ -8,7 +8,6 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 	SIXTEEN,
-	formColor,
 	borderColor,
 	fontColor,
 	inputColor,
@@ -29,16 +28,21 @@ const _Container = styled.div`
 	color: ${(props) => props.color};
 `;
 
-const _P = styled.p`
-	padding: 0px 0px 9px 0px;
-	margin: 0px 0px 16px 0px;
+const _Title = styled.div`
 	border-bottom: 1px solid;
 	border-color: ${(props) => props?.b_color};
-	font-size: ${SIXTEEN};
+	margin: 0px 16px;
+	display: flex;
+	align-items: center;
+	height: ${SUB_HEIGHT};
+	min-height: ${SUB_HEIGHT};
+	overflow: scroll;
 `;
 
-const _SectionContainer = styled.div`
-	padding: 16px;
+const _ContentsContainer = styled.div`
+	padding: 15px 0px;
+	margin: 0px 8px;
+	font-size: 14px;
 `;
 
 const background_theme = [
@@ -82,67 +86,67 @@ const PreferencesSpace = () => {
 
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
-			<React.Fragment>
-				<_SectionContainer>
-					<_P b_color={borderColor[theme]}>General</_P>
-					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
-						width={'500px'}
-						title='UI Theme'
-						options={background_theme}
-						value={generalTheme}
-						setValue={setGeneralTheme}
-					/>
-				</_SectionContainer>
-				<_SectionContainer>
-					<_P b_color={borderColor[theme]}>Terminal</_P>
-					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
-						width={'500px'}
-						title='UI Theme'
-						options={terminal_theme}
-						value={terminalTheme}
-						setValue={setTerminalTheme}
-					/>
-					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
-						width={'500px'}
-						title='Terminal Font'
-						options={font_theme}
-						value={font}
-						setValue={setTerminalFont}
-					/>
-					<Checkbox_
-						title={'Text completion (IntelliSense)'}
-						value={textCompletion}
-						setValue={setTextCompletion}
-					/>
-					<Checkbox_
-						title={'Copy text on selection'}
-						value={copyText}
-						setValue={setCopyText}
-					/>
-				</_SectionContainer>
-				<_SectionContainer>
-					<_P b_color={borderColor[theme]}>SFTP</_P>
-					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
-						width={'500px'}
-						title='Editor Theme'
-						options={editor_theme}
-						value={editorTheme}
-						setValue={setEditorTheme}
-					/>
-				</_SectionContainer>
-			</React.Fragment>
+			<_Title b_color={borderColor[theme]}>General</_Title>
+			<_ContentsContainer>
+				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					width={'500px'}
+					title='UI Theme'
+					options={background_theme}
+					value={generalTheme}
+					setValue={setGeneralTheme}
+				/>
+			</_ContentsContainer>
+
+			<_Title b_color={borderColor[theme]}>Terminal</_Title>
+			<_ContentsContainer>
+				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					width={'500px'}
+					title='UI Theme'
+					options={terminal_theme}
+					value={terminalTheme}
+					setValue={setTerminalTheme}
+				/>
+				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					width={'500px'}
+					title='Terminal Font'
+					options={font_theme}
+					value={font}
+					setValue={setTerminalFont}
+				/>
+				<Checkbox_
+					title={'Text completion (IntelliSense)'}
+					value={textCompletion}
+					setValue={setTextCompletion}
+				/>
+				<Checkbox_
+					title={'Copy text on selection'}
+					value={copyText}
+					setValue={setCopyText}
+				/>
+			</_ContentsContainer>
+
+			<_Title b_color={borderColor[theme]}>SFTP</_Title>
+			<_ContentsContainer>
+				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					width={'500px'}
+					title='Editor Theme'
+					options={editor_theme}
+					value={editorTheme}
+					setValue={setEditorTheme}
+				/>
+			</_ContentsContainer>
 		</_Container>
 	);
 };

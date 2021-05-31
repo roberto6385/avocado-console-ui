@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {GREEN_COLOR} from '../../styles/global';
 
 const _Container = styled.div`
+	padding: 0px 8px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

@@ -5,7 +5,6 @@ import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	AVOCADO_HOVER_COLOR,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	RIGHT_SIDE_WIDTH,
@@ -17,6 +16,14 @@ import {
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {deleteIconMidium} from '../../../icons/icons';
+
+const _Container = styled.div`
+	width: ${RIGHT_SIDE_WIDTH};
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: ${(props) => props.color};
+`;
 
 const _Li = styled.li`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -58,14 +65,6 @@ const _Button = styled.button`
 	&:hover {
 		background: ${AVOCADO_HOVER_COLOR};
 	}
-`;
-
-const _Container = styled.div`
-	width: ${RIGHT_SIDE_WIDTH};
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	color: ${(props) => props.color};
 `;
 
 const IdentitiesAside = () => {

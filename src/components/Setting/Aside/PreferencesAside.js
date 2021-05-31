@@ -6,26 +6,36 @@ import {
 	fontColor,
 	inputColor,
 	MONTSERRAT,
+	RIGHT_SIDE_WIDTH,
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-	SIXTEEN,
 } from '../../../styles/global';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME} from '../../../reducers/common';
 
-const _P = styled.p`
-	padding: 0px 0px 12px;
-	margin: 0px 8px 16px;
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
-	font-size: ${SIXTEEN};
+const _Container = styled.div`
+	width: ${RIGHT_SIDE_WIDTH};
+	padding: 0px 8px;
+	color: ${(props) => props.color};
 `;
 
-const _SectionContainer = styled.div`
-	padding: 16px 8px;
+const _Title = styled.div`
+	font-size: 14px;
+	margin: 0px 8px;
+	display: flex;
+	align-items: center;
+	height: 50px;
+	min-height: 50px;
+	border-bottom: 1px solid ${(props) => props?.b_color};
+`;
+
+const _ContentsContainer = styled.div`
+	font-size: 14px;
+	padding: 15px 0px;
+	margin: 0px;
 	color: ${(props) => props?.color};
 `;
 
@@ -71,10 +81,11 @@ const PreferencesAside = () => {
 	}, [generalTheme, dispatch]);
 
 	return (
-		<React.Fragment>
-			<_SectionContainer color={fontColor[theme]}>
-				<_P b_color={borderColor[theme]}>General</_P>
+		<_Container color={fontColor[theme]}>
+			<_Title b_color={borderColor[theme]}>General</_Title>
+			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
+					width={'266px'}
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
@@ -83,10 +94,12 @@ const PreferencesAside = () => {
 					value={generalTheme}
 					setValue={setGeneralTheme}
 				/>
-			</_SectionContainer>
-			<_SectionContainer color={fontColor[theme]}>
-				<_P b_color={borderColor[theme]}>Terminal</_P>
+			</_ContentsContainer>
+
+			<_Title b_color={borderColor[theme]}>Terminal</_Title>
+			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
+					width={'266px'}
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
@@ -96,6 +109,7 @@ const PreferencesAside = () => {
 					setValue={setTerminalTheme}
 				/>
 				<Select_
+					width={'266px'}
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
@@ -114,9 +128,10 @@ const PreferencesAside = () => {
 					value={copyText}
 					setValue={setCopyText}
 				/>
-			</_SectionContainer>
-			<_SectionContainer color={fontColor[theme]}>
-				<_P b_color={borderColor[theme]}>SFTP</_P>
+			</_ContentsContainer>
+
+			<_Title b_color={borderColor[theme]}>SFTP</_Title>
+			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					back={inputColor[theme]}
 					color={fontColor[theme]}
@@ -126,8 +141,8 @@ const PreferencesAside = () => {
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>
-			</_SectionContainer>
-		</React.Fragment>
+			</_ContentsContainer>
+		</_Container>
 	);
 };
 
