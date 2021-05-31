@@ -5,7 +5,6 @@ import {
 	borderColor,
 	fontColor,
 	inputColor,
-	LIGHT_MODE_BORDER_COLOR,
 	MONTSERRAT,
 	ROBOTO,
 	ROBOTO_MONO,
@@ -35,12 +34,12 @@ const background_theme = [
 	{value: 1, label: 'Dark Mode'},
 ];
 const terminal_theme = [
-	{value: 0, label: 'Light Mode'},
-	{value: 1, label: 'Dark Mode'},
+	{value: 0, label: 'theme0'},
+	{value: 1, label: 'theme1'},
 ];
 const editor_theme = [
-	{value: 0, label: 'Light Mode'},
-	{value: 1, label: 'Dark Mode'},
+	{value: 0, label: 'theme0'},
+	{value: 1, label: 'theme1'},
 ];
 
 const font_theme = [
@@ -62,12 +61,12 @@ const PreferencesAside = () => {
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
 
 	useEffect(() => {
-		dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
-	}, [terminalFont, dispatch]);
-
-	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
 	}, [generalTheme, dispatch]);
+
+	useEffect(() => {
+		dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
+	}, [terminalFont, dispatch]);
 
 	return (
 		<React.Fragment>

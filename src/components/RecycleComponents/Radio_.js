@@ -10,6 +10,8 @@ const _Container = styled.div`
 	height: ${(props) => props?.height};
 
 	.pretty.p-default.p-round {
+		display: table;
+		width: fit-content;
 		z-index: 0;
 	}
 
