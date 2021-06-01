@@ -6,14 +6,11 @@ import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_INPUT_WIDTH,
-	LIGHT_MODE_BORDER_COLOR,
 	DefaultButton,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
 	PrimaryButton,
 	SUB_HEIGHT,
 	TAB_WIDTH,
-	formColor,
 	fontColor,
 	borderColor,
 	inputColor,

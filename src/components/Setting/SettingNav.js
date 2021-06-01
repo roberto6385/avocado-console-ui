@@ -10,7 +10,6 @@ import {
 	fontColor,
 	serverFolderBackColor,
 	sideColor,
-	LIGHT_MODE_ICON_COLOR,
 	iconColor,
 } from '../../styles/global';
 
@@ -73,8 +72,6 @@ const SettingNav = ({match}) => {
 		},
 		[],
 	);
-
-	console.log(match);
 
 	return (
 		<_Container

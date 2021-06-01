@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import Main from '../components/Main';
+import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
-import {Redirect, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,7 +25,7 @@ const Home = () => {
 
 	return (
 		<_Container>
-			<Main />
+			<WorkSpace />
 			<Footer />
 		</_Container>
 	);

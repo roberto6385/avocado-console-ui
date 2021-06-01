@@ -1,34 +1,41 @@
-import React from 'react';
-import {useCallback, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import RightCornerIcons from './RightCornerIcons';
+import {useDispatch, useSelector} from 'react-redux';
+
+import Nav from './Nav';
+import MainPage from './MainPage';
 import {
-	GREEN_COLOR,
-	Span,
-	IconButton,
-	EIGHTEEN,
-	ICON_DARK_COLOR,
-	LIGHT_BACK_COLOR,
-	LIGHT_MODE_SIDE_COLOR,
-	MAIN_HEIGHT,
-	RIGHT_SIDE_WIDTH,
-	TAB_WIDTH,
-	sideColor,
 	backColor,
+	EIGHTEEN,
 	fontColor,
+	GREEN_COLOR,
+	IconButton,
 	iconColor,
 	IconContainer,
+	MAIN_HEIGHT,
+	RIGHT_SIDE_WIDTH,
+	sideColor,
+	Span,
+	TAB_WIDTH,
 } from '../styles/global';
 import {RiTerminalFill} from 'react-icons/all';
-import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
-import {disconnectAction} from '../reducers/sftp';
-import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
+import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
+import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
+import {disconnectAction} from '../reducers/sftp';
 
 const _Container = styled.div`
+	display: flex;
+	overflow: hidden;
+	flex: 1;
+	height: 100%;
+	width: 100%;
+`;
+
+const _MainContainer = styled.div`
 	display: flex;
 	overflow: hidden;
 	width: 100%;
@@ -69,6 +76,7 @@ const _WorkSpaceContainer = styled.div`
 	flex: 1;
 	height: 100%;
 	width: 100%;
+	background: ${(props) => props?.back};
 	overflow: hidden;
 	position: relative;
 	#right_side_menu {
@@ -96,6 +104,7 @@ const WorkSpace = () => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
+	const [toggle, setToggle] = useState(false);
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
@@ -138,9 +147,6 @@ const WorkSpace = () => {
 			e.preventDefault();
 			if (item === undefined) return;
 			const newOlder = tab.findIndex((it) => it === item);
-			console.log(oldOlder);
-			console.log(newOlder);
-			console.log(draggedItem);
 
 			dispatch({
 				type: SORT_TAB,
@@ -156,62 +162,66 @@ const WorkSpace = () => {
 
 	return (
 		<_Container>
-			<_Nav back={sideColor[theme]}>
-				<_TabsContianer>
-					{tab.map((data) => {
-						return (
-							<_Tab
-								key={data.uuid}
-								onDragOver={(e) => e.preventDefault()}
-								onDrop={nextPutItem(data)}
-							>
-								<_TabItem
-									draggable='true'
-									onDragStart={prevPutItem(data)}
-									onClick={changeVisibleTab(data.uuid)}
-									back={
-										current_tab === data.uuid
-											? backColor[theme]
-											: sideColor[theme]
-									}
-									color={
-										current_tab === data.uuid
-											? GREEN_COLOR
-											: fontColor[theme]
-									}
-									bColor={
-										current_tab === data.uuid
-											? GREEN_COLOR
-											: sideColor[theme]
-									}
+			<Nav />
+			<_MainContainer>
+				<_Nav back={sideColor[theme]}>
+					<_TabsContianer>
+						{tab.map((data) => {
+							return (
+								<_Tab
+									key={data.uuid}
+									onDragOver={(e) => e.preventDefault()}
+									onDrop={nextPutItem(data)}
 								>
-									<IconContainer padding={'6px'}>
-										{data.type === 'SSH' && (
-											<RiTerminalFill />
-										)}
-										{data.type === 'SFTP' && sftpIconSmall}
-									</IconContainer>
-									<Span flex={1} padding={'0px'}>
-										{data.server.name}
-									</Span>
-									<IconButton
-										size={EIGHTEEN}
-										onClick={onClickDelete(data)}
-										color={iconColor[theme]}
+									<_TabItem
+										draggable='true'
+										onDragStart={prevPutItem(data)}
+										onClick={changeVisibleTab(data.uuid)}
+										back={
+											current_tab === data.uuid
+												? backColor[theme]
+												: sideColor[theme]
+										}
+										color={
+											current_tab === data.uuid
+												? GREEN_COLOR
+												: fontColor[theme]
+										}
+										bColor={
+											current_tab === data.uuid
+												? GREEN_COLOR
+												: sideColor[theme]
+										}
 									>
-										{closeIconSmall}
-									</IconButton>
-								</_TabItem>
-							</_Tab>
-						);
-					})}
-				</_TabsContianer>
-				<RightCornerIcons />
-			</_Nav>
-			<_WorkSpaceContainer>
-				<PanesContainer />
-				<AsideContainer />
-			</_WorkSpaceContainer>
+										<IconContainer padding={'6px'}>
+											{data.type === 'SSH' && (
+												<RiTerminalFill />
+											)}
+											{data.type === 'SFTP' &&
+												sftpIconSmall}
+										</IconContainer>
+										<Span flex={1} padding={'0px'}>
+											{data.server.name}
+										</Span>
+										<IconButton
+											size={EIGHTEEN}
+											onClick={onClickDelete(data)}
+											color={iconColor[theme]}
+										>
+											{closeIconSmall}
+										</IconButton>
+									</_TabItem>
+								</_Tab>
+							);
+						})}
+					</_TabsContianer>
+					{toggle && <RightCornerIcons />}
+				</_Nav>
+				<_WorkSpaceContainer>
+					{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
+					<AsideContainer setToggle={setToggle}/>
+				</_WorkSpaceContainer>
+			</_MainContainer>
 		</_Container>
 	);
 };

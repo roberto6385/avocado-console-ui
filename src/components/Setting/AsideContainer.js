@@ -15,11 +15,14 @@ import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIconMedium} from '../../icons/icons';
+import PropTypes from 'prop-types';
+import Server from '../ServerFolderList/Server';
 
 const _Container = styled.div`
-	display: none;
+	// display: none;
 	height: 100%;
 	width: ${RIGHT_SIDE_WIDTH};
+	min-width: ${RIGHT_SIDE_WIDTH};
 	border-left: 1px solid;
 	border-color: ${(props) => props.b_color};
 	z-index: 5; // terminal보다 높아야 함.
@@ -35,7 +38,6 @@ const _Header = styled.div`
 	font-size: ${SIXTEEN};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
-
 	color: ${(props) => props.color};
 `;
 
@@ -43,12 +45,13 @@ const _IconButton = styled(IconButton)`
 	padding: 6px 0px 6px 6px;
 `;
 
-const AsideContainer = () => {
+const AsideContainer = ({setToggle}) => {
 	const {rightSideKey, theme} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
 		const sideMenu = document.querySelector('#right_side_menu');
 		sideMenu.classList.remove('active');
+		// document.getElementById('right_side_menu').style.display = 'none';
 	}, []);
 
 	return (
@@ -68,6 +71,10 @@ const AsideContainer = () => {
 			{rightSideKey === 'Account' && <AccountAside />}
 		</_Container>
 	);
+};
+
+AsideContainer.propTypes = {
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default AsideContainer;

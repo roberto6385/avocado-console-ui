@@ -1,13 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
-	LIGHT_MODE_BORDER_COLOR,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	MONTSERRAT,
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-	SIXTEEN,
 	borderColor,
 	fontColor,
 	inputColor,

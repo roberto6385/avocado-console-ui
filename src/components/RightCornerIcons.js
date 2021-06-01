@@ -31,7 +31,7 @@ const RightCornerIcons = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const {theme} = useSelector((state) => state.common);
+	const {theme, tab} = useSelector((state) => state.common);
 
 	const logout = useCallback(
 		() => () => {
@@ -114,14 +114,16 @@ const RightCornerIcons = () => {
 				}
 				menu={setting_list}
 			/>
-			<DropdownMenu_
-				icon={
-					<IconContainer color={iconColor[theme]}>
-						{windowIcon}
-					</IconContainer>
-				}
-				menu={column_list}
-			/>
+			{tab.length !== 0 && (
+				<DropdownMenu_
+					icon={
+						<IconContainer color={iconColor[theme]}>
+							{windowIcon}
+						</IconContainer>
+					}
+					menu={column_list}
+				/>
+			)}
 			<IconButton>{notificationIcon}</IconButton>
 		</CornerIcons_Container>
 	);

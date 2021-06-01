@@ -1,12 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
-	FONT_COLOR,
 	GREEN_COLOR,
 	IconButton,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	ROBOTO,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
