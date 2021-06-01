@@ -15,13 +15,10 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	Span,
-	LIGHT_MODE_SIDE_COLOR,
 	FOLDER_HEIGHT,
 	IconContainer,
 	MINT_COLOR,
-	LIGHT_MODE_ICON_COLOR,
 	sideColor,
 	serverFolderBackColor,
 	iconColor,
@@ -30,7 +27,7 @@ import {
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
-import {dnsIcon, dnsIconMidium, dnsOpenIcon} from '../../icons/icons';
+import {dnsIconMidium} from '../../icons/icons';
 
 export const _Form = styled.form`
 	border: 1px solid ${GREEN_COLOR};
