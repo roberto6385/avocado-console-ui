@@ -9,7 +9,6 @@ import {
 	IconButton,
 	iconColor,
 	IconContainer,
-	LIGHT_BACK_COLOR,
 	sideColor,
 } from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
@@ -20,7 +19,6 @@ import {
 	windowIcon,
 } from '../icons/icons';
 import PropTypes from 'prop-types';
-import AsideContainer from './Setting/AsideContainer';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
