@@ -11,7 +11,6 @@ import {
 
 const FolderContextMenuMessage = {
 	new_server: 'New Server',
-	new_folder: 'New Folder',
 	rename: 'Rename',
 	delete: 'Delete',
 };
@@ -28,12 +27,6 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 					dispatch({
 						type: OPEN_ADD_SERVER_FORM_POPUP,
 						data: {type: 'add'},
-					});
-					break;
-				case 'new_folder':
-					dispatch({
-						type: OPEN_INPUT_POPUP,
-						data: {key: 'new_folder'},
 					});
 					break;
 				case 'rename':

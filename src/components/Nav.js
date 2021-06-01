@@ -118,7 +118,7 @@ const Nav = () => {
 	const {nav, theme, createdFolderInfo} = useSelector(
 		(state) => state.common,
 	);
-	const [search, onChangeSearch] = useInput('');
+	const [search, onChangeSearch, setSearch] = useInput('');
 	const [toggle, setToggle] = useState(true);
 
 	const isValidFolderName = (folderArray, name) => {
@@ -144,11 +144,6 @@ const Nav = () => {
 			i++;
 		}
 		dispatch({type: ADD_FOLDER, data: folderName});
-
-		// dispatch({
-		// 	type: OPEN_INPUT_POPUP,
-		// 	data: {key: 'new_folder'},
-		// });
 	}, [nav, dispatch]);
 
 	const newServer = useCallback(() => {

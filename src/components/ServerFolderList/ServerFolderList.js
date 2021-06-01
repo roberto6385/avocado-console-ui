@@ -92,7 +92,7 @@ const ServerFolderList = ({search}) => {
 				data.type === 'folder' ? (
 					<Folder
 						key={data.key}
-						open={search === '' ? false : true}
+						open={search !== ''}
 						data={data}
 						indent={1}
 					/>
@@ -106,6 +106,7 @@ const ServerFolderList = ({search}) => {
 
 ServerFolderList.propTypes = {
 	search: PropTypes.string.isRequired,
+	setSearch: PropTypes.func,
 };
 
 export default ServerFolderList;

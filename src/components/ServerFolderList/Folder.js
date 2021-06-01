@@ -178,8 +178,8 @@ const Folder = ({open, data, indent}) => {
 		const fillInForm = async () => {
 			if (openRename) {
 				await setRenameValue(data.name);
-				await renameRef.current.focus();
-				await renameRef.current.select();
+				await renameRef.current?.focus();
+				await renameRef.current?.select();
 			}
 		};
 		fillInForm();
@@ -190,8 +190,11 @@ const Folder = ({open, data, indent}) => {
 	}, [open]);
 
 	useEffect(() => {
+		if (data.key === clicked_server) {
+			console.log(data);
+			setOpenTab(true);
+		}
 		if (data === createdFolderInfo) {
-			console.log(createdFolderInfo);
 			dispatch({type: SET_CLICKED_SERVER, data: createdFolderInfo.key});
 			setOpenRename(true);
 		}
