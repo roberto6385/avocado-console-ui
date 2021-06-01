@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	GREEN_COLOR,
@@ -115,7 +115,9 @@ const _ToggleButton = styled(IconButton)`
 
 const Nav = () => {
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common);
+	const {nav, theme, createdFolderInfo} = useSelector(
+		(state) => state.common,
+	);
 	const [search, onChangeSearch] = useInput('');
 	const [toggle, setToggle] = useState(true);
 
@@ -134,14 +136,15 @@ const Nav = () => {
 	};
 
 	const newFolder = useCallback(() => {
-		console.log(isValidFolderName(nav, 'new folder'));
-		if (isValidFolderName(nav, 'new folder')) {
-			dispatch({type: ADD_FOLDER, data: 'new folder'});
-		} else
-			dispatch({
-				type: OPEN_ALERT_POPUP,
-				data: 'folder_name_duplicate',
-			});
+		let folderName = 'New Folder';
+		let i = 0;
+		while (!isValidFolderName(nav, folderName)) {
+			folderName = `New Folder ${i}`;
+			console.log(folderName);
+			i++;
+		}
+		dispatch({type: ADD_FOLDER, data: folderName});
+
 		// dispatch({
 		// 	type: OPEN_INPUT_POPUP,
 		// 	data: {key: 'new_folder'},
@@ -154,6 +157,10 @@ const Nav = () => {
 			data: {type: 'add'},
 		});
 	}, [dispatch]);
+
+	useEffect(() => {
+		console.log(createdFolderInfo);
+	}, [createdFolderInfo]);
 
 	return toggle ? (
 		<_Aside b_Color={borderColor[theme]}>

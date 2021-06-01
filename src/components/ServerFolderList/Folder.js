@@ -4,6 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 import Server from './Server';
 import {
+	ADD_FOLDER,
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -31,6 +32,7 @@ import {
 	folderIconMidium,
 	folderOpenIconMidium,
 } from '../../icons/icons';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 export const _NavItem = styled.div`
 	display: flex;
@@ -58,7 +60,7 @@ export const _Input = styled.input`
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, theme, createdFolderInfo} = useSelector(
+	const {nav, clicked_server, theme, createdFolderInfo} = useSelector(
 		(state) => state.common,
 	);
 
@@ -74,6 +76,21 @@ const Folder = ({open, data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
 	}, [clicked_server, data, dispatch]);
+
+	const isValidFolderName = (folderArray, name) => {
+		let pass = true;
+
+		for (let i of folderArray) {
+			if (i.type === 'folder') {
+				if (i.name === name) return false;
+				else if (i.contain.length > 0) {
+					// eslint-disable-next-line no-unused-vars
+					pass = pass && isValidFolderName(i.contain, name);
+				}
+			}
+		}
+		return pass;
+	};
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
@@ -95,20 +112,49 @@ const Folder = ({open, data, indent}) => {
 	const handleSubmit = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (renameValue !== data.name)
+			if (renameValue === '') return;
+
+			console.log(data.name);
+			if (isValidFolderName(nav, renameValue.trim())) {
 				dispatch({
 					type: CHANGE_SERVER_FOLDER_NAME,
-					data: {key: data.key, name: renameValue},
+					data: {key: data.key, name: renameValue.trim()},
 				});
-			setOpenRename(false);
-			dispatch({type: SET_CLICKED_SERVER, data: null});
+
+				setOpenRename(false);
+				dispatch({type: SET_CLICKED_SERVER, data: null});
+			} else {
+				console.log(renameValue);
+				if (renameValue !== data.name) {
+					dispatch({
+						type: OPEN_ALERT_POPUP,
+						data: 'folder_name_duplicate',
+					});
+				} else {
+					setOpenRename(false);
+					dispatch({type: SET_CLICKED_SERVER, data: null});
+				}
+			}
+
+			// if (renameValue !== data.name) {
+			// 	dispatch({
+			// 		type: CHANGE_SERVER_FOLDER_NAME,
+			// 		data: {key: data.key, name: renameValue},
+			// 	});
+			// }
 		},
-		[data, renameValue, dispatch],
+		[data, renameValue],
 	);
 
-	const EscapeKey = useCallback((e) => {
-		if (e.keyCode === 27) setOpenRename(false);
-	}, []);
+	const EscapeKey = useCallback(
+		(e) => {
+			if (e.keyCode === 27) {
+				setOpenRename(false);
+				dispatch({type: SET_CLICKED_SERVER, data: null});
+			}
+		},
+		[dispatch],
+	);
 
 	const prevPutItem = useCallback(() => {
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});

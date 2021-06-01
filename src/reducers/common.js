@@ -9,7 +9,6 @@ export const initialState = {
 	server_index: 4,
 	folder_index: 27,
 	rightSideKey: '',
-	createdFolderInfo: null,
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
 	nav: [
 		{
@@ -452,6 +451,21 @@ function addDataOnNode(nav, clicked_server, data) {
 	if (node.contain) node.contain.push(data);
 	else node.push(data);
 }
+
+const isValidFolderName = (folderArray, name) => {
+	let pass = true;
+
+	for (let i of folderArray) {
+		if (i.type === 'folder') {
+			if (i.name === name) return false;
+			else if (i.contain.length > 0) {
+				// eslint-disable-next-line no-unused-vars
+				pass = pass && isValidFolderName(i.contain, name);
+			}
+		}
+	}
+	return pass;
+};
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
