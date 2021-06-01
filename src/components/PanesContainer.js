@@ -10,6 +10,7 @@ import {borderColor} from '../styles/global';
 
 export const _Container = styled.div`
 	flex: 1;
+	display: flex;
 	margin: 0;
 	padding: 0;
 	position: relative;
