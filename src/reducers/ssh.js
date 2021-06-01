@@ -1,6 +1,6 @@
 import produce from 'immer';
 import {Terminal} from 'xterm';
-import {ROBOTO, ROBOTO_MONO} from '../styles/global';
+import {ROBOTO_MONO} from '../styles/global';
 
 export const initialState = {
 	font: ROBOTO_MONO,
@@ -8,6 +8,7 @@ export const initialState = {
 	search_mode: false,
 	ssht: [],
 	current_line: '',
+	ssh_history: [],
 	snippets: [
 		{id: 0, name: 'File List', content: 'ls'},
 		{id: 1, name: 'Current Path', content: 'pwd'},
@@ -98,21 +99,19 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST:
-				// draft.current_line += action.data.result;
-				// console.log(draft.current_line);
+				if(action.data.input)
+				draft.current_line += action.data.input;
+				console.log(draft.current_line);
 				break;
 
 			case SSH_SEND_COMMAND_SUCCESS:
 				draft.ssht
 					.find((v) => v.uuid === action.data.uuid)
 					.terminal.write(action.data.result);
+
 				break;
 
 			case SSH_SEND_COMMAND_FAILURE:
-				draft.ssht
-					.find((v) => v.uuid === action.data)
-					.terminal.dispose();
-				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
 			case SSH_SEND_WINDOW_CHANGE_REQUEST:
