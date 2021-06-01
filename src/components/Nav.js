@@ -104,10 +104,13 @@ const _OpenButton = styled(DefaultButton)`
 
 const _HideSpace = styled.div`
 	display: flex;
-	align-items: center;
-	position: relative;
-	width: 47px;
+	width: 57px;
 	background: ${(props) => props?.back};
+`;
+
+const _ToggleButton = styled(IconButton)`
+	height: 60px;
+	padding: 16px 16px 17px 16px;
 `;
 
 const Nav = () => {
@@ -192,7 +195,12 @@ const Nav = () => {
 		</_Aside>
 	) : (
 		<_HideSpace back={sideColor[theme]}>
-			<_OpenButton onClick={() => setToggle(!toggle)}>open</_OpenButton>
+			<_ToggleButton
+				color={iconColor[theme]}
+				onClick={() => setToggle(!toggle)}
+			>
+				{burgerMenuIcon}
+			</_ToggleButton>
 		</_HideSpace>
 	);
 };
