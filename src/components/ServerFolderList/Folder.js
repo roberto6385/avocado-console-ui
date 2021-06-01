@@ -58,7 +58,9 @@ export const _Input = styled.input`
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, theme} = useSelector((state) => state.common);
+	const {clicked_server, theme, createdFolderInfo} = useSelector(
+		(state) => state.common,
+	);
 
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
@@ -93,15 +95,15 @@ const Folder = ({open, data, indent}) => {
 	const handleSubmit = useCallback(
 		(e) => {
 			e.preventDefault();
-
 			if (renameValue !== data.name)
 				dispatch({
 					type: CHANGE_SERVER_FOLDER_NAME,
 					data: {key: data.key, name: renameValue},
 				});
 			setOpenRename(false);
+			dispatch({type: SET_CLICKED_SERVER, data: null});
 		},
-		[data, renameValue],
+		[data, renameValue, dispatch],
 	);
 
 	const EscapeKey = useCallback((e) => {
@@ -124,6 +126,7 @@ const Folder = ({open, data, indent}) => {
 		},
 		[data, indent],
 	);
+
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -139,6 +142,14 @@ const Folder = ({open, data, indent}) => {
 	useEffect(() => {
 		setOpenTab(open);
 	}, [open]);
+
+	useEffect(() => {
+		if (data === createdFolderInfo) {
+			console.log(createdFolderInfo);
+			dispatch({type: SET_CLICKED_SERVER, data: createdFolderInfo.key});
+			setOpenRename(true);
+		}
+	}, [createdFolderInfo]);
 
 	return (
 		<React.Fragment>
@@ -158,14 +169,6 @@ const Folder = ({open, data, indent}) => {
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{/*<Avocado_span*/}
-				{/*	size={MIDDLE_FONTSIZE}*/}
-				{/*	color={*/}
-				{/*		clicked_server === data.key*/}
-				{/*			? GREEN_COLOR*/}
-				{/*			: ICON_LIGHT_COLOR*/}
-				{/*	}*/}
-				{/*>*/}
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}

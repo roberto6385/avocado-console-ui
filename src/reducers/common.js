@@ -7,8 +7,9 @@ export const initialState = {
 	cols: 1,
 	minimize: false,
 	server_index: 4,
-	folder_index: 5,
+	folder_index: 27,
 	rightSideKey: '',
+	createdFolderInfo: null,
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
 	nav: [
 		{
@@ -467,6 +468,8 @@ const reducer = (state = initialState, action) => {
 					name: action.data,
 					contain: [],
 				};
+
+				draft.createdFolderInfo = data;
 
 				addDataOnNode(draft.nav, draft.clicked_server, data);
 

@@ -156,6 +156,7 @@ const SignInForm = () => {
 
 	const typeChange = useCallback(
 		(e) => {
+			// 현재 Enter key 입력시 submit이 아닌 위 함수가 실행되는 문제있음
 			e.preventDefault();
 			setVisible(!visible);
 		},
@@ -173,7 +174,7 @@ const SignInForm = () => {
 
 	const oauthFunction = useCallback((e) => {
 		e.preventDefault();
-		console.log('oauth ');
+		console.log('oauth');
 	}, []);
 
 	useEffect(() => {
