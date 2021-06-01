@@ -129,7 +129,11 @@ const FileListContextMenu = ({uuid}) => {
 				Download
 			</Item>
 			<Item
-				disabled={highlight.length === 0 || highlight.length !== 1}
+				disabled={
+					highlight.length === 0 ||
+					highlight.length !== 1 ||
+					highlight.slice().find((item) => item.type === 'directory')
+				}
 				id='edit'
 				onClick={handleItemClick}
 			>

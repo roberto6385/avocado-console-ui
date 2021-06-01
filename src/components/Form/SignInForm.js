@@ -20,6 +20,10 @@ import {
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
+import appleButton from '../../images/apple_btn.png';
+import googleButton from '../../images/google_btn.png';
+import kakaoButton from '../../images/kakao_btn.png';
+import naverButton from '../../images/naver_btn.png';
 
 const _Form = styled.form`
 	background: white;
@@ -112,6 +116,15 @@ const _CheckboxAnchorContainer = styled.div`
 
 const _OAuthContainer = styled.div`
 	margin: 8px;
+	display: flex;
+	justify-content: space-between;
+`;
+
+const _OAuthButton = styled.button`
+	background: transparent;
+	border: none;
+	width: fit-content;
+	padding: 0px;
 `;
 
 const SignInForm = () => {
@@ -156,6 +169,11 @@ const SignInForm = () => {
 	const focusout = useCallback(() => {
 		const passwordContainer = document.getElementById('password_container');
 		passwordContainer.classList.remove('focus');
+	}, []);
+
+	const oauthFunction = useCallback((e) => {
+		e.preventDefault();
+		console.log('oauth ');
 	}, []);
 
 	useEffect(() => {
@@ -211,8 +229,22 @@ const SignInForm = () => {
 				<a href={'/password'}>Forget Password?</a>
 			</_CheckboxAnchorContainer>
 			<_SignInButton type='submit'>Sign in</_SignInButton>
-			{/*<_OAuthContainer>oauth 는 확정 이후 디자인</_OAuthContainer>*/}
-			{/*<_OAuthContainer>oauth</_OAuthContainer>*/}
+			<_OAuthContainer>
+				<_OAuthButton onClick={oauthFunction}>
+					<img src={kakaoButton} alt='kakaoButton' />
+				</_OAuthButton>
+				<_OAuthButton onClick={oauthFunction}>
+					<img src={naverButton} alt='naverButton' />
+				</_OAuthButton>
+			</_OAuthContainer>
+			<_OAuthContainer>
+				<_OAuthButton onClick={oauthFunction}>
+					<img src={googleButton} alt='googleButton' />
+				</_OAuthButton>
+				<_OAuthButton onClick={oauthFunction}>
+					<img src={appleButton} alt='appleButton' />
+				</_OAuthButton>
+			</_OAuthContainer>
 		</_Form>
 	) : (
 		<div>loading...</div>

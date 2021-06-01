@@ -47,19 +47,21 @@ const background_theme = [
 	{value: 1, label: 'Dark Mode'},
 ];
 const terminal_theme = [
-	{value: 0, label: 'Light Mode'},
-	{value: 1, label: 'Dark Mode'},
+	{value: 0, label: 'theme0'},
+	{value: 1, label: 'theme1'},
 ];
 const editor_theme = [
-	{value: 0, label: 'Light Mode'},
-	{value: 1, label: 'Dark Mode'},
+	{value: 0, label: 'theme0'},
+	{value: 1, label: 'theme1'},
 ];
+
 const font_theme = [
-	{value: ROBOTO, label: 'Roboto, monospace'},
-	{value: ROBOTO_MONO, label: 'Roboto Mono, monospace'},
-	{value: ROBOTO_SLAP, label: 'Roboto Slap, monospace'},
-	{value: MONTSERRAT, label: 'Montserrat, monospace'},
+	{value: ROBOTO, label: 'Roboto'},
+	{value: ROBOTO_MONO, label: 'Roboto Mono'},
+	{value: ROBOTO_SLAP, label: 'Roboto Slap'},
+	{value: MONTSERRAT, label: 'Montserrat'},
 ];
+
 const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const {font} = useSelector((state) => state.ssht);

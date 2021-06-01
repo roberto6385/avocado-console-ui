@@ -155,7 +155,7 @@ const FileListNav = ({uuid}) => {
 			<_IconButton color={iconColor[theme]} onClick={goBack}>
 				{arrowUpwordIcon}
 			</_IconButton>
-			<_Form onSubmit={searchPath} autocomplete='nope'>
+			<_Form onSubmit={searchPath} autoComplete='off'>
 				<_input
 					id='fileListNavInput'
 					type='text'
