@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -160,6 +160,9 @@ const WorkSpace = () => {
 		[tab, oldOlder, draggedItem, dispatch],
 	);
 
+	useEffect(() => {
+		console.log(toggle);
+	}, [toggle]);
 	return (
 		<_Container>
 			<Nav />
@@ -215,11 +218,11 @@ const WorkSpace = () => {
 							);
 						})}
 					</_TabsContianer>
-					{toggle && <RightCornerIcons />}
+					<RightCornerIcons setToggle={setToggle} />
 				</_Nav>
 				<_WorkSpaceContainer>
 					{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
-					<AsideContainer setToggle={setToggle}/>
+					{toggle && <AsideContainer setToggle={setToggle} />}
 				</_WorkSpaceContainer>
 			</_MainContainer>
 		</_Container>

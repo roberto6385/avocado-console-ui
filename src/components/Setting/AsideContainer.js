@@ -16,10 +16,8 @@ import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIconMedium} from '../../icons/icons';
 import PropTypes from 'prop-types';
-import Server from '../ServerFolderList/Server';
 
 const _Container = styled.div`
-	// display: none;
 	height: 100%;
 	width: ${RIGHT_SIDE_WIDTH};
 	min-width: ${RIGHT_SIDE_WIDTH};
@@ -49,17 +47,11 @@ const AsideContainer = ({setToggle}) => {
 	const {rightSideKey, theme} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
-		const sideMenu = document.querySelector('#right_side_menu');
-		sideMenu.classList.remove('active');
-		// document.getElementById('right_side_menu').style.display = 'none';
+		setToggle(false);
 	}, []);
 
 	return (
-		<_Container
-			id={'right_side_menu'}
-			back={sideColor[theme]}
-			b_color={borderColor[theme]}
-		>
+		<_Container back={sideColor[theme]} b_color={borderColor[theme]}>
 			<_Header color={fontColor[theme]} b_color={borderColor[theme]}>
 				{rightSideKey}
 				<_IconButton color={iconColor[theme]} onClick={close_sidebar}>

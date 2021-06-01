@@ -19,6 +19,8 @@ import {
 	settingIcon,
 	windowIcon,
 } from '../icons/icons';
+import PropTypes from 'prop-types';
+import AsideContainer from './Setting/AsideContainer';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -27,7 +29,7 @@ const CornerIcons_Container = styled.div`
 	height: 100%;
 `;
 
-const RightCornerIcons = () => {
+const RightCornerIcons = ({setToggle}) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -62,8 +64,7 @@ const RightCornerIcons = () => {
 	const openSideMenu = useCallback(
 		(key) => () => {
 			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			const sideMenu = document.querySelector('#right_side_menu');
-			sideMenu.classList.add('active');
+			setToggle(true);
 		},
 		[dispatch],
 	);
@@ -127,6 +128,10 @@ const RightCornerIcons = () => {
 			<IconButton>{notificationIcon}</IconButton>
 		</CornerIcons_Container>
 	);
+};
+
+RightCornerIcons.propTypes = {
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default RightCornerIcons;
