@@ -167,7 +167,7 @@ const WorkSpace = () => {
 		<_Container>
 			<Nav />
 			<_MainContainer>
-				<_Nav back={sideColor[theme]}>
+				<_Nav back={backColor[theme]}>
 					<_TabsContianer>
 						{tab.map((data) => {
 							return (
@@ -182,8 +182,8 @@ const WorkSpace = () => {
 										onClick={changeVisibleTab(data.uuid)}
 										back={
 											current_tab === data.uuid
-												? backColor[theme]
-												: sideColor[theme]
+												? sideColor[theme]
+												: backColor[theme]
 										}
 										color={
 											current_tab === data.uuid

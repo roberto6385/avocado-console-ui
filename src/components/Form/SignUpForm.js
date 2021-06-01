@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
+
 import {
 	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
@@ -93,6 +95,7 @@ const _SignInButton = styled(PrimaryButton)`
 
 const SignUpForm = () => {
 	const dispatch = useDispatch();
+	const {t} = useTranslation('signUpForm');
 	const [id, onChangeId, setId] = useInput('');
 	const [name, onChangeName, setName] = useInput('');
 	const [email, onChangeEmail, setEmail] = useInput('');
@@ -171,9 +174,9 @@ const SignUpForm = () => {
 
 	return !loading ? (
 		<_Form onSubmit={onSubmitForm}>
-			<_Title>Sign Up</_Title>
+			<_Title>{t('title')}</_Title>
 			<_Span>
-				Do you have an account? <a href={'/signin'}> sign in now </a>
+				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
 			</_Span>
 
 			<Input_>
@@ -182,7 +185,7 @@ const SignUpForm = () => {
 					value={id}
 					color={id === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeId}
-					placeholder={'ID'}
+					placeholder={t('id')}
 				/>
 			</Input_>
 
@@ -191,7 +194,7 @@ const SignUpForm = () => {
 					value={name}
 					color={name === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeName}
-					placeholder={'Name'}
+					placeholder={t('name')}
 				/>
 			</Input_>
 
@@ -200,7 +203,7 @@ const SignUpForm = () => {
 					value={email}
 					color={email === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeEmail}
-					placeholder={'Email'}
+					placeholder={t('email')}
 				/>
 			</Input_>
 			<Input_>
@@ -210,9 +213,11 @@ const SignUpForm = () => {
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
+						color={
+							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
+						}
 						onChange={onChangePassword}
-						placeholder={'Password'}
+						placeholder={t('password')}
 					/>
 					<IconButton onClick={typeChange}>
 						{visible ? (
@@ -232,13 +237,17 @@ const SignUpForm = () => {
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
 						value={passwordConfirm}
-						color={passwordConfirm === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
+						color={
+							passwordConfirm === ''
+								? LIGHT_MODE_BORDER_COLOR
+								: 'black'
+						}
 						onChange={onChangePasswordConfirm}
-						placeholder={'Password Confirm'}
+						placeholder={t('confirmPassword')}
 					/>
 				</_PasswordContainer>
 			</Input_>
-			<_SignInButton type='submit'>Sign Up</_SignInButton>
+			<_SignInButton type='submit'>{t('signUp')}</_SignInButton>
 		</_Form>
 	) : (
 		<div>loading...</div>

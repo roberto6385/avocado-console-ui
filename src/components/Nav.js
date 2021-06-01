@@ -18,13 +18,10 @@ import {
 	iconColor,
 	borderColor,
 } from '../styles/global';
+import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
-import {
-	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_ALERT_POPUP,
-	OPEN_INPUT_POPUP,
-} from '../reducers/popup';
+import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	burgerMenuIcon,
@@ -114,6 +111,7 @@ const _ToggleButton = styled(IconButton)`
 `;
 
 const Nav = () => {
+	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
 	const {nav, theme, createdFolderInfo} = useSelector(
 		(state) => state.common,
@@ -136,10 +134,10 @@ const Nav = () => {
 	};
 
 	const newFolder = useCallback(() => {
-		let folderName = 'New Folder';
+		let folderName = t('newFolder');
 		let i = 0;
 		while (!isValidFolderName(nav, folderName)) {
-			folderName = `New Folder ${i}`;
+			folderName = `${t('newFolder')} ${i}`;
 			console.log(folderName);
 			i++;
 		}
@@ -176,7 +174,7 @@ const Nav = () => {
 					{plusIcon}
 				</IconButton>
 				<_NewServerSpan color={fontColor[theme]}>
-					New Server
+					{t('newServer')}
 				</_NewServerSpan>
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
@@ -188,7 +186,7 @@ const Nav = () => {
 					onChange={onChangeSearch}
 					value={search}
 					type='text'
-					placeholder={'Search'}
+					placeholder={t('search')}
 					color={fontColor[theme]}
 					back={sideColor[theme]}
 				/>

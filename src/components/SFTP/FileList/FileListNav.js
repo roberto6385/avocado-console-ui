@@ -20,6 +20,8 @@ import {
 	inputColor,
 	fontColor,
 	borderColor,
+	sideColor,
+	backColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -162,7 +164,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={inputColor[theme]}
+					back={backColor[theme]}
 					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>

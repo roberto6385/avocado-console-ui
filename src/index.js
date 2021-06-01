@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {CookiesProvider} from 'react-cookie';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
-
+import './i18n';
 import App from './App';
 import {store, persistor} from './store/configureStore';
 import './styles/index.css';

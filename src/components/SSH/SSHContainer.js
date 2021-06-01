@@ -7,7 +7,12 @@ import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
+import {
+	backColor,
+	IconButton,
+	sideColor,
+	SUB_HEIGHT,
+} from '../../styles/global';
 
 import styled from 'styled-components';
 import SSH from './SSH';
@@ -71,7 +76,7 @@ const SSHContainer = ({uuid, server_id}) => {
 
 	return (
 		<_Container>
-			<_Header back={backColor[theme]}>
+			<_Header back={sideColor[theme]}>
 				<DropdownMenu_ icon={snippetIcon} menu={column} />
 				<SFTPConvertButton server_id={server_id} />
 				<IconButton onClick={onCLickFullScreen}>

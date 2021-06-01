@@ -69,13 +69,8 @@ const _Span = styled.span`
 	padding: 4px;
 `;
 
-const _EllipsisSpan = styled.span`
-	margin: 0px;
-	padding: 0px;
-	width: 150px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+const _Li = styled.li`
+	background: ${(props) => props?.back};
 `;
 
 const FileListDropDown = ({uuid}) => {
@@ -340,12 +335,11 @@ const FileListDropDown = ({uuid}) => {
 							clickedPath: pathList[listindex],
 						})}
 					>
-						<_Span>{/*{listindex === 0 && 'Name'}*/}</_Span>
 						{listItem.map((item, index) => {
 							if (listindex === 0 && item.name === '..') return;
 							return (
 								item.name !== '.' && (
-									<ls
+									<_Li
 										back={
 											(highlight.findIndex(
 												(it) =>
@@ -422,7 +416,7 @@ const FileListDropDown = ({uuid}) => {
 												</_ItemContainer>
 											)}
 										</_ItemContainer>
-									</ls>
+									</_Li>
 								)
 							);
 						})}

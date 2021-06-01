@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {PrimaryButton, fontColor, backColor} from '../styles/global';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	background: ${(props) => props.back};
@@ -28,6 +29,7 @@ const _Text = styled.div`
 const MainPage = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
+	const {t} = useTranslation('mainPage');
 
 	// 삭제 ㄴㄴ
 	//
@@ -64,13 +66,10 @@ const MainPage = () => {
 	return (
 		<_Container back={backColor[theme]}>
 			<_Contents>
-				<_Text color={fontColor[theme]}>Hello! Start Avocado</_Text>
-				<_Text color={fontColor[theme]}>
-					Select a server to start a session via SSH, SFTP, RDP, VNC
-					or Telnet. Or
-				</_Text>
+				<_Text color={fontColor[theme]}>{t('title')}</_Text>
+				<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>
 				<PrimaryButton onClick={onClickVisibleForm}>
-					Add Server
+					{t('addServer')}
 				</PrimaryButton>
 			</_Contents>
 		</_Container>

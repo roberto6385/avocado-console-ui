@@ -6,7 +6,7 @@ import History from './History/History';
 import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {backColor} from '../../styles/global';
+import {backColor, sideColor} from '../../styles/global';
 
 const _SFTP = styled.div`
 	display: flex;
@@ -26,7 +26,7 @@ const SFTP = ({uuid}) => {
 			<Edit uuid={uuid} />
 		</_SFTP>
 	) : (
-		<_SFTP back={backColor[theme]}>
+		<_SFTP back={sideColor[theme]}>
 			<FileList uuid={uuid} />
 			<History uuid={uuid} />
 		</_SFTP>

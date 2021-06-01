@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
 import {
 	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
@@ -105,6 +106,7 @@ const _CustomButton = styled(SecondaryButtonGreen)`
 
 const PasswordForm = () => {
 	const dispatch = useDispatch();
+	const {t} = useTranslation('passwordForm');
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');
 	const [password, onChangePassword] = useInput('');
@@ -186,10 +188,10 @@ const PasswordForm = () => {
 
 	return !loading ? (
 		<_Form onSubmit={onSubmitForm}>
-			<_Title>Reset Password</_Title>
+			<_Title>{t('title')}</_Title>
 			<_Span>
-				Did you remember the password?
-				<a href={'/signin'}> sign in now </a>
+				{t('remember')}
+				<a href={'/signin'}> {t('signIn')} </a>
 			</_Span>
 
 			<Input_>
@@ -198,19 +200,16 @@ const PasswordForm = () => {
 					value={id}
 					color={id === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeId}
-					placeholder={'ID'}
+					placeholder={t('id')}
 				/>
 			</Input_>
 			<Item_Container>
 				<Input_ flex={1}>
-					<span>
-						The authentication number will be sent to the registered
-						mail.
-					</span>
+					<span>{t('auth')}</span>
 					{/*<span>등록한 메일로 인증번호가 전송됩니다.</span>*/}
 				</Input_>
 
-				<_CustomButton onClick={sendAuth}>Send </_CustomButton>
+				<_CustomButton onClick={sendAuth}>{t('send')}</_CustomButton>
 			</Item_Container>
 			<Item_Container>
 				<Input_ flex={1}>
@@ -219,10 +218,10 @@ const PasswordForm = () => {
 						value={email}
 						color={email === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 						onChange={onChangeEmail}
-						placeholder={'Authentication number'}
+						placeholder={t('authInput')}
 					/>
 				</Input_>
-				<_CustomButton onClick={checkAuth}>Check</_CustomButton>
+				<_CustomButton onClick={checkAuth}>{t('check')}</_CustomButton>
 			</Item_Container>
 			<Input_>
 				<_PasswordContainer id={'password_container'}>
@@ -231,9 +230,11 @@ const PasswordForm = () => {
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
+						color={
+							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
+						}
 						onChange={onChangePassword}
-						placeholder={'Password'}
+						placeholder={t('password')}
 					/>
 					<IconButton onClick={typeChange}>
 						{visible ? (
@@ -253,13 +254,17 @@ const PasswordForm = () => {
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
 						value={passwordConfirm}
-						color={passwordConfirm === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
+						color={
+							passwordConfirm === ''
+								? LIGHT_MODE_BORDER_COLOR
+								: 'black'
+						}
 						onChange={onChangePasswordConfirm}
-						placeholder={'Password Confirm'}
+						placeholder={t('confirmPassword')}
 					/>
 				</_PasswordContainer>
 			</Input_>
-			<_SignInButton type='submit'>Change Password</_SignInButton>
+			<_SignInButton type='submit'>{t('changePassword')}</_SignInButton>
 		</_Form>
 	) : (
 		<div>loading...</div>

@@ -5,6 +5,8 @@ import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/auth/userTicket';
 import {SAVE_ENCODE_DATA} from '../../reducers/common';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
+
 import {
 	ANCHOR_GRAY_COLOR,
 	AUTH_FORM_HEIGHT,
@@ -129,11 +131,14 @@ const _OAuthButton = styled.button`
 
 const SignInForm = () => {
 	const dispatch = useDispatch();
+	const {t} = useTranslation('signInForm');
+
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);
+
 	const emailRef = useRef(null);
 
 	const onSubmitForm = useCallback(
@@ -183,9 +188,9 @@ const SignInForm = () => {
 
 	return !loading ? (
 		<_Form onSubmit={onSubmitForm}>
-			<_Title>Sign in to Avocado</_Title>
+			<_Title>{t('title')}</_Title>
 			<_Span>
-				Don’t have an account? <a href={'/signup'}> sign up now </a>
+				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
 			</_Span>
 
 			<Input_>
@@ -194,7 +199,7 @@ const SignInForm = () => {
 					value={user}
 					color={user === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeUser}
-					placeholder={'Email'}
+					placeholder={t('id')}
 				/>
 			</Input_>
 			<Input_>
@@ -208,7 +213,7 @@ const SignInForm = () => {
 							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
 						}
 						onChange={onChangePassword}
-						placeholder={'Password'}
+						placeholder={t('password')}
 					/>
 					<IconButton onClick={typeChange}>
 						{visible ? (
@@ -223,13 +228,13 @@ const SignInForm = () => {
 			</Input_>
 			<_CheckboxAnchorContainer>
 				<Checkbox_
-					title={'Remember Password'}
+					title={t('remember')}
 					value={rememberPassword}
 					setValue={setRememberPassword}
 				/>
-				<a href={'/password'}>Forget Password?</a>
+				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_SignInButton type='submit'>Sign in</_SignInButton>
+			<_SignInButton type='submit'>{t('signIn')}</_SignInButton>
 			<_OAuthContainer>
 				<_OAuthButton onClick={oauthFunction}>
 					<img src={kakaoButton} alt='kakaoButton' />

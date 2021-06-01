@@ -7,6 +7,7 @@ import {
 	backColor,
 	borderColor,
 	fontColor,
+	sideColor,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
 
@@ -108,7 +109,7 @@ const TableHead = ({uuid}) => {
 	return (
 		<_Thead>
 			<_Tr
-				back={backColor[theme]}
+				back={sideColor[theme]}
 				b_color={borderColor[theme]}
 				color={fontColor[theme]}
 			>

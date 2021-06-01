@@ -36,6 +36,7 @@ import {
 	editColor,
 	deleteColor,
 	iconColor,
+	sideColor,
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -305,7 +306,7 @@ const HistoryContents = ({uuid}) => {
 										(item) => item === history,
 									)
 										? serverFolderBackColor[theme]
-										: backColor[theme]
+										: sideColor[theme]
 								}
 								b_color={borderColor[theme]}
 								borderWidth={`${history.progress}%`}

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {
+	backColor,
 	IconButton,
 	iconColor,
 	IconContainer,
@@ -96,7 +97,7 @@ const RightCornerIcons = ({setToggle}) => {
 	];
 
 	return (
-		<CornerIcons_Container back={sideColor[theme]}>
+		<CornerIcons_Container back={backColor[theme]}>
 			<DropdownMenu_
 				icon={
 					<IconContainer color={iconColor[theme]}>
