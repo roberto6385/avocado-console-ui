@@ -16,6 +16,7 @@ import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
 import {SSH_SET_FONT_REQUEST} from '../../reducers/ssh';
 import {CHANGE_GENERAL_THEME} from '../../reducers/common';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	display: flex;
@@ -63,6 +64,7 @@ const font_theme = [
 ];
 
 const PreferencesSpace = () => {
+	const {t} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
 	const {font} = useSelector((state) => state.ssht);
 	const {theme} = useSelector((state) => state.common);
@@ -85,28 +87,29 @@ const PreferencesSpace = () => {
 
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>General</_Title>
+			<_Title b_color={borderColor[theme]}>{t('general')}</_Title>
+
 			<_ContentsContainer>
 				<Select_
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					width={'500px'}
-					title='UI Theme'
+					title={t('uiTheme')}
 					options={background_theme}
 					value={generalTheme}
 					setValue={setGeneralTheme}
 				/>
 			</_ContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>Terminal</_Title>
+			<_Title b_color={borderColor[theme]}>{t('terminal')}</_Title>
 			<_ContentsContainer>
 				<Select_
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					width={'500px'}
-					title='UI Theme'
+					title={t('uiTheme')}
 					options={terminal_theme}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
@@ -116,31 +119,31 @@ const PreferencesSpace = () => {
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					width={'500px'}
-					title='Terminal Font'
+					title={t('font')}
 					options={font_theme}
 					value={font}
 					setValue={setTerminalFont}
 				/>
 				<Checkbox_
-					title={'Text completion (IntelliSense)'}
+					title={t('textCompletion')}
 					value={textCompletion}
 					setValue={setTextCompletion}
 				/>
-				<Checkbox_
-					title={'Copy text on selection'}
-					value={copyText}
-					setValue={setCopyText}
-				/>
+				{/*<Checkbox_*/}
+				{/*	title={'Copy text on selection'}*/}
+				{/*	value={copyText}*/}
+				{/*	setValue={setCopyText}*/}
+				{/*/>*/}
 			</_ContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>SFTP</_Title>
+			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>
 			<_ContentsContainer>
 				<Select_
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					width={'500px'}
-					title='Editor Theme'
+					title={t('editorTheme')}
 					options={editor_theme}
 					value={editorTheme}
 					setValue={setEditorTheme}

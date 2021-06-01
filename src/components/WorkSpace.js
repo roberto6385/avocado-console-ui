@@ -167,7 +167,11 @@ const WorkSpace = () => {
 		<_Container>
 			<Nav />
 			<_MainContainer>
-				<_Nav back={backColor[theme]}>
+				<_Nav
+					back={
+						tab.length !== 0 ? backColor[theme] : sideColor[theme]
+					}
+				>
 					<_TabsContianer>
 						{tab.map((data) => {
 							return (

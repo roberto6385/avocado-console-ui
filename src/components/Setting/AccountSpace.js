@@ -18,6 +18,7 @@ import {
 } from '../../styles/global';
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	display: flex;
@@ -70,29 +71,8 @@ const _Section = styled.section`
 	position: relative;
 `;
 
-const authOptions = [
-	{value: 'first_option', label: 'ID / Password'},
-	{value: 'second_option', label: 'AlternativeAuthN (대체인증)'},
-];
-const mfaOptions = [
-	{value: 'use', label: '사용'},
-	{value: 'not_use', label: '사용안함'},
-];
-const AlternativeAuthOptions = [
-	{value: 'google', label: 'Google'},
-	{value: 'kakao', label: 'Kakao'},
-	{value: 'naver', label: 'Naver'},
-];
-
-const MFAOptions = [
-	{value: 'otp', label: 'OTP'},
-	{value: 'mail', label: 'Mail'},
-	{value: 'sms', label: 'SMS'},
-	{value: 'finger_print', label: 'Finger Print'},
-	{value: 'face_id', label: 'Face ID'},
-];
-
 const AccountSpace = () => {
+	const {t} = useTranslation('accountSpace');
 	const {theme} = useSelector((state) => state.common);
 
 	const [open, setOpen] = useState(false);
@@ -104,49 +84,71 @@ const AccountSpace = () => {
 	const [authValue, setAuthValue] = useState('google');
 	const [mfaValue, setMfaValue] = useState('otp');
 
+	const authOptions = [
+		{value: 'first_option', label: t('idPassword')},
+		{value: 'second_option', label: t('alternative')},
+	];
+	const mfaOptions = [
+		{value: 'use', label: t('use')},
+		{value: 'not_use', label: t('notUse')},
+	];
+	const AlternativeAuthOptions = [
+		{value: 'google', label: t('google')},
+		{value: 'kakao', label: t('kakao')},
+		{value: 'naver', label: t('naver')},
+	];
+
+	const MFAOptions = [
+		{value: 'otp', label: t('otp')},
+		{value: 'mail', label: t('mail')},
+		{value: 'sms', label: t('sms')},
+		{value: 'finger_print', label: t('fingerPrint')},
+		{value: 'face_id', label: t('faceId')},
+	];
+
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>Account</_Title>
+			<_Title b_color={borderColor[theme]}>{t('title.account')}</_Title>
 			<_ContentsContainer>
-				<Input_ title={'Account'}>
+				<Input_ title={t('account')}>
 					<_Input
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account}
 						onChange={(e) => setAccount(e.target.value)}
-						placeholder={'Account'}
+						placeholder={t('accountPlace')}
 					/>
 				</Input_>
-				<Input_ title={'Full name'}>
+				<Input_ title={t('name')}>
 					<_Input
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={name}
 						onChange={(e) => setName(e.target.value)}
-						placeholder={'Name'}
+						placeholder={t('namePlace')}
 					/>
 				</Input_>
-				<Input_ title={'Email Address'}>
+				<Input_ title={t('email')}>
 					<_Input
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						placeholder={'Email Address'}
+						placeholder={t('emailPlace')}
 					/>
 				</Input_>
 			</_ContentsContainer>
-			<_Title b_color={borderColor[theme]}>Authorization</_Title>
+			<_Title b_color={borderColor[theme]}>{t('title.auth')}</_Title>
 			<_ContentsContainer>
 				<_Section>
 					<Select_
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
-						title='Default Authorization'
+						title={t('auth')}
 						options={authOptions}
 						value={authType}
 						setValue={setAuthType}
@@ -157,11 +159,11 @@ const AccountSpace = () => {
 							onClick={() => setOpen(true)}
 							// disabled
 						>
-							Change Password
+							{t('changePassword')}
 						</_PrimaryButton>
 					) : (
 						<_DisabledButton onClick={() => setOpen(true)} disabled>
-							Change Password
+							{t('changePassword')}
 						</_DisabledButton>
 					)}
 				</_Section>
@@ -179,7 +181,7 @@ const AccountSpace = () => {
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
-					title='MFA'
+					title={t('mfa')}
 					options={mfaOptions}
 					value={mfaType}
 					setValue={setMfaType}

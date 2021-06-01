@@ -14,6 +14,7 @@ import {
 } from '../../../styles/global';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -46,6 +47,7 @@ const _Button = styled.button`
 `;
 
 const AccountAside = () => {
+	const {t} = useTranslation('accountAside');
 	const history = useHistory();
 	const {theme} = useSelector((state) => state.common);
 
@@ -61,39 +63,39 @@ const AccountAside = () => {
 	const [email, setEmail] = useState('');
 	return (
 		<_Container color={fontColor[theme]}>
-			<Input_ title={'Account'}>
+			<Input_ title={t('account')}>
 				<_Input
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={account}
 					onChange={(e) => setAccount(e.target.value)}
-					placeholder={'Account'}
+					placeholder={t('accountPlace')}
 				/>
 			</Input_>
-			<Input_ title={'Full name'}>
+			<Input_ title={t('name')}>
 				<_Input
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={name}
 					onChange={(e) => setName(e.target.value)}
-					placeholder={'Name'}
+					placeholder={t('namePlace')}
 				/>
 			</Input_>
-			<Input_ title={'Email Address'}>
+			<Input_ title={t('email')}>
 				<_Input
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					placeholder={'Email Address'}
+					placeholder={t('emailPlace')}
 				/>
 			</Input_>
-			<Input_ title={'Authorization'}>
+			<Input_ title={t('auth')}>
 				<_Button onClick={changePath('/account')}>
-					Change Authorization
+					{t('changeAuth')}
 				</_Button>
 			</Input_>
 		</_Container>

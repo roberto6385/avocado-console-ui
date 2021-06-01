@@ -12,7 +12,7 @@ import {
 	sideColor,
 	iconColor,
 } from '../../styles/global';
-
+import {useTranslation} from 'react-i18next';
 import {useHistory, withRouter} from 'react-router-dom';
 import {
 	accountIconMidium,
@@ -64,6 +64,7 @@ const _Li = styled.li`
 
 const SettingNav = ({match}) => {
 	const history = useHistory();
+	const {t} = useTranslation('settingNav');
 	const {theme} = useSelector((state) => state.common);
 
 	const changePath = useCallback(
@@ -84,7 +85,7 @@ const SettingNav = ({match}) => {
 				b_color={borderColor[theme]}
 			>
 				{chevronLeftIcon}
-				<_Header>Back</_Header>
+				<_Header>{t('back')}</_Header>
 			</_BackContainer>
 			<_Ul>
 				<_Li
@@ -104,7 +105,7 @@ const SettingNav = ({match}) => {
 					>
 						{accountIconMidium}
 					</IconContainer>
-					<_Header>Account</_Header>
+					<_Header>{t('account')}</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/preferences')}
@@ -124,7 +125,7 @@ const SettingNav = ({match}) => {
 						{settingIconMidium}
 					</IconContainer>
 
-					<_Header>Preferences</_Header>
+					<_Header>{t('preferences')}</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/identities')}
@@ -143,7 +144,7 @@ const SettingNav = ({match}) => {
 					>
 						{identityIconMidium}
 					</IconContainer>
-					<_Header>Identity</_Header>
+					<_Header>{t('identities')}</_Header>
 				</_Li>
 			</_Ul>
 		</_Container>

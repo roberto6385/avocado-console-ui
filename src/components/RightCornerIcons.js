@@ -97,7 +97,9 @@ const RightCornerIcons = ({setToggle}) => {
 	];
 
 	return (
-		<CornerIcons_Container back={backColor[theme]}>
+		<CornerIcons_Container
+			back={tab.length !== 0 ? backColor[theme] : sideColor[theme]}
+		>
 			<DropdownMenu_
 				icon={
 					<IconContainer color={iconColor[theme]}>

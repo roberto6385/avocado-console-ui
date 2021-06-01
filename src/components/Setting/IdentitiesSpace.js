@@ -14,6 +14,7 @@ import {
 	serverFolderBackColor,
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
@@ -197,6 +198,7 @@ function searchTreeStart(root, key) {
 }
 
 const IdentitiesSpace = () => {
+	const {t} = useTranslation('identitiesSpace');
 	const {
 		account,
 		server,
@@ -290,11 +292,11 @@ const IdentitiesSpace = () => {
 
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>Identities</_Title>
+			<_Title b_color={borderColor[theme]}>{t('title')}</_Title>
 			<_ContentContainer>
 				<_ResourceListUl back={formColor[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
-						<_ResourceName>Resource List</_ResourceName>
+						<_ResourceName>{t('resource')}</_ResourceName>
 						<IconButton
 							color={fontColor[theme]}
 							onClick={newServer}
@@ -303,11 +305,11 @@ const IdentitiesSpace = () => {
 						</IconButton>
 					</_Li>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
-						<_ResourceName>Name</_ResourceName>
-						<_AddressName>Address</_AddressName>
-						<_ProtocolPortName>Protocol </_ProtocolPortName>
-						<_ProtocolPortName>Port</_ProtocolPortName>
-						<_ProtocolPortName>Note</_ProtocolPortName>
+						<_ResourceName>{t('resourceName')}</_ResourceName>
+						<_AddressName>{t('address')}</_AddressName>
+						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
+						<_ProtocolPortName>{t('port')}</_ProtocolPortName>
+						{/*<_ProtocolPortName>{t('note')}</_ProtocolPortName>*/}
 					</_Li>
 					{server.map((item) => {
 						return (
@@ -331,14 +333,14 @@ const IdentitiesSpace = () => {
 								<_ProtocolPortName>
 									{item.port}
 								</_ProtocolPortName>
-								<_ProtocolPortName>Note</_ProtocolPortName>
+								{/*<_ProtocolPortName>Note</_ProtocolPortName>*/}
 							</_ResourceLi>
 						);
 					})}
 				</_ResourceListUl>
 				<_AccountListUl back={formColor[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
-						<_Name>[ Cloud Server ] Account List</_Name>
+						<_Name>{t('account')}</_Name>
 						<div>
 							<IconButton
 								color={fontColor[theme]}
@@ -361,9 +363,9 @@ const IdentitiesSpace = () => {
 						onContextMenu={contextMenuOpen(-1)}
 					>
 						<Checkbox index={-1} onChange={checkManager(-1)} />
-						<_Name>Name</_Name>
-						<_UserNameType>User Name</_UserNameType>
-						<_UserNameType>Type</_UserNameType>
+						<_Name>{t('accountName')}</_Name>
+						<_UserNameType>{t('userName')}</_UserNameType>
+						<_UserNameType>{t('type')}</_UserNameType>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{account.map((item) => {

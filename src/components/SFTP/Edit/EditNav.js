@@ -12,13 +12,13 @@ import {OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
-	ICON_LIGHT_COLOR,
 	SUB_HEIGHT,
 	backColor,
 	fontColor,
 	iconColor,
+	borderColor,
+	sideColor,
 } from '../../../styles/global';
 import {
 	fileDownloadIcon,
@@ -109,7 +109,11 @@ const EditNav = ({uuid}) => {
 	}, [corServer]);
 
 	return (
-		<_Container justify={'space-between'} back={backColor[theme]}>
+		<_Container
+			justify={'space-between'}
+			back={sideColor[theme]}
+			b_color={borderColor[theme]}
+		>
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>
 				<_Button color={iconColor[theme]} onClick={editedFileSave}>

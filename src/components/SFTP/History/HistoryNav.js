@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {useTranslation} from 'react-i18next';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	Span,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	SUB_HEIGHT,
 	fontColor,
@@ -28,7 +27,7 @@ const _Container = styled.div`
 
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
-
+	const {t} = useTranslation('historyNav');
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
@@ -78,7 +77,7 @@ const HistoryNav = ({uuid}) => {
 
 	return (
 		<_Container b_color={borderColor[theme]}>
-			<Span color={fontColor[theme]}>Transfer</Span>
+			<Span color={fontColor[theme]}>{t('title')}</Span>
 			<div>
 				<IconButton color={iconColor[theme]} onClick={upload}>
 					{fileUploadIcon}

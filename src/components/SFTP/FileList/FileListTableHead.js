@@ -4,12 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-	backColor,
 	borderColor,
 	fontColor,
 	sideColor,
 	THIRD_HEIGHT,
 } from '../../../styles/global';
+import {useTranslation} from 'react-i18next';
 
 const _Tr = styled.tr`
 	height: ${THIRD_HEIGHT};
@@ -61,32 +61,34 @@ const Th = styled.th`
 `;
 
 const TableHead = ({uuid}) => {
+	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 
 	const Sorting = useCallback(
 		(e) => {
-			const {innerText} = e.target;
-			switch (innerText) {
-				case 'Name':
+			const {id} = e.target;
+
+			switch (id) {
+				case 'fileListTableHead_name':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'name'},
 					});
 					break;
-				case 'Size':
+				case 'fileListTableHead_size':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'size'},
 					});
 					break;
-				case 'Modified':
+				case 'fileListTableHead_modified':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'modified'},
 					});
 					break;
-				case 'Permission':
+				case 'fileListTableHead_permission':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'permission'},
@@ -100,10 +102,10 @@ const TableHead = ({uuid}) => {
 	);
 
 	const tableHeaders = [
-		{title: 'Name', key: 'name', min: '150px', flex: 1},
-		{title: 'Size', key: 'size', min: '135px'},
-		{title: 'Modified', key: 'modified', min: '212px'},
-		{title: 'Permission', key: 'permission', min: '105px'},
+		{title: t('name'), key: 'name', min: '150px', flex: 1},
+		{title: t('size'), key: 'size', min: '135px'},
+		{title: t('modified'), key: 'modified', min: '212px'},
+		{title: t('permission'), key: 'permission', min: '105px'},
 	];
 
 	return (
@@ -117,6 +119,7 @@ const TableHead = ({uuid}) => {
 					return (
 						<HeaderTh
 							key={item.key}
+							id={`fileListTableHead_${item.key}`}
 							// borderColor={
 							// 	sortKeyword === item.key &&
 							// 	`2px solid ${MAIN_COLOR}`

@@ -9,6 +9,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp';
+import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {
 	GREEN_COLOR,
@@ -29,7 +30,6 @@ import {
 	fontColor,
 	borderColor,
 	serverFolderBackColor,
-	backColor,
 	pauseColor,
 	uploadColor,
 	downloadColor,
@@ -120,6 +120,7 @@ const Bar = styled.div`
 `;
 
 const HistoryContents = ({uuid}) => {
+	const {t} = useTranslation('historyContents');
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
@@ -286,11 +287,11 @@ const HistoryContents = ({uuid}) => {
 						color={fontColor[theme]}
 						padding={'32px 30px 12px 30px'}
 					>
-						Drop files or folders here, or
+						{t('paragraph')}
 					</Span>
 					<DropSpace_Button onClick={openUpload}>
 						<span className='material-icons'>file_upload</span>
-						<Span>Browse file</Span>
+						<Span>{t('browse')}</Span>
 					</DropSpace_Button>
 				</DropSpaceDiv>
 			) : (

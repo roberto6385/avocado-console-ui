@@ -16,6 +16,7 @@ import {
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {deleteIconMidium} from '../../../icons/icons';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -68,6 +69,7 @@ const _Button = styled.button`
 `;
 
 const IdentitiesAside = () => {
+	const {t} = useTranslation('identitiesAside');
 	const {account, theme} = useSelector((state) => state.common);
 	const history = useHistory();
 
@@ -82,10 +84,10 @@ const IdentitiesAside = () => {
 			<ul>
 				<_Li b_color={borderColor[theme]}>
 					<_AccountContainer>
-						<_Span>Account</_Span>
+						<_Span>{t('account')}</_Span>
 					</_AccountContainer>
 					<_AuthenticationContainer>
-						<_Span>Authentication</_Span>
+						<_Span>{t('auth')}</_Span>
 					</_AuthenticationContainer>
 					<_ButtonContainer />
 				</_Li>
@@ -108,7 +110,7 @@ const IdentitiesAside = () => {
 				})}
 			</ul>
 			<_Button onClick={changePath('/identities')}>
-				Edit more account settings
+				{t('editMore')}
 			</_Button>
 		</_Container>
 	);

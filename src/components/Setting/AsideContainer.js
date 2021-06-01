@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
 import {
 	IconButton,
 	RIGHT_SIDE_WIDTH,
@@ -44,6 +45,7 @@ const _IconButton = styled(IconButton)`
 `;
 
 const AsideContainer = ({setToggle}) => {
+	const {t} = useTranslation('asideContainer');
 	const {rightSideKey, theme} = useSelector((state) => state.common);
 
 	const close_sidebar = useCallback(() => {
@@ -53,14 +55,16 @@ const AsideContainer = ({setToggle}) => {
 	return (
 		<_Container back={sideColor[theme]} b_color={borderColor[theme]}>
 			<_Header color={fontColor[theme]} b_color={borderColor[theme]}>
-				{rightSideKey}
+				{rightSideKey === 'Account' && t('account')}
+				{rightSideKey === 'Preferences' && t('preferences')}
+				{rightSideKey === 'Identities' && t('identities')}
 				<_IconButton color={iconColor[theme]} onClick={close_sidebar}>
 					{closeIconMedium}
 				</_IconButton>
 			</_Header>
+			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}
 			{rightSideKey === 'Identities' && <IdentitiesAside />}
-			{rightSideKey === 'Account' && <AccountAside />}
 		</_Container>
 	);
 };
