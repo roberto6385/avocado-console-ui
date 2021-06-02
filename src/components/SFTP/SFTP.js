@@ -6,7 +6,7 @@ import History from './History/History';
 import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {backColor, sideColor} from '../../styles/global';
+import {sideColor} from '../../styles/global';
 
 const _SFTP = styled.div`
 	display: flex;

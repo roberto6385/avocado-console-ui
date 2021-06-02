@@ -44,13 +44,13 @@ const _IconButton = styled(IconButton)`
 	padding: 6px 0px 6px 6px;
 `;
 
-const AsideContainer = ({setToggle}) => {
+const AsideContainer = () => {
 	const {t} = useTranslation('asideContainer');
 	const {rightSideKey, theme} = useSelector((state) => state.common);
 
-	const close_sidebar = useCallback(() => {
-		setToggle(false);
-	}, []);
+	// const close_sidebar = useCallback(() => {
+	// 	setToggle(false);
+	// }, []);
 
 	return (
 		<_Container back={sideColor[theme]} b_color={borderColor[theme]}>
@@ -58,19 +58,15 @@ const AsideContainer = ({setToggle}) => {
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
-				<_IconButton color={iconColor[theme]} onClick={close_sidebar}>
-					{closeIconMedium}
-				</_IconButton>
+				{/*<_IconButton color={iconColor[theme]} onClick={close_sidebar}>*/}
+				{/*	{closeIconMedium}*/}
+				{/*</_IconButton>*/}
 			</_Header>
 			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}
 			{rightSideKey === 'Identities' && <IdentitiesAside />}
 		</_Container>
 	);
-};
-
-AsideContainer.propTypes = {
-	setToggle: PropTypes.func.isRequired,
 };
 
 export default AsideContainer;

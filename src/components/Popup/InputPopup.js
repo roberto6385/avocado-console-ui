@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {IoCloseOutline} from 'react-icons/all';
-import {CLOSE_INPUT_POPUP, OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
-import {ADD_FOLDER} from '../../reducers/common';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import {useTranslation} from 'react-i18next';
 import {
 	AVOCADO_FONTSIZE,
 	LIGHT_MODE_BORDER_COLOR,
@@ -81,39 +81,23 @@ const _Footer = styled.div`
 	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
-const HeaderMessage = {
-	sftp_rename_file_folder: 'Renmae Folder',
-	sftp_new_folder: 'Create New Folder',
-	new_folder: 'Create New Folder',
-};
-
-const Placeholder = {
-	sftp_rename_file_folder: 'Enter file or folder name ',
-	sftp_new_folder: 'Enter folder name',
-	new_folder: 'Enter folder name',
-};
-
-const isValidFolderName = (folderArray, name) => {
-	let pass = true;
-
-	for (let i of folderArray) {
-		if (i.type === 'folder') {
-			if (i.name === name) return false;
-			else if (i.contain.length > 0) {
-				pass = pass && isValidFolderName(i.contain, name);
-			}
-		}
-	}
-	return pass;
-};
-
 const InputPopup = () => {
+	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
-	const {nav} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 	const {input_popup} = useSelector((state) => state.popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
+
+	const HeaderMessage = {
+		sftp_rename_file_folder: t('renameHeader'),
+		sftp_new_folder: t('newFolderHeader'),
+	};
+
+	const Placeholder = {
+		sftp_rename_file_folder: t('renamePlace'),
+		sftp_new_folder: t('newFolderPlace'),
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});
@@ -176,22 +160,12 @@ const InputPopup = () => {
 					break;
 				}
 
-				case 'new_folder':
-					if (formValue !== '' && isValidFolderName(nav, formValue)) {
-						dispatch({type: ADD_FOLDER, data: formValue});
-					} else
-						dispatch({
-							type: OPEN_ALERT_POPUP,
-							data: 'folder_name_duplicate',
-						});
-					break;
-
 				default:
 					break;
 			}
 			closeModal();
 		},
-		[input_popup, dispatch, formValue, sftp, nav],
+		[input_popup, dispatch, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -238,8 +212,10 @@ const InputPopup = () => {
 			</_Form>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>Cancel</BorderButton>
-				<PrimaryButton onClick={submitFunction}>Save</PrimaryButton>
+				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<PrimaryButton onClick={submitFunction}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

@@ -10,17 +10,14 @@ import {
 } from '../../../reducers/sftp';
 import {
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
 	MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	iconColor,
-	inputColor,
 	fontColor,
 	borderColor,
-	sideColor,
 	backColor,
 } from '../../../styles/global';
 import {
@@ -143,16 +140,16 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<_IconButton
-				color={mode === 'drop' ? MINT_COLOR : iconColor[theme]}
-				onClick={dropdownList}
-			>
-				{viewColumnIcon}
-			</_IconButton>
-			<_IconButton
 				color={mode === 'list' ? MINT_COLOR : iconColor[theme]}
 				onClick={basicList}
 			>
 				{viewListIcon}
+			</_IconButton>
+			<_IconButton
+				color={mode === 'drop' ? MINT_COLOR : iconColor[theme]}
+				onClick={dropdownList}
+			>
+				{viewColumnIcon}
 			</_IconButton>
 			<_IconButton color={iconColor[theme]} onClick={goBack}>
 				{arrowUpwordIcon}
