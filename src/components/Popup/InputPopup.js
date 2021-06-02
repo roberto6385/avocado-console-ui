@@ -6,6 +6,7 @@ import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import {useTranslation} from 'react-i18next';
 import {
 	AVOCADO_FONTSIZE,
 	LIGHT_MODE_BORDER_COLOR,
@@ -80,22 +81,23 @@ const _Footer = styled.div`
 	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
-const HeaderMessage = {
-	sftp_rename_file_folder: 'Rename Folder',
-	sftp_new_folder: 'Create New Folder',
-};
-
-const Placeholder = {
-	sftp_rename_file_folder: 'Enter file or folder name ',
-	sftp_new_folder: 'Enter folder name',
-};
-
 const InputPopup = () => {
+	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const {sftp} = useSelector((state) => state.sftp);
 	const {input_popup} = useSelector((state) => state.popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
+
+	const HeaderMessage = {
+		sftp_rename_file_folder: t('renameHeader'),
+		sftp_new_folder: t('newFolderHeader'),
+	};
+
+	const Placeholder = {
+		sftp_rename_file_folder: t('renamePlace'),
+		sftp_new_folder: t('newFolderPlace'),
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});
@@ -210,8 +212,10 @@ const InputPopup = () => {
 			</_Form>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>Cancel</BorderButton>
-				<PrimaryButton onClick={submitFunction}>Save</PrimaryButton>
+				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<PrimaryButton onClick={submitFunction}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

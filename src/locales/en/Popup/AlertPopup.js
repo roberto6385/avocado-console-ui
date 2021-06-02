@@ -7,6 +7,7 @@ export default {
 	serverDuplicate:
 		'There is already a server with the same name or information',
 	folderNameDuplicate: 'There is already a fodler with the same name',
+	noChange: 'No changes have been made.',
 	cancle: 'Cancle',
 	ok: 'OK',
 };

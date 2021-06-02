@@ -83,6 +83,7 @@ const AlertPopup = () => {
 		snippets_name_duplicate: t('snippetsNameDuplicate'),
 		server_duplicate: t('serverDuplicate'),
 		folder_name_duplicate: t('folderNameDuplicate'),
+		no_changes: t('noChange'),
 	};
 
 	return (

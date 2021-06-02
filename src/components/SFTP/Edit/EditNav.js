@@ -14,7 +14,6 @@ import {
 	AVOCADO_FONTSIZE,
 	IconButton,
 	SUB_HEIGHT,
-	backColor,
 	fontColor,
 	iconColor,
 	borderColor,

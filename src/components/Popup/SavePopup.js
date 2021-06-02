@@ -69,14 +69,14 @@ const _Message = styled.div`
 	padding: 24px 16px;
 `;
 
-const SaveMessage = {
-	sftp_edit_file: 'Do you want to save changes?',
-};
-
 const SavePopup = () => {
 	const dispatch = useDispatch();
 	const {save_popup} = useSelector((state) => state.popup);
 	const {sftp} = useSelector((state) => state.sftp);
+
+	const SaveMessage = {
+		sftp_edit_file: 'Do you want to save changes?',
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_SAVE_POPUP});
