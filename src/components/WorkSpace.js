@@ -226,7 +226,7 @@ const WorkSpace = () => {
 				</_Nav>
 				<_WorkSpaceContainer>
 					{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
-					{toggle && <AsideContainer setToggle={setToggle} />}
+					{toggle && <AsideContainer />}
 				</_WorkSpaceContainer>
 			</_MainContainer>
 		</_Container>

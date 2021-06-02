@@ -32,7 +32,7 @@ const RightCornerIcons = ({setToggle}) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const {theme, tab} = useSelector((state) => state.common);
+	const {theme, tab, rightSideKey} = useSelector((state) => state.common);
 
 	const logout = useCallback(
 		() => () => {
@@ -62,10 +62,17 @@ const RightCornerIcons = ({setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			dispatch({type: RIGHT_SIDE_KEY, payload: key});
-			setToggle(true);
+			if (rightSideKey !== '') {
+				console.log('no');
+				dispatch({type: RIGHT_SIDE_KEY, payload: ''});
+				setToggle(false);
+			} else {
+				console.log('yes');
+				dispatch({type: RIGHT_SIDE_KEY, payload: key});
+				setToggle(true);
+			}
 		},
-		[dispatch],
+		[dispatch, rightSideKey],
 	);
 
 	const setting_list = [
@@ -78,6 +85,7 @@ const RightCornerIcons = ({setToggle}) => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
+		{onClick: logout(), title: 'Logout'},
 	];
 
 	const column_list = [
@@ -88,26 +96,29 @@ const RightCornerIcons = ({setToggle}) => {
 		{onClick: changeColumn(5), title: '5 Columns'},
 	];
 
-	const account_list = [
-		{
-			onClick: openSideMenu('Account'),
-			title: 'Account',
-		},
-		{onClick: logout(), title: 'Logout'},
-	];
+	// const account_list = [
+	// 	{
+	// 		onClick: openSideMenu('Account'),
+	// 		title: 'Account',
+	// 	},
+	// ];
 
 	return (
 		<CornerIcons_Container
 			back={tab.length !== 0 ? backColor[theme] : sideColor[theme]}
 		>
-			<DropdownMenu_
-				icon={
-					<IconContainer color={iconColor[theme]}>
-						{accountIcon}
-					</IconContainer>
-				}
-				menu={account_list}
-			/>
+			<IconButton onClick={openSideMenu('Account')}>
+				{accountIcon}
+			</IconButton>
+
+			{/*<DropdownMenu_*/}
+			{/*	icon={*/}
+			{/*		<IconContainer color={iconColor[theme]}>*/}
+			{/*			{accountIcon}*/}
+			{/*		</IconContainer>*/}
+			{/*	}*/}
+			{/*	menu={account_list}*/}
+			{/*/>*/}
 			<DropdownMenu_
 				icon={
 					<IconContainer color={iconColor[theme]}>
