@@ -22,8 +22,8 @@ export default {
 	naver: 'Naver',
 
 	mfa: 'MFA',
-	use: 'Use',
-	notUse: 'Not Use',
+	use: 'Enabled',
+	notUse: 'Disabled',
 
 	otp: 'OTP',
 	mail: 'Mail',
