@@ -50,14 +50,15 @@ const Footer = () => {
 	const {server, tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 	);
+	const {font_size} = useSelector((state) => state.ssht);
 
 	const onClickIncreaseFont = useCallback(() => {
-		dispatch({type: SSH_INCREASE_FONT_SIZE});
-	}, [dispatch]);
+		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});
+	}, [font_size, dispatch]);
 
 	const onClickDeceaseFont = useCallback(() => {
-		dispatch({type: SSH_DECREASE_FONT_SIZE});
-	}, [dispatch]);
+		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
+	}, [font_size, dispatch]);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
