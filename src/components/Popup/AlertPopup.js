@@ -90,6 +90,7 @@ const AlertPopup = () => {
 		server_duplicate: t('serverDuplicate'),
 		folder_name_duplicate: t('folderNameDuplicate'),
 		no_changes: t('noChange'),
+		developing: t('developing'),
 	};
 
 	return (

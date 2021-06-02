@@ -8,7 +8,7 @@ import {
 	commandPutAction,
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
-import {OPEN_SAVE_POPUP} from '../../../reducers/popup';
+import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
@@ -79,24 +79,26 @@ const EditNav = ({uuid}) => {
 	}, [corServer]);
 
 	const editedFileSave = useCallback(() => {
-		const uploadFile = new File([editText], editFile.name, {
-			type: 'text/plain',
-		});
-		dispatch({type: SAVE_TEXT, payload: {uuid, text: editText}});
-		dispatch(
-			commandPutAction({
-				...corServer,
-				file: uploadFile,
-				keyword: 'edit',
-			}),
-		);
-	}, [corServer]);
+		if (text === editText) {
+			// 변경 내용이 없습니다.
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'no_changes',
+			});
+		} else {
+			// 저장하시겠습니까?
+			dispatch({
+				type: OPEN_SAVE_POPUP,
+				data: {key: 'sftp_edit_save', uuid},
+			});
+		}
+	}, [text, editText, dispatch, corServer]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
 			dispatch({
 				type: OPEN_SAVE_POPUP,
-				data: {key: 'sftp_edit_file', uuid},
+				data: {key: 'sftp_edit_close', uuid},
 			});
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});

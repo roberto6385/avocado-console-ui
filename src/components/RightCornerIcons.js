@@ -138,7 +138,9 @@ const RightCornerIcons = ({setToggle}) => {
 				}
 				menu={setting_list}
 			/>
-			<IconButton>{notificationIcon}</IconButton>
+			<IconButton onClick={onClickNotification}>
+				{notificationIcon}
+			</IconButton>
 			{tab.length !== 0 && (
 				<DropdownMenu_
 					icon={
@@ -149,10 +151,6 @@ const RightCornerIcons = ({setToggle}) => {
 					menu={column_list}
 				/>
 			)}
-
-			<IconButton onClick={onClickNotification}>
-				{notificationIcon}
-			</IconButton>
 		</CornerIcons_Container>
 	);
 };

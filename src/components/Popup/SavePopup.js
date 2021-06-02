@@ -15,7 +15,12 @@ import {
 	MAIN_HEIGHT,
 	PrimaryButton,
 } from '../../styles/global';
-import {CHANGE_MODE, CLOSE_EDITOR, commandPutAction} from '../../reducers/sftp';
+import {
+	CHANGE_MODE,
+	CLOSE_EDITOR,
+	commandPutAction,
+	SAVE_TEXT,
+} from '../../reducers/sftp';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -75,26 +80,47 @@ const SavePopup = () => {
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const SaveMessage = {
-		sftp_edit_file: 'Do you want to save changes?',
+		sftp_edit_save: 'save?',
+		sftp_edit_close: 'Do you want to save changes?',
 	};
 
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_SAVE_POPUP});
-	}, [dispatch]);
+		switch (save_popup.key) {
+			case 'sftp_edit_save': {
+				dispatch({type: CLOSE_SAVE_POPUP});
+				break;
+			}
+			case 'sftp_edit_close': {
+				const uuid = save_popup.uuid;
+				const corServer = sftp.find((it) => it.uuid === uuid);
+				const {prevMode} = corServer;
+				dispatch({type: CLOSE_SAVE_POPUP});
+				dispatch({
+					type: CLOSE_EDITOR,
+					payload: {uuid: save_popup.uuid},
+				});
+				dispatch({
+					type: CHANGE_MODE,
+					payload: {uuid: save_popup.uuid, mode: prevMode},
+				});
+
+				break;
+			}
+		}
+	}, [save_popup, dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
 
+			const uuid = save_popup.uuid;
+			const corServer = sftp.find((it) => it.uuid === uuid);
+			const {editText, editFile, prevMode} = corServer;
+			const uploadFile = new File([editText], editFile.name, {
+				type: 'text/plain',
+			});
 			switch (save_popup.key) {
-				case 'sftp_edit_file': {
-					const uuid = save_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {editText, editFile} = corServer;
-					const uploadFile = new File([editText], editFile.name, {
-						type: 'text/plain',
-					});
-
+				case 'sftp_edit_save': {
 					dispatch(
 						commandPutAction({
 							...corServer,
@@ -103,12 +129,31 @@ const SavePopup = () => {
 						}),
 					);
 					dispatch({
+						type: SAVE_TEXT,
+						payload: {uuid, text: editText},
+					});
+
+					break;
+				}
+				case 'sftp_edit_close': {
+					dispatch(
+						commandPutAction({
+							...corServer,
+							file: uploadFile,
+							keyword: 'edit',
+						}),
+					);
+					dispatch({
+						type: SAVE_TEXT,
+						payload: {uuid, text: editText},
+					});
+					dispatch({
 						type: CLOSE_EDITOR,
 						payload: {uuid: save_popup.uuid},
 					});
 					dispatch({
 						type: CHANGE_MODE,
-						payload: {uuid: save_popup.uuid, mode: 'list'},
+						payload: {uuid: save_popup.uuid, mode: prevMode},
 					});
 					break;
 				}
