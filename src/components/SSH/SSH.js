@@ -66,16 +66,19 @@ const _Input = styled.input`
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {current_tab} = useSelector((state) => state.common);
-	const {font, font_size, search_mode, ssht} = useSelector(
-		(state) => state.ssht,
-	);
+	const {
+		font,
+		font_size,
+		search_mode,
+		ssht,
+		ssh_history,
+		current_line,
+	} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
-	// const [cookies, setCookie, removeCookie] = useCookies(['search_cokkies']);
-	// const [prompt, setPrompt] = useState('');
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		1000,
 	);
@@ -88,13 +91,13 @@ const SSH = ({uuid}) => {
 		[search],
 	);
 
-	// const onClickCommand = useCallback(
-	// 	(v) => () => {
-	// 		console.log(v);
-	// 		sshTerm.write(v.substring(prompt.length));
-	// 	},
-	// 	[prompt, sshTerm],
-	// );
+	const onClickCommand = useCallback(
+		(v) => () => {
+			console.log(v);
+			sshTerm.write(v.substring(prompt.length));
+		},
+		[prompt, sshTerm],
+	);
 
 	//terminal setting
 	useEffect(() => {
@@ -191,15 +194,17 @@ const SSH = ({uuid}) => {
 					position: 'absolute',
 					right: '0',
 					bottom: '0',
+					zIndex: '5',
 				}}
 			>
-				{/*{cookies['search_cokkies']*/}
-				{/*	.filter((v) => v.indexOf(prompt) === 0 && prompt !== '')*/}
-				{/*	.map((v) => (*/}
-				{/*		<ListGroup.Item onClick={onClickCommand(v)} key={v}>*/}
-				{/*			{v}*/}
-				{/*		</ListGroup.Item>*/}
-				{/*	))}*/}
+				{current_line !== '' &&
+					ssh_history
+						.filter((v) => v.startsWith(current_line))
+						.map((v) => (
+							<ListGroup.Item onClick={onClickCommand(v)} key={v}>
+								{v}
+							</ListGroup.Item>
+						))}
 			</ListGroup>
 			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				<MdSearch />

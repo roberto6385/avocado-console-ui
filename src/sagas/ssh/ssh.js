@@ -89,32 +89,34 @@ function* sendDisconnection(action) {
 	const channel = yield call(subscribe, action.data.ws);
 
 	try {
-		yield call(ssht_ws_request, {
-			keyword: 'SendDisconnect',
-			ws: action.data.ws,
-		});
+		if (action.data.ws.readyState === 1) {
+			yield call(ssht_ws_request, {
+				keyword: 'SendDisconnect',
+				ws: action.data.ws,
+			});
 
-		while (true) {
-			const result = yield take(channel);
-			const res = yield call(GetMessage, result);
+			while (true) {
+				const result = yield take(channel);
+				const res = yield call(GetMessage, result);
 
-			switch (res.type) {
-				case 'DISCONNECT':
-					//TODO: 우선은 finally에 구현
-					break;
-				default:
-					break;
+				switch (res.type) {
+					case 'DISCONNECT':
+						//TODO: 우선은 finally에 구현
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
-		closeChannel(channel);
 	} finally {
 		yield put({type: CLOSE_TAB, data: action.data.uuid});
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
 			data: action.data.uuid,
 		});
+		closeChannel(channel);
 	}
 }
 
@@ -122,28 +124,30 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, action.data.ws);
 
 	try {
-		yield call(ssht_ws_request, {
-			keyword: 'SendCommand',
-			ws: action.data.ws,
-			data: action.data.input,
-		});
+		if (action.data.ws.readyState === 1) {
+			yield call(ssht_ws_request, {
+				keyword: 'SendCommand',
+				ws: action.data.ws,
+				data: action.data.input,
+			});
 
-		while (true) {
-			const result = yield take(channel);
-			const res = yield call(GetMessage, result);
+			while (true) {
+				const result = yield take(channel);
+				const res = yield call(GetMessage, result);
 
-			switch (res.type) {
-				case 'COMMAND':
-					yield put({
-						type: SSH_SEND_COMMAND_SUCCESS,
-						data: {
-							uuid: action.data.uuid,
-							result: res.result,
-						},
-					});
-					break;
-				default:
-					break;
+				switch (res.type) {
+					case 'COMMAND':
+						yield put({
+							type: SSH_SEND_COMMAND_SUCCESS,
+							data: {
+								uuid: action.data.uuid,
+								result: res.result,
+							},
+						});
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	} catch (err) {
