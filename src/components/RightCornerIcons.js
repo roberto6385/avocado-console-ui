@@ -20,6 +20,7 @@ import {
 	windowIcon,
 } from '../icons/icons';
 import PropTypes from 'prop-types';
+import {OPEN_ALERT_POPUP} from '../reducers/popup';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -96,6 +97,13 @@ const RightCornerIcons = ({setToggle}) => {
 		{onClick: logout(), title: 'Logout'},
 	];
 
+	const onClickNotification = useCallback(() => {
+		dispatch({
+			type: OPEN_ALERT_POPUP,
+			data: 'developing',
+		});
+	}, []);
+
 	return (
 		<CornerIcons_Container
 			back={tab.length !== 0 ? backColor[theme] : sideColor[theme]}
@@ -126,7 +134,9 @@ const RightCornerIcons = ({setToggle}) => {
 					menu={column_list}
 				/>
 			)}
-			<IconButton>{notificationIcon}</IconButton>
+			<IconButton onClick={onClickNotification}>
+				{notificationIcon}
+			</IconButton>
 		</CornerIcons_Container>
 	);
 };

@@ -17,6 +17,7 @@ import {
 	PrimaryButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const _Form = styled.form`
 	background: white;
@@ -113,7 +114,12 @@ const SignUpForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('sign up action');
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'developing',
+			});
+			//TODO: Sign up ACtion
+
 			// 	const encodeData = base64.encode(`${user}:${password}`);
 			// 	dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
 			// 	dispatch(

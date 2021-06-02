@@ -34,7 +34,6 @@ const reducer = (state = initialState, action) => {
 				console.log('OPEN ALERT POPUP');
 				draft.alert_popup = {open: true, key: action.data};
 				break;
-
 			case CLOSE_ALERT_POPUP:
 				console.log('CLOSE ALERT POPUP');
 				draft.alert_popup = {open: false};
@@ -54,13 +53,16 @@ const reducer = (state = initialState, action) => {
 				draft.warning_alert_popup = {open: false};
 				break;
 
+			case OPEN_INPUT_POPUP:
+				draft.input_popup = {open: true, key: action.data.key};
+				if (action.data.uuid) draft.input_popup.uuid = action.data.uuid;
+				break;
 			case CLOSE_INPUT_POPUP:
 				draft.input_popup = {open: false};
 				break;
 
 			case OPEN_SAVE_POPUP:
 				draft.save_popup = {open: true, key: action.data.key};
-
 				if (action.data.uuid) draft.save_popup.uuid = action.data.uuid;
 				break;
 			case CLOSE_SAVE_POPUP:
@@ -85,7 +87,6 @@ const reducer = (state = initialState, action) => {
 					open: true,
 					key: action.data.key,
 				};
-
 				if (action.data.uuid)
 					draft.account_form_popup.uuid = action.data.uuid;
 				break;

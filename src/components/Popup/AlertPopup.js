@@ -1,8 +1,8 @@
 import React, {useCallback} from 'react';
 import {
+	BsFillExclamationCircleFill,
 	BsFillQuestionCircleFill,
 	IoCloseOutline,
-
 } from 'react-icons/all';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,6 +18,7 @@ import {
 	IconButton,
 	MAIN_HEIGHT,
 	PrimaryButton,
+	DangerButton,
 } from '../../styles/global';
 
 const _Modal = styled(Modal)`
@@ -79,6 +80,7 @@ const AlertMessage = {
 	server_duplicate:
 		'There is already a server with the same name or information',
 	folder_name_duplicate: 'There is already a fodler with the same name',
+	developing: 'Developing',
 };
 
 const AlertPopup = () => {
@@ -104,22 +106,40 @@ const AlertPopup = () => {
 			</_Header>
 
 			<_Message>
-				<IconContext.Provider
-					value={{
-						size: '20px',
-						color: '#178082',
-					}}
-				>
-					<div>
-						<BsFillQuestionCircleFill />
-					</div>
-				</IconContext.Provider>
+				{alert_popup.key === 'developing' ? (
+					<IconContext.Provider
+						value={{
+							size: '20px',
+							color: '#d45959',
+						}}
+					>
+						<div>
+							<BsFillExclamationCircleFill />
+						</div>
+					</IconContext.Provider>
+				) : (
+					<IconContext.Provider
+						value={{
+							size: '20px',
+							color: '#178082',
+						}}
+					>
+						<div>
+							<BsFillQuestionCircleFill />
+						</div>
+					</IconContext.Provider>
+				)}
+
 				<_Text>{AlertMessage[alert_popup.key]}</_Text>
 			</_Message>
 
 			<_Footer>
 				<BorderButton onClick={closeModal}>Cancle</BorderButton>
-				<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
+				{alert_popup.key === 'developing' ? (
+					<DangerButton onClick={closeModal}>OK</DangerButton>
+				) : (
+					<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
+				)}
 			</_Footer>
 		</_Modal>
 	);

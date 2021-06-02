@@ -35,7 +35,7 @@ const Password = () => {
 
 	return (
 		<_Container>
-			<_BackgroundContainer>
+			<_BackgroundContainer>b
 				<PasswordForm />
 			</_BackgroundContainer>
 		</_Container>

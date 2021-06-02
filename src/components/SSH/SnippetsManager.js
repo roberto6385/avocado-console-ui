@@ -1,6 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import React, {useCallback, useEffect, useState} from 'react';
-import {IoCloseOutline} from 'react-icons/all';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import styled from 'styled-components';
@@ -163,10 +162,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [clickedSnippet, setClickedSnippet] = useState(null);
+	const nameInput = useRef();
 
 	const onChangeName = useCallback(
 		(e) => {
-			// console.log(e.target.value);
 			setName(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
@@ -181,7 +180,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onChangeContent = useCallback(
 		(e) => {
-			console.log(e.target.value);
 			setContent(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
@@ -232,15 +230,16 @@ const SnippetsManeger = ({open, setOpen}) => {
 			...tempSnippets,
 			{
 				id: index,
-				name: 'name',
+				name: 'New',
 				content: '',
 			},
 		]);
 		setClickedSnippet(index);
 		setIndex(index + 1);
-		setName('name');
+		setName('New');
 		setContent('');
-	}, [tempSnippets, index]);
+		nameInput.current.focus();
+	}, [tempSnippets, index, nameInput]);
 
 	const onClickDeleteSnippet = useCallback(() => {
 		if (clickedSnippet !== null) {
@@ -254,12 +253,12 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
-		if (tempSnippets.length !== 0) {
-			setClickedSnippet(tempSnippets[0].id);
-			setName(tempSnippets[0].name);
-			setContent(tempSnippets[0].content);
+		if (snippets.length !== 0 && open) {
+			setClickedSnippet(snippets[0].id);
+			setName(snippets[0].name);
+			setContent(snippets[0].content);
 		} else setClickedSnippet(null);
-	}, [snippets]);
+	}, [open, snippets]);
 
 	return (
 		<_Modal
@@ -324,6 +323,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 					</_Input_>
 					<_Input_ title={'Content'}>
 						<_TextareaInput
+							ref={nameInput}
 							value={content}
 							onChange={onChangeContent}
 							type='text'

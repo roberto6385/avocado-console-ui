@@ -101,21 +101,25 @@ function* sendDisconnection(action) {
 
 				switch (res.type) {
 					case 'DISCONNECT':
-						//TODO: 우선은 finally에 구현
+						yield put({type: CLOSE_TAB, data: action.data.uuid});
+						yield put({
+							type: SSH_SEND_DISCONNECTION_SUCCESS,
+							data: action.data.uuid,
+						});
 						break;
 					default:
 						break;
 				}
 			}
+		} else {
+			yield put({type: CLOSE_TAB, data: action.data.uuid});
+			yield put({
+				type: SSH_SEND_DISCONNECTION_SUCCESS,
+				data: action.data.uuid,
+			});
 		}
 	} catch (err) {
 		console.log(err);
-	} finally {
-		yield put({type: CLOSE_TAB, data: action.data.uuid});
-		yield put({
-			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			data: action.data.uuid,
-		});
 		closeChannel(channel);
 	}
 }

@@ -42,7 +42,7 @@ const _Terminal = styled(_Container)`
 	padding: 0px;
 `;
 
-const _Form = styled.form`
+const _SearchContainer = styled.div`
 	position: absolute;
 	right: 3px;
 	bottom: 31px;
@@ -56,6 +56,8 @@ const _Form = styled.form`
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
+
+const _Form = styled.form``;
 const _Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
@@ -79,6 +81,7 @@ const SSH = ({uuid}) => {
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
+	const searchRef = useRef();
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		1000,
 	);
@@ -86,6 +89,7 @@ const SSH = ({uuid}) => {
 	const onSubmitSearch = useCallback(
 		(e) => {
 			e.preventDefault();
+			console.log('2번');
 			searchAddon.current.findPrevious(search);
 		},
 		[search],
@@ -146,8 +150,7 @@ const SSH = ({uuid}) => {
 	}, [font_size]);
 	//window size change
 	useEffect(() => {
-		// console.log(width, height);
-		if (width > 0 && height > 0) {
+		if (width > 0 && height > 0 && uuid) {
 			fitAddon.current.fit();
 			dispatch({
 				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
@@ -168,19 +171,35 @@ const SSH = ({uuid}) => {
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
 	}, [current_tab, dispatch]);
+
+	const onClickArrowUp = useCallback(() => {
+		console.log('2번');
+		searchAddon.current.findPrevious(search);
+	}, [searchAddon, search]);
+
+	const onClickArrowDown = useCallback(() => {
+		console.log('3번');
+
+		searchAddon.current.findNext(search);
+	}, [searchAddon, search]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
+			console.log('4번');
 			document.getElementById('search_' + uuid).style.display = 'flex';
+			searchRef.current.focus();
 		} else {
+			console.log('5번');
 			document.getElementById('search_' + uuid).style.display = 'none';
 			setSearch('');
 			searchAddon.current.findPrevious('');
 		}
-	}, [current_tab, uuid, search_mode]);
+	}, [current_tab, uuid, search_mode, searchRef]);
 	//search a word on the terminal
 	useEffect(() => {
 		if (current_tab === uuid && search !== '') {
+			console.log('6번');
+
 			searchAddon.current.findPrevious('');
 			searchAddon.current.findPrevious(search);
 		}
@@ -206,22 +225,27 @@ const SSH = ({uuid}) => {
 							</ListGroup.Item>
 						))}
 			</ListGroup>
-			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
-				<MdSearch />
-				<_Input
-					onChange={onChangeSearch}
-					value={search}
-					placeholder='Search...'
-					type='text'
-				/>
-				<IconButton color='#757575'>{arrowDropUpIconMidium}</IconButton>
-				<IconButton color='#757575'>
+			<_SearchContainer>
+				<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
+					<MdSearch />
+					<_Input
+						onChange={onChangeSearch}
+						value={search}
+						placeholder='Search...'
+						type='text'
+						ref={searchRef}
+					/>
+				</_Form>
+				<IconButton color='#757575' onClick={onClickArrowUp}>
+					{arrowDropUpIconMidium}
+				</IconButton>
+				<IconButton color='#757575' onClick={onClickArrowDown}>
 					{arrowDropDownIconMidium}
 				</IconButton>
 				<IconButton color='#757575' onClick={onClickOpenSearchBar}>
 					{closeIconMedium}
 				</IconButton>
-			</_Form>
+			</_SearchContainer>
 		</_Container>
 	);
 };

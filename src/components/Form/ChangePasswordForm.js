@@ -21,8 +21,9 @@ import {
 	iconColor,
 	inputColor,
 } from '../../styles/global';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {closeIconSmall} from '../../icons/icons';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -90,6 +91,7 @@ const _Form = styled.form`
 `;
 
 const ChangePasswordForm = ({open, setOpen}) => {
+	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 
 	const [
@@ -107,8 +109,12 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log(currentPassword, password, confrimPassword);
-			//TODO: add submit action
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'developing',
+			});
+
+			//TODO: Add submit action
 
 			closeModal();
 		},

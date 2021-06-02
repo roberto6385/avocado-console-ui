@@ -75,9 +75,6 @@ const reducer = (state = initialState, action) => {
 
 			case SSH_SEND_CONNECTION_FAILURE:
 				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
-				draft.ssht
-					.find((v) => v.uuid === action.data)
-					.terminal.dispose();
 				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
@@ -85,37 +82,35 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_DISCONNECTION_SUCCESS:
-				draft.ssht
-					.find((v) => v.uuid === action.data)
-					.terminal.dispose();
 				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
 			case SSH_SEND_DISCONNECTION_FAILURE:
-				draft.ssht
-					.find((v) => v.uuid === action.data)
-					.terminal.dispose();
-				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST:
 				if (action.data.input.charCodeAt(0) < 31) {
-					if (action.data.input.charCodeAt(0) == 13) {
+					if (action.data.input.charCodeAt(0) === 13) {
 						if (draft.current_line !== '')
 							draft.ssh_history.push(draft.current_line);
 						draft.current_line = '';
 					}
 				} else {
-					if (action.data.input.charCodeAt(0) == 127)
+					if (action.data.input.charCodeAt(0) === 127)
 						draft.current_line = draft.current_line.slice(0, -1);
 					else draft.current_line += action.data.input;
 				}
 				break;
 
 			case SSH_SEND_COMMAND_SUCCESS:
-				draft.ssht
-					.find((v) => v.uuid === action.data.uuid)
-					.terminal.write(action.data.result);
+				{
+					const sshTerm = draft.ssht.find(
+						(v) => v.uuid === action.data.uuid,
+					).terminal;
+
+					sshTerm.write(action.data.result);
+					sshTerm.focus();
+				}
 
 				break;
 
