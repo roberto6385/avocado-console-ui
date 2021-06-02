@@ -83,6 +83,8 @@ const reducer = (state = initialState, action) => {
 
 			case SSH_SEND_DISCONNECTION_SUCCESS:
 				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
+				if (draft.ssht.length === 0 && draft.search_mode)
+					draft.search_mode = false;
 				break;
 
 			case SSH_SEND_DISCONNECTION_FAILURE:

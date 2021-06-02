@@ -137,7 +137,7 @@ const SignInForm = () => {
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);
 	const {loading} = useSelector((state) => state.userTicket);
-	const [rememberPassword, setRememberPassword] = useState(false);
+	const [rememberMe, setRememberMe] = useState(false);
 
 	const idRef = useRef(null);
 	const passwordRef = useRef(null);
@@ -145,6 +145,7 @@ const SignInForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+
 			if (user === '') {
 				idRef.current?.focus();
 			} else if (password === '') {
@@ -159,6 +160,11 @@ const SignInForm = () => {
 						password: password,
 					}),
 				);
+
+				localStorage.setItem('rememberMe', rememberMe);
+				localStorage.setItem('user', rememberMe ? user : '');
+				localStorage.setItem('password', rememberMe ? password : '');
+
 				setUser('');
 				setPassword('');
 			}
@@ -168,7 +174,6 @@ const SignInForm = () => {
 
 	const typeChange = useCallback(
 		(e) => {
-			// 현재 Enter key 입력시 submit이 아닌 위 함수가 실행되는 문제있음
 			e.preventDefault();
 			setVisible(!visible);
 		},
@@ -186,7 +191,7 @@ const SignInForm = () => {
 
 	const oauthFunction = useCallback((e) => {
 		e.preventDefault();
-		console.log('oauth');
+		//TODO: Google auth
 	}, []);
 
 	useEffect(() => {
@@ -237,8 +242,8 @@ const SignInForm = () => {
 			<_CheckboxAnchorContainer>
 				<Checkbox_
 					title={t('remember')}
-					value={rememberPassword}
-					setValue={setRememberPassword}
+					value={rememberMe}
+					setValue={setRememberMe}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
