@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {IoCloseOutline} from 'react-icons/all';
-import {CLOSE_INPUT_POPUP, OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
-import {ADD_FOLDER} from '../../reducers/common';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import Modal from 'react-modal';
@@ -82,35 +81,18 @@ const _Footer = styled.div`
 `;
 
 const HeaderMessage = {
-	sftp_rename_file_folder: 'Renmae Folder',
+	sftp_rename_file_folder: 'Rename Folder',
 	sftp_new_folder: 'Create New Folder',
-	new_folder: 'Create New Folder',
 };
 
 const Placeholder = {
 	sftp_rename_file_folder: 'Enter file or folder name ',
 	sftp_new_folder: 'Enter folder name',
-	new_folder: 'Enter folder name',
-};
-
-const isValidFolderName = (folderArray, name) => {
-	let pass = true;
-
-	for (let i of folderArray) {
-		if (i.type === 'folder') {
-			if (i.name === name) return false;
-			else if (i.contain.length > 0) {
-				pass = pass && isValidFolderName(i.contain, name);
-			}
-		}
-	}
-	return pass;
 };
 
 const InputPopup = () => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
-	const {nav} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 	const {input_popup} = useSelector((state) => state.popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -176,22 +158,12 @@ const InputPopup = () => {
 					break;
 				}
 
-				case 'new_folder':
-					if (formValue !== '' && isValidFolderName(nav, formValue)) {
-						dispatch({type: ADD_FOLDER, data: formValue});
-					} else
-						dispatch({
-							type: OPEN_ALERT_POPUP,
-							data: 'folder_name_duplicate',
-						});
-					break;
-
 				default:
 					break;
 			}
 			closeModal();
 		},
-		[input_popup, dispatch, formValue, sftp, nav],
+		[input_popup, dispatch, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {

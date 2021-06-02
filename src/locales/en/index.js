@@ -14,3 +14,4 @@ export {default as fileListContents} from './SFTP/FileListContents';
 export {default as historyNav} from './SFTP/HistoryNav';
 export {default as historyContents} from './SFTP/HistoryContents';
 export {default as asideContainer} from './Setting/Aside/AsideContainer';
+export {default as alertPopup} from './Popup/AlertPopup';

@@ -54,6 +54,11 @@ const reducer = (state = initialState, action) => {
 				draft.warning_alert_popup = {open: false};
 				break;
 
+			case OPEN_INPUT_POPUP:
+				draft.input_popup = {open: true, key: action.data.key};
+				if (action.data.uuid) draft.input_popup.uuid = action.data.uuid;
+				break;
+
 			case CLOSE_INPUT_POPUP:
 				draft.input_popup = {open: false};
 				break;

@@ -1,10 +1,6 @@
 import React, {useCallback} from 'react';
-import {
-	BsFillQuestionCircleFill,
-	IoCloseOutline,
-
-} from 'react-icons/all';
-
+import {BsFillQuestionCircleFill, IoCloseOutline} from 'react-icons/all';
+import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
@@ -72,22 +68,22 @@ const _Message = styled.div`
 	padding: 24px 16px;
 `;
 
-const AlertMessage = {
-	invalid_server: 'The server information is not valid',
-	lost_server: 'The server information is damaged',
-	snippets_name_duplicate: 'There is already a snippet with the same name',
-	server_duplicate:
-		'There is already a server with the same name or information',
-	folder_name_duplicate: 'There is already a fodler with the same name',
-};
-
 const AlertPopup = () => {
+	const {t} = useTranslation('alertPopup');
 	const dispatch = useDispatch();
 	const {alert_popup} = useSelector((state) => state.popup);
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
 	}, [dispatch]);
+
+	const AlertMessage = {
+		invalid_server: t('invalidServer'),
+		lost_server: t('lostServer'),
+		snippets_name_duplicate: t('snippetsNameDuplicate'),
+		server_duplicate: t('serverDuplicate'),
+		folder_name_duplicate: t('folderNameDuplicate'),
+	};
 
 	return (
 		<_Modal
@@ -97,7 +93,7 @@ const AlertPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_HeaderText>Alert</_HeaderText>
+				<_HeaderText>{t('alert')}</_HeaderText>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -118,8 +114,8 @@ const AlertPopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>Cancle</BorderButton>
-				<PrimaryButton onClick={closeModal}>OK</PrimaryButton>
+				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<PrimaryButton onClick={closeModal}>{t('ok')}</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);
