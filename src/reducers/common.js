@@ -10,6 +10,7 @@ export const initialState = {
 	folder_index: 27,
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
+	lang: 'ko',
 	nav: [
 		{
 			type: 'folder',
@@ -329,6 +330,7 @@ export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
+export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -688,6 +690,10 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_GENERAL_THEME:
 				draft.theme = action.payload.theme;
+				break;
+
+			case CHANGE_LANGUAGE:
+				draft.lang = action.payload.language;
 				break;
 			case OPEN_TAB: {
 				//fill in new tab info

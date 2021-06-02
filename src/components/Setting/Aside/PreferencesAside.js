@@ -11,11 +11,11 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 } from '../../../styles/global';
-import {useTranslation} from 'react-i18next';
+import {useTranslation, initReactI18next} from 'react-i18next';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
-import {CHANGE_GENERAL_THEME} from '../../../reducers/common';
+import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -44,6 +44,7 @@ const background_theme = [
 	{value: 0, label: 'Light Mode'},
 	{value: 1, label: 'Dark Mode'},
 ];
+
 const terminal_theme = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
@@ -60,17 +61,22 @@ const font_theme = [
 ];
 
 const PreferencesAside = () => {
-	const {t} = useTranslation('preferencesAside');
+	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const {theme, lang} = useSelector((state) => state.common);
 	const {font} = useSelector((state) => state.ssht);
 
 	const [textCompletion, setTextCompletion] = useState(false);
-	const [copyText, setCopyText] = useState(false);
 	const [generalTheme, setGeneralTheme] = useState(theme);
+	const [language, setLanguage] = useState(lang);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
+
+	const languageOptions = [
+		{value: 'en', label: t('en')},
+		{value: 'ko', label: t('ko')},
+	];
 
 	useEffect(() => {
 		if (font !== terminalFont)
@@ -81,10 +87,25 @@ const PreferencesAside = () => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
 	}, [generalTheme, dispatch]);
 
+	useEffect(() => {
+		dispatch({type: CHANGE_LANGUAGE, payload: {language: language}});
+		i18n.changeLanguage(lang);
+	}, [language, dispatch, i18n, lang]);
+
 	return (
 		<_Container color={fontColor[theme]}>
 			<_Title b_color={borderColor[theme]}>{t('general')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
+				<Select_
+					width={'266px'}
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					title={t('lang')}
+					options={languageOptions}
+					value={language}
+					setValue={setLanguage}
+				/>
 				<Select_
 					width={'266px'}
 					back={inputColor[theme]}
@@ -124,11 +145,6 @@ const PreferencesAside = () => {
 					value={textCompletion}
 					setValue={setTextCompletion}
 				/>
-				{/*<Checkbox_*/}
-				{/*	title={'Copy text on selection'}*/}
-				{/*	value={copyText}*/}
-				{/*	setValue={setCopyText}*/}
-				{/*/>*/}
 			</_ContentsContainer>
 
 			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>

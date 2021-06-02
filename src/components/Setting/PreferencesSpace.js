@@ -15,7 +15,7 @@ import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
 import {SSH_SET_FONT_REQUEST} from '../../reducers/ssh';
-import {CHANGE_GENERAL_THEME} from '../../reducers/common';
+import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../reducers/common';
 import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
@@ -64,17 +64,23 @@ const font_theme = [
 ];
 
 const PreferencesSpace = () => {
-	const {t} = useTranslation('preferencesAside');
+	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
 	const {font} = useSelector((state) => state.ssht);
-	const {theme} = useSelector((state) => state.common);
+	const {theme, lang} = useSelector((state) => state.common);
 
 	const [textCompletion, setTextCompletion] = useState(false);
-	const [copyText, setCopyText] = useState(false);
+	const [language, setLanguage] = useState(lang);
+
 	const [generalTheme, setGeneralTheme] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(ROBOTO);
+
+	const languageOptions = [
+		{value: 'en', label: t('en')},
+		{value: 'ko', label: t('ko')},
+	];
 
 	useEffect(() => {
 		if (font !== terminalFont)
@@ -85,11 +91,26 @@ const PreferencesSpace = () => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
 	}, [generalTheme, dispatch]);
 
+	useEffect(() => {
+		dispatch({type: CHANGE_LANGUAGE, payload: {language: language}});
+		i18n.changeLanguage(lang);
+	}, [language, dispatch, i18n, lang]);
+
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
 			<_Title b_color={borderColor[theme]}>{t('general')}</_Title>
 
 			<_ContentsContainer>
+				<Select_
+					back={inputColor[theme]}
+					color={fontColor[theme]}
+					b_color={borderColor[theme]}
+					width={'500px'}
+					title={t('lang')}
+					options={languageOptions}
+					value={language}
+					setValue={setLanguage}
+				/>
 				<Select_
 					back={inputColor[theme]}
 					color={fontColor[theme]}
