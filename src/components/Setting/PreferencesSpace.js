@@ -75,7 +75,7 @@ const PreferencesSpace = () => {
 	const [generalTheme, setGeneralTheme] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
-	const [terminalFont, setTerminalFont] = useState(ROBOTO);
+	const [terminalFont, setTerminalFont] = useState(font);
 
 	const languageOptions = [
 		{value: 'en', label: t('en')},
