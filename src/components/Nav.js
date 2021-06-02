@@ -110,6 +110,20 @@ const _ToggleButton = styled(IconButton)`
 	padding: 16px 16px 17px 16px;
 `;
 
+const isValidFolderName = (folderArray, name) => {
+	let pass = true;
+
+	for (let i of folderArray) {
+		if (i.type === 'folder') {
+			if (i.name === name) return false;
+			else if (i.contain.length > 0) {
+				pass = pass && isValidFolderName(i.contain, name);
+			}
+		}
+	}
+	return pass;
+};
+
 const Nav = () => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
@@ -118,20 +132,6 @@ const Nav = () => {
 	);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [toggle, setToggle] = useState(true);
-
-	const isValidFolderName = (folderArray, name) => {
-		let pass = true;
-
-		for (let i of folderArray) {
-			if (i.type === 'folder') {
-				if (i.name === name) return false;
-				else if (i.contain.length > 0) {
-					pass = pass && isValidFolderName(i.contain, name);
-				}
-			}
-		}
-		return pass;
-	};
 
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
