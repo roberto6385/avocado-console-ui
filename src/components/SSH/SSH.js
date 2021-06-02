@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
@@ -73,16 +73,18 @@ const SSH = ({uuid}) => {
 		search_mode,
 		ssht,
 		ssh_history,
+		auto_complete_mode,
 		current_line,
 	} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
+	const [currentHistory, setCurrentHistory] = useState();
 	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const searchRef = useRef();
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
-		1000,
+		500,
 	);
 
 	const onSubmitSearch = useCallback(
@@ -95,10 +97,16 @@ const SSH = ({uuid}) => {
 
 	const onClickCommand = useCallback(
 		(v) => () => {
-			console.log(v);
-			sshTerm.write(v.substring(prompt.length));
+			dispatch({
+				type: SSH_SEND_COMMAND_REQUEST,
+				data: {
+					uuid: uuid,
+					ws: ws.current,
+					input: v.substring(current_line.length),
+				},
+			});
 		},
-		[prompt, sshTerm],
+		[sshTerm, current_line, uuid, ws],
 	);
 
 	//terminal setting
@@ -119,20 +127,25 @@ const SSH = ({uuid}) => {
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
-			dispatch({
-				type: SSH_SEND_COMMAND_REQUEST,
-				data: {
-					uuid: uuid,
-					ws: ws.current,
-					input: data,
-				},
-			});
+			if (auto_complete_mode && data.charCodeAt(0) === 27) {
+				if (data.substr(1) === '[A') {
+				} else if (data.substr(1) === '[B') {
+				}
+			} else {
+				dispatch({
+					type: SSH_SEND_COMMAND_REQUEST,
+					data: {
+						uuid: uuid,
+						ws: ws.current,
+						input: data,
+					},
+				});
+			}
 		});
-
 		return () => {
 			processInput.dispose();
 		};
-	}, [uuid, ws, sshTerm]);
+	}, [uuid, ws, sshTerm, auto_complete_mode]);
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
@@ -209,6 +222,7 @@ const SSH = ({uuid}) => {
 				}}
 			>
 				{current_line !== '' &&
+					auto_complete_mode &&
 					ssh_history
 						.filter((v) => v.startsWith(current_line))
 						.map((v) => (

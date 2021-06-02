@@ -6,6 +6,7 @@ export const initialState = {
 	font: ROBOTO_MONO,
 	font_size: 14,
 	search_mode: false,
+	auto_complete_mode: true,
 	ssht: [],
 	current_line: '',
 	ssh_history: [],
@@ -14,6 +15,7 @@ export const initialState = {
 		{id: 1, name: 'Current Path', content: 'pwd'},
 	],
 	snippents_index: 2,
+	tab: false,
 };
 
 export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
@@ -93,9 +95,15 @@ const reducer = (state = initialState, action) => {
 			case SSH_SEND_COMMAND_REQUEST:
 				if (action.data.input.charCodeAt(0) < 31) {
 					if (action.data.input.charCodeAt(0) === 13) {
-						if (draft.current_line !== '')
+						if (
+							draft.current_line !== '' &&
+							!draft.ssh_history.includes(draft.current_line)
+						)
 							draft.ssh_history.push(draft.current_line);
 						draft.current_line = '';
+					}
+					if (action.data.input.charCodeAt(0) === 9) {
+						draft.tab = true;
 					}
 				} else {
 					if (action.data.input.charCodeAt(0) === 127)
@@ -109,11 +117,16 @@ const reducer = (state = initialState, action) => {
 					const sshTerm = draft.ssht.find(
 						(v) => v.uuid === action.data.uuid,
 					).terminal;
-
-					sshTerm.write(action.data.result);
+					const result = action.data.result;
+					sshTerm.write(result);
 					sshTerm.focus();
-				}
 
+					if (draft.tab === true) {
+						draft.tab = false;
+						if (result.charCodeAt(0) > 30)
+							draft.current_line += result;
+					}
+				}
 				break;
 
 			case SSH_SEND_COMMAND_FAILURE:
