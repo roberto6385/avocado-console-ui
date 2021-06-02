@@ -727,16 +727,24 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_VISIBLE_TAB: {
-				draft.tab[
-					draft.tab.findIndex((v) => v.uuid === action.data)
-				].display = true;
+				if (
+					draft.tab.length > 0 &&
+					draft.tab.findIndex((v) => v.uuid === action.data) !== -1
+				) {
+					draft.tab[
+						draft.tab.findIndex((v) => v.uuid === action.data)
+					].display = true;
 
-				draft.current_tab = action.data;
-				draft.current_tab = fillTabs(
-					draft.tab,
-					draft.cols === 1 ? 1 : draft.cols * 3,
-					draft.current_tab,
-				);
+					draft.current_tab = action.data;
+					draft.current_tab = fillTabs(
+						draft.tab,
+						draft.cols === 1 ? 1 : draft.cols * 3,
+						draft.current_tab,
+					);
+				} else {
+					draft.current_tab = null;
+				}
+
 				break;
 			}
 

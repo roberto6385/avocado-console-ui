@@ -71,23 +71,21 @@ const _Tab = styled.div`
 	background: ${(props) => props?.back};
 `;
 
-const _WorkSpaceContainer = styled.div`
+const _MainSpace = styled.div`
 	display: flex;
 	flex: 1;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+`;
+
+const _WorkSpaceContainer = styled.div`
+	display: flex;
 	height: 100%;
 	width: 100%;
 	background: ${(props) => props?.back};
 	overflow: hidden;
 	position: relative;
-	#right_side_menu {
-		width: 0px;
-		max-width: ${RIGHT_SIDE_WIDTH};
-		display: none;
-	}
-	#right_side_menu.active {
-		display: block;
-		width: ${RIGHT_SIDE_WIDTH};
-	}
 `;
 
 const _TabsContianer = styled.div`
@@ -221,10 +219,12 @@ const WorkSpace = () => {
 					</_TabsContianer>
 					<RightCornerIcons setToggle={setToggle} />
 				</_Nav>
-				<_WorkSpaceContainer>
-					{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
+				<_MainSpace>
+					<_WorkSpaceContainer>
+						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
+					</_WorkSpaceContainer>
 					{toggle && <AsideContainer />}
-				</_WorkSpaceContainer>
+				</_MainSpace>
 			</_MainContainer>
 		</_Container>
 	);

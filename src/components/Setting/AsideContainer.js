@@ -1,22 +1,18 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {
-	IconButton,
 	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
 	SUB_HEIGHT,
 	sideColor,
 	fontColor,
-	iconColor,
 	borderColor,
 } from '../../styles/global';
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
-import {closeIconMedium} from '../../icons/icons';
-import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	height: 100%;
@@ -40,17 +36,9 @@ const _Header = styled.div`
 	color: ${(props) => props.color};
 `;
 
-const _IconButton = styled(IconButton)`
-	padding: 6px 0px 6px 6px;
-`;
-
 const AsideContainer = () => {
 	const {t} = useTranslation('asideContainer');
 	const {rightSideKey, theme} = useSelector((state) => state.common);
-
-	// const close_sidebar = useCallback(() => {
-	// 	setToggle(false);
-	// }, []);
 
 	return (
 		<_Container back={sideColor[theme]} b_color={borderColor[theme]}>
@@ -58,9 +46,6 @@ const AsideContainer = () => {
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
-				{/*<_IconButton color={iconColor[theme]} onClick={close_sidebar}>*/}
-				{/*	{closeIconMedium}*/}
-				{/*</_IconButton>*/}
 			</_Header>
 			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}
