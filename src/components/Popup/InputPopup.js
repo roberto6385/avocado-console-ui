@@ -212,7 +212,7 @@ const InputPopup = () => {
 			</_Form>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
 				<PrimaryButton onClick={submitFunction}>
 					{t('save')}
 				</PrimaryButton>

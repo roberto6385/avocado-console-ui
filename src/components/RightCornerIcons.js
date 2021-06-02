@@ -21,6 +21,7 @@ import {
 } from '../icons/icons';
 import PropTypes from 'prop-types';
 import {OPEN_ALERT_POPUP} from '../reducers/popup';
+import {useTranslation} from 'react-i18next';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -30,6 +31,7 @@ const CornerIcons_Container = styled.div`
 `;
 
 const RightCornerIcons = ({setToggle}) => {
+	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -75,18 +77,18 @@ const RightCornerIcons = ({setToggle}) => {
 	);
 
 	const setting_list = [
-		{onClick: changePath('/account'), title: 'Edit Setting'},
+		{onClick: changePath('/account'), title: t('editSetting')},
 		{title: 'divider'},
 		{
 			onClick: openSideMenu('Preferences'),
-			title: 'Preferences',
+			title: t('preferences'),
 		},
 		{
 			onClick: openSideMenu('Identities'),
-			title: 'Identities',
+			title: t('identities'),
 		},
 		{title: 'divider'},
-		{onClick: logout(), title: 'Logout'},
+		{onClick: logout(), title: t('logout')},
 	];
 
 	const column_list = [

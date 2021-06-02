@@ -7,6 +7,6 @@ export default {
 	deleteServerFolder: '선택한 서버 및 폴더를 삭제하시겠습니까?',
 	deleteAccount: '선택한 계정을 삭제하시겠습니까? ',
 
-	cancle: '취소',
+	cancel: '취소',
 	delete: '삭제',
 };

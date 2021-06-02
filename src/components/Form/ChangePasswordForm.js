@@ -3,13 +3,11 @@ import useInput from '../../hooks/useInput';
 import Modal from 'react-modal';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import {IoCloseOutline} from 'react-icons/all';
+import {useTranslation} from 'react-i18next';
 import Input_ from '../RecycleComponents/Input_';
 import {
 	AVOCADO_FONTSIZE,
 	BorderButton,
-	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
@@ -91,6 +89,7 @@ const _Form = styled.form`
 `;
 
 const ChangePasswordForm = ({open, setOpen}) => {
+	const {t} = useTranslation('changePasswordForm');
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 
@@ -144,42 +143,42 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			color={fontColor[theme]}
 		>
 			<_Header b_color={borderColor[theme]}>
-				<_Span>Change Password</_Span>
+				<_Span>{t('title')}</_Span>
 				<IconButton color={iconColor[theme]} onClick={closeModal}>
 					{closeIconSmall}
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
-				<Input_ title={'Current Password'}>
+				<Input_ title={t('current')}>
 					<_Input
 						type='password'
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
-						placeholder={'Type in current password'}
+						placeholder={t('place.current')}
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 					/>
 				</Input_>
 
-				<Input_ title={'New Password'}>
+				<Input_ title={t('new')}>
 					<_Input
 						type='password'
 						value={password}
 						onChange={onChangePassword}
-						placeholder={'New Password'}
+						placeholder={t('place.new')}
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 					/>
 				</Input_>
 
-				<Input_ title={'Confirm new password'}>
+				<Input_>
 					<_Input
 						type='password'
 						value={confrimPassword}
 						onChange={onChangeConfirmPassword}
-						placeholder={'New Password'}
+						placeholder={t('place.confirm')}
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
@@ -189,9 +188,11 @@ const ChangePasswordForm = ({open, setOpen}) => {
 
 			<_Footer b_color={borderColor[theme]}>
 				<BorderButton onClick={closeModal} color={fontColor[theme]}>
-					Cancel
+					{t('cancel')}
 				</BorderButton>
-				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
+				<PrimaryButton onClick={onSubmitForm}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

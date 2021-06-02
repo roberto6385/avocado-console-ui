@@ -7,6 +7,6 @@ export default {
 	renamePlace: 'Enter file or folder name ',
 	newFolderPlace: 'Enter folder name',
 
-	cancle: 'Cancle',
+	cancel: 'Cancel',
 	save: 'Save',
 };

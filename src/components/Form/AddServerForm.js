@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {useTranslation} from 'react-i18next';
 import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
@@ -152,6 +152,7 @@ const duplicationTest = (server, name, host, port, protocol) => {
 };
 
 const AddServerForm = () => {
+	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
 	const {server, theme} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -178,8 +179,8 @@ const AddServerForm = () => {
 		{value: 'SFTP', label: 'SFTP'},
 	];
 	const authentication_options = [
-		{value: 'Password', label: 'Password'},
-		{value: 'KeyFile', label: 'Key File'},
+		{value: 'Password', label: t('password')},
+		{value: 'KeyFile', label: t('keyFile')},
 	];
 
 	// user option은 reducer-common에서 account와 연결된다.
@@ -312,14 +313,14 @@ const AddServerForm = () => {
 			color={fontColor[theme]}
 		>
 			<_Header b_color={borderColor[theme]}>
-				<_Title>Add Server</_Title>
+				<_Title>{t('addServer')}</_Title>
 				<IconButton color={iconColor[theme]} onClick={closeModal}>
 					{closeIconSmall}
 				</IconButton>
 			</_Header>
 			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
-					<Input_ title={'Name'} flex={1}>
+					<Input_ title={t('name')} flex={1}>
 						<LongInput
 							back={inputColor[theme]}
 							color={fontColor[theme]}
@@ -327,7 +328,7 @@ const AddServerForm = () => {
 							type='text'
 							value={name}
 							onChange={onChangeName}
-							placeholder={'Server Name'}
+							placeholder={t('place.name')}
 						/>
 					</Input_>
 					<Select_
@@ -335,14 +336,14 @@ const AddServerForm = () => {
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						width={'178px'}
-						title='Protocol'
+						title={t('protocol')}
 						options={protocol_options}
 						value={protocol}
 						setValue={setProtocol}
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={'Address'} flex={1}>
+					<Input_ title={t('address')} flex={1}>
 						<LongInput
 							back={inputColor[theme]}
 							color={fontColor[theme]}
@@ -350,11 +351,11 @@ const AddServerForm = () => {
 							type='text'
 							value={host}
 							onChange={onChangeHost}
-							placeholder={'Host or IP'}
+							placeholder={t('place.address')}
 						/>
 					</Input_>
 
-					<Input_ title={'Port'}>
+					<Input_ title={t('port')}>
 						<_Input
 							back={inputColor[theme]}
 							color={fontColor[theme]}
@@ -362,7 +363,7 @@ const AddServerForm = () => {
 							type='number'
 							value={port}
 							onChange={onChangePort}
-							placeholder={'Port'}
+							placeholder={t('place.port')}
 						/>
 					</Input_>
 				</Item_Container>
@@ -371,7 +372,7 @@ const AddServerForm = () => {
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
-						title='Identity'
+						title={t('identity')}
 						flex={1}
 						options={user_options}
 						value={identity}
@@ -382,14 +383,14 @@ const AddServerForm = () => {
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						width={'178px'}
-						title='Authentication'
+						title={t('auth')}
 						options={authentication_options}
 						value={authentication}
 						setValue={setAuthentication}
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={'Username'} flex={1}>
+					<Input_ title={t('userName')} flex={1}>
 						<LongInput
 							back={inputColor[theme]}
 							color={fontColor[theme]}
@@ -397,13 +398,13 @@ const AddServerForm = () => {
 							type='text'
 							value={username}
 							onChange={onChangeUsername}
-							placeholder={'Username'}
+							placeholder={t('place.userName')}
 						/>
 					</Input_>
 				</Item_Container>
 				{authentication === 'Password' ? (
 					<Item_Container>
-						<Input_ title={'Password'} flex={1}>
+						<Input_ title={t('password')} flex={1}>
 							<LongInput
 								back={inputColor[theme]}
 								color={fontColor[theme]}
@@ -411,14 +412,14 @@ const AddServerForm = () => {
 								type='password'
 								value={password}
 								onChange={onChangePassword}
-								placeholder={'Password'}
+								placeholder={t('place.password')}
 							/>
 						</Input_>
 					</Item_Container>
 				) : (
 					<React.Fragment>
 						<Item_Container>
-							<Input_ title={'Private Key File'} flex={1}>
+							<Input_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={inputColor[theme]}
@@ -431,7 +432,7 @@ const AddServerForm = () => {
 										id={'add_server_form_type_file'}
 										value={keyFile}
 										onChange={onChangeKeyFile}
-										placeholder={'Key File'}
+										placeholder={t('keyFile')}
 									/>
 								</_Label>
 							</Input_>
@@ -445,12 +446,12 @@ const AddServerForm = () => {
 										.click();
 								}}
 							>
-								Browse
+								{t('browse')}
 							</BrowseButton>
 						</Item_Container>
 
 						<Item_Container>
-							<Input_ title={'Key File Password'} flex={1}>
+							<Input_ title={t('keyFilePassword')} flex={1}>
 								<LongInput
 									back={inputColor[theme]}
 									color={fontColor[theme]}
@@ -458,14 +459,14 @@ const AddServerForm = () => {
 									type='password'
 									value={password}
 									onChange={onChangePassword}
-									placeholder={'Password'}
+									placeholder={t('place.password')}
 								/>
 							</Input_>
 						</Item_Container>
 					</React.Fragment>
 				)}
 				<Item_Container>
-					<Input_ title={'Note'} flex={1}>
+					<Input_ title={t('note')} flex={1}>
 						<LongInput
 							back={inputColor[theme]}
 							color={fontColor[theme]}
@@ -473,16 +474,18 @@ const AddServerForm = () => {
 							type='text'
 							value={note}
 							onChange={onChangeNote}
-							placeholder={'Note'}
+							placeholder={t('place.note')}
 						/>
 					</Input_>
 				</Item_Container>
 			</_Form>
 			<_Footer b_color={borderColor[theme]}>
 				<BorderButton onClick={closeModal} color={fontColor[theme]}>
-					Cancel
+					{t('cancel')}
 				</BorderButton>
-				<PrimaryButton onClick={onSubmitForm}>Save</PrimaryButton>
+				<PrimaryButton onClick={onSubmitForm}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

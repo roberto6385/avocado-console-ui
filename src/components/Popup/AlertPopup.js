@@ -136,7 +136,7 @@ const AlertPopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
 				{alert_popup.key === 'developing' ? (
 					<DangerButton onClick={closeModal}>{t('ok')}</DangerButton>
 				) : (

@@ -18,3 +18,8 @@ export {default as alertPopup} from './Popup/AlertPopup';
 export {default as inputPopup} from './Popup/InputPopup';
 export {default as savePopup} from './Popup/SavePopup';
 export {default as warningAlertPopup} from './Popup/WarningAlertPopup';
+
+export {default as addServerForm} from './Form/AddServerForm';
+export {default as addAccountForm} from './Form/AddAccountForm';
+export {default as changePasswordForm} from './Form/ChangePasswordForm';
+export {default as rightCornerIcons} from './RightCornerIcons';

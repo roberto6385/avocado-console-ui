@@ -238,7 +238,7 @@ const WarningAlertPopup = () => {
 
 			<_Footer>
 				<BorderButton onClick={cancelFunction}>
-					{t('cancle')}
+					{t('cancel')}
 				</BorderButton>
 				<DangerButton onClick={submitFunction}>
 					{t('delete')}
