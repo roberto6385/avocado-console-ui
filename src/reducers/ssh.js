@@ -99,9 +99,17 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST:
-				if(action.data.input)
-				draft.current_line += action.data.input;
-				console.log(draft.current_line);
+				if (action.data.input.charCodeAt(0) < 31) {
+					if (action.data.input.charCodeAt(0) == 13) {
+						if (draft.current_line !== '')
+							draft.ssh_history.push(draft.current_line);
+						draft.current_line = '';
+					}
+				} else {
+					if (action.data.input.charCodeAt(0) == 127)
+						draft.current_line = draft.current_line.slice(0, -1);
+					else draft.current_line += action.data.input;
+				}
 				break;
 
 			case SSH_SEND_COMMAND_SUCCESS:
