@@ -7,5 +7,5 @@ export default {
 	email: 'Email Address',
 	emailPlace: 'Email',
 	auth: 'Authorization',
-	changeAuth: 'Change Authorization',
+	changeAuth: 'View details',
 };

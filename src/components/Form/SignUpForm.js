@@ -225,7 +225,7 @@ const SignUpForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton onClick={typeChange}>
+					<IconButton type='button' onClick={typeChange}>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (

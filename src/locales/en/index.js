@@ -17,3 +17,4 @@ export {default as asideContainer} from './Setting/Aside/AsideContainer';
 export {default as alertPopup} from './Popup/AlertPopup';
 export {default as inputPopup} from './Popup/InputPopup';
 export {default as savePopup} from './Popup/SavePopup';
+export {default as warningAlertPopup} from './Popup/WarningAlertPopup';

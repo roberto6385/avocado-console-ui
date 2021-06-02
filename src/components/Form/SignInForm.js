@@ -139,22 +139,29 @@ const SignInForm = () => {
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);
 
-	const emailRef = useRef(null);
+	const idRef = useRef(null);
+	const passwordRef = useRef(null);
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			const encodeData = base64.encode(`${user}:${password}`);
-			dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-			dispatch(
-				getUserTicket({
-					Authorization: 'Basic ' + encodeData,
-					username: user,
-					password: password,
-				}),
-			);
-			setUser('');
-			setPassword('');
+			if (user === '') {
+				idRef.current?.focus();
+			} else if (password === '') {
+				passwordRef.current?.focus();
+			} else {
+				const encodeData = base64.encode(`${user}:${password}`);
+				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
+				dispatch(
+					getUserTicket({
+						Authorization: 'Basic ' + encodeData,
+						username: user,
+						password: password,
+					}),
+				);
+				setUser('');
+				setPassword('');
+			}
 		},
 		[user, password],
 	);
@@ -183,7 +190,7 @@ const SignInForm = () => {
 	}, []);
 
 	useEffect(() => {
-		emailRef.current?.focus();
+		idRef.current?.focus();
 	}, []);
 
 	return !loading ? (
@@ -195,7 +202,7 @@ const SignInForm = () => {
 
 			<Input_>
 				<_Input
-					ref={emailRef}
+					ref={idRef}
 					value={user}
 					color={user === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeUser}
@@ -205,6 +212,7 @@ const SignInForm = () => {
 			<Input_>
 				<_PasswordContainer id={'password_container'}>
 					<_PasswordInput
+						ref={passwordRef}
 						onFocus={focusin}
 						onBlur={focusout}
 						type={visible ? 'password' : 'text'}
@@ -215,7 +223,7 @@ const SignInForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton onClick={typeChange}>
+					<IconButton type='button' onClick={typeChange}>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (

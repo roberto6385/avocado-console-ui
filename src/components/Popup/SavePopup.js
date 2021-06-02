@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {BsFillQuestionCircleFill, IoCloseOutline} from 'react-icons/all';
-
+import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
@@ -75,13 +75,14 @@ const _Message = styled.div`
 `;
 
 const SavePopup = () => {
+	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
 	const {save_popup} = useSelector((state) => state.popup);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const SaveMessage = {
-		sftp_edit_save: 'save?',
-		sftp_edit_close: 'Do you want to save changes?',
+		sftp_edit_save: t('editSave'),
+		sftp_edit_close: t('editClose'),
 	};
 
 	const closeModal = useCallback(() => {
@@ -174,7 +175,7 @@ const SavePopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_HeaderText>Alert</_HeaderText>
+				<_HeaderText>{t('alert')}</_HeaderText>
 				<IconButton onClick={closeModal}>
 					<IoCloseOutline />
 				</IconButton>
@@ -195,8 +196,10 @@ const SavePopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>Cancle</BorderButton>
-				<PrimaryButton onClick={submitFunction}>Save</PrimaryButton>
+				<BorderButton onClick={closeModal}>{t('cancle')}</BorderButton>
+				<PrimaryButton onClick={submitFunction}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

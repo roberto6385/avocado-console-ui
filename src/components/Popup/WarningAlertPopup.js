@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {BsFillExclamationCircleFill, IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Modal from 'react-modal';
-
+import {useTranslation} from 'react-i18next';
 import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {
 	ACCOUT_CONTROL_ID,
@@ -79,21 +79,12 @@ const _Footer = styled.div`
 const _Message = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-between; 
+	justify-content: space-between;
 	padding: 24px 16px;
 `;
 
-const AlertMessage = {
-	sftp_delete_file_folder:
-		'Are you sure you want to delete this file or folder?',
-	sftp_delete_server: 'Are you sure you want to delete this server?',
-	sftp_delete_history: 'Are you sure you want to clear history?',
-	delete_server_folder:
-		'Are you sure you want to delete this server or folder?',
-	delete_account: 'Are you sure you want to delete this account?',
-};
-
 const WarningAlertPopup = () => {
+	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
 	const {warning_alert_popup} = useSelector((state) => state.popup);
 	const {
@@ -103,6 +94,13 @@ const WarningAlertPopup = () => {
 		nav,
 	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
+
+	const AlertMessage = {
+		sftp_delete_file_folder: t('deleteFileFolder'),
+		sftp_delete_history: t('deleteHistory'),
+		delete_server_folder: t('deleteServerFolder'),
+		delete_account: t('deleteAccount'),
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
@@ -142,32 +140,6 @@ const WarningAlertPopup = () => {
 						}
 					}
 					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
-					break;
-				}
-
-				case 'sftp_edit_file': {
-					const uuid = warning_alert_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {editText, editFile} = corServer;
-					const uploadFile = new File([editText], editFile.name, {
-						type: 'text/plain',
-					});
-
-					dispatch(
-						commandPutAction({
-							...corServer,
-							file: uploadFile,
-							keyword: 'edit',
-						}),
-					);
-					dispatch({
-						type: CLOSE_EDITOR,
-						payload: {uuid: warning_alert_popup.uuid},
-					});
-					dispatch({
-						type: CHANGE_MODE,
-						payload: {uuid: warning_alert_popup.uuid, mode: 'list'},
-					});
 					break;
 				}
 
@@ -244,7 +216,7 @@ const WarningAlertPopup = () => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_HeaderText>Alert</_HeaderText>
+				<_HeaderText>{t('alert')}</_HeaderText>
 				<IconButton onClick={cancelFunction}>
 					<IoCloseOutline />
 				</IconButton>
@@ -265,8 +237,12 @@ const WarningAlertPopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={cancelFunction}>Cancel</BorderButton>
-				<DangerButton onClick={submitFunction}>Delete</DangerButton>
+				<BorderButton onClick={cancelFunction}>
+					{t('cancle')}
+				</BorderButton>
+				<DangerButton onClick={submitFunction}>
+					{t('delete')}
+				</DangerButton>
 			</_Footer>
 		</_Modal>
 	);

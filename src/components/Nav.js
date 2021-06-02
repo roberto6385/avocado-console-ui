@@ -151,10 +151,6 @@ const Nav = () => {
 		});
 	}, [dispatch]);
 
-	useEffect(() => {
-		console.log(createdFolderInfo);
-	}, [createdFolderInfo]);
-
 	return toggle ? (
 		<_Aside b_Color={borderColor[theme]}>
 			<_Header back={sideColor[theme]}>

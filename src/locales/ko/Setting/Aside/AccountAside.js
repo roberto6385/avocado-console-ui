@@ -7,5 +7,5 @@ export default {
 	email: '이메일 주소',
 	emailPlace: '이메일',
 	auth: '인증',
-	changeAuth: '인증 변경',
+	changeAuth: '상세 보기',
 };

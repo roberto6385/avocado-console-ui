@@ -125,6 +125,8 @@ const Folder = ({open, data, indent}) => {
 				dispatch({type: SET_CLICKED_SERVER, data: null});
 			} else {
 				console.log(renameValue);
+				// 현재 중복이름으로 변경 후 esc가 아닌
+				// 마우스 클릭으로 포커스를 변경하면 중복검사를 실행하는 문제있음
 				if (renameValue !== data.name) {
 					dispatch({
 						type: OPEN_ALERT_POPUP,
@@ -172,6 +174,12 @@ const Folder = ({open, data, indent}) => {
 		},
 		[data, indent],
 	);
+
+	const handleBlur = useCallback(() => {
+		setOpenRename(false);
+		renameRef.current = null;
+		dispatch({type: SET_CLICKED_SERVER, data: null});
+	}, [dispatch]);
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -243,6 +251,7 @@ const Folder = ({open, data, indent}) => {
 								value={renameValue}
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
+								onBlur={handleBlur}
 							/>
 						</_Form>
 					) : (

@@ -140,14 +140,32 @@ const PasswordForm = () => {
 		[id, email, password, passwordConfirm],
 	);
 
-	const sendAuth = useCallback((e) => {
-		e.preventDefault();
-		console.log('some action!');
-	}, []);
-	const checkAuth = useCallback((e) => {
-		e.preventDefault();
-		console.log('some action!');
-	}, []);
+	const sendAuth = useCallback(
+		(e) => {
+			e.preventDefault();
+
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'developing',
+			});
+
+			console.log('some action!');
+		},
+		[dispatch],
+	);
+	const checkAuth = useCallback(
+		(e) => {
+			e.preventDefault();
+
+			dispatch({
+				type: OPEN_ALERT_POPUP,
+				data: 'developing',
+			});
+
+			console.log('some action!');
+		},
+		[dispatch],
+	);
 
 	const typeChange = useCallback(
 		(e) => {
@@ -244,7 +262,7 @@ const PasswordForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton onClick={typeChange}>
+					<IconButton type='button' onClick={typeChange}>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (

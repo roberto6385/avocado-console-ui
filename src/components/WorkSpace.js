@@ -160,9 +160,6 @@ const WorkSpace = () => {
 		[tab, oldOlder, draggedItem, dispatch],
 	);
 
-	useEffect(() => {
-		console.log(toggle);
-	}, [toggle]);
 	return (
 		<_Container>
 			<Nav />
