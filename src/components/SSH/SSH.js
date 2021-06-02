@@ -129,7 +129,9 @@ const SSH = ({uuid}) => {
 		const processInput = sshTerm.onData((data) => {
 			if (auto_complete_mode && data.charCodeAt(0) === 27) {
 				if (data.substr(1) === '[A') {
+					console.log('여기');
 				} else if (data.substr(1) === '[B') {
+					console.log('여기');
 				}
 			} else {
 				dispatch({
