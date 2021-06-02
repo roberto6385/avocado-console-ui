@@ -62,12 +62,10 @@ const RightCornerIcons = ({setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			if (rightSideKey !== '') {
-				console.log('no');
+			if (rightSideKey === key || key === '') {
 				dispatch({type: RIGHT_SIDE_KEY, payload: ''});
 				setToggle(false);
 			} else {
-				console.log('yes');
 				dispatch({type: RIGHT_SIDE_KEY, payload: key});
 				setToggle(true);
 			}
@@ -77,6 +75,7 @@ const RightCornerIcons = ({setToggle}) => {
 
 	const setting_list = [
 		{onClick: changePath('/account'), title: 'Edit Setting'},
+		{title: 'divider'},
 		{
 			onClick: openSideMenu('Preferences'),
 			title: 'Preferences',
@@ -85,6 +84,7 @@ const RightCornerIcons = ({setToggle}) => {
 			onClick: openSideMenu('Identities'),
 			title: 'Identities',
 		},
+		{title: 'divider'},
 		{onClick: logout(), title: 'Logout'},
 	];
 
@@ -121,12 +121,16 @@ const RightCornerIcons = ({setToggle}) => {
 			{/*/>*/}
 			<DropdownMenu_
 				icon={
-					<IconContainer color={iconColor[theme]}>
+					<IconContainer
+						onClick={openSideMenu('')}
+						color={iconColor[theme]}
+					>
 						{settingIcon}
 					</IconContainer>
 				}
 				menu={setting_list}
 			/>
+			<IconButton>{notificationIcon}</IconButton>
 			{tab.length !== 0 && (
 				<DropdownMenu_
 					icon={
@@ -137,7 +141,6 @@ const RightCornerIcons = ({setToggle}) => {
 					menu={column_list}
 				/>
 			)}
-			<IconButton>{notificationIcon}</IconButton>
 		</CornerIcons_Container>
 	);
 };
