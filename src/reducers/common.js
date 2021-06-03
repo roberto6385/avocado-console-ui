@@ -191,6 +191,7 @@ export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
 export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
+export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -530,10 +531,13 @@ const reducer = (state = initialState, action) => {
 				draft.minimize = action.data;
 				break;
 
+			case CHANGE_PROTOCOL:
+				draft.server.find(
+					(v) => v.key === action.payload.key,
+				).protocol = action.payload.protocol;
+				break;
+
 			case CHANGE_IDENTITY_CHECKED:
-				console.log(draft.identity);
-				console.log(action.payload.prev);
-				console.log(action.payload.next);
 				draft.identity = [
 					...state.identity.filter(
 						(v) =>

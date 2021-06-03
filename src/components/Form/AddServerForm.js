@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
 	CHANGE_IDENTITY_CHECKED,
+	CHANGE_PROTOCOL,
 	EDIT_SERVER,
 	SAVE_SERVER,
 } from '../../reducers/common';
@@ -199,9 +200,6 @@ const AddServerForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			// 새로 생성시, 수정시 구분 필요.
-			// 현재는 연동으로 인해 생성 및 편집이 필요 없으므로
-			// input을 readOnly로 수정하고 생성 편집 기능을 구현하지 않음.
 			console.log(add_server_form_popup.type);
 
 			if (add_server_form_popup.type === 'add') {
@@ -274,6 +272,37 @@ const AddServerForm = () => {
 					};
 				}
 			} else if (add_server_form_popup.type === 'edit') {
+				const correspondedIdentityList = identity.filter(
+					(v) => v.key === clicked_server,
+				);
+				const selectedIdentity = correspondedIdentityList.find(
+					(v) => v.identityName === account,
+				);
+
+				if (
+					correspondedIdentity !== selectedIdentity &&
+					account !== ''
+				) {
+					dispatch({
+						type: CHANGE_IDENTITY_CHECKED,
+						payload: {
+							prev: correspondedIdentity,
+							next: selectedIdentity,
+						},
+					});
+					setUsername(selectedIdentity.user);
+					setPassword(selectedIdentity.password);
+				}
+
+				clicked_server &&
+					dispatch({
+						type: CHANGE_PROTOCOL,
+						payload: {
+							protocol,
+							key: clicked_server,
+						},
+					});
+
 				closeModal();
 			}
 		},
@@ -341,28 +370,6 @@ const AddServerForm = () => {
 		console.log(newArray);
 		setIdentityList(newArray);
 	}, [clicked_server]);
-
-	useEffect(() => {
-		const correspondedIdentityList = identity.filter(
-			(v) => v.key === clicked_server,
-		);
-		const selectedIdentity = correspondedIdentityList.find(
-			(v) => v.identityName === account,
-		);
-		console.log(account);
-
-		if (correspondedIdentity !== selectedIdentity && account !== '') {
-			dispatch({
-				type: CHANGE_IDENTITY_CHECKED,
-				payload: {
-					prev: correspondedIdentity,
-					next: selectedIdentity,
-				},
-			});
-			setUsername(selectedIdentity.user);
-			setPassword(selectedIdentity.password);
-		}
-	}, [account]);
 
 	return (
 		<_Modal

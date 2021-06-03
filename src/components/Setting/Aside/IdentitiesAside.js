@@ -17,6 +17,7 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {deleteIconMidium} from '../../../icons/icons';
 import {useTranslation} from 'react-i18next';
+import ssht from '../../../reducers/ssh';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -70,7 +71,8 @@ const _Button = styled.button`
 
 const IdentitiesAside = () => {
 	const {t} = useTranslation('identitiesAside');
-	const {identity, theme} = useSelector((state) => state.common);
+	const {identity, theme, current_tab} = useSelector((state) => state.common);
+	const {tab} = useSelector((state) => state.ssht);
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -79,6 +81,9 @@ const IdentitiesAside = () => {
 		},
 		[],
 	);
+	console.log(current_tab);
+	console.log(tab);
+
 	return (
 		<_Container color={fontColor[theme]}>
 			<ul>
