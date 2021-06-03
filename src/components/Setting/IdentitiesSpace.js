@@ -142,6 +142,7 @@ const _UserNameType = styled(_Name)`
 const _CheckBoxIdentity = styled(_UserNameType)`
 	justify-content: center;
 	padding: 0;
+	padding: 6px 16px;
 `;
 
 const _AccountListUl = styled.ul`
@@ -278,7 +279,7 @@ const IdentitiesSpace = () => {
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
-								: ${server.length}건
+								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
 						<_Form back={backColor[theme]}>
@@ -362,7 +363,7 @@ const IdentitiesSpace = () => {
 												item.key ===
 												currentResourceListKey,
 										).length
-								}건`}
+								}${t('cases')}`}
 							</_Span>
 						</_Name>
 						<_Form back={backColor[theme]}>
@@ -391,7 +392,7 @@ const IdentitiesSpace = () => {
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
-						<_CheckBoxIdentity>Current</_CheckBoxIdentity>
+						<_CheckBoxIdentity>{t('default')}</_CheckBoxIdentity>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{identity.map((item) => {

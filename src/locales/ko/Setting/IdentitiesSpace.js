@@ -4,6 +4,10 @@ export default {
 	resource: '자원 목록',
 	account: '[ Cloud Server ] 계정 목록',
 
+	cases: '건',
+	search: '검색',
+	default:'기본 계정 여부',
+
 	resourceName: '자원 이름',
 	accountName: '계정 이름',
 	address: '주소',
