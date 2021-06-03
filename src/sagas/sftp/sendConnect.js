@@ -22,6 +22,7 @@ import {OPEN_TAB} from '../../reducers/common';
 function* sendCommand(action) {
 	console.log(action);
 	const {payload} = action;
+	console.log(payload);
 	const socket = yield call(createWebsocket, payload.host);
 	const channel = yield call(subscribe, socket);
 	try {
@@ -55,7 +56,11 @@ function* sendCommand(action) {
 							data: {
 								type: 'SFTP',
 								uuid: res.uuid,
-								server: {id: payload.id, name: payload.name},
+								server: {
+									id: payload.id,
+									name: payload.name,
+									key: payload.key,
+								},
 							},
 						});
 				}

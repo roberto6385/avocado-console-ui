@@ -333,7 +333,7 @@ const IdentitiesSpace = () => {
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
-						<_CheckBoxIdentity>Auto login</_CheckBoxIdentity>
+						<_CheckBoxIdentity>Current</_CheckBoxIdentity>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{identity.map((item) => {

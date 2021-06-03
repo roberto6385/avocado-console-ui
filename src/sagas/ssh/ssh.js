@@ -60,6 +60,7 @@ function* sendConnection(action) {
 							server: {
 								id: action.data.id,
 								name: action.data.name,
+								key: action.data.key,
 							},
 						},
 					});

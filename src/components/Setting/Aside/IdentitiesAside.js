@@ -13,11 +13,12 @@ import {
 	iconColor,
 	borderColor,
 } from '../../../styles/global';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {deleteIconMidium} from '../../../icons/icons';
 import {useTranslation} from 'react-i18next';
 import ssht from '../../../reducers/ssh';
+import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -41,14 +42,13 @@ const _AccountContainer = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 6px 16px;
+	white-space: nowrap;
 `;
 const _AuthenticationContainer = styled(_AccountContainer)`
-	width: 142px;
+	width: 100px;
 `;
-const _ButtonContainer = styled(_AccountContainer)`
+const _CheckboxContainer = styled(_AuthenticationContainer)`
 	justify-content: center;
-	padding: 0;
-	width: 49px;
 `;
 
 const _Span = styled.span`
@@ -70,19 +70,40 @@ const _Button = styled.button`
 `;
 
 const IdentitiesAside = () => {
+	const dispatch = useDispatch();
 	const {t} = useTranslation('identitiesAside');
-	const {identity, theme, current_tab} = useSelector((state) => state.common);
-	const {tab} = useSelector((state) => state.ssht);
+	const {identity, theme, current_tab, tab} = useSelector(
+		(state) => state.common,
+	);
 	const history = useHistory();
 
+	const currentKey = tab.find((v) => v.uuid === current_tab)?.server.key;
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);
 		},
 		[],
 	);
-	console.log(current_tab);
-	console.log(tab);
+
+	const handleCheck = useCallback(
+		(item) => (e) => {
+			console.log(e.target.checked);
+			console.log(item);
+
+			const correspondedIdentity = identity.find(
+				(v) => v.key === currentKey && v.checked,
+			);
+
+			dispatch({
+				type: CHANGE_IDENTITY_CHECKED,
+				payload: {
+					prev: correspondedIdentity,
+					next: item,
+				},
+			});
+		},
+		[identity, currentKey, dispatch],
+	);
 
 	return (
 		<_Container color={fontColor[theme]}>
@@ -94,24 +115,36 @@ const IdentitiesAside = () => {
 					<_AuthenticationContainer>
 						<_Span>{t('auth')}</_Span>
 					</_AuthenticationContainer>
-					<_ButtonContainer />
+					<_CheckboxContainer>
+						<_Span>Current</_Span>
+					</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {
-					return (
-						<_Li key={item.id} b_color={borderColor[theme]}>
-							<_AccountContainer>
-								<_Span>{item.identityName}</_Span>
-							</_AccountContainer>
-							<_AuthenticationContainer>
-								<_Span>{item.type}</_Span>
-							</_AuthenticationContainer>
-							<_ButtonContainer>
-								<IconButton color={iconColor[theme]}>
-									{deleteIconMidium}
-								</IconButton>
-							</_ButtonContainer>
-						</_Li>
-					);
+					if (item.key === currentKey) {
+						return (
+							<_Li key={item.id} b_color={borderColor[theme]}>
+								<_AccountContainer>
+									<_Span>{item.identityName}</_Span>
+								</_AccountContainer>
+								<_AuthenticationContainer>
+									<_Span>{item.type}</_Span>
+								</_AuthenticationContainer>
+
+								<_CheckboxContainer>
+									<input
+										type={'checkbox'}
+										checked={item.checked}
+										onChange={handleCheck(item)}
+									/>
+								</_CheckboxContainer>
+								{/*<_ButtonContainer>*/}
+								{/*<IconButton color={iconColor[theme]}>*/}
+								{/*	{deleteIconMidium}*/}
+								{/*</IconButton>*/}
+								{/*</_ButtonContainer>*/}
+							</_Li>
+						);
+					}
 				})}
 			</ul>
 			<_Button onClick={changePath('/identities')}>
