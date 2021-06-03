@@ -221,8 +221,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
+			nameInput.current?.focus();
 		},
-		[tempSnippets],
+		[tempSnippets, nameInput],
 	);
 
 	const onClickAddSnippet = useCallback(() => {
@@ -238,7 +239,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 		setIndex(index + 1);
 		setName('New');
 		setContent('');
-		nameInput.current.focus();
+		nameInput.current?.focus();
 	}, [tempSnippets, index, nameInput]);
 
 	const onClickDeleteSnippet = useCallback(() => {
@@ -257,8 +258,13 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);
 			setContent(snippets[0].content);
-		} else setClickedSnippet(null);
-	}, [open, snippets]);
+			nameInput.current?.focus();
+		} else {
+			setClickedSnippet(null);
+			setName('');
+			setContent('');
+		}
+	}, [open, snippets, nameInput]);
 
 	return (
 		<_Modal
@@ -315,6 +321,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 				<_Form>
 					<_Input_ title={'Name'}>
 						<_Input
+							ref={nameInput}
 							value={name}
 							onChange={onChangeName}
 							type='text'
@@ -323,7 +330,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 					</_Input_>
 					<_Input_ title={'Content'}>
 						<_TextareaInput
-							ref={nameInput}
 							value={content}
 							onChange={onChangeContent}
 							type='text'
