@@ -1,6 +1,8 @@
 import React from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
+import {useTranslation} from 'react-i18next';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
@@ -11,6 +13,8 @@ import {
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
+	const {t} = useTranslation('contextMenu');
+
 	const {sftp} = useSelector((state) => state.sftp);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {highlight, path} = corServer;
@@ -126,7 +130,7 @@ const FileListContextMenu = ({uuid}) => {
 				id='download'
 				onClick={handleItemClick}
 			>
-				Download
+				{t('download')}
 			</Item>
 			<Item
 				disabled={
@@ -137,19 +141,19 @@ const FileListContextMenu = ({uuid}) => {
 				id='edit'
 				onClick={handleItemClick}
 			>
-				Edit
+				{t('edit')}
 			</Item>
 			<Separator />
 
 			<Item id='new_folder' onClick={handleItemClick}>
-				New Folder
+				{t('newFolder')}
 			</Item>
 			<Item
 				disabled={highlight.length === 0 || highlight.length !== 1}
 				id='rename_work'
 				onClick={handleItemClick}
 			>
-				Rename
+				{t('rename')}
 			</Item>
 			<Separator />
 			<Item
@@ -157,7 +161,7 @@ const FileListContextMenu = ({uuid}) => {
 				id='delete_work'
 				onClick={handleItemClick}
 			>
-				Delete
+				{t('delete')}
 			</Item>
 		</Menu>
 	);
