@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
 	GREEN_COLOR,
-	IconButton,
 	ROBOTO,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
@@ -15,20 +14,11 @@ import {
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import PropTypes from 'prop-types';
+import {OPEN_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {
-	OPEN_ADD_ACCOUT_FORM_POPUP,
-	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
-import {
-	ACCOUT_CHECKLIST,
 	ACCOUT_CONTROL_ID,
 	CHANGE_CURRENT_RESOURCE_KEY,
 } from '../../reducers/common';
-import {useContextMenu} from 'react-contexify';
-import AccountContextMenu from '../ContextMenu/AccountContextMenu';
-import {deleteIcon, plusIcon} from '../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -54,6 +44,10 @@ const _ContentContainer = styled.div`
 	flex: 1;
 	margin: 0px 8px;
 	font-size: 14px;
+`;
+
+const _Span = styled.span`
+	margin: 8px;
 `;
 
 const _Li = styled.li`
@@ -154,27 +148,6 @@ const _ResourceListUl = styled.ul`
 	color: ${(props) => props.color};
 `;
 
-const Checkbox = ({onChange}) => {
-	return (
-		<div className='pretty p-svg p-curve'>
-			<input type='checkbox' onChange={onChange} />
-			<div className='state p-success'>
-				<svg className='svg svg-icon' viewBox='0 0 20 20'>
-					<path
-						d='M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z'
-						style={{stroke: 'white', fill: 'white'}}
-					/>
-				</svg>
-				<label />
-			</div>
-		</div>
-	);
-};
-
-Checkbox.propTypes = {
-	onChange: PropTypes.func,
-};
-
 function searchTreeNode(node, key) {
 	if (node.type === 'server' || !node.contain.length) {
 		if (node.key === key) return node.name;
@@ -200,25 +173,25 @@ function searchTreeStart(root, key) {
 const IdentitiesSpace = () => {
 	const {t} = useTranslation('identitiesSpace');
 	const {
-		account,
+		identity,
 		server,
-		accountCheckList,
+		// accountCheckList,
 		currentResourceListKey,
 		nav,
 		theme,
 	} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
 
-	const {show} = useContextMenu({
-		id: 'account',
-	});
+	// const {show} = useContextMenu({
+	// 	id: 'account',
+	// });
 
-	const newServer = useCallback(() => {
-		dispatch({
-			type: OPEN_ADD_SERVER_FORM_POPUP,
-			data: {type: 'add'},
-		});
-	}, [dispatch]);
+	// const newServer = useCallback(() => {
+	// 	dispatch({
+	// 		type: OPEN_ADD_SERVER_FORM_POPUP,
+	// 		data: {type: 'add'},
+	// 	});
+	// }, [dispatch]);
 
 	const onClickVisibleAddAccountForm = useCallback(() => {
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
@@ -238,51 +211,6 @@ const IdentitiesSpace = () => {
 		[],
 	);
 
-	const checkManager = useCallback(
-		(id) => (e) => {
-			const {checked} = e.target;
-			const prevCheck = accountCheckList.slice();
-			if (checked) {
-				prevCheck.push(id);
-				dispatch({
-					type: ACCOUT_CHECKLIST,
-					payload: {check: prevCheck},
-				});
-			} else {
-				const nextCheck = prevCheck.filter((item) => item !== id);
-				dispatch({
-					type: ACCOUT_CHECKLIST,
-					payload: {
-						check: nextCheck,
-					},
-				});
-			}
-		},
-		[dispatch, accountCheckList],
-	);
-
-	const contextMenuOpen = useCallback(
-		(id) => (e) => {
-			e.preventDefault();
-			console.log(id);
-			dispatch({type: ACCOUT_CONTROL_ID, payload: {id}});
-			show(e);
-			e.stopPropagation();
-		},
-		[dispatch],
-	);
-
-	const deleteAccount = useCallback(() => {
-		if (accountCheckList.length !== 0) {
-			dispatch({
-				type: OPEN_WARNING_ALERT_POPUP,
-				data: {
-					key: 'delete_account',
-				},
-			});
-		}
-	}, [dispatch, accountCheckList]);
-
 	useEffect(() => {
 		dispatch({
 			type: CHANGE_CURRENT_RESOURCE_KEY,
@@ -296,13 +224,18 @@ const IdentitiesSpace = () => {
 			<_ContentContainer>
 				<_ResourceListUl back={formColor[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
-						<_ResourceName>{t('resource')}</_ResourceName>
-						<IconButton
-							color={fontColor[theme]}
-							onClick={newServer}
-						>
-							{plusIcon}
-						</IconButton>
+						<_ResourceName>
+							{t('resource')}
+							<_Span>{server.length}</_Span>
+						</_ResourceName>
+
+						<div>서치 인풋, 아이콘</div>
+						{/*<IconButton*/}
+						{/*	color={fontColor[theme]}*/}
+						{/*	onClick={newServer}*/}
+						{/*>*/}
+						{/*	{plusIcon}*/}
+						{/*</IconButton>*/}
 					</_Li>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
@@ -340,48 +273,61 @@ const IdentitiesSpace = () => {
 				</_ResourceListUl>
 				<_AccountListUl back={formColor[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
-						<_Name>{t('account')}</_Name>
-						<div>
-							<IconButton
-								color={fontColor[theme]}
-								onClick={onClickVisibleAddAccountForm}
-							>
-								{plusIcon}
-							</IconButton>
+						<_Name>
+							{t('account')}
+							<_Span>
+								{
+									identity
+										.slice()
+										.filter(
+											(item) =>
+												item.key ===
+												currentResourceListKey,
+										).length
+								}
+							</_Span>
+						</_Name>
+						<div>서치 인풋, 아이콘</div>
 
-							<IconButton
-								color={fontColor[theme]}
-								onClick={deleteAccount}
-							>
-								{deleteIcon}
-							</IconButton>
-						</div>
+						{/*<div>*/}
+						{/*	<IconButton*/}
+						{/*		color={fontColor[theme]}*/}
+						{/*		onClick={onClickVisibleAddAccountForm}*/}
+						{/*	>*/}
+						{/*		{plusIcon}*/}
+						{/*	</IconButton>*/}
+
+						{/*	<IconButton*/}
+						{/*		color={fontColor[theme]}*/}
+						{/*		onClick={deleteAccount}*/}
+						{/*	>*/}
+						{/*		{deleteIcon}*/}
+						{/*	</IconButton>*/}
+						{/*</div>*/}
 					</_Li>
 					<_Li
 						b_color={borderColor[theme]}
 						className={'weight_bold'}
-						onContextMenu={contextMenuOpen(-1)}
+						// onContextMenu={contextMenuOpen(-1)}
 					>
-						<Checkbox index={-1} onChange={checkManager(-1)} />
+						{/*<Checkbox index={-1} onChange={checkManager(-1)} />*/}
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
-					{account.map((item) => {
+					{identity.map((item) => {
 						if (item.key !== currentResourceListKey) return;
 						return (
 							<_Li
 								b_color={borderColor[theme]}
 								key={item.id}
-								back={
-									accountCheckList.includes(item.id)
-										? serverFolderBackColor[theme]
-										: formColor[theme]
-								}
-								onContextMenu={contextMenuOpen(item.id)}
+								// back={
+								// 	accountCheckList.includes(item.id)
+								// 		? serverFolderBackColor[theme]
+								// 		: formColor[theme]
+								// }
 							>
-								<Checkbox onChange={checkManager(item.id)} />
 								<_Name>{item.name}</_Name>
 								<_UserNameType>{item.username}</_UserNameType>
 								<_UserNameType>{item.type}</_UserNameType>
@@ -402,7 +348,7 @@ const IdentitiesSpace = () => {
 					})}
 				</_AccountListUl>
 			</_ContentContainer>
-			<AccountContextMenu />
+			{/*<AccountContextMenu />*/}
 		</_Container>
 	);
 };

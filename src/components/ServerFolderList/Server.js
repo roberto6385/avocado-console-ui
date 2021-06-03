@@ -55,7 +55,7 @@ export const _NavItem = styled(Nav.Item)`
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, theme} = useSelector(
+	const {clicked_server, server, theme, identity} = useSelector(
 		(state) => state.common,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -66,12 +66,25 @@ const Server = ({data, indent}) => {
 	const onHybridClick = useDoubleClick(
 		() => {
 			const correspondedServer = server.find((i) => i.id === data.id);
+			const correspondedIdentity = identity.find(
+				(it) => it.key === data.key && it.checked,
+			);
+
+			console.log(correspondedIdentity);
+			console.log({
+				token: userTicket,
+				...correspondedServer,
+				user: correspondedIdentity.user,
+				password: correspondedIdentity.password,
+			});
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					data: {
 						token: userTicket,
 						...correspondedServer,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
 					},
 				});
 			} else if (correspondedServer.protocol === 'SFTP') {
@@ -79,6 +92,8 @@ const Server = ({data, indent}) => {
 					connectionAction({
 						token: userTicket,
 						...correspondedServer,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
 					}),
 				);
 			}

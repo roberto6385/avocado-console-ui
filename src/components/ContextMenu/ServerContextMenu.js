@@ -27,10 +27,13 @@ const SftpServerContextMenuMessage = {
 
 const ServerContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common);
+	const {server, identity} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
 	const correspondedServer = server.find((i) => i.key === data.key);
+	const correspondedIdentity = identity.find(
+		(it) => it.key === data.key && it.checked,
+	);
 
 	const handleItemClick = useCallback(
 		(e) => () => {
@@ -67,8 +70,10 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 		dispatch(
 			connectionAction({
-				...correspondedServer,
 				token: userTicket,
+				...correspondedServer,
+				user: correspondedIdentity.user,
+				password: correspondedIdentity.password,
 			}),
 		);
 	}, [server, userTicket, data]);
@@ -80,6 +85,8 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 			data: {
 				token: userTicket,
 				...correspondedServer,
+				user: correspondedIdentity.user,
+				password: correspondedIdentity.password,
 			},
 		});
 	}, [server, data]);
