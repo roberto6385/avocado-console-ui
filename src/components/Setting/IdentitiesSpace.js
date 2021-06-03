@@ -18,7 +18,9 @@ import {OPEN_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {
 	ACCOUT_CONTROL_ID,
 	CHANGE_CURRENT_RESOURCE_KEY,
+	CHANGE_IDENTITY_CHECKED,
 } from '../../reducers/common';
+import Checkbox_ from '../RecycleComponents/Checkbox_';
 
 const _Container = styled.div`
 	display: flex;
@@ -124,12 +126,9 @@ const _UserNameType = styled(_Name)`
 	min-width: 100px;
 	flex: 5;
 `;
-const _ButtonContainer = styled(_Name)`
+const _CheckBoxIdentity = styled(_UserNameType)`
 	justify-content: center;
 	padding: 0;
-	// max-width: 126px;
-	min-width: 100px;
-	flex: 2;
 `;
 
 const _AccountListUl = styled.ul`
@@ -209,6 +208,26 @@ const IdentitiesSpace = () => {
 			});
 		},
 		[],
+	);
+
+	const handleCheck = useCallback(
+		(item) => (e) => {
+			console.log(e.target.checked);
+			console.log(item);
+
+			const correspondedIdentity = identity.find(
+				(v) => v.key === currentResourceListKey && v.checked,
+			);
+
+			dispatch({
+				type: CHANGE_IDENTITY_CHECKED,
+				payload: {
+					prev: correspondedIdentity,
+					next: item,
+				},
+			});
+		},
+		[identity, currentResourceListKey, dispatch],
 	);
 
 	useEffect(() => {
@@ -314,6 +333,7 @@ const IdentitiesSpace = () => {
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
+						<_CheckBoxIdentity>Auto login</_CheckBoxIdentity>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{identity.map((item) => {
@@ -328,9 +348,16 @@ const IdentitiesSpace = () => {
 								// 		: formColor[theme]
 								// }
 							>
-								<_Name>{item.name}</_Name>
-								<_UserNameType>{item.username}</_UserNameType>
+								<_Name>{item.identityName}</_Name>
+								<_UserNameType>{item.user}</_UserNameType>
 								<_UserNameType>{item.type}</_UserNameType>
+								<_CheckBoxIdentity>
+									<input
+										type={'checkbox'}
+										checked={item.checked}
+										onChange={handleCheck(item)}
+									/>
+								</_CheckBoxIdentity>
 								{/*<_ButtonContainer>*/}
 								{/*	<IconButton>*/}
 								{/*		<span className='material-icons button_large'>*/}

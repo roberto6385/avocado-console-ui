@@ -70,7 +70,7 @@ const _Button = styled.button`
 
 const IdentitiesAside = () => {
 	const {t} = useTranslation('identitiesAside');
-	const {account, theme} = useSelector((state) => state.common);
+	const {identity, theme} = useSelector((state) => state.common);
 	const history = useHistory();
 
 	const changePath = useCallback(
@@ -91,11 +91,11 @@ const IdentitiesAside = () => {
 					</_AuthenticationContainer>
 					<_ButtonContainer />
 				</_Li>
-				{account.map((item) => {
+				{identity.map((item) => {
 					return (
 						<_Li key={item.id} b_color={borderColor[theme]}>
 							<_AccountContainer>
-								<_Span>{item.name}</_Span>
+								<_Span>{item.identityName}</_Span>
 							</_AccountContainer>
 							<_AuthenticationContainer>
 								<_Span>{item.type}</_Span>

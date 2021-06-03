@@ -92,20 +92,30 @@ export const initialState = {
 			host: '211.253.10.9',
 			// user: 'root',
 			// password: 'Netand141)',
-			protocol: 'SSH2',
+			protocol: 'SFTP',
 			port: 10022,
 		},
 	],
 	// resource identity key
 	currentResourceListKey: null,
+	identity_index: 7,
 	identity: [
 		{
 			id: 0,
-			identityName: 'server1 ID',
+			identityName: 'server1 ID 1',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
-			type: 'password',
+			type: 'Password',
+			key: 's_0',
+		},
+		{
+			id: 6,
+			identityName: 'server1 ID 2',
+			user: 'test',
+			password: '1234',
+			checked: false,
+			type: 'Password',
 			key: 's_0',
 		},
 		{
@@ -114,7 +124,7 @@ export const initialState = {
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
-			type: 'password',
+			type: 'Password',
 			key: 's_1',
 		},
 		{
@@ -123,16 +133,34 @@ export const initialState = {
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
-			type: 'password',
+			type: 'Password',
 			key: 's_2',
 		},
 		{
 			id: 3,
-			identityName: 'server4 ID',
+			identityName: 'server4 ID 1',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
-			type: 'password',
+			type: 'Password',
+			key: 's_3',
+		},
+		{
+			id: 4,
+			identityName: 'server4 ID 2',
+			user: 'hello',
+			password: 'Netand141)',
+			checked: false,
+			type: 'KeyFile',
+			key: 's_3',
+		},
+		{
+			id: 5,
+			identityName: 'server4 ID 3',
+			user: 'world',
+			password: 'Netand141)',
+			checked: false,
+			type: 'Password',
 			key: 's_3',
 		},
 	],
@@ -157,14 +185,12 @@ export const EDIT_SERVER = 'EDIT_SERVER';
 export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
-export const CHANGE_THEME = 'common/CHANGE_THEME';
-export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
 export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
-export const ACCOUT_CHECKLIST = 'common/ACCOUT_CHECKLIST';
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
 export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
+export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -458,14 +484,26 @@ const reducer = (state = initialState, action) => {
 					name: action.data.name,
 				};
 
+				const identity = {
+					id: draft.identity_index,
+					identityName: 'Temp Identity Name',
+					user: action.data.user,
+					password: action.data.password,
+					checked: true,
+					type: action.data.auth,
+					key: 's_' + draft.server_index.toString(),
+				};
+
 				addDataOnNode(draft.nav, draft.clicked_server, data);
 
+				draft.identity.push(identity);
 				draft.server.push({
 					id: draft.server_index,
 					key: 's_' + draft.server_index.toString(),
 					...action.data,
 				});
 				draft.server_index++;
+				draft.identity_index++;
 				break;
 			}
 			case DELETE_SERVER_FOLDER: {
@@ -492,15 +530,33 @@ const reducer = (state = initialState, action) => {
 				draft.minimize = action.data;
 				break;
 
+			case CHANGE_IDENTITY_CHECKED:
+				console.log(draft.identity);
+				console.log(action.payload.prev);
+				console.log(action.payload.next);
+				draft.identity = [
+					...state.identity.filter(
+						(v) =>
+							v !== action.payload.prev &&
+							v !== action.payload.next,
+					),
+					{...action.payload.prev, checked: false},
+					{...action.payload.next, checked: true},
+				].sort(function (a, b) {
+					return a['id'] - b['id'];
+				});
+
+				break;
+
 			// case SAVE_ACCOUT:
 			// 	draft.account.push({
-			// 		id: draft.identityId,
+			// 		id: draft.identity_index,
 			// 		name: action.payload.identity,
 			// 		username: action.payload.username,
 			// 		type: action.payload.type,
 			// 		key: action.payload.key,
 			// 	});
-			// 	draft.identityId++;
+			// 	draft.identity_index++;
 			// 	break;
 
 			// case DELETE_ACCOUT:

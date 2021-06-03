@@ -1,7 +1,11 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {EDIT_SERVER, SAVE_SERVER} from '../../reducers/common';
+import {
+	CHANGE_IDENTITY_CHECKED,
+	EDIT_SERVER,
+	SAVE_SERVER,
+} from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
@@ -154,15 +158,23 @@ const duplicationTest = (server, name, host, port, protocol) => {
 const AddServerForm = () => {
 	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
-	const {server, theme} = useSelector((state) => state.common);
+	const {server, theme, clicked_server, identity} = useSelector(
+		(state) => state.common,
+	);
+
+	// username, password는 이곳에서 가져와야 함.
+	const correspondedIdentity = identity.find(
+		(v) => v.key === clicked_server && v.checked,
+	);
+
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {add_server_form_popup} = useSelector((state) => state.popup);
 
 	const [name, onChangeName, setName] = useInput('');
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
-	const [port, onChangePort, setPort] = useInput();
-	const [identity, onChangeIdentity, setIdentity] = useInput('root');
+	const [port, onChangePort, setPort] = useInput(22);
+	const [account, onChangeIdentity, setAccount] = useInput('');
 	const [
 		authentication,
 		onChangeAuthentication,
@@ -170,9 +182,10 @@ const AddServerForm = () => {
 	] = useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 
-	const [username, onChangeUsername, setUsername] = useInput('root');
-	const [password, onChangePassword, setPassword] = useInput('Netand141)');
+	const [username, onChangeUsername, setUsername] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
+	const [identityList, onChangeIdentityList, setIdentityList] = useInput([]);
 
 	const protocol_options = [
 		{value: 'SSH2', label: 'SSH2'},
@@ -183,74 +196,85 @@ const AddServerForm = () => {
 		{value: 'KeyFile', label: t('keyFile')},
 	];
 
-	// user option은 reducer-common에서 account와 연결된다.
-	// 현재는 디자인 작업을 위해 option을 별도로 생성했다.
-	// options와 account의 저장 방식을 통일할 필요가 있다.
-	const user_options = [
-		{value: 'root', label: 'root'},
-		{value: 'ctl', label: 'ctl'},
-	];
-
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+			// 새로 생성시, 수정시 구분 필요.
+			// 현재는 연동으로 인해 생성 및 편집이 필요 없으므로
+			// input을 readOnly로 수정하고 생성 편집 기능을 구현하지 않음.
+			console.log(add_server_form_popup.type);
 
-			if (!duplicationTest(server, name, host, port, protocol)) {
-				dispatch({type: OPEN_ALERT_POPUP, data: 'server_duplicate'});
-			} else if (!isValidHostname(host)) {
-				dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
-			} else {
-				const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
-				ws.binaryType = 'arraybuffer';
-
-				ws.onerror = () => {
-					dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
-				};
-
-				ws.onopen = () => {
-					ssht_ws_request({
-						keyword: 'SendConnect',
-						ws: ws,
-						data: {
-							token: userTicket,
-							host: host,
-							user: identity,
-							password: password,
-							port: port,
-						},
+			if (add_server_form_popup.type === 'add') {
+				if (!duplicationTest(server, name, host, port, protocol)) {
+					dispatch({
+						type: OPEN_ALERT_POPUP,
+						data: 'server_duplicate',
 					});
-				};
+				} else if (!isValidHostname(host)) {
+					dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
+				} else {
+					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
+					ws.binaryType = 'arraybuffer';
 
-				ws.onmessage = (evt) => {
-					const message = GetMessage(evt.data);
-					console.log(message);
-					if (message.type === 'CONNECT') {
-						ssht_ws_request({keyword: 'SendDisconnect', ws: ws});
-						const newData = {
-							name: name,
-							host: host,
-							user: identity,
-							protocol: protocol,
-							password: password,
-							port: port,
-						};
-						if (add_server_form_popup.type === 'add')
-							dispatch({
-								type: SAVE_SERVER,
-								data: newData,
+					ws.onerror = () => {
+						dispatch({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
+					};
+
+					ws.onopen = () => {
+						ssht_ws_request({
+							keyword: 'SendConnect',
+							ws: ws,
+							data: {
+								token: userTicket,
+								host: host,
+								user: username,
+								password: password,
+								port: port,
+							},
+						});
+					};
+
+					ws.onmessage = (evt) => {
+						const message = GetMessage(evt.data);
+						console.log(message);
+						if (message.type === 'CONNECT') {
+							ssht_ws_request({
+								keyword: 'SendDisconnect',
+								ws: ws,
 							});
-						else if (add_server_form_popup.type === 'edit')
-							dispatch({
-								type: EDIT_SERVER,
-								data: {
-									id: add_server_form_popup.id,
+							const newData = {
+								name: name,
+								host: host,
+								user: username,
+								protocol: protocol,
+								password: password,
+								port: port,
+								auth: authentication,
+							};
+							if (add_server_form_popup.type === 'add')
+								dispatch({
+									type: SAVE_SERVER,
 									data: newData,
-								},
-							});
-					} else if (message.type === 'DISCONNECT') {
-						dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-					} else console.log('V AddServerForm onmessage: ', message);
-				};
+								});
+							else if (add_server_form_popup.type === 'edit')
+								dispatch({
+									type: EDIT_SERVER,
+									data: {
+										id: add_server_form_popup.id,
+										data: newData,
+									},
+								});
+						} else if (message.type === 'DISCONNECT') {
+							dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
+						} else
+							console.log('V AddServerForm onmessage: ', message);
+					};
+				}
+			} else if (add_server_form_popup.type === 'edit') {
+				closeModal();
 			}
 		},
 		[
@@ -258,7 +282,7 @@ const AddServerForm = () => {
 			protocol,
 			host,
 			port,
-			identity,
+			account,
 			password,
 			add_server_form_popup,
 			userTicket,
@@ -276,8 +300,9 @@ const AddServerForm = () => {
 				setName('');
 				setProtocol('SSH2');
 				setHost('');
-				setPort();
-				setIdentity('root');
+				setPort(22);
+				setAccount('');
+				setIdentityList([]);
 				setAuthentication('Password');
 				setPassword('');
 				setKeyFile('');
@@ -289,18 +314,55 @@ const AddServerForm = () => {
 					(v) => v.id === add_server_form_popup.id,
 				);
 				setName(data.name);
-				setProtocol('SSH2');
+				setProtocol(data.protocol);
 				setHost(data.host);
 				setPort(data.port);
-				setIdentity(data.user);
-				setAuthentication('Password');
-				setPassword(data.password);
+				setAccount(correspondedIdentity.identityName);
+				setAuthentication(correspondedIdentity.type);
+				setPassword(correspondedIdentity.password);
 				setKeyFile('');
-				setUsername('');
+				setUsername(correspondedIdentity.user);
 				setNote('');
 			}
 		}
 	}, [add_server_form_popup]);
+
+	useEffect(() => {
+		const correspondedIdentityList = identity.filter(
+			(v) => v.key === clicked_server,
+		);
+		const newArray = correspondedIdentityList.map((item) => {
+			return {
+				value: item.identityName,
+				info: item,
+				label: item.identityName,
+			};
+		});
+		console.log(newArray);
+		setIdentityList(newArray);
+	}, [clicked_server]);
+
+	useEffect(() => {
+		const correspondedIdentityList = identity.filter(
+			(v) => v.key === clicked_server,
+		);
+		const selectedIdentity = correspondedIdentityList.find(
+			(v) => v.identityName === account,
+		);
+		console.log(account);
+
+		if (correspondedIdentity !== selectedIdentity && account !== '') {
+			dispatch({
+				type: CHANGE_IDENTITY_CHECKED,
+				payload: {
+					prev: correspondedIdentity,
+					next: selectedIdentity,
+				},
+			});
+			setUsername(selectedIdentity.user);
+			setPassword(selectedIdentity.password);
+		}
+	}, [account]);
 
 	return (
 		<_Modal
@@ -374,9 +436,9 @@ const AddServerForm = () => {
 						b_color={borderColor[theme]}
 						title={t('identity')}
 						flex={1}
-						options={user_options}
-						value={identity}
-						setValue={setIdentity}
+						options={identityList}
+						value={account}
+						setValue={setAccount}
 					/>
 					<Select_
 						back={inputColor[theme]}

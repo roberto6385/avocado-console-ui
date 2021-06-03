@@ -13,15 +13,15 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 const Ssh2ServerContextMenuMessage = {
 	connect: 'Connect',
 	open_sftp: 'Open SFTP',
-	rename: 'Rename',
-	delete: 'Delete',
+	// rename: 'Rename',
+	// delete: 'Delete',
 	properties: 'Properties',
 };
 
 const SftpServerContextMenuMessage = {
 	connect: 'Open SFTP',
-	rename: 'Rename',
-	delete: 'Delete',
+	// rename: 'Rename',
+	// delete: 'Delete',
 	properties: 'Properties',
 };
 
