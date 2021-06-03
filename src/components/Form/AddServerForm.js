@@ -290,8 +290,6 @@ const AddServerForm = () => {
 							next: selectedIdentity,
 						},
 					});
-					setUsername(selectedIdentity.user);
-					setPassword(selectedIdentity.password);
 				}
 
 				clicked_server &&
@@ -370,6 +368,19 @@ const AddServerForm = () => {
 		console.log(newArray);
 		setIdentityList(newArray);
 	}, [clicked_server]);
+
+	useEffect(() => {
+		const correspondedIdentityList = identity.filter(
+			(v) => v.key === clicked_server,
+		);
+		const selectedIdentity = correspondedIdentityList.find(
+			(v) => v.identityName === account,
+		);
+		if (correspondedIdentity !== selectedIdentity && account !== '') {
+			setUsername(selectedIdentity.user);
+			setPassword(selectedIdentity.password);
+		}
+	}, [account]);
 
 	return (
 		<_Modal
