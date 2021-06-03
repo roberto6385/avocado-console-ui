@@ -19,10 +19,27 @@ const _Select = styled(Select)`
 	width: ${(props) => props.width};
 
 	margin-top: 6px;
+
 	.css-26l3qy-menu {
 		z-index: 10;
-		background: ${(props) => props.back};
 		color: ${(props) => props.color};
+		background: ${(props) => props.back};
+
+		.css-4ljt47-MenuList {
+			background: ${(props) => props.back};
+			div {
+				background: ${(props) => props.back};
+				color: ${(props) => props.color};
+				&:hover {
+					background: ${(props) => props.b_color};
+				}
+				//focus 안먹힘...
+				&:focus {
+					color: red;
+					background: red !important;
+				}
+			}
+		}
 
 		// 드롭메뉴 z-index 속성 추가.
 	}
