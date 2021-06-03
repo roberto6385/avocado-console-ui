@@ -7,10 +7,10 @@ export const initialState = {
 	cols: 1,
 	minimize: false,
 	server_index: 4,
-	folder_index: 27,
+	folder_index: 2,
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
-	lang: 'ko',
+	lang: 'ko', // language ko - korean, en - english
 	nav: [
 		{
 			type: 'folder',
@@ -43,184 +43,6 @@ export const initialState = {
 					id: 2,
 					key: 's_2',
 					name: 'Server3',
-				},
-			],
-		},
-		{
-			type: 'folder',
-			id: 2,
-			key: 'f_2',
-			name: 'Folder3',
-			contain: [
-				{
-					type: 'folder',
-					id: 3,
-					key: 'f_3',
-					name: 'Folder4',
-					contain: [],
-				},
-				{
-					type: 'folder',
-					id: 4,
-					key: 'f_4',
-					name: 'Folder5',
-					contain: [
-						{
-							type: 'folder',
-							id: 5,
-							key: 'f_5',
-							name: 'Folder6',
-							contain: [],
-						},
-						{
-							type: 'folder',
-							id: 6,
-							key: 'f_6',
-							name: 'Folder7',
-							contain: [],
-						},
-						{
-							type: 'folder',
-							id: 7,
-							key: 'f_7',
-							name: 'Folder8',
-							contain: [],
-						},
-					],
-				},
-			],
-		},
-		{
-			type: 'folder',
-			id: 9,
-			key: 'f_9',
-			name: 'Folder3',
-			contain: [
-				{
-					type: 'folder',
-					id: 10,
-					key: 'f_10',
-					name: 'Folder4',
-					contain: [],
-				},
-				{
-					type: 'folder',
-					id: 11,
-					key: 'f_11',
-					name: 'Folder5',
-					contain: [
-						{
-							type: 'folder',
-							id: 12,
-							key: 'f_12',
-							name: 'Folder6',
-							contain: [
-								{
-									type: 'folder',
-									id: 15,
-									key: 'f_15',
-									name: 'Folder6',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 16,
-									key: 'f_16',
-									name: 'Folder7',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 17,
-									key: 'f_17',
-									name: 'Folder8',
-									contain: [],
-								},
-							],
-						},
-						{
-							type: 'folder',
-							id: 13,
-							key: 'f_13',
-							name: 'Folder7',
-							contain: [
-								{
-									type: 'folder',
-									id: 18,
-									key: 'f_18',
-									name: 'Folder6',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 19,
-									key: 'f_19',
-									name: 'Folder7',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 20,
-									key: 'f_20',
-									name: 'Folder8',
-									contain: [],
-								},
-							],
-						},
-						{
-							type: 'folder',
-							id: 14,
-							key: 'f_14',
-							name: 'Folder8',
-							contain: [
-								{
-									type: 'folder',
-									id: 21,
-									key: 'f_21',
-									name: 'Folder6',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 22,
-									key: 'f_22',
-									name: 'Folder7',
-									contain: [],
-								},
-								{
-									type: 'folder',
-									id: 23,
-									key: 'f_23',
-									name: 'Folder8',
-									contain: [
-										{
-											type: 'folder',
-											id: 24,
-											key: 'f_24',
-											name: 'Folder8',
-											contain: [
-												{
-													type: 'folder',
-													id: 25,
-													key: 'f_25',
-													name: 'Folder8',
-													contain: [
-														{
-															type: 'folder',
-															id: 26,
-															key: 'f_26',
-															name: 'Folder8',
-															contain: [],
-														},
-													],
-												},
-											],
-										},
-									],
-								},
-							],
-						},
-					],
 				},
 			],
 		},
@@ -275,11 +97,11 @@ export const initialState = {
 		},
 	],
 
-	accountId: 3,
-	accountListControlId: null,
-	accountCheckList: [],
+	// identityId: 3,
+	// accountListControlId: null,
+	// accountCheckList: [],
 	currentResourceListKey: null,
-	account: [
+	identity: [
 		{
 			id: 0,
 			name: 'mainAccount',
@@ -658,35 +480,35 @@ const reducer = (state = initialState, action) => {
 				draft.minimize = action.data;
 				break;
 
-			case SAVE_ACCOUT:
-				draft.account.push({
-					id: draft.accountId,
-					name: action.payload.identity,
-					username: action.payload.username,
-					type: action.payload.type,
-					key: action.payload.key,
-				});
-				draft.accountId++;
-				break;
+			// case SAVE_ACCOUT:
+			// 	draft.account.push({
+			// 		id: draft.identityId,
+			// 		name: action.payload.identity,
+			// 		username: action.payload.username,
+			// 		type: action.payload.type,
+			// 		key: action.payload.key,
+			// 	});
+			// 	draft.identityId++;
+			// 	break;
 
-			case DELETE_ACCOUT:
-				draft.account = draft.account
-					.slice()
-					.filter((it) => it.id !== action.payload.id);
+			// case DELETE_ACCOUT:
+			// 	draft.account = draft.account
+			// 		.slice()
+			// 		.filter((it) => it.id !== action.payload.id);
+			//
+			// 	break;
 
-				break;
-
-			case ACCOUT_CONTROL_ID:
-				draft.accountListControlId = action.payload.id;
-				break;
+			// case ACCOUT_CONTROL_ID:
+			// 	draft.accountListControlId = action.payload.id;
+			// 	break;
 
 			case CHANGE_CURRENT_RESOURCE_KEY:
 				draft.currentResourceListKey = action.payload.key;
 				break;
 
-			case ACCOUT_CHECKLIST:
-				draft.accountCheckList = action.payload.check;
-				break;
+			// case ACCOUT_CHECKLIST:
+			// 	draft.accountCheckList = action.payload.check;
+			// 	break;
 
 			case CHANGE_GENERAL_THEME:
 				draft.theme = action.payload.theme;

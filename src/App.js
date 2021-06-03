@@ -33,7 +33,7 @@ const App = () => {
 				<Route path='/identities' component={Identities} />
 				<Route component={NotFound} />
 			</Switch>
-			<AddAccountForm />
+			{/*<AddAccountForm />*/}
 			<AddServerForm />
 			<AlertPopup />
 			<WarningAlertPopup />

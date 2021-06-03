@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
-import {ACCOUT_CONTROL_ID, SAVE_ACCOUT} from '../../reducers/common';
+import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
@@ -157,15 +157,15 @@ const AddAccountForm = () => {
 			e.preventDefault();
 			if (authentication === 'Password') {
 				if (identity !== '' && username !== '' && password !== '') {
-					dispatch({
-						type: SAVE_ACCOUT,
-						payload: {
-							identity,
-							username,
-							type: 'password',
-							key: currentResourceListKey,
-						},
-					});
+					// dispatch({
+					// 	type: SAVE_ACCOUT,
+					// 	payload: {
+					// 		identity,
+					// 		username,
+					// 		type: 'password',
+					// 		key: currentResourceListKey,
+					// 	},
+					// });
 				}
 			} else {
 				if (
