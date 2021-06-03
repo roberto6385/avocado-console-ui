@@ -77,7 +77,10 @@ const SSH = ({uuid}) => {
 		current_line,
 	} = useSelector((state) => state.ssht);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const [currentHistory, setCurrentHistory] = useState();
+	const [currentHistory, setCurrentHistory] = useState(0);
+	const [historyList, setHistoryList] = useState(
+		ssh_history.filter((v) => v.startsWith(current_line)),
+	);
 	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
@@ -109,6 +112,17 @@ const SSH = ({uuid}) => {
 		[sshTerm, current_line, uuid, ws],
 	);
 
+	const onClickOpenSearchBar = useCallback(() => {
+		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
+	}, [current_tab, dispatch]);
+
+	const onClickArrowUp = useCallback(() => {
+		searchAddon.current.findPrevious(search);
+	}, [searchAddon, search]);
+
+	const onClickArrowDown = useCallback(() => {
+		searchAddon.current.findNext(search);
+	}, [searchAddon, search]);
 	//terminal setting
 	useEffect(() => {
 		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
@@ -129,10 +143,16 @@ const SSH = ({uuid}) => {
 		const processInput = sshTerm.onData((data) => {
 			if (auto_complete_mode && data.charCodeAt(0) === 27) {
 				if (data.substr(1) === '[A') {
-					console.log('여기');
+					console.log('UP');
+					if (currentHistory === 0)
+						setCurrentHistory(historyList.length - 1);
+					else setCurrentHistory(currentHistory - 1);
 				} else if (data.substr(1) === '[B') {
-					console.log('여기');
+					if (currentHistory === historyList.length - 1)
+						setCurrentHistory(0);
+					else setCurrentHistory(currentHistory + 1);
 				}
+				console.log(currentHistory);
 			} else {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
@@ -181,18 +201,6 @@ const SSH = ({uuid}) => {
 			});
 		}
 	}, [ws, uuid, sshTerm, width, height]);
-
-	const onClickOpenSearchBar = useCallback(() => {
-		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab, dispatch]);
-
-	const onClickArrowUp = useCallback(() => {
-		searchAddon.current.findPrevious(search);
-	}, [searchAddon, search]);
-
-	const onClickArrowDown = useCallback(() => {
-		searchAddon.current.findNext(search);
-	}, [searchAddon, search]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -211,6 +219,15 @@ const SSH = ({uuid}) => {
 			searchAddon.current.findPrevious(search);
 		}
 	}, [current_tab, uuid, search]);
+	//set History List
+	useEffect(() => {
+		if (auto_complete_mode && current_line !== '') {
+			setHistoryList(
+				ssh_history.filter((v) => v.startsWith(current_line)),
+			);
+			setCurrentHistory(0);
+		}
+	}, [auto_complete_mode, ssh_history, current_line]);
 
 	return (
 		<_Container ref={ref}>
@@ -225,13 +242,21 @@ const SSH = ({uuid}) => {
 			>
 				{current_line !== '' &&
 					auto_complete_mode &&
-					ssh_history
-						.filter((v) => v.startsWith(current_line))
-						.map((v) => (
-							<ListGroup.Item onClick={onClickCommand(v)} key={v}>
+					historyList.map((v, i) =>
+						i === currentHistory ? (
+							<ListGroup.Item
+								style={{backgroundColor: 'red'}}
+								onClick={onClickCommand(v)}
+								key={i}
+							>
 								{v}
 							</ListGroup.Item>
-						))}
+						) : (
+							<ListGroup.Item onClick={onClickCommand(v)} key={i}>
+								{v}
+							</ListGroup.Item>
+						),
+					)}
 			</ListGroup>
 
 			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
