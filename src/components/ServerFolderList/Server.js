@@ -67,16 +67,10 @@ const Server = ({data, indent}) => {
 		() => {
 			const correspondedServer = server.find((i) => i.id === data.id);
 			const correspondedIdentity = identity.find(
-				(it) => it.key === data.key && it.checked,
+				(it) => it.key === data.key && it.checked === true,
 			);
-
 			console.log(correspondedIdentity);
-			console.log({
-				token: userTicket,
-				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
-			});
+
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
@@ -105,7 +99,7 @@ const Server = ({data, indent}) => {
 				dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			}
 		},
-		[clicked_server, data, userTicket, server, dispatch],
+		[clicked_server, data, userTicket, server, identity, dispatch],
 	);
 
 	const {show} = useContextMenu({

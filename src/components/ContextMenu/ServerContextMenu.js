@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,6 +13,15 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
 const ServerContextMenu = ({data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
+
+	const dispatch = useDispatch();
+	const {server, identity} = useSelector((state) => state.common);
+	const {userTicket} = useSelector((state) => state.userTicket);
+	const MENU_ID = data.key + 'server';
+	const correspondedServer = server.find((i) => i.key === data.key);
+	const correspondedIdentity = identity.find(
+		(i) => i.key === data.key && i.checked === true,
+	);
 
 	const Ssh2ServerContextMenuMessage = {
 		connect: t('connectSsh'),
@@ -29,18 +38,45 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 		properties: t('properties'),
 	};
 
-	const dispatch = useDispatch();
-	const {server, identity} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const MENU_ID = data.key + 'server';
-	const correspondedServer = server.find((i) => i.key === data.key);
-	const correspondedIdentity = identity.find(
-		(it) => it.key === data.key && it.checked,
-	);
+	const openSFTP = useCallback(() => {
+		const correspondedServer = server.find((i) => i.key === data.key);
+		const correspondedIdentity = identity.find(
+			(i) => i.key === data.key && i.checked === true,
+		);
+		console.log(correspondedIdentity);
+
+		dispatch(
+			connectionAction({
+				token: userTicket,
+				...correspondedServer,
+				user: correspondedIdentity.user,
+				password: correspondedIdentity.password,
+			}),
+		);
+	}, [server, userTicket, identity, data, correspondedIdentity]);
+
+	const openSSH = useCallback(() => {
+		const correspondedServer = server.find((i) => i.key === data.key);
+		const correspondedIdentity = identity.find(
+			(i) => i.key === data.key && i.checked === true,
+		);
+
+		console.log(correspondedIdentity);
+		dispatch({
+			type: SSH_SEND_CONNECTION_REQUEST,
+			data: {
+				token: userTicket,
+				...correspondedServer,
+				user: correspondedIdentity.user,
+				password: correspondedIdentity.password,
+			},
+		});
+	}, [server, data, userTicket, identity, correspondedIdentity]);
 
 	const handleItemClick = useCallback(
-		(e) => () => {
-			switch (e) {
+		(v) => () => {
+			console.log(v);
+			switch (v) {
 				case 'connect':
 					openSSH();
 					break;
@@ -68,31 +104,6 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 		},
 		[],
 	);
-
-	const openSFTP = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
-		dispatch(
-			connectionAction({
-				token: userTicket,
-				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
-			}),
-		);
-	}, [server, userTicket, data]);
-
-	const openSSH = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
-		dispatch({
-			type: SSH_SEND_CONNECTION_REQUEST,
-			data: {
-				token: userTicket,
-				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
-			},
-		});
-	}, [server, data]);
 
 	return (
 		<Menu

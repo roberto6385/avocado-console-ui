@@ -376,11 +376,13 @@ const AddServerForm = () => {
 		const selectedIdentity = correspondedIdentityList.find(
 			(v) => v.identityName === account,
 		);
-		if (correspondedIdentity !== selectedIdentity && account !== '') {
+
+		if (selectedIdentity) {
 			setUsername(selectedIdentity.user);
 			setPassword(selectedIdentity.password);
+			setAuthentication(selectedIdentity.type);
 		}
-	}, [account]);
+	}, [account, identity, clicked_server]);
 
 	return (
 		<_Modal
