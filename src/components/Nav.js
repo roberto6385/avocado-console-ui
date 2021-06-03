@@ -88,17 +88,6 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _OpenButton = styled(DefaultButton)`
-	-webkit-transform: rotate(
-		-90deg
-	); /* to support Safari and Android browser */
-	-ms-transform: rotate(-90deg); /* to support IE 9 */
-	transform: rotate(-90deg);
-
-	position: absolute;
-	right: -44px;
-`;
-
 const _HideSpace = styled.div`
 	display: flex;
 	width: 57px;

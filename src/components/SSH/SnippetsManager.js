@@ -162,7 +162,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [clickedSnippet, setClickedSnippet] = useState(null);
-	const nameInput = useRef();
+	const nameInput = useRef(null);
 
 	const onChangeName = useCallback(
 		(e) => {
@@ -218,6 +218,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
+			console.log('check');
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
@@ -254,17 +255,23 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
+		console.log(snippets);
+		console.log(open);
+		console.log('check');
 		if (snippets.length !== 0 && open) {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);
 			setContent(snippets[0].content);
-			nameInput.current?.focus();
 		} else {
 			setClickedSnippet(null);
 			setName('');
 			setContent('');
 		}
-	}, [open, snippets, nameInput]);
+	}, [open, snippets]);
+
+	useEffect(() => {
+		nameInput.current?.focus();
+	}, [clickedSnippet]);
 
 	return (
 		<_Modal
