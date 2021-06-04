@@ -10,7 +10,7 @@ export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 export const MINT_COLOR = '#4ca6a8';
 
 export const pauseColor = '#a8a8a8';
-export const downloadColor = '#a8a8a8';
+export const downloadColor = '#4ca6a8';
 export const uploadColor = '#4285f4';
 export const editColor = '#E4E723';
 export const deleteColor = '#d45959';
@@ -262,5 +262,3 @@ export const IconContainer = styled.div`
 	padding: ${(props) => props?.padding || '0px'};
 	margin: ${(props) => props.margin || '0px'};
 `;
-
-export const CLOUDY_BLUE = '#B2D5DF';

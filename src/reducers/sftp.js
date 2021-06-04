@@ -237,7 +237,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			case LS_SUCCESS:
 				draft.loading = false;
-				// 궅이 필요하지는 않음.
 				target.result = action.payload.result;
 				target.fileList.push(action.payload.fileList);
 				break;

@@ -67,12 +67,14 @@ const HistoryNav = ({uuid}) => {
 	}, [corServer]);
 
 	const historyDelete = useCallback(() => {
-		// if exist highlighting history
-		history_highlight.length > 0 &&
+		if (history_highlight.length === 0) {
+			//
+		} else {
 			dispatch({
 				type: OPEN_WARNING_ALERT_POPUP,
 				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
+		}
 	}, [history_highlight, uuid, dispatch]);
 
 	return (

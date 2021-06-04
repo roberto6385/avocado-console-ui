@@ -7,8 +7,6 @@ import {
 	actionChannel,
 	race,
 	delay,
-	takeEvery,
-	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
@@ -16,7 +14,6 @@ import {
 	LS_FAILURE,
 	LS_REQUEST,
 	LS_SUCCESS,
-	RM_REQUEST,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -36,7 +33,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(100),
 				data: take(channel),
 			});
 			if (timeout) {

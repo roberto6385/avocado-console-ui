@@ -11,9 +11,6 @@ import {
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
 import {
-	CHANGE_MODE,
-	CLOSE_EDITOR,
-	commandPutAction,
 	commandRmAction,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,

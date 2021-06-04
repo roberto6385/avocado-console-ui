@@ -73,3 +73,9 @@ ul {
 .weight_bold {
 	font-weight: bold;
 }
+
+/*블러처리*/
+.blurEffect {
+	filter: blur(3px);
+	-webkit-filter: blur(3px);
+}

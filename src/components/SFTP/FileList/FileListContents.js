@@ -21,14 +21,11 @@ import {
 } from '../listConversion';
 import styled from 'styled-components';
 import {
-	LIGHT_MODE_BORDER_COLOR,
 	HiddenScroll,
 	IconButton,
 	IconContainer,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	PreventDragCopy,
 	MINT_COLOR,
-	LIGHT_MODE_ICON_COLOR,
 	THIRD_HEIGHT,
 	fontColor,
 	borderColor,
@@ -249,14 +246,19 @@ const FileListContents = ({uuid}) => {
 		}
 	}, [fileList, sortKeyword, toggle]);
 
-	console.log(highlight);
-
-	return currentFileList.length !== 0 ? (
-		// return fileList.length === pathList.length ? (
+	return (
 		<React.Fragment>
 			<_Table onContextMenu={contextMenuOpen()}>
 				<TableHead uuid={uuid} />
-				<_Tbody active={serverFolderBackColor[theme]}>
+				<_Tbody
+					active={serverFolderBackColor[theme]}
+					className={
+						fileList.length === pathList.length &&
+						currentFileList.length !== 0
+							? ''
+							: 'blurEffect'
+					}
+				>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						if (
@@ -336,8 +338,6 @@ const FileListContents = ({uuid}) => {
 			</_Table>
 			<FileListContextMenu uuid={uuid} />
 		</React.Fragment>
-	) : (
-		<div>loading...</div>
 	);
 };
 
