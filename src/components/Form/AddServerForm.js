@@ -409,8 +409,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={name}
-							onChange={onChangeName}
 							placeholder={t('place.name')}
+							readOnly
 						/>
 					</Input_>
 					<Select_
@@ -432,8 +432,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={host}
-							onChange={onChangeHost}
 							placeholder={t('place.address')}
+							readOnly
 						/>
 					</Input_>
 
@@ -444,8 +444,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='number'
 							value={port}
-							onChange={onChangePort}
 							placeholder={t('place.port')}
+							readOnly
 						/>
 					</Input_>
 				</Item_Container>
@@ -479,8 +479,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={username}
-							onChange={onChangeUsername}
 							placeholder={t('place.userName')}
+							readOnly
 						/>
 					</Input_>
 				</Item_Container>
@@ -493,8 +493,8 @@ const AddServerForm = () => {
 								b_color={borderColor[theme]}
 								type='password'
 								value={password}
-								onChange={onChangePassword}
 								placeholder={t('place.password')}
+								readOnly
 							/>
 						</Input_>
 					</Item_Container>
@@ -513,8 +513,8 @@ const AddServerForm = () => {
 										type='file'
 										id={'add_server_form_type_file'}
 										value={keyFile}
-										onChange={onChangeKeyFile}
 										placeholder={t('keyFile')}
+										readOnly
 									/>
 								</_Label>
 							</Input_>
@@ -540,8 +540,8 @@ const AddServerForm = () => {
 									b_color={borderColor[theme]}
 									type='password'
 									value={password}
-									onChange={onChangePassword}
 									placeholder={t('place.password')}
+									readOnly
 								/>
 							</Input_>
 						</Item_Container>
@@ -555,8 +555,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={note}
-							onChange={onChangeNote}
 							placeholder={t('place.note')}
+							readOnly
 						/>
 					</Input_>
 				</Item_Container>

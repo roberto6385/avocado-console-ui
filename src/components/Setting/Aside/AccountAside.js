@@ -51,7 +51,6 @@ const AccountAside = () => {
 	const history = useHistory();
 	const {theme, account} = useSelector((state) => state.common);
 
-	console.log(account);
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);
