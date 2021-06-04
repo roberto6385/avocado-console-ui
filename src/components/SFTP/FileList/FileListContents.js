@@ -252,87 +252,83 @@ const FileListContents = ({uuid}) => {
 				<TableHead uuid={uuid} />
 				<_Tbody
 					active={serverFolderBackColor[theme]}
-					className={
-						fileList.length === pathList.length &&
-						currentFileList.length !== 0
-							? ''
-							: 'blurEffect'
-					}
+					// className={
+					// 	fileList.length === pathList.length &&
+					// 	currentFileList.length !== 0
+					// 		? ''
+					// 		: 'blurEffect'
+					// }
 				>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
-						if (
-							pathList[pathList.length - 1] === '/' &&
-							item.name === '..'
-						)
-							return;
-						if (item.name === '.') return;
-						return (
-							<_Tr
-								color={fontColor[theme]}
-								b_color={borderColor[theme]}
-								onContextMenu={contextMenuOpen(item)}
-								onClick={selectItem({item, index})}
-								onDoubleClick={changePath(item)}
-								key={index + uuid}
-								className={
-									highlight.includes(item)
-										? 'highlight_tbody active'
-										: 'highlight_tbody'
-								}
-							>
-								<Th min={'150px'} flex={1}>
-									{item.type === 'directory' ? (
-										<IconContainer
-											color={MINT_COLOR}
-											margin={`0px 8px 0px 0px`}
-										>
-											{folderOpenIcon}
-										</IconContainer>
-									) : (
-										<IconContainer
-											margin={`0px 8px 0px 0px`}
-										>
-											{fileIcon}
-										</IconContainer>
-									)}
+						if (item.name !== '..' && item.name !== '.') {
+							return (
+								<_Tr
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
+									onContextMenu={contextMenuOpen(item)}
+									onClick={selectItem({item, index})}
+									onDoubleClick={changePath(item)}
+									key={index + uuid}
+									className={
+										highlight.includes(item)
+											? 'highlight_tbody active'
+											: 'highlight_tbody'
+									}
+								>
+									<Th min={'150px'} flex={1}>
+										{item.type === 'directory' ? (
+											<IconContainer
+												color={MINT_COLOR}
+												margin={`0px 8px 0px 0px`}
+											>
+												{folderOpenIcon}
+											</IconContainer>
+										) : (
+											<IconContainer
+												margin={`0px 8px 0px 0px`}
+											>
+												{fileIcon}
+											</IconContainer>
+										)}
 
-									<span className='filelist_contents'>
-										{item.name}
-									</span>
-								</Th>
-								<Th min={'135px'} justify='flex-end'>
-									{item.name !== '..' &&
-										formatByteSizeString(item.size)}
-								</Th>
-								<Th min={'212px'}>
-									{item.name !== '..' &&
-										dataFormater({
-											modify: item.lastModified,
-											keyword: 'format',
-										})}
-								</Th>
-								<Th min={'105px'}>{item.permission}</Th>
-								<Th min={'100px'} justify={'flex-end'}>
-									{item.type === 'file' && (
-										<IconButton
-											color={iconColor[theme]}
-											onClick={edit(item)}
-										>
-											{editIcon}
-										</IconButton>
-									)}
-									{item.name !== '..' && (
-										<IconButton
-											color={iconColor[theme]}
-											onClick={download(item)}
-										>
-											{fileDownloadIcon}
-										</IconButton>
-									)}
-								</Th>
-							</_Tr>
-						);
+										<span className='filelist_contents'>
+											{item.name}
+										</span>
+									</Th>
+									<Th min={'135px'} justify='flex-end'>
+										{item.name !== '..' &&
+											formatByteSizeString(item.size)}
+									</Th>
+									<Th min={'212px'}>
+										{item.name !== '..' &&
+											dataFormater({
+												modify: item.lastModified,
+												keyword: 'format',
+											})}
+									</Th>
+									<Th min={'105px'}>{item.permission}</Th>
+									<Th min={'100px'} justify={'flex-end'}>
+										{item.type === 'file' && (
+											<IconButton
+												color={iconColor[theme]}
+												onClick={edit(item)}
+											>
+												{editIcon}
+											</IconButton>
+										)}
+										{item.name !== '..' && (
+											<IconButton
+												color={iconColor[theme]}
+												onClick={download(item)}
+											>
+												{fileDownloadIcon}
+											</IconButton>
+										)}
+									</Th>
+								</_Tr>
+							);
+						}
 					})}
 				</_Tbody>
 			</_Table>

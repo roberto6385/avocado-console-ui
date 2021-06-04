@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
@@ -34,6 +34,7 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
+import {sortFunction} from '../listConversion';
 
 const _Container = styled.div`
 	display: flex;
@@ -86,7 +87,7 @@ const _Span = styled.span`
 
 const _Li = styled.li`
 	background: ${(props) => props?.back};
-	width: 100%;
+	min-width: 220px;
 	height: ${THIRD_HEIGHT};
 	white-space: nowrap;
 	padding: 16px 12px;
@@ -100,7 +101,17 @@ const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight, path, tempItem} = corServer;
+	const {
+		fileList,
+		pathList,
+		highlight,
+		path,
+		tempItem,
+		sortKeyword,
+		toggle,
+	} = corServer;
+	const [currentFileList, setCurrentFileList] = useState([]);
+	const [currentKey, setCurrentKey] = useState(sortKeyword);
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -343,15 +354,38 @@ const FileListDropDown = ({uuid}) => {
 		[corServer],
 	);
 
+	useEffect(() => {
+		if (
+			fileList.length === pathList.length &&
+			pathList.length !== 0 &&
+			fileList.length !== 0
+		) {
+			let nextList = [];
+			fileList.forEach((v) => {
+				nextList.push(
+					sortFunction({
+						fileList: v,
+						keyword: sortKeyword,
+						toggle: currentKey === sortKeyword ? toggle : true,
+					}),
+				);
+			});
+			setCurrentKey(sortKeyword);
+			setCurrentFileList(nextList);
+		}
+	}, [fileList, sortKeyword, toggle, path]);
+
+	console.log(currentFileList);
+
 	return (
 		<_Container
-			className={
-				fileList.length === pathList.length && fileList.length !== 0
-					? ''
-					: 'blurEffect'
-			}
+		// className={
+		// fileList.length === pathList.length && fileList.length !== 0
+		// 	? ''
+		// 	: 'blurEffect'
+		// }
 		>
-			{fileList.map((listItem, listindex) => {
+			{currentFileList.map((listItem, listindex) => {
 				return (
 					<_Ul
 						width={
