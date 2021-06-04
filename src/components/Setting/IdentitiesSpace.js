@@ -11,23 +11,18 @@ import {
 	borderColor,
 	backColor,
 	serverFolderBackColor,
-	sideColor,
 	IconContainer,
 	iconColor,
 	SEARCH_INPUT_WIDTH,
-	SEARCH_INPUT_HEIGHT,
 	SSH_SFTP_HEADER_HEIGHT,
 	FOOTER_HEIGHT,
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {OPEN_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {
-	ACCOUT_CONTROL_ID,
 	CHANGE_CURRENT_RESOURCE_KEY,
 	CHANGE_IDENTITY_CHECKED,
 } from '../../reducers/common';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {searchIcon} from '../../icons/icons';
 import useInput from '../../hooks/useInput';
 

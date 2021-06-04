@@ -49,8 +49,9 @@ const _Button = styled.button`
 const AccountAside = () => {
 	const {t} = useTranslation('accountAside');
 	const history = useHistory();
-	const {theme} = useSelector((state) => state.common);
+	const {theme, account} = useSelector((state) => state.common);
 
+	console.log(account);
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);
@@ -58,9 +59,6 @@ const AccountAside = () => {
 		[],
 	);
 
-	const [account, setAccount] = useState('');
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
 	return (
 		<_Container color={fontColor[theme]}>
 			<Input_ title={t('account')}>
@@ -68,9 +66,9 @@ const AccountAside = () => {
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
-					value={account}
-					onChange={(e) => setAccount(e.target.value)}
+					value={account.account}
 					placeholder={t('accountPlace')}
+					readOnly
 				/>
 			</Input_>
 			<Input_ title={t('name')}>
@@ -78,9 +76,9 @@ const AccountAside = () => {
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
-					value={name}
-					onChange={(e) => setName(e.target.value)}
+					value={account.name}
 					placeholder={t('namePlace')}
+					readOnly
 				/>
 			</Input_>
 			<Input_ title={t('email')}>
@@ -88,9 +86,9 @@ const AccountAside = () => {
 					back={inputColor[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					value={account.email}
 					placeholder={t('emailPlace')}
+					readOnly
 				/>
 			</Input_>
 			<Input_ title={t('auth')}>

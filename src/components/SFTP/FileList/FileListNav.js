@@ -139,17 +139,13 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container b_color={borderColor[theme]}>
-			<_IconButton
-				color={mode === 'list' ? MINT_COLOR : iconColor[theme]}
-				onClick={basicList}
-			>
-				{viewListIcon}
+			<_IconButton onClick={basicList}>
+				{viewListIcon(mode === 'list' ? MINT_COLOR : iconColor[theme])}
 			</_IconButton>
-			<_IconButton
-				color={mode === 'drop' ? MINT_COLOR : iconColor[theme]}
-				onClick={dropdownList}
-			>
-				{viewColumnIcon}
+			<_IconButton onClick={dropdownList}>
+				{viewColumnIcon(
+					mode === 'drop' ? MINT_COLOR : iconColor[theme],
+				)}
 			</_IconButton>
 			<_IconButton color={iconColor[theme]} onClick={goBack}>
 				{arrowUpwordIcon}

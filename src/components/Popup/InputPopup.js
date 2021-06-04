@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {IoCloseOutline} from 'react-icons/all';
 import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
@@ -17,6 +16,7 @@ import {
 	PrimaryButton,
 	BorderButton,
 } from '../../styles/global';
+import {closeIconMedium} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -197,9 +197,7 @@ const InputPopup = () => {
 		>
 			<_Header>
 				<_HeaderText>{HeaderMessage[input_popup.key]}</_HeaderText>
-				<IconButton onClick={closeModal}>
-					<IoCloseOutline />
-				</IconButton>
+				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
 			</_Header>
 
 			<_Form onSubmit={submitFunction}>

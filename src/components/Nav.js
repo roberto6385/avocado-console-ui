@@ -11,7 +11,6 @@ import {
 	SEARCH_INPUT_WIDTH,
 	SUB_HEIGHT,
 	THIRD_HEIGHT,
-	DefaultButton,
 	IconContainer,
 	sideColor,
 	fontColor,

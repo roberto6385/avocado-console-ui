@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -13,13 +13,11 @@ import {
 	iconColor,
 	IconContainer,
 	MAIN_HEIGHT,
-	RIGHT_SIDE_WIDTH,
 	sideColor,
 	Span,
 	TAB_WIDTH,
 } from '../styles/global';
-import {RiTerminalFill} from 'react-icons/all';
-import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
@@ -77,6 +75,26 @@ const _MainSpace = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	position: relative;
+
+	.work {
+		margin-right: 300px;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.work.close {
+		margin: 0;
+	}
+
+	.aside {
+		position: absolute;
+		right: 0px;
+		display: inline-block;
+		transition: all 0.5s ease-in-out;
+	}
+	.aside.close {
+		transform: translateX(300px);
+	}
 `;
 
 const _WorkSpaceContainer = styled.div`
@@ -196,9 +214,12 @@ const WorkSpace = () => {
 										}
 									>
 										<IconContainer padding={'6px'}>
-											{data.type === 'SSH' && (
-												<RiTerminalFill />
-											)}
+											{data.type === 'SSH' &&
+												sshIcon(
+													current_tab === data.uuid
+														? GREEN_COLOR
+														: fontColor[theme],
+												)}
 											{data.type === 'SFTP' &&
 												sftpIconSmall}
 										</IconContainer>
@@ -217,13 +238,15 @@ const WorkSpace = () => {
 							);
 						})}
 					</_TabsContianer>
-					<RightCornerIcons setToggle={setToggle} />
+					<RightCornerIcons toggle={toggle} setToggle={setToggle} />
 				</_Nav>
 				<_MainSpace>
-					<_WorkSpaceContainer>
+					<_WorkSpaceContainer
+						className={toggle ? 'work' : 'work close'}
+					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
-					{toggle && <AsideContainer />}
+					<AsideContainer toggle={toggle} setToggle={setToggle} />
 				</_MainSpace>
 			</_MainContainer>
 		</_Container>

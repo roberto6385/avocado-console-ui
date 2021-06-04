@@ -4,8 +4,6 @@ import styled from 'styled-components';
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
-export const FONT_COLOR = 'rgba(0,0,0,0.87)'; //other icon color
-export const CANCEL_BUTTON_COLOR = 'rgba(60,76,81,0.24)';
 
 export const MINT_COLOR = '#4ca6a8';
 

@@ -78,8 +78,8 @@ const PreferencesSpace = () => {
 		{value: 1, label: t('dark')},
 	];
 	const languageOptions = [
-		{value: 'en', label: t('en')},
-		{value: 'ko', label: t('ko')},
+		{value: 'en-US', label: t('en')},
+		{value: 'ko-KR', label: t('ko')},
 	];
 
 	useEffect(() => {

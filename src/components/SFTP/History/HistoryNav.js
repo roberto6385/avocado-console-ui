@@ -82,7 +82,7 @@ const HistoryNav = ({uuid}) => {
 			<Span color={fontColor[theme]}>{t('title')}</Span>
 			<div>
 				<IconButton color={iconColor[theme]} onClick={upload}>
-					{fileUploadIcon}
+					{fileUploadIcon()}
 				</IconButton>
 				<IconButton
 					color={iconColor[theme]}

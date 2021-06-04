@@ -21,10 +21,9 @@ import {
 	GREEN_COLOR,
 	IconContainer,
 } from '../styles/global';
-import {RiTerminalFill} from 'react-icons/all';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 
 const _Container = styled.div`
 	height: 100%;
@@ -103,7 +102,7 @@ const Pane = ({uuid, type, server}) => {
 					<_HeaderText color={fontColor[theme]}>
 						{type === 'SSH' && (
 							<IconContainer padding={'0px 8px 0px 0px'}>
-								<RiTerminalFill />
+								{sshIcon('black')}
 							</IconContainer>
 						)}
 						{type === 'SFTP' && (

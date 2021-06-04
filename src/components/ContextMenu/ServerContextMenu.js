@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';

@@ -30,7 +30,7 @@ const CornerIcons_Container = styled.div`
 	height: 100%;
 `;
 
-const RightCornerIcons = ({setToggle}) => {
+const RightCornerIcons = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -65,15 +65,14 @@ const RightCornerIcons = ({setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			if (rightSideKey === key || key === '') {
-				dispatch({type: RIGHT_SIDE_KEY, payload: ''});
+			if (toggle && rightSideKey === key) {
 				setToggle(false);
 			} else {
 				dispatch({type: RIGHT_SIDE_KEY, payload: key});
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey],
+		[dispatch, rightSideKey, toggle],
 	);
 
 	const setting_list = [
@@ -131,10 +130,7 @@ const RightCornerIcons = ({setToggle}) => {
 			{/*/>*/}
 			<DropdownMenu_
 				icon={
-					<IconContainer
-						onClick={openSideMenu('')}
-						color={iconColor[theme]}
-					>
+					<IconContainer color={iconColor[theme]}>
 						{settingIcon}
 					</IconContainer>
 				}
@@ -159,6 +155,7 @@ const RightCornerIcons = ({setToggle}) => {
 
 RightCornerIcons.propTypes = {
 	setToggle: PropTypes.func.isRequired,
+	toggle: PropTypes.bool.isRequired,
 };
 
 export default RightCornerIcons;

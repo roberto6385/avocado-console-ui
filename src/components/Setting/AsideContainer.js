@@ -1,5 +1,5 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {
@@ -9,10 +9,14 @@ import {
 	sideColor,
 	fontColor,
 	borderColor,
+	IconButton,
 } from '../../styles/global';
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
+import {closeIconMedium} from '../../icons/icons';
+import {RIGHT_SIDE_KEY} from '../../reducers/common';
+import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	height: 100%;
@@ -36,22 +40,36 @@ const _Header = styled.div`
 	color: ${(props) => props.color};
 `;
 
-const AsideContainer = () => {
+const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('asideContainer');
 	const {rightSideKey, theme} = useSelector((state) => state.common);
 
+	const closeAside = useCallback(() => {
+		setToggle(false);
+	}, []);
+
 	return (
-		<_Container back={sideColor[theme]} b_color={borderColor[theme]}>
+		<_Container
+			className={toggle ? 'aside' : 'aside close'}
+			back={sideColor[theme]}
+			b_color={borderColor[theme]}
+		>
 			<_Header color={fontColor[theme]} b_color={borderColor[theme]}>
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
+				<IconButton onClick={closeAside}>{closeIconMedium}</IconButton>
 			</_Header>
 			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}
 			{rightSideKey === 'Identities' && <IdentitiesAside />}
 		</_Container>
 	);
+};
+
+AsideContainer.propTypes = {
+	toggle: PropTypes.bool.isRequired,
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default AsideContainer;

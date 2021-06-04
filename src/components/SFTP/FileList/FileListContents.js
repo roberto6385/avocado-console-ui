@@ -92,7 +92,7 @@ const _Tr = styled.tr`
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const {theme, lang} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
 	const dispatch = useDispatch();
@@ -103,6 +103,8 @@ const FileListContents = ({uuid}) => {
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});
+
+	console.log(lang);
 
 	const download = useCallback(
 		(item) => (e) => {
@@ -305,6 +307,7 @@ const FileListContents = ({uuid}) => {
 											dataFormater({
 												modify: item.lastModified,
 												keyword: 'format',
+												language: lang,
 											})}
 									</Th>
 									<Th min={'105px'}>{item.permission}</Th>

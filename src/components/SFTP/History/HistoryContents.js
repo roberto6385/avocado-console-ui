@@ -44,6 +44,7 @@ import {
 	arrowCircleUpIconSmall,
 	buildCircleIconSmall,
 	deleteIconMidium,
+	fileUploadIcon,
 	pauseCircleIconSmall,
 	removeCircleIconSmall,
 } from '../../../icons/icons';
@@ -290,7 +291,7 @@ const HistoryContents = ({uuid}) => {
 						{t('paragraph')}
 					</Span>
 					<DropSpace_Button onClick={openUpload}>
-						<span className='material-icons'>file_upload</span>
+						{fileUploadIcon('white')}
 						<Span>{t('browse')}</Span>
 					</DropSpace_Button>
 				</DropSpaceDiv>
