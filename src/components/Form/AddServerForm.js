@@ -409,8 +409,9 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={name}
-							placeholder={t('place.name')}
+							// onChange={onChangeName}
 							readOnly
+							placeholder={t('place.name')}
 						/>
 					</Input_>
 					<Select_
@@ -432,8 +433,9 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={host}
-							placeholder={t('place.address')}
+							// onChange={onChangeHost}
 							readOnly
+							placeholder={t('place.address')}
 						/>
 					</Input_>
 
@@ -444,8 +446,9 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='number'
 							value={port}
-							placeholder={t('place.port')}
+							// onChange={onChangePort}
 							readOnly
+							placeholder={t('place.port')}
 						/>
 					</Input_>
 				</Item_Container>
@@ -479,8 +482,9 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={username}
-							placeholder={t('place.userName')}
+							// onChange={onChangeUsername}
 							readOnly
+							placeholder={t('place.userName')}
 						/>
 					</Input_>
 				</Item_Container>
@@ -493,8 +497,9 @@ const AddServerForm = () => {
 								b_color={borderColor[theme]}
 								type='password'
 								value={password}
-								placeholder={t('place.password')}
+								// onChange={onChangePassword}
 								readOnly
+								placeholder={t('place.password')}
 							/>
 						</Input_>
 					</Item_Container>
@@ -513,8 +518,9 @@ const AddServerForm = () => {
 										type='file'
 										id={'add_server_form_type_file'}
 										value={keyFile}
-										placeholder={t('keyFile')}
+										// onChange={onChangeKeyFile}
 										readOnly
+										placeholder={t('keyFile')}
 									/>
 								</_Label>
 							</Input_>
@@ -540,8 +546,9 @@ const AddServerForm = () => {
 									b_color={borderColor[theme]}
 									type='password'
 									value={password}
-									placeholder={t('place.password')}
+									// onChange={onChangePassword}
 									readOnly
+									placeholder={t('place.password')}
 								/>
 							</Input_>
 						</Item_Container>
@@ -555,8 +562,9 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={note}
-							placeholder={t('place.note')}
+							// onChange={onChangeNote}
 							readOnly
+							placeholder={t('place.note')}
 						/>
 					</Input_>
 				</Item_Container>
