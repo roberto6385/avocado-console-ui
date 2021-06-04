@@ -15,7 +15,6 @@ import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIconMedium} from '../../icons/icons';
-import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import PropTypes from 'prop-types';
 
 const _Container = styled.div`

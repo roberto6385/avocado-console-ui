@@ -122,7 +122,7 @@ const Pane = ({uuid, type, server}) => {
 			)}
 
 			{type === 'SSH' && (
-				<SSHContainer uuid={uuid} server_id={server.id} />
+				<SSHContainer uuid={uuid} server={server} />
 			)}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>

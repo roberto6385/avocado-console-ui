@@ -11,17 +11,14 @@ import {
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
-const ServerContextMenu = ({data, setOpenRename}) => {
+const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 
 	const dispatch = useDispatch();
-	const {server, identity} = useSelector((state) => state.common);
+	const {server} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
 	const correspondedServer = server.find((i) => i.key === data.key);
-	const correspondedIdentity = identity.find(
-		(it) => it.key === data.key && it.checked === true,
-	);
 
 	const Ssh2ServerContextMenuMessage = {
 		connect: t('connectSsh'),
@@ -40,9 +37,6 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		const correspondedIdentity = identity.find(
-			(i) => i.key === data.key && i.checked === true,
-		);
 		console.log(correspondedIdentity);
 
 		dispatch(
@@ -53,13 +47,10 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 				password: correspondedIdentity.password,
 			}),
 		);
-	}, [server, userTicket, identity, data, correspondedIdentity]);
+	}, [server, userTicket, data, correspondedIdentity]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		const correspondedIdentity = identity.find(
-			(i) => i.key === data.key && i.checked === true,
-		);
 
 		console.log(correspondedIdentity);
 		dispatch({
@@ -71,7 +62,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 				password: correspondedIdentity.password,
 			},
 		});
-	}, [server, data, userTicket, identity, correspondedIdentity]);
+	}, [server, data, userTicket, correspondedIdentity]);
 
 	const handleItemClick = useCallback(
 		(v) => () => {
@@ -102,7 +93,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 					return;
 			}
 		},
-		[],
+		[correspondedIdentity],
 	);
 
 	return (
@@ -128,6 +119,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 
 ServerContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
+	correspondedIdentity: PropTypes.object.isRequired,
 	setOpenRename: PropTypes.func.isRequired,
 };
 

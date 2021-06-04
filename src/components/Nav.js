@@ -16,6 +16,7 @@ import {
 	fontColor,
 	iconColor,
 	borderColor,
+	GRAY_COLOR,
 } from '../styles/global';
 import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
@@ -23,12 +24,15 @@ import useInput from '../hooks/useInput';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+	arrowRightIconMidium,
 	burgerMenuIcon,
+	navNextIcon,
 	newFolderIcon,
 	plusIcon,
 	searchIcon,
 } from '../icons/icons';
 import {ADD_FOLDER} from '../reducers/common';
+import PropTypes from 'prop-types';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -37,6 +41,7 @@ const _Aside = styled.aside`
 	min-width: ${SIDE_WIDTH};
 	border-right: 1px solid;
 	border-color: ${(props) => props.b_Color};
+	height: 100%;
 `;
 
 const _Header = styled.div`
@@ -87,17 +92,27 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _HideSpace = styled.div`
-	display: flex;
-	width: 57px;
+const _OpenButton = styled.div`
+	outline: none;
+	line-height: 0px;
+	color: ${GRAY_COLOR};
+	cursor: pointer;
+	border: 1px solid ${GRAY_COLOR};
+
+	position: absolute;
+	padding: 8px;
+	border-radius: 50%;
 	background: ${(props) => props?.back};
+	right: -36px;
+	bottom: 10px;
+	z-index: 5;
+	display: ${(props) => props?.display};
 `;
 
-const _ToggleButton = styled(IconButton)`
-	height: 60px;
-	padding: 16px 16px 17px 16px;
+const _Right = styled.span`
+	position: relative;
+	right: -13px;
 `;
-
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
 
@@ -112,14 +127,11 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const Nav = () => {
+const Nav = ({toggle, setToggle}) => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
-	const {nav, theme, createdFolderInfo} = useSelector(
-		(state) => state.common,
-	);
+	const {nav, theme} = useSelector((state) => state.common);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const [toggle, setToggle] = useState(true);
 
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
@@ -139,8 +151,20 @@ const Nav = () => {
 		});
 	}, [dispatch]);
 
-	return toggle ? (
-		<_Aside b_Color={borderColor[theme]}>
+	return (
+		<_Aside
+			className={toggle ? 'nav' : 'nav close'}
+			b_Color={borderColor[theme]}
+		>
+			<_OpenButton
+				onClick={() => setToggle(!toggle)}
+				back={sideColor[theme]}
+				display={toggle ? 'none' : 'inline-block'}
+			>
+				<_Right className='material-icons button_super'>
+					navigate_next
+				</_Right>
+			</_OpenButton>
 			<_Header back={sideColor[theme]}>
 				<IconButton
 					color={iconColor[theme]}
@@ -177,16 +201,22 @@ const Nav = () => {
 			</_Form>
 			<ServerFolderList search={search} />
 		</_Aside>
-	) : (
-		<_HideSpace back={sideColor[theme]}>
-			<_ToggleButton
-				color={iconColor[theme]}
-				onClick={() => setToggle(!toggle)}
-			>
-				{burgerMenuIcon}
-			</_ToggleButton>
-		</_HideSpace>
 	);
+	// ) : (
+	// 	<_HideSpace back={sideColor[theme]}>
+	// 		<_ToggleButton
+	// 			color={iconColor[theme]}
+	// 			onClick={() => setToggle(!toggle)}
+	// 		>
+	// 			{burgerMenuIcon}
+	// 		</_ToggleButton>
+	// 	</_HideSpace>
+	// );
+};
+
+Nav.propTypes = {
+	toggle: PropTypes.bool.isRequired,
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default Nav;

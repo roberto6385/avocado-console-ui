@@ -303,6 +303,10 @@ export const fileUploadIcon = (color = '#959EA1') => (
 	</svg>
 );
 
+export const navNextIcon = (
+	<span className='material-icons button_super'>navigate_next</span>
+);
+
 // filelist nav 상위경로, drop, list, refresh 아이콘
 export const arrowUpwordIcon = (
 	<span className='material-icons '>arrow_upward</span>

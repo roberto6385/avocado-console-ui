@@ -20,6 +20,7 @@ const _Contents = styled.div`
 	align-items: center;
 	justify-content: space-around;
 	height: 130px;
+	min-width: 600px;
 `;
 
 const _Text = styled.div`

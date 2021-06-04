@@ -31,6 +31,27 @@ const _Container = styled.div`
 	flex: 1;
 	height: 100%;
 	width: 100%;
+	position: relative;
+
+	.mainContainer {
+		margin-left: 256px;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.mainContainer.close {
+		margin: 0;
+	}
+
+	.nav {
+		position: absolute;
+		left: 0px;
+		display: inline-block;
+		transition: all 0.5s ease-in-out;
+	}
+	.nav.close {
+		transform: translateX(-256px);
+		z-index: 10;
+	}
 `;
 
 const _MainContainer = styled.div`
@@ -120,7 +141,8 @@ const WorkSpace = () => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
-	const [toggle, setToggle] = useState(false);
+	const [asideToggle, setAsideToggle] = useState(false);
+	const [navToggle, setNavToggle] = useState(true);
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
@@ -178,8 +200,10 @@ const WorkSpace = () => {
 
 	return (
 		<_Container>
-			<Nav />
-			<_MainContainer>
+			<Nav toggle={navToggle} setToggle={setNavToggle} />
+			<_MainContainer
+				className={navToggle ? 'mainContainer' : 'mainContainer close'}
+			>
 				<_Nav
 					back={
 						tab.length !== 0 ? backColor[theme] : sideColor[theme]
@@ -238,15 +262,21 @@ const WorkSpace = () => {
 							);
 						})}
 					</_TabsContianer>
-					<RightCornerIcons toggle={toggle} setToggle={setToggle} />
+					<RightCornerIcons
+						toggle={asideToggle}
+						setToggle={setAsideToggle}
+					/>
 				</_Nav>
 				<_MainSpace>
 					<_WorkSpaceContainer
-						className={toggle ? 'work' : 'work close'}
+						className={asideToggle ? 'work' : 'work close'}
 					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
-					<AsideContainer toggle={toggle} setToggle={setToggle} />
+					<AsideContainer
+						toggle={asideToggle}
+						setToggle={setAsideToggle}
+					/>
 				</_MainSpace>
 			</_MainContainer>
 		</_Container>

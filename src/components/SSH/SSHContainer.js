@@ -28,7 +28,7 @@ const _Header = styled.div`
 	background: ${(props) => props.back};
 `;
 
-const SSHContainer = ({uuid, server_id}) => {
+const SSHContainer = ({uuid, server}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 	const {ssht, snippets} = useSelector((state) => state.ssht);
@@ -74,7 +74,7 @@ const SSHContainer = ({uuid, server_id}) => {
 		<_Container>
 			<_Header back={sideColor[theme]}>
 				<DropdownMenu_ icon={snippetIcon} menu={column} />
-				<SFTPConvertButton server_id={server_id} />
+				<SFTPConvertButton data={server} />
 				<IconButton onClick={onCLickFullScreen}>
 					{fullScreenIcon}
 				</IconButton>
@@ -87,7 +87,7 @@ const SSHContainer = ({uuid, server_id}) => {
 
 SSHContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	server_id: PropTypes.number.isRequired,
+	server: PropTypes.object.isRequired,
 };
 
 export default SSHContainer;

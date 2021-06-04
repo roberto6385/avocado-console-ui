@@ -57,6 +57,10 @@ ul {
 
 /* button size */
 /*기본 버튼 사이즈가 24px 이라서 className을 부여하지 않아도 됨*/
+.button_super {
+	font-size: 50px;
+}
+
 .button_midium {
 	font-size: 20px;
 }
