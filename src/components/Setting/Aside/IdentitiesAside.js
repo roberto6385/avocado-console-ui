@@ -116,7 +116,7 @@ const IdentitiesAside = () => {
 						<_Span>{t('auth')}</_Span>
 					</_AuthenticationContainer>
 					<_CheckboxContainer>
-						<_Span>Current</_Span>
+						<_Span>{t('default')}</_Span>
 					</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {

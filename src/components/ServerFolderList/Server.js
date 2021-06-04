@@ -69,7 +69,6 @@ const Server = ({data, indent}) => {
 			const correspondedIdentity = identity.find(
 				(it) => it.key === data.key && it.checked === true,
 			);
-			console.log(correspondedIdentity);
 
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
@@ -178,16 +177,6 @@ const Server = ({data, indent}) => {
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{/*<Avocado_span*/}
-				{/*	size={MIDDLE_FONTSIZE}*/}
-				{/*	color={*/}
-				{/*		clicked_server === data.key*/}
-				{/*			? GREEN_COLOR*/}
-				{/*			: ICON_LIGHT_COLOR*/}
-				{/*	}*/}
-				{/*>*/}
-				{/*	<FaServerIcon />*/}
-				{/*</Avocado_span>*/}
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}

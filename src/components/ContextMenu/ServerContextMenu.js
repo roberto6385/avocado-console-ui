@@ -20,7 +20,7 @@ const ServerContextMenu = ({data, setOpenRename}) => {
 	const MENU_ID = data.key + 'server';
 	const correspondedServer = server.find((i) => i.key === data.key);
 	const correspondedIdentity = identity.find(
-		(i) => i.key === data.key && i.checked === true,
+		(it) => it.key === data.key && it.checked === true,
 	);
 
 	const Ssh2ServerContextMenuMessage = {
