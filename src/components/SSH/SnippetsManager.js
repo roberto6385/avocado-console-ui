@@ -258,13 +258,16 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);
 			setContent(snippets[0].content);
-			nameInput.current?.focus();
 		} else {
 			setClickedSnippet(null);
 			setName('');
 			setContent('');
 		}
 	}, [open, snippets, nameInput]);
+
+	useEffect(() => {
+		nameInput.current?.focus();
+	}, [clickedSnippet]);
 
 	return (
 		<_Modal

@@ -12,6 +12,7 @@ import {
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
+	SSH_SET_CURRENT_LINE,
 } from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
@@ -74,12 +75,12 @@ const SSH = ({uuid}) => {
 		ssht,
 		ssh_history,
 		auto_complete_mode,
-		current_line,
 	} = useSelector((state) => state.ssht);
+	const currentLine = ssht.find((v) => v.uuid === uuid).current_line;
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [currentHistory, setCurrentHistory] = useState(0);
 	const [historyList, setHistoryList] = useState(
-		ssh_history.filter((v) => v.startsWith(current_line)),
+		ssh_history.filter((v) => v.startsWith(currentLine)),
 	);
 	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
@@ -105,11 +106,19 @@ const SSH = ({uuid}) => {
 				data: {
 					uuid: uuid,
 					ws: ws.current,
-					input: v.substring(current_line.length),
+					input: v.substring(currentLine.length),
+				},
+			});
+			dispatch({
+				type: SSH_SEND_COMMAND_REQUEST,
+				data: {
+					uuid: uuid,
+					ws: ws.current,
+					input: '\r',
 				},
 			});
 		},
-		[sshTerm, current_line, uuid, ws],
+		[sshTerm, currentLine, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
@@ -136,23 +145,51 @@ const SSH = ({uuid}) => {
 		sshTerm.loadAddon(searchAddon.current);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
 		fitAddon.current.fit();
-		return () => {};
 	}, [uuid]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
-			if (auto_complete_mode && data.charCodeAt(0) === 27) {
+			if (
+				auto_complete_mode &&
+				currentLine !== '' &&
+				data.charCodeAt(0) === 27
+			) {
 				if (data.substr(1) === '[A') {
-					console.log('UP');
+					//Up
 					if (currentHistory === 0)
 						setCurrentHistory(historyList.length - 1);
 					else setCurrentHistory(currentHistory - 1);
 				} else if (data.substr(1) === '[B') {
+					//Down
 					if (currentHistory === historyList.length - 1)
 						setCurrentHistory(0);
 					else setCurrentHistory(currentHistory + 1);
 				}
-				console.log(currentHistory);
+			} else if (
+				auto_complete_mode &&
+				currentLine !== '' &&
+				data.charCodeAt(0) === 13 &&
+				historyList.length > 0
+			) {
+				//Enter
+				dispatch({
+					type: SSH_SEND_COMMAND_REQUEST,
+					data: {
+						uuid: uuid,
+						ws: ws.current,
+						input: historyList[currentHistory].substring(
+							currentLine.length,
+						),
+					},
+				});
+				dispatch({
+					type: SSH_SEND_COMMAND_REQUEST,
+					data: {
+						uuid: uuid,
+						ws: ws.current,
+						input: '\r',
+					},
+				});
 			} else {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
@@ -167,7 +204,7 @@ const SSH = ({uuid}) => {
 		return () => {
 			processInput.dispose();
 		};
-	}, [uuid, ws, sshTerm, auto_complete_mode]);
+	}, [uuid, ws, sshTerm, auto_complete_mode, currentHistory, historyList]);
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
@@ -176,12 +213,12 @@ const SSH = ({uuid}) => {
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
 		fitAddon.current.fit();
-	}, [font]);
+	}, [font, fitAddon]);
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
 		fitAddon.current.fit();
-	}, [font_size]);
+	}, [font_size, fitAddon]);
 	//window size change
 	useEffect(() => {
 		if (width > 0 && height > 0 && uuid) {
@@ -200,7 +237,7 @@ const SSH = ({uuid}) => {
 				},
 			});
 		}
-	}, [ws, uuid, sshTerm, width, height]);
+	}, [ws, uuid, sshTerm, width, height, fitAddon]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -221,13 +258,13 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 	//set History List
 	useEffect(() => {
-		if (auto_complete_mode && current_line !== '') {
+		if (auto_complete_mode && currentLine !== '') {
 			setHistoryList(
-				ssh_history.filter((v) => v.startsWith(current_line)),
+				ssh_history.filter((v) => v.startsWith(currentLine)),
 			);
 			setCurrentHistory(0);
 		}
-	}, [auto_complete_mode, ssh_history, current_line]);
+	}, [auto_complete_mode, ssh_history, currentLine]);
 
 	return (
 		<_Container ref={ref}>
@@ -240,7 +277,7 @@ const SSH = ({uuid}) => {
 					zIndex: '5',
 				}}
 			>
-				{current_line !== '' &&
+				{currentLine !== '' &&
 					auto_complete_mode &&
 					historyList.map((v, i) =>
 						i === currentHistory ? (

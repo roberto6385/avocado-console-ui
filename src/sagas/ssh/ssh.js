@@ -29,7 +29,7 @@ import {closeChannel, subscribe} from '../channel';
 function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
 	const channel = yield call(subscribe, ws);
-	let uuid;
+	let uuid = null;
 
 	try {
 		yield call(ssht_ws_request, {

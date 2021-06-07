@@ -8,7 +8,6 @@ export const initialState = {
 	search_mode: false,
 	auto_complete_mode: true,
 	ssht: [],
-	current_line: '',
 	ssh_history: [],
 	snippets: [
 		{id: 0, name: 'File List', content: 'ls'},
@@ -17,6 +16,8 @@ export const initialState = {
 	snippents_index: 2,
 	tab: false,
 };
+
+export const SSH_SET_CURRENT_LINE = 'SSH_SET_CURRENT_LINE';
 
 export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
 export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
@@ -64,14 +65,15 @@ const reducer = (state = initialState, action) => {
 						cursorBlink: true,
 						minimumContrastRatio: 7,
 						fontFamily: draft.font,
+						fontSize: draft.font_size,
 						letterSpacing: 0,
-
 						theme: {
 							foreground: '#000000',
 							background: '#f8f9fa',
 							selection: '#FCFD08',
 						},
 					}),
+					current_line: '',
 				});
 				break;
 
@@ -92,25 +94,41 @@ const reducer = (state = initialState, action) => {
 			case SSH_SEND_DISCONNECTION_FAILURE:
 				break;
 
-			case SSH_SEND_COMMAND_REQUEST:
+			case SSH_SEND_COMMAND_REQUEST: {
+				const index = draft.ssht.findIndex(
+					(v) => v.uuid === action.data.uuid,
+				);
+				const current_line = draft.ssht[index].current_line;
+
 				if (action.data.input.charCodeAt(0) < 31) {
 					if (action.data.input.charCodeAt(0) === 13) {
+						//input: Enter
 						if (
-							draft.current_line !== '' &&
-							!draft.ssh_history.includes(draft.current_line)
-						)
-							draft.ssh_history.push(draft.current_line);
-						draft.current_line = '';
+							current_line !== '' &&
+							!draft.ssh_history.includes(current_line)
+						) {
+							if (draft.ssh_history.length > 50)
+								draft.ssh_history.shift();
+							draft.ssh_history.push(current_line);
+						}
+						draft.ssht[index].current_line = '';
 					}
 					if (action.data.input.charCodeAt(0) === 9) {
+						//input: Tab
 						draft.tab = true;
 					}
 				} else {
 					if (action.data.input.charCodeAt(0) === 127)
-						draft.current_line = draft.current_line.slice(0, -1);
-					else draft.current_line += action.data.input;
+						//input: BackSpace
+						draft.ssht[index].current_line = current_line.slice(
+							0,
+							-1,
+						);
+					else draft.ssht[index].current_line += action.data.input;
 				}
+				console.log(draft.ssht[index].current_line);
 				break;
+			}
 
 			case SSH_SEND_COMMAND_SUCCESS:
 				{
@@ -124,7 +142,11 @@ const reducer = (state = initialState, action) => {
 					if (draft.tab === true) {
 						draft.tab = false;
 						if (result.charCodeAt(0) > 30)
-							draft.current_line += result;
+							draft.ssht[
+								draft.ssht.findIndex(
+									(v) => v.uuid === action.data.uuid,
+								)
+							].current_line += result;
 					}
 				}
 				break;
@@ -184,6 +206,10 @@ const reducer = (state = initialState, action) => {
 				// });
 				draft.snippets = action.data.snippets;
 				draft.snippents_index = action.data.snippents_index;
+				break;
+
+			case SSH_SET_CURRENT_LINE:
+				draft.current_line = '';
 				break;
 
 			default:
