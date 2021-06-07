@@ -69,9 +69,8 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
-	const pathInput = document.getElementById('fileListNavInput');
-
 	const goHome = (e, nextPath = '/root') => {
+		const pathInput = document.getElementById('fileListNavInput');
 		console.log(nextPath);
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...corServer, newPath: nextPath})) &&
@@ -99,6 +98,8 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const EscapeKey = (e) => {
+		const pathInput = document.getElementById('fileListNavInput');
+
 		if (e.keyCode === 27) {
 			setCurrentPath(path);
 			pathInput.blur();
@@ -130,12 +131,12 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const refresh = useCallback(() => {
-		dispatch(commandPwdAction(corServer));
-	}, [corServer, dispatch]);
+		uuid && dispatch(commandPwdAction(corServer));
+	}, [uuid, corServer, dispatch]);
 
 	useEffect(() => {
-		setCurrentPath(path);
-	}, [corServer]);
+		uuid && setCurrentPath(path);
+	}, [uuid, corServer]);
 
 	return (
 		<_Container b_color={borderColor[theme]}>

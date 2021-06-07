@@ -187,7 +187,6 @@ const HistoryContents = ({uuid}) => {
 		[corServer, dispatch],
 	);
 
-	console.log(history_highlight);
 	const selectItem = useCallback(
 		(selectValue, index) => (e) => {
 			e.stopPropagation();

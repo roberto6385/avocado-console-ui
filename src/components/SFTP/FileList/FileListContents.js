@@ -104,8 +104,6 @@ const FileListContents = ({uuid}) => {
 		id: uuid + 'fileList',
 	});
 
-	console.log(lang);
-
 	const download = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();

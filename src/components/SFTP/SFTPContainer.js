@@ -12,58 +12,48 @@ const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const currentServer = sftp.find((it) => it.uuid === uuid);
-	const {highlight, history_highlight} = currentServer;
+	// const {highlight = [], history_highlight = []} = currentServer;
 	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
-			if (highlight.length === 0 && history_highlight.length === 0) {
-				return;
-			}
+			if (!uuid) return;
+			// if (highlight.length === 0 && history_highlight.length === 0) {
+			// 	return;
+			// }
 			const root = evt.target;
 			console.log(root);
 
-			if (highlight.length !== 0 || history_highlight.length !== 0) {
-				const th = Array.from(evt.currentTarget.querySelectorAll('th'));
-				const path = Array.from(
-					evt.currentTarget.querySelectorAll('path'),
-				);
-				const filelist_contents = Array.from(
-					evt.currentTarget.querySelectorAll('.filelist_contents'),
-				);
+			// if (highlight.length !== 0 || history_highlight.length !== 0) {
+			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
+			const path = Array.from(evt.currentTarget.querySelectorAll('path'));
+			const filelist_contents = Array.from(
+				evt.currentTarget.querySelectorAll('.filelist_contents'),
+			);
 
-				const history_contents = Array.from(
-					evt.currentTarget.querySelectorAll('.history_contents'),
-				);
-				const context = Array.from(
-					evt.currentTarget.querySelectorAll(
-						'.react-contexify__item__content',
-					),
-				);
-				if (
-					highlight.length !== 0 &&
-					!th.includes(root) &&
-					!path.includes(root) &&
-					!filelist_contents.includes(root) &&
-					!context.includes(root)
-				) {
-					dispatch({
-						type: INITIALIZING_HIGHLIGHT,
-						payload: {uuid},
-					});
-				} else if (
-					history_highlight.length !== 0 &&
-					!th.includes(root) &&
-					!path.includes(root) &&
-					!history_contents.includes(root) &&
-					!context.includes(root)
-				) {
-					console.log('여기');
-					dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
-				}
+			const history_contents = Array.from(
+				evt.currentTarget.querySelectorAll('.history_contents'),
+			);
+			const context = Array.from(
+				evt.currentTarget.querySelectorAll(
+					'.react-contexify__item__content',
+				),
+			);
+			if (
+				!th.includes(root) &&
+				!path.includes(root) &&
+				!filelist_contents.includes(root) &&
+				!history_contents.includes(root) &&
+				!context.includes(root)
+			) {
+				dispatch({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+				dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 			}
 		},
-		[highlight, history_highlight],
+		[uuid],
 	);
 
 	useEffect(() => {
@@ -76,7 +66,7 @@ const SFTPContainer = ({uuid}) => {
 
 	useEffect(() => {
 		dispatch(commandPwdAction(currentServer));
-	}, [uuid, dispatch]);
+	}, []);
 
 	return currentServer ? <SFTP uuid={uuid} /> : <div>서버 없음.</div>;
 };
