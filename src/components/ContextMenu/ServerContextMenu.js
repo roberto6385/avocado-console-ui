@@ -29,7 +29,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	};
 
 	const SftpServerContextMenuMessage = {
-		connect: t('connectSftp'),
+		open_sftp: t('connectSftp'),
 		// rename: 'Rename',
 		// delete: 'Delete',
 		properties: t('properties'),

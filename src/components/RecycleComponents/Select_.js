@@ -50,6 +50,7 @@ const _Select = styled(Select)`
 		border-color: ${(props) => props.b_color};
 	}
 	.css-yk16xz-control {
+		z-index: 3;
 		background: ${(props) => props.back};
 		border-color: ${(props) => props.b_color};
 		height: 34px;

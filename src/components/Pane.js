@@ -16,6 +16,7 @@ import {
 	serverFolderBackColor,
 	GREEN_COLOR,
 	IconContainer,
+	backColor,
 } from '../styles/global';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
@@ -89,7 +90,7 @@ const Pane = ({uuid, type, server}) => {
 					back={
 						current_tab === uuid
 							? serverFolderBackColor[theme]
-							: sideColor[theme]
+							: backColor[theme]
 					}
 					bColor={
 						current_tab === uuid ? GREEN_COLOR : borderColor[theme]

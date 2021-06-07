@@ -113,9 +113,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	}, []);
 
 	return (
-		<CornerIcons_Container
-			back={tab.length !== 0 ? backColor[theme] : sideColor[theme]}
-		>
+		<CornerIcons_Container back={sideColor[theme]}>
 			<IconButton onClick={openSideMenu('Account')}>
 				{accountIcon}
 			</IconButton>

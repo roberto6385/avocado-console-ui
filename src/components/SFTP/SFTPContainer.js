@@ -11,13 +11,14 @@ import SFTP from './SFTP';
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
+	const {current_tab} = useSelector((state) => state.common);
 	const currentServer = sftp.find((it) => it.uuid === uuid);
 	// const {highlight = [], history_highlight = []} = currentServer;
 	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
-			if (!uuid) return;
+			if (!uuid || current_tab !== uuid) return;
 			// if (highlight.length === 0 && history_highlight.length === 0) {
 			// 	return;
 			// }

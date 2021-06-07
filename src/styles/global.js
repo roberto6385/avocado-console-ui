@@ -5,8 +5,6 @@ export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 
-export const MINT_COLOR = '#4ca6a8';
-
 export const pauseColor = '#a8a8a8';
 export const downloadColor = '#4ca6a8';
 export const uploadColor = '#4285f4';
@@ -14,6 +12,8 @@ export const editColor = '#E4E723';
 export const deleteColor = '#d45959';
 
 // lightmode color
+export const LIGHT_MODE_MINT_COLOR = '#4ca6a8';
+export const LIGHT_MODE_POPUP_COLOR = '#ffffff';
 export const LIGHT_MODE_SIDE_COLOR = '#ffffff';
 export const LIGHT_MODE_FONT_COLOR = '#212121';
 export const LIGHT_MODE_BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
@@ -22,19 +22,21 @@ export const LIGHT_MODE_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighti
 export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
 export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
 export const LIGHT_MODE_FORM_BACKGROUND_COLOR = '#ffffff';
-export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#ffffff';
+export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#f0f3f6';
 
 // darkmode color
-export const DARK_MODE_SIDE_COLOR = '#1e364d';
+export const DARK_MODE_MINT_COLOR = '#44c8c0';
+export const DARK_MODE_POPUP_COLOR = '#223b52';
+export const DARK_MODE_SIDE_COLOR = '#1e364c';
 export const DARK_MODE_FONT_COLOR = '#ffffff';
 export const DARK_MODE_ICON_COLOR = 'rgba(255,255,255,0.54)';
 export const DARK_MODE_BACKGROUND_MINT_COLOR = 'rgba(0,0,0,0.24)'; // folder,server highlight color
 export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
-export const DARK_MODE_BACKGROUND_COLOR = '#212936';
+export const DARK_MODE_BACKGROUND_COLOR = '#1b2935';
 export const DARK_MODE_BORDER_COLOR = '#192836';
 export const DARK_MODE_FOOTER_BACKGROUND_COLOR = '#18191f';
 export const DARK_MODE_FORM_BACKGROUND_COLOR = '#253c51';
-export const DARK_MODE_INPUT_BACKGROUND_COLOR = '#182e42';
+export const DARK_MODE_INPUT_BACKGROUND_COLOR = 'rgba(0,0,0, 0.22)';
 
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
@@ -68,6 +70,7 @@ export const backColor = [
 	DARK_MODE_BACKGROUND_COLOR,
 ];
 export const sideColor = [LIGHT_MODE_SIDE_COLOR, DARK_MODE_SIDE_COLOR];
+export const popupColor = [LIGHT_MODE_POPUP_COLOR, DARK_MODE_POPUP_COLOR];
 export const fontColor = [LIGHT_MODE_FONT_COLOR, DARK_MODE_FONT_COLOR];
 export const iconColor = [LIGHT_MODE_ICON_COLOR, DARK_MODE_ICON_COLOR];
 export const borderColor = [LIGHT_MODE_BORDER_COLOR, DARK_MODE_BORDER_COLOR];
@@ -87,6 +90,7 @@ export const inputColor = [
 	LIGHT_MODE_INPUT_BACKGROUND_COLOR,
 	DARK_MODE_INPUT_BACKGROUND_COLOR,
 ];
+export const mintColor = [LIGHT_MODE_MINT_COLOR, DARK_MODE_MINT_COLOR];
 
 // height
 export const MAIN_HEIGHT = '60px'; // tab container, logo container

@@ -13,12 +13,13 @@ import {
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	iconColor,
 	fontColor,
 	borderColor,
 	backColor,
+	sideColor, inputColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -141,11 +142,11 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<_IconButton onClick={basicList}>
-				{viewListIcon(mode === 'list' ? MINT_COLOR : iconColor[theme])}
+				{viewListIcon(mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme])}
 			</_IconButton>
 			<_IconButton onClick={dropdownList}>
 				{viewColumnIcon(
-					mode === 'drop' ? MINT_COLOR : iconColor[theme],
+					mode === 'drop' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
 				)}
 			</_IconButton>
 			<_IconButton color={iconColor[theme]} onClick={goBack}>
@@ -158,7 +159,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={backColor[theme]}
+					back={inputColor[theme]}
 					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>

@@ -25,7 +25,7 @@ import {
 	IconButton,
 	IconContainer,
 	PreventDragCopy,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	THIRD_HEIGHT,
 	fontColor,
 	borderColor,
@@ -279,7 +279,7 @@ const FileListContents = ({uuid}) => {
 									<Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
 											<IconContainer
-												color={MINT_COLOR}
+												color={LIGHT_MODE_MINT_COLOR}
 												margin={`0px 8px 0px 0px`}
 											>
 												{folderOpenIcon}

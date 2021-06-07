@@ -18,7 +18,7 @@ import {
 	Span,
 	FOLDER_HEIGHT,
 	IconContainer,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	sideColor,
 	serverFolderBackColor,
 	iconColor,
@@ -176,7 +176,7 @@ const Server = ({data, indent}) => {
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				b_color={
-					clicked_server === data.key ? MINT_COLOR : sideColor[theme]
+					clicked_server === data.key ? LIGHT_MODE_MINT_COLOR : sideColor[theme]
 				}
 				back={
 					clicked_server === data.key
@@ -188,7 +188,7 @@ const Server = ({data, indent}) => {
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
-						color={MINT_COLOR}
+						color={LIGHT_MODE_MINT_COLOR}
 					>
 						{dnsIconMidium}
 					</IconContainer>
