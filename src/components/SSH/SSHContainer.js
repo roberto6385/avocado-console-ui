@@ -31,9 +31,9 @@ const _Header = styled.div`
 const SSHContainer = ({uuid, server}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
-	const {ssht, snippets} = useSelector((state) => state.ssht);
+	const {ssh, snippets} = useSelector((state) => state.ssh);
 	const {theme} = useSelector((state) => state.common);
-	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
+	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const [open, setOpen] = useState(false);
 	const [column, setColumn] = useState([]);
 

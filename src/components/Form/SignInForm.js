@@ -139,7 +139,6 @@ const SignInForm = () => {
 	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberMe, setRememberMe] = useState(false);
 
-	console.log(rememberMe);
 	const idRef = useRef(null);
 	const passwordRef = useRef(null);
 
@@ -168,15 +167,11 @@ const SignInForm = () => {
 				// account에 계정 정보 등록해놓으려고 rememberMe값만 bool 처리 했습니다.
 				// rememberMe 가 true일 때, 첫 로그인 화면에서 저장했던 값을 불러오고
 				// false 일 때는, 불러오지 않게 했어요!
-
-				// localStorage.setItem('user', rememberMe ? user : '');
-				// localStorage.setItem('password', rememberMe ? password : '');
-
 				setUser('');
 				setPassword('');
 			}
 		},
-		[user, password],
+		[user, password, rememberMe],
 	);
 
 	const typeChange = useCallback(

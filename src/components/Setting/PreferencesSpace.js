@@ -62,7 +62,7 @@ const font_theme = [
 const PreferencesSpace = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
-	const {font} = useSelector((state) => state.ssht);
+	const {font} = useSelector((state) => state.ssh);
 	const {theme, lang} = useSelector((state) => state.common);
 
 	const [textCompletion, setTextCompletion] = useState(false);

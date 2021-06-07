@@ -15,9 +15,8 @@ import {
 } from '../../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {deleteIconMidium} from '../../../icons/icons';
 import {useTranslation} from 'react-i18next';
-import ssht from '../../../reducers/ssh';
+
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 
 const _Container = styled.div`

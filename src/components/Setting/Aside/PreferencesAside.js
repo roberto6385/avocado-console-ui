@@ -59,7 +59,7 @@ const PreferencesAside = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
 	const {theme, lang} = useSelector((state) => state.common);
-	const {font} = useSelector((state) => state.ssht);
+	const {font} = useSelector((state) => state.ssh);
 
 	const [textCompletion, setTextCompletion] = useState(false);
 	const [generalTheme, setGeneralTheme] = useState(theme);

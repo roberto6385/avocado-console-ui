@@ -31,7 +31,6 @@ const _Modal = styled(Modal)`
 	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-
 	position: absolute;
 	z-index: 10;
 	top: 50%;

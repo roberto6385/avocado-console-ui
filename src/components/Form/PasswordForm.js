@@ -29,7 +29,6 @@ const _Form = styled.form`
 	height: ${AUTH_FORM_SUB_HEIGHT};
 	border: solid 1px #d6d6d6;
 	caret-color: black;
-
 	.focus {
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;

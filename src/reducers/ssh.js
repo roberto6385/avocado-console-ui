@@ -7,7 +7,7 @@ export const initialState = {
 	font_size: 14,
 	search_mode: false,
 	auto_complete_mode: true,
-	ssht: [],
+	ssh: [],
 	ssh_history: [],
 	snippets: [
 		{id: 0, name: 'File List', content: 'ls'},
@@ -59,7 +59,7 @@ const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case SSH_SEND_CONNECTION_SUCCESS:
-				draft.ssht.push({
+				draft.ssh.push({
 					...action.data,
 					terminal: new Terminal({
 						cursorBlink: true,
@@ -79,15 +79,15 @@ const reducer = (state = initialState, action) => {
 
 			case SSH_SEND_CONNECTION_FAILURE:
 				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
-				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
+				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
 				break;
 
 			case SSH_SEND_DISCONNECTION_REQUEST:
 				break;
 
 			case SSH_SEND_DISCONNECTION_SUCCESS:
-				draft.ssht = draft.ssht.filter((v) => v.uuid !== action.data);
-				if (draft.ssht.length === 0 && draft.search_mode)
+				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
+				if (draft.ssh.length === 0 && draft.search_mode)
 					draft.search_mode = false;
 				break;
 
@@ -95,10 +95,10 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST: {
-				const index = draft.ssht.findIndex(
+				const index = draft.ssh.findIndex(
 					(v) => v.uuid === action.data.uuid,
 				);
-				const current_line = draft.ssht[index].current_line;
+				const current_line = draft.ssh[index].current_line;
 
 				if (action.data.input.charCodeAt(0) < 31) {
 					if (action.data.input.charCodeAt(0) === 13) {
@@ -111,7 +111,7 @@ const reducer = (state = initialState, action) => {
 								draft.ssh_history.shift();
 							draft.ssh_history.push(current_line);
 						}
-						draft.ssht[index].current_line = '';
+						draft.ssh[index].current_line = '';
 					}
 					if (action.data.input.charCodeAt(0) === 9) {
 						//input: Tab
@@ -120,19 +120,19 @@ const reducer = (state = initialState, action) => {
 				} else {
 					if (action.data.input.charCodeAt(0) === 127)
 						//input: BackSpace
-						draft.ssht[index].current_line = current_line.slice(
+						draft.ssh[index].current_line = current_line.slice(
 							0,
 							-1,
 						);
-					else draft.ssht[index].current_line += action.data.input;
+					else draft.ssh[index].current_line += action.data.input;
 				}
-				console.log(draft.ssht[index].current_line);
+				console.log(draft.ssh[index].current_line);
 				break;
 			}
 
 			case SSH_SEND_COMMAND_SUCCESS:
 				{
-					const sshTerm = draft.ssht.find(
+					const sshTerm = draft.ssh.find(
 						(v) => v.uuid === action.data.uuid,
 					).terminal;
 					const result = action.data.result;
@@ -142,8 +142,8 @@ const reducer = (state = initialState, action) => {
 					if (draft.tab === true) {
 						draft.tab = false;
 						if (result.charCodeAt(0) > 30)
-							draft.ssht[
-								draft.ssht.findIndex(
+							draft.ssh[
+								draft.ssh.findIndex(
 									(v) => v.uuid === action.data.uuid,
 								)
 							].current_line += result;
