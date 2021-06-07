@@ -414,7 +414,11 @@ const IdentitiesSpace = () => {
 								>
 									<_Name>{item.identityName}</_Name>
 									<_UserNameType>{item.user}</_UserNameType>
-									<_UserNameType>{item.type}</_UserNameType>
+									<_UserNameType>
+										{item.type === 'Password'
+											? t('password')
+											: t('keyFile')}
+									</_UserNameType>
 									<_CheckBoxIdentity>
 										<input
 											type={'checkbox'}

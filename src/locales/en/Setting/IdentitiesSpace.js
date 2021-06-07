@@ -17,4 +17,6 @@ export default {
 
 	userName: 'User Name',
 	type: 'Type',
+	password: 'Password',
+	keyFile: 'Key File',
 };
