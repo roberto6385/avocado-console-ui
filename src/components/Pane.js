@@ -7,13 +7,9 @@ import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {
 	IconButton,
-	ICON_DARK_COLOR,
-	LIGHT_MODE_SIDE_COLOR,
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
 	sideColor,
-	backColor,
 	fontColor,
 	borderColor,
 	iconColor,
@@ -59,7 +55,7 @@ const _HeaderText = styled.div`
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssht} = useSelector((state) => state.ssht);
+	const {ssh} = useSelector((state) => state.ssh);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const onClickChangeTab = useCallback(() => {
@@ -73,7 +69,7 @@ const Pane = ({uuid, type, server}) => {
 				type: SSH_SEND_DISCONNECTION_REQUEST,
 				data: {
 					uuid: uuid,
-					ws: ssht.find((v) => v.uuid === uuid).ws,
+					ws: ssh.find((v) => v.uuid === uuid).ws,
 				},
 			});
 		} else if (type === 'SFTP') {
@@ -84,7 +80,7 @@ const Pane = ({uuid, type, server}) => {
 				}),
 			);
 		}
-	}, [ssht, sftp, uuid, type]);
+	}, [ssh, sftp, uuid, type]);
 
 	return (
 		<_Container onClick={onClickChangeTab}>
@@ -121,9 +117,7 @@ const Pane = ({uuid, type, server}) => {
 				</_Header>
 			)}
 
-			{type === 'SSH' && (
-				<SSHContainer uuid={uuid} server={server} />
-			)}
+			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);

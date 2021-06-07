@@ -50,7 +50,7 @@ const Footer = () => {
 	const {server, tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 	);
-	const {font_size} = useSelector((state) => state.ssht);
+	const {font_size} = useSelector((state) => state.ssh);
 
 	const onClickIncreaseFont = useCallback(() => {
 		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});

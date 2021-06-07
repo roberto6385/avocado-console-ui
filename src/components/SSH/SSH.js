@@ -11,7 +11,6 @@ import {
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
-	SSH_SET_CURRENT_LINE,
 } from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
@@ -72,18 +71,18 @@ const SSH = ({uuid}) => {
 		font,
 		font_size,
 		search_mode,
-		ssht,
+		ssh,
 		ssh_history,
 		auto_complete_mode,
-	} = useSelector((state) => state.ssht);
-	const currentLine = ssht.find((v) => v.uuid === uuid).current_line;
+	} = useSelector((state) => state.ssh);
+	const currentLine = ssh.find((v) => v.uuid === uuid).current_line;
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [currentHistory, setCurrentHistory] = useState(0);
 	const [historyList, setHistoryList] = useState(
 		ssh_history.filter((v) => v.startsWith(currentLine)),
 	);
-	const sshTerm = ssht.find((v) => v.uuid === uuid).terminal;
-	const ws = useRef(ssht.find((v) => v.uuid === uuid).ws);
+	const sshTerm = ssh.find((v) => v.uuid === uuid).terminal;
+	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const searchRef = useRef();

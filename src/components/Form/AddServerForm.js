@@ -162,12 +162,10 @@ const AddServerForm = () => {
 	const {server, theme, clicked_server, identity} = useSelector(
 		(state) => state.common,
 	);
-
 	// username, password는 이곳에서 가져와야 함.
 	const correspondedIdentity = identity.find(
 		(v) => v.key === clicked_server && v.checked,
 	);
-
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {add_server_form_popup} = useSelector((state) => state.popup);
 

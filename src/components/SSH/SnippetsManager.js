@@ -158,7 +158,7 @@ const _ListContainer = styled.div`
 const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
-	const {snippets, snippents_index} = useSelector((state) => state.ssht);
+	const {snippets, snippents_index} = useSelector((state) => state.ssh);
 	const [tempSnippets, setTempSnippets] = useState(snippets);
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');
@@ -207,7 +207,12 @@ const SnippetsManeger = ({open, setOpen}) => {
 			return v.name;
 		});
 
-		if (new Set(name).size !== name.length) {
+		if (
+			tempSnippets.filter((v) => v.name === '' || v.content === '')
+				.length > 0
+		) {
+			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_blank'});
+		} else if (new Set(name).size !== name.length) {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
 		} else {
 			dispatch({

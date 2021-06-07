@@ -24,7 +24,6 @@ import {
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	position: absolute;
-	z-index: 10;
 	top: 50%;
 	left: 50%;
 	right: auto;
@@ -34,6 +33,7 @@ const _Modal = styled(Modal)`
 	background: white;
 	border-radius: 4px;
 	width: 290px;
+	z-index: 15;
 `;
 
 const _Header = styled.div`
@@ -86,6 +86,7 @@ const AlertPopup = () => {
 		invalid_server: t('invalidServer'),
 		lost_server: t('lostServer'),
 		snippets_name_duplicate: t('snippetsNameDuplicate'),
+		snippets_blank: t('snippetsBlank'),
 		server_duplicate: t('serverDuplicate'),
 		folder_name_duplicate: t('folderNameDuplicate'),
 		no_changes: t('noChange'),

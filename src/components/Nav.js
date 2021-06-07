@@ -98,14 +98,12 @@ const _OpenButton = styled.div`
 	color: ${GRAY_COLOR};
 	cursor: pointer;
 	border: 1px solid ${GRAY_COLOR};
-
 	position: absolute;
 	padding: 8px;
 	border-radius: 50%;
 	background: ${(props) => props?.back};
 	right: -36px;
 	bottom: 10px;
-	z-index: 5;
 	display: ${(props) => props?.display};
 `;
 

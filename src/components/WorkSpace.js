@@ -37,7 +37,6 @@ const _Container = styled.div`
 		margin-left: 256px;
 		transition: all 0.5s ease-in-out;
 	}
-
 	.mainContainer.close {
 		margin: 0;
 	}
@@ -50,7 +49,7 @@ const _Container = styled.div`
 	}
 	.nav.close {
 		transform: translateX(-256px);
-		z-index: 10;
+		z-index: 5;
 	}
 `;
 
@@ -137,7 +136,7 @@ const _TabsContianer = styled.div`
 const WorkSpace = () => {
 	const dispatch = useDispatch();
 	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssht} = useSelector((state) => state.ssht);
+	const {ssh} = useSelector((state) => state.ssh);
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
@@ -158,7 +157,7 @@ const WorkSpace = () => {
 					type: SSH_SEND_DISCONNECTION_REQUEST,
 					data: {
 						uuid: data.uuid,
-						ws: ssht.find((v) => v.uuid === data.uuid).ws,
+						ws: ssh.find((v) => v.uuid === data.uuid).ws,
 					},
 				});
 			} else if (data.type === 'SFTP') {
@@ -170,7 +169,7 @@ const WorkSpace = () => {
 				);
 			}
 		},
-		[dispatch, ssht, sftp],
+		[dispatch, ssh, sftp],
 	);
 
 	const prevPutItem = useCallback(
