@@ -17,6 +17,10 @@ export const _Nav = styled(Nav)`
 	flex: 1 1 0;
 	overflow-y: scroll;
 	background: ${(props) => props?.back};
+	width: 100%;
+	height: 100%;
+	// show button z-index가 5라서 6줌
+	z-index: 6;
 	${HiddenScroll}
 `;
 

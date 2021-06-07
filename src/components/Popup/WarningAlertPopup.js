@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {BsFillExclamationCircleFill, IoCloseOutline} from 'react-icons/all';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
@@ -11,9 +10,6 @@ import {
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
 import {
-	CHANGE_MODE,
-	CLOSE_EDITOR,
-	commandPutAction,
 	commandRmAction,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
@@ -29,7 +25,7 @@ import {
 	MAIN_HEIGHT,
 } from '../../styles/global';
 
-import {IconContext} from 'react-icons';
+import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -218,21 +214,12 @@ const WarningAlertPopup = () => {
 			<_Header>
 				<_HeaderText>{t('alert')}</_HeaderText>
 				<IconButton onClick={cancelFunction}>
-					<IoCloseOutline />
+					{closeIconMedium}
 				</IconButton>
 			</_Header>
 
 			<_Message>
-				<IconContext.Provider
-					value={{
-						size: '20px',
-						color: '#d45959',
-					}}
-				>
-					<div>
-						<BsFillExclamationCircleFill />
-					</div>
-				</IconContext.Provider>
+				<div>{cancelFillIcon}</div>
 				<_Text>{AlertMessage[warning_alert_popup.key]}</_Text>
 			</_Message>
 

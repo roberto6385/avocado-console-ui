@@ -376,11 +376,13 @@ const AddServerForm = () => {
 		const selectedIdentity = correspondedIdentityList.find(
 			(v) => v.identityName === account,
 		);
-		if (correspondedIdentity !== selectedIdentity && account !== '') {
+
+		if (selectedIdentity) {
 			setUsername(selectedIdentity.user);
 			setPassword(selectedIdentity.password);
+			setAuthentication(selectedIdentity.type);
 		}
-	}, [account]);
+	}, [account, identity, clicked_server]);
 
 	return (
 		<_Modal
@@ -407,7 +409,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={name}
-							onChange={onChangeName}
+							// onChange={onChangeName}
+							readOnly
 							placeholder={t('place.name')}
 						/>
 					</Input_>
@@ -430,7 +433,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={host}
-							onChange={onChangeHost}
+							// onChange={onChangeHost}
+							readOnly
 							placeholder={t('place.address')}
 						/>
 					</Input_>
@@ -442,7 +446,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='number'
 							value={port}
-							onChange={onChangePort}
+							// onChange={onChangePort}
+							readOnly
 							placeholder={t('place.port')}
 						/>
 					</Input_>
@@ -477,7 +482,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={username}
-							onChange={onChangeUsername}
+							// onChange={onChangeUsername}
+							readOnly
 							placeholder={t('place.userName')}
 						/>
 					</Input_>
@@ -491,7 +497,8 @@ const AddServerForm = () => {
 								b_color={borderColor[theme]}
 								type='password'
 								value={password}
-								onChange={onChangePassword}
+								// onChange={onChangePassword}
+								readOnly
 								placeholder={t('place.password')}
 							/>
 						</Input_>
@@ -511,7 +518,8 @@ const AddServerForm = () => {
 										type='file'
 										id={'add_server_form_type_file'}
 										value={keyFile}
-										onChange={onChangeKeyFile}
+										// onChange={onChangeKeyFile}
+										readOnly
 										placeholder={t('keyFile')}
 									/>
 								</_Label>
@@ -538,7 +546,8 @@ const AddServerForm = () => {
 									b_color={borderColor[theme]}
 									type='password'
 									value={password}
-									onChange={onChangePassword}
+									// onChange={onChangePassword}
+									readOnly
 									placeholder={t('place.password')}
 								/>
 							</Input_>
@@ -553,7 +562,8 @@ const AddServerForm = () => {
 							b_color={borderColor[theme]}
 							type='text'
 							value={note}
-							onChange={onChangeNote}
+							// onChange={onChangeNote}
+							readOnly
 							placeholder={t('place.note')}
 						/>
 					</Input_>

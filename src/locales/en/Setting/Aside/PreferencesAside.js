@@ -6,6 +6,8 @@ export default {
 	ko: 'Korean',
 	en: 'English',
 	lang: 'Language',
+	light: 'Light Mode',
+	dark: 'Dark Mode',
 
 	uiTheme: 'UI Theme',
 	font: 'Terminal Font',

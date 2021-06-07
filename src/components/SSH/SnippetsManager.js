@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
@@ -156,13 +157,14 @@ const _ListContainer = styled.div`
 
 const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();
+	const {t} = useTranslation('snippets');
 	const {snippets, snippents_index} = useSelector((state) => state.ssht);
 	const [tempSnippets, setTempSnippets] = useState(snippets);
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [clickedSnippet, setClickedSnippet] = useState(null);
-	const nameInput = useRef();
+	const nameInput = useRef(null);
 
 	const onChangeName = useCallback(
 		(e) => {
@@ -218,6 +220,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
+			console.log('check');
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
@@ -231,13 +234,13 @@ const SnippetsManeger = ({open, setOpen}) => {
 			...tempSnippets,
 			{
 				id: index,
-				name: 'New',
+				name: t('new'),
 				content: '',
 			},
 		]);
 		setClickedSnippet(index);
 		setIndex(index + 1);
-		setName('New');
+		setName(t('new'));
 		setContent('');
 		nameInput.current?.focus();
 	}, [tempSnippets, index, nameInput]);
@@ -254,6 +257,8 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
+		console.log(snippets);
+		console.log(open);
 		if (snippets.length !== 0 && open) {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);
@@ -263,7 +268,11 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setName('');
 			setContent('');
 		}
-	}, [open, snippets, nameInput]);
+	}, [open, snippets]);
+
+	useEffect(() => {
+		nameInput.current?.focus();
+	}, [clickedSnippet]);
 
 	useEffect(() => {
 		nameInput.current?.focus();
@@ -277,7 +286,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			shouldCloseOnOverlayClick={false}
 		>
 			<_Header>
-				<_Title>Snippets Manager</_Title>
+				<_Title>{t('snippetsManager')}</_Title>
 				<IconButton color={ICON_DARK_COLOR} onClick={onClickCancel}>
 					{closeIconMedium}
 				</IconButton>
@@ -285,7 +294,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			<_ListContainer>
 				<_Ul>
 					<_HeaderLi>
-						<_Text>Snippet List</_Text>
+						<_Text>{t('snippetList')}</_Text>
 						<IconButton onClick={onClickAddSnippet}>
 							{plusIcon}
 						</IconButton>
@@ -322,30 +331,32 @@ const SnippetsManeger = ({open, setOpen}) => {
 					)}
 				</_Ul>
 				<_Form>
-					<_Input_ title={'Name'}>
+					<_Input_ title={t('name')}>
 						<_Input
 							ref={nameInput}
 							value={name}
 							onChange={onChangeName}
 							type='text'
-							placeholder={'Snippet Name'}
+							placeholder={t('place.name')}
 						/>
 					</_Input_>
-					<_Input_ title={'Content'}>
+					<_Input_ title={t('content')}>
 						<_TextareaInput
 							value={content}
 							onChange={onChangeContent}
 							type='text'
-							placeholder={
-								'Hint: add an extra new line to execute the last command'
-							}
+							placeholder={t('place.content')}
 						/>
 					</_Input_>
 				</_Form>
 			</_ListContainer>
 			<_Footer>
-				<BorderButton onClick={onClickCancel}>Cancel</BorderButton>
-				<PrimaryButton onClick={onClickSubmit}>Save</PrimaryButton>
+				<BorderButton onClick={onClickCancel}>
+					{t('cancel')}
+				</BorderButton>
+				<PrimaryButton onClick={onClickSubmit}>
+					{t('save')}
+				</PrimaryButton>
 			</_Footer>
 		</_Modal>
 	);

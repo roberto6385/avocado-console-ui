@@ -62,21 +62,14 @@ const Server = ({data, indent}) => {
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+	const correspondedIdentity = identity.find(
+		(it) => it.key === data.key && it.checked === true,
+	);
 
 	const onHybridClick = useDoubleClick(
 		() => {
 			const correspondedServer = server.find((i) => i.id === data.id);
-			const correspondedIdentity = identity.find(
-				(it) => it.key === data.key && it.checked,
-			);
 
-			console.log(correspondedIdentity);
-			console.log({
-				token: userTicket,
-				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
-			});
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
@@ -105,7 +98,15 @@ const Server = ({data, indent}) => {
 				dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			}
 		},
-		[clicked_server, data, userTicket, server, dispatch],
+		[
+			clicked_server,
+			data,
+			userTicket,
+			server,
+			identity,
+			dispatch,
+			correspondedIdentity,
+		],
 	);
 
 	const {show} = useContextMenu({
@@ -184,16 +185,6 @@ const Server = ({data, indent}) => {
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{/*<Avocado_span*/}
-				{/*	size={MIDDLE_FONTSIZE}*/}
-				{/*	color={*/}
-				{/*		clicked_server === data.key*/}
-				{/*			? GREEN_COLOR*/}
-				{/*			: ICON_LIGHT_COLOR*/}
-				{/*	}*/}
-				{/*>*/}
-				{/*	<FaServerIcon />*/}
-				{/*</Avocado_span>*/}
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
@@ -225,7 +216,11 @@ const Server = ({data, indent}) => {
 					)}
 				</Span>
 			</_NavItem>
-			<ServerContextMenu data={data} setOpenRename={setOpenRename} />
+			<ServerContextMenu
+				correspondedIdentity={correspondedIdentity}
+				data={data}
+				setOpenRename={setOpenRename}
+			/>
 		</React.Fragment>
 	);
 };

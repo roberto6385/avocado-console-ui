@@ -5,8 +5,6 @@ import {
 	ADD_HISTORY,
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	commandPutAction,
-	SAVE_TEXT,
 } from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';

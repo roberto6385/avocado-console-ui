@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -13,13 +13,11 @@ import {
 	iconColor,
 	IconContainer,
 	MAIN_HEIGHT,
-	RIGHT_SIDE_WIDTH,
 	sideColor,
 	Span,
 	TAB_WIDTH,
 } from '../styles/global';
-import {RiTerminalFill} from 'react-icons/all';
-import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
@@ -33,6 +31,27 @@ const _Container = styled.div`
 	flex: 1;
 	height: 100%;
 	width: 100%;
+	position: relative;
+
+	.mainContainer {
+		margin-left: 256px;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.mainContainer.close {
+		margin: 0;
+	}
+
+	.nav {
+		position: absolute;
+		left: 0px;
+		display: inline-block;
+		transition: all 0.5s ease-in-out;
+	}
+	.nav.close {
+		transform: translateX(-256px);
+		z-index: 10;
+	}
 `;
 
 const _MainContainer = styled.div`
@@ -77,6 +96,26 @@ const _MainSpace = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	position: relative;
+
+	.work {
+		margin-right: 300px;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.work.close {
+		margin: 0;
+	}
+
+	.aside {
+		position: absolute;
+		right: 0px;
+		display: inline-block;
+		transition: all 0.5s ease-in-out;
+	}
+	.aside.close {
+		transform: translateX(300px);
+	}
 `;
 
 const _WorkSpaceContainer = styled.div`
@@ -102,7 +141,8 @@ const WorkSpace = () => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
-	const [toggle, setToggle] = useState(false);
+	const [asideToggle, setAsideToggle] = useState(false);
+	const [navToggle, setNavToggle] = useState(true);
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
@@ -160,8 +200,10 @@ const WorkSpace = () => {
 
 	return (
 		<_Container>
-			<Nav />
-			<_MainContainer>
+			<Nav toggle={navToggle} setToggle={setNavToggle} />
+			<_MainContainer
+				className={navToggle ? 'mainContainer' : 'mainContainer close'}
+			>
 				<_Nav
 					back={
 						tab.length !== 0 ? backColor[theme] : sideColor[theme]
@@ -196,9 +238,12 @@ const WorkSpace = () => {
 										}
 									>
 										<IconContainer padding={'6px'}>
-											{data.type === 'SSH' && (
-												<RiTerminalFill />
-											)}
+											{data.type === 'SSH' &&
+												sshIcon(
+													current_tab === data.uuid
+														? GREEN_COLOR
+														: fontColor[theme],
+												)}
 											{data.type === 'SFTP' &&
 												sftpIconSmall}
 										</IconContainer>
@@ -217,13 +262,21 @@ const WorkSpace = () => {
 							);
 						})}
 					</_TabsContianer>
-					<RightCornerIcons setToggle={setToggle} />
+					<RightCornerIcons
+						toggle={asideToggle}
+						setToggle={setAsideToggle}
+					/>
 				</_Nav>
 				<_MainSpace>
-					<_WorkSpaceContainer>
+					<_WorkSpaceContainer
+						className={asideToggle ? 'work' : 'work close'}
+					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
-					{toggle && <AsideContainer />}
+					<AsideContainer
+						toggle={asideToggle}
+						setToggle={setAsideToggle}
+					/>
 				</_MainSpace>
 			</_MainContainer>
 		</_Container>

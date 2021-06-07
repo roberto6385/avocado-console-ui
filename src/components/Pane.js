@@ -17,11 +17,13 @@ import {
 	fontColor,
 	borderColor,
 	iconColor,
+	serverFolderBackColor,
+	GREEN_COLOR,
+	IconContainer,
 } from '../styles/global';
-import {RiTerminalFill} from 'react-icons/all';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {closeIconSmall, sftpIconSmall} from '../icons/icons';
+import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 
 const _Container = styled.div`
 	height: 100%;
@@ -41,6 +43,7 @@ const _Header = styled.div`
 	align-items: center;
 	padding: 0px 6px;
 	z-index: 1;
+	border-top: 1px solid;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bColor};
 	background: ${(props) => props.back};
@@ -86,10 +89,27 @@ const Pane = ({uuid, type, server}) => {
 	return (
 		<_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
-				<_Header back={backColor[theme]} bColor={borderColor[theme]}>
+				<_Header
+					back={
+						current_tab === uuid
+							? serverFolderBackColor[theme]
+							: sideColor[theme]
+					}
+					bColor={
+						current_tab === uuid ? GREEN_COLOR : borderColor[theme]
+					}
+				>
 					<_HeaderText color={fontColor[theme]}>
-						{type === 'SSH' && <RiTerminalFill />}
-						{type === 'SFTP' && sftpIconSmall}
+						{type === 'SSH' && (
+							<IconContainer padding={'0px 8px 0px 0px'}>
+								{sshIcon('black')}
+							</IconContainer>
+						)}
+						{type === 'SFTP' && (
+							<IconContainer padding={'0px 8px 0px 0px'}>
+								{sftpIconSmall}
+							</IconContainer>
+						)}
 						{server.name}
 					</_HeaderText>
 					<IconButton
@@ -102,7 +122,7 @@ const Pane = ({uuid, type, server}) => {
 			)}
 
 			{type === 'SSH' && (
-				<SSHContainer uuid={uuid} server_id={server.id} />
+				<SSHContainer uuid={uuid} server={server} />
 			)}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>

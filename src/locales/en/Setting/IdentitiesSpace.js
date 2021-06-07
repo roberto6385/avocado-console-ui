@@ -4,6 +4,10 @@ export default {
 	resource: 'Resource List',
 	account: '[ Cloud Server ] Account List',
 
+	cases: 'cases',
+	search: 'Search',
+	default: 'Default Account',
+
 	resourceName: 'Resource Name',
 	accountName: 'Account Name',
 	address: 'Address',
@@ -13,4 +17,6 @@ export default {
 
 	userName: 'User Name',
 	type: 'Type',
+	password: 'Password',
+	keyFile: 'Key File',
 };

@@ -23,3 +23,5 @@ export {default as addServerForm} from './Form/AddServerForm';
 export {default as addAccountForm} from './Form/AddAccountForm';
 export {default as changePasswordForm} from './Form/ChangePasswordForm';
 export {default as rightCornerIcons} from './RightCornerIcons';
+export {default as contextMenu} from './ContextMenu';
+export {default as snippets} from './Snippets';

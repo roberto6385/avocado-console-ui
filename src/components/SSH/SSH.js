@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
-import {MdSearch} from 'react-icons/all';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -26,6 +25,7 @@ import {
 	arrowDropDownIconMidium,
 	arrowDropUpIconMidium,
 	closeIconMedium,
+	searchIcon,
 } from '../../icons/icons';
 
 const _Container = styled.div`
@@ -297,7 +297,7 @@ const SSH = ({uuid}) => {
 			</ListGroup>
 
 			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
-				<MdSearch />
+				{searchIcon}
 				<_Input
 					onChange={onChangeSearch}
 					value={search}

@@ -11,16 +11,20 @@ import {
 	borderColor,
 	backColor,
 	serverFolderBackColor,
+	IconContainer,
+	iconColor,
+	SEARCH_INPUT_WIDTH,
+	SSH_SFTP_HEADER_HEIGHT,
+	FOOTER_HEIGHT,
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {OPEN_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {
-	ACCOUT_CONTROL_ID,
 	CHANGE_CURRENT_RESOURCE_KEY,
 	CHANGE_IDENTITY_CHECKED,
 } from '../../reducers/common';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
+import {searchIcon} from '../../icons/icons';
+import useInput from '../../hooks/useInput';
 
 const _Container = styled.div`
 	display: flex;
@@ -111,6 +115,10 @@ const _ResourceName = styled(_Name)`
 	min-width: 100px;
 	flex: 4;
 `;
+
+const _SearchContainer = styled.div`
+	padding: 6px 16px;
+`;
 const _AddressName = styled(_Name)`
 	// max-width: 149px;
 	min-width: 100px;
@@ -129,6 +137,7 @@ const _UserNameType = styled(_Name)`
 const _CheckBoxIdentity = styled(_UserNameType)`
 	justify-content: center;
 	padding: 0;
+	padding: 6px 16px;
 `;
 
 const _AccountListUl = styled.ul`
@@ -144,6 +153,26 @@ const _ResourceListUl = styled.ul`
 	margin: 16px 8px;
 
 	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
+`;
+
+const _Form = styled.form`
+	display: flex;
+	align-items: center;
+	padding: 16px 10px;
+	height: ${SSH_SFTP_HEADER_HEIGHT};
+	border-color: ${(props) => props.b_Color};
+	background: ${(props) => props.back};
+	margin: 6px 16px;
+`;
+
+const _Input = styled.input`
+	width: ${SEARCH_INPUT_WIDTH};
+	height: ${FOOTER_HEIGHT};
+	border: none;
+	font-size: 14px;
+	padding: 0px;
+	background: ${(props) => props.back};
 	color: ${(props) => props.color};
 `;
 
@@ -180,25 +209,24 @@ const IdentitiesSpace = () => {
 		theme,
 	} = useSelector((state) => state.common);
 	const dispatch = useDispatch();
+	const [
+		resourceSearch,
+		onChangeResourceSearch,
+		setResourceSearch,
+	] = useInput('');
+	const [
+		identitySearch,
+		onChangeIdentitySearch,
+		setIdentitySearch,
+	] = useInput('');
 
-	// const {show} = useContextMenu({
-	// 	id: 'account',
-	// });
-
-	// const newServer = useCallback(() => {
+	// const onClickVisibleAddAccountForm = useCallback(() => {
+	// 	dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
 	// 	dispatch({
-	// 		type: OPEN_ADD_SERVER_FORM_POPUP,
+	// 		type: OPEN_ADD_ACCOUT_FORM_POPUP,
 	// 		data: {type: 'add'},
 	// 	});
-	// }, [dispatch]);
-
-	const onClickVisibleAddAccountForm = useCallback(() => {
-		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-		dispatch({
-			type: OPEN_ADD_ACCOUT_FORM_POPUP,
-			data: {type: 'add'},
-		});
-	}, []);
+	// }, []);
 
 	const selectResourceList = useCallback(
 		(item) => (e) => {
@@ -245,10 +273,26 @@ const IdentitiesSpace = () => {
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
-							<_Span>{server.length}</_Span>
+							<_Span>{`
+								: ${server.length}${t('cases')}
+								`}</_Span>
 						</_ResourceName>
-
-						<div>서치 인풋, 아이콘</div>
+						<_Form back={backColor[theme]}>
+							<IconContainer
+								color={iconColor[theme]}
+								margin={'0px 6px 0px 0px'}
+							>
+								{searchIcon}
+							</IconContainer>
+							<_Input
+								onChange={onChangeResourceSearch}
+								value={resourceSearch}
+								type='text'
+								placeholder={t('search')}
+								color={fontColor[theme]}
+								back={backColor[theme]}
+							/>
+						</_Form>
 						{/*<IconButton*/}
 						{/*	color={fontColor[theme]}*/}
 						{/*	onClick={newServer}*/}
@@ -264,30 +308,40 @@ const IdentitiesSpace = () => {
 						{/*<_ProtocolPortName>{t('note')}</_ProtocolPortName>*/}
 					</_Li>
 					{server.map((item) => {
-						return (
-							<_ResourceLi
-								b_color={borderColor[theme]}
-								key={item.id}
-								onClick={selectResourceList(item)}
-								back={
-									item.key === currentResourceListKey
-										? serverFolderBackColor[theme]
-										: formColor[theme]
-								}
-							>
-								<_ResourceName>
-									{searchTreeStart(nav, item.key)}
-								</_ResourceName>
-								<_AddressName>{item.host}</_AddressName>
-								<_ProtocolPortName>
-									{item.protocol}
-								</_ProtocolPortName>
-								<_ProtocolPortName>
-									{item.port}
-								</_ProtocolPortName>
-								{/*<_ProtocolPortName>Note</_ProtocolPortName>*/}
-							</_ResourceLi>
-						);
+						if (
+							searchTreeStart(nav, item.key)
+								.toLowerCase()
+								.replace(/ /g, '')
+								.includes(
+									resourceSearch
+										.toLowerCase()
+										.replace(/ /g, ''),
+								)
+						)
+							return (
+								<_ResourceLi
+									b_color={borderColor[theme]}
+									key={item.id}
+									onClick={selectResourceList(item)}
+									back={
+										item.key === currentResourceListKey
+											? serverFolderBackColor[theme]
+											: formColor[theme]
+									}
+								>
+									<_ResourceName>
+										{searchTreeStart(nav, item.key)}
+									</_ResourceName>
+									<_AddressName>{item.host}</_AddressName>
+									<_ProtocolPortName>
+										{item.protocol}
+									</_ProtocolPortName>
+									<_ProtocolPortName>
+										{item.port}
+									</_ProtocolPortName>
+									{/*<_ProtocolPortName>Note</_ProtocolPortName>*/}
+								</_ResourceLi>
+							);
 					})}
 				</_ResourceListUl>
 				<_AccountListUl back={formColor[theme]}>
@@ -295,7 +349,8 @@ const IdentitiesSpace = () => {
 						<_Name>
 							{t('account')}
 							<_Span>
-								{
+								{` :
+								${
 									identity
 										.slice()
 										.filter(
@@ -303,26 +358,25 @@ const IdentitiesSpace = () => {
 												item.key ===
 												currentResourceListKey,
 										).length
-								}
+								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<div>서치 인풋, 아이콘</div>
-
-						{/*<div>*/}
-						{/*	<IconButton*/}
-						{/*		color={fontColor[theme]}*/}
-						{/*		onClick={onClickVisibleAddAccountForm}*/}
-						{/*	>*/}
-						{/*		{plusIcon}*/}
-						{/*	</IconButton>*/}
-
-						{/*	<IconButton*/}
-						{/*		color={fontColor[theme]}*/}
-						{/*		onClick={deleteAccount}*/}
-						{/*	>*/}
-						{/*		{deleteIcon}*/}
-						{/*	</IconButton>*/}
-						{/*</div>*/}
+						<_Form back={backColor[theme]}>
+							<IconContainer
+								color={iconColor[theme]}
+								margin={'0px 6px 0px 0px'}
+							>
+								{searchIcon}
+							</IconContainer>
+							<_Input
+								onChange={onChangeIdentitySearch}
+								value={identitySearch}
+								type='text'
+								placeholder={t('search')}
+								color={fontColor[theme]}
+								back={backColor[theme]}
+							/>
+						</_Form>
 					</_Li>
 					<_Li
 						b_color={borderColor[theme]}
@@ -333,49 +387,50 @@ const IdentitiesSpace = () => {
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
-						<_CheckBoxIdentity>Current</_CheckBoxIdentity>
+						<_CheckBoxIdentity>{t('default')}</_CheckBoxIdentity>
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{identity.map((item) => {
 						if (item.key !== currentResourceListKey) return;
-						return (
-							<_Li
-								b_color={borderColor[theme]}
-								key={item.id}
-								// back={
-								// 	accountCheckList.includes(item.id)
-								// 		? serverFolderBackColor[theme]
-								// 		: formColor[theme]
-								// }
-							>
-								<_Name>{item.identityName}</_Name>
-								<_UserNameType>{item.user}</_UserNameType>
-								<_UserNameType>{item.type}</_UserNameType>
-								<_CheckBoxIdentity>
-									<input
-										type={'checkbox'}
-										checked={item.checked}
-										onChange={handleCheck(item)}
-									/>
-								</_CheckBoxIdentity>
-								{/*<_ButtonContainer>*/}
-								{/*	<IconButton>*/}
-								{/*		<span className='material-icons button_large'>*/}
-								{/*			edit*/}
-								{/*		</span>*/}
-								{/*	</IconButton>*/}
-								{/*	<IconButton>*/}
-								{/*		<span className='material-icons button_midium'>*/}
-								{/*			delete*/}
-								{/*		</span>*/}
-								{/*	</IconButton>*/}
-								{/*</_ButtonContainer>*/}
-							</_Li>
-						);
+						if (
+							item.identityName
+								.toLowerCase()
+								.replace(/ /g, '')
+								.includes(
+									identitySearch
+										.toLowerCase()
+										.replace(/ /g, ''),
+								)
+						)
+							return (
+								<_Li
+									b_color={borderColor[theme]}
+									key={item.id}
+									back={
+										item.checked
+											? serverFolderBackColor[theme]
+											: formColor[theme]
+									}
+								>
+									<_Name>{item.identityName}</_Name>
+									<_UserNameType>{item.user}</_UserNameType>
+									<_UserNameType>
+										{item.type === 'Password'
+											? t('password')
+											: t('keyFile')}
+									</_UserNameType>
+									<_CheckBoxIdentity>
+										<input
+											type={'checkbox'}
+											checked={item.checked}
+											onChange={handleCheck(item)}
+										/>
+									</_CheckBoxIdentity>
+								</_Li>
+							);
 					})}
 				</_AccountListUl>
 			</_ContentContainer>
-			{/*<AccountContextMenu />*/}
 		</_Container>
 	);
 };

@@ -2,21 +2,22 @@ import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_INPUT_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 
-const FolderContextMenuMessage = {
-	new_server: 'New Server',
-	rename: 'Rename',
-	delete: 'Delete',
-};
-
 const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
+	const {t} = useTranslation('contextMenu');
+
+	const FolderContextMenuMessage = {
+		new_server: t('newServer'),
+		// rename: 'Rename',
+		// delete: 'Delete',
+	};
 
 	const MENU_ID = data.key + 'folder';
 

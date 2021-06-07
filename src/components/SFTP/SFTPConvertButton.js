@@ -7,31 +7,35 @@ import {connectionAction} from '../../reducers/sftp';
 import {IconButton} from '../../styles/global';
 import {sftpIcon} from '../../icons/icons';
 
-const SFTPConvertButton = ({server_id}) => {
+const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const {server} = useSelector((state) => state.common);
+	const {server, identity} = useSelector((state) => state.common);
 
 	const connection = useCallback(() => {
-		const correspondedServer = server.find((x) => x.id === server_id);
-
+		const correspondedServer = server.find((x) => x.id === data.id);
+		const correspondedIdentity = identity.find(
+			(it) => it.key === data.key && it.checked === true,
+		);
 		if (server.includes(correspondedServer)) {
 			dispatch(
 				connectionAction({
 					...correspondedServer,
 					token: userTicket,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
 				}),
 			);
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [server, server_id, userTicket, dispatch]);
+	}, [server, data, userTicket, dispatch]);
 
 	return <IconButton onClick={connection}>{sftpIcon}</IconButton>;
 };
 
 SFTPConvertButton.propTypes = {
-	server_id: PropTypes.number.isRequired,
+	data: PropTypes.object.isRequired,
 };
 
 export default SFTPConvertButton;

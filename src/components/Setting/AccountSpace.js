@@ -59,10 +59,12 @@ const _Input = styled.input`
 const _PrimaryButton = styled(PrimaryButton)`
 	margin-top: 8px;
 	width: ${TAB_WIDTH};
+	min-width: ${TAB_WIDTH};
 `;
 const _DisabledButton = styled(DefaultButton)`
 	margin-top: 8px;
 	width: ${TAB_WIDTH};
+	min-width: ${TAB_WIDTH};
 `;
 
 const _Section = styled.section`
@@ -73,12 +75,9 @@ const _Section = styled.section`
 
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
-	const {theme} = useSelector((state) => state.common);
+	const {theme, account} = useSelector((state) => state.common);
 
 	const [open, setOpen] = useState(false);
-	const [account, setAccount] = useState('');
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
 	const [authType, setAuthType] = useState('first_option');
 	const [mfaType, setMfaType] = useState('use');
 	const [authValue, setAuthValue] = useState('google');
@@ -115,9 +114,9 @@ const AccountSpace = () => {
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
-						value={account}
-						onChange={(e) => setAccount(e.target.value)}
+						value={account.account}
 						placeholder={t('accountPlace')}
+						readOnly
 					/>
 				</Input_>
 				<Input_ title={t('name')}>
@@ -125,9 +124,9 @@ const AccountSpace = () => {
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						value={account.name}
 						placeholder={t('namePlace')}
+						readOnly
 					/>
 				</Input_>
 				<Input_ title={t('email')}>
@@ -135,9 +134,9 @@ const AccountSpace = () => {
 						back={inputColor[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						value={account.email}
 						placeholder={t('emailPlace')}
+						readOnly
 					/>
 				</Input_>
 			</_ContentsContainer>

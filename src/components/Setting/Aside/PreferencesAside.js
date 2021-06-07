@@ -40,11 +40,6 @@ const _ContentsContainer = styled.div`
 	color: ${(props) => props?.color};
 `;
 
-const background_theme = [
-	{value: 0, label: 'Light Mode'},
-	{value: 1, label: 'Dark Mode'},
-];
-
 const terminal_theme = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
@@ -73,9 +68,13 @@ const PreferencesAside = () => {
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
+	const background_theme = [
+		{value: 0, label: t('light')},
+		{value: 1, label: t('dark')},
+	];
 	const languageOptions = [
-		{value: 'en', label: t('en')},
-		{value: 'ko', label: t('ko')},
+		{value: 'en-US', label: t('en')},
+		{value: 'ko-KR', label: t('ko')},
 	];
 
 	useEffect(() => {

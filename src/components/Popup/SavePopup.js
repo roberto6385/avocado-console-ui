@@ -1,11 +1,9 @@
 import React, {useCallback} from 'react';
-import {BsFillQuestionCircleFill, IoCloseOutline} from 'react-icons/all';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import {IconContext} from 'react-icons';
 import {
 	AVOCADO_FONTSIZE,
 	BorderButton,
@@ -21,6 +19,7 @@ import {
 	commandPutAction,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
+import {alertFillIcon, closeIconMedium} from '../../icons/icons';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -176,22 +175,11 @@ const SavePopup = () => {
 		>
 			<_Header>
 				<_HeaderText>{t('alert')}</_HeaderText>
-				<IconButton onClick={closeModal}>
-					<IoCloseOutline />
-				</IconButton>
+				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
 			</_Header>
 
 			<_Message>
-				<IconContext.Provider
-					value={{
-						size: '20px',
-						color: '#178082',
-					}}
-				>
-					<div>
-						<BsFillQuestionCircleFill />
-					</div>
-				</IconContext.Provider>
+				<div>{alertFillIcon}</div>
 				<_Text>{SaveMessage[save_popup.key]}</_Text>
 			</_Message>
 

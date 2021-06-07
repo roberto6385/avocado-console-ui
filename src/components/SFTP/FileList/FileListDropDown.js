@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
@@ -17,14 +17,16 @@ import {
 } from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {
-	CLOUDY_BLUE,
 	HiddenScroll,
 	MINT_COLOR,
 	IconButton,
 	IconContainer,
-	LIGHT_BACK_COLOR,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	PreventDragCopy,
+	THIRD_HEIGHT,
+	serverFolderBackColor,
+	sideColor,
+	backColor,
+	borderColor,
 } from '../../../styles/global';
 import {
 	editIcon,
@@ -32,20 +34,29 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
+import {sortFunction} from '../listConversion';
 
 const _Container = styled.div`
 	display: flex;
 	flex: 1;
-	overflow: scroll;
+	overflow-x: scroll;
 	font-size: 14px;
 `;
 
-export const _ItemContainer = styled.div`
+const _ItemContainer = styled.div`
 	display: flex;
 	align-items: center;
+	flex: ${(props) => props?.flex};
+	min-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	padding: 0px;
 	margin: 0px;
-	justify-content: ${(props) => props?.justify};
+`;
+
+const _ButtonContainer = styled.div`
+	display: flex;
+	width: 72px;
 `;
 
 const _Ul = styled.ul`
@@ -53,30 +64,54 @@ const _Ul = styled.ul`
 	${HiddenScroll}
 	height: 100%;
 
-	width: ${(props) => props.width};
-	min-width: 250px;
+	min-width: ${(props) => props.width};
+	flex: ${(props) => props.flex};
 	list-style: none;
 	overflow-y: scroll;
+
 	margin: 0px;
 	padding: 0px;
 	outline: none;
-	position: relative;
-	flex: ${(props) => props.flex};
 	background: ${(props) => props.back};
+	border-right: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Span = styled.span`
 	padding: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 106px;
 `;
 
 const _Li = styled.li`
 	background: ${(props) => props?.back};
+	min-width: 220px;
+	height: ${THIRD_HEIGHT};
+	white-space: nowrap;
+	padding: 16px 12px;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, pathList, highlight, path, tempItem} = corServer;
+	const {
+		fileList,
+		pathList,
+		highlight,
+		path,
+		tempItem,
+		sortKeyword,
+		toggle,
+	} = corServer;
+	const [currentFileList, setCurrentFileList] = useState([]);
+	const [currentKey, setCurrentKey] = useState(sortKeyword);
 
 	const dispatch = useDispatch();
 	const {show} = useContextMenu({
@@ -319,16 +354,52 @@ const FileListDropDown = ({uuid}) => {
 		[corServer],
 	);
 
-	return fileList.length === pathList.length ? (
-		<_Container>
-			{fileList.map((listItem, listindex) => {
+	useEffect(() => {
+		if (
+			fileList.length === pathList.length &&
+			pathList.length !== 0 &&
+			fileList.length !== 0
+		) {
+			let nextList = [];
+			fileList.forEach((v) => {
+				nextList.push(
+					sortFunction({
+						fileList: v,
+						keyword: sortKeyword,
+						toggle: currentKey === sortKeyword ? toggle : true,
+					}),
+				);
+			});
+			setCurrentKey(sortKeyword);
+			setCurrentFileList(nextList);
+		}
+	}, [fileList, sortKeyword, toggle, path]);
+
+	console.log(currentFileList);
+
+	return (
+		<_Container
+		// className={
+		// fileList.length === pathList.length && fileList.length !== 0
+		// 	? ''
+		// 	: 'blurEffect'
+		// }
+		>
+			{currentFileList.map((listItem, listindex) => {
 				return (
 					<_Ul
-						flex={pathList.length - 1 === listindex && 1}
 						width={
-							pathList.length - 1 === listindex ? '100%' : '250px'
+							pathList.length - 1 === listindex
+								? '500px'
+								: '220px'
 						}
-						back={LIGHT_BACK_COLOR}
+						flex={pathList.length - 1 === listindex && 1}
+						back={sideColor[theme]}
+						b_color={
+							pathList.length - 1 === listindex
+								? 'transparent'
+								: borderColor[theme]
+						}
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={contextMenuOpen({
@@ -340,6 +411,7 @@ const FileListDropDown = ({uuid}) => {
 							return (
 								item.name !== '.' && (
 									<_Li
+										className={'filelist_contents'}
 										back={
 											(highlight.findIndex(
 												(it) =>
@@ -347,13 +419,14 @@ const FileListDropDown = ({uuid}) => {
 													path ===
 														pathList[listindex],
 											) > -1 &&
-												LIGHT_MODE_BACKGROUND_COLOR) ||
+												serverFolderBackColor[theme]) ||
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
-												CLOUDY_BLUE) ||
-											LIGHT_BACK_COLOR
+												backColor[theme]) ||
+											sideColor[theme]
 										}
+										b_color={borderColor[theme]}
 										key={index}
 										onContextMenu={contextMenuOpen({
 											item,
@@ -366,32 +439,29 @@ const FileListDropDown = ({uuid}) => {
 										})}
 									>
 										<_ItemContainer
+											flex={1}
 											className={'filelist_contents'}
-											justify={'space-between'}
 										>
-											<_ItemContainer>
-												{item.type === 'directory' ? (
-													<IconContainer
-														color={MINT_COLOR}
-														margin={`0px 8px 0px 0px`}
-													>
-														{folderOpenIcon}
-													</IconContainer>
-												) : (
-													<IconContainer
-														margin={`0px 8px 0px 0px`}
-													>
-														{fileIcon}
-													</IconContainer>
-												)}
-												{item.name}
-											</_ItemContainer>
-											{pathList.length - 1 ===
-												listindex && (
-												<_ItemContainer>
-													<_Span>
-														{item.permission}
-													</_Span>
+											{item.type === 'directory' ? (
+												<IconContainer
+													color={MINT_COLOR}
+													margin={`0px 4px 0px 0px`}
+												>
+													{folderOpenIcon}
+												</IconContainer>
+											) : (
+												<IconContainer
+													margin={`0px 4px 0px 0px`}
+												>
+													{fileIcon}
+												</IconContainer>
+											)}
+											<_Span>{item.name}</_Span>
+										</_ItemContainer>
+										{pathList.length - 1 === listindex && (
+											<>
+												<_Span>{item.permission}</_Span>
+												<_ButtonContainer>
 													{item.type === 'file' &&
 														item.name !== '..' && (
 															<IconButton
@@ -413,9 +483,9 @@ const FileListDropDown = ({uuid}) => {
 															{fileDownloadIcon}
 														</IconButton>
 													)}
-												</_ItemContainer>
-											)}
-										</_ItemContainer>
+												</_ButtonContainer>
+											</>
+										)}
 									</_Li>
 								)
 							);
@@ -425,8 +495,6 @@ const FileListDropDown = ({uuid}) => {
 			})}
 			<FileListContextMenu uuid={uuid} />
 		</_Container>
-	) : (
-		<div>loading...</div>
 	);
 };
 

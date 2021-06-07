@@ -8,9 +8,10 @@ export const initialState = {
 	minimize: false,
 	server_index: 4,
 	folder_index: 2,
+	account: {account: '', name: '', email: ''},
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
-	lang: 'ko', // language ko - korean, en - english
+	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 	nav: [
 		{
 			type: 'folder',
@@ -192,6 +193,7 @@ export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
 export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
+export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -474,6 +476,11 @@ const reducer = (state = initialState, action) => {
 						return {...v, server: {...v.server, name: action.data}};
 					else return v;
 				});
+				break;
+			}
+
+			case SAVE_ACCOUT: {
+				draft.account = action.payload;
 				break;
 			}
 

@@ -72,7 +72,7 @@ export function sortFunction({fileList, keyword, toggle}) {
 	return nextList;
 }
 
-export const dataFormater = ({modify, keyword}) => {
+export const dataFormater = ({modify, keyword, language}) => {
 	const formatValue = modify.split(' ');
 	const monthObj = {
 		Jan: '01',
@@ -89,6 +89,9 @@ export const dataFormater = ({modify, keyword}) => {
 		Dec: '12',
 	};
 
+	const am = language === 'ko-KR' ? '오전' : 'AM';
+	const pm = language === 'ko-KR' ? '오후' : 'PM';
+
 	let splitTime = formatValue[3].split(':');
 	if (parseInt(splitTime[0]) > 12)
 		splitTime.splice(0, 1, parseInt(splitTime[0]) - 12);
@@ -96,8 +99,8 @@ export const dataFormater = ({modify, keyword}) => {
 		return `${formatValue[5]}.${monthObj[formatValue[1]]}.${formatValue[2]}
 		${
 			typeof splitTime[0] === 'string'
-				? `오전 ${splitTime.join(':')}`
-				: `오후 ${splitTime.join(':')}`
+				? `${am} ${splitTime.join(':')}`
+				: `${pm} ${splitTime.join(':')}`
 		}`;
 	} else {
 		return parseInt(

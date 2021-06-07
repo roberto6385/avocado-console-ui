@@ -21,14 +21,11 @@ import {
 } from '../listConversion';
 import styled from 'styled-components';
 import {
-	LIGHT_MODE_BORDER_COLOR,
 	HiddenScroll,
 	IconButton,
 	IconContainer,
-	LIGHT_MODE_BACKGROUND_COLOR,
 	PreventDragCopy,
 	MINT_COLOR,
-	LIGHT_MODE_ICON_COLOR,
 	THIRD_HEIGHT,
 	fontColor,
 	borderColor,
@@ -95,7 +92,7 @@ const _Tr = styled.tr`
 
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const {theme, lang} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
 	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
 	const dispatch = useDispatch();
@@ -106,6 +103,8 @@ const FileListContents = ({uuid}) => {
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});
+
+	console.log(lang);
 
 	const download = useCallback(
 		(item) => (e) => {
@@ -249,95 +248,95 @@ const FileListContents = ({uuid}) => {
 		}
 	}, [fileList, sortKeyword, toggle]);
 
-	console.log(highlight);
-
-	return currentFileList.length !== 0 ? (
-		// return fileList.length === pathList.length ? (
+	return (
 		<React.Fragment>
 			<_Table onContextMenu={contextMenuOpen()}>
 				<TableHead uuid={uuid} />
-				<_Tbody active={serverFolderBackColor[theme]}>
+				<_Tbody
+					active={serverFolderBackColor[theme]}
+					// className={
+					// 	fileList.length === pathList.length &&
+					// 	currentFileList.length !== 0
+					// 		? ''
+					// 		: 'blurEffect'
+					// }
+				>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
-						if (
-							pathList[pathList.length - 1] === '/' &&
-							item.name === '..'
-						)
-							return;
-						if (item.name === '.') return;
-						return (
-							<_Tr
-								color={fontColor[theme]}
-								b_color={borderColor[theme]}
-								onContextMenu={contextMenuOpen(item)}
-								onClick={selectItem({item, index})}
-								onDoubleClick={changePath(item)}
-								key={index + uuid}
-								className={
-									highlight.includes(item)
-										? 'highlight_tbody active'
-										: 'highlight_tbody'
-								}
-							>
-								<Th min={'150px'} flex={1}>
-									{item.type === 'directory' ? (
-										<IconContainer
-											color={MINT_COLOR}
-											margin={`0px 8px 0px 0px`}
-										>
-											{folderOpenIcon}
-										</IconContainer>
-									) : (
-										<IconContainer
-											margin={`0px 8px 0px 0px`}
-										>
-											{fileIcon}
-										</IconContainer>
-									)}
+						if (item.name !== '..' && item.name !== '.') {
+							return (
+								<_Tr
+									color={fontColor[theme]}
+									b_color={borderColor[theme]}
+									onContextMenu={contextMenuOpen(item)}
+									onClick={selectItem({item, index})}
+									onDoubleClick={changePath(item)}
+									key={index + uuid}
+									className={
+										highlight.includes(item)
+											? 'highlight_tbody active'
+											: 'highlight_tbody'
+									}
+								>
+									<Th min={'150px'} flex={1}>
+										{item.type === 'directory' ? (
+											<IconContainer
+												color={MINT_COLOR}
+												margin={`0px 8px 0px 0px`}
+											>
+												{folderOpenIcon}
+											</IconContainer>
+										) : (
+											<IconContainer
+												margin={`0px 8px 0px 0px`}
+											>
+												{fileIcon}
+											</IconContainer>
+										)}
 
-									<span className='filelist_contents'>
-										{item.name}
-									</span>
-								</Th>
-								<Th min={'135px'} justify='flex-end'>
-									{item.name !== '..' &&
-										formatByteSizeString(item.size)}
-								</Th>
-								<Th min={'212px'}>
-									{item.name !== '..' &&
-										dataFormater({
-											modify: item.lastModified,
-											keyword: 'format',
-										})}
-								</Th>
-								<Th min={'105px'}>{item.permission}</Th>
-								<Th min={'100px'} justify={'flex-end'}>
-									{item.type === 'file' && (
-										<IconButton
-											color={iconColor[theme]}
-											onClick={edit(item)}
-										>
-											{editIcon}
-										</IconButton>
-									)}
-									{item.name !== '..' && (
-										<IconButton
-											color={iconColor[theme]}
-											onClick={download(item)}
-										>
-											{fileDownloadIcon}
-										</IconButton>
-									)}
-								</Th>
-							</_Tr>
-						);
+										<span className='filelist_contents'>
+											{item.name}
+										</span>
+									</Th>
+									<Th min={'135px'} justify='flex-end'>
+										{item.name !== '..' &&
+											formatByteSizeString(item.size)}
+									</Th>
+									<Th min={'212px'}>
+										{item.name !== '..' &&
+											dataFormater({
+												modify: item.lastModified,
+												keyword: 'format',
+												language: lang,
+											})}
+									</Th>
+									<Th min={'105px'}>{item.permission}</Th>
+									<Th min={'100px'} justify={'flex-end'}>
+										{item.type === 'file' && (
+											<IconButton
+												color={iconColor[theme]}
+												onClick={edit(item)}
+											>
+												{editIcon}
+											</IconButton>
+										)}
+										{item.name !== '..' && (
+											<IconButton
+												color={iconColor[theme]}
+												onClick={download(item)}
+											>
+												{fileDownloadIcon}
+											</IconButton>
+										)}
+									</Th>
+								</_Tr>
+							);
+						}
 					})}
 				</_Tbody>
 			</_Table>
 			<FileListContextMenu uuid={uuid} />
 		</React.Fragment>
-	) : (
-		<div>loading...</div>
 	);
 };
 
