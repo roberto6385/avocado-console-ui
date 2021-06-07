@@ -24,8 +24,8 @@ import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';
 import googleButton from '../../images/google_btn.png';
-import kakaoButton from '../../images/kakao_btn.png';
 import naverButton from '../../images/naver_btn.png';
+import kakaoButton from '../../images/kakao_btn.png';
 
 const _Form = styled.form`
 	background: white;
@@ -176,7 +176,7 @@ const SignInForm = () => {
 				setPassword('');
 			}
 		},
-		[user, password],
+		[user, password, rememberMe],
 	);
 
 	const typeChange = useCallback(
@@ -198,6 +198,22 @@ const SignInForm = () => {
 
 	const oauthFunction = useCallback((e) => {
 		e.preventDefault();
+		console.log(e.currentTarget.name);
+		switch (e.currentTarget.name) {
+			case 'naverButton':
+				break;
+			case 'kakaoButton':
+				break;
+			case 'googleButton':
+				console.log('google');
+				location.href =
+					'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com&redirect_uri=http://localhost:3000/Redirect&scope=email%20profile&state=myState&access_type=offline';
+				break;
+			case 'appleButton':
+				break;
+			default:
+				break;
+		}
 		//TODO: Google auth
 	}, []);
 
@@ -265,18 +281,18 @@ const SignInForm = () => {
 			</_CheckboxAnchorContainer>
 			<_SignInButton type='submit'>{t('signIn')}</_SignInButton>
 			<_OAuthContainer>
-				<_OAuthButton onClick={oauthFunction}>
+				<_OAuthButton name={'kakaoButton'} onClick={oauthFunction}>
 					<img src={kakaoButton} alt='kakaoButton' />
 				</_OAuthButton>
-				<_OAuthButton onClick={oauthFunction}>
+				<_OAuthButton name={'naverButton'} onClick={oauthFunction}>
 					<img src={naverButton} alt='naverButton' />
 				</_OAuthButton>
 			</_OAuthContainer>
 			<_OAuthContainer>
-				<_OAuthButton onClick={oauthFunction}>
+				<_OAuthButton name={'googleButton'} onClick={oauthFunction}>
 					<img src={googleButton} alt='googleButton' />
 				</_OAuthButton>
-				<_OAuthButton onClick={oauthFunction}>
+				<_OAuthButton name={'appleButton'} onClick={oauthFunction}>
 					<img src={appleButton} alt='appleButton' />
 				</_OAuthButton>
 			</_OAuthContainer>

@@ -12,10 +12,10 @@ import {
 	Identities,
 	SignUp,
 	Password,
+	Redirect,
 } from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
 import AddServerForm from './components/Form/AddServerForm';
-import AddAccountForm from './components/Form/AddAccountForm';
 import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
@@ -31,6 +31,7 @@ const App = () => {
 				<Route path='/account' component={Account} />
 				<Route path='/preferences' component={Preferences} />
 				<Route path='/identities' component={Identities} />
+				<Route path='/Redirect' component={Redirect} />
 				<Route component={NotFound} />
 			</Switch>
 			{/*<AddAccountForm />*/}

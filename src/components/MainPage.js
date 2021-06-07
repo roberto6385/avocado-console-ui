@@ -5,6 +5,7 @@ import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {PrimaryButton, fontColor, backColor} from '../styles/global';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
+import {getVerify} from '../reducers/auth/verify';
 
 const _Container = styled.div`
 	background: ${(props) => props.back};
@@ -30,6 +31,7 @@ const _Text = styled.div`
 const MainPage = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('mainPage');
 
 	// 삭제 ㄴㄴ
@@ -62,7 +64,7 @@ const MainPage = () => {
 
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<_Container back={backColor[theme]}>

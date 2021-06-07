@@ -6,3 +6,4 @@ export {default as Identities} from './Identities';
 export {default as NotFound} from './NotFound';
 export {default as SignUp} from './SignUp';
 export {default as Password} from './Password';
+export {default as Redirect} from './Redirect';

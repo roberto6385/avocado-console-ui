@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {persistReducer} from 'redux-persist';
 import createTransform from 'redux-persist/es/createTransform';
-import storageSession from 'redux-persist/lib/storage/session';
+import storage from 'redux-persist/lib/storage/session';
 import {parse, stringify} from 'flatted';
 
 import user from './user';
@@ -23,7 +23,7 @@ export const transformCircular = createTransform(
 
 const persistConfig = {
 	key: 'root',
-	storage: storageSession,
+	storage: storage,
 	whitelist: ['userTicket'],
 	transforms: [transformCircular],
 };
