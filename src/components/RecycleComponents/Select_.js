@@ -15,6 +15,17 @@ const _Container = styled.div`
 	flex: ${(props) => props.flex};
 `;
 
+// 테마 변경 부분에서 하단 선택 부분 구조
+// 현재 select된 값은 외부에서 구분한 뒤 css를 수정해야 할 듯 합니다.
+// 우선 hover, custom color는 주석처리 했습니다.
+
+// <div className=" css-26l3qy-menu">
+// 	<div className=" css-4ljt47-MenuList">
+// 		<div className=" css-yt9ioa-option" id="react-select-45-option-0" tabIndex="-1">라이트 모드</div>
+// 		<div className=" css-9gakcf-option" id="react-select-45-option-1" tabIndex="-1">다크 모드</div>
+// 	</div>
+// </div>
+
 const _Select = styled(Select)`
 	width: ${(props) => props.width};
 
@@ -26,18 +37,12 @@ const _Select = styled(Select)`
 		background: ${(props) => props.back};
 
 		.css-4ljt47-MenuList {
-			background: ${(props) => props.back};
+			// background: ${(props) => props.back};
 			div {
-				background: ${(props) => props.back};
 				color: ${(props) => props.color};
-				&:hover {
-					background: ${(props) => props.b_color};
-				}
-				//focus 안먹힘...
-				&:focus {
-					color: red;
-					background: red !important;
-				}
+				// &:hover {
+				// 	background: ${(props) => props.b_color};
+				// }
 			}
 		}
 
