@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -66,9 +66,11 @@ const SFTPContainer = ({uuid}) => {
 	}, [currentServer]);
 
 	useEffect(() => {
+		console.log(uuid);
 		uuid && dispatch(commandPwdAction(currentServer));
 		// 파일리스트가 나오지 않는 경우를 살펴보면 내부 fileList 배열에 2개 이상의 값이 저장됐는데,
 		// 이중 저장 되거나 하는 경우였다. 리스트가 빠르게 열리는것을 방지하거나 초기 갯수 제한을 두면 될것같다.
+		// 새 sftp를 추가할 떄 마다 리렌더링 되는 문제가 있다. 리렌더링을 방지해야 한다.
 	}, [uuid]);
 
 	return currentServer ? <SFTP uuid={uuid} /> : <div>서버 없음.</div>;
