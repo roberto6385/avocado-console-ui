@@ -111,27 +111,17 @@ const InputPopup = () => {
 				case 'sftp_rename_file_folder': {
 					const uuid = input_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {highlight, mode, path} = corServer;
+					const {highlight, path} = corServer;
 
 					for (let value of highlight) {
-						if (mode === 'list')
-							dispatch(
-								commandRenameAction({
-									...corServer,
-									prevName: value.name,
-									nextName: formValue,
-									newPath: path,
-								}),
-							);
-						else if (mode === 'drop')
-							dispatch(
-								commandRenameAction({
-									...corServer,
-									prevName: value.item.name,
-									nextName: formValue,
-									newPath: value.path,
-								}),
-							);
+						dispatch(
+							commandRenameAction({
+								...corServer,
+								prevName: value.name,
+								nextName: formValue,
+								newPath: path,
+							}),
+						);
 					}
 					break;
 				}
@@ -139,24 +129,15 @@ const InputPopup = () => {
 				case 'sftp_new_folder': {
 					const uuid = input_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {mode, path, tempPath} = corServer;
+					const {path} = corServer;
 
 					if (formValue === '') return;
-					if (mode === 'drop' && tempPath !== '') {
-						dispatch(
-							commandMkdirAction({
-								...corServer,
-								newPath: `${tempPath}/${formValue}`,
-							}),
-						);
-					} else {
-						dispatch(
-							commandMkdirAction({
-								...corServer,
-								newPath: `${path}/${formValue}`,
-							}),
-						);
-					}
+					dispatch(
+						commandMkdirAction({
+							...corServer,
+							newPath: `${path}/${formValue}`,
+						}),
+					);
 					break;
 				}
 
@@ -172,12 +153,10 @@ const InputPopup = () => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
 				if (input_popup.key === 'sftp_rename_file_folder') {
-					const {highlight, mode} = sftp.find(
+					const {highlight} = sftp.find(
 						(it) => it.uuid === input_popup.uuid,
 					);
-
-					if (mode === 'list') await setFormValue(highlight[0].name);
-					else await setFormValue(highlight[0].item.name);
+					await setFormValue(highlight[0].name);
 				} else {
 					await setFormValue('');
 				}

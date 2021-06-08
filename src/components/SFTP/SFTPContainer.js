@@ -66,8 +66,10 @@ const SFTPContainer = ({uuid}) => {
 	}, [currentServer]);
 
 	useEffect(() => {
-		dispatch(commandPwdAction(currentServer));
-	}, []);
+		uuid && dispatch(commandPwdAction(currentServer));
+		// 파일리스트가 나오지 않는 경우를 살펴보면 내부 fileList 배열에 2개 이상의 값이 저장됐는데,
+		// 이중 저장 되거나 하는 경우였다. 리스트가 빠르게 열리는것을 방지하거나 초기 갯수 제한을 두면 될것같다.
+	}, [uuid]);
 
 	return currentServer ? <SFTP uuid={uuid} /> : <div>서버 없음.</div>;
 };

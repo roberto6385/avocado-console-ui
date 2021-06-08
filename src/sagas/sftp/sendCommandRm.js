@@ -32,12 +32,19 @@ function* sendCommand(action) {
 				ws: payload.socket,
 			});
 		} else {
-			yield call(messageSender, {
-				keyword:
-					payload.keyword === 'rm' ? 'CommandByRm' : 'CommandByRmdir',
-				ws: payload.socket,
-				path: `${payload.newPath}/${payload.file.name}`,
-			});
+			console.log(payload.file.name);
+			console.log(payload.newPath);
+
+			if (payload.file.name !== '..' && payload.file.name !== '.') {
+				yield call(messageSender, {
+					keyword:
+						payload.keyword === 'rm'
+							? 'CommandByRm'
+							: 'CommandByRmdir',
+					ws: payload.socket,
+					path: `${payload.newPath}/${payload.file.name}`,
+				});
+			}
 		}
 
 		while (true) {
@@ -50,6 +57,7 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(messageReader, {data, payload});
+				const past = payload.path;
 				switch (res.type) {
 					case RM_SUCCESS:
 						console.log(payload.file);
@@ -85,16 +93,15 @@ function* sendCommand(action) {
 								uuid: payload.uuid,
 								path: res.path,
 								pathList: res.pathList,
+								removeIndex: 1,
 							},
 						});
-						for (let value of res.pathList) {
-							yield put(
-								commandLsAction({
-									...payload,
-									newPath: value,
-								}),
-							);
-						}
+						yield put(
+							commandLsAction({
+								...payload,
+								newPath: past,
+							}),
+						);
 						break;
 					default:
 						break;

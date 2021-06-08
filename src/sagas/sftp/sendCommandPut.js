@@ -60,6 +60,8 @@ function* sendCommand(action) {
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(messageReader, {data, payload});
+				const past = payload.path;
+
 				switch (res.type) {
 					case PUT_SUCCESS:
 						yield put({
@@ -106,13 +108,15 @@ function* sendCommand(action) {
 								uuid: payload.uuid,
 								path: res.path,
 								pathList: res.pathList,
+								removeIndex: 1,
 							},
 						});
-						for (let value of res.pathList) {
-							yield put(
-								commandLsAction({...payload, newPath: value}),
-							);
-						}
+						yield put(
+							commandLsAction({
+								...payload,
+								newPath: past,
+							}),
+						);
 				}
 			}
 		}
