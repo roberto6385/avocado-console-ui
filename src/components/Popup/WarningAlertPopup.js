@@ -121,18 +121,21 @@ const WarningAlertPopup = () => {
 					const corServer = sftp.find((it) => it.uuid === uuid);
 
 					for (let value of corServer.deleteWorks) {
+						console.log(value);
 						for (let item of value.list) {
-							console.log(item);
-							console.log(value.path);
-							dispatch(
-								commandRmAction({
-									...corServer,
-									file: item,
-									newPath: value.path,
-									keyword:
-										item.type === 'file' ? 'rm' : 'rmdir',
-								}),
-							);
+							if (item.name !== '..' || item.name !== '.') {
+								dispatch(
+									commandRmAction({
+										...corServer,
+										file: item,
+										newPath: value.path,
+										keyword:
+											item.type === 'file'
+												? 'rm'
+												: 'rmdir',
+									}),
+								);
+							}
 						}
 					}
 					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));

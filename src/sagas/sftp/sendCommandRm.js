@@ -96,6 +96,8 @@ function* sendCommand(action) {
 							);
 						}
 						break;
+					default:
+						break;
 				}
 			}
 		}

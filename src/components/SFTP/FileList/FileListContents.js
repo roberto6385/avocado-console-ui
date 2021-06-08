@@ -94,7 +94,14 @@ const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme, lang} = useSelector((state) => state.common);
 	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
+	const {
+		fileList,
+		highlight,
+		pathList,
+		sortKeyword,
+		toggle,
+		path,
+	} = corServer;
 	const dispatch = useDispatch();
 
 	const [currentFileList, setCurrentFileList] = useState([]);
@@ -244,7 +251,7 @@ const FileListContents = ({uuid}) => {
 			setCurrentKey(sortKeyword);
 			setCurrentFileList(sortedList);
 		}
-	}, [fileList, sortKeyword, toggle]);
+	}, [fileList, pathList, sortKeyword, toggle]);
 
 	return (
 		<React.Fragment>
@@ -261,7 +268,10 @@ const FileListContents = ({uuid}) => {
 				>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
-						if (item.name !== '..' && item.name !== '.') {
+						// item.name !== '..'
+						if (item.name === '.') {
+							return;
+						} else {
 							return (
 								<_Tr
 									color={fontColor[theme]}

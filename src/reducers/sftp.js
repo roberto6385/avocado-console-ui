@@ -223,8 +223,11 @@ const sftp = (state = initialState, action) =>
 				draft.loading = false;
 				target.path = action.payload.path;
 				target.pathList = action.payload.pathList;
-				target.fileList = [];
-				// target.highlight = [];
+				if (action.payload.removeIndex) {
+					for (let i = 0; i < action.payload.removeIndex; i++) {
+						target.fileList.pop();
+					}
+				}
 
 				break;
 			case PWD_FAILURE:
@@ -238,7 +241,12 @@ const sftp = (state = initialState, action) =>
 			case LS_SUCCESS:
 				draft.loading = false;
 				target.result = action.payload.result;
+				console.log(plainTarget.fileList);
+				console.log(action.payload.fileList);
 				target.fileList.push(action.payload.fileList);
+				// target.fileList = plainTarget.fileList.concat([
+				// 	action.payload.fileList,
+				// ]);
 				break;
 			case LS_FAILURE:
 				draft.loading = false;
