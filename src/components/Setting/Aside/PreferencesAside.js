@@ -11,9 +11,12 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 } from '../../../styles/global';
-import {useTranslation, initReactI18next} from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {SSH_SET_FONT_REQUEST} from '../../../reducers/ssh';
+import {
+	CHANGE_AUTO_COMPLETION_MODE,
+	SSH_SET_FONT_REQUEST,
+} from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 
@@ -59,9 +62,9 @@ const PreferencesAside = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
 	const {theme, lang} = useSelector((state) => state.common);
-	const {font} = useSelector((state) => state.ssh);
+	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
 
-	const [textCompletion, setTextCompletion] = useState(false);
+	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [generalTheme, setGeneralTheme] = useState(theme);
 	const [language, setLanguage] = useState(lang);
 	const [terminalTheme, setTerminalTheme] = useState(0);
@@ -76,6 +79,13 @@ const PreferencesAside = () => {
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
 	];
+
+	useEffect(() => {
+		dispatch({
+			type: CHANGE_AUTO_COMPLETION_MODE,
+			data: textCompletion,
+		});
+	}, [textCompletion, dispatch]);
 
 	useEffect(() => {
 		if (font !== terminalFont)

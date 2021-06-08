@@ -14,7 +14,10 @@ import {
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
-import {SSH_SET_FONT_REQUEST} from '../../reducers/ssh';
+import {
+	CHANGE_AUTO_COMPLETION_MODE,
+	SSH_SET_FONT_REQUEST,
+} from '../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../reducers/common';
 import {useTranslation} from 'react-i18next';
 
@@ -63,13 +66,15 @@ const PreferencesSpace = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
 	const {font} = useSelector((state) => state.ssh);
-	const {theme, lang} = useSelector((state) => state.common);
+	const {theme, lang, auto_completion_mode} = useSelector(
+		(state) => state.common,
+	);
 
-	const [textCompletion, setTextCompletion] = useState(false);
+	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [language, setLanguage] = useState(lang);
 
 	const [generalTheme, setGeneralTheme] = useState(theme);
-	const [terminalTheme, setTerminalTheme] = useState(0);
+	const [terminalTheme, setTerminalTheme] = useState();
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
@@ -81,6 +86,13 @@ const PreferencesSpace = () => {
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
 	];
+
+	useEffect(() => {
+		dispatch({
+			type: CHANGE_AUTO_COMPLETION_MODE,
+			data: textCompletion,
+		});
+	}, [textCompletion, dispatch]);
 
 	useEffect(() => {
 		if (font !== terminalFont)

@@ -14,8 +14,11 @@ import {
 } from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
+	backColor,
+	fontColor,
 	IconButton,
 	LIGHT_MODE_SIDE_COLOR,
+	sideColor,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
 } from '../../styles/global';
@@ -26,13 +29,16 @@ import {
 	closeIconMedium,
 	searchIcon,
 } from '../../icons/icons';
+import {useTranslation} from 'react-i18next';
+import {getElement} from 'bootstrap/js/src/util';
+import {theme} from 'react-contexify';
 
 const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 	padding: 20px;
-	background-color: #f8f9fa;
+	background-color: ${(props) => props.back_color};
 `;
 
 const _Terminal = styled(_Container)`
@@ -64,16 +70,37 @@ const _Input = styled.input`
 	border: none;
 `;
 
+const _ListGroupItem = styled(ListGroup.Item)`
+	padding: 6px 5.8px;
+	font-size: 14px;
+	overflow: auto;
+`;
+
+const _FooterListGroupItem = styled(_ListGroupItem)`
+	font-size: 10px;
+`;
+const _ListGroup = styled(ListGroup)`
+	width: 140px;
+	border-radius: 4px;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+	background-color: #ffffff;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	zindex: 5;
+`;
+
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {current_tab} = useSelector((state) => state.common);
+	const {t} = useTranslation('SSH');
+	const {current_tab, theme} = useSelector((state) => state.common);
 	const {
 		font,
 		font_size,
 		search_mode,
 		ssh,
 		ssh_history,
-		auto_complete_mode,
+		auto_completion_mode,
 	} = useSelector((state) => state.ssh);
 	const currentLine = ssh.find((v) => v.uuid === uuid).current_line;
 	const [search, onChangeSearch, setSearch] = useInput('');
@@ -81,11 +108,13 @@ const SSH = ({uuid}) => {
 	const [historyList, setHistoryList] = useState(
 		ssh_history.filter((v) => v.startsWith(currentLine)),
 	);
+	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
 	const sshTerm = ssh.find((v) => v.uuid === uuid).terminal;
 	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
 	const searchRef = useRef();
+
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		500,
 	);
@@ -143,13 +172,29 @@ const SSH = ({uuid}) => {
 		sshTerm.loadAddon(fitAddon.current);
 		sshTerm.loadAddon(searchAddon.current);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
+
+		sshTerm.setOption('theme', {
+			background: backColor[theme],
+			foreground: fontColor[theme],
+		});
+		sshTerm.setOption('fontSize', font_size);
+		sshTerm.setOption('fontFamily', font);
+
 		fitAddon.current.fit();
-	}, [uuid]);
+	}, [uuid, theme, font_size, font]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
+			console.log(
+				document.getElementsByClassName('xterm-helper-textarea')[0]
+					.style.left,
+			);
+			console.log(
+				document.getElementsByClassName('xterm-helper-textarea')[0]
+					.style.top,
+			);
 			if (
-				auto_complete_mode &&
+				auto_completion_mode &&
 				currentLine !== '' &&
 				data.charCodeAt(0) === 27
 			) {
@@ -163,9 +208,12 @@ const SSH = ({uuid}) => {
 					if (currentHistory === historyList.length - 1)
 						setCurrentHistory(0);
 					else setCurrentHistory(currentHistory + 1);
+				} else {
+					console.log('ESC');
+					setIgnoreAutoCompletion(true);
 				}
 			} else if (
-				auto_complete_mode &&
+				auto_completion_mode &&
 				currentLine !== '' &&
 				data.charCodeAt(0) === 13 &&
 				historyList.length > 0
@@ -189,6 +237,7 @@ const SSH = ({uuid}) => {
 						input: '\r',
 					},
 				});
+				if (ignoreAutoCompletion) setIgnoreAutoCompletion(false);
 			} else {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
@@ -203,7 +252,15 @@ const SSH = ({uuid}) => {
 		return () => {
 			processInput.dispose();
 		};
-	}, [uuid, ws, sshTerm, auto_complete_mode, currentHistory, historyList]);
+	}, [
+		uuid,
+		ws,
+		sshTerm,
+		auto_completion_mode,
+		currentHistory,
+		historyList,
+		ignoreAutoCompletion,
+	]);
 	//current tab terminal is focused
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
@@ -257,44 +314,54 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 	//set History List
 	useEffect(() => {
-		if (auto_complete_mode && currentLine !== '') {
+		if (auto_completion_mode && currentLine !== '') {
 			setHistoryList(
 				ssh_history.filter((v) => v.startsWith(currentLine)),
 			);
 			setCurrentHistory(0);
 		}
-	}, [auto_complete_mode, ssh_history, currentLine]);
+	}, [auto_completion_mode, ssh_history, currentLine]);
+
+	useEffect(() => {
+		// console.log(sshTerm.theme.background);
+		sshTerm.setOption('theme', {
+			background: backColor[theme],
+			foreground: fontColor[theme],
+		});
+	}, [theme]);
 
 	return (
-		<_Container ref={ref}>
+		<_Container ref={ref} back_color={backColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
-			<ListGroup
-				style={{
-					position: 'absolute',
-					right: '0',
-					bottom: '0',
-					zIndex: '5',
-				}}
-			>
-				{currentLine !== '' &&
-					auto_complete_mode &&
-					historyList.map((v, i) =>
-						i === currentHistory ? (
-							<ListGroup.Item
-								style={{backgroundColor: 'red'}}
-								onClick={onClickCommand(v)}
-								key={i}
-							>
-								{v}
-							</ListGroup.Item>
-						) : (
-							<ListGroup.Item onClick={onClickCommand(v)} key={i}>
-								{v}
-							</ListGroup.Item>
-						),
-					)}
-			</ListGroup>
-
+			{currentLine !== '' &&
+				auto_completion_mode &&
+				!ignoreAutoCompletion && (
+					<_ListGroup>
+						{historyList.map((v, i) =>
+							i === currentHistory ? (
+								<_ListGroupItem
+									style={{
+										backgroundColor: 'rgba(0, 0, 0, 0.04)',
+									}}
+									onClick={onClickCommand(v)}
+									key={i}
+								>
+									{v}
+								</_ListGroupItem>
+							) : (
+								<_ListGroupItem
+									onClick={onClickCommand(v)}
+									key={i}
+								>
+									{v}
+								</_ListGroupItem>
+							),
+						)}
+						<_FooterListGroupItem>
+							{t('autoCompletionFooter')}
+						</_FooterListGroupItem>
+					</_ListGroup>
+				)}
 			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
 				{searchIcon}
 				<_Input

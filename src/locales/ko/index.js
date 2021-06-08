@@ -25,3 +25,5 @@ export {default as changePasswordForm} from './Form/ChangePasswordForm';
 export {default as rightCornerIcons} from './RightCornerIcons';
 export {default as contextMenu} from './ContextMenu';
 export {default as snippets} from './Snippets';
+
+export {default as SSH} from './SSH/SSH';

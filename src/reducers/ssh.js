@@ -6,7 +6,7 @@ export const initialState = {
 	font: ROBOTO_MONO,
 	font_size: 14,
 	search_mode: false,
-	auto_complete_mode: true,
+	auto_completion_mode: true,
 	ssh: [],
 	ssh_history: [],
 	snippets: [
@@ -17,7 +17,7 @@ export const initialState = {
 	tab: false,
 };
 
-export const SSH_SET_CURRENT_LINE = 'SSH_SET_CURRENT_LINE';
+export const CHANGE_AUTO_COMPLETION_MODE = 'CHANGE_AUTO_COMPLETION_MODE';
 
 export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
 export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
@@ -208,8 +208,8 @@ const reducer = (state = initialState, action) => {
 				draft.snippents_index = action.data.snippents_index;
 				break;
 
-			case SSH_SET_CURRENT_LINE:
-				draft.current_line = '';
+			case CHANGE_AUTO_COMPLETION_MODE:
+				draft.auto_completion_mode = action.data;
 				break;
 
 			default:
