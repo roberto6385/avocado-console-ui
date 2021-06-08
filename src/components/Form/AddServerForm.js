@@ -364,7 +364,7 @@ const AddServerForm = () => {
 				label: item.identityName,
 			};
 		});
-		console.log(newArray);
+
 		setIdentityList(newArray);
 	}, [clicked_server]);
 

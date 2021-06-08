@@ -244,7 +244,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
-			console.log('check');
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
@@ -281,8 +280,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
-		console.log(snippets);
-		console.log(open);
 		if (snippets.length !== 0 && open) {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);
