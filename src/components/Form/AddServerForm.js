@@ -27,7 +27,6 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
-	formColor,
 	inputColor,
 	popupColor,
 } from '../../styles/global';

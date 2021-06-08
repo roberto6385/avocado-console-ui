@@ -22,18 +22,17 @@ import {
 } from '../../icons/icons';
 
 const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	right: auto;
 	bottom: auto;
 	transform: translate(-50%, -50%);
+	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
 	background: white;
 	border-radius: 4px;
 	width: 290px;
-	z-index: 15;
 `;
 
 const _Header = styled.div`
@@ -95,6 +94,7 @@ const AlertPopup = () => {
 
 	return (
 		<_Modal
+			style={{overlay: {zIndex: 1000}}}
 			isOpen={alert_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
