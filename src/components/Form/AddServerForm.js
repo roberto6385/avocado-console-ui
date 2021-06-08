@@ -29,6 +29,7 @@ import {
 	iconColor,
 	formColor,
 	inputColor,
+	popupColor,
 } from '../../styles/global';
 
 import styled from 'styled-components';
@@ -388,7 +389,7 @@ const AddServerForm = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			back={formColor[theme]}
+			back={popupColor[theme]}
 			b_color={borderColor[theme]}
 			color={fontColor[theme]}
 		>

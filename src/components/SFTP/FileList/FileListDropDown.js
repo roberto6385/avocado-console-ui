@@ -18,7 +18,7 @@ import {
 import styled from 'styled-components';
 import {
 	HiddenScroll,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	IconButton,
 	IconContainer,
 	PreventDragCopy,
@@ -444,7 +444,7 @@ const FileListDropDown = ({uuid}) => {
 										>
 											{item.type === 'directory' ? (
 												<IconContainer
-													color={MINT_COLOR}
+													color={LIGHT_MODE_MINT_COLOR}
 													margin={`0px 4px 0px 0px`}
 												>
 													{folderOpenIcon}

@@ -15,6 +15,14 @@ import {
 	ICON_DARK_COLOR,
 	IconButton,
 	PrimaryButton,
+	formColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	sideColor,
+	backColor,
+	mintColor,
+	inputColor,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
@@ -32,8 +40,11 @@ const _Modal = styled(Modal)`
 	padding: 1px;
 	border-radius: 4px;
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.22);
-	border: solid 1px #e3e5e5;
-	background-color: #ffffff;
+
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
@@ -45,28 +56,34 @@ const _Header = styled.div`
 	height: 40px;
 	font-size: ${AVOCADO_FONTSIZE};
 	padding: 2px 10px 2px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.b_color};
 	font-weight: 500;
 `;
 
 const _Input = styled.input`
-	width: 372px;
+	// width: 372px;
 	height: 34px;
 	margin: 0;
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: solid 1px #e3e5e5;
-	background-color: #ffffff;
+	border: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 `;
 
 const _TextareaInput = styled.textarea`
-	width: 372px;
+	// width: 372px;
 	height: 278px;
 	margin: 0;
 	padding: 6px 10px 20px;
 	border-radius: 4px;
-	border: solid 1px #e3e5e5;
-	background-color: #ffffff;
+
+	border: 1px solid;
+	border-color: ${(props) => props?.b_color};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	resize: none;
 `;
 
@@ -75,8 +92,6 @@ const _Form = styled.form`
 	height: 416px;
 	margin: 0;
 	padding: 18px 16px;
-	background-color: #ffffff;
-	border-left: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 `;
 
 const _Text = styled.div`
@@ -95,7 +110,9 @@ const _Ul = styled.ul`
 	width: 193px;
 	height: 416px;
 	padding: 0 0 175px;
-	background-color: #f8f9fa;
+	border-right: 1px solid;
+	border-color: ${(props) => props.b_color};
+	background: ${(props) => props.back};
 `;
 
 const _Li = styled.li`
@@ -109,15 +126,15 @@ const _Li = styled.li`
 	line-height: normal;
 	letter-spacing: 0.14px;
 	text-align: left;
-	color: #212121;
 	display: flex;
 	ailgn-items: center;
 	justify-content: space-between;
+	background: ${(props) => props.back};
 `;
 
 const _ClickedLi = styled(_Li)`
-	border-left: 2px solid ${GREEN_COLOR};
-	background-color: #ffffff;
+	border-left: 2px solid;
+	border-color: ${(props) => props.b_color};
 	padding: 1px 15px 3px 12px;
 `;
 
@@ -131,8 +148,8 @@ const _Footer = styled.div`
 	height: 60px;
 	margin: 1px 0 0;
 	padding: 13px 16px 13px 326px;
-	background-color: #ffffff;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	border-top: 1px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const _Input_ = styled(Input_)`
@@ -147,7 +164,8 @@ const _Input_ = styled(Input_)`
 	line-height: normal;
 	letter-spacing: 0.14px;
 	text-align: left;
-	color: #212121;
+
+	color: ${(props) => props.color};
 `;
 
 const _ListContainer = styled.div`
@@ -159,6 +177,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 	const {snippets, snippents_index} = useSelector((state) => state.ssh);
+	const {theme} = useSelector((state) => state.common);
 	const [tempSnippets, setTempSnippets] = useState(snippets);
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');
@@ -289,15 +308,18 @@ const SnippetsManeger = ({open, setOpen}) => {
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			back={formColor[theme]}
+			b_color={borderColor[theme]}
+			color={fontColor[theme]}
 		>
-			<_Header>
+			<_Header b_color={borderColor[theme]}>
 				<_Title>{t('snippetsManager')}</_Title>
-				<IconButton color={ICON_DARK_COLOR} onClick={onClickCancel}>
+				<IconButton color={iconColor[theme]} onClick={onClickCancel}>
 					{closeIconMedium}
 				</IconButton>
 			</_Header>
 			<_ListContainer>
-				<_Ul>
+				<_Ul b_color={borderColor[theme]} back={backColor[theme]}>
 					<_HeaderLi>
 						<_Text>{t('snippetList')}</_Text>
 						<IconButton onClick={onClickAddSnippet}>
@@ -319,6 +341,8 @@ const SnippetsManeger = ({open, setOpen}) => {
 								key={v.id}
 								onClick={onClickSnippet(v.id)}
 								variant={clickedSnippet === v.id && 'primary'}
+								back={sideColor[theme]}
+								b_color={mintColor[theme]}
 							>
 								<_Text>{v.name}</_Text>
 							</_ClickedLi>
@@ -343,6 +367,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 							onChange={onChangeName}
 							type='text'
 							placeholder={t('place.name')}
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 						/>
 					</_Input_>
 					<_Input_ title={t('content')}>
@@ -351,11 +378,14 @@ const SnippetsManeger = ({open, setOpen}) => {
 							onChange={onChangeContent}
 							type='text'
 							placeholder={t('place.content')}
+							back={inputColor[theme]}
+							color={fontColor[theme]}
+							b_color={borderColor[theme]}
 						/>
 					</_Input_>
 				</_Form>
 			</_ListContainer>
-			<_Footer>
+			<_Footer b_color={borderColor[theme]}>
 				<BorderButton onClick={onClickCancel}>
 					{t('cancel')}
 				</BorderButton>

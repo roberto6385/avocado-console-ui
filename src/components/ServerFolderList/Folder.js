@@ -18,7 +18,7 @@ import {
 	AVOCADO_FONTSIZE,
 	FOLDER_HEIGHT,
 	IconContainer,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	serverFolderBackColor,
 	sideColor,
 	fontColor,
@@ -217,7 +217,7 @@ const Folder = ({open, data, indent}) => {
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				b_Color={
-					clicked_server === data.key ? MINT_COLOR : sideColor[theme]
+					clicked_server === data.key ? LIGHT_MODE_MINT_COLOR : sideColor[theme]
 				}
 				back={
 					clicked_server === data.key
@@ -229,7 +229,7 @@ const Folder = ({open, data, indent}) => {
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
-						color={MINT_COLOR}
+						color={LIGHT_MODE_MINT_COLOR}
 					>
 						{folderIconMidium}
 					</IconContainer>

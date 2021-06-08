@@ -13,12 +13,13 @@ import {
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	SUB_HEIGHT,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	iconColor,
 	fontColor,
 	borderColor,
 	backColor,
+	sideColor, inputColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -69,9 +70,8 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
-	const pathInput = document.getElementById('fileListNavInput');
-
 	const goHome = (e, nextPath = '/root') => {
+		const pathInput = document.getElementById('fileListNavInput');
 		console.log(nextPath);
 		nextPath !== undefined &&
 			dispatch(commandCdAction({...corServer, newPath: nextPath})) &&
@@ -99,6 +99,8 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const EscapeKey = (e) => {
+		const pathInput = document.getElementById('fileListNavInput');
+
 		if (e.keyCode === 27) {
 			setCurrentPath(path);
 			pathInput.blur();
@@ -130,21 +132,21 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const refresh = useCallback(() => {
-		dispatch(commandPwdAction(corServer));
-	}, [corServer, dispatch]);
+		uuid && dispatch(commandPwdAction(corServer));
+	}, [uuid, corServer, dispatch]);
 
 	useEffect(() => {
-		setCurrentPath(path);
-	}, [corServer]);
+		uuid && setCurrentPath(path);
+	}, [uuid, corServer]);
 
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<_IconButton onClick={basicList}>
-				{viewListIcon(mode === 'list' ? MINT_COLOR : iconColor[theme])}
+				{viewListIcon(mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme])}
 			</_IconButton>
 			<_IconButton onClick={dropdownList}>
 				{viewColumnIcon(
-					mode === 'drop' ? MINT_COLOR : iconColor[theme],
+					mode === 'drop' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
 				)}
 			</_IconButton>
 			<_IconButton color={iconColor[theme]} onClick={goBack}>
@@ -157,7 +159,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={backColor[theme]}
+					back={inputColor[theme]}
 					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>

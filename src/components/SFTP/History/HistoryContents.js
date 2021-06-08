@@ -26,7 +26,7 @@ import {
 	THIRD_HEIGHT,
 	IconContainer,
 	LIGHT_MODE_ICON_COLOR,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	fontColor,
 	borderColor,
 	serverFolderBackColor,
@@ -187,7 +187,6 @@ const HistoryContents = ({uuid}) => {
 		[corServer, dispatch],
 	);
 
-	console.log(history_highlight);
 	const selectItem = useCallback(
 		(selectValue, index) => (e) => {
 			e.stopPropagation();
@@ -320,7 +319,7 @@ const HistoryContents = ({uuid}) => {
 									color={
 										history.progress !== 100
 											? LIGHT_MODE_ICON_COLOR
-											: MINT_COLOR
+											: LIGHT_MODE_MINT_COLOR
 									}
 								>
 									{history.progress !== 100 ? (
@@ -373,7 +372,7 @@ const HistoryContents = ({uuid}) => {
 										history_highlight.find(
 											(item) => item === history,
 										)
-											? MINT_COLOR
+											? LIGHT_MODE_MINT_COLOR
 											: iconColor[theme]
 									}
 								>

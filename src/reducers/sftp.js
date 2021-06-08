@@ -303,10 +303,12 @@ const sftp = (state = initialState, action) =>
 				target.tempItem = null;
 				break;
 			case INITIALIZING_HIGHLIGHT:
-				target.highlight = [];
+				if (target?.highlight) {
+					target.highlight = [];
+				}
 				break;
 			case ADD_ONE_HIGHLIGHT:
-				target.highlight.splice(
+				target.highlight?.splice(
 					0,
 					Number.MAX_VALUE,
 					action.payload.item,
@@ -347,7 +349,9 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case INITIAL_HISTORY_HI:
-				target.history_highlight = [];
+				if (target?.history_highlight) {
+					target.history_highlight = [];
+				}
 				break;
 
 			case DELETE_WORK_LIST:

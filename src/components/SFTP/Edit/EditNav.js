@@ -15,7 +15,7 @@ import {
 	fontColor,
 	iconColor,
 	borderColor,
-	sideColor,
+	sideColor, backColor,
 } from '../../../styles/global';
 import {
 	fileDownloadIcon,
@@ -110,7 +110,7 @@ const EditNav = ({uuid}) => {
 	return (
 		<_Container
 			justify={'space-between'}
-			back={sideColor[theme]}
+			back={backColor[theme]}
 			b_color={borderColor[theme]}
 		>
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>

@@ -13,6 +13,7 @@ import {
 	iconColor,
 	IconContainer,
 	MAIN_HEIGHT,
+	mintColor,
 	sideColor,
 	Span,
 	TAB_WIDTH,
@@ -203,11 +204,7 @@ const WorkSpace = () => {
 			<_MainContainer
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
-				<_Nav
-					back={
-						tab.length !== 0 ? backColor[theme] : sideColor[theme]
-					}
-				>
+				<_Nav back={sideColor[theme]}>
 					<_TabsContianer>
 						{tab.map((data) => {
 							return (
@@ -222,17 +219,17 @@ const WorkSpace = () => {
 										onClick={changeVisibleTab(data.uuid)}
 										back={
 											current_tab === data.uuid
-												? sideColor[theme]
-												: backColor[theme]
+												? backColor[theme]
+												: sideColor[theme]
 										}
 										color={
 											current_tab === data.uuid
-												? GREEN_COLOR
+												? mintColor[theme]
 												: fontColor[theme]
 										}
 										bColor={
 											current_tab === data.uuid
-												? GREEN_COLOR
+												? mintColor[theme]
 												: sideColor[theme]
 										}
 									>

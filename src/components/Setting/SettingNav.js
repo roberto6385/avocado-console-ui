@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
 	FOLDER_HEIGHT,
-	MINT_COLOR,
+	LIGHT_MODE_MINT_COLOR,
 	IconContainer,
 	SIDE_WIDTH,
 	SUB_HEIGHT,
@@ -99,7 +99,7 @@ const SettingNav = ({match}) => {
 					<IconContainer
 						color={
 							match.path === '/account'
-								? MINT_COLOR
+								? LIGHT_MODE_MINT_COLOR
 								: iconColor[theme]
 						}
 					>
@@ -118,7 +118,7 @@ const SettingNav = ({match}) => {
 					<IconContainer
 						color={
 							match.path === '/preferences'
-								? MINT_COLOR
+								? LIGHT_MODE_MINT_COLOR
 								: iconColor[theme]
 						}
 					>
@@ -138,7 +138,7 @@ const SettingNav = ({match}) => {
 					<IconContainer
 						color={
 							match.path === '/identities'
-								? MINT_COLOR
+								? LIGHT_MODE_MINT_COLOR
 								: iconColor[theme]
 						}
 					>
