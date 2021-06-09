@@ -203,35 +203,37 @@ function* sendWindowChange(action) {
 	const channel = yield call(subscribe, action.data.ws);
 
 	try {
-		yield call(ssht_ws_request, {
-			keyword: 'SendWindowChange',
-			ws: action.data.ws,
-			data: action.data.data,
-		});
-
-		while (true) {
-			const {timeout, result} = yield race({
-				timeout: delay(5000),
-				result: take(channel),
+		if (action.data.ws.readyState === 1) {
+			yield call(ssht_ws_request, {
+				keyword: 'SendWindowChange',
+				ws: action.data.ws,
+				data: action.data.data,
 			});
 
-			if (timeout) {
-				closeChannel(channel);
-			} else {
-				const res = yield call(GetMessage, result);
+			while (true) {
+				const {timeout, result} = yield race({
+					timeout: delay(5000),
+					result: take(channel),
+				});
 
-				switch (res.type) {
-					case 'COMMAND':
-						yield put({
-							type: SSH_SEND_COMMAND_SUCCESS,
-							data: {
-								uuid: action.data.uuid,
-								result: res.result,
-							},
-						});
-						break;
-					default:
-						break;
+				if (timeout) {
+					closeChannel(channel);
+				} else {
+					const res = yield call(GetMessage, result);
+
+					switch (res.type) {
+						case 'COMMAND':
+							yield put({
+								type: SSH_SEND_COMMAND_SUCCESS,
+								data: {
+									uuid: action.data.uuid,
+									result: res.result,
+								},
+							});
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}
