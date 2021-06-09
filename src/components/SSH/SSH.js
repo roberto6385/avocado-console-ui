@@ -189,7 +189,7 @@ const SSH = ({uuid}) => {
 		const processInput = sshTerm.onData((data) => {
 			if (
 				auto_completion_mode &&
-				currentLine !== '' &&
+				currentLine.length > 1 &&
 				data.charCodeAt(0) === 27
 			) {
 				if (data.substr(1) === '[A') {
@@ -206,7 +206,7 @@ const SSH = ({uuid}) => {
 					setIgnoreAutoCompletion(true);
 				}
 			} else if (
-				currentLine !== '' &&
+				currentLine.length > 1 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
 				historyList.length > 0 &&
@@ -309,13 +309,13 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 	//set History List
 	useEffect(() => {
-		if (auto_completion_mode && currentLine !== '') {
+		if (auto_completion_mode && currentLine.length > 1) {
 			setHistoryList(
 				ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
 			);
 			setCurrentHistory(0);
 		} else if (
-			currentLine === '' ||
+			currentLine.length > 1 ||
 			!auto_completion_mode ||
 			ignoreAutoCompletion
 		) {
@@ -333,7 +333,7 @@ const SSH = ({uuid}) => {
 	return (
 		<_Container ref={ref} back_color={backColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
-			{currentLine !== '' &&
+			{currentLine.length > 1 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
 				historyList.length > 0 && (
