@@ -20,6 +20,7 @@ import {
 	LIGHT_MODE_SIDE_COLOR,
 	TERMINAL_SEARCH_FORM_HEIGHT,
 	TERMINAL_SEARCH_FORM_WIDTH,
+	terminalColor,
 } from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
@@ -175,7 +176,7 @@ const SSH = ({uuid}) => {
 		sshTerm.open(document.getElementById('terminal_' + uuid));
 
 		sshTerm.setOption('theme', {
-			background: backColor[theme],
+			background: terminalColor[theme],
 			foreground: fontColor[theme],
 		});
 		sshTerm.setOption('fontSize', font_size);

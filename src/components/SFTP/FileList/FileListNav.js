@@ -18,8 +18,7 @@ import {
 	iconColor,
 	fontColor,
 	borderColor,
-	backColor,
-	sideColor, inputColor,
+	inputColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -142,7 +141,9 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<_IconButton onClick={basicList}>
-				{viewListIcon(mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme])}
+				{viewListIcon(
+					mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
+				)}
 			</_IconButton>
 			<_IconButton onClick={dropdownList}>
 				{viewColumnIcon(

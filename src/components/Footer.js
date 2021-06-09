@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
 	Span,
-	LIGHT_MODE_FOOTER_BACKGROUND_COLOR,
 	FOOTER_HEIGHT,
 	HISTORY_FONTSIZE,
 	footerColor,
