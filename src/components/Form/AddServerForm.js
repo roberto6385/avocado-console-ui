@@ -345,6 +345,9 @@ const AddServerForm = () => {
 				setAccount(correspondedIdentity.identityName);
 				setAuthentication(correspondedIdentity.type);
 				setPassword(correspondedIdentity.password);
+				// setIdentityList(
+				// 	identity.slice().filter((v) => v.key === clicked_server),
+				// );
 				setKeyFile('');
 				setUsername(correspondedIdentity.user);
 				setNote('');
@@ -380,6 +383,7 @@ const AddServerForm = () => {
 			setPassword(selectedIdentity.password);
 			setAuthentication(selectedIdentity.type);
 		}
+		setIdentityList(correspondedIdentityList);
 	}, [account, identity, clicked_server]);
 
 	return (
@@ -470,6 +474,7 @@ const AddServerForm = () => {
 						options={authentication_options}
 						value={authentication}
 						setValue={setAuthentication}
+						disabled={true}
 					/>
 				</Item_Container>
 				<Item_Container>

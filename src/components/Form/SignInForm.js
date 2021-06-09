@@ -151,7 +151,8 @@ const SignInForm = () => {
 			} else if (password === '') {
 				passwordRef.current?.focus();
 			} else {
-				const encodeData = base64.encode(`${user}:${password}`);
+				// const encodeData = base64.encode(`${user}:${password}`);
+				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
 				dispatch(
 					getUserTicket({

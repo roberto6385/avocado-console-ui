@@ -94,6 +94,7 @@ const Select_ = ({
 	back,
 	b_color,
 	color,
+	disabled,
 }) => {
 	return (
 		<_Container flex={flex}>
@@ -108,6 +109,7 @@ const Select_ = ({
 				onChange={(e) => setValue(e.value)}
 				width={width}
 				back={back}
+				isDisabled={disabled}
 			/>
 		</_Container>
 	);
@@ -123,6 +125,7 @@ Select_.propTypes = {
 	back: PropTypes.string,
 	b_color: PropTypes.string,
 	color: PropTypes.string,
+	disabled: PropTypes.bool,
 };
 
 export default Select_;
