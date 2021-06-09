@@ -9,7 +9,6 @@ import {
 	IconButton,
 	SSH_SFTP_HEADER_HEIGHT,
 	AVOCADO_FONTSIZE,
-	sideColor,
 	fontColor,
 	borderColor,
 	iconColor,
@@ -40,8 +39,7 @@ const _Header = styled.div`
 	align-items: center;
 	padding: 0px 6px;
 	z-index: 1;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	border: 1px solid;
 	border-color: ${(props) => props.bColor};
 	background: ${(props) => props.back};
 `;
@@ -87,11 +85,7 @@ const Pane = ({uuid, type, server}) => {
 		<_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length !== 1 && (
 				<_Header
-					back={
-						current_tab === uuid
-							? serverFolderBackColor[theme]
-							: backColor[theme]
-					}
+					back={backColor[theme]}
 					bColor={
 						current_tab === uuid ? GREEN_COLOR : borderColor[theme]
 					}

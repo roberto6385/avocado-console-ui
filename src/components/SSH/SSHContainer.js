@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
@@ -7,11 +9,8 @@ import SnippetsManeger from './SnippetsManager';
 import {useTranslation} from 'react-i18next';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
-
-import styled from 'styled-components';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
-import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	position: relative;

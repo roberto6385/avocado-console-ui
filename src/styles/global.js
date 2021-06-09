@@ -23,6 +23,8 @@ export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
 export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
 export const LIGHT_MODE_FORM_BACKGROUND_COLOR = '#ffffff';
 export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#f0f3f6';
+export const LIGHT_MODE_TAB_HEADER_COLOR = '#ffffff';
+export const LIGHT_MODE_TERMINAL_COLOR = '#f8f9fa';
 
 // darkmode color
 export const DARK_MODE_MINT_COLOR = '#44c8c0';
@@ -37,6 +39,8 @@ export const DARK_MODE_BORDER_COLOR = '#192836';
 export const DARK_MODE_FOOTER_BACKGROUND_COLOR = '#18191f';
 export const DARK_MODE_FORM_BACKGROUND_COLOR = '#253c51';
 export const DARK_MODE_INPUT_BACKGROUND_COLOR = 'rgba(0,0,0, 0.22)';
+export const DARK_MODE_TAB_HEADER_COLOR = '#1b2935';
+export const DARK_MODE_TERMINAL_COLOR = '#182530';
 
 // Button color
 export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
@@ -89,6 +93,14 @@ export const formColor = [
 export const inputColor = [
 	LIGHT_MODE_INPUT_BACKGROUND_COLOR,
 	DARK_MODE_INPUT_BACKGROUND_COLOR,
+];
+export const tabHeaderColor = [
+	LIGHT_MODE_TAB_HEADER_COLOR,
+	DARK_MODE_TAB_HEADER_COLOR,
+];
+export const terminalColor = [
+	LIGHT_MODE_TERMINAL_COLOR,
+	DARK_MODE_TERMINAL_COLOR,
 ];
 export const mintColor = [LIGHT_MODE_MINT_COLOR, DARK_MODE_MINT_COLOR];
 

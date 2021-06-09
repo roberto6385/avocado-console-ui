@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
 	GREEN_COLOR,
@@ -129,7 +129,7 @@ const Nav = ({toggle, setToggle}) => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
 	const {nav, theme} = useSelector((state) => state.common);
-	const [search, onChangeSearch, setSearch] = useInput('');
+	const [search, onChangeSearch] = useInput('');
 
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
@@ -200,16 +200,6 @@ const Nav = ({toggle, setToggle}) => {
 			<ServerFolderList search={search} />
 		</_Aside>
 	);
-	// ) : (
-	// 	<_HideSpace back={sideColor[theme]}>
-	// 		<_ToggleButton
-	// 			color={iconColor[theme]}
-	// 			onClick={() => setToggle(!toggle)}
-	// 		>
-	// 			{burgerMenuIcon}
-	// 		</_ToggleButton>
-	// 	</_HideSpace>
-	// );
 };
 
 Nav.propTypes = {

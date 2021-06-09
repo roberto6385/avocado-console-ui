@@ -5,7 +5,8 @@ import {
 	take,
 	call,
 	takeLatest,
-	takeEvery,
+	race,
+	delay,
 } from 'redux-saga/effects';
 
 import {
@@ -39,44 +40,53 @@ function* sendConnection(action) {
 		});
 
 		while (true) {
-			const result = yield take(channel);
-			const res = yield call(GetMessage, result);
+			const {timeout, result} = yield race({
+				timeout: delay(5000),
+				result: take(channel),
+			});
 
-			switch (res.type) {
-				case 'CONNECT':
-					uuid = res.result;
-					yield put({
-						type: SSH_SEND_CONNECTION_SUCCESS,
-						data: {
-							uuid: uuid,
-							ws: ws,
-						},
-					});
-					yield put({
-						type: OPEN_TAB,
-						data: {
-							uuid: uuid,
-							type: 'SSH',
-							server: {
-								id: action.data.id,
-								name: action.data.name,
-								key: action.data.key,
+			if (timeout) {
+				closeChannel(channel);
+			} else {
+				const res = yield call(GetMessage, result);
+
+				switch (res.type) {
+					case 'CONNECT':
+						uuid = res.result;
+						yield put({
+							type: SSH_SEND_CONNECTION_SUCCESS,
+							data: {
+								uuid: uuid,
+								ws: ws,
 							},
-						},
-					});
+						});
+						yield put({
+							type: OPEN_TAB,
+							data: {
+								uuid: uuid,
+								type: 'SSH',
+								server: {
+									id: action.data.id,
+									name: action.data.name,
+									key: action.data.key,
+								},
+							},
+						});
+						break;
 
-					break;
-				case 'COMMAND':
-					yield put({
-						type: SSH_SEND_COMMAND_SUCCESS,
-						data: {
-							uuid: uuid,
-							result: res.result,
-						},
-					});
-					break;
-				default:
-					break;
+					case 'COMMAND':
+						yield put({
+							type: SSH_SEND_COMMAND_SUCCESS,
+							data: {
+								uuid: uuid,
+								result: res.result,
+							},
+						});
+						break;
+
+					default:
+						break;
+				}
 			}
 		}
 	} catch (err) {
@@ -97,22 +107,36 @@ function* sendDisconnection(action) {
 			});
 
 			while (true) {
-				const result = yield take(channel);
-				const res = yield call(GetMessage, result);
+				const {timeout, result} = yield race({
+					timeout: delay(5000),
+					result: take(channel),
+				});
 
-				switch (res.type) {
-					case 'DISCONNECT':
-						yield put({type: CLOSE_TAB, data: action.data.uuid});
-						yield put({
-							type: SSH_SEND_DISCONNECTION_SUCCESS,
-							data: action.data.uuid,
-						});
-						break;
-					default:
-						break;
+				if (timeout) {
+					console.log('Disconnection 채널 사용이 없습니다.');
+					closeChannel(channel);
+				} else {
+					const res = yield call(GetMessage, result);
+
+					switch (res.type) {
+						case 'DISCONNECT':
+							yield put({
+								type: CLOSE_TAB,
+								data: action.data.uuid,
+							});
+							yield put({
+								type: SSH_SEND_DISCONNECTION_SUCCESS,
+								data: action.data.uuid,
+							});
+							break;
+
+						default:
+							break;
+					}
 				}
 			}
 		} else {
+			closeChannel(channel);
 			yield put({type: CLOSE_TAB, data: action.data.uuid});
 			yield put({
 				type: SSH_SEND_DISCONNECTION_SUCCESS,
@@ -122,6 +146,11 @@ function* sendDisconnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
+		yield put({type: CLOSE_TAB, data: action.data.uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: action.data.uuid,
+		});
 	}
 }
 
@@ -137,21 +166,29 @@ function* sendCommand(action) {
 			});
 
 			while (true) {
-				const result = yield take(channel);
-				const res = yield call(GetMessage, result);
+				const {timeout, result} = yield race({
+					timeout: delay(5000),
+					result: take(channel),
+				});
 
-				switch (res.type) {
-					case 'COMMAND':
-						yield put({
-							type: SSH_SEND_COMMAND_SUCCESS,
-							data: {
-								uuid: action.data.uuid,
-								result: res.result,
-							},
-						});
-						break;
-					default:
-						break;
+				if (timeout) {
+					closeChannel(channel);
+				} else {
+					const res = yield call(GetMessage, result);
+
+					switch (res.type) {
+						case 'COMMAND':
+							yield put({
+								type: SSH_SEND_COMMAND_SUCCESS,
+								data: {
+									uuid: action.data.uuid,
+									result: res.result,
+								},
+							});
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}
@@ -173,21 +210,29 @@ function* sendWindowChange(action) {
 		});
 
 		while (true) {
-			const result = yield take(channel);
-			const res = yield call(GetMessage, result);
+			const {timeout, result} = yield race({
+				timeout: delay(5000),
+				result: take(channel),
+			});
 
-			switch (res.type) {
-				case 'COMMAND':
-					yield put({
-						type: SSH_SEND_COMMAND_SUCCESS,
-						data: {
-							uuid: action.data.uuid,
-							result: res.result,
-						},
-					});
-					break;
-				default:
-					break;
+			if (timeout) {
+				closeChannel(channel);
+			} else {
+				const res = yield call(GetMessage, result);
+
+				switch (res.type) {
+					case 'COMMAND':
+						yield put({
+							type: SSH_SEND_COMMAND_SUCCESS,
+							data: {
+								uuid: action.data.uuid,
+								result: res.result,
+							},
+						});
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	} catch (err) {
@@ -206,7 +251,7 @@ function* watchSendDisconnection() {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(SSH_SEND_COMMAND_REQUEST, sendCommand);
+	yield takeLatest(SSH_SEND_COMMAND_REQUEST, sendCommand);
 }
 
 function* watchSendWindowChange() {

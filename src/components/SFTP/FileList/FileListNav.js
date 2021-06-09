@@ -18,8 +18,6 @@ import {
 	iconColor,
 	fontColor,
 	borderColor,
-	backColor,
-	sideColor,
 	inputColor,
 } from '../../../styles/global';
 import {
