@@ -27,7 +27,6 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
-	formColor,
 	inputColor,
 	popupColor,
 } from '../../styles/global';
@@ -364,7 +363,7 @@ const AddServerForm = () => {
 				label: item.identityName,
 			};
 		});
-		console.log(newArray);
+
 		setIdentityList(newArray);
 	}, [clicked_server]);
 

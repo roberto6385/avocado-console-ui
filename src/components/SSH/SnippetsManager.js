@@ -8,11 +8,8 @@ import {useTranslation} from 'react-i18next';
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
 	AVOCADO_FONTSIZE,
-	LIGHT_MODE_BORDER_COLOR,
 	BorderButton,
 	FOLDER_HEIGHT,
-	GREEN_COLOR,
-	ICON_DARK_COLOR,
 	IconButton,
 	PrimaryButton,
 	formColor,
@@ -40,7 +37,6 @@ const _Modal = styled(Modal)`
 	padding: 1px;
 	border-radius: 4px;
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.22);
-
 	border: 1px solid;
 	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
@@ -244,7 +240,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
-			console.log('check');
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
@@ -281,8 +276,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
-		console.log(snippets);
-		console.log(open);
 		if (snippets.length !== 0 && open) {
 			setClickedSnippet(snippets[0].id);
 			setName(snippets[0].name);

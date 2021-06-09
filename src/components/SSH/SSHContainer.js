@@ -6,12 +6,7 @@ import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 import {useTranslation} from 'react-i18next';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {
-	backColor,
-	IconButton,
-	sideColor,
-	SUB_HEIGHT,
-} from '../../styles/global';
+import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
 
 import styled from 'styled-components';
 import SSH from './SSH';
@@ -19,6 +14,7 @@ import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
 
 const _Container = styled.div`
+	position: relative;
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
