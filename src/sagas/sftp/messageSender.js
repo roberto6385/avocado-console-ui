@@ -2,6 +2,7 @@ import SFTP from '../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
 const sendConnect = (ws, data) => {
+	console.log('send Connection!!');
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var connect = new SFTP.ConnectRequest();

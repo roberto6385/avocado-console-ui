@@ -21,7 +21,7 @@ const SFTPConvertButton = ({data}) => {
 			dispatch(
 				connectionAction({
 					...correspondedServer,
-					token: userTicket,
+					token: userTicket.access_token,
 					user: correspondedIdentity.user,
 					password: correspondedIdentity.password,
 				}),

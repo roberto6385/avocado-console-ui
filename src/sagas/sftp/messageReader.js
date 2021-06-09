@@ -26,6 +26,7 @@ const appendBuffer = (buffer1, buffer2) => {
 let getReceiveSum = 0;
 
 export async function messageReader({data, payload}) {
+	console.log('check');
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

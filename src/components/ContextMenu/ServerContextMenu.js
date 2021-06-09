@@ -45,7 +45,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 		dispatch(
 			connectionAction({
-				token: userTicket,
+				token: userTicket.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
 				password: correspondedIdentity.password,
@@ -60,7 +60,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			data: {
-				token: userTicket,
+				token: userTicket.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
 				password: correspondedIdentity.password,

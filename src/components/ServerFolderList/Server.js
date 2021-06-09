@@ -74,7 +74,7 @@ const Server = ({data, indent}) => {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					data: {
-						token: userTicket,
+						token: userTicket.access_token,
 						...correspondedServer,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
@@ -83,7 +83,7 @@ const Server = ({data, indent}) => {
 			} else if (correspondedServer.protocol === 'SFTP') {
 				dispatch(
 					connectionAction({
-						token: userTicket,
+						token: userTicket.access_token,
 						...correspondedServer,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
@@ -176,7 +176,9 @@ const Server = ({data, indent}) => {
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				b_color={
-					clicked_server === data.key ? LIGHT_MODE_MINT_COLOR : sideColor[theme]
+					clicked_server === data.key
+						? LIGHT_MODE_MINT_COLOR
+						: sideColor[theme]
 				}
 				back={
 					clicked_server === data.key

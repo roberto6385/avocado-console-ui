@@ -14,7 +14,7 @@ function getUserTicketApi(params) {
 		querystring.stringify({
 			grant_type: 'password',
 			// username: params.username,
-			username: 'user', // client username 은 web이고 query parameter는 user 라서 직접입력함.
+			username: 'user@netand.co.kr', // client username 은 web이고 query parameter는 user 라서 직접입력함.
 			password: params.password,
 		}),
 		{
