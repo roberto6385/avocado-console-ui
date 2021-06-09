@@ -8,11 +8,11 @@ import SettingAppLayout from '../components/Setting/SettingLayout';
 const Account = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	useEffect(() => {
-		if (!userTicket) {
-			history.push('/signin');
-		}
-	}, [userTicket]);
+	// useEffect(() => {
+	// 	if (!userTicket) {
+	// 		history.push('/signin');
+	// 	}
+	// }, [userTicket]);
 
 	return (
 		<SettingAppLayout>

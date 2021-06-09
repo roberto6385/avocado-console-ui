@@ -31,7 +31,7 @@ export const userTicketFilter = createWhitelistFilter('userTicket', [
 
 const persistConfig = {
 	key: 'root',
-	storage: storage,
+	storage: storageSession,
 	whitelist: ['userTicket'],
 	transforms: [userTicketFilter],
 };
