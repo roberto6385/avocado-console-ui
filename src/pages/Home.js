@@ -19,11 +19,11 @@ const Home = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	// useEffect(() => {
-	// 	if (!userTicket) {
-	// 		history.push('/signin');
-	// 	}
-	// }, [userTicket]);
+	useEffect(() => {
+		if (!userTicket) {
+			history.push('/signin');
+		}
+	}, [userTicket]);
 
 	useEffect(() => {
 		dispatch({

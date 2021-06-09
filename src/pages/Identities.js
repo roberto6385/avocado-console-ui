@@ -10,11 +10,11 @@ const Identities = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const history = useHistory();
 
-	// useEffect(() => {
-	// 	if (!userTicket) {
-	// 		history.push('/signin');
-	// 	}
-	// }, [userTicket]);
+	useEffect(() => {
+		if (!userTicket) {
+			history.push('/signin');
+		}
+	}, [userTicket]);
 
 	return (
 		<SettingAppLayout>
