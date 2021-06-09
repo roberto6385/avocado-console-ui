@@ -7,7 +7,7 @@ export default {
 	id: 'ID',
 	password: 'Password',
 
-	remember: 'Remember Password',
+	remember: 'Remember ID and Password',
 	forget: 'Forget Password?',
 	signIn: 'Sign in',
 };

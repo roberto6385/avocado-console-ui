@@ -9,9 +9,6 @@ const Account = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
 	useEffect(() => {
-		// if (!userTicket) return <Redirect to='/login' />;
-		// if (!userTicket) return <Redirect to={{pathname: '/login'}} />;
-
 		if (!userTicket) {
 			history.push('/signin');
 		}

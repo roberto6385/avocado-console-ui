@@ -309,7 +309,8 @@ const IdentitiesSpace = () => {
 					</_Li>
 					{server.map((item) => {
 						if (
-							searchTreeStart(nav, item.key)
+							// searchTreeStart(nav, item.key)
+							item.name
 								.toLowerCase()
 								.replace(/ /g, '')
 								.includes(
@@ -393,7 +394,7 @@ const IdentitiesSpace = () => {
 					{identity.map((item) => {
 						if (item.key !== currentResourceListKey) return;
 						if (
-							item.identityName
+							item.user
 								.toLowerCase()
 								.replace(/ /g, '')
 								.includes(

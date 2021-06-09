@@ -70,10 +70,10 @@ const MainPage = () => {
 		<_Container back={backColor[theme]}>
 			<_Contents>
 				<_Text color={fontColor[theme]}>{t('title')}</_Text>
-				<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>
-				<PrimaryButton onClick={onClickVisibleForm}>
-					{t('addServer')}
-				</PrimaryButton>
+				{/*<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>*/}
+				{/*<PrimaryButton onClick={onClickVisibleForm}>*/}
+				{/*	{t('addServer')}*/}
+				{/*</PrimaryButton>*/}
 			</_Contents>
 		</_Container>
 	);

@@ -215,9 +215,11 @@ const Folder = ({open, data, indent}) => {
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
-				onContextMenu={contextMenuOpen}
+				// onContextMenu={contextMenuOpen}
 				b_Color={
-					clicked_server === data.key ? LIGHT_MODE_MINT_COLOR : sideColor[theme]
+					clicked_server === data.key
+						? LIGHT_MODE_MINT_COLOR
+						: sideColor[theme]
 				}
 				back={
 					clicked_server === data.key
@@ -284,7 +286,7 @@ const Folder = ({open, data, indent}) => {
 					</React.Fragment>
 				</Collapse_>
 			)}
-			<FolderContextMenu data={data} setOpenRename={setOpenRename} />
+			{/*<FolderContextMenu data={data} setOpenRename={setOpenRename} />*/}
 		</React.Fragment>
 	);
 };

@@ -60,7 +60,9 @@ const Footer = () => {
 	}, [font_size, dispatch]);
 
 	const onClickOpenSearchBar = useCallback(() => {
-		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
+		const current = tab.slice().find((v) => v.uuid === current_tab);
+		if (current_tab !== null && current.type === 'SSH')
+			dispatch({type: SET_SEARCH_MODE});
 	}, [current_tab, dispatch]);
 	return (
 		<_Footer back={footerColor[theme]}>

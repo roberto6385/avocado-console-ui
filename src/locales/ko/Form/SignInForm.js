@@ -7,7 +7,7 @@ export default {
 	id: '아이디',
 	password: '비밀번호',
 
-	remember: '비밀번호 기억하기',
+	remember: '아이디 비밀번호 기억하기',
 	forget: '비밀번호 찾기',
 	signIn: '로그인',
 };
