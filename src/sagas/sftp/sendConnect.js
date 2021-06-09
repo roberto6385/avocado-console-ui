@@ -9,9 +9,12 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	commandLsAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
+	LS_SUCCESS,
+	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
@@ -25,6 +28,7 @@ function* sendCommand(action) {
 	console.log(payload);
 	const socket = yield call(createWebsocket, payload.host);
 	const channel = yield call(subscribe, socket);
+	let uuid = '';
 	try {
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -42,8 +46,16 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(messageReader, {data, payload});
+
+				let prev = [];
+				let next = [];
+				let add = [];
+
 				switch (res.type) {
 					case CONNECTION_SUCCESS:
+						console.log(res);
+						uuid = res.uuid;
+
 						yield put({
 							type: CONNECTION_SUCCESS,
 							payload: {
@@ -63,6 +75,53 @@ function* sendCommand(action) {
 								},
 							},
 						});
+
+						yield call(messageSender, {
+							keyword: 'CommandByPwd',
+							ws: socket,
+						});
+
+						break;
+
+					case PWD_SUCCESS:
+						console.log(res);
+						console.log(uuid);
+						prev = [];
+						next = res.pathList;
+						add = next.filter((v) => !prev.includes(v));
+
+						yield put({
+							type: PWD_SUCCESS,
+							payload: {
+								uuid: uuid,
+								path: res.path,
+								pathList: res.pathList,
+								removeIndex: 0,
+							},
+						});
+
+						for (let value of add) {
+							console.log(value);
+							yield put(
+								commandLsAction({
+									uuid: uuid,
+									path: '',
+									mode: 'list',
+									pathList: [],
+									fileList: [],
+									deleteWorks: [],
+									sortKeyword: 'name',
+									toggle: true,
+									socket: socket,
+									newPath: value,
+								}),
+							);
+						}
+						break;
+
+					case LS_SUCCESS:
+						console.log(res);
+						break;
 				}
 			}
 		}

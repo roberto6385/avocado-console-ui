@@ -19,7 +19,8 @@ import {
 	fontColor,
 	borderColor,
 	backColor,
-	sideColor, inputColor,
+	sideColor,
+	inputColor,
 } from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -131,18 +132,24 @@ const FileListNav = ({uuid}) => {
 			});
 	};
 
-	const refresh = useCallback(() => {
-		uuid && dispatch(commandPwdAction(corServer));
+	const refresh = useCallback(async () => {
+		uuid && (await dispatch(commandPwdAction(corServer)));
 	}, [uuid, corServer, dispatch]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
 	}, [uuid, corServer]);
 
+	// useEffect(async () => {
+	// 	uuid && (await dispatch(commandPwdAction(corServer)));
+	// }, []);
+
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<_IconButton onClick={basicList}>
-				{viewListIcon(mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme])}
+				{viewListIcon(
+					mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
+				)}
 			</_IconButton>
 			<_IconButton onClick={dropdownList}>
 				{viewColumnIcon(
@@ -178,4 +185,4 @@ FileListNav.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default FileListNav;
+export default React.memo(FileListNav);

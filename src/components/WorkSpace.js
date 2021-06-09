@@ -165,7 +165,7 @@ const WorkSpace = () => {
 				dispatch(
 					disconnectAction({
 						uuid: data.uuid,
-						socket: sftp.find((v) => v.uuid === data.uuid).socket,
+						socket: sftp.find((v) => v.uuid === data.uuid)?.socket,
 					}),
 				);
 			}

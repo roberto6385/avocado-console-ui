@@ -15,7 +15,9 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common);
+	const {server, tab} = useSelector((state) => state.common);
+
+	const {sftp} = useSelector((state) => state.sftp);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const MENU_ID = data.key + 'server';
 	const correspondedServer = server.find((i) => i.key === data.key);
@@ -37,6 +39,8 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
+		const sftpTabs = tab.slice().filter((v) => v.type === 'SFTP');
+		console.log(sftpTabs);
 		console.log(correspondedIdentity);
 
 		dispatch(

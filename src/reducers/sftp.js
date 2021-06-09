@@ -170,7 +170,6 @@ const sftp = (state = initialState, action) =>
 					uuid: action.payload.uuid,
 					path: '',
 					newPath: '',
-					result: '',
 					// cmdstatus: '',
 					progress: 0,
 					// getPath: '',
@@ -240,7 +239,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			case LS_SUCCESS:
 				draft.loading = false;
-				target.result = action.payload.result;
 				console.log(plainTarget.fileList);
 				console.log(action.payload.fileList);
 				target.fileList.push(action.payload.fileList);
