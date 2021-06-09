@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
@@ -103,14 +103,21 @@ const SSH = ({uuid}) => {
 		ssh_history,
 		auto_completion_mode,
 	} = useSelector((state) => state.ssh);
-	const currentLine = ssh.find((v) => v.uuid === uuid).current_line;
+	const currentLine = useMemo(
+		() => ssh.find((v) => v.uuid === uuid).current_line,
+		[ssh, uuid],
+	);
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [currentHistory, setCurrentHistory] = useState(0);
-	const [historyList, setHistoryList] = useState(
-		ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
+	const historyList = useMemo(
+		() => ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
+		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
-	const sshTerm = ssh.find((v) => v.uuid === uuid).terminal;
+	const sshTerm = useMemo(() => ssh.find((v) => v.uuid === uuid).terminal, [
+		ssh,
+		uuid,
+	]);
 	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());
@@ -148,7 +155,7 @@ const SSH = ({uuid}) => {
 				},
 			});
 		},
-		[sshTerm, currentLine, uuid, ws],
+		[currentLine, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
@@ -183,13 +190,13 @@ const SSH = ({uuid}) => {
 		sshTerm.setOption('fontFamily', font);
 
 		fitAddon.current.fit();
-	}, [uuid, theme, font_size, font]);
+	}, [sshTerm, uuid, theme, font_size, font]);
 
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
 			if (
 				auto_completion_mode &&
-				currentLine !== '' &&
+				currentLine.length > 1 &&
 				data.charCodeAt(0) === 27
 			) {
 				if (data.substr(1) === '[A') {
@@ -206,7 +213,7 @@ const SSH = ({uuid}) => {
 					setIgnoreAutoCompletion(true);
 				}
 			} else if (
-				currentLine !== '' &&
+				currentLine.length > 1 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
 				historyList.length > 0 &&
@@ -255,6 +262,7 @@ const SSH = ({uuid}) => {
 		currentHistory,
 		historyList,
 		ignoreAutoCompletion,
+		currentLine,
 	]);
 	//current tab terminal is focused
 	useEffect(() => {
@@ -309,17 +317,8 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search]);
 	//set History List
 	useEffect(() => {
-		if (auto_completion_mode && currentLine !== '') {
-			setHistoryList(
-				ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
-			);
+		if (auto_completion_mode && currentLine.length > 1) {
 			setCurrentHistory(0);
-		} else if (
-			currentLine === '' ||
-			!auto_completion_mode ||
-			ignoreAutoCompletion
-		) {
-			setHistoryList([]);
 		}
 	}, [auto_completion_mode, ssh_history, currentLine, ignoreAutoCompletion]);
 	//change terminal theme
@@ -333,7 +332,7 @@ const SSH = ({uuid}) => {
 	return (
 		<_Container ref={ref} back_color={backColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
-			{currentLine !== '' &&
+			{currentLine.length > 1 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
 				historyList.length > 0 && (
@@ -380,16 +379,17 @@ const SSH = ({uuid}) => {
 								) -
 								listRef.current?.clientHeight -
 								100 >
-								0 &&
-							String(
-								Number(
-									sshTerm._core.textarea.style.top.substring(
-										0,
-										sshTerm._core.textarea.style.top
-											.length - 2,
-									),
-								) + 100,
-							) + 'px'
+							0
+								? String(
+										Number(
+											sshTerm._core.textarea.style.top.substring(
+												0,
+												sshTerm._core.textarea.style.top
+													.length - 2,
+											),
+										) + 100,
+								  ) + 'px'
+								: undefined
 						}
 						bottom={
 							height -
@@ -402,18 +402,19 @@ const SSH = ({uuid}) => {
 								) -
 								listRef.current?.clientHeight -
 								100 <=
-								0 &&
-							String(
-								height -
-									Number(
-										sshTerm._core.textarea.style.top.substring(
-											0,
-											sshTerm._core.textarea.style.top
-												.length - 2,
-										),
-									) +
-									30,
-							) + 'px'
+							0
+								? String(
+										height -
+											Number(
+												sshTerm._core.textarea.style.top.substring(
+													0,
+													sshTerm._core.textarea.style
+														.top.length - 2,
+												),
+											) +
+											30,
+								  ) + 'px'
+								: undefined
 						}
 					>
 						{historyList.map((v, i) =>

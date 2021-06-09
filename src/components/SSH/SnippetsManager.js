@@ -114,7 +114,6 @@ const _Ul = styled.ul`
 const _Li = styled.li`
 	width: 193px;
 	height: 40px;
-	padding: 1px 15px 3px 14px;
 	font-size: 14px;
 	font-weight: normal;
 	font-stretch: normal;
@@ -123,15 +122,12 @@ const _Li = styled.li`
 	letter-spacing: 0.14px;
 	text-align: left;
 	display: flex;
-	ailgn-items: center;
+	align-items: center;
 	justify-content: space-between;
 	background: ${(props) => props.back};
-`;
-
-const _ClickedLi = styled(_Li)`
-	border-left: 2px solid;
 	border-color: ${(props) => props.b_color};
-	padding: 1px 15px 3px 12px;
+	padding: ${(props) => props.padding};
+	border-left: ${(props) => props.b_left};
 `;
 
 const _HeaderLi = styled(_Li)`
@@ -253,13 +249,13 @@ const SnippetsManeger = ({open, setOpen}) => {
 			...tempSnippets,
 			{
 				id: index,
-				name: t('new'),
+				name: '',
 				content: '',
 			},
 		]);
 		setClickedSnippet(index);
 		setIndex(index + 1);
-		setName(t('new'));
+		setName('');
 		setContent('');
 		nameInput.current?.focus();
 	}, [tempSnippets, index, nameInput]);
@@ -326,31 +322,31 @@ const SnippetsManeger = ({open, setOpen}) => {
 						</IconButton>
 					</_HeaderLi>
 
-					{tempSnippets.map((v) =>
-						clickedSnippet === v.id ? (
-							<_ClickedLi
-								height={'40px'}
-								width={'193px'}
-								key={v.id}
-								onClick={onClickSnippet(v.id)}
-								variant={clickedSnippet === v.id && 'primary'}
-								back={sideColor[theme]}
-								b_color={mintColor[theme]}
-							>
-								<_Text>{v.name}</_Text>
-							</_ClickedLi>
-						) : (
-							<_Li
-								height={'40px'}
-								width={'193px'}
-								key={v.id}
-								onClick={onClickSnippet(v.id)}
-								variant={clickedSnippet === v.id && 'primary'}
-							>
-								<_Text>{v.name}</_Text>
-							</_Li>
-						),
-					)}
+					{tempSnippets.map((v) => (
+						<_Li
+							height={'40px'}
+							width={'193px'}
+							key={v.id}
+							onClick={onClickSnippet(v.id)}
+							variant={clickedSnippet === v.id && 'primary'}
+							back={
+								clickedSnippet === v.id
+									? sideColor[theme]
+									: backColor[theme]
+							}
+							b_color={mintColor[theme]}
+							b_left={
+								clickedSnippet === v.id ? '2px solid' : 'none'
+							}
+							padding={
+								clickedSnippet === v.id
+									? '1px 15px 3px 12px'
+									: '1px 15px 3px 14px'
+							}
+						>
+							<_Text>{v.name === '' ? t('new') : v.name}</_Text>
+						</_Li>
+					))}
 				</_Ul>
 				<_Form>
 					<_Input_ title={t('name')}>

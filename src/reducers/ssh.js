@@ -126,7 +126,7 @@ const reducer = (state = initialState, action) => {
 						);
 					else draft.ssh[index].current_line += action.data.input;
 				}
-				console.log(draft.ssh[index].current_line);
+				// console.log(draft.ssh[index].current_line);
 				break;
 			}
 
