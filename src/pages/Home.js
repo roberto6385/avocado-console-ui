@@ -15,9 +15,12 @@ const _Container = styled.div`
 `;
 
 const Home = () => {
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {userTicket, userInfo} = useSelector((state) => state.userTicket);
 	const history = useHistory();
 	const dispatch = useDispatch();
+	// const userInfo = JSON.parse(
+	// 	JSON.parse(sessionStorage.getItem('persist:root')).userTicket,
+	// ).userInfo;
 
 	useEffect(() => {
 		if (!userTicket) {
@@ -26,15 +29,21 @@ const Home = () => {
 	}, [userTicket]);
 
 	useEffect(() => {
-		dispatch({
-			type: SAVE_ACCOUT,
-			payload: {
-				account: localStorage.getItem('user'),
-				name: '아보카도',
-				email: 'netand@gmail.co.kr',
-			},
-		});
-	}, []);
+		if (userInfo) {
+			const email = userInfo.email;
+			const index = email.indexOf('@');
+			const id = email.substring(0, index);
+
+			dispatch({
+				type: SAVE_ACCOUT,
+				payload: {
+					account: userInfo.id === id ? userInfo.id : id,
+					name: userInfo.name,
+					email: userInfo.email,
+				},
+			});
+		}
+	}, [userInfo]);
 
 	return (
 		<_Container>

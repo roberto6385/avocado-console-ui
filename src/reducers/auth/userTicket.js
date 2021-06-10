@@ -16,6 +16,7 @@ export const getUserTicket = (params) => ({
 // initial State
 const initialState = {
 	userTicket: null,
+	userInfo: null,
 	loading: false,
 };
 
@@ -27,7 +28,8 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case GET_USER_TICKET_SUCCESS:
-				draft.userTicket = action.data;
+				draft.userTicket = action.payload.data;
+				draft.userInfo = action.payload.user;
 				draft.loading = false;
 				break;
 			case GET_USER_TICKET_FAILURE:
@@ -40,6 +42,7 @@ const userTicket = (state = initialState, action) =>
 
 			case REVOKE_USER_TICKET:
 				draft.userTicket = null;
+				draft.userInfo = null;
 				break;
 			default:
 				return state;

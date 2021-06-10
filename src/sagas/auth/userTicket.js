@@ -29,7 +29,18 @@ function getUserTicketApi(params) {
 function* getUserTicket(action) {
 	try {
 		const res = yield call(getUserTicketApi, action.params);
-		yield put({type: GET_USER_TICKET_SUCCESS, data: res.data});
+		yield put({
+			type: GET_USER_TICKET_SUCCESS,
+			payload: {
+				data: res.data,
+				//나중에 일반 로그인 유저 정보도 생기면 여기서 넣어주면 됨 지금은 user_id 뿐
+				user: {
+					id: 'user',
+					email: res.data.user_id,
+					name: '유저',
+				},
+			},
+		});
 	} catch (err) {
 		yield put({type: GET_USER_TICKET_FAILURE, data: err.response.data});
 	}
