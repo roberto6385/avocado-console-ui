@@ -47,12 +47,18 @@ function* sendCommand(action) {
 						// || payload.newPath === '..'
 						if (payload.newPath === '.') return;
 						if (payload.keyword !== 'pathFinder') {
+							console.log(res.list);
 							yield put({
 								type: LS_SUCCESS,
 								payload: {
 									uuid: payload.uuid,
 									fileList: sortFunction({
-										fileList: res.list,
+										fileList:
+											payload.newPath === '/'
+												? res.list.filter(
+														(v) => v.name !== '..',
+												  )
+												: res.list,
 										keyword: 'name',
 										toggle: true,
 									}),
