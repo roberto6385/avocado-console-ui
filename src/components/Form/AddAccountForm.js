@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
@@ -146,10 +146,10 @@ const AddAccountForm = () => {
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
 
-	const authentication_options = [
+	const {current: authentication_options} = useRef([
 		{value: 'Password', label: t('password')},
 		{value: 'KeyFile', label: t('keyFile')},
-	];
+	]);
 
 	const onSubmitForm = useCallback(
 		(e) => {

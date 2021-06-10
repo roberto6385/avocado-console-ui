@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 
@@ -136,7 +136,9 @@ const Panes = (tab) => {
 
 const PanesContainer = () => {
 	const {tab, cols, theme} = useSelector((state) => state.common);
-	const visibleTab = tab.filter((v) => v.display === true);
+	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
+		tab,
+	]);
 
 	return (
 		<_Container back={borderColor[theme]}>

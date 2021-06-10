@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
@@ -14,14 +14,11 @@ import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
-
+	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const {current: corServer} = useRef(sftp.find((it) => it.uuid === uuid));
 	const {highlight, path} = corServer;
 
-	const dispatch = useDispatch();
-
-	const MENU_ID = uuid + 'fileList';
 	const contextDownload = () => {
 		for (let value of highlight) {
 			dispatch(
@@ -121,7 +118,7 @@ const FileListContextMenu = ({uuid}) => {
 	};
 	return (
 		<Menu
-			id={MENU_ID}
+			id={uuid + 'fileList'}
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>

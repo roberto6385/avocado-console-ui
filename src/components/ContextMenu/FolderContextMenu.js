@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch} from 'react-redux';
@@ -12,14 +12,11 @@ import {
 const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-
-	const FolderContextMenuMessage = {
+	const {current: FolderContextMenuMessage} = useRef({
 		new_server: t('newServer'),
 		// rename: 'Rename',
 		// delete: 'Delete',
-	};
-
-	const MENU_ID = data.key + 'folder';
+	});
 
 	const handleItemClick = useCallback(
 		(e) => () => {
@@ -48,7 +45,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 
 	return (
 		<Menu
-			id={MENU_ID}
+			id={data.key + 'folder'}
 			animation={animation.slide}
 			style={{fontSize: '14px', background: 'white'}}
 		>

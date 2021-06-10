@@ -63,7 +63,6 @@ const Folder = ({open, data, indent}) => {
 	const {nav, clicked_server, theme, createdFolderInfo} = useSelector(
 		(state) => state.common,
 	);
-
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
