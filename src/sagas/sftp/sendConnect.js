@@ -7,13 +7,13 @@ import {
 	takeLatest,
 	race,
 	delay,
+	actionChannel,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
-	LS_SUCCESS,
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
@@ -38,7 +38,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -118,10 +118,6 @@ function* sendCommand(action) {
 							);
 						}
 						break;
-
-					case LS_SUCCESS:
-						console.log(res);
-						break;
 				}
 			}
 		}
@@ -132,7 +128,16 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeLatest(CONNECTION_REQUEST, sendCommand);
+	// yield takeLatest(CONNECTION_REQUEST, sendCommand);
+
+	const reqChannel = yield actionChannel(CONNECTION_REQUEST);
+	console.log('watch send command connection');
+	while (true) {
+		const action = yield take(reqChannel);
+		console.log('connect request start!!');
+		yield call(sendCommand, action);
+		yield delay(300);
+	}
 }
 
 export default function* connectSaga() {

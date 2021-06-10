@@ -17,6 +17,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {messageReader} from './messageReader';
+import {OPEN_ALERT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -52,7 +53,10 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: CD_FAILURE});
-		alert('CD 에러발생 채널종료!');
+		yield put({
+			type: OPEN_ALERT_POPUP,
+			data: 'wrong_path',
+		});
 		closeChannel(channel);
 	}
 }

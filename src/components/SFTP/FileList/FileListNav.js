@@ -92,7 +92,7 @@ const FileListNav = ({uuid}) => {
 	};
 	const searchPath = (e) => {
 		e.preventDefault();
-		currentPath !== '' && goHome(e, currentPath);
+		currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
 	};
 
 	const handleChange = (e) => {

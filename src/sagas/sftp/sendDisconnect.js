@@ -7,6 +7,8 @@ import {
 	race,
 	delay,
 	takeLatest,
+	actionChannel,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
@@ -21,6 +23,7 @@ import {closeChannel, subscribe} from '../channel';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
+	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {
 		messageSender({
@@ -29,37 +32,36 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(1000),
-				data: take(channel),
-			});
-			if (timeout) {
-				console.log('Disconnection 채널 사용이 없습니다. 종료합니다.');
-				closeChannel(channel);
-			} else {
-				// const data = yield take(channel);
-				const res = yield call(messageReader, {data, payload});
-				switch (res.type) {
-					case DISCONNECTION_SUCCESS:
-						yield put({
-							type: DISCONNECTION_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-							},
-						});
-				}
+			// const {timeout, data} = yield race({
+			// 	timeout: delay(1000),
+			// 	data: take(channel),
+			// });
+			// if (timeout) {
+			// 	console.log('Disconnection 채널 사용이 없습니다. 종료합니다.');
+			// 	closeChannel(channel);
+			// } else {
+			const data = yield take(channel);
+			const res = yield call(messageReader, {data, payload});
+			switch (res.type) {
+				case DISCONNECTION_SUCCESS:
+					console.log('disconnection success!!');
+					yield put({
+						type: DISCONNECTION_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+						},
+					});
+				// }
 			}
 		}
 	} catch (err) {
 		yield put({type: DISCONNECTION_FAILURE});
 		console.log(err);
-	} finally {
-		yield put({type: CLOSE_TAB, data: payload.uuid});
 	}
 }
 
 function* watchSendCommand() {
-	yield takeLatest(DISCONNECTION_REQUEST, sendCommand);
+	yield takeEvery(DISCONNECTION_REQUEST, sendCommand);
 	// const reqChannel = yield actionChannel(DISCONNECTION_REQUEST);
 	// while (true) {
 	// 	const action = yield take(reqChannel);

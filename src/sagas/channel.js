@@ -7,6 +7,9 @@ export function subscribe(socket, buffer) {
 		};
 
 		socket.onerror = () => {
+			console.log(
+				'error errorerror errorerror errorerror errorerror errorerror error',
+			);
 			socket.close();
 		};
 

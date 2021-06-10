@@ -58,7 +58,7 @@ const Redirect = () => {
 				)
 				// .then((response) => verify(response.data.access_token));
 				.then((res) => console.log(res))
-				.then(() => history.push('/'))
+			// .then(() => history.push('/'))
 		);
 	}, []);
 

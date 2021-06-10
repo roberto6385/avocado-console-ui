@@ -58,6 +58,7 @@ function* sendCommand(action) {
 									}),
 								},
 							});
+							console.log('ls success end!');
 						} else {
 							yield put({
 								type: DELETE_WORK_LIST,
@@ -106,8 +107,10 @@ function* watchSendCommand() {
 	// yield takeLatest(LS_REQUEST, sendCommand);
 
 	const reqChannel = yield actionChannel(LS_REQUEST);
+	console.log('watch send command ls');
 	while (true) {
 		const action = yield take(reqChannel);
+		console.log('ls request start!!');
 		yield call(sendCommand, action);
 	}
 }

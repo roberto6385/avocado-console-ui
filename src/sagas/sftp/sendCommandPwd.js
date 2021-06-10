@@ -8,6 +8,7 @@ import {
 	delay,
 	takeEvery,
 	takeLatest,
+	actionChannel,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
@@ -129,6 +130,14 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeEvery(PWD_REQUEST, sendCommand);
+
+	// const reqChannel = yield actionChannel(PWD_REQUEST);
+	// console.log('watch send command pwd');
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	console.log('pwd request start!!');
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandPwdSaga() {

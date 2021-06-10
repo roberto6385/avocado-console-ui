@@ -31,6 +31,8 @@ const sendDisconnect = (ws) => {
 	request.setDisconnect(disconnect);
 	message.setRequest(request);
 
+	console.log(message);
+
 	ws.send(message.serializeBinary());
 };
 

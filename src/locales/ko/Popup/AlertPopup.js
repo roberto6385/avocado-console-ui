@@ -9,6 +9,8 @@ export default {
 	folderNameDuplicate: '동일한 이름을 가진 폴더가 존재합니다.',
 	noChange: '변경사항이 없습니다.',
 	developing: '개발중입니다!',
+	wrongPath: `올바르지 않은 경로입니다`,
+
 	cancel: '취소',
 	ok: '확인',
 };

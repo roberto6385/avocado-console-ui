@@ -56,6 +56,7 @@ const _ItemContainer = styled.div`
 
 const _ButtonContainer = styled.div`
 	display: flex;
+	justify-content: flex-end;
 	width: 72px;
 `;
 

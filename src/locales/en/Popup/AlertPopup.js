@@ -10,6 +10,7 @@ export default {
 	folderNameDuplicate: 'There is already a fodler with the same name',
 	noChange: 'No changes have been made.',
 	developing: 'Developing',
+	wrongPath: `It's a wrong approach.`,
 	cancel: 'Cancel',
 	ok: 'OK',
 };

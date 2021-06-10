@@ -90,6 +90,7 @@ const AlertPopup = () => {
 		folder_name_duplicate: t('folderNameDuplicate'),
 		no_changes: t('noChange'),
 		developing: t('developing'),
+		wrong_path: t('wrongPath'),
 	};
 
 	return (
@@ -106,7 +107,8 @@ const AlertPopup = () => {
 			</_Header>
 
 			<_Message>
-				{alert_popup.key === 'developing' ? (
+				{alert_popup.key === 'developing' ||
+				alert_popup.key === 'wrong_path' ? (
 					<div>{cancelFillIcon}</div>
 				) : (
 					<div>{alertFillIcon}</div>
@@ -117,7 +119,8 @@ const AlertPopup = () => {
 
 			<_Footer>
 				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
-				{alert_popup.key === 'developing' ? (
+				{alert_popup.key === 'developing' ||
+				alert_popup.key === 'wrong_path' ? (
 					<DangerButton onClick={closeModal}>{t('ok')}</DangerButton>
 				) : (
 					<PrimaryButton onClick={closeModal}>
