@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import FileList from './FileList/FileList';
 import History from './History/History';
@@ -18,7 +18,10 @@ const _SFTP = styled.div`
 const SFTP = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {mode} = corServer;
 
 	return mode === 'edit' ? (

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
@@ -100,7 +100,10 @@ const _Li = styled.li`
 const FileListDropDown = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {
 		fileList,
 		pathList,
@@ -279,9 +282,6 @@ const FileListDropDown = ({uuid}) => {
 		[corServer],
 	);
 
-	console.log('현재 하이라이팅 아이템');
-	console.log(highlight);
-
 	const edit = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
@@ -375,8 +375,6 @@ const FileListDropDown = ({uuid}) => {
 		}
 	}, [fileList, sortKeyword, toggle, path]);
 
-	console.log(currentFileList);
-
 	return (
 		<_Container
 		// className={
@@ -444,7 +442,9 @@ const FileListDropDown = ({uuid}) => {
 										>
 											{item.type === 'directory' ? (
 												<IconContainer
-													color={LIGHT_MODE_MINT_COLOR}
+													color={
+														LIGHT_MODE_MINT_COLOR
+													}
 													margin={`0px 4px 0px 0px`}
 												>
 													{folderOpenIcon}

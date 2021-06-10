@@ -8,7 +8,10 @@ const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {current_tab} = useSelector((state) => state.common);
-	const currentServer = sftp.find((it) => it.uuid === uuid);
+	const currentServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	// const {highlight = [], history_highlight = []} = currentServer;
 	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
 	const body = document.getElementById('root');

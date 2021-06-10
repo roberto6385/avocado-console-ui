@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
@@ -124,7 +124,10 @@ const HistoryContents = ({uuid}) => {
 	const {t} = useTranslation('historyContents');
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {history, history_highlight} = corServer;
 	const dispatch = useDispatch();
 

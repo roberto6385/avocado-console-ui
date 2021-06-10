@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
@@ -93,15 +93,11 @@ const _Tr = styled.tr`
 const FileListContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme, lang} = useSelector((state) => state.common);
-	const corServer = sftp.find((it) => it.uuid === uuid);
-	const {
-		fileList,
-		highlight,
-		pathList,
-		sortKeyword,
-		toggle,
-		path,
-	} = corServer;
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
+	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
 	const dispatch = useDispatch();
 
 	const [currentFileList, setCurrentFileList] = useState([]);
@@ -242,7 +238,9 @@ const FileListContents = ({uuid}) => {
 			pathList.length !== 0 &&
 			fileList.length !== 0
 		) {
-			let nextList = fileList[fileList.length - 1];
+			let nextList = useMemo(() => fileList[fileList.length - 1], [
+				fileList,
+			]);
 			const sortedList = sortFunction({
 				fileList: nextList,
 				keyword: sortKeyword,

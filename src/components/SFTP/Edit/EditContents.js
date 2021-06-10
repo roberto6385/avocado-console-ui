@@ -1,12 +1,9 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
-import {
-	AVOCADO_FONTSIZE,
-	LIGHT_BACK_COLOR,
-} from '../../../styles/global';
+import {AVOCADO_FONTSIZE, LIGHT_BACK_COLOR} from '../../../styles/global';
 
 const _Container = styled.div`
 	flex: 1;
@@ -28,7 +25,10 @@ const _Container = styled.div`
 `;
 const EditContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {editText} = corServer;
 	const dispatch = useDispatch();
 

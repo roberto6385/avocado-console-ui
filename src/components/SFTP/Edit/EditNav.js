@@ -1,11 +1,7 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-	ADD_HISTORY,
-	CHANGE_MODE,
-	CLOSE_EDITOR,
-} from '../../../reducers/sftp';
+import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
@@ -15,7 +11,8 @@ import {
 	fontColor,
 	iconColor,
 	borderColor,
-	sideColor, backColor,
+	sideColor,
+	backColor,
 } from '../../../styles/global';
 import {
 	fileDownloadIcon,
@@ -50,7 +47,10 @@ const _ButtonContainer = styled.div`
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {text, editText, editFile, path, prevMode, mode} = corServer;
 	const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
@@ -16,7 +16,10 @@ const _Container = styled.div`
 
 const FileList = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const corServer = sftp.find((it) => it.uuid === uuid);
+	const corServer = useMemo(
+		sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {mode} = corServer;
 	return (
 		<_Container>
