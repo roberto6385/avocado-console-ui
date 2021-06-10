@@ -27,6 +27,7 @@ export const transformCircular = createTransform(
 //userTicket.accesstoken => 저장가능
 export const userTicketFilter = createWhitelistFilter('userTicket', [
 	'userTicket',
+	'userInfo',
 ]);
 
 const persistConfig = {

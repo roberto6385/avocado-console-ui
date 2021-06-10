@@ -91,6 +91,7 @@ const IdentitiesAside = () => {
 		(item) => (e) => {
 			console.log(e.target.checked);
 			console.log(item);
+			if (!e.target.checked) return;
 
 			const correspondedIdentity = identity.find(
 				(v) => v.key === currentKey && v.checked,
