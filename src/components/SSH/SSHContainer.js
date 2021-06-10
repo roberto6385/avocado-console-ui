@@ -11,6 +11,7 @@ import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
+import {HEIGHT_50} from '../../styles/length';
 
 const _Container = styled.div`
 	position: relative;
@@ -24,7 +25,8 @@ const _Container = styled.div`
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
+	min-height: ${HEIGHT_50};
 	background: ${(props) => props.back};
 `;
 

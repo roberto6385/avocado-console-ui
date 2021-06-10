@@ -25,6 +25,7 @@ import AsideContainer from './Setting/AsideContainer';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
+import {HEIGHT_54, WIDTH_160} from '../styles/length';
 
 const _Container = styled.div`
 	display: flex;
@@ -76,7 +77,7 @@ const _TabItem = styled.div`
 	height: 100%;
 	background: ${(props) => props?.back};
 	color: ${(props) => props.color};
-	width: ${TAB_WIDTH};
+	width: ${WIDTH_160};
 	border-top: 2px solid;
 	border-color: ${(props) => props.bColor};
 	font-weight: bold;
@@ -131,7 +132,7 @@ const _TabsContianer = styled.div`
 	display: flex;
 	overflow: scroll;
 	max-width: calc(100% - 152px);
-	height: ${MAIN_HEIGHT};
+	height: ${HEIGHT_54};
 `;
 
 const WorkSpace = () => {

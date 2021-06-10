@@ -1,6 +1,9 @@
 // border color
 export const BORDER = '#e3e5e5';
 
+// gray icon color
+export const GRAY_ICON = `#959ea1`;
+
 // light button color
 export const L_HIGHLIGHT = '#e4f3f4';
 export const L_GREEN_HOVER = '#389193';

@@ -3,9 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {
-	RIGHT_SIDE_WIDTH,
 	SIXTEEN,
-	SUB_HEIGHT,
 	sideColor,
 	fontColor,
 	borderColor,
@@ -16,11 +14,12 @@ import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIconMedium} from '../../icons/icons';
 import PropTypes from 'prop-types';
+import {HEIGHT_50, WIDTH_300} from '../../styles/length';
 
 const _Container = styled.div`
 	height: 100%;
-	width: ${RIGHT_SIDE_WIDTH};
-	min-width: ${RIGHT_SIDE_WIDTH};
+	width: ${WIDTH_300};
+	min-width: ${WIDTH_300};
 	border-left: 1px solid;
 	border-color: ${(props) => props.b_color};
 	z-index: 5; // terminal보다 높아야 함.
@@ -31,7 +30,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 	padding: 16px;
 	font-size: ${SIXTEEN};
 	border-bottom: 1px solid;

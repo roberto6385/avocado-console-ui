@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import {
 	AVOCADO_FONTSIZE,
 	IconButton,
-	SUB_HEIGHT,
 	fontColor,
 	iconColor,
 	borderColor,
@@ -19,6 +18,7 @@ import {
 	saveIcon,
 	squareDeleteIcon,
 } from '../../../icons/icons';
+import {HEIGHT_50} from '../../../styles/length';
 
 const _Container = styled.div`
 	display: flex;
@@ -28,7 +28,7 @@ const _Container = styled.div`
 	border-bottom: 1px solid;
 	background: ${(props) => props?.back};
 	border-color: ${(props) => props?.b_color};
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 `;
 
 const _Button = styled(IconButton)`

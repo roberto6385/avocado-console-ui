@@ -20,6 +20,7 @@ import {
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
+import {HEIGHT_30} from '../styles/length';
 
 const _Container = styled.div`
 	height: 100%;
@@ -33,7 +34,7 @@ const _Container = styled.div`
 `;
 
 const _Header = styled.div`
-	height: ${SSH_SFTP_HEADER_HEIGHT};
+	height: ${HEIGHT_30};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

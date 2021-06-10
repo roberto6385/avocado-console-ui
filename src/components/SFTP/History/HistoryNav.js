@@ -8,19 +8,19 @@ import styled from 'styled-components';
 import {
 	Span,
 	IconButton,
-	SUB_HEIGHT,
 	fontColor,
 	iconColor,
 	borderColor,
 } from '../../../styles/global';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
+import {HEIGHT_50} from '../../../styles/length';
 
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 0px 16px;
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 `;

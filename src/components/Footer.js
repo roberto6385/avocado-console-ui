@@ -1,12 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {
-	Span,
-	FOOTER_HEIGHT,
-	HISTORY_FONTSIZE,
-	footerColor,
-	fontColor,
-} from '../styles/global';
+import {Span, HISTORY_FONTSIZE, footerColor, fontColor} from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
@@ -18,9 +12,10 @@ import {
 	zoomInIconMicro,
 	zoomOutIconMicro,
 } from '../icons/icons';
+import {HEIGHT_26} from '../styles/length';
 
 const _Footer = styled.footer`
-	height: ${FOOTER_HEIGHT};
+	height: ${HEIGHT_26};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

@@ -16,7 +16,6 @@ import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	Span,
-	FOLDER_HEIGHT,
 	IconContainer,
 	LIGHT_MODE_MINT_COLOR,
 	sideColor,
@@ -28,6 +27,7 @@ import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
 import {dnsIconMidium} from '../../icons/icons';
+import {HEIGHT_34} from '../../styles/length';
 
 export const _Form = styled.form`
 	border: 1px solid ${GREEN_COLOR};
@@ -45,7 +45,7 @@ export const _NavItem = styled(Nav.Item)`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${FOLDER_HEIGHT};
+	height: ${HEIGHT_34};
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};

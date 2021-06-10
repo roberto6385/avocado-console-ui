@@ -35,6 +35,7 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {sortFunction} from '../listConversion';
+import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
 
 const _Container = styled.div`
 	display: flex;
@@ -88,8 +89,8 @@ const _Span = styled.span`
 
 const _Li = styled.li`
 	background: ${(props) => props?.back};
-	min-width: 220px;
-	height: ${THIRD_HEIGHT};
+	min-width: ${WIDTH_220};
+	height: ${HEIGHT_48};
 	white-space: nowrap;
 	padding: 16px 12px;
 	display: flex;
@@ -165,6 +166,7 @@ const FileListDropDown = ({uuid}) => {
 
 	const selectFile = useCallback(
 		({item, listindex, itemIndex}) => (e) => {
+			console.log(item, listindex, itemIndex);
 			if (e.shiftKey) {
 				if (corServer.path !== pathList[listindex]) {
 					dispatch(
@@ -443,6 +445,9 @@ const FileListDropDown = ({uuid}) => {
 										>
 											{item.type === 'directory' ? (
 												<IconContainer
+													className={
+														'filelist_contents'
+													}
 													color={
 														LIGHT_MODE_MINT_COLOR
 													}
@@ -452,16 +457,29 @@ const FileListDropDown = ({uuid}) => {
 												</IconContainer>
 											) : (
 												<IconContainer
+													className={
+														'filelist_contents'
+													}
 													margin={`0px 4px 0px 0px`}
 												>
 													{fileIcon}
 												</IconContainer>
 											)}
-											<_Span>{item.name}</_Span>
+											<_Span
+												className={'filelist_contents'}
+											>
+												{item.name}
+											</_Span>
 										</_ItemContainer>
 										{pathList.length - 1 === listindex && (
 											<>
-												<_Span>{item.permission}</_Span>
+												<_Span
+													className={
+														'filelist_contents'
+													}
+												>
+													{item.permission}
+												</_Span>
 												<_ButtonContainer>
 													{item.type === 'file' &&
 														item.name !== '..' && (

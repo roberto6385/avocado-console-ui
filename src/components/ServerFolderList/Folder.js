@@ -16,7 +16,6 @@ import {
 	IconButton,
 	Span,
 	AVOCADO_FONTSIZE,
-	FOLDER_HEIGHT,
 	IconContainer,
 	LIGHT_MODE_MINT_COLOR,
 	serverFolderBackColor,
@@ -33,12 +32,14 @@ import {
 	folderOpenIconMidium,
 } from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {HEIGHT_34} from '../../styles/length';
+import {GRAY_ICON, L_GREEN_NORMAL, L_HIGHLIGHT} from '../../styles/color';
 
 export const _NavItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${FOLDER_HEIGHT};
+	height: ${HEIGHT_34};
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
@@ -227,21 +228,14 @@ const Folder = ({open, data, indent}) => {
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{clicked_server === data.key ? (
-					<IconContainer
-						margin={`0px 12px 0px 0px`}
-						color={LIGHT_MODE_MINT_COLOR}
-					>
-						{folderIconMidium}
-					</IconContainer>
-				) : (
-					<IconContainer
-						color={iconColor[theme]}
-						margin={`0px 12px 0px 0px`}
-					>
-						{folderOpenIconMidium}
-					</IconContainer>
-				)}
+				<IconContainer
+					margin={`0px 12px 0px 0px`}
+					color={
+						clicked_server === data.key ? L_GREEN_NORMAL : GRAY_ICON
+					}
+				>
+					{folderIconMidium}
+				</IconContainer>
 				{/*</Avocado_span>*/}
 				<Span color={fontColor[theme]} flex={1} size={AVOCADO_FONTSIZE}>
 					{openRename ? (

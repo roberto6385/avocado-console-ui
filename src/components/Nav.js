@@ -33,12 +33,13 @@ import {
 } from '../icons/icons';
 import {ADD_FOLDER} from '../reducers/common';
 import PropTypes from 'prop-types';
+import {HEIGHT_48, HEIGHT_50, HEIGHT_54, WIDTH_256} from '../styles/length';
 
 const _Aside = styled.aside`
 	display: flex;
 	flex-direction: column;
-	width: ${SIDE_WIDTH};
-	min-width: ${SIDE_WIDTH};
+	width: ${WIDTH_256};
+	min-width: ${WIDTH_256};
 	border-right: 1px solid;
 	border-color: ${(props) => props.b_Color};
 	height: 100%;
@@ -47,7 +48,7 @@ const _Aside = styled.aside`
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
-	height: ${MAIN_HEIGHT};
+	height: ${HEIGHT_54};
 	padding: 16px 10px;
 	background: ${(props) => props.back};
 `;
@@ -55,7 +56,7 @@ const _AddFolerServerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 	padding: 16px 10px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_Color};
@@ -65,7 +66,7 @@ const _Form = styled.form`
 	display: flex;
 	align-items: center;
 	padding: 16px 10px;
-	height: ${THIRD_HEIGHT};
+	height: ${HEIGHT_48};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_Color};
 	background: ${(props) => props.back};

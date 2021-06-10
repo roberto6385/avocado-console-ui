@@ -12,7 +12,6 @@ import {
 	AVOCADO_FONTSIZE,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
-	SUB_HEIGHT,
 	LIGHT_MODE_MINT_COLOR,
 	LIGHT_MODE_ICON_COLOR,
 	iconColor,
@@ -27,6 +26,7 @@ import {
 	viewColumnIcon,
 	viewListIcon,
 } from '../../../icons/icons';
+import {HEIGHT_50} from '../../../styles/length';
 
 const _input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
@@ -45,7 +45,7 @@ const _Container = styled.div`
 	align-items: center;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props?.b_color};
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 `;
 
 const _IconButton = styled(IconButton)`

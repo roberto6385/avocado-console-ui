@@ -64,7 +64,7 @@ const SFTPContainer = ({uuid}) => {
 		};
 	}, [currentServer]);
 
-	return currentServer ? <SFTP uuid={uuid} /> : <div>서버 없음.</div>;
+	return <SFTP uuid={uuid} />;
 };
 
 SFTPContainer.propTypes = {

@@ -23,7 +23,6 @@ import {
 	TAB_WIDTH,
 	AVOCADO_HOVER_COLOR,
 	PreventDragCopy,
-	THIRD_HEIGHT,
 	IconContainer,
 	LIGHT_MODE_ICON_COLOR,
 	LIGHT_MODE_MINT_COLOR,
@@ -48,6 +47,7 @@ import {
 	pauseCircleIconSmall,
 	removeCircleIconSmall,
 } from '../../../icons/icons';
+import {HEIGHT_48} from '../../../styles/length';
 
 const DropSpaceDiv = styled.div`
 	height: ${DROP_SPACE_HEIGHT};
@@ -74,7 +74,7 @@ const _Ul = styled.ul`
 const _Li = styled.li`
 	line-height: 0;
 	position: relative;
-	height: ${THIRD_HEIGHT};
+	height: ${HEIGHT_48};
 	padding: 4px;
 	display: flex;
 	align-items: center;

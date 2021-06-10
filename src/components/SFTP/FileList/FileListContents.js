@@ -26,7 +26,6 @@ import {
 	IconContainer,
 	PreventDragCopy,
 	LIGHT_MODE_MINT_COLOR,
-	THIRD_HEIGHT,
 	fontColor,
 	borderColor,
 	iconColor,
@@ -38,6 +37,7 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
+import {HEIGHT_48} from '../../../styles/length';
 
 const _Table = styled.table`
 	display: flex;
@@ -59,7 +59,7 @@ const _Tbody = styled.tbody`
 	width: 100%;
 	min-width: 718px;
 	position: absolute;
-	top: ${THIRD_HEIGHT};
+	top: ${HEIGHT_48};
 	.active {
 		background: ${(props) => props.active};
 	}
@@ -79,7 +79,7 @@ const Th = styled.th`
 
 const _Tr = styled.tr`
 	display: flex;
-	height: ${THIRD_HEIGHT};
+	height: ${HEIGHT_48};
 	color: ${(props) => props.color};
 	padding: 8px;
 	border-bottom: 1px solid;
