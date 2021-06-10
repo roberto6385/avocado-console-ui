@@ -1,3 +1,6 @@
+// border color
+export const BORDER = '#e3e5e5';
+
 // light button color
 export const L_HIGHLIGHT = '#e4f3f4';
 export const L_GREEN_HOVER = '#389193';
@@ -6,6 +9,7 @@ export const L_GREEN_ACTIVE = '#0a6f71';
 export const L_RED_HOVER = '#d45959';
 export const L_RED_NORMAL = '#de6565';
 export const L_RED_ACTIVE = '#b84646';
+export const L_GRAY_HOVER = '#f8f9fa';
 
 // dark button color
 export const D_HIGHLIGHT = 'rgba(105,211,205,0.05)';
