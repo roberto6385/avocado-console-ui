@@ -33,7 +33,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(100),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -107,10 +107,8 @@ function* watchSendCommand() {
 	// yield takeLatest(LS_REQUEST, sendCommand);
 
 	const reqChannel = yield actionChannel(LS_REQUEST);
-	console.log('watch send command ls');
 	while (true) {
 		const action = yield take(reqChannel);
-		console.log('ls request start!!');
 		yield call(sendCommand, action);
 	}
 }
