@@ -368,7 +368,7 @@ const AddServerForm = () => {
 		});
 
 		setIdentityList(newArray);
-	}, [clicked_server]);
+	}, [clicked_server, add_server_form_popup]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -383,7 +383,6 @@ const AddServerForm = () => {
 			setPassword(selectedIdentity.password);
 			setAuthentication(selectedIdentity.type);
 		}
-		setIdentityList(correspondedIdentityList);
 	}, [account, identity, clicked_server]);
 
 	return (

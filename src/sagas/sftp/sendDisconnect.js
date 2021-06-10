@@ -6,7 +6,7 @@ import {
 	put,
 	race,
 	delay,
-	actionChannel,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
@@ -59,12 +59,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeLatest(DISCONNECTION_REQUEST, sendCommand);
-	const reqChannel = yield actionChannel(DISCONNECTION_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	yield takeLatest(DISCONNECTION_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(DISCONNECTION_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* disconnectSaga() {

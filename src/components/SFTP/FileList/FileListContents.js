@@ -238,9 +238,7 @@ const FileListContents = ({uuid}) => {
 			pathList.length !== 0 &&
 			fileList.length !== 0
 		) {
-			let nextList = useMemo(() => fileList[fileList.length - 1], [
-				fileList,
-			]);
+			let nextList = fileList[fileList.length - 1];
 			const sortedList = sortFunction({
 				fileList: nextList,
 				keyword: sortKeyword,

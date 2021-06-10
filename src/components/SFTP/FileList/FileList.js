@@ -16,10 +16,10 @@ const _Container = styled.div`
 
 const FileList = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const corServer = useMemo(
-		sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {mode} = corServer;
 	return (
 		<_Container>
