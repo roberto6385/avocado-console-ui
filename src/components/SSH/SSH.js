@@ -118,6 +118,7 @@ const SSH = ({uuid}) => {
 		ssh,
 		uuid,
 	]);
+	// const ws = useMemo(() => ssh.find((v) => v.uuid === uuid).ws, [ssh, uuid]);
 	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const fitAddon = useRef(new FitAddon());
 	const searchAddon = useRef(new SearchAddon());

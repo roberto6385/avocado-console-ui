@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -69,23 +69,21 @@ const PreferencesSpace = () => {
 	const {theme, lang, auto_completion_mode} = useSelector(
 		(state) => state.common,
 	);
-
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [language, setLanguage] = useState(lang);
-
 	const [generalTheme, setGeneralTheme] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState();
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
-	const background_theme = [
+	const {current: background_theme} = useRef([
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	];
-	const languageOptions = [
+	]);
+	const {current: languageOptions} = useRef([
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	];
+	]);
 
 	useEffect(() => {
 		dispatch({

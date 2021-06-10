@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,14 +13,13 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
-
 	const dispatch = useDispatch();
 	const {server, tab} = useSelector((state) => state.common);
-
-	const {sftp} = useSelector((state) => state.sftp);
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const MENU_ID = data.key + 'server';
-	const correspondedServer = server.find((i) => i.key === data.key);
+	const correspondedServer = useMemo(
+		() => server.find((i) => i.key === data.key),
+		[server, data],
+	);
 
 	const Ssh2ServerContextMenuMessage = {
 		connect: t('connectSsh'),
@@ -102,7 +101,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	return (
 		<Menu
-			id={MENU_ID}
+			id={data.key + 'server'}
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>

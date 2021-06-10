@@ -9,8 +9,6 @@ import {
 const AccountContextMenu = () => {
 	const dispatch = useDispatch();
 
-	const MENU_ID = 'account';
-
 	const editAccount = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_ACCOUT_FORM_POPUP,
@@ -27,28 +25,16 @@ const AccountContextMenu = () => {
 		});
 	}, [dispatch]);
 
-	const handleItemClick = ({event}) => {
-		switch (event.currentTarget.id) {
-			case 'edit':
-				editAccount();
-				break;
-			case 'delete':
-				deleteAccount();
-				break;
-			default:
-				break;
-		}
-	};
 	return (
 		<Menu
-			id={MENU_ID}
+			id={'account'}
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>
-			<Item id='edit' onClick={handleItemClick}>
+			<Item id='edit' onClick={editAccount}>
 				Edit
 			</Item>
-			<Item id='delete' onClick={handleItemClick}>
+			<Item id='delete' onClick={deleteAccount}>
 				Delete
 			</Item>
 		</Menu>

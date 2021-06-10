@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
@@ -75,8 +75,11 @@ const IdentitiesAside = () => {
 		(state) => state.common,
 	);
 	const history = useHistory();
+	const currentKey = useMemo(
+		() => tab.find((v) => v.uuid === current_tab)?.server.key,
+		[tab, current_tab],
+	);
 
-	const currentKey = tab.find((v) => v.uuid === current_tab)?.server.key;
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);

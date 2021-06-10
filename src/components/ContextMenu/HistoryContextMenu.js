@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 
 const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 	const dispatch = useDispatch();
-	const MENU_ID = uuid + 'history';
 
 	const contextDeleteHistory = useCallback(() => {
 		// for (let value of highlight) {
@@ -29,7 +28,7 @@ const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 
 	return (
 		<Menu
-			id={MENU_ID}
+			id={'history'}
 			animation={animation.slide}
 			style={{fontSize: '14px'}}
 		>

@@ -116,9 +116,6 @@ const _ResourceName = styled(_Name)`
 	flex: 4;
 `;
 
-const _SearchContainer = styled.div`
-	padding: 6px 16px;
-`;
 const _AddressName = styled(_Name)`
 	// max-width: 149px;
 	min-width: 100px;
@@ -200,14 +197,9 @@ function searchTreeStart(root, key) {
 
 const IdentitiesSpace = () => {
 	const {t} = useTranslation('identitiesSpace');
-	const {
-		identity,
-		server,
-		// accountCheckList,
-		currentResourceListKey,
-		nav,
-		theme,
-	} = useSelector((state) => state.common);
+	const {identity, server, currentResourceListKey, nav, theme} = useSelector(
+		(state) => state.common,
+	);
 	const dispatch = useDispatch();
 	const [
 		resourceSearch,
@@ -309,7 +301,6 @@ const IdentitiesSpace = () => {
 					</_Li>
 					{server.map((item) => {
 						if (
-							// searchTreeStart(nav, item.key)
 							item.name
 								.toLowerCase()
 								.replace(/ /g, '')

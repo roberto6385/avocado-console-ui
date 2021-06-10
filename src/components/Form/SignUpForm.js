@@ -96,6 +96,7 @@ const _SignInButton = styled(PrimaryButton)`
 
 const SignUpForm = () => {
 	const dispatch = useDispatch();
+	const {loading} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('signUpForm');
 	const [id, onChangeId, setId] = useInput('');
 	const [name, onChangeName, setName] = useInput('');
@@ -107,7 +108,6 @@ const SignUpForm = () => {
 		setPasswordConfirm,
 	] = useInput('');
 	const [visible, setVisible] = useState(true);
-	const {loading} = useSelector((state) => state.userTicket);
 	const [rememberPassword, setRememberPassword] = useState(false);
 	const idRef = useRef(null);
 

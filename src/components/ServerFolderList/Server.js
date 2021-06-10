@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
@@ -62,8 +62,8 @@ const Server = ({data, indent}) => {
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
-	const correspondedIdentity = identity.find(
-		(it) => it.key === data.key && it.checked === true,
+	const {current: correspondedIdentity} = useRef(
+		identity.find((it) => it.key === data.key && it.checked === true),
 	);
 
 	const onHybridClick = useDoubleClick(

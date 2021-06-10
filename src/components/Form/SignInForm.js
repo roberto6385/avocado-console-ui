@@ -132,7 +132,6 @@ const _OAuthButton = styled.button`
 const SignInForm = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('signInForm');
-
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);

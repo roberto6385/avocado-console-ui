@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -35,13 +35,8 @@ const SSHContainer = ({uuid, server}) => {
 	const {theme} = useSelector((state) => state.common);
 	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const [open, setOpen] = useState(false);
-	const [column, setColumn] = useState([]);
 
-	const onCLickFullScreen = useCallback(() => {
-		document.getElementById('terminal_' + uuid).requestFullscreen();
-	}, [uuid]);
-
-	useEffect(() => {
+	const setColumn = () => {
 		const temp = [
 			{
 				onClick: () => {
@@ -67,8 +62,14 @@ const SSHContainer = ({uuid, server}) => {
 				title: v.name,
 			}),
 		);
-		setColumn(temp);
-	}, [snippets, uuid, ws]);
+		return temp;
+	};
+
+	const column = useMemo(() => setColumn(), [snippets, uuid, ws]);
+
+	const onCLickFullScreen = useCallback(() => {
+		document.getElementById('terminal_' + uuid).requestFullscreen();
+	}, [uuid]);
 
 	return (
 		<_Container>

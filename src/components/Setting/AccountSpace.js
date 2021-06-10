@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 
 import Input_ from '../RecycleComponents/Input_';
@@ -83,27 +83,27 @@ const AccountSpace = () => {
 	const [authValue, setAuthValue] = useState('google');
 	const [mfaValue, setMfaValue] = useState('otp');
 
-	const authOptions = [
+	const {current: authOptions} = useRef([
 		{value: 'first_option', label: t('idPassword')},
 		{value: 'second_option', label: t('alternative')},
-	];
-	const mfaOptions = [
+	]);
+	const {current: mfaOptions} = useRef([
 		{value: 'use', label: t('use')},
 		{value: 'not_use', label: t('notUse')},
-	];
-	const AlternativeAuthOptions = [
+	]);
+	const {current: AlternativeAuthOptions} = useRef([
 		{value: 'google', label: t('google')},
 		{value: 'kakao', label: t('kakao')},
 		{value: 'naver', label: t('naver')},
-	];
+	]);
 
-	const MFAOptions = [
+	const {current: MFAOptions} = useRef([
 		{value: 'otp', label: t('otp')},
 		{value: 'mail', label: t('mail')},
 		{value: 'sms', label: t('sms')},
 		{value: 'finger_print', label: t('fingerPrint')},
 		{value: 'face_id', label: t('faceId')},
-	];
+	]);
 
 	return (
 		<_Container back={backColor[theme]} color={fontColor[theme]}>
