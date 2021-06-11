@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
-import {
-	IconButton,
-	fontColor,
-	iconColor,
-	borderColor,
-	backColor,
-} from '../../../styles/global';
+import {IconButton} from '../../../styles/global';
 import {
 	fileDownloadIcon,
 	saveIcon,
 	squareDeleteIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
+import {
+	borderColor,
+	fontColor,
+	iconColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,7 +25,7 @@ const _Container = styled.div`
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid;
 	background: ${(props) => props?.back};
-	border-color: ${(props) => props?.b_color};
+	border-color: ${(props) => props?.bcolor};
 	height: ${HEIGHT_50};
 `;
 
@@ -108,8 +108,8 @@ const EditNav = ({uuid}) => {
 	return (
 		<_Container
 			justify={'space-between'}
-			back={backColor[theme]}
-			b_color={borderColor[theme]}
+			back={tabColor[theme]}
+			bcolor={borderColor[theme]}
 		>
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>

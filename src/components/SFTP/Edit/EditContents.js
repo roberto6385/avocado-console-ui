@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
-import {LIGHT_BACK_COLOR} from '../../../styles/global';
-import {FONT_14} from "../../../styles/length";
+import {FONT_14} from '../../../styles/length';
+import {editColor, fontColor} from '../../../styles/color';
 
 const _Container = styled.div`
 	flex: 1;
@@ -14,7 +14,8 @@ const _Container = styled.div`
 	background-position: left 10px;
 	overflow: hidden;
 	textarea {
-		background: ${LIGHT_BACK_COLOR};
+		background: ${(props) => props?.back};
+		color: ${(props) => props.color};
 		height: 100%;
 		padding: 20px;
 		outline: none;
@@ -26,6 +27,7 @@ const _Container = styled.div`
 `;
 const EditContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
@@ -39,7 +41,7 @@ const EditContents = ({uuid}) => {
 	}, []);
 
 	return (
-		<_Container>
+		<_Container back={editColor[theme]} color={fontColor[theme]}>
 			<textarea
 				// wrap={JSON.parse(checked) ? 'soft' : 'off'}
 				rows='50'

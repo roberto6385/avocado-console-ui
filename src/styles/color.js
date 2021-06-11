@@ -51,6 +51,7 @@ export const D_BACK_TABBAR = '#223b52';
 export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
 export const D_SFTP_FILELIST_BACK = '#17232E';
+export const D_SFTP_EDIT_BACK = '#121d28';
 
 // prev ui guide line
 // export const D_BACK = '#0b141c';
@@ -84,3 +85,4 @@ export const logoColor = [L_LOGO, D_LOGO];
 export const terminalColor = [L_BACK_MAIN, D_BACK_TERMINAL];
 export const terminalFontColor = [L_FONT, L_BACK];
 export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];
+export const editColor = [L_BACK_MAIN, D_SFTP_EDIT_BACK];
