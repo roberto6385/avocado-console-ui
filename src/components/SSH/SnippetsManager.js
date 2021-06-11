@@ -168,8 +168,8 @@ const _ListContainer = styled.div`
 const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
-	const {snippets, snippents_index} = useSelector((state) => state.ssh);
 	const {theme} = useSelector((state) => state.common);
+	const {snippets, snippents_index} = useSelector((state) => state.ssh);
 	const [tempSnippets, setTempSnippets] = useState(snippets);
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');
@@ -282,10 +282,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setContent('');
 		}
 	}, [open, snippets]);
-
-	useEffect(() => {
-		nameInput.current?.focus();
-	}, [clickedSnippet]);
 
 	useEffect(() => {
 		nameInput.current?.focus();

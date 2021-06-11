@@ -118,21 +118,20 @@ const SSH = ({uuid}) => {
 		ssh,
 		uuid,
 	]);
-	// const ws = useMemo(() => ssh.find((v) => v.uuid === uuid).ws, [ssh, uuid]);
-	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
-	const fitAddon = useRef(new FitAddon());
-	const searchAddon = useRef(new SearchAddon());
+	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
+	const {current: fitAddon} = useRef(new FitAddon());
+	const {current: searchAddon} = useRef(new SearchAddon());
 	const searchRef = useRef();
 	const listRef = useRef();
-
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		500,
 	);
+	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onSubmitSearch = useCallback(
 		(e) => {
 			e.preventDefault();
-			searchAddon.current.findPrevious(search);
+			searchAddon.findPrevious(search);
 		},
 		[search],
 	);
@@ -143,7 +142,7 @@ const SSH = ({uuid}) => {
 				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
 					uuid: uuid,
-					ws: ws.current,
+					ws: ws,
 					input: v.substring(currentLine.length),
 				},
 			});
@@ -151,7 +150,7 @@ const SSH = ({uuid}) => {
 				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
 					uuid: uuid,
-					ws: ws.current,
+					ws: ws,
 					input: '\r',
 				},
 			});
@@ -161,15 +160,15 @@ const SSH = ({uuid}) => {
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab, dispatch]);
+	}, [current_tab]);
 
 	const onClickArrowUp = useCallback(() => {
-		searchAddon.current.findPrevious(search);
-	}, [searchAddon, search]);
+		searchAddon.findPrevious(search);
+	}, [search]);
 
 	const onClickArrowDown = useCallback(() => {
-		searchAddon.current.findNext(search);
-	}, [searchAddon, search]);
+		searchAddon.findNext(search);
+	}, [search]);
 	//terminal setting
 	useEffect(() => {
 		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
@@ -179,8 +178,8 @@ const SSH = ({uuid}) => {
 					document.getElementById('terminal_' + uuid).firstChild,
 				);
 		}
-		sshTerm.loadAddon(fitAddon.current);
-		sshTerm.loadAddon(searchAddon.current);
+		sshTerm.loadAddon(fitAddon);
+		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
 
 		sshTerm.setOption('theme', {
@@ -190,7 +189,11 @@ const SSH = ({uuid}) => {
 		sshTerm.setOption('fontSize', font_size);
 		sshTerm.setOption('fontFamily', font);
 
-		fitAddon.current.fit();
+		fitAddon.fit();
+
+		return () => {
+			setIsComponentMounted(false);
+		};
 	}, [sshTerm, uuid, theme, font_size, font]);
 
 	useEffect(() => {
@@ -225,7 +228,7 @@ const SSH = ({uuid}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					data: {
 						uuid: uuid,
-						ws: ws.current,
+						ws: ws,
 						input: historyList[currentHistory].substring(
 							currentLine.length,
 						),
@@ -235,7 +238,7 @@ const SSH = ({uuid}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					data: {
 						uuid: uuid,
-						ws: ws.current,
+						ws: ws,
 						input: '\r',
 					},
 				});
@@ -245,7 +248,7 @@ const SSH = ({uuid}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					data: {
 						uuid: uuid,
-						ws: ws.current,
+						ws: ws,
 						input: data,
 					},
 				});
@@ -272,21 +275,21 @@ const SSH = ({uuid}) => {
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
-		fitAddon.current.fit();
-	}, [sshTerm, font, fitAddon]);
+		fitAddon.fit();
+	}, [sshTerm, font]);
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
-		fitAddon.current.fit();
-	}, [sshTerm, font_size, fitAddon]);
+		fitAddon.fit();
+	}, [sshTerm, font_size]);
 	//window size change
 	useEffect(() => {
-		if (width > 0 && height > 0 && uuid) {
-			fitAddon.current.fit();
+		if (width > 0 && height > 0 && uuid && isComponentMounted) {
+			fitAddon.fit();
 			dispatch({
 				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
 				data: {
-					ws: ws.current,
+					ws: ws,
 					uuid: uuid,
 					data: {
 						cols: sshTerm.cols,
@@ -297,7 +300,7 @@ const SSH = ({uuid}) => {
 				},
 			});
 		}
-	}, [ws, uuid, sshTerm, width, height, fitAddon]);
+	}, [ws, uuid, sshTerm, width, height, isComponentMounted]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -306,14 +309,14 @@ const SSH = ({uuid}) => {
 		} else {
 			document.getElementById('search_' + uuid).style.display = 'none';
 			setSearch('');
-			searchAddon.current.findPrevious('');
+			searchAddon.findPrevious('');
 		}
 	}, [current_tab, uuid, search_mode, searchRef]);
 	//search a word on the terminal
 	useEffect(() => {
 		if (current_tab === uuid && search !== '') {
-			searchAddon.current.findPrevious('');
-			searchAddon.current.findPrevious(search);
+			searchAddon.findPrevious('');
+			searchAddon.findPrevious(search);
 		}
 	}, [current_tab, uuid, search]);
 	//set History List

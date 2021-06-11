@@ -17,6 +17,7 @@ const _Container = styled.div`
 
 const History = ({uuid}) => {
 	const {theme} = useSelector((state) => state.common);
+
 	return (
 		<_Container b_color={borderColor[theme]}>
 			<HistoryNav uuid={uuid} />

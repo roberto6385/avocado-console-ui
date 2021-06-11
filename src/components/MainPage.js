@@ -64,7 +64,7 @@ const MainPage = () => {
 
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<_Container back={backColor[theme]}>

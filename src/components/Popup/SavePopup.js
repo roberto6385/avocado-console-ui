@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
@@ -78,11 +78,10 @@ const SavePopup = () => {
 	const dispatch = useDispatch();
 	const {save_popup} = useSelector((state) => state.popup);
 	const {sftp} = useSelector((state) => state.sftp);
-
-	const SaveMessage = {
+	const {current: SaveMessage} = useRef({
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
-	};
+	});
 
 	const closeModal = useCallback(() => {
 		switch (save_popup.key) {
@@ -107,7 +106,7 @@ const SavePopup = () => {
 				break;
 			}
 		}
-	}, [save_popup, dispatch]);
+	}, [save_popup]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -119,6 +118,7 @@ const SavePopup = () => {
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});
+
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
 					dispatch(

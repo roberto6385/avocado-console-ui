@@ -61,6 +61,7 @@ const _Form = styled.form`
 `;
 
 const FileListNav = ({uuid}) => {
+	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
@@ -68,8 +69,6 @@ const FileListNav = ({uuid}) => {
 		uuid,
 	]);
 	const {path, mode} = corServer;
-
-	const dispatch = useDispatch();
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {

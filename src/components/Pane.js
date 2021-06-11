@@ -12,7 +12,6 @@ import {
 	fontColor,
 	borderColor,
 	iconColor,
-	serverFolderBackColor,
 	GREEN_COLOR,
 	IconContainer,
 	backColor,
@@ -83,7 +82,7 @@ const Pane = ({uuid, type, server}) => {
 
 	return (
 		<_Container onClick={onClickChangeTab}>
-			{tab.filter((v) => v.display === true).length !== 1 && (
+			{tab.filter((v) => v.display === true).length > 1 && (
 				<_Header
 					back={backColor[theme]}
 					bColor={
@@ -111,7 +110,6 @@ const Pane = ({uuid, type, server}) => {
 					</IconButton>
 				</_Header>
 			)}
-
 			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>

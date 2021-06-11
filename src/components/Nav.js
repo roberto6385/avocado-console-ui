@@ -24,9 +24,7 @@ import useInput from '../hooks/useInput';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	arrowRightIconMidium,
 	burgerMenuIcon,
-	navNextIcon,
 	newFolderIcon,
 	plusIcon,
 	searchIcon,
@@ -136,18 +134,17 @@ const Nav = ({toggle, setToggle}) => {
 		let i = 0;
 		while (!isValidFolderName(nav, folderName)) {
 			folderName = `${t('newFolder')} ${i}`;
-			console.log(folderName);
 			i++;
 		}
 		dispatch({type: ADD_FOLDER, data: folderName});
-	}, [nav, dispatch]);
+	}, [nav]);
 
 	const newServer = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_SERVER_FORM_POPUP,
 			data: {type: 'add'},
 		});
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<_Aside

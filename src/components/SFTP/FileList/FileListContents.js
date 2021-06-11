@@ -91,6 +91,7 @@ const _Tr = styled.tr`
 `;
 
 const FileListContents = ({uuid}) => {
+	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme, lang} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
@@ -98,11 +99,8 @@ const FileListContents = ({uuid}) => {
 		uuid,
 	]);
 	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
-	const dispatch = useDispatch();
-
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
-
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});

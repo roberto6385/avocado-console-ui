@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -35,9 +35,22 @@ const SSHContainer = ({uuid, server}) => {
 	const {theme} = useSelector((state) => state.common);
 	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const [open, setOpen] = useState(false);
+	const menuEvent = useCallback(
+		(v) => () => {
+			dispatch({
+				type: SSH_SEND_COMMAND_REQUEST,
+				data: {
+					uuid: uuid,
+					ws: ws.current,
+					input: v.content,
+				},
+			});
+		},
+		[uuid, ws],
+	);
 
-	const setColumn = () => {
-		const temp = [
+	const column = useMemo(
+		() => [
 			{
 				onClick: () => {
 					setOpen(true);
@@ -45,27 +58,16 @@ const SSHContainer = ({uuid, server}) => {
 				title: t('editSnippets'),
 			},
 			{title: 'divider'},
-		];
-
-		snippets.map((v) =>
-			temp.push({
-				onClick: () => {
-					dispatch({
-						type: SSH_SEND_COMMAND_REQUEST,
-						data: {
-							uuid: uuid,
-							ws: ws.current,
-							input: v.content,
-						},
-					});
-				},
-				title: v.name,
+			...snippets.map((v) => {
+				const temp = {
+					onClick: menuEvent(v),
+					title: v.name,
+				};
+				return temp;
 			}),
-		);
-		return temp;
-	};
-
-	const column = useMemo(() => setColumn(), [snippets, uuid, ws]);
+		],
+		[snippets, menuEvent],
+	);
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('terminal_' + uuid).requestFullscreen();
