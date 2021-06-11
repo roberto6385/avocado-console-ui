@@ -47,12 +47,12 @@ const _ContentsContainer = styled.div`
 `;
 
 const terminal_theme = [
-	{value: 0, label: 'theme0'},
-	{value: 1, label: 'theme1'},
+	{value: 0, label: '테마 - 1'},
+	{value: 1, label: '테마 - 2'},
 ];
 const editor_theme = [
-	{value: 0, label: 'theme0'},
-	{value: 1, label: 'theme1'},
+	{value: 0, label: '테마 - 1'},
+	{value: 1, label: '테마 - 2'},
 ];
 
 const font_theme = [
@@ -65,14 +65,12 @@ const font_theme = [
 const PreferencesSpace = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
-	const {font} = useSelector((state) => state.ssh);
-	const {theme, lang, auto_completion_mode} = useSelector(
-		(state) => state.common,
-	);
+	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
+	const {theme, lang} = useSelector((state) => state.common);
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [language, setLanguage] = useState(lang);
 	const [generalTheme, setGeneralTheme] = useState(theme);
-	const [terminalTheme, setTerminalTheme] = useState();
+	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 

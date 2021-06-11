@@ -147,6 +147,9 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container b_color={borderColor[theme]}>
+			<_IconButton color={iconColor[theme]} onClick={goBack}>
+				{arrowUpwordIcon}
+			</_IconButton>
 			<_IconButton onClick={basicList}>
 				{viewListIcon(
 					mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
@@ -156,9 +159,6 @@ const FileListNav = ({uuid}) => {
 				{viewColumnIcon(
 					mode === 'drop' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
 				)}
-			</_IconButton>
-			<_IconButton color={iconColor[theme]} onClick={goBack}>
-				{arrowUpwordIcon}
 			</_IconButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
 				<_input

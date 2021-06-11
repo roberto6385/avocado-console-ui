@@ -1,11 +1,8 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {
-	FOLDER_HEIGHT,
 	LIGHT_MODE_MINT_COLOR,
 	IconContainer,
-	SIDE_WIDTH,
-	SUB_HEIGHT,
 	borderColor,
 	fontColor,
 	serverFolderBackColor,
@@ -22,12 +19,14 @@ import {
 } from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
+import {HEIGHT_34, HEIGHT_50, WIDTH_256} from '../../styles/length';
+import {L_GREEN_NORMAL} from '../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: ${SIDE_WIDTH};
-	min-width: ${SIDE_WIDTH};
+	width: ${WIDTH_256};
+	min-width: ${WIDTH_256};
 
 	border-right: 1px solid;
 	border-color: ${(props) => props.b_color};
@@ -38,7 +37,7 @@ const _Container = styled.div`
 const _BackContainer = styled.div`
 	display: flex;
 	align-items: center;
-	height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
 	padding: 0px 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
@@ -57,9 +56,11 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	padding: 10px 16px;
-	height: ${FOLDER_HEIGHT};
+	height: ${HEIGHT_34};
 	cursor: pointer;
 	background: ${(props) => props.back};
+	border-left: 2px solid;
+	border-color: ${(props) => props.b_color};
 `;
 
 const SettingNav = ({match}) => {
@@ -95,6 +96,9 @@ const SettingNav = ({match}) => {
 							? serverFolderBackColor[theme]
 							: undefined
 					}
+					b_color={
+						match.path === '/account' ? L_GREEN_NORMAL : 'white'
+					}
 				>
 					<IconContainer
 						color={
@@ -113,6 +117,9 @@ const SettingNav = ({match}) => {
 						match.path === '/preferences'
 							? serverFolderBackColor[theme]
 							: undefined
+					}
+					b_color={
+						match.path === '/preferences' ? L_GREEN_NORMAL : 'white'
 					}
 				>
 					<IconContainer
@@ -133,6 +140,9 @@ const SettingNav = ({match}) => {
 						match.path === '/identities'
 							? serverFolderBackColor[theme]
 							: undefined
+					}
+					b_color={
+						match.path === '/identities' ? L_GREEN_NORMAL : 'white'
 					}
 				>
 					<IconContainer

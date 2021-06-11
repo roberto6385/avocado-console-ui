@@ -10,7 +10,6 @@ import {
 	fontColor,
 	iconColor,
 	borderColor,
-	sideColor,
 	backColor,
 } from '../../../styles/global';
 import {
