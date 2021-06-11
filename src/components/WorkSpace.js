@@ -37,7 +37,7 @@ const _Container = styled.div`
 
 	.mainContainer {
 		margin-left: 256px;
-		transition: all 0.5s ease-in-out;
+		transition: margin 0.5s ease-in-out;
 	}
 	.mainContainer.close {
 		margin: 0;
@@ -47,7 +47,8 @@ const _Container = styled.div`
 		position: absolute;
 		left: 0px;
 		display: inline-block;
-		transition: all 0.5s ease-in-out;
+		transition: transform 0.5s ease-in-out;
+		z-index: 1;
 	}
 	.nav.close {
 		transform: translateX(-256px);
@@ -101,7 +102,7 @@ const _MainSpace = styled.div`
 
 	.work {
 		margin-right: 300px;
-		transition: all 0.5s ease-in-out;
+		transition: margin 0.5s ease-in-out;
 	}
 
 	.work.close {
@@ -112,7 +113,7 @@ const _MainSpace = styled.div`
 		position: absolute;
 		right: 0px;
 		display: inline-block;
-		transition: all 0.5s ease-in-out;
+		transition: transform 0.5s ease-in-out;
 	}
 	.aside.close {
 		transform: translateX(300px);

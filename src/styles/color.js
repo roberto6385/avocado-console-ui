@@ -44,6 +44,10 @@ export const D_BACK_TABBAR = '#223b52';
 export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
 
+export const navColor = [L_BACK, 'green'];
+export const inputColor = [L_BACK_TABBAR, 'green'];
+export const borderColor = [BORDER, 'green'];
+
 // prev ui guide line
 // export const D_BACK = '#0b141c';
 // export const D_BACK_APPBAR = '#121d28';

@@ -4,18 +4,11 @@ import {
 	GREEN_COLOR,
 	AVOCADO_FONTSIZE,
 	IconButton,
-	SIDE_WIDTH,
 	LOGO_FONTSIZE,
-	MAIN_HEIGHT,
 	SEARCH_INPUT_HEIGHT,
 	SEARCH_INPUT_WIDTH,
-	SUB_HEIGHT,
-	THIRD_HEIGHT,
 	IconContainer,
-	sideColor,
 	fontColor,
-	iconColor,
-	borderColor,
 	GRAY_COLOR,
 } from '../styles/global';
 import {useTranslation} from 'react-i18next';
@@ -24,9 +17,7 @@ import useInput from '../hooks/useInput';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	arrowRightIconMidium,
 	burgerMenuIcon,
-	navNextIcon,
 	newFolderIcon,
 	plusIcon,
 	searchIcon,
@@ -34,6 +25,7 @@ import {
 import {ADD_FOLDER} from '../reducers/common';
 import PropTypes from 'prop-types';
 import {HEIGHT_48, HEIGHT_50, HEIGHT_54, WIDTH_256} from '../styles/length';
+import {GRAY_ICON, inputColor, navColor, borderColor} from '../styles/color';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -43,6 +35,8 @@ const _Aside = styled.aside`
 	border-right: 1px solid;
 	border-color: ${(props) => props.b_Color};
 	height: 100%;
+	background: ${(props) => props.back};
+	z-index;
 `;
 
 const _Header = styled.div`
@@ -89,7 +83,7 @@ const _Input = styled.input`
 	border: none;
 	font-size: 14px;
 	padding: 0px;
-	background: ${(props) => props.back};
+	background: transparent;
 	color: ${(props) => props.color};
 `;
 
@@ -154,19 +148,19 @@ const Nav = ({toggle, setToggle}) => {
 		<_Aside
 			className={toggle ? 'nav' : 'nav close'}
 			b_Color={borderColor[theme]}
+			back={navColor[theme]}
 		>
 			<_OpenButton
 				onClick={() => setToggle(!toggle)}
-				back={sideColor[theme]}
 				display={toggle ? 'none' : 'inline-block'}
 			>
 				<_Right className='material-icons button_super'>
 					navigate_next
 				</_Right>
 			</_OpenButton>
-			<_Header back={sideColor[theme]}>
+			<_Header back={navColor[theme]}>
 				<IconButton
-					color={iconColor[theme]}
+					color={GRAY_ICON}
 					onClick={() => setToggle(!toggle)}
 				>
 					{burgerMenuIcon}
@@ -174,7 +168,7 @@ const Nav = ({toggle, setToggle}) => {
 				<_HeaderSpan>Avocado</_HeaderSpan>
 			</_Header>
 			<_AddFolerServerContainer
-				back={sideColor[theme]}
+				back={navColor[theme]}
 				b_Color={borderColor[theme]}
 			>
 				<IconButton color={fontColor[theme]} onClick={newServer}>
@@ -185,8 +179,8 @@ const Nav = ({toggle, setToggle}) => {
 				</_NewServerSpan>
 				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
 			</_AddFolerServerContainer>
-			<_Form back={sideColor[theme]} b_Color={borderColor[theme]}>
-				<IconContainer color={iconColor[theme]} margin={'6px'}>
+			<_Form back={navColor[theme]} b_Color={borderColor[theme]}>
+				<IconContainer color={GRAY_ICON} margin={'6px'}>
 					{searchIcon}
 				</IconContainer>
 				<_Input
@@ -195,7 +189,7 @@ const Nav = ({toggle, setToggle}) => {
 					type='text'
 					placeholder={t('search')}
 					color={fontColor[theme]}
-					back={sideColor[theme]}
+					back={inputColor[theme]}
 				/>
 			</_Form>
 			<ServerFolderList search={search} />

@@ -9,7 +9,8 @@ import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
 
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
-import {sideColor, HiddenScroll} from '../../styles/global';
+import {HiddenScroll} from '../../styles/global';
+import {navColor} from '../../styles/color';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -89,7 +90,7 @@ const ServerFolderList = ({search}) => {
 		<_Nav
 			onDrop={dropNavList}
 			id='sortableServerNav'
-			back={sideColor[theme]}
+			back={navColor[theme]}
 		>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
