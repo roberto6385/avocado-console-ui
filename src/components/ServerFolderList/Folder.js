@@ -10,13 +10,7 @@ import {
 } from '../../reducers/common';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
-import {
-	GREEN_COLOR,
-	IconButton,
-	Span,
-	IconContainer,
-	fontColor,
-} from '../../styles/global';
+import {IconButton, Span, IconContainer} from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
 import {
@@ -27,11 +21,11 @@ import {
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, HEIGHT_34} from '../../styles/length';
 import {
-	L_ICON,
-	highColor,
-	L_GREEN_NORMAL,
 	activeColor,
+	fontColor,
+	iconColor,
 	navColor,
+	navHighColor,
 } from '../../styles/color';
 
 export const _NavItem = styled.div`
@@ -43,17 +37,21 @@ export const _NavItem = styled.div`
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.b_Color};
+	border-color: ${(props) => props.bcolor};
 `;
 
 export const _Form = styled.form`
-	border: 1px solid ${GREEN_COLOR};
 	display: flex;
-	padding: 4px;
+	padding: 4px 0px;
+	border: none;
 `;
 
 export const _Input = styled.input`
-	font-size: 14px;
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
+	padding: 0;
+	margin: 0;
+	font-size: ${FONT_14};
 	border: none;
 	outline: none;
 `;
@@ -215,14 +213,14 @@ const Folder = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				// onContextMenu={contextMenuOpen}
-				b_Color={
+				bcolor={
 					clicked_server === data.key
 						? activeColor[theme]
 						: navColor[theme]
 				}
 				back={
 					clicked_server === data.key
-						? highColor[theme]
+						? navHighColor[theme]
 						: navColor[theme]
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
@@ -230,7 +228,9 @@ const Folder = ({open, data, indent}) => {
 				<IconContainer
 					margin={`0px 12px 0px 0px`}
 					color={
-						clicked_server === data.key ? L_GREEN_NORMAL : L_ICON
+						clicked_server === data.key
+							? activeColor[theme]
+							: iconColor[theme]
 					}
 				>
 					{folderIconMidium}
@@ -246,6 +246,8 @@ const Folder = ({open, data, indent}) => {
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
 								onBlur={handleBlur}
+								back={navHighColor[theme]}
+								color={fontColor[theme]}
 							/>
 						</_Form>
 					) : (

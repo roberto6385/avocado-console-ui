@@ -25,13 +25,12 @@ import {
 	WIDTH_165,
 } from '../styles/length';
 import {
-	L_ICON,
 	inputColor,
 	navColor,
 	borderColor,
 	fontColor,
-	activeColor,
 	iconColor,
+	logoColor,
 } from '../styles/color';
 
 const _Aside = styled.aside`
@@ -40,7 +39,7 @@ const _Aside = styled.aside`
 	width: ${WIDTH_256};
 	min-width: ${WIDTH_256};
 	border-right: 1px solid;
-	border-color: ${(props) => props.b_Color};
+	border-color: ${(props) => props.bcolor};
 	height: 100%;
 	background: ${(props) => props.back};
 	z-index;
@@ -60,7 +59,7 @@ const _AddFolerServerContainer = styled.div`
 	height: ${HEIGHT_50};
 	padding: 16px 10px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_Color};
+	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
 `;
 const _Form = styled.form`
@@ -69,7 +68,7 @@ const _Form = styled.form`
 	padding: 16px 10px;
 	height: ${HEIGHT_48};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_Color};
+	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
 `;
 
@@ -88,10 +87,13 @@ const _Input = styled.input`
 	width: ${WIDTH_165};
 	height: ${HEIGHT_36};
 	border: none;
-	font-size: 14px;
+	font-size: ${FONT_14};
 	padding: 0px;
 	background: transparent;
 	color: ${(props) => props.color};
+	::placeholder {
+		color: ${(props) => props.color};
+	}
 `;
 
 const _OpenButton = styled.div`
@@ -154,7 +156,7 @@ const Nav = ({toggle, setToggle}) => {
 	return (
 		<_Aside
 			className={toggle ? 'nav' : 'nav close'}
-			b_Color={borderColor[theme]}
+			bcolor={borderColor[theme]}
 			back={navColor[theme]}
 		>
 			<_OpenButton
@@ -172,11 +174,11 @@ const Nav = ({toggle, setToggle}) => {
 				>
 					{burgerMenuIcon}
 				</IconButton>
-				<_HeaderSpan color={activeColor[theme]}>Avocado</_HeaderSpan>
+				<_HeaderSpan color={logoColor[theme]}>Avocado</_HeaderSpan>
 			</_Header>
 			<_AddFolerServerContainer
 				back={navColor[theme]}
-				b_Color={borderColor[theme]}
+				bcolor={borderColor[theme]}
 			>
 				<IconButton color={fontColor[theme]} onClick={newServer}>
 					{plusIcon}
@@ -188,7 +190,7 @@ const Nav = ({toggle, setToggle}) => {
 					{newFolderIcon}
 				</IconButton>
 			</_AddFolerServerContainer>
-			<_Form back={navColor[theme]} b_Color={borderColor[theme]}>
+			<_Form back={navColor[theme]} bcolor={borderColor[theme]}>
 				<IconContainer color={iconColor[theme]} margin={'6px'}>
 					{searchIcon}
 				</IconContainer>

@@ -2,13 +2,12 @@ import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
-import {PrimaryButton, fontColor, backColor} from '../styles/global';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import {getVerify} from '../reducers/auth/verify';
+import {logoColor, mainBackColor} from '../styles/color';
 
 const _Container = styled.div`
-	background: ${(props) => props.back};
+	background: ${(props) => props?.back};
 	display: flex;
 	flex: 1;
 	align-items: center;
@@ -67,9 +66,9 @@ const MainPage = () => {
 	}, [dispatch]);
 
 	return (
-		<_Container back={backColor[theme]}>
+		<_Container back={mainBackColor[theme]}>
 			<_Contents>
-				<_Text color={fontColor[theme]}>{t('title')}</_Text>
+				<_Text color={logoColor[theme]}>{t('title')}</_Text>
 				{/*<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>*/}
 				{/*<PrimaryButton onClick={onClickVisibleForm}>*/}
 				{/*	{t('addServer')}*/}

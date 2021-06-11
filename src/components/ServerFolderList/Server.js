@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,30 +12,32 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {
-	GREEN_COLOR,
-	Span,
-	IconContainer,
-	LIGHT_MODE_MINT_COLOR,
-	sideColor,
-	serverFolderBackColor,
-	iconColor,
-	fontColor,
-} from '../../styles/global';
+import {Span, IconContainer} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
 import {dnsIconMidium} from '../../icons/icons';
 import {FONT_14, HEIGHT_34} from '../../styles/length';
+import {
+	activeColor,
+	fontColor,
+	iconColor,
+	navColor,
+	navHighColor,
+} from '../../styles/color';
 
 export const _Form = styled.form`
-	border: 1px solid ${GREEN_COLOR};
+	border: none;
 	display: flex;
-	padding: 4px;
+	padding: 4px 0px;
 `;
 
 export const _Input = styled.input`
-	font-size: 14px;
+	background: ${(props) => props?.back};
+	color: ${(props) => props.color};
+	font-size: ${FONT_14};
+	padding: 0;
+	margin: 0;
 	border: none;
 	outline: none;
 `;
@@ -49,7 +51,7 @@ export const _NavItem = styled(Nav.Item)`
 	padding-left: ${(props) => props?.left};
 	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
 `;
 
 const Server = ({data, indent}) => {
@@ -174,22 +176,22 @@ const Server = ({data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				b_color={
+				bcolor={
 					clicked_server === data.key
-						? LIGHT_MODE_MINT_COLOR
-						: sideColor[theme]
+						? activeColor[theme]
+						: navColor[theme]
 				}
 				back={
 					clicked_server === data.key
-						? serverFolderBackColor[theme]
-						: sideColor[theme]
+						? navHighColor[theme]
+						: navColor[theme]
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
 				{clicked_server === data.key ? (
 					<IconContainer
 						margin={`0px 12px 0px 0px`}
-						color={LIGHT_MODE_MINT_COLOR}
+						color={activeColor[theme]}
 					>
 						{dnsIconMidium}
 					</IconContainer>
@@ -205,6 +207,8 @@ const Server = ({data, indent}) => {
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<_Input
+								back={navHighColor[theme]}
+								color={fontColor[theme]}
 								ref={renameRef}
 								type='text'
 								value={renameValue}

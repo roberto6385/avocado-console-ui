@@ -12,15 +12,7 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-import {
-	backColor,
-	fontColor,
-	IconButton,
-	LIGHT_MODE_SIDE_COLOR,
-	TERMINAL_SEARCH_FORM_HEIGHT,
-	TERMINAL_SEARCH_FORM_WIDTH,
-	terminalColor,
-} from '../../styles/global';
+import {IconButton, LIGHT_MODE_SIDE_COLOR} from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
 	arrowDropDownIconMidium,
@@ -29,14 +21,15 @@ import {
 	searchIcon,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
-import {FONT_14} from "../../styles/length";
+import {FONT_14, HEIGHT_42, WIDTH_400} from '../../styles/length';
+import {fontColor, terminalColor} from '../../styles/color';
 
 const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 	padding: 20px;
-	background-color: ${(props) => props.back_color};
+	background-color: ${(props) => props.back};
 `;
 
 const _Terminal = styled(_Container)`
@@ -50,12 +43,12 @@ const _Form = styled.form`
 	position: absolute;
 	right: 3px;
 	bottom: 31px;
-	width: ${TERMINAL_SEARCH_FORM_WIDTH};
+	width: ${WIDTH_400};
 	display: none;
 	align-items: center;
 	border-radius: 4px;
 	padding: 12px;
-	height: ${TERMINAL_SEARCH_FORM_HEIGHT};
+	height: ${HEIGHT_42};
 	background: ${LIGHT_MODE_SIDE_COLOR};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
@@ -325,13 +318,13 @@ const SSH = ({uuid}) => {
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {
-			background: backColor[theme],
+			background: terminalColor[theme],
 			foreground: fontColor[theme],
 		});
 	}, [sshTerm, theme]);
 
 	return (
-		<_Container ref={ref} back_color={backColor[theme]}>
+		<_Container ref={ref} back={terminalColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
 			{currentLine.length > 1 &&
 				auto_completion_mode &&

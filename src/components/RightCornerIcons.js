@@ -7,9 +7,7 @@ import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
 import {
 	IconButton,
-	iconColor,
 	IconContainer,
-	sideColor,
 } from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
 import {
@@ -21,6 +19,7 @@ import {
 import PropTypes from 'prop-types';
 import {OPEN_ALERT_POPUP} from '../reducers/popup';
 import {useTranslation} from 'react-i18next';
+import {iconColor, tabbarColor} from "../styles/color";
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -112,7 +111,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	}, []);
 
 	return (
-		<CornerIcons_Container back={sideColor[theme]}>
+		<CornerIcons_Container back={tabbarColor[theme]}>
 			<IconButton onClick={openSideMenu('Account')}>
 				{accountIcon}
 			</IconButton>

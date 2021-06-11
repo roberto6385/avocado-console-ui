@@ -4,19 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import Nav from './Nav';
 import MainPage from './MainPage';
-import {
-	backColor,
-	fontColor,
-	GREEN_COLOR,
-	IconButton,
-	iconColor,
-	IconContainer,
-	MAIN_HEIGHT,
-	mintColor,
-	sideColor,
-	Span,
-	TAB_WIDTH,
-} from '../styles/global';
+import {IconButton, IconContainer, Span} from '../styles/global';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
@@ -25,6 +13,13 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {FONT_18, HEIGHT_54, WIDTH_160} from '../styles/length';
+import {
+	activeColor,
+	fontColor,
+	iconColor,
+	tabbarColor,
+	tabColor,
+} from '../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -79,7 +74,7 @@ const _TabItem = styled.div`
 	color: ${(props) => props.color};
 	width: ${WIDTH_160};
 	border-top: 2px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.bcolor};
 	font-weight: bold;
 `;
 
@@ -205,7 +200,7 @@ const WorkSpace = () => {
 			<_MainContainer
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
-				<_Nav back={sideColor[theme]}>
+				<_Nav back={tabbarColor[theme]}>
 					<_TabsContianer>
 						{tab.map((data) => {
 							return (
@@ -220,25 +215,25 @@ const WorkSpace = () => {
 										onClick={changeVisibleTab(data.uuid)}
 										back={
 											current_tab === data.uuid
-												? backColor[theme]
-												: sideColor[theme]
+												? tabColor[theme]
+												: tabbarColor[theme]
 										}
 										color={
 											current_tab === data.uuid
-												? mintColor[theme]
+												? activeColor[theme]
 												: fontColor[theme]
 										}
-										bColor={
+										bcolor={
 											current_tab === data.uuid
-												? mintColor[theme]
-												: sideColor[theme]
+												? activeColor[theme]
+												: tabbarColor[theme]
 										}
 									>
 										<IconContainer padding={'6px'}>
 											{data.type === 'SSH' &&
 												sshIcon(
 													current_tab === data.uuid
-														? GREEN_COLOR
+														? activeColor[theme]
 														: fontColor[theme],
 												)}
 											{data.type === 'SFTP' &&

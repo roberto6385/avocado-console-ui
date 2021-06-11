@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -8,10 +8,11 @@ import DropdownMenu_ from '../RecycleComponents/DropdownMenu_';
 import SnippetsManeger from './SnippetsManager';
 import {useTranslation} from 'react-i18next';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {backColor, IconButton, SUB_HEIGHT} from '../../styles/global';
+import {IconButton} from '../../styles/global';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 import {HEIGHT_50} from '../../styles/length';
+import {tabColor} from '../../styles/color';
 
 const _Container = styled.div`
 	position: relative;
@@ -75,7 +76,7 @@ const SSHContainer = ({uuid, server}) => {
 
 	return (
 		<_Container>
-			<_Header back={backColor[theme]}>
+			<_Header back={tabColor[theme]}>
 				<DropdownMenu_ icon={snippetIcon} menu={column} />
 				<SFTPConvertButton data={server} />
 				<IconButton onClick={onCLickFullScreen}>

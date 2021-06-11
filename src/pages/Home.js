@@ -5,6 +5,7 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {SAVE_ACCOUT} from '../reducers/common';
+import {navColor} from '../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -12,10 +13,12 @@ const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	font-family: 'Roboto', sans-serif;
+	background: ${(props) => props?.back};
 `;
 
 const Home = () => {
 	const {userTicket, userInfo} = useSelector((state) => state.userTicket);
+	const {theme} = useSelector((state) => state.common);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	// const userInfo = JSON.parse(
@@ -46,7 +49,7 @@ const Home = () => {
 	}, [userInfo]);
 
 	return (
-		<_Container>
+		<_Container background={navColor[theme]}>
 			<WorkSpace />
 			<Footer />
 		</_Container>
