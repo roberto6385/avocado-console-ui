@@ -12,29 +12,15 @@ import {
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {
-	GREEN_COLOR,
 	Span,
 	IconButton,
-	DROP_SPACE_HEIGHT,
-	HISTORY_ITEM_WIDTH,
-	ICON_LIGHT_COLOR,
-	PATH_SEARCH_INPUT_HEIGHT,
-	TAB_WIDTH,
-	AVOCADO_HOVER_COLOR,
 	PreventDragCopy,
 	IconContainer,
-	LIGHT_MODE_ICON_COLOR,
-	LIGHT_MODE_MINT_COLOR,
-	fontColor,
-	borderColor,
-	serverFolderBackColor,
 	pauseColor,
 	uploadColor,
 	downloadColor,
 	editColor,
 	deleteColor,
-	iconColor,
-	sideColor,
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -46,13 +32,30 @@ import {
 	pauseCircleIconSmall,
 	removeCircleIconSmall,
 } from '../../../icons/icons';
-import {HEIGHT_48, FONT_12} from '../../../styles/length';
+import {
+	HEIGHT_48,
+	FONT_12,
+	HEIGHT_132,
+	WIDTH_160,
+	HEIGHT_34,
+	WIDTH_134,
+} from '../../../styles/length';
+import {
+	activeColor,
+	borderColor,
+	fontColor,
+	highColor,
+	iconColor,
+	L_GRAY_HOVER,
+	tabColor,
+} from '../../../styles/color';
 
 const DropSpaceDiv = styled.div`
-	height: ${DROP_SPACE_HEIGHT};
+	height: ${HEIGHT_132};
 	margin: 8px;
 	border: 1px dashed;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
+	background: ${(props) => props.back};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -80,27 +83,24 @@ const _Li = styled.li`
 	background: ${(props) => props.back};
 	white-space: nowrap;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
 `;
 
 const DropSpace_Button = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: ${TAB_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	background: ${GREEN_COLOR};
+	width: ${WIDTH_160};
+	height: ${HEIGHT_34};
+	background: ${(props) => props.back};
 	color: white;
 	border-radius: 4px;
 	border: none;
 	margin: 16px 40px 30px 40px;
-	&:hover {
-		background: ${AVOCADO_HOVER_COLOR};
-	}
 `;
 
 const ItemName_Span = styled(Span)`
-	width: ${HISTORY_ITEM_WIDTH};
+	width: ${WIDTH_134};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -116,7 +116,7 @@ const Progress = styled.div`
 const Bar = styled.div`
 	width: ${(props) => props?.width || '0%'};
 	height: 2px;
-	background: ${GREEN_COLOR};
+	background: ${(props) => props.back};
 `;
 
 const HistoryContents = ({uuid}) => {
@@ -284,14 +284,20 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<DropSpaceDiv b_color={borderColor[theme]}>
+				<DropSpaceDiv
+					back={tabColor[theme]}
+					bcolor={borderColor[theme]}
+				>
 					<Span
 						color={fontColor[theme]}
 						padding={'32px 30px 12px 30px'}
 					>
 						{t('paragraph')}
 					</Span>
-					<DropSpace_Button onClick={openUpload}>
+					<DropSpace_Button
+						back={activeColor[theme]}
+						onClick={openUpload}
+					>
 						{fileUploadIcon('white')}
 						<Span>{t('browse')}</Span>
 					</DropSpace_Button>
@@ -308,21 +314,21 @@ const HistoryContents = ({uuid}) => {
 									history_highlight.find(
 										(item) => item === history,
 									)
-										? serverFolderBackColor[theme]
-										: sideColor[theme]
+										? highColor[theme]
+										: tabColor[theme]
 								}
-								b_color={borderColor[theme]}
+								bcolor={borderColor[theme]}
 								borderWidth={`${history.progress}%`}
 							>
 								<IconContainer
 									// 나중에 split pane 만들면 반응형으로!
 									padding={'0px 0px 0px 12px'}
 									className={'history_contents'}
-									color={
-										history.progress !== 100
-											? LIGHT_MODE_ICON_COLOR
-											: LIGHT_MODE_MINT_COLOR
-									}
+									// color={
+									// 	history.progress !== 100
+									// 		? LIGHT_MODE_ICON_COLOR
+									// 		: LIGHT_MODE_MINT_COLOR
+									// }
 								>
 									{history.progress !== 100 ? (
 										<IconContainer color={pauseColor}>
@@ -353,7 +359,7 @@ const HistoryContents = ({uuid}) => {
 									flex={1}
 									color={
 										history.progress !== 100
-											? ICON_LIGHT_COLOR
+											? L_GRAY_HOVER
 											: fontColor[theme]
 									}
 								>
@@ -371,11 +377,12 @@ const HistoryContents = ({uuid}) => {
 									className={'history_contents'}
 									padding={'0px 16px 0px 6px'}
 									color={
-										history_highlight.find(
-											(item) => item === history,
-										)
-											? LIGHT_MODE_MINT_COLOR
-											: iconColor[theme]
+										iconColor[theme]
+										// history_highlight.find(
+										// 	(item) => item === history,
+										// )
+										// 	? LIGHT_MODE_MINT_COLOR
+										// 	: iconColor[theme]
 									}
 								>
 									{deleteIconMidium}
@@ -383,7 +390,10 @@ const HistoryContents = ({uuid}) => {
 
 								{history.progress !== 100 && (
 									<Progress>
-										<Bar width={`${history.progress}%`} />
+										<Bar
+											back={activeColor[theme]}
+											width={`${history.progress}%`}
+										/>
 									</Progress>
 								)}
 							</_Li>

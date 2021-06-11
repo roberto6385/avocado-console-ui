@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {borderColor, fontColor, sideColor} from '../../../styles/global';
 import {HEIGHT_48} from '../../../styles/length';
 import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
+import {borderColor, fontColor, tabColor} from '../../../styles/color';
 
 const _Tr = styled.tr`
 	height: ${HEIGHT_48};
@@ -108,7 +108,7 @@ const TableHead = ({uuid}) => {
 	return (
 		<_Thead>
 			<_Tr
-				back={sideColor[theme]}
+				back={tabColor[theme]}
 				b_color={borderColor[theme]}
 				color={fontColor[theme]}
 			>

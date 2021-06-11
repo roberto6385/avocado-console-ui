@@ -5,15 +5,15 @@ import {useTranslation} from 'react-i18next';
 import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
-import {
-	Span,
-	IconButton,
-	fontColor,
-	iconColor,
-	borderColor,
-} from '../../../styles/global';
+import {Span, IconButton} from '../../../styles/global';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
+import {
+	borderColor,
+	fontColor,
+	iconColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -22,7 +22,8 @@ const _Container = styled.div`
 	padding: 0px 16px;
 	height: ${HEIGHT_50};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
+	background: ${(props) => props.back};
 `;
 
 const HistoryNav = ({uuid}) => {
@@ -81,7 +82,7 @@ const HistoryNav = ({uuid}) => {
 	}, [history_highlight, uuid, dispatch]);
 
 	return (
-		<_Container b_color={borderColor[theme]}>
+		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
 			<Span color={fontColor[theme]}>{t('title')}</Span>
 			<div>
 				<IconButton color={iconColor[theme]} onClick={upload}>

@@ -1,6 +1,7 @@
 // height
 export const HEIGHT_520 = '520px';
 export const HEIGHT_174 = '174px'; // popup alert 고정 높이
+export const HEIGHT_132 = '132px'; // drop space div 고정 높이
 export const HEIGHT_60 = '60px';
 export const HEIGHT_54 = '54px'; // 탭 영역, 로고 영역
 export const HEIGHT_50 = '50px'; // 상단 툴바 영역, 서버 및 폴더추가 영역
@@ -22,10 +23,12 @@ export const WIDTH_400 = '400px'; // terminal search form width
 export const WIDTH_300 = '300px'; // aside width
 export const WIDTH_256 = '256px'; // 네비게이션 영역, Aside 패널 영역
 export const WIDTH_220 = '220px'; // drop list li width
+export const WIDTH_200 = '200px'; // drop list item container width
 export const WIDTH_178 = '178px'; // add server popup select width
 export const WIDTH_165 = '165px'; // nav search width
 export const WIDTH_160 = '160px'; // 탭 최소 폭
 export const WIDTH_136 = '136px'; // 설정 아이콘 영역 폭
+export const WIDTH_134 = '134px'; // history item 영역 폭
 export const WIDTH_120 = '120px';
 
 // font

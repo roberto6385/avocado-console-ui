@@ -18,11 +18,11 @@ import {
 	arrowDropDownIconMidium,
 	arrowDropUpIconMidium,
 	closeIconMedium,
-	searchIcon,
+	searchIconMicro,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
 import {FONT_14, HEIGHT_42, WIDTH_400} from '../../styles/length';
-import {fontColor, terminalColor} from '../../styles/color';
+import {terminalColor, terminalFontColor} from '../../styles/color';
 
 const _Container = styled.div`
 	height: 100%;
@@ -48,6 +48,7 @@ const _Form = styled.form`
 	align-items: center;
 	border-radius: 4px;
 	padding: 12px;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
 	height: ${HEIGHT_42};
 	background: ${LIGHT_MODE_SIDE_COLOR};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
@@ -177,7 +178,7 @@ const SSH = ({uuid}) => {
 
 		sshTerm.setOption('theme', {
 			background: terminalColor[theme],
-			foreground: fontColor[theme],
+			foreground: terminalFontColor[theme],
 		});
 		sshTerm.setOption('fontSize', font_size);
 		sshTerm.setOption('fontFamily', font);
@@ -322,7 +323,7 @@ const SSH = ({uuid}) => {
 	useEffect(() => {
 		sshTerm.setOption('theme', {
 			background: terminalColor[theme],
-			foreground: fontColor[theme],
+			foreground: terminalFontColor[theme],
 		});
 	}, [sshTerm, theme]);
 
@@ -440,11 +441,11 @@ const SSH = ({uuid}) => {
 					</_ListGroup>
 				)}
 			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
-				{searchIcon}
+				{searchIconMicro}
 				<_Input
 					onChange={onChangeSearch}
 					value={search}
-					placeholder='Search...'
+					placeholder={t('search')}
 					type='text'
 					ref={searchRef}
 				/>

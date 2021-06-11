@@ -18,15 +18,9 @@ import {
 import styled from 'styled-components';
 import {
 	HiddenScroll,
-	LIGHT_MODE_MINT_COLOR,
 	IconButton,
 	IconContainer,
 	PreventDragCopy,
-	THIRD_HEIGHT,
-	serverFolderBackColor,
-	sideColor,
-	backColor,
-	borderColor,
 } from '../../../styles/global';
 import {
 	editIcon,
@@ -35,7 +29,15 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {sortFunction} from '../listConversion';
-import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
+import {HEIGHT_48, WIDTH_200, WIDTH_220} from '../../../styles/length';
+import {
+	activeColor,
+	borderColor,
+	fileListHighColor,
+	fontColor,
+	highColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -48,7 +50,7 @@ const _ItemContainer = styled.div`
 	display: flex;
 	align-items: center;
 	flex: ${(props) => props?.flex};
-	min-width: 200px;
+	min-width: ${WIDTH_200};
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding: 0px;
@@ -76,7 +78,8 @@ const _Ul = styled.ul`
 	outline: none;
 	background: ${(props) => props.back};
 	border-right: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
+	color: ${(props) => props.color};
 `;
 
 const _Span = styled.span`
@@ -96,7 +99,7 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
 `;
 
 const FileListDropDown = ({uuid}) => {
@@ -391,8 +394,9 @@ const FileListDropDown = ({uuid}) => {
 								: '220px'
 						}
 						flex={pathList.length - 1 === listindex && 1}
-						back={sideColor[theme]}
-						b_color={
+						back={tabColor[theme]}
+						color={fontColor[theme]}
+						bcolor={
 							pathList.length - 1 === listindex
 								? 'transparent'
 								: borderColor[theme]
@@ -416,14 +420,14 @@ const FileListDropDown = ({uuid}) => {
 													path ===
 														pathList[listindex],
 											) > -1 &&
-												serverFolderBackColor[theme]) ||
+												fileListHighColor[theme]) ||
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
-												backColor[theme]) ||
-											sideColor[theme]
+												highColor[theme]) ||
+											tabColor[theme]
 										}
-										b_color={borderColor[theme]}
+										bcolor={borderColor[theme]}
 										key={index}
 										onContextMenu={contextMenuOpen({
 											item,
@@ -444,9 +448,7 @@ const FileListDropDown = ({uuid}) => {
 													className={
 														'filelist_contents'
 													}
-													color={
-														LIGHT_MODE_MINT_COLOR
-													}
+													color={activeColor[theme]}
 													margin={`0px 4px 0px 0px`}
 												>
 													{folderOpenIcon}

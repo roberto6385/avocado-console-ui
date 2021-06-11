@@ -8,16 +8,7 @@ import {
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp';
-import {
-	IconButton,
-	PATH_SEARCH_INPUT_HEIGHT,
-	LIGHT_MODE_MINT_COLOR,
-	LIGHT_MODE_ICON_COLOR,
-	iconColor,
-	fontColor,
-	borderColor,
-	inputColor,
-} from '../../../styles/global';
+import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -25,10 +16,18 @@ import {
 	viewColumnIcon,
 	viewListIcon,
 } from '../../../icons/icons';
-import {FONT_14, HEIGHT_50} from '../../../styles/length';
+import {FONT_14, HEIGHT_34, HEIGHT_50} from '../../../styles/length';
+import {
+	activeColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	inputColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _input = styled.input`
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	height: ${HEIGHT_34};
 	width: 100%;
 	border-radius: 4px;
 	font-size: ${FONT_14};
@@ -42,16 +41,10 @@ const _input = styled.input`
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
+	background: ${(props) => props?.back};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
+	border-color: ${(props) => props?.bcolor};
 	height: ${HEIGHT_50};
-`;
-
-const _IconButton = styled(IconButton)`
-	color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
-	&:hover {
-		color: ${(props) => props?.color || LIGHT_MODE_ICON_COLOR};
-	}
 `;
 
 const _Form = styled.form`
@@ -144,20 +137,20 @@ const FileListNav = ({uuid}) => {
 	// }, []);
 
 	return (
-		<_Container b_color={borderColor[theme]}>
-			<_IconButton color={iconColor[theme]} onClick={goBack}>
+		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
+			<IconButton color={iconColor[theme]} onClick={goBack}>
 				{arrowUpwordIcon}
-			</_IconButton>
-			<_IconButton onClick={basicList}>
+			</IconButton>
+			<IconButton onClick={basicList}>
 				{viewListIcon(
-					mode === 'list' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
+					mode === 'list' ? activeColor[theme] : iconColor[theme],
 				)}
-			</_IconButton>
-			<_IconButton onClick={dropdownList}>
+			</IconButton>
+			<IconButton onClick={dropdownList}>
 				{viewColumnIcon(
-					mode === 'drop' ? LIGHT_MODE_MINT_COLOR : iconColor[theme],
+					mode === 'drop' ? activeColor[theme] : iconColor[theme],
 				)}
-			</_IconButton>
+			</IconButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
 				<_input
 					id='fileListNavInput'
@@ -170,12 +163,12 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<_IconButton color={iconColor[theme]} onClick={refresh}>
+			<IconButton color={iconColor[theme]} onClick={refresh}>
 				{refreshIcon}
-			</_IconButton>
-			<_IconButton color={iconColor[theme]} onClick={goHome}>
+			</IconButton>
+			<IconButton color={iconColor[theme]} onClick={goHome}>
 				{homeIcon}
-			</_IconButton>
+			</IconButton>
 		</_Container>
 	);
 };

@@ -50,6 +50,7 @@ export const D_BACK_FOOTER = '#18191f';
 export const D_BACK_TABBAR = '#223b52';
 export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
+export const D_SFTP_FILELIST_BACK = '#17232E';
 
 // prev ui guide line
 // export const D_BACK = '#0b141c';
@@ -68,7 +69,8 @@ export const I_BACK_DROP = '#325165';
 
 // theme array
 export const navColor = [L_BACK, D_BACK_NAV];
-export const inputColor = [L_BACK_TABBAR, D_BACK];
+export const navInputColor = [L_BACK_TABBAR, D_BACK];
+export const inputColor = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
@@ -80,3 +82,5 @@ export const tabColor = [L_BACK, D_BACK];
 export const mainBackColor = [L_BACK_MAIN, D_BACK];
 export const logoColor = [L_LOGO, D_LOGO];
 export const terminalColor = [L_BACK_MAIN, D_BACK_TERMINAL];
+export const terminalFontColor = [L_FONT, L_BACK];
+export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];

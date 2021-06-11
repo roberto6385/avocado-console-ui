@@ -87,20 +87,20 @@ export const alertFillIcon = (
 
 // nav - folder,server icon
 export const dnsIconMidium = (
-	<span className='material-icons button_midium'>dns</span>
+	<span className='material-icons button_medium'>dns</span>
 );
 export const folderOpenIcon = (
 	<span className='material-icons filelist_contents'>folder_open</span>
 );
 export const folderOpenIconMidium = (
-	<span className='material-icons button_midium '>folder_open</span>
+	<span className='material-icons button_medium '>folder_open</span>
 );
 export const folderIcon = <span className='material-icons '>folder</span>;
 export const folderIconMidium = (
-	<span className='material-icons button_midium'>folder</span>
+	<span className='material-icons button_medium'>folder</span>
 );
 export const arrowRightIconMidium = (
-	<span className='material-icons button_midium'>arrow_right</span>
+	<span className='material-icons button_medium'>arrow_right</span>
 );
 
 // right corner and setting icon
@@ -120,17 +120,17 @@ export const windowIcon = (
 );
 export const settingIcon = <span className='material-icons'>settings</span>;
 export const settingIconMidium = (
-	<span className='material-icons button_midium'>settings</span>
+	<span className='material-icons button_medium'>settings</span>
 );
 export const accountIcon = <span className='material-icons'>person</span>;
 export const accountIconMidium = (
-	<span className='material-icons button_midium'>person</span>
+	<span className='material-icons button_medium'>person</span>
 );
 export const chevronLeftIcon = (
 	<span className='material-icons '>chevron_left</span>
 );
 export const identityIconMidium = (
-	<span className='material-icons button_midium'>assignment_ind</span>
+	<span className='material-icons button_medium'>assignment_ind</span>
 );
 export const notificationIcon = (
 	<span className='material-icons'>notifications</span>
@@ -144,7 +144,7 @@ export const closeIconSmall = (
 	<span className='material-icons button_small'>close</span>
 );
 export const closeIconMedium = (
-	<span className='material-icons button_midium'>close</span>
+	<span className='material-icons button_medium'>close</span>
 );
 
 // trash can icon
@@ -188,12 +188,13 @@ export const searchIcon = <span className='material-icons'>search</span>;
 export const searchIconMicro = (
 	<span className='material-icons button_micro'>search</span>
 );
-export const arrowDropDownIconMidium = (
-	<span className='material-icons button_midium'>arrow_drop_down</span>
-);
 export const arrowDropUpIconMidium = (
-	<span className='material-icons button_midium'>arrow_drop_up</span>
+	<span className='material-icons button_medium'>keyboard_arrow_up</span>
 );
+export const arrowDropDownIconMidium = (
+	<span className='material-icons button_medium'>keyboard_arrow_down</span>
+);
+
 export const zoomInIconMicro = (
 	<span className='material-icons button_micro'>zoom_in</span>
 );

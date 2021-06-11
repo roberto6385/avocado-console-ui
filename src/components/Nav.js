@@ -25,7 +25,7 @@ import {
 	WIDTH_165,
 } from '../styles/length';
 import {
-	inputColor,
+	navInputColor,
 	navColor,
 	borderColor,
 	fontColor,
@@ -91,9 +91,6 @@ const _Input = styled.input`
 	padding: 0px;
 	background: transparent;
 	color: ${(props) => props.color};
-	::placeholder {
-		color: ${(props) => props.color};
-	}
 `;
 
 const _OpenButton = styled.div`
@@ -199,7 +196,7 @@ const Nav = ({toggle, setToggle}) => {
 					type='text'
 					placeholder={t('search')}
 					color={fontColor[theme]}
-					back={inputColor[theme]}
+					back={navInputColor[theme]}
 				/>
 			</_Form>
 			<ServerFolderList search={search} />

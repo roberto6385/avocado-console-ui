@@ -25,11 +25,6 @@ import {
 	IconButton,
 	IconContainer,
 	PreventDragCopy,
-	LIGHT_MODE_MINT_COLOR,
-	fontColor,
-	borderColor,
-	iconColor,
-	serverFolderBackColor,
 } from '../../../styles/global';
 import {
 	editIcon,
@@ -37,14 +32,23 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
-import {HEIGHT_48} from '../../../styles/length';
+import {FONT_14, HEIGHT_48} from '../../../styles/length';
+import {
+	activeColor,
+	borderColor,
+	fileListHighColor,
+	fontColor,
+	iconColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _Table = styled.table`
 	display: flex;
+	background: ${(props) => props?.back};
 	position: relative;
 	flex: 1;
 	flex-direction: column;
-	font-size: 14px;
+	font-size: ${FONT_14};
 	overflow: scroll;
 	margin: 0;
 	padding: 0;
@@ -82,8 +86,9 @@ const _Tr = styled.tr`
 	height: ${HEIGHT_48};
 	color: ${(props) => props.color};
 	padding: 8px;
+	background: ${(props) => props.back};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
 	cursor: pointer;
 	th {
 		padding: 8px !important;
@@ -249,10 +254,10 @@ const FileListContents = ({uuid}) => {
 
 	return (
 		<React.Fragment>
-			<_Table onContextMenu={contextMenuOpen()}>
+			<_Table onContextMenu={contextMenuOpen()} back={tabColor[theme]}>
 				<TableHead uuid={uuid} />
 				<_Tbody
-					active={serverFolderBackColor[theme]}
+					active={fileListHighColor[theme]}
 					// className={
 					// 	fileList.length === pathList.length &&
 					// 	currentFileList.length !== 0
@@ -268,8 +273,9 @@ const FileListContents = ({uuid}) => {
 						} else {
 							return (
 								<_Tr
+									back={tabColor[theme]}
 									color={fontColor[theme]}
-									b_color={borderColor[theme]}
+									bcolor={borderColor[theme]}
 									onContextMenu={contextMenuOpen(item)}
 									onClick={selectItem({item, index})}
 									onDoubleClick={changePath(item)}
@@ -283,7 +289,7 @@ const FileListContents = ({uuid}) => {
 									<Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
 											<IconContainer
-												color={LIGHT_MODE_MINT_COLOR}
+												color={activeColor[theme]}
 												margin={`0px 8px 0px 0px`}
 											>
 												{folderOpenIcon}
