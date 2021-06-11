@@ -140,18 +140,17 @@ const Nav = ({toggle, setToggle}) => {
 		let i = 0;
 		while (!isValidFolderName(nav, folderName)) {
 			folderName = `${t('newFolder')} ${i}`;
-			console.log(folderName);
 			i++;
 		}
 		dispatch({type: ADD_FOLDER, data: folderName});
-	}, [nav, dispatch]);
+	}, [nav]);
 
 	const newServer = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_SERVER_FORM_POPUP,
 			data: {type: 'add'},
 		});
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<_Aside

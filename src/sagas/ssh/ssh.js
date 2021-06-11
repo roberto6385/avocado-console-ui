@@ -26,6 +26,8 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
+import {messageReader} from '../sftp/messageReader';
+import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
@@ -107,32 +109,23 @@ function* sendDisconnection(action) {
 			});
 
 			while (true) {
-				const {timeout, result} = yield race({
-					timeout: delay(5000),
-					result: take(channel),
-				});
+				const result = yield take(channel);
+				const res = yield call(GetMessage, result);
 
-				if (timeout) {
-					console.log('Disconnection 채널 사용이 없습니다.');
-					closeChannel(channel);
-				} else {
-					const res = yield call(GetMessage, result);
+				switch (res.type) {
+					case 'DISCONNECT':
+						yield put({
+							type: CLOSE_TAB,
+							data: action.data.uuid,
+						});
+						yield put({
+							type: SSH_SEND_DISCONNECTION_SUCCESS,
+							data: action.data.uuid,
+						});
+						break;
 
-					switch (res.type) {
-						case 'DISCONNECT':
-							yield put({
-								type: CLOSE_TAB,
-								data: action.data.uuid,
-							});
-							yield put({
-								type: SSH_SEND_DISCONNECTION_SUCCESS,
-								data: action.data.uuid,
-							});
-							break;
-
-						default:
-							break;
-					}
+					default:
+						break;
 				}
 			}
 		} else {

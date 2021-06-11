@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import Modal from 'react-modal';
@@ -91,16 +91,16 @@ const WarningAlertPopup = () => {
 	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
-	const AlertMessage = {
+	const {current: AlertMessage} = useRef({
 		sftp_delete_file_folder: t('deleteFileFolder'),
 		sftp_delete_history: t('deleteHistory'),
 		delete_server_folder: t('deleteServerFolder'),
 		delete_account: t('deleteAccount'),
-	};
+	});
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
-	}, [dispatch]);
+	}, []);
 
 	const cancelFunction = useCallback(() => {
 		warning_alert_popup.key === 'sftp_delete_file_folder' &&
@@ -109,7 +109,7 @@ const WarningAlertPopup = () => {
 				payload: {uuid: warning_alert_popup.uuid},
 			});
 		closeModal();
-	}, [warning_alert_popup, dispatch]);
+	}, [warning_alert_popup]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -197,14 +197,7 @@ const WarningAlertPopup = () => {
 			}
 			closeModal();
 		},
-		[
-			clicked_server,
-			accountListControlId,
-			warning_alert_popup,
-			dispatch,
-			sftp,
-			nav,
-		],
+		[clicked_server, accountListControlId, warning_alert_popup, sftp, nav],
 	);
 
 	return (

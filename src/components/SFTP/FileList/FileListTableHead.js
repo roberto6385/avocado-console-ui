@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
-import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {borderColor, fontColor, sideColor} from '../../../styles/global';
 import {useTranslation} from 'react-i18next';
+
+import {borderColor, fontColor, sideColor} from '../../../styles/global';
 import {HEIGHT_48} from '../../../styles/length';
+import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp';
 
 const _Tr = styled.tr`
 	height: ${HEIGHT_48};

@@ -12,6 +12,7 @@ const Dropzone = ({children, onDrop, accept}) => {
 		onDrop,
 		accept,
 	});
+
 	return (
 		<_Container className={'hello'} {...getRootProps()}>
 			{children}

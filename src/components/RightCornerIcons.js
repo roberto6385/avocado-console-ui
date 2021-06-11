@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
@@ -41,7 +41,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
 			);
 		},
-		[userTicket, dispatch],
+		[userTicket],
 	);
 
 	const changeColumn = useCallback(
@@ -70,10 +70,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey, toggle],
+		[rightSideKey, toggle],
 	);
 
-	const setting_list = [
+	const {current: setting_list} = useRef([
 		{onClick: changePath('/account'), title: t('editSetting')},
 		{title: 'divider'},
 		{
@@ -86,15 +86,15 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		},
 		{title: 'divider'},
 		{onClick: logout(), title: t('logout')},
-	];
+	]);
 
-	const column_list = [
+	const {current: column_list} = useRef([
 		{onClick: changeColumn(1), title: 'No Columns'},
 		{onClick: changeColumn(2), title: '2 Columns'},
 		{onClick: changeColumn(3), title: '3 Columns'},
 		{onClick: changeColumn(4), title: '4 Columns'},
 		{onClick: changeColumn(5), title: '5 Columns'},
-	];
+	]);
 
 	// const account_list = [
 	// 	{

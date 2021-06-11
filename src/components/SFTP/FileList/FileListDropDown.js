@@ -100,6 +100,7 @@ const _Li = styled.li`
 `;
 
 const FileListDropDown = ({uuid}) => {
+	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
@@ -117,14 +118,9 @@ const FileListDropDown = ({uuid}) => {
 	} = corServer;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
-
-	const dispatch = useDispatch();
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});
-	function displayMenu(e) {
-		show(e);
-	}
 
 	const compareNumber = (list, first, second) => {
 		console.log(list);
@@ -352,7 +348,7 @@ const FileListDropDown = ({uuid}) => {
 					type: ADD_ONE_HIGHLIGHT,
 					payload: {uuid, item},
 				});
-			displayMenu(e);
+			show(e);
 		},
 		[corServer],
 	);

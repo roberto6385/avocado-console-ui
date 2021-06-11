@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -163,8 +163,9 @@ const AddServerForm = () => {
 		(state) => state.common,
 	);
 	// username, password는 이곳에서 가져와야 함.
-	const correspondedIdentity = identity.find(
-		(v) => v.key === clicked_server && v.checked,
+	const correspondedIdentity = useMemo(
+		() => identity.find((v) => v.key === clicked_server && v.checked),
+		[identity, clicked_server],
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {add_server_form_popup} = useSelector((state) => state.popup);

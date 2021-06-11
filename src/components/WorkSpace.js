@@ -166,7 +166,7 @@ const WorkSpace = () => {
 				);
 			}
 		},
-		[dispatch, ssh, sftp],
+		[ssh, sftp],
 	);
 
 	const prevPutItem = useCallback(
@@ -176,6 +176,7 @@ const WorkSpace = () => {
 		},
 		[tab],
 	);
+
 	const nextPutItem = useCallback(
 		(item) => (e) => {
 			e.preventDefault();
@@ -191,7 +192,7 @@ const WorkSpace = () => {
 				},
 			});
 		},
-		[tab, oldOlder, draggedItem, dispatch],
+		[tab, oldOlder, draggedItem],
 	);
 
 	return (

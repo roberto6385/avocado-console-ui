@@ -84,24 +84,22 @@ const _Footer = styled.div`
 const InputPopup = () => {
 	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
-	const inputRef = useRef(null);
 	const {sftp} = useSelector((state) => state.sftp);
 	const {input_popup} = useSelector((state) => state.popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
-
-	const HeaderMessage = {
+	const inputRef = useRef(null);
+	const {current: HeaderMessage} = useRef({
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),
-	};
-
-	const Placeholder = {
+	});
+	const {current: Placeholder} = useRef({
 		sftp_rename_file_folder: t('renamePlace'),
 		sftp_new_folder: t('newFolderPlace'),
-	};
+	});
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});
-	}, [dispatch]);
+	}, []);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -146,7 +144,7 @@ const InputPopup = () => {
 			}
 			closeModal();
 		},
-		[input_popup, dispatch, formValue, sftp],
+		[input_popup, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {

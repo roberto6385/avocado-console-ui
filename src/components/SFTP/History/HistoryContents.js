@@ -120,6 +120,7 @@ const Bar = styled.div`
 `;
 
 const HistoryContents = ({uuid}) => {
+	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
@@ -128,7 +129,6 @@ const HistoryContents = ({uuid}) => {
 		uuid,
 	]);
 	const {history, history_highlight} = corServer;
-	const dispatch = useDispatch();
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');

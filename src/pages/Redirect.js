@@ -1,30 +1,29 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 const querystring = require('query-string');
 
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
-import {getVerify} from '../reducers/auth/verify';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
+
+const getParameter = (name) => {
+	const list = location.search.substring(1).split('&');
+	for (let i = 0; i < list.length; i++) {
+		const data = list[i].split('=');
+		if (data.length === 2) {
+			if (data[0] === name) {
+				return data[1];
+			}
+		}
+	}
+	return null;
+};
 
 const Redirect = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const history = useHistory();
 	const dispatch = useDispatch();
-
-	function getParameter(name) {
-		const list = location.search.substring(1).split('&');
-		for (let i = 0; i < list.length; i++) {
-			const data = list[i].split('=');
-			if (data.length === 2) {
-				if (data[0] === name) {
-					return data[1];
-				}
-			}
-		}
-		return null;
-	}
 
 	useEffect(() => {
 		const encodeData = base64.encode(`${'web'}:${'123456789'}`);
