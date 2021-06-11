@@ -8,7 +8,6 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {
 	IconButton,
 	SSH_SFTP_HEADER_HEIGHT,
-	AVOCADO_FONTSIZE,
 	fontColor,
 	borderColor,
 	iconColor,
@@ -20,7 +19,7 @@ import {
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
-import {HEIGHT_30} from '../styles/length';
+import {FONT_14, HEIGHT_30} from '../styles/length';
 
 const _Container = styled.div`
 	height: 100%;
@@ -48,7 +47,7 @@ const _Header = styled.div`
 const _HeaderText = styled.div`
 	display: flex;
 	align-items: center;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	color: ${(props) => props.color};
 `;
 

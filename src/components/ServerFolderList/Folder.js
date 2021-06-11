@@ -4,7 +4,6 @@ import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 import Server from './Server';
 import {
-	ADD_FOLDER,
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -15,13 +14,8 @@ import {
 	GREEN_COLOR,
 	IconButton,
 	Span,
-	AVOCADO_FONTSIZE,
 	IconContainer,
-	LIGHT_MODE_MINT_COLOR,
-	serverFolderBackColor,
-	sideColor,
 	fontColor,
-	iconColor,
 } from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
 import styled from 'styled-components';
@@ -29,11 +23,16 @@ import {
 	arrowDropDownIconMidium,
 	arrowRightIconMidium,
 	folderIconMidium,
-	folderOpenIconMidium,
 } from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {HEIGHT_34} from '../../styles/length';
-import {GRAY_ICON, L_GREEN_NORMAL, L_HIGHLIGHT} from '../../styles/color';
+import {FONT_14, HEIGHT_34} from '../../styles/length';
+import {
+	L_ICON,
+	highColor,
+	L_GREEN_NORMAL,
+	activeColor,
+	navColor,
+} from '../../styles/color';
 
 export const _NavItem = styled.div`
 	display: flex;
@@ -218,26 +217,26 @@ const Folder = ({open, data, indent}) => {
 				// onContextMenu={contextMenuOpen}
 				b_Color={
 					clicked_server === data.key
-						? LIGHT_MODE_MINT_COLOR
-						: sideColor[theme]
+						? activeColor[theme]
+						: navColor[theme]
 				}
 				back={
 					clicked_server === data.key
-						? serverFolderBackColor[theme]
-						: sideColor[theme]
+						? highColor[theme]
+						: navColor[theme]
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
 				<IconContainer
 					margin={`0px 12px 0px 0px`}
 					color={
-						clicked_server === data.key ? L_GREEN_NORMAL : GRAY_ICON
+						clicked_server === data.key ? L_GREEN_NORMAL : L_ICON
 					}
 				>
 					{folderIconMidium}
 				</IconContainer>
 				{/*</Avocado_span>*/}
-				<Span color={fontColor[theme]} flex={1} size={AVOCADO_FONTSIZE}>
+				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<_Input

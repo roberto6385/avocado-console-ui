@@ -2,15 +2,15 @@ import React from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {AVOCADO_FONTSIZE, EIGHTEEN} from '../../styles/global';
+import {FONT_14, FONT_18} from '../../styles/length';
 
 const _Span = styled.span`
 	padding-bottom: 6px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 `;
 
 const _Container = styled.div`
-	padding-bottom: ${EIGHTEEN};
+	padding-bottom: ${FONT_18};
 	margin: 0px 8px;
 	flex: ${(props) => props.flex};
 `;
@@ -54,7 +54,8 @@ const _Select = styled(Select)`
 		background: ${(props) => props.back};
 		border-color: ${(props) => props.b_color};
 	}
-	.css-yk16xz-control {
+	.css-yk16xz-control,
+	.css-1fhf3k1-control {
 		z-index: 3;
 		background: ${(props) => props.back};
 		border-color: ${(props) => props.b_color};

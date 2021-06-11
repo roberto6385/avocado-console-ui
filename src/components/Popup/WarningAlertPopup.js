@@ -16,7 +16,6 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {
-	AVOCADO_FONTSIZE,
 	BorderButton,
 	DangerButton,
 	FOLDER_HEIGHT,
@@ -26,6 +25,7 @@ import {
 } from '../../styles/global';
 
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
+import {FONT_14} from "../../styles/length";
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -46,7 +46,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${FOLDER_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -66,7 +66,7 @@ const _Footer = styled.div`
 	display: flex;
 	ailgn-items: center;
 	height: ${MAIN_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: flex-end;
 	padding: 13px 8px;
 	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};

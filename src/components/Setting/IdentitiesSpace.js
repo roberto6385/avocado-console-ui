@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {
-	AVOCADO_FONTSIZE,
 	GREEN_COLOR,
 	ROBOTO,
 	SUB_HEIGHT,
@@ -25,6 +24,7 @@ import {
 } from '../../reducers/common';
 import {searchIcon} from '../../icons/icons';
 import useInput from '../../hooks/useInput';
+import {FONT_14} from "../../styles/length";
 
 const _Container = styled.div`
 	display: flex;
@@ -65,7 +65,7 @@ const _Li = styled.li`
 	border-color: ${(props) => props?.b_color};
 	background: ${(props) => props.back};
 	font-family: ${ROBOTO};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	letter-spacing: 0.14px;
 
 	.pretty.p-svg.p-curve {
@@ -79,7 +79,7 @@ const _Li = styled.li`
 			font-size: 15px !important;
 		}
 		label {
-			font-size: ${AVOCADO_FONTSIZE};
+			font-size: ${FONT_14};
 			::bofore,
 			::after {
 				font-size: 15px;

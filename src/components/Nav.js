@@ -1,16 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {
-	GREEN_COLOR,
-	AVOCADO_FONTSIZE,
-	IconButton,
-	LOGO_FONTSIZE,
-	SEARCH_INPUT_HEIGHT,
-	SEARCH_INPUT_WIDTH,
-	IconContainer,
-	fontColor,
-	GRAY_COLOR,
-} from '../styles/global';
+import {IconButton, IconContainer} from '../styles/global';
 import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -24,8 +14,25 @@ import {
 } from '../icons/icons';
 import {ADD_FOLDER} from '../reducers/common';
 import PropTypes from 'prop-types';
-import {HEIGHT_48, HEIGHT_50, HEIGHT_54, WIDTH_256} from '../styles/length';
-import {GRAY_ICON, inputColor, navColor, borderColor} from '../styles/color';
+import {
+	HEIGHT_48,
+	HEIGHT_50,
+	HEIGHT_54,
+	FONT_24,
+	WIDTH_256,
+	FONT_14,
+	HEIGHT_36,
+	WIDTH_165,
+} from '../styles/length';
+import {
+	L_ICON,
+	inputColor,
+	navColor,
+	borderColor,
+	fontColor,
+	activeColor,
+	iconColor,
+} from '../styles/color';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -68,18 +75,18 @@ const _Form = styled.form`
 
 const _HeaderSpan = styled.span`
 	font-family: 'Roboto Slab', serif;
-	font-size: ${LOGO_FONTSIZE};
-	color: ${GREEN_COLOR};
+	font-size: ${FONT_24};
+	color: ${(props) => props.color};
 `;
 const _NewServerSpan = styled.span`
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	color: ${(props) => props.color};
 	flex: 1;
 `;
 
 const _Input = styled.input`
-	width: ${SEARCH_INPUT_WIDTH};
-	height: ${SEARCH_INPUT_HEIGHT};
+	width: ${WIDTH_165};
+	height: ${HEIGHT_36};
 	border: none;
 	font-size: 14px;
 	padding: 0px;
@@ -90,9 +97,9 @@ const _Input = styled.input`
 const _OpenButton = styled.div`
 	outline: none;
 	line-height: 0px;
-	color: ${GRAY_COLOR};
+	color: ${'black'};
 	cursor: pointer;
-	border: 1px solid ${GRAY_COLOR};
+	border: 1px solid ${'black'};
 	position: absolute;
 	padding: 8px;
 	border-radius: 50%;
@@ -160,12 +167,12 @@ const Nav = ({toggle, setToggle}) => {
 			</_OpenButton>
 			<_Header back={navColor[theme]}>
 				<IconButton
-					color={GRAY_ICON}
+					color={iconColor[theme]}
 					onClick={() => setToggle(!toggle)}
 				>
 					{burgerMenuIcon}
 				</IconButton>
-				<_HeaderSpan>Avocado</_HeaderSpan>
+				<_HeaderSpan color={activeColor[theme]}>Avocado</_HeaderSpan>
 			</_Header>
 			<_AddFolerServerContainer
 				back={navColor[theme]}
@@ -177,10 +184,12 @@ const Nav = ({toggle, setToggle}) => {
 				<_NewServerSpan color={fontColor[theme]}>
 					{t('newServer')}
 				</_NewServerSpan>
-				<IconButton onClick={newFolder}>{newFolderIcon}</IconButton>
+				<IconButton color={iconColor[theme]} onClick={newFolder}>
+					{newFolderIcon}
+				</IconButton>
 			</_AddFolerServerContainer>
 			<_Form back={navColor[theme]} b_Color={borderColor[theme]}>
-				<IconContainer color={GRAY_ICON} margin={'6px'}>
+				<IconContainer color={iconColor[theme]} margin={'6px'}>
 					{searchIcon}
 				</IconContainer>
 				<_Input

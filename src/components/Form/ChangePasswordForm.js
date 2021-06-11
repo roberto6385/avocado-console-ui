@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import Input_ from '../RecycleComponents/Input_';
 import {
-	AVOCADO_FONTSIZE,
 	BorderButton,
 	FOLDER_HEIGHT,
 	IconButton,
@@ -22,6 +21,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {closeIconSmall} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {FONT_14} from "../../styles/length";
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -44,7 +44,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${FOLDER_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 
@@ -71,7 +71,7 @@ const _Footer = styled.div`
 	display: flex;
 	ailgn-items: center;
 	height: ${MAIN_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: flex-end;
 	padding: 13px 8px;
 
@@ -83,7 +83,7 @@ const _Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	padding: 18px 16px 29px 16px;
 `;
 

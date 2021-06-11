@@ -5,7 +5,6 @@ import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
-	AVOCADO_FONTSIZE,
 	IconButton,
 	fontColor,
 	iconColor,
@@ -17,7 +16,7 @@ import {
 	saveIcon,
 	squareDeleteIcon,
 } from '../../../icons/icons';
-import {HEIGHT_50} from '../../../styles/length';
+import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
 const _Container = styled.div`
 	display: flex;
@@ -35,7 +34,7 @@ const _Button = styled(IconButton)`
 `;
 
 const _Span = styled.span`
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	color: ${(props) => props.color};
 `;
 const _ButtonContainer = styled.div`

@@ -6,7 +6,6 @@ import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
-	AVOCADO_FONTSIZE,
 	BorderButton,
 	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
@@ -20,6 +19,7 @@ import {
 	cancelFillIcon,
 	closeIconMedium,
 } from '../../icons/icons';
+import {FONT_14} from "../../styles/length";
 
 const _Modal = styled(Modal)`
 	position: absolute;
@@ -39,7 +39,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${FOLDER_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -59,7 +59,7 @@ const _Footer = styled.div`
 	display: flex;
 	ailgn-items: center;
 	height: ${MAIN_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: flex-end;
 	padding: 13px 8px;
 	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};

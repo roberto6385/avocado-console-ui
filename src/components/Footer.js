@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {Span, HISTORY_FONTSIZE, footerColor, fontColor} from '../styles/global';
+import {Span, footerColor, fontColor} from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
@@ -12,20 +12,20 @@ import {
 	zoomInIconMicro,
 	zoomOutIconMicro,
 } from '../icons/icons';
-import {HEIGHT_26} from '../styles/length';
+import {HEIGHT_26, FONT_12} from '../styles/length';
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: ${HISTORY_FONTSIZE};
+	font-size: ${FONT_12};
 	background: ${(props) => props.back};
 	padding: 0 16px;
 `;
 
 const _Button = styled.button`
-	font-size: ${HISTORY_FONTSIZE};
+	font-size: ${FONT_12};
 	height: 24px;
 	background: transparent;
 	border: none;
@@ -61,7 +61,7 @@ const Footer = () => {
 	}, [current_tab, dispatch]);
 	return (
 		<_Footer back={footerColor[theme]}>
-			<Span color={fontColor[theme]} size={HISTORY_FONTSIZE}>
+			<Span color={fontColor[theme]} size={FONT_12}>
 				Avocado v1.0
 			</Span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (

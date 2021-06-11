@@ -1,5 +1,6 @@
 // color
 import styled from 'styled-components';
+import {FONT_14, FONT_20} from "./length";
 
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
@@ -130,20 +131,10 @@ export const ACCOUNT_INPUT_WIDTH = '500px';
 export const AUTH_FORM_WIDTH = '500px';
 export const SERVER_FORM_INPUT_WIDTH = '178px';
 
-// font-size
-export const AVOCADO_FONTSIZE = '14px';
-export const FOOTER_FONTSIZE = '10px';
-export const HISTORY_FONTSIZE = '12px';
-export const EIGHTEEN = '18px';
-export const SIXTEEN = '16px';
-export const MIDDLE_FONTSIZE = '20px';
-export const LOGO_FONTSIZE = '24px';
-export const LOGIN_LOGO_FONTSIZE = '29px';
-
 // span
 export const Span = styled.span`
 	flex: ${(props) => props?.flex};
-	font-size: ${(props) => props?.size || AVOCADO_FONTSIZE};
+	font-size: ${(props) => props?.size || FONT_14};
 	padding: ${(props) => props.padding || '6px'};
 	line-height: 0px;
 	color: ${(props) => props.color};
@@ -162,7 +153,7 @@ export const IconButton = styled.button`
 	border: none;
 	line-height: 0px;
 	padding: ${(props) => props?.padding || '6px'};
-	font-size: ${(props) => props?.size || MIDDLE_FONTSIZE};
+	font-size: ${(props) => props?.size || FONT_20};
 	color: ${(props) => props.color || LIGHT_MODE_ICON_COLOR};
 
 	// &:hover {

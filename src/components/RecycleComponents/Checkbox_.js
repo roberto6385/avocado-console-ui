@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes, {symbol} from 'prop-types';
-import {GREEN_COLOR, AVOCADO_FONTSIZE} from '../../styles/global';
+import {GREEN_COLOR} from '../../styles/global';
+import {FONT_14} from "../../styles/length";
 
 const _Input = styled.input`
 	height: ${(props) => props.size};
@@ -20,7 +21,7 @@ const _LabelContainer = styled.div`
 `;
 
 const _Label = styled.label`
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	::bofore,
 	::after {
 		font-size: 15px;

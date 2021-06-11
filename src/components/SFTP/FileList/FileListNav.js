@@ -9,7 +9,6 @@ import {
 	commandPwdAction,
 } from '../../../reducers/sftp';
 import {
-	AVOCADO_FONTSIZE,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
 	LIGHT_MODE_MINT_COLOR,
@@ -26,13 +25,13 @@ import {
 	viewColumnIcon,
 	viewListIcon,
 } from '../../../icons/icons';
-import {HEIGHT_50} from '../../../styles/length';
+import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
 const _input = styled.input`
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	width: 100%;
 	border-radius: 4px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	border: none;
 	padding: 0px 13px;
 	outline: none;

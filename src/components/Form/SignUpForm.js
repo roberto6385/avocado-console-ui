@@ -7,17 +7,16 @@ import {useTranslation} from 'react-i18next';
 import {
 	AUTH_FORM_SUB_HEIGHT,
 	AUTH_FORM_WIDTH,
-	AVOCADO_FONTSIZE,
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
 	IconButton,
-	LOGIN_LOGO_FONTSIZE,
 	PrimaryButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {FONT_14, FONT_29} from "../../styles/length";
 
 const _Form = styled.form`
 	background: white;
@@ -69,7 +68,7 @@ const _PasswordInput = styled(_Input)`
 
 const _Title = styled.span`
 	font-family: Roboto;
-	font-size: ${LOGIN_LOGO_FONTSIZE};
+	font-size: ${FONT_29};
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
@@ -77,7 +76,7 @@ const _Title = styled.span`
 `;
 
 const _Span = styled.div`
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	margin: 0px 8px 52px 8px;
 
 	a {

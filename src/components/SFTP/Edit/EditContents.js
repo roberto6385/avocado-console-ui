@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
-import {AVOCADO_FONTSIZE, LIGHT_BACK_COLOR} from '../../../styles/global';
+import {LIGHT_BACK_COLOR} from '../../../styles/global';
+import {FONT_14} from "../../../styles/length";
 
 const _Container = styled.div`
 	flex: 1;
@@ -19,7 +20,7 @@ const _Container = styled.div`
 		outline: none;
 		border: none;
 		width: 100%;
-		font-size: ${AVOCADO_FONTSIZE};
+		font-size: ${FONT_14};
 		resize: none;
 	}
 `;

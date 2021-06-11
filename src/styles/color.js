@@ -1,8 +1,8 @@
 // border color
-export const BORDER = '#e3e5e5';
+export const L_BORDER = '#e3e5e5';
+export const D_BORDER = 'rgba(0, 0, 0, 0.3)';
 
 // gray icon color
-export const GRAY_ICON = `#959ea1`;
 export const GRAY_ICON_ACTIVE = `#556367`;
 
 // gray hover
@@ -16,6 +16,8 @@ export const L_GREEN_ACTIVE = '#0a6f71';
 export const L_RED_HOVER = '#d45959';
 export const L_RED_NORMAL = '#de6565';
 export const L_RED_ACTIVE = '#b84646';
+export const L_FONT = '#212121';
+export const L_ICON = `#959ea1`;
 
 // dark button color
 export const D_HIGHLIGHT = 'rgba(105,211,205,0.05)';
@@ -25,6 +27,8 @@ export const D_GREEN_ACTIVE = '#31bbb3';
 export const D_RED_HOVER = '#e27777';
 export const D_RED_NORMAL = '#de6565';
 export const D_RED_ACTIVE = '#d45959';
+export const D_FONT = 'rgba(255,255,255,0.87)';
+export const D_ICON = `rgba(255,255,255,0.6)`;
 
 // light background color
 export const L_BACK = '#ffffff'; // nav, active tab, droplist, workSpace header, subHeader
@@ -44,9 +48,13 @@ export const D_BACK_TABBAR = '#223b52';
 export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
 
-export const navColor = [L_BACK, 'green'];
-export const inputColor = [L_BACK_TABBAR, 'green'];
-export const borderColor = [BORDER, 'green'];
+export const navColor = [L_BACK, D_BACK_NAV];
+export const inputColor = [L_BACK_TABBAR, D_BACK];
+export const borderColor = [L_BORDER, D_BORDER];
+export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
+export const activeColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
+export const fontColor = [L_FONT, D_FONT];
+export const iconColor = [L_ICON, D_ICON];
 
 // prev ui guide line
 // export const D_BACK = '#0b141c';

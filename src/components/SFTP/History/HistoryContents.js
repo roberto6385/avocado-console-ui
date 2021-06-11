@@ -16,7 +16,6 @@ import {
 	Span,
 	IconButton,
 	DROP_SPACE_HEIGHT,
-	HISTORY_FONTSIZE,
 	HISTORY_ITEM_WIDTH,
 	ICON_LIGHT_COLOR,
 	PATH_SEARCH_INPUT_HEIGHT,
@@ -47,7 +46,7 @@ import {
 	pauseCircleIconSmall,
 	removeCircleIconSmall,
 } from '../../../icons/icons';
-import {HEIGHT_48} from '../../../styles/length';
+import {HEIGHT_48, FONT_12} from '../../../styles/length';
 
 const DropSpaceDiv = styled.div`
 	height: ${DROP_SPACE_HEIGHT};
@@ -362,7 +361,7 @@ const HistoryContents = ({uuid}) => {
 								</ItemName_Span>
 								<Span
 									color={fontColor[theme]}
-									size={HISTORY_FONTSIZE}
+									size={FONT_12}
 									className={'history_contents'}
 								>
 									{formatByteSizeString(history.size)}

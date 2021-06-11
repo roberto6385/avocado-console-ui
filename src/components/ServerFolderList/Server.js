@@ -14,7 +14,6 @@ import {
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
 	GREEN_COLOR,
-	AVOCADO_FONTSIZE,
 	Span,
 	IconContainer,
 	LIGHT_MODE_MINT_COLOR,
@@ -27,7 +26,7 @@ import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
 import {dnsIconMidium} from '../../icons/icons';
-import {HEIGHT_34} from '../../styles/length';
+import {FONT_14, HEIGHT_34} from '../../styles/length';
 
 export const _Form = styled.form`
 	border: 1px solid ${GREEN_COLOR};
@@ -202,7 +201,7 @@ const Server = ({data, indent}) => {
 						{dnsIconMidium}
 					</IconContainer>
 				)}
-				<Span color={fontColor[theme]} flex={1} size={AVOCADO_FONTSIZE}>
+				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
 							<_Input

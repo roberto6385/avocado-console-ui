@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
 import {
-	AVOCADO_FONTSIZE,
 	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
@@ -17,6 +16,7 @@ import {
 	BorderButton,
 } from '../../styles/global';
 import {closeIconMedium} from '../../icons/icons';
+import {FONT_14} from "../../styles/length";
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -37,7 +37,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${FOLDER_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -57,7 +57,7 @@ const _Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	padding: 18px 16px 30px 16px;
 `;
 
@@ -75,7 +75,7 @@ const _Footer = styled.div`
 	display: flex;
 	ailgn-items: center;
 	height: ${MAIN_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: flex-end;
 	padding: 13px 8px;
 	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};

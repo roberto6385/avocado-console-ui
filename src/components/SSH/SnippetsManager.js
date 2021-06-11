@@ -7,7 +7,6 @@ import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
-	AVOCADO_FONTSIZE,
 	BorderButton,
 	FOLDER_HEIGHT,
 	IconButton,
@@ -24,6 +23,7 @@ import {
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
+import {FONT_14} from "../../styles/length";
 
 const _Modal = styled(Modal)`
 	position: absolute;
@@ -50,7 +50,7 @@ const _Header = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	height: 40px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	padding: 2px 10px 2px 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};

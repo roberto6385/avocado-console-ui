@@ -13,7 +13,6 @@ import {
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
 import {
-	AVOCADO_FONTSIZE,
 	backColor,
 	fontColor,
 	IconButton,
@@ -30,6 +29,7 @@ import {
 	searchIcon,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
+import {FONT_14} from "../../styles/length";
 
 const _Container = styled.div`
 	height: 100%;
@@ -64,7 +64,7 @@ const _Form = styled.form`
 const _Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	border: none;
 `;
 

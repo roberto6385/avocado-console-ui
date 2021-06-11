@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {
-	SIXTEEN,
 	sideColor,
 	fontColor,
 	borderColor,
@@ -14,7 +13,7 @@ import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIconMedium} from '../../icons/icons';
 import PropTypes from 'prop-types';
-import {HEIGHT_50, WIDTH_300} from '../../styles/length';
+import {HEIGHT_50, FONT_16, WIDTH_300} from '../../styles/length';
 
 const _Container = styled.div`
 	height: 100%;
@@ -32,7 +31,7 @@ const _Header = styled.div`
 	justify-content: space-between;
 	height: ${HEIGHT_50};
 	padding: 16px;
-	font-size: ${SIXTEEN};
+	font-size: ${FONT_16};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 	color: ${(props) => props.color};

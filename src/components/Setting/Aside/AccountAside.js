@@ -3,7 +3,6 @@ import Input_ from '../../RecycleComponents/Input_';
 import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	AVOCADO_FONTSIZE,
 	AVOCADO_HOVER_COLOR,
 	borderColor,
 	fontColor,
@@ -15,6 +14,7 @@ import {
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {FONT_14} from "../../../styles/length";
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -39,7 +39,7 @@ const _Button = styled.button`
 	border: none;
 	background: ${GREEN_COLOR};
 	border-radius: 4px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	color: white;
 	&:hover {
 		background: ${AVOCADO_HOVER_COLOR};

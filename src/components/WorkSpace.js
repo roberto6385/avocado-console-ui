@@ -6,7 +6,6 @@ import Nav from './Nav';
 import MainPage from './MainPage';
 import {
 	backColor,
-	EIGHTEEN,
 	fontColor,
 	GREEN_COLOR,
 	IconButton,
@@ -25,7 +24,7 @@ import AsideContainer from './Setting/AsideContainer';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {HEIGHT_54, WIDTH_160} from '../styles/length';
+import {FONT_18, HEIGHT_54, WIDTH_160} from '../styles/length';
 
 const _Container = styled.div`
 	display: flex;
@@ -249,7 +248,7 @@ const WorkSpace = () => {
 											{data.server.name}
 										</Span>
 										<IconButton
-											size={EIGHTEEN}
+											size={FONT_18}
 											onClick={onClickDelete(data)}
 											color={iconColor[theme]}
 										>

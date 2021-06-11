@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
 	ACCOUNT_BUTTON_WIDTH,
 	GREEN_COLOR,
-	AVOCADO_FONTSIZE,
 	AVOCADO_HOVER_COLOR,
 	IconButton,
 	PATH_SEARCH_INPUT_HEIGHT,
@@ -18,6 +17,7 @@ import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
+import {FONT_14} from "../../../styles/length";
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -51,7 +51,7 @@ const _CheckboxContainer = styled(_AuthenticationContainer)`
 `;
 
 const _Span = styled.span`
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 `;
 
 const _Button = styled.button`
@@ -60,7 +60,7 @@ const _Button = styled.button`
 	border: none;
 	background: ${GREEN_COLOR};
 	border-radius: 4px;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	color: white;
 	margin-top: 34px;
 	&:hover {

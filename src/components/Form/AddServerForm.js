@@ -16,7 +16,6 @@ import {
 } from '../../reducers/popup';
 import Modal from 'react-modal';
 import {
-	AVOCADO_FONTSIZE,
 	IconButton,
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
@@ -36,6 +35,7 @@ import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
+import {FONT_14} from '../../styles/length';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -58,7 +58,7 @@ const _Header = styled.div`
 	display: flex;
 	align-items: center;
 	height: ${FOLDER_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid;
@@ -70,7 +70,7 @@ const _Footer = styled.div`
 	display: flex;
 	ailgn-items: center;
 	height: ${MAIN_HEIGHT};
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	justify-content: flex-end;
 	padding: 13px 8px;
 	border-top: 1px solid;
@@ -125,7 +125,7 @@ const _Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	font-size: ${AVOCADO_FONTSIZE};
+	font-size: ${FONT_14};
 	padding: 18px 8px 12px 8px;
 `;
 const Item_Container = styled.div`
