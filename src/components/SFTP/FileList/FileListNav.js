@@ -136,9 +136,9 @@ const FileListNav = ({uuid}) => {
 				return accumulator + '/' + currentValue;
 			});
 
-		for (let value of pathList) {
+		for await (let value of pathList) {
 			console.log(value);
-			dispatch(
+			await dispatch(
 				commandLsAction({
 					...corServer,
 					newPath: value,

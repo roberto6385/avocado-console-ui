@@ -45,7 +45,8 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case LS_SUCCESS:
 						// || payload.newPath === '..'
-						if (payload.newPath === '.') return;
+						if (payload.newPath === '.' || payload.newPath === '..')
+							return;
 						if (payload.keyword !== 'pathFinder') {
 							console.log(res.list);
 							yield put({

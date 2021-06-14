@@ -117,6 +117,7 @@ function* sendCommand(action) {
 								);
 							}
 						}
+						break;
 				}
 			}
 		}
