@@ -15,6 +15,7 @@ export const HEIGHT_26 = '26px'; // 하단 툴바
 
 // width
 export const WIDTH_600 = '600px'; // popup medium 고정 폭
+export const WIDTH_500 = '500px';
 export const WIDTH_406 = '406px'; // popup small 고정 폭
 export const WIDTH_290 = '290px'; // popup alert 고정 폭
 export const WIDTH_372 = '372px'; // add server popup input width

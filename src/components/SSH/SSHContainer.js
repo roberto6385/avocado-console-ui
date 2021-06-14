@@ -12,7 +12,7 @@ import {IconButton} from '../../styles/global';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 import {HEIGHT_50} from '../../styles/length';
-import {tabColor} from '../../styles/color';
+import {borderColor, tabColor} from '../../styles/color';
 
 const _Container = styled.div`
 	position: relative;
@@ -29,6 +29,8 @@ const _Header = styled.div`
 	height: ${HEIGHT_50};
 	min-height: ${HEIGHT_50};
 	background: ${(props) => props.back};
+	border-bottom: 1px solid;
+	border-color: ${(props) => props.bcolor};
 `;
 
 const SSHContainer = ({uuid, server}) => {
@@ -78,7 +80,7 @@ const SSHContainer = ({uuid, server}) => {
 
 	return (
 		<_Container>
-			<_Header back={tabColor[theme]}>
+			<_Header back={tabColor[theme]} bcolor={borderColor[theme]}>
 				<DropdownMenu_ icon={snippetIcon} menu={column} />
 				<SFTPConvertButton data={server} />
 				<IconButton onClick={onCLickFullScreen}>

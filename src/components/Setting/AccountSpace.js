@@ -4,21 +4,17 @@ import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
 import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
-import {
-	ACCOUNT_INPUT_WIDTH,
-	DefaultButton,
-	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
-	SUB_HEIGHT,
-	TAB_WIDTH,
-	fontColor,
-	borderColor,
-	inputColor,
-	backColor,
-} from '../../styles/global';
+import {DefaultButton, PrimaryButton} from '../../styles/global';
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {HEIGHT_34, HEIGHT_50, WIDTH_160, WIDTH_500} from '../../styles/length';
+import {
+	borderColor,
+	fontColor,
+	mainBackColor,
+	settingInput,
+} from '../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -33,8 +29,8 @@ const _Title = styled.div`
 	margin: 0px 16px;
 	display: flex;
 	align-items: center;
-	height: ${SUB_HEIGHT};
-	min-height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
+	min-height: ${HEIGHT_50};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props?.b_color};
 `;
@@ -46,8 +42,8 @@ const _ContentsContainer = styled.div`
 `;
 
 const _Input = styled.input`
-	width: ${(props) => props?.width || ACCOUNT_INPUT_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	width: ${(props) => props?.width || WIDTH_500};
+	height: ${HEIGHT_34};
 	padding: 0px 10px;
 	border-radius: 4px;
 	border: 1px solid;
@@ -58,13 +54,13 @@ const _Input = styled.input`
 
 const _PrimaryButton = styled(PrimaryButton)`
 	margin-top: 8px;
-	width: ${TAB_WIDTH};
-	min-width: ${TAB_WIDTH};
+	width: ${WIDTH_160};
+	min-width: ${WIDTH_160};
 `;
 const _DisabledButton = styled(DefaultButton)`
 	margin-top: 8px;
-	width: ${TAB_WIDTH};
-	min-width: ${TAB_WIDTH};
+	width: ${WIDTH_160};
+	min-width: ${WIDTH_160};
 `;
 
 const _Section = styled.section`
@@ -108,12 +104,12 @@ const AccountSpace = () => {
 	]);
 
 	return (
-		<_Container back={backColor[theme]} color={fontColor[theme]}>
+		<_Container back={mainBackColor[theme]} color={fontColor[theme]}>
 			<_Title b_color={borderColor[theme]}>{t('title.account')}</_Title>
 			<_ContentsContainer>
 				<Input_ title={t('account')}>
 					<_Input
-						back={inputColor[theme]}
+						back={settingInput[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.account}
@@ -123,7 +119,7 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={t('name')}>
 					<_Input
-						back={inputColor[theme]}
+						back={settingInput[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.name}
@@ -133,7 +129,7 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={t('email')}>
 					<_Input
-						back={inputColor[theme]}
+						back={settingInput[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.email}
@@ -146,14 +142,14 @@ const AccountSpace = () => {
 			<_ContentsContainer>
 				<_Section>
 					<Select_
-						back={inputColor[theme]}
+						back={settingInput[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						title={t('auth')}
 						options={authOptions}
 						value={authType}
 						setValue={setAuthType}
-						width={ACCOUNT_INPUT_WIDTH}
+						width={WIDTH_500}
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryButton
@@ -179,14 +175,14 @@ const AccountSpace = () => {
 			</_ContentsContainer>
 			<_ContentsContainer>
 				<Select_
-					back={inputColor[theme]}
+					back={settingInput[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					title={t('mfa')}
 					options={mfaOptions}
 					value={mfaType}
 					setValue={setMfaType}
-					width={ACCOUNT_INPUT_WIDTH}
+					width={WIDTH_500}
 				/>
 				<Radio_
 					radioName={'MFA'}

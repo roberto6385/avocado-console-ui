@@ -5,20 +5,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {
-	IconButton,
-	SSH_SFTP_HEADER_HEIGHT,
-	fontColor,
-	borderColor,
-	iconColor,
-	GREEN_COLOR,
-	IconContainer,
-	backColor,
-} from '../styles/global';
+import {IconButton, IconContainer} from '../styles/global';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import {FONT_14, HEIGHT_30} from '../styles/length';
+import {
+	activeColor, activePaneHeaderColor,
+	borderColor,
+	fontColor,
+	highColor,
+	iconColor,
+	paneHeaderHigh,
+	tabColor,
+} from '../styles/color';
 
 const _Container = styled.div`
 	height: 100%;
@@ -39,7 +39,7 @@ const _Header = styled.div`
 	padding: 0px 6px;
 	z-index: 1;
 	border: 1px solid;
-	border-color: ${(props) => props.bColor};
+	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
 `;
 
@@ -84,9 +84,15 @@ const Pane = ({uuid, type, server}) => {
 		<_Container onClick={onClickChangeTab}>
 			{tab.filter((v) => v.display === true).length > 1 && (
 				<_Header
-					back={backColor[theme]}
-					bColor={
-						current_tab === uuid ? GREEN_COLOR : borderColor[theme]
+					back={
+						current_tab === uuid
+							? paneHeaderHigh[theme]
+							: tabColor[theme]
+					}
+					bcolor={
+						current_tab === uuid
+							? activePaneHeaderColor[theme]
+							: borderColor[theme]
 					}
 				>
 					<_HeaderText color={fontColor[theme]}>

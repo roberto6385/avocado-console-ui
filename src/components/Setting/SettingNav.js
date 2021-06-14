@@ -1,14 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {
-	LIGHT_MODE_MINT_COLOR,
-	IconContainer,
-	borderColor,
-	fontColor,
-	serverFolderBackColor,
-	sideColor,
-	iconColor,
-} from '../../styles/global';
+import {IconContainer} from '../../styles/global';
 import {useTranslation} from 'react-i18next';
 import {useHistory, withRouter} from 'react-router-dom';
 import {
@@ -20,7 +12,15 @@ import {
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {FONT_16, HEIGHT_34, HEIGHT_50, WIDTH_256} from '../../styles/length';
-import {L_GREEN_NORMAL} from '../../styles/color';
+import {
+	activeColor,
+	borderColor,
+	fontColor,
+	iconColor,
+	L_GREEN_NORMAL,
+	navColor,
+	navHighColor,
+} from '../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -78,7 +78,7 @@ const SettingNav = ({match}) => {
 
 	return (
 		<_Container
-			back={sideColor[theme]}
+			back={navColor[theme]}
 			b_color={borderColor[theme]}
 			color={fontColor[theme]}
 		>
@@ -94,17 +94,19 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/account')}
 					back={
 						match.path === '/account'
-							? serverFolderBackColor[theme]
+							? navHighColor[theme]
 							: undefined
 					}
 					b_color={
-						match.path === '/account' ? L_GREEN_NORMAL : 'white'
+						match.path === '/account'
+							? L_GREEN_NORMAL
+							: navColor[theme]
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/account'
-								? LIGHT_MODE_MINT_COLOR
+								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>
@@ -116,17 +118,19 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/preferences')}
 					back={
 						match.path === '/preferences'
-							? serverFolderBackColor[theme]
+							? navHighColor[theme]
 							: undefined
 					}
 					b_color={
-						match.path === '/preferences' ? L_GREEN_NORMAL : 'white'
+						match.path === '/preferences'
+							? L_GREEN_NORMAL
+							: navColor[theme]
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/preferences'
-								? LIGHT_MODE_MINT_COLOR
+								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>
@@ -139,17 +143,19 @@ const SettingNav = ({match}) => {
 					onClick={changePath('/identities')}
 					back={
 						match.path === '/identities'
-							? serverFolderBackColor[theme]
+							? navHighColor[theme]
 							: undefined
 					}
 					b_color={
-						match.path === '/identities' ? L_GREEN_NORMAL : 'white'
+						match.path === '/identities'
+							? L_GREEN_NORMAL
+							: navColor[theme]
 					}
 				>
 					<IconContainer
 						color={
 							match.path === '/identities'
-								? LIGHT_MODE_MINT_COLOR
+								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>

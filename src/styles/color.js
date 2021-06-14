@@ -5,10 +5,8 @@ export const D_BORDER = 'rgba(0, 0, 0, 0.3)';
 // gray icon color
 export const GRAY_ICON_ACTIVE = `#556367`;
 
-// gray hover
-export const L_GRAY_HOVER = '#f8f9fa';
-
 // light button color
+export const L_IDENTITY_HIGH = 'rgba(228, 243, 244, 0.7)';
 export const L_HIGHLIGHT = '#e4f3f4';
 export const L_GREEN_HOVER = '#389193';
 export const L_GREEN_NORMAL = '#178082';
@@ -19,6 +17,7 @@ export const L_RED_ACTIVE = '#b84646';
 export const L_FONT = '#212121';
 export const L_ICON = `#959ea1`;
 export const L_LOGO = '#126466';
+export const L_PANE_HEADER_BORDER = 'rgba(23, 128, 130, 0.4)';
 
 // dark button color
 export const D_HIGHLIGHT = 'rgba(105,211,205,0.05)';
@@ -32,6 +31,9 @@ export const D_RED_ACTIVE = '#d45959';
 export const D_FONT = 'rgba(255,255,255,0.87)';
 export const D_ICON = `rgba(255,255,255,0.6)`;
 export const D_LOGO = '#4ca6a8';
+export const D_IDENTITY_HIGH = 'rgba(0, 0, 0, 0.12)';
+export const D_PANE_HEADER_HIGH = '#1f323c';
+export const D_PANE_HEADER_BORDER = 'rgba(68, 200, 192, 0.5)';
 
 // light background color
 export const L_BACK = '#ffffff'; // nav, active tab, droplist, workSpace header, subHeader
@@ -77,6 +79,10 @@ export const borderColor = [L_BORDER, D_BORDER];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
 export const navHighColor = [L_HIGHLIGHT, D_NAV_HIGHLIGHT];
 export const activeColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
+export const activePaneHeaderColor = [
+	L_PANE_HEADER_BORDER,
+	D_PANE_HEADER_BORDER,
+];
 export const fontColor = [L_FONT, D_FONT];
 export const iconColor = [L_ICON, D_ICON];
 export const tabColor = [L_BACK, D_BACK];
@@ -87,6 +93,12 @@ export const terminalFontColor = [L_FONT, L_BACK];
 export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];
 export const editColor = [L_BACK_TABBAR, D_SFTP_EDIT_BACK];
 export const footerColor = [L_BACK_FOOTER, D_BACK_FOOTER];
+export const settingInput = [L_BACK, D_NAV_HIGHLIGHT];
+export const identitySearchInput = [L_BACK_TABBAR, D_NAV_HIGHLIGHT];
+export const accountHigh = [L_IDENTITY_HIGH, D_HIGHLIGHT];
+export const identityHigh = [L_BACK_MAIN, D_IDENTITY_HIGH];
+export const identityForm = [L_BACK, D_BACK_INPUT_BACK];
+export const paneHeaderHigh = [L_BACK, D_PANE_HEADER_HIGH];
 
 export const historyPauseColor = '#a8a8a8';
 export const historyDownloadColor = '#4ca6a8';

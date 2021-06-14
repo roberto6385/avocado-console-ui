@@ -1,21 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {
-	GREEN_COLOR,
-	ROBOTO,
-	SUB_HEIGHT,
-	THIRD_HEIGHT,
-	formColor,
-	fontColor,
-	borderColor,
-	backColor,
-	serverFolderBackColor,
-	IconContainer,
-	iconColor,
-	SEARCH_INPUT_WIDTH,
-	SSH_SFTP_HEADER_HEIGHT,
-	FOOTER_HEIGHT,
-} from '../../styles/global';
+import {ROBOTO, IconContainer} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -24,7 +9,24 @@ import {
 } from '../../reducers/common';
 import {searchIcon} from '../../icons/icons';
 import useInput from '../../hooks/useInput';
-import {FONT_14} from "../../styles/length";
+import {
+	FONT_14,
+	HEIGHT_26,
+	HEIGHT_30,
+	HEIGHT_48,
+	HEIGHT_50,
+	WIDTH_165,
+} from '../../styles/length';
+import {
+	borderColor,
+	fontColor,
+	iconColor,
+	identityForm,
+	accountHigh,
+	identitySearchInput,
+	mainBackColor,
+	identityHigh,
+} from '../../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -39,8 +41,8 @@ const _Title = styled.div`
 	margin: 0px 16px;
 	display: flex;
 	align-items: center;
-	height: ${SUB_HEIGHT};
-	min-height: ${SUB_HEIGHT};
+	height: ${HEIGHT_50};
+	min-height: ${HEIGHT_50};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props?.b_color};
 `;
@@ -57,7 +59,7 @@ const _Span = styled.span`
 `;
 
 const _Li = styled.li`
-	height: ${THIRD_HEIGHT};
+	height: ${HEIGHT_48};
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -84,11 +86,6 @@ const _Li = styled.li`
 			::after {
 				font-size: 15px;
 			}
-		}
-		svg {
-			border-radius: 4px;
-			background: ${GREEN_COLOR};
-			font-size: 15px !important;
 		}
 	}
 `;
@@ -157,19 +154,20 @@ const _Form = styled.form`
 	display: flex;
 	align-items: center;
 	padding: 16px 10px;
-	height: ${SSH_SFTP_HEADER_HEIGHT};
-	border-color: ${(props) => props.b_Color};
+	height: ${HEIGHT_30};
+	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
 	margin: 6px 16px;
+	border-radius: 4px;
 `;
 
 const _Input = styled.input`
-	width: ${SEARCH_INPUT_WIDTH};
-	height: ${FOOTER_HEIGHT};
+	width: ${WIDTH_165};
+	height: ${HEIGHT_26};
 	border: none;
 	font-size: 14px;
 	padding: 0px;
-	background: ${(props) => props.back};
+	background: transparent;
 	color: ${(props) => props.color};
 `;
 
@@ -259,10 +257,10 @@ const IdentitiesSpace = () => {
 	}, []);
 
 	return (
-		<_Container back={backColor[theme]} color={fontColor[theme]}>
+		<_Container back={mainBackColor[theme]} color={fontColor[theme]}>
 			<_Title b_color={borderColor[theme]}>{t('title')}</_Title>
 			<_ContentContainer>
-				<_ResourceListUl back={formColor[theme]}>
+				<_ResourceListUl back={identityForm[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
@@ -270,7 +268,7 @@ const IdentitiesSpace = () => {
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Form back={backColor[theme]}>
+						<_Form back={identitySearchInput[theme]}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -283,7 +281,6 @@ const IdentitiesSpace = () => {
 								type='text'
 								placeholder={t('search')}
 								color={fontColor[theme]}
-								back={backColor[theme]}
 							/>
 						</_Form>
 						{/*<IconButton*/}
@@ -318,8 +315,8 @@ const IdentitiesSpace = () => {
 									onClick={selectResourceList(item)}
 									back={
 										item.key === currentResourceListKey
-											? serverFolderBackColor[theme]
-											: formColor[theme]
+											? identityHigh[theme]
+											: identityForm[theme]
 									}
 								>
 									<_ResourceName>
@@ -337,7 +334,7 @@ const IdentitiesSpace = () => {
 							);
 					})}
 				</_ResourceListUl>
-				<_AccountListUl back={formColor[theme]}>
+				<_AccountListUl back={identityForm[theme]}>
 					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
 						<_Name>
 							{t('account')}
@@ -354,7 +351,7 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Form back={backColor[theme]}>
+						<_Form back={identitySearchInput[theme]}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -367,7 +364,6 @@ const IdentitiesSpace = () => {
 								type='text'
 								placeholder={t('search')}
 								color={fontColor[theme]}
-								back={backColor[theme]}
 							/>
 						</_Form>
 					</_Li>
@@ -401,8 +397,8 @@ const IdentitiesSpace = () => {
 									key={item.id}
 									back={
 										item.checked
-											? serverFolderBackColor[theme]
-											: formColor[theme]
+											? accountHigh[theme]
+											: identityForm[theme]
 									}
 								>
 									<_Name>{item.identityName}</_Name>
