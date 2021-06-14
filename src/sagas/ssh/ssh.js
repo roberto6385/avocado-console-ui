@@ -7,6 +7,7 @@ import {
 	takeLatest,
 	race,
 	delay,
+	takeEvery,
 } from 'redux-saga/effects';
 
 import {
@@ -26,8 +27,6 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import {messageReader} from '../sftp/messageReader';
-import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
@@ -43,7 +42,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(5000),
+				timeout: delay(200),
 				result: take(channel),
 			});
 
@@ -160,7 +159,7 @@ function* sendCommand(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(5000),
+					timeout: delay(200),
 					result: take(channel),
 				});
 
@@ -205,7 +204,7 @@ function* sendWindowChange(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(5000),
+					timeout: delay(200),
 					result: take(channel),
 				});
 
@@ -250,7 +249,7 @@ function* watchSendCommand() {
 }
 
 function* watchSendWindowChange() {
-	yield takeLatest(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

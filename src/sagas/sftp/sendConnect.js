@@ -4,7 +4,6 @@ import {
 	fork,
 	take,
 	put,
-	takeLatest,
 	race,
 	delay,
 	actionChannel,
