@@ -13,8 +13,10 @@ import {
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
+	commandLsAction,
 	commandPwdAction,
 	CONNECTION_REQUEST,
+	INITIAL_FILELIST,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -55,6 +57,26 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: CD_FAILURE});
+		// yield put({type: INITIAL_FILELIST, payload: {uuid: payload.uuid}});
+		// let pathList = ['/'];
+		// payload.path !== '/' &&
+		// 	payload.path
+		// 		.split('/')
+		// 		.reduce(function (accumulator, currentValue) {
+		// 			payload.path !== '/' &&
+		// 				pathList.push(accumulator + '/' + currentValue);
+		// 			return accumulator + '/' + currentValue;
+		// 		});
+		//
+		// for (let value of pathList) {
+		// 	console.log(value);
+		// 	yield put(
+		// 		commandLsAction({
+		// 			...payload,
+		// 			newPath: value,
+		// 		}),
+		// 	);
+		// }
 		yield put({
 			type: OPEN_ALERT_POPUP,
 			data: 'wrong_path',

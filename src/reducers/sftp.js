@@ -82,6 +82,8 @@ export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
 
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
+export const INITIAL_FILELIST = 'sftp/INITIAL_FILELIST';
+
 let HISTORY_ID = 0;
 
 // actions
@@ -231,6 +233,10 @@ const sftp = (state = initialState, action) =>
 				break;
 			case PWD_FAILURE:
 				draft.loading = false;
+				break;
+
+			case INITIAL_FILELIST:
+				target.fileList = [];
 				break;
 
 			// 현재 경로 조회

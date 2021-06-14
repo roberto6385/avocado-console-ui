@@ -6,7 +6,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	CHANGE_MODE,
 	commandCdAction,
+	commandLsAction,
 	commandPwdAction,
+	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
 import {IconButton} from '../../../styles/global';
 import {
@@ -25,6 +27,7 @@ import {
 	inputColor,
 	tabColor,
 } from '../../../styles/color';
+import {put} from 'redux-saga/effects';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -125,7 +128,23 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const refresh = useCallback(async () => {
-		uuid && (await dispatch(commandPwdAction(corServer)));
+		dispatch({type: INITIAL_FILELIST, payload: {uuid}});
+		let pathList = ['/'];
+		path !== '/' &&
+			path.split('/').reduce(function (accumulator, currentValue) {
+				path !== '/' && pathList.push(accumulator + '/' + currentValue);
+				return accumulator + '/' + currentValue;
+			});
+
+		for (let value of pathList) {
+			console.log(value);
+			dispatch(
+				commandLsAction({
+					...corServer,
+					newPath: value,
+				}),
+			);
+		}
 	}, [uuid, corServer, dispatch]);
 
 	useEffect(() => {
