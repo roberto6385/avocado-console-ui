@@ -1,68 +1,45 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
-import Modal from 'react-modal';
+
 import {
-	BorderButton,
-	LIGHT_MODE_BORDER_COLOR,
-	FOLDER_HEIGHT,
+	PrimaryGreyButton,
 	IconButton,
-	MAIN_HEIGHT,
-	PrimaryButton,
-	DangerButton,
+	PrimaryGreenButton,
+	PrimaryRedButton,
+	formColor,
 } from '../../styles/global';
 import {
 	alertFillIcon,
 	cancelFillIcon,
 	closeIconMedium,
 } from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
 
-const _Modal = styled(Modal)`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
-	border-radius: 4px;
-	width: 290px;
+import {
+	PopupFooter_,
+	PopupHeader_,
+	PopupHeaderText_,
+	PopupModal_,
+	PopupText_,
+} from '../../styles/default';
+import {borderColor, fontColor} from '../../styles/color';
+
+const _Modal = styled(PopupModal_)`
+	border-color: ${(props) => props.bcolor};
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
+	width: 288px;
 `;
 
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+const _Header = styled(PopupHeader_)`
+	border-color: ${(props) => props.bcolor};
 `;
 
-const _Text = styled.div`
-	font-size: 14px;
-	font-family: Roboto;
-	width: 226px;
-`;
-
-const _HeaderText = styled(_Text)`
-	font-weight: 500;
-`;
-
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+const _Footer = styled(PopupFooter_)`
+	border-color: ${(props) => props.bcolor};
 `;
 
 const _Message = styled.div`
@@ -75,6 +52,7 @@ const _Message = styled.div`
 const AlertPopup = () => {
 	const {t} = useTranslation('alertPopup');
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
 	const {alert_popup} = useSelector((state) => state.popup);
 	const {current: AlertMessage} = useRef({
 		invalid_server: t('invalidServer'),
@@ -99,9 +77,12 @@ const AlertPopup = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			back={formColor[theme]}
+			bcolor={borderColor[theme]}
+			color={fontColor[theme]}
 		>
-			<_Header>
-				<_HeaderText>{t('alert')}</_HeaderText>
+			<_Header bcolor={borderColor[theme]}>
+				<PopupHeaderText_>{t('alert')}</PopupHeaderText_>
 				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
 			</_Header>
 
@@ -113,18 +94,22 @@ const AlertPopup = () => {
 					<div>{alertFillIcon}</div>
 				)}
 
-				<_Text>{AlertMessage[alert_popup.key]}</_Text>
+				<PopupText_>{AlertMessage[alert_popup.key]}</PopupText_>
 			</_Message>
 
-			<_Footer>
-				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
+			<_Footer bcolor={borderColor[theme]}>
+				<PrimaryGreyButton theme={theme} onClick={closeModal}>
+					{t('cancel')}
+				</PrimaryGreyButton>
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ? (
-					<DangerButton onClick={closeModal}>{t('ok')}</DangerButton>
-				) : (
-					<PrimaryButton onClick={closeModal}>
+					<PrimaryRedButton theme={theme} onClick={closeModal}>
 						{t('ok')}
-					</PrimaryButton>
+					</PrimaryRedButton>
+				) : (
+					<PrimaryGreenButton theme={theme} onClick={closeModal}>
+						{t('ok')}
+					</PrimaryGreenButton>
 				)}
 			</_Footer>
 		</_Modal>

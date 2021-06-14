@@ -20,9 +20,9 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
-	BorderButton,
-	SecondaryButtonGreen,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	SecondaryGreenButton,
 	borderColor,
 	fontColor,
 	iconColor,
@@ -92,7 +92,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const BrowseButton = styled(SecondaryButtonGreen)`
+const BrowseButton = styled(SecondaryGreenButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -573,12 +573,12 @@ const AddServerForm = () => {
 				</Item_Container>
 			</_Form>
 			<_Footer b_color={borderColor[theme]}>
-				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+				<PrimaryGreyButton onClick={closeModal} color={fontColor[theme]}>
 					{t('cancel')}
-				</BorderButton>
-				<PrimaryButton onClick={onSubmitForm}>
+				</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);

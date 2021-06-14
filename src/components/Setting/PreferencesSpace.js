@@ -58,8 +58,8 @@ const editor_theme = [
 const font_theme = [
 	{value: ROBOTO, label: 'Roboto'},
 	{value: ROBOTO_MONO, label: 'Roboto Mono'},
-	{value: ROBOTO_SLAP, label: 'Roboto Slap'},
 	{value: MONTSERRAT, label: 'Montserrat'},
+	{value: ROBOTO_SLAP, label: 'Roboto Slap'},
 ];
 
 const PreferencesSpace = () => {

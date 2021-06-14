@@ -8,7 +8,7 @@ import {
 	ACCOUNT_INPUT_WIDTH,
 	DefaultButton,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
+	PrimaryGreenButton,
 	SUB_HEIGHT,
 	TAB_WIDTH,
 	fontColor,
@@ -56,7 +56,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _PrimaryButton = styled(PrimaryButton)`
+const _PrimaryButton = styled(PrimaryGreenButton)`
 	margin-top: 8px;
 	width: ${TAB_WIDTH};
 	min-width: ${TAB_WIDTH};

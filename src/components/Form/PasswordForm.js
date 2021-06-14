@@ -11,8 +11,8 @@ import {
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
 	IconButton,
-	PrimaryButton,
-	SecondaryButtonGreen,
+	PrimaryGreenButton,
+	SecondaryGreenButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
@@ -90,7 +90,7 @@ const _Span = styled.div`
 	}
 `;
 
-const _SignInButton = styled(PrimaryButton)`
+const _SignInButton = styled(PrimaryGreenButton)`
 	height: ${FOLDER_HEIGHT};
 	padding: 20px;
 	width: 360px;
@@ -98,7 +98,7 @@ const _SignInButton = styled(PrimaryButton)`
 	margin: 24px auto 39px;
 `;
 
-const _CustomButton = styled(SecondaryButtonGreen)`
+const _CustomButton = styled(SecondaryGreenButton)`
 	height: ${FOLDER_HEIGHT};
 	margin: 0px 8px 18px;
 `;

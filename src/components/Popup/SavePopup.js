@@ -5,12 +5,12 @@ import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
-	BorderButton,
+	PrimaryGreyButton,
 	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
-	PrimaryButton,
+	PrimaryGreenButton,
 } from '../../styles/global';
 import {
 	CHANGE_MODE,
@@ -184,10 +184,10 @@ const SavePopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
-				<PrimaryButton onClick={submitFunction}>
+				<PrimaryGreyButton onClick={closeModal}>{t('cancel')}</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={submitFunction}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);

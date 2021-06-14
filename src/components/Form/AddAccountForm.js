@@ -10,13 +10,13 @@ import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	BorderButton,
+	PrimaryGreyButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
-	SecondaryButtonGreen,
+	PrimaryGreenButton,
+	SecondaryGreenButton,
 	formColor,
 	borderColor,
 	fontColor,
@@ -60,7 +60,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _BrowseButton = styled(SecondaryButtonGreen)`
+const _BrowseButton = styled(SecondaryGreenButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -341,12 +341,12 @@ const AddAccountForm = () => {
 				</_Item>
 			</_Form>
 			<_Footer b_color={borderColor[theme]}>
-				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+				<PrimaryGreyButton onClick={closeModal} color={fontColor[theme]}>
 					{t('cancel')}
-				</BorderButton>
-				<PrimaryButton onClick={onSubmitForm}>
+				</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);

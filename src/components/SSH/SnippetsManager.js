@@ -7,10 +7,10 @@ import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
-	BorderButton,
+	PrimaryGreyButton,
 	FOLDER_HEIGHT,
 	IconButton,
-	PrimaryButton,
+	PrimaryGreenButton,
 	formColor,
 	borderColor,
 	fontColor,
@@ -371,12 +371,12 @@ const SnippetsManeger = ({open, setOpen}) => {
 				</_Form>
 			</_ListContainer>
 			<_Footer b_color={borderColor[theme]}>
-				<BorderButton onClick={onClickCancel}>
+				<PrimaryGreyButton onClick={onClickCancel}>
 					{t('cancel')}
-				</BorderButton>
-				<PrimaryButton onClick={onClickSubmit}>
+				</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={onClickSubmit}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);

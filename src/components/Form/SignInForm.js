@@ -16,7 +16,7 @@ import {
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
 	IconButton,
-	PrimaryButton,
+	PrimaryGreenButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
@@ -94,7 +94,7 @@ const _Span = styled.div`
 	}
 `;
 
-const _SignInButton = styled(PrimaryButton)`
+const _SignInButton = styled(PrimaryGreenButton)`
 	height: ${FOLDER_HEIGHT};
 	padding: 20px;
 	width: 360px;

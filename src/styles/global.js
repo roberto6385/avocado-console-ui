@@ -1,6 +1,22 @@
 // color
 import styled from 'styled-components';
 import {FONT_14, FONT_20} from './length';
+import {
+	ButtonColor,
+	greenActiveButtonColor,
+	greenHoverButtonColor,
+	greenNormalButtonColor,
+	greyBackgroundActiveButtonColor,
+	greyBackgroundHoverButtonColor,
+	greyBackgroundNormalButtonColor,
+	greyBoarderActiveButtonColor,
+	greyBoarderHoverButtonColor,
+	greyBoarderNormalButtonColor,
+	GreyButtonColor,
+	redActiveButtonColor,
+	redHoverButtonColor,
+	redNormalButtonColor,
+} from './color';
 
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
@@ -20,7 +36,7 @@ export const LIGHT_MODE_FONT_COLOR = '#212121';
 export const LIGHT_MODE_BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server highlight color
 export const LIGHT_MODE_ICON_COLOR = '#959ea1';
 export const LIGHT_MODE_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
-export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
+export const LIGHT_MODE_BORDER_COLOR = '#e3e5e5';
 export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
 export const LIGHT_MODE_FORM_BACKGROUND_COLOR = '#ffffff';
 export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#f0f3f6';
@@ -31,7 +47,7 @@ export const LIGHT_MODE_TERMINAL_COLOR = '#f8f9fa';
 export const DARK_MODE_MINT_COLOR = '#44c8c0';
 export const DARK_MODE_POPUP_COLOR = '#223b52';
 export const DARK_MODE_SIDE_COLOR = '#1e364c';
-export const DARK_MODE_FONT_COLOR = '#ffffff';
+export const DARK_MODE_FONT_COLOR = 'rgba(255, 255, 255, 0.87)';
 export const DARK_MODE_ICON_COLOR = 'rgba(255,255,255,0.54)';
 export const DARK_MODE_BACKGROUND_MINT_COLOR = 'rgba(0,0,0,0.24)'; // folder,server highlight color
 export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
@@ -128,10 +144,10 @@ export const Span = styled.span`
 
 // font
 export const NOTO_SANS_KR = `'Noto Sans KR', sans-serif`;
-export const ROBOTO = `'Roboto', sans-serif`;
-export const ROBOTO_MONO = `'Roboto Mono', monospace`;
-export const ROBOTO_SLAP = `'Roboto Slab', serif`;
-export const MONTSERRAT = `'Montserrat', sans-serif`;
+export const ROBOTO = 'Roboto, sans-serif';
+export const ROBOTO_MONO = 'Roboto Mono, sans-serif';
+export const MONTSERRAT = 'Montserrat, sans-serif';
+export const ROBOTO_SLAP = 'Roboto Slab, serif';
 
 // button
 export const IconButton = styled.button`
@@ -152,81 +168,76 @@ export const IconButton = styled.button`
 
 export const DefaultButton = styled.button`
 	height: 34px;
-	width: 120px; // s,m,l 사이즈 정해지면 넣을 예정.
-	border: none;
-	line-height: 0px;
+	width: 120px;
 	padding: 7px 16px;
-	margin: 0px 8px;
 	font-size: 14px;
-	color: white;
+	border: none;
 	border-radius: 4px;
-	background: ${GRAY_COLOR};
+	margin: 0px 8px;
+`;
+
+export const PrimaryGreenButton = styled(DefaultButton)`
+	color: ${(props) => ButtonColor[props.theme]};
+	background: ${(props) => greenNormalButtonColor[props.theme]};
 	&:hover {
-		background: ${GRAY_HOVER_COLOR};
+		background: ${(props) => greenHoverButtonColor[props.theme]};
 	}
 	&:active {
-		background: ${GRAY_ACTIVE_COLOR};
+		background: ${(props) => greenActiveButtonColor[props.theme]};
 	}
 `;
 
-export const PrimaryButton = styled(DefaultButton)`
-	background: ${GREEN_COLOR};
+export const PrimaryRedButton = styled(DefaultButton)`
+	color: ${(props) => ButtonColor[props.theme]};
+	background: ${(props) => redNormalButtonColor[props.theme]};
 	&:hover {
-		background: ${GREEN_HOVER_COLOR};
+		background: ${(props) => redHoverButtonColor[props.theme]};
 	}
 	&:active {
-		background: ${GREEN_ACTIVE_COLOR};
-	}
-`;
-export const DangerButton = styled(DefaultButton)`
-	background: ${RED_COLOR};
-	&:hover {
-		background: ${RED_HOVER_COLOR};
-	}
-	&:active {
-		background: ${RED_ACTIVE_COLOR};
+		background: ${(props) => redActiveButtonColor[props.theme]};
 	}
 `;
 
-export const BorderButton = styled(DefaultButton)`
-	background-color: transparent;
-	border: solid 1px ${CANCEL_BUTTON_DEFAULT_BORDER};
-	color: ${(props) => props.color || CANCEL_BUTTON_DEFAULT_COLOR};
+export const PrimaryGreyButton = styled(DefaultButton)`
+	color: ${(props) => GreyButtonColor[props.theme]};
+	background: ${(props) => greyBackgroundNormalButtonColor[props.theme]};
+	border: solid 1px ${(props) => greyBoarderNormalButtonColor[props.theme]};
 	&:hover {
-		background-color: transparent;
-		border: solid 1px ${CANCEL_BUTTON_DEFAULT_HOVER_BORDER};
-		color: ${CANCEL_BUTTON_DEFAULT_HOVER_COLOR};
+		background: ${(props) => greyBackgroundHoverButtonColor[props.theme]};
+		border: solid 1px ${(props) => greyBoarderHoverButtonColor[props.theme]};
 	}
 	&:active {
-		background-color: transparent;
-		border: solid 1px ${CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER};
-		color: ${CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR};
+		background: ${(props) => greyBackgroundActiveButtonColor[props.theme]};
+		border: solid 1px
+			${(props) => greyBoarderActiveButtonColor[props.theme]};
 	}
 `;
 
-export const SecondaryButtonGreen = styled(BorderButton)`
-	border: solid 1px ${GREEN_COLOR};
-	color: ${GREEN_COLOR};
+export const SecondaryGreenButton = styled(PrimaryGreyButton)`
+	background: transparent;
+	color: ${(props) => greenNormalButtonColor[props.theme]};
+	border: solid 1px ${(props) => greenNormalButtonColor[props.theme]};
 	&:hover {
-		border: solid 1px ${GREEN_HOVER_COLOR};
-		color: ${GREEN_HOVER_COLOR};
+		color: ${(props) => greenHoverButtonColor[props.theme]};
+		border: solid 1px ${(props) => greenHoverButtonColor[props.theme]};
 	}
 	&:active {
-		border: solid 1px ${GREEN_COLOR};
-		color: ${GREEN_ACTIVE_COLOR};
+		color: ${(props) => greenActiveButtonColor[props.theme]};
+		border: solid 1px ${(props) => greenActiveButtonColor[props.theme]};
 	}
 `;
 
-export const SecondaryButtonRed = styled(BorderButton)`
-	border: solid 1px ${RED_COLOR};
-	color: ${RED_COLOR};
+export const SecondaryRedButton = styled(PrimaryGreyButton)`
+	background: transparent;
+	color: ${(props) => redNormalButtonColor[props.theme]};
+	border: solid 1px ${(props) => redNormalButtonColor[props.theme]};
 	&:hover {
-		border: solid 1px ${RED_HOVER_COLOR};
-		color: ${RED_HOVER_COLOR};
+		color: ${(props) => redHoverButtonColor[props.theme]};
+		border: solid 1px ${(props) => redHoverButtonColor[props.theme]};
 	}
 	&:active {
-		border: solid 1px ${RED_COLOR};
-		color: ${RED_ACTIVE_COLOR};
+		color: ${(props) => redActiveButtonColor[props.theme]};
+		border: solid 1px ${(props) => redActiveButtonColor[props.theme]};
 	}
 `;
 
