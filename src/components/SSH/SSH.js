@@ -67,6 +67,7 @@ const _ListGroup = styled(ListGroup)`
 	left: ${(props) => props.left};
 	top: ${(props) => props.top};
 	bottom: ${(props) => props.bottom};
+	display: ${(props) => props.display};
 	width: 140px;
 	border-radius: 4px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
@@ -115,8 +116,8 @@ const SSH = ({uuid}) => {
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
-	const searchRef = useRef();
-	const listRef = useRef();
+	const searchRef = useRef(null);
+	const listRef = useRef(null);
 	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
 		500,
 	);
@@ -330,7 +331,7 @@ const SSH = ({uuid}) => {
 	return (
 		<_Container ref={ref} back={terminalColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
-			{currentLine.length > 1 &&
+			{currentLine.length > 0 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
 				historyList.length > 0 && (
@@ -387,7 +388,7 @@ const SSH = ({uuid}) => {
 											),
 										) + 100,
 								  ) + 'px'
-								: undefined
+								: 'undefine'
 						}
 						bottom={
 							height -
@@ -412,8 +413,9 @@ const SSH = ({uuid}) => {
 											) +
 											30,
 								  ) + 'px'
-								: undefined
+								: 'undefine'
 						}
+						display={currentLine.length > 1 ? 'block' : 'none'}
 					>
 						{historyList.map((v, i) =>
 							i === currentHistory ? (

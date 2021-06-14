@@ -16,7 +16,7 @@ import {
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {FONT_14, FONT_29} from "../../styles/length";
+import {FONT_14, FONT_29} from '../../styles/length';
 
 const _Form = styled.form`
 	background: white;
@@ -175,7 +175,7 @@ const SignUpForm = () => {
 
 	useEffect(() => {
 		idRef.current?.focus();
-	}, []);
+	}, [idRef]);
 
 	return !loading ? (
 		<_Form onSubmit={onSubmitForm}>

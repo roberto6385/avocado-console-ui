@@ -5,6 +5,18 @@ import base64 from 'base-64';
 
 import useInput from '../../hooks/useInput';
 import {getClientTicket} from '../../reducers/auth/clientTicket';
+import styled from 'styled-components';
+import {FOLDER_HEIGHT, LIGHT_MODE_BORDER_COLOR} from '../../styles/global';
+
+const _Form = styled(Form)`
+	width: 50%;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
+
 //currently do not use
 const ClientSignInForm = () => {
 	const dispatch = useDispatch();
@@ -21,17 +33,7 @@ const ClientSignInForm = () => {
 	);
 
 	return (
-		<Form
-			style={{
-				width: '50%',
-				margin: '0',
-				position: 'absolute',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-			}}
-			onSubmit={onSubmitForm}
-		>
+		<_Form onSubmit={onSubmitForm}>
 			<Form.Group>
 				<Form.Label>User</Form.Label>
 				<Form.Control
@@ -51,7 +53,7 @@ const ClientSignInForm = () => {
 				/>
 			</Form.Group>
 			<Button type='submit'>Login</Button>
-		</Form>
+		</_Form>
 	);
 };
 
