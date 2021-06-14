@@ -1,6 +1,6 @@
 export default {
 	mode: 'ko',
-	alert: '알림 메시지',
+	alert: '알림',
 	invalidServer: '서버 정보가 유효하지 않습니다.',
 	lostServer: '서버 정보가 손상되었습니다.',
 	snippetsNameDuplicate: '동일한 이름의 스니핏이 존재합니다.',

@@ -7,6 +7,7 @@ export const HEIGHT_54 = '54px'; // 탭 영역, 로고 영역
 export const HEIGHT_50 = '50px'; // 상단 툴바 영역, 서버 및 폴더추가 영역
 export const HEIGHT_48 = '48px'; // 검색 영역
 export const HEIGHT_42 = '42px'; // terminal search form height 영역
+export const HEIGHT_41 = '41px';
 export const HEIGHT_40 = '40px';
 export const HEIGHT_36 = '36px'; // nav search  높이
 export const HEIGHT_34 = '34px'; // 버튼 고정 높이

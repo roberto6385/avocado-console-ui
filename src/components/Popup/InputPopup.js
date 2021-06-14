@@ -4,7 +4,6 @@ import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
-import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
 import {
 	LIGHT_MODE_BORDER_COLOR,
@@ -12,25 +11,18 @@ import {
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
-	BorderButton,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
 } from '../../styles/global';
 import {closeIconMedium} from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
+import {FONT_14} from '../../styles/length';
+import {PopupModal_} from '../../styles/default';
 
-const _Modal = styled(Modal)`
+const _Modal = styled(PopupModal_)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	position: absolute;
-	z-index: 10;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
 	background: white;
-	border-radius: 4px;
 	width: 404px;
+	z-index: 10;
 `;
 
 const _Header = styled.div`
@@ -187,10 +179,10 @@ const InputPopup = () => {
 			</_Form>
 
 			<_Footer>
-				<BorderButton onClick={closeModal}>{t('cancel')}</BorderButton>
-				<PrimaryButton onClick={submitFunction}>
+				<PrimaryGreyButton onClick={closeModal}>{t('cancel')}</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={submitFunction}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);

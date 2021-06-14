@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
 import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
-import {DefaultButton, PrimaryButton} from '../../styles/global';
+
+import {DefaultButton, PrimaryGreenButton} from '../../styles/global';
+
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -52,7 +54,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _PrimaryButton = styled(PrimaryButton)`
+const _PrimaryButton = styled(PrimaryGreenButton)`
 	margin-top: 8px;
 	width: ${WIDTH_160};
 	min-width: ${WIDTH_160};

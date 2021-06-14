@@ -16,8 +16,8 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {
-	BorderButton,
-	DangerButton,
+	PrimaryGreyButton,
+	PrimaryRedButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	LIGHT_MODE_BORDER_COLOR,
@@ -220,12 +220,12 @@ const WarningAlertPopup = () => {
 			</_Message>
 
 			<_Footer>
-				<BorderButton onClick={cancelFunction}>
+				<PrimaryGreyButton onClick={cancelFunction}>
 					{t('cancel')}
-				</BorderButton>
-				<DangerButton onClick={submitFunction}>
+				</PrimaryGreyButton>
+				<PrimaryRedButton onClick={submitFunction}>
 					{t('delete')}
-				</DangerButton>
+				</PrimaryRedButton>
 			</_Footer>
 		</_Modal>
 	);

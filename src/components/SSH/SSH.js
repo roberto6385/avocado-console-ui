@@ -282,6 +282,7 @@ const SSH = ({uuid}) => {
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
+		// sshTerm.setOption('fontWeight', '100');
 		fitAddon.fit();
 	}, [sshTerm, font]);
 	//change font size

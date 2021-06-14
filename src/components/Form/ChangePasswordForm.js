@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import Input_ from '../RecycleComponents/Input_';
 import {
-	BorderButton,
+	PrimaryGreyButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryButton,
+	PrimaryGreenButton,
 	formColor,
 	borderColor,
 	fontColor,
@@ -186,12 +186,12 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			</_Form>
 
 			<_Footer b_color={borderColor[theme]}>
-				<BorderButton onClick={closeModal} color={fontColor[theme]}>
+				<PrimaryGreyButton onClick={closeModal} color={fontColor[theme]}>
 					{t('cancel')}
-				</BorderButton>
-				<PrimaryButton onClick={onSubmitForm}>
+				</PrimaryGreyButton>
+				<PrimaryGreenButton onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryButton>
+				</PrimaryGreenButton>
 			</_Footer>
 		</_Modal>
 	);
