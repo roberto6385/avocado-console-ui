@@ -6,12 +6,6 @@ export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
 export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 
-export const pauseColor = '#a8a8a8';
-export const downloadColor = '#4ca6a8';
-export const uploadColor = '#4285f4';
-export const editColor = '#E4E723';
-export const deleteColor = '#d45959';
-
 // lightmode color
 export const LIGHT_MODE_MINT_COLOR = '#4ca6a8';
 export const LIGHT_MODE_POPUP_COLOR = '#ffffff';

@@ -87,3 +87,9 @@ export const terminalFontColor = [L_FONT, L_BACK];
 export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];
 export const editColor = [L_BACK_MAIN, D_SFTP_EDIT_BACK];
 export const footerColor = [L_BACK_FOOTER, D_BACK_FOOTER];
+
+export const historyPauseColor = '#a8a8a8';
+export const historyDownloadColor = '#4ca6a8';
+export const historyUploadColor = '#4285f4';
+export const historyEditColor = '#E4E723';
+export const historyDeleteColor = '#d45959';

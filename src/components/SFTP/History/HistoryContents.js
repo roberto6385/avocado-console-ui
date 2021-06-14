@@ -16,11 +16,10 @@ import {
 	IconButton,
 	PreventDragCopy,
 	IconContainer,
-	pauseColor,
-	uploadColor,
-	downloadColor,
-	editColor,
-	deleteColor,
+
+
+
+
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -42,12 +41,13 @@ import {
 } from '../../../styles/length';
 import {
 	activeColor,
-	borderColor,
+	borderColor, historyDeleteColor, historyDownloadColor,
 	fontColor,
-	highColor,
+	GRAY_ICON_ACTIVE,
+	highColor, historyEditColor,
 	iconColor,
-	L_GRAY_HOVER,
-	tabColor,
+	L_GRAY_HOVER, historyPauseColor,
+	tabColor, historyUploadColor,
 } from '../../../styles/color';
 
 const DropSpaceDiv = styled.div`
@@ -331,24 +331,24 @@ const HistoryContents = ({uuid}) => {
 									// }
 								>
 									{history.progress !== 100 ? (
-										<IconContainer color={pauseColor}>
+										<IconContainer color={historyPauseColor}>
 											{pauseCircleIconSmall}
 										</IconContainer>
 									) : history.todo === 'put' ? (
-										<IconContainer color={uploadColor}>
+										<IconContainer color={historyUploadColor}>
 											{arrowCircleUpIconSmall}
 										</IconContainer>
 									) : history.todo === 'get' ? (
-										<IconContainer color={downloadColor}>
+										<IconContainer color={historyDownloadColor}>
 											{arrowCircleDownIconSmall}
 										</IconContainer>
 									) : history.todo === 'edit' ? (
-										<IconContainer color={editColor}>
+										<IconContainer color={historyEditColor}>
 											{buildCircleIconSmall}
 										</IconContainer>
 									) : (
 										history.todo === 'rm' && (
-											<IconContainer color={deleteColor}>
+											<IconContainer color={historyDeleteColor}>
 												{removeCircleIconSmall}
 											</IconContainer>
 										)
@@ -359,7 +359,7 @@ const HistoryContents = ({uuid}) => {
 									flex={1}
 									color={
 										history.progress !== 100
-											? L_GRAY_HOVER
+											? historyPauseColor
 											: fontColor[theme]
 									}
 								>
@@ -377,7 +377,11 @@ const HistoryContents = ({uuid}) => {
 									className={'history_contents'}
 									padding={'0px 16px 0px 6px'}
 									color={
-										iconColor[theme]
+										history_highlight.find(
+											(item) => item === history,
+										)
+											? GRAY_ICON_ACTIVE
+											: iconColor[theme]
 										// history_highlight.find(
 										// 	(item) => item === history,
 										// )
