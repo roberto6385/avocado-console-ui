@@ -7,12 +7,14 @@ import {
 	race,
 	delay,
 	takeLatest,
+	actionChannel,
 } from 'redux-saga/effects';
 import {
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
 	commandPwdAction,
+	CONNECTION_REQUEST,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -31,7 +33,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -62,9 +64,14 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// takeEvery로 하는경우 37 line이 request만큼 발생한다.
-	// 그러나 takeLatest로 하는경우 동일 라인이 한번만 출력된다.
-	yield takeLatest(CD_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(CD_REQUEST);
+	console.log('watch send command connection');
+	while (true) {
+		const action = yield take(reqChannel);
+		console.log('cd request start!!');
+		yield call(sendCommand, action);
+		yield delay(200);
+	}
 }
 
 export default function* commandCdSaga() {

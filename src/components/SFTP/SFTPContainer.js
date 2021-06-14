@@ -22,7 +22,6 @@ const SFTPContainer = ({uuid}) => {
 			// 	return;
 			// }
 			const root = evt.target;
-			console.log(root);
 
 			// if (highlight.length !== 0 || history_highlight.length !== 0) {
 			const th = Array.from(evt.currentTarget.querySelectorAll('th'));

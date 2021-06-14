@@ -289,7 +289,7 @@ const HistoryContents = ({uuid}) => {
 					bcolor={borderColor[theme]}
 				>
 					<Span
-						color={fontColor[theme]}
+						color={iconColor[theme]}
 						padding={'32px 30px 12px 30px'}
 					>
 						{t('paragraph')}
