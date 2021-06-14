@@ -42,7 +42,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(200),
+				timeout: delay(500),
 				result: take(channel),
 			});
 
@@ -57,14 +57,14 @@ function* sendConnection(action) {
 						yield put({
 							type: SSH_SEND_CONNECTION_SUCCESS,
 							data: {
-								uuid: uuid,
+								uuid: res.result,
 								ws: ws,
 							},
 						});
 						yield put({
 							type: OPEN_TAB,
 							data: {
-								uuid: uuid,
+								uuid: res.result,
 								type: 'SSH',
 								server: {
 									id: action.data.id,
@@ -159,7 +159,7 @@ function* sendCommand(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(200),
+					timeout: delay(500),
 					result: take(channel),
 				});
 
@@ -204,7 +204,7 @@ function* sendWindowChange(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(200),
+					timeout: delay(500),
 					result: take(channel),
 				});
 

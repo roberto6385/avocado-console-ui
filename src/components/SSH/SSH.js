@@ -327,12 +327,6 @@ const SSH = ({uuid}) => {
 		});
 	}, [sshTerm, theme]);
 
-	useEffect(() => {
-		console.log(listRef.current?.clientHeight);
-	}, [listRef]);
-
-	useEffect(() => {}, [currentLine]);
-
 	return (
 		<_Container ref={ref} back={terminalColor[theme]}>
 			<_Terminal id={`terminal_${uuid}`} />
