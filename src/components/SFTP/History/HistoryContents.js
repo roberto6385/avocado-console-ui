@@ -16,10 +16,6 @@ import {
 	IconButton,
 	PreventDragCopy,
 	IconContainer,
-
-
-
-
 } from '../../../styles/global';
 import styled from 'styled-components';
 import {
@@ -41,13 +37,17 @@ import {
 } from '../../../styles/length';
 import {
 	activeColor,
-	borderColor, historyDeleteColor, historyDownloadColor,
+	borderColor,
+	historyDeleteColor,
+	historyDownloadColor,
 	fontColor,
 	GRAY_ICON_ACTIVE,
-	highColor, historyEditColor,
+	highColor,
+	historyEditColor,
 	iconColor,
-	L_GRAY_HOVER, historyPauseColor,
-	tabColor, historyUploadColor,
+	historyPauseColor,
+	tabColor,
+	historyUploadColor,
 } from '../../../styles/color';
 
 const DropSpaceDiv = styled.div`
@@ -331,15 +331,21 @@ const HistoryContents = ({uuid}) => {
 									// }
 								>
 									{history.progress !== 100 ? (
-										<IconContainer color={historyPauseColor}>
+										<IconContainer
+											color={historyPauseColor}
+										>
 											{pauseCircleIconSmall}
 										</IconContainer>
 									) : history.todo === 'put' ? (
-										<IconContainer color={historyUploadColor}>
+										<IconContainer
+											color={historyUploadColor}
+										>
 											{arrowCircleUpIconSmall}
 										</IconContainer>
 									) : history.todo === 'get' ? (
-										<IconContainer color={historyDownloadColor}>
+										<IconContainer
+											color={historyDownloadColor}
+										>
 											{arrowCircleDownIconSmall}
 										</IconContainer>
 									) : history.todo === 'edit' ? (
@@ -348,7 +354,9 @@ const HistoryContents = ({uuid}) => {
 										</IconContainer>
 									) : (
 										history.todo === 'rm' && (
-											<IconContainer color={historyDeleteColor}>
+											<IconContainer
+												color={historyDeleteColor}
+											>
 												{removeCircleIconSmall}
 											</IconContainer>
 										)
@@ -382,11 +390,6 @@ const HistoryContents = ({uuid}) => {
 										)
 											? GRAY_ICON_ACTIVE
 											: iconColor[theme]
-										// history_highlight.find(
-										// 	(item) => item === history,
-										// )
-										// 	? LIGHT_MODE_MINT_COLOR
-										// 	: iconColor[theme]
 									}
 								>
 									{deleteIconMidium}

@@ -77,6 +77,8 @@ const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
 	const {theme, account} = useSelector((state) => state.common);
 
+	console.log(account);
+
 	const [open, setOpen] = useState(false);
 	const [authType, setAuthType] = useState('first_option');
 	const [mfaType, setMfaType] = useState('use');

@@ -14,7 +14,7 @@ import {
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {FONT_14} from "../../../styles/length";
+import {FONT_14} from '../../../styles/length';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};

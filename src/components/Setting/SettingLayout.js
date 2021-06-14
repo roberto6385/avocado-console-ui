@@ -1,17 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import SettingNav from './SettingNav';
 import Footer from '../Footer';
-import {
-	LIGHT_MODE_BORDER_COLOR,
-	GREEN_COLOR,
-	MAIN_HEIGHT,
-	borderColor,
-	sideColor,
-} from '../../styles/global';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {HEIGHT_54} from '../../styles/length';
+import {borderColor, logoColor, navColor} from '../../styles/color';
+import {SAVE_ACCOUT} from '../../reducers/common';
 
 const _Container = styled.div`
 	display: flex;
@@ -28,30 +24,48 @@ const _ContentsContainer = styled.div`
 
 const _Header = styled.div`
 	display: flex;
-	align-item: center;
+	align-items: center;
 	padding: 20px 46px;
-	height: ${MAIN_HEIGHT};
+	height: ${HEIGHT_54};
 	font-family: 'Roboto Slab', serif;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
 `;
 
 const _Span = styled.span`
 	font-size: 23px;
 	line-height: 20px;
-	color: ${GREEN_COLOR};
+	color: ${(props) => props?.color};
 `;
 
 const SettingAppLayout = ({children}) => {
+	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
+	const {userInfo} = useSelector((state) => state.userTicket);
+
+	useEffect(() => {
+		if (userInfo) {
+			const email = userInfo.email;
+			const index = email.indexOf('@');
+			const id = email.substring(0, index);
+
+			dispatch({
+				type: SAVE_ACCOUT,
+				payload: {
+					account: userInfo.id === id ? userInfo.id : id,
+					name: userInfo.name,
+					email: userInfo.email,
+				},
+			});
+		}
+	}, [userInfo]);
 
 	return (
 		<_Container>
-			<_Header b_color={borderColor[theme]} back={sideColor[theme]}>
-				<_Span>Avocado</_Span>
+			<_Header bcolor={borderColor[theme]} back={navColor[theme]}>
+				<_Span color={logoColor[theme]}>Avocado</_Span>
 			</_Header>
 			<_ContentsContainer>
 				<SettingNav />

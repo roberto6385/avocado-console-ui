@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import {FONT_14, FONT_20} from './length';
 
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
-export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
-export const ICON_DARK_COLOR = 'rgba(0,0,0,0.54)'; // file list nav icon color
 
 // lightmode color
 export const LIGHT_MODE_MINT_COLOR = '#4ca6a8';
@@ -15,10 +13,8 @@ export const LIGHT_MODE_BACKGROUND_MINT_COLOR = '#e4f3f4'; // folder,server high
 export const LIGHT_MODE_ICON_COLOR = '#959ea1';
 export const LIGHT_MODE_BACKGROUND_COLOR = '#f8f9fa'; // and filelist highlighting color
 export const LIGHT_MODE_BORDER_COLOR = '#e5e5e5';
-export const LIGHT_MODE_FOOTER_BACKGROUND_COLOR = '#dee1e6';
 export const LIGHT_MODE_FORM_BACKGROUND_COLOR = '#ffffff';
 export const LIGHT_MODE_INPUT_BACKGROUND_COLOR = '#f0f3f6';
-export const LIGHT_MODE_TAB_HEADER_COLOR = '#ffffff';
 export const LIGHT_MODE_TERMINAL_COLOR = '#f8f9fa';
 
 // darkmode color
@@ -28,24 +24,19 @@ export const DARK_MODE_SIDE_COLOR = '#1e364c';
 export const DARK_MODE_FONT_COLOR = '#ffffff';
 export const DARK_MODE_ICON_COLOR = 'rgba(255,255,255,0.54)';
 export const DARK_MODE_BACKGROUND_MINT_COLOR = 'rgba(0,0,0,0.24)'; // folder,server highlight color
-export const DARK_MODE_SERVER_FOLDER_COLOR = 'rgba(0,0,0,0.24)';
 export const DARK_MODE_BACKGROUND_COLOR = '#1b2935';
 export const DARK_MODE_BORDER_COLOR = '#192836';
-export const DARK_MODE_FOOTER_BACKGROUND_COLOR = '#18191f';
 export const DARK_MODE_FORM_BACKGROUND_COLOR = '#253c51';
 export const DARK_MODE_INPUT_BACKGROUND_COLOR = 'rgba(0,0,0, 0.22)';
-export const DARK_MODE_TAB_HEADER_COLOR = '#1b2935';
 export const DARK_MODE_TERMINAL_COLOR = '#182530';
 
 // Button color
-export const ICON_LIGHT_COLOR = 'rgba(60,76,81,0.44)'; // tab icon color
 export const ICON_ACTIVE_LIGHT_COLOR = 'rgba(60,76,81,0.56)'; // tab icon color
 export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
 
 export const DARK_GREEN_COLOR = '#126466';
 export const ANCHOR_GRAY_COLOR = '#5e5e5e';
 
-export const DISABLED_COLOR = 'rgba(60, 76, 81, 0.12)';
 export const GRAY_COLOR = '#a9b0b2';
 export const GRAY_HOVER_COLOR = 'rgba(60, 76 ,81, 0.38)';
 export const GRAY_ACTIVE_COLOR = 'rgba(60 ,76, 81, 0.56)';

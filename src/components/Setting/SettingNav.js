@@ -19,7 +19,7 @@ import {
 } from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-import {HEIGHT_34, HEIGHT_50, WIDTH_256} from '../../styles/length';
+import {FONT_16, HEIGHT_34, HEIGHT_50, WIDTH_256} from '../../styles/length';
 import {L_GREEN_NORMAL} from '../../styles/color';
 
 const _Container = styled.div`
@@ -46,6 +46,7 @@ const _BackContainer = styled.div`
 
 const _Header = styled.div`
 	padding: 0px 12px;
+	font-size: ${FONT_16};
 `;
 
 const _Ul = styled.ul`

@@ -33,8 +33,8 @@ const _Select = styled(Select)`
 
 	.css-26l3qy-menu {
 		z-index: 10;
-		color: ${(props) => props.color};
-		background: ${(props) => props.back};
+		// color: ${(props) => props.color};
+		// background: ${(props) => props.back};
 
 		.css-4ljt47-MenuList {
 			// background: ${(props) => props.back};
@@ -51,25 +51,25 @@ const _Select = styled(Select)`
 	.css-1pahdxg-control {
 		height: 34px;
 		min-height: 34px !important;
-		background: ${(props) => props.back};
-		border-color: ${(props) => props.b_color};
+		// background: ${(props) => props.back};
+		// border-color: ${(props) => props.b_color};
 	}
 	.css-yk16xz-control,
 	.css-1fhf3k1-control {
 		z-index: 3;
-		background: ${(props) => props.back};
-		border-color: ${(props) => props.b_color};
+		// background: ${(props) => props.back};
+		// border-color: ${(props) => props.b_color};
 		height: 34px;
 		min-height: 34px !important;
 		&:hover {
-			border-color: ${(props) => props.b_color};
+			// border-color: ${(props) => props.b_color};
 		}
 	}
 	.css-g1d714-ValueContainer {
 		top: -2px;
 		padding: 0px 8px;
 		.css-1uccc91-singleValue {
-			color: ${(props) => props.color};
+			// color: ${(props) => props.color};
 		}
 	}
 
