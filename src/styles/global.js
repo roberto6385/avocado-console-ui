@@ -1,6 +1,6 @@
 // color
 import styled from 'styled-components';
-import {FONT_14, FONT_20} from "./length";
+import {FONT_14, FONT_20} from './length';
 
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 export const LIGHT_BACK_COLOR = '#f0f3f6'; // terminal, input background color
@@ -83,10 +83,6 @@ export const serverFolderBackColor = [
 	LIGHT_MODE_BACKGROUND_MINT_COLOR,
 	DARK_MODE_BACKGROUND_MINT_COLOR,
 ];
-export const footerColor = [
-	LIGHT_MODE_FOOTER_BACKGROUND_COLOR,
-	DARK_MODE_FOOTER_BACKGROUND_COLOR,
-];
 export const formColor = [
 	LIGHT_MODE_FORM_BACKGROUND_COLOR,
 	DARK_MODE_FORM_BACKGROUND_COLOR,
@@ -94,10 +90,6 @@ export const formColor = [
 export const inputColor = [
 	LIGHT_MODE_INPUT_BACKGROUND_COLOR,
 	DARK_MODE_INPUT_BACKGROUND_COLOR,
-];
-export const tabHeaderColor = [
-	LIGHT_MODE_TAB_HEADER_COLOR,
-	DARK_MODE_TAB_HEADER_COLOR,
 ];
 export const terminalColor = [
 	LIGHT_MODE_TERMINAL_COLOR,
@@ -111,21 +103,15 @@ export const SUB_HEIGHT = '50px'; // new folder container, (ssht, sftp nav)
 export const THIRD_HEIGHT = '48px'; // aside form height, sftp table height
 export const FOLDER_HEIGHT = '40px'; // folder, server height
 export const FOOTER_HEIGHT = '26px'; // footer height
-export const SEARCH_INPUT_HEIGHT = '36px';
 export const PATH_SEARCH_INPUT_HEIGHT = '34px'; // and Drop Space Button, Account Button
 export const SSH_SFTP_HEADER_HEIGHT = '30px';
-export const DROP_SPACE_HEIGHT = '132px';
-export const TERMINAL_SEARCH_FORM_HEIGHT = '42px';
 export const AUTH_FORM_HEIGHT = '630px';
 export const AUTH_FORM_SUB_HEIGHT = '614px';
 
 // width
-export const SIDE_WIDTH = '256px'; // side main nav width
 export const RIGHT_SIDE_WIDTH = '300px';
 export const SEARCH_INPUT_WIDTH = '165px';
 export const TAB_WIDTH = '160px'; // tab, history button
-export const HISTORY_ITEM_WIDTH = '134px';
-export const TERMINAL_SEARCH_FORM_WIDTH = '400px';
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
 export const ACCOUNT_INPUT_WIDTH = '500px';
 export const AUTH_FORM_WIDTH = '500px';

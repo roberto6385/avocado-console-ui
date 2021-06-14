@@ -41,8 +41,8 @@ const _Terminal = styled(_Container)`
 
 const _Form = styled.form`
 	position: absolute;
-	right: 3px;
-	bottom: 31px;
+	right: 10px;
+	bottom: 10px;
 	width: ${WIDTH_400};
 	display: none;
 	align-items: center;

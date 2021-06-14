@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {Span, footerColor, fontColor} from '../styles/global';
+import {Span} from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
@@ -13,6 +13,7 @@ import {
 	zoomOutIconMicro,
 } from '../icons/icons';
 import {HEIGHT_26, FONT_12} from '../styles/length';
+import {fontColor, footerColor} from "../styles/color";
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};

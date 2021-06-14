@@ -86,3 +86,4 @@ export const terminalColor = [L_BACK_MAIN, D_BACK_TERMINAL];
 export const terminalFontColor = [L_FONT, L_BACK];
 export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];
 export const editColor = [L_BACK_MAIN, D_SFTP_EDIT_BACK];
+export const footerColor = [L_BACK_FOOTER, D_BACK_FOOTER];
