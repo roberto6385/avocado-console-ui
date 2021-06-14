@@ -22,6 +22,7 @@ export const WIDTH_372 = '372px'; // add server popup input width
 export const WIDTH_320 = '320px'; // 작업영역 최소 폭
 export const WIDTH_400 = '400px'; // terminal search form width
 export const WIDTH_300 = '300px'; // aside width
+export const WIDTH_268 = '268px'; //
 export const WIDTH_256 = '256px'; // 네비게이션 영역, Aside 패널 영역
 export const WIDTH_220 = '220px'; // drop list li width
 export const WIDTH_200 = '200px'; // drop list item container width

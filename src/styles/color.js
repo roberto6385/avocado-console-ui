@@ -79,6 +79,7 @@ export const borderColor = [L_BORDER, D_BORDER];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
 export const navHighColor = [L_HIGHLIGHT, D_NAV_HIGHLIGHT];
 export const activeColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
+export const hoverColor = [L_GREEN_HOVER, D_GREEN_HOVER];
 export const activePaneHeaderColor = [
 	L_PANE_HEADER_BORDER,
 	D_PANE_HEADER_BORDER,

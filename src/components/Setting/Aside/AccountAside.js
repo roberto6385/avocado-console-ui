@@ -1,30 +1,27 @@
 import React, {useCallback, useState} from 'react';
 import Input_ from '../../RecycleComponents/Input_';
 import styled from 'styled-components';
-import {
-	ACCOUNT_BUTTON_WIDTH,
-	AVOCADO_HOVER_COLOR,
-	borderColor,
-	fontColor,
-	GREEN_COLOR,
-	inputColor,
-	PATH_SEARCH_INPUT_HEIGHT,
-	RIGHT_SIDE_WIDTH,
-} from '../../../styles/global';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {FONT_14} from '../../../styles/length';
+import {FONT_14, HEIGHT_34, WIDTH_268, WIDTH_300} from '../../../styles/length';
+import {
+	activeColor,
+	borderColor,
+	fontColor,
+	hoverColor,
+	settingInput,
+} from '../../../styles/color';
 
 const _Container = styled.div`
-	width: ${RIGHT_SIDE_WIDTH};
+	width: ${WIDTH_300};
 	padding: 15px 8px;
 	color: ${(props) => props?.color};
 `;
 
 const _Input = styled.input`
 	width: 100%;
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	height: ${HEIGHT_34};
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid;
@@ -34,15 +31,15 @@ const _Input = styled.input`
 `;
 
 const _Button = styled.button`
-	width: ${ACCOUNT_BUTTON_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	width: ${WIDTH_268};
+	height: ${HEIGHT_34};
 	border: none;
-	background: ${GREEN_COLOR};
 	border-radius: 4px;
 	font-size: ${FONT_14};
-	color: white;
+	color: ${(props) => props.color};
+	background: ${(props) => props.back};
 	&:hover {
-		background: ${AVOCADO_HOVER_COLOR};
+		background: ${(props) => props?.hover};
 	}
 `;
 
@@ -62,7 +59,7 @@ const AccountAside = () => {
 		<_Container color={fontColor[theme]}>
 			<Input_ title={t('account')}>
 				<_Input
-					back={inputColor[theme]}
+					back={settingInput[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={account.account}
@@ -72,7 +69,7 @@ const AccountAside = () => {
 			</Input_>
 			<Input_ title={t('name')}>
 				<_Input
-					back={inputColor[theme]}
+					back={settingInput[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={account.name}
@@ -82,7 +79,7 @@ const AccountAside = () => {
 			</Input_>
 			<Input_ title={t('email')}>
 				<_Input
-					back={inputColor[theme]}
+					back={settingInput[theme]}
 					color={fontColor[theme]}
 					b_color={borderColor[theme]}
 					value={account.email}
@@ -91,7 +88,12 @@ const AccountAside = () => {
 				/>
 			</Input_>
 			<Input_ title={t('auth')}>
-				<_Button onClick={changePath('/account')}>
+				<_Button
+					back={activeColor[theme]}
+					hover={hoverColor[theme]}
+					color={theme === 0 ? 'white' : 'black'}
+					onClick={changePath('/account')}
+				>
 					{t('changeAuth')}
 				</_Button>
 			</Input_>

@@ -19,6 +19,7 @@ import {
 } from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
+import {FONT_16} from '../../../styles/length';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -27,7 +28,7 @@ const _Container = styled.div`
 `;
 
 const _Title = styled.div`
-	font-size: 14px;
+	font-size: ${FONT_16};
 	margin: 0px 8px;
 	display: flex;
 	align-items: center;

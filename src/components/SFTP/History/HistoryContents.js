@@ -48,6 +48,7 @@ import {
 	historyPauseColor,
 	tabColor,
 	historyUploadColor,
+	L_BORDER,
 } from '../../../styles/color';
 
 const DropSpaceDiv = styled.div`
@@ -93,7 +94,7 @@ const DropSpace_Button = styled.button`
 	width: ${WIDTH_160};
 	height: ${HEIGHT_34};
 	background: ${(props) => props.back};
-	color: white;
+	color: ${(props) => props.color};
 	border-radius: 4px;
 	border: none;
 	margin: 16px 40px 30px 40px;
@@ -284,10 +285,7 @@ const HistoryContents = ({uuid}) => {
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
-				<DropSpaceDiv
-					back={tabColor[theme]}
-					bcolor={borderColor[theme]}
-				>
+				<DropSpaceDiv back={tabColor[theme]} bcolor={iconColor[theme]}>
 					<Span
 						color={iconColor[theme]}
 						padding={'32px 30px 12px 30px'}
@@ -296,9 +294,10 @@ const HistoryContents = ({uuid}) => {
 					</Span>
 					<DropSpace_Button
 						back={activeColor[theme]}
+						color={theme === 0 ? 'white' : 'black'}
 						onClick={openUpload}
 					>
-						{fileUploadIcon('white')}
+						{fileUploadIcon(theme === 0 ? 'white' : 'black')}
 						<Span>{t('browse')}</Span>
 					</DropSpace_Button>
 				</DropSpaceDiv>

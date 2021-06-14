@@ -10,7 +10,7 @@ import {
 	commandPwdAction,
 	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
-import {IconButton} from '../../../styles/global';
+import {IconButton, IconContainer} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -157,7 +157,11 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<IconButton color={iconColor[theme]} onClick={goBack}>
+			<IconButton
+				margin={'0px 0px 0px 10px'}
+				color={iconColor[theme]}
+				onClick={goBack}
+			>
 				{arrowUpwordIcon}
 			</IconButton>
 			<IconButton onClick={basicList}>
@@ -165,7 +169,7 @@ const FileListNav = ({uuid}) => {
 					mode === 'list' ? activeColor[theme] : iconColor[theme],
 				)}
 			</IconButton>
-			<IconButton onClick={dropdownList}>
+			<IconButton margin={'0px 10px 0px 0px'} onClick={dropdownList}>
 				{viewColumnIcon(
 					mode === 'drop' ? activeColor[theme] : iconColor[theme],
 				)}
@@ -182,10 +186,18 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<IconButton color={iconColor[theme]} onClick={refresh}>
+			<IconButton
+				margin={'0px 0px 0px 10px'}
+				color={iconColor[theme]}
+				onClick={refresh}
+			>
 				{refreshIcon}
 			</IconButton>
-			<IconButton color={iconColor[theme]} onClick={goHome}>
+			<IconButton
+				margin={'0px 10px 0px 0px'}
+				color={iconColor[theme]}
+				onClick={goHome}
+			>
 				{homeIcon}
 			</IconButton>
 		</_Container>

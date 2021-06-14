@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
 
 const _Container = styled.div`
 	height: 100%;
@@ -16,6 +17,8 @@ const _Container = styled.div`
 `;
 
 const Panes = ({tab}) => {
+	const {theme} = useSelector((state) => state.common);
+
 	return (
 		<_Container>
 			{tab.length === 1 && (
@@ -26,7 +29,11 @@ const Panes = ({tab}) => {
 				/>
 			)}
 			{tab.length === 2 && (
-				<SplitPane split='vertical' defaultSize={'50%'}>
+				<SplitPane
+					split='vertical'
+					className={theme === 0 ? 'backWhite' : 'backBlack'}
+					defaultSize={'50%'}
+				>
 					<Pane
 						uuid={tab[0].uuid}
 						type={tab[0].type}
@@ -40,8 +47,16 @@ const Panes = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 3 && (
-				<SplitPane split='vertical' defaultSize={'66%'}>
-					<SplitPane split='vertical' defaultSize={'50%'}>
+				<SplitPane
+					split='vertical'
+					className={theme === 0 ? 'backWhite' : 'backBlack'}
+					defaultSize={'66%'}
+				>
+					<SplitPane
+						split='vertical'
+						className={theme === 0 ? 'backWhite' : 'backBlack'}
+						defaultSize={'50%'}
+					>
 						<Pane
 							uuid={tab[0].uuid}
 							type={tab[0].type}
@@ -61,9 +76,21 @@ const Panes = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 4 && (
-				<SplitPane split='vertical' defaultSize={'75%'}>
-					<SplitPane split='vertical' defaultSize={'66%'}>
-						<SplitPane split='vertical' defaultSize={'50%'}>
+				<SplitPane
+					split='vertical'
+					className={theme === 0 ? 'backWhite' : 'backBlack'}
+					defaultSize={'75%'}
+				>
+					<SplitPane
+						split='vertical'
+						className={theme === 0 ? 'backWhite' : 'backBlack'}
+						defaultSize={'66%'}
+					>
+						<SplitPane
+							split='vertical'
+							className={theme === 0 ? 'backWhite' : 'backBlack'}
+							defaultSize={'50%'}
+						>
 							<Pane
 								uuid={tab[0].uuid}
 								type={tab[0].type}
@@ -89,10 +116,28 @@ const Panes = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 5 && (
-				<SplitPane split='vertical' defaultSize={'80%'}>
-					<SplitPane split='vertical' defaultSize={'75%'}>
-						<SplitPane split='vertical' defaultSize={'66%'}>
-							<SplitPane split='vertical' defaultSize={'50%'}>
+				<SplitPane
+					split='vertical'
+					className={theme === 0 ? 'backWhite' : 'backBlack'}
+					defaultSize={'80%'}
+				>
+					<SplitPane
+						split='vertical'
+						className={theme === 0 ? 'backWhite' : 'backBlack'}
+						defaultSize={'75%'}
+					>
+						<SplitPane
+							split='vertical'
+							className={theme === 0 ? 'backWhite' : 'backBlack'}
+							defaultSize={'66%'}
+						>
+							<SplitPane
+								split='vertical'
+								className={
+									theme === 0 ? 'backWhite' : 'backBlack'
+								}
+								defaultSize={'50%'}
+							>
 								<Pane
 									uuid={tab[0].uuid}
 									type={tab[0].type}

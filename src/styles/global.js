@@ -124,6 +124,7 @@ export const IconButton = styled.button`
 	border: none;
 	line-height: 0px;
 	padding: ${(props) => props?.padding || '6px'};
+	margin: ${(props) => props.margin || '0px'};
 	font-size: ${(props) => props?.size || FONT_20};
 	color: ${(props) => props.color || LIGHT_MODE_ICON_COLOR};
 
@@ -237,4 +238,5 @@ export const IconContainer = styled.div`
 	color: ${(props) => props?.color};
 	padding: ${(props) => props?.padding || '0px'};
 	margin: ${(props) => props.margin || '0px'};
+	cursor: pointer;
 `;

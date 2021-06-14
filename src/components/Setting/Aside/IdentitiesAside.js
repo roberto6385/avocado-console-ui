@@ -17,7 +17,8 @@ import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
-import {FONT_14} from "../../../styles/length";
+import {FONT_14} from '../../../styles/length';
+import {activeColor, hoverColor} from '../../../styles/color';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -58,13 +59,13 @@ const _Button = styled.button`
 	width: ${ACCOUNT_BUTTON_WIDTH};
 	height: ${PATH_SEARCH_INPUT_HEIGHT};
 	border: none;
-	background: ${GREEN_COLOR};
 	border-radius: 4px;
 	font-size: ${FONT_14};
-	color: white;
 	margin-top: 34px;
+	background: ${(props) => props.back};
+	color: ${(props) => props.color};
 	&:hover {
-		background: ${AVOCADO_HOVER_COLOR};
+		background: ${(props) => props?.hover};
 	}
 `;
 
@@ -150,7 +151,12 @@ const IdentitiesAside = () => {
 					}
 				})}
 			</ul>
-			<_Button onClick={changePath('/identities')}>
+			<_Button
+				back={activeColor[theme]}
+				hover={hoverColor[theme]}
+				color={theme === 0 ? 'white' : 'black'}
+				onClick={changePath('/identities')}
+			>
 				{t('editMore')}
 			</_Button>
 		</_Container>

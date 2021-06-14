@@ -84,3 +84,10 @@ ul {
 	filter: blur(3px);
 	-webkit-filter: blur(3px);
 }
+
+.backWhite {
+	background: #e3e5e5;
+}
+.backBlack {
+	background: #131d25;
+}
