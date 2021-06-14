@@ -99,6 +99,7 @@ export const accountHigh = [L_IDENTITY_HIGH, D_HIGHLIGHT];
 export const identityHigh = [L_BACK_MAIN, D_IDENTITY_HIGH];
 export const identityForm = [L_BACK, D_BACK_INPUT_BACK];
 export const paneHeaderHigh = [L_BACK, D_PANE_HEADER_HIGH];
+export const sshSearch = [L_BACK, D_BACK_DROPLIST];
 
 export const historyPauseColor = '#a8a8a8';
 export const historyDownloadColor = '#4ca6a8';

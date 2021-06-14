@@ -12,7 +12,11 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-import {IconButton, LIGHT_MODE_SIDE_COLOR} from '../../styles/global';
+import {
+	IconButton,
+	IconContainer,
+	LIGHT_MODE_SIDE_COLOR,
+} from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
 	arrowDropDownIconMidium,
@@ -22,7 +26,13 @@ import {
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
 import {FONT_14, HEIGHT_42, WIDTH_400} from '../../styles/length';
-import {terminalColor, terminalFontColor} from '../../styles/color';
+import {
+	fontColor,
+	iconColor,
+	sshSearch,
+	terminalColor,
+	terminalFontColor,
+} from '../../styles/color';
 
 const _Container = styled.div`
 	height: 100%;
@@ -50,7 +60,7 @@ const _Form = styled.form`
 	padding: 12px;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
 	height: ${HEIGHT_42};
-	background: ${LIGHT_MODE_SIDE_COLOR};
+	background: ${(props) => props.back};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
@@ -59,6 +69,8 @@ const _Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
 	font-size: ${FONT_14};
+	color: ${(props) => props.color};
+	background: transparent;
 	border: none;
 `;
 
@@ -442,32 +454,39 @@ const SSH = ({uuid}) => {
 						</_FooterListGroupItem>
 					</_ListGroup>
 				)}
-			<_Form onSubmit={onSubmitSearch} id={`search_${uuid}`}>
-				{searchIconMicro}
+			<_Form
+				onSubmit={onSubmitSearch}
+				back={sshSearch[theme]}
+				id={`search_${uuid}`}
+			>
+				<IconContainer color={iconColor[theme]}>
+					{searchIconMicro}
+				</IconContainer>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}
 					placeholder={t('search')}
 					type='text'
 					ref={searchRef}
+					color={fontColor[theme]}
 				/>
 				<IconButton
 					type='button'
-					color='#757575'
+					color={iconColor[theme]}
 					onClick={onClickArrowUp}
 				>
 					{arrowDropUpIconMidium}
 				</IconButton>
 				<IconButton
 					type='button'
-					color='#757575'
+					color={iconColor[theme]}
 					onClick={onClickArrowDown}
 				>
 					{arrowDropDownIconMidium}
 				</IconButton>
 				<IconButton
 					type='button'
-					color='#757575'
+					color={iconColor[theme]}
 					onClick={onClickOpenSearchBar}
 				>
 					{closeIconMedium}
