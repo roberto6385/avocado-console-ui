@@ -123,7 +123,7 @@ const _Form = styled.form`
 	width: 100%;
 	flex-direction: column;
 	font-size: ${FONT_14};
-	padding: 18px 8px 12px 8px;
+	margin: 18px 8px 12px 8px;
 `;
 
 const AddAccountForm = () => {
