@@ -51,6 +51,8 @@ export const GET_FAILURE = 'sftp/GET_FAILURE';
 export const EDIT_PUT_SUCCESS = 'sftp/EDIT_PUT_SUCCESS';
 export const EDIT_GET_SUCCESS = 'sftp/EDIT_GET_SUCCESS';
 
+export const ERROR = 'sftp/ERROR';
+
 // 에러
 
 //etc

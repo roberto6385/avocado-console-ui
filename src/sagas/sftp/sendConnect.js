@@ -7,12 +7,14 @@ import {
 	race,
 	delay,
 	actionChannel,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
+	ERROR,
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
@@ -20,6 +22,7 @@ import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {messageReader} from './messageReader';
 import {OPEN_TAB} from '../../reducers/common';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendCommand(action) {
 	console.log(action);
@@ -37,7 +40,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -118,6 +121,13 @@ function* sendCommand(action) {
 							);
 						}
 						break;
+
+					case ERROR:
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
+						break;
 				}
 			}
 		}
@@ -128,16 +138,16 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeLatest(CONNECTION_REQUEST, sendCommand);
+	yield takeEvery(CONNECTION_REQUEST, sendCommand);
 
-	const reqChannel = yield actionChannel(CONNECTION_REQUEST);
-	console.log('watch send command connection');
-	while (true) {
-		const action = yield take(reqChannel);
-		console.log('connect request start!!');
-		yield call(sendCommand, action);
-		yield delay(300);
-	}
+	// const reqChannel = yield actionChannel(CONNECTION_REQUEST);
+	// console.log('watch send command connection');
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	console.log('connect request start!!');
+	// 	yield call(sendCommand, action);
+	// 	yield delay(300);
+	// }
 }
 
 export default function* connectSaga() {
