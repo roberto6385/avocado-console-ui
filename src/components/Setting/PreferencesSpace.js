@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -7,7 +7,6 @@ import {
 	ROBOTO_SLAP,
 	borderColor,
 	fontColor,
-	inputColor,
 	SUB_HEIGHT,
 	backColor,
 } from '../../styles/global';
@@ -47,12 +46,12 @@ const _ContentsContainer = styled.div`
 `;
 
 const terminal_theme = [
-	{value: 0, label: '테마 - 1'},
-	{value: 1, label: '테마 - 2'},
+	{value: 0, label: 'Theme - 1'},
+	{value: 1, label: 'Theme - 2'},
 ];
 const editor_theme = [
-	{value: 0, label: '테마 - 1'},
-	{value: 1, label: '테마 - 2'},
+	{value: 0, label: 'Theme - 1'},
+	{value: 1, label: 'Theme - 2'},
 ];
 
 const font_theme = [
@@ -74,14 +73,14 @@ const PreferencesSpace = () => {
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
-	const {current: background_theme} = useRef([
+	const background_theme = [
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	]);
-	const {current: languageOptions} = useRef([
+	];
+	const languageOptions = [
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	]);
+	];
 
 	useEffect(() => {
 		dispatch({
@@ -110,9 +109,6 @@ const PreferencesSpace = () => {
 
 			<_ContentsContainer>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					width={'500px'}
 					title={t('lang')}
 					options={languageOptions}
@@ -120,9 +116,6 @@ const PreferencesSpace = () => {
 					setValue={setLanguage}
 				/>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					width={'500px'}
 					title={t('uiTheme')}
 					options={background_theme}
@@ -134,9 +127,6 @@ const PreferencesSpace = () => {
 			<_Title b_color={borderColor[theme]}>{t('terminal')}</_Title>
 			<_ContentsContainer>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					width={'500px'}
 					title={t('uiTheme')}
 					options={terminal_theme}
@@ -144,9 +134,6 @@ const PreferencesSpace = () => {
 					setValue={setTerminalTheme}
 				/>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					width={'500px'}
 					title={t('font')}
 					options={font_theme}
@@ -168,9 +155,6 @@ const PreferencesSpace = () => {
 			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>
 			<_ContentsContainer>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					width={'500px'}
 					title={t('editorTheme')}
 					options={editor_theme}

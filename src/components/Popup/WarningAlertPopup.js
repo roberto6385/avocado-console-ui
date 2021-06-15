@@ -45,12 +45,12 @@ const WarningAlertPopup = () => {
 	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
-	const {current: AlertMessage} = useRef({
+	const AlertMessage = {
 		sftp_delete_file_folder: t('deleteFileFolder'),
 		sftp_delete_history: t('deleteHistory'),
 		delete_server_folder: t('deleteServerFolder'),
 		delete_account: t('deleteAccount'),
-	});
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_WARNING_ALERT_POPUP});

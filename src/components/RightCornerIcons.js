@@ -1,14 +1,11 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
 import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
-import {
-	IconButton,
-	IconContainer,
-} from '../styles/global';
+import {IconButton, IconContainer} from '../styles/global';
 import {getRevoke} from '../reducers/auth/revoke';
 import {
 	accountIcon,
@@ -19,7 +16,7 @@ import {
 import PropTypes from 'prop-types';
 import {OPEN_ALERT_POPUP} from '../reducers/popup';
 import {useTranslation} from 'react-i18next';
-import {iconColor, tabbarColor} from "../styles/color";
+import {iconColor, tabbarColor} from '../styles/color';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -73,7 +70,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[rightSideKey, toggle],
 	);
 
-	const {current: setting_list} = useRef([
+	const setting_list = [
 		{onClick: changePath('/account'), title: t('editSetting')},
 		{title: 'divider'},
 		{
@@ -86,15 +83,15 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		},
 		{title: 'divider'},
 		{onClick: logout(), title: t('logout')},
-	]);
+	];
 
-	const {current: column_list} = useRef([
+	const column_list = [
 		{onClick: changeColumn(1), title: 'No Columns'},
 		{onClick: changeColumn(2), title: '2 Columns'},
 		{onClick: changeColumn(3), title: '3 Columns'},
 		{onClick: changeColumn(4), title: '4 Columns'},
 		{onClick: changeColumn(5), title: '5 Columns'},
-	]);
+	];
 
 	// const account_list = [
 	// 	{

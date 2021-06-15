@@ -1,7 +1,7 @@
 export default {
 	mode: 'en',
 	account: 'Account',
-	auth: 'Authentication',
-	default: 'Default Account',
+	auth: 'Auth',
+	default: 'Default',
 	editMore: 'Edit more account settings',
 };

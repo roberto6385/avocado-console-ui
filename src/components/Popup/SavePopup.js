@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
@@ -33,10 +33,10 @@ const SavePopup = () => {
 	const {theme} = useSelector((state) => state.common);
 	const {save_popup} = useSelector((state) => state.popup);
 	const {sftp} = useSelector((state) => state.sftp);
-	const {current: SaveMessage} = useRef({
+	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
-	});
+	};
 
 	const closeModal = useCallback(() => {
 		switch (save_popup.key) {

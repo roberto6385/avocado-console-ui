@@ -57,6 +57,7 @@ export const L_BACK_TABBAR = '#f0f3f6'; //tab bar, input, edit back
 export const L_BACK_MAIN = '#f8f9fa'; // main, terminal base background,
 // snippet left back, setting - prefer back, aside-identity-checked
 export const L_BACK_FOOTER = '#dee1e6';
+export const L_FORM_INPUT_BACK = '#ffffff';
 
 // dark background color
 export const D_BACK = '#1b2935'; // active tab, input back, main, workSpace header, subHeader,
@@ -70,6 +71,7 @@ export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
 export const D_SFTP_FILELIST_BACK = '#17232E';
 export const D_SFTP_EDIT_BACK = '#121d28';
+export const D_FORM_INPUT_BACK = '#1b2935';
 
 // prev ui guide line
 // export const D_BACK = '#0b141c';
@@ -91,7 +93,8 @@ export const navColor = [L_BACK, D_BACK_NAV];
 export const navInputColor = [L_BACK_TABBAR, D_BACK];
 
 export const modalColor = [L_BACK, D_BACK_MODAL];
-export const inputColor = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
+export const filelistInputBack = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
+export const inputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
@@ -128,8 +131,6 @@ export const historyUploadColor = '#4285f4';
 export const historyEditColor = '#E4E723';
 export const historyDeleteColor = '#d45959';
 
-export const settingColor = [L_BACK, D_NAV_HIGHLIGHT];
-
 export const buttonFontColor = [L_BUTTON_FONT, D_BUTTON_FONT];
 export const greyButtonColor = [L_GREY_BUTTON, D_GREY_BUTTON];
 
@@ -141,6 +142,7 @@ export const redNormalButtonColor = [L_RED_NORMAL, D_RED_NORMAL];
 export const redHoverButtonColor = [L_RED_HOVER, D_RED_HOVER];
 export const redActiveButtonColor = [L_RED_ACTIVE, D_RED_ACTIVE];
 export const selectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
+export const selectActiveColor = [L_BACK_MAIN, D_GREY_BACKGROUND_HOVER];
 
 export const greyBoarderNormalButtonColor = [
 	L_GREY_BOARDER_NORMAL,

@@ -14,8 +14,8 @@ import {HEIGHT_34, HEIGHT_50, WIDTH_160, WIDTH_500} from '../../styles/length';
 import {
 	borderColor,
 	fontColor,
+	inputBack,
 	mainBackColor,
-	settingInput,
 } from '../../styles/color';
 
 const _Container = styled.div`
@@ -111,7 +111,7 @@ const AccountSpace = () => {
 			<_ContentsContainer>
 				<Input_ title={t('account')}>
 					<_Input
-						back={settingInput[theme]}
+						back={inputBack[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.account}
@@ -121,7 +121,7 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={t('name')}>
 					<_Input
-						back={settingInput[theme]}
+						back={inputBack[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.name}
@@ -131,7 +131,7 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={t('email')}>
 					<_Input
-						back={settingInput[theme]}
+						back={inputBack[theme]}
 						color={fontColor[theme]}
 						b_color={borderColor[theme]}
 						value={account.email}
@@ -144,9 +144,6 @@ const AccountSpace = () => {
 			<_ContentsContainer>
 				<_Section>
 					<Select_
-						back={settingInput[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						title={t('auth')}
 						options={authOptions}
 						value={authType}
@@ -178,9 +175,6 @@ const AccountSpace = () => {
 			</_ContentsContainer>
 			<_ContentsContainer>
 				<Select_
-					back={settingInput[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('mfa')}
 					options={mfaOptions}
 					value={mfaType}

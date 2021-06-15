@@ -72,14 +72,14 @@ const PreferencesAside = () => {
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
-	const {current: background_theme} = useRef([
+	const background_theme = [
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	]);
-	const {current: languageOptions} = useRef([
+	];
+	const languageOptions = [
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	]);
+	];
 
 	useEffect(() => {
 		dispatch({
@@ -108,9 +108,6 @@ const PreferencesAside = () => {
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('lang')}
 					options={languageOptions}
 					value={language}
@@ -118,9 +115,6 @@ const PreferencesAside = () => {
 				/>
 				<Select_
 					width={'266px'}
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('uiTheme')}
 					options={background_theme}
 					value={generalTheme}
@@ -132,9 +126,6 @@ const PreferencesAside = () => {
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('uiTheme')}
 					options={terminal_theme}
 					value={terminalTheme}
@@ -142,9 +133,6 @@ const PreferencesAside = () => {
 				/>
 				<Select_
 					width={'266px'}
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('font')}
 					options={font_theme}
 					value={terminalFont}
@@ -160,9 +148,6 @@ const PreferencesAside = () => {
 			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
-					back={inputColor[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
 					title={t('editorTheme')}
 					options={editor_theme}
 					value={editorTheme}

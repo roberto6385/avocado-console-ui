@@ -53,6 +53,12 @@ export const initialState = {
 			key: 's_3',
 			name: 'Server4',
 		},
+		{
+			type: 'server',
+			id: 4,
+			key: 's_4',
+			name: 'Server5',
+		},
 	],
 
 	server: [
@@ -96,6 +102,14 @@ export const initialState = {
 			protocol: 'SSH2',
 			port: 10022,
 		},
+		{
+			id: 4,
+			key: 's_4',
+			name: 'Server5',
+			host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
+			protocol: 'SSH2',
+			port: 22,
+		},
 	],
 	// resource identity key
 	currentResourceListKey: null,
@@ -109,6 +123,15 @@ export const initialState = {
 			checked: true,
 			type: 'Password',
 			key: 's_0',
+		},
+		{
+			id: 7,
+			identityName: 'test',
+			user: 'root',
+			password: 'Netand141)',
+			checked: true,
+			type: 'Password',
+			key: 's_4',
 		},
 		{
 			id: 6,

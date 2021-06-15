@@ -6,7 +6,6 @@ import {
 	put,
 	race,
 	delay,
-	actionChannel,
 	takeEvery,
 } from 'redux-saga/effects';
 import {
@@ -29,6 +28,7 @@ function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
 	const socket = yield call(createWebsocket, payload.host);
+	console.log(socket);
 	const channel = yield call(subscribe, socket);
 	let uuid = '';
 	try {

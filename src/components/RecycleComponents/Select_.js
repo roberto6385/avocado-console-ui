@@ -4,16 +4,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {FONT_14, FONT_18} from '../../styles/length';
 import {
-	activeColor,
 	borderColor,
+	D_GREEN_ACTIVE,
 	fileListHighColor,
 	fontColor,
-	greyBackgroundActiveButtonColor,
-	greyBackgroundNormalButtonColor,
-	iconColor,
 	identityHigh,
-	L_LOGO,
-	logoColor,
+	inputBack,
+	selectActiveColor,
 	selectHoverColor,
 } from '../../styles/color';
 import {useSelector} from 'react-redux';
@@ -30,6 +27,7 @@ const _Container = styled.div`
 `;
 
 const _Select = styled(Select)`
+	max-width: 500px;
 	div {
 		border-color: ${(props) => borderColor[props.themeValue]};
 		transition: initial;
@@ -49,33 +47,32 @@ const _Select = styled(Select)`
 			position: initial !important;
 		}
 		.css-4ljt47-MenuList {
-			background: ${(props) =>
-				greyBackgroundNormalButtonColor[props.themeValue]};
-		}
-		.css-gnk6iv-control {
-			box-shadow: 0 0 0 1px #31bbb3;
+			width: 100%;
+			background: ${(props) => inputBack[props.themeValue]};
 		}
 	}
+	// outline 부분
+	&:focus {
+		background: red;
+	}
+
+	// .css-gnk6iv-control {
+	// 	box-shadow: 0 0 0 1px ${D_GREEN_ACTIVE} !important;
+	// 	outline: none;
+	// }
+	// .css-16ceq5b-control {
+	// 	box-shadow: 0 0 0 1px ${D_GREEN_ACTIVE} !important;
+	// 	outline: none;
+	// }
 `;
 
-const Select_ = ({
-	title,
-	options,
-	value,
-	setValue,
-	width,
-	flex,
-	back,
-	b_color,
-	color,
-	disabled,
-}) => {
+const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 	const {theme} = useSelector((state) => state.common);
 	const selectRef = useRef(null);
 	const colourStyles = {
 		// borderColor: '#e3e5e5',
 		minHeight: '34px',
-		control: (styles, {isFocused, isSelected}) => ({
+		control: (styles, {isDisabled}) => ({
 			...styles,
 			display: 'flex',
 			alignItems: 'center',
@@ -84,7 +81,8 @@ const Select_ = ({
 			lineHeight: '34px',
 			width: width,
 			borderColor: identityHigh[theme],
-			backgroundColor: greyBackgroundNormalButtonColor[theme],
+			backgroundColor: inputBack[theme],
+			// cursor: isDisabled ? 'not-allowed' : 'pointer',
 		}), // 일반 back
 		option: (styles, {isDisabled, isFocused, isSelected}) => {
 			return {
@@ -95,12 +93,14 @@ const Select_ = ({
 					? fileListHighColor[theme] //selected
 					: isFocused
 					? selectHoverColor[theme] //hover
-					: greyBackgroundNormalButtonColor[theme], // normal
+					: inputBack[theme], // normal
 				color: fontColor[theme],
-				cursor: isDisabled ? 'not-allowed' : 'default',
+				cursor: isDisabled ? 'not-allowed' : 'pointer',
+				maxWidth: width,
+				margin: 'auto',
 				':active': {
 					...styles[':active'],
-					backgroundColor: greyBackgroundActiveButtonColor[theme], // active back
+					backgroundColor: selectActiveColor[theme], // active back
 				},
 			};
 		},

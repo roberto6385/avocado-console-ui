@@ -41,7 +41,7 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
