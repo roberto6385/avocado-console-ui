@@ -7,10 +7,8 @@ import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
-	PrimaryGreyButton,
 	FOLDER_HEIGHT,
 	IconButton,
-	PrimaryGreenButton,
 	formColor,
 	borderColor,
 	fontColor,
@@ -23,7 +21,8 @@ import {
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
+import {FONT_14} from '../../styles/length';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/default';
 
 const _Modal = styled(Modal)`
 	position: absolute;
@@ -371,10 +370,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 				</_Form>
 			</_ListContainer>
 			<_Footer b_color={borderColor[theme]}>
-				<PrimaryGreyButton onClick={onClickCancel}>
+				<PrimaryGreyButton themeValue={theme} onClick={onClickCancel}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton onClick={onClickSubmit}>
+				<PrimaryGreenButton themeValue={theme} onClick={onClickSubmit}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</_Footer>

@@ -6,7 +6,6 @@ import base64 from 'base-64';
 import useInput from '../../hooks/useInput';
 import {getClientTicket} from '../../reducers/auth/clientTicket';
 import styled from 'styled-components';
-import {FOLDER_HEIGHT, LIGHT_MODE_BORDER_COLOR} from '../../styles/global';
 
 const _Form = styled(Form)`
 	width: 50%;

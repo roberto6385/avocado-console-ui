@@ -10,13 +10,12 @@ import {
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
-	GREEN_COLOR,
 	IconButton,
-	PrimaryGreenButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {FONT_14, FONT_29} from '../../styles/length';
+import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
+import {PrimaryGreenButton} from '../../styles/default';
 
 const _Form = styled.form`
 	background: white;
@@ -85,12 +84,12 @@ const _Span = styled.div`
 	}
 `;
 
-const _SignInButton = styled(PrimaryGreenButton)`
-	height: ${FOLDER_HEIGHT};
-	padding: 20px;
-	width: 360px;
-	background: ${GREEN_COLOR};
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+	height: ${HEIGHT_40};
+	width: 340px;
 	margin: 24px auto 39px;
+	font-size: 16px;
+	padding: 10px;
 `;
 
 const SignUpForm = () => {
@@ -252,7 +251,9 @@ const SignUpForm = () => {
 					/>
 				</_PasswordContainer>
 			</Input_>
-			<_SignInButton type='submit'>{t('signUp')}</_SignInButton>
+			<_PrimaryGreenButton type='submit'>
+				{t('signUp')}
+			</_PrimaryGreenButton>
 		</_Form>
 	) : (
 		<div>loading...</div>

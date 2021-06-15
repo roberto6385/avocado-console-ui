@@ -16,8 +16,6 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {
-	PrimaryGreyButton,
-	PrimaryRedButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	LIGHT_MODE_BORDER_COLOR,
@@ -25,7 +23,8 @@ import {
 } from '../../styles/global';
 
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
+import {FONT_14} from '../../styles/length';
+import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/default';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -82,6 +81,7 @@ const _Message = styled.div`
 const WarningAlertPopup = () => {
 	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
 	const {warning_alert_popup} = useSelector((state) => state.popup);
 	const {
 		clicked_server,
@@ -220,10 +220,10 @@ const WarningAlertPopup = () => {
 			</_Message>
 
 			<_Footer>
-				<PrimaryGreyButton onClick={cancelFunction}>
+				<PrimaryGreyButton themeValue={theme} onClick={cancelFunction}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryRedButton onClick={submitFunction}>
+				<PrimaryRedButton themeValue={theme} onClick={submitFunction}>
 					{t('delete')}
 				</PrimaryRedButton>
 			</_Footer>

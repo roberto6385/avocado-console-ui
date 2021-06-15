@@ -10,13 +10,10 @@ import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	PrimaryGreyButton,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryGreenButton,
-	SecondaryGreenButton,
 	formColor,
 	borderColor,
 	fontColor,
@@ -24,7 +21,12 @@ import {
 	inputColor,
 } from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
+import {FONT_14} from '../../styles/length';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	SecondaryGreenButton,
+} from '../../styles/default';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -341,10 +343,14 @@ const AddAccountForm = () => {
 				</_Item>
 			</_Form>
 			<_Footer b_color={borderColor[theme]}>
-				<PrimaryGreyButton onClick={closeModal} color={fontColor[theme]}>
+				<PrimaryGreyButton
+					themeValue={theme}
+					onClick={closeModal}
+					color={fontColor[theme]}
+				>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton onClick={onSubmitForm}>
+				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</_Footer>
