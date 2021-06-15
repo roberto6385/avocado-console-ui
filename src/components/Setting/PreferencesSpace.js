@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -46,12 +46,12 @@ const _ContentsContainer = styled.div`
 `;
 
 const terminal_theme = [
-	{value: 0, label: '테마 - 1'},
-	{value: 1, label: '테마 - 2'},
+	{value: 0, label: 'Theme - 1'},
+	{value: 1, label: 'Theme - 2'},
 ];
 const editor_theme = [
-	{value: 0, label: '테마 - 1'},
-	{value: 1, label: '테마 - 2'},
+	{value: 0, label: 'Theme - 1'},
+	{value: 1, label: 'Theme - 2'},
 ];
 
 const font_theme = [
@@ -73,14 +73,14 @@ const PreferencesSpace = () => {
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
 
-	const {current: background_theme} = useRef([
+	const background_theme = [
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	]);
-	const {current: languageOptions} = useRef([
+	];
+	const languageOptions = [
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	]);
+	];
 
 	useEffect(() => {
 		dispatch({

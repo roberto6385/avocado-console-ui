@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -191,14 +191,14 @@ const AddServerForm = () => {
 	const [note, onChangeNote, setNote] = useInput('');
 	const [identityList, onChangeIdentityList, setIdentityList] = useInput([]);
 
-	const {current: protocol_options} = useRef([
+	const protocol_options = [
 		{value: 'SSH2', label: 'SSH2'},
 		{value: 'SFTP', label: 'SFTP'},
-	]);
-	const {current: authentication_options} = useRef([
+	];
+	const authentication_options = [
 		{value: 'Password', label: t('password')},
 		{value: 'KeyFile', label: t('keyFile')},
-	]);
+	];
 
 	const onSubmitForm = useCallback(
 		(e) => {

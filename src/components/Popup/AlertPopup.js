@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -51,7 +51,7 @@ const AlertPopup = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 	const {alert_popup} = useSelector((state) => state.popup);
-	const {current: AlertMessage} = useRef({
+	const AlertMessage = {
 		invalid_server: t('invalidServer'),
 		lost_server: t('lostServer'),
 		snippets_name_duplicate: t('snippetsNameDuplicate'),
@@ -61,7 +61,7 @@ const AlertPopup = () => {
 		no_changes: t('noChange'),
 		developing: t('developing'),
 		wrong_path: t('wrongPath'),
-	});
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});

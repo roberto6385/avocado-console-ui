@@ -63,14 +63,14 @@ const InputPopup = () => {
 	const {input_popup} = useSelector((state) => state.popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
-	const {current: HeaderMessage} = useRef({
+	const HeaderMessage = {
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),
-	});
-	const {current: Placeholder} = useRef({
+	};
+	const Placeholder = {
 		sftp_rename_file_folder: t('renamePlace'),
 		sftp_new_folder: t('newFolderPlace'),
-	});
+	};
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});

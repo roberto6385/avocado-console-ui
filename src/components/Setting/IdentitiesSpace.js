@@ -116,6 +116,10 @@ const _ResourceName = styled(_Name)`
 const _AddressName = styled(_Name)`
 	// max-width: 149px;
 	min-width: 100px;
+	// white-space: nowrap;
+	// overflow: hidden;
+	// text-overflow: ellipsis;
+
 	flex: 3;
 `;
 const _ProtocolPortName = styled(_Name)`
