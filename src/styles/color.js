@@ -43,6 +43,7 @@ export const L_ICON = `#959ea1`;
 export const L_LOGO = '#126466';
 export const L_IDENTITY_HIGH = 'rgba(228, 243, 244, 0.7)';
 export const L_PANE_HEADER_BORDER = 'rgba(23, 128, 130, 0.4)';
+export const L_SELECT_HOVER = '#F0FCFA';
 
 export const D_NAV_HIGHLIGHT = 'rgba(0,0,0,0.22)';
 export const D_HIGHLIGHT = 'rgba(105,211,205,0.05)';
@@ -52,6 +53,7 @@ export const D_LOGO = '#4ca6a8';
 export const D_IDENTITY_HIGH = 'rgba(0, 0, 0, 0.12)';
 export const D_PANE_HEADER_HIGH = '#1f323c';
 export const D_PANE_HEADER_BORDER = 'rgba(68, 200, 192, 0.5)';
+export const D_SELECT_HOVER = '#273746';
 
 // light background color
 export const L_BACK = '#ffffff'; // nav, active tab, droplist, workSpace header, subHeader
@@ -139,6 +141,7 @@ export const greenActiveButtonColor = [L_GREEN_ACTIVE, D_GREEN_ACTIVE];
 export const redNormalButtonColor = [L_RED_NORMAL, D_RED_NORMAL];
 export const redHoverButtonColor = [L_RED_HOVER, D_RED_HOVER];
 export const redActiveButtonColor = [L_RED_ACTIVE, D_RED_ACTIVE];
+export const selectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
 
 export const greyBoarderNormalButtonColor = [
 	L_GREY_BOARDER_NORMAL,

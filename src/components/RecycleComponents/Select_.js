@@ -3,7 +3,19 @@ import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {FONT_14, FONT_18} from '../../styles/length';
-import {borderColor, greyBackgroundNormalButtonColor} from '../../styles/color';
+import {
+	activeColor,
+	borderColor,
+	fileListHighColor,
+	fontColor,
+	greyBackgroundActiveButtonColor,
+	greyBackgroundNormalButtonColor,
+	iconColor,
+	identityHigh,
+	L_LOGO,
+	logoColor,
+	selectHoverColor,
+} from '../../styles/color';
 import {useSelector} from 'react-redux';
 
 const _Span = styled.span`
@@ -20,18 +32,28 @@ const _Container = styled.div`
 const _Select = styled(Select)`
 	div {
 		border-color: ${(props) => borderColor[props.themeValue]};
-		outline: none;
-		&:focus {
-			outline: none;
-		}
+		transition: initial;
 		&:hover {
 			border-color: ${(props) => borderColor[props.themeValue]};
 		}
-		::first-child {
-			height: 100%;
+		span {
+			display: none;
 		}
-		::nth-child(2) {
-			height: 100%;
+		.css-g1d714-ValueContainer {
+			height: 34px;
+			position: initial !important;
+			line-height: 34px;
+		}
+		.css-tlfecz-indicatorContainer {
+			height: 34px;
+			position: initial !important;
+		}
+		.css-4ljt47-MenuList {
+			background: ${(props) =>
+				greyBackgroundNormalButtonColor[props.themeValue]};
+		}
+		.css-gnk6iv-control {
+			box-shadow: 0 0 0 1px #31bbb3;
 		}
 	}
 `;
@@ -57,11 +79,11 @@ const Select_ = ({
 			...styles,
 			display: 'flex',
 			alignItems: 'center',
-			outline: 'none',
 			height: '34px',
 			minHeight: '34px',
+			lineHeight: '34px',
 			width: width,
-			borderColor: borderColor[theme],
+			borderColor: identityHigh[theme],
 			backgroundColor: greyBackgroundNormalButtonColor[theme],
 		}), // 일반 back
 		option: (styles, {isDisabled, isFocused, isSelected}) => {
@@ -70,16 +92,15 @@ const Select_ = ({
 				backgroundColor: isDisabled
 					? null
 					: isSelected
-					? 'yellow' //selected
+					? fileListHighColor[theme] //selected
 					: isFocused
-					? 'red' //hover
-					: 'pink', // normal
-				color: 'purple',
+					? selectHoverColor[theme] //hover
+					: greyBackgroundNormalButtonColor[theme], // normal
+				color: fontColor[theme],
 				cursor: isDisabled ? 'not-allowed' : 'default',
-
 				':active': {
 					...styles[':active'],
-					backgroundColor: 'green', // active back
+					backgroundColor: greyBackgroundActiveButtonColor[theme], // active back
 				},
 			};
 		},
@@ -87,7 +108,7 @@ const Select_ = ({
 		// placeholder: styles => ({ ...styles, ...dot() }),
 		singleValue: (styles) => ({
 			...styles,
-			color: 'black',
+			color: fontColor[theme],
 		}), // font color
 	};
 
