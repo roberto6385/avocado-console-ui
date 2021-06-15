@@ -5,54 +5,35 @@ import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import {
-	LIGHT_MODE_BORDER_COLOR,
-	IconButton,
-	PATH_SEARCH_INPUT_HEIGHT,
-} from '../../styles/global';
 import {closeIconMedium} from '../../icons/icons';
-import {FONT_14} from '../../styles/length';
 import {
+	Form,
+	ModalFooter,
 	ModalHeader,
+	ModalHeaderIconButton,
 	ModalHeaderText,
 	PopupModal,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/default';
-import {borderColor, fontColor, modalColor} from '../../styles/color';
+import {borderColor, fontColor, settingInput} from '../../styles/color';
 
-const _Modal = styled(PopupModal)`
-	border-color: ${(props) => modalColor[props.themeValue]};
-	background: ${(props) => borderColor[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
+const _PopupModal = styled(PopupModal)`
 	width: 404px;
-	z-index: 10;
 `;
 
-const _Header = styled(ModalHeader)`
-	border-color: ${(props) => props.bcolor};
-`;
-
-const _Form = styled.form`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	font-size: ${FONT_14};
-	padding: 18px 16px 30px 16px;
+const _Form = styled(Form)`
+	margin: 16px 16px 29px 16px;
 `;
 
 const _Input = styled.input`
-	width: 100%;
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	width: 372px;
+	height: 34px;
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-`;
-
-const _Footer = styled.div`
-	border-color: ${(props) => props.bcolor};
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => settingInput[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
 `;
 
 const InputPopup = () => {
@@ -141,19 +122,21 @@ const InputPopup = () => {
 	}, [inputRef, input_popup, sftp]);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={input_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			themeValue={theme}
 		>
-			<_Header bcolor={borderColor[theme]}>
+			<ModalHeader themeValue={theme}>
 				<ModalHeaderText>
 					{HeaderMessage[input_popup.key]}
 				</ModalHeaderText>
-				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
-			</_Header>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+					{closeIconMedium}
+				</ModalHeaderIconButton>
+			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
 				<_Input
@@ -161,18 +144,19 @@ const InputPopup = () => {
 					value={formValue}
 					onChange={onChangeFormValue}
 					placeholder={Placeholder[input_popup.key]}
+					themeValue={theme}
 				/>
 			</_Form>
 
-			<_Footer bcolor={borderColor[theme]}>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton themeValue={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				<PrimaryGreenButton themeValue={theme} onClick={submitFunction}>
 					{t('save')}
 				</PrimaryGreenButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 

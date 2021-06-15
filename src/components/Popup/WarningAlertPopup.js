@@ -1,8 +1,8 @@
 import React, {useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
+
 import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {
 	ACCOUT_CONTROL_ID,
@@ -15,67 +15,21 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {
-	FOLDER_HEIGHT,
-	IconButton,
-	LIGHT_MODE_BORDER_COLOR,
-	MAIN_HEIGHT,
-} from '../../styles/global';
-
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
-import {FONT_14} from '../../styles/length';
-import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/default';
+import {
+	ModalFooter,
+	ModalHeader,
+	ModalHeaderIconButton,
+	ModalHeaderText,
+	ModalMessage,
+	PopupModal,
+	PopupText,
+	PrimaryGreyButton,
+	PrimaryRedButton,
+} from '../../styles/default';
 
-const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	position: absolute;
-	z-index: 10;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
-	border-radius: 4px;
+const _PopupModal = styled(PopupModal)`
 	width: 290px;
-`;
-
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-`;
-
-const _Text = styled.div`
-	font-size: 14px;
-	font-family: Roboto;
-	width: 226px;
-`;
-
-const _HeaderText = styled(_Text)`
-	font-weight: 500;
-`;
-
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-`;
-
-const _Message = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 24px 16px;
 `;
 
 const WarningAlertPopup = () => {
@@ -201,33 +155,39 @@ const WarningAlertPopup = () => {
 	);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={warning_alert_popup.open}
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			themeValue={theme}
 		>
-			<_Header>
-				<_HeaderText>{t('alert')}</_HeaderText>
-				<IconButton onClick={cancelFunction}>
+			<ModalHeader themeValue={theme}>
+				<ModalHeaderText themeValue={theme}>
+					{t('alert')}
+				</ModalHeaderText>
+				<ModalHeaderIconButton
+					themeValue={theme}
+					onClick={cancelFunction}
+				>
 					{closeIconMedium}
-				</IconButton>
-			</_Header>
+				</ModalHeaderIconButton>
+			</ModalHeader>
 
-			<_Message>
+			<ModalMessage themeValue={theme}>
 				<div>{cancelFillIcon}</div>
-				<_Text>{AlertMessage[warning_alert_popup.key]}</_Text>
-			</_Message>
+				<PopupText>{AlertMessage[warning_alert_popup.key]}</PopupText>
+			</ModalMessage>
 
-			<_Footer>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton themeValue={theme} onClick={cancelFunction}>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				<PrimaryRedButton themeValue={theme} onClick={submitFunction}>
 					{t('delete')}
 				</PrimaryRedButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 

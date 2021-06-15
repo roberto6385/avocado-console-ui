@@ -3,13 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
-import Modal from 'react-modal';
-import {
-	LIGHT_MODE_BORDER_COLOR,
-	FOLDER_HEIGHT,
-	IconButton,
-	MAIN_HEIGHT,
-} from '../../styles/global';
+
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
@@ -17,59 +11,20 @@ import {
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
-import {FONT_14} from '../../styles/length';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/default';
+import {
+	ModalFooter,
+	ModalHeader,
+	ModalHeaderIconButton,
+	ModalHeaderText,
+	ModalMessage,
+	PopupModal,
+	PopupText,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/default';
 
-const _Modal = styled(Modal)`
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	position: absolute;
-	z-index: 10;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	background: white;
-	border-radius: 4px;
+const _PopupModal = styled(PopupModal)`
 	width: 290px;
-`;
-
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-`;
-
-const _Text = styled.div`
-	font-size: 14px;
-	font-family: Roboto;
-	width: 226px;
-`;
-
-const _HeaderText = styled(_Text)`
-	font-weight: 500;
-`;
-
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-	border-top: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-`;
-
-const _Message = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 24px 16px;
 `;
 
 const SavePopup = () => {
@@ -167,31 +122,34 @@ const SavePopup = () => {
 	);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={save_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
+			themeValue={theme}
 		>
-			<_Header>
-				<_HeaderText>{t('alert')}</_HeaderText>
-				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
-			</_Header>
+			<ModalHeader themeValue={theme}>
+				<ModalHeaderText>{t('alert')}</ModalHeaderText>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+					{closeIconMedium}
+				</ModalHeaderIconButton>
+			</ModalHeader>
 
-			<_Message>
+			<ModalMessage themeValue={theme}>
 				<div>{alertFillIcon}</div>
-				<_Text>{SaveMessage[save_popup.key]}</_Text>
-			</_Message>
+				<PopupText>{SaveMessage[save_popup.key]}</PopupText>
+			</ModalMessage>
 
-			<_Footer>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton themeValue={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				<PrimaryGreenButton themeValue={theme} onClick={submitFunction}>
 					{t('save')}
 				</PrimaryGreenButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 

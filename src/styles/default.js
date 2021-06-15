@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import {FONT_14, HEIGHT_41, HEIGHT_60} from './length';
+import {HEIGHT_41, HEIGHT_60} from './length';
 import {
+	borderColor,
 	buttonFontColor,
 	disabledButtonColor,
 	disabledButtonFontColor,
+	fontColor,
 	greenActiveButtonColor,
 	greenHoverButtonColor,
 	greenNormalButtonColor,
@@ -15,12 +17,14 @@ import {
 	greyBoarderHoverButtonColor,
 	greyBoarderNormalButtonColor,
 	greyButtonColor,
+	modalColor,
 	redActiveButtonColor,
 	redHoverButtonColor,
 	redNormalButtonColor,
 	secondaryDisabledButtonColor,
 } from './color';
 
+//Modal => popup, form
 export const PopupModal = styled(Modal)`
 	position: absolute;
 	top: 50%;
@@ -30,8 +34,11 @@ export const PopupModal = styled(Modal)`
 	transform: translate(-50%, -50%);
 	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
 	border-radius: 4px;
-	border: 1px solid;
-	font-size: ${FONT_14};
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	font-size: 14px;
+	z-index: 10;
+	background: ${(props) => modalColor[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
 `;
 
 export const ModalHeader = styled.div`
@@ -40,16 +47,28 @@ export const ModalHeader = styled.div`
 	justify-content: space-between;
 	height: ${HEIGHT_41};
 	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid;
+	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
 `;
 
 export const ModalHeaderText = styled.div`
 	font-weight: 500;
 `;
 
-export const ModalText = styled.div`
-	font-size: 14px;
-	width: 226px;
+export const ModalHeaderIconButton = styled.button`
+	color: ${(props) => fontColor[props.themeValue]};
+	background: transparent;
+	border: none;
+	line-height: 0px;
+	font-weight: 500;
+	margin: '6px';
+	font-size: 11.7px;
+`;
+
+export const ModalMessage = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24px 16px;
 `;
 
 export const ModalFooter = styled.div`
@@ -58,7 +77,20 @@ export const ModalFooter = styled.div`
 	justify-content: flex-end;
 	height: ${HEIGHT_60};
 	padding: 13px 16px;
-	border-top: 1px solid;
+	border-top: 1px solid ${(props) => borderColor[props.themeValue]};
+`;
+
+//Modal => popup
+export const PopupText = styled.div`
+	width: 226px;
+	margin-left: 8px;
+`;
+
+//Form
+export const Form = styled.form`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
 `;
 
 //Button

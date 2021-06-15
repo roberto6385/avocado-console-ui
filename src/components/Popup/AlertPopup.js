@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 
-import {IconButton} from '../../styles/global';
 import {
 	alertFillIcon,
 	cancelFillIcon,
@@ -17,33 +16,16 @@ import {
 	ModalHeader,
 	ModalHeaderText,
 	PopupModal,
-	ModalText,
 	PrimaryGreenButton,
 	PrimaryRedButton,
 	PrimaryGreyButton,
+	ModalMessage,
+	ModalHeaderIconButton,
+	PopupText,
 } from '../../styles/default';
-import {borderColor, fontColor, modalColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
-	border-color: ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => modalColor[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
 	width: 288px;
-`;
-
-const _ModalHeader = styled(ModalHeader)`
-	border-color: ${(props) => borderColor[props.themeValue]};
-`;
-
-const _ModalFooter = styled(ModalFooter)`
-	border-color: ${(props) => borderColor[props.themeValue]};
-`;
-
-const _Message = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 24px 16px;
 `;
 
 const AlertPopup = () => {
@@ -76,12 +58,14 @@ const AlertPopup = () => {
 			shouldCloseOnOverlayClick={false}
 			themeValue={theme}
 		>
-			<_ModalHeader themeValue={theme}>
+			<ModalHeader themeValue={theme}>
 				<ModalHeaderText>{t('alert')}</ModalHeaderText>
-				<IconButton onClick={closeModal}>{closeIconMedium}</IconButton>
-			</_ModalHeader>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+					{closeIconMedium}
+				</ModalHeaderIconButton>
+			</ModalHeader>
 
-			<_Message>
+			<ModalMessage>
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ? (
 					<div>{cancelFillIcon}</div>
@@ -89,10 +73,10 @@ const AlertPopup = () => {
 					<div>{alertFillIcon}</div>
 				)}
 
-				<ModalText>{AlertMessage[alert_popup.key]}</ModalText>
-			</_Message>
+				<PopupText>{AlertMessage[alert_popup.key]}</PopupText>
+			</ModalMessage>
 
-			<_ModalFooter themeValue={theme}>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton themeValue={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
@@ -106,7 +90,7 @@ const AlertPopup = () => {
 						{t('ok')}
 					</PrimaryGreenButton>
 				)}
-			</_ModalFooter>
+			</ModalFooter>
 		</_PopupModal>
 	);
 };
