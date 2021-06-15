@@ -29,7 +29,7 @@ const SFTPConvertButton = ({data}) => {
 		} else {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
 		}
-	}, [server, data, userTicket, dispatch]);
+	}, [server, data, identity, userTicket, dispatch]);
 
 	return <IconButton onClick={connection}>{sftpIcon}</IconButton>;
 };
