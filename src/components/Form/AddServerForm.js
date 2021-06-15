@@ -20,10 +20,6 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	borderColor,
-	fontColor,
-	iconColor,
-	inputColor,
 	popupColor,
 } from '../../styles/global';
 
@@ -38,6 +34,12 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/default';
+import {
+	borderColor,
+	fontColor,
+	greyBackgroundNormalButtonColor,
+	iconColor,
+} from '../../styles/color';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -408,7 +410,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={t('name')} flex={1}>
 						<LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -419,9 +421,6 @@ const AddServerForm = () => {
 						/>
 					</Input_>
 					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						width={'178px'}
 						title={t('protocol')}
 						options={protocol_options}
@@ -432,7 +431,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={t('address')} flex={1}>
 						<LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -445,7 +444,7 @@ const AddServerForm = () => {
 
 					<Input_ title={t('port')}>
 						<_Input
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='number'
@@ -458,9 +457,6 @@ const AddServerForm = () => {
 				</Item_Container>
 				<Item_Container>
 					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						title={t('identity')}
 						flex={1}
 						options={identityList}
@@ -468,9 +464,6 @@ const AddServerForm = () => {
 						setValue={setAccount}
 					/>
 					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						width={'178px'}
 						title={t('auth')}
 						options={authentication_options}
@@ -482,7 +475,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={t('userName')} flex={1}>
 						<LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -497,7 +490,7 @@ const AddServerForm = () => {
 					<Item_Container>
 						<Input_ title={t('password')} flex={1}>
 							<LongInput
-								back={inputColor[theme]}
+								back={greyBackgroundNormalButtonColor[theme]}
 								color={fontColor[theme]}
 								b_color={borderColor[theme]}
 								type='password'
@@ -514,7 +507,9 @@ const AddServerForm = () => {
 							<Input_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
-									back={inputColor[theme]}
+									back={
+										greyBackgroundNormalButtonColor[theme]
+									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
 								>
@@ -547,7 +542,9 @@ const AddServerForm = () => {
 						<Item_Container>
 							<Input_ title={t('keyFilePassword')} flex={1}>
 								<LongInput
-									back={inputColor[theme]}
+									back={
+										greyBackgroundNormalButtonColor[theme]
+									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
 									type='password'
@@ -563,7 +560,7 @@ const AddServerForm = () => {
 				<Item_Container>
 					<Input_ title={t('note')} flex={1}>
 						<LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'

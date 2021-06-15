@@ -24,7 +24,7 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
-	inputColor,
+	filelistInputBack,
 	tabColor,
 } from '../../../styles/color';
 import {put} from 'redux-saga/effects';
@@ -181,7 +181,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={inputColor[theme]}
+					back={filelistInputBack[theme]}
 					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>

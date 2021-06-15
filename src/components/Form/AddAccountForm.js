@@ -15,10 +15,6 @@ import {
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
 	formColor,
-	borderColor,
-	fontColor,
-	iconColor,
-	inputColor,
 } from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
@@ -27,6 +23,12 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/default';
+import {
+	borderColor,
+	fontColor,
+	greyBackgroundNormalButtonColor,
+	iconColor,
+} from '../../styles/color';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -233,7 +235,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={t('identity')} flex={1}>
 						<_LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -243,9 +245,6 @@ const AddAccountForm = () => {
 						/>
 					</Input_>
 					<Select_
-						back={inputColor[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						width={'178px'}
 						title={t('auth')}
 						options={authentication_options}
@@ -256,7 +255,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={t('userName')} flex={1}>
 						<_LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -270,7 +269,7 @@ const AddAccountForm = () => {
 					<_Item>
 						<Input_ title={t('password')} flex={1}>
 							<_LongInput
-								back={inputColor[theme]}
+								back={greyBackgroundNormalButtonColor[theme]}
 								color={fontColor[theme]}
 								b_color={borderColor[theme]}
 								type='password'
@@ -286,7 +285,9 @@ const AddAccountForm = () => {
 							<Input_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
-									back={inputColor[theme]}
+									back={
+										greyBackgroundNormalButtonColor[theme]
+									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
 								>
@@ -316,7 +317,9 @@ const AddAccountForm = () => {
 						<_Item>
 							<Input_ title={t('keyFilePassword')} flex={1}>
 								<_LongInput
-									back={inputColor[theme]}
+									back={
+										greyBackgroundNormalButtonColor[theme]
+									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
 									type='password'
@@ -331,7 +334,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<Input_ title={t('note')} flex={1}>
 						<_LongInput
-							back={inputColor[theme]}
+							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
