@@ -27,6 +27,7 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
 	const ws = yield call(initWebsocket, action.data.host);
@@ -42,7 +43,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(500),
+				timeout: delay(5000),
 				result: take(channel),
 			});
 
@@ -82,6 +83,13 @@ function* sendConnection(action) {
 								uuid: uuid,
 								result: res.result,
 							},
+						});
+						break;
+
+					case 'ERROR':
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
 						});
 						break;
 
