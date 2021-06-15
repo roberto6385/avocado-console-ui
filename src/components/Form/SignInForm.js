@@ -16,7 +16,6 @@ import {
 	FOLDER_HEIGHT,
 	GREEN_COLOR,
 	IconButton,
-	PrimaryGreenButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
@@ -24,7 +23,8 @@ import appleButton from '../../images/apple_btn.png';
 import googleButton from '../../images/google_btn.png';
 import naverButton from '../../images/naver_btn.png';
 import kakaoButton from '../../images/kakao_btn.png';
-import {FONT_14, FONT_29} from "../../styles/length";
+import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
+import {PrimaryGreenButton} from '../../styles/default';
 
 const _Form = styled.form`
 	background: white;
@@ -94,12 +94,12 @@ const _Span = styled.div`
 	}
 `;
 
-const _SignInButton = styled(PrimaryGreenButton)`
-	height: ${FOLDER_HEIGHT};
-	padding: 20px;
-	width: 360px;
-	background: ${GREEN_COLOR};
-	margin: 0px auto 39px;
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+	height: ${HEIGHT_40};
+	width: 340px;
+	margin: 24px auto 39px;
+	font-size: 16px;
+	padding: 10px;
 `;
 
 const _CheckboxAnchorContainer = styled.div`
@@ -272,7 +272,9 @@ const SignInForm = () => {
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_SignInButton type='submit'>{t('signIn')}</_SignInButton>
+			<_PrimaryGreenButton type='submit'>
+				{t('signIn')}
+			</_PrimaryGreenButton>
 			<_OAuthContainer>
 				<_OAuthButton name={'kakaoButton'} onClick={oauthFunction}>
 					<img src={kakaoButton} alt='kakaoButton' />

@@ -9,14 +9,12 @@ import {
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
-	GREEN_COLOR,
 	IconButton,
-	PrimaryGreenButton,
-	SecondaryGreenButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {FONT_14, FONT_29} from "../../styles/length";
+import {FONT_14, FONT_29, HEIGHT_40, WIDTH_340} from '../../styles/length';
+import {SecondaryGreenButton, PrimaryGreenButton} from '../../styles/default';
 
 const _Form = styled.form`
 	background: white;
@@ -90,28 +88,28 @@ const _Span = styled.div`
 	}
 `;
 
-const _SignInButton = styled(PrimaryGreenButton)`
-	height: ${FOLDER_HEIGHT};
-	padding: 20px;
-	width: 360px;
-	background: ${GREEN_COLOR};
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+	height: ${HEIGHT_40};
+	width: 340px;
 	margin: 24px auto 39px;
+	font-size: 16px;
+	padding: 10px;
 `;
 
-const _CustomButton = styled(SecondaryGreenButton)`
-	height: ${FOLDER_HEIGHT};
+const _SecondaryGreenButton = styled(SecondaryGreenButton)`
+	height: ${HEIGHT_40};
 	margin: 0px 8px 18px;
 `;
 
 const PasswordForm = () => {
 	const dispatch = useDispatch();
+	const {loading} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('passwordForm');
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');
 	const [password, onChangePassword] = useInput('');
 	const [passwordConfirm, onChangePasswordConfirm] = useInput('');
 	const [visible, setVisible] = useState(true);
-	const {loading} = useSelector((state) => state.userTicket);
 	const idRef = useRef(null);
 
 	const onSubmitForm = useCallback(
@@ -233,7 +231,9 @@ const PasswordForm = () => {
 					{/*<span>등록한 메일로 인증번호가 전송됩니다.</span>*/}
 				</Input_>
 
-				<_CustomButton onClick={sendAuth}>{t('send')}</_CustomButton>
+				<_SecondaryGreenButton onClick={sendAuth}>
+					{t('send')}
+				</_SecondaryGreenButton>
 			</Item_Container>
 			<Item_Container>
 				<Input_ flex={1}>
@@ -245,7 +245,9 @@ const PasswordForm = () => {
 						placeholder={t('authInput')}
 					/>
 				</Input_>
-				<_CustomButton onClick={checkAuth}>{t('check')}</_CustomButton>
+				<_SecondaryGreenButton onClick={checkAuth}>
+					{t('check')}
+				</_SecondaryGreenButton>
 			</Item_Container>
 			<Input_>
 				<_PasswordContainer id={'password_container'}>
@@ -288,7 +290,9 @@ const PasswordForm = () => {
 					/>
 				</_PasswordContainer>
 			</Input_>
-			<_SignInButton type='submit'>{t('changePassword')}</_SignInButton>
+			<_PrimaryGreenButton type='submit'>
+				{t('changePassword')}
+			</_PrimaryGreenButton>
 		</_Form>
 	) : (
 		<div>loading...</div>

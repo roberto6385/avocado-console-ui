@@ -5,7 +5,7 @@ import Input_ from '../RecycleComponents/Input_';
 import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
 
-import {DefaultButton, PrimaryGreenButton} from '../../styles/global';
+import {DefaultButton, PrimaryGreenButton} from '../../styles/default';
 
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
@@ -54,7 +54,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _PrimaryButton = styled(PrimaryGreenButton)`
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	margin-top: 8px;
 	width: ${WIDTH_160};
 	min-width: ${WIDTH_160};
@@ -154,12 +154,13 @@ const AccountSpace = () => {
 						width={WIDTH_500}
 					/>
 					{authType === 'first_option' ? (
-						<_PrimaryButton
+						<_PrimaryGreenButton
+							themeValue={theme}
 							onClick={() => setOpen(true)}
 							// disabled
 						>
 							{t('changePassword')}
-						</_PrimaryButton>
+						</_PrimaryGreenButton>
 					) : (
 						<_DisabledButton onClick={() => setOpen(true)} disabled>
 							{t('changePassword')}

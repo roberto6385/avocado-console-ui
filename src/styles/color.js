@@ -6,7 +6,7 @@ export const D_BORDER = 'rgba(0, 0, 0, 0.3)';
 export const GRAY_ICON_ACTIVE = `#556367`;
 
 // light button color
-export const L_BUTTON = '#ffffff';
+export const L_BUTTON_FONT = '#ffffff';
 export const L_GREY_BUTTON = '#556367';
 export const L_GREEN_NORMAL = '#178082';
 export const L_GREEN_HOVER = '#389193';
@@ -15,14 +15,12 @@ export const L_RED_NORMAL = '#de6565';
 export const L_RED_HOVER = '#d45959';
 export const L_RED_ACTIVE = '#b84646';
 export const L_GREY_BOARDER_NORMAL = '#c2c2c2';
-export const L_GREY_BOARDER_HOVER = '#c2c2c2';
 export const L_GREY_BOARDER_ACTIVE = '#a8a8a8';
-export const L_GREY_BACKGROUND_NORMAL = '#ffffff';
 export const L_GREY_BACKGROUND_HOVER = '#f8f9fa';
-export const L_GREY_BACKGROUND_ACTIVE = '#f8f9fa';
+export const L_DISABLED_BUTTON = '#e7e9ea';
 
 // dark button color
-export const D_BUTTON = '#212121';
+export const D_BUTTON_FONT = '#212121';
 export const D_GREY_BUTTON = 'rgba(255, 255, 255, 0.6)';
 export const D_GREEN_NORMAL = '#44c8c0';
 export const D_GREEN_HOVER = '#69d3cd';
@@ -31,11 +29,9 @@ export const D_RED_NORMAL = '#de6565';
 export const D_RED_HOVER = '#e27777';
 export const D_RED_ACTIVE = '#d45959';
 export const D_GREY_BOARDER_NORMAL = 'rgba(255, 255, 255, 0.38)';
-export const D_GREY_BOARDER_HOVER = 'rgba(255, 255, 255, 0.38)';
-export const D_GREY_BOARDER_ACTIVE = 'rgba(255, 255, 255, 0.38';
 export const D_GREY_BACKGROUND_NORMAL = '#1b2935';
 export const D_GREY_BACKGROUND_HOVER = 'rgba(255, 255, 255, 0.04)';
-export const D_GREY_BACKGROUND_ACTIVE = 'rgba(255, 255, 255, 0.04)';
+export const D_DISABLED_BUTTON = 'rgba(255, 255, 255, 0.12)';
 
 export const L_HIGHLIGHT = '#e4f3f4';
 export const L_FONT = '#212121';
@@ -67,7 +63,7 @@ export const D_BACK_NAV = '#1e364c'; //nav, input, edit back, snippet left back
 export const D_BACK_TERMINAL = '#182530'; // terminal base background,
 // setting - prefer back, aside-identity-checked
 export const D_BACK_FOOTER = '#18191f';
-export const D_BACK_TABBAR = '#223b52';
+export const D_BACK_MODAL = '#223b52';
 export const D_BACK_ASIDE = '#1c3246';
 export const D_BACK_INPUT_BACK = '#21303e';
 export const D_SFTP_FILELIST_BACK = '#17232E';
@@ -91,6 +87,8 @@ export const I_BACK_DROP = '#325165';
 // theme array
 export const navColor = [L_BACK, D_BACK_NAV];
 export const navInputColor = [L_BACK_TABBAR, D_BACK];
+
+export const modalColor = [L_BACK, D_BACK_MODAL];
 export const inputColor = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
@@ -102,6 +100,7 @@ export const activePaneHeaderColor = [
 	L_PANE_HEADER_BORDER,
 	D_PANE_HEADER_BORDER,
 ];
+
 export const fontColor = [L_FONT, D_FONT];
 export const iconColor = [L_ICON, D_ICON];
 export const tabColor = [L_BACK, D_BACK];
@@ -129,8 +128,8 @@ export const historyDeleteColor = '#d45959';
 
 export const settingColor = [L_BACK, D_NAV_HIGHLIGHT];
 
-export const ButtonColor = [L_BUTTON, D_BUTTON];
-export const GreyButtonColor = [L_GREY_BUTTON, D_GREY_BUTTON];
+export const buttonFontColor = [L_BUTTON_FONT, D_BUTTON_FONT];
+export const greyButtonColor = [L_GREY_BUTTON, D_GREY_BUTTON];
 
 export const greenNormalButtonColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
 export const greenHoverButtonColor = [L_GREEN_HOVER, D_GREEN_HOVER];
@@ -145,16 +144,16 @@ export const greyBoarderNormalButtonColor = [
 	D_GREY_BOARDER_NORMAL,
 ];
 export const greyBoarderHoverButtonColor = [
-	L_GREY_BOARDER_HOVER,
-	D_GREY_BOARDER_HOVER,
+	L_GREY_BOARDER_NORMAL,
+	D_GREY_BOARDER_NORMAL,
 ];
 export const greyBoarderActiveButtonColor = [
 	L_GREY_BOARDER_ACTIVE,
-	D_GREY_BOARDER_ACTIVE,
+	D_GREY_BOARDER_NORMAL,
 ];
 
 export const greyBackgroundNormalButtonColor = [
-	L_GREY_BACKGROUND_NORMAL,
+	L_BUTTON_FONT,
 	D_GREY_BACKGROUND_NORMAL,
 ];
 export const greyBackgroundHoverButtonColor = [
@@ -162,6 +161,13 @@ export const greyBackgroundHoverButtonColor = [
 	D_GREY_BACKGROUND_HOVER,
 ];
 export const greyBackgroundActiveButtonColor = [
-	L_GREY_BACKGROUND_ACTIVE,
-	D_GREY_BACKGROUND_ACTIVE,
+	L_GREY_BACKGROUND_HOVER,
+	D_GREY_BACKGROUND_HOVER,
+];
+
+export const disabledButtonFontColor = [L_BUTTON_FONT, D_GREY_BOARDER_NORMAL];
+export const disabledButtonColor = [L_DISABLED_BUTTON, D_DISABLED_BUTTON];
+export const secondaryDisabledButtonColor = [
+	L_GREY_BOARDER_NORMAL,
+	D_DISABLED_BUTTON,
 ];

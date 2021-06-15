@@ -5,12 +5,10 @@ import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import {
-	PrimaryGreyButton,
 	LIGHT_MODE_BORDER_COLOR,
 	FOLDER_HEIGHT,
 	IconButton,
 	MAIN_HEIGHT,
-	PrimaryGreenButton,
 } from '../../styles/global';
 import {
 	CHANGE_MODE,
@@ -19,7 +17,8 @@ import {
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
-import {FONT_14} from "../../styles/length";
+import {FONT_14} from '../../styles/length';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/default';
 
 const _Modal = styled(Modal)`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
@@ -76,6 +75,7 @@ const _Message = styled.div`
 const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
 	const {save_popup} = useSelector((state) => state.popup);
 	const {sftp} = useSelector((state) => state.sftp);
 	const {current: SaveMessage} = useRef({
@@ -184,8 +184,10 @@ const SavePopup = () => {
 			</_Message>
 
 			<_Footer>
-				<PrimaryGreyButton onClick={closeModal}>{t('cancel')}</PrimaryGreyButton>
-				<PrimaryGreenButton onClick={submitFunction}>
+				<PrimaryGreyButton themeValue={theme} onClick={closeModal}>
+					{t('cancel')}
+				</PrimaryGreyButton>
+				<PrimaryGreenButton themeValue={theme} onClick={submitFunction}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</_Footer>

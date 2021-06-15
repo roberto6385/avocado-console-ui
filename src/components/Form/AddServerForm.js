@@ -20,9 +20,6 @@ import {
 	FOLDER_HEIGHT,
 	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	SecondaryGreenButton,
 	borderColor,
 	fontColor,
 	iconColor,
@@ -36,6 +33,11 @@ import Select_ from '../RecycleComponents/Select_';
 import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	SecondaryGreenButton,
+} from '../../styles/default';
 
 const _Modal = styled(Modal)`
 	border: 1px solid;
@@ -92,7 +94,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const BrowseButton = styled(SecondaryGreenButton)`
+const _SecondaryGreenButton = styled(SecondaryGreenButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -527,7 +529,8 @@ const AddServerForm = () => {
 									/>
 								</_Label>
 							</Input_>
-							<BrowseButton
+							<_SecondaryGreenButton
+								themeValue={theme}
 								onClick={(e) => {
 									e.preventDefault();
 									document
@@ -538,7 +541,7 @@ const AddServerForm = () => {
 								}}
 							>
 								{t('browse')}
-							</BrowseButton>
+							</_SecondaryGreenButton>
 						</Item_Container>
 
 						<Item_Container>
@@ -573,10 +576,14 @@ const AddServerForm = () => {
 				</Item_Container>
 			</_Form>
 			<_Footer b_color={borderColor[theme]}>
-				<PrimaryGreyButton onClick={closeModal} color={fontColor[theme]}>
+				<PrimaryGreyButton
+					themeValue={theme}
+					onClick={closeModal}
+					color={fontColor[theme]}
+				>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton onClick={onSubmitForm}>
+				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</_Footer>
