@@ -176,13 +176,13 @@ export const PrimaryGreenButton = styled(DefaultButton)`
 `;
 
 export const PrimaryRedButton = styled(DefaultButton)`
-	color: ${(props) => ButtonColor[props.theme]};
-	background: ${(props) => redNormalButtonColor[props.theme]};
+	color: ${(props) => ButtonColor[props?.themeValue]};
+	background: ${(props) => redNormalButtonColor[props?.themeValue]};
 	&:hover {
-		background: ${(props) => redHoverButtonColor[props.theme]};
+		background: ${(props) => redHoverButtonColor[props?.themeValue]};
 	}
 	&:active {
-		background: ${(props) => redActiveButtonColor[props.theme]};
+		background: ${(props) => redActiveButtonColor[props?.themeValue]};
 	}
 `;
 

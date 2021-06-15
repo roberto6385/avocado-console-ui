@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {FONT_14, FONT_18} from '../../styles/length';
+import {borderColor, greyBackgroundNormalButtonColor} from '../../styles/color';
+import {useSelector} from 'react-redux';
 
 const _Span = styled.span`
 	padding-bottom: 6px;
@@ -15,72 +17,21 @@ const _Container = styled.div`
 	flex: ${(props) => props.flex};
 `;
 
-// 테마 변경 부분에서 하단 선택 부분 구조
-// 현재 select된 값은 외부에서 구분한 뒤 css를 수정해야 할 듯 합니다.
-// 우선 hover, custom color는 주석처리 했습니다.
-
-// <div className=" css-26l3qy-menu">
-// 	<div className=" css-4ljt47-MenuList">
-// 		<div className=" css-yt9ioa-option" id="react-select-45-option-0" tabIndex="-1">라이트 모드</div>
-// 		<div className=" css-9gakcf-option" id="react-select-45-option-1" tabIndex="-1">다크 모드</div>
-// 	</div>
-// </div>
-
 const _Select = styled(Select)`
-	width: ${(props) => props.width};
-
-	margin-top: 6px;
-
-	.css-26l3qy-menu {
-		z-index: 10;
-		// color: ${(props) => props.color};
-		// background: ${(props) => props.back};
-
-		.css-4ljt47-MenuList {
-			// background: ${(props) => props.back};
-			div {
-				color: ${(props) => props.color};
-				// &:hover {
-				// 	background: ${(props) => props.b_color};
-				// }
-			}
+	div {
+		border-color: ${(props) => borderColor[props.themeValue]};
+		outline: none;
+		&:focus {
+			outline: none;
 		}
-
-		// 드롭메뉴 z-index 속성 추가.
-	}
-	.css-1pahdxg-control {
-		height: 34px;
-		min-height: 34px !important;
-		// background: ${(props) => props.back};
-		// border-color: ${(props) => props.b_color};
-	}
-	.css-yk16xz-control,
-	.css-1fhf3k1-control {
-		z-index: 3;
-		// background: ${(props) => props.back};
-		// border-color: ${(props) => props.b_color};
-		height: 34px;
-		min-height: 34px !important;
 		&:hover {
-			// border-color: ${(props) => props.b_color};
+			border-color: ${(props) => borderColor[props.themeValue]};
 		}
-	}
-	.css-g1d714-ValueContainer {
-		top: -2px;
-		padding: 0px 8px;
-		.css-1uccc91-singleValue {
-			// color: ${(props) => props.color};
+		::first-child {
+			height: 100%;
 		}
-	}
-
-	.css-1hb7zxy-IndicatorsContainer {
-		position: relative;
-		height: 34px;
-		span {
-			display: none !important;
-		}
-		div {
-			height: 34px;
+		::nth-child(2) {
+			height: 100%;
 		}
 	}
 `;
@@ -97,20 +48,70 @@ const Select_ = ({
 	color,
 	disabled,
 }) => {
+	const {theme} = useSelector((state) => state.common);
+	const selectRef = useRef(null);
+	const colourStyles = {
+		// borderColor: '#e3e5e5',
+		minHeight: '34px',
+		control: (styles, {isFocused, isSelected}) => ({
+			...styles,
+			display: 'flex',
+			alignItems: 'center',
+			outline: 'none',
+			height: '34px',
+			minHeight: '34px',
+			width: width,
+			borderColor: borderColor[theme],
+			backgroundColor: greyBackgroundNormalButtonColor[theme],
+		}), // 일반 back
+		option: (styles, {isDisabled, isFocused, isSelected}) => {
+			return {
+				...styles,
+				backgroundColor: isDisabled
+					? null
+					: isSelected
+					? 'yellow' //selected
+					: isFocused
+					? 'red' //hover
+					: 'pink', // normal
+				color: 'purple',
+				cursor: isDisabled ? 'not-allowed' : 'default',
+
+				':active': {
+					...styles[':active'],
+					backgroundColor: 'green', // active back
+				},
+			};
+		},
+		// input: (styles) => ({...styles, borderColor: 'black'}),
+		// placeholder: styles => ({ ...styles, ...dot() }),
+		singleValue: (styles) => ({
+			...styles,
+			color: 'black',
+		}), // font color
+	};
+
+	const handleChange = (e) => {
+		setValue(e.value);
+		selectRef.current?.blur();
+	};
+
 	return (
 		<_Container flex={flex}>
 			<_Span>{title}</_Span>
 			<_Select
-				b_color={b_color}
-				color={color}
+				ref={selectRef}
 				value={options.find((op) => {
 					return op.value === value;
 				})}
+				isSearchable={false}
 				options={options}
-				onChange={(e) => setValue(e.value)}
-				width={width}
-				back={back}
+				onChange={handleChange}
 				isDisabled={disabled}
+				styles={colourStyles}
+				themeValue={theme}
+				// 선택된 border color, 기본 border color
+				// hover color, focus color
 			/>
 		</_Container>
 	);

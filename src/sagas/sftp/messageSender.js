@@ -290,6 +290,7 @@ const messageSender = ({
 			upload(ws, path, uploadFile);
 			break;
 		default:
+
 			break;
 	}
 };
