@@ -229,7 +229,7 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form onSubmit={onSubmitForm} method='GET'>
+		<_Form onSubmit={onSubmitForm}>
 			<_Title>{t('title')}</_Title>
 			<_Span>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
