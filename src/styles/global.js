@@ -1,26 +1,6 @@
 // color
 import styled from 'styled-components';
 import {FONT_14, FONT_20} from './length';
-import {
-	buttonFontColor,
-	disabledButtonColor,
-	disabledButtonFontColor,
-	greenActiveButtonColor,
-	greenHoverButtonColor,
-	greenNormalButtonColor,
-	greyBackgroundActiveButtonColor,
-	greyBackgroundHoverButtonColor,
-	greyBackgroundNormalButtonColor,
-	greyBoarderActiveButtonColor,
-	greyBoarderHoverButtonColor,
-	greyBoarderNormalButtonColor,
-	greyButtonColor,
-	redActiveButtonColor,
-	redHoverButtonColor,
-	redNormalButtonColor,
-	secondaryDisabledButtonColor,
-} from './color';
-import {DefaultButton} from './default';
 
 export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
 
