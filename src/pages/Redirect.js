@@ -46,7 +46,8 @@ const Redirect = () => {
 						querystring.stringify({
 							code: decodeURIComponent(getParameter('code')),
 							grant_type: 'authorization_code',
-							redirect_uri: 'http://localhost:3000/Redirect',
+							redirect_uri:
+								'http://ec2-3-36-98-38.ap-northeast-2.compute.amazonaws.com/Redirect',
 							client_id:
 								'819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com',
 							client_secret: 'LEVTqM7nBsyLPuSEbT-mPffx',
