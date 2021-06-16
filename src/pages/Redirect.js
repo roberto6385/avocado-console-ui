@@ -40,7 +40,6 @@ const Redirect = () => {
 			)
 			.then((client) => {
 				console.log(client.data);
-				console.log(window.location.href);
 				axios
 					.post(
 						'https://accounts.google.com/o/oauth2/token',
@@ -50,7 +49,7 @@ const Redirect = () => {
 							redirect_uri:
 								window.location.protocol +
 								'//' +
-								window.location.hostname +
+								window.location.host +
 								'/Redirect',
 							client_id:
 								'819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com',
