@@ -29,6 +29,9 @@ let getReceiveSum = 0;
 export async function messageReader({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
+			if (Math.round(getReceiveSum) === 100) {
+				getReceiveSum = 0;
+			}
 			const message = SFTP.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
@@ -213,6 +216,7 @@ export async function messageReader({data, payload}) {
 						case SFTP.CommandResponse.CommandCase.PUT: {
 							const commandPut = command.getPut();
 							console.log('command : put', commandPut);
+							console.log(commandPut.getProgress());
 
 							return {
 								type:
@@ -231,8 +235,15 @@ export async function messageReader({data, payload}) {
 							fileBuffer = appendBuffer(fileBuffer, data);
 
 							// 프로그래스바
-							let sum = getReceiveSum + data.length;
-							const percent = (sum * 100) / get.getFilesize();
+							// let sum = getReceiveSum + data.length;
+							// const percent = (sum * 100) / get.getFilesize();
+							// console.log(percent);
+							getReceiveSum +=
+								(data.length * 100) / get.getFilesize();
+							console.log(
+								(data.length * 100) / get.getFilesize(),
+							);
+							console.log(Math.round(getReceiveSum));
 							let text = '';
 
 							if (get.getLast() === true) {
@@ -262,7 +273,7 @@ export async function messageReader({data, payload}) {
 										: EDIT_GET_SUCCESS,
 								last: get.getLast(),
 								keyword: payload.keyword,
-								percent,
+								percent: Math.round(getReceiveSum),
 								text,
 							};
 						}
