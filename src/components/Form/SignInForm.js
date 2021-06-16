@@ -141,7 +141,6 @@ const SignInForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('d여기를 ㅇ낭란??');
 
 			if (user === '') {
 				idRef.current?.focus();
