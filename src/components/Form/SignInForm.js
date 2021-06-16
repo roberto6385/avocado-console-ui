@@ -14,7 +14,6 @@ import {
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
-	GREEN_COLOR,
 	IconButton,
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
@@ -26,7 +25,7 @@ import kakaoButton from '../../images/kakao_btn.png';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
 import {PrimaryGreenButton} from '../../styles/default';
 
-const _Form = styled.form`
+const _Form = styled.div`
 	background: white;
 	padding: 70px 61px;
 	border-radius: 16px;
@@ -229,7 +228,7 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form onSubmit={onSubmitForm} method='POST'>
+		<_Form>
 			<_Title>{t('title')}</_Title>
 			<_Span>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
@@ -277,7 +276,7 @@ const SignInForm = () => {
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_PrimaryGreenButton type='submit'>
+			<_PrimaryGreenButton onClick={onSubmitForm}>
 				{t('signIn')}
 			</_PrimaryGreenButton>
 			<_OAuthContainer>
