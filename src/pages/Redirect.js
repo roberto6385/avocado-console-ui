@@ -109,7 +109,11 @@ const Redirect = () => {
 	}, []);
 
 	useEffect(() => {
-		if (userTicket) history.push('/');
+		console.log('hehe');
+		if (userTicket)
+			history.push(
+				window.location.protocol + '//' + window.location.host,
+			);
 	}, [userTicket]);
 
 	return <div>redirect page</div>;
