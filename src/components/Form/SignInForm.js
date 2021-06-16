@@ -201,10 +201,9 @@ const SignInForm = () => {
 				console.log('google');
 				location.href =
 					'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com&redirect_uri=' +
-					// window.location.protocol +
-					// '//' +
-					// window.location.host +
-					+'http://ec2-3-36-98-38.ap-northeast-2.compute.amazonaws.com' +
+					window.location.protocol +
+					'//' +
+					window.location.host +
 					'/Redirect&scope=email%20profile&state=myState&access_type=offline&prompt=consent';
 				break;
 			case 'appleButton':
@@ -229,7 +228,7 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form onSubmit={onSubmitForm}>
+		<_Form onSubmit={onSubmitForm} method='GET'>
 			<_Title>{t('title')}</_Title>
 			<_Span>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
