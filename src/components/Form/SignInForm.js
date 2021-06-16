@@ -142,6 +142,7 @@ const SignInForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+			console.log('d여기를 ㅇ낭란??');
 
 			if (user === '') {
 				idRef.current?.focus();
@@ -191,7 +192,7 @@ const SignInForm = () => {
 
 	const oauthFunction = useCallback((e) => {
 		e.preventDefault();
-		console.log(e.currentTarget.name);
+
 		switch (e.currentTarget.name) {
 			case 'naverButton':
 				break;
@@ -228,7 +229,7 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form onSubmit={onSubmitForm} method='GET'>
+		<_Form onSubmit={onSubmitForm} method='POST'>
 			<_Title>{t('title')}</_Title>
 			<_Span>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
