@@ -106,7 +106,7 @@ export const initialState = {
 			id: 4,
 			key: 's_4',
 			name: 'Server5',
-			host: 'ip-172-31-1-65.ap-northeast-2.compute.internal',
+			host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
 			protocol: 'SSH2',
 			port: 22,
 		},
