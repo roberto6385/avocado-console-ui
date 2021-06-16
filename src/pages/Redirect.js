@@ -40,6 +40,7 @@ const Redirect = () => {
 			)
 			.then((client) => {
 				console.log(client.data);
+				console.log(window.location.href);
 				axios
 					.post(
 						'https://accounts.google.com/o/oauth2/token',
@@ -47,7 +48,10 @@ const Redirect = () => {
 							code: decodeURIComponent(getParameter('code')),
 							grant_type: 'authorization_code',
 							redirect_uri:
-								'http://ec2-3-36-98-38.ap-northeast-2.compute.amazonaws.com/Redirect',
+								window.location.protocol +
+								'//' +
+								window.location.hostname +
+								'/Redirect',
 							client_id:
 								'819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com',
 							client_secret: 'LEVTqM7nBsyLPuSEbT-mPffx',
