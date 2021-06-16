@@ -31,6 +31,10 @@ import {
 	fontColor,
 	iconColor,
 	logoColor,
+	tabbarColor,
+	tabColor,
+	activeColor,
+	inputBack,
 } from '../styles/color';
 
 const _Aside = styled.aside`
@@ -96,21 +100,23 @@ const _Input = styled.input`
 const _OpenButton = styled.div`
 	outline: none;
 	line-height: 0px;
-	color: ${'black'};
 	cursor: pointer;
-	border: 1px solid ${'black'};
+	border: 1px solid;
+	border-color: ${(props) => iconColor[props?.themeValue]};
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 	position: absolute;
-	padding: 8px;
+	padding: 4px;
 	border-radius: 50%;
-	background: ${(props) => props?.back};
-	right: -36px;
+	background: ${(props) => inputBack[props?.themeValue]};
+	right: -30px;
 	bottom: 10px;
 	display: ${(props) => props?.display};
 `;
 
 const _Right = styled.span`
 	position: relative;
-	right: -13px;
+	right: -8px;
+	color: ${(props) => iconColor[props?.themeValue]};
 `;
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
@@ -155,14 +161,6 @@ const Nav = ({toggle, setToggle}) => {
 			bcolor={borderColor[theme]}
 			back={navColor[theme]}
 		>
-			<_OpenButton
-				onClick={() => setToggle(!toggle)}
-				display={toggle ? 'none' : 'inline-block'}
-			>
-				<_Right className='material-icons button_super'>
-					navigate_next
-				</_Right>
-			</_OpenButton>
 			<_Header back={navColor[theme]}>
 				<IconButton
 					color={iconColor[theme]}
@@ -200,6 +198,19 @@ const Nav = ({toggle, setToggle}) => {
 				/>
 			</_Form>
 			<ServerFolderList search={search} />
+
+			<_OpenButton
+				onClick={() => setToggle(!toggle)}
+				display={toggle ? 'none' : 'inline-block'}
+				themeValue={theme}
+			>
+				<_Right
+					className='material-icons button_super'
+					themeValue={theme}
+				>
+					navigate_next
+				</_Right>
+			</_OpenButton>
 		</_Aside>
 	);
 };

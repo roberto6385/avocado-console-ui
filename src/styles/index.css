@@ -33,6 +33,7 @@ input[type='number'] {
 /* modal background */
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
 	z-index: 5;
+	background: rgba(0, 0, 0, 0.2) !important;
 }
 
 ul {
@@ -59,7 +60,7 @@ ul {
 /* button size */
 /*기본 버튼 사이즈가 24px 이라서 className을 부여하지 않아도 됨*/
 .button_super {
-	font-size: 50px;
+	font-size: 40px;
 }
 
 .button_medium {
