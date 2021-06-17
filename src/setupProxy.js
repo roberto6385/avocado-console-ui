@@ -5,7 +5,7 @@ module.exports = (app) => {
 		createProxyMiddleware('/', {
 			target:
 				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
-			changeOrigin: false,
+			changeOrigin: true,
 			onProxyReq: function (request) {
 				request.setHeader(
 					'origin',
