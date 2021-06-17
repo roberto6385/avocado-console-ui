@@ -27,8 +27,10 @@ function getUserTicketApi(params) {
 }
 
 function* getUserTicket(action) {
+	console.log(action);
 	try {
 		const res = yield call(getUserTicketApi, action.params);
+		console.log(res);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
 			payload: {
@@ -42,7 +44,7 @@ function* getUserTicket(action) {
 			},
 		});
 	} catch (err) {
-		yield put({type: GET_USER_TICKET_FAILURE, data: err.response.data});
+		yield put({type: GET_USER_TICKET_FAILURE, data: err});
 	}
 }
 
