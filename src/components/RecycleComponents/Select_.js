@@ -51,19 +51,6 @@ const _Select = styled(Select)`
 			background: ${(props) => inputBack[props.themeValue]};
 		}
 	}
-	// outline 부분
-	&:focus {
-		background: red;
-	}
-
-	// .css-gnk6iv-control {
-	// 	box-shadow: 0 0 0 1px ${D_GREEN_ACTIVE} !important;
-	// 	outline: none;
-	// }
-	// .css-16ceq5b-control {
-	// 	box-shadow: 0 0 0 1px ${D_GREEN_ACTIVE} !important;
-	// 	outline: none;
-	// }
 `;
 
 const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
@@ -72,7 +59,7 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 	const colourStyles = {
 		// borderColor: '#e3e5e5',
 		minHeight: '34px',
-		control: (styles) => ({
+		control: (styles, {isFocused}) => ({
 			...styles,
 			display: 'flex',
 			alignItems: 'center',
@@ -82,6 +69,10 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 			width: width,
 			borderColor: identityHigh[theme],
 			backgroundColor: inputBack[theme],
+			boxShadow: `0 0 0 1px ${
+				isFocused ? D_GREEN_ACTIVE : 'transparent'
+			} !important`,
+
 			// cursor: isDisabled ? 'not-allowed' : 'pointer',
 		}), // 일반 back
 		option: (styles, {isDisabled, isFocused, isSelected}) => {

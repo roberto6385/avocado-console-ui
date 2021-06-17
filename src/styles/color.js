@@ -95,6 +95,7 @@ export const navInputColor = [L_BACK_TABBAR, D_BACK];
 export const modalColor = [L_BACK, D_BACK_MODAL];
 export const filelistInputBack = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
 export const inputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
+export const asiedInputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];

@@ -49,9 +49,9 @@ const _Input = styled.input`
 	padding: 0px 10px;
 	border-radius: 4px;
 	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+	border-color: ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => inputBack[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
 `;
 
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
@@ -111,9 +111,7 @@ const AccountSpace = () => {
 			<_ContentsContainer>
 				<Input_ title={t('account')}>
 					<_Input
-						back={inputBack[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
+						themeValue={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
@@ -121,20 +119,16 @@ const AccountSpace = () => {
 				</Input_>
 				<Input_ title={t('name')}>
 					<_Input
-						back={inputBack[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						value={account.name}
+						themeValue={theme}
 						placeholder={t('namePlace')}
 						readOnly
 					/>
 				</Input_>
 				<Input_ title={t('email')}>
 					<_Input
-						back={inputBack[theme]}
-						color={fontColor[theme]}
-						b_color={borderColor[theme]}
 						value={account.email}
+						themeValue={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
