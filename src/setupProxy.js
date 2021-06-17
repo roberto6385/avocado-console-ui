@@ -6,7 +6,7 @@ module.exports = (app) => {
 			target:
 				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 			ws: true,
-			changeOrigin: true,
+			changeOrigin: false,
 		}),
 	);
 	// app.use(

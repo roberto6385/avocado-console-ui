@@ -10,7 +10,8 @@ const querystring = require('query-string');
 
 function getUserTicketApi(params) {
 	return axios.post(
-		'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200/oauth2/v1/token',
+		// 'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200/oauth2/v1/token',
+		'/oauth2/v1/token',
 		querystring.stringify({
 			grant_type: 'password',
 			// username: params.username,
