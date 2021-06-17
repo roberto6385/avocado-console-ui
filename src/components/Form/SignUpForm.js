@@ -86,7 +86,7 @@ const _Span = styled.div`
 
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	height: ${HEIGHT_40};
-	width: 340px;
+	width: 360px;
 	margin: 24px auto 39px;
 	font-size: 16px;
 	padding: 10px;
