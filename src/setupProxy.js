@@ -9,14 +9,14 @@ module.exports = (app) => {
 			changeOrigin: true,
 		}),
 	);
-	app.use(
-		createProxyMiddleware(['/', '/api', '/socket.io'], {
-			target: 'http://nginx:80',
-			changeOrigin: true,
-			ws: true,
-			router: {
-				'/socket.io': 'ws://nginx:80',
-			},
-		}),
-	);
+	// app.use(
+	// 	createProxyMiddleware(['/', '/api', '/socket.io'], {
+	// 		target: 'http://nginx:80',
+	// 		changeOrigin: true,
+	// 		ws: true,
+	// 		router: {
+	// 			'/socket.io': 'ws://nginx:80',
+	// 		},
+	// 	}),
+	// );
 };
