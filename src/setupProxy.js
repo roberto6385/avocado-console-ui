@@ -5,8 +5,13 @@ module.exports = (app) => {
 		createProxyMiddleware('/', {
 			target:
 				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
-			ws: true,
 			changeOrigin: false,
+			onProxyReq: function (request) {
+				request.setHeader(
+					'origin',
+					'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+				);
+			},
 		}),
 	);
 	// app.use(
