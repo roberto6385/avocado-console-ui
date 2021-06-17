@@ -10,7 +10,7 @@ app.use(
 		changeOrigin: true,
 		onProxyReq: function (request) {
 			request.setHeader(
-				'origin',
+				'url',
 				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 			);
 		},
