@@ -30,7 +30,7 @@ function* getUserTicket(action) {
 	console.log(action);
 	try {
 		const res = yield call(getUserTicketApi, action.params);
-
+		console.log(res);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
 			payload: {
