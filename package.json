@@ -9,7 +9,6 @@
 		"axios": "^0.21.1",
 		"base-64": "^1.0.0",
 		"bootstrap": "^5.0.1",
-		"express": "^4.17.1",
 		"flatted": "^3.1.1",
 		"google-protobuf": "^3.15.6",
 		"gulp": "^4.0.2",
