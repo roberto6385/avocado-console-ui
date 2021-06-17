@@ -10,7 +10,7 @@ const querystring = require('query-string');
 
 function getUserTicketApi(params) {
 	return axios.post(
-		'/api/oauth2/v1/token',
+		'/oauth2/v1/token',
 		querystring.stringify({
 			grant_type: 'password',
 			// username: params.username,
