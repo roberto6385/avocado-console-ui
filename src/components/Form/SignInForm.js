@@ -227,7 +227,7 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form>
+		<_Form onSubmit={onSubmitForm}>
 			<_Title>{t('title')}</_Title>
 			<_Span>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
@@ -275,7 +275,7 @@ const SignInForm = () => {
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_PrimaryGreenButton onClick={onSubmitForm}>
+			<_PrimaryGreenButton type='submit'>
 				{t('signIn')}
 			</_PrimaryGreenButton>
 			<_OAuthContainer>
