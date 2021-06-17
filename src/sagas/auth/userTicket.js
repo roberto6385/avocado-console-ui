@@ -22,6 +22,7 @@ function getUserTicketApi(params) {
 			headers: {
 				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
+				Accept: 'application/json',
 			},
 		},
 	);
@@ -31,7 +32,7 @@ function* getUserTicket(action) {
 	console.log(action);
 	try {
 		const res = yield call(getUserTicketApi, action.params);
-
+		console.log(res);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
 			payload: {
