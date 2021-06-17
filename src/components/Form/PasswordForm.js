@@ -13,7 +13,7 @@ import {
 } from '../../styles/global';
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {FONT_14, FONT_29, HEIGHT_40, WIDTH_340} from '../../styles/length';
+import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
 import {SecondaryGreenButton, PrimaryGreenButton} from '../../styles/default';
 
 const _Form = styled.form`

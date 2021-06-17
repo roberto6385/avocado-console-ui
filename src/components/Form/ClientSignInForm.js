@@ -2,10 +2,10 @@ import React, {useCallback} from 'react';
 import {Form, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import base64 from 'base-64';
+import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {getClientTicket} from '../../reducers/auth/clientTicket';
-import styled from 'styled-components';
 
 const _Form = styled(Form)`
 	width: 50%;

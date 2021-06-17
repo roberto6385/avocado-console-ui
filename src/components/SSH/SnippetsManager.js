@@ -19,7 +19,6 @@ import {
 import Input_ from '../RecycleComponents/Input_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
-
 import {
 	ModalFooter,
 	ModalHeader,
@@ -36,7 +35,6 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const _Input = styled.input`
-	// width: 372px;
 	height: 34px;
 	margin: 0;
 	padding: 6px 10px;
@@ -262,7 +260,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	return (
 		<_PopupModal
-			isOpen={true}
+			isOpen={open}
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

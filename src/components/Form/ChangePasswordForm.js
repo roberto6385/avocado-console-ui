@@ -1,19 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import useInput from '../../hooks/useInput';
-import Modal from 'react-modal';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
+
+import useInput from '../../hooks/useInput';
 import Input_ from '../RecycleComponents/Input_';
 import {
-	FOLDER_HEIGHT,
-	IconButton,
-	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	formColor,
 	borderColor,
 	fontColor,
-	iconColor,
 	inputColor,
 } from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';

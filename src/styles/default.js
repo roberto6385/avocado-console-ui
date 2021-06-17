@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import {HEIGHT_41, HEIGHT_60} from './length';
 import {
 	borderColor,
 	buttonFontColor,
@@ -45,7 +44,7 @@ export const ModalHeader = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${HEIGHT_41};
+	height: 41px;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
 	font-weight: 500;
@@ -57,7 +56,7 @@ export const ModalHeaderIconButton = styled.button`
 	border: none;
 	line-height: 0px;
 	font-weight: 500;
-	margin: '6px';
+	margin: 6px;
 	font-size: 11.7px;
 `;
 
@@ -72,7 +71,7 @@ export const ModalFooter = styled.div`
 	display: flex;
 	ailgn-items: center;
 	justify-content: flex-end;
-	height: ${HEIGHT_60};
+	height: 60px;
 	padding: 13px 16px;
 	border-top: 1px solid ${(props) => borderColor[props.themeValue]};
 `;
