@@ -22,7 +22,6 @@ function getUserTicketApi(params) {
 			headers: {
 				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
-				Accept: 'application/json',
 			},
 		},
 	);
