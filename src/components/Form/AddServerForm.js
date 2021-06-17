@@ -330,7 +330,7 @@ const AddServerForm = () => {
 				setName('');
 				setProtocol('SSH2');
 				setHost('');
-				setPort(22);
+				setPort(0);
 				setAccount('');
 				setIdentityList([]);
 				setAuthentication('Password');
@@ -371,8 +371,7 @@ const AddServerForm = () => {
 				label: item.identityName,
 			};
 		});
-
-		setIdentityList(newArray);
+		add_server_form_popup.type === 'edit' && setIdentityList(newArray);
 	}, [clicked_server, add_server_form_popup]);
 
 	useEffect(() => {

@@ -72,7 +72,7 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 	const colourStyles = {
 		// borderColor: '#e3e5e5',
 		minHeight: '34px',
-		control: (styles, {isDisabled}) => ({
+		control: (styles) => ({
 			...styles,
 			display: 'flex',
 			alignItems: 'center',
