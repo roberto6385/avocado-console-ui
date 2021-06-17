@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {SAVE_ACCOUT} from '../reducers/common';
 import {navColor} from '../styles/color';
+import SnippetsManeger from '../components/SSH/SnippetsManager';
 
 const _Container = styled.div`
 	display: flex;

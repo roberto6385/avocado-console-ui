@@ -14,7 +14,6 @@ import {
 import {
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderText,
 	PopupModal,
 	PrimaryGreenButton,
 	PrimaryRedButton,
@@ -59,7 +58,7 @@ const AlertPopup = () => {
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<ModalHeaderText>{t('alert')}</ModalHeaderText>
+				<div>{t('alert')}</div>
 				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconMedium}
 				</ModalHeaderIconButton>

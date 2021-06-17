@@ -15,7 +15,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
-	ModalHeaderText,
 	ModalMessage,
 	PopupModal,
 	PopupText,
@@ -130,7 +129,7 @@ const SavePopup = () => {
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<ModalHeaderText>{t('alert')}</ModalHeaderText>
+				<div>{t('alert')}</div>
 				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconMedium}
 				</ModalHeaderIconButton>

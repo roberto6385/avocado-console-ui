@@ -48,9 +48,6 @@ export const ModalHeader = styled.div`
 	height: ${HEIGHT_41};
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
-`;
-
-export const ModalHeaderText = styled.div`
 	font-weight: 500;
 `;
 

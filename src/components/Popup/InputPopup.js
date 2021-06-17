@@ -11,7 +11,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
-	ModalHeaderText,
 	PopupModal,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
@@ -130,9 +129,7 @@ const InputPopup = () => {
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<ModalHeaderText>
-					{HeaderMessage[input_popup.key]}
-				</ModalHeaderText>
+				<div>{HeaderMessage[input_popup.key]}</div>
 				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconMedium}
 				</ModalHeaderIconButton>
