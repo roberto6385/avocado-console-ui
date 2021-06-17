@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import Input_ from '../../RecycleComponents/Input_';
+import InputFiled_ from '../../RecycleComponents/InputFiled_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
@@ -57,7 +57,7 @@ const AccountAside = () => {
 
 	return (
 		<_Container color={fontColor[theme]}>
-			<Input_ title={t('account')}>
+			<InputFiled_ title={t('account')}>
 				<_Input
 					back={settingInput[theme]}
 					color={fontColor[theme]}
@@ -66,8 +66,8 @@ const AccountAside = () => {
 					placeholder={t('accountPlace')}
 					readOnly
 				/>
-			</Input_>
-			<Input_ title={t('name')}>
+			</InputFiled_>
+			<InputFiled_ title={t('name')}>
 				<_Input
 					back={settingInput[theme]}
 					color={fontColor[theme]}
@@ -76,8 +76,8 @@ const AccountAside = () => {
 					placeholder={t('namePlace')}
 					readOnly
 				/>
-			</Input_>
-			<Input_ title={t('email')}>
+			</InputFiled_>
+			<InputFiled_ title={t('email')}>
 				<_Input
 					back={settingInput[theme]}
 					color={fontColor[theme]}
@@ -86,8 +86,8 @@ const AccountAside = () => {
 					placeholder={t('emailPlace')}
 					readOnly
 				/>
-			</Input_>
-			<Input_ title={t('auth')}>
+			</InputFiled_>
+			<InputFiled_ title={t('auth')}>
 				<_Button
 					back={activeColor[theme]}
 					hover={hoverColor[theme]}
@@ -96,7 +96,7 @@ const AccountAside = () => {
 				>
 					{t('changeAuth')}
 				</_Button>
-			</Input_>
+			</InputFiled_>
 		</_Container>
 	);
 };

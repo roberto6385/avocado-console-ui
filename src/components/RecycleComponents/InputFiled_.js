@@ -1,35 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {FONT_14} from "../../styles/length";
-
-const _Span = styled.span`
-	padding-bottom: 6px;
-	font-size: ${FONT_14};
-`;
 
 const _Container = styled.div`
 	display: flex;
 	flex: ${(props) => props?.flex};
 	flex-direction: column;
-	padding-bottom: 18px;
-	margin: 0px 8px;
-	font-size: ${FONT_14};
+	margin-bottom: 16px;
 `;
 
-const Input_ = ({title, children, flex}) => {
+const _Title = styled.div`
+	margin: 0 10px 2px 0;
+`;
+
+const InputFiled_ = ({title, children, flex}) => {
 	return (
 		<_Container flex={flex}>
-			{title && <_Span>{title}</_Span>}
+			{title && <_Title>{title}</_Title>}
 			{children}
 		</_Container>
 	);
 };
 
-Input_.propTypes = {
+InputFiled_.propTypes = {
 	title: PropTypes.string,
 	children: PropTypes.element.isRequired,
 	flex: PropTypes.number,
 };
 
-export default Input_;
+export default InputFiled_;

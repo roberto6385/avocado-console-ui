@@ -17,12 +17,14 @@ import {
 import {PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
 
 import styled from 'styled-components';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
 import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
-import {FONT_14} from '../../styles/length';
+
 import {
+	Form,
+	Input,
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
@@ -42,23 +44,12 @@ const _PopupModal = styled(PopupModal)`
 	width: 598px;
 `;
 
-const _Input = styled.input`
+const _Input = styled(Input)`
 	width: ${SERVER_FORM_INPUT_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
 `;
 
 const _SecondaryGreenButton = styled(SecondaryGreenButton)`
 	margin: 10px 8px 0px 8px;
-`;
-
-const LongInput = styled(_Input)`
-	width: 100%;
 `;
 
 const FileInput = styled.input`
@@ -67,6 +58,10 @@ const FileInput = styled.input`
 	border-color: ${(props) => props?.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
+`;
+
+const _InputFiled = styled(InputFiled_)`
+	margin-right: 16px;
 `;
 
 const _Label = styled.label`
@@ -82,13 +77,6 @@ const _Label = styled.label`
 	cursor: pointer;
 `;
 
-const _Form = styled.form`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	font-size: ${FONT_14};
-	padding: 18px 8px 12px 8px;
-`;
 const Item_Container = styled.div`
 	display: flex;
 	align-items: center;
@@ -360,20 +348,19 @@ const AddServerForm = () => {
 					{closeIconSmall}
 				</ModalHeaderIconButton>
 			</ModalHeader>
-			<_Form onSubmit={onSubmitForm}>
+
+			<Form onSubmit={onSubmitForm}>
 				<Item_Container>
-					<Input_ title={t('name')} flex={1}>
-						<LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+					<_InputFiled title={t('name')} flex={1}>
+						<Input
+							themeValue={theme}
 							type='text'
 							value={name}
 							// onChange={onChangeName}
 							readOnly
 							placeholder={t('place.name')}
 						/>
-					</Input_>
+					</_InputFiled>
 					<Select_
 						width={'178px'}
 						title={t('protocol')}
@@ -383,32 +370,28 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={t('address')} flex={1}>
-						<LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+					<_InputFiled title={t('address')} flex={1}>
+						<Input
+							themeValue={theme}
 							type='text'
 							value={host}
 							// onChange={onChangeHost}
 							readOnly
 							placeholder={t('place.address')}
 						/>
-					</Input_>
-
-					<Input_ title={t('port')}>
+					</_InputFiled>
+					<InputFiled_ title={t('port')}>
 						<_Input
-							back={greyBackgroundNormalButtonColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+							themeValue={theme}
 							type='number'
 							value={port}
 							// onChange={onChangePort}
 							readOnly
 							placeholder={t('place.port')}
 						/>
-					</Input_>
+					</InputFiled_>
 				</Item_Container>
+
 				<Item_Container>
 					<Select_
 						title={t('identity')}
@@ -427,38 +410,34 @@ const AddServerForm = () => {
 					/>
 				</Item_Container>
 				<Item_Container>
-					<Input_ title={t('userName')} flex={1}>
-						<LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+					<InputFiled_ title={t('userName')} flex={1}>
+						<Input
+							themeValue={theme}
 							type='text'
 							value={username}
 							// onChange={onChangeUsername}
 							readOnly
 							placeholder={t('place.userName')}
 						/>
-					</Input_>
+					</InputFiled_>
 				</Item_Container>
 				{authentication === 'Password' ? (
 					<Item_Container>
-						<Input_ title={t('password')} flex={1}>
-							<LongInput
-								back={greyBackgroundNormalButtonColor[theme]}
-								color={fontColor[theme]}
-								b_color={borderColor[theme]}
+						<InputFiled_ title={t('password')} flex={1}>
+							<Input
+								themeValue={theme}
 								type='password'
 								value={password}
 								// onChange={onChangePassword}
 								readOnly
 								placeholder={t('place.password')}
 							/>
-						</Input_>
+						</InputFiled_>
 					</Item_Container>
 				) : (
 					<React.Fragment>
 						<Item_Container>
-							<Input_ title={t('private')} flex={1}>
+							<InputFiled_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -477,7 +456,7 @@ const AddServerForm = () => {
 										placeholder={t('keyFile')}
 									/>
 								</_Label>
-							</Input_>
+							</InputFiled_>
 							<_SecondaryGreenButton
 								themeValue={theme}
 								onClick={(e) => {
@@ -494,38 +473,32 @@ const AddServerForm = () => {
 						</Item_Container>
 
 						<Item_Container>
-							<Input_ title={t('keyFilePassword')} flex={1}>
-								<LongInput
-									back={
-										greyBackgroundNormalButtonColor[theme]
-									}
-									color={fontColor[theme]}
-									b_color={borderColor[theme]}
+							<InputFiled_ title={t('keyFilePassword')} flex={1}>
+								<Input
+									themeValue={theme}
 									type='password'
 									value={password}
 									// onChange={onChangePassword}
 									readOnly
 									placeholder={t('place.password')}
 								/>
-							</Input_>
+							</InputFiled_>
 						</Item_Container>
 					</React.Fragment>
 				)}
 				<Item_Container>
-					<Input_ title={t('note')} flex={1}>
-						<LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+					<InputFiled_ title={t('note')} flex={1}>
+						<Input
+							themeValue={theme}
 							type='text'
 							value={note}
 							// onChange={onChangeNote}
 							readOnly
 							placeholder={t('place.note')}
 						/>
-					</Input_>
+					</InputFiled_>
 				</Item_Container>
-			</_Form>
+			</Form>
 			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton
 					themeValue={theme}

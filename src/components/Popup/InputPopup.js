@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {closeIconMedium} from '../../icons/icons';
 import {
 	Form,
+	Input,
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
@@ -15,24 +16,13 @@ import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/default';
-import {borderColor, fontColor, settingInput} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
 `;
 
 const _Form = styled(Form)`
-	margin: 16px 16px 29px 16px;
-`;
-
-const _Input = styled.input`
-	width: 372px;
-	height: 34px;
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => settingInput[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
+	padding-bottom: 29px;
 `;
 
 const InputPopup = () => {
@@ -136,7 +126,7 @@ const InputPopup = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
-				<_Input
+				<Input
 					ref={inputRef}
 					value={formValue}
 					onChange={onChangeFormValue}

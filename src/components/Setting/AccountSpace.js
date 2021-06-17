@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
 
@@ -109,30 +109,30 @@ const AccountSpace = () => {
 		<_Container back={mainBackColor[theme]} color={fontColor[theme]}>
 			<_Title b_color={borderColor[theme]}>{t('title.account')}</_Title>
 			<_ContentsContainer>
-				<Input_ title={t('account')}>
+				<InputFiled_ title={t('account')}>
 					<_Input
 						themeValue={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
 					/>
-				</Input_>
-				<Input_ title={t('name')}>
+				</InputFiled_>
+				<InputFiled_ title={t('name')}>
 					<_Input
 						value={account.name}
 						themeValue={theme}
 						placeholder={t('namePlace')}
 						readOnly
 					/>
-				</Input_>
-				<Input_ title={t('email')}>
+				</InputFiled_>
+				<InputFiled_ title={t('email')}>
 					<_Input
 						value={account.email}
 						themeValue={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
-				</Input_>
+				</InputFiled_>
 			</_ContentsContainer>
 			<_Title b_color={borderColor[theme]}>{t('title.auth')}</_Title>
 			<_ContentsContainer>

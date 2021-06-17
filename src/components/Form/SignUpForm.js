@@ -12,7 +12,7 @@ import {
 	FOLDER_HEIGHT,
 	IconButton,
 } from '../../styles/global';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
 import {PrimaryGreenButton} from '../../styles/default';
@@ -183,7 +183,7 @@ const SignUpForm = () => {
 				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
 			</_Span>
 
-			<Input_>
+			<InputFiled_>
 				<_Input
 					ref={idRef}
 					value={id}
@@ -191,26 +191,26 @@ const SignUpForm = () => {
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</Input_>
+			</InputFiled_>
 
-			<Input_>
+			<InputFiled_>
 				<_Input
 					value={name}
 					color={name === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeName}
 					placeholder={t('name')}
 				/>
-			</Input_>
+			</InputFiled_>
 
-			<Input_>
+			<InputFiled_>
 				<_Input
 					value={email}
 					color={email === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeEmail}
 					placeholder={t('email')}
 				/>
-			</Input_>
-			<Input_>
+			</InputFiled_>
+			<InputFiled_>
 				<_PasswordContainer id={'password_container'}>
 					<_PasswordInput
 						onFocus={focusin('password')}
@@ -233,8 +233,8 @@ const SignUpForm = () => {
 						)}
 					</IconButton>
 				</_PasswordContainer>
-			</Input_>
-			<Input_>
+			</InputFiled_>
+			<InputFiled_>
 				<_PasswordContainer id={'passwordConfirm_container'}>
 					<_PasswordInput
 						onFocus={focusin('confirm')}
@@ -250,7 +250,7 @@ const SignUpForm = () => {
 						placeholder={t('confirmPassword')}
 					/>
 				</_PasswordContainer>
-			</Input_>
+			</InputFiled_>
 			<_PrimaryGreenButton type='submit'>
 				{t('signUp')}
 			</_PrimaryGreenButton>

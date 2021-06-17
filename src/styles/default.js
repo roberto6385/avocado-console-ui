@@ -21,6 +21,7 @@ import {
 	redHoverButtonColor,
 	redNormalButtonColor,
 	secondaryDisabledButtonColor,
+	settingInput,
 } from './color';
 
 //Modal => popup, form
@@ -87,6 +88,7 @@ export const Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
+	padding: 16px 16px 14px 16px;
 `;
 
 //Button
@@ -98,6 +100,16 @@ export const DefaultButton = styled.button`
 	border: none;
 	border-radius: 4px;
 	margin: 0px 8px;
+`;
+
+export const Input = styled.input`
+	width: 100%;
+	height: 34px;
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => settingInput[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
 `;
 
 export const PrimaryGreenButton = styled(DefaultButton)`

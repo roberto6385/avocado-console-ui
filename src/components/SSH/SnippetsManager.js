@@ -16,7 +16,7 @@ import {
 	mintColor,
 	inputColor,
 } from '../../styles/global';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
 import {
@@ -115,7 +115,7 @@ const _Footer = styled.div`
 	border-color: ${(props) => props.b_color};
 `;
 
-const _Input_ = styled(Input_)`
+const _Input_ = styled(InputFiled_)`
 	width: 372px;
 	height: 16px;
 	margin: 0 0 6px;
