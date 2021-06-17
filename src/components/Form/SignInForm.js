@@ -141,12 +141,13 @@ const SignInForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-
+			console.log('submit check');
 			if (user === '') {
 				idRef.current?.focus();
 			} else if (password === '') {
 				passwordRef.current?.focus();
 			} else {
+				console.log('encoding...');
 				// const encodeData = base64.encode(`${user}:${password}`);
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
