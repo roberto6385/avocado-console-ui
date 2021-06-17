@@ -109,7 +109,6 @@ const Redirect = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log('hehe');
 		if (userTicket)
 			history.push(
 				window.location.protocol + '//' + window.location.host,

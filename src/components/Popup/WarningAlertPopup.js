@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -20,7 +20,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
-	ModalHeaderText,
 	ModalMessage,
 	PopupModal,
 	PopupText,
@@ -163,9 +162,7 @@ const WarningAlertPopup = () => {
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<ModalHeaderText themeValue={theme}>
-					{t('alert')}
-				</ModalHeaderText>
+				<div themeValue={theme}>{t('alert')}</div>
 				<ModalHeaderIconButton
 					themeValue={theme}
 					onClick={cancelFunction}

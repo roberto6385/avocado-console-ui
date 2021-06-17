@@ -4,21 +4,20 @@ import useInput from '../../hooks/useInput';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
-import Modal from 'react-modal';
 import {useTranslation} from 'react-i18next';
 import Input_ from '../RecycleComponents/Input_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
-	FOLDER_HEIGHT,
-	IconButton,
-	MAIN_HEIGHT,
 	PATH_SEARCH_INPUT_HEIGHT,
-	formColor,
 } from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
 import {
+	ModalFooter,
+	ModalHeader,
+	ModalHeaderIconButton,
+	PopupModal,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
@@ -27,24 +26,10 @@ import {
 	borderColor,
 	fontColor,
 	greyBackgroundNormalButtonColor,
-	iconColor,
 } from '../../styles/color';
 
-const _Modal = styled(Modal)`
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	position: absolute;
-	z-index: 10;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	border-radius: 4px;
-	width: 600px;
+const _PopupModal = styled(PopupModal)`
+	width: 598px;
 `;
 
 const _Item = styled.div`
@@ -91,33 +76,6 @@ const _Label = styled.label`
 	color: ${(props) => props.color};
 	margin: 0;
 	cursor: pointer;
-`;
-
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
-	font-weight: 500;
-`;
-
-const _Title = styled.div`
-	line-height: ${FOLDER_HEIGHT};
-`;
-
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-	border-top: 1px solid;
-	border-color: ${(props) => props.b_color};
 `;
 
 const _Form = styled.form`
@@ -216,21 +174,19 @@ const AddAccountForm = () => {
 	}, [account_form_popup, accountListControlId]);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={account_form_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			back={formColor[theme]}
-			b_color={borderColor[theme]}
-			color={fontColor[theme]}
+			themeValue={theme}
 		>
-			<_Header b_color={borderColor[theme]}>
-				<_Title>{t('addAccount')}</_Title>
-				<IconButton color={iconColor[theme]} onClick={closeModal}>
+			<ModalHeader themeValue={theme}>
+				<ModalHeaderText>{t('addAccount')}</ModalHeaderText>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconSmall}
-				</IconButton>
-			</_Header>
+				</ModalHeaderIconButton>
+			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
 					<Input_ title={t('identity')} flex={1}>
@@ -345,7 +301,7 @@ const AddAccountForm = () => {
 					</Input_>
 				</_Item>
 			</_Form>
-			<_Footer b_color={borderColor[theme]}>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton
 					themeValue={theme}
 					onClick={closeModal}
@@ -356,8 +312,8 @@ const AddAccountForm = () => {
 				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 

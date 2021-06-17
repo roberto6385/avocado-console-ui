@@ -14,14 +14,7 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import Modal from 'react-modal';
-import {
-	IconButton,
-	FOLDER_HEIGHT,
-	MAIN_HEIGHT,
-	PATH_SEARCH_INPUT_HEIGHT,
-	popupColor,
-} from '../../styles/global';
+import {PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
 
 import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';
@@ -30,6 +23,10 @@ import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
 import {
+	ModalFooter,
+	ModalHeader,
+	ModalHeaderIconButton,
+	PopupModal,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
@@ -38,51 +35,11 @@ import {
 	borderColor,
 	fontColor,
 	greyBackgroundNormalButtonColor,
-	iconColor,
 } from '../../styles/color';
 
-const _Modal = styled(Modal)`
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	position: absolute;
+const _PopupModal = styled(PopupModal)`
 	z-index: 5;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	border-radius: 4px;
-	width: 600px;
-`;
-
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
-
-	font-weight: 500;
-`;
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-	border-top: 1px solid;
-	border-color: ${(props) => props.b_color};
-`;
-
-const _Title = styled.div`
-	line-height: ${FOLDER_HEIGHT};
+	width: 598px;
 `;
 
 const _Input = styled.input`
@@ -390,21 +347,19 @@ const AddServerForm = () => {
 	}, [account, identity, clicked_server]);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={add_server_form_popup.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			back={popupColor[theme]}
-			b_color={borderColor[theme]}
-			color={fontColor[theme]}
+			themeValue={theme}
 		>
-			<_Header b_color={borderColor[theme]}>
-				<_Title>{t('addServer')}</_Title>
-				<IconButton color={iconColor[theme]} onClick={closeModal}>
+			<ModalHeader themeValue={theme}>
+				<div>{t('addServer')}</div>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconSmall}
-				</IconButton>
-			</_Header>
+				</ModalHeaderIconButton>
+			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<Item_Container>
 					<Input_ title={t('name')} flex={1}>
@@ -571,7 +526,7 @@ const AddServerForm = () => {
 					</Input_>
 				</Item_Container>
 			</_Form>
-			<_Footer b_color={borderColor[theme]}>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton
 					themeValue={theme}
 					onClick={closeModal}
@@ -582,8 +537,8 @@ const AddServerForm = () => {
 				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 
