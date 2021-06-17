@@ -113,7 +113,7 @@ export const initialState = {
 	],
 	// resource identity key
 	currentResourceListKey: null,
-	identity_index: 7,
+	identity_index: 10,
 	identity: [
 		{
 			id: 0,
@@ -130,6 +130,24 @@ export const initialState = {
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
+			type: 'Password',
+			key: 's_4',
+		},
+		{
+			id: 8,
+			identityName: 'test',
+			user: 'root',
+			password: 'Netand141)',
+			checked: false,
+			type: 'Password',
+			key: 's_4',
+		},
+		{
+			id: 9,
+			identityName: 'test',
+			user: 'root',
+			password: 'Netand141)',
+			checked: false,
 			type: 'Password',
 			key: 's_4',
 		},

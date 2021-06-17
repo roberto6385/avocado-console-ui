@@ -27,6 +27,7 @@ import {
 	mainBackColor,
 	identityHigh,
 } from '../../styles/color';
+import Checkbox_ from '../RecycleComponents/Checkbox_';
 
 const _Container = styled.div`
 	display: flex;
@@ -134,7 +135,6 @@ const _UserNameType = styled(_Name)`
 `;
 const _CheckBoxIdentity = styled(_UserNameType)`
 	justify-content: center;
-	padding: 0;
 	padding: 6px 16px;
 `;
 
@@ -413,10 +413,9 @@ const IdentitiesSpace = () => {
 											: t('keyFile')}
 									</_UserNameType>
 									<_CheckBoxIdentity>
-										<input
-											type={'checkbox'}
-											checked={item.checked}
-											onChange={handleCheck(item)}
+										<Checkbox_
+											value={item.checked}
+											handleCheck={handleCheck(item)}
 										/>
 									</_CheckBoxIdentity>
 								</_Li>

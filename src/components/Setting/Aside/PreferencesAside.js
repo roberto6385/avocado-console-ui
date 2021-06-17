@@ -44,6 +44,10 @@ const _ContentsContainer = styled.div`
 	color: ${(props) => props?.color};
 `;
 
+const CheckboxContanier = styled.div`
+	margin 0px 8px ;
+`;
+
 const terminal_theme = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
@@ -138,11 +142,13 @@ const PreferencesAside = () => {
 					value={terminalFont}
 					setValue={setTerminalFont}
 				/>
-				<Checkbox_
-					title={t('textCompletion')}
-					value={textCompletion}
-					setValue={setTextCompletion}
-				/>
+				<CheckboxContanier>
+					<Checkbox_
+						title={t('textCompletion')}
+						value={textCompletion}
+						handleCheck={(e) => setTextCompletion(e.target.checked)}
+					/>
+				</CheckboxContanier>
 			</_ContentsContainer>
 
 			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>

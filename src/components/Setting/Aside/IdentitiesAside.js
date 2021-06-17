@@ -19,6 +19,7 @@ import {useTranslation} from 'react-i18next';
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import {FONT_14} from '../../../styles/length';
 import {activeColor, hoverColor} from '../../../styles/color';
+import Checkbox_ from '../../RecycleComponents/Checkbox_';
 
 const _Container = styled.div`
 	width: ${RIGHT_SIDE_WIDTH};
@@ -49,6 +50,7 @@ const _AuthenticationContainer = styled(_AccountContainer)`
 `;
 const _CheckboxContainer = styled(_AuthenticationContainer)`
 	justify-content: center;
+	margin: 0px 8px;
 `;
 
 const _Span = styled.span`
@@ -135,17 +137,11 @@ const IdentitiesAside = () => {
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
-									<input
-										type={'checkbox'}
-										checked={item.checked}
-										onChange={handleCheck(item)}
+									<Checkbox_
+										value={item.checked}
+										handleCheck={handleCheck(item)}
 									/>
 								</_CheckboxContainer>
-								{/*<_ButtonContainer>*/}
-								{/*<IconButton color={iconColor[theme]}>*/}
-								{/*	{deleteIconMidium}*/}
-								{/*</IconButton>*/}
-								{/*</_ButtonContainer>*/}
 							</_Li>
 						);
 					}

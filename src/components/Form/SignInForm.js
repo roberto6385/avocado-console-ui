@@ -271,7 +271,7 @@ const SignInForm = () => {
 				<Checkbox_
 					title={t('remember')}
 					value={rememberMe}
-					setValue={setRememberMe}
+					handleCheck={(e) => setRememberMe(e.target.checked)}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>

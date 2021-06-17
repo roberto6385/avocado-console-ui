@@ -39,6 +39,10 @@ const _Title = styled.div`
 	overflow: scroll;
 `;
 
+const CheckboxContanier = styled.div`
+	margin 0px 8px ;
+`;
+
 const _ContentsContainer = styled.div`
 	padding: 15px 0px;
 	margin: 0px 8px;
@@ -140,11 +144,13 @@ const PreferencesSpace = () => {
 					value={font}
 					setValue={setTerminalFont}
 				/>
-				<Checkbox_
-					title={t('textCompletion')}
-					value={textCompletion}
-					setValue={setTextCompletion}
-				/>
+				<CheckboxContanier>
+					<Checkbox_
+						title={t('textCompletion')}
+						value={textCompletion}
+						handleCheck={(e) => setTextCompletion(e.target.checked)}
+					/>
+				</CheckboxContanier>
 				{/*<Checkbox_*/}
 				{/*	title={'Copy text on selection'}*/}
 				{/*	value={copyText}*/}
