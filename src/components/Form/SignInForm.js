@@ -140,6 +140,7 @@ const SignInForm = () => {
 
 	const onSubmitForm = useCallback(
 		(e) => {
+			console.log('submit check');
 			e.preventDefault();
 			console.log('submit check');
 			if (user === '') {
@@ -276,7 +277,7 @@ const SignInForm = () => {
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_PrimaryGreenButton type='submit'>
+			<_PrimaryGreenButton type='submit' onClick={onSubmitForm}>
 				{t('signIn')}
 			</_PrimaryGreenButton>
 			<_OAuthContainer>
