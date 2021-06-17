@@ -14,7 +14,7 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import {FOLDER_HEIGHT, PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
+import {PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
 
 import styled from 'styled-components';
 import Input_ from '../RecycleComponents/Input_';

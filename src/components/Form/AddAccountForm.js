@@ -17,7 +17,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
-	ModalHeaderText,
 	PopupModal,
 	PrimaryGreenButton,
 	PrimaryGreyButton,

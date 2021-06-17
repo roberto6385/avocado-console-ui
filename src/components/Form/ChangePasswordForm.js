@@ -20,39 +20,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {closeIconSmall} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14} from '../../styles/length';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/default';
+import {
+	ModalFooter,
+	ModalHeader,
+	ModalHeaderIconButton,
+	PopupModal,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/default';
 
-const _Modal = styled(Modal)`
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	position: absolute;
+const _PopupModal = styled(PopupModal)`
 	z-index: 5;
-	top: 50%;
-	left: 50%;
-	right: auto;
-	bottom: auto;
-	transform: translate(-50%, -50%);
-	box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.22);
-	border-radius: 4px;
 	width: 404px;
-`;
-
-const _Header = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: space-between;
-	padding: 0px 10px 0px 16px;
-
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
-`;
-
-const _Span = styled.span`
-	line-height: ${FOLDER_HEIGHT};
 `;
 
 const _Input = styled.input`
@@ -64,18 +43,6 @@ const _Input = styled.input`
 	border-color: ${(props) => props.b_color};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-`;
-
-const _Footer = styled.div`
-	display: flex;
-	ailgn-items: center;
-	height: ${MAIN_HEIGHT};
-	font-size: ${FONT_14};
-	justify-content: flex-end;
-	padding: 13px 8px;
-
-	border-top: 1px solid;
-	border-color: ${(props) => props.b_color};
 `;
 
 const _Form = styled.form`
@@ -131,21 +98,19 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	}, [open]);
 
 	return (
-		<_Modal
+		<_PopupModal
 			isOpen={open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			back={formColor[theme]}
-			b_color={borderColor[theme]}
-			color={fontColor[theme]}
+			themeValue={theme}
 		>
-			<_Header b_color={borderColor[theme]}>
-				<_Span>{t('title')}</_Span>
-				<IconButton color={iconColor[theme]} onClick={closeModal}>
+			<ModalHeader themeValue={theme}>
+				<div>{t('title')}</div>
+				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
 					{closeIconSmall}
-				</IconButton>
-			</_Header>
+				</ModalHeaderIconButton>
+			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<Input_ title={t('current')}>
 					<_Input
@@ -170,7 +135,6 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						b_color={borderColor[theme]}
 					/>
 				</Input_>
-
 				<Input_>
 					<_Input
 						type='password'
@@ -184,7 +148,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 				</Input_>
 			</_Form>
 
-			<_Footer b_color={borderColor[theme]}>
+			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton
 					themeValue={theme}
 					onClick={closeModal}
@@ -195,8 +159,8 @@ const ChangePasswordForm = ({open, setOpen}) => {
 				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
-			</_Footer>
-		</_Modal>
+			</ModalFooter>
+		</_PopupModal>
 	);
 };
 
