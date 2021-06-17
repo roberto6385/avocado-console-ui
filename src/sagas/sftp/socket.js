@@ -1,4 +1,7 @@
-import {WebSocketExternalAccessUrl} from '../../ws/ws_values';
+import {
+	WebSocketExternalAccessUrl,
+	WebSocketInternalAccessUrl,
+} from '../../ws/ws_values';
 
 export function createWebsocket(host) {
 	return new Promise((resolve, reject) => {
@@ -6,7 +9,7 @@ export function createWebsocket(host) {
 		// const socket = new WebSocket(`ws://ec2-3-36-73-36.ap-northeast-2.compute.amazonaws.com
 		// /ws/sftp`);
 		const socket = new WebSocket(
-			'ws://' + WebSocketExternalAccessUrl + '/ws/sftp',
+			'ws://' + WebSocketInternalAccessUrl + '/ws/sftp',
 		);
 
 		socket.binaryType = 'arraybuffer';

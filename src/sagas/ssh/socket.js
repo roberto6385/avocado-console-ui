@@ -1,4 +1,7 @@
-import {WebSocketExternalAccessUrl} from '../../ws/ws_values';
+import {
+	WebSocketExternalAccessUrl,
+	WebSocketInternalAccessUrl,
+} from '../../ws/ws_values';
 
 export function initWebsocket(host) {
 	return new Promise((resolve, reject) => {
@@ -7,7 +10,7 @@ export function initWebsocket(host) {
 		// 	`ws://ec2-3-36-73-36.ap-northeast-2.compute.amazonaws.com/ws/ssh`,
 		// );
 		const ws = new WebSocket(
-			'ws://' + WebSocketExternalAccessUrl + '/ws/ssh',
+			'ws://' + WebSocketInternalAccessUrl + '/ws/ssh',
 		);
 
 		ws.binaryType = 'arraybuffer';
