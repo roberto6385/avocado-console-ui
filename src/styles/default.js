@@ -16,6 +16,8 @@ import {
 	greyBoarderHoverButtonColor,
 	greyBoarderNormalButtonColor,
 	greyButtonColor,
+	identityHigh,
+	inputFocusBoaderColor,
 	modalColor,
 	redActiveButtonColor,
 	redHoverButtonColor,
@@ -110,6 +112,9 @@ export const Input = styled.input`
 	border: 1px solid ${(props) => borderColor[props.themeValue]};
 	background: ${(props) => settingInput[props.themeValue]};
 	color: ${(props) => fontColor[props.themeValue]};
+	&:focus {
+		border-color: ${(props) => inputFocusBoaderColor[props.themeValue]};
+	}
 `;
 
 export const PrimaryGreenButton = styled(DefaultButton)`
