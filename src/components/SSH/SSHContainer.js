@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
