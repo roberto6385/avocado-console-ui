@@ -1,6 +1,8 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import styled from 'styled-components';
+
 import {
 	CHANGE_IDENTITY_CHECKED,
 	CHANGE_PROTOCOL,
@@ -15,13 +17,10 @@ import {
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
 import {PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
-
-import styled from 'styled-components';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
 import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
 import {closeIconSmall} from '../../icons/icons';
-
 import {
 	Form,
 	Input,
@@ -52,7 +51,7 @@ const _SecondaryGreenButton = styled(SecondaryGreenButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
-const FileInput = styled.input`
+const _FileInput = styled.input`
 	display: none;
 	border: 1px solid;
 	border-color: ${(props) => props?.b_color};
@@ -77,10 +76,13 @@ const _Label = styled.label`
 	cursor: pointer;
 `;
 
-const Item_Container = styled.div`
+const _ItemContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+`;
+const _SecondItem = styled.div`
+	margin-left: 16px;
 `;
 
 const isValidHostname = (host) => {
@@ -148,7 +150,6 @@ const AddServerForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log(add_server_form_popup.type);
 
 			if (add_server_form_popup.type === 'add') {
 				if (!duplicationTest(server, name, host, port, protocol)) {
@@ -350,7 +351,7 @@ const AddServerForm = () => {
 			</ModalHeader>
 
 			<Form onSubmit={onSubmitForm}>
-				<Item_Container>
+				<_ItemContainer>
 					<_InputFiled title={t('name')} flex={1}>
 						<Input
 							themeValue={theme}
@@ -361,15 +362,17 @@ const AddServerForm = () => {
 							placeholder={t('place.name')}
 						/>
 					</_InputFiled>
-					<Select_
-						width={'178px'}
-						title={t('protocol')}
-						options={protocol_options}
-						value={protocol}
-						setValue={setProtocol}
-					/>
-				</Item_Container>
-				<Item_Container>
+					<_SecondItem>
+						<Select_
+							width={'178px'}
+							title={t('protocol')}
+							options={protocol_options}
+							value={protocol}
+							setValue={setProtocol}
+						/>{' '}
+					</_SecondItem>
+				</_ItemContainer>
+				<_ItemContainer>
 					<_InputFiled title={t('address')} flex={1}>
 						<Input
 							themeValue={theme}
@@ -380,19 +383,21 @@ const AddServerForm = () => {
 							placeholder={t('place.address')}
 						/>
 					</_InputFiled>
-					<InputFiled_ title={t('port')}>
-						<_Input
-							themeValue={theme}
-							type='number'
-							value={port}
-							// onChange={onChangePort}
-							readOnly
-							placeholder={t('place.port')}
-						/>
-					</InputFiled_>
-				</Item_Container>
+					<_SecondItem>
+						<InputFiled_ title={t('port')}>
+							<_Input
+								themeValue={theme}
+								type='number'
+								value={port}
+								// onChange={onChangePort}
+								readOnly
+								placeholder={t('place.port')}
+							/>
+						</InputFiled_>
+					</_SecondItem>
+				</_ItemContainer>
 
-				<Item_Container>
+				<_ItemContainer>
 					<Select_
 						title={t('identity')}
 						flex={1}
@@ -400,16 +405,18 @@ const AddServerForm = () => {
 						value={account}
 						setValue={setAccount}
 					/>
-					<Select_
-						width={'178px'}
-						title={t('auth')}
-						options={authentication_options}
-						value={authentication}
-						setValue={setAuthentication}
-						disabled={true}
-					/>
-				</Item_Container>
-				<Item_Container>
+					<_SecondItem>
+						<Select_
+							width={'178px'}
+							title={t('auth')}
+							options={authentication_options}
+							value={authentication}
+							setValue={setAuthentication}
+							disabled={true}
+						/>
+					</_SecondItem>
+				</_ItemContainer>
+				<_ItemContainer>
 					<InputFiled_ title={t('userName')} flex={1}>
 						<Input
 							themeValue={theme}
@@ -420,9 +427,9 @@ const AddServerForm = () => {
 							placeholder={t('place.userName')}
 						/>
 					</InputFiled_>
-				</Item_Container>
+				</_ItemContainer>
 				{authentication === 'Password' ? (
-					<Item_Container>
+					<_ItemContainer>
 						<InputFiled_ title={t('password')} flex={1}>
 							<Input
 								themeValue={theme}
@@ -433,10 +440,10 @@ const AddServerForm = () => {
 								placeholder={t('place.password')}
 							/>
 						</InputFiled_>
-					</Item_Container>
+					</_ItemContainer>
 				) : (
 					<React.Fragment>
-						<Item_Container>
+						<_ItemContainer>
 							<InputFiled_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
@@ -447,7 +454,7 @@ const AddServerForm = () => {
 									b_color={borderColor[theme]}
 								>
 									{keyFile}
-									<FileInput
+									<_FileInput
 										type='file'
 										id={'add_server_form_type_file'}
 										value={keyFile}
@@ -470,9 +477,9 @@ const AddServerForm = () => {
 							>
 								{t('browse')}
 							</_SecondaryGreenButton>
-						</Item_Container>
+						</_ItemContainer>
 
-						<Item_Container>
+						<_ItemContainer>
 							<InputFiled_ title={t('keyFilePassword')} flex={1}>
 								<Input
 									themeValue={theme}
@@ -483,10 +490,10 @@ const AddServerForm = () => {
 									placeholder={t('place.password')}
 								/>
 							</InputFiled_>
-						</Item_Container>
+						</_ItemContainer>
 					</React.Fragment>
 				)}
-				<Item_Container>
+				<_ItemContainer>
 					<InputFiled_ title={t('note')} flex={1}>
 						<Input
 							themeValue={theme}
@@ -497,7 +504,7 @@ const AddServerForm = () => {
 							placeholder={t('place.note')}
 						/>
 					</InputFiled_>
-				</Item_Container>
+				</_ItemContainer>
 			</Form>
 			<ModalFooter themeValue={theme}>
 				<PrimaryGreyButton
