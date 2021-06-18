@@ -10,7 +10,7 @@ export const initialState = {
 	folder_index: 2,
 	account: {account: '', name: '', email: ''},
 	rightSideKey: '',
-	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
+	theme: 1, // light === 0  and dark === 1 우선 redux로 구현
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 	nav: [
 		{

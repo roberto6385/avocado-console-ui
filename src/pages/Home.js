@@ -52,7 +52,6 @@ const Home = () => {
 	return (
 		<_Container background={navColor[theme]}>
 			<WorkSpace />
-			{/*<SnippetsManeger />*/}
 			<Footer />
 		</_Container>
 	);

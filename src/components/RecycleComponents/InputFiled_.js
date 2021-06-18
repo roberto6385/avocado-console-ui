@@ -12,6 +12,7 @@ const _Container = styled.div`
 const _Title = styled.div`
 	margin: 0 10px 2px 0;
 	letter-spacing: 0.1px;
+	line-height: 1.5;
 `;
 
 const InputFiled_ = ({title, children, flex}) => {

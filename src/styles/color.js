@@ -51,6 +51,13 @@ export const D_PANE_HEADER_HIGH = '#1f323c';
 export const D_PANE_HEADER_BORDER = 'rgba(68, 200, 192, 0.5)';
 export const D_SELECT_HOVER = '#273746';
 
+//Snippents color
+export const L_SNIPPETS_LIST = '#f8f9fa';
+export const L_SNIPPETS_CLICKED_LIST = 'ffffff';
+
+export const D_SNIPPETS_LIST = '#1e364c';
+export const D_SNIPPETS_CLICKED_LIST = 'rgba(0, 0, 0, 0.22)';
+
 // light background color
 export const L_BACK = '#ffffff'; // nav, active tab, droplist, workSpace header, subHeader
 export const L_BACK_TABBAR = '#f0f3f6'; //tab bar, input, edit back
@@ -179,3 +186,8 @@ export const secondaryDisabledButtonColor = [
 ];
 
 export const snippetsBoarderColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
+export const snippetsListColor = [L_SNIPPETS_LIST, D_SNIPPETS_LIST];
+export const snippetsCLickedListColor = [
+	L_SNIPPETS_CLICKED_LIST,
+	D_SNIPPETS_CLICKED_LIST,
+];

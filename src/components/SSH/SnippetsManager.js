@@ -5,14 +5,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
-import {
-	FOLDER_HEIGHT,
-	IconButton,
-	fontColor,
-	iconColor,
-	sideColor,
-	backColor,
-} from '../../styles/global';
+import {IconButton, fontColor, iconColor, backColor} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
@@ -28,13 +21,14 @@ import {
 } from '../../styles/default';
 import {
 	borderColor,
-	L_GREEN_NORMAL,
 	settingInput,
 	snippetsBoarderColor,
+	snippetsCLickedListColor,
+	snippetsListColor,
 } from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
-	width: 600px;
+	width: 598px;
 	height: 520px;
 	z-index: 5;
 `;
@@ -52,11 +46,10 @@ const _Textarea = styled.textarea`
 const _Form = styled(Form)`
 	height: 416px;
 	padding-bottom: 0px;
+	flex: 1;
 `;
 
-const _Text = styled.div`
-	line-height: ${FOLDER_HEIGHT};
-	font-size: 14px;
+const _ListHeader = styled.div`
 	flex: 1;
 	vertical-align: middle;
 `;
@@ -64,37 +57,32 @@ const _Text = styled.div`
 const _Ul = styled.ul`
 	width: 193px;
 	height: 416px;
-	padding: 0 0 175px;
-	border-right: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
+	border-right: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => snippetsListColor[props.themeValue]};
+	overflow: scroll;
 `;
 
 const _Li = styled.li`
-	width: 193px;
+	width: 192px;
 	height: 40px;
 	letter-spacing: 0.14px;
 	text-align: left;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background: ${(props) => props.back};
+	background: ${(props) =>
+		props.clicked
+			? snippetsCLickedListColor[props.themeValue]
+			: snippetsListColor[props.themeValue]};
 	padding: ${(props) =>
-		props.clicked ? '1px 15px 3px 12px' : '1px 15px 3px 14px'};
-	border-color: ${(props) => snippetsBoarderColor[props.themeValue]};
+		props.clicked ? '1px 16px 3px 13px' : '1px 16px 3px 15px'};
 	border-left: ${(props) => (props.clicked ? '2px solid' : 'none')};
+	border-color: ${(props) => snippetsBoarderColor[props.themeValue]};
 `;
 
 const _HeaderLi = styled(_Li)`
-	padding: 2px 14px;
+	padding: 2px 16px;
 `;
-
-// const _InputFiled = styled(InputFiled_)`
-// 	width: 372px;
-// 	height: 16px;
-// 	margin: 0 0 6px;
-// 	color: ${(props) => props.color};
-// `;
 
 const _ListContainer = styled.div`
 	display: flex;
@@ -242,9 +230,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 				</ModalHeaderIconButton>
 			</ModalHeader>
 			<_ListContainer>
-				<_Ul b_color={borderColor[theme]} back={backColor[theme]}>
+				<_Ul themeValue={theme} back={backColor[theme]}>
 					<_HeaderLi>
-						<_Text>{t('snippetList')}</_Text>
+						<_ListHeader>{t('snippetList')}</_ListHeader>
 						<IconButton onClick={onClickAddSnippet}>
 							{plusIcon}
 						</IconButton>
@@ -258,20 +246,12 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 					{tempSnippets.map((v) => (
 						<_Li
-							height={'40px'}
-							width={'193px'}
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
-							variant={clickedSnippet === v.id && 'primary'}
-							back={
-								clickedSnippet === v.id
-									? sideColor[theme]
-									: backColor[theme]
-							}
 							themeValue={theme}
 							clicked={clickedSnippet === v.id ? true : false}
 						>
-							<_Text>{v.name === '' ? t('new') : v.name}</_Text>
+							{v.name === '' ? t('new') : v.name}
 						</_Li>
 					))}
 				</_Ul>
