@@ -21,9 +21,6 @@ const Home = () => {
 	const {theme} = useSelector((state) => state.common);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	// const userInfo = JSON.parse(
-	// 	JSON.parse(sessionStorage.getItem('persist:root')).userTicket,
-	// ).userInfo;
 
 	useEffect(() => {
 		if (!userTicket) {

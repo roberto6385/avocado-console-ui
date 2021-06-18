@@ -149,6 +149,12 @@ const SignInForm = () => {
 				passwordRef.current?.focus();
 			} else {
 				console.log('encoding...');
+
+				localStorage.setItem('rememberMe', rememberMe);
+				localStorage.setItem('user', user);
+				localStorage.setItem('password', password);
+				setUser('');
+				setPassword('');
 				// const encodeData = base64.encode(`${user}:${password}`);
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
@@ -159,15 +165,6 @@ const SignInForm = () => {
 						password: password,
 					}),
 				);
-
-				localStorage.setItem('rememberMe', rememberMe);
-				localStorage.setItem('user', user);
-				localStorage.setItem('password', password);
-				// account에 계정 정보 등록해놓으려고 rememberMe값만 bool 처리 했습니다.
-				// rememberMe 가 true일 때, 첫 로그인 화면에서 저장했던 값을 불러오고
-				// false 일 때는, 불러오지 않게 했어요!
-				setUser('');
-				setPassword('');
 			}
 		},
 		[user, password, rememberMe],

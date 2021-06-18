@@ -1,4 +1,7 @@
-import {WebSocketExternalAccessUrl} from '../../ws/ws_values';
+import {
+	WebSocketExternalAccessUrl,
+	WebSocketInternalAccessUrl,
+} from '../../ws/ws_values';
 
 export function initWebsocket(host) {
 	return new Promise((resolve, reject) => {

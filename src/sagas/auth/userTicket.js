@@ -8,12 +8,12 @@ import {
 
 const querystring = require('query-string');
 
-function getUserTicketApi(params) {
-	return axios.post(
+async function getUserTicketApi(params) {
+	return await axios.post(
 		'/oauth2/v1/token',
+
 		querystring.stringify({
 			grant_type: 'password',
-			// username: params.username,
 			username: params.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
 			password: params.password,
 		}),
@@ -22,6 +22,8 @@ function getUserTicketApi(params) {
 				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
+			// baseURL:
+			// 	'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 		},
 	);
 }

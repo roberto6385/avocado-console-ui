@@ -1,7 +1,7 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item, Menu} from 'react-contexify';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {
@@ -11,12 +11,14 @@ import {
 
 const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common);
+
 	const {t} = useTranslation('contextMenu');
-	const {current: FolderContextMenuMessage} = useRef({
+	const FolderContextMenuMessage = {
 		new_server: t('newServer'),
 		// rename: 'Rename',
 		// delete: 'Delete',
-	});
+	};
 
 	const handleItemClick = useCallback(
 		(e) => () => {

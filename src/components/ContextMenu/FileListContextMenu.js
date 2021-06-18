@@ -1,4 +1,4 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useMemo} from 'react';
 import {animation, Item, Menu, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
@@ -11,11 +11,14 @@ import {
 	DELETE_WORK_LIST,
 } from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
+import {ContextMenu_Avocado} from '../../styles/default';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
+	const {theme} = useSelector((state) => state.common);
+
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
@@ -120,10 +123,10 @@ const FileListContextMenu = ({uuid}) => {
 		}
 	};
 	return (
-		<Menu
+		<ContextMenu_Avocado
 			id={uuid + 'fileList'}
 			animation={animation.slide}
-			style={{fontSize: '14px'}}
+			theme_value={theme}
 		>
 			<Item
 				disabled={highlight.length === 0}
@@ -163,7 +166,7 @@ const FileListContextMenu = ({uuid}) => {
 			>
 				{t('delete')}
 			</Item>
-		</Menu>
+		</ContextMenu_Avocado>
 	);
 };
 

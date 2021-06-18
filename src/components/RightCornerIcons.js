@@ -1,12 +1,8 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-
-import {CHANGE_NUMBER_OF_COLUMNS, RIGHT_SIDE_KEY} from '../reducers/common';
-import DropdownMenu_ from './RecycleComponents/DropdownMenu_';
-import {IconButton, IconContainer} from '../styles/global';
-import {getRevoke} from '../reducers/auth/revoke';
+import {RIGHT_SIDE_KEY} from '../reducers/common';
+import {IconButton} from '../styles/global';
 import {
 	accountIcon,
 	notificationIcon,
@@ -15,8 +11,10 @@ import {
 } from '../icons/icons';
 import PropTypes from 'prop-types';
 import {OPEN_ALERT_POPUP} from '../reducers/popup';
-import {useTranslation} from 'react-i18next';
-import {iconColor, tabbarColor} from '../styles/color';
+import {tabbarColor} from '../styles/color';
+import {useContextMenu} from 'react-contexify';
+import SettingContextMenu from './ContextMenu/SettingContextMenu';
+import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -26,37 +24,29 @@ const CornerIcons_Container = styled.div`
 `;
 
 const RightCornerIcons = ({toggle, setToggle}) => {
-	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
-	const history = useHistory();
-	const {userTicket} = useSelector((state) => state.userTicket);
 	const {theme, tab, rightSideKey} = useSelector((state) => state.common);
+	const settingRef = useRef();
+	const columnRef = useRef();
+	const MenuPosition = useRef();
 
-	const logout = useCallback(
-		() => () => {
-			dispatch(
-				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
-			);
-		},
-		[userTicket],
-	);
+	function getSettingMenuPosition() {
+		const {right, bottom} = settingRef.current?.getBoundingClientRect();
+		MenuPosition.current = {x: right - 130, y: bottom};
+		return MenuPosition.current;
+	}
+	function getColumnMenuPosition() {
+		const {right, bottom} = columnRef.current?.getBoundingClientRect();
+		MenuPosition.current = {x: right - 130, y: bottom};
+		return MenuPosition.current;
+	}
 
-	const changeColumn = useCallback(
-		(cols) => () => {
-			dispatch({
-				type: CHANGE_NUMBER_OF_COLUMNS,
-				data: {cols: cols},
-			});
-		},
-		[],
-	);
-
-	const changePath = useCallback(
-		(path) => () => {
-			history.push(path);
-		},
-		[],
-	);
+	const {show: showMenu1} = useContextMenu({
+		id: 'setting',
+	});
+	const {show: showMenu2} = useContextMenu({
+		id: 'column',
+	});
 
 	const openSideMenu = useCallback(
 		(key) => () => {
@@ -70,40 +60,22 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[rightSideKey, toggle],
 	);
 
-	const setting_list = [
-		{onClick: changePath('/account'), title: t('editSetting')},
-		{title: 'divider'},
-		{
-			onClick: openSideMenu('Preferences'),
-			title: t('preferences'),
-		},
-		{
-			onClick: openSideMenu('Identities'),
-			title: t('identities'),
-		},
-		{title: 'divider'},
-		{onClick: logout(), title: t('logout')},
-	];
-
-	const column_list = [
-		{onClick: changeColumn(1), title: 'No Columns'},
-		{onClick: changeColumn(2), title: '2 Columns'},
-		{onClick: changeColumn(3), title: '3 Columns'},
-		{onClick: changeColumn(4), title: '4 Columns'},
-		{onClick: changeColumn(5), title: '5 Columns'},
-	];
-
-	// const account_list = [
-	// 	{
-	// 		onClick: openSideMenu('Account'),
-	// 		title: 'Account',
-	// 	},
-	// ];
-
 	const onClickNotification = useCallback(() => {
 		dispatch({
 			type: OPEN_ALERT_POPUP,
 			data: 'developing',
+		});
+	}, []);
+
+	const openSetting = useCallback((e) => {
+		showMenu1(e, {
+			position: getSettingMenuPosition(),
+		});
+	}, []);
+
+	const openColumn = useCallback((e) => {
+		showMenu2(e, {
+			position: getColumnMenuPosition(),
 		});
 	}, []);
 
@@ -112,36 +84,19 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<IconButton onClick={openSideMenu('Account')}>
 				{accountIcon}
 			</IconButton>
-
-			{/*<DropdownMenu_*/}
-			{/*	icon={*/}
-			{/*		<IconContainer color={iconColor[theme]}>*/}
-			{/*			{accountIcon}*/}
-			{/*		</IconContainer>*/}
-			{/*	}*/}
-			{/*	menu={account_list}*/}
-			{/*/>*/}
-			<DropdownMenu_
-				icon={
-					<IconContainer color={iconColor[theme]}>
-						{settingIcon}
-					</IconContainer>
-				}
-				menu={setting_list}
-			/>
+			<IconButton ref={settingRef} onClick={openSetting}>
+				{settingIcon}
+			</IconButton>
 			<IconButton onClick={onClickNotification}>
 				{notificationIcon}
 			</IconButton>
 			{tab.length !== 0 && (
-				<DropdownMenu_
-					icon={
-						<IconContainer color={iconColor[theme]}>
-							{windowIcon}
-						</IconContainer>
-					}
-					menu={column_list}
-				/>
+				<IconButton ref={columnRef} onClick={openColumn}>
+					{windowIcon}
+				</IconButton>
 			)}
+			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
+			<ColumnContextMenu />
 		</CornerIcons_Container>
 	);
 };
