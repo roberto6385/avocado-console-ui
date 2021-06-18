@@ -10,7 +10,7 @@ export function initWebsocket(host) {
 		// 	`ws://ec2-3-36-73-36.ap-northeast-2.compute.amazonaws.com/ws/ssh`,
 		// );
 		const ws = new WebSocket(
-			'ws://' + WebSocketInternalAccessUrl + '/ws/ssh',
+			'ws://' + WebSocketExternalAccessUrl + '/ws/ssh',
 		);
 
 		ws.binaryType = 'arraybuffer';

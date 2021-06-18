@@ -18,6 +18,7 @@ export const L_GREY_BOARDER_NORMAL = '#c2c2c2';
 export const L_GREY_BOARDER_ACTIVE = '#a8a8a8';
 export const L_GREY_BACKGROUND_HOVER = '#f8f9fa';
 export const L_DISABLED_BUTTON = '#e7e9ea';
+export const L_CONTEXT_MENU_HOVER = 'rgba(0, 0, 0, 0.04)';
 
 // dark button color
 export const D_BUTTON_FONT = '#212121';
@@ -32,6 +33,7 @@ export const D_GREY_BOARDER_NORMAL = 'rgba(255, 255, 255, 0.38)';
 export const D_GREY_BACKGROUND_NORMAL = '#1b2935';
 export const D_GREY_BACKGROUND_HOVER = 'rgba(255, 255, 255, 0.04)';
 export const D_DISABLED_BUTTON = 'rgba(255, 255, 255, 0.12)';
+export const D_CONTEXT_MENU_HOVER = 'rgba(0, 0, 0, 0.12)';
 
 export const L_HIGHLIGHT = '#e4f3f4';
 export const L_FONT = '#212121';
@@ -117,6 +119,7 @@ export const terminalFontColor = [L_FONT, L_BACK];
 export const fileListHighColor = [L_BACK_MAIN, D_SFTP_FILELIST_BACK];
 export const editColor = [L_BACK_TABBAR, D_SFTP_EDIT_BACK];
 export const footerColor = [L_BACK_FOOTER, D_BACK_FOOTER];
+export const contextHover = [L_CONTEXT_MENU_HOVER, D_CONTEXT_MENU_HOVER];
 
 export const settingInput = [L_BACK, D_NAV_HIGHLIGHT];
 export const identitySearchInput = [L_BACK_TABBAR, D_NAV_HIGHLIGHT];

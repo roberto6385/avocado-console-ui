@@ -9,7 +9,7 @@ export function createWebsocket(host) {
 		// const socket = new WebSocket(`ws://ec2-3-36-73-36.ap-northeast-2.compute.amazonaws.com
 		// /ws/sftp`);
 		const socket = new WebSocket(
-			'ws://' + WebSocketInternalAccessUrl + '/ws/sftp',
+			'ws://' + WebSocketExternalAccessUrl + '/ws/sftp',
 		);
 
 		socket.binaryType = 'arraybuffer';

@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import {
 	borderColor,
 	buttonFontColor,
+	contextHover,
 	disabledButtonColor,
 	disabledButtonFontColor,
 	fontColor,
@@ -21,7 +22,10 @@ import {
 	redHoverButtonColor,
 	redNormalButtonColor,
 	secondaryDisabledButtonColor,
+	sshSearch,
 } from './color';
+import {Menu} from 'react-contexify';
+import {FONT_14} from './length';
 
 //Modal => popup, form
 export const PopupModal = styled(Modal)`
@@ -228,4 +232,24 @@ export const SecondaryDisabledButton = styled(DefaultButton)`
 	color: ${(props) =>
 		secondaryDisabledButtonColor[props.themeValue] ||
 		secondaryDisabledButtonColor[0]};
+`;
+
+// context menu
+export const ContextMenu_Avocado = styled(Menu)`
+	font-size: ${FONT_14};
+	background: ${(props) => sshSearch[props.theme_value]};
+
+	.react-contexify__item:not(.react-contexify__item--disabled):hover
+		> .react-contexify__item__content,
+	.react-contexify__item:not(.react-contexify__item--disabled):focus
+		> .react-contexify__item__content {
+		background: ${(props) => contextHover[props.theme_value]};
+		color: ${(props) => fontColor[props?.theme_value]};
+	}
+	.react-contexify__separator {
+		background: ${(props) => borderColor[props.theme_value]};
+	}
+	.react-contexify__item__content {
+		color: ${(props) => fontColor[props?.theme_value]};
+	}
 `;

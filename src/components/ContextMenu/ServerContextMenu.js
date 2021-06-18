@@ -10,11 +10,12 @@ import {
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
+import {ContextMenu_Avocado} from '../../styles/default';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server, tab} = useSelector((state) => state.common);
+	const {server, tab, theme} = useSelector((state) => state.common);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
@@ -100,10 +101,10 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	);
 
 	return (
-		<Menu
+		<ContextMenu_Avocado
 			id={data.key + 'server'}
 			animation={animation.slide}
-			style={{fontSize: '14px'}}
+			theme_value={theme}
 		>
 			{correspondedServer?.protocol === 'SSH2'
 				? Object.keys(Ssh2ServerContextMenuMessage).map((v) => (
@@ -116,7 +117,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 							{SftpServerContextMenuMessage[v]}
 						</Item>
 				  ))}
-		</Menu>
+		</ContextMenu_Avocado>
 	);
 };
 

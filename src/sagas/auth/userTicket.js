@@ -9,27 +9,23 @@ import {
 const querystring = require('query-string');
 
 async function getUserTicketApi(params) {
-	await axios
-		.post(
-			// 'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200/oauth2/v1/token',
-			'/oauth2/v1/token',
-			querystring.stringify({
-				grant_type: 'password',
-				// username: params.username,
-				username: params.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
-				password: params.password,
-			}),
-			{
-				headers: {
-					Authorization: params.Authorization,
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
+	return await axios.post(
+		'/oauth2/v1/token',
+
+		querystring.stringify({
+			grant_type: 'password',
+			username: params.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
+			password: params.password,
+		}),
+		{
+			headers: {
+				Authorization: params.Authorization,
+				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-		)
-		.then((response) => {
-			console.log(response);
-			return response;
-		});
+			// baseURL:
+			// 	'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
 }
 
 function* getUserTicket(action) {
