@@ -226,7 +226,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	return (
 		<_PopupModal
-			isOpen={true}
+			isOpen={open}
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
