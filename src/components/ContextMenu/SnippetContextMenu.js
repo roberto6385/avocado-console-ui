@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {DropDownMenu_Avocado} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
@@ -9,7 +9,6 @@ import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 const SnippetContextMenu = ({uuid, setOpen}) => {
 	const {t} = useTranslation('snippets');
 	const dispatch = useDispatch();
-	const currentRef = useRef();
 	const {theme, current_tab} = useSelector((state) => state.common);
 	const {ssh, snippets} = useSelector((state) => state.ssh);
 	const ws = useMemo(() => ssh.find((v) => v.uuid === current_tab)?.ws, [
@@ -31,9 +30,6 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 		},
 		[current_tab, ws, dispatch],
 	);
-	useEffect(() => {
-		currentRef.current?.focus();
-	}, [uuid]);
 
 	return (
 		<DropDownMenu_Avocado
