@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {forwardRef, useCallback, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -37,9 +37,8 @@ const SSHContainer = ({uuid, server}) => {
 	const [open, setOpen] = useState(false);
 	const snippetRef = useRef();
 	const MenuPosition = useRef();
-
 	const {show} = useContextMenu({
-		id: 'snippet',
+		id: uuid + 'snippet',
 	});
 
 	function getSettingMenuPosition() {
@@ -48,11 +47,11 @@ const SSHContainer = ({uuid, server}) => {
 		return MenuPosition.current;
 	}
 
-	const openSnippet = useCallback((e) => {
+	const openSnippet = (e) => {
 		show(e, {
 			position: getSettingMenuPosition(),
 		});
-	}, []);
+	};
 
 	const onCLickFullScreen = useCallback(() => {
 		document.getElementById('terminal_' + uuid).requestFullscreen();

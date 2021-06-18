@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {DropDownMenu_Avocado} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
@@ -9,7 +9,7 @@ import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 const SnippetContextMenu = ({uuid, setOpen}) => {
 	const {t} = useTranslation('snippets');
 	const dispatch = useDispatch();
-
+	const currentRef = useRef();
 	const {theme, current_tab} = useSelector((state) => state.common);
 	const {ssh, snippets} = useSelector((state) => state.ssh);
 	const ws = useMemo(() => ssh.find((v) => v.uuid === current_tab)?.ws, [
@@ -31,33 +31,34 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 		},
 		[current_tab, ws, dispatch],
 	);
+	useEffect(() => {
+		currentRef.current?.focus();
+	}, [uuid]);
 
 	return (
-		uuid === current_tab && (
-			<DropDownMenu_Avocado
-				id={'snippet'}
-				animation={animation.slide}
-				theme_value={theme}
+		<DropDownMenu_Avocado
+			id={uuid + 'snippet'}
+			animation={animation.slide}
+			theme_value={theme}
+		>
+			<Item
+				id='SnippetOpen'
+				onClick={() => {
+					console.log(current_tab);
+					setOpen(true);
+				}}
 			>
-				<Item
-					id='SnippetOpen'
-					onClick={() => {
-						console.log(current_tab);
-						setOpen(true);
-					}}
-				>
-					{t('editSnippets')}
-				</Item>
-				<Separator />
-				{snippets.map((v, i) => {
-					return (
-						<Item key={i} id={v.name} onClick={menuEvent(v)}>
-							{v.name}
-						</Item>
-					);
-				})}
-			</DropDownMenu_Avocado>
-		)
+				{t('editSnippets')}
+			</Item>
+			<Separator />
+			{snippets.map((v, i) => {
+				return (
+					<Item key={i} id={v.name} onClick={menuEvent(v)}>
+						{v.name}
+					</Item>
+				);
+			})}
+		</DropDownMenu_Avocado>
 	);
 };
 
