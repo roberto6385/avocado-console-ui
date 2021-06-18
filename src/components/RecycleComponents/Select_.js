@@ -2,7 +2,6 @@ import React, {useRef} from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {FONT_14, FONT_18} from '../../styles/length';
 import {
 	borderColor,
 	D_GREEN_ACTIVE,
@@ -15,14 +14,14 @@ import {
 } from '../../styles/color';
 import {useSelector} from 'react-redux';
 
-const _Span = styled.span`
-	padding-bottom: 6px;
-	font-size: ${FONT_14};
+const _Title = styled.div`
+	margin: 0 10px 2px 0;
+	letter-spacing: 0.1px;
+	line-height: 1.5;
 `;
 
 const _Container = styled.div`
-	padding-bottom: ${FONT_18};
-	margin: 0px 8px;
+	margin-bottom: 16px;
 	flex: ${(props) => props.flex};
 `;
 
@@ -110,7 +109,7 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 
 	return (
 		<_Container flex={flex}>
-			<_Span>{title}</_Span>
+			<_Title>{title}</_Title>
 			<_Select
 				ref={selectRef}
 				value={options.find((op) => {

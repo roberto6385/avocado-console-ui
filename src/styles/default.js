@@ -17,11 +17,14 @@ import {
 	greyBoarderHoverButtonColor,
 	greyBoarderNormalButtonColor,
 	greyButtonColor,
+	inputFocusBoaderColor,
+	mainBackColor,
 	modalColor,
 	redActiveButtonColor,
 	redHoverButtonColor,
 	redNormalButtonColor,
 	secondaryDisabledButtonColor,
+	settingInput,
 	sshSearch,
 } from './color';
 import {Menu} from 'react-contexify';
@@ -91,6 +94,32 @@ export const Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
+	padding: 16px 16px 14px 16px;
+`;
+
+//Setting Page
+export const SettingMainContainer = styled.div`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	background: ${(props) => mainBackColor[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
+	overflow: scroll;
+	padding: 0px 16px;
+`;
+
+export const SettingTitle = styled.div`
+	display: flex;
+	align-items: center;
+	height: 50px;
+	min-height: 50px;
+	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
+	line-height: 1.31;
+	font-size: 16px;
+`;
+
+export const SettingContentsContainer = styled.div`
+	padding: 16px 0px;
 `;
 
 //Button
@@ -102,6 +131,19 @@ export const DefaultButton = styled.button`
 	border: none;
 	border-radius: 4px;
 	margin: 0px 8px;
+`;
+
+export const Input = styled.input`
+	width: 100%;
+	height: 34px;
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => settingInput[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
+	&:focus {
+		border-color: ${(props) => inputFocusBoaderColor[props.themeValue]};
+	}
 `;
 
 export const PrimaryGreenButton = styled(DefaultButton)`

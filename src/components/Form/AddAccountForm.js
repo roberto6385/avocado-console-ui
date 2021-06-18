@@ -5,7 +5,7 @@ import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
 import {
 	ACCOUNT_BUTTON_WIDTH,
@@ -189,7 +189,7 @@ const AddAccountForm = () => {
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
-					<Input_ title={t('identity')} flex={1}>
+					<InputFiled_ title={t('identity')} flex={1}>
 						<_LongInput
 							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
@@ -199,7 +199,7 @@ const AddAccountForm = () => {
 							onChange={onChangeIdentity}
 							placeholder={t('place.identity')}
 						/>
-					</Input_>
+					</InputFiled_>
 					<Select_
 						width={'178px'}
 						title={t('auth')}
@@ -209,7 +209,7 @@ const AddAccountForm = () => {
 					/>
 				</_Item>
 				<_Item>
-					<Input_ title={t('userName')} flex={1}>
+					<InputFiled_ title={t('userName')} flex={1}>
 						<_LongInput
 							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
@@ -219,11 +219,11 @@ const AddAccountForm = () => {
 							onChange={onChangeUsername}
 							placeholder={t('place.userName')}
 						/>
-					</Input_>
+					</InputFiled_>
 				</_Item>
 				{authentication === 'Password' ? (
 					<_Item>
-						<Input_ title={t('password')} flex={1}>
+						<InputFiled_ title={t('password')} flex={1}>
 							<_LongInput
 								back={greyBackgroundNormalButtonColor[theme]}
 								color={fontColor[theme]}
@@ -233,12 +233,12 @@ const AddAccountForm = () => {
 								onChange={onChangePassword}
 								placeholder={t('place.password')}
 							/>
-						</Input_>
+						</InputFiled_>
 					</_Item>
 				) : (
 					<React.Fragment>
 						<_Item>
-							<Input_ title={t('private')} flex={1}>
+							<InputFiled_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -255,7 +255,7 @@ const AddAccountForm = () => {
 										onChange={onChangeKeyFile}
 									/>
 								</_Label>
-							</Input_>
+							</InputFiled_>
 							<_BrowseButton
 								onClick={(e) => {
 									e.preventDefault();
@@ -271,7 +271,7 @@ const AddAccountForm = () => {
 						</_Item>
 
 						<_Item>
-							<Input_ title={t('keyFilePassword')} flex={1}>
+							<InputFiled_ title={t('keyFilePassword')} flex={1}>
 								<_LongInput
 									back={
 										greyBackgroundNormalButtonColor[theme]
@@ -283,12 +283,12 @@ const AddAccountForm = () => {
 									onChange={onChangePassword}
 									placeholder={t('place.password')}
 								/>
-							</Input_>
+							</InputFiled_>
 						</_Item>
 					</React.Fragment>
 				)}
 				<_Item>
-					<Input_ title={t('note')} flex={1}>
+					<InputFiled_ title={t('note')} flex={1}>
 						<_LongInput
 							back={greyBackgroundNormalButtonColor[theme]}
 							color={fontColor[theme]}
@@ -298,7 +298,7 @@ const AddAccountForm = () => {
 							onChange={onChangeNote}
 							placeholder={t('place.note')}
 						/>
-					</Input_>
+					</InputFiled_>
 				</_Item>
 			</_Form>
 			<ModalFooter themeValue={theme}>

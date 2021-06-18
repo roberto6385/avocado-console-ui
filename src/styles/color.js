@@ -1,6 +1,10 @@
 // border color
 export const L_BORDER = '#e3e5e5';
 export const D_BORDER = 'rgba(0, 0, 0, 0.3)';
+export const L_INPUT_FOCUS_BORDER = '#4ca6a8';
+export const D_INPUT_FOCUS_BORDER = '#44c8c0';
+export const L_INPUT_INVALID_BORDER = '#d45959';
+export const D_INPUT_INVALID_BORDER = '#de6565';
 
 // gray icon color
 export const GRAY_ICON_ACTIVE = `#556367`;
@@ -53,6 +57,13 @@ export const D_PANE_HEADER_HIGH = '#1f323c';
 export const D_PANE_HEADER_BORDER = 'rgba(68, 200, 192, 0.5)';
 export const D_SELECT_HOVER = '#273746';
 
+//Snippents color
+export const L_SNIPPETS_LIST = '#f8f9fa';
+export const L_SNIPPETS_CLICKED_LIST = 'ffffff';
+
+export const D_SNIPPETS_LIST = '#1e364c';
+export const D_SNIPPETS_CLICKED_LIST = 'rgba(0, 0, 0, 0.22)';
+
 // light background color
 export const L_BACK = '#ffffff'; // nav, active tab, droplist, workSpace header, subHeader
 export const L_BACK_TABBAR = '#f0f3f6'; //tab bar, input, edit back
@@ -100,6 +111,14 @@ export const inputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
 export const asiedInputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
+export const inputFocusBoaderColor = [
+	L_INPUT_FOCUS_BORDER,
+	D_INPUT_FOCUS_BORDER,
+];
+export const inputInvalidBoaderColor = [
+	L_INPUT_INVALID_BORDER,
+	D_INPUT_INVALID_BORDER,
+];
 export const highColor = [L_HIGHLIGHT, D_HIGHLIGHT];
 export const navHighColor = [L_HIGHLIGHT, D_NAV_HIGHLIGHT];
 export const activeColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
@@ -179,4 +198,11 @@ export const disabledButtonColor = [L_DISABLED_BUTTON, D_DISABLED_BUTTON];
 export const secondaryDisabledButtonColor = [
 	L_GREY_BOARDER_NORMAL,
 	D_DISABLED_BUTTON,
+];
+
+export const snippetsBoarderColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];
+export const snippetsListColor = [L_SNIPPETS_LIST, D_SNIPPETS_LIST];
+export const snippetsCLickedListColor = [
+	L_SNIPPETS_CLICKED_LIST,
+	D_SNIPPETS_CLICKED_LIST,
 ];

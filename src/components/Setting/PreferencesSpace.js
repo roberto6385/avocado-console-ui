@@ -5,10 +5,6 @@ import {
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-	borderColor,
-	fontColor,
-	SUB_HEIGHT,
-	backColor,
 } from '../../styles/global';
 import Select_ from '../RecycleComponents/Select_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
@@ -19,34 +15,14 @@ import {
 } from '../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../reducers/common';
 import {useTranslation} from 'react-i18next';
-
-const _Container = styled.div`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-`;
-
-const _Title = styled.div`
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
-	margin: 0px 16px;
-	display: flex;
-	align-items: center;
-	height: ${SUB_HEIGHT};
-	min-height: ${SUB_HEIGHT};
-	overflow: scroll;
-`;
+import {
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../styles/default';
 
 const CheckboxContanier = styled.div`
-	margin 0px 8px ;
-`;
-
-const _ContentsContainer = styled.div`
-	padding: 15px 0px;
-	margin: 0px 8px;
-	font-size: 14px;
+	margin-bottom: 16px;
 `;
 
 const terminal_theme = [
@@ -108,10 +84,9 @@ const PreferencesSpace = () => {
 	}, [language, dispatch, i18n, lang]);
 
 	return (
-		<_Container back={backColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>{t('general')}</_Title>
-
-			<_ContentsContainer>
+		<SettingMainContainer themeValue={theme}>
+			<SettingTitle themeValue={theme}>{t('general')}</SettingTitle>
+			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
 					title={t('lang')}
@@ -126,10 +101,10 @@ const PreferencesSpace = () => {
 					value={generalTheme}
 					setValue={setGeneralTheme}
 				/>
-			</_ContentsContainer>
+			</SettingContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>{t('terminal')}</_Title>
-			<_ContentsContainer>
+			<SettingTitle themeValue={theme}>{t('terminal')}</SettingTitle>
+			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
 					title={t('uiTheme')}
@@ -156,10 +131,10 @@ const PreferencesSpace = () => {
 				{/*	value={copyText}*/}
 				{/*	setValue={setCopyText}*/}
 				{/*/>*/}
-			</_ContentsContainer>
+			</SettingContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>
-			<_ContentsContainer>
+			<SettingTitle themeValue={theme}>{t('sftp')}</SettingTitle>
+			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
 					title={t('editorTheme')}
@@ -167,8 +142,8 @@ const PreferencesSpace = () => {
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>
-			</_ContentsContainer>
-		</_Container>
+			</SettingContentsContainer>
+		</SettingMainContainer>
 	);
 };
 

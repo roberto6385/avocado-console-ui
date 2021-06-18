@@ -11,7 +11,7 @@ import {
 	FOLDER_HEIGHT,
 	IconButton,
 } from '../../styles/global';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
 import {SecondaryGreenButton, PrimaryGreenButton} from '../../styles/default';
@@ -37,6 +37,7 @@ const Item_Container = styled.div`
 	align-items: center;
 	justify-content: space-between;
 `;
+
 const _Input = styled.input`
 	flex: 1;
 	height: ${FOLDER_HEIGHT};
@@ -216,7 +217,7 @@ const PasswordForm = () => {
 				<a href={'/signin'}> {t('signIn')} </a>
 			</_Span>
 
-			<Input_>
+			<InputFiled_>
 				<_Input
 					ref={idRef}
 					value={id}
@@ -224,19 +225,19 @@ const PasswordForm = () => {
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</Input_>
+			</InputFiled_>
 			<Item_Container>
-				<Input_ flex={1}>
+				<InputFiled_ flex={1}>
 					<span>{t('auth')}</span>
 					{/*<span>등록한 메일로 인증번호가 전송됩니다.</span>*/}
-				</Input_>
+				</InputFiled_>
 
 				<_SecondaryGreenButton onClick={sendAuth}>
 					{t('send')}
 				</_SecondaryGreenButton>
 			</Item_Container>
 			<Item_Container>
-				<Input_ flex={1}>
+				<InputFiled_ flex={1}>
 					<_Input
 						type='email'
 						value={email}
@@ -244,12 +245,12 @@ const PasswordForm = () => {
 						onChange={onChangeEmail}
 						placeholder={t('authInput')}
 					/>
-				</Input_>
+				</InputFiled_>
 				<_SecondaryGreenButton onClick={checkAuth}>
 					{t('check')}
 				</_SecondaryGreenButton>
 			</Item_Container>
-			<Input_>
+			<InputFiled_>
 				<_PasswordContainer id={'password_container'}>
 					<_PasswordInput
 						onFocus={focusin('password')}
@@ -272,8 +273,8 @@ const PasswordForm = () => {
 						)}
 					</IconButton>
 				</_PasswordContainer>
-			</Input_>
-			<Input_>
+			</InputFiled_>
+			<InputFiled_>
 				<_PasswordContainer id={'passwordConfirm_container'}>
 					<_PasswordInput
 						onFocus={focusin('confirm')}
@@ -289,7 +290,7 @@ const PasswordForm = () => {
 						placeholder={t('confirmPassword')}
 					/>
 				</_PasswordContainer>
-			</Input_>
+			</InputFiled_>
 			<_PrimaryGreenButton type='submit'>
 				{t('changePassword')}
 			</_PrimaryGreenButton>

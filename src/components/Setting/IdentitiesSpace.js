@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {ROBOTO, IconContainer} from '../../styles/global';
+import {IconContainer} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -9,14 +9,7 @@ import {
 } from '../../reducers/common';
 import {searchIcon} from '../../icons/icons';
 import useInput from '../../hooks/useInput';
-import {
-	FONT_14,
-	HEIGHT_26,
-	HEIGHT_30,
-	HEIGHT_48,
-	HEIGHT_50,
-	WIDTH_165,
-} from '../../styles/length';
+import {HEIGHT_30, HEIGHT_48} from '../../styles/length';
 import {
 	borderColor,
 	fontColor,
@@ -24,39 +17,33 @@ import {
 	identityForm,
 	accountHigh,
 	identitySearchInput,
-	mainBackColor,
 	identityHigh,
 } from '../../styles/color';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
+import {
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../styles/default';
 
-const _Container = styled.div`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-	overflow: scroll;
-`;
-
-const _Title = styled.div`
-	margin: 0px 16px;
-	display: flex;
-	align-items: center;
-	height: ${HEIGHT_50};
-	min-height: ${HEIGHT_50};
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
-`;
-
-const _ContentContainer = styled.div`
+const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
 	flex: 1;
-	margin: 0px 8px;
-	font-size: 14px;
 `;
 
 const _Span = styled.span`
 	margin: 8px;
+`;
+
+const _Ul = styled.ul`
+	background: white;
+	flex: 1;
+	color: ${(props) => fontColor[props.themeValue]};
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => identityForm[props.themeValue]};
+`;
+const _ResourceListUl = styled(_Ul)`
+	margin-right: 16px;
 `;
 
 const _Li = styled.li`
@@ -64,13 +51,9 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
+	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
 	background: ${(props) => props.back};
-	font-family: ${ROBOTO};
-	font-size: ${FONT_14};
-	letter-spacing: 0.14px;
-
+	letter-spacing: 0.13px;
 	.pretty.p-svg.p-curve {
 		z-index: 0;
 		line-height: 14px;
@@ -82,7 +65,7 @@ const _Li = styled.li`
 			font-size: 15px !important;
 		}
 		label {
-			font-size: ${FONT_14};
+			font-size: 14px;
 			::bofore,
 			::after {
 				font-size: 15px;
@@ -138,41 +121,21 @@ const _CheckBoxIdentity = styled(_UserNameType)`
 	padding: 6px 16px;
 `;
 
-const _AccountListUl = styled.ul`
-	background: white;
-	flex: 1;
-	margin: 16px 8px;
-
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-`;
-const _ResourceListUl = styled.ul`
-	flex: 1;
-	margin: 16px 8px;
-
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-`;
-
 const _Form = styled.form`
 	display: flex;
 	align-items: center;
-	padding: 16px 10px;
+	padding: 3px 6px;
 	height: ${HEIGHT_30};
-	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
-	margin: 6px 16px;
-	border-radius: 4px;
+	background: ${(props) => identitySearchInput[props.themeValue]};
+	margin: 9px 16px;
 `;
 
 const _Input = styled.input`
-	width: ${WIDTH_165};
-	height: ${HEIGHT_26};
+	width: 243px;
+	height: 24px;
 	border: none;
-	font-size: 14px;
-	padding: 0px;
 	background: transparent;
-	color: ${(props) => props.color};
+	color: ${(props) => fontColor[props.themeValue]};
 `;
 
 function searchTreeNode(node, key) {
@@ -261,18 +224,18 @@ const IdentitiesSpace = () => {
 	}, []);
 
 	return (
-		<_Container back={mainBackColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>{t('title')}</_Title>
-			<_ContentContainer>
-				<_ResourceListUl back={identityForm[theme]}>
-					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
+		<SettingMainContainer themeValue={theme}>
+			<SettingTitle themeValue={theme}>{t('title')}</SettingTitle>
+			<_SettingContentsContainer>
+				<_ResourceListUl themeValue={theme}>
+					<_Li themeValue={theme} className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Form back={identitySearchInput[theme]}>
+						<_Form themeValue={theme}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -284,7 +247,7 @@ const IdentitiesSpace = () => {
 								value={resourceSearch}
 								type='text'
 								placeholder={t('search')}
-								color={fontColor[theme]}
+								themeValue={theme}
 							/>
 						</_Form>
 						{/*<IconButton*/}
@@ -294,12 +257,11 @@ const IdentitiesSpace = () => {
 						{/*	{plusIcon}*/}
 						{/*</IconButton>*/}
 					</_Li>
-					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
+					<_Li themeValue={theme} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
 						<_AddressName>{t('address')}</_AddressName>
 						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
 						<_ProtocolPortName>{t('port')}</_ProtocolPortName>
-						{/*<_ProtocolPortName>{t('note')}</_ProtocolPortName>*/}
 					</_Li>
 					{server.map((item) => {
 						if (
@@ -314,7 +276,7 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_ResourceLi
-									b_color={borderColor[theme]}
+									themeValue={theme}
 									key={item.id}
 									onClick={selectResourceList(item)}
 									back={
@@ -338,8 +300,8 @@ const IdentitiesSpace = () => {
 							);
 					})}
 				</_ResourceListUl>
-				<_AccountListUl back={identityForm[theme]}>
-					<_Li b_color={borderColor[theme]} className={'weight_bold'}>
+				<_Ul themeValue={theme}>
+					<_Li themeValue={theme} className={'weight_bold'}>
 						<_Name>
 							{t('account')}
 							<_Span>
@@ -355,7 +317,7 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Form back={identitySearchInput[theme]}>
+						<_Form themeValue={theme}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -367,12 +329,12 @@ const IdentitiesSpace = () => {
 								value={identitySearch}
 								type='text'
 								placeholder={t('search')}
-								color={fontColor[theme]}
+								themeValue={theme}
 							/>
 						</_Form>
 					</_Li>
 					<_Li
-						b_color={borderColor[theme]}
+						themeValue={theme}
 						className={'weight_bold'}
 						// onContextMenu={contextMenuOpen(-1)}
 					>
@@ -397,7 +359,7 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_Li
-									b_color={borderColor[theme]}
+									themeValue={theme}
 									key={item.id}
 									back={
 										item.checked
@@ -421,9 +383,9 @@ const IdentitiesSpace = () => {
 								</_Li>
 							);
 					})}
-				</_AccountListUl>
-			</_ContentContainer>
-		</_Container>
+				</_Ul>
+			</_SettingContentsContainer>
+		</SettingMainContainer>
 	);
 };
 

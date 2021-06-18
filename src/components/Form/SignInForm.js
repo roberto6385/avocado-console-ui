@@ -16,7 +16,7 @@ import {
 	FOLDER_HEIGHT,
 	IconButton,
 } from '../../styles/global';
-import Input_ from '../RecycleComponents/Input_';
+import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';
 import googleButton from '../../images/google_btn.png';
@@ -232,7 +232,7 @@ const SignInForm = () => {
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
 			</_Span>
 
-			<Input_>
+			<InputFiled_>
 				<_Input
 					ref={idRef}
 					value={user}
@@ -240,8 +240,8 @@ const SignInForm = () => {
 					onChange={onChangeUser}
 					placeholder={t('id')}
 				/>
-			</Input_>
-			<Input_>
+			</InputFiled_>
+			<InputFiled_>
 				<_PasswordContainer id={'password_container'}>
 					<_PasswordInput
 						ref={passwordRef}
@@ -265,7 +265,7 @@ const SignInForm = () => {
 						)}
 					</IconButton>
 				</_PasswordContainer>
-			</Input_>
+			</InputFiled_>
 			<_CheckboxAnchorContainer>
 				<Checkbox_
 					title={t('remember')}

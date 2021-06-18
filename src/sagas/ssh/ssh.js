@@ -167,7 +167,7 @@ function* sendCommand(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(500),
+					timeout: delay(5000),
 					result: take(channel),
 				});
 
@@ -212,7 +212,7 @@ function* sendWindowChange(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(500),
+					timeout: delay(5000),
 					result: take(channel),
 				});
 
