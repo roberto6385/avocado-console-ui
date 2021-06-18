@@ -177,3 +177,5 @@ export const secondaryDisabledButtonColor = [
 	L_GREY_BOARDER_NORMAL,
 	D_DISABLED_BUTTON,
 ];
+
+export const snippetsBoarderColor = [L_GREEN_NORMAL, D_GREEN_NORMAL];

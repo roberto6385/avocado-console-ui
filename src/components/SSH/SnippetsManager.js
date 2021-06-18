@@ -8,18 +8,17 @@ import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
 import {
 	FOLDER_HEIGHT,
 	IconButton,
-	borderColor,
 	fontColor,
 	iconColor,
 	sideColor,
 	backColor,
-	mintColor,
-	inputColor,
 } from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
 import {
+	Form,
+	Input,
 	ModalFooter,
 	ModalHeader,
 	ModalHeaderIconButton,
@@ -27,6 +26,12 @@ import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/default';
+import {
+	borderColor,
+	L_GREEN_NORMAL,
+	settingInput,
+	snippetsBoarderColor,
+} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 600px;
@@ -34,36 +39,19 @@ const _PopupModal = styled(PopupModal)`
 	z-index: 5;
 `;
 
-const _Input = styled.input`
-	height: 34px;
-	margin: 0;
-	padding: 6px 10px;
+const _Textarea = styled.textarea`
+	height: 288px;
+	padding: 6px 10px 260px;
 	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-`;
-
-const _TextareaInput = styled.textarea`
-	// width: 372px;
-	height: 278px;
-	margin: 0;
-	padding: 6px 10px 20px;
-	border-radius: 4px;
-
-	border: 1px solid;
-	border-color: ${(props) => props?.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+	border: 1px solid ${(props) => borderColor[props.themeValue]};
+	background: ${(props) => settingInput[props.themeValue]};
+	color: ${(props) => fontColor[props.themeValue]};
 	resize: none;
 `;
 
-const _Form = styled.form`
-	width: 404px;
+const _Form = styled(Form)`
 	height: 416px;
-	margin: 0;
-	padding: 18px 16px;
+	padding-bottom: 0px;
 `;
 
 const _Text = styled.div`
@@ -85,55 +73,33 @@ const _Ul = styled.ul`
 const _Li = styled.li`
 	width: 193px;
 	height: 40px;
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
 	letter-spacing: 0.14px;
 	text-align: left;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background: ${(props) => props.back};
-	border-color: ${(props) => props.b_color};
-	padding: ${(props) => props.padding};
-	border-left: ${(props) => props.b_left};
+	padding: ${(props) =>
+		props.clicked ? '1px 15px 3px 12px' : '1px 15px 3px 14px'};
+	border-color: ${(props) => snippetsBoarderColor[props.themeValue]};
+	border-left: ${(props) => (props.clicked ? '2px solid' : 'none')};
 `;
 
 const _HeaderLi = styled(_Li)`
 	padding: 2px 14px;
 `;
 
-const _Footer = styled.div`
-	display: flex;
-	width: 598px;
-	height: 60px;
-	margin: 1px 0 0;
-	padding: 13px 16px 13px 326px;
-	border-top: 1px solid;
-	border-color: ${(props) => props.b_color};
-`;
-
-const _Input_ = styled(InputFiled_)`
-	width: 372px;
-	height: 16px;
-	margin: 0 0 6px;
-	font-family: Roboto;
-	font-size: 14px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: 0.14px;
-	text-align: left;
-
-	color: ${(props) => props.color};
-`;
+// const _InputFiled = styled(InputFiled_)`
+// 	width: 372px;
+// 	height: 16px;
+// 	margin: 0 0 6px;
+// 	color: ${(props) => props.color};
+// `;
 
 const _ListContainer = styled.div`
 	display: flex;
 	flex-direction: row;
+	overflow: scroll;
 `;
 
 const SnippetsManeger = ({open, setOpen}) => {
@@ -260,14 +226,14 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	return (
 		<_PopupModal
-			isOpen={open}
+			isOpen={true}
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<div themeValue={theme}>{t('snippetsManager')}</div>
+				<div>{t('snippetsManager')}</div>
 				<ModalHeaderIconButton
 					color={iconColor[theme]}
 					onClick={onClickCancel}
@@ -302,44 +268,33 @@ const SnippetsManeger = ({open, setOpen}) => {
 									? sideColor[theme]
 									: backColor[theme]
 							}
-							b_color={mintColor[theme]}
-							b_left={
-								clickedSnippet === v.id ? '2px solid' : 'none'
-							}
-							padding={
-								clickedSnippet === v.id
-									? '1px 15px 3px 12px'
-									: '1px 15px 3px 14px'
-							}
+							themeValue={theme}
+							clicked={clickedSnippet === v.id ? true : false}
 						>
 							<_Text>{v.name === '' ? t('new') : v.name}</_Text>
 						</_Li>
 					))}
 				</_Ul>
 				<_Form>
-					<_Input_ title={t('name')}>
-						<_Input
+					<InputFiled_ title={t('name')}>
+						<Input
 							ref={nameInput}
 							value={name}
 							onChange={onChangeName}
 							type='text'
 							placeholder={t('place.name')}
-							back={inputColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+							themeValue={theme}
 						/>
-					</_Input_>
-					<_Input_ title={t('content')}>
-						<_TextareaInput
+					</InputFiled_>
+					<InputFiled_ title={t('content')}>
+						<_Textarea
 							value={content}
 							onChange={onChangeContent}
 							type='text'
 							placeholder={t('place.content')}
-							back={inputColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
+							themeValue={theme}
 						/>
-					</_Input_>
+					</InputFiled_>
 				</_Form>
 			</_ListContainer>
 			<ModalFooter themeValue={theme}>
