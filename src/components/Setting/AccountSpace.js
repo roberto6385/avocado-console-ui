@@ -5,62 +5,31 @@ import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Radio_ from '../RecycleComponents/Radio_';
 import Select_ from '../RecycleComponents/Select_';
 
-import {DefaultButton, PrimaryGreenButton} from '../../styles/default';
+import {
+	Input,
+	PrimaryDisabledButton,
+	PrimaryGreenButton,
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../styles/default';
 
 import ChangePasswordForm from '../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {HEIGHT_34, HEIGHT_50, WIDTH_160, WIDTH_500} from '../../styles/length';
-import {
-	borderColor,
-	fontColor,
-	inputBack,
-	mainBackColor,
-} from '../../styles/color';
+import {WIDTH_160, WIDTH_500} from '../../styles/length';
 
-const _Container = styled.div`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-	overflow: scroll;
-`;
-
-const _Title = styled.div`
-	margin: 0px 16px;
-	display: flex;
-	align-items: center;
-	height: ${HEIGHT_50};
-	min-height: ${HEIGHT_50};
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.b_color};
-`;
-
-const _ContentsContainer = styled.div`
-	padding: 15px 0px;
-	margin: 0px 8px;
-	font-size: 14px;
-`;
-
-const _Input = styled.input`
-	width: ${(props) => props?.width || WIDTH_500};
-	height: ${HEIGHT_34};
-	padding: 0px 10px;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => inputBack[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
+const _Input = styled(Input)`
+	width: 500px;
 `;
 
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
-	margin-top: 8px;
+	margin-top: 7px;
 	width: ${WIDTH_160};
 	min-width: ${WIDTH_160};
 `;
-const _DisabledButton = styled(DefaultButton)`
-	margin-top: 8px;
+const _PrimaryDisabledButton = styled(PrimaryDisabledButton)`
+	margin-top: 7px;
 	width: ${WIDTH_160};
 	min-width: ${WIDTH_160};
 `;
@@ -74,8 +43,6 @@ const _Section = styled.section`
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
 	const {theme, account} = useSelector((state) => state.common);
-
-	console.log(account);
 
 	const [open, setOpen] = useState(false);
 	const [authType, setAuthType] = useState('first_option');
@@ -106,9 +73,9 @@ const AccountSpace = () => {
 	]);
 
 	return (
-		<_Container back={mainBackColor[theme]} color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>{t('title.account')}</_Title>
-			<_ContentsContainer>
+		<SettingMainContainer themeValue={theme}>
+			<SettingTitle themeValue={theme}>{t('title.account')}</SettingTitle>
+			<SettingContentsContainer>
 				<InputFiled_ title={t('account')}>
 					<_Input
 						themeValue={theme}
@@ -133,9 +100,9 @@ const AccountSpace = () => {
 						readOnly
 					/>
 				</InputFiled_>
-			</_ContentsContainer>
-			<_Title b_color={borderColor[theme]}>{t('title.auth')}</_Title>
-			<_ContentsContainer>
+			</SettingContentsContainer>
+			<SettingTitle themeValue={theme}>{t('title.auth')}</SettingTitle>
+			<SettingContentsContainer>
 				<_Section>
 					<Select_
 						title={t('auth')}
@@ -153,9 +120,12 @@ const AccountSpace = () => {
 							{t('changePassword')}
 						</_PrimaryGreenButton>
 					) : (
-						<_DisabledButton onClick={() => setOpen(true)} disabled>
+						<_PrimaryDisabledButton
+							onClick={() => setOpen(true)}
+							disabled
+						>
 							{t('changePassword')}
-						</_DisabledButton>
+						</_PrimaryDisabledButton>
 					)}
 				</_Section>
 
@@ -166,8 +136,8 @@ const AccountSpace = () => {
 					setValue={setAuthValue}
 					disabled={authType === 'first_option'}
 				/>
-			</_ContentsContainer>
-			<_ContentsContainer>
+			</SettingContentsContainer>
+			<SettingContentsContainer>
 				<Select_
 					title={t('mfa')}
 					options={mfaOptions}
@@ -182,9 +152,9 @@ const AccountSpace = () => {
 					setValue={setMfaValue}
 					disabled={mfaType === 'not_use'}
 				/>
-			</_ContentsContainer>
+			</SettingContentsContainer>
 			<ChangePasswordForm open={open} setOpen={setOpen} />
-		</_Container>
+		</SettingMainContainer>
 	);
 };
 
