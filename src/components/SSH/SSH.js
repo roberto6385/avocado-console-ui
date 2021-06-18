@@ -282,7 +282,6 @@ const SSH = ({uuid}) => {
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
-		// sshTerm.setOption('fontWeight', '100');
 		fitAddon.fit();
 	}, [sshTerm, font]);
 	//change font size
@@ -347,7 +346,8 @@ const SSH = ({uuid}) => {
 			{currentLine.length > 0 &&
 				auto_completion_mode &&
 				!ignoreAutoCompletion &&
-				historyList.length > 0 && (
+				historyList.length > 0 &&
+				current_tab === uuid && (
 					<_ListGroup
 						ref={listRef}
 						left={
