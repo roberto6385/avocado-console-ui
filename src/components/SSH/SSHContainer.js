@@ -71,7 +71,7 @@ const SSHContainer = ({uuid, server}) => {
 			</_Header>
 			<SSH uuid={uuid} />
 			<SnippetsManeger open={open} setOpen={setOpen} />
-			<SnippetContextMenu uuid={uuid} setOpen={setOpen} />
+			<SnippetContextMenu setOpen={setOpen} />
 		</_Container>
 	);
 };

@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {DropDownMenu_Avocado} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
@@ -6,26 +6,29 @@ import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 
-const SnippetContextMenu = ({uuid, setOpen}) => {
+const SnippetContextMenu = ({setOpen}) => {
 	const {t} = useTranslation('snippets');
 	const dispatch = useDispatch();
 
-	const {theme} = useSelector((state) => state.common);
+	const {theme, current_tab} = useSelector((state) => state.common);
 	const {ssh, snippets} = useSelector((state) => state.ssh);
-	const ws = useRef(ssh.find((v) => v.uuid === uuid).ws);
+	const ws = useMemo(() => ssh.find((v) => v.uuid === current_tab).ws, [
+		ssh,
+		current_tab,
+	]);
 
 	const menuEvent = useCallback(
 		(v) => () => {
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
-					uuid: uuid,
-					ws: ws.current,
+					uuid: current_tab,
+					ws: ws,
 					input: v.content,
 				},
 			});
 		},
-		[uuid, ws],
+		[current_tab, ws],
 	);
 
 	return (
@@ -34,7 +37,13 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 			animation={animation.slide}
 			theme_value={theme}
 		>
-			<Item id='SnippetOpen' onClick={() => setOpen(true)}>
+			<Item
+				id='SnippetOpen'
+				onClick={() => {
+					console.log(current_tab);
+					setOpen(true);
+				}}
+			>
 				{t('editSnippets')}
 			</Item>
 			<Separator />
@@ -51,7 +60,6 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 
 SnippetContextMenu.propTypes = {
 	setOpen: PropTypes.func.isRequired,
-	uuid: PropTypes.string.isRequired,
 };
 
 export default SnippetContextMenu;
