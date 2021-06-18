@@ -25,7 +25,7 @@ import {
 	sshSearch,
 } from './color';
 import {Menu} from 'react-contexify';
-import {FONT_14} from './length';
+import {FONT_12, FONT_14} from './length';
 
 //Modal => popup, form
 export const PopupModal = styled(Modal)`
@@ -237,6 +237,8 @@ export const SecondaryDisabledButton = styled(DefaultButton)`
 // context menu
 export const ContextMenu_Avocado = styled(Menu)`
 	font-size: ${FONT_14};
+	z-index: 5px;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	background: ${(props) => sshSearch[props.theme_value]};
 
 	.react-contexify__item:not(.react-contexify__item--disabled):hover
@@ -251,5 +253,18 @@ export const ContextMenu_Avocado = styled(Menu)`
 	}
 	.react-contexify__item__content {
 		color: ${(props) => fontColor[props?.theme_value]};
+	}
+`;
+
+export const DropDownMenu_Avocado = styled(ContextMenu_Avocado)`
+	font-size: ${FONT_12};
+	min-width: 120px;
+
+	.react-contexify__separator {
+		// margin: 1px;
+	}
+	.react-contexify__item__content {
+		display: flex;
+		justify-content: center;
 	}
 `;

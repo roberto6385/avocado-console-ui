@@ -267,7 +267,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 			themeValue={theme}
 		>
 			<ModalHeader themeValue={theme}>
-				<div themeValue={theme}>{t('snippetsManager')}</div>
+				<div>{t('snippetsManager')}</div>
 				<ModalHeaderIconButton
 					color={iconColor[theme]}
 					onClick={onClickCancel}
