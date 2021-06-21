@@ -4,13 +4,11 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
-
 import {
 	alertFillIcon,
 	cancelFillIcon,
 	closeIconMedium,
 } from '../../icons/icons';
-
 import {
 	ModalFooter,
 	ModalHeader,

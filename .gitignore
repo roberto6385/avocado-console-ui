@@ -9,7 +9,10 @@
 /coverage
 
 # production
+# ignore all files in the build/ directory
 /build
+
+>>>>>>> ssh2
 # misc
 .DS_Store
 .env.local

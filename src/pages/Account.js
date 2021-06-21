@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import AccountSpace from '../components/Setting/AccountSpace';
-
 import SettingAppLayout from '../components/Setting/SettingLayout';
 
 const Account = () => {

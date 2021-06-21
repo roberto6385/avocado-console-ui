@@ -7,8 +7,6 @@ import {
 	race,
 	delay,
 	takeEvery,
-	takeLatest,
-	actionChannel,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,

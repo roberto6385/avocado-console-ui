@@ -1,15 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	race,
-	delay,
-	takeLatest,
-	actionChannel,
-	takeEvery,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
@@ -18,7 +7,7 @@ import {
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
 import {messageReader} from './messageReader';
-import {closeChannel, subscribe} from '../channel';
+import {subscribe} from '../channel';
 
 function* sendCommand(action) {
 	const {payload} = action;

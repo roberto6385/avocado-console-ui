@@ -1,12 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Select_ from '../../RecycleComponents/Select_';
 import styled from 'styled-components';
 import {
 	borderColor,
 	fontColor,
-	inputColor,
 	MONTSERRAT,
-	RIGHT_SIDE_WIDTH,
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
@@ -19,33 +17,28 @@ import {
 } from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
-import {FONT_16} from '../../../styles/length';
 
+//Setting Page Side Bar
 const _Container = styled.div`
-	width: ${RIGHT_SIDE_WIDTH};
-	padding: 0px 8px;
-	color: ${(props) => props.color};
+	padding: 0px 16px 15px 17px;
+	height: 100%;
+	z-index: 5; // terminal보다 높아야 함.
 `;
 
 const _Title = styled.div`
-	font-size: ${FONT_16};
-	margin: 0px 8px;
 	display: flex;
 	align-items: center;
 	height: 50px;
-	min-height: 50px;
-	border-bottom: 1px solid ${(props) => props?.b_color};
+	font-size: 16px;
+	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const _ContentsContainer = styled.div`
-	font-size: 14px;
 	padding: 15px 0px;
-	margin: 0px;
-	color: ${(props) => props?.color};
 `;
 
 const CheckboxContanier = styled.div`
-	margin 0px 8px ;
+	margin 0px 8px;
 `;
 
 const terminal_theme = [
@@ -107,8 +100,8 @@ const PreferencesAside = () => {
 	}, [language, dispatch, i18n, lang]);
 
 	return (
-		<_Container color={fontColor[theme]}>
-			<_Title b_color={borderColor[theme]}>{t('general')}</_Title>
+		<_Container>
+			<_Title theme_value={theme}>{t('general')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
@@ -126,7 +119,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>{t('terminal')}</_Title>
+			<_Title theme_value={theme}>{t('terminal')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
@@ -151,7 +144,7 @@ const PreferencesAside = () => {
 				</CheckboxContanier>
 			</_ContentsContainer>
 
-			<_Title b_color={borderColor[theme]}>{t('sftp')}</_Title>
+			<_Title theme_value={theme}>{t('sftp')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					title={t('editorTheme')}

@@ -6,7 +6,6 @@ import {
 	put,
 	race,
 	delay,
-	takeLatest,
 	actionChannel,
 } from 'redux-saga/effects';
 import {
@@ -14,8 +13,6 @@ import {
 	CD_REQUEST,
 	CD_SUCCESS,
 	commandLsAction,
-	commandPwdAction,
-	INITIAL_FILELIST,
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';

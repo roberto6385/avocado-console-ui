@@ -22,8 +22,8 @@ async function getUserTicketApi(params) {
 				Authorization: params.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			// baseURL:
-			// 	'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL:
+				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 		},
 	);
 }

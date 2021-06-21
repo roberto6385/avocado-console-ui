@@ -1,41 +1,25 @@
 import React, {useCallback, useMemo} from 'react';
 import styled from 'styled-components';
-import {
-	ACCOUNT_BUTTON_WIDTH,
-	GREEN_COLOR,
-	AVOCADO_HOVER_COLOR,
-	IconButton,
-	PATH_SEARCH_INPUT_HEIGHT,
-	RIGHT_SIDE_WIDTH,
-	THIRD_HEIGHT,
-	fontColor,
-	iconColor,
-	borderColor,
-} from '../../../styles/global';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
-import {FONT_14} from '../../../styles/length';
-import {activeColor, hoverColor} from '../../../styles/color';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
+import {PrimaryGreenButton} from '../../../styles/default';
+import {borderColor} from '../../../styles/color';
 
 const _Container = styled.div`
-	width: ${RIGHT_SIDE_WIDTH};
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	color: ${(props) => props.color};
+	height: 100%;
+	z-index: 5; // terminal보다 높아야 함.
 `;
 
 const _Li = styled.li`
-	width: ${RIGHT_SIDE_WIDTH};
-	height: ${THIRD_HEIGHT};
+	height: 48px;
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const _AccountContainer = styled.div`
@@ -45,30 +29,19 @@ const _AccountContainer = styled.div`
 	padding: 6px 16px;
 	white-space: nowrap;
 `;
+
 const _AuthenticationContainer = styled(_AccountContainer)`
 	width: 100px;
 `;
+
 const _CheckboxContainer = styled(_AuthenticationContainer)`
 	justify-content: center;
-	margin: 0px 8px;
 `;
 
-const _Span = styled.span`
-	font-size: ${FONT_14};
-`;
-
-const _Button = styled.button`
-	width: ${ACCOUNT_BUTTON_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
-	border: none;
-	border-radius: 4px;
-	font-size: ${FONT_14};
-	margin-top: 34px;
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	&:hover {
-		background: ${(props) => props?.hover};
-	}
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+	width: 268px;
+	margin: 34px 16px;
+	padding: 7px 16px;
 `;
 
 const IdentitiesAside = () => {
@@ -112,28 +85,24 @@ const IdentitiesAside = () => {
 	);
 
 	return (
-		<_Container color={fontColor[theme]}>
+		<_Container>
 			<ul>
-				<_Li b_color={borderColor[theme]}>
-					<_AccountContainer>
-						<_Span>{t('account')}</_Span>
-					</_AccountContainer>
+				<_Li theme_value={theme}>
+					<_AccountContainer>{t('account')}</_AccountContainer>
 					<_AuthenticationContainer>
-						<_Span>{t('auth')}</_Span>
+						{t('auth')}
 					</_AuthenticationContainer>
-					<_CheckboxContainer>
-						<_Span>{t('default')}</_Span>
-					</_CheckboxContainer>
+					<_CheckboxContainer>{t('default')}</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {
 					if (item.key === currentKey) {
 						return (
-							<_Li key={item.id} b_color={borderColor[theme]}>
+							<_Li key={item.id} theme_value={theme}>
 								<_AccountContainer>
-									<_Span>{item.identityName}</_Span>
+									{item.identityName}
 								</_AccountContainer>
 								<_AuthenticationContainer>
-									<_Span>{item.type}</_Span>
+									{item.type}
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
@@ -147,14 +116,12 @@ const IdentitiesAside = () => {
 					}
 				})}
 			</ul>
-			<_Button
-				back={activeColor[theme]}
-				hover={hoverColor[theme]}
-				color={theme === 0 ? 'white' : 'black'}
+			<_PrimaryGreenButton
+				theme_value={theme}
 				onClick={changePath('/identities')}
 			>
 				{t('editMore')}
-			</_Button>
+			</_PrimaryGreenButton>
 		</_Container>
 	);
 };

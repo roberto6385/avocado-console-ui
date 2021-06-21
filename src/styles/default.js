@@ -303,7 +303,7 @@ export const DropDownMenu_Avocado = styled(ContextMenu_Avocado)`
 	min-width: 120px;
 
 	.react-contexify__separator {
-		// margin: 1px;
+		margin: 1px;
 	}
 	.react-contexify__item__content {
 		display: flex;

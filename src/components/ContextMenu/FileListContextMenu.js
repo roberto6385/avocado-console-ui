@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {animation, Item, Menu, Separator} from 'react-contexify';
+import {animation, Item, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
@@ -19,10 +19,10 @@ const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corServer = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {highlight, path} = corServer;
 
 	const contextDownload = () => {
