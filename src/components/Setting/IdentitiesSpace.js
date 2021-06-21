@@ -38,9 +38,9 @@ const _Span = styled.span`
 const _Ul = styled.ul`
 	background: white;
 	flex: 1;
-	color: ${(props) => fontColor[props.themeValue]};
-	border: 1px solid ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => identityForm[props.themeValue]};
+	color: ${(props) => fontColor[props.theme_value]};
+	border: 1px solid ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => identityForm[props.theme_value]};
 `;
 const _ResourceListUl = styled(_Ul)`
 	margin-right: 16px;
@@ -51,7 +51,7 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
+	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 	background: ${(props) => props.back};
 	letter-spacing: 0.13px;
 	.pretty.p-svg.p-curve {
@@ -126,7 +126,7 @@ const _Form = styled.form`
 	align-items: center;
 	padding: 3px 6px;
 	height: ${HEIGHT_30};
-	background: ${(props) => identitySearchInput[props.themeValue]};
+	background: ${(props) => identitySearchInput[props.theme_value]};
 	margin: 9px 16px;
 `;
 
@@ -135,7 +135,7 @@ const _Input = styled.input`
 	height: 24px;
 	border: none;
 	background: transparent;
-	color: ${(props) => fontColor[props.themeValue]};
+	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 function searchTreeNode(node, key) {
@@ -224,18 +224,18 @@ const IdentitiesSpace = () => {
 	}, []);
 
 	return (
-		<SettingMainContainer themeValue={theme}>
-			<SettingTitle themeValue={theme}>{t('title')}</SettingTitle>
+		<SettingMainContainer theme_value={theme}>
+			<SettingTitle theme_value={theme}>{t('title')}</SettingTitle>
 			<_SettingContentsContainer>
-				<_ResourceListUl themeValue={theme}>
-					<_Li themeValue={theme} className={'weight_bold'}>
+				<_ResourceListUl theme_value={theme}>
+					<_Li theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Form themeValue={theme}>
+						<_Form theme_value={theme}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -247,7 +247,7 @@ const IdentitiesSpace = () => {
 								value={resourceSearch}
 								type='text'
 								placeholder={t('search')}
-								themeValue={theme}
+								theme_value={theme}
 							/>
 						</_Form>
 						{/*<IconButton*/}
@@ -257,7 +257,7 @@ const IdentitiesSpace = () => {
 						{/*	{plusIcon}*/}
 						{/*</IconButton>*/}
 					</_Li>
-					<_Li themeValue={theme} className={'weight_bold'}>
+					<_Li theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
 						<_AddressName>{t('address')}</_AddressName>
 						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
@@ -276,7 +276,7 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_ResourceLi
-									themeValue={theme}
+									theme_value={theme}
 									key={item.id}
 									onClick={selectResourceList(item)}
 									back={
@@ -300,8 +300,8 @@ const IdentitiesSpace = () => {
 							);
 					})}
 				</_ResourceListUl>
-				<_Ul themeValue={theme}>
-					<_Li themeValue={theme} className={'weight_bold'}>
+				<_Ul theme_value={theme}>
+					<_Li theme_value={theme} className={'weight_bold'}>
 						<_Name>
 							{t('account')}
 							<_Span>
@@ -317,7 +317,7 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Form themeValue={theme}>
+						<_Form theme_value={theme}>
 							<IconContainer
 								color={iconColor[theme]}
 								margin={'0px 6px 0px 0px'}
@@ -329,12 +329,12 @@ const IdentitiesSpace = () => {
 								value={identitySearch}
 								type='text'
 								placeholder={t('search')}
-								themeValue={theme}
+								theme_value={theme}
 							/>
 						</_Form>
 					</_Li>
 					<_Li
-						themeValue={theme}
+						theme_value={theme}
 						className={'weight_bold'}
 						// onContextMenu={contextMenuOpen(-1)}
 					>
@@ -359,7 +359,7 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_Li
-									themeValue={theme}
+									theme_value={theme}
 									key={item.id}
 									back={
 										item.checked

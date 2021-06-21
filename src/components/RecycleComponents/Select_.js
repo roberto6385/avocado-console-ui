@@ -28,10 +28,10 @@ const _Container = styled.div`
 const _Select = styled(Select)`
 	max-width: 500px;
 	div {
-		border-color: ${(props) => borderColor[props.themeValue]};
+		border-color: ${(props) => borderColor[props.theme_value]};
 		transition: initial;
 		&:hover {
-			border-color: ${(props) => borderColor[props.themeValue]};
+			border-color: ${(props) => borderColor[props.theme_value]};
 		}
 		span {
 			display: none;
@@ -47,7 +47,7 @@ const _Select = styled(Select)`
 		}
 		.css-4ljt47-MenuList {
 			width: 100%;
-			background: ${(props) => inputBack[props.themeValue]};
+			background: ${(props) => inputBack[props.theme_value]};
 		}
 	}
 `;
@@ -120,7 +120,7 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 				onChange={handleChange}
 				isDisabled={disabled}
 				styles={colourStyles}
-				themeValue={theme}
+				theme_value={theme}
 				// 선택된 border color, 기본 border color
 				// hover color, focus color
 			/>

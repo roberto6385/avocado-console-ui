@@ -159,28 +159,28 @@ const WarningAlertPopup = () => {
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
-				<div themeValue={theme}>{t('alert')}</div>
+			<ModalHeader theme_value={theme}>
+				<div theme_value={theme}>{t('alert')}</div>
 				<ModalHeaderIconButton
-					themeValue={theme}
+					theme_value={theme}
 					onClick={cancelFunction}
 				>
 					{closeIconMedium}
 				</ModalHeaderIconButton>
 			</ModalHeader>
 
-			<ModalMessage themeValue={theme}>
+			<ModalMessage theme_value={theme}>
 				<div>{cancelFillIcon}</div>
 				<PopupText>{AlertMessage[warning_alert_popup.key]}</PopupText>
 			</ModalMessage>
 
-			<ModalFooter themeValue={theme}>
-				<PrimaryGreyButton themeValue={theme} onClick={cancelFunction}>
+			<ModalFooter theme_value={theme}>
+				<PrimaryGreyButton theme_value={theme} onClick={cancelFunction}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryRedButton themeValue={theme} onClick={submitFunction}>
+				<PrimaryRedButton theme_value={theme} onClick={submitFunction}>
 					{t('delete')}
 				</PrimaryRedButton>
 			</ModalFooter>

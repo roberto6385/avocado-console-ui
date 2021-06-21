@@ -102,12 +102,12 @@ const _OpenButton = styled.div`
 	line-height: 0px;
 	cursor: pointer;
 	border: 1px solid;
-	border-color: ${(props) => iconColor[props?.themeValue]};
+	border-color: ${(props) => iconColor[props?.theme_value]};
 	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 	position: absolute;
 	padding: 4px;
 	border-radius: 50%;
-	background: ${(props) => inputBack[props?.themeValue]};
+	background: ${(props) => inputBack[props?.theme_value]};
 	right: -30px;
 	bottom: 10px;
 	display: ${(props) => props?.display};
@@ -116,7 +116,7 @@ const _OpenButton = styled.div`
 const _Right = styled.span`
 	position: relative;
 	right: -8px;
-	color: ${(props) => iconColor[props?.themeValue]};
+	color: ${(props) => iconColor[props?.theme_value]};
 `;
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
@@ -202,11 +202,11 @@ const Nav = ({toggle, setToggle}) => {
 			<_OpenButton
 				onClick={() => setToggle(!toggle)}
 				display={toggle ? 'none' : 'inline-block'}
-				themeValue={theme}
+				theme_value={theme}
 			>
 				<_Right
 					className='material-icons button_super'
-					themeValue={theme}
+					theme_value={theme}
 				>
 					navigate_next
 				</_Right>

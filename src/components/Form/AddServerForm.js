@@ -341,11 +341,11 @@ const AddServerForm = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
+			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
-				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
 					{closeIconSmall}
 				</ModalHeaderIconButton>
 			</ModalHeader>
@@ -354,7 +354,7 @@ const AddServerForm = () => {
 				<_ItemContainer>
 					<_InputFiled title={t('name')} flex={1}>
 						<Input
-							themeValue={theme}
+							theme_value={theme}
 							type='text'
 							value={name}
 							// onChange={onChangeName}
@@ -375,7 +375,7 @@ const AddServerForm = () => {
 				<_ItemContainer>
 					<_InputFiled title={t('address')} flex={1}>
 						<Input
-							themeValue={theme}
+							theme_value={theme}
 							type='text'
 							value={host}
 							// onChange={onChangeHost}
@@ -386,7 +386,7 @@ const AddServerForm = () => {
 					<_SecondItem>
 						<InputFiled_ title={t('port')}>
 							<_Input
-								themeValue={theme}
+								theme_value={theme}
 								type='number'
 								value={port}
 								// onChange={onChangePort}
@@ -419,7 +419,7 @@ const AddServerForm = () => {
 				<_ItemContainer>
 					<InputFiled_ title={t('userName')} flex={1}>
 						<Input
-							themeValue={theme}
+							theme_value={theme}
 							type='text'
 							value={username}
 							// onChange={onChangeUsername}
@@ -432,7 +432,7 @@ const AddServerForm = () => {
 					<_ItemContainer>
 						<InputFiled_ title={t('password')} flex={1}>
 							<Input
-								themeValue={theme}
+								theme_value={theme}
 								type='password'
 								value={password}
 								// onChange={onChangePassword}
@@ -465,7 +465,7 @@ const AddServerForm = () => {
 								</_Label>
 							</InputFiled_>
 							<_SecondaryGreenButton
-								themeValue={theme}
+								theme_value={theme}
 								onClick={(e) => {
 									e.preventDefault();
 									document
@@ -482,7 +482,7 @@ const AddServerForm = () => {
 						<_ItemContainer>
 							<InputFiled_ title={t('keyFilePassword')} flex={1}>
 								<Input
-									themeValue={theme}
+									theme_value={theme}
 									type='password'
 									value={password}
 									// onChange={onChangePassword}
@@ -496,7 +496,7 @@ const AddServerForm = () => {
 				<_ItemContainer>
 					<InputFiled_ title={t('note')} flex={1}>
 						<Input
-							themeValue={theme}
+							theme_value={theme}
 							type='text'
 							value={note}
 							// onChange={onChangeNote}
@@ -506,15 +506,15 @@ const AddServerForm = () => {
 					</InputFiled_>
 				</_ItemContainer>
 			</Form>
-			<ModalFooter themeValue={theme}>
+			<ModalFooter theme_value={theme}>
 				<PrimaryGreyButton
-					themeValue={theme}
+					theme_value={theme}
 					onClick={closeModal}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
+				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>

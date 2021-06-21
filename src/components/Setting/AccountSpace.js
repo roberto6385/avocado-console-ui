@@ -73,12 +73,12 @@ const AccountSpace = () => {
 	]);
 
 	return (
-		<SettingMainContainer themeValue={theme}>
-			<SettingTitle themeValue={theme}>{t('title.account')}</SettingTitle>
+		<SettingMainContainer theme_value={theme}>
+			<SettingTitle theme_value={theme}>{t('title.account')}</SettingTitle>
 			<SettingContentsContainer>
 				<InputFiled_ title={t('account')}>
 					<_Input
-						themeValue={theme}
+						theme_value={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
@@ -87,7 +87,7 @@ const AccountSpace = () => {
 				<InputFiled_ title={t('name')}>
 					<_Input
 						value={account.name}
-						themeValue={theme}
+						theme_value={theme}
 						placeholder={t('namePlace')}
 						readOnly
 					/>
@@ -95,13 +95,13 @@ const AccountSpace = () => {
 				<InputFiled_ title={t('email')}>
 					<_Input
 						value={account.email}
-						themeValue={theme}
+						theme_value={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
 				</InputFiled_>
 			</SettingContentsContainer>
-			<SettingTitle themeValue={theme}>{t('title.auth')}</SettingTitle>
+			<SettingTitle theme_value={theme}>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>
 				<_Section>
 					<Select_
@@ -113,7 +113,7 @@ const AccountSpace = () => {
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
-							themeValue={theme}
+							theme_value={theme}
 							onClick={() => setOpen(true)}
 							// disabled
 						>
