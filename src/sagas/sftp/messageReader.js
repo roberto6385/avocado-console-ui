@@ -322,7 +322,6 @@ export async function messageReader({data, payload}) {
 								readByteSum = 0;
 								readPercent = 0;
 							}
-
 							return {
 								type: READ_SUCCESS,
 								byteSum: readByteSum,

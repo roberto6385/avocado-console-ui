@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {ADD_HISTORY, commandPutAction} from '../../../reducers/sftp';
+import {ADD_HISTORY, commandWriteAction} from '../../../reducers/sftp';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {Span, IconButton} from '../../../styles/global';
@@ -48,10 +48,10 @@ const HistoryNav = ({uuid}) => {
 			const files = e.target.files;
 			for await (let value of files) {
 				dispatch(
-					commandPutAction({
+					commandWriteAction({
 						...corServer,
 						file: value,
-						keyword: 'put',
+						keyword: 'write',
 					}),
 				);
 				dispatch({
@@ -60,12 +60,12 @@ const HistoryNav = ({uuid}) => {
 						uuid: uuid,
 						name: value.name,
 						size: value.size,
-						todo: 'put',
+						todo: 'write',
 						progress: 0,
 					},
 				});
 			}
-			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
+			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
 		};
 		document.body.removeChild(uploadInput);
 	}, [corServer]);

@@ -42,6 +42,11 @@ export const PUT_REQUEST = 'sftp/PUT_REQUEST';
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
 export const PUT_FAILURE = 'sftp/PUT_FAILURE';
 
+// put
+export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
+export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
+export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
+
 // get
 export const GET_REQUEST = 'sftp/GET_REQUEST';
 export const GET_SUCCESS = 'sftp/GET_SUCCESS';
@@ -102,6 +107,10 @@ export const connectionAction = (payload) => ({
 
 export const commandPutAction = (payload) => ({
 	type: PUT_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+export const commandWriteAction = (payload) => ({
+	type: WRITE_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
 

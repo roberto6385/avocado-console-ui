@@ -5,9 +5,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY_HI,
 	ADD_HISTORY,
-	commandPutAction,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
+	commandWriteAction,
 } from '../../../reducers/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
@@ -142,10 +142,10 @@ const HistoryContents = ({uuid}) => {
 			const files = e.target.files;
 			for await (let value of files) {
 				dispatch(
-					commandPutAction({
+					commandWriteAction({
 						...corServer,
 						file: value,
-						keyword: 'put',
+						keyword: 'write',
 					}),
 				);
 				dispatch({
@@ -154,12 +154,12 @@ const HistoryContents = ({uuid}) => {
 						uuid: uuid,
 						name: value.name,
 						size: value.size,
-						todo: 'put',
+						todo: 'write',
 						progress: 0,
 					},
 				});
 			}
-			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
+			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
 		};
 		document.body.removeChild(uploadInput);
 	}, [corServer]);
@@ -168,10 +168,10 @@ const HistoryContents = ({uuid}) => {
 		async (files) => {
 			for await (let value of files) {
 				dispatch(
-					commandPutAction({
+					commandWriteAction({
 						...corServer,
 						file: value,
-						keyword: 'put',
+						keyword: 'write',
 					}),
 				);
 				dispatch({
@@ -180,12 +180,12 @@ const HistoryContents = ({uuid}) => {
 						uuid: uuid,
 						name: value.name,
 						size: value.size,
-						todo: 'put',
+						todo: 'write',
 						progress: 0,
 					},
 				});
 			}
-			dispatch(commandPutAction({...corServer, keyword: 'pwd'}));
+			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
 		},
 		[corServer, dispatch],
 	);
