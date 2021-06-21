@@ -1,46 +1,26 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import InputFiled_ from '../../RecycleComponents/InputFiled_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {FONT_14, HEIGHT_34, WIDTH_268, WIDTH_300} from '../../../styles/length';
-import {
-	activeColor,
-	borderColor,
-	fontColor,
-	hoverColor,
-	settingInput,
-} from '../../../styles/color';
+import {settingInput} from '../../../styles/color';
+import {Input, PrimaryGreenButton} from '../../../styles/default';
 
 const _Container = styled.div`
-	width: ${WIDTH_300};
-	padding: 15px 8px;
-	color: ${(props) => props?.color};
+	padding: 15px 16px 15px 17px;
+	height: 100%;
+	z-index: 5; // terminal보다 높아야 함.
 `;
 
-const _Input = styled.input`
-	width: 100%;
-	height: ${HEIGHT_34};
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+const _Input = styled(Input)`
+	background: ${(props) => settingInput[props.themeValue]};
 `;
 
-const _Button = styled.button`
-	width: ${WIDTH_268};
-	height: ${HEIGHT_34};
-	border: none;
-	border-radius: 4px;
-	font-size: ${FONT_14};
-	color: ${(props) => props.color};
-	background: ${(props) => props.back};
-	&:hover {
-		background: ${(props) => props?.hover};
-	}
+const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+	width: 268px;
+	margin: 0px;
+	padding: 7px 7px 7px 6px;
 `;
 
 const AccountAside = () => {
@@ -56,12 +36,10 @@ const AccountAside = () => {
 	);
 
 	return (
-		<_Container color={fontColor[theme]}>
+		<_Container>
 			<InputFiled_ title={t('account')}>
 				<_Input
-					back={settingInput[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
+					themeValue={theme}
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
@@ -69,9 +47,7 @@ const AccountAside = () => {
 			</InputFiled_>
 			<InputFiled_ title={t('name')}>
 				<_Input
-					back={settingInput[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
+					themeValue={theme}
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
@@ -79,23 +55,19 @@ const AccountAside = () => {
 			</InputFiled_>
 			<InputFiled_ title={t('email')}>
 				<_Input
-					back={settingInput[theme]}
-					color={fontColor[theme]}
-					b_color={borderColor[theme]}
+					themeValue={theme}
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly
 				/>
 			</InputFiled_>
 			<InputFiled_ title={t('auth')}>
-				<_Button
-					back={activeColor[theme]}
-					hover={hoverColor[theme]}
-					color={theme === 0 ? 'white' : 'black'}
+				<_PrimaryGreenButton
+					themeValue={theme}
 					onClick={changePath('/account')}
 				>
 					{t('changeAuth')}
-				</_Button>
+				</_PrimaryGreenButton>
 			</InputFiled_>
 		</_Container>
 	);
