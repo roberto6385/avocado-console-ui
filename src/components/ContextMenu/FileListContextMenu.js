@@ -8,6 +8,7 @@ import {
 	ADD_HISTORY,
 	commandGetAction,
 	commandLsAction,
+	commandReadAction,
 	DELETE_WORK_LIST,
 } from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
@@ -19,19 +20,20 @@ const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 
-	const corServer = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {highlight, path} = corServer;
 
 	const contextDownload = () => {
 		for (let value of highlight) {
 			dispatch(
-				commandGetAction({
+				commandReadAction({
+					// commandGetAction({
 					...corServer,
 					file: value,
-					keyword: 'get',
+					keyword: 'read',
 				}),
 			);
 			dispatch({
@@ -40,7 +42,7 @@ const FileListContextMenu = ({uuid}) => {
 					uuid: uuid,
 					name: value.name,
 					size: value.size,
-					todo: 'get',
+					todo: 'read',
 					progress: 0,
 				},
 			});

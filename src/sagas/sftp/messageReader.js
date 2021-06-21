@@ -11,6 +11,7 @@ import {
 	MKDIR_SUCCESS,
 	PUT_SUCCESS,
 	PWD_SUCCESS,
+	READ_SUCCESS,
 	RENAME_SUCCESS,
 	RM_SUCCESS,
 } from '../../reducers/sftp';
@@ -25,6 +26,8 @@ const appendBuffer = (buffer1, buffer2) => {
 };
 
 let getReceiveSum = 0;
+let readPercent = 0;
+let readByteSum = 0;
 
 export async function messageReader({data, payload}) {
 	try {
@@ -274,6 +277,62 @@ export async function messageReader({data, payload}) {
 								last: get.getLast(),
 								keyword: payload.keyword,
 								percent: Math.round(getReceiveSum),
+								text,
+							};
+						}
+
+						case SFTP.CommandResponse.CommandCase.READFILE: {
+							const read = command.getReadfile();
+							const data = read.getData_asU8();
+							fileBuffer = appendBuffer(fileBuffer, data);
+
+							console.log('command : read file', read);
+							console.log(read.getReadbytes());
+							console.log(
+								'payload.file.size : ' + payload.file.size,
+							);
+							if (read.getCompleted() === false)
+								readByteSum += read.getReadbytes();
+							readPercent =
+								(readByteSum * 100) / payload.file.size;
+
+							console.log('readByteSum : ' + readByteSum);
+							console.log('readPercent : ' + readPercent);
+							let text = '';
+
+							if (read.getCompleted()) {
+								const blob = new Blob([fileBuffer]);
+								if (payload.keyword === 'read') {
+									const url = URL.createObjectURL(blob);
+
+									const a = document.createElement('a');
+									document.body.appendChild(a);
+									a.setAttribute('hidden', true);
+									a.href = url;
+									a.download = payload.file.name;
+									a.click();
+									window.URL.revokeObjectURL(url);
+									fileBuffer = new ArrayBuffer(0);
+								} else if (payload.keyword === 'edit') {
+									text = await new Response(blob).text();
+									fileBuffer = new ArrayBuffer(0);
+								}
+							}
+							if (read.getCompleted()) {
+								readByteSum = 0;
+								readPercent = 0;
+							}
+
+							return {
+								type: READ_SUCCESS,
+								byteSum: readByteSum,
+								end:
+									read.getReadbytes() === -1
+										? true
+										: readByteSum === payload.file.size,
+								last: read.getCompleted(),
+								percent: readPercent,
+								keyword: payload.keyword,
 								text,
 							};
 						}

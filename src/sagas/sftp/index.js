@@ -9,6 +9,7 @@ import commandMkdirSaga from './sendCommandMkdir';
 import commandRmSaga from './sendCommandRm';
 import commandPutSaga from './sendCommandPut';
 import commandGetSaga from './sendCommandGet';
+import commandReadSaga from './sendCommandRead';
 import commandRenameSaga from './sendCommandRename';
 import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
@@ -23,6 +24,7 @@ export default function* sftpSaga() {
 		fork(commandRmSaga),
 		fork(commandPutSaga),
 		fork(commandGetSaga),
+		fork(commandReadSaga),
 		fork(commandRenameSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));

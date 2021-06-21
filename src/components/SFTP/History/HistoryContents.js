@@ -341,7 +341,7 @@ const HistoryContents = ({uuid}) => {
 										>
 											{arrowCircleUpIconSmall}
 										</IconContainer>
-									) : history.todo === 'get' ? (
+									) : history.todo === 'read' ? (
 										<IconContainer
 											color={historyDownloadColor}
 										>

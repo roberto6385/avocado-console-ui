@@ -47,6 +47,11 @@ export const GET_REQUEST = 'sftp/GET_REQUEST';
 export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 export const GET_FAILURE = 'sftp/GET_FAILURE';
 
+// read
+export const READ_REQUEST = 'sftp/READ_REQUEST';
+export const READ_SUCCESS = 'sftp/READ_SUCCESS';
+export const READ_FAILURE = 'sftp/READ_FAILURE';
+
 // edit
 export const EDIT_PUT_SUCCESS = 'sftp/EDIT_PUT_SUCCESS';
 export const EDIT_GET_SUCCESS = 'sftp/EDIT_GET_SUCCESS';
@@ -102,6 +107,11 @@ export const commandPutAction = (payload) => ({
 
 export const commandGetAction = (payload) => ({
 	type: GET_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const commandReadAction = (payload) => ({
+	type: READ_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
 

@@ -148,21 +148,33 @@ const sendCommandByRename = (ws, path, newPath) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByGet = (
-	ws,
-	path,
-	// offset, length, completed
-) => {
+const sendCommandByGet = (ws, path) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
 	var get = new SFTP.GetRequest();
+
 	get.setPath(path);
-	// get.setOffset(offset);
-	// get.setLength(length);
-	// get.setCompleted(completed);
 
 	cmd.setGet(get);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
+
+const sendCommandByRead = (ws, path, offset, length, completed) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var read = new SFTP.ReadFileRequest();
+
+	read.setPath(path);
+	read.setOffset(offset);
+	read.setLength(length);
+	read.setCompleted(completed);
+
+	cmd.setReadfile(read);
 	request.setCommand(cmd);
 	message.setRequest(request);
 
@@ -173,7 +185,6 @@ const upload = (ws, path, uploadFile) => {
 	console.log('file size : ', uploadFile.size);
 
 	const uploadFileSize = uploadFile.size;
-	const uploadFileName = uploadFile.name;
 
 	const chunkSize = 4 * 1024;
 	const fileSlices = [];
@@ -244,7 +255,6 @@ const messageSender = ({
 	data,
 	path,
 	newPath,
-	fileName,
 	uploadFile,
 	offset,
 	length,
@@ -292,11 +302,11 @@ const messageSender = ({
 			break;
 
 		case 'CommandByGet':
-			sendCommandByGet(
-				ws,
-				path,
-				// offset, length, completed
-			);
+			sendCommandByGet(ws, path);
+			break;
+
+		case 'CommandByRead':
+			sendCommandByRead(ws, path, offset, length, completed);
 			break;
 
 		case 'CommandByPut':

@@ -25,7 +25,6 @@ import {messageReader} from './messageReader';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	console.log(payload.file);
 	const channel = yield call(subscribe, payload.socket);
 
 	const filepath =
@@ -37,9 +36,6 @@ function* sendCommand(action) {
 		keyword: 'CommandByGet',
 		ws: payload.socket,
 		path: filepath,
-		// offset: 0,
-		// length: 0,
-		// completed: false,
 	});
 	try {
 		while (true) {

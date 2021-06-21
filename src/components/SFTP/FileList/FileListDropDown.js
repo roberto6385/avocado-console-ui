@@ -9,6 +9,7 @@ import {
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandGetAction,
+	commandReadAction,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
@@ -307,10 +308,10 @@ const FileListDropDown = ({uuid}) => {
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch(
-					commandGetAction({
+					commandReadAction({
 						...corServer,
 						file: item,
-						keyword: 'get',
+						keyword: 'read',
 					}),
 				);
 				dispatch({
@@ -319,7 +320,7 @@ const FileListDropDown = ({uuid}) => {
 						uuid: uuid,
 						name: item.name,
 						size: item.size,
-						todo: 'get',
+						todo: 'read',
 						progress: 0,
 					},
 				});
