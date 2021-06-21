@@ -26,6 +26,7 @@ import {
 	secondaryDisabledButtonColor,
 	settingInput,
 	sshSearch,
+	terminalColor,
 } from './color';
 import {Menu} from 'react-contexify';
 import {FONT_12, FONT_14} from './length';
@@ -97,6 +98,38 @@ export const Form = styled.form`
 	padding: 16px 16px 14px 16px;
 `;
 
+export const Input = styled.input`
+	width: 100%;
+	height: 34px;
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => settingInput[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
+	&:focus {
+		border-color: ${(props) => inputFocusBoaderColor[props.theme_value]};
+	}
+`;
+
+//Popup Search
+export const SearchPopupContainer = styled.div`
+	width: 400px;
+	height: 42px;
+	align-items: center;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
+	background: ${(props) => sshSearch[props.theme_value]};
+	border-radius: 4px;
+	padding: 0 0 0 13px;
+`;
+
+export const SearchInput = styled.input`
+	flex: 1;
+	margin: 0px 5px;
+	background: transparent;
+	border: none;
+	color: ${(props) => fontColor[props.theme_value]};
+`;
+
 //Setting Page
 export const SettingMainContainer = styled.div`
 	display: flex;
@@ -131,19 +164,6 @@ export const DefaultButton = styled.button`
 	border: none;
 	border-radius: 4px;
 	margin: 0px 8px;
-`;
-
-export const Input = styled.input`
-	width: 100%;
-	height: 34px;
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => settingInput[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
-	&:focus {
-		border-color: ${(props) => inputFocusBoaderColor[props.theme_value]};
-	}
 `;
 
 export const PrimaryGreenButton = styled(DefaultButton)`

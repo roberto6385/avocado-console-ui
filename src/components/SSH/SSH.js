@@ -21,7 +21,6 @@ import {
 	searchIconMicro,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
-import {HEIGHT_42, WIDTH_400} from '../../styles/length';
 import {
 	borderColor,
 	contextHover,
@@ -31,6 +30,7 @@ import {
 	terminalColor,
 	terminalFontColor,
 } from '../../styles/color';
+import {SearchPopupContainer, SearchInput} from '../../styles/default';
 
 const _Container = styled.div`
 	height: 100%;
@@ -47,28 +47,13 @@ const _Terminal = styled(_Container)`
 	padding: 0px;
 `;
 
-const _Form = styled.form`
+const _Form = styled(SearchPopupContainer)`
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
-	width: ${WIDTH_400};
 	display: none;
-	align-items: center;
-	border-radius: 4px;
-	padding: 12px;
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	height: ${HEIGHT_42};
-	background: ${(props) => props.back};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
-`;
-
-const _Input = styled.input`
-	flex: 1;
-	margin: 0px 5px;
-	color: ${(props) => props.color};
-	background: transparent;
-	border: none;
 `;
 
 const _ListGroup = styled(ListGroup)`
@@ -99,6 +84,10 @@ const _ListGroupItem = styled(ListGroup.Item)`
 const _FooterListGroupItem = styled(_ListGroupItem)`
 	font-size: 10px;
 	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
+`;
+
+const _IconButton = styled(IconButton)`
+	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const SSH = ({uuid}) => {
@@ -140,10 +129,9 @@ const SSH = ({uuid}) => {
 	} = useDebouncedResizeObserver(500);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
-	const onSubmitSearch = useCallback(
+	const onPressEnter = useCallback(
 		(e) => {
-			e.preventDefault();
-			searchAddon.findPrevious(search);
+			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
 		[search],
 	);
@@ -326,7 +314,7 @@ const SSH = ({uuid}) => {
 	}, [current_tab, uuid, search_mode, searchRef]);
 	//search a word on the terminal
 	useEffect(() => {
-		if (current_tab === uuid && search !== '') {
+		if (current_tab === uuid) {
 			searchAddon.findPrevious('');
 			searchAddon.findPrevious(search);
 		}
@@ -455,21 +443,18 @@ const SSH = ({uuid}) => {
 						</_FooterListGroupItem>
 					</_ListGroup>
 				)}
-			<_Form
-				onSubmit={onSubmitSearch}
-				back={sshSearch[theme]}
-				id={`search_${uuid}`}
-			>
+			<_Form theme_value={theme} id={`search_${uuid}`}>
 				<IconContainer color={iconColor[theme]}>
 					{searchIconMicro}
 				</IconContainer>
-				<_Input
+				<SearchInput
+					onKeyPress={onPressEnter}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder={t('search')}
 					type='text'
 					ref={searchRef}
-					color={fontColor[theme]}
+					theme_value={theme}
 				/>
 				<IconButton
 					type='button'
@@ -485,13 +470,14 @@ const SSH = ({uuid}) => {
 				>
 					{arrowDropDownIconMidium}
 				</IconButton>
-				<IconButton
+				<_IconButton
 					type='button'
 					color={iconColor[theme]}
 					onClick={onClickOpenSearchBar}
+					theme_value={theme}
 				>
 					{closeIconMedium}
-				</IconButton>
+				</_IconButton>
 			</_Form>
 		</_Container>
 	);
