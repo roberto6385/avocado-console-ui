@@ -84,8 +84,8 @@ const PreferencesSpace = () => {
 	}, [language, dispatch, i18n, lang]);
 
 	return (
-		<SettingMainContainer themeValue={theme}>
-			<SettingTitle themeValue={theme}>{t('general')}</SettingTitle>
+		<SettingMainContainer theme_value={theme}>
+			<SettingTitle theme_value={theme}>{t('general')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
@@ -103,7 +103,7 @@ const PreferencesSpace = () => {
 				/>
 			</SettingContentsContainer>
 
-			<SettingTitle themeValue={theme}>{t('terminal')}</SettingTitle>
+			<SettingTitle theme_value={theme}>{t('terminal')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
@@ -133,7 +133,7 @@ const PreferencesSpace = () => {
 				{/*/>*/}
 			</SettingContentsContainer>
 
-			<SettingTitle themeValue={theme}>{t('sftp')}</SettingTitle>
+			<SettingTitle theme_value={theme}>{t('sftp')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}

@@ -37,9 +37,9 @@ const _Textarea = styled.textarea`
 	height: 288px;
 	padding: 6px 10px 260px;
 	border-radius: 4px;
-	border: 1px solid ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => settingInput[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
+	border: 1px solid ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => settingInput[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
 	resize: none;
 `;
 
@@ -57,8 +57,8 @@ const _ListHeader = styled.div`
 const _Ul = styled.ul`
 	width: 193px;
 	height: 416px;
-	border-right: 1px solid ${(props) => borderColor[props.themeValue]};
-	background: ${(props) => snippetsListColor[props.themeValue]};
+	border-right: 1px solid ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => snippetsListColor[props.theme_value]};
 	overflow: scroll;
 `;
 
@@ -72,12 +72,12 @@ const _Li = styled.li`
 	justify-content: space-between;
 	background: ${(props) =>
 		props.clicked
-			? snippetsCLickedListColor[props.themeValue]
-			: snippetsListColor[props.themeValue]};
+			? snippetsCLickedListColor[props.theme_value]
+			: snippetsListColor[props.theme_value]};
 	padding: ${(props) =>
 		props.clicked ? '1px 16px 3px 13px' : '1px 16px 3px 15px'};
 	border-left: ${(props) => (props.clicked ? '2px solid' : 'none')};
-	border-color: ${(props) => snippetsBoarderColor[props.themeValue]};
+	border-color: ${(props) => snippetsBoarderColor[props.theme_value]};
 `;
 
 const _HeaderLi = styled(_Li)`
@@ -218,9 +218,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
+			<ModalHeader theme_value={theme}>
 				<div>{t('snippetsManager')}</div>
 				<ModalHeaderIconButton
 					color={iconColor[theme]}
@@ -230,7 +230,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 				</ModalHeaderIconButton>
 			</ModalHeader>
 			<_ListContainer>
-				<_Ul themeValue={theme} back={backColor[theme]}>
+				<_Ul theme_value={theme} back={backColor[theme]}>
 					<_HeaderLi>
 						<_ListHeader>{t('snippetList')}</_ListHeader>
 						<IconButton onClick={onClickAddSnippet}>
@@ -248,7 +248,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 						<_Li
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
-							themeValue={theme}
+							theme_value={theme}
 							clicked={clickedSnippet === v.id ? true : false}
 						>
 							{v.name === '' ? t('new') : v.name}
@@ -263,7 +263,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 							onChange={onChangeName}
 							type='text'
 							placeholder={t('place.name')}
-							themeValue={theme}
+							theme_value={theme}
 						/>
 					</InputFiled_>
 					<InputFiled_ title={t('content')}>
@@ -272,16 +272,16 @@ const SnippetsManeger = ({open, setOpen}) => {
 							onChange={onChangeContent}
 							type='text'
 							placeholder={t('place.content')}
-							themeValue={theme}
+							theme_value={theme}
 						/>
 					</InputFiled_>
 				</_Form>
 			</_ListContainer>
-			<ModalFooter themeValue={theme}>
-				<PrimaryGreyButton themeValue={theme} onClick={onClickCancel}>
+			<ModalFooter theme_value={theme}>
+				<PrimaryGreyButton theme_value={theme} onClick={onClickCancel}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton themeValue={theme} onClick={onClickSubmit}>
+				<PrimaryGreenButton theme_value={theme} onClick={onClickSubmit}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>

@@ -75,11 +75,11 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
+			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
 					{closeIconSmall}
 				</ModalHeaderIconButton>
 			</ModalHeader>
@@ -90,7 +90,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
 						placeholder={t('place.current')}
-						themeValue={theme}
+						theme_value={theme}
 					/>
 				</InputFiled_>
 
@@ -100,7 +100,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('place.new')}
-						themeValue={theme}
+						theme_value={theme}
 					/>
 				</InputFiled_>
 				<InputFiled_ title={t('confirm')}>
@@ -109,20 +109,20 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						value={confrimPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('place.confirm')}
-						themeValue={theme}
+						theme_value={theme}
 					/>
 				</InputFiled_>
 			</Form>
 
-			<ModalFooter themeValue={theme}>
+			<ModalFooter theme_value={theme}>
 				<PrimaryGreyButton
-					themeValue={theme}
+					theme_value={theme}
 					onClick={closeModal}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
+				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>

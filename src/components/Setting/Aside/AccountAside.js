@@ -14,7 +14,7 @@ const _Container = styled.div`
 `;
 
 const _Input = styled(Input)`
-	background: ${(props) => settingInput[props.themeValue]};
+	background: ${(props) => settingInput[props.theme_value]};
 `;
 
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
@@ -39,7 +39,7 @@ const AccountAside = () => {
 		<_Container>
 			<InputFiled_ title={t('account')}>
 				<_Input
-					themeValue={theme}
+					theme_value={theme}
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
@@ -47,7 +47,7 @@ const AccountAside = () => {
 			</InputFiled_>
 			<InputFiled_ title={t('name')}>
 				<_Input
-					themeValue={theme}
+					theme_value={theme}
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
@@ -55,7 +55,7 @@ const AccountAside = () => {
 			</InputFiled_>
 			<InputFiled_ title={t('email')}>
 				<_Input
-					themeValue={theme}
+					theme_value={theme}
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly
@@ -63,7 +63,7 @@ const AccountAside = () => {
 			</InputFiled_>
 			<InputFiled_ title={t('auth')}>
 				<_PrimaryGreenButton
-					themeValue={theme}
+					theme_value={theme}
 					onClick={changePath('/account')}
 				>
 					{t('changeAuth')}

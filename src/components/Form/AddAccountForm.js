@@ -179,11 +179,11 @@ const AddAccountForm = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
+			<ModalHeader theme_value={theme}>
 				<ModalHeaderText>{t('addAccount')}</ModalHeaderText>
-				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
 					{closeIconSmall}
 				</ModalHeaderIconButton>
 			</ModalHeader>
@@ -301,15 +301,15 @@ const AddAccountForm = () => {
 					</InputFiled_>
 				</_Item>
 			</_Form>
-			<ModalFooter themeValue={theme}>
+			<ModalFooter theme_value={theme}>
 				<PrimaryGreyButton
-					themeValue={theme}
+					theme_value={theme}
 					onClick={closeModal}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton themeValue={theme} onClick={onSubmitForm}>
+				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>

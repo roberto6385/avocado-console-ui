@@ -117,7 +117,7 @@ const IdentitiesAside = () => {
 				})}
 			</ul>
 			<_PrimaryGreenButton
-				themeValue={theme}
+				theme_value={theme}
 				onClick={changePath('/identities')}
 			>
 				{t('editMore')}

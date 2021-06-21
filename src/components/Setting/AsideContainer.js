@@ -18,10 +18,10 @@ import {SettingTitle} from '../../styles/default';
 const _Container = styled.div`
 	height: 100%;
 	width: 300px;
-	border-left: 1px solid ${(props) => borderColor[props.themeValue]};
+	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
 	z-index: 5; // terminal보다 높아야 함.
-	background: ${(props) => sideColor[props.themeValue]};
-	color: ${(props) => fontColor[props.themeValue]};
+	background: ${(props) => sideColor[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 const _SettingTitle = styled(SettingTitle)`
@@ -40,9 +40,9 @@ const AsideContainer = ({toggle, setToggle}) => {
 	return (
 		<_Container
 			className={toggle ? 'aside' : 'aside close'}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<_SettingTitle themeValue={theme}>
+			<_SettingTitle theme_value={theme}>
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}

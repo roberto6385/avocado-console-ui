@@ -30,7 +30,7 @@ const _Title = styled.div`
 	align-items: center;
 	height: 50px;
 	font-size: 16px;
-	border-bottom: 1px solid ${(props) => borderColor[props.themeValue]};
+	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const _ContentsContainer = styled.div`
@@ -101,7 +101,7 @@ const PreferencesAside = () => {
 
 	return (
 		<_Container>
-			<_Title themeValue={theme}>{t('general')}</_Title>
+			<_Title theme_value={theme}>{t('general')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
@@ -119,7 +119,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentsContainer>
 
-			<_Title themeValue={theme}>{t('terminal')}</_Title>
+			<_Title theme_value={theme}>{t('terminal')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					width={'266px'}
@@ -144,7 +144,7 @@ const PreferencesAside = () => {
 				</CheckboxContanier>
 			</_ContentsContainer>
 
-			<_Title themeValue={theme}>{t('sftp')}</_Title>
+			<_Title theme_value={theme}>{t('sftp')}</_Title>
 			<_ContentsContainer color={fontColor[theme]}>
 				<Select_
 					title={t('editorTheme')}

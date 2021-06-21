@@ -55,11 +55,11 @@ const AlertPopup = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			themeValue={theme}
+			theme_value={theme}
 		>
-			<ModalHeader themeValue={theme}>
+			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<ModalHeaderIconButton themeValue={theme} onClick={closeModal}>
+				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
 					{closeIconMedium}
 				</ModalHeaderIconButton>
 			</ModalHeader>
@@ -75,17 +75,17 @@ const AlertPopup = () => {
 				<PopupText>{AlertMessage[alert_popup.key]}</PopupText>
 			</ModalMessage>
 
-			<ModalFooter themeValue={theme}>
-				<PrimaryGreyButton themeValue={theme} onClick={closeModal}>
+			<ModalFooter theme_value={theme}>
+				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ? (
-					<PrimaryRedButton themeValue={theme} onClick={closeModal}>
+					<PrimaryRedButton theme_value={theme} onClick={closeModal}>
 						{t('ok')}
 					</PrimaryRedButton>
 				) : (
-					<PrimaryGreenButton themeValue={theme} onClick={closeModal}>
+					<PrimaryGreenButton theme_value={theme} onClick={closeModal}>
 						{t('ok')}
 					</PrimaryGreenButton>
 				)}
