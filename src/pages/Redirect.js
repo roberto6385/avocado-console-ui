@@ -36,6 +36,8 @@ const Redirect = () => {
 						Authorization: 'Basic ' + encodeData,
 						'Content-Type': 'application/x-www-form-urlencoded',
 					},
+					baseURL:
+						'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 				},
 			)
 			.then((client) => {
@@ -84,6 +86,8 @@ const Redirect = () => {
 												AlternativeAuthN: `google ${google.data.access_token}`,
 												'Content-Type': `application/x-www-form-urlencoded`,
 											},
+											baseURL:
+												'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 										},
 									)
 									.then((authN) => {
