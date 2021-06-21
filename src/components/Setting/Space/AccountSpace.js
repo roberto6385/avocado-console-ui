@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 
-import InputFiled_ from '../RecycleComponents/InputFiled_';
-import Radio_ from '../RecycleComponents/Radio_';
-import Select_ from '../RecycleComponents/Select_';
+import InputFiled_ from '../../RecycleComponents/InputFiled_';
+import Radio_ from '../../RecycleComponents/Radio_';
+import Select_ from '../../RecycleComponents/Select_';
 
 import {
 	Input,
@@ -12,12 +12,12 @@ import {
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
-} from '../../styles/default';
+} from '../../../styles/default';
 
-import ChangePasswordForm from '../Form/ChangePasswordForm';
+import ChangePasswordForm from '../../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {WIDTH_160, WIDTH_500} from '../../styles/length';
+import {WIDTH_160, WIDTH_500} from '../../../styles/length';
 
 const _Input = styled(Input)`
 	width: 500px;

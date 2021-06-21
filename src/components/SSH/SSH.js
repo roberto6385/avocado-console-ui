@@ -12,11 +12,7 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-import {
-	IconButton,
-	IconContainer,
-	LIGHT_MODE_SIDE_COLOR,
-} from '../../styles/global';
+import {IconButton, IconContainer} from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
 	arrowDropDownIconMidium,
@@ -25,8 +21,10 @@ import {
 	searchIconMicro,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
-import {FONT_14, HEIGHT_42, WIDTH_400} from '../../styles/length';
+import {HEIGHT_42, WIDTH_400} from '../../styles/length';
 import {
+	borderColor,
+	contextHover,
 	fontColor,
 	iconColor,
 	sshSearch,
@@ -39,13 +37,13 @@ const _Container = styled.div`
 	width: 100%;
 	overflow: hidden;
 	padding: 20px;
-	background-color: ${(props) => props.back};
+	background-color: ${(props) => terminalColor[props.theme_value]};
 `;
 
 const _Terminal = styled(_Container)`
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	overflow: scroll;
 	padding: 0px;
 `;
 
@@ -68,7 +66,6 @@ const _Form = styled.form`
 const _Input = styled.input`
 	flex: 1;
 	margin: 0px 5px;
-	font-size: ${FONT_14};
 	color: ${(props) => props.color};
 	background: transparent;
 	border: none;
@@ -80,22 +77,28 @@ const _ListGroup = styled(ListGroup)`
 	top: ${(props) => props.top};
 	bottom: ${(props) => props.bottom};
 	display: ${(props) => props.display};
-	width: 140px;
-	border-radius: 4px;
+	width: 130px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
-	background-color: #ffffff;
-	position: absolute;
 	zindex: 5;
+	padding: 8px 0;
+	background: ${(props) => sshSearch[props.theme_value]};
 `;
 
 const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
-	font-size: 14px;
 	overflow: auto;
+	background: ${(props) =>
+		props.clickedItem
+			? contextHover[props.theme_value]
+			: sshSearch[props.theme_value]};
+
+	color: ${(props) => fontColor[props.theme_value]};
+	border: none;
 `;
 
 const _FooterListGroupItem = styled(_ListGroupItem)`
 	font-size: 10px;
+	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const SSH = ({uuid}) => {
@@ -121,18 +124,20 @@ const SSH = ({uuid}) => {
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
-	const sshTerm = useMemo(() => ssh.find((v) => v.uuid === uuid).terminal, [
-		ssh,
-		uuid,
-	]);
+	const sshTerm = useMemo(
+		() => ssh.find((v) => v.uuid === uuid).terminal,
+		[ssh, uuid],
+	);
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
 	const searchRef = useRef(null);
 	const listRef = useRef(null);
-	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
-		500,
-	);
+	const {
+		ref: ref,
+		width: width,
+		height: height,
+	} = useDebouncedResizeObserver(500);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onSubmitSearch = useCallback(
@@ -341,7 +346,11 @@ const SSH = ({uuid}) => {
 	}, [sshTerm, theme]);
 
 	return (
-		<_Container ref={ref} back={terminalColor[theme]}>
+		<_Container
+			id={`terminal_container_${uuid}`}
+			ref={ref}
+			theme_value={theme}
+		>
 			<_Terminal id={`terminal_${uuid}`} />
 			{currentLine.length > 0 &&
 				auto_completion_mode &&
@@ -350,6 +359,7 @@ const SSH = ({uuid}) => {
 				current_tab === uuid && (
 					<_ListGroup
 						ref={listRef}
+						theme_value={theme}
 						left={
 							width -
 								Number(
@@ -430,27 +440,17 @@ const SSH = ({uuid}) => {
 						}
 						display={currentLine.length > 1 ? 'block' : 'none'}
 					>
-						{historyList.map((v, i) =>
-							i === currentHistory ? (
-								<_ListGroupItem
-									style={{
-										backgroundColor: 'rgba(0, 0, 0, 0.04)',
-									}}
-									onClick={onClickCommand(v)}
-									key={i}
-								>
-									{v}
-								</_ListGroupItem>
-							) : (
-								<_ListGroupItem
-									onClick={onClickCommand(v)}
-									key={i}
-								>
-									{v}
-								</_ListGroupItem>
-							),
-						)}
-						<_FooterListGroupItem>
+						{historyList.map((v, i) => (
+							<_ListGroupItem
+								clickedItem={i === currentHistory}
+								theme_value={theme}
+								onClick={onClickCommand(v)}
+								key={i}
+							>
+								{v}
+							</_ListGroupItem>
+						))}
+						<_FooterListGroupItem theme_value={theme}>
 							{t('autoCompletionFooter')}
 						</_FooterListGroupItem>
 					</_ListGroup>
