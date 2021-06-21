@@ -37,9 +37,9 @@ function* sendCommand(action) {
 		keyword: 'CommandByGet',
 		ws: payload.socket,
 		path: filepath,
-		offset: 0,
-		length: 0,
-		completed: false,
+		// offset: 0,
+		// length: 0,
+		// completed: false,
 	});
 	try {
 		while (true) {

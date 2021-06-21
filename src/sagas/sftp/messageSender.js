@@ -148,16 +148,19 @@ const sendCommandByRename = (ws, path, newPath) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByGet = (ws, path, offset, length, completed) => {
+const sendCommandByGet = (
+	ws,
+	path,
+	// offset, length, completed
+) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
 	var get = new SFTP.GetRequest();
 	get.setPath(path);
-	get.setOffset(offset);
-	get.setLength(length);
-	get.setCompleted(completed);
-	// get.setFilename(fileName);
+	// get.setOffset(offset);
+	// get.setLength(length);
+	// get.setCompleted(completed);
 
 	cmd.setGet(get);
 	request.setCommand(cmd);
@@ -289,7 +292,11 @@ const messageSender = ({
 			break;
 
 		case 'CommandByGet':
-			sendCommandByGet(ws, path, offset, length, completed);
+			sendCommandByGet(
+				ws,
+				path,
+				// offset, length, completed
+			);
 			break;
 
 		case 'CommandByPut':
