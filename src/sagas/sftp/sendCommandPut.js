@@ -12,7 +12,7 @@ import {
 	ADD_HISTORY,
 	commandLsAction,
 	commandPwdAction,
-	EDIT_PUT_SUCCESS,
+	EDIT_WRITE_SUCCESS,
 	FIND_HISTORY,
 	PUT_FAILURE,
 	PUT_REQUEST,
@@ -84,7 +84,7 @@ function* sendCommand(action) {
 							});
 						}
 						break;
-					case EDIT_PUT_SUCCESS:
+					case EDIT_WRITE_SUCCESS:
 						if (res.last && res.percent === 100) {
 							yield put({
 								type: ADD_HISTORY,

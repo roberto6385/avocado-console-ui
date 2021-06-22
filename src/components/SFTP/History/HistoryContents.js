@@ -4,10 +4,8 @@ import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY_HI,
-	ADD_HISTORY,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
-	commandWriteAction,
 	PUSH_WRITE_LIST,
 } from '../../../reducers/sftp';
 import {useTranslation} from 'react-i18next';
@@ -143,7 +141,7 @@ const HistoryContents = ({uuid}) => {
 			const files = e.target.files;
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value});
+				array.push({path, file: value, type: 'write'});
 			}
 			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		};
@@ -154,7 +152,7 @@ const HistoryContents = ({uuid}) => {
 		async (files) => {
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value});
+				array.push({path, file: value, type: 'write'});
 			}
 			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		},

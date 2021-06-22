@@ -5,8 +5,8 @@ import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	commandGetAction,
 	commandLsAction,
+	commandReadAction,
 	DELETE_WORK_LIST,
 	PUSH_READ_LIST,
 } from '../../reducers/sftp';
@@ -28,7 +28,7 @@ const FileListContextMenu = ({uuid}) => {
 	const contextDownload = async () => {
 		const array = [];
 		for await (let value of highlight) {
-			array.push({path, file: value});
+			array.push({path, file: value, type: 'read'});
 		}
 		dispatch({
 			type: PUSH_READ_LIST,
@@ -39,7 +39,7 @@ const FileListContextMenu = ({uuid}) => {
 	const contextEdit = () => {
 		for (let value of highlight) {
 			dispatch(
-				commandGetAction({
+				commandReadAction({
 					...corServer,
 					file: value,
 					keyword: 'edit',

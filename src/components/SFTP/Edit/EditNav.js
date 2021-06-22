@@ -66,10 +66,8 @@ const EditNav = ({uuid}) => {
 				name: editFile.name,
 				path: path,
 				size: blob.size,
-				todo: 'get',
-				progress: 0,
-				// 나중에 서버에서 정보 넘어올때마다 dispatch 해주고
-				// 삭제, dispatch, 삭제 해서 progress 100 만들기
+				todo: 'read',
+				progress: 100,
 			},
 		});
 	}, [corServer]);

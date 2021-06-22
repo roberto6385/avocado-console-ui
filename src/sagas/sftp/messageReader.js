@@ -3,8 +3,8 @@ import {
 	CD_SUCCESS,
 	CONNECTION_SUCCESS,
 	DISCONNECTION_SUCCESS,
-	EDIT_GET_SUCCESS,
-	EDIT_PUT_SUCCESS,
+	EDIT_READ_SUCCESS,
+	EDIT_WRITE_SUCCESS,
 	ERROR,
 	GET_SUCCESS,
 	LS_SUCCESS,
@@ -228,7 +228,7 @@ export async function messageReader({data, payload}) {
 								type:
 									payload.keyword === 'put'
 										? PUT_SUCCESS
-										: EDIT_PUT_SUCCESS,
+										: EDIT_WRITE_SUCCESS,
 								last: commandPut.getLast(),
 								percent: commandPut.getProgress(),
 							};
@@ -276,7 +276,7 @@ export async function messageReader({data, payload}) {
 								type:
 									payload.keyword === 'get'
 										? GET_SUCCESS
-										: EDIT_GET_SUCCESS,
+										: EDIT_READ_SUCCESS,
 								last: get.getLast(),
 								keyword: payload.keyword,
 								percent: Math.round(getReceiveSum),
@@ -365,6 +365,7 @@ export async function messageReader({data, payload}) {
 										? true
 										: writeByteSum === payload.file.size,
 								last: write.getCompleted(),
+								keyword: payload.keyword,
 								percent:
 									write.getWritebytes() === -1
 										? 100

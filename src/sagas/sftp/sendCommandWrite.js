@@ -9,7 +9,11 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	ADD_HISTORY,
+	commandLsAction,
+	commandPwdAction,
 	FIND_HISTORY,
+	PWD_SUCCESS,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -82,24 +86,41 @@ function* sendCommand(action) {
 								});
 							}
 						}
-						yield put({
-							type: FIND_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								size: payload.file.size,
-								todo: payload.keyword,
-								progress: res.percent,
-							},
-						});
-						if (res.last && res.percent === 100) {
+						if (res.keyword === 'write') {
 							yield put({
-								type: WRITE_SUCCESS,
+								type: FIND_HISTORY,
 								payload: {
 									uuid: payload.uuid,
-									percent: res.percent,
+									name: payload.file.name,
+									size: payload.file.size,
+									todo: payload.keyword,
+									progress: res.percent,
 								},
 							});
+							if (res.last && res.percent === 100) {
+								yield put({
+									type: WRITE_SUCCESS,
+									payload: {
+										uuid: payload.uuid,
+										percent: res.percent,
+									},
+								});
+							}
+						} else {
+							if (res.last && res.percent === 100) {
+								yield put({
+									type: ADD_HISTORY,
+									payload: {
+										uuid: payload.uuid,
+										name: payload.file.name,
+										size: payload.file.size,
+										todo: 'edit',
+										progress: 100,
+									},
+								});
+
+								yield put(commandPwdAction(payload));
+							}
 						}
 						break;
 

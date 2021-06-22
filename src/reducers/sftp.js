@@ -58,8 +58,8 @@ export const READ_SUCCESS = 'sftp/READ_SUCCESS';
 export const READ_FAILURE = 'sftp/READ_FAILURE';
 
 // edit
-export const EDIT_PUT_SUCCESS = 'sftp/EDIT_PUT_SUCCESS';
-export const EDIT_GET_SUCCESS = 'sftp/EDIT_GET_SUCCESS';
+export const EDIT_READ_SUCCESS = 'sftp/EDIT_READ_SUCCESS';
+export const EDIT_WRITE_SUCCESS = 'sftp/EDIT_WRITE_SUCCESS';
 
 export const ERROR = 'sftp/ERROR';
 
@@ -100,7 +100,6 @@ export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
-export const PUSH_REMOVE_LIST = 'sftp/PUSH_REMOVE_LIST';
 
 // readList: [], // 경로, file 저장
 // 	writeList: [], // 경로, file 저장
@@ -115,17 +114,8 @@ export const connectionAction = (payload) => ({
 	payload, // 웹 소켓 연결을 위한 정보
 });
 
-export const commandPutAction = (payload) => ({
-	type: PUT_REQUEST,
-	payload, // 웹 소켓 연결을 위한 정보
-});
 export const commandWriteAction = (payload) => ({
 	type: WRITE_REQUEST,
-	payload, // 웹 소켓 연결을 위한 정보
-});
-
-export const commandGetAction = (payload) => ({
-	type: GET_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
 

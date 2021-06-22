@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
+	EDIT_READ_SUCCESS,
 	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
@@ -45,7 +46,7 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -56,7 +57,6 @@ function* sendCommand(action) {
 				console.log(res);
 				switch (res.type) {
 					case READ_SUCCESS:
-						console.log('READ_SUCCESS');
 						if (res.last === false) {
 							if (res.end === false) {
 								yield call(messageSender, {
@@ -78,72 +78,66 @@ function* sendCommand(action) {
 								});
 							}
 						}
-						yield put({
-							type: FIND_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								todo: payload.keyword,
-								progress: res.percent,
-							},
-						});
-						if (res.last && res.percent === 100) {
+						if (res.keyword === 'read') {
 							yield put({
-								type: READ_SUCCESS,
+								type: FIND_HISTORY,
 								payload: {
 									uuid: payload.uuid,
-									percent: res.percent,
+									name: payload.file.name,
+									todo: payload.keyword,
+									progress: res.percent,
 								},
 							});
+							if (res.last && res.percent === 100) {
+								yield put({
+									type: READ_SUCCESS,
+									payload: {
+										uuid: payload.uuid,
+										percent: res.percent,
+									},
+								});
+							}
+						} else {
+							if (res.last && res.percent === 100) {
+								yield put({
+									type: EDIT_READ_SUCCESS,
+									payload: {
+										uuid: payload.uuid,
+										percent: res.percent,
+									},
+								});
+								yield put({
+									type: SAVE_TEXT,
+									payload: {
+										uuid: payload.uuid,
+										text: res.text,
+									},
+								});
+								yield put({
+									type: SAVE_EDITTEXT,
+									payload: {
+										uuid: payload.uuid,
+										editText: res.text,
+									},
+								});
+								yield put({
+									type: SAVE_FILE_FOR_EDIT,
+									payload: {
+										uuid: payload.uuid,
+										editFile: payload.file,
+									},
+								});
+								yield put({
+									type: CHANGE_MODE,
+									payload: {
+										uuid: payload.uuid,
+										mode: 'edit',
+										currentMode: payload.mode,
+									},
+								});
+							}
 						}
 						break;
-
-					// case EDIT_READ_SUCCESS:
-					//     yield put({
-					//         type: FIND_HISTORY,
-					//         payload: {
-					//             uuid: payload.uuid,
-					//             name: payload.file.name,
-					//             todo: payload.keyword,
-					//             progress: res.percent,
-					//         },
-					//     });
-					//     if (res.last && res.percent === 100) {
-					//         yield put({
-					//             type: EDIT_READ_SUCCESS,
-					//             payload: {
-					//                 uuid: payload.uuid,
-					//                 percent: res.percent,
-					//             },
-					//         });
-					//         yield put({
-					//             type: SAVE_TEXT,
-					//             payload: {uuid: payload.uuid, text: res.text},
-					//         });
-					//         yield put({
-					//             type: SAVE_EDITTEXT,
-					//             payload: {
-					//                 uuid: payload.uuid,
-					//                 editText: res.text,
-					//             },
-					//         });
-					//         yield put({
-					//             type: SAVE_FILE_FOR_EDIT,
-					//             payload: {
-					//                 uuid: payload.uuid,
-					//                 editFile: payload.file,
-					//             },
-					//         });
-					//         yield put({
-					//             type: CHANGE_MODE,
-					//             payload: {
-					//                 uuid: payload.uuid,
-					//                 mode: 'edit',
-					//                 currentMode: payload.mode,
-					//             },
-					//         });
-					//     }
-					//     break;
 				}
 			}
 		}

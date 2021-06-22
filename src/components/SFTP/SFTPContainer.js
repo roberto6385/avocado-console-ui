@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
-	commandPwdAction,
 	commandReadAction,
 	commandWriteAction,
 	INITIAL_HISTORY_HI,
@@ -79,19 +78,20 @@ const SFTPContainer = ({uuid}) => {
 					...corServer,
 					file: value.file,
 					readPath: value.path,
-					keyword: 'read',
+					keyword: value.type,
 				}),
 			);
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.file.name,
-					size: value.file.size,
-					todo: 'read',
-					progress: 0,
-				},
-			});
+			value.type === 'read' &&
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.file.name,
+						size: value.file.size,
+						todo: 'read',
+						progress: 0,
+					},
+				});
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
 		}
 	}, [readList]);
@@ -105,19 +105,20 @@ const SFTPContainer = ({uuid}) => {
 					...corServer,
 					writePath: value.path,
 					file: value.file,
-					keyword: 'write',
+					keyword: value.type,
 				}),
 			);
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.file.name,
-					size: value.file.size,
-					todo: 'write',
-					progress: 0,
-				},
-			});
+			value.type === 'write' &&
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.file.name,
+						size: value.file.size,
+						todo: 'write',
+						progress: 0,
+					},
+				});
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 		} else {
 			console.log(corServer);

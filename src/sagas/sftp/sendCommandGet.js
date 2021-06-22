@@ -10,7 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
-	EDIT_GET_SUCCESS,
+	EDIT_READ_SUCCESS,
 	FIND_HISTORY,
 	GET_FAILURE,
 	GET_REQUEST,
@@ -71,7 +71,7 @@ function* sendCommand(action) {
 						}
 						break;
 
-					case EDIT_GET_SUCCESS:
+					case EDIT_READ_SUCCESS:
 						yield put({
 							type: FIND_HISTORY,
 							payload: {
@@ -83,7 +83,7 @@ function* sendCommand(action) {
 						});
 						if (res.last && res.percent === 100) {
 							yield put({
-								type: EDIT_GET_SUCCESS,
+								type: EDIT_READ_SUCCESS,
 								payload: {
 									uuid: payload.uuid,
 									percent: res.percent,

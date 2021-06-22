@@ -2,11 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {
-	ADD_HISTORY,
-	commandWriteAction,
-	PUSH_WRITE_LIST,
-} from '../../../reducers/sftp';
+import {PUSH_WRITE_LIST} from '../../../reducers/sftp';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {Span, IconButton} from '../../../styles/global';
@@ -53,7 +49,7 @@ const HistoryNav = ({uuid}) => {
 
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value});
+				array.push({path, file: value, type: 'write'});
 			}
 			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		};

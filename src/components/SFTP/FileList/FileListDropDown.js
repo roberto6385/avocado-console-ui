@@ -7,7 +7,6 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
-	commandGetAction,
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
@@ -288,14 +287,10 @@ const FileListDropDown = ({uuid}) => {
 		(item) => (e) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
-				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch(
-					commandGetAction({
-						...corServer,
-						file: item,
-						keyword: 'edit',
-					}),
-				);
+				dispatch({
+					type: PUSH_READ_LIST,
+					payload: {uuid, array: [{path, file: item, type: 'edit'}]},
+				});
 			}
 		},
 		[sftp],
@@ -308,7 +303,7 @@ const FileListDropDown = ({uuid}) => {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch({
 					type: PUSH_READ_LIST,
-					payload: {uuid, array: [{path, file: item}]},
+					payload: {uuid, array: [{path, file: item, type: 'read'}]},
 				});
 			}
 		},

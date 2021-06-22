@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	commandPutAction,
+	PUSH_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
@@ -68,20 +68,21 @@ const SavePopup = () => {
 
 			const uuid = save_popup.uuid;
 			const corServer = sftp.find((it) => it.uuid === uuid);
-			const {editText, editFile, prevMode} = corServer;
+			const {editText, editFile, prevMode, path} = corServer;
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});
 
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
-					dispatch(
-						commandPutAction({
-							...corServer,
-							file: uploadFile,
-							keyword: 'edit',
-						}),
-					);
+					dispatch({
+						type: PUSH_WRITE_LIST,
+						payload: {
+							uuid,
+							array: [{path, file: uploadFile, type: 'edit'}],
+						},
+					});
+
 					dispatch({
 						type: SAVE_TEXT,
 						payload: {uuid, text: editText},
@@ -90,13 +91,13 @@ const SavePopup = () => {
 					break;
 				}
 				case 'sftp_edit_close': {
-					dispatch(
-						commandPutAction({
-							...corServer,
-							file: uploadFile,
-							keyword: 'edit',
-						}),
-					);
+					dispatch({
+						type: PUSH_WRITE_LIST,
+						payload: {
+							uuid,
+							array: [{path, file: uploadFile, type: 'edit'}],
+						},
+					});
 					dispatch({
 						type: SAVE_TEXT,
 						payload: {uuid, text: editText},
@@ -144,7 +145,10 @@ const SavePopup = () => {
 				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={submitFunction}>
+				<PrimaryGreenButton
+					theme_value={theme}
+					onClick={submitFunction}
+				>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>
