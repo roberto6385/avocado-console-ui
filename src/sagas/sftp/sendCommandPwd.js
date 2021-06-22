@@ -21,7 +21,6 @@ import {closeChannel, subscribe} from '../channel';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	console.log('다시 요청!');
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',
@@ -129,14 +128,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeEvery(PWD_REQUEST, sendCommand);
-
-	// const reqChannel = yield actionChannel(PWD_REQUEST);
-	// console.log('watch send command pwd');
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	console.log('pwd request start!!');
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandPwdSaga() {

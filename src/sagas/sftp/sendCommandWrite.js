@@ -9,15 +9,10 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	ADD_HISTORY,
-	commandLsAction,
-	commandPwdAction,
 	FIND_HISTORY,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
-	PWD_FAILURE,
-	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
@@ -29,28 +24,21 @@ function* sendCommand(action) {
 	const senderLength = 1024 * 4;
 
 	let filepath = '';
-	if (payload.keyword === 'pwd') {
-		yield call(messageSender, {
-			keyword: 'CommandByPwd',
-			ws: payload.socket,
-		});
-	} else {
-		filepath =
-			payload.path === '/'
-				? `${payload.path}${payload.file.name}`
-				: `${payload.path}/${payload.file.name}`;
+	filepath =
+		payload.writePath === '/'
+			? `${payload.writePath}${payload.file.name}`
+			: `${payload.writePath}/${payload.file.name}`;
 
-		yield call(messageSender, {
-			keyword: 'CommandByWrite',
-			ws: payload.socket,
-			path: filepath,
-			offset: 0,
-			length: senderLength,
-			uploadFile: payload.file,
-			completed: false,
-			mode: 1,
-		});
-	}
+	yield call(messageSender, {
+		keyword: 'CommandByWrite',
+		ws: payload.socket,
+		path: filepath,
+		offset: 0,
+		length: senderLength,
+		uploadFile: payload.file,
+		completed: false,
+		mode: 1,
+	});
 
 	try {
 		while (true) {
@@ -65,7 +53,6 @@ function* sendCommand(action) {
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(messageReader, {data, payload});
-				const past = payload.path;
 
 				console.log(res);
 				switch (res.type) {
@@ -116,31 +103,29 @@ function* sendCommand(action) {
 						}
 						break;
 
-					case PWD_SUCCESS:
-						yield put({
-							type: PWD_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								path: res.path,
-								pathList: res.pathList,
-								removeIndex: 1,
-							},
-						});
-						yield put(
-							commandLsAction({
-								...payload,
-								newPath: past,
-							}),
-						);
-						break;
+					// case PWD_SUCCESS:
+					// 	yield put({
+					// 		type: PWD_SUCCESS,
+					// 		payload: {
+					// 			uuid: payload.uuid,
+					// 			path: res.path,
+					// 			pathList: res.pathList,
+					// 			removeIndex: 1,
+					// 		},
+					// 	});
+					// 	yield put(
+					// 		commandLsAction({
+					// 			...payload,
+					// 			newPath: payload.writePath.path,
+					// 		}),
+					// 	);
+					// 	break;
 				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
-		payload.keyword === 'pwd'
-			? yield put({type: PWD_FAILURE})
-			: yield put({type: WRITE_FAILURE});
+		yield put({type: WRITE_FAILURE});
 	}
 }
 

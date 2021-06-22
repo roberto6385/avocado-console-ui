@@ -96,6 +96,16 @@ export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
 export const INITIAL_FILELIST = 'sftp/INITIAL_FILELIST';
 
+export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
+export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
+export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
+export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
+export const PUSH_REMOVE_LIST = 'sftp/PUSH_REMOVE_LIST';
+
+// readList: [], // 경로, file 저장
+// 	writeList: [], // 경로, file 저장
+// 	rmList: [], // 경로, file 저장
+
 let HISTORY_ID = 0;
 
 // actions
@@ -187,21 +197,23 @@ const sftp = (state = initialState, action) =>
 			case CONNECTION_SUCCESS:
 				draft.loading = false;
 				draft.sftp.push({
-					socket: action.payload.socket,
-					status: 'none',
-					errorMessage: '',
-					uuid: action.payload.uuid,
-					path: '',
+					socket: action.payload.socket, //ok
+					status: 'none', // ok
+					uuid: action.payload.uuid, // ok
+
+					readList: [], // 경로, file 저장
+					writeList: [], // 경로, file 저장
+					rmList: [], // 경로, file 저장
+
+					path: '', // 현재 경로
 					newPath: '',
-					// cmdstatus: '',
-					progress: 0,
-					// getPath: '',
-					// getFileName: '',
-					getReceiveSum: 0,
-					mode: 'list',
-					prevMode: '',
+
+					mode: 'list', // ok
+					prevMode: '', // ok
+
 					pathList: [],
 					fileList: [],
+
 					highlight: [],
 					history: [],
 					history_highlight: [],
@@ -401,6 +413,24 @@ const sftp = (state = initialState, action) =>
 				target.tempPath = action.payload.path;
 				break;
 
+			// read, write, remove
+			case PUSH_READ_LIST:
+				target.readList = plainTarget.readList.concat(
+					action.payload.array,
+				);
+				break;
+			case SHIFT_READ_LIST:
+				target.readList.shift();
+				break;
+
+			case PUSH_WRITE_LIST:
+				target.writeList = plainTarget.writeList.concat(
+					action.payload.array,
+				);
+				break;
+			case SHIFT_WRITE_LIST:
+				target.writeList.shift();
+				break;
 			default:
 				return state;
 		}

@@ -7,12 +7,11 @@ import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
-	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	commandGetAction,
-	commandReadAction,
 	INITIALIZING_HIGHLIGHT,
+	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {
@@ -104,7 +103,14 @@ const FileListContents = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {fileList, highlight, pathList, sortKeyword, toggle} = corServer;
+	const {
+		path,
+		fileList,
+		highlight,
+		pathList,
+		sortKeyword,
+		toggle,
+	} = corServer;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -116,23 +122,9 @@ const FileListContents = ({uuid}) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch(
-					commandReadAction({
-						// commandGetAction({
-						...corServer,
-						file: item,
-						keyword: 'read',
-					}),
-				);
 				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: item.name,
-						size: item.size,
-						todo: 'read',
-						progress: 0,
-					},
+					type: PUSH_READ_LIST,
+					payload: {uuid, array: [{path, file: item}]},
 				});
 			}
 		},

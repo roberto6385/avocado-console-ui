@@ -28,9 +28,9 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 
 	const filepath =
-		payload.path === '/'
-			? `${payload.path}${payload.file.name}`
-			: `${payload.path}/${payload.file.name}`;
+		payload.readPath === '/'
+			? `${payload.readPath}${payload.file.name}`
+			: `${payload.readPath}/${payload.file.name}`;
 
 	const senderLength = 1024 * 56;
 

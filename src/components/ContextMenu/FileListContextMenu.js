@@ -5,11 +5,10 @@ import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	ADD_HISTORY,
 	commandGetAction,
 	commandLsAction,
-	commandReadAction,
 	DELETE_WORK_LIST,
+	PUSH_READ_LIST,
 } from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu_Avocado} from '../../styles/default';
@@ -26,27 +25,15 @@ const FileListContextMenu = ({uuid}) => {
 	]);
 	const {highlight, path} = corServer;
 
-	const contextDownload = () => {
-		for (let value of highlight) {
-			dispatch(
-				commandReadAction({
-					// commandGetAction({
-					...corServer,
-					file: value,
-					keyword: 'read',
-				}),
-			);
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.name,
-					size: value.size,
-					todo: 'read',
-					progress: 0,
-				},
-			});
+	const contextDownload = async () => {
+		const array = [];
+		for await (let value of highlight) {
+			array.push({path, file: value});
 		}
+		dispatch({
+			type: PUSH_READ_LIST,
+			payload: {uuid, array},
+		});
 	};
 
 	const contextEdit = () => {

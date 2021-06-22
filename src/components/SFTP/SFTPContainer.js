@@ -1,19 +1,27 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {INITIAL_HISTORY_HI, INITIALIZING_HIGHLIGHT} from '../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	commandPwdAction,
+	commandReadAction,
+	commandWriteAction,
+	INITIAL_HISTORY_HI,
+	INITIALIZING_HIGHLIGHT,
+	SHIFT_READ_LIST,
+	SHIFT_WRITE_LIST,
+} from '../../reducers/sftp';
 import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {current_tab} = useSelector((state) => state.common);
-	const currentServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	// const {highlight = [], history_highlight = []} = currentServer;
-	// table body가 아닌 다른 영역을 클릭했을 때, 하이라이팅 제거
+	const {readList, writeList} = corServer;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -61,7 +69,61 @@ const SFTPContainer = ({uuid}) => {
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);
 		};
-	}, [currentServer]);
+	}, [corServer]);
+
+	useEffect(() => {
+		if (readList.length !== 0) {
+			const value = readList.slice().shift();
+			dispatch(
+				commandReadAction({
+					...corServer,
+					file: value.file,
+					readPath: value.path,
+					keyword: 'read',
+				}),
+			);
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.file.name,
+					size: value.file.size,
+					todo: 'read',
+					progress: 0,
+				},
+			});
+			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
+		}
+	}, [readList]);
+
+	useEffect(() => {
+		if (writeList.length !== 0) {
+			const value = writeList.slice().shift();
+
+			dispatch(
+				commandWriteAction({
+					...corServer,
+					writePath: value.path,
+					file: value.file,
+					keyword: 'write',
+				}),
+			);
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.file.name,
+					size: value.file.size,
+					todo: 'write',
+					progress: 0,
+				},
+			});
+			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
+		} else {
+			console.log(corServer);
+			// dispatch(commandPwdAction(corServer));
+		}
+	}, [writeList]);
 
 	return <SFTP uuid={uuid} />;
 };

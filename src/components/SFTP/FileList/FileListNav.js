@@ -7,10 +7,9 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandLsAction,
-	commandPwdAction,
 	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
-import {IconButton, IconContainer} from '../../../styles/global';
+import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -27,7 +26,6 @@ import {
 	filelistInputBack,
 	tabColor,
 } from '../../../styles/color';
-import {put} from 'redux-saga/effects';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};

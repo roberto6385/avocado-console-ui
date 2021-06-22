@@ -8,6 +8,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 	commandWriteAction,
+	PUSH_WRITE_LIST,
 } from '../../../reducers/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
@@ -129,7 +130,7 @@ const HistoryContents = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {history, history_highlight} = corServer;
+	const {history, history_highlight, path} = corServer;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -140,52 +141,22 @@ const HistoryContents = ({uuid}) => {
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
+			const array = [];
 			for await (let value of files) {
-				dispatch(
-					commandWriteAction({
-						...corServer,
-						file: value,
-						keyword: 'write',
-					}),
-				);
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.name,
-						size: value.size,
-						todo: 'write',
-						progress: 0,
-					},
-				});
+				array.push({path, file: value});
 			}
-			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
+			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		};
 		document.body.removeChild(uploadInput);
 	}, [corServer]);
 
 	const upload = useCallback(
 		async (files) => {
+			const array = [];
 			for await (let value of files) {
-				dispatch(
-					commandWriteAction({
-						...corServer,
-						file: value,
-						keyword: 'write',
-					}),
-				);
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.name,
-						size: value.size,
-						todo: 'write',
-						progress: 0,
-					},
-				});
+				array.push({path, file: value});
 			}
-			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
+			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		},
 		[corServer, dispatch],
 	);
