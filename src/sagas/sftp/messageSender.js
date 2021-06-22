@@ -230,7 +230,7 @@ const sendCommandByWrite = ({
 		});
 	};
 
-	readFile(uploadFile, {offset, length});
+	readFile(uploadFile, {offset, length: length + offset});
 };
 
 const messageSender = ({

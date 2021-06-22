@@ -28,17 +28,18 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 	const senderLength = 1024 * 4;
 
-	const filepath =
-		payload.path === '/'
-			? `${payload.path}${payload.file.name}`
-			: `${payload.path}/${payload.file.name}`;
-
+	let filepath = '';
 	if (payload.keyword === 'pwd') {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',
 			ws: payload.socket,
 		});
 	} else {
+		filepath =
+			payload.path === '/'
+				? `${payload.path}${payload.file.name}`
+				: `${payload.path}/${payload.file.name}`;
+
 		yield call(messageSender, {
 			keyword: 'CommandByWrite',
 			ws: payload.socket,
@@ -75,7 +76,7 @@ function* sendCommand(action) {
 									keyword: 'CommandByWrite',
 									ws: payload.socket,
 									path: filepath,
-									offset: res.byteSum + 1,
+									offset: res.byteSum,
 									length: senderLength,
 									uploadFile: payload.file,
 									completed: false,
@@ -86,7 +87,7 @@ function* sendCommand(action) {
 									keyword: 'CommandByWrite',
 									ws: payload.socket,
 									path: filepath,
-									offset: res.byteSum + 1,
+									offset: res.byteSum,
 									length: senderLength,
 									uploadFile: payload.file,
 									completed: true,

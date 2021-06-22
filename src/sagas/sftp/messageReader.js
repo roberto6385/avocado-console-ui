@@ -333,7 +333,10 @@ export async function messageReader({data, payload}) {
 										? true
 										: readByteSum === payload.file.size,
 								last: read.getCompleted(),
-								percent: readPercent,
+								percent:
+									read.getReadbytes() === -1
+										? 100
+										: readPercent,
 								keyword: payload.keyword,
 								text,
 							};
@@ -341,8 +344,6 @@ export async function messageReader({data, payload}) {
 						case SFTP.CommandResponse.CommandCase.WRITEFILE: {
 							const write = command.getWritefile();
 							console.log('command : write file', write);
-							console.log(write.getWritebytes());
-							console.log(write.getCompleted());
 
 							if (write.getCompleted() === false)
 								writeByteSum += write.getWritebytes();
@@ -359,9 +360,15 @@ export async function messageReader({data, payload}) {
 							return {
 								type: WRITE_SUCCESS,
 								byteSum: writeByteSum,
-								end: writeByteSum === payload.file.size,
+								end:
+									write.getWritebytes() === -1
+										? true
+										: writeByteSum === payload.file.size,
 								last: write.getCompleted(),
-								percent: writePercent,
+								percent:
+									write.getWritebytes() === -1
+										? 100
+										: writePercent,
 							};
 						}
 					}

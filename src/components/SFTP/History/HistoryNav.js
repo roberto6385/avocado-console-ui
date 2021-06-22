@@ -65,7 +65,7 @@ const HistoryNav = ({uuid}) => {
 					},
 				});
 			}
-			// dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
+			dispatch(commandWriteAction({...corServer, keyword: 'pwd'}));
 		};
 		document.body.removeChild(uploadInput);
 	}, [corServer]);
