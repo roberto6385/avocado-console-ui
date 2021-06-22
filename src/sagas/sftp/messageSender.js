@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
-const sendConnect = (ws, data) => {
+const sendConnect = ({ws, data}) => {
 	console.log('send Connection!!');
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
@@ -23,7 +23,7 @@ const sendConnect = (ws, data) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendDisconnect = (ws) => {
+const sendDisconnect = ({ws}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var disconnect = new SFTP.DisconnectRequest();
@@ -36,7 +36,7 @@ const sendDisconnect = (ws) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByCd = (ws, path) => {
+const sendCommandByCd = ({ws, path}) => {
 	console.log(ws, path);
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
@@ -51,7 +51,7 @@ const sendCommandByCd = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByPwd = (ws) => {
+const sendCommandByPwd = ({ws}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -64,7 +64,7 @@ const sendCommandByPwd = (ws) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByMkdir = (ws, path) => {
+const sendCommandByMkdir = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -78,7 +78,7 @@ const sendCommandByMkdir = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByRmdir = (ws, path) => {
+const sendCommandByRmdir = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -92,7 +92,7 @@ const sendCommandByRmdir = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByRm = (ws, path) => {
+const sendCommandByRm = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -106,7 +106,7 @@ const sendCommandByRm = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByStat = (ws, path) => {
+const sendCommandByStat = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -120,7 +120,7 @@ const sendCommandByStat = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByLs = (ws, path) => {
+const sendCommandByLs = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -133,7 +133,7 @@ const sendCommandByLs = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByRename = (ws, path, newPath) => {
+const sendCommandByRename = ({ws, path, newPath}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -148,7 +148,7 @@ const sendCommandByRename = (ws, path, newPath) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByGet = (ws, path) => {
+const sendCommandByGet = ({ws, path}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -163,7 +163,7 @@ const sendCommandByGet = (ws, path) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByRead = (ws, path, offset, length, completed) => {
+const sendCommandByRead = ({ws, path, offset, length, completed}) => {
 	var message = new SFTP.Message();
 	var request = new SFTP.Request();
 	var cmd = new SFTP.CommandRequest();
@@ -181,34 +181,29 @@ const sendCommandByRead = (ws, path, offset, length, completed) => {
 	ws.send(message.serializeBinary());
 };
 
-const upload = (ws, path, uploadFile) => {
-	console.log('file size : ', uploadFile.size);
-
-	const uploadFileSize = uploadFile.size;
-
-	const chunkSize = 4 * 1024;
-	const fileSlices = [];
-
-	for (let i = 0; i < uploadFileSize; i += chunkSize) {
-		(function (start) {
-			fileSlices.push({offset: start, length: chunkSize + start});
-		})(i);
-	}
-
+const sendCommandByWrite = ({
+	ws,
+	path,
+	offset,
+	length,
+	uploadFile,
+	completed,
+	mode,
+}) => {
 	const sendBuffer = (data) => {
 		var message = new SFTP.Message();
 		var request = new SFTP.Request();
 		var cmd = new SFTP.CommandRequest();
-		var put = new SFTP.PutRequest();
-		put.setPath(path);
-		// put.setFilename(uploadFileName);
-		put.setMode(1);
-		put.setFilesize(uploadFileSize);
-		put.setData(Buffer.from(data.buffer));
-		put.setOffset(1); // 임시로 1로 사용. 실제 offset 값 필요.
-		put.setLast(data.last);
+		var write = new SFTP.WriteFileRequest();
 
-		cmd.setPut(put);
+		write.setPath(path);
+		write.setOffset(offset);
+		write.setLength(length);
+		write.setData(Buffer.from(data.buffer)); // 파일 전송 데이터.
+		write.setCompleted(completed); // 전체 전송 후에는 true로 설정.
+		write.setMode(mode); // 처음 파일 전송
+
+		cmd.setWritefile(write);
 		request.setCommand(cmd);
 		message.setRequest(request);
 
@@ -222,31 +217,20 @@ const upload = (ws, path, uploadFile) => {
 			reader.onload = (e) => {
 				resolve(e.target.result);
 			};
-
-			var blob = file.slice(slice.offset, slice.length);
+			const blob = file.slice(slice.offset, slice.length);
 			reader.readAsArrayBuffer(blob);
 		});
 	};
 
-	var total = 0;
 	const readFile = (file, slice) => {
 		readBytes(file, slice).then((data) => {
 			// send protocol buffer
 			console.log('read arraybuffer : ', data);
-			total += data.byteLength;
-
-			if (0 < fileSlices.length) {
-				sendBuffer({buffer: data, last: false});
-
-				readFile(file, fileSlices.shift());
-			} else {
-				sendBuffer({buffer: data, last: true});
-				console.log('file read end. total size : ', total);
-			}
+			sendBuffer({buffer: data});
 		});
 	};
 
-	readFile(uploadFile, fileSlices.shift());
+	readFile(uploadFile, {offset, length});
 };
 
 const messageSender = ({
@@ -259,58 +243,71 @@ const messageSender = ({
 	offset,
 	length,
 	completed,
+	mode,
 }) => {
 	switch (keyword) {
 		case 'Connection':
-			sendConnect(ws, data);
+			sendConnect({ws, data});
 			break;
 
 		case 'Disconnection':
-			sendDisconnect(ws);
+			sendDisconnect({ws});
 			break;
 
 		case 'CommandByCd':
-			sendCommandByCd(ws, path);
+			sendCommandByCd({ws, path});
 			break;
 
 		case 'CommandByPwd':
-			sendCommandByPwd(ws);
+			sendCommandByPwd({ws});
 			break;
 
 		case 'CommandByMkdir':
-			sendCommandByMkdir(ws, path);
+			sendCommandByMkdir({ws, path});
 			break;
 
 		case 'CommandByRmdir':
-			sendCommandByRmdir(ws, path);
+			sendCommandByRmdir({ws, path});
 			break;
 
 		case 'CommandByRm':
-			sendCommandByRm(ws, path);
+			sendCommandByRm({ws, path});
 			break;
 
 		case 'CommandByStat':
-			sendCommandByStat(ws, path);
+			sendCommandByStat({ws, path});
 			break;
 
 		case 'CommandByLs':
-			sendCommandByLs(ws, path);
+			sendCommandByLs({ws, path});
 			break;
 
 		case 'CommandByRename':
-			sendCommandByRename(ws, path, newPath);
+			sendCommandByRename({ws, path, newPath});
 			break;
 
 		case 'CommandByGet':
-			sendCommandByGet(ws, path);
+			sendCommandByGet({ws, path});
 			break;
 
 		case 'CommandByRead':
-			sendCommandByRead(ws, path, offset, length, completed);
+			sendCommandByRead({ws, path, offset, length, completed});
 			break;
 
 		case 'CommandByPut':
-			upload(ws, path, uploadFile);
+			sendCommandByWrite({ws, path, uploadFile});
+			break;
+
+		case 'CommandByWrite':
+			sendCommandByWrite({
+				ws,
+				path,
+				offset,
+				length,
+				uploadFile,
+				completed,
+				mode,
+			});
 			break;
 		default:
 			break;

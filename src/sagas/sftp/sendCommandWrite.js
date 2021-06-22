@@ -26,6 +26,12 @@ import {messageReader} from './messageReader';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
+	const senderLength = 1024 * 4;
+
+	const filepath =
+		payload.path === '/'
+			? `${payload.path}${payload.file.name}`
+			: `${payload.path}/${payload.file.name}`;
 
 	if (payload.keyword === 'pwd') {
 		yield call(messageSender, {
@@ -33,16 +39,15 @@ function* sendCommand(action) {
 			ws: payload.socket,
 		});
 	} else {
-		const filepath =
-			payload.path === '/'
-				? `${payload.path}${payload.file.name}`
-				: `${payload.path}/${payload.file.name}`;
-
 		yield call(messageSender, {
-			keyword: 'CommandByPut',
+			keyword: 'CommandByWrite',
 			ws: payload.socket,
 			path: filepath,
+			offset: 0,
+			length: senderLength,
 			uploadFile: payload.file,
+			completed: false,
+			mode: 1,
 		});
 	}
 
@@ -61,8 +66,34 @@ function* sendCommand(action) {
 				const res = yield call(messageReader, {data, payload});
 				const past = payload.path;
 
+				console.log(res);
 				switch (res.type) {
 					case WRITE_SUCCESS:
+						if (res.last === false) {
+							if (res.end === false) {
+								yield call(messageSender, {
+									keyword: 'CommandByWrite',
+									ws: payload.socket,
+									path: filepath,
+									offset: res.byteSum + 1,
+									length: senderLength,
+									uploadFile: payload.file,
+									completed: false,
+									mode: 2,
+								});
+							} else {
+								yield call(messageSender, {
+									keyword: 'CommandByWrite',
+									ws: payload.socket,
+									path: filepath,
+									offset: res.byteSum + 1,
+									length: senderLength,
+									uploadFile: payload.file,
+									completed: true,
+									mode: 2,
+								});
+							}
+						}
 						yield put({
 							type: FIND_HISTORY,
 							payload: {

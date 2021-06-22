@@ -14,6 +14,7 @@ import {
 	READ_SUCCESS,
 	RENAME_SUCCESS,
 	RM_SUCCESS,
+	WRITE_SUCCESS,
 } from '../../reducers/sftp';
 
 let fileBuffer = new ArrayBuffer(0);
@@ -28,6 +29,8 @@ const appendBuffer = (buffer1, buffer2) => {
 let getReceiveSum = 0;
 let readPercent = 0;
 let readByteSum = 0;
+let writePercent = 0;
+let writeByteSum = 0;
 
 export async function messageReader({data, payload}) {
 	try {
@@ -333,6 +336,32 @@ export async function messageReader({data, payload}) {
 								percent: readPercent,
 								keyword: payload.keyword,
 								text,
+							};
+						}
+						case SFTP.CommandResponse.CommandCase.WRITEFILE: {
+							const write = command.getWritefile();
+							console.log('command : write file', write);
+							console.log(write.getWritebytes());
+							console.log(write.getCompleted());
+
+							if (write.getCompleted() === false)
+								writeByteSum += write.getWritebytes();
+							writePercent =
+								(writeByteSum * 100) / payload.file.size;
+
+							console.log('writeByteSum : ' + writeByteSum);
+							console.log('writePercent : ' + writePercent);
+
+							if (write.getCompleted()) {
+								writeByteSum = 0;
+								writePercent = 0;
+							}
+							return {
+								type: WRITE_SUCCESS,
+								byteSum: writeByteSum,
+								end: writeByteSum === payload.file.size,
+								last: write.getCompleted(),
+								percent: writePercent,
 							};
 						}
 					}
