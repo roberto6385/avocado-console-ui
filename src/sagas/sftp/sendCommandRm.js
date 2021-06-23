@@ -26,7 +26,10 @@ function* sendCommand(action) {
 			yield call(messageSender, {
 				keyword: 'CommandByRm',
 				ws: payload.socket,
-				path: `${payload.newPath}/${payload.file.name}`,
+				path:
+					payload.rm_path === '/'
+						? `${payload.rm_path}${payload.file.name}`
+						: `${payload.rm_path}/${payload.file.name}`,
 			});
 		}
 
@@ -39,53 +42,23 @@ function* sendCommand(action) {
 				console.log('RM 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				const res = yield call(rmResponse, {data, payload});
-				const past = payload.path;
+				const res = yield call(rmResponse, {data});
 				switch (res.type) {
 					case RM_SUCCESS:
 						console.log(payload.file);
 						yield put({type: RM_SUCCESS});
-
-						if (payload.newPath === payload.path) {
-							yield put({
-								type: ADD_HISTORY,
-								payload: {
-									uuid: payload.uuid,
-									name: payload.file.name,
-									size: payload.file.size,
-									todo: 'rm',
-									progress: 100,
-								},
-							});
-						}
+						yield put({
+							type: ADD_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: 'rm',
+								progress: 100,
+							},
+						});
 						break;
 
-					// case PWD_SUCCESS:
-					// 	yield put({
-					// 		type: INITIALIZING_HIGHLIGHT,
-					// 		payload: {uuid: payload.uuid},
-					// 	});
-					// 	yield put({
-					// 		type: INIT_DELETE_WORK_LIST,
-					// 		payload: {uuid: payload.uuid},
-					// 	});
-					//
-					// 	yield put({
-					// 		type: PWD_SUCCESS,
-					// 		payload: {
-					// 			uuid: payload.uuid,
-					// 			path: res.path,
-					// 			pathList: res.pathList,
-					// 			removeIndex: 1,
-					// 		},
-					// 	});
-					// 	yield put(
-					// 		commandLsAction({
-					// 			...payload,
-					// 			newPath: past,
-					// 		}),
-					// 	);
-					// 	break;
 					default:
 						break;
 				}

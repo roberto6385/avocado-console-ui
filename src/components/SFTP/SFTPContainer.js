@@ -99,13 +99,13 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (writeList.length !== 0) {
 			const value = writeList.slice().shift();
-
+			console.log(value);
 			dispatch(
 				commandWriteAction({
-					...corServer,
-					writePath: value.path,
+					socket: corServer.socket,
+					uuid: corServer.uuid,
+					write_path: value.path,
 					file: value.file,
-					keyword: value.type,
 				}),
 			);
 			value.type === 'write' &&

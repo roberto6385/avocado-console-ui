@@ -18,7 +18,7 @@ import {
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
-import {messageReader} from './messageReader';
+import {writeResponse} from '../../ws/sftp/write_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -27,9 +27,9 @@ function* sendCommand(action) {
 
 	let filepath = '';
 	filepath =
-		payload.writePath === '/'
-			? `${payload.writePath}${payload.file.name}`
-			: `${payload.writePath}/${payload.file.name}`;
+		payload.write_path === '/'
+			? `${payload.write_path}${payload.file.name}`
+			: `${payload.write_path}/${payload.file.name}`;
 
 	yield call(messageSender, {
 		keyword: 'CommandByWrite',
@@ -54,7 +54,7 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);
-				const res = yield call(messageReader, {data, payload});
+				const res = yield call(writeResponse, {data, payload});
 
 				console.log(res);
 				switch (res.type) {
@@ -84,42 +84,42 @@ function* sendCommand(action) {
 								});
 							}
 						}
-						if (res.keyword === 'write') {
+						yield put({
+							type: FIND_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: 'write',
+								progress: res.percent,
+							},
+						});
+						if (res.last && res.percent === 100) {
 							yield put({
-								type: FIND_HISTORY,
+								type: WRITE_SUCCESS,
 								payload: {
 									uuid: payload.uuid,
-									name: payload.file.name,
-									size: payload.file.size,
-									todo: payload.keyword,
-									progress: res.percent,
+									percent: res.percent,
 								},
 							});
-							if (res.last && res.percent === 100) {
-								yield put({
-									type: WRITE_SUCCESS,
-									payload: {
-										uuid: payload.uuid,
-										percent: res.percent,
-									},
-								});
-							}
-						} else {
-							if (res.last && res.percent === 100) {
-								yield put({
-									type: ADD_HISTORY,
-									payload: {
-										uuid: payload.uuid,
-										name: payload.file.name,
-										size: payload.file.size,
-										todo: 'edit',
-										progress: 100,
-									},
-								});
-
-								yield put(commandPwdAction(payload));
-							}
 						}
+
+						// else {
+						// 	if (res.last && res.percent === 100) {
+						// 		yield put({
+						// 			type: ADD_HISTORY,
+						// 			payload: {
+						// 				uuid: payload.uuid,
+						// 				name: payload.file.name,
+						// 				size: payload.file.size,
+						// 				todo: 'edit',
+						// 				progress: 100,
+						// 			},
+						// 		});
+						//
+						// 		yield put(commandPwdAction(payload));
+						// 	}
+						// }
 						break;
 
 					// case PWD_SUCCESS:

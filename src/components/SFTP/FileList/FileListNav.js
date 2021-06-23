@@ -7,6 +7,7 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandLsAction,
+	commandPwdAction,
 	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
 import {IconButton} from '../../../styles/global';
@@ -133,32 +134,18 @@ const FileListNav = ({uuid}) => {
 	};
 
 	const refresh = useCallback(async () => {
-		dispatch({type: INITIAL_FILELIST, payload: {uuid}});
-		let pathList = ['/'];
-		path !== '/' &&
-			path.split('/').reduce(function (accumulator, currentValue) {
-				path !== '/' && pathList.push(accumulator + '/' + currentValue);
-				return accumulator + '/' + currentValue;
-			});
-
-		for await (let value of pathList) {
-			console.log(value);
-			await dispatch(
-				commandLsAction({
-					...corServer,
-					newPath: value,
-				}),
-			);
-		}
+		dispatch(
+			commandPwdAction({
+				socket: corServer.socket,
+				uuid: uuid,
+				pwd_path: corServer.path,
+			}),
+		);
 	}, [uuid, corServer, dispatch]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
 	}, [uuid, corServer]);
-
-	// useEffect(async () => {
-	// 	uuid && (await dispatch(commandPwdAction(corServer)));
-	// }, []);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>

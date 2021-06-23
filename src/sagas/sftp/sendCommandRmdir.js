@@ -10,38 +10,27 @@ import {
 } from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
-	RM_FAILURE,
-	RM_REQUEST,
-	RM_SUCCESS,
+	RMDIR_FAILURE,
+	RMDIR_REQUEST,
+	RMDIR_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
-import {messageReader} from './messageReader';
-import {rmResponse} from '../../ws/sftp/rm_response';
+import {rmdirResponse} from '../../ws/sftp/rmdir_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 	try {
-		if (payload.keyword === 'pwd') {
+		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
-				keyword: 'CommandByPwd',
+				keyword: 'CommandByRmdir',
 				ws: payload.socket,
+				path:
+					payload.rmdir_path === '/'
+						? `${payload.rmdir_path}${payload.file.name}`
+						: `${payload.rmdir_path}/${payload.file.name}`,
 			});
-		} else {
-			console.log(payload.file.name);
-			console.log(payload.newPath);
-
-			if (payload.file.name !== '..' && payload.file.name !== '.') {
-				yield call(messageSender, {
-					keyword:
-						payload.keyword === 'rm'
-							? 'CommandByRm'
-							: 'CommandByRmdir',
-					ws: payload.socket,
-					path: `${payload.newPath}/${payload.file.name}`,
-				});
-			}
 		}
 
 		while (true) {
@@ -53,53 +42,23 @@ function* sendCommand(action) {
 				console.log('RM 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				const res = yield call(rmResponse, {data, payload});
-				const past = payload.path;
+				const res = yield call(rmdirResponse, {data});
 				switch (res.type) {
-					case RM_SUCCESS:
+					case RMDIR_SUCCESS:
 						console.log(payload.file);
-						yield put({type: RM_SUCCESS});
-
-						if (payload.newPath === payload.path) {
-							yield put({
-								type: ADD_HISTORY,
-								payload: {
-									uuid: payload.uuid,
-									name: payload.file.name,
-									size: payload.file.size,
-									todo: 'rm',
-									progress: 100,
-								},
-							});
-						}
+						yield put({type: RMDIR_SUCCESS});
+						yield put({
+							type: ADD_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: 'rm',
+								progress: 100,
+							},
+						});
 						break;
 
-					// case PWD_SUCCESS:
-					// 	yield put({
-					// 		type: INITIALIZING_HIGHLIGHT,
-					// 		payload: {uuid: payload.uuid},
-					// 	});
-					// 	yield put({
-					// 		type: INIT_DELETE_WORK_LIST,
-					// 		payload: {uuid: payload.uuid},
-					// 	});
-					//
-					// 	yield put({
-					// 		type: PWD_SUCCESS,
-					// 		payload: {
-					// 			uuid: payload.uuid,
-					// 			path: res.path,
-					// 			pathList: res.pathList,
-					// 			removeIndex: 1,
-					// 		},
-					// 	});
-					// 	yield put(
-					// 		commandLsAction({
-					// 			...payload,
-					// 			newPath: past,
-					// 		}),
-					// 	);
-					// 	break;
 					default:
 						break;
 				}
@@ -107,12 +66,12 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put({type: RM_FAILURE});
+		yield put({type: RMDIR_FAILURE});
 	}
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(RM_REQUEST);
+	const reqChannel = yield actionChannel(RMDIR_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);
 		yield call(sendCommand, action);

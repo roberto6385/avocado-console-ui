@@ -74,27 +74,29 @@ const WarningAlertPopup = () => {
 					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
 
-					for (let value of corServer.deleteWorks) {
+					for (let value of corServer.removeList.slice().reverse()) {
 						console.log(value);
-						for (let item of value.list) {
-							if (item.name !== '..' || item.name !== '.') {
-								item.type === 'file'
-									? dispatch(
-											commandRmAction({
-												...corServer,
-												socket: corServer.socket,
-												uuid: uuid,
-												file: item,
-												rm_path: value.path,
-											}),
-									  )
-									: dispatch(
-											commandRmdirAction({
-												file: item,
-												newPath: value.path,
-											}),
-									  );
-							}
+						if (
+							value.file.name !== '..' ||
+							value.file.name !== '.'
+						) {
+							value.file.type === 'file'
+								? dispatch(
+										commandRmAction({
+											socket: corServer.socket,
+											uuid: uuid,
+											file: value.file,
+											rm_path: value.path,
+										}),
+								  )
+								: dispatch(
+										commandRmdirAction({
+											socket: corServer.socket,
+											uuid: uuid,
+											file: value.file,
+											rmdir_path: value.path,
+										}),
+								  );
 						}
 					}
 					// dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
