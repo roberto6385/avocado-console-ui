@@ -98,11 +98,12 @@ export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'sftp/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
 
-export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
+export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
+export const SHIFT_DELETE_WORK_LIST = 'sftp/SHIFT_DELETE_WORK_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
@@ -418,6 +419,10 @@ const sftp = (state = initialState, action) =>
 				break;
 			case SHIFT_WRITE_LIST:
 				target.writeList.shift();
+				break;
+
+			case SHIFT_DELETE_WORK_LIST:
+				target.removeList.pop();
 				break;
 			default:
 				return state;

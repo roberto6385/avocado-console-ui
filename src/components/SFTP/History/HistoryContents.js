@@ -141,7 +141,7 @@ const HistoryContents = ({uuid}) => {
 			const files = e.target.files;
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value, type: 'write'});
+				array.push({path, file: value});
 			}
 			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		};
@@ -152,7 +152,7 @@ const HistoryContents = ({uuid}) => {
 		async (files) => {
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value, type: 'write'});
+				array.push({path, file: value});
 			}
 			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
 		},

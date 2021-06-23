@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
+	commandPwdAction,
 	commandReadAction,
+	commandRmAction,
 	commandWriteAction,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	SHIFT_DELETE_WORK_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
@@ -20,7 +23,7 @@ const SFTPContainer = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {readList, writeList} = corServer;
+	const {readList, writeList, removeList} = corServer;
 	// const body = document.getElementById('root');
 	// const focusOut = useCallback(
 	// 	function (evt) {
@@ -96,11 +99,11 @@ const SFTPContainer = ({uuid}) => {
 		}
 	}, [readList]);
 
-	useEffect(async () => {
+	useEffect(() => {
 		if (writeList.length !== 0) {
 			const value = writeList.slice().shift();
 			console.log(value);
-			await dispatch(
+			dispatch(
 				commandWriteAction({
 					socket: corServer.socket,
 					uuid: corServer.uuid,
@@ -109,23 +112,42 @@ const SFTPContainer = ({uuid}) => {
 					path: corServer.path,
 				}),
 			);
-			value.type === 'write' &&
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.file.name,
-						size: value.file.size,
-						todo: 'write',
-						progress: 0,
-					},
-				});
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.file.name,
+					size: value.file.size,
+					todo: 'write',
+					progress: 0,
+				},
+			});
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
-		} else {
-			console.log(corServer);
-			// dispatch(commandPwdAction(corServer));
 		}
 	}, [writeList]);
+
+	useEffect(() => {
+		if (removeList.length !== 0) {
+			const value = removeList.slice().reverse().shift();
+			if (value.file.name !== '..' || value.file.name !== '.') {
+				dispatch(
+					commandRmAction({
+						socket: corServer.socket,
+						uuid: uuid,
+						file: value.file,
+						rm_path: value.path,
+						path: corServer.path,
+						keyword:
+							value.file.type === 'file'
+								? 'CommandByRm'
+								: 'CommandByRmdir',
+					}),
+				);
+			}
+			dispatch({type: SHIFT_DELETE_WORK_LIST, payload: {uuid}});
+		}
+		// }
+	}, [removeList]);
 
 	return <SFTP uuid={uuid} />;
 };

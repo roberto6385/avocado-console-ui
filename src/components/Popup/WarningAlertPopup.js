@@ -11,9 +11,11 @@ import {
 } from '../../reducers/common';
 import {
 	commandRmAction,
+	DELETE_WORK_LIST,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
+	searchDeleteListAction,
 } from '../../reducers/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
@@ -67,31 +69,43 @@ const WarningAlertPopup = () => {
 	const submitFunction = useCallback(
 		async (e) => {
 			e.preventDefault();
+			const array = [];
 
 			switch (warning_alert_popup.key) {
 				case 'sftp_delete_file_folder': {
 					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
+					const {highlight, path} = corServer;
+					for (let value of highlight) {
+						if (value.name !== '.' && value.name !== '..') {
+							array.push({file: value, path});
+						}
+					}
+					await dispatch({
+						type: DELETE_WORK_LIST,
+						payload: {
+							uuid: uuid,
+							array,
+						},
+					});
 
-					for await (let value of corServer.removeList
-						.slice()
-						.reverse()) {
-						console.log(value);
+					for (let item of highlight) {
+						console.log(item);
 						if (
-							value.file.name !== '..' ||
-							value.file.name !== '.'
+							item.type === 'directory' &&
+							item.name !== '..' &&
+							item.name !== '.'
 						) {
+							console.log(path);
+							console.log(item.name);
 							dispatch(
-								commandRmAction({
+								searchDeleteListAction({
 									socket: corServer.socket,
-									uuid: uuid,
-									file: value.file,
-									rm_path: value.path,
-									path: corServer.path,
-									keyword:
-										value.file.type === 'file'
-											? 'CommandByRm'
-											: 'CommandByRmdir',
+									uuid: corServer.uuid,
+									delete_path:
+										path === '/'
+											? `${path}${item.name}`
+											: `${path}/${item.name}`,
 								}),
 							);
 						}

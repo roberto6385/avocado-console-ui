@@ -79,7 +79,7 @@ const SavePopup = () => {
 						type: PUSH_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile, type: 'edit'}],
+							array: [{path, file: uploadFile}],
 						},
 					});
 
@@ -95,7 +95,7 @@ const SavePopup = () => {
 						type: PUSH_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile, type: 'edit'}],
+							array: [{path, file: uploadFile}],
 						},
 					});
 					dispatch({

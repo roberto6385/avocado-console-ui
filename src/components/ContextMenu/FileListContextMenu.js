@@ -29,7 +29,7 @@ const FileListContextMenu = ({uuid}) => {
 	const contextDownload = async () => {
 		const array = [];
 		for await (let value of highlight) {
-			array.push({path, file: value, type: 'read'});
+			array.push({path, file: value});
 		}
 		dispatch({
 			type: PUSH_READ_LIST,
@@ -50,7 +50,6 @@ const FileListContextMenu = ({uuid}) => {
 	};
 
 	const handleItemClick = async ({event}) => {
-		const array = [];
 		switch (event.currentTarget.id) {
 			case 'download':
 				contextDownload();
@@ -74,40 +73,6 @@ const FileListContextMenu = ({uuid}) => {
 				});
 				break;
 			case 'delete_work':
-				for (let value of highlight) {
-					if (value.name !== '.' && value.name !== '..') {
-						array.push({file: value, path});
-					}
-				}
-				await dispatch({
-					type: DELETE_WORK_LIST,
-					payload: {
-						uuid: uuid,
-						array,
-					},
-				});
-
-				for (let item of highlight) {
-					console.log(item);
-					if (
-						item.type === 'directory' &&
-						item.name !== '..' &&
-						item.name !== '.'
-					) {
-						console.log(path);
-						console.log(item.name);
-						dispatch(
-							searchDeleteListAction({
-								socket: corServer.socket,
-								uuid: corServer.uuid,
-								delete_path:
-									path === '/'
-										? `${path}${item.name}`
-										: `${path}/${item.name}`,
-							}),
-						);
-					}
-				}
 				dispatch({
 					type: OPEN_WARNING_ALERT_POPUP,
 					data: {
