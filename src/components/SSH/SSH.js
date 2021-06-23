@@ -73,10 +73,9 @@ const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
 	overflow: auto;
 	background: ${(props) =>
-		props.clickedItem
+		props.clickeditem
 			? contextHover[props.theme_value]
 			: sshSearch[props.theme_value]};
-
 	color: ${(props) => fontColor[props.theme_value]};
 	border: none;
 `;
@@ -109,7 +108,12 @@ const SSH = ({uuid}) => {
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [currentHistory, setCurrentHistory] = useState(0);
 	const historyList = useMemo(
-		() => ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
+		() =>
+			currentLine === ''
+				? []
+				: ssh_history
+						.filter((v) => v.startsWith(currentLine))
+						.slice(-5),
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
@@ -120,8 +124,8 @@ const SSH = ({uuid}) => {
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
-	const searchRef = useRef(null);
-	const listRef = useRef(null);
+	const {current: searchRef} = useRef(null);
+	const {current: listRef} = useRef(null);
 	const {
 		ref: ref,
 		width: width,
@@ -185,10 +189,10 @@ const SSH = ({uuid}) => {
 		sshTerm.setOption('theme', {
 			background: terminalColor[theme],
 			foreground: terminalFontColor[theme],
+			selection: '#FCFD08',
 		});
 		sshTerm.setOption('fontSize', font_size);
 		sshTerm.setOption('fontFamily', font);
-
 		fitAddon.fit();
 
 		return () => {
@@ -305,7 +309,7 @@ const SSH = ({uuid}) => {
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
 			document.getElementById('search_' + uuid).style.display = 'flex';
-			searchRef.current.focus();
+			searchRef.focus();
 		} else {
 			document.getElementById('search_' + uuid).style.display = 'none';
 			setSearch('');
@@ -340,109 +344,107 @@ const SSH = ({uuid}) => {
 			theme_value={theme}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
-			{currentLine.length > 0 &&
-				auto_completion_mode &&
-				!ignoreAutoCompletion &&
-				historyList.length > 0 &&
-				current_tab === uuid && (
-					<_ListGroup
-						ref={listRef}
+			<_ListGroup
+				id={`auto_complete_list_${uuid}`}
+				ref={listRef}
+				theme_value={theme}
+				left={
+					width -
+						Number(
+							sshTerm._core.textarea?.style.left.substring(
+								0,
+								sshTerm._core.textarea?.style.left.length - 2,
+							),
+						) -
+						140 >
+					0
+						? String(
+								Number(
+									sshTerm._core.textarea?.style.left.substring(
+										0,
+										sshTerm._core.textarea?.style.left
+											.length - 2,
+									),
+								) + 30,
+						  ) + 'px'
+						: String(
+								Number(
+									sshTerm._core.textarea?.style.left.substring(
+										0,
+										sshTerm._core.textarea?.style.left
+											.length - 2,
+									),
+								) - 150,
+						  ) + 'px'
+				}
+				top={
+					height -
+						Number(
+							sshTerm._core.textarea?.style.top.substring(
+								0,
+								sshTerm._core.textarea?.style.top.length - 2,
+							),
+						) -
+						document.getElementById(`auto_complete_list_${uuid}`)
+							?.clientHeight >
+						100 &&
+					String(
+						Number(
+							sshTerm._core.textarea?.style.top.substring(
+								0,
+								sshTerm._core.textarea?.style.top.length - 2,
+							),
+						) + 100,
+					) + 'px'
+				}
+				bottom={
+					height -
+						Number(
+							sshTerm._core.textarea?.style.top.substring(
+								0,
+								sshTerm._core.textarea?.style.top.length - 2,
+							),
+						) -
+						document.getElementById(`auto_complete_list_${uuid}`)
+							?.clientHeight <=
+						100 &&
+					String(
+						height -
+							Number(
+								sshTerm._core.textarea?.style.top.substring(
+									0,
+									sshTerm._core.textarea?.style.top.length -
+										2,
+								),
+							) +
+							30,
+					) + 'px'
+				}
+				display={
+					currentLine.length > 1 &&
+					current_tab === uuid &&
+					auto_completion_mode &&
+					!ignoreAutoCompletion &&
+					historyList.length > 0
+						? 'flex'
+						: 'none'
+				}
+			>
+				{historyList.map((v, i) => (
+					<_ListGroupItem
+						clickeditem={i === currentHistory ? true : false}
 						theme_value={theme}
-						left={
-							width -
-								Number(
-									sshTerm._core.textarea.style.left.substring(
-										0,
-										sshTerm._core.textarea.style.left
-											.length - 2,
-									),
-								) -
-								140 >
-							0
-								? String(
-										Number(
-											sshTerm._core.textarea.style.left.substring(
-												0,
-												sshTerm._core.textarea.style
-													.left.length - 2,
-											),
-										) + 30,
-								  ) + 'px'
-								: String(
-										Number(
-											sshTerm._core.textarea.style.left.substring(
-												0,
-												sshTerm._core.textarea.style
-													.left.length - 2,
-											),
-										) - 150,
-								  ) + 'px'
-						}
-						top={
-							height -
-								Number(
-									sshTerm._core.textarea.style.top.substring(
-										0,
-										sshTerm._core.textarea.style.top
-											.length - 2,
-									),
-								) -
-								listRef.current?.clientHeight -
-								100 >
-							0
-								? String(
-										Number(
-											sshTerm._core.textarea.style.top.substring(
-												0,
-												sshTerm._core.textarea.style.top
-													.length - 2,
-											),
-										) + 100,
-								  ) + 'px'
-								: 'undefine'
-						}
-						bottom={
-							height -
-								Number(
-									sshTerm._core.textarea.style.top.substring(
-										0,
-										sshTerm._core.textarea.style.top
-											.length - 2,
-									),
-								) -
-								listRef.current?.clientHeight -
-								100 <=
-							0
-								? String(
-										height -
-											Number(
-												sshTerm._core.textarea.style.top.substring(
-													0,
-													sshTerm._core.textarea.style
-														.top.length - 2,
-												),
-											) +
-											30,
-								  ) + 'px'
-								: 'undefine'
-						}
-						display={currentLine.length > 1 ? 'block' : 'none'}
+						onClick={onClickCommand(v)}
+						key={i}
 					>
-						{historyList.map((v, i) => (
-							<_ListGroupItem
-								clickedItem={i === currentHistory}
-								theme_value={theme}
-								onClick={onClickCommand(v)}
-								key={i}
-							>
-								{v}
-							</_ListGroupItem>
-						))}
-						<_FooterListGroupItem theme_value={theme}>
-							{t('autoCompletionFooter')}
-						</_FooterListGroupItem>
-					</_ListGroup>
-				)}
+						{v}
+					</_ListGroupItem>
+				))}
+				<_FooterListGroupItem theme_value={theme}>
+					{t('autoCompletionFooter')}
+				</_FooterListGroupItem>
+			</_ListGroup>
+
 			<_Form theme_value={theme} id={`search_${uuid}`}>
 				<IconContainer color={iconColor[theme]}>
 					{searchIconMicro}

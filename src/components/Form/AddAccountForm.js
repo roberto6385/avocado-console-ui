@@ -18,15 +18,17 @@ import {
 	ModalHeader,
 	ModalHeaderIconButton,
 	PopupModal,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	SecondaryGreenButton,
 } from '../../styles/default';
 import {
 	borderColor,
 	fontColor,
 	greyBackgroundNormalButtonColor,
 } from '../../styles/color';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	SecondaryGreenButton,
+} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -89,20 +91,13 @@ const _Form = styled.form`
 const AddAccountForm = () => {
 	const {t} = useTranslation('addAccountForm');
 	const dispatch = useDispatch();
-	const {
-		account,
-		accountListControlId,
-		currentResourceListKey,
-		theme,
-	} = useSelector((state) => state.common);
+	const {account, accountListControlId, currentResourceListKey, theme} =
+		useSelector((state) => state.common);
 	const {account_form_popup} = useSelector((state) => state.popup);
 
 	const [identity, onChangeIdentity, setIdentity] = useInput('');
-	const [
-		authentication,
-		onChangeAuthentication,
-		setAuthentication,
-	] = useInput('Password');
+	const [authentication, onChangeAuthentication, setAuthentication] =
+		useInput('Password');
 	const [username, onChangeUsername, setUsername] = useInput('');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
@@ -182,7 +177,7 @@ const AddAccountForm = () => {
 			theme_value={theme}
 		>
 			<ModalHeader theme_value={theme}>
-				<ModalHeaderText>{t('addAccount')}</ModalHeaderText>
+				<div>{t('addAccount')}</div>
 				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
 					{closeIconSmall}
 				</ModalHeaderIconButton>

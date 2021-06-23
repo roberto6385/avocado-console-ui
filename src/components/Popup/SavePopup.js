@@ -18,9 +18,10 @@ import {
 	ModalMessage,
 	PopupModal,
 	PopupText,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
+
+
 } from '../../styles/default';
+import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

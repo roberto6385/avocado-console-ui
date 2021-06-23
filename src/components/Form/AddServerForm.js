@@ -28,15 +28,17 @@ import {
 	ModalHeader,
 	ModalHeaderIconButton,
 	PopupModal,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	SecondaryGreenButton,
 } from '../../styles/default';
 import {
 	borderColor,
 	fontColor,
 	greyBackgroundNormalButtonColor,
 } from '../../styles/color';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	SecondaryGreenButton,
+} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -126,11 +128,8 @@ const AddServerForm = () => {
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput(22);
 	const [account, onChangeIdentity, setAccount] = useInput('');
-	const [
-		authentication,
-		onChangeAuthentication,
-		setAuthentication,
-	] = useInput('Password');
+	const [authentication, onChangeAuthentication, setAuthentication] =
+		useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 
 	const [username, onChangeUsername, setUsername] = useInput('');
@@ -369,7 +368,8 @@ const AddServerForm = () => {
 							options={protocol_options}
 							value={protocol}
 							setValue={setProtocol}
-						/>{' '}
+							popup={true}
+						/>
 					</_SecondItem>
 				</_ItemContainer>
 				<_ItemContainer>
@@ -404,6 +404,7 @@ const AddServerForm = () => {
 						options={identityList}
 						value={account}
 						setValue={setAccount}
+						popup={true}
 					/>
 					<_SecondItem>
 						<Select_
@@ -413,6 +414,7 @@ const AddServerForm = () => {
 							value={authentication}
 							setValue={setAuthentication}
 							disabled={true}
+							popup={true}
 						/>
 					</_SecondItem>
 				</_ItemContainer>

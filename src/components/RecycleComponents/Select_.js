@@ -5,12 +5,16 @@ import PropTypes from 'prop-types';
 import {
 	borderColor,
 	D_GREEN_ACTIVE,
-	fileListHighColor,
 	fontColor,
 	identityHigh,
 	inputBack,
+	popupSelectActiveColor,
+	popupSelectColor,
+	popupSelectHoverColor,
 	selectActiveColor,
+	selectColor,
 	selectHoverColor,
+	selectInputColor,
 } from '../../styles/color';
 import {useSelector} from 'react-redux';
 
@@ -52,7 +56,16 @@ const _Select = styled(Select)`
 	}
 `;
 
-const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
+const Select_ = ({
+	title,
+	options,
+	value,
+	setValue,
+	width,
+	flex,
+	disabled,
+	popup,
+}) => {
 	const {theme} = useSelector((state) => state.common);
 	const selectRef = useRef(null);
 	const colourStyles = {
@@ -67,7 +80,7 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 			lineHeight: '34px',
 			width: width,
 			borderColor: identityHigh[theme],
-			backgroundColor: inputBack[theme],
+			backgroundColor: selectInputColor[theme],
 			boxShadow: `0 0 0 1px ${
 				isFocused ? D_GREEN_ACTIVE : 'transparent'
 			} !important`,
@@ -77,20 +90,39 @@ const Select_ = ({title, options, value, setValue, width, flex, disabled}) => {
 		option: (styles, {isDisabled, isFocused, isSelected}) => {
 			return {
 				...styles,
-				backgroundColor: isDisabled
+				backgroundColor: !popup
+					? isDisabled
+						? null
+						: isSelected
+						? selectActiveColor[theme] //selected
+						: isFocused
+						? selectHoverColor[theme] //hover
+						: selectColor[theme] // normal
+					: isDisabled
 					? null
 					: isSelected
-					? fileListHighColor[theme] //selected
+					? popupSelectActiveColor[theme] //selected
 					: isFocused
-					? selectHoverColor[theme] //hover
-					: inputBack[theme], // normal
+					? popupSelectHoverColor[theme] //hover
+					: popupSelectColor[theme], // normal
+
+				// isDisabled
+				// ? null
+				// : isSelected
+				// 	? selectColor[theme] //selected
+				// 	: isFocused
+				// 		? selectHoverColor[theme] //hover
+				// 		: selectColor[theme] // normal
+
 				color: fontColor[theme],
 				cursor: isDisabled ? 'not-allowed' : 'pointer',
 				maxWidth: width,
 				margin: 'auto',
 				':active': {
 					...styles[':active'],
-					backgroundColor: selectActiveColor[theme], // active back
+					backgroundColor: !popup
+						? selectActiveColor[theme]
+						: popupSelectActiveColor[theme], // active back
 				},
 			};
 		},
@@ -139,6 +171,7 @@ Select_.propTypes = {
 	b_color: PropTypes.string,
 	color: PropTypes.string,
 	disabled: PropTypes.bool,
+	popup: PropTypes.bool,
 };
 
 export default Select_;

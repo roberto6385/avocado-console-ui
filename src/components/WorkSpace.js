@@ -12,11 +12,12 @@ import AsideContainer from './Setting/AsideContainer';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {FONT_18, HEIGHT_54, WIDTH_160} from '../styles/length';
+import {FONT_18, WIDTH_160} from '../styles/length';
 import {
 	activeColor,
 	fontColor,
 	iconColor,
+	mainBackColor,
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
@@ -93,6 +94,7 @@ const _MainSpace = styled.div`
 	width: 100%;
 	overflow: hidden;
 	position: relative;
+	background: ${(props) => mainBackColor[props.theme_value]};
 
 	.work {
 		margin-right: 300px;
@@ -118,7 +120,6 @@ const _WorkSpaceContainer = styled.div`
 	display: flex;
 	height: 100%;
 	width: 100%;
-	background: ${(props) => props?.back};
 	overflow: hidden;
 	position: relative;
 `;
@@ -127,7 +128,7 @@ const _TabsContianer = styled.div`
 	display: flex;
 	overflow: scroll;
 	max-width: calc(100% - 152px);
-	height: ${HEIGHT_54};
+	height: 54px;
 `;
 
 const WorkSpace = () => {
@@ -260,7 +261,7 @@ const WorkSpace = () => {
 						setToggle={setAsideToggle}
 					/>
 				</_Nav>
-				<_MainSpace>
+				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}
 					>

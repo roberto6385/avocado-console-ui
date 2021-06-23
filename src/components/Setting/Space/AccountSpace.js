@@ -7,8 +7,6 @@ import Select_ from '../../RecycleComponents/Select_';
 
 import {
 	Input,
-	PrimaryDisabledButton,
-	PrimaryGreenButton,
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
@@ -18,6 +16,7 @@ import ChangePasswordForm from '../../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {WIDTH_160, WIDTH_500} from '../../../styles/length';
+import {PrimaryDisabledButton, PrimaryGreenButton} from "../../../styles/button";
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -74,7 +73,9 @@ const AccountSpace = () => {
 
 	return (
 		<SettingMainContainer theme_value={theme}>
-			<SettingTitle theme_value={theme}>{t('title.account')}</SettingTitle>
+			<SettingTitle theme_value={theme}>
+				{t('title.account')}
+			</SettingTitle>
 			<SettingContentsContainer>
 				<InputFiled_ title={t('account')}>
 					<_Input
@@ -110,6 +111,7 @@ const AccountSpace = () => {
 						value={authType}
 						setValue={setAuthType}
 						width={WIDTH_500}
+						popup={true}
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
@@ -144,6 +146,7 @@ const AccountSpace = () => {
 					value={mfaType}
 					setValue={setMfaType}
 					width={WIDTH_500}
+					popup={true}
 				/>
 				<Radio_
 					radioName={'MFA'}

@@ -68,8 +68,6 @@ const reducer = (state = initialState, action) => {
 						fontSize: draft.font_size,
 						letterSpacing: 0,
 						theme: {
-							foreground: '#000000',
-							background: '#f8f9fa',
 							selection: '#FCFD08',
 						},
 					}),

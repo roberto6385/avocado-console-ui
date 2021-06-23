@@ -14,7 +14,7 @@ import {
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {SecondaryGreenButton, PrimaryGreenButton} from '../../styles/default';
+import {PrimaryGreenButton, SecondaryGreenButton} from "../../styles/button";
 
 const _Form = styled.form`
 	background: white;

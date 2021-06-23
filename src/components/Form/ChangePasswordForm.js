@@ -16,9 +16,10 @@ import {
 	ModalHeader,
 	ModalHeaderIconButton,
 	PopupModal,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
+
+
 } from '../../styles/default';
+import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

@@ -55,7 +55,7 @@ export const D_LOGO = '#4ca6a8';
 export const D_IDENTITY_HIGH = 'rgba(0, 0, 0, 0.12)';
 export const D_PANE_HEADER_HIGH = '#1f323c';
 export const D_PANE_HEADER_BORDER = 'rgba(68, 200, 192, 0.5)';
-export const D_SELECT_HOVER = '#273746';
+export const D_SELECT_HOVER = '#1f323c';
 
 //Snippents color
 export const L_SNIPPETS_LIST = '#f8f9fa';
@@ -108,7 +108,7 @@ export const navInputColor = [L_BACK_TABBAR, D_BACK];
 export const modalColor = [L_BACK, D_BACK_MODAL];
 export const filelistInputBack = [L_BACK_TABBAR, D_BACK_INPUT_BACK];
 export const inputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
-export const asiedInputBack = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
+
 export const tabbarColor = [L_BACK_TABBAR, I_BACK_NAV];
 export const borderColor = [L_BORDER, D_BORDER];
 export const inputFocusBoaderColor = [
@@ -164,8 +164,14 @@ export const greenActiveButtonColor = [L_GREEN_ACTIVE, D_GREEN_ACTIVE];
 export const redNormalButtonColor = [L_RED_NORMAL, D_RED_NORMAL];
 export const redHoverButtonColor = [L_RED_HOVER, D_RED_HOVER];
 export const redActiveButtonColor = [L_RED_ACTIVE, D_RED_ACTIVE];
+
+export const selectInputColor = [L_FORM_INPUT_BACK, D_NAV_HIGHLIGHT];
+export const selectColor = [L_FORM_INPUT_BACK, D_BACK_DROPLIST];
 export const selectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
-export const selectActiveColor = [L_BACK_MAIN, D_GREY_BACKGROUND_HOVER];
+export const selectActiveColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
+export const popupSelectColor = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
+export const popupSelectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
+export const popupSelectActiveColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
 
 export const greyBoarderNormalButtonColor = [
 	L_GREY_BOARDER_NORMAL,

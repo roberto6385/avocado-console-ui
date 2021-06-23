@@ -5,7 +5,8 @@ import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {settingInput} from '../../../styles/color';
-import {Input, PrimaryGreenButton} from '../../../styles/default';
+import {Input} from '../../../styles/default';
+import {PrimaryGreenButton} from "../../../styles/button";
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;

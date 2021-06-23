@@ -30,7 +30,6 @@ import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
-	console.log(action.data);
 	const ws = yield call(initWebsocket, action.data.host, action.data.wsPort);
 	const channel = yield call(subscribe, ws);
 	let uuid = null;

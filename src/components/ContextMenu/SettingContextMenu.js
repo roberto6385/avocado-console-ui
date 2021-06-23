@@ -64,7 +64,6 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 			<Item id='Logout' onClick={logout()}>
 				{t('logout')}
 			</Item>
-			<Separator />
 		</DropDownMenu_Avocado>
 	);
 };
