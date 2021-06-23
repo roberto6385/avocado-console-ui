@@ -11,7 +11,6 @@ import {
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
-	SAVE_TEMP_PATH,
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import styled from 'styled-components';
@@ -247,7 +246,7 @@ const FileListDropDown = ({uuid}) => {
 								socket: corServer.socket,
 								path: corServer.path,
 								uuid: uuid,
-								cd_path: pathList[listindex],
+								cd_path: `${pathList[listindex]}/${item.name}`,
 							}),
 						);
 						dispatch({
@@ -279,7 +278,7 @@ const FileListDropDown = ({uuid}) => {
 							socket: corServer.socket,
 							path: corServer.path,
 							uuid: uuid,
-							cd_path: pathList[listindex],
+							cd_path: finalPath,
 						}),
 					);
 				}
@@ -335,8 +334,6 @@ const FileListDropDown = ({uuid}) => {
 					}),
 				);
 			}
-
-			dispatch({type: SAVE_TEMP_PATH, payload: {uuid, clickedPath}});
 
 			highlight.length < 2 &&
 				item !== undefined &&

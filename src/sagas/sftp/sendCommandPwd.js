@@ -45,16 +45,16 @@ function* sendCommand(action) {
 				let current_filter = [res.path];
 				let remove_index = 0;
 
-				if (payload.prev_path === null) {
+				if (payload.pwd_path === null) {
 					//조회해야 할 경로
 					console.log(res.path);
 					ls_pathList = pathFunction({path: res.path});
 					console.log(ls_pathList);
 				} else {
 					//조회해야 할 경로
-					console.log('prev :' + payload.prev_path);
+					console.log('prev :' + payload.pwd_path);
 					console.log('next :' + res.path);
-					const prevList = pathFunction({path: payload.prev_path});
+					const prevList = pathFunction({path: payload.pwd_path});
 					const nextList = pathFunction({path: res.path});
 
 					prev_filter = prevList.filter((v) => !nextList.includes(v));

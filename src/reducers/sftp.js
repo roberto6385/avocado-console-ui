@@ -90,8 +90,6 @@ export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
-export const SAVE_TEMP_PATH = 'sftp/SAVE_TEMP_PATH';
-
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
 export const INITIAL_FILELIST = 'sftp/INITIAL_FILELIST';
@@ -392,10 +390,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			case INIT_DELETE_WORK_LIST:
 				target.deleteWorks = [];
-				break;
-
-			case SAVE_TEMP_PATH:
-				target.tempPath = action.payload.path;
 				break;
 
 			// read, write, remove

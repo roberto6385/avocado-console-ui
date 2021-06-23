@@ -72,13 +72,14 @@ const InputPopup = () => {
 				case 'sftp_new_folder': {
 					const uuid = input_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {path} = corServer;
 
 					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
-							...corServer,
-							newPath: `${path}/${formValue}`,
+							socket: corServer.socket,
+							path: corServer.path,
+							uuid: corServer.uuid,
+							mkdir_path: `${corServer.path}/${formValue}`,
 						}),
 					);
 					break;
@@ -139,7 +140,10 @@ const InputPopup = () => {
 				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={submitFunction}>
+				<PrimaryGreenButton
+					theme_value={theme}
+					onClick={submitFunction}
+				>
 					{t('save')}
 				</PrimaryGreenButton>
 			</ModalFooter>

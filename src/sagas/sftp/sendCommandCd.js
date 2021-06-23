@@ -59,7 +59,7 @@ function* sendCommand(action) {
 							commandPwdAction({
 								socket: payload.socket,
 								uuid: payload.uuid,
-								prev_path: payload.path,
+								pwd_path: payload.path,
 							}),
 						);
 

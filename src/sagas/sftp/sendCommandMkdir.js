@@ -14,7 +14,6 @@ import {
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
-	SAVE_TEMP_PATH,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -29,7 +28,7 @@ function* sendCommand(action) {
 	yield call(messageSender, {
 		keyword: 'CommandByMkdir',
 		ws: payload.socket,
-		path: payload.newPath,
+		path: payload.mkdir_path,
 	});
 
 	try {
@@ -53,14 +52,13 @@ function* sendCommand(action) {
 								uuid: payload.uuid,
 							},
 						});
-						yield put({
-							type: SAVE_TEMP_PATH,
-							payload: {
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
 								uuid: payload.uuid,
-								path: '',
-							},
-						});
-						yield put(commandPwdAction(payload));
+								pwd_path: payload.path,
+							}),
+						);
 						break;
 				}
 			}
@@ -73,12 +71,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeLatest(MKDIR_REQUEST, sendCommand);
-
-	// const reqChannel = yield actionChannel(MKDIR_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandMkdirSaga() {
