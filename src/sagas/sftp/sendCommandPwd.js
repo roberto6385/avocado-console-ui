@@ -15,8 +15,8 @@ import {
 	PWD_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {messageReader} from './messageReader';
 import {closeChannel, subscribe} from '../channel';
+import {pwdResponse} from '../../ws/sftp/pwd_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -36,7 +36,7 @@ function* sendCommand(action) {
 				console.log('PWD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				const res = yield call(messageReader, {data, payload});
+				const res = yield call(pwdResponse, {data});
 				const past = payload.path;
 				const prev = payload.pathList;
 				const next = res.pathList;
