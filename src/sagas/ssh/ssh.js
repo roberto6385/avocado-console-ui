@@ -43,7 +43,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(5000),
+				timeout: delay(4000),
 				result: take(channel),
 			});
 

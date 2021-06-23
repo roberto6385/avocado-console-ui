@@ -17,7 +17,6 @@ import {
 } from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
-
 //Setting Page Side Bar
 const _Container = styled.div`
 	padding: 0px 16px 15px 17px;

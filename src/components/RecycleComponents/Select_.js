@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -68,6 +68,10 @@ const Select_ = ({
 }) => {
 	const {theme} = useSelector((state) => state.common);
 	const selectRef = useRef(null);
+	const val = useMemo(
+		() => options.find((op) => op.value === value),
+		[options, value],
+	);
 	const colourStyles = {
 		// borderColor: '#e3e5e5',
 		minHeight: '34px',
@@ -147,9 +151,7 @@ const Select_ = ({
 			<_Title>{title}</_Title>
 			<_Select
 				ref={selectRef}
-				value={options.find((op) => {
-					return op.value === value;
-				})}
+				value={val}
 				isSearchable={false}
 				options={options}
 				onChange={handleChange}

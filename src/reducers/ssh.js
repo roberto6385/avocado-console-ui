@@ -68,7 +68,7 @@ const reducer = (state = initialState, action) => {
 						fontSize: draft.font_size,
 						letterSpacing: 0,
 						theme: {
-							selection: '#FCFD08',
+							selection: 'yellow',
 						},
 					}),
 					current_line: '',
