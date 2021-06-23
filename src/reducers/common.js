@@ -23,7 +23,7 @@ export const initialState = {
 					type: 'server',
 					id: 3,
 					key: 's_3',
-					name: 'invalid server',
+					name: 'invalid',
 				},
 			],
 		},
@@ -39,7 +39,7 @@ export const initialState = {
 		{
 			id: 3,
 			key: 's_3',
-			name: 'invalid server',
+			name: 'invalid',
 			host: '211.253.10.9',
 			wsPort: 8081,
 			protocol: 'SSH2',
@@ -97,7 +97,6 @@ export const initialState = {
 			key: 's_3',
 		},
 	],
-
 	tab: [],
 };
 

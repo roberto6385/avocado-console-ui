@@ -192,17 +192,6 @@ const SSH = ({uuid}) => {
 			setIsComponentMounted(false);
 		};
 	}, [sshTerm, uuid]);
-
-	useEffect(() => {
-		sshTerm.setOption('theme', {
-			background: terminalColor[theme],
-			foreground: terminalFontColor[theme],
-			selection: '#FCFD08',
-		});
-		sshTerm.setOption('fontFamily', font);
-		sshTerm.setOption('fontSize', font_size);
-		fitAddon.fit();
-	}, [theme, font, font_size]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
