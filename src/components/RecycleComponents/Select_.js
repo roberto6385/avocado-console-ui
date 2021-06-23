@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -134,10 +134,13 @@ const Select_ = ({
 		}), // font color
 	};
 
-	const handleChange = (e) => {
-		setValue(e.value);
-		selectRef.current?.blur();
-	};
+	const handleChange = useCallback(
+		(e) => {
+			setValue(e.value);
+			selectRef.current?.blur();
+		},
+		[selectRef],
+	);
 
 	return (
 		<_Container flex={flex}>

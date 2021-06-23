@@ -124,8 +124,8 @@ const SSH = ({uuid}) => {
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
-	const {current: searchRef} = useRef(null);
-	const {current: listRef} = useRef(null);
+	//do not work with current
+	const searchRef = useRef(null);
 	const {
 		ref: ref,
 		width: width,
@@ -186,20 +186,24 @@ const SSH = ({uuid}) => {
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
 
-		sshTerm.setOption('theme', {
-			background: terminalColor[theme],
-			foreground: terminalFontColor[theme],
-			selection: '#FCFD08',
-		});
-		sshTerm.setOption('fontSize', font_size);
-		sshTerm.setOption('fontFamily', font);
 		fitAddon.fit();
 
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid, theme, font_size, font]);
+	}, [sshTerm, uuid]);
 
+	useEffect(() => {
+		sshTerm.setOption('theme', {
+			background: terminalColor[theme],
+			foreground: terminalFontColor[theme],
+			selection: '#FCFD08',
+		});
+		sshTerm.setOption('fontFamily', font);
+		sshTerm.setOption('fontSize', font_size);
+		fitAddon.fit();
+	}, [theme, font, font_size]);
+	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
 			if (
@@ -308,10 +312,12 @@ const SSH = ({uuid}) => {
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
-			document.getElementById('search_' + uuid).style.display = 'flex';
-			searchRef.focus();
+			document.getElementById('ssh_search_' + uuid).style.display =
+				'flex';
+			searchRef.current.focus();
 		} else {
-			document.getElementById('search_' + uuid).style.display = 'none';
+			document.getElementById('ssh_search_' + uuid).style.display =
+				'none';
 			setSearch('');
 			searchAddon.findPrevious('');
 		}
@@ -335,6 +341,7 @@ const SSH = ({uuid}) => {
 			background: terminalColor[theme],
 			foreground: terminalFontColor[theme],
 		});
+		fitAddon.fit();
 	}, [sshTerm, theme]);
 
 	return (
@@ -346,7 +353,6 @@ const SSH = ({uuid}) => {
 			<_Terminal id={`terminal_${uuid}`} />
 			<_ListGroup
 				id={`auto_complete_list_${uuid}`}
-				ref={listRef}
 				theme_value={theme}
 				left={
 					width -
@@ -387,15 +393,17 @@ const SSH = ({uuid}) => {
 						) -
 						document.getElementById(`auto_complete_list_${uuid}`)
 							?.clientHeight >
-						100 &&
-					String(
-						Number(
-							sshTerm._core.textarea?.style.top.substring(
-								0,
-								sshTerm._core.textarea?.style.top.length - 2,
-							),
-						) + 100,
-					) + 'px'
+					100
+						? String(
+								Number(
+									sshTerm._core.textarea?.style.top.substring(
+										0,
+										sshTerm._core.textarea?.style.top
+											.length - 2,
+									),
+								) + 100,
+						  ) + 'px'
+						: 'undefine'
 				}
 				bottom={
 					height -
@@ -407,18 +415,19 @@ const SSH = ({uuid}) => {
 						) -
 						document.getElementById(`auto_complete_list_${uuid}`)
 							?.clientHeight <=
-						100 &&
-					String(
-						height -
-							Number(
-								sshTerm._core.textarea?.style.top.substring(
-									0,
-									sshTerm._core.textarea?.style.top.length -
-										2,
-								),
-							) +
-							30,
-					) + 'px'
+					100
+						? String(
+								height -
+									Number(
+										sshTerm._core.textarea?.style.top.substring(
+											0,
+											sshTerm._core.textarea?.style.top
+												.length - 2,
+										),
+									) +
+									30,
+						  ) + 'px'
+						: 'undefine'
 				}
 				display={
 					currentLine.length > 1 &&
@@ -432,7 +441,7 @@ const SSH = ({uuid}) => {
 			>
 				{historyList.map((v, i) => (
 					<_ListGroupItem
-						clickeditem={i === currentHistory ? true : false}
+						clickeditem={i === currentHistory ? 1 : 0}
 						theme_value={theme}
 						onClick={onClickCommand(v)}
 						key={i}
@@ -445,7 +454,7 @@ const SSH = ({uuid}) => {
 				</_FooterListGroupItem>
 			</_ListGroup>
 
-			<_Form theme_value={theme} id={`search_${uuid}`}>
+			<_Form theme_value={theme} id={`ssh_search_${uuid}`}>
 				<IconContainer color={iconColor[theme]}>
 					{searchIconMicro}
 				</IconContainer>

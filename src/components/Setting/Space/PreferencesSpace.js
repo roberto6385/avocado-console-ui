@@ -72,7 +72,7 @@ const PreferencesSpace = () => {
 	useEffect(() => {
 		if (font !== terminalFont)
 			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
-	}, [terminalFont, dispatch]);
+	}, [font, terminalFont, dispatch]);
 
 	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
