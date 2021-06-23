@@ -103,8 +103,6 @@ export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
-export const INITIAL_FILELIST = 'sftp/INITIAL_FILELIST';
-
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
@@ -270,10 +268,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			case PWD_FAILURE:
 				draft.loading = false;
-				break;
-
-			case INITIAL_FILELIST:
-				target.fileList = [];
 				break;
 
 			// 현재 경로 조회

@@ -6,9 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	CHANGE_MODE,
 	commandCdAction,
-	commandLsAction,
 	commandPwdAction,
-	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
 import {IconButton} from '../../../styles/global';
 import {

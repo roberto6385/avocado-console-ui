@@ -73,25 +73,25 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (readList.length !== 0) {
 			const value = readList.slice().shift();
+			console.log(value);
 			dispatch(
 				commandReadAction({
-					...corServer,
+					socket: corServer.socket,
+					uuid: corServer.uuid,
+					read_path: value.path,
 					file: value.file,
-					readPath: value.path,
-					keyword: value.type,
 				}),
 			);
-			value.type === 'read' &&
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.file.name,
-						size: value.file.size,
-						todo: 'read',
-						progress: 0,
-					},
-				});
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.file.name,
+					size: value.file.size,
+					todo: 'read',
+					progress: 0,
+				},
+			});
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
 		}
 	}, [readList]);

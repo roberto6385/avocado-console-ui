@@ -9,8 +9,6 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	ADD_HISTORY,
-	commandPwdAction,
 	FIND_HISTORY,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
@@ -53,7 +51,6 @@ function* sendCommand(action) {
 				console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				// const data = yield take(channel);
 				const res = yield call(writeResponse, {data, payload});
 
 				console.log(res);
@@ -121,24 +118,6 @@ function* sendCommand(action) {
 						// 	}
 						// }
 						break;
-
-					// case PWD_SUCCESS:
-					// 	yield put({
-					// 		type: PWD_SUCCESS,
-					// 		payload: {
-					// 			uuid: payload.uuid,
-					// 			path: res.path,
-					// 			pathList: res.pathList,
-					// 			removeIndex: 1,
-					// 		},
-					// 	});
-					// 	yield put(
-					// 		commandLsAction({
-					// 			...payload,
-					// 			newPath:payload.path,
-					// 		}),
-					// 	);
-					// 	break;
 				}
 			}
 		}

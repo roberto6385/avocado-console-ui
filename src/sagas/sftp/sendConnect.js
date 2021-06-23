@@ -80,42 +80,6 @@ function* sendCommand(action) {
 						);
 
 						break;
-					//
-					// case PWD_SUCCESS:
-					// 	console.log(res);
-					// 	console.log(uuid);
-					// 	prev = [];
-					// 	next = res.pathList;
-					// 	add = next.filter((v) => !prev.includes(v));
-					//
-					// 	yield put({
-					// 		type: PWD_SUCCESS,
-					// 		payload: {
-					// 			uuid: uuid,
-					// 			path: res.path,
-					// 			pathList: res.pathList,
-					// 			removeIndex: 0,
-					// 		},
-					// 	});
-					//
-					// 	for (let value of add) {
-					// 		console.log(value);
-					// 		yield put(
-					// 			commandLsAction({
-					// 				uuid: uuid,
-					// 				path: '',
-					// 				mode: 'list',
-					// 				pathList: [],
-					// 				fileList: [],
-					// 				deleteWorks: [],
-					// 				sortKeyword: 'name',
-					// 				toggle: true,
-					// 				socket: socket,
-					// 				newPath: value,
-					// 			}),
-					// 		);
-					// 	}
-					// 	break;
 
 					case ERROR:
 						yield put({
