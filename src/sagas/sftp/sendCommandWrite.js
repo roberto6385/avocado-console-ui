@@ -10,10 +10,8 @@ import {
 } from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
-	commandLsAction,
 	commandPwdAction,
 	FIND_HISTORY,
-	PWD_SUCCESS,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -137,7 +135,7 @@ function* sendCommand(action) {
 					// 	yield put(
 					// 		commandLsAction({
 					// 			...payload,
-					// 			newPath: payload.writePath.path,
+					// 			newPath:payload.path,
 					// 		}),
 					// 	);
 					// 	break;

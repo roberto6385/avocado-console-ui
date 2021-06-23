@@ -53,6 +53,7 @@ const EditNav = ({uuid}) => {
 	const dispatch = useDispatch();
 
 	const editedFileDownload = useCallback(() => {
+		// 이 부분도 read List에 저장해서 다운 받는 방식으로
 		let link = document.createElement('a');
 		link.download = editFile.name;
 		let blob = new Blob([editText], {type: 'text/plain'});

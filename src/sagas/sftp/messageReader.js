@@ -35,9 +35,6 @@ let writeByteSum = 0;
 export async function messageReader({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
-			if (Math.round(getReceiveSum) === 100) {
-				getReceiveSum = 0;
-			}
 			const message = SFTP.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
@@ -292,12 +289,14 @@ export async function messageReader({data, payload}) {
 							console.log('command : read file', read);
 							console.log(read.getReadbytes());
 							console.log(
-								'payload.file.size : ' + payload.file.size,
+								'payload.file.size : ' +
+									payload.readList[0].file.size,
 							);
 							if (read.getCompleted() === false)
 								readByteSum += read.getReadbytes();
 							readPercent =
-								(readByteSum * 100) / payload.file.size;
+								(readByteSum * 100) /
+								payload.readList[0].file.size;
 
 							console.log('readByteSum : ' + readByteSum);
 							console.log('readPercent : ' + readPercent);
@@ -312,7 +311,7 @@ export async function messageReader({data, payload}) {
 									document.body.appendChild(a);
 									a.setAttribute('hidden', true);
 									a.href = url;
-									a.download = payload.file.name;
+									a.download = payload.readList[0].file.name;
 									a.click();
 									window.URL.revokeObjectURL(url);
 									fileBuffer = new ArrayBuffer(0);
@@ -331,7 +330,8 @@ export async function messageReader({data, payload}) {
 								end:
 									read.getReadbytes() === -1
 										? true
-										: readByteSum === payload.file.size,
+										: readByteSum ===
+										  payload.readList[0].file.size,
 								last: read.getCompleted(),
 								percent:
 									read.getReadbytes() === -1
@@ -348,7 +348,8 @@ export async function messageReader({data, payload}) {
 							if (write.getCompleted() === false)
 								writeByteSum += write.getWritebytes();
 							writePercent =
-								(writeByteSum * 100) / payload.file.size;
+								(writeByteSum * 100) /
+								payload.readList[0].file.size;
 
 							console.log('writeByteSum : ' + writeByteSum);
 							console.log('writePercent : ' + writePercent);
@@ -363,7 +364,8 @@ export async function messageReader({data, payload}) {
 								end:
 									write.getWritebytes() === -1
 										? true
-										: writeByteSum === payload.file.size,
+										: writeByteSum ===
+										  payload.readList[0].file.size,
 								last: write.getCompleted(),
 								keyword: payload.keyword,
 								percent:

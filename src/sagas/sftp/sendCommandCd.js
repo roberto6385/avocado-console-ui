@@ -127,6 +127,9 @@ function* sendCommand(action) {
 						}
 						break;
 					// yield put(commandPwdAction(payload));
+					default:
+						console.log(res);
+						break;
 				}
 			}
 		}

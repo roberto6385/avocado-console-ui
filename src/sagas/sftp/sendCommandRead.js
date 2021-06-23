@@ -29,9 +29,9 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 
 	const filepath =
-		payload.readPath === '/'
-			? `${payload.readPath}${payload.file.name}`
-			: `${payload.readPath}/${payload.file.name}`;
+		payload.readList[0].path === '/'
+			? `${payload.readList[0].path}${payload.readList[0].file.name}`
+			: `${payload.readList[0].path}/${payload.readList[0].file.name}`;
 
 	const senderLength = 1024 * 56;
 
@@ -83,7 +83,7 @@ function* sendCommand(action) {
 								type: FIND_HISTORY,
 								payload: {
 									uuid: payload.uuid,
-									name: payload.file.name,
+									name: payload.readList[0].file.name,
 									todo: payload.keyword,
 									progress: res.percent,
 								},
@@ -124,7 +124,7 @@ function* sendCommand(action) {
 									type: SAVE_FILE_FOR_EDIT,
 									payload: {
 										uuid: payload.uuid,
-										editFile: payload.file,
+										editFile: payload.readList[0].file,
 									},
 								});
 								yield put({
