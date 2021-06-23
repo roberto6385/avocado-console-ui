@@ -9,7 +9,7 @@ export function formatByteSizeString(bytes, decimals = 0) {
 	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
-export function sortFunction({fileList, keyword, toggle}) {
+export function sortFunction({fileList, keyword = 'name', toggle = true}) {
 	const nextList = fileList.slice().sort((a, b) => {
 		if (keyword === 'name') {
 			if (toggle) {
@@ -110,4 +110,14 @@ export const dataFormater = ({modify, keyword, language}) => {
 				formatValue[3].replaceAll(':', ''),
 		);
 	}
+};
+
+export const pathFunction = ({path}) => {
+	let pathList = ['/'];
+	let tempPathList = path.split('/');
+	tempPathList.reduce(function (accumulator, currentValue) {
+		path !== '/' && pathList.push(accumulator + '/' + currentValue);
+		return accumulator + '/' + currentValue;
+	});
+	return pathList;
 };

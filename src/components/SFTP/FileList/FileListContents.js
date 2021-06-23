@@ -217,7 +217,14 @@ const FileListContents = ({uuid}) => {
 		(item) => () => {
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch(commandCdAction({...corServer, newPath: item.name}));
+				dispatch(
+					commandCdAction({
+						socket: corServer.socket,
+						uuid: uuid,
+						path: corServer.path,
+						cd_path: item.name,
+					}),
+				);
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},

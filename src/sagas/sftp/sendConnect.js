@@ -9,6 +9,7 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
+	commandPwdAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
@@ -28,7 +29,6 @@ function* sendCommand(action) {
 	const socket = yield call(createWebsocket, payload.host, payload.wsPort);
 	console.log(socket);
 	const channel = yield call(subscribe, socket);
-	let uuid = '';
 	try {
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -47,20 +47,14 @@ function* sendCommand(action) {
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});
-
-				let prev = [];
-				let next = [];
-				let add = [];
+				const uuid = res.uuid;
 
 				switch (res.type) {
 					case CONNECTION_SUCCESS:
-						console.log(res);
-						uuid = res.uuid;
-
 						yield put({
 							type: CONNECTION_SUCCESS,
 							payload: {
-								uuid: res.uuid,
+								uuid: uuid,
 								socket: socket,
 							},
 						});
@@ -68,7 +62,7 @@ function* sendCommand(action) {
 							type: OPEN_TAB,
 							data: {
 								type: 'SFTP',
-								uuid: res.uuid,
+								uuid: uuid,
 								server: {
 									id: payload.id,
 									name: payload.name,
@@ -77,10 +71,13 @@ function* sendCommand(action) {
 							},
 						});
 
-						// yield call(messageSender, {
-						// 	keyword: 'CommandByPwd',
-						// 	ws: socket,
-						// });
+						yield put(
+							commandPwdAction({
+								socket: socket,
+								uuid: uuid,
+								prev_path: null,
+							}),
+						);
 
 						break;
 					//

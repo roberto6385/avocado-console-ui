@@ -20,10 +20,15 @@ const SFTPConvertButton = ({data}) => {
 		if (server.includes(correspondedServer)) {
 			dispatch(
 				connectionAction({
-					...correspondedServer,
-					token: userTicket.access_token,
+					token: userTicket.access_token, // connection info
+					host: correspondedServer.host,
+					port: correspondedServer.port,
 					user: correspondedIdentity.user,
 					password: correspondedIdentity.password,
+
+					name: correspondedServer.name, // create tab info
+					key: correspondedServer.key,
+					id: correspondedServer.id,
 				}),
 			);
 		} else {

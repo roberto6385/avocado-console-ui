@@ -68,7 +68,14 @@ const FileListNav = ({uuid}) => {
 		const pathInput = document.getElementById('fileListNavInput');
 		console.log(nextPath);
 		nextPath !== undefined &&
-			dispatch(commandCdAction({...corServer, newPath: nextPath})) &&
+			dispatch(
+				commandCdAction({
+					socket: corServer.socket,
+					uuid: uuid,
+					path: corServer.path,
+					cd_path: nextPath,
+				}),
+			) &&
 			pathInput.blur();
 	};
 

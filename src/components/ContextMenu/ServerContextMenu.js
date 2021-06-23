@@ -41,14 +41,20 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 		const sftpTabs = tab.slice().filter((v) => v.type === 'SFTP');
 		console.log(sftpTabs);
+		console.log(correspondedServer);
 		console.log(correspondedIdentity);
 
 		dispatch(
 			connectionAction({
-				token: userTicket.access_token,
-				...correspondedServer,
+				token: userTicket.access_token, // connection info
+				host: correspondedServer.host,
+				port: correspondedServer.port,
 				user: correspondedIdentity.user,
 				password: correspondedIdentity.password,
+
+				name: correspondedServer.name, // create tab info
+				key: correspondedServer.key,
+				id: correspondedServer.id,
 			}),
 		);
 	}, [server, userTicket, data, correspondedIdentity]);

@@ -85,10 +85,15 @@ const Server = ({data, indent}) => {
 			} else if (correspondedServer.protocol === 'SFTP') {
 				dispatch(
 					connectionAction({
-						token: userTicket.access_token,
-						...correspondedServer,
+						token: userTicket.access_token, // connection info
+						host: correspondedServer.host,
+						port: correspondedServer.port,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
+
+						name: correspondedServer.name, // create tab info
+						key: correspondedServer.key,
+						id: correspondedServer.id,
 					}),
 				);
 			}

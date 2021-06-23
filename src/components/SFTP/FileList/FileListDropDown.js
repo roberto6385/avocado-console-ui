@@ -169,8 +169,10 @@ const FileListDropDown = ({uuid}) => {
 				if (corServer.path !== pathList[listindex]) {
 					dispatch(
 						commandCdAction({
-							...corServer,
-							newPath: pathList[listindex],
+							socket: corServer.socket,
+							path: corServer.path,
+							uuid: uuid,
+							cd_path: pathList[listindex],
 						}),
 					);
 					dispatch({
@@ -205,8 +207,10 @@ const FileListDropDown = ({uuid}) => {
 					) {
 						dispatch(
 							commandCdAction({
-								...corServer,
-								newPath: pathList[listindex],
+								socket: corServer.socket,
+								path: corServer.path,
+								uuid: uuid,
+								cd_path: pathList[listindex],
 							}),
 						);
 						dispatch({
@@ -227,8 +231,10 @@ const FileListDropDown = ({uuid}) => {
 					if (item.type === 'file') {
 						dispatch(
 							commandCdAction({
-								...corServer,
-								newPath: pathList[listindex],
+								socket: corServer.socket,
+								path: corServer.path,
+								uuid: uuid,
+								cd_path: pathList[listindex],
 							}),
 						);
 						dispatch({
@@ -238,8 +244,10 @@ const FileListDropDown = ({uuid}) => {
 					} else {
 						dispatch(
 							commandCdAction({
-								...corServer,
-								newPath: `${pathList[listindex]}/${item.name}`,
+								socket: corServer.socket,
+								path: corServer.path,
+								uuid: uuid,
+								cd_path: pathList[listindex],
 							}),
 						);
 						dispatch({
@@ -268,8 +276,10 @@ const FileListDropDown = ({uuid}) => {
 				if (path !== finalPath) {
 					dispatch(
 						commandCdAction({
-							...corServer,
-							newPath: finalPath,
+							socket: corServer.socket,
+							path: corServer.path,
+							uuid: uuid,
+							cd_path: pathList[listindex],
 						}),
 					);
 				}
@@ -318,8 +328,10 @@ const FileListDropDown = ({uuid}) => {
 			if (path !== clickedPath) {
 				dispatch(
 					commandCdAction({
-						...corServer,
-						newPath: clickedPath,
+						socket: corServer.socket,
+						path: corServer.path,
+						uuid: uuid,
+						cd_path: clickedPath,
 					}),
 				);
 			}

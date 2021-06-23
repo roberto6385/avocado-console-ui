@@ -21,54 +21,54 @@ const SFTPContainer = ({uuid}) => {
 		uuid,
 	]);
 	const {readList, writeList} = corServer;
-	const body = document.getElementById('root');
-	const focusOut = useCallback(
-		function (evt) {
-			if (!uuid || current_tab !== uuid) return;
-			// if (highlight.length === 0 && history_highlight.length === 0) {
-			// 	return;
-			// }
-			const root = evt.target;
-
-			// if (highlight.length !== 0 || history_highlight.length !== 0) {
-			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
-			const path = Array.from(evt.currentTarget.querySelectorAll('path'));
-			const filelist_contents = Array.from(
-				evt.currentTarget.querySelectorAll('.filelist_contents'),
-			);
-
-			const history_contents = Array.from(
-				evt.currentTarget.querySelectorAll('.history_contents'),
-			);
-			const context = Array.from(
-				evt.currentTarget.querySelectorAll(
-					'.react-contexify__item__content',
-				),
-			);
-			if (
-				!th.includes(root) &&
-				!path.includes(root) &&
-				!filelist_contents.includes(root) &&
-				!history_contents.includes(root) &&
-				!context.includes(root)
-			) {
-				dispatch({
-					type: INITIALIZING_HIGHLIGHT,
-					payload: {uuid},
-				});
-				dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
-			}
-		},
-		[uuid],
-	);
-
-	useEffect(() => {
-		body.addEventListener('click', focusOut);
-
-		return function cleanUp() {
-			body.removeEventListener('click', focusOut);
-		};
-	}, [corServer]);
+	// const body = document.getElementById('root');
+	// const focusOut = useCallback(
+	// 	function (evt) {
+	// 		if (!uuid || current_tab !== uuid) return;
+	// 		// if (highlight.length === 0 && history_highlight.length === 0) {
+	// 		// 	return;
+	// 		// }
+	// 		const root = evt.target;
+	//
+	// 		// if (highlight.length !== 0 || history_highlight.length !== 0) {
+	// 		const th = Array.from(evt.currentTarget.querySelectorAll('th'));
+	// 		const path = Array.from(evt.currentTarget.querySelectorAll('path'));
+	// 		const filelist_contents = Array.from(
+	// 			evt.currentTarget.querySelectorAll('.filelist_contents'),
+	// 		);
+	//
+	// 		const history_contents = Array.from(
+	// 			evt.currentTarget.querySelectorAll('.history_contents'),
+	// 		);
+	// 		const context = Array.from(
+	// 			evt.currentTarget.querySelectorAll(
+	// 				'.react-contexify__item__content',
+	// 			),
+	// 		);
+	// 		if (
+	// 			!th.includes(root) &&
+	// 			!path.includes(root) &&
+	// 			!filelist_contents.includes(root) &&
+	// 			!history_contents.includes(root) &&
+	// 			!context.includes(root)
+	// 		) {
+	// 			dispatch({
+	// 				type: INITIALIZING_HIGHLIGHT,
+	// 				payload: {uuid},
+	// 			});
+	// 			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
+	// 		}
+	// 	},
+	// 	[uuid],
+	// );
+	//
+	// useEffect(() => {
+	// 	body.addEventListener('click', focusOut);
+	//
+	// 	return function cleanUp() {
+	// 		body.removeEventListener('click', focusOut);
+	// 	};
+	// }, [corServer]);
 
 	useEffect(() => {
 		if (readList.length !== 0) {

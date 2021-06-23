@@ -17,6 +17,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
+import {pathFunction} from '../../components/SFTP/listConversion';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -37,82 +38,66 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(pwdResponse, {data});
-				const past = payload.path;
-				const prev = payload.pathList;
-				const next = res.pathList;
-				const temp = prev.filter((v) => next.includes(v));
-				const temp2 = next.filter((v) => ![past].includes(v));
-				temp.pop();
-				const remove = prev.filter((v) => !next.includes(v));
+				console.log(res);
+				let ls_pathList = [];
+				let prev_filter = [];
+				let next_filter = [];
+				let current_filter = [res.path];
+				let remove_index = 0;
 
-				const add = next.filter((v) => !prev.includes(v));
-				const shouldLs = temp2.filter((v) => !temp.includes(v));
+				if (payload.prev_path === null) {
+					//조회해야 할 경로
+					console.log(res.path);
+					ls_pathList = pathFunction({path: res.path});
+					console.log(ls_pathList);
+				} else {
+					//조회해야 할 경로
+					console.log('prev :' + payload.prev_path);
+					console.log('next :' + res.path);
+					const prevList = pathFunction({path: payload.prev_path});
+					const nextList = pathFunction({path: res.path});
+
+					prev_filter = prevList.filter((v) => !nextList.includes(v));
+					// 추가된 경로
+					next_filter = nextList.filter((v) => !prevList.includes(v));
+					console.log('제거된 경로');
+					console.log(prev_filter);
+					console.log('추가된 경로');
+					console.log(next_filter);
+					console.log('현재 경로');
+					console.log(current_filter);
+
+					remove_index =
+						prev_filter.length === 0
+							? next_filter.length === 0
+								? 1 // 제거 없음 추가 없음 1
+								: 0 // 제거 없음 추가 있음 0
+							: next_filter.length === 0
+							? prev_filter.length + 1 // 제거 있음 추가 없음 => 제거 + 1
+							: prev_filter.length; // 제거 있음 추가 있음 => 제거
+					ls_pathList =
+						next_filter.length === 0 ? [res.path] : next_filter;
+				}
 				switch (res.type) {
 					case PWD_SUCCESS:
-						console.log('이전경로');
-						console.log([past]);
-						console.log('조회가 필요없는 경로');
-						console.log(temp);
-						console.log('삭제된 경로 + 1');
-						// 삭제된 경로가 0이라면 조회해야 할 경로의 목록을 추가만 해주면 된다.
-						// 경로가 1 이상이라면 삭제된 경로의 수 +1 만큼 제거한다.
-						console.log(prev.filter((v) => !next.includes(v)));
-						console.log('추가된 경로');
-						console.log(next.filter((v) => !prev.includes(v)));
-						console.log('조회해야 할 경로');
-						console.log(temp2.filter((v) => !temp.includes(v)));
-
-						// success 에서는 filelist initializing...
-						// pathList 비교 후 경로가 바뀌기 전 + 현재 경로 까지의 pathlist 및 filelist 제거
 						yield put({
 							type: PWD_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
 								path: res.path,
 								pathList: res.pathList,
-								removeIndex:
-									add.length === 0 //추가 없음
-										? remove.length === 0 //삭제도 없음
-											? 1 // 그럼 refresh를 위한 1
-											: remove.length + 1 //아님 삭제 + 1
-										: remove.length === 0
-										? 0 // 추가는 있는데 삭제가 없음.
-										: remove.length, // 추가 삭제 둘 다 있음.
+								removeIndex: remove_index,
 							},
 						});
-						// 비교 후 여기서 조회할 경로만 조회
-						if (add.length !== 0) {
-							for (let value of add) {
-								console.log(value);
-								yield put(
-									commandLsAction({
-										...payload,
-										newPath: value,
-									}),
-								);
-							}
-						} else if (remove.length === 0) {
-							//추가도 0 삭제도 0
-							console.log('refresh');
-							console.log(past);
+						// 내가 필요한 경로만큼만 요청!
+						for (let value of ls_pathList) {
 							yield put(
 								commandLsAction({
-									...payload,
-									newPath: past,
+									socket: payload.socket,
+									uuid: payload.uuid,
+									ls_path: value,
 								}),
 							);
-						} else {
-							for (let value of shouldLs) {
-								//추가는 0 삭제는 존재
-								console.log('remove exist');
-								console.log(value);
-								yield put(
-									commandLsAction({
-										...payload,
-										newPath: value,
-									}),
-								);
-							}
 						}
 						break;
 				}

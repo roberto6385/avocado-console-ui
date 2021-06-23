@@ -8,7 +8,12 @@ import {
 	delay,
 	takeLatest,
 } from 'redux-saga/effects';
-import {CD_FAILURE, CD_REQUEST, CD_SUCCESS} from '../../reducers/sftp';
+import {
+	CD_FAILURE,
+	CD_REQUEST,
+	CD_SUCCESS,
+	commandPwdAction,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
@@ -22,7 +27,7 @@ function* sendCommand(action) {
 		yield call(messageSender, {
 			keyword: 'CommandByCd',
 			ws: payload.socket,
-			path: payload.newPath,
+			path: payload.cd_path,
 		});
 		while (true) {
 			const {timeout, data} = yield race({
@@ -34,14 +39,14 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(cdResponse, {data});
-				let past = payload.path;
-				let prev = payload.pathList;
-				let next = [];
-				let temp = [];
-				let temp2 = [];
-				let remove = [];
-				let add = [];
-				let shouldLs = [];
+				// let past = payload.path;
+				// let prev = payload.pathList;
+				// let next = [];
+				// let temp = [];
+				// let temp2 = [];
+				// let remove = [];
+				// let add = [];
+				// let shouldLs = [];
 
 				switch (res.type) {
 					case CD_SUCCESS:
@@ -50,10 +55,18 @@ function* sendCommand(action) {
 							payload: {uuid: payload.uuid},
 						});
 
-						yield call(messageSender, {
-							keyword: 'CommandByPwd',
-							ws: payload.socket,
-						});
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
+								uuid: payload.uuid,
+								prev_path: payload.path,
+							}),
+						);
+
+						// yield call(messageSender, {
+						// 	keyword: 'CommandByPwd',
+						// 	ws: payload.socket,
+						// });
 						break;
 					//
 					// case PWD_SUCCESS:

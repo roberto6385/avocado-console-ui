@@ -181,7 +181,6 @@ const sftp = (state = initialState, action) =>
 			// 연결
 			case CONNECTION_REQUEST:
 				draft.loading = true;
-				draft.status = 'connected';
 				break;
 
 			case CONNECTION_SUCCESS:
@@ -193,20 +192,18 @@ const sftp = (state = initialState, action) =>
 
 					readList: [], // 경로, file 저장
 					writeList: [], // 경로, file 저장
-					rmList: [], // 경로, file 저장
 
-					path: '', // 현재 경로
-					newPath: '',
+					path: '', // 현재 경로 ok
+					pathList: [],
+					fileList: [],
 
 					mode: 'list', // ok
 					prevMode: '', // ok
 
-					pathList: [],
-					fileList: [],
-
 					highlight: [],
 					history: [],
 					history_highlight: [],
+
 					text: '',
 					editText: '',
 					editFile: {},
@@ -239,8 +236,6 @@ const sftp = (state = initialState, action) =>
 			// 현재 경로 조회
 			case PWD_REQUEST:
 				draft.loading = true;
-				target.pathList = [];
-				target.deleteWorks = [];
 
 				break;
 			case PWD_SUCCESS:

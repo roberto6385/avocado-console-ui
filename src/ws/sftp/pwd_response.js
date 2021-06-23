@@ -1,5 +1,6 @@
 import SFTP from '../../dist/sftp_pb';
 import {PWD_SUCCESS} from '../../reducers/sftp';
+import {pathFunction} from '../../components/SFTP/listConversion';
 
 export async function pwdResponse({data}) {
 	try {
@@ -22,16 +23,7 @@ export async function pwdResponse({data}) {
 						const pwd = command.getPwd();
 						console.log('command : pwd', pwd);
 
-						let pathList = ['/'];
-						let tempPathList = pwd.getPath().split('/');
-						tempPathList.reduce(function (
-							accumulator,
-							currentValue,
-						) {
-							pwd.getPath() !== '/' &&
-								pathList.push(accumulator + '/' + currentValue);
-							return accumulator + '/' + currentValue;
-						});
+						let pathList = pathFunction({path: pwd.getPath()});
 
 						return {
 							type: PWD_SUCCESS,
