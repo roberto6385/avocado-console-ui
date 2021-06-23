@@ -4,7 +4,6 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	takeLatest,
 	race,
 	delay,
@@ -17,7 +16,7 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
-import {messageReader} from './messageReader';
+import {mkdirResponse} from '../../ws/sftp/mkdir_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -33,7 +32,6 @@ function* sendCommand(action) {
 
 	try {
 		while (true) {
-			// const data = yield take(channel);
 			const {timeout, data} = yield race({
 				timeout: delay(5000),
 				data: take(channel),
@@ -42,7 +40,7 @@ function* sendCommand(action) {
 				console.log('PWD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				const res = yield call(messageReader, {data, payload});
+				const res = yield call(mkdirResponse, {data});
 
 				switch (res.type) {
 					case MKDIR_SUCCESS:

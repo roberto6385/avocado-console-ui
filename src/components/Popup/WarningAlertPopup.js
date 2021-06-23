@@ -11,6 +11,7 @@ import {
 } from '../../reducers/common';
 import {
 	commandRmAction,
+	commandRmdirAction,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
@@ -77,21 +78,26 @@ const WarningAlertPopup = () => {
 						console.log(value);
 						for (let item of value.list) {
 							if (item.name !== '..' || item.name !== '.') {
-								dispatch(
-									commandRmAction({
-										...corServer,
-										file: item,
-										newPath: value.path,
-										keyword:
-											item.type === 'file'
-												? 'rm'
-												: 'rmdir',
-									}),
-								);
+								item.type === 'file'
+									? dispatch(
+											commandRmAction({
+												...corServer,
+												socket: corServer.socket,
+												uuid: uuid,
+												file: item,
+												rm_path: value.path,
+											}),
+									  )
+									: dispatch(
+											commandRmdirAction({
+												file: item,
+												newPath: value.path,
+											}),
+									  );
 							}
 						}
 					}
-					dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
+					// dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
 					break;
 				}
 

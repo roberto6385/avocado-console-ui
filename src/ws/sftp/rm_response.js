@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {MKDIR_SUCCESS} from '../../reducers/sftp';
+import {RM_SUCCESS} from '../../reducers/sftp';
 
-export async function mkdirResponse({data}) {
+export async function rmResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -17,12 +17,12 @@ export async function mkdirResponse({data}) {
 					const command = response.getCommand();
 					if (
 						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.MKDIR
+						SFTP.CommandResponse.CommandCase.RM
 					) {
-						const mkdir = command.getMkdir();
-						console.log('command : mkdir', mkdir);
+						const rm = command.getRm();
+						console.log('command : rm', rm);
 
-						return {type: MKDIR_SUCCESS};
+						return {type: RM_SUCCESS};
 					}
 				}
 			} else {

@@ -9,6 +9,7 @@ import {
 	commandReadAction,
 	DELETE_WORK_LIST,
 	PUSH_READ_LIST,
+	searchDeleteListAction,
 } from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu_Avocado} from '../../styles/default';
@@ -48,7 +49,8 @@ const FileListContextMenu = ({uuid}) => {
 		}
 	};
 
-	const handleItemClick = ({event}) => {
+	const handleItemClick = async ({event}) => {
+		const array = [];
 		switch (event.currentTarget.id) {
 			case 'download':
 				contextDownload();
@@ -72,12 +74,16 @@ const FileListContextMenu = ({uuid}) => {
 				});
 				break;
 			case 'delete_work':
-				dispatch({
+				for (let value of highlight) {
+					if (value.name !== '.' && value.name !== '..') {
+						array.push({file: value, path});
+					}
+				}
+				await dispatch({
 					type: DELETE_WORK_LIST,
 					payload: {
 						uuid: uuid,
-						list: highlight,
-						path: path,
+						array,
 					},
 				});
 
@@ -91,10 +97,13 @@ const FileListContextMenu = ({uuid}) => {
 						console.log(path);
 						console.log(item.name);
 						dispatch(
-							commandLsAction({
-								...corServer,
-								newPath: `${path}/${item.name}`,
-								keyword: 'pathFinder',
+							searchDeleteListAction({
+								socket: corServer.socket,
+								uuid: corServer.uuid,
+								delete_path:
+									path === '/'
+										? `${path}${item.name}`
+										: `${path}/${item.name}`,
 							}),
 						);
 					}

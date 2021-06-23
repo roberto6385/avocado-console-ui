@@ -16,18 +16,32 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
+import {messageReader} from './messageReader';
 import {rmResponse} from '../../ws/sftp/rm_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 	try {
-		if (payload.file.name !== '..' && payload.file.name !== '.') {
+		if (payload.keyword === 'pwd') {
 			yield call(messageSender, {
-				keyword: 'CommandByRm',
+				keyword: 'CommandByPwd',
 				ws: payload.socket,
-				path: `${payload.newPath}/${payload.file.name}`,
 			});
+		} else {
+			console.log(payload.file.name);
+			console.log(payload.newPath);
+
+			if (payload.file.name !== '..' && payload.file.name !== '.') {
+				yield call(messageSender, {
+					keyword:
+						payload.keyword === 'rm'
+							? 'CommandByRm'
+							: 'CommandByRmdir',
+					ws: payload.socket,
+					path: `${payload.newPath}/${payload.file.name}`,
+				});
+			}
 		}
 
 		while (true) {
@@ -105,6 +119,6 @@ function* watchSendCommand() {
 	}
 }
 
-export default function* commandRmSaga() {
+export default function* commandRmdirSaga() {
 	yield all([fork(watchSendCommand)]);
 }

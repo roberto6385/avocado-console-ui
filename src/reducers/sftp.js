@@ -18,6 +18,12 @@ export const PWD_FAILURE = 'sftp/PWD_FAILURE';
 export const LS_REQUEST = 'sftp/LS_REQUEST';
 export const LS_SUCCESS = 'sftp/LS_SUCCESS';
 export const LS_FAILURE = 'sftp/LS_FAILURE';
+
+// ls
+export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
+export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
+export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
+
 // cd
 export const CD_REQUEST = 'sftp/CD_REQUEST';
 export const CD_SUCCESS = 'sftp/CD_SUCCESS';
@@ -27,10 +33,15 @@ export const RENAME_REQUEST = 'sftp/RENAME_REQUEST';
 export const RENAME_SUCCESS = 'sftp/RENAME_SUCCESS';
 export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
 
-// rm & rmdir
+// rm
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
+
+// rmdir
+export const RMDIR_REQUEST = 'sftp/RMDIR_REQUEST';
+export const RMDIR_SUCCESS = 'sftp/RMDIR_SUCCESS';
+export const RMDIR_FAILURE = 'sftp/RMDIR_FAILURE';
 
 // mkdir
 export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
@@ -132,6 +143,11 @@ export const commandRmAction = (payload) => ({
 	payload,
 });
 
+export const commandRmdirAction = (payload) => ({
+	type: RMDIR_REQUEST,
+	payload,
+});
+
 export const commandPwdAction = (payload) => ({
 	type: PWD_REQUEST,
 	payload,
@@ -144,6 +160,11 @@ export const commandMkdirAction = (payload) => ({
 
 export const commandLsAction = (payload) => ({
 	type: LS_REQUEST,
+	payload,
+});
+
+export const searchDeleteListAction = (payload) => ({
+	type: LS_REQUEST_DELETE,
 	payload,
 });
 
@@ -190,6 +211,7 @@ const sftp = (state = initialState, action) =>
 
 					readList: [], // 경로, file 저장
 					writeList: [], // 경로, file 저장
+					removeList: [],
 
 					path: '', // 현재 경로 ok
 					pathList: [],
@@ -207,7 +229,6 @@ const sftp = (state = initialState, action) =>
 					editFile: {},
 					tempPath: '',
 					tempItem: null,
-					deleteWorks: [],
 					sortKeyword: 'name',
 					toggle: true,
 				});
@@ -383,13 +404,12 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case DELETE_WORK_LIST:
-				target.deleteWorks.unshift({
-					list: action.payload.list,
-					path: action.payload.path,
-				});
+				target.removeList = plainTarget.removeList.concat(
+					action.payload.array,
+				);
 				break;
 			case INIT_DELETE_WORK_LIST:
-				target.deleteWorks = [];
+				target.removeList = [];
 				break;
 
 			// read, write, remove
