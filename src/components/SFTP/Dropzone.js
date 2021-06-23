@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const _Container = styled.div`
 	outline: none;
+	overflow: scroll;
 	flex: 1;
 `;
 // eslint-disable-next-line react/prop-types

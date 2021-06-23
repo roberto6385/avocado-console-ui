@@ -11,7 +11,6 @@ import {
 } from '../../reducers/common';
 import {
 	commandRmAction,
-	commandRmdirAction,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
@@ -66,7 +65,7 @@ const WarningAlertPopup = () => {
 	}, [warning_alert_popup]);
 
 	const submitFunction = useCallback(
-		(e) => {
+		async (e) => {
 			e.preventDefault();
 
 			switch (warning_alert_popup.key) {
@@ -74,32 +73,29 @@ const WarningAlertPopup = () => {
 					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
 
-					for (let value of corServer.removeList.slice().reverse()) {
+					for await (let value of corServer.removeList
+						.slice()
+						.reverse()) {
 						console.log(value);
 						if (
 							value.file.name !== '..' ||
 							value.file.name !== '.'
 						) {
-							value.file.type === 'file'
-								? dispatch(
-										commandRmAction({
-											socket: corServer.socket,
-											uuid: uuid,
-											file: value.file,
-											rm_path: value.path,
-										}),
-								  )
-								: dispatch(
-										commandRmdirAction({
-											socket: corServer.socket,
-											uuid: uuid,
-											file: value.file,
-											rmdir_path: value.path,
-										}),
-								  );
+							dispatch(
+								commandRmAction({
+									socket: corServer.socket,
+									uuid: uuid,
+									file: value.file,
+									rm_path: value.path,
+									path: corServer.path,
+									keyword:
+										value.file.type === 'file'
+											? 'CommandByRm'
+											: 'CommandByRmdir',
+								}),
+							);
 						}
 					}
-					// dispatch(commandRmAction({...corServer, keyword: 'pwd'}));
 					break;
 				}
 

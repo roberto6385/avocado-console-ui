@@ -66,7 +66,7 @@ const _Ul = styled.ul`
 	${PreventDragCopy}
 	width:${(props) => props.width};
 	list-style: none;
-	overflow-y: scroll;
+	// overflow-y: scroll;
 	margin: 0px;
 	padding: 0px;
 	outline: none;

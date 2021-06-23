@@ -9,6 +9,7 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	commandPwdAction,
 	FIND_HISTORY,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
@@ -99,6 +100,13 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
+							// yield put(
+							// 	commandPwdAction({
+							// 		socket: payload.socket,
+							// 		uuid: payload.uuid,
+							// 		pwd_path: payload.path,
+							// 	}),
+							// );
 						}
 
 						// else {

@@ -141,11 +141,6 @@ export const commandRmAction = (payload) => ({
 	payload,
 });
 
-export const commandRmdirAction = (payload) => ({
-	type: RMDIR_REQUEST,
-	payload,
-});
-
 export const commandPwdAction = (payload) => ({
 	type: PWD_REQUEST,
 	payload,

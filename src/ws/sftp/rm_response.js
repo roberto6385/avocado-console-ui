@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {RM_SUCCESS} from '../../reducers/sftp';
+import {RM_SUCCESS, RMDIR_SUCCESS} from '../../reducers/sftp';
 
 export async function rmResponse({data}) {
 	try {
@@ -21,6 +21,14 @@ export async function rmResponse({data}) {
 					) {
 						const rm = command.getRm();
 						console.log('command : rm', rm);
+
+						return {type: RM_SUCCESS};
+					} else if (
+						command.getCommandCase() ===
+						SFTP.CommandResponse.CommandCase.RMDIR
+					) {
+						const rmdir = command.getRmdir();
+						console.log('command : rmdir', rmdir);
 
 						return {type: RM_SUCCESS};
 					}

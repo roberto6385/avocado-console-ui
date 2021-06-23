@@ -96,16 +96,17 @@ const SFTPContainer = ({uuid}) => {
 		}
 	}, [readList]);
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (writeList.length !== 0) {
 			const value = writeList.slice().shift();
 			console.log(value);
-			dispatch(
+			await dispatch(
 				commandWriteAction({
 					socket: corServer.socket,
 					uuid: corServer.uuid,
 					write_path: value.path,
 					file: value.file,
+					path: corServer.path,
 				}),
 			);
 			value.type === 'write' &&

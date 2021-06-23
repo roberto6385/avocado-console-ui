@@ -3,7 +3,6 @@ import {WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
-
 export async function writeResponse({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
@@ -32,7 +31,7 @@ export async function writeResponse({data, payload}) {
 						console.log('writeByteSum : ' + writeByteSum);
 						console.log('writePercent : ' + writePercent);
 
-						if (write.getCompleted()) {
+						if (write.getWritebytes() === -1) {
 							writeByteSum = 0;
 							writePercent = 0;
 						}
