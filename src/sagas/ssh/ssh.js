@@ -32,11 +32,9 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 function* sendConnection(action) {
 	try {
 		const ws = yield call(initWebsocket);
-
 		const channel = yield call(subscribe, ws);
 		let uuid = null;
 
-		// try {
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
 			ws: ws,
@@ -89,6 +87,10 @@ function* sendConnection(action) {
 						break;
 
 					case 'ERROR':
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
 						break;
 
 					default:

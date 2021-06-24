@@ -1,5 +1,4 @@
 import produce from 'immer';
-import {WebSocketInternalAccessUrl} from '../ws/ws_values';
 
 export const initialState = {
 	encodeData: null,
@@ -60,7 +59,7 @@ export const initialState = {
 					type: 'server',
 					id: 4,
 					key: 's_4',
-					name: 'invalid',
+					name: 'kt pilot',
 					icon: 'linux',
 				},
 			],
@@ -108,7 +107,6 @@ export const initialState = {
 			key: 's_4',
 			name: 'kt pilot',
 			host: '211.253.10.9',
-			wsPort: 8081,
 			protocol: 'SSH2',
 			port: 10022,
 			icon: 'linux',

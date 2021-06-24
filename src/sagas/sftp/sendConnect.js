@@ -122,6 +122,10 @@ function* sendCommand(action) {
 						break;
 
 					case ERROR:
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
 						break;
 
 					default:

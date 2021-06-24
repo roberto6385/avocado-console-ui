@@ -7,10 +7,9 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandLsAction,
-	commandPwdAction,
 	INITIAL_FILELIST,
 } from '../../../reducers/sftp';
-import {IconButton, IconContainer} from '../../../styles/global';
+import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -59,10 +58,10 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corServer = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {path, mode} = corServer;
 	const [currentPath, setCurrentPath] = useState('');
 
