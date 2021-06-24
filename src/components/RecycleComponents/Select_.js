@@ -110,14 +110,6 @@ const Select_ = ({
 					? popupSelectHoverColor[theme] //hover
 					: popupSelectColor[theme], // normal
 
-				// isDisabled
-				// ? null
-				// : isSelected
-				// 	? selectColor[theme] //selected
-				// 	: isFocused
-				// 		? selectHoverColor[theme] //hover
-				// 		: selectColor[theme] // normal
-
 				color: fontColor[theme],
 				cursor: isDisabled ? 'not-allowed' : 'pointer',
 				maxWidth: width,

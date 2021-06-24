@@ -139,7 +139,7 @@ export const initialState = {
 			identityName: 'home',
 			user: 'home',
 			password: 'Netand141)',
-			checked: true,
+			checked: false,
 			type: 'Password',
 			key: 's_1',
 		},

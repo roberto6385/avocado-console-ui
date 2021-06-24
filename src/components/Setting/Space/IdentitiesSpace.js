@@ -183,9 +183,6 @@ const IdentitiesSpace = () => {
 
 	const handleCheck = useCallback(
 		(item) => (e) => {
-			console.log(e.target.checked);
-			console.log(item);
-
 			if (!e.target.checked) return;
 			const correspondedIdentity = identity.find(
 				(v) => v.key === currentResourceListKey && v.checked,
@@ -199,7 +196,25 @@ const IdentitiesSpace = () => {
 				},
 			});
 		},
-		[identity, currentResourceListKey, dispatch],
+		[identity, currentResourceListKey],
+	);
+
+	const onClickCheck = useCallback(
+		(item) => (e) => {
+			if (item.checked) return;
+			const correspondedIdentity = identity.find(
+				(v) => v.key === currentResourceListKey && v.checked,
+			);
+
+			dispatch({
+				type: CHANGE_IDENTITY_CHECKED,
+				payload: {
+					prev: correspondedIdentity,
+					next: item,
+				},
+			});
+		},
+		[identity, currentResourceListKey],
 	);
 
 	useEffect(() => {
@@ -207,7 +222,7 @@ const IdentitiesSpace = () => {
 			type: CHANGE_CURRENT_RESOURCE_KEY,
 			payload: {key: server[0].key},
 		});
-	}, []);
+	}, [server]);
 
 	return (
 		<SettingMainContainer theme_value={theme}>
@@ -352,6 +367,7 @@ const IdentitiesSpace = () => {
 											? accountHigh[theme]
 											: identityForm[theme]
 									}
+									onClick={onClickCheck(item)}
 								>
 									<_Name>{item.identityName}</_Name>
 									<_UserNameType>{item.user}</_UserNameType>
@@ -363,7 +379,7 @@ const IdentitiesSpace = () => {
 									<_CheckBoxIdentity>
 										<Checkbox_
 											value={item.checked}
-											handleCheck={handleCheck(item)}
+											// handleCheck={handleCheck(item)}
 										/>
 									</_CheckBoxIdentity>
 								</_Li>
