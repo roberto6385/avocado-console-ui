@@ -63,11 +63,6 @@ const Redirect = () => {
 							},
 						},
 					)
-					.catch((error) => {
-						console.log(error);
-						console.log('HERER');
-						return <Redirect to={'/signin'} />;
-					})
 					// .then((response) => verify(response.data.access_token));
 					.then((google) => {
 						console.log(google.data);
@@ -112,6 +107,11 @@ const Redirect = () => {
 										localStorage.removeItem('password');
 									});
 							});
+					})
+					.catch((error) => {
+						console.log(error);
+						console.log('HERER');
+						return <Redirect to={'/signin'} />;
 					});
 			});
 	}, []);
