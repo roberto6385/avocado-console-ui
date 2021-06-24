@@ -9,6 +9,7 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	ADD_HISTORY,
 	commandPwdAction,
 	FIND_HISTORY,
 	WRITE_FAILURE,
@@ -39,6 +40,16 @@ function* sendCommand(action) {
 		uploadFile: payload.file,
 		completed: false,
 		mode: 1,
+	});
+	yield put({
+		type: ADD_HISTORY,
+		payload: {
+			uuid: payload.uuid,
+			name: payload.file.name,
+			size: payload.file.size,
+			todo: 'write',
+			progress: 0,
+		},
 	});
 
 	try {
@@ -100,13 +111,13 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
-							// yield put(
-							// 	commandPwdAction({
-							// 		socket: payload.socket,
-							// 		uuid: payload.uuid,
-							// 		pwd_path: payload.path,
-							// 	}),
-							// );
+							yield put(
+								commandPwdAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									pwd_path: payload.path,
+								}),
+							);
 						}
 
 						// else {
@@ -136,6 +147,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
+	// yield takeEvery(WRITE_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(WRITE_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

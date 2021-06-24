@@ -7,7 +7,6 @@ import {
 	actionChannel,
 	race,
 	delay,
-	takeEvery,
 } from 'redux-saga/effects';
 import {
 	ADD_HISTORY,
@@ -50,6 +49,13 @@ function* sendCommand(action) {
 					case RM_SUCCESS:
 						console.log(payload.file);
 						yield put({type: RM_SUCCESS});
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
+								uuid: payload.uuid,
+								pwd_path: payload.path,
+							}),
+						);
 						if (payload.path === payload.rm_path) {
 							yield put({
 								type: ADD_HISTORY,
@@ -61,13 +67,6 @@ function* sendCommand(action) {
 									progress: 100,
 								},
 							});
-							yield put(
-								commandPwdAction({
-									socket: payload.socket,
-									uuid: payload.uuid,
-									pwd_path: payload.path,
-								}),
-							);
 						}
 
 						break;

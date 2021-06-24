@@ -14,6 +14,7 @@ import {
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
+import {put} from 'redux-saga/effects';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -110,23 +111,16 @@ const SFTPContainer = ({uuid}) => {
 					write_path: value.path,
 					file: value.file,
 					path: corServer.path,
+					writeList: writeList,
 				}),
 			);
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.file.name,
-					size: value.file.size,
-					todo: 'write',
-					progress: 0,
-				},
-			});
+
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 		}
 	}, [writeList]);
 
 	useEffect(() => {
+		console.log(removeList);
 		if (removeList.length !== 0) {
 			const value = removeList.slice().reverse().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
@@ -146,7 +140,6 @@ const SFTPContainer = ({uuid}) => {
 			}
 			dispatch({type: SHIFT_DELETE_WORK_LIST, payload: {uuid}});
 		}
-		// }
 	}, [removeList]);
 
 	return <SFTP uuid={uuid} />;
