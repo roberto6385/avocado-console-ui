@@ -37,16 +37,23 @@ const persistConfig = {
 	transforms: [userTicketFilter],
 };
 
+const commonLocalPersistConfig = {
+	key: 'commonLocal',
+	storage: storage,
+	whitelist: ['theme'],
+	transforms: [],
+};
+
 const sshLocalPersistConfig = {
 	key: 'sshLocal',
 	storage: storage,
-	whitelist: ['ssh_history'],
+	whitelist: ['ssh_history', 'snippets'],
 	transforms: [],
 };
 
 const rootReducer = combineReducers({
 	user,
-	common,
+	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	popup,
