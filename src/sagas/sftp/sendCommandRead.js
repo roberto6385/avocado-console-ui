@@ -9,6 +9,7 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	ADD_HISTORY,
 	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
@@ -38,6 +39,7 @@ function* sendCommand(action) {
 		length: senderLength,
 		completed: false,
 	});
+
 	try {
 		while (true) {
 			const {timeout, data} = yield race({

@@ -41,22 +41,12 @@ function* sendCommand(action) {
 		completed: false,
 		mode: 1,
 	});
-	yield put({
-		type: ADD_HISTORY,
-		payload: {
-			uuid: payload.uuid,
-			name: payload.file.name,
-			size: payload.file.size,
-			todo: 'write',
-			progress: 0,
-		},
-	});
 
 	try {
 		while (true) {
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {
