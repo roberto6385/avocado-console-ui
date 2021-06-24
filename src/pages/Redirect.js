@@ -106,12 +106,12 @@ const Redirect = () => {
 										localStorage.removeItem('user');
 										localStorage.removeItem('password');
 									});
+							})
+							.catch((error) => {
+								console.log(error);
+								console.log('HERER');
+								return <Redirect to={'/signin'} />;
 							});
-					})
-					.catch((error) => {
-						console.log(error);
-						console.log('HERER');
-						return <Redirect to={'/signin'} />;
 					});
 			});
 	}, []);
