@@ -41,7 +41,6 @@ const Redirect = () => {
 				},
 			)
 			.then((client) => {
-				console.log(client.data);
 				axios
 					.post(
 						'https://accounts.google.com/o/oauth2/token',
@@ -64,6 +63,10 @@ const Redirect = () => {
 							},
 						},
 					)
+					// .catch((error) => {
+					// 	console.log(error);
+					// 	console.log('HERER');
+					// })
 					// .then((response) => verify(response.data.access_token));
 					.then((google) => {
 						console.log(google.data);

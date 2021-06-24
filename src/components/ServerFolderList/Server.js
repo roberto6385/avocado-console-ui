@@ -16,7 +16,7 @@ import {Span, IconContainer} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
-import {dnsIconMidium} from '../../icons/icons';
+import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
 import {FONT_14, HEIGHT_34} from '../../styles/length';
 import {
 	activeColor,
@@ -169,6 +169,9 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data]);
 
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
 	return (
 		<React.Fragment>
 			<_NavItem
@@ -189,21 +192,23 @@ const Server = ({data, indent}) => {
 				}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{clicked_server === data.key ? (
-					<IconContainer
-						margin={`0px 12px 0px 0px`}
-						color={activeColor[theme]}
-					>
-						{dnsIconMidium}
-					</IconContainer>
-				) : (
-					<IconContainer
-						color={iconColor[theme]}
-						margin={`0px 12px 0px 0px`}
-					>
-						{dnsIconMidium}
-					</IconContainer>
-				)}
+				{/*{clicked_server === data.key ? (*/}
+				{/*	<IconContainer*/}
+				{/*		margin={`0px 12px 0px 0px`}*/}
+				{/*		// color={activeColor[theme]}*/}
+				{/*	>*/}
+				{/*		{data.icon === 'linux' && {linuxServerIcon}}*/}
+				{/*		{data.icon === 'aws' && {awsServerIcon}}*/}
+				{/*	</IconContainer>*/}
+				{/*) : (*/}
+				{/*	<IconContainer*/}
+				{/*		margin={`0px 12px 0px 0px`}*/}
+				{/*		// color={iconColor[theme]}*/}
+				{/*	>*/}
+				{/*		{data.icon === 'linux' && {linuxServerIcon}}*/}
+				{/*		{data.icon === 'aws' && {awsServerIcon}}*/}
+				{/*	</IconContainer>*/}
+				{/*)}*/}
 				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
 					{openRename ? (
 						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>

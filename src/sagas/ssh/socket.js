@@ -3,12 +3,9 @@ import {
 	WebSocketInternalAccessUrl,
 } from '../../ws/ws_values';
 
-export function initWebsocket(host, wsPort) {
+export function initWebsocket() {
 	return new Promise((resolve, reject) => {
-		const ws = new WebSocket(
-			'ws://' + WebSocketExternalAccessUrl + '/ws/ssh',
-			// wsPort ? `ws://${host}:${wsPort}/ws/ssh` : `ws://${host}/ws/ssh`,
-		);
+		const ws = new WebSocket(`ws://${WebSocketExternalAccessUrl}/ws/ssh`);
 
 		ws.binaryType = 'arraybuffer';
 

@@ -24,14 +24,17 @@ import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendCommand(action) {
-	console.log(action);
 	const {payload} = action;
-	console.log(payload);
-	const socket = yield call(createWebsocket, payload.host, payload.wsPort);
-	console.log(socket);
-	const channel = yield call(subscribe, socket);
-	let uuid = '';
+
 	try {
+		const socket = yield call(
+			createWebsocket,
+			payload.host,
+			payload.wsPort,
+		);
+		const channel = yield call(subscribe, socket);
+		let uuid = '';
+
 		yield call(messageSender, {
 			keyword: 'Connection',
 			ws: socket,
@@ -40,7 +43,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(4000),
+				timeout: delay(3000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -123,17 +126,20 @@ function* sendCommand(action) {
 						break;
 
 					case ERROR:
-						yield put({
-							type: OPEN_ALERT_POPUP,
-							data: 'invalid_server',
-						});
+						break;
+
+					default:
 						break;
 				}
 			}
 		}
 	} catch (err) {
-		yield put({type: CONNECTION_FAILURE});
 		console.log(err);
+		yield put({
+			type: OPEN_ALERT_POPUP,
+			data: 'invalid_server',
+		});
+		yield put({type: CONNECTION_FAILURE, data: err});
 	}
 }
 

@@ -6,8 +6,7 @@ import {
 export function createWebsocket(host, wsPort) {
 	return new Promise((resolve, reject) => {
 		const socket = new WebSocket(
-			'ws://' + WebSocketExternalAccessUrl + '/ws/sftp',
-			// wsPort ? `ws://${host}:${wsPort}/ws/sftp` : `ws://${host}/ws/sftp`,
+			`ws://${WebSocketExternalAccessUrl}/ws/sftp`,
 		);
 
 		socket.binaryType = 'arraybuffer';

@@ -3,7 +3,6 @@ import {LIGHT_MODE_ICON_COLOR} from '../styles/global';
 
 // sftp file icon
 export const fileIcon = (
-	// eslint-disable-next-line react/react-in-jsx-scope
 	<svg
 		xmlns='http://www.w3.org/2000/svg'
 		height='24px'
@@ -12,7 +11,6 @@ export const fileIcon = (
 		fill={LIGHT_MODE_ICON_COLOR}
 		className={'filelist_contents'}
 	>
-		{/* eslint-disable-next-line react/react-in-jsx-scope */}
 		<path d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z' />
 	</svg>
 );
@@ -86,6 +84,35 @@ export const alertFillIcon = (
 );
 
 // nav - folder,server icon
+export const linuxServerIcon = (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='24'
+		height='24'
+		fill='none'
+		viewBox='0 0 24 24'
+	>
+		<path
+			fill='#959EA1'
+			d='M10 7L3 4.5 10 2l7 2.5L10 7zM9 8.4L2 6v9.6L9 18V8.4zm2 0L18 6v9.6L11 18V8.4z'
+		/>
+	</svg>
+);
+
+export const awsServerIcon = (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='24'
+		height='24'
+		fill='none'
+		viewBox='0 0 24 24'
+	>
+		<path
+			fill='#959EA1'
+			d='M10 7L3 4.5 10 2l7 2.5L10 7zM9 8.4L2 6v9.6L9 18V8.4zm2 0L18 6v9.6L11 18V8.4z'
+		/>
+	</svg>
+);
 export const dnsIconMidium = (
 	<span className='material-icons button_medium'>dns</span>
 );

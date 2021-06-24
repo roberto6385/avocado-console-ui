@@ -17,7 +17,11 @@ import {
 	ModalHeaderIconButton,
 	PopupText,
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton, PrimaryRedButton} from "../../styles/button";
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+	PrimaryRedButton,
+} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 288px;
@@ -62,7 +66,8 @@ const AlertPopup = () => {
 
 			<ModalMessage>
 				{alert_popup.key === 'developing' ||
-				alert_popup.key === 'wrong_path' ? (
+				alert_popup.key === 'wrong_path' ||
+				alert_popup.key === 'invalid_server' ? (
 					<div>{cancelFillIcon}</div>
 				) : (
 					<div>{alertFillIcon}</div>
@@ -76,7 +81,8 @@ const AlertPopup = () => {
 					{t('cancel')}
 				</PrimaryGreyButton>
 				{alert_popup.key === 'developing' ||
-				alert_popup.key === 'wrong_path' ? (
+				alert_popup.key === 'wrong_path' ||
+				alert_popup.key === 'invalid_server' ? (
 					<PrimaryRedButton theme_value={theme} onClick={closeModal}>
 						{t('ok')}
 					</PrimaryRedButton>
