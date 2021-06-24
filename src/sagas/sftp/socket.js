@@ -3,7 +3,7 @@ import {
 	WebSocketInternalAccessUrl,
 } from '../../ws/ws_values';
 
-export function createWebsocket(host, wsPort) {
+export function createWebsocket() {
 	return new Promise((resolve, reject) => {
 		const socket = new WebSocket(
 			`ws://${WebSocketExternalAccessUrl}/ws/sftp`,

@@ -27,11 +27,7 @@ function* sendCommand(action) {
 	const {payload} = action;
 
 	try {
-		const socket = yield call(
-			createWebsocket,
-			payload.host,
-			payload.wsPort,
-		);
+		const socket = yield call(createWebsocket);
 		const channel = yield call(subscribe, socket);
 		let uuid = '';
 
