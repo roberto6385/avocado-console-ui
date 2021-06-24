@@ -70,11 +70,6 @@ const Redirect = () => {
 							.get(
 								`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${google.data.access_token}`,
 							)
-							.catch((error) => {
-								console.log(error);
-								console.log('HERER');
-								return <Redirect to={'/signin'} />;
-							})
 							.then((user) => {
 								console.log(user.data);
 								// here
@@ -94,6 +89,11 @@ const Redirect = () => {
 												'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
 										},
 									)
+									.catch((error) => {
+										console.log(error);
+										console.log('HERER');
+										return <Redirect to={'/signin'} />;
+									})
 									.then((authN) => {
 										console.log(authN);
 										dispatch({
