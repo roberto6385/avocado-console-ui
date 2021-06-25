@@ -40,6 +40,7 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(lsSearchResponse, {data});
+				console.log(res);
 				// const data = yield take(channel);
 				const array = [];
 				for (let value of res.list) {
@@ -67,13 +68,21 @@ function* sendCommand(action) {
 								item.name !== '..' &&
 								item.name !== '.'
 							) {
-								yield put(
-									searchDeleteListAction({
-										socket: payload.socket,
-										uuid: payload.uuid,
-										delete_path: `${payload.delete_path}/${item.name}`,
-									}),
+								console.log(
+									`${payload.delete_path}/${item.name}`,
 								);
+								yield call(messageSender, {
+									keyword: 'CommandByLs',
+									ws: payload.socket,
+									path: `${payload.delete_path}/${item.name}`,
+								});
+								// yield put(
+								// 	searchDeleteListAction({
+								// 		socket: payload.socket,
+								// 		uuid: payload.uuid,
+								// 		delete_path: `${payload.delete_path}/${item.name}`,
+								// 	}),
+								// );
 							}
 						}
 				}
@@ -82,7 +91,6 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: LS_FAILURE_DELETE});
-		alert('LS 에러발생 채널종료!');
 		closeChannel(channel);
 	}
 }

@@ -94,8 +94,8 @@ const _OpenButton = styled.div`
 	outline: none;
 	line-height: 0px;
 	cursor: pointer;
-	border: 1px solid;
-	border-color: ${(props) => iconColor[props?.theme_value]};
+	// border: 1px solid;
+	// border-color: ${(props) => iconColor[props?.theme_value]};
 	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 	position: absolute;
 	padding: 4px;
