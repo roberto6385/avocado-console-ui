@@ -157,7 +157,7 @@ const SignInForm = () => {
 				setUser('');
 				setPassword('');
 				// const encodeData = base64.encode(`${user}:${password}`);
-				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
+				const encodeData = base64.encode(`${'netand'}:${'123456789'}`);
 				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
 				dispatch(
 					getUserTicket({
