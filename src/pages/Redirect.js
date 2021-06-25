@@ -42,7 +42,7 @@ const Redirect = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const encodeData = base64.encode(`${'netand'}:${'123456789'}`);
+		const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 		return axios
 			.post(
 				'/oauth2/v1/token',
