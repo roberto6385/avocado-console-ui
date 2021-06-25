@@ -123,7 +123,7 @@ const FileListContents = ({uuid}) => {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				dispatch({
 					type: PUSH_READ_LIST,
-					payload: {uuid, array: [{path, file: item}]},
+					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
 				});
 			}
 		},
@@ -136,7 +136,7 @@ const FileListContents = ({uuid}) => {
 			if (item.name !== '..' && item.type !== 'directory') {
 				dispatch({
 					type: PUSH_READ_LIST,
-					payload: {uuid, array: [{path, file: item}]},
+					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
 			}
 		},

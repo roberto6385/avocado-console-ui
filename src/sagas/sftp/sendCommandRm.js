@@ -7,10 +7,8 @@ import {
 	actionChannel,
 	race,
 	delay,
-	takeEvery,
 } from 'redux-saga/effects';
 import {
-	ADD_HISTORY,
 	commandPwdAction,
 	RM_FAILURE,
 	RM_REQUEST,

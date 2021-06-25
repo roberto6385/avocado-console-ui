@@ -18,10 +18,8 @@ import {
 	ModalMessage,
 	PopupModal,
 	PopupText,
-
-
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -80,7 +78,7 @@ const SavePopup = () => {
 						type: PUSH_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile}],
+							array: [{path, file: uploadFile, todo: 'edit'}],
 						},
 					});
 
@@ -96,7 +94,7 @@ const SavePopup = () => {
 						type: PUSH_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile}],
+							array: [{path, file: uploadFile, todo: 'edit'}],
 						},
 					});
 					dispatch({

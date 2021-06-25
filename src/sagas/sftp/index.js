@@ -7,8 +7,6 @@ import commandLsSaga from './sendCommandLs';
 import commandCdSaga from './sendCommandCd';
 import commandMkdirSaga from './sendCommandMkdir';
 import commandRmSaga from './sendCommandRm';
-import commandPutSaga from './sendCommandPut';
-import commandGetSaga from './sendCommandGet';
 import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';
 import commandRenameSaga from './sendCommandRename';
@@ -24,8 +22,6 @@ export default function* sftpSaga() {
 		fork(commandCdSaga),
 		fork(commandMkdirSaga),
 		fork(commandRmSaga),
-		fork(commandPutSaga),
-		fork(commandGetSaga),
 		fork(commandReadSaga),
 		fork(commandRenameSaga),
 		fork(commandWriteSaga),

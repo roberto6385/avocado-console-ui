@@ -84,19 +84,23 @@ const SFTPContainer = ({uuid}) => {
 					uuid: corServer.uuid,
 					read_path: value.path,
 					file: value.file,
+					mode: corServer.mode,
+					todo: value.todo,
 				}),
 			);
 
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: corServer.uuid,
-					name: value.file.name,
-					size: value.file.size,
-					todo: 'read',
-					progress: 0,
-				},
-			});
+			if (value.todo === 'read') {
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: corServer.uuid,
+						name: value.file.name,
+						size: value.file.size,
+						todo: value.todo,
+						progress: 0,
+					},
+				});
+			}
 
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
 		}
@@ -114,6 +118,7 @@ const SFTPContainer = ({uuid}) => {
 					file: value.file,
 					path: corServer.path,
 					writeList: writeList,
+					todo: value.todo,
 				}),
 			);
 			dispatch({
@@ -122,7 +127,7 @@ const SFTPContainer = ({uuid}) => {
 					uuid: corServer.uuid,
 					name: value.file.name,
 					size: value.file.size,
-					todo: 'write',
+					todo: value.todo,
 					progress: 0,
 				},
 			});
