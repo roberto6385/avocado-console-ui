@@ -39,7 +39,7 @@ function* sendCommand(action) {
 				console.log('DELETE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
-				const res = yield call(lsSearchResponse, {data});
+				const res = yield call(lsSearchResponse, {data, payload});
 				console.log(res);
 				// const data = yield take(channel);
 				const array = [];
@@ -74,7 +74,7 @@ function* sendCommand(action) {
 								yield call(messageSender, {
 									keyword: 'CommandByLs',
 									ws: payload.socket,
-									path: `${payload.delete_path}/${item.name}`,
+									path: `${res.path}/${item.name}`,
 								});
 								// yield put(
 								// 	searchDeleteListAction({
