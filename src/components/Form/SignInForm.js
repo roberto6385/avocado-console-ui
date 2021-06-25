@@ -23,7 +23,8 @@ import googleButton from '../../images/google_btn.png';
 import naverButton from '../../images/naver_btn.png';
 import kakaoButton from '../../images/kakao_btn.png';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {PrimaryGreenButton} from "../../styles/button";
+import {PrimaryGreenButton} from '../../styles/button';
+import LoadingSpinner from '../loadingSpinner';
 
 const _Form = styled.div`
 	background: white;
@@ -295,7 +296,7 @@ const SignInForm = () => {
 			</_OAuthContainer>
 		</_Form>
 	) : (
-		<div>loading...</div>
+		<LoadingSpinner />
 	);
 };
 
