@@ -119,11 +119,11 @@ const Redirect = () => {
 										);
 										localStorage.removeItem('user');
 										localStorage.removeItem('password');
+									})
+									.catch((error) => {
+										console.log(error);
+										history.replace('/signin');
 									});
-								// .catch((error) => {
-								// 	console.log(error);
-								// 	history.replace('/signin');
-								// });
 							});
 					});
 			});
