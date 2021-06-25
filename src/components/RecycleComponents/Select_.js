@@ -7,7 +7,6 @@ import {
 	D_GREEN_ACTIVE,
 	fontColor,
 	identityHigh,
-	inputBack,
 	popupSelectSelectedColor,
 	popupSelectColor,
 	popupSelectHoverColor,
@@ -29,7 +28,7 @@ const _Container = styled.div`
 	flex: ${(props) => props.flex};
 `;
 
-const _Select = styled(Select)`
+const _SelectMenu = styled(Select)`
 	max-width: 500px;
 	div {
 		border-color: ${(props) => borderColor[props.theme_value]};
@@ -51,11 +50,6 @@ const _Select = styled(Select)`
 		}
 		.css-4ljt47-MenuList {
 			width: 100%;
-			//dropdown menu list backgound color
-			background: ${(props) =>
-				!props.popup
-					? selectColor[props.theme_value]
-					: popupSelectColor[props.theme_value]};
 		}
 	}
 `;
@@ -95,6 +89,12 @@ const Select_ = ({
 
 			// cursor: isDisabled ? 'not-allowed' : 'pointer',
 		}), // 일반 back
+		menuList: (base) => ({
+			...base,
+			backgroundColor: !popup
+				? selectColor[theme]
+				: popupSelectColor[theme],
+		}),
 		option: (styles, {isDisabled, isFocused, isSelected}) => {
 			return {
 				...styles,
@@ -145,7 +145,7 @@ const Select_ = ({
 	return (
 		<_Container flex={flex}>
 			<_Title>{title}</_Title>
-			<_Select
+			<_SelectMenu
 				ref={selectRef}
 				value={val}
 				isSearchable={false}

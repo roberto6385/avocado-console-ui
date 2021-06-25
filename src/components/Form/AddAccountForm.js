@@ -201,6 +201,7 @@ const AddAccountForm = () => {
 						options={authentication_options}
 						value={authentication}
 						setValue={setAuthentication}
+						popup={false}
 					/>
 				</_Item>
 				<_Item>

@@ -111,7 +111,6 @@ const AccountSpace = () => {
 						value={authType}
 						setValue={setAuthType}
 						width={WIDTH_500}
-						popup={true}
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
@@ -146,7 +145,6 @@ const AccountSpace = () => {
 					value={mfaType}
 					setValue={setMfaType}
 					width={WIDTH_500}
-					popup={true}
 				/>
 				<Radio_
 					radioName={'MFA'}

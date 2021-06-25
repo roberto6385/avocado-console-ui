@@ -85,6 +85,7 @@ export const D_BACK_INPUT_BACK = '#21303e';
 export const D_SFTP_FILELIST_BACK = '#17232E';
 export const D_SFTP_EDIT_BACK = '#121d28';
 export const D_FORM_INPUT_BACK = '#1b2935';
+export const D_SELECT_INPUT_BACK = '#2f4b60';
 
 // prev ui guide line
 // export const D_BACK = '#0b141c';
@@ -169,7 +170,7 @@ export const selectInputColor = [L_FORM_INPUT_BACK, D_NAV_HIGHLIGHT];
 export const selectColor = [L_FORM_INPUT_BACK, D_BACK_DROPLIST];
 export const selectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
 export const selectSelectedColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
-export const popupSelectColor = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
+export const popupSelectColor = [L_FORM_INPUT_BACK, D_SELECT_INPUT_BACK];
 export const popupSelectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
 export const popupSelectSelectedColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
 
