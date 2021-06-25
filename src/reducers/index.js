@@ -15,7 +15,7 @@ import clientTicket from './auth/clientTicket';
 import userTicket from './auth/userTicket';
 import refreshTicket from './auth/refreshTicket';
 import verify from './auth/verify';
-import revoke from './auth/revoke';
+import revoke, {GET_REVOKE_SUCCESS} from './auth/revoke';
 import find from './auth/find';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
 
@@ -37,16 +37,23 @@ const persistConfig = {
 	transforms: [userTicketFilter],
 };
 
-const sshLocalPersistConfig = {
-	key: 'sshLocal',
+const commonLocalPersistConfig = {
+	key: 'commonLocal',
 	storage: storage,
-	whitelist: ['ssh_history'],
+	whitelist: ['theme'],
 	transforms: [],
 };
 
-const rootReducer = combineReducers({
+const sshLocalPersistConfig = {
+	key: 'sshLocal',
+	storage: storage,
+	whitelist: ['ssh_history', 'snippets'],
+	transforms: [],
+};
+
+const appReducer = combineReducers({
 	user,
-	common,
+	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	popup,
@@ -57,5 +64,12 @@ const rootReducer = combineReducers({
 	revoke,
 	find,
 });
+
+const rootReducer = (state, action) => {
+	if (action.type === GET_REVOKE_SUCCESS) {
+		return appReducer(undefined, action);
+	}
+	return appReducer(state, action);
+};
 
 export default persistReducer(persistConfig, rootReducer);

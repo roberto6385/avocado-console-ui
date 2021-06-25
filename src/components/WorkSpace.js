@@ -12,14 +12,16 @@ import AsideContainer from './Setting/AsideContainer';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {FONT_18, HEIGHT_54, WIDTH_160} from '../styles/length';
+import {FONT_18, WIDTH_160} from '../styles/length';
 import {
 	activeColor,
 	fontColor,
 	iconColor,
+	mainBackColor,
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
+import LoadingSpinner from './loadingSpinner';
 
 const _Container = styled.div`
 	display: flex;
@@ -93,6 +95,7 @@ const _MainSpace = styled.div`
 	width: 100%;
 	overflow: hidden;
 	position: relative;
+	background: ${(props) => mainBackColor[props.theme_value]};
 
 	.work {
 		margin-right: 300px;
@@ -118,23 +121,23 @@ const _WorkSpaceContainer = styled.div`
 	display: flex;
 	height: 100%;
 	width: 100%;
-	background: ${(props) => props?.back};
 	overflow: hidden;
 	position: relative;
+	opacity: ${(props) => props?.opacity || 1};
 `;
 
 const _TabsContianer = styled.div`
 	display: flex;
 	overflow: scroll;
 	max-width: calc(100% - 152px);
-	height: ${HEIGHT_54};
+	height: 54px;
 `;
 
 const WorkSpace = () => {
 	const dispatch = useDispatch();
 	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssh} = useSelector((state) => state.ssh);
-	const {sftp} = useSelector((state) => state.sftp);
+	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
+	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);
@@ -260,9 +263,10 @@ const WorkSpace = () => {
 						setToggle={setAsideToggle}
 					/>
 				</_Nav>
-				<_MainSpace>
+				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}
+						opacity={(sshLoading || sftpLoading) && 0.7}
 					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>

@@ -30,12 +30,11 @@ import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
-	console.log(action.data);
-	const ws = yield call(initWebsocket, action.data.host, action.data.wsPort);
-	const channel = yield call(subscribe, ws);
-	let uuid = null;
-
 	try {
+		const ws = yield call(initWebsocket);
+		const channel = yield call(subscribe, ws);
+		let uuid = null;
+
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
 			ws: ws,
@@ -44,7 +43,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(5000),
+				timeout: delay(3000),
 				result: take(channel),
 			});
 
@@ -92,6 +91,11 @@ function* sendConnection(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
+						yield put({
+							type: SSH_SEND_CONNECTION_FAILURE,
+							data: res.result,
+						});
+
 						break;
 
 					default:
@@ -101,7 +105,10 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		closeChannel(channel);
+		yield put({
+			type: OPEN_ALERT_POPUP,
+			data: 'invalid_server',
+		});
 		yield put({type: SSH_SEND_CONNECTION_FAILURE, data: err});
 	}
 }

@@ -12,11 +12,7 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-import {
-	IconButton,
-	IconContainer,
-	LIGHT_MODE_SIDE_COLOR,
-} from '../../styles/global';
+import {IconButton, IconContainer} from '../../styles/global';
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
 	arrowDropDownIconMidium,
@@ -25,53 +21,39 @@ import {
 	searchIconMicro,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
-import {FONT_14, HEIGHT_42, WIDTH_400} from '../../styles/length';
 import {
+	borderColor,
+	contextHover,
 	fontColor,
 	iconColor,
 	sshSearch,
 	terminalColor,
 	terminalFontColor,
 } from '../../styles/color';
+import {SearchPopupContainer, SearchInput} from '../../styles/default';
 
 const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 	padding: 20px;
-	background-color: ${(props) => props.back};
+	background-color: ${(props) => terminalColor[props.theme_value]};
 `;
 
 const _Terminal = styled(_Container)`
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	overflow: scroll;
 	padding: 0px;
 `;
 
-const _Form = styled.form`
+const _Form = styled(SearchPopupContainer)`
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
-	width: ${WIDTH_400};
 	display: none;
-	align-items: center;
-	border-radius: 4px;
-	padding: 12px;
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	height: ${HEIGHT_42};
-	background: ${(props) => props.back};
 	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
-`;
-
-const _Input = styled.input`
-	flex: 1;
-	margin: 0px 5px;
-	font-size: ${FONT_14};
-	color: ${(props) => props.color};
-	background: transparent;
-	border: none;
 `;
 
 const _ListGroup = styled(ListGroup)`
@@ -80,22 +62,31 @@ const _ListGroup = styled(ListGroup)`
 	top: ${(props) => props.top};
 	bottom: ${(props) => props.bottom};
 	display: ${(props) => props.display};
-	width: 140px;
-	border-radius: 4px;
+	width: 130px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
-	background-color: #ffffff;
-	position: absolute;
 	zindex: 5;
+	padding: 8px 0;
+	background: ${(props) => sshSearch[props.theme_value]};
 `;
 
 const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
-	font-size: 14px;
 	overflow: auto;
+	background: ${(props) =>
+		props.clickeditem
+			? contextHover[props.theme_value]
+			: sshSearch[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
+	border: none;
 `;
 
 const _FooterListGroupItem = styled(_ListGroupItem)`
 	font-size: 10px;
+	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
+`;
+
+const _IconButton = styled(IconButton)`
+	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const SSH = ({uuid}) => {
@@ -117,28 +108,34 @@ const SSH = ({uuid}) => {
 	const [search, onChangeSearch, setSearch] = useInput('');
 	const [currentHistory, setCurrentHistory] = useState(0);
 	const historyList = useMemo(
-		() => ssh_history.filter((v) => v.startsWith(currentLine)).slice(-5),
+		() =>
+			currentLine === ''
+				? []
+				: ssh_history
+						.filter((v) => v.startsWith(currentLine))
+						.slice(-5),
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
-	const sshTerm = useMemo(() => ssh.find((v) => v.uuid === uuid).terminal, [
-		ssh,
-		uuid,
-	]);
+	const sshTerm = useMemo(
+		() => ssh.find((v) => v.uuid === uuid).terminal,
+		[ssh, uuid],
+	);
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
+	//do not work with current
 	const searchRef = useRef(null);
-	const listRef = useRef(null);
-	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
-		500,
-	);
+	const {
+		ref: ref,
+		width: width,
+		height: height,
+	} = useDebouncedResizeObserver(500);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
-	const onSubmitSearch = useCallback(
+	const onPressEnter = useCallback(
 		(e) => {
-			e.preventDefault();
-			searchAddon.findPrevious(search);
+			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
 		[search],
 	);
@@ -189,20 +186,13 @@ const SSH = ({uuid}) => {
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
 
-		sshTerm.setOption('theme', {
-			background: terminalColor[theme],
-			foreground: terminalFontColor[theme],
-		});
-		sshTerm.setOption('fontSize', font_size);
-		sshTerm.setOption('fontFamily', font);
-
 		fitAddon.fit();
 
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid, theme, font_size, font]);
-
+	}, [sshTerm, uuid]);
+	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
 			if (
@@ -311,17 +301,19 @@ const SSH = ({uuid}) => {
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
-			document.getElementById('search_' + uuid).style.display = 'flex';
+			document.getElementById('ssh_search_' + uuid).style.display =
+				'flex';
 			searchRef.current.focus();
 		} else {
-			document.getElementById('search_' + uuid).style.display = 'none';
+			document.getElementById('ssh_search_' + uuid).style.display =
+				'none';
 			setSearch('');
 			searchAddon.findPrevious('');
 		}
 	}, [current_tab, uuid, search_mode, searchRef]);
 	//search a word on the terminal
 	useEffect(() => {
-		if (current_tab === uuid && search !== '') {
+		if (current_tab === uuid) {
 			searchAddon.findPrevious('');
 			searchAddon.findPrevious(search);
 		}
@@ -338,138 +330,131 @@ const SSH = ({uuid}) => {
 			background: terminalColor[theme],
 			foreground: terminalFontColor[theme],
 		});
+		fitAddon.fit();
 	}, [sshTerm, theme]);
 
 	return (
-		<_Container ref={ref} back={terminalColor[theme]}>
+		<_Container
+			id={`terminal_container_${uuid}`}
+			ref={ref}
+			theme_value={theme}
+		>
 			<_Terminal id={`terminal_${uuid}`} />
-			{currentLine.length > 0 &&
-				auto_completion_mode &&
-				!ignoreAutoCompletion &&
-				historyList.length > 0 &&
-				current_tab === uuid && (
-					<_ListGroup
-						ref={listRef}
-						left={
-							width -
-								Number(
-									sshTerm._core.textarea.style.left.substring(
-										0,
-										sshTerm._core.textarea.style.left
-											.length - 2,
-									),
-								) -
-								140 >
-							0
-								? String(
-										Number(
-											sshTerm._core.textarea.style.left.substring(
-												0,
-												sshTerm._core.textarea.style
-													.left.length - 2,
-											),
-										) + 30,
-								  ) + 'px'
-								: String(
-										Number(
-											sshTerm._core.textarea.style.left.substring(
-												0,
-												sshTerm._core.textarea.style
-													.left.length - 2,
-											),
-										) - 150,
-								  ) + 'px'
-						}
-						top={
-							height -
-								Number(
-									sshTerm._core.textarea.style.top.substring(
-										0,
-										sshTerm._core.textarea.style.top
-											.length - 2,
-									),
-								) -
-								listRef.current?.clientHeight -
-								100 >
-							0
-								? String(
-										Number(
-											sshTerm._core.textarea.style.top.substring(
-												0,
-												sshTerm._core.textarea.style.top
-													.length - 2,
-											),
-										) + 100,
-								  ) + 'px'
-								: 'undefine'
-						}
-						bottom={
-							height -
-								Number(
-									sshTerm._core.textarea.style.top.substring(
-										0,
-										sshTerm._core.textarea.style.top
-											.length - 2,
-									),
-								) -
-								listRef.current?.clientHeight -
-								100 <=
-							0
-								? String(
-										height -
-											Number(
-												sshTerm._core.textarea.style.top.substring(
-													0,
-													sshTerm._core.textarea.style
-														.top.length - 2,
-												),
-											) +
-											30,
-								  ) + 'px'
-								: 'undefine'
-						}
-						display={currentLine.length > 1 ? 'block' : 'none'}
-					>
-						{historyList.map((v, i) =>
-							i === currentHistory ? (
-								<_ListGroupItem
-									style={{
-										backgroundColor: 'rgba(0, 0, 0, 0.04)',
-									}}
-									onClick={onClickCommand(v)}
-									key={i}
-								>
-									{v}
-								</_ListGroupItem>
-							) : (
-								<_ListGroupItem
-									onClick={onClickCommand(v)}
-									key={i}
-								>
-									{v}
-								</_ListGroupItem>
+			<_ListGroup
+				id={`auto_complete_list_${uuid}`}
+				theme_value={theme}
+				left={
+					width -
+						Number(
+							sshTerm._core.textarea?.style.left.substring(
+								0,
+								sshTerm._core.textarea?.style.left.length - 2,
 							),
-						)}
-						<_FooterListGroupItem>
-							{t('autoCompletionFooter')}
-						</_FooterListGroupItem>
-					</_ListGroup>
-				)}
-			<_Form
-				onSubmit={onSubmitSearch}
-				back={sshSearch[theme]}
-				id={`search_${uuid}`}
+						) -
+						140 >
+					0
+						? String(
+								Number(
+									sshTerm._core.textarea?.style.left.substring(
+										0,
+										sshTerm._core.textarea?.style.left
+											.length - 2,
+									),
+								) + 30,
+						  ) + 'px'
+						: String(
+								Number(
+									sshTerm._core.textarea?.style.left.substring(
+										0,
+										sshTerm._core.textarea?.style.left
+											.length - 2,
+									),
+								) - 150,
+						  ) + 'px'
+				}
+				top={
+					height -
+						Number(
+							sshTerm._core.textarea?.style.top.substring(
+								0,
+								sshTerm._core.textarea?.style.top.length - 2,
+							),
+						) -
+						document.getElementById(`auto_complete_list_${uuid}`)
+							?.clientHeight >
+					100
+						? String(
+								Number(
+									sshTerm._core.textarea?.style.top.substring(
+										0,
+										sshTerm._core.textarea?.style.top
+											.length - 2,
+									),
+								) + 100,
+						  ) + 'px'
+						: 'undefine'
+				}
+				bottom={
+					height -
+						Number(
+							sshTerm._core.textarea?.style.top.substring(
+								0,
+								sshTerm._core.textarea?.style.top.length - 2,
+							),
+						) -
+						document.getElementById(`auto_complete_list_${uuid}`)
+							?.clientHeight <=
+					100
+						? String(
+								height -
+									Number(
+										sshTerm._core.textarea?.style.top.substring(
+											0,
+											sshTerm._core.textarea?.style.top
+												.length - 2,
+										),
+									) +
+									30,
+						  ) + 'px'
+						: 'undefine'
+				}
+				display={
+					currentLine.length > 1 &&
+					current_tab === uuid &&
+					auto_completion_mode &&
+					!ignoreAutoCompletion &&
+					historyList.length > 0
+						? 'flex'
+						: 'none'
+				}
 			>
+				{historyList.map((v, i) => (
+					<_ListGroupItem
+						clickeditem={i === currentHistory ? 1 : 0}
+						theme_value={theme}
+						onClick={onClickCommand(v)}
+						key={i}
+					>
+						{v}
+					</_ListGroupItem>
+				))}
+				<_FooterListGroupItem theme_value={theme}>
+					{t('autoCompletionFooter')}
+				</_FooterListGroupItem>
+			</_ListGroup>
+
+			<_Form theme_value={theme} id={`ssh_search_${uuid}`}>
 				<IconContainer color={iconColor[theme]}>
 					{searchIconMicro}
 				</IconContainer>
-				<_Input
+				<SearchInput
+					onKeyPress={onPressEnter}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder={t('search')}
 					type='text'
 					ref={searchRef}
-					color={fontColor[theme]}
+					theme_value={theme}
 				/>
 				<IconButton
 					type='button'
@@ -485,13 +470,14 @@ const SSH = ({uuid}) => {
 				>
 					{arrowDropDownIconMidium}
 				</IconButton>
-				<IconButton
+				<_IconButton
 					type='button'
 					color={iconColor[theme]}
 					onClick={onClickOpenSearchBar}
+					theme_value={theme}
 				>
 					{closeIconMedium}
-				</IconButton>
+				</_IconButton>
 			</_Form>
 		</_Container>
 	);

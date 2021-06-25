@@ -15,6 +15,7 @@ import {tabbarColor} from '../styles/color';
 import {useContextMenu} from 'react-contexify';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
 import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
+import AccountContextMenu from './ContextMenu/AccountContextMenu';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -26,27 +27,39 @@ const CornerIcons_Container = styled.div`
 const RightCornerIcons = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {theme, tab, rightSideKey} = useSelector((state) => state.common);
-	const settingRef = useRef();
-	const columnRef = useRef();
 	const MenuPosition = useRef();
 
-	function getSettingMenuPosition() {
+	const accountRef = useRef();
+	const settingRef = useRef();
+	const columnRef = useRef();
+
+	const {show: showAccountMenu} = useContextMenu({
+		id: 'account',
+	});
+	const {show: showSettingMenu} = useContextMenu({
+		id: 'setting',
+	});
+	const {show: showColumnMenu2} = useContextMenu({
+		id: 'column',
+	});
+
+	const getAccountMenuPosition = useCallback(() => {
+		const {right, bottom} = accountRef.current?.getBoundingClientRect();
+		MenuPosition.current = {x: right - 130, y: bottom};
+		return MenuPosition.current;
+	}, [MenuPosition]);
+
+	const getSettingMenuPosition = useCallback(() => {
 		const {right, bottom} = settingRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
-	}
-	function getColumnMenuPosition() {
+	}, [MenuPosition]);
+
+	const getColumnMenuPosition = useCallback(() => {
 		const {right, bottom} = columnRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
-	}
-
-	const {show: showMenu1} = useContextMenu({
-		id: 'setting',
-	});
-	const {show: showMenu2} = useContextMenu({
-		id: 'column',
-	});
+	}, [MenuPosition]);
 
 	const openSideMenu = useCallback(
 		(key) => () => {
@@ -67,21 +80,27 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		});
 	}, []);
 
+	const openAccount = useCallback((e) => {
+		showAccountMenu(e, {
+			position: getAccountMenuPosition(),
+		});
+	}, []);
+
 	const openSetting = useCallback((e) => {
-		showMenu1(e, {
+		showSettingMenu(e, {
 			position: getSettingMenuPosition(),
 		});
 	}, []);
 
 	const openColumn = useCallback((e) => {
-		showMenu2(e, {
+		showColumnMenu2(e, {
 			position: getColumnMenuPosition(),
 		});
 	}, []);
 
 	return (
 		<CornerIcons_Container back={tabbarColor[theme]}>
-			<IconButton onClick={openSideMenu('Account')}>
+			<IconButton ref={accountRef} onClick={openAccount}>
 				{accountIcon}
 			</IconButton>
 			<IconButton ref={settingRef} onClick={openSetting}>
@@ -95,6 +114,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 					{windowIcon}
 				</IconButton>
 			)}
+			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<ColumnContextMenu />
 		</CornerIcons_Container>

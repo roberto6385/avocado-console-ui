@@ -208,6 +208,7 @@ const sftp = (state = initialState, action) =>
 					removeList: [],
 
 					path: '', // 현재 경로 ok
+
 					pathList: [],
 					fileList: [],
 
@@ -234,16 +235,16 @@ const sftp = (state = initialState, action) =>
 			// 해제
 
 			case DISCONNECTION_REQUEST:
-				draft.loading = true;
+				// draft.loading = true;
 				break;
 			case DISCONNECTION_SUCCESS:
-				draft.loading = false;
+				// draft.loading = false;
 				draft.sftp = state.sftp.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
 				break;
 			case DISCONNECTION_FAILURE:
-				draft.loading = false;
+				// draft.loading = false;
 				break;
 
 			// 현재 경로 조회
@@ -252,7 +253,7 @@ const sftp = (state = initialState, action) =>
 
 				break;
 			case PWD_SUCCESS:
-				draft.loading = false;
+				// draft.loading = false;
 				target.path = action.payload.path;
 				target.pathList = action.payload.pathList;
 				if (action.payload.removeIndex) {
@@ -263,15 +264,15 @@ const sftp = (state = initialState, action) =>
 
 				break;
 			case PWD_FAILURE:
-				draft.loading = false;
+				// draft.loading = false;
 				break;
 
 			// 현재 경로 조회
 			case LS_REQUEST:
-				draft.loading = true;
+				// draft.loading = true;
 				break;
 			case LS_SUCCESS:
-				draft.loading = false;
+				// draft.loading = false;
 				console.log(plainTarget.fileList);
 				console.log(action.payload.fileList);
 				target.fileList.push(action.payload.fileList);
@@ -280,21 +281,21 @@ const sftp = (state = initialState, action) =>
 				// ]);
 				break;
 			case LS_FAILURE:
-				draft.loading = false;
+				// draft.loading = false;
 				break;
 
 			// 경로 변경
 			case CD_REQUEST:
-				draft.loading = true;
+				// draft.loading = true;
 
 				break;
 			case CD_SUCCESS:
-				draft.loading = false;
+				// draft.loading = false;
 				target.highlight = [];
 
 				break;
 			case CD_FAILURE:
-				draft.loading = false;
+				// draft.loading = false;
 				break;
 
 			// 모드변경

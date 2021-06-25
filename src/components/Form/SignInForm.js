@@ -23,7 +23,7 @@ import googleButton from '../../images/google_btn.png';
 import naverButton from '../../images/naver_btn.png';
 import kakaoButton from '../../images/kakao_btn.png';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {PrimaryGreenButton} from '../../styles/default';
+import {PrimaryGreenButton} from "../../styles/button";
 
 const _Form = styled.div`
 	background: white;

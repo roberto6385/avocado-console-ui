@@ -17,7 +17,6 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 
 	const changePath = useCallback(
 		(path) => () => {
-			console.log(path);
 			history.push(path);
 		},
 		[],
@@ -33,15 +32,6 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 			}
 		},
 		[rightSideKey, toggle],
-	);
-
-	const logout = useCallback(
-		() => () => {
-			dispatch(
-				getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
-			);
-		},
-		[userTicket],
 	);
 
 	return (
@@ -60,11 +50,6 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 			<Item id='Identities' onClick={openSideMenu('Identities')}>
 				{t('identities')}
 			</Item>
-			<Separator />
-			<Item id='Logout' onClick={logout()}>
-				{t('logout')}
-			</Item>
-			<Separator />
 		</DropDownMenu_Avocado>
 	);
 };

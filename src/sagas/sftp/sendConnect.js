@@ -23,13 +23,13 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
 
 function* sendCommand(action) {
-	console.log(action);
 	const {payload} = action;
-	console.log(payload);
-	const socket = yield call(createWebsocket, payload.host, payload.wsPort);
-	console.log(socket);
-	const channel = yield call(subscribe, socket);
+
 	try {
+		const socket = yield call(createWebsocket);
+		const channel = yield call(subscribe, socket);
+		let uuid = '';
+
 		yield call(messageSender, {
 			keyword: 'Connection',
 			ws: socket,
@@ -38,7 +38,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(3000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -86,16 +86,20 @@ function* sendCommand(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
-
 						break;
+
 					default:
 						break;
 				}
 			}
 		}
 	} catch (err) {
-		yield put({type: CONNECTION_FAILURE});
 		console.log(err);
+		yield put({
+			type: OPEN_ALERT_POPUP,
+			data: 'invalid_server',
+		});
+		yield put({type: CONNECTION_FAILURE, data: err});
 	}
 }
 

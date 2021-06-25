@@ -21,6 +21,7 @@ const Panes = ({tab}) => {
 
 	return (
 		<_Container>
+
 			{tab.length === 1 && (
 				<Pane
 					uuid={tab[0].uuid}

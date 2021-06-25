@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {IconContainer} from '../../styles/global';
+import {IconContainer} from '../../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
 	CHANGE_CURRENT_RESOURCE_KEY,
 	CHANGE_IDENTITY_CHECKED,
-} from '../../reducers/common';
-import {searchIcon} from '../../icons/icons';
-import useInput from '../../hooks/useInput';
-import {HEIGHT_30, HEIGHT_48} from '../../styles/length';
+} from '../../../reducers/common';
+import {searchIcon} from '../../../icons/icons';
+import useInput from '../../../hooks/useInput';
+import {HEIGHT_30, HEIGHT_48} from '../../../styles/length';
 import {
 	borderColor,
 	fontColor,
@@ -18,13 +18,13 @@ import {
 	accountHigh,
 	identitySearchInput,
 	identityHigh,
-} from '../../styles/color';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
+} from '../../../styles/color';
+import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
-} from '../../styles/default';
+} from '../../../styles/default';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -92,27 +92,19 @@ const _Name = styled.div`
 	padding: 6px 16px;
 `;
 const _ResourceName = styled(_Name)`
-	// max-width: 219px;
 	min-width: 100px;
 	flex: 4;
 `;
 
 const _AddressName = styled(_Name)`
-	// max-width: 149px;
 	min-width: 100px;
-	// white-space: nowrap;
-	// overflow: hidden;
-	// text-overflow: ellipsis;
-
 	flex: 3;
 `;
 const _ProtocolPortName = styled(_Name)`
-	// max-width: 115px;
 	min-width: 100px;
 	flex: 2;
 `;
 const _UserNameType = styled(_Name)`
-	// max-width: 266px;
 	min-width: 100px;
 	flex: 5;
 `;
@@ -166,16 +158,10 @@ const IdentitiesSpace = () => {
 		(state) => state.common,
 	);
 	const dispatch = useDispatch();
-	const [
-		resourceSearch,
-		onChangeResourceSearch,
-		setResourceSearch,
-	] = useInput('');
-	const [
-		identitySearch,
-		onChangeIdentitySearch,
-		setIdentitySearch,
-	] = useInput('');
+	const [resourceSearch, onChangeResourceSearch, setResourceSearch] =
+		useInput('');
+	const [identitySearch, onChangeIdentitySearch, setIdentitySearch] =
+		useInput('');
 
 	// const onClickVisibleAddAccountForm = useCallback(() => {
 	// 	dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
@@ -197,9 +183,6 @@ const IdentitiesSpace = () => {
 
 	const handleCheck = useCallback(
 		(item) => (e) => {
-			console.log(e.target.checked);
-			console.log(item);
-
 			if (!e.target.checked) return;
 			const correspondedIdentity = identity.find(
 				(v) => v.key === currentResourceListKey && v.checked,
@@ -213,7 +196,25 @@ const IdentitiesSpace = () => {
 				},
 			});
 		},
-		[identity, currentResourceListKey, dispatch],
+		[identity, currentResourceListKey],
+	);
+
+	const onClickCheck = useCallback(
+		(item) => (e) => {
+			if (item.checked) return;
+			const correspondedIdentity = identity.find(
+				(v) => v.key === currentResourceListKey && v.checked,
+			);
+
+			dispatch({
+				type: CHANGE_IDENTITY_CHECKED,
+				payload: {
+					prev: correspondedIdentity,
+					next: item,
+				},
+			});
+		},
+		[identity, currentResourceListKey],
 	);
 
 	useEffect(() => {
@@ -221,7 +222,7 @@ const IdentitiesSpace = () => {
 			type: CHANGE_CURRENT_RESOURCE_KEY,
 			payload: {key: server[0].key},
 		});
-	}, []);
+	}, [server]);
 
 	return (
 		<SettingMainContainer theme_value={theme}>
@@ -366,6 +367,7 @@ const IdentitiesSpace = () => {
 											? accountHigh[theme]
 											: identityForm[theme]
 									}
+									onClick={onClickCheck(item)}
 								>
 									<_Name>{item.identityName}</_Name>
 									<_UserNameType>{item.user}</_UserNameType>
@@ -377,7 +379,7 @@ const IdentitiesSpace = () => {
 									<_CheckBoxIdentity>
 										<Checkbox_
 											value={item.checked}
-											handleCheck={handleCheck(item)}
+											// handleCheck={handleCheck(item)}
 										/>
 									</_CheckBoxIdentity>
 								</_Li>

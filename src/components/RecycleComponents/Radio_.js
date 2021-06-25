@@ -27,6 +27,7 @@ const _Container = styled.div`
 
 const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 	let height = `${(options.length * 2 - 1) * 16}px`;
+
 	return (
 		<_Container height={height}>
 			{options.map((op, index) => {

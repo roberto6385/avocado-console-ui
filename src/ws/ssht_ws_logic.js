@@ -112,6 +112,7 @@ export const GetMessage = (data) => {
 					SSH.Response.ResponseCase.ERROR
 				) {
 					const error = response.getError();
+					console.log(error);
 					console.log('ERROR');
 					return {
 						type: 'ERROR',

@@ -1,46 +1,62 @@
 import React, {useCallback} from 'react';
-import {animation, Item, Menu} from 'react-contexify';
+import {animation, Item, Separator} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	OPEN_ADD_ACCOUT_FORM_POPUP,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
-import {ContextMenu_Avocado} from '../../styles/default';
+import {useTranslation} from 'react-i18next';
 
-const AccountContextMenu = () => {
+import {DropDownMenu_Avocado} from '../../styles/default';
+import {RIGHT_SIDE_KEY} from '../../reducers/common';
+import {getRevoke} from '../../reducers/auth/revoke';
+import PropTypes from 'prop-types';
+import {Redirect} from '../../pages';
+
+const AccountContextMenu = ({toggle, setToggle}) => {
+	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const {theme, rightSideKey} = useSelector((state) => state.common);
+	const {userTicket} = useSelector((state) => state.userTicket);
 
-	const editAccount = useCallback(() => {
-		dispatch({
-			type: OPEN_ADD_ACCOUT_FORM_POPUP,
-			data: {type: 'add'},
-		});
-	}, [dispatch]);
+	const openSideMenu = useCallback(
+		(key) => () => {
+			if (toggle && rightSideKey === key) {
+				setToggle(false);
+			} else {
+				dispatch({type: RIGHT_SIDE_KEY, payload: key});
+				setToggle(true);
+			}
+		},
+		[rightSideKey, toggle],
+	);
 
-	const deleteAccount = useCallback(() => {
-		dispatch({
-			type: OPEN_WARNING_ALERT_POPUP,
-			data: {
-				key: 'delete_account',
-			},
-		});
-	}, [dispatch]);
+	const logout = useCallback(() => {
+		// if (jwtDecode(userTicket.access_token).exp < Date.now() / 1000) {
+		// 	localStorage.clear();
+		// } else {
+		dispatch(
+			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+		);
+		// }
+	}, [userTicket]);
 
 	return (
-		<ContextMenu_Avocado
+		<DropDownMenu_Avocado
 			id={'account'}
 			animation={animation.slide}
 			theme_value={theme}
 		>
-			<Item id='edit' onClick={editAccount}>
-				Edit
+			<Item id='UserInfo' onClick={openSideMenu('Account')}>
+				{t('account')}
 			</Item>
-			<Item id='delete' onClick={deleteAccount}>
-				Delete
+			<Separator />
+			<Item id='Logout' onClick={logout}>
+				{t('logout')}
 			</Item>
-		</ContextMenu_Avocado>
+		</DropDownMenu_Avocado>
 	);
+};
+
+AccountContextMenu.propTypes = {
+	toggle: PropTypes.bool.isRequired,
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default AccountContextMenu;

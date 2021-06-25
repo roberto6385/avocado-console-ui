@@ -5,21 +5,21 @@ import {
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-} from '../../styles/global';
-import Select_ from '../RecycleComponents/Select_';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
+} from '../../../styles/global';
+import Select_ from '../../RecycleComponents/Select_';
+import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
-} from '../../reducers/ssh';
-import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../reducers/common';
+} from '../../../reducers/ssh';
+import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {useTranslation} from 'react-i18next';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
-} from '../../styles/default';
+} from '../../../styles/default';
 
 const CheckboxContanier = styled.div`
 	margin-bottom: 16px;
@@ -72,7 +72,7 @@ const PreferencesSpace = () => {
 	useEffect(() => {
 		if (font !== terminalFont)
 			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
-	}, [terminalFont, dispatch]);
+	}, [font, terminalFont, dispatch]);
 
 	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});

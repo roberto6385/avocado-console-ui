@@ -54,7 +54,9 @@ const SSHContainer = ({uuid, server}) => {
 	};
 
 	const onCLickFullScreen = useCallback(() => {
-		document.getElementById('terminal_' + uuid).requestFullscreen();
+		document
+			.getElementById('terminal_container_' + uuid)
+			.requestFullscreen();
 	}, [uuid]);
 
 	return (

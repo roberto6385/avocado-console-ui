@@ -25,9 +25,9 @@ import {
 	ModalMessage,
 	PopupModal,
 	PopupText,
-	PrimaryGreyButton,
-	PrimaryRedButton,
+
 } from '../../styles/default';
+import {PrimaryGreyButton, PrimaryRedButton} from "../../styles/button";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

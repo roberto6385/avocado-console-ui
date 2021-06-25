@@ -16,16 +16,17 @@ import {
 	ModalHeader,
 	ModalHeaderIconButton,
 	PopupModal,
-	PrimaryGreenButton,
-	PrimaryGreyButton,
+
+
 } from '../../styles/default';
 import {
-	borderColor,
+	borderColor, inputFocusBoaderColor,
 	settingInput,
 	snippetsBoarderColor,
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
+import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -41,6 +42,9 @@ const _Textarea = styled.textarea`
 	background: ${(props) => settingInput[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
 	resize: none;
+	&:focus {
+		border-color: ${(props) => inputFocusBoaderColor[props.theme_value]};
+	}
 `;
 
 const _Form = styled(Form)`

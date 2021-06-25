@@ -30,12 +30,11 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
-	logoColor,
-	tabbarColor,
-	tabColor,
-	activeColor,
 	inputBack,
 } from '../styles/color';
+import LightModeLogo from '../images/logo@2x.png';
+import DarkModeLogo from '../images/logo_white@3x.png';
+import appleButton from '../images/apple_btn.png';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -76,11 +75,6 @@ const _Form = styled.form`
 	background: ${(props) => props.back};
 `;
 
-const _HeaderSpan = styled.span`
-	font-family: 'Roboto Slab', serif;
-	font-size: ${FONT_24};
-	color: ${(props) => props.color};
-`;
 const _NewServerSpan = styled.span`
 	font-size: ${FONT_14};
 	color: ${(props) => props.color};
@@ -168,7 +162,12 @@ const Nav = ({toggle, setToggle}) => {
 				>
 					{burgerMenuIcon}
 				</IconButton>
-				<_HeaderSpan color={logoColor[theme]}>Avocado</_HeaderSpan>
+
+				{theme === 0 ? (
+					<img src={LightModeLogo} height='24' alt='LightModeLogo' />
+				) : (
+					<img src={DarkModeLogo} height='24' alt='DarkModeLogo' />
+				)}
 			</_Header>
 			<_AddFolerServerContainer
 				back={navColor[theme]}

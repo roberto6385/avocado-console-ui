@@ -17,7 +17,6 @@ import {
 } from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
-
 //Setting Page Side Bar
 const _Container = styled.div`
 	padding: 0px 16px 15px 17px;
@@ -88,7 +87,7 @@ const PreferencesAside = () => {
 	useEffect(() => {
 		if (font !== terminalFont)
 			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
-	}, [terminalFont, dispatch]);
+	}, [font, terminalFont, dispatch]);
 
 	useEffect(() => {
 		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
@@ -109,6 +108,7 @@ const PreferencesAside = () => {
 					options={languageOptions}
 					value={language}
 					setValue={setLanguage}
+					popup={true}
 				/>
 				<Select_
 					width={'266px'}
@@ -116,6 +116,7 @@ const PreferencesAside = () => {
 					options={background_theme}
 					value={generalTheme}
 					setValue={setGeneralTheme}
+					popup={true}
 				/>
 			</_ContentsContainer>
 
@@ -127,6 +128,7 @@ const PreferencesAside = () => {
 					options={terminal_theme}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
+					popup={true}
 				/>
 				<Select_
 					width={'266px'}
@@ -134,6 +136,7 @@ const PreferencesAside = () => {
 					options={font_theme}
 					value={terminalFont}
 					setValue={setTerminalFont}
+					popup={true}
 				/>
 				<CheckboxContanier>
 					<Checkbox_
@@ -151,6 +154,7 @@ const PreferencesAside = () => {
 					options={editor_theme}
 					value={editorTheme}
 					setValue={setEditorTheme}
+					popup={true}
 				/>
 			</_ContentsContainer>
 		</_Container>

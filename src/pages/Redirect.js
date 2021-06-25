@@ -1,11 +1,26 @@
 import React, {useEffect} from 'react';
 const querystring = require('query-string');
-
-import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
+import background from '../images/login.png';
+import styled from 'styled-components';
+import {DARK_GREEN_COLOR} from '../styles/global';
+
+const _Container = styled.div`
+	width: 100%;
+	height: 100%;
+	background: ${DARK_GREEN_COLOR};
+	background-image: url(${background});
+	object-fit: contain;
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
 
 const getParameter = (name) => {
 	const list = location.search.substring(1).split('&');
@@ -41,7 +56,6 @@ const Redirect = () => {
 				},
 			)
 			.then((client) => {
-				console.log(client.data);
 				axios
 					.post(
 						'https://accounts.google.com/o/oauth2/token',
@@ -106,6 +120,10 @@ const Redirect = () => {
 										);
 										localStorage.removeItem('user');
 										localStorage.removeItem('password');
+									})
+									.catch((error) => {
+										console.log(error);
+										history.replace('/signin');
 									});
 							});
 					});
@@ -116,7 +134,11 @@ const Redirect = () => {
 		if (userTicket) history.push('/');
 	}, [userTicket]);
 
-	return <div>redirect page</div>;
+	return (
+		<_Container>
+			<div>redirect page</div>
+		</_Container>
+	);
 };
 
 export default Redirect;

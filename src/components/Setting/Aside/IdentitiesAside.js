@@ -7,8 +7,8 @@ import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {PrimaryGreenButton} from '../../../styles/default';
 import {borderColor} from '../../../styles/color';
+import {PrimaryGreenButton} from "../../../styles/button";
 
 const _Container = styled.div`
 	height: 100%;

@@ -16,7 +16,6 @@ import {Span, IconContainer} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
-import {dnsIconMidium} from '../../icons/icons';
 import {FONT_14, HEIGHT_34} from '../../styles/length';
 import {
 	activeColor,
@@ -25,6 +24,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
+import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
 
 export const _Form = styled.form`
 	border: none;
@@ -174,6 +174,9 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data]);
 
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
 	return (
 		<React.Fragment>
 			<_NavItem
@@ -195,19 +198,18 @@ const Server = ({data, indent}) => {
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
 				{clicked_server === data.key ? (
-					<IconContainer
-						margin={`0px 12px 0px 0px`}
-						color={activeColor[theme]}
-					>
-						{dnsIconMidium}
-					</IconContainer>
+					<div>
+						{data.icon === 'linux' &&
+							linuxServerIcon(activeColor[theme])}
+						{data.icon === 'aws' &&
+							awsServerIcon(activeColor[theme])}
+					</div>
 				) : (
-					<IconContainer
-						color={iconColor[theme]}
-						margin={`0px 12px 0px 0px`}
-					>
-						{dnsIconMidium}
-					</IconContainer>
+					<div>
+						{data.icon === 'linux' &&
+							linuxServerIcon(iconColor[theme])}
+						{data.icon === 'aws' && awsServerIcon(iconColor[theme])}
+					</div>
 				)}
 				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
 					{openRename ? (

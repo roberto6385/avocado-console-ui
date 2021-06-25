@@ -1,23 +1,22 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 
-import InputFiled_ from '../RecycleComponents/InputFiled_';
-import Radio_ from '../RecycleComponents/Radio_';
-import Select_ from '../RecycleComponents/Select_';
+import InputFiled_ from '../../RecycleComponents/InputFiled_';
+import Radio_ from '../../RecycleComponents/Radio_';
+import Select_ from '../../RecycleComponents/Select_';
 
 import {
 	Input,
-	PrimaryDisabledButton,
-	PrimaryGreenButton,
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
-} from '../../styles/default';
+} from '../../../styles/default';
 
-import ChangePasswordForm from '../Form/ChangePasswordForm';
+import ChangePasswordForm from '../../Form/ChangePasswordForm';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {WIDTH_160, WIDTH_500} from '../../styles/length';
+import {WIDTH_160, WIDTH_500} from '../../../styles/length';
+import {PrimaryDisabledButton, PrimaryGreenButton} from "../../../styles/button";
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -74,7 +73,9 @@ const AccountSpace = () => {
 
 	return (
 		<SettingMainContainer theme_value={theme}>
-			<SettingTitle theme_value={theme}>{t('title.account')}</SettingTitle>
+			<SettingTitle theme_value={theme}>
+				{t('title.account')}
+			</SettingTitle>
 			<SettingContentsContainer>
 				<InputFiled_ title={t('account')}>
 					<_Input
@@ -110,6 +111,7 @@ const AccountSpace = () => {
 						value={authType}
 						setValue={setAuthType}
 						width={WIDTH_500}
+						popup={true}
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
@@ -144,6 +146,7 @@ const AccountSpace = () => {
 					value={mfaType}
 					setValue={setMfaType}
 					width={WIDTH_500}
+					popup={true}
 				/>
 				<Radio_
 					radioName={'MFA'}

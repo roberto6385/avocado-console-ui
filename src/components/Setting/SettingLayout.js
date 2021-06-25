@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HEIGHT_54} from '../../styles/length';
 import {borderColor, logoColor, navColor} from '../../styles/color';
 import {SAVE_ACCOUT} from '../../reducers/common';
+import LightModeLogo from '../../images/logo@2x.png';
+import DarkModeLogo from '../../images/logo_white@3x.png';
 
 const _Container = styled.div`
 	display: flex;
@@ -27,17 +29,9 @@ const _Header = styled.div`
 	align-items: center;
 	padding: 20px 46px;
 	height: ${HEIGHT_54};
-	font-family: 'Roboto Slab', serif;
-
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
-`;
-
-const _Span = styled.span`
-	font-size: 23px;
-	line-height: 20px;
-	color: ${(props) => props?.color};
 `;
 
 const SettingAppLayout = ({children}) => {
@@ -65,7 +59,11 @@ const SettingAppLayout = ({children}) => {
 	return (
 		<_Container>
 			<_Header bcolor={borderColor[theme]} back={navColor[theme]}>
-				<_Span color={logoColor[theme]}>Avocado</_Span>
+				{theme === 0 ? (
+					<img src={LightModeLogo} height='24' alt='LightModeLogo' />
+				) : (
+					<img src={DarkModeLogo} height='24' alt='DarkModeLogo' />
+				)}
 			</_Header>
 			<_ContentsContainer>
 				<SettingNav />
