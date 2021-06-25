@@ -51,7 +51,7 @@ const _Select = styled(Select)`
 		}
 		.css-4ljt47-MenuList {
 			width: 100%;
-			// background: ${(props) => inputBack[props.theme_value]};
+			//dropdown menu list backgound color
 			background: ${(props) =>
 				!props.popup
 					? selectColor[props.theme_value]
