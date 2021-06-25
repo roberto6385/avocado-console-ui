@@ -4,18 +4,17 @@ import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
-import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
-import background from '../images/login.png';
 import styled from 'styled-components';
-import {DARK_GREEN_COLOR} from '../styles/global';
+
+import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
+import background from '../images/login_bg_design_1.jpg';
 import LoadingSpinner from '../components/loadingSpinner';
 
 const _Container = styled.div`
-	width: 100%;
-	height: 100%;
-	background: ${DARK_GREEN_COLOR};
 	background-image: url(${background});
 	object-fit: contain;
+	height: 100%;
+	width: 100%;
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -88,7 +87,6 @@ const Redirect = () => {
 							)
 							.then((user) => {
 								console.log(user.data);
-								// here
 								axios
 									.post(
 										'/oauth2/v1/alternative/verify',
@@ -121,11 +119,11 @@ const Redirect = () => {
 										);
 										localStorage.removeItem('user');
 										localStorage.removeItem('password');
-									})
-									.catch((error) => {
-										console.log(error);
-										history.replace('/signin');
 									});
+								// .catch((error) => {
+								// 	console.log(error);
+								// 	history.replace('/signin');
+								// });
 							});
 					});
 			});
