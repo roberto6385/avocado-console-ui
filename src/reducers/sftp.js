@@ -103,11 +103,13 @@ export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
-export const SHIFT_DELETE_WORK_LIST = 'sftp/SHIFT_DELETE_WORK_LIST';
+export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
+
+export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
 
 // readList: [], // 경로, file 저장
 // 	writeList: [], // 경로, file 저장
@@ -206,6 +208,7 @@ const sftp = (state = initialState, action) =>
 					readList: [], // 경로, file 저장
 					writeList: [], // 경로, file 저장
 					removeList: [],
+					incinerator: [],
 
 					path: '', // 현재 경로 ok
 
@@ -422,8 +425,15 @@ const sftp = (state = initialState, action) =>
 				target.writeList.shift();
 				break;
 
-			case SHIFT_DELETE_WORK_LIST:
-				target.removeList.pop();
+			case SHIFT_INCINERATOR_LIST:
+				target.incinerator.shift();
+				break;
+
+			case DELETE_WORK_TRANSPORTER:
+				target.incinerator = target.removeList.sort((a, b) => {
+					return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
+				});
+				target.removeList = [];
 				break;
 			default:
 				return state;

@@ -154,7 +154,8 @@ const WorkSpace = () => {
 	);
 
 	const onClickDelete = useCallback(
-		(data) => () => {
+		(data) => (e) => {
+			e.stopPropagation();
 			if (data.type === 'SSH') {
 				dispatch({
 					type: SSH_SEND_DISCONNECTION_REQUEST,
@@ -215,6 +216,7 @@ const WorkSpace = () => {
 									key={data.uuid}
 									onDragOver={(e) => e.preventDefault()}
 									onDrop={nextPutItem(data)}
+									onClick={changeVisibleTab(data.uuid)}
 								>
 									<_TabItem
 										draggable='true'
@@ -235,12 +237,7 @@ const WorkSpace = () => {
 												: tabbarColor[theme]
 										}
 									>
-										<IconContainer
-											padding={'6px'}
-											onClick={changeVisibleTab(
-												data.uuid,
-											)}
-										>
+										<IconContainer padding={'6px'}>
 											{data.type === 'SSH' &&
 												sshIcon(
 													current_tab === data.uuid

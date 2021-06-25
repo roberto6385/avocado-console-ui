@@ -74,13 +74,9 @@ const WarningAlertPopup = () => {
 					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
 					const {highlight, path} = corServer;
-					let countDirec = 0;
 					for (let value of highlight) {
 						if (value.name !== '.' && value.name !== '..') {
 							array.push({file: value, path});
-							if (value.type === 'directory') {
-								countDirec += 1;
-							}
 						}
 					}
 					await dispatch({
@@ -92,7 +88,16 @@ const WarningAlertPopup = () => {
 					});
 
 					for (let item of highlight) {
-						console.log(item);
+						const lastValue = highlight
+							.slice()
+							.sort()
+							.find(
+								(v) =>
+									v.type === 'directory' &&
+									v.name !== '..' &&
+									v.name !== '.',
+							);
+						console.log(lastValue);
 						if (
 							item.type === 'directory' &&
 							item.name !== '..' &&
@@ -100,15 +105,23 @@ const WarningAlertPopup = () => {
 						) {
 							console.log(path);
 							console.log(item.name);
+							const delete_path =
+								path === '/'
+									? `${path}${item.name}`
+									: `${path}/${item.name}`;
+							const last_path =
+								path === '/'
+									? `${path}${lastValue.name}`
+									: `${path}/${lastValue.name}`;
 							dispatch(
 								searchDeleteListAction({
 									socket: corServer.socket,
 									uuid: corServer.uuid,
-									delete_path:
-										path === '/'
-											? `${path}${item.name}`
-											: `${path}/${item.name}`,
-									count: countDirec,
+									delete_path: delete_path,
+									last_path:
+										delete_path === last_path
+											? last_path
+											: null,
 								}),
 							);
 						}

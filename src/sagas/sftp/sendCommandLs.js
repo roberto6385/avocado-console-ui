@@ -27,35 +27,35 @@ function* sendCommand(action) {
 			path: payload.ls_path,
 		});
 		while (true) {
-			// const {timeout, data} = yield race({
-			// 	timeout: delay(200),
-			// 	data: take(channel),
-			// });
-			// if (timeout) {
-			// 	console.log('LS 채널 사용이 없습니다. 종료합니다.');
-			// 	closeChannel(channel);
-			// } else {
-			const data = yield take(channel);
-			const res = yield call(lsResponse, {data});
-			switch (res.type) {
-				case LS_SUCCESS:
-					yield put({
-						type: LS_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-							fileList: sortFunction({
-								fileList:
-									payload.ls_path === '/'
-										? res.list.filter(
-												(v) => v.name !== '..',
-										  )
-										: res.list,
-							}),
-						},
-					});
-					break;
+			const {timeout, data} = yield race({
+				timeout: delay(200),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('LS 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				// const data = yield take(channel);
+				const res = yield call(lsResponse, {data});
+				switch (res.type) {
+					case LS_SUCCESS:
+						yield put({
+							type: LS_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								fileList: sortFunction({
+									fileList:
+										payload.ls_path === '/'
+											? res.list.filter(
+													(v) => v.name !== '..',
+											  )
+											: res.list,
+								}),
+							},
+						});
+						break;
+				}
 			}
-			// }
 		}
 	} catch (err) {
 		console.log(err);
@@ -66,13 +66,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	// yield takeEvery(LS_REQUEST, sendCommand);
 
-	// const reqChannel = yield actionChannel(LS_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* commandLsSaga() {

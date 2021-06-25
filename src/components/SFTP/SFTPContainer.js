@@ -8,7 +8,7 @@ import {
 	commandWriteAction,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
-	SHIFT_DELETE_WORK_LIST,
+	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
@@ -22,7 +22,7 @@ const SFTPContainer = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {readList, writeList, removeList} = corServer;
+	const {readList, writeList, incinerator} = corServer;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -134,40 +134,40 @@ const SFTPContainer = ({uuid}) => {
 		}
 	}, [writeList]);
 
-	// useEffect(() => {
-	// 	console.log(removeList);
-	// 	if (removeList.length !== 0) {
-	// 		const value = removeList.slice().reverse().shift();
-	// 		if (value.file.name !== '..' || value.file.name !== '.') {
-	// 			dispatch(
-	// 				commandRmAction({
-	// 					socket: corServer.socket,
-	// 					uuid: uuid,
-	// 					file: value.file,
-	// 					rm_path: value.path,
-	// 					path: corServer.path,
-	// 					keyword:
-	// 						value.file.type === 'file'
-	// 							? 'CommandByRm'
-	// 							: 'CommandByRmdir',
-	// 				}),
-	// 			);
-	// 		}
-	// 		if (corServer.path === value.path) {
-	// 			dispatch({
-	// 				type: ADD_HISTORY,
-	// 				payload: {
-	// 					uuid: corServer.uuid,
-	// 					name: value.file.name,
-	// 					size: value.file.size,
-	// 					todo: 'rm',
-	// 					progress: 100,
-	// 				},
-	// 			});
-	// 		}
-	// 		dispatch({type: SHIFT_DELETE_WORK_LIST, payload: {uuid}});
-	// 	}
-	// }, [removeList]);
+	useEffect(() => {
+		console.log(incinerator);
+		if (incinerator.length !== 0) {
+			const value = incinerator.slice().shift();
+			if (value.file.name !== '..' || value.file.name !== '.') {
+				dispatch(
+					commandRmAction({
+						socket: corServer.socket,
+						uuid: uuid,
+						file: value.file,
+						rm_path: value.path,
+						path: corServer.path,
+						keyword:
+							value.file.type === 'file'
+								? 'CommandByRm'
+								: 'CommandByRmdir',
+					}),
+				);
+			}
+			if (corServer.path === value.path) {
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: corServer.uuid,
+						name: value.file.name,
+						size: value.file.size,
+						todo: 'rm',
+						progress: 100,
+					},
+				});
+			}
+			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
+		}
+	}, [incinerator]);
 
 	return <SFTP uuid={uuid} />;
 };

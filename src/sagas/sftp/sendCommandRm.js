@@ -45,26 +45,26 @@ function* sendCommand(action) {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});
 				console.log(res);
-				switch (res.type) {
-					case RM_SUCCESS:
-						console.log(payload.file);
-						yield put({type: RM_SUCCESS});
+				// switch (res.type) {
+				// 	case RM_SUCCESS:
+				console.log(payload.file);
+				yield put({type: RM_SUCCESS});
 
-						if (payload.path === payload.rm_path) {
-							yield put(
-								commandPwdAction({
-									socket: payload.socket,
-									uuid: payload.uuid,
-									pwd_path: payload.path,
-								}),
-							);
-						}
-
-						break;
-
-					default:
-						break;
+				if (payload.path === payload.rm_path) {
+					yield put(
+						commandPwdAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							pwd_path: payload.path,
+						}),
+					);
 				}
+
+				// break;
+				//
+				// default:
+				// 	break;
+				// }
 			}
 		}
 	} catch (err) {

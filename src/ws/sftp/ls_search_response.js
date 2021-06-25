@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {LS_SUCCESS_DELETE} from '../../reducers/sftp';
 
-export async function lsSearchResponse({data, payload}) {
+export async function lsSearchResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -53,7 +53,6 @@ export async function lsSearchResponse({data, payload}) {
 						return {
 							type: LS_SUCCESS_DELETE,
 							list: list,
-							path: payload.delete_path,
 						};
 					}
 				}
