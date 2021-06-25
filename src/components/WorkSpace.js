@@ -235,7 +235,12 @@ const WorkSpace = () => {
 												: tabbarColor[theme]
 										}
 									>
-										<IconContainer padding={'6px'}>
+										<IconContainer
+											padding={'6px'}
+											onClick={changeVisibleTab(
+												data.uuid,
+											)}
+										>
 											{data.type === 'SSH' &&
 												sshIcon(
 													current_tab === data.uuid
