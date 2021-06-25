@@ -105,7 +105,7 @@ const Select_ = ({
 					: isDisabled
 					? null
 					: isSelected
-					? popupSelectActiveColor[theme] //selected
+					? 'red' //selected
 					: isFocused
 					? popupSelectHoverColor[theme] //hover
 					: popupSelectColor[theme], // normal
