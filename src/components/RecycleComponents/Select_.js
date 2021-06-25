@@ -105,7 +105,7 @@ const Select_ = ({
 					: isDisabled
 					? null
 					: isSelected
-					? 'red' //selected
+					? popupSelectActiveColor[theme] //selected
 					: isFocused
 					? popupSelectHoverColor[theme] //hover
 					: popupSelectColor[theme], // normal
@@ -117,8 +117,8 @@ const Select_ = ({
 				':active': {
 					...styles[':active'],
 					backgroundColor: !popup
-						? selectActiveColor[theme]
-						: popupSelectActiveColor[theme], // active back
+						? selectColor[theme]
+						: popupSelectColor[theme], // active back
 				},
 			};
 		},

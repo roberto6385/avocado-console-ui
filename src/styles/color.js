@@ -171,7 +171,10 @@ export const selectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
 export const selectActiveColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
 export const popupSelectColor = [L_FORM_INPUT_BACK, D_FORM_INPUT_BACK];
 export const popupSelectHoverColor = [L_SELECT_HOVER, D_SELECT_HOVER];
-export const popupSelectActiveColor = [L_CONTEXT_MENU_HOVER, D_IDENTITY_HIGH];
+export const popupSelectActiveColor = [
+	L_CONTEXT_MENU_HOVER,
+	'rgba(255, 255, 255, 0.87)',
+];
 
 export const greyBoarderNormalButtonColor = [
 	L_GREY_BOARDER_NORMAL,
