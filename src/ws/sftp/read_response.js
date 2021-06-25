@@ -3,6 +3,7 @@ import {READ_SUCCESS} from '../../reducers/sftp';
 
 let readPercent = 0;
 let readByteSum = 0;
+let text = '';
 
 let fileBuffer = new ArrayBuffer(0);
 
@@ -48,17 +49,24 @@ export async function readResponse({data, payload}) {
 
 						if (read.getCompleted()) {
 							const blob = new Blob([fileBuffer]);
-							const url = URL.createObjectURL(blob);
+							if (payload.todo === 'read') {
+								const url = URL.createObjectURL(blob);
 
-							const a = document.createElement('a');
-							document.body.appendChild(a);
-							a.setAttribute('hidden', true);
-							a.href = url;
-							a.download = payload.file.name;
-							a.click();
-							window.URL.revokeObjectURL(url);
-
-							fileBuffer = new ArrayBuffer(0);
+								const a = document.createElement('a');
+								document.body.appendChild(a);
+								a.setAttribute('hidden', true);
+								a.href = url;
+								a.download = payload.file.name;
+								a.click();
+								window.URL.revokeObjectURL(url);
+								fileBuffer = new ArrayBuffer(0);
+							} else if (payload.todo === 'edit') {
+								text = await new Response(blob).text();
+								console.log(text);
+								fileBuffer = new ArrayBuffer(0);
+							}
+						}
+						if (read.getReadbytes() === -1) {
 							readByteSum = 0;
 							readPercent = 0;
 						}
@@ -72,6 +80,7 @@ export async function readResponse({data, payload}) {
 							last: read.getCompleted(),
 							percent:
 								read.getReadbytes() === -1 ? 100 : readPercent,
+							text,
 						};
 					}
 				}

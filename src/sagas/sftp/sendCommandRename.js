@@ -4,7 +4,6 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	takeLatest,
 	race,
 	delay,
@@ -17,7 +16,7 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
-import {messageReader} from './messageReader';
+import {renameResponse} from '../../ws/sftp/rename_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -26,8 +25,8 @@ function* sendCommand(action) {
 	yield call(messageSender, {
 		keyword: 'CommandByRename',
 		ws: payload.socket,
-		path: `${payload.newPath}/${payload.prevName}`,
-		newPath: `${payload.newPath}/${payload.nextName}`,
+		path: payload.prev_path,
+		newPath: payload.next_path,
 	});
 	try {
 		while (true) {
@@ -40,7 +39,7 @@ function* sendCommand(action) {
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);
-				const res = yield call(messageReader, {data, payload});
+				const res = yield call(renameResponse, {data});
 
 				switch (res.type) {
 					case RENAME_SUCCESS:
@@ -48,7 +47,13 @@ function* sendCommand(action) {
 							type: RENAME_SUCCESS,
 							payload: {uuid: payload.uuid},
 						});
-						yield put(commandPwdAction(payload));
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
+								uuid: payload.uuid,
+								pwd_path: payload.path,
+							}),
+						);
 						break;
 				}
 			}
@@ -61,12 +66,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeLatest(RENAME_REQUEST, sendCommand);
-
-	// const reqChannel = yield actionChannel(RENAME_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandRenameSaga() {

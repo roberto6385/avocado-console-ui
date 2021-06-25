@@ -9,11 +9,14 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	ADD_HISTORY,
+	CHANGE_MODE,
 	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
+	SAVE_EDITTEXT,
+	SAVE_FILE_FOR_EDIT,
+	SAVE_TEXT,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -80,7 +83,7 @@ function* sendCommand(action) {
 							payload: {
 								uuid: payload.uuid,
 								name: payload.file.name,
-								todo: 'read',
+								todo: payload.todo,
 								progress: res.percent,
 							},
 						});
@@ -92,48 +95,38 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
+							if (payload.todo === 'edit') {
+								yield put({
+									type: SAVE_TEXT,
+									payload: {
+										uuid: payload.uuid,
+										text: res.text,
+									},
+								});
+								yield put({
+									type: SAVE_EDITTEXT,
+									payload: {
+										uuid: payload.uuid,
+										editText: res.text,
+									},
+								});
+								yield put({
+									type: SAVE_FILE_FOR_EDIT,
+									payload: {
+										uuid: payload.uuid,
+										editFile: payload.file,
+									},
+								});
+								yield put({
+									type: CHANGE_MODE,
+									payload: {
+										uuid: payload.uuid,
+										mode: 'edit',
+										currentMode: payload.mode,
+									},
+								});
+							}
 						}
-						// }
-						// else {
-						// 	if (res.last && res.percent === 100) {
-						// 		yield put({
-						// 			type: EDIT_READ_SUCCESS,
-						// 			payload: {
-						// 				uuid: payload.uuid,
-						// 				percent: res.percent,
-						// 			},
-						// 		});
-						// 		yield put({
-						// 			type: SAVE_TEXT,
-						// 			payload: {
-						// 				uuid: payload.uuid,
-						// 				text: res.text,
-						// 			},
-						// 		});
-						// 		yield put({
-						// 			type: SAVE_EDITTEXT,
-						// 			payload: {
-						// 				uuid: payload.uuid,
-						// 				editText: res.text,
-						// 			},
-						// 		});
-						// 		yield put({
-						// 			type: SAVE_FILE_FOR_EDIT,
-						// 			payload: {
-						// 				uuid: payload.uuid,
-						// 				editFile: payload.readList[0].file,
-						// 			},
-						// 		});
-						// 		yield put({
-						// 			type: CHANGE_MODE,
-						// 			payload: {
-						// 				uuid: payload.uuid,
-						// 				mode: 'edit',
-						// 				currentMode: payload.mode,
-						// 			},
-						// 		});
-						// 	}
-						// }
 						break;
 				}
 			}

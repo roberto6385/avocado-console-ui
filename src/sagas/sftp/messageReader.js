@@ -62,35 +62,7 @@ export async function messageReader({data, payload}) {
 					const command = response.getCommand();
 
 					switch (command.getCommandCase()) {
-						case SFTP.CommandResponse.CommandCase.CD: {
-							const cd = command.getCd();
-							console.log('command : cd', cd);
 
-							return {type: CD_SUCCESS};
-						}
-						case SFTP.CommandResponse.CommandCase.PWD: {
-							const pwd = command.getPwd();
-							console.log('command : pwd', pwd);
-
-							let pathList = ['/'];
-							let tempPathList = pwd.getPath().split('/');
-							tempPathList.reduce(function (
-								accumulator,
-								currentValue,
-							) {
-								pwd.getPath() !== '/' &&
-									pathList.push(
-										accumulator + '/' + currentValue,
-									);
-								return accumulator + '/' + currentValue;
-							});
-
-							return {
-								type: PWD_SUCCESS,
-								path: pwd.getPath(),
-								pathList,
-							};
-						}
 						case SFTP.CommandResponse.CommandCase.CHGRP: {
 							const chgrp = command.getChgrp();
 							console.log('command : chgrp', chgrp);
@@ -105,24 +77,6 @@ export async function messageReader({data, payload}) {
 							const chmod = command.getChmod();
 							console.log('command : chmod', chmod);
 							break;
-						}
-						case SFTP.CommandResponse.CommandCase.MKDIR: {
-							const mkdir = command.getMkdir();
-							console.log('command : mkdir', mkdir);
-
-							return {type: MKDIR_SUCCESS};
-						}
-						case SFTP.CommandResponse.CommandCase.RMDIR: {
-							const rmdir = command.getRmdir();
-							console.log('command : rmdir', rmdir);
-
-							return {type: RM_SUCCESS};
-						}
-						case SFTP.CommandResponse.CommandCase.RM: {
-							const rm = command.getRm();
-							console.log('command : rm', rm);
-
-							return {type: RM_SUCCESS};
 						}
 						case SFTP.CommandResponse.CommandCase.RENAME: {
 							const rename = command.getRename();

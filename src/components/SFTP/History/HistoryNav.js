@@ -49,9 +49,12 @@ const HistoryNav = ({uuid}) => {
 
 			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value});
+				array.push({path, file: value, todo: 'write'});
 			}
-			dispatch({type: PUSH_WRITE_LIST, payload: {uuid, array}});
+			dispatch({
+				type: PUSH_WRITE_LIST,
+				payload: {uuid, array},
+			});
 		};
 		document.body.removeChild(uploadInput);
 	}, [corServer]);

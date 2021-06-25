@@ -10,7 +10,6 @@ import {
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
 import {
-	commandRmAction,
 	DELETE_WORK_LIST,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
@@ -25,9 +24,8 @@ import {
 	ModalMessage,
 	PopupModal,
 	PopupText,
-
 } from '../../styles/default';
-import {PrimaryGreyButton, PrimaryRedButton} from "../../styles/button";
+import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

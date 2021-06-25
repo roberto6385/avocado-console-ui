@@ -4,13 +4,7 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	commandLsAction,
-	commandReadAction,
-	DELETE_WORK_LIST,
-	PUSH_READ_LIST,
-	searchDeleteListAction,
-} from '../../reducers/sftp';
+import {PUSH_READ_LIST} from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu_Avocado} from '../../styles/default';
 
@@ -29,7 +23,7 @@ const FileListContextMenu = ({uuid}) => {
 	const contextDownload = async () => {
 		const array = [];
 		for await (let value of highlight) {
-			array.push({path, file: value});
+			array.push({path, file: value, todo: 'read'});
 		}
 		dispatch({
 			type: PUSH_READ_LIST,
@@ -39,13 +33,10 @@ const FileListContextMenu = ({uuid}) => {
 
 	const contextEdit = () => {
 		for (let value of highlight) {
-			dispatch(
-				commandReadAction({
-					...corServer,
-					file: value,
-					keyword: 'edit',
-				}),
-			);
+			dispatch({
+				type: PUSH_READ_LIST,
+				payload: {uuid, array: [{path, file: value, todo: 'edit'}]},
+			});
 		}
 	};
 

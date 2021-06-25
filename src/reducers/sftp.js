@@ -249,7 +249,7 @@ const sftp = (state = initialState, action) =>
 
 			// 현재 경로 조회
 			case PWD_REQUEST:
-				draft.loading = true;
+				// draft.loading = true;
 
 				break;
 			case PWD_SUCCESS:

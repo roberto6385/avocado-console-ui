@@ -57,6 +57,7 @@ const Redirect = () => {
 				},
 			)
 			.then((client) => {
+				console.log(client);
 				axios
 					.post(
 						'https://accounts.google.com/o/oauth2/token',

@@ -13,10 +13,8 @@ import {
 	ModalHeader,
 	ModalHeaderIconButton,
 	PopupModal,
-
-
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -55,15 +53,22 @@ const InputPopup = () => {
 				case 'sftp_rename_file_folder': {
 					const uuid = input_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {highlight, path} = corServer;
+					const {highlight, path, socket} = corServer;
 
 					for (let value of highlight) {
 						dispatch(
 							commandRenameAction({
-								...corServer,
-								prevName: value.name,
-								nextName: formValue,
-								newPath: path,
+								socket: socket,
+								uuid: uuid,
+								prev_path:
+									path === '/'
+										? `${path}${value.name}`
+										: `${path}/${value.name}`,
+								next_path:
+									path === '/'
+										? `${path}${formValue}`
+										: `${path}/${formValue}`,
+								path: path,
 							}),
 						);
 					}
@@ -73,14 +78,18 @@ const InputPopup = () => {
 				case 'sftp_new_folder': {
 					const uuid = input_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
+					const {path} = corServer;
 
 					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
 							socket: corServer.socket,
-							path: corServer.path,
-							uuid: corServer.uuid,
-							mkdir_path: `${corServer.path}/${formValue}`,
+							path: path,
+							uuid: uuid,
+							mkdir_path:
+								path === '/'
+									? `${path}${formValue}`
+									: `${path}/${formValue}`,
 						}),
 					);
 					break;

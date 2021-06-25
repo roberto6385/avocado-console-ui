@@ -12,7 +12,7 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {Span, IconContainer} from '../../styles/global';
+import {Span} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 import {connectionAction} from '../../reducers/sftp';
