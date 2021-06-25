@@ -44,10 +44,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	});
 
 	const getAccountMenuPosition = useCallback(() => {
-		const {right, bottom} = settingRef.current?.getBoundingClientRect();
+		const {right, bottom} = accountRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
-	}, [accountRef]);
+	}, [MenuPosition]);
 
 	const getSettingMenuPosition = useCallback(() => {
 		const {right, bottom} = settingRef.current?.getBoundingClientRect();
@@ -100,7 +100,9 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<CornerIcons_Container back={tabbarColor[theme]}>
-			<IconButton onClick={openAccount}>{accountIcon}</IconButton>
+			<IconButton ref={accountRef} onClick={openAccount}>
+				{accountIcon}
+			</IconButton>
 			<IconButton ref={settingRef} onClick={openSetting}>
 				{settingIcon}
 			</IconButton>
