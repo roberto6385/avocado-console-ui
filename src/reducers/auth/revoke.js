@@ -14,6 +14,7 @@ export const getRevoke = (params) => ({
 // initial State
 const initialState = {
 	loading: false,
+	test: '',
 };
 
 // reducer

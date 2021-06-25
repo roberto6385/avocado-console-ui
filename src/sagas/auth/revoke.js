@@ -1,7 +1,6 @@
 import {all, fork, put, call, takeLatest, takeEvery} from 'redux-saga/effects';
 import axios from 'axios';
 import {
-	GET_REVOKE_FAILURE,
 	GET_REVOKE_REQUEST,
 	GET_REVOKE_SUCCESS,
 } from '../../reducers/auth/revoke';

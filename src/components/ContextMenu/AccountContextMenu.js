@@ -28,13 +28,9 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	);
 
 	const logout = useCallback(() => {
-		// if (jwtDecode(userTicket.access_token).exp < Date.now() / 1000) {
-		// 	localStorage.clear();
-		// } else {
 		dispatch(
 			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
 		);
-		// }
 	}, [userTicket]);
 
 	return (
