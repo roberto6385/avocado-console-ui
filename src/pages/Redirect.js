@@ -8,6 +8,7 @@ import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
 import background from '../images/login.png';
 import styled from 'styled-components';
 import {DARK_GREEN_COLOR} from '../styles/global';
+import LoadingSpinner from '../components/loadingSpinner';
 
 const _Container = styled.div`
 	width: 100%;
@@ -136,7 +137,7 @@ const Redirect = () => {
 
 	return (
 		<_Container>
-			<div>redirect page</div>
+			<LoadingSpinner />
 		</_Container>
 	);
 };

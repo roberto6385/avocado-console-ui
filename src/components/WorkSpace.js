@@ -266,7 +266,7 @@ const WorkSpace = () => {
 				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}
-						opacity={(sshLoading || sftpLoading) && 0.7}
+						opacity={sshLoading || sftpLoading ? 0.7 : undefined}
 					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
