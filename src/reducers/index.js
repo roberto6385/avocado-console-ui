@@ -41,14 +41,12 @@ const commonLocalPersistConfig = {
 	key: 'commonLocal',
 	storage: storage,
 	whitelist: ['theme'],
-	transforms: [],
 };
 
 const sshLocalPersistConfig = {
 	key: 'sshLocal',
 	storage: storage,
 	whitelist: ['ssh_history', 'snippets'],
-	transforms: [],
 };
 
 const appReducer = combineReducers({

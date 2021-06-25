@@ -9,7 +9,11 @@ import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
+import {
+	CHANGE_CURRENT_TAB,
+	CHANGE_VISIBLE_TAB,
+	SORT_TAB,
+} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
 import {FONT_18, WIDTH_160} from '../styles/length';
@@ -21,7 +25,6 @@ import {
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
-import LoadingSpinner from './loadingSpinner';
 
 const _Container = styled.div`
 	display: flex;
@@ -145,7 +148,7 @@ const WorkSpace = () => {
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
-			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
+			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 		},
 		[],
 	);
@@ -216,7 +219,6 @@ const WorkSpace = () => {
 									<_TabItem
 										draggable='true'
 										onDragStart={prevPutItem(data)}
-										onClick={changeVisibleTab(data.uuid)}
 										back={
 											current_tab === data.uuid
 												? tabColor[theme]
@@ -243,7 +245,13 @@ const WorkSpace = () => {
 											{data.type === 'SFTP' &&
 												sftpIconSmall}
 										</IconContainer>
-										<Span flex={1} padding={'0px'}>
+										<Span
+											flex={1}
+											padding={'0px'}
+											onClick={changeVisibleTab(
+												data.uuid,
+											)}
+										>
 											{data.server.name}
 										</Span>
 										<IconButton

@@ -11,10 +11,10 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 	const dispatch = useDispatch();
 	const {theme, current_tab} = useSelector((state) => state.common);
 	const {ssh, snippets} = useSelector((state) => state.ssh);
-	const ws = useMemo(() => ssh.find((v) => v.uuid === current_tab)?.ws, [
-		ssh,
-		current_tab,
-	]);
+	const ws = useMemo(
+		() => ssh.find((v) => v.uuid === current_tab)?.ws,
+		[ssh, current_tab],
+	);
 
 	const menuEvent = useCallback(
 		(v) => () => {
@@ -40,7 +40,6 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 			<Item
 				id='SnippetOpen'
 				onClick={() => {
-					console.log(current_tab);
 					setOpen(true);
 				}}
 			>

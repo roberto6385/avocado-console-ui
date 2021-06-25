@@ -7,7 +7,6 @@ import {DropDownMenu_Avocado} from '../../styles/default';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {getRevoke} from '../../reducers/auth/revoke';
 import PropTypes from 'prop-types';
-import {Redirect} from '../../pages';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
@@ -28,13 +27,9 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	);
 
 	const logout = useCallback(() => {
-		// if (jwtDecode(userTicket.access_token).exp < Date.now() / 1000) {
-		// 	localStorage.clear();
-		// } else {
 		dispatch(
 			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
 		);
-		// }
 	}, [userTicket]);
 
 	return (
