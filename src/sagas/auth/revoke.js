@@ -27,7 +27,10 @@ function* getRevoke(action) {
 			yield put({type: REVOKE_USER_TICKET}),
 		);
 	} catch (err) {
-		yield put({type: GET_REVOKE_FAILURE, data: err.response.data});
+		//TODO: refresh token
+		yield put({type: GET_REVOKE_SUCCESS});
+		yield put({type: REVOKE_USER_TICKET});
+		// yield put({type: GET_REVOKE_FAILURE, data: err.response.data});
 	}
 }
 
