@@ -20,8 +20,8 @@ export const _Container = styled.div`
 const PanesContainer = () => {
 	const {tab, cols, theme} = useSelector((state) => state.common);
 
-	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
-	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
+	const {loading: sshLoading} = useSelector((state) => state.ssh);
+	const {loading: sftpLoading} = useSelector((state) => state.sftp);
 	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
 		tab,
 	]);

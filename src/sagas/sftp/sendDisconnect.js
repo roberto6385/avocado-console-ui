@@ -21,6 +21,7 @@ import {disconnectResponse} from '../../ws/sftp/disconnect_response';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
+	console.log(payload.uuid);
 	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {

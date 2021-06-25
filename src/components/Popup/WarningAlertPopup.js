@@ -74,9 +74,13 @@ const WarningAlertPopup = () => {
 					const uuid = warning_alert_popup.uuid;
 					const corServer = sftp.find((it) => it.uuid === uuid);
 					const {highlight, path} = corServer;
+					let countDirec = 0;
 					for (let value of highlight) {
 						if (value.name !== '.' && value.name !== '..') {
 							array.push({file: value, path});
+							if (value.type === 'directory') {
+								countDirec += 1;
+							}
 						}
 					}
 					await dispatch({
@@ -104,6 +108,7 @@ const WarningAlertPopup = () => {
 										path === '/'
 											? `${path}${item.name}`
 											: `${path}/${item.name}`,
+									count: countDirec,
 								}),
 							);
 						}
