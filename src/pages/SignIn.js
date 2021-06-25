@@ -19,7 +19,6 @@ const _BackgroundContainer = styled.div`
 	height: 100%;
 	background-size: cover;
 	background-position: center;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
