@@ -34,7 +34,6 @@ import {
 } from '../styles/color';
 import LightModeLogo from '../images/logo@2x.png';
 import DarkModeLogo from '../images/logo_white@3x.png';
-import appleButton from '../images/apple_btn.png';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -164,9 +163,9 @@ const Nav = ({toggle, setToggle}) => {
 				</IconButton>
 
 				{theme === 0 ? (
-					<img src={LightModeLogo} height='24' alt='LightModeLogo' />
+					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
 				) : (
-					<img src={DarkModeLogo} height='24' alt='DarkModeLogo' />
+					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
 			<_AddFolerServerContainer

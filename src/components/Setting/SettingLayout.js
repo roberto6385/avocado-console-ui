@@ -60,9 +60,9 @@ const SettingAppLayout = ({children}) => {
 		<_Container>
 			<_Header bcolor={borderColor[theme]} back={navColor[theme]}>
 				{theme === 0 ? (
-					<img src={LightModeLogo} height='24' alt='LightModeLogo' />
+					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
 				) : (
-					<img src={DarkModeLogo} height='24' alt='DarkModeLogo' />
+					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
 			<_ContentsContainer>
