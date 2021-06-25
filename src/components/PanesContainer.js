@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import '../styles/resize.css';
 import {borderColor} from '../styles/global';
 import Panes from './Panes';
+import LoadingSpinner from './loadingSpinner';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -18,12 +19,19 @@ export const _Container = styled.div`
 
 const PanesContainer = () => {
 	const {tab, cols, theme} = useSelector((state) => state.common);
+
+	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
+	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
 	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
 		tab,
 	]);
 
+	console.log(sshLoading);
+
 	return (
 		<_Container back={borderColor[theme]}>
+			{(sshLoading || sftpLoading) && <LoadingSpinner />}
+
 			{visibleTab.length <= cols ? (
 				<Panes tab={visibleTab} />
 			) : visibleTab.length <= cols * 2 ? (

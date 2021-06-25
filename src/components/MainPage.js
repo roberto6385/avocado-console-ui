@@ -5,6 +5,7 @@ import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {logoColor, mainBackColor} from '../styles/color';
+import LoadingSpinner from './loadingSpinner';
 
 const _Container = styled.div`
 	background: ${(props) => props?.back};
@@ -30,6 +31,8 @@ const _Text = styled.div`
 const MainPage = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
+	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
+	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('mainPage');
 
@@ -68,7 +71,11 @@ const MainPage = () => {
 	return (
 		<_Container back={mainBackColor[theme]}>
 			<_Contents>
-				<_Text color={logoColor[theme]}>{t('title')}</_Text>
+				{sshLoading || sftpLoading ? (
+					<LoadingSpinner />
+				) : (
+					<_Text color={logoColor[theme]}>{t('title')}</_Text>
+				)}
 				{/*<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>*/}
 				{/*<PrimaryButton onClick={onClickVisibleForm}>*/}
 				{/*	{t('addServer')}*/}

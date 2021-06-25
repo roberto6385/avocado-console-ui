@@ -91,6 +91,11 @@ function* sendConnection(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
+						yield put({
+							type: SSH_SEND_CONNECTION_FAILURE,
+							data: res.result,
+						});
+
 						break;
 
 					default:

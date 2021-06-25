@@ -21,6 +21,7 @@ import {
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
+import LoadingSpinner from './loadingSpinner';
 
 const _Container = styled.div`
 	display: flex;
@@ -122,6 +123,7 @@ const _WorkSpaceContainer = styled.div`
 	width: 100%;
 	overflow: hidden;
 	position: relative;
+	opacity: ${(props) => props?.opacity || 1};
 `;
 
 const _TabsContianer = styled.div`
@@ -134,8 +136,8 @@ const _TabsContianer = styled.div`
 const WorkSpace = () => {
 	const dispatch = useDispatch();
 	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssh} = useSelector((state) => state.ssh);
-	const {sftp} = useSelector((state) => state.sftp);
+	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
+	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);
@@ -264,6 +266,7 @@ const WorkSpace = () => {
 				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}
+						opacity={(sshLoading || sftpLoading) && 0.7}
 					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>

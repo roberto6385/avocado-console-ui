@@ -15,6 +15,7 @@ export const initialState = {
 	],
 	snippents_index: 2,
 	tab: false,
+	loading: false,
 };
 
 export const CHANGE_AUTO_COMPLETION_MODE = 'CHANGE_AUTO_COMPLETION_MODE';
@@ -58,7 +59,12 @@ export const SSH_CHANGE_SNIPPET_FAILURE = 'SSH_CHANGE_SNIPPET_FAILURE';
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case SSH_SEND_CONNECTION_REQUEST:
+				draft.loading = true;
+				break;
+
 			case SSH_SEND_CONNECTION_SUCCESS:
+				draft.loading = false;
 				draft.ssh.push({
 					...action.data,
 					terminal: new Terminal({
@@ -72,11 +78,13 @@ const reducer = (state = initialState, action) => {
 						},
 					}),
 					current_line: '',
+					loading: false,
 				});
 				break;
 
 			case SSH_SEND_CONNECTION_FAILURE:
 				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
+				draft.loading = false;
 				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
 				break;
 
