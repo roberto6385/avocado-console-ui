@@ -8,10 +8,10 @@ import {
 	fontColor,
 	identityHigh,
 	inputBack,
-	popupSelectActiveColor,
+	popupSelectSelectedColor,
 	popupSelectColor,
 	popupSelectHoverColor,
-	selectActiveColor,
+	selectSelectedColor,
 	selectColor,
 	selectHoverColor,
 	selectInputColor,
@@ -51,7 +51,11 @@ const _Select = styled(Select)`
 		}
 		.css-4ljt47-MenuList {
 			width: 100%;
-			background: ${(props) => inputBack[props.theme_value]};
+			// background: ${(props) => inputBack[props.theme_value]};
+			background: ${(props) =>
+				!props.popup
+					? selectColor[props.theme_value]
+					: popupSelectColor[props.theme_value]};
 		}
 	}
 `;
@@ -98,14 +102,14 @@ const Select_ = ({
 					? isDisabled
 						? null
 						: isSelected
-						? selectActiveColor[theme] //selected
+						? selectSelectedColor[theme] //selected
 						: isFocused
 						? selectHoverColor[theme] //hover
 						: selectColor[theme] // normal
 					: isDisabled
 					? null
 					: isSelected
-					? popupSelectActiveColor[theme] //selected
+					? popupSelectSelectedColor[theme] //selected
 					: isFocused
 					? popupSelectHoverColor[theme] //hover
 					: popupSelectColor[theme], // normal
