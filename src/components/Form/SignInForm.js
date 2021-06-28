@@ -28,16 +28,14 @@ import LoadingSpinner from '../loadingSpinner';
 
 const _Form = styled.div`
 	background: white;
-	padding: 70px 61px;
+	padding: 70px;
 	border-radius: 16px;
 	caret-color: black;
-
 	display: flex;
 	flex-direction: column;
-	width: ${AUTH_FORM_WIDTH};
-	height: ${AUTH_FORM_HEIGHT};
+	width: 500px;
+	height: 650px;
 	border: solid 1px #d6d6d6;
-
 	.focus {
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;
@@ -97,7 +95,7 @@ const _Span = styled.div`
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	height: ${HEIGHT_40};
 	width: 360px;
-	margin: 24px auto 39px;
+	margin: 42px 0;
 	font-size: 16px;
 	padding: 10px;
 `;
@@ -107,7 +105,7 @@ const _CheckboxAnchorContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	font-size: ${FONT_14};
-	margin: 0px 8px 40px 8px;
+	margin: 0px 8px 0px 8px;
 
 	a {
 		color: ${ANCHOR_GRAY_COLOR};
@@ -126,6 +124,18 @@ const _OAuthButton = styled.button`
 	border: none;
 	width: fit-content;
 	padding: 0px;
+`;
+
+const _Or = styled.div`
+	color: #757575;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const _Hr = styled.hr`
+	width: 158px;
 `;
 
 const SignInForm = () => {
@@ -278,6 +288,9 @@ const SignInForm = () => {
 			<_PrimaryGreenButton type='submit' onClick={onSubmitForm}>
 				{t('signIn')}
 			</_PrimaryGreenButton>
+			<_Or>
+				<_Hr /> {t('or')} <_Hr />
+			</_Or>
 			<_OAuthContainer>
 				<_OAuthButton name={'kakaoButton'} onClick={oauthFunction}>
 					<img src={kakaoButton} alt='kakaoButton' />

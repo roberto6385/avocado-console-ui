@@ -114,7 +114,6 @@ export const Span = styled.span`
 `;
 
 // font
-export const NOTO_SANS_KR = `'Noto Sans KR', sans-serif`;
 export const ROBOTO = 'Roboto, sans-serif';
 export const ROBOTO_MONO = 'Roboto Mono, sans-serif';
 export const MONTSERRAT = 'Montserrat, sans-serif';

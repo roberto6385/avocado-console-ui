@@ -10,4 +10,5 @@ export default {
 	remember: '아이디 비밀번호 기억하기',
 	forget: '비밀번호 찾기',
 	signIn: '로그인',
+	or: '또는',
 };

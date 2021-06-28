@@ -10,4 +10,5 @@ export default {
 	remember: 'Remember ID and Password',
 	forget: 'Forget Password?',
 	signIn: 'Sign in',
+	or: 'or',
 };
