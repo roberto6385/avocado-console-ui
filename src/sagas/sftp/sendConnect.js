@@ -28,7 +28,6 @@ function* sendCommand(action) {
 	try {
 		const socket = yield call(createWebsocket);
 		const channel = yield call(subscribe, socket);
-		let uuid = '';
 
 		yield call(messageSender, {
 			keyword: 'Connection',

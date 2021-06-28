@@ -87,41 +87,18 @@ const WarningAlertPopup = () => {
 						},
 					});
 
-					for (let item of highlight) {
-						const lastValue = highlight
-							.slice()
-							.sort()
-							.find(
-								(v) =>
-									v.type === 'directory' &&
-									v.name !== '..' &&
-									v.name !== '.',
-							);
-						console.log(lastValue);
-						if (
-							item.type === 'directory' &&
-							item.name !== '..' &&
-							item.name !== '.'
-						) {
-							console.log(path);
-							console.log(item.name);
+					for (let item of array.slice()) {
+						if (item.file.type === 'directory') {
+							console.log(item);
 							const delete_path =
 								path === '/'
-									? `${path}${item.name}`
-									: `${path}/${item.name}`;
-							const last_path =
-								path === '/'
-									? `${path}${lastValue.name}`
-									: `${path}/${lastValue.name}`;
+									? `${path}${item.file.name}`
+									: `${path}/${item.file.name}`;
 							dispatch(
 								searchDeleteListAction({
 									socket: corServer.socket,
 									uuid: corServer.uuid,
 									delete_path: delete_path,
-									last_path:
-										delete_path === last_path
-											? last_path
-											: null,
 								}),
 							);
 						}

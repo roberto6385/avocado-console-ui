@@ -25,9 +25,6 @@ const PanesContainer = () => {
 	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
 		tab,
 	]);
-
-	console.log(sshLoading);
-
 	return (
 		<_Container back={borderColor[theme]}>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}

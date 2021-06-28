@@ -14,10 +14,14 @@ import {closeChannel, subscribe} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
+import {createWebsocket} from './socket';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
+	//
+	// const socket = yield call(createWebsocket);
+	// const channel = yield call(subscribe, socket);
 	const channel = yield call(subscribe, payload.socket);
 
 	try {
