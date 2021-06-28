@@ -8,6 +8,8 @@ import {
 	delay,
 	takeEvery,
 	actionChannel,
+	takeLatest,
+	throttle,
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
@@ -114,7 +116,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PWD_REQUEST, sendCommand);
+	yield throttle(1000, PWD_REQUEST, sendCommand);
 	// const reqChannel = yield actionChannel(PWD_REQUEST);
 	// while (true) {
 	// 	const action = yield take(reqChannel);
