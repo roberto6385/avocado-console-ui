@@ -28,20 +28,37 @@ async function getUserTicketApi(params) {
 	);
 }
 
+async function getUserInfoApi(params) {
+	console.log(params);
+	return await axios.get(
+		`/open/api/v1/users/id/${params.user_id}@netand.co.kr`,
+		{
+			headers: {
+				Authorization: `Bearer ${params.access_token}`,
+				'Content-Type': 'application/json',
+			},
+			baseURL:
+				'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
+}
+
 function* getUserTicket(action) {
 	console.log(action);
 	try {
 		const res = yield call(getUserTicketApi, action.params);
 		console.log(res);
+		const user = yield call(getUserInfoApi, res.data);
+		console.log(user);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
 			payload: {
 				data: res.data,
 				//나중에 일반 로그인 유저 정보도 생기면 여기서 넣어주면 됨 지금은 user_id 뿐
 				user: {
-					id: res.data.user_id,
-					email: res.data.user_id + '@netand.co.kr',
-					name: '넷앤드',
+					id: user.data.id,
+					email: user.data.email,
+					name: user.data.name,
 				},
 			},
 		});
