@@ -30,7 +30,9 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		dispatch(
 			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
 		);
-	}, [userTicket]);
+		sessionStorage.clear();
+		window.location.reload();
+	}, []);
 
 	return (
 		<DropDownMenu_Avocado
