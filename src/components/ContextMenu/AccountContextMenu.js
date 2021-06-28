@@ -32,7 +32,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		);
 		sessionStorage.clear();
 		window.location.reload();
-	}, []);
+	}, [userTicket]);
 
 	return (
 		<DropDownMenu_Avocado
