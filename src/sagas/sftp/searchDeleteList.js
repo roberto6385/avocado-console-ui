@@ -96,7 +96,7 @@ function* watchSendCommand() {
 
 	while (true) {
 		const {timeout, action} = yield race({
-			timeout: delay(3000),
+			timeout: delay(1000),
 			action: take(reqChannel),
 		});
 		if (timeout) {

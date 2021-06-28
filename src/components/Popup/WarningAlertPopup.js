@@ -11,6 +11,7 @@ import {
 } from '../../reducers/common';
 import {
 	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
@@ -26,6 +27,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
+import {put} from 'redux-saga/effects';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -87,20 +89,33 @@ const WarningAlertPopup = () => {
 						},
 					});
 
-					for (let item of array.slice()) {
-						if (item.file.type === 'directory') {
-							console.log(item);
-							const delete_path =
-								path === '/'
-									? `${path}${item.file.name}`
-									: `${path}/${item.file.name}`;
-							dispatch(
-								searchDeleteListAction({
-									socket: corServer.socket,
-									uuid: corServer.uuid,
-									delete_path: delete_path,
-								}),
-							);
+					if (
+						array.slice().filter((v) => v.file.type === 'directory')
+							.length === 0
+					) {
+						console.log(array);
+						dispatch({
+							type: DELETE_WORK_TRANSPORTER,
+							payload: {
+								uuid: uuid,
+							},
+						});
+					} else {
+						for (let item of array.slice()) {
+							if (item.file.type === 'directory') {
+								console.log(item);
+								const delete_path =
+									path === '/'
+										? `${path}${item.file.name}`
+										: `${path}/${item.file.name}`;
+								dispatch(
+									searchDeleteListAction({
+										socket: corServer.socket,
+										uuid: corServer.uuid,
+										delete_path: delete_path,
+									}),
+								);
+							}
 						}
 					}
 					break;
