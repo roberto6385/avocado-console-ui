@@ -9,13 +9,13 @@ export default {
 	keyFile: '키 파일',
 	keyFilePassword: '키 파일 비밀번호',
 	password: '비밀번호',
-	note: '노트',
+	note: '설명',
 
 	place: {
 		identity: '이름',
 		userName: '계정 명',
 		password: '비밀번호',
-		note: '노트',
+		note: '설명',
 	},
 	cancel: '취소',
 	save: '저장',
