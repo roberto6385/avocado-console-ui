@@ -48,17 +48,17 @@ export async function writeResponse({data, payload}) {
 									? 100
 									: writePercent,
 						};
+					} else if (
+						response.getResponseCase() ===
+						SFTP.Response.ResponseCase.ERROR
+					) {
+						const error = response.getError();
+						console.log(error.getMessage());
+						return {
+							type: ERROR,
+							err: error.getMessage(),
+						};
 					}
-				} else if (
-					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.ERROR
-				) {
-					const error = response.getError();
-					console.log(error.getMessage());
-					return {
-						type: ERROR,
-						err: error.getMessage(),
-					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');
