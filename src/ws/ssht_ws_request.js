@@ -9,6 +9,7 @@ export const ssht_ws_request = ({keyword, ws, data}) => {
 	switch (keyword) {
 		case 'SendConnect':
 			console.log('SendConnect');
+
 			ws.send(
 				SendConnect(
 					data.token,

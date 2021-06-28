@@ -6,13 +6,14 @@ export const SendConnect = (token, host, user, password, port) => {
 	const message = new SSH.Message();
 	const request = new SSH.Request();
 	const connect = new SSH.ConnectRequest();
+
 	connect.setToken(token);
 	connect.setHost(host);
 	connect.setUser(user);
 	connect.setPassword(password);
 	connect.setPort(port);
 
-	connect.setKeepalivecount(2);
+	connect.setKeepalivecount(0);
 	connect.setKeepaliveinterval(6000);
 
 	request.setConnect(connect);
@@ -71,15 +72,15 @@ export const GetMessage = (data) => {
 			const message = SSH.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
-				// console.log(response);
-				// console.log(response.getStatus());
+				console.log(response);
+				console.log(response.getStatus());
 				if (
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.CONNECT
 				) {
 					const connect = response.getConnect();
 					console.log('CONNECT');
-					// console.log(JSON.stringify(connect));
+					console.log(JSON.stringify(connect));
 					return {type: 'CONNECT', result: connect.getUuid()};
 				} else if (
 					response.getResponseCase() ===
@@ -93,7 +94,7 @@ export const GetMessage = (data) => {
 				) {
 					const command = response.getCommand();
 					console.log('COMMAND');
-					// console.log(JSON.stringify(command));
+					console.log(command.getMessage());
 					return {
 						type: 'COMMAND',
 						result: command.getMessage(),

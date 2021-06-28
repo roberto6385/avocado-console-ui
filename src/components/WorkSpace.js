@@ -131,7 +131,7 @@ const _WorkSpaceContainer = styled.div`
 
 const _TabsContianer = styled.div`
 	display: flex;
-	overflow: scroll;
+	overflow: auto;
 	max-width: calc(100% - 152px);
 	height: 54px;
 `;
