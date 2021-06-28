@@ -92,9 +92,8 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	const reqChannel = yield actionChannel(LS_REQUEST_DELETE);
-	// const req = yield take(reqChannel);
+	let uuid = null;
 
-	// console.log(req);
 	while (true) {
 		const {timeout, action} = yield race({
 			timeout: delay(3000),
@@ -102,13 +101,19 @@ function* watchSendCommand() {
 		});
 		if (timeout) {
 			console.log('end');
-			// yield put({
-			// 	type: DELETE_WORK_TRANSPORTER,
-			// 	payload: {
-			// 		uuid: req.payload.uuid,
-			// 	},
-			// });
+			if (uuid !== null) {
+				yield put({
+					type: DELETE_WORK_TRANSPORTER,
+					payload: {
+						uuid: uuid,
+					},
+				});
+				uuid = null;
+			}
+			yield take(LS_REQUEST_DELETE);
 		} else {
+			console.log(action);
+			uuid = action.payload.uuid;
 			yield call(sendCommand, action);
 		}
 	}
