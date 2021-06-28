@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {CONNECTION_SUCCESS} from '../../reducers/sftp';
+import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export async function connectResponse({data}) {
 	try {
@@ -16,6 +16,16 @@ export async function connectResponse({data}) {
 				) {
 					const connect = response.getConnect();
 					return {type: CONNECTION_SUCCESS, uuid: connect.getUuid()};
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

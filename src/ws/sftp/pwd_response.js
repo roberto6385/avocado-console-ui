@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {PWD_SUCCESS} from '../../reducers/sftp';
+import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
 import {pathFunction} from '../../components/SFTP/listConversion';
 
 export async function pwdResponse({data}) {
@@ -31,6 +31,16 @@ export async function pwdResponse({data}) {
 							pathList,
 						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

@@ -1,5 +1,10 @@
 import SFTP from '../../dist/sftp_pb';
-import {RENAME_SUCCESS, RM_SUCCESS, RMDIR_SUCCESS} from '../../reducers/sftp';
+import {
+	ERROR,
+	RENAME_SUCCESS,
+	RM_SUCCESS,
+	RMDIR_SUCCESS,
+} from '../../reducers/sftp';
 
 export async function renameResponse({data}) {
 	try {
@@ -23,6 +28,16 @@ export async function renameResponse({data}) {
 						console.log('command : rename', rename);
 						return {type: RENAME_SUCCESS};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

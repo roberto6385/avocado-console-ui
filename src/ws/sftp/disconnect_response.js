@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
+import {DISCONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export async function disconnectResponse({data}) {
 	try {
@@ -18,6 +18,16 @@ export async function disconnectResponse({data}) {
 					console.log(disconnect);
 
 					return {type: DISCONNECTION_SUCCESS};
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

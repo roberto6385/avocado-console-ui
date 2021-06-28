@@ -85,6 +85,8 @@ function* sendCommand(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
+						yield put({type: CONNECTION_FAILURE, data: res.err});
+
 						break;
 
 					default:

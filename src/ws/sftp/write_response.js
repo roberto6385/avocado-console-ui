@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {WRITE_SUCCESS} from '../../reducers/sftp';
+import {ERROR, WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
@@ -49,6 +49,16 @@ export async function writeResponse({data, payload}) {
 									: writePercent,
 						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

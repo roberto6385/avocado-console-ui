@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {CD_SUCCESS} from '../../reducers/sftp';
+import {CD_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export async function cdResponse({data}) {
 	try {
@@ -24,6 +24,16 @@ export async function cdResponse({data}) {
 
 						return {type: CD_SUCCESS};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

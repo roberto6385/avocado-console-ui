@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {READ_SUCCESS} from '../../reducers/sftp';
+import {ERROR, READ_SUCCESS} from '../../reducers/sftp';
 
 let readPercent = 0;
 let readByteSum = 0;
@@ -83,6 +83,16 @@ export async function readResponse({data, payload}) {
 							text,
 						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');
