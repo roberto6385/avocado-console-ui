@@ -15,7 +15,7 @@ import {
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {PrimaryGreenButton} from "../../styles/button";
+import {PrimaryGreenButton} from '../../styles/button';
 
 const _Form = styled.form`
 	background: white;
@@ -23,8 +23,8 @@ const _Form = styled.form`
 	border-radius: 16px;
 	display: flex;
 	flex-direction: column;
-	width: ${AUTH_FORM_WIDTH};
-	height: ${AUTH_FORM_SUB_HEIGHT};
+	width: 500px;
+	height: 614px;
 	border: solid 1px #d6d6d6;
 	caret-color: black;
 
@@ -100,11 +100,8 @@ const SignUpForm = () => {
 	const [name, onChangeName, setName] = useInput('');
 	const [email, onChangeEmail, setEmail] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [
-		passwordConfirm,
-		onChangePasswordConfirm,
-		setPasswordConfirm,
-	] = useInput('');
+	const [passwordConfirm, onChangePasswordConfirm, setPasswordConfirm] =
+		useInput('');
 	const [visible, setVisible] = useState(true);
 	const [rememberPassword, setRememberPassword] = useState(false);
 	const idRef = useRef(null);
@@ -142,9 +139,8 @@ const SignUpForm = () => {
 	const focusin = useCallback(
 		(keyword) => () => {
 			if (keyword === 'password') {
-				const passwordContainer = document.getElementById(
-					'password_container',
-				);
+				const passwordContainer =
+					document.getElementById('password_container');
 				passwordContainer.classList.add('focus');
 			} else {
 				const passwordContainer = document.getElementById(
@@ -158,9 +154,8 @@ const SignUpForm = () => {
 	const focusout = useCallback(
 		(keyword) => () => {
 			if (keyword === 'password') {
-				const passwordContainer = document.getElementById(
-					'password_container',
-				);
+				const passwordContainer =
+					document.getElementById('password_container');
 				passwordContainer.classList.remove('focus');
 			} else {
 				const passwordContainer = document.getElementById(

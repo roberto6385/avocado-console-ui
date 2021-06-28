@@ -185,13 +185,12 @@ const SSH = ({uuid}) => {
 		sshTerm.loadAddon(fitAddon);
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
-
 		fitAddon.fit();
 
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid]);
+	}, [sshTerm, uuid, font, font_size]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -269,16 +268,6 @@ const SSH = ({uuid}) => {
 	useEffect(() => {
 		if (current_tab === uuid) sshTerm.focus();
 	}, [current_tab, uuid, sshTerm]);
-	//change font
-	useEffect(() => {
-		sshTerm.setOption('fontFamily', font);
-		fitAddon.fit();
-	}, [sshTerm, font]);
-	//change font size
-	useEffect(() => {
-		sshTerm.setOption('fontSize', font_size);
-		fitAddon.fit();
-	}, [sshTerm, font_size]);
 	//window size change
 	useEffect(() => {
 		if (width > 0 && height > 0 && uuid && isComponentMounted) {
@@ -324,6 +313,17 @@ const SSH = ({uuid}) => {
 			setCurrentHistory(0);
 		}
 	}, [auto_completion_mode, ssh_history, currentLine, ignoreAutoCompletion]);
+	//change font
+	useEffect(() => {
+		if (sshTerm.getOption('fontFamily') !== font)
+			sshTerm.setOption('fontFamily', font);
+		fitAddon.fit();
+	}, [sshTerm, fitAddon, font]);
+	//change font size
+	useEffect(() => {
+		sshTerm.setOption('fontSize', font_size);
+		fitAddon.fit();
+	}, [sshTerm, fitAddon, font_size]);
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {
@@ -331,7 +331,7 @@ const SSH = ({uuid}) => {
 			foreground: terminalFontColor[theme],
 		});
 		fitAddon.fit();
-	}, [sshTerm, theme]);
+	}, [sshTerm, fitAddon, theme]);
 
 	return (
 		<_Container

@@ -30,6 +30,8 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		dispatch(
 			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
 		);
+		sessionStorage.clear();
+		window.location.reload();
 	}, [userTicket]);
 
 	return (

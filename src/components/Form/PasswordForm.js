@@ -4,8 +4,6 @@ import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {
-	AUTH_FORM_SUB_HEIGHT,
-	AUTH_FORM_WIDTH,
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
@@ -14,7 +12,7 @@ import {
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {PrimaryGreenButton, SecondaryGreenButton} from "../../styles/button";
+import {PrimaryGreenButton, SecondaryGreenButton} from '../../styles/button';
 
 const _Form = styled.form`
 	background: white;
@@ -22,8 +20,8 @@ const _Form = styled.form`
 	border-radius: 16px;
 	display: flex;
 	flex-direction: column;
-	width: ${AUTH_FORM_WIDTH};
-	height: ${AUTH_FORM_SUB_HEIGHT};
+	width: 500px;
+	height: 614px;
 	border: solid 1px #d6d6d6;
 	caret-color: black;
 	.focus {
@@ -175,9 +173,8 @@ const PasswordForm = () => {
 	const focusin = useCallback(
 		(keyword) => () => {
 			if (keyword === 'password') {
-				const passwordContainer = document.getElementById(
-					'password_container',
-				);
+				const passwordContainer =
+					document.getElementById('password_container');
 				passwordContainer.classList.add('focus');
 			} else {
 				const passwordContainer = document.getElementById(
@@ -191,9 +188,8 @@ const PasswordForm = () => {
 	const focusout = useCallback(
 		(keyword) => () => {
 			if (keyword === 'password') {
-				const passwordContainer = document.getElementById(
-					'password_container',
-				);
+				const passwordContainer =
+					document.getElementById('password_container');
 				passwordContainer.classList.remove('focus');
 			} else {
 				const passwordContainer = document.getElementById(

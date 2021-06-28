@@ -42,8 +42,8 @@ const font_theme = [
 ];
 
 const PreferencesSpace = () => {
-	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
+	const {t, i18n} = useTranslation('preferencesAside');
 	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
 	const {theme, lang} = useSelector((state) => state.common);
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
@@ -116,7 +116,7 @@ const PreferencesSpace = () => {
 					width={'500px'}
 					title={t('font')}
 					options={font_theme}
-					value={font}
+					value={terminalFont}
 					setValue={setTerminalFont}
 				/>
 				<CheckboxContanier>

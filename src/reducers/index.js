@@ -64,9 +64,9 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-	if (action.type === GET_REVOKE_SUCCESS) {
-		return appReducer(undefined, action);
-	}
+	// if (action.type === GET_REVOKE_SUCCESS) {
+	// 	return appReducer(undefined, action);
+	// }
 	return appReducer(state, action);
 };
 
