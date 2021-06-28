@@ -39,9 +39,9 @@ function* getUserTicket(action) {
 				data: res.data,
 				//나중에 일반 로그인 유저 정보도 생기면 여기서 넣어주면 됨 지금은 user_id 뿐
 				user: {
-					id: 'user',
-					email: res.data.user_id,
-					name: '유저',
+					id: res.data.user_id,
+					email: res.data.user_id + '@netand.co.kr',
+					name: '넷앤드',
 				},
 			},
 		});

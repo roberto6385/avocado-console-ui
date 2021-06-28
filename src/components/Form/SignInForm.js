@@ -166,7 +166,6 @@ const SignInForm = () => {
 				localStorage.setItem('password', password);
 				setUser('');
 				setPassword('');
-				// const encodeData = base64.encode(`${user}:${password}`);
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
 				dispatch(

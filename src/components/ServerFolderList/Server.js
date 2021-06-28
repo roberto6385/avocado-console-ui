@@ -174,9 +174,6 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data]);
 
-	useEffect(() => {
-		console.log(data);
-	}, [data]);
 	return (
 		<React.Fragment>
 			<_NavItem

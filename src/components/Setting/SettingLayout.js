@@ -6,7 +6,7 @@ import SettingNav from './SettingNav';
 import Footer from '../Footer';
 import {useDispatch, useSelector} from 'react-redux';
 import {HEIGHT_54} from '../../styles/length';
-import {borderColor, logoColor, navColor} from '../../styles/color';
+import {borderColor, navColor} from '../../styles/color';
 import {SAVE_ACCOUT} from '../../reducers/common';
 import LightModeLogo from '../../images/logo@2x.png';
 import DarkModeLogo from '../../images/logo_white@3x.png';
