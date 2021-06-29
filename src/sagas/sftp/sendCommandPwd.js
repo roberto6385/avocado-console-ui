@@ -117,7 +117,8 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield throttle(1000, PWD_REQUEST, sendCommand);
+	yield throttle(500, PWD_REQUEST, sendCommand);
+	// yield takeEvery(PWD_REQUEST, sendCommand);
 }
 
 export default function* commandPwdSaga() {
