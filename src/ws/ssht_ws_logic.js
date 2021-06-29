@@ -72,8 +72,8 @@ export const GetMessage = (data) => {
 			const message = SSH.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SSH.Message.TypeCase.RESPONSE) {
 				const response = message.getResponse();
-				console.log(response);
-				console.log(response.getStatus());
+				// console.log(response);
+				// console.log(response.getStatus());
 				if (
 					response.getResponseCase() ===
 					SSH.Response.ResponseCase.CONNECT
@@ -94,7 +94,7 @@ export const GetMessage = (data) => {
 				) {
 					const command = response.getCommand();
 					console.log('COMMAND');
-					console.log(command.getMessage());
+					// console.log(command.getMessage());
 					return {
 						type: 'COMMAND',
 						result: command.getMessage(),
