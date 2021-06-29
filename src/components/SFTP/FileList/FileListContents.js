@@ -40,6 +40,7 @@ import {
 	iconColor,
 	tabColor,
 } from '../../../styles/color';
+import LoadingSpinner from '../../loadingSpinner';
 
 const _Table = styled.table`
 	display: flex;
@@ -250,23 +251,14 @@ const FileListContents = ({uuid}) => {
 
 	return (
 		<React.Fragment>
+			{currentFileList.length === 0 && <LoadingSpinner />}
 			<_Table onContextMenu={contextMenuOpen()} back={tabColor[theme]}>
 				<TableHead uuid={uuid} />
-				<_Tbody
-					active={fileListHighColor[theme]}
-					// className={
-					// 	fileList.length === pathList.length &&
-					// 	currentFileList.length !== 0
-					// 		? ''
-					// 		: 'blurEffect'
-					// }
-				>
+				<_Tbody active={fileListHighColor[theme]}>
 					{currentFileList.map((item, index) => {
 						// . 파일은 표시하지 않음.
 						// item.name !== '..'
-						if (item.name === '.') {
-							return;
-						} else {
+						if (item.name !== '.') {
 							return (
 								<_Tr
 									back={tabColor[theme]}

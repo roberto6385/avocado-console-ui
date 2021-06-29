@@ -16,7 +16,7 @@ const Container = styled.div`
 	transform: translate(-50%, -50%);
 `;
 
-const LoadingSpinner = ({size = 50}) => {
+const LoadingSpinner = ({size = 30}) => {
 	return (
 		<Container>
 			<p style={{color: 'transparent'}}>loading</p>

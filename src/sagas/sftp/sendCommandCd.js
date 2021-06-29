@@ -13,6 +13,7 @@ import {
 	CD_REQUEST,
 	CD_SUCCESS,
 	commandPwdAction,
+	ERROR,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -55,6 +56,14 @@ function* sendCommand(action) {
 							}),
 						);
 
+						break;
+					case ERROR:
+						console.log(res.err);
+						yield put({type: CD_FAILURE});
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'wrong_path',
+						});
 						break;
 					default:
 						console.log(res);

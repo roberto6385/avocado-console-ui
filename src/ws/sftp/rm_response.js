@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, RM_SUCCESS, RMDIR_SUCCESS} from '../../reducers/sftp';
+import {ERROR, RM_SUCCESS} from '../../reducers/sftp';
 
 export async function rmResponse({data}) {
 	try {
@@ -31,17 +31,17 @@ export async function rmResponse({data}) {
 						console.log('command : rmdir', rmdir);
 
 						return {type: RM_SUCCESS};
-					} else if (
-						response.getResponseCase() ===
-						SFTP.Response.ResponseCase.ERROR
-					) {
-						const error = response.getError();
-						console.log(error.getMessage());
-						return {
-							type: ERROR,
-							err: error.getMessage(),
-						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

@@ -13,6 +13,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
+	ERROR,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
@@ -50,20 +51,16 @@ function* sendCommand(action) {
 				let remove_index = 0;
 
 				if (payload.pwd_path === null) {
-					//조회해야 할 경로
 					console.log(res.path);
 					ls_pathList = pathFunction({path: res.path});
 					console.log(ls_pathList);
 				} else {
-					//조회해야 할 경로
-					console.log('prev :' + payload.pwd_path);
-					console.log('next :' + res.path);
 					const prevList = pathFunction({path: payload.pwd_path});
 					const nextList = pathFunction({path: res.path});
 
 					prev_filter = prevList.filter((v) => !nextList.includes(v));
-					// 추가된 경로
 					next_filter = nextList.filter((v) => !prevList.includes(v));
+
 					console.log('제거된 경로');
 					console.log(prev_filter);
 					console.log('추가된 경로');
@@ -104,6 +101,10 @@ function* sendCommand(action) {
 							);
 						}
 						break;
+
+					case ERROR:
+						console.log(res.err);
+						break;
 				}
 			}
 		}
@@ -117,11 +118,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield throttle(1000, PWD_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(PWD_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandPwdSaga() {

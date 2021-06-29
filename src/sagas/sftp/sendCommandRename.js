@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	ERROR,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
@@ -54,6 +55,10 @@ function* sendCommand(action) {
 								pwd_path: payload.path,
 							}),
 						);
+						break;
+
+					case ERROR:
+						console.log(res.err);
 						break;
 				}
 			}

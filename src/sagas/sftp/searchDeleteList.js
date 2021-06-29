@@ -11,6 +11,7 @@ import {
 import {
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
+	ERROR,
 	LS_FAILURE_DELETE,
 	LS_REQUEST_DELETE,
 	LS_SUCCESS_DELETE,
@@ -80,6 +81,11 @@ function* sendCommand(action) {
 								}
 							}
 						}
+						break;
+
+					case ERROR:
+						console.log(res.err);
+						break;
 				}
 			}
 		}

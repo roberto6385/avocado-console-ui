@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
+	ERROR,
 	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
@@ -128,6 +129,10 @@ function* sendCommand(action) {
 							}
 						}
 						break;
+					//
+					// case ERROR:
+					// 	console.log(res.err);
+					// 	break;
 				}
 			}
 		}

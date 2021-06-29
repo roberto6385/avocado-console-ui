@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	ERROR,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
@@ -57,6 +58,10 @@ function* sendCommand(action) {
 								pwd_path: payload.path,
 							}),
 						);
+						break;
+
+					case ERROR:
+						console.log(res.err);
 						break;
 				}
 			}

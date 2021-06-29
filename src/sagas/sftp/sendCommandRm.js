@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	ERROR,
 	FIND_HISTORY,
 	RM_FAILURE,
 	RM_REQUEST,
@@ -46,6 +47,8 @@ function* sendCommand(action) {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});
 				console.log(res);
+				// switch (res.type) {
+				// 	case RM_SUCCESS:
 				yield put({type: RM_SUCCESS});
 				// yield put({
 				// 	type: FIND_HISTORY,
@@ -68,9 +71,10 @@ function* sendCommand(action) {
 					);
 				}
 
-				// break;
-				//
-				// default:
+				break;
+
+				// case ERROR:
+				// 	console.log(res.err);
 				// 	break;
 				// }
 			}
