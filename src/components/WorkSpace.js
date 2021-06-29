@@ -148,7 +148,7 @@ const WorkSpace = () => {
 
 	const changeVisibleTab = useCallback(
 		(uuid) => () => {
-			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
+			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
 		[],
 	);

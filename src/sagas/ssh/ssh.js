@@ -35,7 +35,7 @@ function* sendConnection(action) {
 	try {
 		const ws = yield call(initWebsocket);
 		const channel = yield call(subscribe, ws);
-
+		let pass = false;
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
 			ws: ws,
@@ -44,7 +44,7 @@ function* sendConnection(action) {
 
 		while (true) {
 			const {timeout, result} = yield race({
-				timeout: delay(3000),
+				timeout: delay(4000),
 				result: take(channel),
 			});
 
@@ -52,32 +52,36 @@ function* sendConnection(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(GetMessage, result);
-
+				console.log(res);
 				switch (res.type) {
 					case 'CONNECT':
 						uuid = res.result;
-						yield put({
-							type: SSH_SEND_CONNECTION_SUCCESS,
-							data: {
-								uuid: res.result,
-								ws: ws,
-							},
-						});
-						yield put({
-							type: OPEN_TAB,
-							data: {
-								uuid: res.result,
-								type: 'SSH',
-								server: {
-									id: action.data.id,
-									name: action.data.name,
-									key: action.data.key,
-								},
-							},
-						});
+						pass = true;
 						break;
 
 					case 'COMMAND':
+						if (pass === true) {
+							pass = false;
+							yield put({
+								type: SSH_SEND_CONNECTION_SUCCESS,
+								data: {
+									uuid: uuid,
+									ws: ws,
+								},
+							});
+							yield put({
+								type: OPEN_TAB,
+								data: {
+									uuid: uuid,
+									type: 'SSH',
+									server: {
+										id: action.data.id,
+										name: action.data.name,
+										key: action.data.key,
+									},
+								},
+							});
+						}
 						yield put({
 							type: SSH_SEND_COMMAND_SUCCESS,
 							data: {
@@ -85,10 +89,10 @@ function* sendConnection(action) {
 								result: res.result,
 							},
 						});
+
 						break;
 
 					case 'ERROR':
-						console.log(res.result);
 						yield put({type: CLOSE_TAB, data: uuid});
 						yield put({
 							type: SSH_SEND_DISCONNECTION_SUCCESS,
@@ -98,10 +102,6 @@ function* sendConnection(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
-						// yield put({
-						// 	type: SSH_SEND_CONNECTION_FAILURE,
-						// 	data: res.result,
-						// });
 						break;
 
 					default:
@@ -111,16 +111,6 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put({
-			type: OPEN_ALERT_POPUP,
-			data: 'invalid_server',
-		});
-		// yield put({type: SSH_SEND_CONNECTION_FAILURE, data: err});
-		yield put({type: CLOSE_TAB, data: uuid});
-		yield put({
-			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			data: uuid,
-		});
 	}
 }
 

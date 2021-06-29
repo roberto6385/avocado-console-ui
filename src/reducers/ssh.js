@@ -85,17 +85,16 @@ const reducer = (state = initialState, action) => {
 			case SSH_SEND_CONNECTION_FAILURE:
 				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
 				draft.loading = false;
-				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
 				break;
 
 			case SSH_SEND_DISCONNECTION_REQUEST:
 				break;
 
 			case SSH_SEND_DISCONNECTION_SUCCESS:
+				draft.loading = false;
 				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
 				if (draft.ssh.length === 0 && draft.search_mode)
 					draft.search_mode = false;
-				draft.loading = false;
 				break;
 
 			case SSH_SEND_DISCONNECTION_FAILURE:
