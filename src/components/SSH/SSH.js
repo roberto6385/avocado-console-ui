@@ -191,7 +191,7 @@ const SSH = ({uuid}) => {
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid, font, font_size]);
+	}, [sshTerm, uuid]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -321,6 +321,7 @@ const SSH = ({uuid}) => {
 			sshTerm.setOption('fontFamily', font);
 		fitAddon.fit();
 	}, [sshTerm, fitAddon, font]);
+
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);
