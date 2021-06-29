@@ -113,7 +113,8 @@ const SSH = ({uuid}) => {
 				? []
 				: ssh_history
 						.filter((v) => v.startsWith(currentLine))
-						.slice(-5),
+						.slice(-5)
+						.reverse(),
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
@@ -190,7 +191,7 @@ const SSH = ({uuid}) => {
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid, font, font_size]);
+	}, [sshTerm, uuid]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -238,7 +239,6 @@ const SSH = ({uuid}) => {
 						input: '\r',
 					},
 				});
-				if (ignoreAutoCompletion) setIgnoreAutoCompletion(false);
 			} else {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
@@ -248,6 +248,8 @@ const SSH = ({uuid}) => {
 						input: data,
 					},
 				});
+				if (data.charCodeAt(0) === 13 && ignoreAutoCompletion)
+					setIgnoreAutoCompletion(false);
 			}
 		});
 
@@ -319,6 +321,7 @@ const SSH = ({uuid}) => {
 			sshTerm.setOption('fontFamily', font);
 		fitAddon.fit();
 	}, [sshTerm, fitAddon, font]);
+
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font_size);

@@ -109,10 +109,14 @@ const reducer = (state = initialState, action) => {
 				if (action.data.input.charCodeAt(0) < 31) {
 					if (action.data.input.charCodeAt(0) === 13) {
 						//input: Enter
-						if (
-							current_line !== '' &&
-							!draft.ssh_history.includes(current_line)
-						) {
+						if (current_line !== '') {
+							if (current_line !== '') {
+								const index =
+									draft.ssh_history.indexOf(current_line);
+								if (index > -1) {
+									draft.ssh_history.splice(index, 1);
+								}
+							}
 							if (draft.ssh_history.length > 50)
 								draft.ssh_history.shift();
 							draft.ssh_history.push(current_line);
