@@ -10,6 +10,8 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	ERROR,
+	FIND_HISTORY,
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,
@@ -35,7 +37,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -47,8 +49,17 @@ function* sendCommand(action) {
 				console.log(res);
 				// switch (res.type) {
 				// 	case RM_SUCCESS:
-				console.log(payload.file);
 				yield put({type: RM_SUCCESS});
+				// yield put({
+				// 	type: FIND_HISTORY,
+				// 	payload: {
+				// 		uuid: payload.uuid,
+				// 		name: payload.file.name,
+				// 		size: payload.file.size,
+				// 		todo: payload.todo,
+				// 		progress: res.percent,
+				// 	},
+				// });
 
 				if (payload.path === payload.rm_path) {
 					yield put(
@@ -60,9 +71,10 @@ function* sendCommand(action) {
 					);
 				}
 
-				// break;
-				//
-				// default:
+				break;
+
+				// case ERROR:
+				// 	console.log(res.err);
 				// 	break;
 				// }
 			}

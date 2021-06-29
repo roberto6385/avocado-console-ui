@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	ERROR,
 	FIND_HISTORY,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
@@ -110,6 +111,10 @@ function* sendCommand(action) {
 						}
 
 						break;
+
+					// case ERROR:
+					// 	console.log(res.err);
+					// 	break;
 				}
 			}
 		}

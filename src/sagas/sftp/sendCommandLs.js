@@ -8,13 +8,19 @@ import {
 	race,
 	delay,
 	takeEvery,
+	throttle,
 } from 'redux-saga/effects';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {
+	ERROR,
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+	PWD_REQUEST,
+} from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
-import {createWebsocket} from './socket';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -58,6 +64,10 @@ function* sendCommand(action) {
 							},
 						});
 						break;
+
+					case ERROR:
+						console.log(res.err);
+						break;
 				}
 			}
 		}
@@ -71,6 +81,7 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	// yield takeEvery(LS_REQUEST, sendCommand);
+	// yield throttle(500, LS_REQUEST, sendCommand);
 
 	const reqChannel = yield actionChannel(LS_REQUEST);
 	while (true) {

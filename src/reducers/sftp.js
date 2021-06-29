@@ -402,6 +402,7 @@ const sftp = (state = initialState, action) =>
 					action.payload.array,
 				);
 				break;
+
 			case INIT_DELETE_WORK_LIST:
 				target.removeList = [];
 				break;
@@ -430,9 +431,11 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case DELETE_WORK_TRANSPORTER:
-				target.incinerator = target.removeList.sort((a, b) => {
-					return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
-				});
+				target.incinerator = plainTarget.incinerator.concat(
+					target.removeList.sort((a, b) => {
+						return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
+					}),
+				);
 				target.removeList = [];
 				break;
 			default:

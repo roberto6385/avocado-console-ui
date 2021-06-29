@@ -1,9 +1,9 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, WRITE_SUCCESS} from '../../reducers/sftp';
+import {WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
-export async function writeResponse({data, payload}) {
+export function writeResponse({data, payload}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -48,18 +48,19 @@ export async function writeResponse({data, payload}) {
 									? 100
 									: writePercent,
 						};
-					} else if (
-						response.getResponseCase() ===
-						SFTP.Response.ResponseCase.ERROR
-					) {
-						const error = response.getError();
-						console.log(error.getMessage());
-						return {
-							type: ERROR,
-							err: error.getMessage(),
-						};
 					}
 				}
+				// else if (
+				// 	response.getResponseCase() ===
+				// 	SFTP.Response.ResponseCase.ERROR
+				// ) {
+				// 	const error = response.getError();
+				// 	console.log(error.getMessage());
+				// 	return {
+				// 		type: ERROR,
+				// 		err: error.getMessage(),
+				// 	};
+				// }
 			} else {
 				console.log('data is not protocol buffer.');
 			}

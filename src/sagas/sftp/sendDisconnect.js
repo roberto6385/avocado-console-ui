@@ -12,6 +12,7 @@ import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
+	ERROR,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
@@ -50,6 +51,11 @@ function* sendCommand(action) {
 								uuid: payload.uuid,
 							},
 						});
+						break;
+
+					case ERROR:
+						console.log(res.err);
+						break;
 				}
 			}
 		}

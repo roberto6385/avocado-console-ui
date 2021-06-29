@@ -30,17 +30,17 @@ export async function pwdResponse({data}) {
 							path: pwd.getPath(),
 							pathList,
 						};
-					} else if (
-						response.getResponseCase() ===
-						SFTP.Response.ResponseCase.ERROR
-					) {
-						const error = response.getError();
-						console.log(error.getMessage());
-						return {
-							type: ERROR,
-							err: error.getMessage(),
-						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');

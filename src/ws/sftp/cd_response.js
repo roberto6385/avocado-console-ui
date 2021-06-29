@@ -23,17 +23,17 @@ export async function cdResponse({data}) {
 						console.log('command : cd', cd);
 
 						return {type: CD_SUCCESS};
-					} else if (
-						response.getResponseCase() ===
-						SFTP.Response.ResponseCase.ERROR
-					) {
-						const error = response.getError();
-						console.log(error.getMessage());
-						return {
-							type: ERROR,
-							err: error.getMessage(),
-						};
 					}
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.ERROR
+				) {
+					const error = response.getError();
+					console.log(error.getMessage());
+					return {
+						type: ERROR,
+						err: error.getMessage(),
+					};
 				}
 			} else {
 				console.log('data is not protocol buffer.');
