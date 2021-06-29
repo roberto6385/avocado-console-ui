@@ -114,7 +114,7 @@ const _CheckboxAnchorContainer = styled.div`
 `;
 
 const _OAuthContainer = styled.div`
-	margin: 8px;
+	margin: 8px 0px;
 	display: flex;
 	justify-content: space-between;
 `;
