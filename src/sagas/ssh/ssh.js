@@ -30,10 +30,11 @@ import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
+	let uuid = null;
+
 	try {
 		const ws = yield call(initWebsocket);
 		const channel = yield call(subscribe, ws);
-		let uuid = null;
 
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
@@ -87,10 +88,11 @@ function* sendConnection(action) {
 						break;
 
 					case 'ERROR':
-						yield put({type: CLOSE_TAB, data: action.data.uuid});
+						console.log(res.result);
+						yield put({type: CLOSE_TAB, data: uuid});
 						yield put({
 							type: SSH_SEND_DISCONNECTION_SUCCESS,
-							data: action.data.uuid,
+							data: uuid,
 						});
 						yield put({
 							type: OPEN_ALERT_POPUP,
@@ -100,7 +102,6 @@ function* sendConnection(action) {
 						// 	type: SSH_SEND_CONNECTION_FAILURE,
 						// 	data: res.result,
 						// });
-
 						break;
 
 					default:
@@ -115,10 +116,10 @@ function* sendConnection(action) {
 			data: 'invalid_server',
 		});
 		// yield put({type: SSH_SEND_CONNECTION_FAILURE, data: err});
-		yield put({type: CLOSE_TAB, data: action.data.uuid});
+		yield put({type: CLOSE_TAB, data: uuid});
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			data: action.data.uuid,
+			data: uuid,
 		});
 	}
 }
