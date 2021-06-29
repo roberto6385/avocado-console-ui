@@ -11,7 +11,8 @@ import {disconnectAction} from '../reducers/sftp';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import {FONT_14, HEIGHT_30} from '../styles/length';
 import {
-	activeColor, activePaneHeaderColor,
+	activeColor,
+	activePaneHeaderColor,
 	borderColor,
 	fontColor,
 	highColor,
@@ -61,24 +62,28 @@ const Pane = ({uuid, type, server}) => {
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, uuid]);
 
-	const onClickDelete = useCallback(() => {
-		if (type === 'SSH') {
-			dispatch({
-				type: SSH_SEND_DISCONNECTION_REQUEST,
-				data: {
-					uuid: uuid,
-					ws: ssh.find((v) => v.uuid === uuid).ws,
-				},
-			});
-		} else if (type === 'SFTP') {
-			dispatch(
-				disconnectAction({
-					uuid,
-					socket: sftp.find((v) => v.uuid === uuid).socket,
-				}),
-			);
-		}
-	}, [ssh, sftp, uuid, type]);
+	const onClickDelete = useCallback(
+		(e) => {
+			e.stopPropagation();
+			if (type === 'SSH') {
+				dispatch({
+					type: SSH_SEND_DISCONNECTION_REQUEST,
+					data: {
+						uuid: uuid,
+						ws: ssh.find((v) => v.uuid === uuid).ws,
+					},
+				});
+			} else if (type === 'SFTP') {
+				dispatch(
+					disconnectAction({
+						uuid,
+						socket: sftp.find((v) => v.uuid === uuid).socket,
+					}),
+				);
+			}
+		},
+		[ssh, sftp, uuid, type],
+	);
 
 	return (
 		<_Container onClick={onClickChangeTab}>
