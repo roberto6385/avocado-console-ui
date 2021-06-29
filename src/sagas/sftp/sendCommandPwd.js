@@ -116,7 +116,6 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
-		alert('PWD 에러발생 채널종료!');
 		closeChannel(channel);
 	}
 }
