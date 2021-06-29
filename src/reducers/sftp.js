@@ -111,6 +111,8 @@ export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
 
+export const INIT_FILELIST = 'sftp/INIT_FILELIST';
+
 // readList: [], // 경로, file 저장
 // 	writeList: [], // 경로, file 저장
 // 	rmList: [], // 경로, file 저장
@@ -437,6 +439,10 @@ const sftp = (state = initialState, action) =>
 					}),
 				);
 				target.removeList = [];
+				break;
+
+			case INIT_FILELIST:
+				target.fileList = [];
 				break;
 			default:
 				return state;
