@@ -14,6 +14,7 @@ import {
 import {
 	commandLsAction,
 	ERROR,
+	INIT_FILELIST,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
@@ -51,6 +52,10 @@ function* sendCommand(action) {
 				let remove_index = 0;
 
 				if (payload.pwd_path === null) {
+					yield put({
+						type: INIT_FILELIST,
+						payload: {uuid: payload.uuid},
+					});
 					console.log(res.path);
 					ls_pathList = pathFunction({path: res.path});
 					console.log(ls_pathList);
@@ -111,7 +116,6 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
-		alert('PWD 에러발생 채널종료!');
 		closeChannel(channel);
 	}
 }

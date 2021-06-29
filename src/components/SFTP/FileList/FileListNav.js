@@ -7,7 +7,7 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
- } from '../../../reducers/sftp';
+} from '../../../reducers/sftp';
 import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -56,10 +56,10 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {path, mode} = corServer;
 	const [currentPath, setCurrentPath] = useState('');
 
@@ -131,12 +131,12 @@ const FileListNav = ({uuid}) => {
 			});
 	};
 
-	const refresh = useCallback(async () => {
+	const refresh = useCallback(() => {
 		dispatch(
 			commandPwdAction({
 				socket: corServer.socket,
 				uuid: uuid,
-				pwd_path: corServer.path,
+				pwd_path: null,
 			}),
 		);
 	}, [uuid, corServer, dispatch]);

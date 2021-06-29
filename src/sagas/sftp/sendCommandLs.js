@@ -74,7 +74,6 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: LS_FAILURE});
-		alert('LS 에러발생 채널종료!');
 		closeChannel(channel);
 	}
 }
