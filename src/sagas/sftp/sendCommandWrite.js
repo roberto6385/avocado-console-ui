@@ -10,8 +10,8 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
-	ERROR,
 	FIND_HISTORY,
+	removeNewWebsocket,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -22,7 +22,7 @@ import {writeResponse} from '../../ws/sftp/write_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(subscribe, payload.write_socket);
 	const senderLength = 1024 * 4;
 
 	try {
@@ -33,7 +33,7 @@ function* sendCommand(action) {
 
 		yield call(messageSender, {
 			keyword: 'CommandByWrite',
-			ws: payload.socket,
+			ws: payload.write_socket,
 			path: filepath,
 			offset: 0,
 			length: senderLength,
@@ -61,7 +61,7 @@ function* sendCommand(action) {
 							if (res.end === false) {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
-									ws: payload.socket,
+									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
 									length: senderLength,
@@ -72,7 +72,7 @@ function* sendCommand(action) {
 							} else {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
-									ws: payload.socket,
+									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
 									length: senderLength,
@@ -105,6 +105,11 @@ function* sendCommand(action) {
 									socket: payload.socket,
 									uuid: payload.uuid,
 									pwd_path: payload.path,
+								}),
+							);
+							yield put(
+								removeNewWebsocket({
+									socket: payload.write_socket,
 								}),
 							);
 						}

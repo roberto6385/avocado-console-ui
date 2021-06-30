@@ -4,25 +4,23 @@ import {
 	fork,
 	take,
 	put,
-	takeEvery,
 	race,
 	delay,
+	actionChannel,
 } from 'redux-saga/effects';
 import {
-	DISCONNECTION_FAILURE,
-	DISCONNECTION_REQUEST,
-	DISCONNECTION_SUCCESS,
+	REMOVE_NEW_WEBSOCKET_FAILURE,
+	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
+	REMOVE_NEW_WEBSOCKET_REQUEST,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {CLOSE_TAB} from '../../reducers/common';
 import {closeChannel, subscribe} from '../channel';
-import {disconnectResponse} from '../../ws/sftp/disconnect_response';
+import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {
 		messageSender({
@@ -36,20 +34,16 @@ function* sendCommand(action) {
 				data: take(channel),
 			});
 			if (timeout) {
-				// disconnection 은 의미가 없는듯...?
-				console.log('Disconnection 채널 사용이 없습니다. 종료합니다.');
+				console.log(
+					'REMOVE_NEW_WEBSOCKET 채널 사용이 없습니다. 종료합니다.',
+				);
 				closeChannel(channel);
 			} else {
-				const res = yield call(disconnectResponse, {data});
+				const res = yield call(removeNewSocketResponse, {data});
+				console.log(res);
 				switch (res.type) {
-					case DISCONNECTION_SUCCESS:
-						console.log('disconnection success!!');
-						yield put({
-							type: DISCONNECTION_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-							},
-						});
+					case REMOVE_NEW_WEBSOCKET_SUCCESS:
+						console.log('remove websocket success!');
 						break;
 
 					case ERROR:
@@ -59,15 +53,19 @@ function* sendCommand(action) {
 			}
 		}
 	} catch (err) {
-		yield put({type: DISCONNECTION_FAILURE});
+		yield put({type: REMOVE_NEW_WEBSOCKET_FAILURE});
 		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(DISCONNECTION_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(REMOVE_NEW_WEBSOCKET_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
-export default function* disconnectSaga() {
+export default function* removeWebsocketSaga() {
 	yield all([fork(watchSendCommand)]);
 }

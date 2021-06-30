@@ -9,18 +9,16 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
-	CONNECTION_FAILURE,
-	CONNECTION_REQUEST,
-	CONNECTION_SUCCESS,
+	CREATE_NEW_WEBSOCKET_FAILURE,
+	CREATE_NEW_WEBSOCKET_REQUEST,
+	CREATE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {connectResponse} from '../../ws/sftp/connect_response';
+import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -42,42 +40,24 @@ function* sendCommand(action) {
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
+				console.log(
+					'CREATE_NEW_WEBSOCKE 채널 사용이 없습니다. 종료합니다.',
+				);
 				closeChannel(channel);
 			} else {
 				console.log(data);
-				const res = yield call(connectResponse, {data});
+				const res = yield call(createNewSocketResponse, {data});
 				const uuid = res.uuid;
 
 				switch (res.type) {
-					case CONNECTION_SUCCESS:
+					case CREATE_NEW_WEBSOCKET_SUCCESS:
 						yield put({
-							type: CONNECTION_SUCCESS,
+							type: CREATE_NEW_WEBSOCKET_SUCCESS,
 							payload: {
 								uuid: uuid,
 								socket: socket,
 							},
 						});
-						yield put({
-							type: OPEN_TAB,
-							data: {
-								type: 'SFTP',
-								uuid: uuid,
-								server: {
-									id: payload.id,
-									name: payload.name,
-									key: payload.key,
-								},
-							},
-						});
-
-						yield put(
-							commandPwdAction({
-								socket: socket,
-								uuid: uuid,
-								pwd_path: null,
-							}),
-						);
 
 						break;
 
@@ -86,7 +66,10 @@ function* sendCommand(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
-						yield put({type: CONNECTION_FAILURE, data: res.err});
+						yield put({
+							type: CREATE_NEW_WEBSOCKET_FAILURE,
+							data: res.err,
+						});
 
 						break;
 
@@ -101,14 +84,14 @@ function* sendCommand(action) {
 			type: OPEN_ALERT_POPUP,
 			data: 'invalid_server',
 		});
-		yield put({type: CONNECTION_FAILURE, data: err});
+		yield put({type: CREATE_NEW_WEBSOCKET_FAILURE, data: err});
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(CONNECTION_REQUEST, sendCommand);
+	yield takeEvery(CREATE_NEW_WEBSOCKET_REQUEST, sendCommand);
 }
 
-export default function* connectSaga() {
+export default function* createWebsocketSaga() {
 	yield all([fork(watchSendCommand)]);
 }

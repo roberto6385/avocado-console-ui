@@ -6,17 +6,20 @@ import {
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
+	createNewWebsocket,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
+	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
+import {createWebsocket} from '../../sagas/sftp/socket';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
+	const {sftp, sockets} = useSelector((state) => state.sftp);
 	const {current_tab} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
@@ -104,13 +107,15 @@ const SFTPContainer = ({uuid}) => {
 		}
 	}, [readList]);
 
-	useEffect(() => {
-		if (writeList.length !== 0) {
+	useEffect(async () => {
+		if (writeList.length !== 0 && sockets.length !== 0) {
 			const value = writeList.slice().shift();
-			console.log(value);
+			const socketObj = sockets.slice().shift();
+			console.log(socketObj);
 			dispatch(
 				commandWriteAction({
 					socket: corServer.socket,
+					write_socket: socketObj.socket,
 					uuid: corServer.uuid,
 					write_path: value.path,
 					file: value.file,
@@ -131,8 +136,9 @@ const SFTPContainer = ({uuid}) => {
 			});
 
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
+			dispatch({type: SHIFT_SOCKETS});
 		}
-	}, [writeList]);
+	}, [writeList, sockets]);
 
 	useEffect(() => {
 		console.log(incinerator);

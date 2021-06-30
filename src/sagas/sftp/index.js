@@ -11,6 +11,8 @@ import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';
 import commandRenameSaga from './sendCommandRename';
 import searchListSaga from './searchDeleteList';
+import createWebsocketSaga from './createNewWebsocket';
+import removeWebsocketSaga from './removeNewWebsocket';
 import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 export default function* sftpSaga() {
@@ -26,6 +28,8 @@ export default function* sftpSaga() {
 		fork(commandRenameSaga),
 		fork(commandWriteSaga),
 		fork(searchListSaga),
+		fork(createWebsocketSaga),
+		fork(removeWebsocketSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
 }

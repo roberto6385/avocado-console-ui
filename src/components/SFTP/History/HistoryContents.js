@@ -7,6 +7,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 	PUSH_WRITE_LIST,
+	createNewWebsocket,
 } from '../../../reducers/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
@@ -122,13 +123,30 @@ const Bar = styled.div`
 const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {history, history_highlight, path} = corServer;
+	const corServer = useMemo(
+		() => server.find((it) => it.key === corTab.server.key),
+		[corTab],
+	);
+	const correspondedIdentity = useMemo(
+		() =>
+			identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			),
+		[identity, corTab],
+	);
+
+	const {history, history_highlight, path} = corSftpServer;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -142,27 +160,55 @@ const HistoryContents = ({uuid}) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
+				console.log({
+					token: userTicket.access_token, // connection info
+					host: corServer.host,
+					port: corServer.port,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+				});
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+					}),
+				);
 			}
+
 			dispatch({
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corServer]);
+	}, [corSftpServer, userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
+				console.log(value);
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+					}),
+				);
 			}
+
 			dispatch({
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
 		},
-		[corServer, dispatch],
+		[corSftpServer, userTicket, corServer, correspondedIdentity],
 	);
 
 	const selectItem = useCallback(

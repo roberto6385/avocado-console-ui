@@ -74,6 +74,13 @@ export const EDIT_WRITE_SUCCESS = 'sftp/EDIT_WRITE_SUCCESS';
 
 export const ERROR = 'sftp/ERROR';
 
+export const CREATE_NEW_WEBSOCKET_REQUEST = 'sftp/CREATE_NEW_WEBSOCKET_REQUEST';
+export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
+export const CREATE_NEW_WEBSOCKET_FAILURE = 'sftp/CREATE_NEW_WEBSOCKET_FAILURE';
+
+export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
+export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
+export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
 // 에러
 
 //etc
@@ -107,6 +114,7 @@ export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
+export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
@@ -124,6 +132,16 @@ let HISTORY_ID = 0;
 export const connectionAction = (payload) => ({
 	type: CONNECTION_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const createNewWebsocket = (payload) => ({
+	type: CREATE_NEW_WEBSOCKET_REQUEST,
+	payload,
+});
+
+export const removeNewWebsocket = (payload) => ({
+	type: REMOVE_NEW_WEBSOCKET_REQUEST,
+	payload,
 });
 
 export const commandWriteAction = (payload) => ({
@@ -177,6 +195,7 @@ export const commandRenameAction = (payload) => ({
 
 // initial State
 const initialState = {
+	sockets: [],
 	sftp: [],
 	loading: false,
 };
@@ -195,6 +214,16 @@ const sftp = (state = initialState, action) =>
 		// target === plainTarget => false
 
 		switch (action.type) {
+			case CREATE_NEW_WEBSOCKET_SUCCESS:
+				draft.sockets.push({
+					socket: action.payload.socket,
+					uuid: action.payload.uuid,
+				});
+				break;
+
+			case SHIFT_SOCKETS:
+				draft.sockets.shift();
+				break;
 			// 연결
 			case CONNECTION_REQUEST:
 				draft.loading = true;
