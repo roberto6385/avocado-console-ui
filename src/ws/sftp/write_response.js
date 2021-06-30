@@ -5,6 +5,9 @@ let writePercent = 0;
 let writeByteSum = 0;
 export function writeResponse({data, payload}) {
 	return new Promise((resolve, reject) => {
+		console.log(writePercent);
+		console.log(writeByteSum);
+
 		try {
 			if (data instanceof ArrayBuffer) {
 				const message = SFTP.Message.deserializeBinary(data);
@@ -26,21 +29,11 @@ export function writeResponse({data, payload}) {
 							console.log('command : write file', write);
 
 							if (write.getCompleted() === false) {
-								console.log(write.getWritebytes());
 								writeByteSum += write.getWritebytes();
-							} else {
-								writeByteSum = 0;
 							}
+
 							writePercent =
 								(writeByteSum * 100) / payload.file.size;
-
-							console.log(
-								'writeByteSum : ' +
-									writeByteSum +
-									'current file length : ' +
-									payload.file.size,
-							);
-							console.log('writePercent : ' + writePercent);
 
 							if (
 								write.getWritebytes() === -1 ||
@@ -49,7 +42,34 @@ export function writeResponse({data, payload}) {
 								writeByteSum = 0;
 								writePercent = 0;
 							}
-							if (writePercent >= 100) writePercent -= 100;
+
+							console.log({
+								here:
+									'here here here here here here here here here',
+							});
+							console.log({
+								completed: write.getCompleted(),
+								writeByteSum: writeByteSum,
+								currentFileLength: payload.file.size,
+								percent: writePercent,
+							});
+							console.log({
+								type: WRITE_SUCCESS,
+								byteSum: writeByteSum,
+								end:
+									write.getWritebytes() === -1
+										? true
+										: writeByteSum === payload.file.size,
+								last: write.getCompleted(),
+								percent:
+									write.getWritebytes() === -1
+										? 100
+										: writePercent,
+							});
+							console.log({
+								here:
+									'here here here here here here here here here',
+							});
 
 							return resolve({
 								type: WRITE_SUCCESS,

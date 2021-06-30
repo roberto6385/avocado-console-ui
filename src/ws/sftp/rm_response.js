@@ -23,7 +23,7 @@ export function rmResponse({data}) {
 							const rm = command.getRm();
 							console.log('command : rm', rm);
 
-							return {type: RM_SUCCESS};
+							return resolve({type: RM_SUCCESS});
 						} else if (
 							command.getCommandCase() ===
 							SFTP.CommandResponse.CommandCase.RMDIR

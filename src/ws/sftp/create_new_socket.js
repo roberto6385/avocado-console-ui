@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {CREATE_NEW_WEBSOCKET_SUCCESS, ERROR} from '../../reducers/sftp';
 
-export async function createNewSocketResponse({data}) {
+export function createNewSocketResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {

@@ -2,7 +2,7 @@ import SFTP from '../../dist/sftp_pb';
 import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
 import {pathFunction} from '../../components/SFTP/listConversion';
 
-export async function pwdResponse({data}) {
+export function pwdResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {

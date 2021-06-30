@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, RENAME_SUCCESS} from '../../reducers/sftp';
 
-export async function renameResponse({data}) {
+export function renameResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {

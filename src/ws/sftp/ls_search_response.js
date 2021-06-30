@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, LS_SUCCESS_DELETE} from '../../reducers/sftp';
 
-export async function lsSearchResponse({data}) {
+export function lsSearchResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {

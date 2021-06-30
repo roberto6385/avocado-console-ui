@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
 
-export async function connectResponse({data}) {
+export function connectResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {

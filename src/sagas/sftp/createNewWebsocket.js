@@ -35,47 +35,47 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(3000),
-				data: take(channel),
-			});
-			if (timeout) {
-				console.log(
-					'CREATE_NEW_WEBSOCKE 채널 사용이 없습니다. 종료합니다.',
-				);
-				closeChannel(channel);
-			} else {
-				console.log(data);
-				const res = yield call(createNewSocketResponse, {data});
-				const uuid = res.uuid;
+			// const {timeout, data} = yield race({
+			// 	timeout: delay(3000),
+			// 	data: take(channel),
+			// });
+			// if (timeout) {
+			// 	console.log(
+			// 		'CREATE_NEW_WEBSOCKE 채널 사용이 없습니다. 종료합니다.',
+			// 	);
+			// 	closeChannel(channel);
+			// } else {
+			const data = yield take(channel);
+			const res = yield call(createNewSocketResponse, {data});
+			const uuid = res.uuid;
 
-				switch (res.type) {
-					case CREATE_NEW_WEBSOCKET_SUCCESS:
-						yield put({
-							type: CREATE_NEW_WEBSOCKET_SUCCESS,
-							payload: {
-								uuid: uuid,
-								socket: socket,
-							},
-						});
+			switch (res.type) {
+				case CREATE_NEW_WEBSOCKET_SUCCESS:
+					yield put({
+						type: CREATE_NEW_WEBSOCKET_SUCCESS,
+						payload: {
+							uuid: uuid,
+							socket: socket,
+						},
+					});
 
-						break;
+					break;
 
-					case ERROR:
-						yield put({
-							type: OPEN_ALERT_POPUP,
-							data: 'invalid_server',
-						});
-						yield put({
-							type: CREATE_NEW_WEBSOCKET_FAILURE,
-							data: res.err,
-						});
+				case ERROR:
+					yield put({
+						type: OPEN_ALERT_POPUP,
+						data: 'invalid_server',
+					});
+					yield put({
+						type: CREATE_NEW_WEBSOCKET_FAILURE,
+						data: res.err,
+					});
 
-						break;
+					break;
 
-					default:
-						break;
-				}
+				default:
+					break;
+				// }
 			}
 		}
 	} catch (err) {

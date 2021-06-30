@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, MKDIR_SUCCESS} from '../../reducers/sftp';
 
-export async function mkdirResponse({data}) {
+export function mkdirResponse({data}) {
 	return new Promise((resolve, reject) => {
 		try {
 			if (data instanceof ArrayBuffer) {
