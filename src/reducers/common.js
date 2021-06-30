@@ -15,8 +15,8 @@ export const initialState = {
 	nav: [
 		{
 			type: 'folder',
-			id: 1,
-			key: 'f_1',
+			id: 0,
+			key: 'f_0',
 			name: 'aws servers',
 			contain: [
 				{
@@ -51,8 +51,8 @@ export const initialState = {
 		},
 		{
 			type: 'folder',
-			id: 2,
-			key: 'f_2',
+			id: 1,
+			key: 'f_1',
 			name: 'kt servers',
 			contain: [
 				{

@@ -99,16 +99,13 @@ const _MainSpace = styled.div`
 	overflow: hidden;
 	position: relative;
 	background: ${(props) => mainBackColor[props.theme_value]};
-
 	.work {
 		margin-right: 300px;
 		transition: margin 0.5s ease-in-out;
 	}
-
 	.work.close {
 		margin: 0;
 	}
-
 	.aside {
 		position: absolute;
 		right: 0px;

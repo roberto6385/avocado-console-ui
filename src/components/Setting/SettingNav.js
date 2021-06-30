@@ -37,8 +37,8 @@ const _Container = styled.div`
 const _BackContainer = styled.div`
 	display: flex;
 	align-items: center;
-	height: ${HEIGHT_50};
-	padding: 0px 16px;
+	height: 50px;
+	padding: 12px 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 	cursor: pointer;

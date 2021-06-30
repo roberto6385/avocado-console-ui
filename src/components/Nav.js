@@ -49,15 +49,21 @@ const _Aside = styled.aside`
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
-	height: ${HEIGHT_54};
-	padding: 16px 10px;
+	height: 54px;
+	padding: 18px 16px 19px;
 	background: ${(props) => props.back};
 `;
+
+const _HeaderIconButton = styled(IconButton)`
+	margin-right: 6px;
+	padding: 0px;
+`;
+
 const _AddFolerServerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: ${HEIGHT_50};
+	height: 50px;
 	padding: 16px 10px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bcolor};
@@ -73,8 +79,8 @@ const _Form = styled.form`
 	background: ${(props) => props.back};
 `;
 
-const _NewServerSpan = styled.span`
-	font-size: ${FONT_14};
+const _NewServerTitle = styled.div`
+	font-size: 14px;
 	color: ${(props) => props.color};
 	flex: 1;
 `;
@@ -154,12 +160,12 @@ const Nav = ({toggle, setToggle}) => {
 			back={navColor[theme]}
 		>
 			<_Header back={navColor[theme]}>
-				<IconButton
+				<_HeaderIconButton
 					color={iconColor[theme]}
 					onClick={() => setToggle(!toggle)}
 				>
 					{burgerMenuIcon}
-				</IconButton>
+				</_HeaderIconButton>
 
 				{theme === 0 ? (
 					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
@@ -174,9 +180,9 @@ const Nav = ({toggle, setToggle}) => {
 				<IconButton color={fontColor[theme]} onClick={newServer}>
 					{plusIcon}
 				</IconButton>
-				<_NewServerSpan color={fontColor[theme]}>
+				<_NewServerTitle color={fontColor[theme]}>
 					{t('newServer')}
-				</_NewServerSpan>
+				</_NewServerTitle>
 				<IconButton color={iconColor[theme]} onClick={newFolder}>
 					{newFolderIcon}
 				</IconButton>

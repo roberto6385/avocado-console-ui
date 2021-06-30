@@ -106,7 +106,6 @@ function* watchSendCommand() {
 			action: take(reqChannel),
 		});
 		if (timeout) {
-			console.log('end');
 			if (uuid !== null) {
 				yield put({
 					type: DELETE_WORK_TRANSPORTER,

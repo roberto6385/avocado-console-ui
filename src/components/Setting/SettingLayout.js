@@ -27,8 +27,8 @@ const _ContentsContainer = styled.div`
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
-	padding: 20px 46px;
-	height: ${HEIGHT_54};
+	padding: 18px 46px 19px 46px;
+	height: 54px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};

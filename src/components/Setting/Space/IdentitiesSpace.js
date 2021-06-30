@@ -47,6 +47,7 @@ const _ResourceListUl = styled(_Ul)`
 `;
 
 const _Li = styled.li`
+	font-size: 13px;
 	height: ${HEIGHT_48};
 	display: flex;
 	align-items: center;
@@ -89,16 +90,18 @@ const _Name = styled.div`
 	flex: 6;
 	display: flex;
 	align-items: center;
-	padding: 6px 16px;
+	margin: 6px 16px;
 `;
 const _ResourceName = styled(_Name)`
 	min-width: 100px;
 	flex: 4;
+	overflow: hidden;
 `;
 
 const _AddressName = styled(_Name)`
 	min-width: 100px;
 	flex: 3;
+	overflow: hidden;
 `;
 const _ProtocolPortName = styled(_Name)`
 	min-width: 100px;
@@ -109,8 +112,10 @@ const _UserNameType = styled(_Name)`
 	flex: 5;
 `;
 const _CheckBoxIdentity = styled(_UserNameType)`
+	display: flex;
+	align-items: center;
 	justify-content: center;
-	padding: 6px 16px;
+	padding: 6px;
 `;
 
 const _Form = styled.form`
@@ -130,6 +135,10 @@ const _Input = styled.input`
 	color: ${(props) => fontColor[props.theme_value]};
 `;
 
+const _LiHeader = styled(_Li)`
+	font-size: 14px;
+`;
+
 function searchTreeNode(node, key) {
 	if (node.type === 'server' || !node.contain.length) {
 		if (node.key === key) return node.name;
@@ -140,7 +149,6 @@ function searchTreeNode(node, key) {
 		let result = searchTreeNode(x, key);
 		if (result) return node.name + ' > ' + result;
 	}
-
 	return '';
 }
 
@@ -183,18 +191,18 @@ const IdentitiesSpace = () => {
 
 	const handleCheck = useCallback(
 		(item) => (e) => {
-			if (!e.target.checked) return;
-			const correspondedIdentity = identity.find(
-				(v) => v.key === currentResourceListKey && v.checked,
-			);
-
-			dispatch({
-				type: CHANGE_IDENTITY_CHECKED,
-				payload: {
-					prev: correspondedIdentity,
-					next: item,
-				},
-			});
+			// 	if (!e.target.checked) return;
+			// 	const correspondedIdentity = identity.find(
+			// 		(v) => v.key === currentResourceListKey && v.checked,
+			// 	);
+			//
+			// 	dispatch({
+			// 		type: CHANGE_IDENTITY_CHECKED,
+			// 		payload: {
+			// 			prev: correspondedIdentity,
+			// 			next: item,
+			// 		},
+			// 	});
 		},
 		[identity, currentResourceListKey],
 	);
@@ -229,7 +237,7 @@ const IdentitiesSpace = () => {
 			<SettingTitle theme_value={theme}>{t('title')}</SettingTitle>
 			<_SettingContentsContainer>
 				<_ResourceListUl theme_value={theme}>
-					<_Li theme_value={theme} className={'weight_bold'}>
+					<_LiHeader theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
@@ -257,7 +265,7 @@ const IdentitiesSpace = () => {
 						{/*>*/}
 						{/*	{plusIcon}*/}
 						{/*</IconButton>*/}
-					</_Li>
+					</_LiHeader>
 					<_Li theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
 						<_AddressName>{t('address')}</_AddressName>
@@ -302,7 +310,7 @@ const IdentitiesSpace = () => {
 					})}
 				</_ResourceListUl>
 				<_Ul theme_value={theme}>
-					<_Li theme_value={theme} className={'weight_bold'}>
+					<_LiHeader theme_value={theme} className={'weight_bold'}>
 						<_Name>
 							{t('account')}
 							<_Span>
@@ -333,7 +341,7 @@ const IdentitiesSpace = () => {
 								theme_value={theme}
 							/>
 						</_Form>
-					</_Li>
+					</_LiHeader>
 					<_Li
 						theme_value={theme}
 						className={'weight_bold'}
@@ -379,7 +387,7 @@ const IdentitiesSpace = () => {
 									<_CheckBoxIdentity>
 										<Checkbox_
 											value={item.checked}
-											// handleCheck={handleCheck(item)}
+											handleCheck={handleCheck(item)}
 										/>
 									</_CheckBoxIdentity>
 								</_Li>
