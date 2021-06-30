@@ -50,11 +50,11 @@ const _Input = styled.input`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-
 	&:focus {
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;
 	}
+	margin-bottom: 2px;
 `;
 
 const _PasswordContainer = styled.div`
@@ -65,6 +65,7 @@ const _PasswordContainer = styled.div`
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	margin-bottom: 10px;
 `;
 
 const _PasswordInput = styled(_Input)`
@@ -79,13 +80,12 @@ const _Title = styled.span`
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
-	margin: 0px 8px 20px 8px;
+	margin-bottom: 20px;
 `;
 
 const _Span = styled.div`
 	font-size: ${FONT_14};
-	margin: 0px 8px 52px 8px;
-
+	margin-bottom: 52px;
 	a {
 		color: ${DARK_GREEN_COLOR};
 		text-decoration: underline;
@@ -95,18 +95,18 @@ const _Span = styled.div`
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	height: ${HEIGHT_40};
 	width: 360px;
-	margin: 42px 0;
+	margin: 42px 0 30px 0;
 	font-size: 16px;
 	padding: 10px;
 `;
 
 const _CheckboxAnchorContainer = styled.div`
+	min-height: 21px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	font-size: ${FONT_14};
+	font-size: 14px;
 	margin: 0px 8px 0px 8px;
-
 	a {
 		color: ${ANCHOR_GRAY_COLOR};
 		text-decoration: underline;

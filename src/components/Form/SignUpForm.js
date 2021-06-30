@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import {
-	AUTH_FORM_SUB_HEIGHT,
-	AUTH_FORM_WIDTH,
 	LIGHT_MODE_BORDER_COLOR,
 	DARK_GREEN_COLOR,
 	FOLDER_HEIGHT,
@@ -19,15 +17,14 @@ import {PrimaryGreenButton} from '../../styles/button';
 
 const _Form = styled.form`
 	background: white;
-	padding: 70px 61px;
+	padding: 70px;
 	border-radius: 16px;
+	caret-color: black;
 	display: flex;
 	flex-direction: column;
 	width: 500px;
 	height: 614px;
 	border: solid 1px #d6d6d6;
-	caret-color: black;
-
 	.focus {
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;
@@ -42,11 +39,11 @@ const _Input = styled.input`
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-
 	&:focus {
 		border-color: ${DARK_GREEN_COLOR};
 		outline: 0 none;
 	}
+	margin-bottom: 2px;
 `;
 
 const _PasswordContainer = styled.div`
@@ -57,6 +54,7 @@ const _PasswordContainer = styled.div`
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+	margin-bottom: 2px;
 `;
 
 const _PasswordInput = styled(_Input)`
@@ -71,13 +69,12 @@ const _Title = styled.span`
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
-	margin: 0px 8px 20px 8px;
+	margin-bottom: 20px;
 `;
 
 const _Span = styled.div`
 	font-size: ${FONT_14};
-	margin: 0px 8px 52px 8px;
-
+	margin-bottom: 52px;
 	a {
 		color: ${DARK_GREEN_COLOR};
 		text-decoration: underline;
@@ -87,7 +84,7 @@ const _Span = styled.div`
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	height: ${HEIGHT_40};
 	width: 360px;
-	margin: 24px auto 39px;
+	margin: 22px 0 0 0;
 	font-size: 16px;
 	padding: 10px;
 `;
