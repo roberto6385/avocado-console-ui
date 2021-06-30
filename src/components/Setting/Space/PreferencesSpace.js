@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -52,15 +52,14 @@ const PreferencesSpace = () => {
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
-
-	const background_theme = [
+	const {current: background_theme} = useRef([
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	];
-	const languageOptions = [
+	]);
+	const {current: languageOptions} = useRef([
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	];
+	]);
 
 	useEffect(() => {
 		dispatch({

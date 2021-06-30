@@ -2,6 +2,11 @@ import React, {useCallback} from 'react';
 import {animation, Item, Menu} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
+import styled from 'styled-components';
+
+const _Menu = styled(Menu)`
+	font-size: '14px';
+`;
 
 const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 	const dispatch = useDispatch();
@@ -27,15 +32,11 @@ const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 	);
 
 	return (
-		<Menu
-			id={'history'}
-			animation={animation.slide}
-			style={{fontSize: '14px'}}
-		>
+		<_Menu id={'history'} animation={animation.slide}>
 			<Item id='Delete' onClick={handleItemClick('Delete')}>
 				Delete
 			</Item>
-		</Menu>
+		</_Menu>
 	);
 };
 

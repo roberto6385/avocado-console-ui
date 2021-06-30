@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {GREEN_COLOR} from '../../styles/global';
@@ -26,7 +26,7 @@ const _Container = styled.div`
 `;
 
 const Radio_ = ({radioName, options, value, setValue, disabled}) => {
-	let height = `${(options.length * 2 - 1) * 16}px`;
+	const {current: height} = useRef(`${(options.length * 2 - 1) * 16}px`);
 
 	return (
 		<_Container height={height}>

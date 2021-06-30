@@ -8,7 +8,6 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
-import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import useInput from '../../hooks/useInput';
 import {IconButton, Span, IconContainer} from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
