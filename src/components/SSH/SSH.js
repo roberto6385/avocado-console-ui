@@ -29,6 +29,7 @@ import {
 	sshSearch,
 	terminalColor,
 	terminalFontColor,
+	terminalSelectionColor,
 } from '../../styles/color';
 import {SearchPopupContainer, SearchInput} from '../../styles/default';
 
@@ -317,21 +318,25 @@ const SSH = ({uuid}) => {
 	}, [auto_completion_mode, ssh_history, currentLine, ignoreAutoCompletion]);
 	//change font
 	useEffect(() => {
-		if (sshTerm.getOption('fontFamily') !== font)
+		if (sshTerm.getOption('fontFamily') !== font) {
 			sshTerm.setOption('fontFamily', font);
-		fitAddon.fit();
+			fitAddon.fit();
+		}
 	}, [sshTerm, fitAddon, font]);
 
 	//change font size
 	useEffect(() => {
-		sshTerm.setOption('fontSize', font_size);
-		fitAddon.fit();
+		if (sshTerm.getOption('fontSize') !== font_size) {
+			sshTerm.setOption('fontSize', font_size);
+			fitAddon.fit();
+		}
 	}, [sshTerm, fitAddon, font_size]);
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {
 			background: terminalColor[theme],
 			foreground: terminalFontColor[theme],
+			selection: terminalSelectionColor[theme],
 		});
 		fitAddon.fit();
 	}, [sshTerm, fitAddon, theme]);
