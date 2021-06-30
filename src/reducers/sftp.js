@@ -406,7 +406,6 @@ const sftp = (state = initialState, action) =>
 						h.name === action.payload.name &&
 						h.todo === action.payload.todo,
 				);
-				console.log(index);
 				if (index !== -1) {
 					target.history[index].progress = action.payload.progress;
 				}

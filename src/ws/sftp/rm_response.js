@@ -1,62 +1,65 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, RM_SUCCESS} from '../../reducers/sftp';
 
-export async function rmResponse({data}) {
-	try {
-		if (data instanceof ArrayBuffer) {
-			const message = SFTP.Message.deserializeBinary(data);
-			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
-				const response = message.getResponse();
-				console.log(response);
-				console.log('response status: ', response.getStatus());
+export function rmResponse({data}) {
+	return new Promise((resolve, reject) => {
+		try {
+			if (data instanceof ArrayBuffer) {
+				const message = SFTP.Message.deserializeBinary(data);
+				if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
+					const response = message.getResponse();
+					console.log(response);
+					console.log('response status: ', response.getStatus());
 
-				if (
-					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.COMMAND
-				) {
-					const command = response.getCommand();
 					if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RM
+						response.getResponseCase() ===
+						SFTP.Response.ResponseCase.COMMAND
 					) {
-						const rm = command.getRm();
-						console.log('command : rm', rm);
+						const command = response.getCommand();
+						if (
+							command.getCommandCase() ===
+							SFTP.CommandResponse.CommandCase.RM
+						) {
+							const rm = command.getRm();
+							console.log('command : rm', rm);
 
-						return {type: RM_SUCCESS};
+							return {type: RM_SUCCESS};
+						} else if (
+							command.getCommandCase() ===
+							SFTP.CommandResponse.CommandCase.RMDIR
+						) {
+							const rmdir = command.getRmdir();
+							console.log('command : rmdir', rmdir);
+
+							return resolve({type: RM_SUCCESS});
+						}
 					} else if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RMDIR
+						response.getResponseCase() ===
+						SFTP.Response.ResponseCase.ERROR
 					) {
-						const rmdir = command.getRmdir();
-						console.log('command : rmdir', rmdir);
-
-						return {type: RM_SUCCESS};
+						const error = response.getError();
+						console.log(error.getMessage());
+						return resolve({
+							type: ERROR,
+							err: error.getMessage(),
+						});
 					}
-				} else if (
-					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.ERROR
-				) {
-					const error = response.getError();
-					console.log(error.getMessage());
-					return {
-						type: ERROR,
-						err: error.getMessage(),
-					};
+				} else {
+					console.log('data is not protocol buffer.');
 				}
 			} else {
-				console.log('data is not protocol buffer.');
-			}
-		} else {
-			const message = JSON.parse(data);
+				const message = JSON.parse(data);
 
-			console.log('data is not ArrayBuffer', message);
+				console.log('data is not ArrayBuffer', message);
 
-			if (message['status'] === 'connected') {
-				console.log(message['uuid']);
+				if (message['status'] === 'connected') {
+					console.log(message['uuid']);
+				}
+				console.log(message.result);
 			}
-			console.log(message.result);
+		} catch (err) {
+			console.log(err);
+			reject({type: ERROR, err: err});
 		}
-	} catch (err) {
-		console.log(err);
-	}
+	});
 }

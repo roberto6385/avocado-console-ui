@@ -43,7 +43,7 @@ function* sendCommand(action) {
 				console.log(res);
 				switch (res.type) {
 					case REMOVE_NEW_WEBSOCKET_SUCCESS:
-						console.log('remove websocket success!');
+						yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
 						break;
 
 					case ERROR:

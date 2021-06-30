@@ -7,6 +7,7 @@ import {
 	actionChannel,
 	race,
 	delay,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -47,36 +48,36 @@ function* sendCommand(action) {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});
 				console.log(res);
-				// switch (res.type) {
-				// 	case RM_SUCCESS:
-				yield put({type: RM_SUCCESS});
-				// yield put({
-				// 	type: FIND_HISTORY,
-				// 	payload: {
-				// 		uuid: payload.uuid,
-				// 		name: payload.file.name,
-				// 		size: payload.file.size,
-				// 		todo: payload.todo,
-				// 		progress: res.percent,
-				// 	},
-				// });
+				switch (res.type) {
+					case RM_SUCCESS:
+						yield put({type: RM_SUCCESS});
+						// yield put({
+						// 	type: FIND_HISTORY,
+						// 	payload: {
+						// 		uuid: payload.uuid,
+						// 		name: payload.file.name,
+						// 		size: payload.file.size,
+						// 		todo: payload.todo,
+						// 		progress: res.percent,
+						// 	},
+						// });
 
-				if (payload.path === payload.rm_path) {
-					yield put(
-						commandPwdAction({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							pwd_path: payload.path,
-						}),
-					);
+						if (payload.path === payload.rm_path) {
+							yield put(
+								commandPwdAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									pwd_path: payload.path,
+								}),
+							);
+						}
+
+						break;
+
+					case ERROR:
+						console.log(res.err);
+						break;
 				}
-
-				break;
-
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
 			}
 		}
 	} catch (err) {
@@ -86,13 +87,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(RM_REQUEST, sendCommand);
+	yield takeEvery(RM_REQUEST, sendCommand);
 
-	const reqChannel = yield actionChannel(RM_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	// const reqChannel = yield actionChannel(RM_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandRmSaga() {

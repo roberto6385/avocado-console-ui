@@ -108,7 +108,11 @@ const SFTPContainer = ({uuid}) => {
 	}, [readList]);
 
 	useEffect(async () => {
-		if (writeList.length !== 0 && sockets.length !== 0) {
+		if (
+			writeList.length !== 0 &&
+			sockets.length !== 0 &&
+			writeList.length === sockets.length
+		) {
 			const value = writeList.slice().shift();
 			const socketObj = sockets.slice().shift();
 			console.log(socketObj);

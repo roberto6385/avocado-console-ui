@@ -14,101 +14,110 @@ const appendBuffer = (buffer1, buffer2) => {
 	return tmp.buffer;
 };
 
-export async function readResponse({data, payload}) {
-	try {
-		if (data instanceof ArrayBuffer) {
-			const message = SFTP.Message.deserializeBinary(data);
-			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
-				const response = message.getResponse();
-				console.log(response);
-				console.log('response status: ', response.getStatus());
+export function readResponse({data, payload}) {
+	// eslint-disable-next-line no-async-promise-executor
+	return new Promise(async function (resolve, reject) {
+		try {
+			if (data instanceof ArrayBuffer) {
+				const message = SFTP.Message.deserializeBinary(data);
+				if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
+					const response = message.getResponse();
+					console.log(response);
+					console.log('response status: ', response.getStatus());
 
-				if (
-					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.COMMAND
-				) {
-					const command = response.getCommand();
 					if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.READFILE
+						response.getResponseCase() ===
+						SFTP.Response.ResponseCase.COMMAND
 					) {
-						const read = command.getReadfile();
-						const data = read.getData_asU8();
-						fileBuffer = appendBuffer(fileBuffer, data);
+						const command = response.getCommand();
+						if (
+							command.getCommandCase() ===
+							SFTP.CommandResponse.CommandCase.READFILE
+						) {
+							const read = command.getReadfile();
+							const data = read.getData_asU8();
+							fileBuffer = appendBuffer(fileBuffer, data);
 
-						console.log('command : read file', read);
-						console.log(read.getReadbytes());
-						console.log('payload.file.size : ' + payload.file.size);
+							console.log('command : read file', read);
+							console.log(read.getReadbytes());
+							console.log(
+								'payload.file.size : ' + payload.file.size,
+							);
 
-						if (read.getCompleted() === false)
-							readByteSum += read.getReadbytes();
-						readPercent = (readByteSum * 100) / payload.file.size;
+							if (read.getCompleted() === false)
+								readByteSum += read.getReadbytes();
+							readPercent =
+								(readByteSum * 100) / payload.file.size;
 
-						console.log('readByteSum : ' + readByteSum);
-						console.log('readPercent : ' + readPercent);
+							console.log('readByteSum : ' + readByteSum);
+							console.log('readPercent : ' + readPercent);
 
-						if (read.getCompleted()) {
-							const blob = new Blob([fileBuffer]);
-							if (payload.todo === 'read') {
-								const url = URL.createObjectURL(blob);
+							if (read.getCompleted()) {
+								const blob = new Blob([fileBuffer]);
+								if (payload.todo === 'read') {
+									const url = URL.createObjectURL(blob);
 
-								const a = document.createElement('a');
-								document.body.appendChild(a);
-								a.setAttribute('hidden', true);
-								a.href = url;
-								a.download = payload.file.name;
-								a.click();
-								window.URL.revokeObjectURL(url);
-								fileBuffer = new ArrayBuffer(0);
-							} else if (payload.todo === 'edit') {
-								text = await new Response(blob).text();
-								console.log(text);
-								fileBuffer = new ArrayBuffer(0);
+									const a = document.createElement('a');
+									document.body.appendChild(a);
+									a.setAttribute('hidden', true);
+									a.href = url;
+									a.download = payload.file.name;
+									a.click();
+									window.URL.revokeObjectURL(url);
+									fileBuffer = new ArrayBuffer(0);
+								} else if (payload.todo === 'edit') {
+									text = await new Response(blob).text();
+									console.log(text);
+									fileBuffer = new ArrayBuffer(0);
+								}
 							}
+							if (read.getReadbytes() === -1) {
+								readByteSum = 0;
+								readPercent = 0;
+							}
+							return resolve({
+								type: READ_SUCCESS,
+								byteSum: readByteSum,
+								end:
+									read.getReadbytes() === -1
+										? true
+										: readByteSum === payload.file.size,
+								last: read.getCompleted(),
+								percent:
+									read.getReadbytes() === -1
+										? 100
+										: readPercent,
+								text,
+							});
 						}
-						if (read.getReadbytes() === -1) {
-							readByteSum = 0;
-							readPercent = 0;
-						}
-						return {
-							type: READ_SUCCESS,
-							byteSum: readByteSum,
-							end:
-								read.getReadbytes() === -1
-									? true
-									: readByteSum === payload.file.size,
-							last: read.getCompleted(),
-							percent:
-								read.getReadbytes() === -1 ? 100 : readPercent,
-							text,
-						};
 					}
+					// else if (
+					// 	response.getResponseCase() ===
+					// 	SFTP.Response.ResponseCase.ERROR
+					// ) {
+					// 	const error = response.getError();
+					// 	console.log(error.getMessage());
+					// 	return {
+					// 		type: ERROR,
+					// 		err: error.getMessage(),
+					// 	};
+					// }
+				} else {
+					console.log('data is not protocol buffer.');
 				}
-				// else if (
-				// 	response.getResponseCase() ===
-				// 	SFTP.Response.ResponseCase.ERROR
-				// ) {
-				// 	const error = response.getError();
-				// 	console.log(error.getMessage());
-				// 	return {
-				// 		type: ERROR,
-				// 		err: error.getMessage(),
-				// 	};
-				// }
 			} else {
-				console.log('data is not protocol buffer.');
-			}
-		} else {
-			const message = JSON.parse(data);
+				const message = JSON.parse(data);
 
-			console.log('data is not ArrayBuffer', message);
+				console.log('data is not ArrayBuffer', message);
 
-			if (message['status'] === 'connected') {
-				console.log(message['uuid']);
+				if (message['status'] === 'connected') {
+					console.log(message['uuid']);
+				}
+				console.log(message.result);
 			}
-			console.log(message.result);
+		} catch (err) {
+			console.log(err);
+			reject({type: ERROR, err: err});
 		}
-	} catch (err) {
-		console.log(err);
-	}
+	});
 }

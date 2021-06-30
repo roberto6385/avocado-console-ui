@@ -121,7 +121,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield throttle(500, PWD_REQUEST, sendCommand);
+	yield takeLatest(PWD_REQUEST, sendCommand);
 	// yield takeEvery(PWD_REQUEST, sendCommand);
 }
 

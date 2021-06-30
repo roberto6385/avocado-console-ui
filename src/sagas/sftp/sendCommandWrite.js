@@ -53,6 +53,7 @@ function* sendCommand(action) {
 				console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
+				// const data = yield take(channel);
 				const res = yield call(writeResponse, {data, payload});
 
 				console.log(res);
@@ -126,6 +127,11 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: WRITE_FAILURE});
+		yield put(
+			removeNewWebsocket({
+				socket: payload.write_socket,
+			}),
+		);
 	}
 }
 
