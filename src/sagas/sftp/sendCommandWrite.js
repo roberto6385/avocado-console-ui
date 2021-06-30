@@ -7,6 +7,7 @@ import {
 	actionChannel,
 	race,
 	delay,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -129,12 +130,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(WRITE_REQUEST, sendCommand);
-	const reqChannel = yield actionChannel(WRITE_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	yield takeEvery(WRITE_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(WRITE_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandWriteSaga() {
