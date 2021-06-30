@@ -114,10 +114,10 @@ export const Span = styled.span`
 `;
 
 // font
-export const ROBOTO = 'Roboto, sans-serif';
-export const ROBOTO_MONO = 'Roboto Mono, sans-serif';
-export const MONTSERRAT = 'Montserrat, sans-serif';
-export const ROBOTO_SLAP = 'Roboto Slab, serif';
+export const ROBOTO = "'Roboto', sans-serif";
+export const ROBOTO_MONO = "'RobotoMono', sans-serif";
+export const MONTSERRAT = "'Montserrat', sans-serif";
+export const ROBOTO_SLAP = "'Roboto Slab', serif";
 
 // button
 export const IconButton = styled.button`
