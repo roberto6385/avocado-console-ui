@@ -192,6 +192,7 @@ const SignInForm = () => {
 		const passwordContainer = document.getElementById('password_container');
 		passwordContainer.classList.add('focus');
 	}, []);
+
 	const focusout = useCallback(() => {
 		const passwordContainer = document.getElementById('password_container');
 		passwordContainer.classList.remove('focus');
@@ -220,6 +221,10 @@ const SignInForm = () => {
 				break;
 		}
 		//TODO: Google auth
+	}, []);
+
+	const onClickRememberMe = useCallback((e) => {
+		setRememberMe(e.target.checked);
 	}, []);
 
 	useEffect(() => {
@@ -280,7 +285,8 @@ const SignInForm = () => {
 				<Checkbox_
 					title={t('remember')}
 					value={rememberMe}
-					handleCheck={(e) => setRememberMe(e.target.checked)}
+					handleCheck={onClickRememberMe}
+					themeValue={0}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
