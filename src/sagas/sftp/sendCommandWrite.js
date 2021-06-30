@@ -25,24 +25,23 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 	const senderLength = 1024 * 4;
 
-	let filepath = '';
-	filepath =
-		payload.write_path === '/'
-			? `${payload.write_path}${payload.file.name}`
-			: `${payload.write_path}/${payload.file.name}`;
-
-	yield call(messageSender, {
-		keyword: 'CommandByWrite',
-		ws: payload.socket,
-		path: filepath,
-		offset: 0,
-		length: senderLength,
-		uploadFile: payload.file,
-		completed: false,
-		mode: 1,
-	});
-
 	try {
+		const filepath =
+			payload.write_path === '/'
+				? `${payload.write_path}${payload.file.name}`
+				: `${payload.write_path}/${payload.file.name}`;
+
+		yield call(messageSender, {
+			keyword: 'CommandByWrite',
+			ws: payload.socket,
+			path: filepath,
+			offset: 0,
+			length: senderLength,
+			uploadFile: payload.file,
+			completed: false,
+			mode: 1,
+		});
+
 		while (true) {
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
