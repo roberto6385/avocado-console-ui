@@ -25,7 +25,7 @@ function* sendCommand(action) {
 	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {
-		messageSender({
+		yield call(messageSender, {
 			keyword: 'Disconnection',
 			ws: payload.socket,
 		});

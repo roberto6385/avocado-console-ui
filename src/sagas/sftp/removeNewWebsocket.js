@@ -25,14 +25,14 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 
 	try {
-		messageSender({
+		yield call(messageSender, {
 			keyword: 'Disconnection',
 			ws: payload.socket,
 		});
 
 		while (true) {
 			// const {timeout, data} = yield race({
-			// 	timeout: delay(5000),
+			// 	timeout: delay(1000),
 			// 	data: take(channel),
 			// });
 			// if (timeout) {
@@ -44,11 +44,9 @@ function* sendCommand(action) {
 			const data = yield take(channel);
 			const res = yield call(removeNewSocketResponse, {data});
 			console.log(res);
-			alert(res);
 			// switch (res.type) {
 			// 	case REMOVE_NEW_WEBSOCKET_SUCCESS:
 			yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
-			closeChannel(channel);
 			// break;
 
 			// case ERROR:
@@ -65,12 +63,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeLatest(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(REMOVE_NEW_WEBSOCKET_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
+	// yield takeEvery(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(REMOVE_NEW_WEBSOCKET_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* removeWebsocketSaga() {

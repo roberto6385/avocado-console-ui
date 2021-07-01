@@ -45,94 +45,92 @@ function* sendCommand(action) {
 
 		while (true) {
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
-			// const {timeout, data} = yield race({
-			// 	timeout: delay(500),
-			// 	data: take(channel),
-			// });
-			// if (timeout) {
-			// 	console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
-			// 	closeChannel(channel);
-			// } else {
-			const data = yield take(channel);
-			const res = yield call(writeResponse, {data, payload});
+			const {timeout, data} = yield race({
+				timeout: delay(500),
+				data: take(channel),
+			});
+			if (timeout) {
+				console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
+				closeChannel(channel);
+			} else {
+				// const data = yield take(channel);
+				const res = yield call(writeResponse, {data, payload});
 
-			console.log(res);
-			switch (res.type) {
-				case WRITE_SUCCESS:
-					if (res.last === false) {
-						if (res.end === false) {
-							yield call(messageSender, {
-								keyword: 'CommandByWrite',
-								ws: payload.write_socket,
-								path: filepath,
-								offset: res.byteSum,
-								length: senderLength,
-								uploadFile: payload.file,
-								completed: false,
-								mode: 2,
+				console.log(res);
+				switch (res.type) {
+					case WRITE_SUCCESS:
+						if (res.last === false) {
+							if (res.end === false) {
+								yield call(messageSender, {
+									keyword: 'CommandByWrite',
+									ws: payload.write_socket,
+									path: filepath,
+									offset: res.byteSum,
+									length: senderLength,
+									uploadFile: payload.file,
+									completed: false,
+									mode: 2,
+								});
+							} else {
+								yield call(messageSender, {
+									keyword: 'CommandByWrite',
+									ws: payload.write_socket,
+									path: filepath,
+									offset: res.byteSum,
+									length: senderLength,
+									uploadFile: payload.file,
+									completed: true,
+									mode: 2,
+								});
+							}
+						} else if (res.percent === 100) {
+							yield put({
+								type: WRITE_SUCCESS,
+								payload: {
+									uuid: payload.uuid,
+									percent: res.percent,
+								},
 							});
-						} else {
-							yield call(messageSender, {
-								keyword: 'CommandByWrite',
-								ws: payload.write_socket,
-								path: filepath,
-								offset: res.byteSum,
-								length: senderLength,
-								uploadFile: payload.file,
-								completed: true,
-								mode: 2,
-							});
+							yield put(
+								removeNewWebsocket({
+									socket: payload.write_socket,
+								}),
+							);
+							yield put(
+								commandPwdAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									pwd_path: payload.path,
+								}),
+							);
 						}
-					} else {
-						yield put(
-							removeNewWebsocket({
-								socket: payload.write_socket,
-							}),
-						);
 						yield put({
-							type: WRITE_SUCCESS,
+							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
-								percent: res.percent,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: payload.todo,
+								progress: res.percent,
 							},
 						});
-						yield put(
-							commandPwdAction({
-								socket: payload.socket,
-								uuid: payload.uuid,
-								pwd_path: payload.path,
-							}),
-						);
 
-						closeChannel(channel);
-					}
-					yield put({
-						type: FIND_HISTORY,
-						payload: {
-							uuid: payload.uuid,
-							name: payload.file.name,
-							size: payload.file.size,
-							todo: payload.todo,
-							progress: res.percent,
-						},
-					});
+						break;
 
-					break;
-
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
+					// case ERROR:
+					// 	console.log(res.err);
+					// 	break;
+				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: WRITE_FAILURE});
-		yield put(
-			removeNewWebsocket({
-				socket: payload.write_socket,
-			}),
-		);
+		// yield put(
+		// 	removeNewWebsocket({
+		// 		socket: payload.write_socket,
+		// 	}),
+		// );
 	}
 }
 

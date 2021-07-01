@@ -107,7 +107,7 @@ const SFTPContainer = ({uuid}) => {
 		}
 	}, [readList]);
 
-	useEffect(async () => {
+	useEffect(() => {
 		if (
 			writeList.length !== 0 &&
 			sockets.length !== 0 &&

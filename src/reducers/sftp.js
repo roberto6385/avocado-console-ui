@@ -49,19 +49,14 @@ export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
 export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
 
 // put
-export const PUT_REQUEST = 'sftp/PUT_REQUEST';
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
-export const PUT_FAILURE = 'sftp/PUT_FAILURE';
+// get
+export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 
-// put
+// write
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
 export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
 export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
-
-// get
-export const GET_REQUEST = 'sftp/GET_REQUEST';
-export const GET_SUCCESS = 'sftp/GET_SUCCESS';
-export const GET_FAILURE = 'sftp/GET_FAILURE';
 
 // read
 export const READ_REQUEST = 'sftp/READ_REQUEST';
