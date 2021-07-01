@@ -84,6 +84,12 @@ function* sendCommand(action) {
 								});
 							}
 						} else if (res.percent === 100) {
+							yield put(
+								removeNewWebsocket({
+									socket: payload.write_socket,
+								}),
+							);
+
 							yield put({
 								type: WRITE_SUCCESS,
 								payload: {
@@ -91,11 +97,6 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
-							yield put(
-								removeNewWebsocket({
-									socket: payload.write_socket,
-								}),
-							);
 							yield put(
 								commandPwdAction({
 									socket: payload.socket,

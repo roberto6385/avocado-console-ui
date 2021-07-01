@@ -73,13 +73,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	// yield takeEvery(LS_REQUEST, sendCommand);
 	// yield throttle(500, LS_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(LS_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* commandLsSaga() {
