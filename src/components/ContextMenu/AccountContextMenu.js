@@ -3,7 +3,7 @@ import {animation, Item, Separator} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {getRevoke} from '../../reducers/auth/revoke';
 import PropTypes from 'prop-types';
@@ -35,7 +35,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	}, [userTicket]);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={'account'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -47,7 +47,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 			<Item id='Logout' onClick={logout}>
 				{t('logout')}
 			</Item>
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

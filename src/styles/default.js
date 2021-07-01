@@ -148,6 +148,10 @@ export const UserForm = styled.form`
 	caret-color: black;
 	display: flex;
 	flex-direction: column;
+	.focus {
+		border-color: ${inputFocusBoaderColor[0]};
+		outline: 0 none;
+	}
 `;
 
 export const UserTitle = styled.div`
@@ -172,7 +176,6 @@ export const UserInput = styled.input`
 	padding: 12px 10px;
 	border-radius: 4px;
 	border: 1px solid ${borderColor[0]};
-
 	&:focus {
 		border-color: ${inputFocusBoaderColor[0]};
 		outline: 0 none;
@@ -205,7 +208,7 @@ export const UserPasswordContainer = styled.div`
 `;
 
 // context menu
-export const ContextMenu_Avocado = styled(Menu)`
+export const ContextMenu = styled(Menu)`
 	z-index: 5px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	background: ${(props) => sshSearch[props.theme_value]};
@@ -225,7 +228,7 @@ export const ContextMenu_Avocado = styled(Menu)`
 	}
 `;
 
-export const DropDownMenu_Avocado = styled(ContextMenu_Avocado)`
+export const DropDownMenu = styled(ContextMenu)`
 	font-size: 12px;
 	min-width: 120px;
 

@@ -15,6 +15,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/default';
+import LoadingSpinner from '../loadingSpinner';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -37,7 +38,6 @@ const SignUpForm = () => {
 	const [passwordConfirm, onChangePasswordConfirm, setPasswordConfirm] =
 		useInput('');
 	const [visible, setVisible] = useState(true);
-	const [rememberPassword, setRememberPassword] = useState(false);
 	const idRef = useRef(null);
 
 	const onSubmitForm = useCallback(
@@ -182,7 +182,7 @@ const SignUpForm = () => {
 			</_PrimaryGreenButton>
 		</UserForm>
 	) : (
-		<div>loading...</div>
+		<LoadingSpinner />
 	);
 };
 

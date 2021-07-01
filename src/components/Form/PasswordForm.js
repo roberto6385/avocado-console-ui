@@ -17,6 +17,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/default';
+import LoadingSpinner from '../loadingSpinner';
 
 const Item_Container = styled.div`
 	display: flex;
@@ -218,7 +219,7 @@ const PasswordForm = () => {
 			</_UserSubmitButton>
 		</UserForm>
 	) : (
-		<div>loading...</div>
+		<LoadingSpinner />
 	);
 };
 

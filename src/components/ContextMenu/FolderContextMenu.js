@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 
 const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 	);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={data.key + 'folder'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -57,7 +57,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 					{FolderContextMenuMessage[v]}
 				</Item>
 			))}
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

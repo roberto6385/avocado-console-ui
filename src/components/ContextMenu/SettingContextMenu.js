@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
@@ -35,7 +35,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={'setting'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -50,7 +50,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 			<Item id='Identities' onClick={openSideMenu('Identities')}>
 				{t('identities')}
 			</Item>
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -32,7 +32,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 	);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={uuid + 'snippet'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -53,7 +53,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 					</Item>
 				);
 			})}
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

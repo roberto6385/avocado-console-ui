@@ -10,7 +10,7 @@ import {
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {ContextMenu_Avocado} from '../../styles/default';
+import {ContextMenu} from '../../styles/default';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
@@ -107,7 +107,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	);
 
 	return (
-		<ContextMenu_Avocado
+		<ContextMenu
 			id={data.key + 'server'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -123,7 +123,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 							{SftpServerContextMenuMessage[v]}
 						</Item>
 				  ))}
-		</ContextMenu_Avocado>
+		</ContextMenu>
 	);
 };
 
