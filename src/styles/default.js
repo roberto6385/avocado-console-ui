@@ -5,13 +5,14 @@ import {
 	contextHover,
 	fontColor,
 	inputFocusBoaderColor,
+	L_GREEN_NORMAL,
 	mainBackColor,
 	modalColor,
 	settingInput,
 	sshSearch,
 } from './color';
 import {Menu} from 'react-contexify';
-import {FONT_12} from './length';
+import {PrimaryGreenButton} from './button';
 
 //Modal => popup, form
 export const PopupModal = styled(Modal)`
@@ -137,6 +138,72 @@ export const SettingContentsContainer = styled.div`
 	padding: 16px 0px;
 `;
 
+//Login, Signin, Change Password
+export const UserForm = styled.form`
+	background: white;
+	width: 500px;
+	height: 614px;
+	padding: 70px;
+	border-radius: 16px;
+	caret-color: black;
+	display: flex;
+	flex-direction: column;
+`;
+
+export const UserTitle = styled.div`
+	font-size: 28px;
+	font-weight: bold;
+	margin-bottom: 20px;
+`;
+
+export const UserTitleSpan = styled.div`
+	font-size: 14px;
+	margin-bottom: 52px;
+	a {
+		color: ${L_GREEN_NORMAL};
+		text-decoration: underline;
+	}
+`;
+
+export const UserInput = styled.input`
+	flex: 1;
+	height: 40px;
+	font-size: 14px;
+	padding: 12px 10px;
+	border-radius: 4px;
+	border: 1px solid ${borderColor[0]};
+
+	&:focus {
+		border-color: ${inputFocusBoaderColor[0]};
+		outline: 0 none;
+	}
+`;
+
+export const UserSubmitButton = styled(PrimaryGreenButton)`
+	width: 360px;
+	height: 40px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.5;
+	letter-spacing: 0.15px;
+`;
+
+export const UserPasswordInput = styled(UserInput)`
+	padding: 0px;
+	height: auto;
+	border: none;
+`;
+
+export const UserPasswordContainer = styled.div`
+	display: flex;
+	align-items: center;
+	height: 40px;
+	padding: 12px 10px;
+	border-radius: 4px;
+	border: 1px solid ${borderColor[0]};
+`;
+
 // context menu
 export const ContextMenu_Avocado = styled(Menu)`
 	z-index: 5px;
@@ -159,7 +226,7 @@ export const ContextMenu_Avocado = styled(Menu)`
 `;
 
 export const DropDownMenu_Avocado = styled(ContextMenu_Avocado)`
-	font-size: ${FONT_12};
+	font-size: 12px;
 	min-width: 120px;
 
 	.react-contexify__separator {

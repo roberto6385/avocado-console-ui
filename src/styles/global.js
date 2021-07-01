@@ -2,8 +2,6 @@
 import styled from 'styled-components';
 import {FONT_14, FONT_20} from './length';
 
-export const AVOCADO_HOVER_COLOR = '#45999b'; // folder,server highlight color
-
 // lightmode color
 export const LIGHT_MODE_MINT_COLOR = '#4ca6a8';
 export const LIGHT_MODE_POPUP_COLOR = '#ffffff';
@@ -39,22 +37,7 @@ export const ICON_HOVER_LIGHT_COLOR = 'rgba(60,76,81,0.31)'; // tab icon color
 export const DARK_GREEN_COLOR = '#126466';
 export const ANCHOR_GRAY_COLOR = '#5e5e5e';
 
-export const GRAY_COLOR = '#a9b0b2';
-export const GRAY_HOVER_COLOR = 'rgba(60, 76 ,81, 0.38)';
-export const GRAY_ACTIVE_COLOR = 'rgba(60 ,76, 81, 0.56)';
 export const GREEN_COLOR = '#178082'; // logo, active icon color
-export const GREEN_HOVER_COLOR = '#389193';
-export const GREEN_ACTIVE_COLOR = '#0a6f71';
-export const RED_COLOR = '#d45959';
-export const RED_HOVER_COLOR = '#de6565';
-export const RED_ACTIVE_COLOR = '#b84646';
-
-export const CANCEL_BUTTON_DEFAULT_BORDER = `rgba(168, 168, 168, 0.7)`;
-export const CANCEL_BUTTON_DEFAULT_COLOR = '#687578';
-export const CANCEL_BUTTON_DEFAULT_HOVER_BORDER = `rgba(168, 168, 168, 0.6)`;
-export const CANCEL_BUTTON_DEFAULT_HOVER_COLOR = `rgba(114, 125, 128, 0.87)`;
-export const CANCEL_BUTTON_DEFAULT_ACTIVE_BORDER = `#a8a8a8`;
-export const CANCEL_BUTTON_DEFAULT_ACTIVE_COLOR = `#556367`;
 
 // theme
 export const backColor = [
@@ -96,11 +79,7 @@ export const AUTH_FORM_HEIGHT = '630px';
 export const AUTH_FORM_SUB_HEIGHT = '614px';
 
 // width
-export const RIGHT_SIDE_WIDTH = '300px';
-export const SEARCH_INPUT_WIDTH = '165px';
-export const TAB_WIDTH = '160px'; // tab, history button
 export const ACCOUNT_BUTTON_WIDTH = '268px'; // and account input width
-export const ACCOUNT_INPUT_WIDTH = '500px';
 export const AUTH_FORM_WIDTH = '500px';
 export const SERVER_FORM_INPUT_WIDTH = '178px';
 
