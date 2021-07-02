@@ -106,7 +106,7 @@ function* watchSendCommand() {
 			action: take(reqChannel),
 		});
 		if (timeout) {
-			console.log('end');
+			console.log('search delete list - end');
 			if (uuid !== null) {
 				yield put({
 					type: DELETE_WORK_TRANSPORTER,
@@ -123,12 +123,6 @@ function* watchSendCommand() {
 			yield call(sendCommand, action);
 		}
 	}
-
-	// const reqChannel = yield actionChannel(LS_REQUEST_DELETE);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* searchListSaga() {

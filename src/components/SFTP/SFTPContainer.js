@@ -6,8 +6,11 @@ import {
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
+	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
@@ -28,15 +31,19 @@ const SFTPContainer = ({uuid}) => {
 		writeList,
 		incinerator,
 		writeSockets,
+		removeSockets,
 		readSockets,
+		highlight,
+		history_highlight,
+		path,
 	} = corServer;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
 			if (!uuid || current_tab !== uuid) return;
-			// if (highlight.length === 0 && history_highlight.length === 0) {
-			// 	return;
-			// }
+			if (highlight.length === 0 && history_highlight.length === 0) {
+				return;
+			}
 			const root = evt.target;
 
 			// if (highlight.length !== 0 || history_highlight.length !== 0) {
@@ -156,10 +163,12 @@ const SFTPContainer = ({uuid}) => {
 		console.log(incinerator);
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
+			const socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
 					commandRmAction({
 						socket: corServer.socket,
+						remove_socket: socket,
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
@@ -185,7 +194,59 @@ const SFTPContainer = ({uuid}) => {
 			}
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator]);
+	}, [incinerator, removeSockets]);
+	console.log(highlight);
+
+	useEffect(() => {
+		if (removeSockets.length !== 0) {
+			const socket = removeSockets.slice().shift();
+
+			const array = [];
+			for (let value of highlight) {
+				if (value.name !== '.' && value.name !== '..') {
+					array.push({file: value, path});
+				}
+			}
+			console.log(array);
+
+			dispatch({
+				type: DELETE_WORK_LIST,
+				payload: {
+					uuid: uuid,
+					array,
+				},
+			});
+
+			if (
+				array.slice().filter((v) => v.file.type === 'directory')
+					.length === 0
+			) {
+				dispatch({
+					type: DELETE_WORK_TRANSPORTER,
+					payload: {
+						uuid: uuid,
+					},
+				});
+			} else {
+				for (let item of array.slice()) {
+					if (item.file.type === 'directory') {
+						console.log(item);
+						const delete_path =
+							path === '/'
+								? `${path}${item.file.name}`
+								: `${path}/${item.file.name}`;
+						dispatch(
+							searchDeleteListAction({
+								socket: socket,
+								uuid: corServer.uuid,
+								delete_path: delete_path,
+							}),
+						);
+					}
+				}
+			}
+		}
+	}, [removeSockets]);
 
 	return <SFTP uuid={uuid} />;
 };

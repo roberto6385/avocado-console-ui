@@ -10,12 +10,10 @@ import {
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
 import {
-	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
+	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
-	searchDeleteListAction,
 } from '../../reducers/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
@@ -27,7 +25,6 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
-import {put} from 'redux-saga/effects';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -36,7 +33,9 @@ const _PopupModal = styled(PopupModal)`
 const WarningAlertPopup = () => {
 	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const {userTicket} = useSelector((state) => state.userTicket);
+
 	const {warning_alert_popup} = useSelector((state) => state.popup);
 	const {
 		clicked_server,
@@ -69,55 +68,31 @@ const WarningAlertPopup = () => {
 	const submitFunction = useCallback(
 		async (e) => {
 			e.preventDefault();
-			const array = [];
 
 			switch (warning_alert_popup.key) {
 				case 'sftp_delete_file_folder': {
 					const uuid = warning_alert_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {highlight, path} = corServer;
-					for (let value of highlight) {
-						if (value.name !== '.' && value.name !== '..') {
-							array.push({file: value, path});
-						}
-					}
-					await dispatch({
-						type: DELETE_WORK_LIST,
-						payload: {
-							uuid: uuid,
-							array,
-						},
-					});
+					const corTab = tab.find((it) => it.uuid === uuid);
+					const corServer = server.find(
+						(it) => it.key === corTab.server.key,
+					);
+					const correspondedIdentity = identity.find(
+						(it) =>
+							it.key === corTab.server.key && it.checked === true,
+					);
 
-					if (
-						array.slice().filter((v) => v.file.type === 'directory')
-							.length === 0
-					) {
-						console.log(array);
-						dispatch({
-							type: DELETE_WORK_TRANSPORTER,
-							payload: {
-								uuid: uuid,
-							},
-						});
-					} else {
-						for (let item of array.slice()) {
-							if (item.file.type === 'directory') {
-								console.log(item);
-								const delete_path =
-									path === '/'
-										? `${path}${item.file.name}`
-										: `${path}/${item.file.name}`;
-								dispatch(
-									searchDeleteListAction({
-										socket: corServer.socket,
-										uuid: corServer.uuid,
-										delete_path: delete_path,
-									}),
-								);
-							}
-						}
-					}
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'remove',
+							uuid: uuid,
+						}),
+					);
+
 					break;
 				}
 
@@ -176,7 +151,17 @@ const WarningAlertPopup = () => {
 			}
 			closeModal();
 		},
-		[clicked_server, accountListControlId, warning_alert_popup, sftp, nav],
+		[
+			clicked_server,
+			accountListControlId,
+			warning_alert_popup,
+			sftp,
+			nav,
+			tab,
+			server,
+			identity,
+			userTicket,
+		],
 	);
 
 	return (
