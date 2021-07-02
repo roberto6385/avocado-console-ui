@@ -81,6 +81,8 @@ const HistoryNav = ({uuid}) => {
 						port: corServer.port,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
+						todo: 'write',
+						uuid: uuid,
 					}),
 				);
 			}

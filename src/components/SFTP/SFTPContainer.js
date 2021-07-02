@@ -6,7 +6,6 @@ import {
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
-	createNewWebsocket,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
 	SHIFT_INCINERATOR_LIST,
@@ -15,17 +14,16 @@ import {
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
-import {createWebsocket} from '../../sagas/sftp/socket';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp, sockets} = useSelector((state) => state.sftp);
+	const {sftp} = useSelector((state) => state.sftp);
 	const {current_tab} = useSelector((state) => state.common);
 	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {readList, writeList, incinerator} = corServer;
+	const {readList, writeList, incinerator, writeSockets} = corServer;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -110,16 +108,15 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (
 			writeList.length !== 0 &&
-			sockets.length !== 0 &&
-			writeList.length === sockets.length
+			writeSockets.length !== 0 &&
+			writeList.length === writeSockets.length
 		) {
 			const value = writeList.slice().shift();
-			const socketObj = sockets.slice().shift();
-			console.log(socketObj);
+			const socket = writeSockets.slice().shift();
 			dispatch(
 				commandWriteAction({
 					socket: corServer.socket,
-					write_socket: socketObj.socket,
+					write_socket: socket,
 					uuid: corServer.uuid,
 					write_path: value.path,
 					file: value.file,
@@ -140,9 +137,9 @@ const SFTPContainer = ({uuid}) => {
 			});
 
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
-			dispatch({type: SHIFT_SOCKETS});
+			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList, sockets]);
+	}, [writeList, writeSockets]);
 
 	useEffect(() => {
 		console.log(incinerator);

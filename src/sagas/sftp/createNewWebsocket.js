@@ -47,15 +47,15 @@ function* sendCommand(action) {
 			// } else {
 			const data = yield take(channel);
 			const res = yield call(createNewSocketResponse, {data});
-			const uuid = res.uuid;
 
 			switch (res.type) {
 				case CREATE_NEW_WEBSOCKET_SUCCESS:
 					yield put({
 						type: CREATE_NEW_WEBSOCKET_SUCCESS,
 						payload: {
-							uuid: uuid,
+							uuid: payload.uuid,
 							socket: socket,
+							todo: payload.todo,
 						},
 					});
 

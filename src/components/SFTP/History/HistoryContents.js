@@ -174,6 +174,8 @@ const HistoryContents = ({uuid}) => {
 						port: corServer.port,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
+						todo: 'write',
+						uuid: uuid,
 					}),
 				);
 			}
@@ -199,6 +201,8 @@ const HistoryContents = ({uuid}) => {
 						port: corServer.port,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
+						todo: 'write',
+						uuid: uuid,
 					}),
 				);
 			}

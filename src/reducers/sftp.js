@@ -210,14 +210,19 @@ const sftp = (state = initialState, action) =>
 
 		switch (action.type) {
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
-				draft.sockets.push({
-					socket: action.payload.socket,
-					uuid: action.payload.uuid,
-				});
+				action.payload.todo === 'write' &&
+					target.writeSockets.push(action.payload.socket);
+				action.payload.todo === 'read' &&
+					target.readSockets.push(action.payload.socket);
+				action.payload.todo === 'remove' &&
+					target.removeSockets.push(action.payload.socket);
 				break;
 
 			case SHIFT_SOCKETS:
-				draft.sockets.shift();
+				action.payload.todo === 'write' && target.writeSockets.shift();
+				action.payload.todo === 'read' && target.readSockets.shift();
+				action.payload.todo === 'remove' &&
+					target.removeSockets.shift();
 				break;
 			// 연결
 			case CONNECTION_REQUEST:
@@ -230,6 +235,10 @@ const sftp = (state = initialState, action) =>
 					socket: action.payload.socket, //ok
 					status: 'none', // ok
 					uuid: action.payload.uuid, // ok
+
+					readSockets: [], // 경로, file 저장
+					writeSockets: [], // 경로, file 저장
+					removeSockets: [],
 
 					readList: [], // 경로, file 저장
 					writeList: [], // 경로, file 저장
