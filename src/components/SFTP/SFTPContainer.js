@@ -41,9 +41,9 @@ const SFTPContainer = ({uuid}) => {
 	const focusOut = useCallback(
 		function (evt) {
 			if (!uuid || current_tab !== uuid) return;
-			if (highlight.length === 0 && history_highlight.length === 0) {
-				return;
-			}
+			// if (highlight.length === 0 && history_highlight.length === 0) {
+			// 	return;
+			// }
 			const root = evt.target;
 
 			// if (highlight.length !== 0 || history_highlight.length !== 0) {
@@ -163,6 +163,7 @@ const SFTPContainer = ({uuid}) => {
 		console.log(incinerator);
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
+			console.log(value);
 			const socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
@@ -180,7 +181,7 @@ const SFTPContainer = ({uuid}) => {
 					}),
 				);
 			}
-			if (corServer.path === value.path) {
+			if (value.file.path) {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {

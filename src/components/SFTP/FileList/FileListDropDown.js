@@ -149,7 +149,7 @@ const FileListDropDown = ({uuid}) => {
 		if (first === -1) {
 			dispatch({
 				type: ADD_HIGHLIGHT,
-				payload: {uuid, item: list[second]},
+				payload: {uuid, item: {...list[second], path}},
 			});
 			return;
 		}
@@ -162,7 +162,7 @@ const FileListDropDown = ({uuid}) => {
 			for (let i = first; i <= second; i++) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i]},
+					payload: {uuid, item: {...list[i], path}},
 				});
 			}
 		} else {
@@ -173,7 +173,7 @@ const FileListDropDown = ({uuid}) => {
 			for (let i = first; i >= second; i--) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i]},
+					payload: {uuid, item: {...list[i], path}},
 				});
 			}
 		}
@@ -194,13 +194,13 @@ const FileListDropDown = ({uuid}) => {
 					);
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
+						payload: {uuid, item: {...item, path}},
 					});
 				} else {
 					if (highlight.length === 0) {
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item},
+							payload: {uuid, item: {...item, path}},
 						});
 					} else {
 						if (highlight[0].name === path.split('/').pop()) {
@@ -232,11 +232,11 @@ const FileListDropDown = ({uuid}) => {
 						);
 						dispatch({
 							type: ADD_HIGHLIGHT,
-							payload: {uuid, item},
+							payload: {uuid, item: {...item, path}},
 						});
 						dispatch({
 							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: tempItem.item},
+							payload: {uuid, item: {...tempItem.item, path}},
 						});
 						dispatch({
 							type: REMOVE_TEMP_HIGHLIGHT,
@@ -256,7 +256,7 @@ const FileListDropDown = ({uuid}) => {
 						);
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item},
+							payload: {uuid, item: {...item, path}},
 						});
 					} else {
 						dispatch(
@@ -276,11 +276,11 @@ const FileListDropDown = ({uuid}) => {
 					highlight.find((it) => it.name === item.name) === undefined
 						? dispatch({
 								type: ADD_HIGHLIGHT,
-								payload: {uuid, item},
+								payload: {uuid, item: {...item, path}},
 						  })
 						: dispatch({
 								type: REMOVE_HIGHLIGHT,
-								payload: {uuid, item},
+								payload: {uuid, item: {...item, path}},
 						  });
 				}
 			} else {
@@ -303,7 +303,7 @@ const FileListDropDown = ({uuid}) => {
 				item.type === 'file' &&
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
+						payload: {uuid, item: {...item, path}},
 					});
 			}
 		},
@@ -364,12 +364,16 @@ const FileListDropDown = ({uuid}) => {
 				);
 			}
 
+			console.log(highlight.length);
+			console.log(item);
+			console.log(clickedPath);
+
 			highlight.length < 2 &&
 				item !== undefined &&
 				clickedPath !== undefined &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item},
+					payload: {uuid, item: {...item, path}},
 				});
 			show(e);
 		},

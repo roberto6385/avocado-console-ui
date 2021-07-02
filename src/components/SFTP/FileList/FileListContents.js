@@ -181,11 +181,16 @@ const FileListContents = ({uuid}) => {
 			e.stopPropagation();
 			if (item.name === '..' || item.name === '') return;
 			show(e);
-			!highlight.slice().includes(item) &&
+			!highlight
+				.slice()
+				.find(
+					(v) =>
+						JSON.stringify(v) === JSON.stringify({...item, path}),
+				) &&
 				item !== '' &&
 				dispatch({
 					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item},
+					payload: {uuid, item: {...item, path}},
 				});
 		},
 		[dispatch, highlight],
@@ -198,14 +203,14 @@ const FileListContents = ({uuid}) => {
 			for (let i = first; i <= second; i++) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i]},
+					payload: {uuid, item: {...list[i], path}},
 				});
 			}
 		} else {
 			for (let i = first; i >= second; i--) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: list[i]},
+					payload: {uuid, item: {...list[i], path}},
 				});
 			}
 		}
@@ -215,17 +220,20 @@ const FileListContents = ({uuid}) => {
 		({item, index}) => (e) => {
 			if (item.name === '..') return;
 			if (e.metaKey) {
-				!highlight.includes(item)
+				!highlight.includes({...item, path})
 					? dispatch({
 							type: ADD_HIGHLIGHT,
-							payload: {uuid, item},
+							payload: {uuid, item: {...item, path}},
 					  })
-					: dispatch({type: REMOVE_HIGHLIGHT, payload: {uuid, item}});
+					: dispatch({
+							type: REMOVE_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+					  });
 			} else if (e.shiftKey) {
 				if (highlight.length === 0) {
 					dispatch({
 						type: ADD_HIGHLIGHT,
-						payload: {uuid, item},
+						payload: {uuid, item: {...item, path}},
 					});
 				} else {
 					const corList = fileList[fileList.length - 1];
@@ -238,7 +246,7 @@ const FileListContents = ({uuid}) => {
 				!highlight.includes(item) &&
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
+						payload: {uuid, item: {...item, path}},
 					});
 			}
 		},
@@ -279,7 +287,6 @@ const FileListContents = ({uuid}) => {
 			setCurrentFileList(sortedList);
 		}
 	}, [fileList, pathList, sortKeyword, toggle]);
-
 	return (
 		<React.Fragment>
 			{currentFileList.length === 0 && <LoadingSpinner />}
@@ -300,7 +307,11 @@ const FileListContents = ({uuid}) => {
 									onDoubleClick={changePath(item)}
 									key={index + uuid}
 									className={
-										highlight.includes(item)
+										highlight.find(
+											(v) =>
+												JSON.stringify(v) ===
+												JSON.stringify({...item, path}),
+										)
 											? 'highlight_tbody active'
 											: 'highlight_tbody'
 									}
