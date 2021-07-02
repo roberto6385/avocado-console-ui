@@ -46,7 +46,7 @@ function* sendCommand(action) {
 		while (true) {
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {PUSH_READ_LIST} from '../../reducers/sftp';
+import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu_Avocado} from '../../styles/default';
 
@@ -12,18 +12,46 @@ const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const {theme, server, tab, identity} = useSelector((state) => state.common);
 
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {highlight, path} = corServer;
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const {userTicket} = useSelector((state) => state.userTicket);
+	const corServer = useMemo(
+		() => server.find((it) => it.key === corTab.server.key),
+		[corTab],
+	);
+
+	const correspondedIdentity = useMemo(
+		() =>
+			identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			),
+		[identity, corTab],
+	);
+	const {highlight, path} = corSftpServer;
 
 	const contextDownload = async () => {
 		const array = [];
 		for await (let value of highlight) {
 			array.push({path, file: value, todo: 'read'});
+			dispatch(
+				createNewWebsocket({
+					token: userTicket.access_token, // connection info
+					host: corServer.host,
+					port: corServer.port,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+					todo: 'read',
+					uuid: uuid,
+				}),
+			);
 		}
 		dispatch({
 			type: PUSH_READ_LIST,
@@ -43,7 +71,7 @@ const FileListContextMenu = ({uuid}) => {
 	const handleItemClick = async ({event}) => {
 		switch (event.currentTarget.id) {
 			case 'download':
-				contextDownload();
+				await contextDownload();
 				break;
 			case 'edit':
 				contextEdit(event);

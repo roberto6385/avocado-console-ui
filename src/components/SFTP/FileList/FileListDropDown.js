@@ -7,6 +7,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
@@ -103,11 +104,28 @@ const _Li = styled.li`
 const FileListDropDown = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const {theme, tab, server, identity} = useSelector((state) => state.common);
+	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const {userTicket} = useSelector((state) => state.userTicket);
+	const corServer = useMemo(
+		() => server.find((it) => it.key === corTab.server.key),
+		[corTab],
+	);
+
+	const correspondedIdentity = useMemo(
+		() =>
+			identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			),
+		[identity, corTab],
+	);
 	const {
 		fileList,
 		pathList,
@@ -116,7 +134,7 @@ const FileListDropDown = ({uuid}) => {
 		tempItem,
 		sortKeyword,
 		toggle,
-	} = corServer;
+	} = corSftpServer;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -165,11 +183,11 @@ const FileListDropDown = ({uuid}) => {
 		({item, listindex, itemIndex}) => (e) => {
 			console.log(item, listindex, itemIndex);
 			if (e.shiftKey) {
-				if (corServer.path !== pathList[listindex]) {
+				if (corSftpServer.path !== pathList[listindex]) {
 					dispatch(
 						commandCdAction({
-							socket: corServer.socket,
-							path: corServer.path,
+							socket: corSftpServer.socket,
+							path: corSftpServer.path,
 							uuid: uuid,
 							cd_path: pathList[listindex],
 						}),
@@ -206,8 +224,8 @@ const FileListDropDown = ({uuid}) => {
 					) {
 						dispatch(
 							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
+								socket: corSftpServer.socket,
+								path: corSftpServer.path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -230,8 +248,8 @@ const FileListDropDown = ({uuid}) => {
 					if (item.type === 'file') {
 						dispatch(
 							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
+								socket: corSftpServer.socket,
+								path: corSftpServer.path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -243,8 +261,8 @@ const FileListDropDown = ({uuid}) => {
 					} else {
 						dispatch(
 							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
+								socket: corSftpServer.socket,
+								path: corSftpServer.path,
 								uuid: uuid,
 								cd_path: `${pathList[listindex]}/${item.name}`,
 							}),
@@ -275,8 +293,8 @@ const FileListDropDown = ({uuid}) => {
 				if (path !== finalPath) {
 					dispatch(
 						commandCdAction({
-							socket: corServer.socket,
-							path: corServer.path,
+							socket: corSftpServer.socket,
+							path: corSftpServer.path,
 							uuid: uuid,
 							cd_path: finalPath,
 						}),
@@ -289,7 +307,7 @@ const FileListDropDown = ({uuid}) => {
 					});
 			}
 		},
-		[corServer],
+		[corSftpServer],
 	);
 
 	const edit = useCallback(
@@ -314,9 +332,20 @@ const FileListDropDown = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
 				});
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+						todo: 'read',
+						uuid: uuid,
+					}),
+				);
 			}
 		},
-		[sftp],
+		[sftp, server, identity, tab, userTicket],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -327,8 +356,8 @@ const FileListDropDown = ({uuid}) => {
 			if (path !== clickedPath) {
 				dispatch(
 					commandCdAction({
-						socket: corServer.socket,
-						path: corServer.path,
+						socket: corSftpServer.socket,
+						path: corSftpServer.path,
 						uuid: uuid,
 						cd_path: clickedPath,
 					}),
@@ -344,7 +373,7 @@ const FileListDropDown = ({uuid}) => {
 				});
 			show(e);
 		},
-		[corServer],
+		[corSftpServer],
 	);
 
 	useEffect(() => {

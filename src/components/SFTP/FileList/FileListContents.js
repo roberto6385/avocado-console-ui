@@ -9,6 +9,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
@@ -98,11 +99,30 @@ const _Tr = styled.tr`
 const FileListContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme, lang} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const {theme, lang, server, tab, identity} = useSelector(
+		(state) => state.common,
+	);
+	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const {userTicket} = useSelector((state) => state.userTicket);
+	const corServer = useMemo(
+		() => server.find((it) => it.key === corTab.server.key),
+		[corTab],
+	);
+
+	const correspondedIdentity = useMemo(
+		() =>
+			identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			),
+		[identity, corTab],
+	);
 	const {
 		path,
 		fileList,
@@ -110,7 +130,7 @@ const FileListContents = ({uuid}) => {
 		pathList,
 		sortKeyword,
 		toggle,
-	} = corServer;
+	} = corSftpServer;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -126,9 +146,20 @@ const FileListContents = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
 				});
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+						todo: 'read',
+						uuid: uuid,
+					}),
+				);
 			}
 		},
-		[sftp],
+		[sftp, server, identity, tab, userTicket],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -220,9 +251,9 @@ const FileListContents = ({uuid}) => {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				dispatch(
 					commandCdAction({
-						socket: corServer.socket,
+						socket: corSftpServer.socket,
 						uuid: uuid,
-						path: corServer.path,
+						path: corSftpServer.path,
 						cd_path: item.name,
 					}),
 				);

@@ -23,7 +23,13 @@ const SFTPContainer = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {readList, writeList, incinerator, writeSockets} = corServer;
+	const {
+		readList,
+		writeList,
+		incinerator,
+		writeSockets,
+		readSockets,
+	} = corServer;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -74,12 +80,17 @@ const SFTPContainer = ({uuid}) => {
 	}, [corServer]);
 
 	useEffect(() => {
-		if (readList.length !== 0) {
+		if (
+			readList.length !== 0 &&
+			readSockets.length !== 0 &&
+			readList.length === readSockets.length
+		) {
 			const value = readList.slice().shift();
-			console.log(value);
+			const socket = readSockets.slice().shift();
 			dispatch(
 				commandReadAction({
 					socket: corServer.socket,
+					read_socket: socket,
 					uuid: corServer.uuid,
 					read_path: value.path,
 					file: value.file,
@@ -102,8 +113,9 @@ const SFTPContainer = ({uuid}) => {
 			}
 
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
+			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
 		}
-	}, [readList]);
+	}, [readList, readSockets]);
 
 	useEffect(() => {
 		if (
@@ -121,7 +133,6 @@ const SFTPContainer = ({uuid}) => {
 					write_path: value.path,
 					file: value.file,
 					path: corServer.path,
-					writeList: writeList,
 					todo: value.todo,
 				}),
 			);
