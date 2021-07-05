@@ -58,10 +58,10 @@ const FileListNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {path, mode} = corSftpInfo;
 
 	const [currentPath, setCurrentPath] = useState('');
@@ -151,14 +151,14 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
 			<ClickableIconButton
-				margin={'13px 8px 13px 16px'}
+				margin={'13px 5px 13px 16px'}
 				theme_value={theme}
 				onClick={goBack}
 			>
 				{arrowUpwordIcon}
 			</ClickableIconButton>
 			<ClickableIconButton
-				margin={'13px 8px'}
+				margin={'13px 5px'}
 				color={mode === 'list' ? activeColor[theme] : iconColor[theme]}
 				theme_value={theme}
 				onClick={basicList}
@@ -166,7 +166,7 @@ const FileListNav = ({uuid}) => {
 				{viewListIcon}
 			</ClickableIconButton>
 			<ClickableIconButton
-				margin={'13px 8px'}
+				margin={'13px 16px 13px 5px'}
 				theme_value={theme}
 				color={mode === 'drop' ? activeColor[theme] : iconColor[theme]}
 				onClick={dropdownList}
@@ -186,14 +186,14 @@ const FileListNav = ({uuid}) => {
 				/>
 			</_Form>
 			<ClickableIconButton
-				margin={'13px 8px'}
+				margin={'13px 5px 13px 16px'}
 				theme_value={theme}
 				onClick={refresh}
 			>
 				{refreshIcon}
 			</ClickableIconButton>
 			<ClickableIconButton
-				margin={'13px 16px 13px 8px'}
+				margin={'13px 16px 13px 5px'}
 				theme_value={theme}
 				onClick={goHome}
 			>
