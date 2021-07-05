@@ -172,7 +172,7 @@ const AddAccountForm = () => {
 				<div>{t('addAccount')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}

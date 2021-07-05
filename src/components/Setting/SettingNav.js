@@ -19,7 +19,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {IconButton} from '../../styles/button';
+import {ClickableIconButton, IconBox} from '../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -80,17 +80,24 @@ const SettingNav = ({match}) => {
 	return (
 		<_Container theme_value={theme}>
 			<_BackContainer onClick={changePath('/')} theme_value={theme}>
-				{chevronLeftIcon}
+				<ClickableIconButton
+					margin_right={'0px'}
+					color={fontColor[theme]}
+					onClick={changePath('/')}
+				>
+					{chevronLeftIcon}
+				</ClickableIconButton>
 				<_Header>{t('back')}</_Header>
 			</_BackContainer>
+
 			<_Ul>
 				<_Li
 					onClick={changePath('/account')}
 					clicked={match.path === '/account'}
 					theme_value={theme}
 				>
-					<IconButton
-						size={'20px'}
+					<IconBox
+						size={'sm'}
 						margin={'0px'}
 						color={
 							match.path === '/account'
@@ -99,8 +106,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{accountIcon}
-					</IconButton>
-
+					</IconBox>
 					<_Header>{t('account')}</_Header>
 				</_Li>
 				<_Li
@@ -108,8 +114,8 @@ const SettingNav = ({match}) => {
 					clicked={match.path === '/preferences'}
 					theme_value={theme}
 				>
-					<IconButton
-						size={'20px'}
+					<IconBox
+						size={'sm'}
 						margin={'0px'}
 						color={
 							match.path === '/preferences'
@@ -118,8 +124,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{settingIcon}
-					</IconButton>
-
+					</IconBox>
 					<_Header>{t('preferences')}</_Header>
 				</_Li>
 				<_Li
@@ -127,8 +132,8 @@ const SettingNav = ({match}) => {
 					clicked={match.path === '/identities'}
 					theme_value={theme}
 				>
-					<IconButton
-						size={'20px'}
+					<IconBox
+						size={'sm'}
 						margin={'0px'}
 						color={
 							match.path === '/identities'
@@ -137,7 +142,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{identityIcon}
-					</IconButton>
+					</IconBox>
 					<_Header>{t('identities')}</_Header>
 				</_Li>
 			</_Ul>

@@ -16,7 +16,7 @@ import {PUSH_WRITE_LIST} from '../../reducers/sftp/crud';
 
 import {
 	ClickableIconButton,
-	IconButton,
+	IconBox,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/button';
@@ -142,9 +142,9 @@ const SavePopup = () => {
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
-				<IconButton margin_right='6px' color={'#178082'}>
+				<IconBox margin_right='6px' color={'#178082'}>
 					{alertFillIcon}
-				</IconButton>
+				</IconBox>
 				<PopupText>{SaveMessage[save_popup.key]}</PopupText>
 			</ModalMessage>
 

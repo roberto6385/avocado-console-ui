@@ -4,11 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
-import {
-	alertFillIcon,
-	cancelFillIcon,
-	closeIcon,
-} from '../../icons/icons';
+import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
 import {
 	ModalFooter,
 	ModalHeader,
@@ -18,7 +14,7 @@ import {
 } from '../../styles/default';
 import {
 	ClickableIconButton,
-	IconButton,
+	IconBox,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
@@ -74,13 +70,13 @@ const AlertPopup = () => {
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ||
 				alert_popup.key === 'invalid_server' ? (
-					<IconButton margin_right='6px' color={'#D55959'}>
+					<IconBox margin_right='6px' color={'#D55959'}>
 						{cancelFillIcon}
-					</IconButton>
+					</IconBox>
 				) : (
-					<IconButton margin_right='6px' color={'#178082'}>
+					<IconBox margin_right='6px' color={'#178082'}>
 						{alertFillIcon}
-					</IconButton>
+					</IconBox>
 				)}
 
 				<PopupText>{AlertMessage[alert_popup.key]}</PopupText>

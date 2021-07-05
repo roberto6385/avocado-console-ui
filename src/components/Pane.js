@@ -8,7 +8,7 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
 
-import {FONT_14, HEIGHT_30} from '../styles/length';
+import {FONT_14} from '../styles/length';
 import {
 	activePaneHeaderColor,
 	borderColor,
@@ -16,7 +16,7 @@ import {
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
-import {ClickableIconButton, IconButton} from '../styles/button';
+import {ClickableIconButton, IconBox} from '../styles/button';
 import {disconnectAction} from '../reducers/sftp/sftp';
 
 const _Container = styled.div`
@@ -31,11 +31,11 @@ const _Container = styled.div`
 `;
 
 const _Header = styled.div`
-	height: ${HEIGHT_30};
+	height: 30px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0px 6px;
+	padding: 0px 12px 0px 16px;
 	z-index: 1;
 	border: 1px solid;
 	border-color: ${(props) => props.bcolor};
@@ -100,28 +100,29 @@ const Pane = ({uuid, type, server}) => {
 				>
 					<_HeaderText color={fontColor[theme]}>
 						{type === 'SSH' && (
-							<IconButton
-								margin={'6px'}
-								size={'18px'}
+							<IconBox
+								size={'xs'}
+								margin_right={'6px'}
 								color={fontColor[theme]}
 							>
 								{sshIcon}
-							</IconButton>
+							</IconBox>
 						)}
 						{type === 'SFTP' && (
-							<IconButton
-								margin={'6px'}
-								size={'18px'}
+							<IconBox
+								size={'xs'}
+								margin_right={'6px'}
 								color={fontColor[theme]}
 							>
 								{sftpIcon}
-							</IconButton>
+							</IconBox>
 						)}
 						{server.name}
 					</_HeaderText>
 					<ClickableIconButton
 						theme_value={theme}
-						size={'16px'}
+						size={'micro'}
+						margin={'0xp 0px 0px 6px'}
 						onClick={onClickDelete}
 					>
 						{closeIcon}

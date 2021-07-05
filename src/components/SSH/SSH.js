@@ -30,7 +30,7 @@ import {
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
-import {ClickableIconButton, IconButton} from '../../styles/button';
+import {ClickableIconButton, IconBox} from '../../styles/button';
 
 const _Container = styled.div`
 	height: 100%;
@@ -49,7 +49,7 @@ const _Terminal = styled(_Container)`
 
 const SearchInput = styled.input`
 	flex: 1;
-	margin: 0px 5px;
+	margin-right: 5px;
 	background: transparent;
 	border: none;
 	color: ${(props) => fontColor[props.theme_value]};
@@ -62,7 +62,7 @@ const _SearchPopupContainer = styled.div`
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
 	background: ${(props) => sshSearch[props.theme_value]};
 	border-radius: 4px;
-	padding: 0 0 0 13px;
+	padding-left: 13px;
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
@@ -461,14 +461,14 @@ const SSH = ({uuid}) => {
 				theme_value={theme}
 				id={`ssh_search_${uuid}`}
 			>
-				<IconButton
-					size={'16px'}
+				<IconBox
+					size={'xs'}
 					theme_value={theme}
 					margin_right={'5px'}
 					onClick={onClickArrowUp}
 				>
 					{searchIcon}
-				</IconButton>
+				</IconBox>
 				<SearchInput
 					onKeyPress={onPressEnter}
 					onChange={onChangeSearch}
