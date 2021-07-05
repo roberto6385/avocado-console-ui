@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, RENAME_SUCCESS} from '../../reducers/sftp';
+import {ERROR, RENAME_SUCCESS} from '../../reducers/sftp/sftp';
 
-export async function renameResponse({data}) {
+export function renameResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {connectionAction} from '../../reducers/sftp';
+import {connectionAction} from '../../reducers/sftp/sftp';
 import {IconButton} from '../../styles/global';
 import {sftpIcon} from '../../icons/icons';
 

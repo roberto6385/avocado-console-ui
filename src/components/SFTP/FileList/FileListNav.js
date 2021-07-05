@@ -7,7 +7,7 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
-} from '../../../reducers/sftp';
+} from '../../../reducers/sftp/sftp';
 import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,
@@ -56,11 +56,11 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {path, mode} = corServer;
+	const {path, mode} = corSftpInfo;
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
@@ -69,9 +69,9 @@ const FileListNav = ({uuid}) => {
 		nextPath !== undefined &&
 			dispatch(
 				commandCdAction({
-					socket: corServer.socket,
+					socket: corSftpInfo.socket,
 					uuid: uuid,
-					path: corServer.path,
+					path: corSftpInfo.path,
 					cd_path: nextPath,
 				}),
 			) &&
@@ -134,16 +134,16 @@ const FileListNav = ({uuid}) => {
 	const refresh = useCallback(() => {
 		dispatch(
 			commandPwdAction({
-				socket: corServer.socket,
+				socket: corSftpInfo.socket,
 				uuid: uuid,
 				pwd_path: null,
 			}),
 		);
-	}, [uuid, corServer, dispatch]);
+	}, [uuid, corSftpInfo, dispatch]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
-	}, [uuid, corServer]);
+	}, [uuid, corSftpInfo]);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>

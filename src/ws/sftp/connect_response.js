@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
+import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
 
-export async function connectResponse({data}) {
+export function connectResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -15,13 +15,21 @@ export async function connectResponse({data}) {
 					SFTP.Response.ResponseCase.CONNECT
 				) {
 					const connect = response.getConnect();
-					return {type: CONNECTION_SUCCESS, uuid: connect.getUuid()};
+					return {
+						type: CONNECTION_SUCCESS,
+						uuid: connect.getUuid(),
+					};
 				} else if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.ERROR
 				) {
 					const error = response.getError();
 					console.log(error.getMessage());
+					const errorIndex = error.getMessage().indexOf(']');
+					const substring = error
+						.getMessage()
+						.substring(errorIndex + 1);
+					console.log(substring.trim());
 					return {
 						type: ERROR,
 						err: error.getMessage(),

@@ -7,52 +7,53 @@ import {
 	actionChannel,
 	race,
 	delay,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
-	ERROR,
-	FIND_HISTORY,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
+import {FIND_HISTORY} from "../../reducers/sftp/history";
+import {removeNewWebsocket} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(subscribe, payload.write_socket);
 	const senderLength = 1024 * 4;
 
-	let filepath = '';
-	filepath =
-		payload.write_path === '/'
-			? `${payload.write_path}${payload.file.name}`
-			: `${payload.write_path}/${payload.file.name}`;
-
-	yield call(messageSender, {
-		keyword: 'CommandByWrite',
-		ws: payload.socket,
-		path: filepath,
-		offset: 0,
-		length: senderLength,
-		uploadFile: payload.file,
-		completed: false,
-		mode: 1,
-	});
-
 	try {
+		const filepath =
+			payload.write_path === '/'
+				? `${payload.write_path}${payload.file.name}`
+				: `${payload.write_path}/${payload.file.name}`;
+
+		yield call(messageSender, {
+			keyword: 'CommandByWrite',
+			ws: payload.write_socket,
+			path: filepath,
+			offset: 0,
+			length: senderLength,
+			uploadFile: payload.file,
+			completed: false,
+			mode: 1,
+		});
+
 		while (true) {
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
+				// const data = yield take(channel);
 				const res = yield call(writeResponse, {data, payload});
 
 				console.log(res);
@@ -62,7 +63,7 @@ function* sendCommand(action) {
 							if (res.end === false) {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
-									ws: payload.socket,
+									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
 									length: senderLength,
@@ -73,7 +74,7 @@ function* sendCommand(action) {
 							} else {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
-									ws: payload.socket,
+									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
 									length: senderLength,
@@ -82,18 +83,13 @@ function* sendCommand(action) {
 									mode: 2,
 								});
 							}
-						}
-						yield put({
-							type: FIND_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								size: payload.file.size,
-								todo: payload.todo,
-								progress: res.percent,
-							},
-						});
-						if (res.last && res.percent === 100) {
+						} else if (res.percent === 100) {
+							yield put(
+								removeNewWebsocket({
+									socket: payload.write_socket,
+								}),
+							);
+
 							yield put({
 								type: WRITE_SUCCESS,
 								payload: {
@@ -109,6 +105,16 @@ function* sendCommand(action) {
 								}),
 							);
 						}
+						yield put({
+							type: FIND_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: payload.todo,
+								progress: res.percent,
+							},
+						});
 
 						break;
 
@@ -121,6 +127,11 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: WRITE_FAILURE});
+		// yield put(
+		// 	removeNewWebsocket({
+		// 		socket: payload.write_socket,
+		// 	}),
+		// );
 	}
 }
 

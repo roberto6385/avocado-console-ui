@@ -9,13 +9,9 @@ import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-import {
-	CHANGE_CURRENT_TAB,
-	CHANGE_VISIBLE_TAB,
-	SORT_TAB,
-} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
-import {disconnectAction} from '../reducers/sftp';
+import {disconnectAction} from '../reducers/sftp/sftp';
 import {FONT_18, WIDTH_160} from '../styles/length';
 import {
 	activeColor,

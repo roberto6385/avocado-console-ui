@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, LS_SUCCESS} from '../../reducers/sftp';
+import {ERROR, LS_SUCCESS} from '../../reducers/sftp/sftp';
 
-export async function lsResponse({data}) {
+export function lsResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -9,12 +9,21 @@ export async function lsResponse({data}) {
 				const response = message.getResponse();
 				console.log(response);
 				console.log('response status: ', response.getStatus());
-
+				console.log(
+					response.getResponseCase() ===
+						SFTP.Response.ResponseCase.COMMAND,
+				);
 				if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
+					console.log(command.getCommandCase());
+					console.log(SFTP.CommandResponse.CommandCase.LS);
+					console.log(
+						command.getCommandCase() ===
+							SFTP.CommandResponse.CommandCase.LS,
+					);
 					if (
 						command.getCommandCase() ===
 						SFTP.CommandResponse.CommandCase.LS

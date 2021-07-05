@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {DISCONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
+import {DISCONNECTION_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
 
-export async function disconnectResponse({data}) {
+export function disconnectResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

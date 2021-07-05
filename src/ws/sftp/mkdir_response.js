@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, MKDIR_SUCCESS} from '../../reducers/sftp';
+import {ERROR, MKDIR_SUCCESS} from '../../reducers/sftp/sftp';
 
-export async function mkdirResponse({data}) {
+export function mkdirResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

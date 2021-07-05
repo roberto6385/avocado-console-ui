@@ -49,19 +49,14 @@ export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
 export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
 
 // put
-export const PUT_REQUEST = 'sftp/PUT_REQUEST';
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
-export const PUT_FAILURE = 'sftp/PUT_FAILURE';
+// get
+export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 
-// put
+// write
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
 export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
 export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
-
-// get
-export const GET_REQUEST = 'sftp/GET_REQUEST';
-export const GET_SUCCESS = 'sftp/GET_SUCCESS';
-export const GET_FAILURE = 'sftp/GET_FAILURE';
 
 // read
 export const READ_REQUEST = 'sftp/READ_REQUEST';
@@ -91,33 +86,9 @@ export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
-export const ADD_HISTORY = 'sftp/ADD_HISTORY';
-export const FIND_HISTORY = 'sftp/FIND_HISTORY';
-export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
-
-export const ADD_HISTORY_HI = 'sftp/ADD_HISTORY_HI';
-export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
-
-export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
-
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
-export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
-export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
-export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
-export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
-export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
-export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
-
-export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
-
 export const INIT_FILELIST = 'sftp/INIT_FILELIST';
-
-// readList: [], // 경로, file 저장
-// 	writeList: [], // 경로, file 저장
-// 	rmList: [], // 경로, file 저장
-
-let HISTORY_ID = 0;
 
 // actions
 
@@ -177,6 +148,7 @@ export const commandRenameAction = (payload) => ({
 
 // initial State
 const initialState = {
+	sockets: [],
 	sftp: [],
 	loading: false,
 };
@@ -207,11 +179,6 @@ const sftp = (state = initialState, action) =>
 					status: 'none', // ok
 					uuid: action.payload.uuid, // ok
 
-					readList: [], // 경로, file 저장
-					writeList: [], // 경로, file 저장
-					removeList: [],
-					incinerator: [],
-
 					path: '', // 현재 경로 ok
 
 					pathList: [],
@@ -221,8 +188,6 @@ const sftp = (state = initialState, action) =>
 					prevMode: '', // ok
 
 					highlight: [],
-					history: [],
-					history_highlight: [],
 
 					text: '',
 					editText: '',
@@ -363,82 +328,6 @@ const sftp = (state = initialState, action) =>
 				target.highlight = plainTarget.highlight.filter(
 					(item) => item !== action.payload.item,
 				);
-				break;
-
-			case ADD_HISTORY:
-				target.history.unshift({...action.payload, HISTORY_ID});
-				HISTORY_ID++;
-				break;
-
-			case FIND_HISTORY:
-				// eslint-disable-next-line no-case-declarations
-				const index = target.history.findIndex(
-					(h) =>
-						h.name === action.payload.name &&
-						h.todo === action.payload.todo,
-				);
-				console.log(index);
-				if (index !== -1) {
-					target.history[index].progress = action.payload.progress;
-				}
-				break;
-
-			case REMOVE_HISTORY:
-				target.history = plainTarget.history.filter(
-					(it) => it !== action.payload.history,
-				);
-				break;
-
-			case ADD_HISTORY_HI:
-				target.history_highlight = action.payload.history;
-				break;
-
-			case INITIAL_HISTORY_HI:
-				if (target?.history_highlight) {
-					target.history_highlight = [];
-				}
-				break;
-
-			case DELETE_WORK_LIST:
-				target.removeList = plainTarget.removeList.concat(
-					action.payload.array,
-				);
-				break;
-
-			case INIT_DELETE_WORK_LIST:
-				target.removeList = [];
-				break;
-
-			// read, write, remove
-			case PUSH_READ_LIST:
-				target.readList = plainTarget.readList.concat(
-					action.payload.array,
-				);
-				break;
-			case SHIFT_READ_LIST:
-				target.readList.shift();
-				break;
-
-			case PUSH_WRITE_LIST:
-				target.writeList = plainTarget.writeList.concat(
-					action.payload.array,
-				);
-				break;
-			case SHIFT_WRITE_LIST:
-				target.writeList.shift();
-				break;
-
-			case SHIFT_INCINERATOR_LIST:
-				target.incinerator.shift();
-				break;
-
-			case DELETE_WORK_TRANSPORTER:
-				target.incinerator = plainTarget.incinerator.concat(
-					target.removeList.sort((a, b) => {
-						return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
-					}),
-				);
-				target.removeList = [];
 				break;
 
 			case INIT_FILELIST:

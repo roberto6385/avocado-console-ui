@@ -1,8 +1,8 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
+import {ERROR, PWD_SUCCESS} from '../../reducers/sftp/sftp';
 import {pathFunction} from '../../components/SFTP/listConversion';
 
-export async function pwdResponse({data}) {
+export function pwdResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

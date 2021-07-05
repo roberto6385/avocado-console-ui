@@ -18,8 +18,7 @@ import {
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
-	WRITE_REQUEST,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
@@ -43,6 +42,7 @@ function* sendCommand(action) {
 				console.log('PWD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
+				// const data = yield take(channel);
 				const res = yield call(pwdResponse, {data});
 				console.log(res);
 				let ls_pathList = [];
@@ -84,44 +84,43 @@ function* sendCommand(action) {
 					ls_pathList =
 						next_filter.length === 0 ? [res.path] : next_filter;
 				}
-				switch (res.type) {
-					case PWD_SUCCESS:
-						yield put({
-							type: PWD_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								path: res.path,
-								pathList: res.pathList,
-								removeIndex: remove_index,
-							},
-						});
-						// 내가 필요한 경로만큼만 요청!
-						for (let value of ls_pathList) {
-							yield put(
-								commandLsAction({
-									socket: payload.socket,
-									uuid: payload.uuid,
-									ls_path: value,
-								}),
-							);
-						}
-						break;
-
-					case ERROR:
-						console.log(res.err);
-						break;
+				// switch (res.type) {
+				// 	case PWD_SUCCESS:
+				yield put({
+					type: PWD_SUCCESS,
+					payload: {
+						uuid: payload.uuid,
+						path: res.path,
+						pathList: res.pathList,
+						removeIndex: remove_index,
+					},
+				});
+				// 내가 필요한 경로만큼만 요청!
+				for (let value of ls_pathList) {
+					yield put(
+						commandLsAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							ls_path: value,
+						}),
+					);
 				}
+				// break;
+
+				// case ERROR:
+				// 	console.log(res.err);
+				// 	break;
+				// }
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: PWD_FAILURE});
-		closeChannel(channel);
 	}
 }
 
 function* watchSendCommand() {
-	yield throttle(500, PWD_REQUEST, sendCommand);
+	yield takeLatest(PWD_REQUEST, sendCommand);
 	// yield takeEvery(PWD_REQUEST, sendCommand);
 }
 

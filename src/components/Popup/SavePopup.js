@@ -7,9 +7,8 @@ import styled from 'styled-components';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	PUSH_WRITE_LIST,
 	SAVE_TEXT,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
 import {
 	ModalFooter,
@@ -20,6 +19,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PUSH_WRITE_LIST} from "../../reducers/sftp/crud";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -28,9 +28,9 @@ const _PopupModal = styled(PopupModal)`
 const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
-	const {save_popup} = useSelector((state) => state.popup);
-	const {sftp} = useSelector((state) => state.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const save_popup = useSelector((state) => state.popup.save_popup);
+	const sftp = useSelector((state) => state.sftp.sftp);
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
@@ -44,8 +44,8 @@ const SavePopup = () => {
 			}
 			case 'sftp_edit_close': {
 				const uuid = save_popup.uuid;
-				const corServer = sftp.find((it) => it.uuid === uuid);
-				const {prevMode} = corServer;
+				const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+				const {prevMode} = corSftpInfo;
 				dispatch({type: CLOSE_SAVE_POPUP});
 				dispatch({
 					type: CLOSE_EDITOR,
@@ -66,8 +66,8 @@ const SavePopup = () => {
 			e.preventDefault();
 
 			const uuid = save_popup.uuid;
-			const corServer = sftp.find((it) => it.uuid === uuid);
-			const {editText, editFile, prevMode, path} = corServer;
+			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+			const {editText, editFile, prevMode, path} = corSftpInfo;
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});

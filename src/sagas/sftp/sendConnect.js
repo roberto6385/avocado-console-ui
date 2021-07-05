@@ -14,16 +14,19 @@ import {
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
+import {HISTORY_CONNECTION_SUCCESS} from '../../reducers/sftp/history';
+import {CRUD_CONNECTION_SUCCESS} from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {
 	const {payload} = action;
+	console.log(payload);
 
 	try {
 		const socket = yield call(createWebsocket);
@@ -55,6 +58,18 @@ function* sendCommand(action) {
 							payload: {
 								uuid: uuid,
 								socket: socket,
+							},
+						});
+						yield put({
+							type: HISTORY_CONNECTION_SUCCESS,
+							payload: {
+								uuid: uuid,
+							},
+						});
+						yield put({
+							type: CRUD_CONNECTION_SUCCESS,
+							payload: {
+								uuid: uuid,
 							},
 						});
 						yield put({

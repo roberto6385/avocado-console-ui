@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, LS_SUCCESS_DELETE} from '../../reducers/sftp';
+import {ERROR, LS_SUCCESS_DELETE} from '../../reducers/sftp/sftp';
 
-export async function lsSearchResponse({data}) {
+export function lsSearchResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

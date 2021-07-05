@@ -2,7 +2,10 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
-import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
+import {
+	commandMkdirAction,
+	commandRenameAction,
+} from '../../reducers/sftp/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIconMedium} from '../../icons/icons';
@@ -27,9 +30,9 @@ const _Form = styled(Form)`
 const InputPopup = () => {
 	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const {input_popup} = useSelector((state) => state.popup);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const HeaderMessage = {
@@ -45,6 +48,7 @@ const InputPopup = () => {
 		dispatch({type: CLOSE_INPUT_POPUP});
 	}, []);
 
+
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -52,8 +56,8 @@ const InputPopup = () => {
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
 					const uuid = input_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {highlight, path, socket} = corServer;
+					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+					const {highlight, path, socket} = corSftpInfo;
 
 					for (let value of highlight) {
 						dispatch(
@@ -77,13 +81,13 @@ const InputPopup = () => {
 
 				case 'sftp_new_folder': {
 					const uuid = input_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {path} = corServer;
+					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+					const {path} = corSftpInfo;
 
 					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
-							socket: corServer.socket,
+							socket: corSftpInfo.socket,
 							path: path,
 							uuid: uuid,
 							mkdir_path:
@@ -103,6 +107,7 @@ const InputPopup = () => {
 		[input_popup, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
+	console.log('rerendering...');
 	useEffect(() => {
 		const fillInForm = async () => {
 			if (input_popup.open) {

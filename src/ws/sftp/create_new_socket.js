@@ -1,7 +1,8 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, RM_SUCCESS} from '../../reducers/sftp/sftp';
+import {ERROR} from '../../reducers/sftp/sftp';
+import {CREATE_NEW_WEBSOCKET_SUCCESS} from "../../reducers/sftp/crud";
 
-export function rmResponse({data}) {
+export function createNewSocketResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -12,26 +13,13 @@ export function rmResponse({data}) {
 
 				if (
 					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.COMMAND
+					SFTP.Response.ResponseCase.CONNECT
 				) {
-					const command = response.getCommand();
-					if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RM
-					) {
-						const rm = command.getRm();
-						console.log('command : rm', rm);
-
-						return {type: RM_SUCCESS};
-					} else if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RMDIR
-					) {
-						const rmdir = command.getRmdir();
-						console.log('command : rmdir', rmdir);
-
-						return {type: RM_SUCCESS};
-					}
+					const connect = response.getConnect();
+					return {
+						type: CREATE_NEW_WEBSOCKET_SUCCESS,
+						uuid: connect.getUuid(),
+					};
 				} else if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.ERROR

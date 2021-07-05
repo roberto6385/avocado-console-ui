@@ -15,7 +15,7 @@ import {
 	RENAME_SUCCESS,
 	RM_SUCCESS,
 	WRITE_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 
 let fileBuffer = new ArrayBuffer(0);
 

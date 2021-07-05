@@ -7,7 +7,7 @@ import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {IconButton, IconContainer} from '../styles/global';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
-import {disconnectAction} from '../reducers/sftp';
+import {disconnectAction} from '../reducers/sftp/sftp';
 import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
 import {FONT_14, HEIGHT_30} from '../styles/length';
 import {

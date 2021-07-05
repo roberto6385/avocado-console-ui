@@ -1,25 +1,27 @@
 import {
-	all,
 	call,
-	fork,
 	take,
 	put,
 	actionChannel,
 	race,
 	delay,
+	all,
+	fork,
 } from 'redux-saga/effects';
 import {
-	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
 	ERROR,
 	LS_FAILURE_DELETE,
 	LS_REQUEST_DELETE,
 	LS_SUCCESS_DELETE,
 	searchDeleteListAction,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
+import {
+	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
+} from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -122,12 +124,6 @@ function* watchSendCommand() {
 			yield call(sendCommand, action);
 		}
 	}
-
-	// const reqChannel = yield actionChannel(LS_REQUEST_DELETE);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* searchListSaga() {

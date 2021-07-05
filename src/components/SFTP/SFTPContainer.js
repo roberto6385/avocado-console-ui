@@ -2,27 +2,47 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	ADD_HISTORY,
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
-	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	searchDeleteListAction,
+} from '../../reducers/sftp/sftp';
+import SFTP from './SFTP';
+import {
+	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
+	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
-} from '../../reducers/sftp';
-import SFTP from './SFTP';
+} from '../../reducers/sftp/crud';
+import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
+	const crudState = useSelector((state) => state.crud.crudState);
 	const {current_tab} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {readList, writeList, incinerator} = corServer;
+
+	const corCrudInfo = useMemo(
+		() => crudState.find((it) => it.uuid === uuid),
+		[crudState, uuid],
+	);
+	const {
+		readList,
+		writeList,
+		incinerator,
+		writeSockets,
+		removeSockets,
+		readSockets,
+	} = corCrudInfo;
+
+	const {highlight, path} = corSftpInfo;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -70,19 +90,24 @@ const SFTPContainer = ({uuid}) => {
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);
 		};
-	}, [corServer]);
+	}, [corSftpInfo]);
 
 	useEffect(() => {
-		if (readList.length !== 0) {
+		if (
+			readList.length !== 0 &&
+			readSockets.length !== 0 &&
+			readList.length === readSockets.length
+		) {
 			const value = readList.slice().shift();
-			console.log(value);
+			const socket = readSockets.slice().shift();
 			dispatch(
 				commandReadAction({
-					socket: corServer.socket,
-					uuid: corServer.uuid,
+					socket: corSftpInfo.socket,
+					read_socket: socket,
+					uuid: corSftpInfo.uuid,
 					read_path: value.path,
 					file: value.file,
-					mode: corServer.mode,
+					mode: corSftpInfo.mode,
 					todo: value.todo,
 				}),
 			);
@@ -91,7 +116,7 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: corServer.uuid,
+						uuid: corSftpInfo.uuid,
 						name: value.file.name,
 						size: value.file.size,
 						todo: value.todo,
@@ -101,28 +126,33 @@ const SFTPContainer = ({uuid}) => {
 			}
 
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
+			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
 		}
-	}, [readList]);
+	}, [readList, readSockets]);
 
 	useEffect(() => {
-		if (writeList.length !== 0) {
+		if (
+			writeList.length !== 0 &&
+			writeSockets.length !== 0 &&
+			writeList.length === writeSockets.length
+		) {
 			const value = writeList.slice().shift();
-			console.log(value);
+			const socket = writeSockets.slice().shift();
 			dispatch(
 				commandWriteAction({
-					socket: corServer.socket,
-					uuid: corServer.uuid,
+					socket: corSftpInfo.socket,
+					write_socket: socket,
+					uuid: corSftpInfo.uuid,
 					write_path: value.path,
 					file: value.file,
-					path: corServer.path,
-					writeList: writeList,
+					path: corSftpInfo.path,
 					todo: value.todo,
 				}),
 			);
 			dispatch({
 				type: ADD_HISTORY,
 				payload: {
-					uuid: corServer.uuid,
+					uuid: corSftpInfo.uuid,
 					name: value.file.name,
 					size: value.file.size,
 					todo: value.todo,
@@ -131,21 +161,25 @@ const SFTPContainer = ({uuid}) => {
 			});
 
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
+			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList]);
+	}, [writeList, writeSockets]);
 
 	useEffect(() => {
 		console.log(incinerator);
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
+			console.log(value);
+			const socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
 					commandRmAction({
-						socket: corServer.socket,
+						socket: corSftpInfo.socket,
+						remove_socket: socket,
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
-						path: corServer.path,
+						path: corSftpInfo.path,
 						keyword:
 							value.file.type === 'file'
 								? 'CommandByRm'
@@ -153,11 +187,11 @@ const SFTPContainer = ({uuid}) => {
 					}),
 				);
 			}
-			if (corServer.path === value.path) {
+			if (value.file.path) {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: corServer.uuid,
+						uuid: corSftpInfo.uuid,
 						name: value.file.name,
 						size: value.file.size,
 						todo: 'rm',
@@ -167,7 +201,58 @@ const SFTPContainer = ({uuid}) => {
 			}
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator]);
+	}, [incinerator, removeSockets]);
+
+	useEffect(() => {
+		if (removeSockets.length !== 0) {
+			const socket = removeSockets.slice().shift();
+
+			const array = [];
+			for (let value of highlight) {
+				if (value.name !== '.' && value.name !== '..') {
+					array.push({file: value, path});
+				}
+			}
+			console.log(array);
+
+			dispatch({
+				type: DELETE_WORK_LIST,
+				payload: {
+					uuid: uuid,
+					array,
+				},
+			});
+
+			if (
+				array.slice().filter((v) => v.file.type === 'directory')
+					.length === 0
+			) {
+				dispatch({
+					type: DELETE_WORK_TRANSPORTER,
+					payload: {
+						uuid: uuid,
+					},
+				});
+			} else {
+				for (let item of array.slice()) {
+					if (item.file.type === 'directory') {
+						console.log(item);
+						const delete_path =
+							path === '/'
+								? `${path}${item.file.name}`
+								: `${path}/${item.file.name}`;
+						dispatch(
+							searchDeleteListAction({
+								socket: socket,
+								uuid: corSftpInfo.uuid,
+								delete_path: delete_path,
+							}),
+						);
+					}
+				}
+			}
+		}
+	}, [removeSockets]);
 
 	return <SFTP uuid={uuid} />;
 };

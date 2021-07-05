@@ -10,23 +10,23 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
-	ERROR,
-	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
+import {FIND_HISTORY} from "../../reducers/sftp/history";
+import {removeNewWebsocket} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(subscribe, payload.read_socket);
 
 	const filepath =
 		payload.read_path === '/'
@@ -37,7 +37,7 @@ function* sendCommand(action) {
 
 	yield call(messageSender, {
 		keyword: 'CommandByRead',
-		ws: payload.socket,
+		ws: payload.read_socket,
 		path: filepath,
 		offset: 0,
 		length: senderLength,
@@ -47,13 +47,14 @@ function* sendCommand(action) {
 	try {
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				console.log('READ 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
+				// const data = yield take(channel);
 				const res = yield call(readResponse, {data, payload});
 				console.log(res);
 				switch (res.type) {
@@ -62,7 +63,7 @@ function* sendCommand(action) {
 							if (res.end === false) {
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
-									ws: payload.socket,
+									ws: payload.read_socket,
 									path: filepath,
 									offset: res.byteSum + 1,
 									length: senderLength,
@@ -71,7 +72,7 @@ function* sendCommand(action) {
 							} else {
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
-									ws: payload.socket,
+									ws: payload.read_socket,
 									path: filepath,
 									offset: res.byteSum,
 									length: senderLength,
@@ -89,6 +90,11 @@ function* sendCommand(action) {
 							},
 						});
 						if (res.last && res.percent === 100) {
+							yield put(
+								removeNewWebsocket({
+									socket: payload.read_socket,
+								}),
+							);
 							yield put({
 								type: READ_SUCCESS,
 								payload: {

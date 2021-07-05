@@ -1,7 +1,8 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, RM_SUCCESS} from '../../reducers/sftp/sftp';
+import {ERROR} from '../../reducers/sftp/sftp';
+import {REMOVE_NEW_WEBSOCKET_SUCCESS} from "../../reducers/sftp/crud";
 
-export function rmResponse({data}) {
+export function removeNewSocketResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -9,29 +10,20 @@ export function rmResponse({data}) {
 				const response = message.getResponse();
 				console.log(response);
 				console.log('response status: ', response.getStatus());
-
+				console.log(response.getResponseCase());
+				console.log(SFTP.Response.ResponseCase.DISCONNECT);
+				console.log(
+					response.getResponseCase() ===
+						SFTP.Response.ResponseCase.DISCONNECT,
+				);
 				if (
 					response.getResponseCase() ===
-					SFTP.Response.ResponseCase.COMMAND
+					SFTP.Response.ResponseCase.DISCONNECT
 				) {
-					const command = response.getCommand();
-					if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RM
-					) {
-						const rm = command.getRm();
-						console.log('command : rm', rm);
+					const disconnect = response.getDisconnect();
+					console.log(disconnect);
 
-						return {type: RM_SUCCESS};
-					} else if (
-						command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.RMDIR
-					) {
-						const rmdir = command.getRmdir();
-						console.log('command : rmdir', rmdir);
-
-						return {type: RM_SUCCESS};
-					}
+					return {type: REMOVE_NEW_WEBSOCKET_SUCCESS};
 				} else if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.ERROR

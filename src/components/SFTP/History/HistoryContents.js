@@ -2,12 +2,6 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	ADD_HISTORY_HI,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
-	PUSH_WRITE_LIST,
-} from '../../../reducers/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {
@@ -49,6 +43,12 @@ import {
 	historyUploadColor,
 	L_BORDER,
 } from '../../../styles/color';
+import {
+	ADD_HISTORY_HI,
+	INITIAL_HISTORY_HI,
+	REMOVE_HISTORY,
+} from '../../../reducers/sftp/history';
+import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -77,7 +77,7 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	padding: 4px;
+	// padding: 4px;
 	display: flex;
 	align-items: center;
 	background: ${(props) => props.back};
@@ -122,13 +122,36 @@ const Bar = styled.div`
 const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
+	const {userTicket} = useSelector((state) => state.userTicket);
 	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const historyState = useSelector((state) => state.history.historyState);
+	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {history, history_highlight, path} = corServer;
+	const corHistoryInfo = useMemo(
+		() => historyState.find((it) => it.uuid === uuid),
+		[historyState, uuid],
+	);
+	const corServer = useMemo(
+		() => server.find((it) => it.key === corTab.server.key),
+		[corTab],
+	);
+	const correspondedIdentity = useMemo(
+		() =>
+			identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			),
+		[identity, corTab],
+	);
+
+	const {path} = corSftpInfo;
+	const {history, history_highlight} = corHistoryInfo;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -142,27 +165,59 @@ const HistoryContents = ({uuid}) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
+				console.log({
+					token: userTicket.access_token, // connection info
+					host: corServer.host,
+					port: corServer.port,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+				});
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+						todo: 'write',
+						uuid: uuid,
+					}),
+				);
 			}
+
 			dispatch({
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corServer]);
+	}, [userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
+				console.log(value);
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+						todo: 'write',
+						uuid: uuid,
+					}),
+				);
 			}
+
 			dispatch({
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
 		},
-		[corServer, dispatch],
+		[userTicket, corServer, correspondedIdentity],
 	);
 
 	const selectItem = useCallback(

@@ -13,7 +13,7 @@ import {
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
 import {closeChannel, subscribe} from '../channel';
@@ -22,11 +22,10 @@ import {disconnectResponse} from '../../ws/sftp/disconnect_response';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
-	console.log(payload.uuid);
 	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {
-		messageSender({
+		yield call(messageSender, {
 			keyword: 'Disconnection',
 			ws: payload.socket,
 		});

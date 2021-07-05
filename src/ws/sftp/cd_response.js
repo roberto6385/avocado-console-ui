@@ -1,7 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
-import {CD_SUCCESS, ERROR} from '../../reducers/sftp';
+import {CD_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
 
-export async function cdResponse({data}) {
+export function cdResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
