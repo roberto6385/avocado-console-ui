@@ -16,6 +16,10 @@ import {
 } from '../../styles/default';
 import LoadingSpinner from '../loadingSpinner';
 import {IconButton} from '../../styles/button';
+import {
+	passwordVisibilityIcon,
+	passwordVisibilityOffIcon,
+} from '../../icons/icons';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -148,18 +152,14 @@ const SignUpForm = () => {
 						placeholder={t('password')}
 					/>
 					<IconButton
-						margin={'0px'}
-						color={'#757575'}
+						margin={'0px 0px 0px 12px'}
 						type='button'
+						color={'#757575'}
 						onClick={typeChange}
 					>
-						{visible ? (
-							<span className='material-icons'>visibility</span>
-						) : (
-							<span className='material-icons'>
-								visibility_off
-							</span>
-						)}
+						{visible
+							? passwordVisibilityIcon
+							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
 			</InputFiled_>

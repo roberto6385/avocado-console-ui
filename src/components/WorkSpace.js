@@ -17,7 +17,7 @@ import {
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
-import {ClickableIconButton, IconButton} from '../styles/button';
+import {ClickableIconButton, IconBox} from '../styles/button';
 import {disconnectAction} from '../reducers/sftp/sftp';
 
 const _Container = styled.div`
@@ -67,7 +67,7 @@ const _TabItem = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px;
+	padding: 16px;
 	height: 100%;
 	font-weight: bold;
 	background: ${(props) =>
@@ -230,9 +230,9 @@ const WorkSpace = () => {
 										}
 										theme_value={theme}
 									>
-										<IconButton
-											margin={'6px'}
-											size={'18px'}
+										<IconBox
+											margin_right={'6px'}
+											size={'xs'}
 											color={
 												current_tab === data.uuid
 													? activeColor[theme]
@@ -241,7 +241,7 @@ const WorkSpace = () => {
 										>
 											{data.type === 'SSH' && sshIcon}
 											{data.type === 'SFTP' && sftpIcon}
-										</IconButton>
+										</IconBox>
 										<_ServerName
 											onClick={changeVisibleTab(
 												data.uuid,

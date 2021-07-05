@@ -34,7 +34,7 @@ import {
 import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconButton} from '../../../styles/button';
+import {ClickableIconButton, IconBox} from '../../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -78,7 +78,6 @@ const _Ul = styled.ul`
 `;
 
 const _Span = styled.span`
-	margin-left: 8px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -463,26 +462,21 @@ const FileListDropDown = ({uuid}) => {
 											className={'filelist_contents'}
 										>
 											{item.type === 'directory' ? (
-												<IconButton
-													className={
-														'filelist_contents'
-													}
+												<IconBox
+													margin_right={'8px'}
 													color={activeColor[theme]}
-													margin='0px'
 												>
 													{folderOpenIcon}
-												</IconButton>
+												</IconBox>
 											) : (
-												<IconButton
-													className={
-														'filelist_contents'
-													}
+												<IconBox
+													margin_right={'8px'}
 													theme_value={theme}
-													margin='0px'
 												>
 													{fileIcon}
-												</IconButton>
+												</IconBox>
 											)}
+
 											<_Span
 												className={'filelist_contents'}
 											>

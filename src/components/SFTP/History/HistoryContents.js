@@ -39,7 +39,7 @@ import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 import {PreventDragCopy} from '../../../styles/function';
 import {
 	ClickableIconButton,
-	IconButton,
+	IconBox,
 	PrimaryGreenButton,
 } from '../../../styles/button';
 
@@ -70,7 +70,7 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	padding: 12px 16px 7.8px 10px;
+	padding: 16px;
 	display: flex;
 	align-items: center;
 	background: ${(props) =>
@@ -334,13 +334,13 @@ const HistoryContents = ({uuid}) => {
 						{t('paragraph')}
 					</_AnnounceText>
 					<DropSpace_Button theme_value={theme} onClick={openUpload}>
-						<IconButton
-							size={'20px'}
-							margin={'0px 8px 0px 0px'}
+						<IconBox
+							size='sm'
+							margin_right={'8px'}
 							color={theme === 0 ? 'white' : 'black'}
 						>
 							{fileUploadIcon}
-						</IconButton>
+						</IconBox>
 						<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
 					</DropSpace_Button>
 				</DropSpaceDiv>
@@ -362,8 +362,9 @@ const HistoryContents = ({uuid}) => {
 										: 0
 								}
 							>
-								<IconButton
-									size={'20px'}
+								<IconBox
+									size='sm'
+									margin_right={'6px'}
 									color={
 										history.progress !== 100
 											? historyPauseColor
@@ -376,7 +377,6 @@ const HistoryContents = ({uuid}) => {
 											: history.todo === 'rm' &&
 											  historyDeleteColor
 									}
-									margin_right={'11.7px'}
 								>
 									{history.progress !== 100
 										? pauseCircleIcon
@@ -388,7 +388,7 @@ const HistoryContents = ({uuid}) => {
 										? buildCircleIcon
 										: history.todo === 'rm' &&
 										  removeCircleIcon}
-								</IconButton>
+								</IconBox>
 								<HistoryText
 									className={'history_contents'}
 									flex={1}

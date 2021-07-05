@@ -30,7 +30,7 @@ import {
 } from '../styles/color';
 import LightModeLogo from '../images/logo@2x.png';
 import DarkModeLogo from '../images/logo_white@3x.png';
-import {ClickableIconButton, IconButton} from '../styles/button';
+import {ClickableIconButton, IconBox} from '../styles/button';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -159,8 +159,7 @@ const Nav = ({toggle, setToggle}) => {
 		>
 			<_Header back={navColor[theme]}>
 				<ClickableIconButton
-					size={'24px'}
-					margin={'0px 11px 0px 0px'}
+					margin_right={'6px'}
 					theme_value={theme}
 					onClick={onClickOpenTggle}
 				>
@@ -191,9 +190,9 @@ const Nav = ({toggle, setToggle}) => {
 				</ClickableIconButton>
 			</_AddFolerServerContainer>
 			<_Form back={navColor[theme]} bcolor={borderColor[theme]}>
-				<IconButton theme_value={theme} margin={'6px'}>
+				<IconBox theme_value={theme} margin_right={'6px'}>
 					{searchIcon}
-				</IconButton>
+				</IconBox>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}

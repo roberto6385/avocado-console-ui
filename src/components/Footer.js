@@ -55,24 +55,24 @@ const Footer = () => {
 				<_HostContainer>
 					<ClickableIconButton
 						color={fontColor[theme]}
-						margin={'4px'}
-						size={'16px'}
+						margin_right={'10px'}
+						size={'micro'}
 						onClick={onClickDeceaseFont}
 					>
 						{zoomOutIcon}
 					</ClickableIconButton>
 					<ClickableIconButton
 						color={fontColor[theme]}
-						margin={'4px'}
-						size={'16px'}
+						margin_right={'10px'}
+						size={'micro'}
 						onClick={onClickIncreaseFont}
 					>
 						{zoomInIcon}
 					</ClickableIconButton>
 					<ClickableIconButton
 						color={fontColor[theme]}
-						margin={'4px'}
-						size={'16px'}
+						margin_right={'10px'}
+						size={'micro'}
 						onClick={onClickOpenSearchBar}
 					>
 						{searchIcon}

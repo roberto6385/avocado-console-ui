@@ -37,7 +37,7 @@ import styled from 'styled-components';
 import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconButton} from '../../../styles/button';
+import {ClickableIconButton, IconBox} from '../../../styles/button';
 
 const _Table = styled.table`
 	display: flex;
@@ -313,15 +313,19 @@ const FileListContents = ({uuid}) => {
 								>
 									<Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
-											<IconButton
+											<IconBox
+												margin_right={'8px'}
 												color={activeColor[theme]}
 											>
 												{folderOpenIcon}
-											</IconButton>
+											</IconBox>
 										) : (
-											<IconButton theme_value={theme}>
+											<IconBox
+												margin_right={'8px'}
+												theme_value={theme}
+											>
 												{fileIcon}
-											</IconButton>
+											</IconBox>
 										)}
 
 										<span className='filelist_contents'>

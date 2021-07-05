@@ -284,3 +284,11 @@ export const removeCircleIcon = (
 
 // edit icon
 export const editIcon = <span className='material-icons'>edit</span>;
+
+//password visibility button
+export const passwordVisibilityIcon = (
+	<span className='material-icons'>visibility</span>
+);
+export const passwordVisibilityOffIcon = (
+	<span className='material-icons'>visibility_off</span>
+);

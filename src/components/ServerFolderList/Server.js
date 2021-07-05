@@ -27,7 +27,7 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconButton} from '../../styles/button';
+import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp/sftp';
 
 export const ServerItem = styled(Nav.Item)`
@@ -35,7 +35,7 @@ export const ServerItem = styled(Nav.Item)`
 	align-items: center;
 	justify-content: space-between;
 	height: 34px;
-	padding: auto 16px;
+	padding: 0px 16px 0px 8px;
 	padding-left: ${(props) => props?.left};
 	border-left: 2px solid;
 	border-color: ${(props) =>
@@ -178,11 +178,11 @@ const Server = ({data, indent}) => {
 				onContextMenu={contextMenuOpen}
 				theme_value={theme}
 				clicked={clicked_server === data.key ? 1 : 0}
-				left={(indent * 6 + 10).toString() + 'px'}
+				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconButton
-					margin={`0px 12px 0px 0px`}
-					size={'24px'}
+				<IconBox
+					size={'sm'}
+					margin_right={'12px'}
 					color={
 						clicked_server === data.key
 							? activeColor[theme]
@@ -191,7 +191,7 @@ const Server = ({data, indent}) => {
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
-				</IconButton>
+				</IconBox>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (

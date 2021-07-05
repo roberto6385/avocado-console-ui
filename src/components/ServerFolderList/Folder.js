@@ -11,11 +11,7 @@ import {
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import Collapse_ from '../RecycleComponents/Collapse_';
-import {
-	arrowDropDownIcon,
-	arrowRightIcon,
-	folderIcon,
-} from '../../icons/icons';
+import {arrowDropDownIcon, arrowRightIcon, folderIcon} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	activeColor,
@@ -29,14 +25,14 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconButton} from '../../styles/button';
+import {IconBox, IconButton} from '../../styles/button';
 
 const FolderItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	height: 34px;
-	padding: auto 16px;
+	padding: 0px 16px 0px 8px;
 	padding-left: ${(props) => props?.left};
 	border-left: 2px solid;
 	border-color: ${(props) =>
@@ -207,11 +203,11 @@ const Folder = ({open, data, indent}) => {
 				// onContextMenu={contextMenuOpen}
 				theme_value={theme}
 				clicked={clicked_server === data.key ? 1 : 0}
-				left={(indent * 6 + 10).toString() + 'px'}
+				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconButton
-					margin={`0px 12px 0px 0px`}
-					size={'20px'}
+				<IconBox
+					margin_right={'12px'}
+					size={'sm'}
 					color={
 						clicked_server === data.key
 							? activeColor[theme]
@@ -219,7 +215,7 @@ const Folder = ({open, data, indent}) => {
 					}
 				>
 					{folderIcon}
-				</IconButton>
+				</IconBox>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (
@@ -243,7 +239,8 @@ const Folder = ({open, data, indent}) => {
 				</FolderServerTitle>
 				<IconButton
 					theme_value={theme}
-					size={'20px'}
+					size={'sm'}
+					margin={'0px 0px 0px 12px'}
 					onClick={onClickOpen}
 				>
 					{openTab ? arrowDropDownIcon : arrowRightIcon}

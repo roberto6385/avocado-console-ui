@@ -161,26 +161,118 @@ export const SecondaryDisabledButton = styled(DefaultButton)`
 		secondaryDisabledButtonColor[0]};
 `;
 
+export const IconBox = styled.div`
+	background: transparent;
+	border: none;
+	line-height: 0px;
+	padding: 0px;
+	margin-right: ${(props) => props?.margin_right || '16px'};
+	margin: ${(props) => props?.margin};
+	font-size: ${(props) =>
+		props?.size
+			? props.size === 'sm'
+				? '20px'
+				: props.size === 'xs'
+				? '18px'
+				: props.size === 'micro'
+				? '16px'
+				: props.size
+			: '24px'};
+	color: ${(props) => props?.color || iconColor[props.theme_value]};
+
+	span {
+		//if icon is span, font-size does not apply
+		font-size: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
+	}
+
+	svg {
+		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+		width: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
+		height: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
+	}
+`;
+
 export const IconButton = styled.button`
 	background: transparent;
 	border: none;
 	line-height: 0px;
 	padding: 0px;
-	margin: ${(props) =>
-		props?.margin_right ? '0px' : props?.margin || '8px'};
-	margin-right: ${(props) => props?.margin_right && props.margin_right};
-	font-size: ${(props) => props?.size || '24px'};
+	margin-right: ${(props) => props?.margin_right || '16px'};
+	margin: ${(props) => props?.margin};
+	font-size: ${(props) =>
+		props?.size
+			? props.size === 'sm'
+				? '20px'
+				: props.size === 'xs'
+				? '18px'
+				: props.size === 'micro'
+				? '16px'
+				: props.size
+			: '24px'};
 	color: ${(props) => props?.color || iconColor[props.theme_value]};
-
 	span {
 		//if icon is span, font-size does not apply
-		font-size: ${(props) => props?.size || '24px'};
+		font-size: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
 	}
 
 	svg {
 		fill: ${(props) => props?.color || iconColor[props.theme_value]};
-		width: ${(props) => props?.size || '24px'};
-		height: ${(props) => props?.size || '24px'};
+		width: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
+		height: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
 	}
 `;
 
@@ -189,21 +281,57 @@ export const ClickableIconButton = styled.button`
 	border: none;
 	line-height: 0px;
 	padding: 0px;
-	margin: ${(props) =>
-		props?.margin_right ? '0px' : props?.margin || '8px'};
-	margin-right: ${(props) => props?.margin_right && props.margin_right};
-	font-size: ${(props) => props?.size || '24px'};
+	margin-right: ${(props) => props?.margin_right || '16px'};
+	margin: ${(props) => props?.margin};
+	font-size: ${(props) =>
+		props?.size
+			? props.size === 'sm'
+				? '20px'
+				: props.size === 'xs'
+				? '18px'
+				: props.size === 'micro'
+				? '16px'
+				: props.size
+			: '24px'};
 	color: ${(props) => props?.color || iconColor[props.theme_value]};
 
 	span {
 		//if icon is span, font-size does not apply
-		font-size: ${(props) => props?.size || '24px'};
+		font-size: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
 	}
 
 	svg {
 		fill: ${(props) => props?.color || iconColor[props.theme_value]};
-		width: ${(props) => props?.size || '24px'};
-		height: ${(props) => props?.size || '24px'};
+		width: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
+
+		height: ${(props) =>
+			props?.size
+				? props.size === 'sm'
+					? '20px'
+					: props.size === 'xs'
+					? '18px'
+					: props.size === 'micro'
+					? '16px'
+					: props.size
+				: '24px'};
 	}
 
 	&:hover {

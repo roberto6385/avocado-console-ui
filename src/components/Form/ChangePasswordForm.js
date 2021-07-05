@@ -77,7 +77,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 				<div>{t('title')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}
