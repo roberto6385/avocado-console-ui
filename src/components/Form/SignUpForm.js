@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import {LIGHT_MODE_BORDER_COLOR, IconButton} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
@@ -16,6 +15,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/default';
 import LoadingSpinner from '../loadingSpinner';
+import {IconButton} from '../../styles/button';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -143,13 +143,16 @@ const SignUpForm = () => {
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={
-							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
-						}
+						color={password === '' ? '#e5e5e5' : 'black'}
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton type='button' onClick={typeChange}>
+					<IconButton
+						margin={'0px'}
+						color={'#757575'}
+						type='button'
+						onClick={typeChange}
+					>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (
@@ -167,11 +170,7 @@ const SignUpForm = () => {
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
 						value={passwordConfirm}
-						color={
-							passwordConfirm === ''
-								? LIGHT_MODE_BORDER_COLOR
-								: 'black'
-						}
+						color={passwordConfirm === '' ? '#e5e5e5' : 'black'}
 						onChange={onChangePasswordConfirm}
 						placeholder={t('confirmPassword')}
 					/>

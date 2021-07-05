@@ -13,7 +13,6 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {theme, rightSideKey} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
 
 	const changePath = useCallback(
 		(path) => () => {

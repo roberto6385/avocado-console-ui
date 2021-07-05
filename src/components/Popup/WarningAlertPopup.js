@@ -17,17 +17,20 @@ import {
 	REMOVE_HISTORY,
 	searchDeleteListAction,
 } from '../../reducers/sftp';
-import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
+import {cancelFillIcon, closeIcon} from '../../icons/icons';
 import {
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	ModalMessage,
 	PopupModal,
 	PopupText,
 } from '../../styles/default';
-import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
-import {put} from 'redux-saga/effects';
+import {
+	ClickableIconButton,
+	PrimaryGreyButton,
+	PrimaryRedButton,
+} from '../../styles/button';
+import {fontColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -38,12 +41,8 @@ const WarningAlertPopup = () => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 	const {warning_alert_popup} = useSelector((state) => state.popup);
-	const {
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-		nav,
-	} = useSelector((state) => state.common);
+	const {clicked_server, accountListControlId, accountCheckList, nav} =
+		useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const AlertMessage = {
@@ -189,12 +188,13 @@ const WarningAlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div theme_value={theme}>{t('alert')}</div>
-				<ModalHeaderIconButton
-					theme_value={theme}
-					onClick={cancelFunction}
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
 				>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>

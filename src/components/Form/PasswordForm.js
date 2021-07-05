@@ -4,10 +4,9 @@ import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
-import {IconButton} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {SecondaryGreenButton} from '../../styles/button';
+import {SecondaryGreenButton, IconButton} from '../../styles/button';
 import {
 	UserForm,
 	UserInput,
@@ -191,7 +190,12 @@ const PasswordForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton type='button' onClick={typeChange}>
+					<IconButton
+						margin={'0px'}
+						type='button'
+						color={'#757575'}
+						onClick={typeChange}
+					>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (

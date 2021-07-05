@@ -4,27 +4,21 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import Nav from './Nav';
 import MainPage from './MainPage';
-import {IconButton, IconContainer, Span} from '../styles/global';
-import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
+import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import PanesContainer from './PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-import {
-	CHANGE_CURRENT_TAB,
-	CHANGE_VISIBLE_TAB,
-	SORT_TAB,
-} from '../reducers/common';
+import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {FONT_18, WIDTH_160} from '../styles/length';
 import {
 	activeColor,
 	fontColor,
-	iconColor,
 	mainBackColor,
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
+import {ClickableIconButton, IconButton} from '../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -66,7 +60,7 @@ const _Nav = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background: ${(props) => props?.back};
+	background: ${(props) => tabbarColor[props.theme_value]};
 `;
 
 const _TabItem = styled.div`
@@ -75,12 +69,21 @@ const _TabItem = styled.div`
 	align-items: center;
 	padding: 10px;
 	height: 100%;
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-	width: ${WIDTH_160};
-	border-top: 2px solid;
-	border-color: ${(props) => props.bcolor};
 	font-weight: bold;
+	background: ${(props) =>
+		props.clicked
+			? tabColor[props.theme_value]
+			: tabbarColor[props.theme_value]};
+	color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: fontColor[props.theme_value]};
+	width: 160px;
+	border-top: 2px solid;
+	border-color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: tabbarColor[props.theme_value]};
 `;
 
 const _Tab = styled.div`
@@ -88,7 +91,6 @@ const _Tab = styled.div`
 	flex-warp: nowrap;
 	align-items: center;
 	justify-content: space-between;
-	background: ${(props) => props?.back};
 `;
 
 const _MainSpace = styled.div`
@@ -131,6 +133,11 @@ const _TabsContianer = styled.div`
 	overflow: auto;
 	max-width: calc(100% - 152px);
 	height: 54px;
+`;
+
+const _ServerName = styled.div`
+	flex: 1;
+	overflow: hidden;
 `;
 
 const WorkSpace = () => {
@@ -205,7 +212,7 @@ const WorkSpace = () => {
 			<_MainContainer
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
-				<_Nav back={tabbarColor[theme]}>
+				<_Nav theme_value={theme}>
 					<_TabsContianer>
 						{tab.map((data) => {
 							return (
@@ -218,48 +225,38 @@ const WorkSpace = () => {
 									<_TabItem
 										draggable='true'
 										onDragStart={prevPutItem(data)}
-										back={
-											current_tab === data.uuid
-												? tabColor[theme]
-												: tabbarColor[theme]
+										clicked={
+											current_tab === data.uuid ? 1 : 0
 										}
-										color={
-											current_tab === data.uuid
-												? activeColor[theme]
-												: fontColor[theme]
-										}
-										bcolor={
-											current_tab === data.uuid
-												? activeColor[theme]
-												: tabbarColor[theme]
-										}
+										theme_value={theme}
 									>
-										<IconContainer padding={'6px'}>
-											{data.type === 'SSH' &&
-												sshIcon(
-													current_tab === data.uuid
-														? activeColor[theme]
-														: fontColor[theme],
-												)}
-											{data.type === 'SFTP' &&
-												sftpIconSmall}
-										</IconContainer>
-										<Span
-											flex={1}
-											padding={'0px'}
+										<IconButton
+											margin={'6px'}
+											size={'18px'}
+											color={
+												current_tab === data.uuid
+													? activeColor[theme]
+													: fontColor[theme]
+											}
+										>
+											{data.type === 'SSH' && sshIcon}
+											{data.type === 'SFTP' && sftpIcon}
+										</IconButton>
+										<_ServerName
 											onClick={changeVisibleTab(
 												data.uuid,
 											)}
 										>
 											{data.server.name}
-										</Span>
-										<IconButton
-											size={FONT_18}
+										</_ServerName>
+										<ClickableIconButton
+											size='18px'
+											margin={'6px'}
+											theme_value={theme}
 											onClick={onClickDelete(data)}
-											color={iconColor[theme]}
 										>
-											{closeIconSmall}
-										</IconButton>
+											{closeIcon}
+										</ClickableIconButton>
 									</_TabItem>
 								</_Tab>
 							);

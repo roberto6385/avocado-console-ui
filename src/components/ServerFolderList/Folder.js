@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
+
 import Server from './Server';
 import {
 	CHANGE_SERVER_FOLDER_NAME,
@@ -9,51 +10,58 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
-import {IconButton, Span, IconContainer} from '../../styles/global';
 import Collapse_ from '../RecycleComponents/Collapse_';
-import styled from 'styled-components';
 import {
-	arrowDropDownIconMidium,
-	arrowRightIconMidium,
-	folderIconMidium,
+	arrowDropDownIcon,
+	arrowRightIcon,
+	folderIcon,
 } from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {FONT_14, HEIGHT_34} from '../../styles/length';
 import {
 	activeColor,
-	fontColor,
 	iconColor,
 	navColor,
 	navHighColor,
 } from '../../styles/color';
+import {
+	FolderServerTitle,
+	NewServerFolderForm,
+	NewServerFolderInput,
+} from '../../styles/default';
+import styled from 'styled-components';
+import {IconButton} from '../../styles/button';
 
-export const _NavItem = styled.div`
+const FolderItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${HEIGHT_34};
+	height: 34px;
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
-	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: navColor[props.theme_value]};
+	background-color: ${(props) =>
+		props.clicked
+			? navHighColor[props.theme_value]
+			: navColor[props.theme_value]};
 `;
 
-export const _Form = styled.form`
-	display: flex;
-	padding: 4px 0px;
-	border: none;
-`;
+const isValidFolderName = (folderArray, name) => {
+	let pass = true;
 
-export const _Input = styled.input`
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-	padding: 0;
-	margin: 0;
-	font-size: ${FONT_14};
-	border: none;
-	outline: none;
-`;
+	for (let i of folderArray) {
+		if (i.type === 'folder') {
+			if (i.name === name) return false;
+			else if (i.contain.length > 0) {
+				pass = pass && isValidFolderName(i.contain, name);
+			}
+		}
+	}
+	return pass;
+};
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
@@ -71,22 +79,7 @@ const Folder = ({open, data, indent}) => {
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data, dispatch]);
-
-	const isValidFolderName = (folderArray, name) => {
-		let pass = true;
-
-		for (let i of folderArray) {
-			if (i.type === 'folder') {
-				if (i.name === name) return false;
-				else if (i.contain.length > 0) {
-					// eslint-disable-next-line no-unused-vars
-					pass = pass && isValidFolderName(i.contain, name);
-				}
-			}
-		}
-		return pass;
-	};
+	}, [clicked_server, data]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
@@ -206,57 +199,56 @@ const Folder = ({open, data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<_NavItem
+			<FolderItem
 				onClick={onCLickFolder}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				// onContextMenu={contextMenuOpen}
-				bcolor={
-					clicked_server === data.key
-						? activeColor[theme]
-						: navColor[theme]
-				}
-				back={
-					clicked_server === data.key
-						? navHighColor[theme]
-						: navColor[theme]
-				}
+				theme_value={theme}
+				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				<IconContainer
+				<IconButton
 					margin={`0px 12px 0px 0px`}
+					size={'20px'}
 					color={
 						clicked_server === data.key
 							? activeColor[theme]
 							: iconColor[theme]
 					}
 				>
-					{folderIconMidium}
-				</IconContainer>
-				{/*</Avocado_span>*/}
-				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
+					{folderIcon}
+				</IconButton>
+
+				<FolderServerTitle theme_value={theme}>
 					{openRename ? (
-						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
-							<_Input
+						<NewServerFolderForm
+							onSubmit={handleSubmit}
+							onBlur={handleSubmit}
+						>
+							<NewServerFolderInput
 								ref={renameRef}
 								type='text'
 								value={renameValue}
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
 								onBlur={handleBlur}
-								back={navHighColor[theme]}
-								color={fontColor[theme]}
+								theme_value={theme}
 							/>
-						</_Form>
+						</NewServerFolderForm>
 					) : (
 						data.name
 					)}
-				</Span>
-				<IconButton onClick={onClickOpen}>
-					{openTab ? arrowDropDownIconMidium : arrowRightIconMidium}
+				</FolderServerTitle>
+				<IconButton
+					theme_value={theme}
+					size={'20px'}
+					onClick={onClickOpen}
+				>
+					{openTab ? arrowDropDownIcon : arrowRightIcon}
 				</IconButton>
-			</_NavItem>
+			</FolderItem>
 			{data.contain.length !== 0 && (
 				<Collapse_ open={openTab}>
 					<React.Fragment>

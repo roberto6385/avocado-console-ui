@@ -39,10 +39,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		const sftpTabs = tab.slice().filter((v) => v.type === 'SFTP');
-		console.log(sftpTabs);
-		console.log(correspondedServer);
-		console.log(correspondedIdentity);
 
 		dispatch(
 			connectionAction({
@@ -62,7 +58,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 
-		console.log(correspondedIdentity);
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			data: {
@@ -76,7 +71,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const handleItemClick = useCallback(
 		(v) => () => {
-			console.log(v);
 			switch (v) {
 				case 'connect':
 					openSSH();

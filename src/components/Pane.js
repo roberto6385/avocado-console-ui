@@ -5,21 +5,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {IconButton, IconContainer} from '../styles/global';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
 import {disconnectAction} from '../reducers/sftp';
-import {closeIconSmall, sftpIconSmall, sshIcon} from '../icons/icons';
+import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
 import {FONT_14, HEIGHT_30} from '../styles/length';
 import {
-	activeColor,
 	activePaneHeaderColor,
 	borderColor,
 	fontColor,
-	highColor,
-	iconColor,
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
+import {ClickableIconButton, IconButton} from '../styles/button';
 
 const _Container = styled.div`
 	height: 100%;
@@ -102,23 +99,32 @@ const Pane = ({uuid, type, server}) => {
 				>
 					<_HeaderText color={fontColor[theme]}>
 						{type === 'SSH' && (
-							<IconContainer padding={'0px 8px 0px 0px'}>
-								{sshIcon('black')}
-							</IconContainer>
+							<IconButton
+								margin={'6px'}
+								size={'18px'}
+								color={fontColor[theme]}
+							>
+								{sshIcon}
+							</IconButton>
 						)}
 						{type === 'SFTP' && (
-							<IconContainer padding={'0px 8px 0px 0px'}>
-								{sftpIconSmall}
-							</IconContainer>
+							<IconButton
+								margin={'6px'}
+								size={'18px'}
+								color={fontColor[theme]}
+							>
+								{sftpIcon}
+							</IconButton>
 						)}
 						{server.name}
 					</_HeaderText>
-					<IconButton
-						color={iconColor[theme]}
+					<ClickableIconButton
+						theme_value={theme}
+						size={'16px'}
 						onClick={onClickDelete}
 					>
-						{closeIconSmall}
-					</IconButton>
+						{closeIcon}
+					</ClickableIconButton>
 				</_Header>
 			)}
 			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}

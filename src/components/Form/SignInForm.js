@@ -8,7 +8,6 @@ import {useTranslation} from 'react-i18next';
 import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/auth/userTicket';
 import {SAVE_ENCODE_DATA} from '../../reducers/common';
-import {IconButton} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';
@@ -25,6 +24,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/default';
+import {IconButton} from '../../styles/button';
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -203,7 +203,12 @@ const SignInForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton type='button' onClick={typeChange}>
+					<IconButton
+						margin={'0px'}
+						color={'#757575'}
+						type='button'
+						onClick={typeChange}
+					>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (
@@ -219,7 +224,7 @@ const SignInForm = () => {
 					title={t('remember')}
 					value={rememberMe}
 					handleCheck={onClickRememberMe}
-					themeValue={0}
+					theme_value={0}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>

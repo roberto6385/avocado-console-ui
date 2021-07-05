@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
+import styled from 'styled-components';
+
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import {
 	ADD_HIGHLIGHT,
@@ -13,13 +15,6 @@ import {
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import styled from 'styled-components';
-import {
-	HiddenScroll,
-	IconButton,
-	IconContainer,
-	PreventDragCopy,
-} from '../../../styles/global';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -36,6 +31,8 @@ import {
 	highColor,
 	tabColor,
 } from '../../../styles/color';
+import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
+import {ClickableIconButton, IconButton} from '../../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -51,7 +48,7 @@ const _ItemContainer = styled.div`
 	min-width: ${WIDTH_200};
 	overflow: hidden;
 	text-overflow: ellipsis;
-	padding: 0px;
+	padding: 16px;
 	margin: 0px;
 `;
 
@@ -65,12 +62,10 @@ const _Ul = styled.ul`
 	${PreventDragCopy}
 	${HiddenScroll}
 	height: 100%;
-
 	min-width: ${(props) => props.width};
 	flex: ${(props) => props.flex};
 	list-style: none;
 	overflow-y: scroll;
-
 	margin: 0px;
 	padding: 0px;
 	outline: none;
@@ -81,7 +76,7 @@ const _Ul = styled.ul`
 `;
 
 const _Span = styled.span`
-	padding: 4px;
+	margin-left: 8px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -93,7 +88,7 @@ const _Li = styled.li`
 	min-width: ${WIDTH_220};
 	height: ${HEIGHT_48};
 	white-space: nowrap;
-	padding: 16px 12px;
+	padding: 0px;
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid;
@@ -104,19 +99,12 @@ const FileListDropDown = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const {
-		fileList,
-		pathList,
-		highlight,
-		path,
-		tempItem,
-		sortKeyword,
-		toggle,
-	} = corServer;
+	const corServer = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
+	const {fileList, pathList, highlight, path, tempItem, sortKeyword, toggle} =
+		corServer;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -162,133 +150,139 @@ const FileListDropDown = ({uuid}) => {
 	};
 
 	const selectFile = useCallback(
-		({item, listindex, itemIndex}) => (e) => {
-			console.log(item, listindex, itemIndex);
-			if (e.shiftKey) {
-				if (corServer.path !== pathList[listindex]) {
-					dispatch(
-						commandCdAction({
-							socket: corServer.socket,
-							path: corServer.path,
-							uuid: uuid,
-							cd_path: pathList[listindex],
-						}),
-					);
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
-					});
-				} else {
-					if (highlight.length === 0) {
+		({item, listindex, itemIndex}) =>
+			(e) => {
+				console.log(item, listindex, itemIndex);
+				if (e.shiftKey) {
+					if (corServer.path !== pathList[listindex]) {
+						dispatch(
+							commandCdAction({
+								socket: corServer.socket,
+								path: corServer.path,
+								uuid: uuid,
+								cd_path: pathList[listindex],
+							}),
+						);
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
 							payload: {uuid, item},
 						});
 					} else {
-						if (highlight[0].name === path.split('/').pop()) {
+						if (highlight.length === 0) {
 							dispatch({
-								type: INITIALIZING_HIGHLIGHT,
-								payload: {uuid},
+								type: ADD_ONE_HIGHLIGHT,
+								payload: {uuid, item},
 							});
+						} else {
+							if (highlight[0].name === path.split('/').pop()) {
+								dispatch({
+									type: INITIALIZING_HIGHLIGHT,
+									payload: {uuid},
+								});
+							}
+							const corList = fileList[listindex];
+							const firstIndex = corList.findIndex(
+								(it) => it?.name === highlight[0].name,
+							);
+							compareNumber(corList, firstIndex, itemIndex);
 						}
-						const corList = fileList[listindex];
-						const firstIndex = corList.findIndex(
-							(it) => it?.name === highlight[0].name,
-						);
-						compareNumber(corList, firstIndex, itemIndex);
 					}
-				}
-			} else if (e.metaKey) {
-				if (path !== pathList[listindex]) {
-					if (
-						tempItem !== null &&
-						tempItem.path === pathList[listindex]
-					) {
-						dispatch(
-							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
-								uuid: uuid,
-								cd_path: pathList[listindex],
-							}),
-						);
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item},
-						});
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: tempItem.item},
-						});
-						dispatch({
-							type: REMOVE_TEMP_HIGHLIGHT,
-							payload: {uuid},
-						});
-						return;
-					}
-
-					if (item.type === 'file') {
-						dispatch(
-							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
-								uuid: uuid,
-								cd_path: pathList[listindex],
-							}),
-						);
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item},
-						});
-					} else {
-						dispatch(
-							commandCdAction({
-								socket: corServer.socket,
-								path: corServer.path,
-								uuid: uuid,
-								cd_path: `${pathList[listindex]}/${item.name}`,
-							}),
-						);
-						dispatch({
-							type: TEMP_HIGHLIGHT,
-							payload: {uuid, item, path: pathList[listindex]},
-						});
-					}
-				} else {
-					highlight.find((it) => it.name === item.name) === undefined
-						? dispatch({
+				} else if (e.metaKey) {
+					if (path !== pathList[listindex]) {
+						if (
+							tempItem !== null &&
+							tempItem.path === pathList[listindex]
+						) {
+							dispatch(
+								commandCdAction({
+									socket: corServer.socket,
+									path: corServer.path,
+									uuid: uuid,
+									cd_path: pathList[listindex],
+								}),
+							);
+							dispatch({
 								type: ADD_HIGHLIGHT,
 								payload: {uuid, item},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
+							});
+							dispatch({
+								type: ADD_HIGHLIGHT,
+								payload: {uuid, item: tempItem.item},
+							});
+							dispatch({
+								type: REMOVE_TEMP_HIGHLIGHT,
+								payload: {uuid},
+							});
+							return;
+						}
+
+						if (item.type === 'file') {
+							dispatch(
+								commandCdAction({
+									socket: corServer.socket,
+									path: corServer.path,
+									uuid: uuid,
+									cd_path: pathList[listindex],
+								}),
+							);
+							dispatch({
+								type: ADD_ONE_HIGHLIGHT,
 								payload: {uuid, item},
-						  });
+							});
+						} else {
+							dispatch(
+								commandCdAction({
+									socket: corServer.socket,
+									path: corServer.path,
+									uuid: uuid,
+									cd_path: `${pathList[listindex]}/${item.name}`,
+								}),
+							);
+							dispatch({
+								type: TEMP_HIGHLIGHT,
+								payload: {
+									uuid,
+									item,
+									path: pathList[listindex],
+								},
+							});
+						}
+					} else {
+						highlight.find((it) => it.name === item.name) ===
+						undefined
+							? dispatch({
+									type: ADD_HIGHLIGHT,
+									payload: {uuid, item},
+							  })
+							: dispatch({
+									type: REMOVE_HIGHLIGHT,
+									payload: {uuid, item},
+							  });
+					}
+				} else {
+					const finalPath =
+						item.type === 'directory'
+							? pathList[listindex] === '/'
+								? `${pathList[listindex]}${item.name}`
+								: `${pathList[listindex]}/${item.name}`
+							: pathList[listindex];
+					if (path !== finalPath) {
+						dispatch(
+							commandCdAction({
+								socket: corServer.socket,
+								path: corServer.path,
+								uuid: uuid,
+								cd_path: finalPath,
+							}),
+						);
+					}
+					item.type === 'file' &&
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {uuid, item},
+						});
 				}
-			} else {
-				const finalPath =
-					item.type === 'directory'
-						? pathList[listindex] === '/'
-							? `${pathList[listindex]}${item.name}`
-							: `${pathList[listindex]}/${item.name}`
-						: pathList[listindex];
-				if (path !== finalPath) {
-					dispatch(
-						commandCdAction({
-							socket: corServer.socket,
-							path: corServer.path,
-							uuid: uuid,
-							cd_path: finalPath,
-						}),
-					);
-				}
-				item.type === 'file' &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item},
-					});
-			}
-		},
+			},
 		[corServer],
 	);
 
@@ -320,30 +314,31 @@ const FileListDropDown = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		({item, clickedPath}) => (e) => {
-			e.preventDefault();
-			e.stopPropagation();
+		({item, clickedPath}) =>
+			(e) => {
+				e.preventDefault();
+				e.stopPropagation();
 
-			if (path !== clickedPath) {
-				dispatch(
-					commandCdAction({
-						socket: corServer.socket,
-						path: corServer.path,
-						uuid: uuid,
-						cd_path: clickedPath,
-					}),
-				);
-			}
+				if (path !== clickedPath) {
+					dispatch(
+						commandCdAction({
+							socket: corServer.socket,
+							path: corServer.path,
+							uuid: uuid,
+							cd_path: clickedPath,
+						}),
+					);
+				}
 
-			highlight.length < 2 &&
-				item !== undefined &&
-				clickedPath !== undefined &&
-				dispatch({
-					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item},
-				});
-			show(e);
-		},
+				highlight.length < 2 &&
+					item !== undefined &&
+					clickedPath !== undefined &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item},
+					});
+				show(e);
+			},
 		[corServer],
 	);
 
@@ -435,24 +430,25 @@ const FileListDropDown = ({uuid}) => {
 											className={'filelist_contents'}
 										>
 											{item.type === 'directory' ? (
-												<IconContainer
+												<IconButton
 													className={
 														'filelist_contents'
 													}
 													color={activeColor[theme]}
-													margin={`0px 4px 0px 0px`}
+													margin='0px'
 												>
 													{folderOpenIcon}
-												</IconContainer>
+												</IconButton>
 											) : (
-												<IconContainer
+												<IconButton
 													className={
 														'filelist_contents'
 													}
-													margin={`0px 4px 0px 0px`}
+													theme_value={theme}
+													margin='0px'
 												>
 													{fileIcon}
-												</IconContainer>
+												</IconButton>
 											)}
 											<_Span
 												className={'filelist_contents'}
@@ -472,24 +468,28 @@ const FileListDropDown = ({uuid}) => {
 												<_ButtonContainer>
 													{item.type === 'file' &&
 														item.name !== '..' && (
-															<IconButton
+															<ClickableIconButton
+																theme_value={
+																	theme
+																}
 																zIndex={1}
 																onClick={edit(
 																	item,
 																)}
 															>
 																{editIcon}
-															</IconButton>
+															</ClickableIconButton>
 														)}
 													{item.name !== '..' && (
-														<IconButton
+														<ClickableIconButton
+															theme_value={theme}
 															zIndex={1}
 															onClick={download(
 																item,
 															)}
 														>
 															{fileDownloadIcon}
-														</IconButton>
+														</ClickableIconButton>
 													)}
 												</_ButtonContainer>
 											</>

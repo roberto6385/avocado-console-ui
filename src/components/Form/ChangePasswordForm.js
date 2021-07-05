@@ -5,21 +5,22 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
-import {fontColor} from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
-import {closeIconSmall} from '../../icons/icons';
+import {closeIcon} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	Form,
 	Input,
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	PopupModal,
-
-
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
+import {
+	ClickableIconButton,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/button';
+import {fontColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -31,17 +32,11 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector((state) => state.common);
 
-	const [
-		currentPassword,
-		onChangeCurrentPassword,
-		setCurrentPassword,
-	] = useInput('');
+	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
+		useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [
-		confrimPassword,
-		onChangeConfirmPassword,
-		setConfrimPassword,
-	] = useInput('');
+	const [confrimPassword, onChangeConfirmPassword, setConfrimPassword] =
+		useInput('');
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -80,9 +75,13 @@ const ChangePasswordForm = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconSmall}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
 				<InputFiled_ title={t('current')}>
@@ -116,11 +115,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			</Form>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
-					theme_value={theme}
-					onClick={closeModal}
-					color={fontColor[theme]}
-				>
+				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>

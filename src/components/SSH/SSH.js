@@ -12,26 +12,25 @@ import {
 	SSH_SEND_COMMAND_REQUEST,
 	SET_SEARCH_MODE,
 } from '../../reducers/ssh';
-import {IconButton, IconContainer} from '../../styles/global';
+
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
-	arrowDropDownIconMidium,
-	arrowDropUpIconMidium,
-	closeIconMedium,
-	searchIconMicro,
+	arrowDropDownIcon,
+	arrowDropUpIcon,
+	closeIcon,
+	searchIcon,
 } from '../../icons/icons';
 import {useTranslation} from 'react-i18next';
 import {
 	borderColor,
 	contextHover,
 	fontColor,
-	iconColor,
 	sshSearch,
 	terminalColor,
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
-import {SearchPopupContainer, SearchInput} from '../../styles/default';
+import {ClickableIconButton, IconButton} from '../../styles/button';
 
 const _Container = styled.div`
 	height: 100%;
@@ -48,7 +47,22 @@ const _Terminal = styled(_Container)`
 	padding: 0px;
 `;
 
-const _Form = styled(SearchPopupContainer)`
+const SearchInput = styled.input`
+	flex: 1;
+	margin: 0px 5px;
+	background: transparent;
+	border: none;
+	color: ${(props) => fontColor[props.theme_value]};
+`;
+
+const _SearchPopupContainer = styled.div`
+	width: 400px;
+	height: 42px;
+	align-items: center;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
+	background: ${(props) => sshSearch[props.theme_value]};
+	border-radius: 4px;
+	padding: 0 0 0 13px;
 	position: absolute;
 	right: 10px;
 	bottom: 10px;
@@ -74,7 +88,7 @@ const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
 	overflow: auto;
 	background: ${(props) =>
-		props.clickeditem
+		props.clicked
 			? contextHover[props.theme_value]
 			: sshSearch[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
@@ -84,10 +98,6 @@ const _ListGroupItem = styled(ListGroup.Item)`
 const _FooterListGroupItem = styled(_ListGroupItem)`
 	font-size: 10px;
 	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
-`;
-
-const _IconButton = styled(IconButton)`
-	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const SSH = ({uuid}) => {
@@ -318,18 +328,14 @@ const SSH = ({uuid}) => {
 	}, [auto_completion_mode, ssh_history, currentLine, ignoreAutoCompletion]);
 	//change font
 	useEffect(() => {
-		if (sshTerm.getOption('fontFamily') !== font) {
-			sshTerm.setOption('fontFamily', font);
-			fitAddon.fit();
-		}
+		sshTerm.setOption('fontFamily', font);
+		fitAddon.fit();
 	}, [sshTerm, fitAddon, font]);
 
 	//change font size
 	useEffect(() => {
-		if (sshTerm.getOption('fontSize') !== font_size) {
-			sshTerm.setOption('fontSize', font_size);
-			fitAddon.fit();
-		}
+		sshTerm.setOption('fontSize', font_size);
+		fitAddon.fit();
 	}, [sshTerm, fitAddon, font_size]);
 	//change terminal theme
 	useEffect(() => {
@@ -438,7 +444,7 @@ const SSH = ({uuid}) => {
 			>
 				{historyList.map((v, i) => (
 					<_ListGroupItem
-						clickeditem={i === currentHistory ? 1 : 0}
+						clicked={i === currentHistory ? 1 : 0}
 						theme_value={theme}
 						onClick={onClickCommand(v)}
 						key={i}
@@ -451,10 +457,18 @@ const SSH = ({uuid}) => {
 				</_FooterListGroupItem>
 			</_ListGroup>
 
-			<_Form theme_value={theme} id={`ssh_search_${uuid}`}>
-				<IconContainer color={iconColor[theme]}>
-					{searchIconMicro}
-				</IconContainer>
+			<_SearchPopupContainer
+				theme_value={theme}
+				id={`ssh_search_${uuid}`}
+			>
+				<IconButton
+					size={'16px'}
+					theme_value={theme}
+					margin_right={'5px'}
+					onClick={onClickArrowUp}
+				>
+					{searchIcon}
+				</IconButton>
 				<SearchInput
 					onKeyPress={onPressEnter}
 					onChange={onChangeSearch}
@@ -464,29 +478,34 @@ const SSH = ({uuid}) => {
 					ref={searchRef}
 					theme_value={theme}
 				/>
-				<IconButton
+				<ClickableIconButton
+					size={'20px'}
 					type='button'
-					color={iconColor[theme]}
+					theme_value={theme}
+					maring='4px'
 					onClick={onClickArrowUp}
 				>
-					{arrowDropUpIconMidium}
-				</IconButton>
-				<IconButton
+					{arrowDropUpIcon}
+				</ClickableIconButton>
+				<ClickableIconButton
+					size={'20px'}
 					type='button'
-					color={iconColor[theme]}
+					theme_value={theme}
+					maring='4px'
 					onClick={onClickArrowDown}
 				>
-					{arrowDropDownIconMidium}
-				</IconButton>
-				<_IconButton
+					{arrowDropDownIcon}
+				</ClickableIconButton>
+				<ClickableIconButton
+					size={'20px'}
 					type='button'
-					color={iconColor[theme]}
-					onClick={onClickOpenSearchBar}
 					theme_value={theme}
+					maring='4px'
+					onClick={onClickOpenSearchBar}
 				>
-					{closeIconMedium}
-				</_IconButton>
-			</_Form>
+					{closeIcon}
+				</ClickableIconButton>
+			</_SearchPopupContainer>
 		</_Container>
 	);
 };

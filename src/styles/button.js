@@ -14,6 +14,7 @@ import {
 	greyBoarderHoverButtonColor,
 	greyBoarderNormalButtonColor,
 	greyButtonColor,
+	iconColor,
 	redActiveButtonColor,
 	redHoverButtonColor,
 	redNormalButtonColor,
@@ -158,4 +159,55 @@ export const SecondaryDisabledButton = styled(DefaultButton)`
 	color: ${(props) =>
 		secondaryDisabledButtonColor[props.theme_value] ||
 		secondaryDisabledButtonColor[0]};
+`;
+
+export const IconButton = styled.button`
+	background: transparent;
+	border: none;
+	line-height: 0px;
+	padding: 0px;
+	margin: ${(props) =>
+		props?.margin_right ? '0px' : props?.margin || '8px'};
+	margin-right: ${(props) => props?.margin_right && props.margin_right};
+	font-size: ${(props) => props?.size || '24px'};
+	color: ${(props) => props?.color || iconColor[props.theme_value]};
+
+	span {
+		//if icon is span, font-size does not apply
+		font-size: ${(props) => props?.size || '24px'};
+	}
+
+	svg {
+		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+		width: ${(props) => props?.size || '24px'};
+		height: ${(props) => props?.size || '24px'};
+	}
+`;
+
+export const ClickableIconButton = styled.button`
+	background: transparent;
+	border: none;
+	line-height: 0px;
+	padding: 0px;
+	margin: ${(props) =>
+		props?.margin_right ? '0px' : props?.margin || '8px'};
+	margin-right: ${(props) => props?.margin_right && props.margin_right};
+	font-size: ${(props) => props?.size || '24px'};
+	color: ${(props) => props?.color || iconColor[props.theme_value]};
+
+	span {
+		//if icon is span, font-size does not apply
+		font-size: ${(props) => props?.size || '24px'};
+	}
+
+	svg {
+		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+		width: ${(props) => props?.size || '24px'};
+		height: ${(props) => props?.size || '24px'};
+	}
+
+	&:hover {
+		// hover color on svg icon does not work => use opacity
+		opacity: 0.5;
+	}
 `;

@@ -16,6 +16,10 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 		[ssh, current_tab],
 	);
 
+	const onClickOpenSnippets = useCallback(() => {
+		setOpen(true);
+	}, []);
+
 	const menuEvent = useCallback(
 		(v) => () => {
 			ws &&
@@ -37,12 +41,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 			animation={animation.slide}
 			theme_value={theme}
 		>
-			<Item
-				id='SnippetOpen'
-				onClick={() => {
-					setOpen(true);
-				}}
-			>
+			<Item id='open_snippet' onClick={onClickOpenSnippets}>
 				{t('editSnippets')}
 			</Item>
 			<Separator />

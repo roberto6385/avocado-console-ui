@@ -2,7 +2,6 @@ import React, {useCallback, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
-import {IconButton} from '../styles/global';
 import {
 	accountIcon,
 	notificationIcon,
@@ -16,6 +15,7 @@ import {useContextMenu} from 'react-contexify';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
 import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
+import {ClickableIconButton} from '../styles/button';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -100,19 +100,34 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<CornerIcons_Container back={tabbarColor[theme]}>
-			<IconButton ref={accountRef} onClick={openAccount}>
+			<ClickableIconButton
+				theme_value={theme}
+				ref={accountRef}
+				onClick={openAccount}
+			>
 				{accountIcon}
-			</IconButton>
-			<IconButton ref={settingRef} onClick={openSetting}>
+			</ClickableIconButton>
+			<ClickableIconButton
+				theme_value={theme}
+				ref={settingRef}
+				onClick={openSetting}
+			>
 				{settingIcon}
-			</IconButton>
-			<IconButton onClick={onClickNotification}>
+			</ClickableIconButton>
+			<ClickableIconButton
+				theme_value={theme}
+				onClick={onClickNotification}
+			>
 				{notificationIcon}
-			</IconButton>
+			</ClickableIconButton>
 			{tab.length !== 0 && (
-				<IconButton ref={columnRef} onClick={openColumn}>
+				<ClickableIconButton
+					theme_value={theme}
+					ref={columnRef}
+					onClick={openColumn}
+				>
 					{windowIcon}
-				</IconButton>
+				</ClickableIconButton>
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />

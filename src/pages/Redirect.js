@@ -7,13 +7,13 @@ import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
 import background from '../images/login.png';
 import styled from 'styled-components';
-import {DARK_GREEN_COLOR} from '../styles/global';
 import LoadingSpinner from '../components/loadingSpinner';
+import {L_LOGO} from '../styles/color';
 
 const _Container = styled.div`
 	width: 100%;
 	height: 100%;
-	background: ${DARK_GREEN_COLOR};
+	background: ${L_LOGO};
 	background-image: url(${background});
 	object-fit: contain;
 	background-size: cover;

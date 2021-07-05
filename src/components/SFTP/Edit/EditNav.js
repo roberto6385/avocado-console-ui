@@ -4,19 +4,14 @@ import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
-import {IconButton} from '../../../styles/global';
 import {
 	fileDownloadIcon,
 	saveIcon,
 	squareDeleteIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
-import {
-	borderColor,
-	fontColor,
-	iconColor,
-	tabColor,
-} from '../../../styles/color';
+import {borderColor, fontColor, tabColor} from '../../../styles/color';
+import {ClickableIconButton} from '../../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -27,10 +22,6 @@ const _Container = styled.div`
 	background: ${(props) => props?.back};
 	border-color: ${(props) => props?.bcolor};
 	height: ${HEIGHT_50};
-`;
-
-const _Button = styled(IconButton)`
-	color: ${(props) => props?.color};
 `;
 
 const _Span = styled.span`
@@ -45,10 +36,10 @@ const _ButtonContainer = styled.div`
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corServer = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {text, editText, editFile, path, prevMode, mode} = corServer;
 	const dispatch = useDispatch();
 
@@ -112,15 +103,27 @@ const EditNav = ({uuid}) => {
 		>
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>
-				<_Button color={iconColor[theme]} onClick={editedFileSave}>
+				<ClickableIconButton
+					size={'20px'}
+					theme_value={theme}
+					onClick={editedFileSave}
+				>
 					{saveIcon}
-				</_Button>
-				<_Button color={iconColor[theme]} onClick={editedFileDownload}>
+				</ClickableIconButton>
+				<ClickableIconButton
+					size={'20px'}
+					theme_value={theme}
+					onClick={editedFileDownload}
+				>
 					{fileDownloadIcon}
-				</_Button>
-				<_Button color={iconColor[theme]} onClick={closeEditMode}>
+				</ClickableIconButton>
+				<ClickableIconButton
+					size={'20px'}
+					theme_value={theme}
+					onClick={closeEditMode}
+				>
 					{squareDeleteIcon}
-				</_Button>
+				</ClickableIconButton>
 			</_ButtonContainer>
 		</_Container>
 	);

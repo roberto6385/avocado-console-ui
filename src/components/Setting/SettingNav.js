@@ -1,37 +1,35 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {IconContainer} from '../../styles/global';
+
 import {useTranslation} from 'react-i18next';
 import {useHistory, withRouter} from 'react-router-dom';
 import {
-	accountIconMidium,
+	accountIcon,
 	chevronLeftIcon,
-	identityIconMidium,
-	settingIconMidium,
+	identityIcon,
+	settingIcon,
 } from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-import {FONT_16, HEIGHT_34, HEIGHT_50, WIDTH_256} from '../../styles/length';
 import {
 	activeColor,
 	borderColor,
 	fontColor,
 	iconColor,
-	L_GREEN_NORMAL,
 	navColor,
 	navHighColor,
 } from '../../styles/color';
+import {IconButton} from '../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: ${WIDTH_256};
-	min-width: ${WIDTH_256};
-
+	width: 256px;
+	min-width: 256px;
 	border-right: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+	border-color: ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => navColor[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 const _BackContainer = styled.div`
@@ -40,13 +38,13 @@ const _BackContainer = styled.div`
 	height: 50px;
 	padding: 12px 16px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) => borderColor[props.theme_value]};
 	cursor: pointer;
 `;
 
 const _Header = styled.div`
 	padding: 0px 12px;
-	font-size: ${FONT_16};
+	font-size: 16px;
 `;
 
 const _Ul = styled.ul`
@@ -57,11 +55,14 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	padding: 10px 16px;
-	height: ${HEIGHT_34};
+	height: 34px;
 	cursor: pointer;
-	background: ${(props) => props.back};
+	background: ${(props) => props.clicked && navHighColor[props.theme_value]};
 	border-left: 2px solid;
-	border-color: ${(props) => props.b_color};
+	border-color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: navColor[props.theme_value]};
 `;
 
 const SettingNav = ({match}) => {
@@ -77,90 +78,66 @@ const SettingNav = ({match}) => {
 	);
 
 	return (
-		<_Container
-			back={navColor[theme]}
-			b_color={borderColor[theme]}
-			color={fontColor[theme]}
-		>
-			<_BackContainer
-				onClick={changePath('/')}
-				b_color={borderColor[theme]}
-			>
+		<_Container theme_value={theme}>
+			<_BackContainer onClick={changePath('/')} theme_value={theme}>
 				{chevronLeftIcon}
 				<_Header>{t('back')}</_Header>
 			</_BackContainer>
 			<_Ul>
 				<_Li
 					onClick={changePath('/account')}
-					back={
-						match.path === '/account'
-							? navHighColor[theme]
-							: undefined
-					}
-					b_color={
-						match.path === '/account'
-							? L_GREEN_NORMAL
-							: navColor[theme]
-					}
+					clicked={match.path === '/account'}
+					theme_value={theme}
 				>
-					<IconContainer
+					<IconButton
+						size={'20px'}
+						margin={'0px'}
 						color={
 							match.path === '/account'
 								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>
-						{accountIconMidium}
-					</IconContainer>
+						{accountIcon}
+					</IconButton>
+
 					<_Header>{t('account')}</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/preferences')}
-					back={
-						match.path === '/preferences'
-							? navHighColor[theme]
-							: undefined
-					}
-					b_color={
-						match.path === '/preferences'
-							? L_GREEN_NORMAL
-							: navColor[theme]
-					}
+					clicked={match.path === '/preferences'}
+					theme_value={theme}
 				>
-					<IconContainer
+					<IconButton
+						size={'20px'}
+						margin={'0px'}
 						color={
 							match.path === '/preferences'
 								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>
-						{settingIconMidium}
-					</IconContainer>
+						{settingIcon}
+					</IconButton>
 
 					<_Header>{t('preferences')}</_Header>
 				</_Li>
 				<_Li
 					onClick={changePath('/identities')}
-					back={
-						match.path === '/identities'
-							? navHighColor[theme]
-							: undefined
-					}
-					b_color={
-						match.path === '/identities'
-							? L_GREEN_NORMAL
-							: navColor[theme]
-					}
+					clicked={match.path === '/identities'}
+					theme_value={theme}
 				>
-					<IconContainer
+					<IconButton
+						size={'20px'}
+						margin={'0px'}
 						color={
 							match.path === '/identities'
 								? activeColor[theme]
 								: iconColor[theme]
 						}
 					>
-						{identityIconMidium}
-					</IconContainer>
+						{identityIcon}
+					</IconButton>
 					<_Header>{t('identities')}</_Header>
 				</_Li>
 			</_Ul>

@@ -5,16 +5,20 @@ import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import {closeIconMedium} from '../../icons/icons';
+import {closeIcon} from '../../icons/icons';
 import {
 	Form,
 	Input,
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	PopupModal,
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {
+	ClickableIconButton,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/button';
+import {fontColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -131,9 +135,13 @@ const InputPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{HeaderMessage[input_popup.key]}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>

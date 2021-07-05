@@ -4,7 +4,6 @@ import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
 
 import '../styles/resize.css';
-import {borderColor} from '../styles/global';
 import Panes from './Panes';
 import LoadingSpinner from './loadingSpinner';
 
@@ -18,15 +17,16 @@ export const _Container = styled.div`
 `;
 
 const PanesContainer = () => {
-	const {tab, cols, theme} = useSelector((state) => state.common);
+	const {tab, cols} = useSelector((state) => state.common);
 
 	const {loading: sshLoading} = useSelector((state) => state.ssh);
 	const {loading: sftpLoading} = useSelector((state) => state.sftp);
-	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
-		tab,
-	]);
+	const visibleTab = useMemo(
+		() => tab.filter((v) => v.display === true),
+		[tab],
+	);
 	return (
-		<_Container back={borderColor[theme]}>
+		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}
 
 			{visibleTab.length <= cols ? (

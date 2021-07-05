@@ -8,6 +8,7 @@ import {
 	L_GREEN_NORMAL,
 	mainBackColor,
 	modalColor,
+	navHighColor,
 	settingInput,
 	sshSearch,
 } from './color';
@@ -39,16 +40,6 @@ export const ModalHeader = styled.div`
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 	font-weight: 500;
-`;
-
-export const ModalHeaderIconButton = styled.button`
-	color: ${(props) => fontColor[props.theme_value]};
-	background: transparent;
-	border: none;
-	line-height: 0px;
-	font-weight: 500;
-	margin: 6px;
-	font-size: 11.7px;
 `;
 
 export const ModalMessage = styled.div`
@@ -92,25 +83,6 @@ export const Input = styled.input`
 	&:focus {
 		border-color: ${(props) => inputFocusBoaderColor[props.theme_value]};
 	}
-`;
-
-//Popup Search
-export const SearchPopupContainer = styled.div`
-	width: 400px;
-	height: 42px;
-	align-items: center;
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	background: ${(props) => sshSearch[props.theme_value]};
-	border-radius: 4px;
-	padding: 0 0 0 13px;
-`;
-
-export const SearchInput = styled.input`
-	flex: 1;
-	margin: 0px 5px;
-	background: transparent;
-	border: none;
-	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 //Setting Page
@@ -207,6 +179,26 @@ export const UserPasswordContainer = styled.div`
 	border: 1px solid ${borderColor[0]};
 `;
 
+//Server Folder Nav
+export const NewServerFolderForm = styled.form`
+	display: flex;
+	padding: 4px 0px;
+	border: none;
+`;
+
+export const NewServerFolderInput = styled.input`
+	background: ${(props) => navHighColor[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
+	margin: 0;
+	border: none;
+	outline: none;
+`;
+
+export const FolderServerTitle = styled.div`
+	flex: 1;
+	font-size: 14px;
+	color: ${(props) => fontColor[props.theme_value]};
+`;
 // context menu
 export const ContextMenu = styled(Menu)`
 	z-index: 5px;

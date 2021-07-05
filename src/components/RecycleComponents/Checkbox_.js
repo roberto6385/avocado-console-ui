@@ -9,12 +9,12 @@ const Container = styled.div`
 `;
 
 const _I = styled.i`
-background: ${(props) => activeColor[props.themeValue]}; ,
+background: ${(props) => activeColor[props.theme_value]}; ,
 borderRadius: '4px',
 
 `;
 
-const Checkbox_ = ({title = '', themeValue, value, handleCheck}) => {
+const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
 	const {theme} = useSelector((state) => state.common);
 
 	return (
@@ -23,7 +23,9 @@ const Checkbox_ = ({title = '', themeValue, value, handleCheck}) => {
 			<div className='state p-success'>
 				<_I
 					className='icon material-icons'
-					themeValue={themeValue === undefined ? theme : themeValue}
+					theme_value={
+						theme_value === undefined ? theme : theme_value
+					}
 				>
 					done
 				</_I>
@@ -35,7 +37,7 @@ const Checkbox_ = ({title = '', themeValue, value, handleCheck}) => {
 
 Checkbox_.propTypes = {
 	title: PropTypes.string,
-	themeValue: PropTypes.number,
+	theme_value: PropTypes.number,
 	value: PropTypes.bool.isRequired,
 	handleCheck: PropTypes.func.isRequired,
 };

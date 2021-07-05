@@ -1,4 +1,5 @@
 // border color
+
 export const L_BORDER = '#e3e5e5';
 export const D_BORDER = 'rgba(0, 0, 0, 0.3)';
 export const L_INPUT_FOCUS_BORDER = '#4ca6a8';
@@ -103,6 +104,7 @@ export const I_BACK_POPUP = '#223c51';
 export const I_BACK_DROP = '#325165';
 
 // theme array
+export const sideColor = ['#ffffff', '#1e364c'];
 export const navColor = [L_BACK, D_BACK_NAV];
 export const navInputColor = [L_BACK_TABBAR, D_BACK];
 
