@@ -78,7 +78,7 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	padding: 4px;
+	// padding: 4px;
 	display: flex;
 	align-items: center;
 	background: ${(props) => props.back};

@@ -287,6 +287,7 @@ const FileListContents = ({uuid}) => {
 			setCurrentFileList(sortedList);
 		}
 	}, [fileList, pathList, sortKeyword, toggle]);
+
 	return (
 		<React.Fragment>
 			{currentFileList.length === 0 && <LoadingSpinner />}

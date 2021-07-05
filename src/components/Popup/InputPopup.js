@@ -103,6 +103,7 @@ const InputPopup = () => {
 		[input_popup, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
+	console.log('rerendering...');
 	useEffect(() => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
@@ -161,4 +162,4 @@ const InputPopup = () => {
 	);
 };
 
-export default InputPopup;
+export default React.memo(InputPopup);
