@@ -5,26 +5,34 @@ import {
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
-	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
 	INITIALIZING_HIGHLIGHT,
 	searchDeleteListAction,
+} from '../../reducers/sftp/sftp';
+import SFTP from './SFTP';
+import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
+import {
+	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
-} from '../../reducers/sftp/sftp';
-import SFTP from './SFTP';
-import {ADD_HISTORY, INITIAL_HISTORY_HI} from "../../reducers/sftp/history";
+} from '../../reducers/sftp/crud';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
+	const crudState = useSelector((state) => state.crud.crudState);
 	const {current_tab} = useSelector((state) => state.common);
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
+
+	const corCrudInfo = useMemo(
+		() => crudState.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {
 		readList,
 		writeList,
@@ -32,10 +40,9 @@ const SFTPContainer = ({uuid}) => {
 		writeSockets,
 		removeSockets,
 		readSockets,
-		highlight,
-		history_highlight,
-		path,
-	} = corSftpInfo;
+	} = corCrudInfo;
+
+	const {highlight, path} = corSftpInfo;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {

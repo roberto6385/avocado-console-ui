@@ -9,9 +9,6 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
-	CREATE_NEW_WEBSOCKET_FAILURE,
-	CREATE_NEW_WEBSOCKET_REQUEST,
-	CREATE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
 } from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
@@ -19,6 +16,11 @@ import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
+import {
+	CREATE_NEW_WEBSOCKET_FAILURE,
+	CREATE_NEW_WEBSOCKET_REQUEST,
+	CREATE_NEW_WEBSOCKET_SUCCESS
+} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;

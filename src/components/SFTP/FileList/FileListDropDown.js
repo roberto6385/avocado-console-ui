@@ -7,9 +7,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
-	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
-	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
@@ -37,6 +35,7 @@ import {
 	highColor,
 	tabColor,
 } from '../../../styles/color';
+import {createNewWebsocket, PUSH_READ_LIST} from "../../../reducers/sftp/crud";
 
 const _Container = styled.div`
 	display: flex;

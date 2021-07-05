@@ -9,8 +9,6 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
 	ERROR,
 	LS_FAILURE_DELETE,
 	LS_REQUEST_DELETE,
@@ -20,6 +18,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
+import {DELETE_WORK_LIST, DELETE_WORK_TRANSPORTER} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;

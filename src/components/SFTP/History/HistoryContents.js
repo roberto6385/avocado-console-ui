@@ -2,7 +2,6 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
-import {PUSH_WRITE_LIST, createNewWebsocket} from '../../../reducers/sftp/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {
@@ -49,6 +48,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp/history';
+import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp/crud";
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};

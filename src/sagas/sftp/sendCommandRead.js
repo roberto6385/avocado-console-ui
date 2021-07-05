@@ -13,7 +13,6 @@ import {
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
-	removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
@@ -22,6 +21,7 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
 import {FIND_HISTORY} from "../../reducers/sftp/history";
+import {removeNewWebsocket} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;

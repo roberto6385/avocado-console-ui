@@ -9,9 +9,7 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
-	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
-	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp/sftp';
 import {
@@ -42,6 +40,7 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import LoadingSpinner from '../../loadingSpinner';
+import {createNewWebsocket, PUSH_READ_LIST} from "../../../reducers/sftp/crud";
 
 const _Table = styled.table`
 	display: flex;

@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	PUSH_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
@@ -20,6 +19,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PUSH_WRITE_LIST} from "../../reducers/sftp/crud";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

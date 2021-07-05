@@ -11,14 +11,17 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
-	REMOVE_NEW_WEBSOCKET_FAILURE,
-	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
-	REMOVE_NEW_WEBSOCKET_REQUEST,
+
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
+import {
+	REMOVE_NEW_WEBSOCKET_FAILURE,
+	REMOVE_NEW_WEBSOCKET_REQUEST,
+	REMOVE_NEW_WEBSOCKET_SUCCESS
+} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;

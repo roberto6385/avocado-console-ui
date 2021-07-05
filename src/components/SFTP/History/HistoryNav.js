@@ -2,7 +2,6 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/sftp';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {Span, IconButton} from '../../../styles/global';
@@ -14,6 +13,7 @@ import {
 	iconColor,
 	tabColor,
 } from '../../../styles/color';
+import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp/crud";
 
 const _Container = styled.div`
 	display: flex;

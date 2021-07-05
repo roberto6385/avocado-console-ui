@@ -69,13 +69,6 @@ export const EDIT_WRITE_SUCCESS = 'sftp/EDIT_WRITE_SUCCESS';
 
 export const ERROR = 'sftp/ERROR';
 
-export const CREATE_NEW_WEBSOCKET_REQUEST = 'sftp/CREATE_NEW_WEBSOCKET_REQUEST';
-export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
-export const CREATE_NEW_WEBSOCKET_FAILURE = 'sftp/CREATE_NEW_WEBSOCKET_FAILURE';
-
-export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
-export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
-export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
 // 에러
 
 //etc
@@ -93,41 +86,15 @@ export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
-export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
-
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
-export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
-export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
-export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
-export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
-export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
-export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
-export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
-
-export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
-
 export const INIT_FILELIST = 'sftp/INIT_FILELIST';
-
-// readList: [], // 경로, file 저장
-// 	writeList: [], // 경로, file 저장
-// 	rmList: [], // 경로, file 저장
 
 // actions
 
 export const connectionAction = (payload) => ({
 	type: CONNECTION_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
-});
-
-export const createNewWebsocket = (payload) => ({
-	type: CREATE_NEW_WEBSOCKET_REQUEST,
-	payload,
-});
-
-export const removeNewWebsocket = (payload) => ({
-	type: REMOVE_NEW_WEBSOCKET_REQUEST,
-	payload,
 });
 
 export const commandWriteAction = (payload) => ({
@@ -200,21 +167,6 @@ const sftp = (state = initialState, action) =>
 		// target === plainTarget => false
 
 		switch (action.type) {
-			case CREATE_NEW_WEBSOCKET_SUCCESS:
-				action.payload.todo === 'write' &&
-					target.writeSockets.push(action.payload.socket);
-				action.payload.todo === 'read' &&
-					target.readSockets.push(action.payload.socket);
-				action.payload.todo === 'remove' &&
-					target.removeSockets.push(action.payload.socket);
-				break;
-
-			case SHIFT_SOCKETS:
-				action.payload.todo === 'write' && target.writeSockets.shift();
-				action.payload.todo === 'read' && target.readSockets.shift();
-				action.payload.todo === 'remove' &&
-					target.removeSockets.shift();
-				break;
 			// 연결
 			case CONNECTION_REQUEST:
 				draft.loading = true;
@@ -226,15 +178,6 @@ const sftp = (state = initialState, action) =>
 					socket: action.payload.socket, //ok
 					status: 'none', // ok
 					uuid: action.payload.uuid, // ok
-
-					readSockets: [], // 경로, file 저장
-					writeSockets: [], // 경로, file 저장
-					removeSockets: [],
-
-					readList: [], // 경로, file 저장
-					writeList: [], // 경로, file 저장
-					removeList: [],
-					incinerator: [],
 
 					path: '', // 현재 경로 ok
 
@@ -385,48 +328,6 @@ const sftp = (state = initialState, action) =>
 				target.highlight = plainTarget.highlight.filter(
 					(item) => item !== action.payload.item,
 				);
-				break;
-
-			case DELETE_WORK_LIST:
-				target.removeList = plainTarget.removeList.concat(
-					action.payload.array,
-				);
-				break;
-
-			case INIT_DELETE_WORK_LIST:
-				target.removeList = [];
-				break;
-
-			// read, write, remove
-			case PUSH_READ_LIST:
-				target.readList = plainTarget.readList.concat(
-					action.payload.array,
-				);
-				break;
-			case SHIFT_READ_LIST:
-				target.readList.shift();
-				break;
-
-			case PUSH_WRITE_LIST:
-				target.writeList = plainTarget.writeList.concat(
-					action.payload.array,
-				);
-				break;
-			case SHIFT_WRITE_LIST:
-				target.writeList.shift();
-				break;
-
-			case SHIFT_INCINERATOR_LIST:
-				target.incinerator.shift();
-				break;
-
-			case DELETE_WORK_TRANSPORTER:
-				target.incinerator = plainTarget.incinerator.concat(
-					target.removeList.sort((a, b) => {
-						return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
-					}),
-				);
-				target.removeList = [];
 				break;
 
 			case INIT_FILELIST:

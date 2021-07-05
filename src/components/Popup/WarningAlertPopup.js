@@ -9,10 +9,6 @@ import {
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
-import {
-	createNewWebsocket,
-	INIT_DELETE_WORK_LIST,
-} from '../../reducers/sftp/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
 	ModalFooter,
@@ -24,6 +20,7 @@ import {
 } from '../../styles/default';
 import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
 import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from '../../reducers/sftp/history';
+import {createNewWebsocket, INIT_DELETE_WORK_LIST} from "../../reducers/sftp/crud";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
