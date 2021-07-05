@@ -9,11 +9,12 @@ import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp/sftp';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 
 const _Tr = styled.tr`
+	top: 0px;
 	height: ${HEIGHT_48};
 	background: ${(props) => props?.back} !important;
 	display: flex;
 	align-items: center;
-	padding: 12px 8px;
+	padding: 12px 8px 12px 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 	color: ${(props) => props.color};
@@ -28,33 +29,14 @@ const HeaderTh = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 2;
+	margin: 0px 8px !important;
 `;
 
 const _Thead = styled.thead`
 	position: sticky;
 	top: 0px;
 	z-index: 1;
-	min-width: 718px;
-	tr {
-		display: flex;
-		top: 0px;
-		background: white;
-		th {
-			margin: 0px 8px !important;
-		}
-	}
-`;
-
-const Th = styled.th`
-	display: flex;
-	align-items: center;
-	min-width: ${(props) => props?.min};
-	flex: ${(props) => props.flex};
-	justify-content: ${(props) => props.justify || 'flex-start'};
-	white-space: nowrap;
-	border: none !important;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	min-width: 778px;
 `;
 
 const TableHead = ({uuid}) => {
@@ -99,10 +81,11 @@ const TableHead = ({uuid}) => {
 	);
 
 	const tableHeaders = [
-		{title: t('name'), key: 'name', min: '150px', flex: 1},
+		{title: t('name'), key: 'name', min: '142px', flex: 1},
 		{title: t('size'), key: 'size', min: '135px'},
 		{title: t('modified'), key: 'modified', min: '212px'},
 		{title: t('permission'), key: 'permission', min: '105px'},
+		{title: '', key: '', min: '80px'},
 	];
 
 	return (
@@ -131,7 +114,6 @@ const TableHead = ({uuid}) => {
 						</HeaderTh>
 					);
 				})}
-				<Th min={'80px'} />
 			</_Tr>
 		</_Thead>
 	);

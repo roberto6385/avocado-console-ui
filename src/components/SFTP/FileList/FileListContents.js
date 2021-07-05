@@ -58,7 +58,7 @@ const _Tbody = styled.tbody`
 	background: ${(props) => props?.back};
 	flex: 1;
 	width: 100%;
-	min-width: 718px;
+	min-width: 778px;
 	position: absolute;
 	top: ${HEIGHT_48};
 	.active {
