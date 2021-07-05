@@ -17,13 +17,14 @@ const _Tr = styled.tr`
 	background: ${(props) => props?.back} !important;
 	display: flex;
 	align-items: center;
-	padding: 12px 8px 12px 16px;
+	padding-left: 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 	color: ${(props) => props.color};
 `;
 
-const HeaderTh = styled.th`
+const _Th = styled.th`
+	margin-right: 16px;
 	min-width: ${(props) => props?.min};
 	flex: ${(props) => props.flex};
 	border: none !important;
@@ -32,7 +33,6 @@ const HeaderTh = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 2;
-	margin: 0px 8px !important;
 `;
 
 const _Thead = styled.thead`
@@ -90,7 +90,7 @@ const TableHead = ({uuid}) => {
 		{title: t('size'), key: 'size', min: '135px'},
 		{title: t('modified'), key: 'modified', min: '212px'},
 		{title: t('permission'), key: 'permission', min: '105px'},
-		{title: '', key: '', min: '80px'},
+		{title: '', key: '', min: '63px'},
 	];
 
 	return (
@@ -100,9 +100,9 @@ const TableHead = ({uuid}) => {
 				b_color={borderColor[theme]}
 				color={fontColor[theme]}
 			>
-				{tableHeaders.map((item) => {
+				{tableHeaders.map((item, i) => {
 					return (
-						<HeaderTh
+						<_Th
 							key={item.key}
 							id={`fileListTableHead_${item.key}`}
 							// borderColor={
@@ -116,7 +116,7 @@ const TableHead = ({uuid}) => {
 							flex={item.flex}
 						>
 							{item.title}
-						</HeaderTh>
+						</_Th>
 					);
 				})}
 			</_Tr>

@@ -404,11 +404,11 @@ const HistoryContents = ({uuid}) => {
 									{formatByteSizeString(history.size)}
 								</_HistorySizeText>
 								<ClickableIconButton
-									size={'20px'}
+									size={'sm'}
+									margin={'0px 0px 0px 4px'}
+									theme_value={theme}
 									onClick={removeHistory(history)}
 									className={'history_contents'}
-									margin={'4px '}
-									theme_value={theme}
 								>
 									{deleteIcon}
 								</ClickableIconButton>

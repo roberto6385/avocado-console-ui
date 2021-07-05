@@ -234,7 +234,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 				<div>{t('snippetsManager')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}
@@ -245,14 +245,15 @@ const SnippetsManeger = ({open, setOpen}) => {
 					<_HeaderLi>
 						<_ListHeader>{t('snippetList')}</_ListHeader>
 						<ClickableIconButton
-							size={'20px'}
+							size={'sm'}
 							theme_value={theme}
+							margin={'8px'}
 							onClick={onClickAddSnippet}
 						>
 							{plusIcon}
 						</ClickableIconButton>
 						<ClickableIconButton
-							size={'20px'}
+							size={'sm'}
 							theme_value={theme}
 							margin={'0px'}
 							onClick={onClickDeleteSnippet}

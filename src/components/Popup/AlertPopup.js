@@ -59,7 +59,7 @@ const AlertPopup = () => {
 				<div>{t('alert')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}

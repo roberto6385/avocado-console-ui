@@ -250,8 +250,8 @@ const WorkSpace = () => {
 											{data.server.name}
 										</_ServerName>
 										<ClickableIconButton
-											size='18px'
-											margin={'6px'}
+											size={'xs'}
+											margin={'0px 0px 0px 6px'}
 											theme_value={theme}
 											onClick={onClickDelete(data)}
 										>

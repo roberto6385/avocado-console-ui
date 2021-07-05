@@ -52,7 +52,6 @@ const InputPopup = () => {
 		dispatch({type: CLOSE_INPUT_POPUP});
 	}, []);
 
-
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -142,7 +141,7 @@ const InputPopup = () => {
 				<div>{HeaderMessage[input_popup.key]}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}

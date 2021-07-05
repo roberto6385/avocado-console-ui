@@ -48,12 +48,8 @@ const WarningAlertPopup = () => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const {warning_alert_popup} = useSelector((state) => state.popup);
-	const {
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-		nav,
-	} = useSelector((state) => state.common);
+	const {clicked_server, accountListControlId, accountCheckList, nav} =
+		useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const AlertMessage = {
@@ -187,7 +183,7 @@ const WarningAlertPopup = () => {
 				<div>{t('alert')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
-					size={'20px'}
+					size={'sm'}
 					margin={'0px'}
 				>
 					{closeIcon}

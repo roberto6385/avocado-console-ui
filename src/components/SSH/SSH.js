@@ -479,28 +479,28 @@ const SSH = ({uuid}) => {
 					theme_value={theme}
 				/>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					type='button'
 					theme_value={theme}
-					maring='4px'
+					margin='8px'
 					onClick={onClickArrowUp}
 				>
 					{arrowDropUpIcon}
 				</ClickableIconButton>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					type='button'
 					theme_value={theme}
-					maring='4px'
+					margin_right='8px'
 					onClick={onClickArrowDown}
 				>
 					{arrowDropDownIcon}
 				</ClickableIconButton>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					type='button'
 					theme_value={theme}
-					maring='4px'
+					margin='11px'
 					onClick={onClickOpenSearchBar}
 				>
 					{closeIcon}

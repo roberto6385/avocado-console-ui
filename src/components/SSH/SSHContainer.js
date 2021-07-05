@@ -64,6 +64,7 @@ const SSHContainer = ({uuid, server}) => {
 				<ClickableIconButton
 					theme_value={theme}
 					ref={snippetRef}
+					margin={'16px'}
 					onClick={openSnippet}
 				>
 					{snippetIcon}

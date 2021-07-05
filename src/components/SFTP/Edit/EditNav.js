@@ -108,21 +108,21 @@ const EditNav = ({uuid}) => {
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					theme_value={theme}
 					onClick={editedFileSave}
 				>
 					{saveIcon}
 				</ClickableIconButton>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					theme_value={theme}
 					onClick={editedFileDownload}
 				>
 					{fileDownloadIcon}
 				</ClickableIconButton>
 				<ClickableIconButton
-					size={'20px'}
+					size={'sm'}
 					theme_value={theme}
 					onClick={closeEditMode}
 				>

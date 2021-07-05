@@ -253,7 +253,7 @@ const IdentitiesSpace = () => {
 						<_Form theme_value={theme}>
 							<IconBox
 								size={'xs'}
-								margin-right={'6px'}
+								margin_right={'6px'}
 								theme_value={theme}
 							>
 								{searchIcon}
@@ -328,7 +328,7 @@ const IdentitiesSpace = () => {
 						<_Form theme_value={theme}>
 							<IconBox
 								size={'xs'}
-								margin-right={'6px'}
+								margin_right={'6px'}
 								theme_value={theme}
 							>
 								{searchIcon}

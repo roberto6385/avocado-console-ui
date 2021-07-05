@@ -81,7 +81,7 @@ const SettingNav = ({match}) => {
 		<_Container theme_value={theme}>
 			<_BackContainer onClick={changePath('/')} theme_value={theme}>
 				<ClickableIconButton
-					margin_right={'0px'}
+					margin={'0px'}
 					color={fontColor[theme]}
 					onClick={changePath('/')}
 				>

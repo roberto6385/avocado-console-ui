@@ -43,9 +43,8 @@ const AsideContainer = ({toggle, setToggle}) => {
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
 				<ClickableIconButton
-					theme_value={theme}
+					color={fontColor[theme]}
 					margin={'0px'}
-
 					onClick={closeAside}
 				>
 					{closeIcon}
