@@ -59,7 +59,6 @@ const _Ul = styled.ul`
 	${PreventDragCopy}
 	width:${(props) => props.width};
 	list-style: none;
-	// overflow-y: scroll;
 	margin: 0px;
 	padding: 0px;
 	outline: none;
@@ -70,7 +69,7 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	padding: 16px;
+	// padding: 16px;
 	display: flex;
 	align-items: center;
 	background: ${(props) =>
@@ -140,14 +139,14 @@ const HistoryContents = ({uuid}) => {
 
 	const historyState = useSelector((state) => state.history.historyState);
 	const {theme, server, tab, identity} = useSelector((state) => state.common);
-	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
-	);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const corHistoryInfo = useMemo(
 		() => historyState.find((it) => it.uuid === uuid),
 		[historyState, uuid],
@@ -362,9 +361,9 @@ const HistoryContents = ({uuid}) => {
 										: 0
 								}
 							>
-								<IconBox
-									size='sm'
-									margin_right={'6px'}
+								<ClickableIconButton
+									size='20px'
+									margin={'10px'}
 									color={
 										history.progress !== 100
 											? historyPauseColor
@@ -388,7 +387,7 @@ const HistoryContents = ({uuid}) => {
 										? buildCircleIcon
 										: history.todo === 'rm' &&
 										  removeCircleIcon}
-								</IconBox>
+								</ClickableIconButton>
 								<HistoryText
 									className={'history_contents'}
 									flex={1}
@@ -407,7 +406,7 @@ const HistoryContents = ({uuid}) => {
 									size={'20px'}
 									onClick={removeHistory(history)}
 									className={'history_contents'}
-									margin={'4px '}
+									margin={'10px'}
 									theme_value={theme}
 								>
 									{deleteIcon}
