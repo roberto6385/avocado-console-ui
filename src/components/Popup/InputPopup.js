@@ -48,6 +48,7 @@ const InputPopup = () => {
 		dispatch({type: CLOSE_INPUT_POPUP});
 	}, []);
 
+
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
