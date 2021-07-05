@@ -194,28 +194,28 @@ const FileListContents = ({uuid}) => {
 		[dispatch, highlight],
 	);
 
-	// const compareNumber = (list, first, second) => {
-	// 	dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
-	//
-	// 	if (first <= second) {
-	// 		for (let i = first; i <= second; i++) {
-	// 			dispatch({
-	// 				type: ADD_HIGHLIGHT,
-	// 				payload: {uuid, item: {...list[i], path}},
-	// 			});
-	// 		}
-	// 	} else {
-	// 		for (let i = first; i >= second; i--) {
-	// 			dispatch({
-	// 				type: ADD_HIGHLIGHT,
-	// 				payload: {uuid, item: {...list[i], path}},
-	// 			});
-	// 		}
-	// 	}
-	// };
+	const compareNumber = (list, first, second) => {
+		dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+
+		if (first <= second) {
+			for (let i = first; i <= second; i++) {
+				dispatch({
+					type: ADD_HIGHLIGHT,
+					payload: {uuid, item: {...list[i], path}},
+				});
+			}
+		} else {
+			for (let i = first; i >= second; i--) {
+				dispatch({
+					type: ADD_HIGHLIGHT,
+					payload: {uuid, item: {...list[i], path}},
+				});
+			}
+		}
+	};
 
 	const selectItem = useCallback(
-		({item}) => (e) => {
+		({item, index}) => (e) => {
 			if (item.name === '..') return;
 			if (e.metaKey) {
 				!highlight
@@ -240,17 +240,22 @@ const FileListContents = ({uuid}) => {
 						payload: {uuid, item: {...item, path}},
 					});
 				} else {
-					!highlight
-						.slice()
-						.find(
-							(v) =>
-								JSON.stringify(v) ===
-								JSON.stringify({...item, path}),
-						) &&
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
+					const corList = fileList[fileList.length - 1];
+					const firstIndex = corList.findIndex(
+						(it) => it.name === highlight[0].name,
+					);
+					compareNumber(corList, firstIndex, index);
+					// !highlight
+					// 	.slice()
+					// 	.find(
+					// 		(v) =>
+					// 			JSON.stringify(v) ===
+					// 			JSON.stringify({...item, path}),
+					// 	) &&
+					// 	dispatch({
+					// 		type: ADD_ONE_HIGHLIGHT,
+					// 		payload: {uuid, item: {...item, path}},
+					// 	});
 				}
 			} else {
 				!highlight
