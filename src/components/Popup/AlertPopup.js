@@ -7,21 +7,23 @@ import styled from 'styled-components';
 import {
 	alertFillIcon,
 	cancelFillIcon,
-	closeIconMedium,
+	closeIcon,
 } from '../../icons/icons';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
 	ModalMessage,
-	ModalHeaderIconButton,
 	PopupText,
 } from '../../styles/default';
 import {
+	ClickableIconButton,
+	IconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/button';
+import {fontColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 288px;
@@ -59,18 +61,26 @@ const AlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<ModalMessage>
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ||
 				alert_popup.key === 'invalid_server' ? (
-					<div>{cancelFillIcon}</div>
+					<IconButton margin_right='6px' color={'#D55959'}>
+						{cancelFillIcon}
+					</IconButton>
 				) : (
-					<div>{alertFillIcon}</div>
+					<IconButton margin_right='6px' color={'#178082'}>
+						{alertFillIcon}
+					</IconButton>
 				)}
 
 				<PopupText>{AlertMessage[alert_popup.key]}</PopupText>

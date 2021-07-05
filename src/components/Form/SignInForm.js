@@ -1,116 +1,65 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
-import useInput from '../../hooks/useInput';
-import {getUserTicket} from '../../reducers/auth/userTicket';
-import {SAVE_ENCODE_DATA} from '../../reducers/common';
+
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {
-	ANCHOR_GRAY_COLOR,
-	AUTH_FORM_HEIGHT,
-	AUTH_FORM_WIDTH,
-	LIGHT_MODE_BORDER_COLOR,
-	DARK_GREEN_COLOR,
-	FOLDER_HEIGHT,
-	IconButton,
-} from '../../styles/global';
+import useInput from '../../hooks/useInput';
+import {getUserTicket} from '../../reducers/auth/userTicket';
+import {SAVE_ENCODE_DATA} from '../../reducers/common';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';
 import googleButton from '../../images/google_btn.png';
 import naverButton from '../../images/naver_btn.png';
 import kakaoButton from '../../images/kakao_btn.png';
-import {FONT_14, FONT_29, HEIGHT_40} from '../../styles/length';
-import {PrimaryGreenButton} from '../../styles/button';
 import LoadingSpinner from '../loadingSpinner';
+import {
+	UserForm,
+	UserInput,
+	UserPasswordContainer,
+	UserPasswordInput,
+	UserSubmitButton,
+	UserTitle,
+	UserTitleSpan,
+} from '../../styles/default';
+import {IconButton} from '../../styles/button';
 
-const _Form = styled.div`
-	background: white;
-	padding: 70px;
-	border-radius: 16px;
-	caret-color: black;
-	display: flex;
-	flex-direction: column;
-	width: 500px;
+const _UserForm = styled(UserForm)`
 	height: 650px;
-	border: solid 1px #d6d6d6;
-	.focus {
-		border-color: ${DARK_GREEN_COLOR};
-		outline: 0 none;
-	}
-`;
-const _Input = styled.input`
-	flex: 1;
-	height: ${FOLDER_HEIGHT};
-	font-size: 14px;
-	padding: 10px;
-	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-
-	&:focus {
-		border-color: ${DARK_GREEN_COLOR};
-		outline: 0 none;
-	}
 `;
 
-const _PasswordContainer = styled.div`
-	display: flex;
-	align-items: center;
-	height: ${FOLDER_HEIGHT};
-	font-size: 16px;
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid ${LIGHT_MODE_BORDER_COLOR};
+const _UserPasswordContainer = styled(UserPasswordContainer)`
+	margin-bottom: 10px;
 `;
 
-const _PasswordInput = styled(_Input)`
-	padding: 0px;
-	height: auto;
-	border: none;
-`;
-
-const _Title = styled.span`
-	font-family: Roboto;
-	font-size: ${FONT_29};
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	margin: 0px 8px 20px 8px;
-`;
-
-const _Span = styled.div`
-	font-size: ${FONT_14};
-	margin: 0px 8px 52px 8px;
-
-	a {
-		color: ${DARK_GREEN_COLOR};
-		text-decoration: underline;
-	}
-`;
-
-const _PrimaryGreenButton = styled(PrimaryGreenButton)`
-	height: ${HEIGHT_40};
-	width: 360px;
-	margin: 42px 0;
-	font-size: 16px;
-	padding: 10px;
+const _UserSubmitButton = styled(UserSubmitButton)`
+	margin: 34px 0 30px 0;
 `;
 
 const _CheckboxAnchorContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	font-size: ${FONT_14};
-	margin: 0px 8px 0px 8px;
-
+	font-size: 14px;
+	margin: 8px 0px;
 	a {
-		color: ${ANCHOR_GRAY_COLOR};
+		color: #757575;
 		text-decoration: underline;
 	}
+`;
+
+const _Or = styled.div`
+	color: #757575;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const _Hr = styled.hr`
+	width: 158px;
 `;
 
 const _OAuthContainer = styled.div`
@@ -124,18 +73,6 @@ const _OAuthButton = styled.button`
 	border: none;
 	width: fit-content;
 	padding: 0px;
-`;
-
-const _Or = styled.div`
-	color: #757575;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-`;
-
-const _Hr = styled.hr`
-	width: 158px;
 `;
 
 const SignInForm = () => {
@@ -192,6 +129,7 @@ const SignInForm = () => {
 		const passwordContainer = document.getElementById('password_container');
 		passwordContainer.classList.add('focus');
 	}, []);
+
 	const focusout = useCallback(() => {
 		const passwordContainer = document.getElementById('password_container');
 		passwordContainer.classList.remove('focus');
@@ -222,6 +160,10 @@ const SignInForm = () => {
 		//TODO: Google auth
 	}, []);
 
+	const onClickRememberMe = useCallback((e) => {
+		setRememberMe(e.target.checked);
+	}, []);
+
 	useEffect(() => {
 		if (localStorage.getItem('rememberMe') === 'true') {
 			setUser(localStorage.getItem('user'));
@@ -236,36 +178,37 @@ const SignInForm = () => {
 	}, []);
 
 	return !loading ? (
-		<_Form onSubmit={onSubmitForm}>
-			<_Title>{t('title')}</_Title>
-			<_Span>
+		<_UserForm onSubmit={onSubmitForm}>
+			<UserTitle>{t('title')}</UserTitle>
+			<UserTitleSpan>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
-			</_Span>
+			</UserTitleSpan>
 
-			<InputFiled_>
-				<_Input
+			<InputFiled_ marginBottom={'18px'}>
+				<UserInput
 					ref={idRef}
 					value={user}
-					color={user === '' ? LIGHT_MODE_BORDER_COLOR : 'black'}
 					onChange={onChangeUser}
 					placeholder={t('id')}
 				/>
 			</InputFiled_>
-			<InputFiled_>
-				<_PasswordContainer id={'password_container'}>
-					<_PasswordInput
+			<InputFiled_ marginBottom={'18px'}>
+				<_UserPasswordContainer id={'password_container'}>
+					<UserPasswordInput
 						ref={passwordRef}
 						onFocus={focusin}
 						onBlur={focusout}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={
-							password === '' ? LIGHT_MODE_BORDER_COLOR : 'black'
-						}
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton type='button' onClick={typeChange}>
+					<IconButton
+						margin={'0px'}
+						color={'#757575'}
+						type='button'
+						onClick={typeChange}
+					>
 						{visible ? (
 							<span className='material-icons'>visibility</span>
 						) : (
@@ -274,19 +217,20 @@ const SignInForm = () => {
 							</span>
 						)}
 					</IconButton>
-				</_PasswordContainer>
+				</_UserPasswordContainer>
 			</InputFiled_>
 			<_CheckboxAnchorContainer>
 				<Checkbox_
 					title={t('remember')}
 					value={rememberMe}
-					handleCheck={(e) => setRememberMe(e.target.checked)}
+					handleCheck={onClickRememberMe}
+					theme_value={0}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>
-			<_PrimaryGreenButton type='submit' onClick={onSubmitForm}>
+			<_UserSubmitButton type='submit' onClick={onSubmitForm}>
 				{t('signIn')}
-			</_PrimaryGreenButton>
+			</_UserSubmitButton>
 			<_Or>
 				<_Hr /> {t('or')} <_Hr />
 			</_Or>
@@ -306,7 +250,7 @@ const SignInForm = () => {
 					<img src={appleButton} alt='appleButton' />
 				</_OAuthButton>
 			</_OAuthContainer>
-		</_Form>
+		</_UserForm>
 	) : (
 		<LoadingSpinner />
 	);

@@ -1,23 +1,22 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import Sortable from 'sortablejs';
+import styled from 'styled-components';
+import {Nav} from 'react-bootstrap';
 
 import Folder from './Folder';
 import Server from './Server';
-import Sortable from 'sortablejs';
 import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
-
-import styled from 'styled-components';
-import {Nav} from 'react-bootstrap';
-import {HiddenScroll} from '../../styles/global';
 import {navColor} from '../../styles/color';
+import {HiddenScroll} from '../../styles/function';
 
 export const _Nav = styled(Nav)`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;
 	overflow-y: scroll;
-	background: ${(props) => props?.back};
+	background: ${(props) => navColor[props.theme_value]};
 	width: 100%;
 	height: 100%;
 	z-index: 3;
@@ -65,14 +64,12 @@ function searchTreeStart(root, name) {
 
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
-
 	const {nav, theme} = useSelector((state) => state.common);
 	const [filteredNav, setfilteredNav] = useState(nav);
 
 	const dropNavList = useCallback(() => {
-		console.log('check');
 		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
-	}, [dispatch]);
+	}, []);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');
@@ -87,11 +84,7 @@ const ServerFolderList = ({search}) => {
 	}, [nav, search]);
 
 	return (
-		<_Nav
-			onDrop={dropNavList}
-			id='sortableServerNav'
-			back={navColor[theme]}
-		>
+		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
 			{filteredNav.map((data) =>
 				data.type === 'folder' ? (
 					<Folder

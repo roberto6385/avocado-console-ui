@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 import {animation, Item} from 'react-contexify';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../../reducers/common';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,7 +20,7 @@ const ColumnContextMenu = () => {
 	);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={'column'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -40,7 +40,7 @@ const ColumnContextMenu = () => {
 			<Item id='5Columns' onClick={changeColumn(5)}>
 				5 Columns
 			</Item>
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

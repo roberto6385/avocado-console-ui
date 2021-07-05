@@ -5,28 +5,31 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
-import {IconButton, fontColor, iconColor, backColor} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {closeIconMedium, deleteIconMidium, plusIcon} from '../../icons/icons';
+import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {
 	Form,
 	Input,
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	PopupModal,
-
-
 } from '../../styles/default';
 import {
-	borderColor, inputFocusBoaderColor,
+	borderColor,
+	fontColor,
+	inputFocusBoaderColor,
+	mainBackColor,
 	settingInput,
 	snippetsBoarderColor,
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
-import {PrimaryGreenButton, PrimaryGreyButton} from "../../styles/button";
+import {
+	ClickableIconButton,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/button';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -74,18 +77,21 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	padding: 1px 16px 3px 14px;
 	background: ${(props) =>
 		props.clicked
 			? snippetsCLickedListColor[props.theme_value]
 			: snippetsListColor[props.theme_value]};
-	padding: ${(props) =>
-		props.clicked ? '1px 16px 3px 13px' : '1px 16px 3px 15px'};
-	border-left: ${(props) => (props.clicked ? '2px solid' : 'none')};
-	border-color: ${(props) => snippetsBoarderColor[props.theme_value]};
+	border-left: 2px solid
+		${(props) =>
+			props.clicked
+				? snippetsBoarderColor[props.theme_value]
+				: snippetsListColor[props.theme_value]};
 `;
 
 const _HeaderLi = styled(_Li)`
 	padding: 2px 16px;
+	border: none;
 `;
 
 const _ListContainer = styled.div`
@@ -226,26 +232,33 @@ const SnippetsManeger = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('snippetsManager')}</div>
-				<ModalHeaderIconButton
-					color={iconColor[theme]}
-					onClick={onClickCancel}
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
 				>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 			<_ListContainer>
-				<_Ul theme_value={theme} back={backColor[theme]}>
+				<_Ul theme_value={theme} back={mainBackColor[theme]}>
 					<_HeaderLi>
 						<_ListHeader>{t('snippetList')}</_ListHeader>
-						<IconButton onClick={onClickAddSnippet}>
+						<ClickableIconButton
+							size={'20px'}
+							theme_value={theme}
+							onClick={onClickAddSnippet}
+						>
 							{plusIcon}
-						</IconButton>
-						<IconButton
-							padding={'2.5px 0px'}
+						</ClickableIconButton>
+						<ClickableIconButton
+							size={'20px'}
+							theme_value={theme}
+							margin={'0px'}
 							onClick={onClickDeleteSnippet}
 						>
-							{deleteIconMidium}
-						</IconButton>
+							{deleteIcon}
+						</ClickableIconButton>
 					</_HeaderLi>
 
 					{tempSnippets.map((v) => (
@@ -253,7 +266,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
 							theme_value={theme}
-							clicked={clickedSnippet === v.id ? true : false}
+							clicked={clickedSnippet === v.id ? 1 : 0}
 						>
 							{v.name === '' ? t('new') : v.name}
 						</_Li>

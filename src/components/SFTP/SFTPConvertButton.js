@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {sftpIconConvert} from '../../icons/icons';
+import {ClickableIconButton} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp/sftp';
-import {IconButton} from '../../styles/global';
-import {sftpIcon} from '../../icons/icons';
 
 const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
-	const {server, identity} = useSelector((state) => state.common);
+	const {server, identity, theme} = useSelector((state) => state.common);
 
 	const connection = useCallback(() => {
 		const correspondedServer = server.find((x) => x.id === data.id);
@@ -36,7 +36,11 @@ const SFTPConvertButton = ({data}) => {
 		}
 	}, [server, data, identity, userTicket, dispatch]);
 
-	return <IconButton onClick={connection}>{sftpIcon}</IconButton>;
+	return (
+		<ClickableIconButton theme_value={theme} onClick={connection}>
+			{sftpIconConvert}
+		</ClickableIconButton>
+	);
 };
 
 SFTPConvertButton.propTypes = {

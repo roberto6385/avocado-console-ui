@@ -8,7 +8,7 @@ import {
 	commandCdAction,
 	commandPwdAction,
 } from '../../../reducers/sftp/sftp';
-import {IconButton} from '../../../styles/global';
+
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -25,6 +25,7 @@ import {
 	filelistInputBack,
 	tabColor,
 } from '../../../styles/color';
+import {ClickableIconButton} from '../../../styles/button';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -56,11 +57,13 @@ const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {path, mode} = corSftpInfo;
+
 	const [currentPath, setCurrentPath] = useState('');
 
 	const goHome = (e, nextPath = '/root') => {
@@ -147,23 +150,29 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<IconButton
-				margin={'0px 0px 0px 10px'}
-				color={iconColor[theme]}
+			<ClickableIconButton
+				margin={'13px 8px 13px 16px'}
+				theme_value={theme}
 				onClick={goBack}
 			>
 				{arrowUpwordIcon}
-			</IconButton>
-			<IconButton onClick={basicList}>
-				{viewListIcon(
-					mode === 'list' ? activeColor[theme] : iconColor[theme],
-				)}
-			</IconButton>
-			<IconButton margin={'0px 10px 0px 0px'} onClick={dropdownList}>
-				{viewColumnIcon(
-					mode === 'drop' ? activeColor[theme] : iconColor[theme],
-				)}
-			</IconButton>
+			</ClickableIconButton>
+			<ClickableIconButton
+				margin={'13px 8px'}
+				color={mode === 'list' ? activeColor[theme] : iconColor[theme]}
+				theme_value={theme}
+				onClick={basicList}
+			>
+				{viewListIcon}
+			</ClickableIconButton>
+			<ClickableIconButton
+				margin={'13px 8px'}
+				theme_value={theme}
+				color={mode === 'drop' ? activeColor[theme] : iconColor[theme]}
+				onClick={dropdownList}
+			>
+				{viewColumnIcon}
+			</ClickableIconButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
 				<_input
 					id='fileListNavInput'
@@ -176,20 +185,20 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<IconButton
-				margin={'0px 0px 0px 10px'}
-				color={iconColor[theme]}
+			<ClickableIconButton
+				margin={'13px 8px'}
+				theme_value={theme}
 				onClick={refresh}
 			>
 				{refreshIcon}
-			</IconButton>
-			<IconButton
-				margin={'0px 10px 0px 0px'}
-				color={iconColor[theme]}
+			</ClickableIconButton>
+			<ClickableIconButton
+				margin={'13px 16px 13px 8px'}
+				theme_value={theme}
 				onClick={goHome}
 			>
 				{homeIcon}
-			</IconButton>
+			</ClickableIconButton>
 		</_Container>
 	);
 };

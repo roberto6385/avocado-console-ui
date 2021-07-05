@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {DropDownMenu_Avocado} from '../../styles/default';
+import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -15,6 +15,10 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 		() => ssh.find((v) => v.uuid === current_tab)?.ws,
 		[ssh, current_tab],
 	);
+
+	const onClickOpenSnippets = useCallback(() => {
+		setOpen(true);
+	}, []);
 
 	const menuEvent = useCallback(
 		(v) => () => {
@@ -32,17 +36,12 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 	);
 
 	return (
-		<DropDownMenu_Avocado
+		<DropDownMenu
 			id={uuid + 'snippet'}
 			animation={animation.slide}
 			theme_value={theme}
 		>
-			<Item
-				id='SnippetOpen'
-				onClick={() => {
-					setOpen(true);
-				}}
-			>
+			<Item id='open_snippet' onClick={onClickOpenSnippets}>
 				{t('editSnippets')}
 			</Item>
 			<Separator />
@@ -53,7 +52,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 					</Item>
 				);
 			})}
-		</DropDownMenu_Avocado>
+		</DropDownMenu>
 	);
 };
 

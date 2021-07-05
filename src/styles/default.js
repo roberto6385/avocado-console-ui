@@ -5,13 +5,15 @@ import {
 	contextHover,
 	fontColor,
 	inputFocusBoaderColor,
+	L_GREEN_NORMAL,
 	mainBackColor,
 	modalColor,
+	navHighColor,
 	settingInput,
 	sshSearch,
 } from './color';
 import {Menu} from 'react-contexify';
-import {FONT_12} from './length';
+import {PrimaryGreenButton} from './button';
 
 //Modal => popup, form
 export const PopupModal = styled(Modal)`
@@ -38,16 +40,6 @@ export const ModalHeader = styled.div`
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 	font-weight: 500;
-`;
-
-export const ModalHeaderIconButton = styled.button`
-	color: ${(props) => fontColor[props.theme_value]};
-	background: transparent;
-	border: none;
-	line-height: 0px;
-	font-weight: 500;
-	margin: 6px;
-	font-size: 11.7px;
 `;
 
 export const ModalMessage = styled.div`
@@ -93,25 +85,6 @@ export const Input = styled.input`
 	}
 `;
 
-//Popup Search
-export const SearchPopupContainer = styled.div`
-	width: 400px;
-	height: 42px;
-	align-items: center;
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	background: ${(props) => sshSearch[props.theme_value]};
-	border-radius: 4px;
-	padding: 0 0 0 13px;
-`;
-
-export const SearchInput = styled.input`
-	flex: 1;
-	margin: 0px 5px;
-	background: transparent;
-	border: none;
-	color: ${(props) => fontColor[props.theme_value]};
-`;
-
 //Setting Page
 export const SettingMainContainer = styled.div`
 	display: flex;
@@ -137,8 +110,97 @@ export const SettingContentsContainer = styled.div`
 	padding: 16px 0px;
 `;
 
+//Login, Signin, Change Password
+export const UserForm = styled.form`
+	background: white;
+	width: 500px;
+	height: 614px;
+	padding: 70px;
+	border-radius: 16px;
+	caret-color: black;
+	display: flex;
+	flex-direction: column;
+	.focus {
+		border-color: ${inputFocusBoaderColor[0]};
+		outline: 0 none;
+	}
+`;
+
+export const UserTitle = styled.div`
+	font-size: 28px;
+	font-weight: bold;
+	margin-bottom: 20px;
+`;
+
+export const UserTitleSpan = styled.div`
+	font-size: 14px;
+	margin-bottom: 52px;
+	a {
+		color: ${L_GREEN_NORMAL};
+		text-decoration: underline;
+	}
+`;
+
+export const UserInput = styled.input`
+	flex: 1;
+	height: 40px;
+	font-size: 14px;
+	padding: 12px 10px;
+	border-radius: 4px;
+	border: 1px solid ${borderColor[0]};
+	&:focus {
+		border-color: ${inputFocusBoaderColor[0]};
+		outline: 0 none;
+	}
+`;
+
+export const UserSubmitButton = styled(PrimaryGreenButton)`
+	width: 360px;
+	height: 40px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.5;
+	letter-spacing: 0.15px;
+`;
+
+export const UserPasswordInput = styled(UserInput)`
+	padding: 0px;
+	height: auto;
+	border: none;
+`;
+
+export const UserPasswordContainer = styled.div`
+	display: flex;
+	align-items: center;
+	height: 40px;
+	padding: 12px 10px;
+	border-radius: 4px;
+	border: 1px solid ${borderColor[0]};
+`;
+
+//Server Folder Nav
+export const NewServerFolderForm = styled.form`
+	display: flex;
+	padding: 4px 0px;
+	border: none;
+`;
+
+export const NewServerFolderInput = styled.input`
+	background: ${(props) => navHighColor[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
+	margin: 0;
+	border: none;
+	outline: none;
+`;
+
+export const FolderServerTitle = styled.div`
+	flex: 1;
+	font-size: 14px;
+	color: ${(props) => fontColor[props.theme_value]};
+`;
 // context menu
-export const ContextMenu_Avocado = styled(Menu)`
+export const ContextMenu = styled(Menu)`
 	z-index: 5px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	background: ${(props) => sshSearch[props.theme_value]};
@@ -158,8 +220,8 @@ export const ContextMenu_Avocado = styled(Menu)`
 	}
 `;
 
-export const DropDownMenu_Avocado = styled(ContextMenu_Avocado)`
-	font-size: ${FONT_12};
+export const DropDownMenu = styled(ContextMenu)`
+	font-size: 12px;
 	min-width: 120px;
 
 	.react-contexify__separator {

@@ -4,16 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
-import {Span, IconButton} from '../../../styles/global';
+
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
-import {
-	borderColor,
-	fontColor,
-	iconColor,
-	tabColor,
-} from '../../../styles/color';
 import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
+import {borderColor, fontColor, tabColor} from '../../../styles/color';
+import {ClickableIconButton} from '../../../styles/button';
 
 const _Container = styled.div`
 	display: flex;
@@ -26,6 +22,10 @@ const _Container = styled.div`
 	background: ${(props) => props.back};
 `;
 
+const _Title = styled.div`
+	color: ${(props) => fontColor[props.theme_value]};
+`;
+
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
@@ -33,14 +33,14 @@ const HistoryNav = ({uuid}) => {
 	const historyState = useSelector((state) => state.history.historyState);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {theme, tab, server, identity} = useSelector((state) => state.common);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 
 	const corHistoryInfo = useMemo(
 		() => historyState.find((it) => it.uuid === uuid),
@@ -114,18 +114,23 @@ const HistoryNav = ({uuid}) => {
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<Span color={fontColor[theme]}>{t('title')}</Span>
+			<_Title theme_value={theme}>{t('title')}</_Title>
 			<div>
-				<IconButton color={iconColor[theme]} onClick={upload}>
-					{fileUploadIcon()}
-				</IconButton>
-				<IconButton
-					color={iconColor[theme]}
+				<ClickableIconButton
+					theme_value={theme}
+					margin={'10px'}
+					onClick={upload}
+				>
+					{fileUploadIcon}
+				</ClickableIconButton>
+				<ClickableIconButton
+					theme_value={theme}
+					margin={'0px'}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
 					{deleteIcon}
-				</IconButton>
+				</ClickableIconButton>
 			</div>
 		</_Container>
 	);

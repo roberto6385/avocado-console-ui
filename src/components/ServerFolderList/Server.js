@@ -12,46 +12,40 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {Span} from '../../styles/global';
-import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
-import {connectionAction} from '../../reducers/sftp/sftp';
-import {FONT_14, HEIGHT_34} from '../../styles/length';
+
 import {
 	activeColor,
-	fontColor,
 	iconColor,
 	navColor,
 	navHighColor,
 } from '../../styles/color';
 import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
+import {
+	FolderServerTitle,
+	NewServerFolderForm,
+	NewServerFolderInput,
+} from '../../styles/default';
+import styled from 'styled-components';
+import {IconButton} from '../../styles/button';
+import {connectionAction} from '../../reducers/sftp/sftp';
 
-export const _Form = styled.form`
-	border: none;
-	display: flex;
-	padding: 4px 0px;
-`;
-
-export const _Input = styled.input`
-	background: ${(props) => props?.back};
-	color: ${(props) => props.color};
-	font-size: ${FONT_14};
-	padding: 0;
-	margin: 0;
-	border: none;
-	outline: none;
-`;
-
-export const _NavItem = styled(Nav.Item)`
+export const ServerItem = styled(Nav.Item)`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: ${HEIGHT_34};
+	height: 34px;
 	padding: auto 16px;
 	padding-left: ${(props) => props?.left};
-	background-color: ${(props) => props.back};
 	border-left: 2px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: navColor[props.theme_value]};
+	background-color: ${(props) =>
+		props.clicked
+			? navHighColor[props.theme_value]
+			: navColor[props.theme_value]};
 `;
 
 const Server = ({data, indent}) => {
@@ -176,56 +170,49 @@ const Server = ({data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<_NavItem
+			<ServerItem
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				bcolor={
-					clicked_server === data.key
-						? activeColor[theme]
-						: navColor[theme]
-				}
-				back={
-					clicked_server === data.key
-						? navHighColor[theme]
-						: navColor[theme]
-				}
+				theme_value={theme}
+				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 6 + 10).toString() + 'px'}
 			>
-				{clicked_server === data.key ? (
-					<div>
-						{data.icon === 'linux' &&
-							linuxServerIcon(activeColor[theme])}
-						{data.icon === 'aws' &&
-							awsServerIcon(activeColor[theme])}
-					</div>
-				) : (
-					<div>
-						{data.icon === 'linux' &&
-							linuxServerIcon(iconColor[theme])}
-						{data.icon === 'aws' && awsServerIcon(iconColor[theme])}
-					</div>
-				)}
-				<Span color={fontColor[theme]} flex={1} size={FONT_14}>
+				<IconButton
+					margin={`0px 12px 0px 0px`}
+					size={'24px'}
+					color={
+						clicked_server === data.key
+							? activeColor[theme]
+							: iconColor[theme]
+					}
+				>
+					{data.icon === 'linux' && linuxServerIcon}
+					{data.icon === 'aws' && awsServerIcon}
+				</IconButton>
+
+				<FolderServerTitle theme_value={theme}>
 					{openRename ? (
-						<_Form onSubmit={handleSubmit} onBlur={handleSubmit}>
-							<_Input
-								back={navHighColor[theme]}
-								color={fontColor[theme]}
+						<NewServerFolderForm
+							onSubmit={handleSubmit}
+							onBlur={handleSubmit}
+						>
+							<NewServerFolderInput
 								ref={renameRef}
 								type='text'
 								value={renameValue}
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
+								theme_value={theme}
 							/>
-						</_Form>
+						</NewServerFolderForm>
 					) : (
 						data.name
 					)}
-				</Span>
-			</_NavItem>
+				</FolderServerTitle>
+			</ServerItem>
 			<ServerContextMenu
 				correspondedIdentity={correspondedIdentity}
 				data={data}

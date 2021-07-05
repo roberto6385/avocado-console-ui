@@ -16,17 +16,14 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import {PATH_SEARCH_INPUT_HEIGHT} from '../../styles/global';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
-import {SERVER_FORM_INPUT_WIDTH} from '../../styles/global';
-import {closeIconSmall} from '../../icons/icons';
+import {closeIcon} from '../../icons/icons';
 import {
 	Form,
 	Input,
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	PopupModal,
 } from '../../styles/default';
 import {
@@ -35,6 +32,7 @@ import {
 	greyBackgroundNormalButtonColor,
 } from '../../styles/color';
 import {
+	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
@@ -46,7 +44,7 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const _Input = styled(Input)`
-	width: ${SERVER_FORM_INPUT_WIDTH};
+	width: '178px';
 `;
 
 const _SecondaryGreenButton = styled(SecondaryGreenButton)`
@@ -67,7 +65,7 @@ const _InputFiled = styled(InputFiled_)`
 
 const _Label = styled.label`
 	width: 100%;
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	height: '34px'
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid;
@@ -350,9 +348,13 @@ const AddServerForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconSmall}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<Form onSubmit={onSubmitForm}>

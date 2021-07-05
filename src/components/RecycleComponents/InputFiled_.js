@@ -6,7 +6,8 @@ const _Container = styled.div`
 	display: flex;
 	flex: ${(props) => props?.flex};
 	flex-direction: column;
-	margin-bottom: 16px;
+	margin-bottom: ${(props) =>
+		props.marginBottom === undefined ? '16px' : props.marginBottom};
 `;
 
 const _Title = styled.div`
@@ -15,9 +16,9 @@ const _Title = styled.div`
 	line-height: 1.5;
 `;
 
-const InputFiled_ = ({title, children, flex}) => {
+const InputFiled_ = ({title, children, flex, marginBottom}) => {
 	return (
-		<_Container flex={flex}>
+		<_Container flex={flex} marginBottom={marginBottom}>
 			{title && <_Title>{title}</_Title>}
 			{children}
 		</_Container>
@@ -28,6 +29,7 @@ InputFiled_.propTypes = {
 	title: PropTypes.string,
 	children: PropTypes.element.isRequired,
 	flex: PropTypes.number,
+	marginBottom: PropTypes.string,
 };
 
 export default InputFiled_;

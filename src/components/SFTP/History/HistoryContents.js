@@ -4,51 +4,44 @@ import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
-import {
-	Span,
-	IconButton,
-	PreventDragCopy,
-	IconContainer,
-} from '../../../styles/global';
 import styled from 'styled-components';
 import {
-	arrowCircleDownIconSmall,
-	arrowCircleUpIconSmall,
-	buildCircleIconSmall,
-	deleteIconMidium,
+	arrowCircleDownIcon,
+	arrowCircleUpIcon,
+	buildCircleIcon,
+	deleteIcon,
 	fileUploadIcon,
-	pauseCircleIconSmall,
-	removeCircleIconSmall,
+	pauseCircleIcon,
+	removeCircleIcon,
 } from '../../../icons/icons';
-import {
-	HEIGHT_48,
-	FONT_12,
-	HEIGHT_132,
-	WIDTH_160,
-	HEIGHT_34,
-	WIDTH_134,
-} from '../../../styles/length';
+import {HEIGHT_48, HEIGHT_132} from '../../../styles/length';
 import {
 	activeColor,
 	borderColor,
 	historyDeleteColor,
 	historyDownloadColor,
 	fontColor,
-	GRAY_ICON_ACTIVE,
 	highColor,
 	historyEditColor,
 	iconColor,
 	historyPauseColor,
 	tabColor,
 	historyUploadColor,
-	L_BORDER,
 } from '../../../styles/color';
+
 import {
 	ADD_HISTORY_HI,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp/history';
 import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
+
+import {PreventDragCopy} from '../../../styles/function';
+import {
+	ClickableIconButton,
+	IconButton,
+	PrimaryGreenButton,
+} from '../../../styles/button';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -77,35 +70,35 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	// padding: 4px;
+	padding: 12px 16px 7.8px 10px;
 	display: flex;
 	align-items: center;
-	background: ${(props) => props.back};
+	background: ${(props) =>
+		props.clicked
+			? highColor[props.theme_value]
+			: tabColor[props.theme_value]};
 	white-space: nowrap;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
-const DropSpace_Button = styled.button`
+const DropSpace_Button = styled(PrimaryGreenButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: ${WIDTH_160};
-	height: ${HEIGHT_34};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	border-radius: 4px;
-	border: none;
+	width: 160px;
 	margin: 16px 40px 30px 40px;
 `;
 
-const ItemName_Span = styled(Span)`
-	width: ${WIDTH_134};
+const HistoryText = styled.div`
+	flex: 1;
+	line-height: 1.43;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: initial;
-	padding: 6px;
+	margin-right: 6px;
+	color: ${(props) =>
+		props.progress ? historyPauseColor : fontColor[props.theme_value]};
 `;
 
 const Progress = styled.div`
@@ -113,10 +106,30 @@ const Progress = styled.div`
 	bottom: 0;
 	width: 100%;
 `;
+
 const Bar = styled.div`
 	width: ${(props) => props?.width || '0%'};
 	height: 2px;
 	background: ${(props) => props.back};
+`;
+
+const _AnnounceText = styled.div`
+	color: ${(props) => iconColor[props.theme_value]};
+	padding: 32px 30px 12px 30px;
+	line-height: 1.43;
+	letter-spacing: 0.25px;
+`;
+
+const _BrowseButtonText = styled.div`
+	font-size: 13px;
+	letter-spacing: 0.13px;
+`;
+
+const _HistorySizeText = styled.span`
+	color: ${(props) => fontColor[props.theme_value]};
+	font-size: 12px;
+	letter-spacing: 0.25px;
+	line-height: 1.67;
 `;
 
 const HistoryContents = ({uuid}) => {
@@ -124,16 +137,17 @@ const HistoryContents = ({uuid}) => {
 	const {t} = useTranslation('historyContents');
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {sftp} = useSelector((state) => state.sftp);
+
 	const historyState = useSelector((state) => state.history.historyState);
 	const {theme, server, tab, identity} = useSelector((state) => state.common);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const corHistoryInfo = useMemo(
 		() => historyState.find((it) => it.uuid === uuid),
 		[historyState, uuid],
@@ -316,19 +330,18 @@ const HistoryContents = ({uuid}) => {
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history.length === 0 ? (
 				<DropSpaceDiv back={tabColor[theme]} bcolor={iconColor[theme]}>
-					<Span
-						color={iconColor[theme]}
-						padding={'32px 30px 12px 30px'}
-					>
+					<_AnnounceText theme_value={theme}>
 						{t('paragraph')}
-					</Span>
-					<DropSpace_Button
-						back={activeColor[theme]}
-						color={theme === 0 ? 'white' : 'black'}
-						onClick={openUpload}
-					>
-						{fileUploadIcon(theme === 0 ? 'white' : 'black')}
-						<Span>{t('browse')}</Span>
+					</_AnnounceText>
+					<DropSpace_Button theme_value={theme} onClick={openUpload}>
+						<IconButton
+							size={'20px'}
+							margin={'0px 8px 0px 0px'}
+							color={theme === 0 ? 'white' : 'black'}
+						>
+							{fileUploadIcon}
+						</IconButton>
+						<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
 					</DropSpace_Button>
 				</DropSpaceDiv>
 			) : (
@@ -339,90 +352,66 @@ const HistoryContents = ({uuid}) => {
 								className={'history_contents'}
 								key={history.HISTORY_ID}
 								onClick={selectItem(history, index)}
-								back={
+								theme_value={theme}
+								borderWidth={`${history.progress}%`}
+								clicked={
 									history_highlight.find(
 										(item) => item === history,
 									)
-										? highColor[theme]
-										: tabColor[theme]
+										? 1
+										: 0
 								}
-								bcolor={borderColor[theme]}
-								borderWidth={`${history.progress}%`}
 							>
-								<IconContainer
-									// 나중에 split pane 만들면 반응형으로!
-									padding={'0px 0px 0px 12px'}
-									className={'history_contents'}
-									// color={
-									// 	history.progress !== 100
-									// 		? LIGHT_MODE_ICON_COLOR
-									// 		: LIGHT_MODE_MINT_COLOR
-									// }
-								>
-									{history.progress !== 100 ? (
-										<IconContainer
-											color={historyPauseColor}
-										>
-											{pauseCircleIconSmall}
-										</IconContainer>
-									) : history.todo === 'write' ? (
-										<IconContainer
-											color={historyUploadColor}
-										>
-											{arrowCircleUpIconSmall}
-										</IconContainer>
-									) : history.todo === 'read' ? (
-										<IconContainer
-											color={historyDownloadColor}
-										>
-											{arrowCircleDownIconSmall}
-										</IconContainer>
-									) : history.todo === 'edit' ? (
-										<IconContainer color={historyEditColor}>
-											{buildCircleIconSmall}
-										</IconContainer>
-									) : (
-										history.todo === 'rm' && (
-											<IconContainer
-												color={historyDeleteColor}
-											>
-												{removeCircleIconSmall}
-											</IconContainer>
-										)
-									)}
-								</IconContainer>
-								<ItemName_Span
-									className={'history_contents'}
-									flex={1}
+								<IconButton
+									size={'20px'}
 									color={
 										history.progress !== 100
 											? historyPauseColor
-											: fontColor[theme]
+											: history.todo === 'write'
+											? historyUploadColor
+											: history.todo === 'read'
+											? historyDownloadColor
+											: history.todo === 'edit'
+											? historyEditColor
+											: history.todo === 'rm' &&
+											  historyDeleteColor
 									}
+									margin_right={'11.7px'}
+								>
+									{history.progress !== 100
+										? pauseCircleIcon
+										: history.todo === 'write'
+										? arrowCircleUpIcon
+										: history.todo === 'read'
+										? arrowCircleDownIcon
+										: history.todo === 'edit'
+										? buildCircleIcon
+										: history.todo === 'rm' &&
+										  removeCircleIcon}
+								</IconButton>
+								<HistoryText
+									className={'history_contents'}
+									flex={1}
+									progress={history.progress !== 100 ? 1 : 0}
+									theme_value={theme}
 								>
 									{history.name}
-								</ItemName_Span>
-								<Span
-									color={fontColor[theme]}
-									size={FONT_12}
+								</HistoryText>
+								<_HistorySizeText
+									theme_value={theme}
 									className={'history_contents'}
 								>
 									{formatByteSizeString(history.size)}
-								</Span>
-								<IconButton
+								</_HistorySizeText>
+								<ClickableIconButton
+									size={'20px'}
 									onClick={removeHistory(history)}
 									className={'history_contents'}
-									padding={'0px 16px 0px 6px'}
-									color={
-										history_highlight.find(
-											(item) => item === history,
-										)
-											? GRAY_ICON_ACTIVE
-											: iconColor[theme]
-									}
+									margin={'4px '}
+									theme_value={theme}
 								>
-									{deleteIconMidium}
-								</IconButton>
+									{deleteIcon}
+								</ClickableIconButton>
 
 								{history.progress !== 100 && (
 									<Progress>

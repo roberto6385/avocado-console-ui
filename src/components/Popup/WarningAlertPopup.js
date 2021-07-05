@@ -9,18 +9,29 @@ import {
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
 } from '../../reducers/common';
-import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
+
+import {cancelFillIcon, closeIcon} from '../../icons/icons';
+
 import {
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	ModalMessage,
 	PopupModal,
 	PopupText,
 } from '../../styles/default';
-import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
+
 import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from '../../reducers/sftp/history';
-import {createNewWebsocket, INIT_DELETE_WORK_LIST} from "../../reducers/sftp/crud";
+import {
+	createNewWebsocket,
+	INIT_DELETE_WORK_LIST,
+} from '../../reducers/sftp/crud';
+
+import {
+	ClickableIconButton,
+	PrimaryGreyButton,
+	PrimaryRedButton,
+} from '../../styles/button';
+import {fontColor} from '../../styles/color';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -36,12 +47,8 @@ const WarningAlertPopup = () => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const {warning_alert_popup} = useSelector((state) => state.popup);
-	const {
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-		nav,
-	} = useSelector((state) => state.common);
+	const {clicked_server, accountListControlId, accountCheckList, nav} =
+		useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const AlertMessage = {
@@ -173,12 +180,13 @@ const WarningAlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div theme_value={theme}>{t('alert')}</div>
-				<ModalHeaderIconButton
-					theme_value={theme}
-					onClick={cancelFunction}
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
 				>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>

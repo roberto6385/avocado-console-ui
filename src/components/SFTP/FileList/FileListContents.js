@@ -17,13 +17,6 @@ import {
 	sortFunction,
 	dataFormater,
 } from '../listConversion';
-import styled from 'styled-components';
-import {
-	HiddenScroll,
-	IconButton,
-	IconContainer,
-	PreventDragCopy,
-} from '../../../styles/global';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -36,11 +29,15 @@ import {
 	borderColor,
 	fileListHighColor,
 	fontColor,
-	iconColor,
 	tabColor,
 } from '../../../styles/color';
 import LoadingSpinner from '../../loadingSpinner';
-import {createNewWebsocket, PUSH_READ_LIST} from "../../../reducers/sftp/crud";
+import styled from 'styled-components';
+
+import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
+
+import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
+import {ClickableIconButton, IconButton} from '../../../styles/button';
 
 const _Table = styled.table`
 	display: flex;
@@ -101,14 +98,14 @@ const FileListContents = ({uuid}) => {
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
 	);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -122,14 +119,9 @@ const FileListContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {
-		path,
-		fileList,
-		highlight,
-		pathList,
-		sortKeyword,
-		toggle,
-	} = corSftpInfo;
+	const {path, fileList, highlight, pathList, sortKeyword, toggle} =
+		corSftpInfo;
+
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -175,81 +167,84 @@ const FileListContents = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		(item = '') => (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			if (item.name === '..' || item.name === '') return;
-			show(e);
-			!highlight
-				.slice()
-				.find(
-					(v) =>
-						JSON.stringify(v) === JSON.stringify({...item, path}),
-				) &&
-				item !== '' &&
-				dispatch({
-					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item: {...item, path}},
-				});
-		},
-		[dispatch, highlight],
-	);
-
-	const compareNumber = (list, first, second) => {
-		dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
-
-		if (first <= second) {
-			for (let i = first; i <= second; i++) {
-				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
-				});
-			}
-		} else {
-			for (let i = first; i >= second; i--) {
-				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
-				});
-			}
-		}
-	};
-
-	const selectItem = useCallback(
-		({item, index}) => (e) => {
-			if (item.name === '..') return;
-			if (e.metaKey) {
-				!highlight.includes({...item, path})
-					? dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-					  })
-					: dispatch({
-							type: REMOVE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-					  });
-			} else if (e.shiftKey) {
-				if (highlight.length === 0) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-				} else {
-					const corList = fileList[fileList.length - 1];
-					const firstIndex = corList.findIndex(
-						(it) => it.name === highlight[0].name,
-					);
-					compareNumber(corList, firstIndex, index);
-				}
-			} else {
-				!highlight.includes(item) &&
+		(item = '') =>
+			(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				if (item.name === '..' || item.name === '') return;
+				show(e);
+				!highlight
+					.slice()
+					.find(
+						(v) =>
+							JSON.stringify(v) ===
+							JSON.stringify({...item, path}),
+					) &&
+					item !== '' &&
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
 						payload: {uuid, item: {...item, path}},
 					});
-			}
-		},
-		[sftp],
+			},
+		[dispatch, highlight],
+	);
+
+	// const compareNumber = (list, first, second) => {
+	// 	dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+	//
+	// 	if (first <= second) {
+	// 		for (let i = first; i <= second; i++) {
+	// 			dispatch({
+	// 				type: ADD_HIGHLIGHT,
+	// 				payload: {uuid, item: {...list[i], path}},
+	// 			});
+	// 		}
+	// 	} else {
+	// 		for (let i = first; i >= second; i--) {
+	// 			dispatch({
+	// 				type: ADD_HIGHLIGHT,
+	// 				payload: {uuid, item: {...list[i], path}},
+	// 			});
+	// 		}
+	// 	}
+	// };
+
+	const selectItem = useCallback(
+		({item, index}) =>
+			(e) => {
+				if (item.name === '..') return;
+				if (e.metaKey) {
+					!highlight.includes({...item, path})
+						? dispatch({
+								type: ADD_HIGHLIGHT,
+								payload: {uuid, item: {...item, path}},
+						  })
+						: dispatch({
+								type: REMOVE_HIGHLIGHT,
+								payload: {uuid, item: {...item, path}},
+						  });
+				} else if (e.shiftKey) {
+					if (highlight.length === 0) {
+						dispatch({
+							type: ADD_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+						});
+					} else {
+						!highlight.includes(item) &&
+							dispatch({
+								type: ADD_ONE_HIGHLIGHT,
+								payload: {uuid, item},
+							});
+					}
+				} else {
+					!highlight.includes(item) &&
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+						});
+				}
+			},
+		[highlight, uuid, path],
 	);
 
 	const changePath = useCallback(
@@ -318,18 +313,15 @@ const FileListContents = ({uuid}) => {
 								>
 									<Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
-											<IconContainer
+											<IconButton
 												color={activeColor[theme]}
-												margin={`0px 8px 0px 0px`}
 											>
 												{folderOpenIcon}
-											</IconContainer>
+											</IconButton>
 										) : (
-											<IconContainer
-												margin={`0px 8px 0px 0px`}
-											>
+											<IconButton theme_value={theme}>
 												{fileIcon}
-											</IconContainer>
+											</IconButton>
 										)}
 
 										<span className='filelist_contents'>
@@ -349,22 +341,22 @@ const FileListContents = ({uuid}) => {
 											})}
 									</Th>
 									<Th min={'105px'}>{item.permission}</Th>
-									<Th min={'100px'} justify={'flex-end'}>
+									<Th min={'80px'} justify={'flex-end'}>
 										{item.type === 'file' && (
-											<IconButton
-												color={iconColor[theme]}
+											<ClickableIconButton
+												theme_value={theme}
 												onClick={edit(item)}
 											>
 												{editIcon}
-											</IconButton>
+											</ClickableIconButton>
 										)}
 										{item.name !== '..' && (
-											<IconButton
-												color={iconColor[theme]}
+											<ClickableIconButton
+												theme_value={theme}
 												onClick={download(item)}
 											>
 												{fileDownloadIcon}
-											</IconButton>
+											</ClickableIconButton>
 										)}
 									</Th>
 								</_Tr>

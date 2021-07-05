@@ -6,7 +6,7 @@ import History from './History/History';
 import Edit from './Edit/Edit';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {sideColor} from '../../styles/global';
+import {sideColor} from '../../styles/color';
 
 const _SFTP = styled.div`
 	display: flex;
@@ -18,10 +18,11 @@ const _SFTP = styled.div`
 const SFTP = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const {mode} = corSftpInfo;
 
 	return mode === 'edit' ? (

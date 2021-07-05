@@ -5,8 +5,9 @@ import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
-import {ContextMenu_Avocado} from '../../styles/default';
 import {createNewWebsocket, PUSH_READ_LIST} from "../../reducers/sftp/crud";
+import {ContextMenu} from '../../styles/default';
+
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
@@ -105,7 +106,7 @@ const FileListContextMenu = ({uuid}) => {
 		}
 	};
 	return (
-		<ContextMenu_Avocado
+		<ContextMenu
 			id={uuid + 'fileList'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -148,7 +149,7 @@ const FileListContextMenu = ({uuid}) => {
 			>
 				{t('delete')}
 			</Item>
-		</ContextMenu_Avocado>
+		</ContextMenu>
 	);
 };
 

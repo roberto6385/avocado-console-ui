@@ -5,7 +5,7 @@ import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu_Avocado} from '../../styles/default';
+import {ContextMenu} from '../../styles/default';
 
 const ServerAccountContextMenu = () => {
 	const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const ServerAccountContextMenu = () => {
 	}, [dispatch]);
 
 	return (
-		<ContextMenu_Avocado
+		<ContextMenu
 			id={'account'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -39,7 +39,7 @@ const ServerAccountContextMenu = () => {
 			<Item id='delete' onClick={deleteAccount}>
 				Delete
 			</Item>
-		</ContextMenu_Avocado>
+		</ContextMenu>
 	);
 };
 

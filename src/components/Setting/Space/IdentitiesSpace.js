@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {IconContainer} from '../../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -9,11 +8,9 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import {HEIGHT_30, HEIGHT_48} from '../../../styles/length';
 import {
 	borderColor,
 	fontColor,
-	iconColor,
 	identityForm,
 	accountHigh,
 	identitySearchInput,
@@ -25,6 +22,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/default';
+import {IconButton} from '../../../styles/button';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -48,12 +46,16 @@ const _ResourceListUl = styled(_Ul)`
 
 const _Li = styled.li`
 	font-size: 13px;
-	height: ${HEIGHT_48};
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => props.back};
+	// background: ${(props) => props.back};
+	background: ${(props) =>
+		props.clicked
+			? accountHigh[props.theme_value]
+			: identityForm[props.theme_value]};
 	letter-spacing: 0.13px;
 	.pretty.p-svg.p-curve {
 		z-index: 0;
@@ -77,7 +79,10 @@ const _Li = styled.li`
 
 const _ResourceLi = styled(_Li)`
 	cursor: pointer;
-	background: ${(props) => props?.back};
+	background: ${(props) =>
+		props.clicked
+			? identityHigh[props.theme_value]
+			: identityForm[props.theme_value]};
 `;
 
 const _Name = styled.div`
@@ -119,16 +124,17 @@ const _CheckBoxIdentity = styled(_UserNameType)`
 `;
 
 const _Form = styled.form`
+	font-size: 12px;
 	display: flex;
 	align-items: center;
-	padding: 3px 6px;
-	height: ${HEIGHT_30};
+	padding: 3px 16px;
+	height: 30px;
 	background: ${(props) => identitySearchInput[props.theme_value]};
 	margin: 9px 16px;
 `;
 
 const _Input = styled.input`
-	width: 243px;
+	width: 233px;
 	height: 24px;
 	border: none;
 	background: transparent;
@@ -245,12 +251,13 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_Form theme_value={theme}>
-							<IconContainer
-								color={iconColor[theme]}
+							<IconButton
+								size={'20px'}
 								margin={'0px 6px 0px 0px'}
+								theme_value={theme}
 							>
 								{searchIcon}
-							</IconContainer>
+							</IconButton>
 							<_Input
 								onChange={onChangeResourceSearch}
 								value={resourceSearch}
@@ -259,12 +266,6 @@ const IdentitiesSpace = () => {
 								theme_value={theme}
 							/>
 						</_Form>
-						{/*<IconButton*/}
-						{/*	color={fontColor[theme]}*/}
-						{/*	onClick={newServer}*/}
-						{/*>*/}
-						{/*	{plusIcon}*/}
-						{/*</IconButton>*/}
 					</_LiHeader>
 					<_Li theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
@@ -288,10 +289,8 @@ const IdentitiesSpace = () => {
 									theme_value={theme}
 									key={item.id}
 									onClick={selectResourceList(item)}
-									back={
+									clicked={
 										item.key === currentResourceListKey
-											? identityHigh[theme]
-											: identityForm[theme]
 									}
 								>
 									<_ResourceName>
@@ -327,12 +326,13 @@ const IdentitiesSpace = () => {
 							</_Span>
 						</_Name>
 						<_Form theme_value={theme}>
-							<IconContainer
-								color={iconColor[theme]}
+							<IconButton
+								size={'20px'}
 								margin={'0px 6px 0px 0px'}
+								theme_value={theme}
 							>
 								{searchIcon}
-							</IconContainer>
+							</IconButton>
 							<_Input
 								onChange={onChangeIdentitySearch}
 								value={identitySearch}
@@ -370,11 +370,7 @@ const IdentitiesSpace = () => {
 								<_Li
 									theme_value={theme}
 									key={item.id}
-									back={
-										item.checked
-											? accountHigh[theme]
-											: identityForm[theme]
-									}
+									clicked={item.checked}
 									onClick={onClickCheck(item)}
 								>
 									<_Name>{item.identityName}</_Name>

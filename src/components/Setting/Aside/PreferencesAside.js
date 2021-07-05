@@ -1,14 +1,12 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Select_ from '../../RecycleComponents/Select_';
 import styled from 'styled-components';
 import {
-	borderColor,
-	fontColor,
 	MONTSERRAT,
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-} from '../../../styles/global';
+} from '../../../styles/font';
 import {useTranslation} from 'react-i18next';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {
@@ -17,6 +15,7 @@ import {
 } from '../../../reducers/ssh';
 import {useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
+import {borderColor, fontColor} from '../../../styles/color';
 //Setting Page Side Bar
 const _Container = styled.div`
 	padding: 0px 16px 15px 17px;

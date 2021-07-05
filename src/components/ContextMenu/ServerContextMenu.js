@@ -10,7 +10,7 @@ import {
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {ContextMenu_Avocado} from '../../styles/default';
+import {ContextMenu} from '../../styles/default';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
@@ -39,10 +39,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		const sftpTabs = tab.slice().filter((v) => v.type === 'SFTP');
-		console.log(sftpTabs);
-		console.log(correspondedServer);
-		console.log(correspondedIdentity);
 
 		dispatch(
 			connectionAction({
@@ -62,7 +58,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 
-		console.log(correspondedIdentity);
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			data: {
@@ -76,7 +71,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const handleItemClick = useCallback(
 		(v) => () => {
-			console.log(v);
 			switch (v) {
 				case 'connect':
 					openSSH();
@@ -107,7 +101,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	);
 
 	return (
-		<ContextMenu_Avocado
+		<ContextMenu
 			id={data.key + 'server'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -123,7 +117,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 							{SftpServerContextMenuMessage[v]}
 						</Item>
 				  ))}
-		</ContextMenu_Avocado>
+		</ContextMenu>
 	);
 };
 

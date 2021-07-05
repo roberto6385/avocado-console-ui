@@ -1,43 +1,30 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {Span} from '../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
 	SSH_DECREASE_FONT_SIZE,
 	SSH_INCREASE_FONT_SIZE,
 } from '../reducers/ssh';
-import {
-	searchIconMicro,
-	zoomInIconMicro,
-	zoomOutIconMicro,
-} from '../icons/icons';
-import {HEIGHT_26, FONT_12} from '../styles/length';
-import {fontColor, footerColor} from "../styles/color";
+import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
+import {HEIGHT_26} from '../styles/length';
+import {fontColor, footerColor} from '../styles/color';
+import {ClickableIconButton} from '../styles/button';
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: ${FONT_12};
-	background: ${(props) => props.back};
+	font-size: 12px;
+	background: ${(props) => footerColor[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
 	padding: 0 16px;
-`;
-
-const _Button = styled.button`
-	font-size: ${FONT_12};
-	height: 24px;
-	background: transparent;
-	border: none;
-	padding: 4px;
-	color: ${(props) => props.color};
 `;
 
 const _HostContainer = styled.div`
 	display: flex;
 	align-items: center;
-	color: ${(props) => props?.color};
 `;
 
 const Footer = () => {
@@ -62,30 +49,34 @@ const Footer = () => {
 	}, [current_tab, tab]);
 
 	return (
-		<_Footer back={footerColor[theme]}>
-			<Span color={fontColor[theme]} size={FONT_12}>
-				Avocado v1.0
-			</Span>
+		<_Footer theme_value={theme}>
+			<span theme_value={theme}>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
-				<_HostContainer color={fontColor[theme]}>
-					<_Button
+				<_HostContainer>
+					<ClickableIconButton
 						color={fontColor[theme]}
+						margin={'4px'}
+						size={'16px'}
 						onClick={onClickDeceaseFont}
 					>
-						{zoomOutIconMicro}
-					</_Button>
-					<_Button
+						{zoomOutIcon}
+					</ClickableIconButton>
+					<ClickableIconButton
 						color={fontColor[theme]}
+						margin={'4px'}
+						size={'16px'}
 						onClick={onClickIncreaseFont}
 					>
-						{zoomInIconMicro}
-					</_Button>
-					<_Button
+						{zoomInIcon}
+					</ClickableIconButton>
+					<ClickableIconButton
 						color={fontColor[theme]}
+						margin={'4px'}
+						size={'16px'}
 						onClick={onClickOpenSearchBar}
 					>
-						{searchIconMicro}
-					</_Button>
+						{searchIcon}
+					</ClickableIconButton>
 
 					{current_tab &&
 						server.find(

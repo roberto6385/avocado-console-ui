@@ -7,24 +7,16 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
-import {
-	ACCOUNT_BUTTON_WIDTH,
-	PATH_SEARCH_INPUT_HEIGHT,
-} from '../../styles/global';
-import {closeIconSmall} from '../../icons/icons';
+import {closeIcon} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
-import {
-	ModalFooter,
-	ModalHeader,
-	ModalHeaderIconButton,
-	PopupModal,
-} from '../../styles/default';
+import {ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {
 	borderColor,
 	fontColor,
 	greyBackgroundNormalButtonColor,
 } from '../../styles/color';
 import {
+	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
@@ -41,8 +33,8 @@ const _Item = styled.div`
 `;
 
 const _Input = styled.input`
-	width: ${ACCOUNT_BUTTON_WIDTH};
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	width: '268px'
+	height: '34px'
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid;
@@ -69,7 +61,7 @@ const _FileInput = styled.input`
 
 const _Label = styled.label`
 	width: 100%;
-	height: ${PATH_SEARCH_INPUT_HEIGHT};
+	height: '34px'
 	padding: 6px 10px;
 	border-radius: 4px;
 	border: 1px solid;
@@ -178,9 +170,13 @@ const AddAccountForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addAccount')}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconSmall}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>

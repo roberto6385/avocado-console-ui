@@ -1,22 +1,22 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 import InputFiled_ from '../../RecycleComponents/InputFiled_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import Select_ from '../../RecycleComponents/Select_';
-
 import {
 	Input,
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/default';
-
 import ChangePasswordForm from '../../Form/ChangePasswordForm';
-import {useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {WIDTH_160, WIDTH_500} from '../../../styles/length';
-import {PrimaryDisabledButton, PrimaryGreenButton} from "../../../styles/button";
+import {
+	PrimaryDisabledButton,
+	PrimaryGreenButton,
+} from '../../../styles/button';
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -24,13 +24,11 @@ const _Input = styled(Input)`
 
 const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	margin-top: 7px;
-	width: ${WIDTH_160};
-	min-width: ${WIDTH_160};
+	width: 160px;
 `;
 const _PrimaryDisabledButton = styled(PrimaryDisabledButton)`
 	margin-top: 7px;
-	width: ${WIDTH_160};
-	min-width: ${WIDTH_160};
+	width: 160px;
 `;
 
 const _Section = styled.section`
@@ -110,7 +108,7 @@ const AccountSpace = () => {
 						options={authOptions}
 						value={authType}
 						setValue={setAuthType}
-						width={WIDTH_500}
+						width={'500px'}
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
@@ -144,7 +142,7 @@ const AccountSpace = () => {
 					options={mfaOptions}
 					value={mfaType}
 					setValue={setMfaType}
-					width={WIDTH_500}
+					width={'500px'}
 				/>
 				<Radio_
 					radioName={'MFA'}

@@ -1,11 +1,11 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-} from '../../../styles/global';
+} from '../../../styles/font';
 import Select_ from '../../RecycleComponents/Select_';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {useDispatch, useSelector} from 'react-redux';

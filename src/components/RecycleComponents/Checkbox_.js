@@ -8,22 +8,27 @@ const Container = styled.div`
 	z-index: 0;
 `;
 
-const Checkbox_ = ({title = '', value, handleCheck}) => {
+const _I = styled.i`
+background: ${(props) => activeColor[props.theme_value]}; ,
+borderRadius: '4px',
+
+`;
+
+const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
 	const {theme} = useSelector((state) => state.common);
 
 	return (
 		<Container className='pretty p-icon p-curve'>
 			<input type='checkbox' onChange={handleCheck} checked={value} />
 			<div className='state p-success'>
-				<i
+				<_I
 					className='icon material-icons'
-					style={{
-						background: activeColor[theme],
-						borderRadius: '4px',
-					}}
+					theme_value={
+						theme_value === undefined ? theme : theme_value
+					}
 				>
 					done
-				</i>
+				</_I>
 				<label>{title}</label>
 			</div>
 		</Container>
@@ -32,6 +37,7 @@ const Checkbox_ = ({title = '', value, handleCheck}) => {
 
 Checkbox_.propTypes = {
 	title: PropTypes.string,
+	theme_value: PropTypes.number,
 	value: PropTypes.bool.isRequired,
 	handleCheck: PropTypes.func.isRequired,
 };

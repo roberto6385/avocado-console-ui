@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {IconButton, IconContainer} from '../styles/global';
 import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
@@ -16,8 +15,6 @@ import {ADD_FOLDER} from '../reducers/common';
 import PropTypes from 'prop-types';
 import {
 	HEIGHT_48,
-	HEIGHT_50,
-	HEIGHT_54,
 	WIDTH_256,
 	FONT_14,
 	HEIGHT_36,
@@ -33,6 +30,7 @@ import {
 } from '../styles/color';
 import LightModeLogo from '../images/logo@2x.png';
 import DarkModeLogo from '../images/logo_white@3x.png';
+import {ClickableIconButton, IconButton} from '../styles/button';
 
 const _Aside = styled.aside`
 	display: flex;
@@ -54,17 +52,12 @@ const _Header = styled.div`
 	background: ${(props) => props.back};
 `;
 
-const _HeaderIconButton = styled(IconButton)`
-	margin-right: 6px;
-	padding: 0px;
-`;
-
 const _AddFolerServerContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	padding: 16px 10px;
+	padding: 10px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bcolor};
 	background: ${(props) => props.back};
@@ -116,6 +109,7 @@ const _Right = styled.span`
 	right: -8px;
 	color: ${(props) => iconColor[props?.theme_value]};
 `;
+
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
 
@@ -153,6 +147,10 @@ const Nav = ({toggle, setToggle}) => {
 		});
 	}, []);
 
+	const onClickOpenTggle = useCallback(() => {
+		setToggle(!toggle);
+	}, [toggle]);
+
 	return (
 		<_Aside
 			className={toggle ? 'nav' : 'nav close'}
@@ -160,13 +158,14 @@ const Nav = ({toggle, setToggle}) => {
 			back={navColor[theme]}
 		>
 			<_Header back={navColor[theme]}>
-				<_HeaderIconButton
-					color={iconColor[theme]}
-					onClick={() => setToggle(!toggle)}
+				<ClickableIconButton
+					size={'24px'}
+					margin={'0px 11px 0px 0px'}
+					theme_value={theme}
+					onClick={onClickOpenTggle}
 				>
 					{burgerMenuIcon}
-				</_HeaderIconButton>
-
+				</ClickableIconButton>
 				{theme === 0 ? (
 					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
 				) : (
@@ -177,20 +176,24 @@ const Nav = ({toggle, setToggle}) => {
 				back={navColor[theme]}
 				bcolor={borderColor[theme]}
 			>
-				<IconButton color={fontColor[theme]} onClick={newServer}>
+				<ClickableIconButton
+					margin={'6px'}
+					color={fontColor[theme]}
+					onClick={newServer}
+				>
 					{plusIcon}
-				</IconButton>
+				</ClickableIconButton>
 				<_NewServerTitle color={fontColor[theme]}>
 					{t('newServer')}
 				</_NewServerTitle>
-				<IconButton color={iconColor[theme]} onClick={newFolder}>
+				<ClickableIconButton theme_value={theme} onClick={newFolder}>
 					{newFolderIcon}
-				</IconButton>
+				</ClickableIconButton>
 			</_AddFolerServerContainer>
 			<_Form back={navColor[theme]} bcolor={borderColor[theme]}>
-				<IconContainer color={iconColor[theme]} margin={'6px'}>
+				<IconButton theme_value={theme} margin={'6px'}>
 					{searchIcon}
-				</IconContainer>
+				</IconButton>
 				<_Input
 					onChange={onChangeSearch}
 					value={search}

@@ -4,22 +4,24 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 
-import {
-	CHANGE_MODE,
-	CLOSE_EDITOR,
-	SAVE_TEXT,
-} from '../../reducers/sftp/sftp';
-import {alertFillIcon, closeIconMedium} from '../../icons/icons';
+import {alertFillIcon, closeIcon} from '../../icons/icons';
 import {
 	ModalFooter,
 	ModalHeader,
-	ModalHeaderIconButton,
 	ModalMessage,
 	PopupModal,
 	PopupText,
 } from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
-import {PUSH_WRITE_LIST} from "../../reducers/sftp/crud";
+import {PUSH_WRITE_LIST} from '../../reducers/sftp/crud';
+
+import {
+	ClickableIconButton,
+	IconButton,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/button';
+import {fontColor} from '../../styles/color';
+import {CHANGE_MODE, CLOSE_EDITOR, SAVE_TEXT} from '../../reducers/sftp/sftp';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -130,13 +132,19 @@ const SavePopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<ModalHeaderIconButton theme_value={theme} onClick={closeModal}>
-					{closeIconMedium}
-				</ModalHeaderIconButton>
+				<ClickableIconButton
+					color={fontColor[theme]}
+					size={'20px'}
+					margin={'0px'}
+				>
+					{closeIcon}
+				</ClickableIconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
-				<div>{alertFillIcon}</div>
+				<IconButton margin_right='6px' color={'#178082'}>
+					{alertFillIcon}
+				</IconButton>
 				<PopupText>{SaveMessage[save_popup.key]}</PopupText>
 			</ModalMessage>
 
