@@ -326,7 +326,9 @@ const sftp = (state = initialState, action) =>
 				break;
 			case REMOVE_HIGHLIGHT:
 				target.highlight = plainTarget.highlight.filter(
-					(item) => item !== action.payload.item,
+					(v) =>
+						JSON.stringify(v) !==
+						JSON.stringify(action.payload.item),
 				);
 				break;
 

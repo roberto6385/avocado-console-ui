@@ -70,6 +70,7 @@ const Th = styled.th`
 	display: flex;
 	align-items: center;
 	min-width: ${(props) => props?.min};
+	width: ${(props) => props?.min};
 	flex: ${(props) => props.flex};
 	justify-content: ${(props) => props.justify || 'flex-start'};
 	white-space: nowrap;
@@ -82,13 +83,13 @@ const _Tr = styled.tr`
 	display: flex;
 	height: ${HEIGHT_48};
 	color: ${(props) => props.color};
-	padding: 8px;
+	padding: 12px 8px;
 	background: ${(props) => props.back};
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.bcolor};
 	cursor: pointer;
 	th {
-		padding: 8px !important;
+		margin: 0px 8px !important;
 	}
 `;
 
@@ -98,14 +99,14 @@ const FileListContents = ({uuid}) => {
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
 	);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
-	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
-	);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -119,8 +120,14 @@ const FileListContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {path, fileList, highlight, pathList, sortKeyword, toggle} =
-		corSftpInfo;
+	const {
+		path,
+		fileList,
+		highlight,
+		pathList,
+		sortKeyword,
+		toggle,
+	} = corSftpInfo;
 
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
@@ -167,25 +174,23 @@ const FileListContents = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		(item = '') =>
-			(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				if (item.name === '..' || item.name === '') return;
-				show(e);
-				!highlight
-					.slice()
-					.find(
-						(v) =>
-							JSON.stringify(v) ===
-							JSON.stringify({...item, path}),
-					) &&
-					item !== '' &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-			},
+		(item = '') => (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			if (item.name === '..' || item.name === '') return;
+			show(e);
+			!highlight
+				.slice()
+				.find(
+					(v) =>
+						JSON.stringify(v) === JSON.stringify({...item, path}),
+				) &&
+				item !== '' &&
+				dispatch({
+					type: ADD_ONE_HIGHLIGHT,
+					payload: {uuid, item: {...item, path}},
+				});
+		},
 		[dispatch, highlight],
 	);
 
@@ -210,40 +215,57 @@ const FileListContents = ({uuid}) => {
 	// };
 
 	const selectItem = useCallback(
-		({item, index}) =>
-			(e) => {
-				if (item.name === '..') return;
-				if (e.metaKey) {
-					!highlight.includes({...item, path})
-						? dispatch({
-								type: ADD_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  });
-				} else if (e.shiftKey) {
-					if (highlight.length === 0) {
-						dispatch({
+		({item}) => (e) => {
+			if (item.name === '..') return;
+			if (e.metaKey) {
+				!highlight
+					.slice()
+					.find(
+						(v) =>
+							JSON.stringify(v) ===
+							JSON.stringify({...item, path}),
+					)
+					? dispatch({
 							type: ADD_HIGHLIGHT,
 							payload: {uuid, item: {...item, path}},
-						});
-					} else {
-						!highlight.includes(item) &&
-							dispatch({
-								type: ADD_ONE_HIGHLIGHT,
-								payload: {uuid, item},
-							});
-					}
+					  })
+					: dispatch({
+							type: REMOVE_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+					  });
+			} else if (e.shiftKey) {
+				if (highlight.length === 0) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...item, path}},
+					});
 				} else {
-					!highlight.includes(item) &&
+					!highlight
+						.slice()
+						.find(
+							(v) =>
+								JSON.stringify(v) ===
+								JSON.stringify({...item, path}),
+						) &&
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
 							payload: {uuid, item: {...item, path}},
 						});
 				}
-			},
+			} else {
+				!highlight
+					.slice()
+					.find(
+						(v) =>
+							JSON.stringify(v) ===
+							JSON.stringify({...item, path}),
+					) &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item: {...item, path}},
+					});
+			}
+		},
 		[highlight, uuid, path],
 	);
 
@@ -307,8 +329,8 @@ const FileListContents = ({uuid}) => {
 												JSON.stringify(v) ===
 												JSON.stringify({...item, path}),
 										)
-											? 'highlight_tbody active'
-											: 'highlight_tbody'
+											? 'filelist_contents active'
+											: 'filelist_contents'
 									}
 								>
 									<Th min={'150px'} flex={1}>

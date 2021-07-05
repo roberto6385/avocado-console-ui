@@ -13,7 +13,7 @@ const _Tr = styled.tr`
 	background: ${(props) => props?.back} !important;
 	display: flex;
 	align-items: center;
-	padding: 8px;
+	padding: 12px 8px;
 	border-bottom: 1px solid;
 	border-color: ${(props) => props.b_color};
 	color: ${(props) => props.color};
@@ -40,7 +40,7 @@ const _Thead = styled.thead`
 		top: 0px;
 		background: white;
 		th {
-			padding: 8px !important;
+			margin: 0px 8px !important;
 		}
 	}
 `;
@@ -131,7 +131,7 @@ const TableHead = ({uuid}) => {
 						</HeaderTh>
 					);
 				})}
-				<Th min={'100px'} />
+				<Th min={'80px'} />
 			</_Tr>
 		</_Thead>
 	);
