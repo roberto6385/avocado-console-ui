@@ -9,7 +9,6 @@ import {
 	searchDeleteListAction,
 } from '../../reducers/sftp/sftp';
 import SFTP from './SFTP';
-import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
 import {
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
@@ -18,6 +17,7 @@ import {
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp/crud';
+import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const SFTPContainer = ({uuid}) => {
 
 	const corCrudInfo = useMemo(
 		() => crudState.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+		[crudState, uuid],
 	);
 	const {
 		readList,
@@ -202,7 +202,6 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
 	}, [incinerator, removeSockets]);
-	console.log(highlight);
 
 	useEffect(() => {
 		if (removeSockets.length !== 0) {

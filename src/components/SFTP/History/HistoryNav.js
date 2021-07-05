@@ -13,7 +13,7 @@ import {
 	iconColor,
 	tabColor,
 } from '../../../styles/color';
-import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp/crud";
+import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 
 const _Container = styled.div`
 	display: flex;
@@ -44,7 +44,7 @@ const HistoryNav = ({uuid}) => {
 
 	const corHistoryInfo = useMemo(
 		() => historyState.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+		[historyState, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),

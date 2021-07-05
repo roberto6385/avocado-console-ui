@@ -48,7 +48,7 @@ import {
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
 } from '../../../reducers/sftp/history';
-import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp/crud";
+import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -136,7 +136,7 @@ const HistoryContents = ({uuid}) => {
 	]);
 	const corHistoryInfo = useMemo(
 		() => historyState.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+		[historyState, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -191,7 +191,7 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corSftpInfo, userTicket, corServer, correspondedIdentity]);
+	}, [userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -217,7 +217,7 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[corSftpInfo, userTicket, corServer, correspondedIdentity],
+		[userTicket, corServer, correspondedIdentity],
 	);
 
 	const selectItem = useCallback(
