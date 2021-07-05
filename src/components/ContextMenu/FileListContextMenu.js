@@ -14,7 +14,7 @@ const FileListContextMenu = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme, server, tab, identity} = useSelector((state) => state.common);
 
-	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
@@ -35,7 +35,7 @@ const FileListContextMenu = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {highlight, path} = corSftpServer;
+	const {highlight, path} = corSftpInfo;
 
 	const contextDownload = async () => {
 		const array = [];

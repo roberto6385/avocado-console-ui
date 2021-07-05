@@ -21,6 +21,7 @@ import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
+import {HISTORY_CONNECTION_SUCCESS} from '../../reducers/sftp/history';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -56,6 +57,12 @@ function* sendCommand(action) {
 							payload: {
 								uuid: uuid,
 								socket: socket,
+							},
+						});
+						yield put({
+							type: HISTORY_CONNECTION_SUCCESS,
+							payload: {
+								uuid: uuid,
 							},
 						});
 						yield put({

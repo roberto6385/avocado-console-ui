@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp/sftp';
+import {CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {IconButton} from '../../../styles/global';
@@ -17,6 +17,7 @@ import {
 	iconColor,
 	tabColor,
 } from '../../../styles/color';
+import {ADD_HISTORY} from "../../../reducers/sftp/history";
 
 const _Container = styled.div`
 	display: flex;

@@ -105,7 +105,7 @@ const FileListDropDown = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme, tab, server, identity} = useSelector((state) => state.common);
-	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
@@ -134,7 +134,7 @@ const FileListDropDown = ({uuid}) => {
 		tempItem,
 		sortKeyword,
 		toggle,
-	} = corSftpServer;
+	} = corSftpInfo;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -183,11 +183,11 @@ const FileListDropDown = ({uuid}) => {
 		({item, listindex, itemIndex}) => (e) => {
 			console.log(item, listindex, itemIndex);
 			if (e.shiftKey) {
-				if (corSftpServer.path !== pathList[listindex]) {
+				if (corSftpInfo.path !== pathList[listindex]) {
 					dispatch(
 						commandCdAction({
-							socket: corSftpServer.socket,
-							path: corSftpServer.path,
+							socket: corSftpInfo.socket,
+							path: corSftpInfo.path,
 							uuid: uuid,
 							cd_path: pathList[listindex],
 						}),
@@ -224,8 +224,8 @@ const FileListDropDown = ({uuid}) => {
 					) {
 						dispatch(
 							commandCdAction({
-								socket: corSftpServer.socket,
-								path: corSftpServer.path,
+								socket: corSftpInfo.socket,
+								path: corSftpInfo.path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -248,8 +248,8 @@ const FileListDropDown = ({uuid}) => {
 					if (item.type === 'file') {
 						dispatch(
 							commandCdAction({
-								socket: corSftpServer.socket,
-								path: corSftpServer.path,
+								socket: corSftpInfo.socket,
+								path: corSftpInfo.path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -261,8 +261,8 @@ const FileListDropDown = ({uuid}) => {
 					} else {
 						dispatch(
 							commandCdAction({
-								socket: corSftpServer.socket,
-								path: corSftpServer.path,
+								socket: corSftpInfo.socket,
+								path: corSftpInfo.path,
 								uuid: uuid,
 								cd_path: `${pathList[listindex]}/${item.name}`,
 							}),
@@ -293,8 +293,8 @@ const FileListDropDown = ({uuid}) => {
 				if (path !== finalPath) {
 					dispatch(
 						commandCdAction({
-							socket: corSftpServer.socket,
-							path: corSftpServer.path,
+							socket: corSftpInfo.socket,
+							path: corSftpInfo.path,
 							uuid: uuid,
 							cd_path: finalPath,
 						}),
@@ -307,7 +307,7 @@ const FileListDropDown = ({uuid}) => {
 					});
 			}
 		},
-		[corSftpServer],
+		[corSftpInfo],
 	);
 
 	const edit = useCallback(
@@ -356,8 +356,8 @@ const FileListDropDown = ({uuid}) => {
 			if (path !== clickedPath) {
 				dispatch(
 					commandCdAction({
-						socket: corSftpServer.socket,
-						path: corSftpServer.path,
+						socket: corSftpInfo.socket,
+						path: corSftpInfo.path,
 						uuid: uuid,
 						cd_path: clickedPath,
 					}),
@@ -377,7 +377,7 @@ const FileListDropDown = ({uuid}) => {
 				});
 			show(e);
 		},
-		[corSftpServer],
+		[corSftpInfo],
 	);
 
 	useEffect(() => {

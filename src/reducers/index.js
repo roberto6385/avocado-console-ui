@@ -10,6 +10,7 @@ import user from './user';
 import common from './common';
 import ssh from './ssh';
 import sftp from './sftp/sftp';
+import history from './sftp/history';
 import popup from './popup';
 import clientTicket from './auth/clientTicket';
 import userTicket from './auth/userTicket';
@@ -53,6 +54,7 @@ const appReducer = combineReducers({
 	user,
 	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
+	history,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	popup,
 	clientTicket,

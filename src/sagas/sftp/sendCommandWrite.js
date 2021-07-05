@@ -11,7 +11,6 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
-	FIND_HISTORY,
 	removeNewWebsocket,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
@@ -20,6 +19,7 @@ import {
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
+import {FIND_HISTORY} from "../../reducers/sftp/history";
 
 function* sendCommand(action) {
 	const {payload} = action;

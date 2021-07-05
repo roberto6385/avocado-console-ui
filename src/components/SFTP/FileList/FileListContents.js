@@ -102,7 +102,7 @@ const FileListContents = ({uuid}) => {
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
 	);
-	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
@@ -130,7 +130,7 @@ const FileListContents = ({uuid}) => {
 		pathList,
 		sortKeyword,
 		toggle,
-	} = corSftpServer;
+	} = corSftpInfo;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -259,9 +259,9 @@ const FileListContents = ({uuid}) => {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				dispatch(
 					commandCdAction({
-						socket: corSftpServer.socket,
+						socket: corSftpInfo.socket,
 						uuid: uuid,
-						path: corSftpServer.path,
+						path: corSftpInfo.path,
 						cd_path: item.name,
 					}),
 				);

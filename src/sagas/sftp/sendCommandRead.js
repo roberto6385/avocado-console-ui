@@ -10,7 +10,6 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
-	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
@@ -22,6 +21,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
+import {FIND_HISTORY} from "../../reducers/sftp/history";
 
 function* sendCommand(action) {
 	const {payload} = action;

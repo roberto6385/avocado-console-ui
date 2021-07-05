@@ -2,13 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	ADD_HISTORY_HI,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
-	PUSH_WRITE_LIST,
-	createNewWebsocket,
-} from '../../../reducers/sftp/sftp';
+import {PUSH_WRITE_LIST, createNewWebsocket} from '../../../reducers/sftp/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {
@@ -50,6 +44,11 @@ import {
 	historyUploadColor,
 	L_BORDER,
 } from '../../../styles/color';
+import {
+	ADD_HISTORY_HI,
+	INITIAL_HISTORY_HI,
+	REMOVE_HISTORY,
+} from '../../../reducers/sftp/history';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -125,15 +124,20 @@ const HistoryContents = ({uuid}) => {
 	const {t} = useTranslation('historyContents');
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {sftp} = useSelector((state) => state.sftp);
+	const historyState = useSelector((state) => state.history.historyState);
 	const {theme, server, tab, identity} = useSelector((state) => state.common);
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
 		uuid,
 	]);
-	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
+	const corHistoryInfo = useMemo(
+		() => historyState.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],
@@ -146,7 +150,8 @@ const HistoryContents = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const {history, history_highlight, path} = corSftpServer;
+	const {path} = corSftpInfo;
+	const {history, history_highlight} = corHistoryInfo;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -186,7 +191,7 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corSftpServer, userTicket, corServer, correspondedIdentity]);
+	}, [corSftpInfo, userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -212,7 +217,7 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[corSftpServer, userTicket, corServer, correspondedIdentity],
+		[corSftpInfo, userTicket, corServer, correspondedIdentity],
 	);
 
 	const selectItem = useCallback(

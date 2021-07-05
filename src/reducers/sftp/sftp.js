@@ -93,13 +93,6 @@ export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
-export const ADD_HISTORY = 'sftp/ADD_HISTORY';
-export const FIND_HISTORY = 'sftp/FIND_HISTORY';
-export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
-
-export const ADD_HISTORY_HI = 'sftp/ADD_HISTORY_HI';
-export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
-
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
@@ -119,8 +112,6 @@ export const INIT_FILELIST = 'sftp/INIT_FILELIST';
 // readList: [], // 경로, file 저장
 // 	writeList: [], // 경로, file 저장
 // 	rmList: [], // 경로, file 저장
-
-let HISTORY_ID = 0;
 
 // actions
 
@@ -254,8 +245,6 @@ const sftp = (state = initialState, action) =>
 					prevMode: '', // ok
 
 					highlight: [],
-					history: [],
-					history_highlight: [],
 
 					text: '',
 					editText: '',
@@ -396,39 +385,6 @@ const sftp = (state = initialState, action) =>
 				target.highlight = plainTarget.highlight.filter(
 					(item) => item !== action.payload.item,
 				);
-				break;
-
-			case ADD_HISTORY:
-				target.history.unshift({...action.payload, HISTORY_ID});
-				HISTORY_ID++;
-				break;
-
-			case FIND_HISTORY:
-				// eslint-disable-next-line no-case-declarations
-				const index = target.history.findIndex(
-					(h) =>
-						h.name === action.payload.name &&
-						h.todo === action.payload.todo,
-				);
-				if (index !== -1) {
-					target.history[index].progress = action.payload.progress;
-				}
-				break;
-
-			case REMOVE_HISTORY:
-				target.history = plainTarget.history.filter(
-					(it) => it !== action.payload.history,
-				);
-				break;
-
-			case ADD_HISTORY_HI:
-				target.history_highlight = action.payload.history;
-				break;
-
-			case INITIAL_HISTORY_HI:
-				if (target?.history_highlight) {
-					target.history_highlight = [];
-				}
 				break;
 
 			case DELETE_WORK_LIST:

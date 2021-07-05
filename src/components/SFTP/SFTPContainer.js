@@ -2,13 +2,11 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	ADD_HISTORY,
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
-	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
@@ -17,6 +15,7 @@ import {
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp/sftp';
 import SFTP from './SFTP';
+import {ADD_HISTORY, INITIAL_HISTORY_HI} from "../../reducers/sftp/history";
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();

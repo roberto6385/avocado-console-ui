@@ -30,16 +30,22 @@ const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
 	const {sftp} = useSelector((state) => state.sftp);
+	const historyState = useSelector((state) => state.history.historyState);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {theme, tab, server, identity} = useSelector((state) => state.common);
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
 		uuid,
 	]);
-	const corSftpServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
+
+	const corHistoryInfo = useMemo(
+		() => historyState.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],
@@ -52,7 +58,8 @@ const HistoryNav = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const {history_highlight, path} = corSftpServer;
+	const {path} = corSftpInfo;
+	const {history_highlight} = corHistoryInfo;
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -92,7 +99,7 @@ const HistoryNav = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corSftpServer]);
+	}, [corSftpInfo]);
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {

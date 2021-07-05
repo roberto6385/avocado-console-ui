@@ -12,8 +12,7 @@ import {
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
+
 } from '../../reducers/sftp/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
@@ -25,6 +24,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
+import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from "../../reducers/sftp/history";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
