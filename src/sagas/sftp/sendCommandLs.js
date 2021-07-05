@@ -19,9 +19,6 @@ import messageSender from './messageSender';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	//
-	// const socket = yield call(createWebsocket);
-	// const channel = yield call(subscribe, socket);
 	const channel = yield call(subscribe, payload.socket);
 
 	try {
@@ -32,7 +29,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -41,6 +38,7 @@ function* sendCommand(action) {
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(lsResponse, {data});
+				console.log(res);
 				switch (res.type) {
 					case LS_SUCCESS:
 						yield put({
@@ -73,13 +71,13 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(LS_REQUEST, sendCommand);
+	yield takeEvery(LS_REQUEST, sendCommand);
 	// yield throttle(500, LS_REQUEST, sendCommand);
-	const reqChannel = yield actionChannel(LS_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	// const reqChannel = yield actionChannel(LS_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandLsSaga() {
