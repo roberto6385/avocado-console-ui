@@ -14,7 +14,7 @@ import {
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';

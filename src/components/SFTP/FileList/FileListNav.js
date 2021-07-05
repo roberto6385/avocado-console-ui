@@ -7,7 +7,7 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
-} from '../../../reducers/sftp';
+} from '../../../reducers/sftp/sftp';
 import {IconButton} from '../../../styles/global';
 import {
 	arrowUpwordIcon,

@@ -13,7 +13,7 @@ import {
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
-} from '../../../reducers/sftp';
+} from '../../../reducers/sftp/sftp';
 import styled from 'styled-components';
 import {
 	HiddenScroll,

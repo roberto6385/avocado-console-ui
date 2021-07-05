@@ -14,7 +14,7 @@ import {
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';

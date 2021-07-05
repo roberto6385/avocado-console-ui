@@ -10,7 +10,7 @@ import {
 	takeEvery,
 	throttle,
 } from 'redux-saga/effects';
-import {ERROR, LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp';
+import {ERROR, LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';

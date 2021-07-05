@@ -8,7 +8,7 @@ import {
 	REMOVE_HISTORY,
 	PUSH_WRITE_LIST,
 	createNewWebsocket,
-} from '../../../reducers/sftp';
+} from '../../../reducers/sftp/sftp';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import {

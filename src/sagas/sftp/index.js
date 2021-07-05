@@ -13,7 +13,7 @@ import commandRenameSaga from './sendCommandRename';
 import searchListSaga from './searchDeleteList';
 import createWebsocketSaga from './createNewWebsocket';
 import removeWebsocketSaga from './removeNewWebsocket';
-import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
+import {DISCONNECTION_SUCCESS} from '../../reducers/sftp/sftp';
 
 export default function* sftpSaga() {
 	yield all([

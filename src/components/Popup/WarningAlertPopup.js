@@ -14,7 +14,7 @@ import {
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	REMOVE_HISTORY,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
 	ModalFooter,
@@ -33,8 +33,11 @@ const _PopupModal = styled(PopupModal)`
 const WarningAlertPopup = () => {
 	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
-	const {theme, server, tab, identity} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const theme = useSelector((state) => state.common.theme);
+	const server = useSelector((state) => state.common.server);
+	const tab = useSelector((state) => state.common.tab);
+	const identity = useSelector((state) => state.common.identity);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const {warning_alert_popup} = useSelector((state) => state.popup);
 	const {

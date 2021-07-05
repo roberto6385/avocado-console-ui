@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, READ_SUCCESS} from '../../reducers/sftp';
+import {ERROR, READ_SUCCESS} from '../../reducers/sftp/sftp';
 
 let readPercent = 0;
 let readByteSum = 0;

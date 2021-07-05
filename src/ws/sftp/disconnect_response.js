@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {DISCONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
+import {DISCONNECTION_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
 
 export function disconnectResponse({data}) {
 	try {

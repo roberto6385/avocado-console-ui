@@ -9,7 +9,7 @@ import {
 	CLOSE_EDITOR,
 	PUSH_WRITE_LIST,
 	SAVE_TEXT,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {alertFillIcon, closeIconMedium} from '../../icons/icons';
 import {
 	ModalFooter,
@@ -28,9 +28,9 @@ const _PopupModal = styled(PopupModal)`
 const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
-	const {save_popup} = useSelector((state) => state.popup);
-	const {sftp} = useSelector((state) => state.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const save_popup = useSelector((state) => state.popup.save_popup);
+	const sftp = useSelector((state) => state.sftp.sftp);
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),

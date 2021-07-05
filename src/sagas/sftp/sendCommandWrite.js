@@ -16,7 +16,7 @@ import {
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';

@@ -14,7 +14,7 @@ import {
 	RM_FAILURE,
 	RM_REQUEST,
 	SHIFT_SOCKETS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';

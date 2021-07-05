@@ -13,7 +13,7 @@ import {
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
-} from '../../../reducers/sftp';
+} from '../../../reducers/sftp/sftp';
 import {
 	formatByteSizeString,
 	sortFunction,

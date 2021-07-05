@@ -30,8 +30,8 @@ const _PopupModal = styled(PopupModal)`
 const AlertPopup = () => {
 	const {t} = useTranslation('alertPopup');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
-	const {alert_popup} = useSelector((state) => state.popup);
+	const theme = useSelector((state) => state.common.theme);
+	const alert_popup = useSelector((state) => state.popup.alert_popup);
 	const AlertMessage = {
 		invalid_server: t('invalidServer'),
 		lost_server: t('lostServer'),

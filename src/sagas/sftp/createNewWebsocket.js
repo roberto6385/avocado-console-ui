@@ -13,7 +13,7 @@ import {
 	CREATE_NEW_WEBSOCKET_REQUEST,
 	CREATE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';

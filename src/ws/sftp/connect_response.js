@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
+import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
 
 export function connectResponse({data}) {
 	try {

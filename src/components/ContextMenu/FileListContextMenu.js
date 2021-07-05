@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
+import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp/sftp';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu_Avocado} from '../../styles/default';
 

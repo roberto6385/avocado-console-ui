@@ -15,7 +15,7 @@ import {
 	SORT_TAB,
 } from '../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
-import {disconnectAction} from '../reducers/sftp';
+import {disconnectAction} from '../reducers/sftp/sftp';
 import {FONT_18, WIDTH_160} from '../styles/length';
 import {
 	activeColor,

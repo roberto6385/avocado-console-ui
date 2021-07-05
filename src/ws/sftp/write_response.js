@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {WRITE_SUCCESS} from '../../reducers/sftp';
+import {WRITE_SUCCESS} from '../../reducers/sftp/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;

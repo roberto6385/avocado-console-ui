@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, REMOVE_NEW_WEBSOCKET_SUCCESS} from '../../reducers/sftp';
+import {ERROR, REMOVE_NEW_WEBSOCKET_SUCCESS} from '../../reducers/sftp/sftp';
 
 export function removeNewSocketResponse({data}) {
 	try {

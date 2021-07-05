@@ -14,7 +14,7 @@ import {
 	CD_SUCCESS,
 	commandPwdAction,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';

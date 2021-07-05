@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
+import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {IconButton} from '../../../styles/global';

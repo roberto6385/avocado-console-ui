@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, MKDIR_SUCCESS} from '../../reducers/sftp';
+import {ERROR, MKDIR_SUCCESS} from '../../reducers/sftp/sftp';
 
 export function mkdirResponse({data}) {
 	try {

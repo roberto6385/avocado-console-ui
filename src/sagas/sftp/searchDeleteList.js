@@ -16,7 +16,7 @@ import {
 	LS_REQUEST_DELETE,
 	LS_SUCCESS_DELETE,
 	searchDeleteListAction,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';

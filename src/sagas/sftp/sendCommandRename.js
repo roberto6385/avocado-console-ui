@@ -14,7 +14,7 @@ import {
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';

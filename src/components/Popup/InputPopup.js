@@ -2,7 +2,10 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
-import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
+import {
+	commandMkdirAction,
+	commandRenameAction,
+} from '../../reducers/sftp/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIconMedium} from '../../icons/icons';
@@ -27,9 +30,9 @@ const _Form = styled(Form)`
 const InputPopup = () => {
 	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const {input_popup} = useSelector((state) => state.popup);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const inputRef = useRef(null);
 	const HeaderMessage = {
@@ -162,4 +165,4 @@ const InputPopup = () => {
 	);
 };
 
-export default React.memo(InputPopup);
+export default InputPopup;

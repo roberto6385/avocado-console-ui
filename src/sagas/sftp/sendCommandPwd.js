@@ -18,7 +18,7 @@ import {
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';

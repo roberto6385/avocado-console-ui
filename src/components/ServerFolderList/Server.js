@@ -15,7 +15,7 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {Span} from '../../styles/global';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
-import {connectionAction} from '../../reducers/sftp';
+import {connectionAction} from '../../reducers/sftp/sftp';
 import {FONT_14, HEIGHT_34} from '../../styles/length';
 import {
 	activeColor,

@@ -15,7 +15,7 @@ import {
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {

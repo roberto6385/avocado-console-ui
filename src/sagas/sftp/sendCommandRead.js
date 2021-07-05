@@ -18,7 +18,7 @@ import {
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';

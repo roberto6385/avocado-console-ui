@@ -13,7 +13,7 @@ import {
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp';
+} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
 import {closeChannel, subscribe} from '../channel';
