@@ -240,11 +240,11 @@ const FileListContents = ({uuid}) => {
 						payload: {uuid, item: {...item, path}},
 					});
 				} else {
-					const corList = fileList[fileList.length - 1];
-					const firstIndex = corList.findIndex(
+					// const corList = fileList[fileList.length - 1];
+					const firstIndex = currentFileList.findIndex(
 						(it) => it.name === highlight[0].name,
 					);
-					compareNumber(corList, firstIndex, index);
+					compareNumber(currentFileList, firstIndex, index);
 					// !highlight
 					// 	.slice()
 					// 	.find(
@@ -271,7 +271,7 @@ const FileListContents = ({uuid}) => {
 					});
 			}
 		},
-		[highlight, uuid, path],
+		[highlight, uuid, path, currentFileList],
 	);
 
 	const changePath = useCallback(

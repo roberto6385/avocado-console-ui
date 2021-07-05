@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import {HEIGHT_48} from '../../../styles/length';
-import {CHANGE_SORT_KEYWORD} from '../../../reducers/sftp/sftp';
+import {
+	CHANGE_SORT_KEYWORD,
+	INITIALIZING_HIGHLIGHT,
+} from '../../../reducers/sftp/sftp';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 
 const _Tr = styled.tr`
@@ -46,6 +49,8 @@ const TableHead = ({uuid}) => {
 
 	const Sorting = useCallback(
 		(e) => {
+			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+
 			const {id} = e.target;
 
 			switch (id) {
