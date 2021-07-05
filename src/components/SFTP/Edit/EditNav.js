@@ -17,7 +17,7 @@ import {
 	iconColor,
 	tabColor,
 } from '../../../styles/color';
-import {ADD_HISTORY} from "../../../reducers/sftp/history";
+import {ADD_HISTORY} from '../../../reducers/sftp/history';
 
 const _Container = styled.div`
 	display: flex;
@@ -46,11 +46,11 @@ const _ButtonContainer = styled.div`
 const EditNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {text, editText, editFile, path, prevMode, mode} = corServer;
+	const {text, editText, editFile, path, prevMode, mode} = corSftpInfo;
 	const dispatch = useDispatch();
 
 	const editedFileDownload = useCallback(() => {
@@ -72,7 +72,7 @@ const EditNav = ({uuid}) => {
 				progress: 100,
 			},
 		});
-	}, [corServer]);
+	}, [corSftpInfo]);
 
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {
@@ -88,7 +88,7 @@ const EditNav = ({uuid}) => {
 				data: {key: 'sftp_edit_save', uuid},
 			});
 		}
-	}, [text, editText, dispatch, corServer]);
+	}, [text, editText, dispatch, corSftpInfo]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
@@ -103,7 +103,7 @@ const EditNav = ({uuid}) => {
 				payload: {uuid, mode: prevMode, currentMode: mode},
 			});
 		}
-	}, [corServer]);
+	}, [corSftpInfo]);
 
 	return (
 		<_Container

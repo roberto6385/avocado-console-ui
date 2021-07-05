@@ -28,11 +28,11 @@ const _Container = styled.div`
 const EditContents = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
-	const corServer = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);
-	const {editText} = corServer;
+	const {editText} = corSftpInfo;
 	const dispatch = useDispatch();
 
 	const writeText = useCallback((e) => {

@@ -44,8 +44,8 @@ const SavePopup = () => {
 			}
 			case 'sftp_edit_close': {
 				const uuid = save_popup.uuid;
-				const corServer = sftp.find((it) => it.uuid === uuid);
-				const {prevMode} = corServer;
+				const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+				const {prevMode} = corSftpInfo;
 				dispatch({type: CLOSE_SAVE_POPUP});
 				dispatch({
 					type: CLOSE_EDITOR,
@@ -66,8 +66,8 @@ const SavePopup = () => {
 			e.preventDefault();
 
 			const uuid = save_popup.uuid;
-			const corServer = sftp.find((it) => it.uuid === uuid);
-			const {editText, editFile, prevMode, path} = corServer;
+			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+			const {editText, editFile, prevMode, path} = corSftpInfo;
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});

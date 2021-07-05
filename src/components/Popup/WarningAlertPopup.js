@@ -12,7 +12,6 @@ import {
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
-
 } from '../../reducers/sftp/sftp';
 import {cancelFillIcon, closeIconMedium} from '../../icons/icons';
 import {
@@ -24,7 +23,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
-import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from "../../reducers/sftp/history";
+import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from '../../reducers/sftp/history';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -100,10 +99,10 @@ const WarningAlertPopup = () => {
 				}
 
 				case 'sftp_delete_history': {
-					const corServer = sftp.find(
+					const corSftpInfo = sftp.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
-					const {history_highlight} = corServer;
+					const {history_highlight} = corSftpInfo;
 					history_highlight.forEach((item) => {
 						console.log(item);
 						dispatch({

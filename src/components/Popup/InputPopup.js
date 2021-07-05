@@ -55,8 +55,8 @@ const InputPopup = () => {
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
 					const uuid = input_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {highlight, path, socket} = corServer;
+					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+					const {highlight, path, socket} = corSftpInfo;
 
 					for (let value of highlight) {
 						dispatch(
@@ -80,13 +80,13 @@ const InputPopup = () => {
 
 				case 'sftp_new_folder': {
 					const uuid = input_popup.uuid;
-					const corServer = sftp.find((it) => it.uuid === uuid);
-					const {path} = corServer;
+					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+					const {path} = corSftpInfo;
 
 					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
-							socket: corServer.socket,
+							socket: corSftpInfo.socket,
 							path: path,
 							uuid: uuid,
 							mkdir_path:
