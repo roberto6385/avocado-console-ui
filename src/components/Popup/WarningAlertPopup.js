@@ -28,6 +28,7 @@ import {
 
 import {
 	ClickableIconButton,
+	IconButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/button';
@@ -47,8 +48,12 @@ const WarningAlertPopup = () => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const {warning_alert_popup} = useSelector((state) => state.popup);
-	const {clicked_server, accountListControlId, accountCheckList, nav} =
-		useSelector((state) => state.common);
+	const {
+		clicked_server,
+		accountListControlId,
+		accountCheckList,
+		nav,
+	} = useSelector((state) => state.common);
 	const {sftp} = useSelector((state) => state.sftp);
 
 	const AlertMessage = {
@@ -179,7 +184,7 @@ const WarningAlertPopup = () => {
 			theme_value={theme}
 		>
 			<ModalHeader theme_value={theme}>
-				<div theme_value={theme}>{t('alert')}</div>
+				<div>{t('alert')}</div>
 				<ClickableIconButton
 					color={fontColor[theme]}
 					size={'20px'}
@@ -190,7 +195,9 @@ const WarningAlertPopup = () => {
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
-				<div>{cancelFillIcon}</div>
+				<IconButton margin_right='6px' color={'#D55959'}>
+					{cancelFillIcon}
+				</IconButton>
 				<PopupText>{AlertMessage[warning_alert_popup.key]}</PopupText>
 			</ModalMessage>
 
