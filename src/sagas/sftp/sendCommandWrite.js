@@ -117,10 +117,6 @@ function* sendCommand(action) {
 						});
 
 						break;
-
-					// case ERROR:
-					// 	console.log(res.err);
-					// 	break;
 				}
 			}
 		}

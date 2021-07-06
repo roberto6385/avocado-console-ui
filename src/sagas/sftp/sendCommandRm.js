@@ -17,7 +17,7 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
 import {removeNewWebsocket, SHIFT_SOCKETS} from '../../reducers/sftp/crud';
-import {commandPwdAction} from "../../reducers/sftp/list";
+import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -57,13 +57,6 @@ function* sendCommand(action) {
 						}),
 					);
 				}
-
-				// break;
-				//
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
 			}
 		}
 	} catch (err) {

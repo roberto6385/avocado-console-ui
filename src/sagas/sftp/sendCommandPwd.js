@@ -102,12 +102,6 @@ function* sendCommand(action) {
 						}),
 					);
 				}
-				// break;
-
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
 			}
 		}
 	} catch (err) {
@@ -117,7 +111,6 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeLatest(PWD_REQUEST, sendCommand);
 	yield takeEvery(PWD_REQUEST, sendCommand);
 }
 

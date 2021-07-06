@@ -18,7 +18,7 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import {commandPwdAction} from "../../reducers/sftp/list";
+import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
