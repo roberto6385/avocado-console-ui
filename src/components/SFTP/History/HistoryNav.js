@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
@@ -31,24 +31,27 @@ const HistoryNav = ({uuid}) => {
 	const {t} = useTranslation('historyNav');
 	const {sftp} = useSelector((state) => state.sftp);
 	const historyState = useSelector((state) => state.history.historyState);
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const {theme, tab, server, identity} = useSelector((state) => state.common);
-	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {theme, tab, server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
 	);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
+		tab,
+		uuid,
+	]);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 
-	const corHistoryInfo = useMemo(
-		() => historyState.find((it) => it.uuid === uuid),
-		[historyState, uuid],
-	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],
+	);
+	const corHistoryInfo = useMemo(
+		() => historyState.find((it) => it.uuid === uuid),
+		[historyState, uuid],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
