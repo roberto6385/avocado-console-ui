@@ -30,6 +30,11 @@ export function cdResponse({data}) {
 				) {
 					const error = response.getError();
 					console.log(error.getMessage());
+					const errorIndex = error.getMessage().indexOf(']');
+					const substring = error
+						.getMessage()
+						.substring(errorIndex + 1);
+					console.log(substring.trim());
 					return {
 						type: ERROR,
 						err: error.getMessage(),

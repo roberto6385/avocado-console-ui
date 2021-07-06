@@ -41,34 +41,34 @@ function* sendCommand(action) {
 			} else {
 				const res = yield call(cdResponse, {data});
 
-				// switch (res.type) {
-				// 	case CD_SUCCESS:
-				yield put({
-					type: CD_SUCCESS,
-					payload: {uuid: payload.uuid},
-				});
+				switch (res.type) {
+					case CD_SUCCESS:
+						yield put({
+							type: CD_SUCCESS,
+							payload: {uuid: payload.uuid},
+						});
 
-				yield put(
-					commandPwdAction({
-						socket: payload.socket,
-						uuid: payload.uuid,
-						pwd_path: payload.path,
-					}),
-				);
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
+								uuid: payload.uuid,
+								pwd_path: payload.path,
+							}),
+						);
 
-				// break;
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	yield put({type: CD_FAILURE});
-				// 	yield put({
-				// 		type: OPEN_ALERT_POPUP,
-				// 		data: 'wrong_path',
-				// 	});
-				// 	break;
-				// default:
-				// 	console.log(res);
-				// 	break;
-				// }
+						break;
+					case ERROR:
+						console.log(res.err);
+						yield put({type: CD_FAILURE});
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'wrong_path',
+						});
+						break;
+					default:
+						console.log(res);
+						break;
+				}
 			}
 		}
 	} catch (err) {
