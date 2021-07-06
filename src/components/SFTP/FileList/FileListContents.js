@@ -162,14 +162,13 @@ const FileListContents = ({uuid}) => {
 				});
 			}
 		},
-		[sftp],
+		[uuid, path],
 	);
 
 	const contextMenuOpen = useCallback(
 		(item = '') =>
 			(e) => {
 				e.preventDefault();
-				e.stopPropagation();
 				if (item.name === '..' || item.name === '') return;
 				show(e);
 				!highlight
@@ -185,7 +184,7 @@ const FileListContents = ({uuid}) => {
 						payload: {uuid, item: {...item, path}},
 					});
 			},
-		[dispatch, highlight],
+		[dispatch, highlight, uuid, path, show],
 	);
 
 	const compareNumber = (list, first, second) => {
@@ -284,7 +283,7 @@ const FileListContents = ({uuid}) => {
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[sftp],
+		[corSftpInfo],
 	);
 
 	useEffect(() => {

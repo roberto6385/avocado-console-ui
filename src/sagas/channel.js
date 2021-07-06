@@ -6,11 +6,13 @@ export function subscribe(socket, buffer) {
 			emit(event.data);
 		};
 
-		socket.onerror = () => {
+		socket.onerror = (event) => {
+			console.log(event);
 			socket.close();
 		};
 
 		socket.onclose = () => {
+			console.log('close');
 			emit(END);
 		};
 
