@@ -407,7 +407,7 @@ const HistoryContents = ({uuid}) => {
 								</_HistorySizeText>
 								<ClickableIconButton
 									size={'sm'}
-									margin={'0px 0px 0px 4px'}
+									margin={'10px'}
 									theme_value={theme}
 									onClick={removeHistory(history)}
 									className={'history_contents'}

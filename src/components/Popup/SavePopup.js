@@ -32,6 +32,7 @@ const SavePopup = () => {
 	const dispatch = useDispatch();
 	const save_popup = useSelector((state) => state.popup.save_popup);
 	const sftp = useSelector((state) => state.sftp.sftp);
+	const listState = useSelector((state) => state.list.listState);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
@@ -75,12 +76,14 @@ const SavePopup = () => {
 			const uuid = save_popup.uuid;
 			const corTab = tab.find((it) => it.uuid === uuid);
 			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+			const corListInfo = listState.find((it) => it.uuid === uuid);
 			const correspondedIdentity = identity.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
 			);
 
 			const corServer = server.find((it) => it.key === corTab.server.key);
-			const {editText, editFile, prevMode, path} = corSftpInfo;
+			const {path} = corListInfo;
+			const {editText, editFile, prevMode} = corSftpInfo;
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});
@@ -152,7 +155,7 @@ const SavePopup = () => {
 			}
 			closeModal();
 		},
-		[save_popup, sftp, tab, identity, server, userTicket],
+		[save_popup, sftp, tab, identity, server, userTicket, listState],
 	);
 
 	return (

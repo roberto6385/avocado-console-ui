@@ -57,6 +57,7 @@ const WarningAlertPopup = () => {
 		nav,
 	} = useSelector((state) => state.common, shallowEqual);
 	const sftp = useSelector((state) => state.sftp.sftp);
+	const historyState = useSelector((state) => state.history.historyState);
 
 	const AlertMessage = {
 		sftp_delete_file_folder: t('deleteFileFolder'),
@@ -110,10 +111,10 @@ const WarningAlertPopup = () => {
 				}
 
 				case 'sftp_delete_history': {
-					const corSftpInfo = sftp.find(
+					const corHistoryInfo = historyState.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
-					const {history_highlight} = corSftpInfo;
+					const {history_highlight} = corHistoryInfo;
 					history_highlight.forEach((item) => {
 						console.log(item);
 						dispatch({
@@ -169,6 +170,7 @@ const WarningAlertPopup = () => {
 			accountListControlId,
 			warning_alert_popup,
 			sftp,
+			historyState,
 			nav,
 			tab,
 			server,

@@ -12,6 +12,7 @@ const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const sftp = useSelector((state) => state.sftp.sftp);
+	const listState = useSelector((state) => state.list.listState);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -21,6 +22,10 @@ const FileListContextMenu = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
 		uuid,
@@ -38,7 +43,8 @@ const FileListContextMenu = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {highlight, path} = corSftpInfo;
+	const {highlight} = corSftpInfo;
+	const {path} = corListInfo;
 
 	const contextDownload = useCallback(async () => {
 		const array = [];
@@ -60,7 +66,7 @@ const FileListContextMenu = ({uuid}) => {
 			type: PUSH_READ_LIST,
 			payload: {uuid, array},
 		});
-	}, [uuid, corSftpInfo, corServer, correspondedIdentity, userTicket]);
+	}, [uuid, highlight, path, corServer, correspondedIdentity, userTicket]);
 
 	const contextEdit = useCallback(() => {
 		for (let value of highlight) {
@@ -80,7 +86,7 @@ const FileListContextMenu = ({uuid}) => {
 				}),
 			);
 		}
-	}, [corSftpInfo, corServer, correspondedIdentity, userTicket, uuid]);
+	}, [highlight, path, corServer, correspondedIdentity, userTicket, uuid]);
 
 	const handleItemClick = useCallback(
 		async ({event}) => {

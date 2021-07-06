@@ -35,6 +35,7 @@ const InputPopup = () => {
 	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
 	const sftp = useSelector((state) => state.sftp.sftp);
+	const listState = useSelector((state) => state.list.listState);
 	const theme = useSelector((state) => state.common.theme);
 	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -56,12 +57,14 @@ const InputPopup = () => {
 		(e) => {
 			e.preventDefault();
 
+			const uuid = input_popup.uuid;
+			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
+			const corListInfo = listState.find((it) => it.uuid === uuid);
+			const {path} = corListInfo;
+			const {highlight, socket} = corSftpInfo;
+
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
-					const uuid = input_popup.uuid;
-					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-					const {highlight, path, socket} = corSftpInfo;
-
 					for (let value of highlight) {
 						dispatch(
 							commandRenameAction({
@@ -83,14 +86,10 @@ const InputPopup = () => {
 				}
 
 				case 'sftp_new_folder': {
-					const uuid = input_popup.uuid;
-					const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-					const {path} = corSftpInfo;
-
 					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
-							socket: corSftpInfo.socket,
+							socket: socket,
 							path: path,
 							uuid: uuid,
 							mkdir_path:
@@ -107,7 +106,7 @@ const InputPopup = () => {
 			}
 			closeModal();
 		},
-		[input_popup, formValue, sftp],
+		[input_popup, formValue, sftp, listState],
 	);
 	console.log('rerendering...');
 
