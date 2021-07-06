@@ -51,7 +51,6 @@ const _Container = styled.div`
 const _Form = styled.form`
 	display: flex;
 	flex: 1;
-	margin-right: 8px;
 `;
 
 const FileListNav = ({uuid}) => {
@@ -59,10 +58,10 @@ const FileListNav = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
 	const {theme} = useSelector((state) => state.common);
 
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {path, mode} = corSftpInfo;
 
 	const [currentPath, setCurrentPath] = useState('');
@@ -71,15 +70,15 @@ const FileListNav = ({uuid}) => {
 		const pathInput = document.getElementById('fileListNavInput');
 		console.log(nextPath);
 		nextPath !== undefined &&
-			dispatch(
-				commandCdAction({
-					socket: corSftpInfo.socket,
-					uuid: uuid,
-					path: corSftpInfo.path,
-					cd_path: nextPath,
-				}),
-			) &&
-			pathInput.blur();
+		dispatch(
+			commandCdAction({
+				socket: corSftpInfo.socket,
+				uuid: uuid,
+				path: corSftpInfo.path,
+				cd_path: nextPath,
+			}),
+		) &&
+		pathInput.blur();
 	};
 
 	const goBack = (e) => {
@@ -113,26 +112,26 @@ const FileListNav = ({uuid}) => {
 
 	const dropdownList = () => {
 		mode !== 'drop' &&
-			dispatch({
-				type: CHANGE_MODE,
-				payload: {
-					uuid,
-					mode: 'drop',
-					currentMode: mode,
-				},
-			});
+		dispatch({
+			type: CHANGE_MODE,
+			payload: {
+				uuid,
+				mode: 'drop',
+				currentMode: mode,
+			},
+		});
 	};
 
 	const basicList = () => {
 		mode !== 'list' &&
-			dispatch({
-				type: CHANGE_MODE,
-				payload: {
-					uuid,
-					mode: 'list',
-					currentMode: mode,
-				},
-			});
+		dispatch({
+			type: CHANGE_MODE,
+			payload: {
+				uuid,
+				mode: 'list',
+				currentMode: mode,
+			},
+		});
 	};
 
 	const refresh = useCallback(() => {
@@ -152,13 +151,14 @@ const FileListNav = ({uuid}) => {
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
 			<ClickableIconButton
-				margin={'0px 16px'}
+				margin={'13px 5px 13px 16px'}
 				theme_value={theme}
 				onClick={goBack}
 			>
 				{arrowUpwordIcon}
 			</ClickableIconButton>
 			<ClickableIconButton
+				margin={'13px 5px'}
 				color={mode === 'list' ? activeColor[theme] : iconColor[theme]}
 				theme_value={theme}
 				onClick={basicList}
@@ -166,7 +166,7 @@ const FileListNav = ({uuid}) => {
 				{viewListIcon}
 			</ClickableIconButton>
 			<ClickableIconButton
-				margin_right={'8px'}
+				margin={'13px 16px 13px 5px'}
 				theme_value={theme}
 				color={mode === 'drop' ? activeColor[theme] : iconColor[theme]}
 				onClick={dropdownList}
@@ -185,10 +185,18 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<ClickableIconButton theme_value={theme} onClick={refresh}>
+			<ClickableIconButton
+				margin={'13px 5px 13px 16px'}
+				theme_value={theme}
+				onClick={refresh}
+			>
 				{refreshIcon}
 			</ClickableIconButton>
-			<ClickableIconButton theme_value={theme} onClick={goHome}>
+			<ClickableIconButton
+				margin={'13px 16px 13px 5px'}
+				theme_value={theme}
+				onClick={goHome}
+			>
 				{homeIcon}
 			</ClickableIconButton>
 		</_Container>
