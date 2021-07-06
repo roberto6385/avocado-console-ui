@@ -17,6 +17,16 @@ export const INIT_FILELIST = 'sftp/INIT_FILELIST';
 const initialState = {
 	listState: [],
 };
+
+export const commandPwdAction = (payload) => ({
+	type: PWD_REQUEST,
+	payload,
+});
+export const commandLsAction = (payload) => ({
+	type: LS_REQUEST,
+	payload,
+});
+
 const ObjFinder = (target, uuid) => {
 	return target.find((it) => it.uuid === uuid);
 };
@@ -76,11 +86,3 @@ const list = (state = initialState, action) =>
 	});
 
 export default list;
-export const commandPwdAction = (payload) => ({
-	type: PWD_REQUEST,
-	payload,
-});
-export const commandLsAction = (payload) => ({
-	type: LS_REQUEST,
-	payload,
-});

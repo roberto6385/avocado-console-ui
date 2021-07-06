@@ -116,6 +116,13 @@ const FileListDropDown = ({uuid}) => {
 		[corTab],
 	);
 
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path, fileList, pathList} = corListInfo;
+
 	const correspondedIdentity = useMemo(
 		() =>
 			identity.find(
@@ -123,15 +130,7 @@ const FileListDropDown = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {
-		fileList,
-		pathList,
-		highlight,
-		path,
-		tempItem,
-		sortKeyword,
-		toggle,
-	} = corSftpInfo;
+	const {highlight, tempItem, sortKeyword, toggle} = corSftpInfo;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -308,7 +307,7 @@ const FileListDropDown = ({uuid}) => {
 					});
 			}
 		},
-		[corSftpInfo, currentFileList],
+		[corSftpInfo, currentFileList, corListInfo],
 	);
 
 	const edit = useCallback(
@@ -332,7 +331,14 @@ const FileListDropDown = ({uuid}) => {
 				);
 			}
 		},
-		[corServer, corSftpInfo, correspondedIdentity, userTicket, uuid],
+		[
+			corServer,
+			corSftpInfo,
+			correspondedIdentity,
+			userTicket,
+			corListInfo,
+			uuid,
+		],
 	);
 
 	const download = useCallback(
@@ -357,7 +363,7 @@ const FileListDropDown = ({uuid}) => {
 				);
 			}
 		},
-		[sftp, server, identity, tab, userTicket],
+		[sftp, server, identity, tab, userTicket, corListInfo],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -389,7 +395,7 @@ const FileListDropDown = ({uuid}) => {
 				});
 			show(e);
 		},
-		[corSftpInfo],
+		[corSftpInfo, corListInfo],
 	);
 
 	useEffect(() => {

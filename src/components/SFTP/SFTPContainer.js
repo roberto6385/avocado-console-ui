@@ -41,8 +41,14 @@ const SFTPContainer = ({uuid}) => {
 		removeSockets,
 		readSockets,
 	} = corCrudInfo;
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path} = corListInfo;
 
-	const {highlight, path} = corSftpInfo;
+	const {highlight, mode, socket} = corSftpInfo;
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -99,15 +105,15 @@ const SFTPContainer = ({uuid}) => {
 			readList.length === readSockets.length
 		) {
 			const value = readList.slice().shift();
-			const socket = readSockets.slice().shift();
+			const read_socket = readSockets.slice().shift();
 			dispatch(
 				commandReadAction({
-					socket: corSftpInfo.socket,
-					read_socket: socket,
-					uuid: corSftpInfo.uuid,
+					socket: socket,
+					read_socket: read_socket,
+					uuid: uuid,
 					read_path: value.path,
 					file: value.file,
-					mode: corSftpInfo.mode,
+					mode: mode,
 					todo: value.todo,
 				}),
 			);
@@ -116,7 +122,7 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: corSftpInfo.uuid,
+						uuid: uuid,
 						name: value.file.name,
 						size: value.file.size,
 						todo: value.todo,
@@ -137,22 +143,22 @@ const SFTPContainer = ({uuid}) => {
 			writeList.length === writeSockets.length
 		) {
 			const value = writeList.slice().shift();
-			const socket = writeSockets.slice().shift();
+			const write_socket = writeSockets.slice().shift();
 			dispatch(
 				commandWriteAction({
-					socket: corSftpInfo.socket,
-					write_socket: socket,
-					uuid: corSftpInfo.uuid,
+					socket: socket,
+					write_socket: write_socket,
+					uuid: uuid,
 					write_path: value.path,
 					file: value.file,
-					path: corSftpInfo.path,
+					path: path,
 					todo: value.todo,
 				}),
 			);
 			dispatch({
 				type: ADD_HISTORY,
 				payload: {
-					uuid: corSftpInfo.uuid,
+					uuid: uuid,
 					name: value.file.name,
 					size: value.file.size,
 					todo: value.todo,
@@ -170,16 +176,16 @@ const SFTPContainer = ({uuid}) => {
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
 			console.log(value);
-			const socket = removeSockets.slice().shift();
+			const remove_socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
 					commandRmAction({
-						socket: corSftpInfo.socket,
-						remove_socket: socket,
+						socket: socket,
+						remove_socket: remove_socket,
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
-						path: corSftpInfo.path,
+						path: path,
 						keyword:
 							value.file.type === 'file'
 								? 'CommandByRm'
@@ -191,7 +197,7 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
-						uuid: corSftpInfo.uuid,
+						uuid: uuid,
 						name: value.file.name,
 						size: value.file.size,
 						todo: 'rm',
@@ -205,7 +211,7 @@ const SFTPContainer = ({uuid}) => {
 
 	useEffect(() => {
 		if (removeSockets.length !== 0) {
-			const socket = removeSockets.slice().shift();
+			const remove_socket = removeSockets.slice().shift();
 
 			const array = [];
 			for (let value of highlight) {
@@ -243,8 +249,8 @@ const SFTPContainer = ({uuid}) => {
 								: `${path}/${item.file.name}`;
 						dispatch(
 							searchDeleteListAction({
-								socket: socket,
-								uuid: corSftpInfo.uuid,
+								socket: remove_socket,
+								uuid: uuid,
 								delete_path: delete_path,
 							}),
 						);

@@ -135,7 +135,6 @@ const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const sftp = useSelector((state) => state.sftp.sftp);
 
 	const historyState = useSelector((state) => state.history.historyState);
 	const {theme, server, tab, identity} = useSelector(
@@ -144,10 +143,6 @@ const HistoryContents = ({uuid}) => {
 	);
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
-		uuid,
-	]);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
 		uuid,
 	]);
 	const corHistoryInfo = useMemo(
@@ -166,7 +161,12 @@ const HistoryContents = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const {path} = corSftpInfo;
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path} = corListInfo;
 	const {history, history_highlight} = corHistoryInfo;
 
 	const openUpload = useCallback(async () => {

@@ -43,7 +43,14 @@ const EditNav = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {text, editText, editFile, path, prevMode, mode} = corSftpInfo;
+
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path} = corListInfo;
+	const {text, editText, editFile, prevMode, mode} = corSftpInfo;
 
 	const dispatch = useDispatch();
 
@@ -66,7 +73,7 @@ const EditNav = ({uuid}) => {
 				progress: 100,
 			},
 		});
-	}, [corSftpInfo]);
+	}, [corSftpInfo, corListInfo]);
 
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {

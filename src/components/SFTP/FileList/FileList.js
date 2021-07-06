@@ -16,7 +16,7 @@ const _Container = styled.div`
 
 const FileList = ({uuid}) => {
 	const {sftp} = useSelector((state) => state.sftp);
-	const mode = useMemo(() => sftp.find((it) => it.uuid === uuid).mode, [
+	const {mode} = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
 	]);

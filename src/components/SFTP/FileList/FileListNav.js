@@ -59,7 +59,14 @@ const FileListNav = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
-	const {path, mode} = corSftpInfo;
+
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path} = corListInfo;
+	const {mode} = corSftpInfo;
 
 	const [currentPath, setCurrentPath] = useState('');
 

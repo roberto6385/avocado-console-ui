@@ -102,6 +102,12 @@ const FileListContents = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
+	const {path, fileList, pathList} = corListInfo;
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
 		uuid,
@@ -119,14 +125,7 @@ const FileListContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {
-		path,
-		fileList,
-		pathList,
-		highlight,
-		sortKeyword,
-		toggle,
-	} = corSftpInfo;
+	const {highlight, sortKeyword, toggle} = corSftpInfo;
 
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
@@ -156,7 +155,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[sftp, server, identity, tab, userTicket],
+		[sftp, server, identity, tab, userTicket, listState],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -180,7 +179,14 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[uuid, corSftpInfo, corServer, correspondedIdentity, userTicket],
+		[
+			uuid,
+			corSftpInfo,
+			corServer,
+			correspondedIdentity,
+			userTicket,
+			corListInfo,
+		],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -249,22 +255,10 @@ const FileListContents = ({uuid}) => {
 						payload: {uuid, item: {...item, path}},
 					});
 				} else {
-					// const corList = fileList[fileList.length - 1];
 					const firstIndex = currentFileList.findIndex(
 						(it) => it.name === highlight[0].name,
 					);
 					compareNumber(currentFileList, firstIndex, index);
-					// !highlight
-					// 	.slice()
-					// 	.find(
-					// 		(v) =>
-					// 			JSON.stringify(v) ===
-					// 			JSON.stringify({...item, path}),
-					// 	) &&
-					// 	dispatch({
-					// 		type: ADD_ONE_HIGHLIGHT,
-					// 		payload: {uuid, item: {...item, path}},
-					// 	});
 				}
 			} else {
 				!highlight
@@ -316,7 +310,7 @@ const FileListContents = ({uuid}) => {
 			setCurrentKey(sortKeyword);
 			setCurrentFileList(sortedList);
 		}
-	}, [fileList, pathList, sortKeyword, toggle]);
+	}, [fileList, pathList, sortKeyword, toggle, corListInfo]);
 
 	return (
 		<React.Fragment>
