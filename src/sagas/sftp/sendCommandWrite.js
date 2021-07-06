@@ -17,9 +17,9 @@ import {
 import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
-import {FIND_HISTORY} from "../../reducers/sftp/history";
-import {removeNewWebsocket} from "../../reducers/sftp/crud";
-import {commandPwdAction} from "../../reducers/sftp/list";
+import {FIND_HISTORY} from '../../reducers/sftp/history';
+import {removeNewWebsocket} from '../../reducers/sftp/crud';
+import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -127,11 +127,6 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({type: WRITE_FAILURE});
-		// yield put(
-		// 	removeNewWebsocket({
-		// 		socket: payload.write_socket,
-		// 	}),
-		// );
 	}
 }
 

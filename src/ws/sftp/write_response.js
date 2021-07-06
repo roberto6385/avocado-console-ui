@@ -41,34 +41,6 @@ export function writeResponse({data, payload}) {
 							writePercent = 0;
 						}
 
-						console.log({
-							here:
-								'here here here here here here here here here',
-						});
-						console.log({
-							completed: write.getCompleted(),
-							writeByteSum: writeByteSum,
-							currentFileLength: payload.file.size,
-							percent: writePercent,
-						});
-						console.log({
-							type: WRITE_SUCCESS,
-							byteSum: writeByteSum,
-							end:
-								write.getWritebytes() === -1
-									? true
-									: writeByteSum === payload.file.size,
-							last: write.getCompleted(),
-							percent:
-								write.getWritebytes() === -1
-									? 100
-									: writePercent,
-						});
-						console.log({
-							here:
-								'here here here here here here here here here',
-						});
-
 						return {
 							type: WRITE_SUCCESS,
 							byteSum: writeByteSum,

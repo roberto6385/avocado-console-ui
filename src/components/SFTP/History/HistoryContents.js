@@ -207,7 +207,7 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [userTicket, corServer, correspondedIdentity]);
+	}, [userTicket, corServer, corListInfo, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -233,7 +233,7 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[userTicket, corServer, correspondedIdentity],
+		[userTicket, corServer, corListInfo, correspondedIdentity],
 	);
 
 	const selectItem = useCallback(

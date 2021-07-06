@@ -46,9 +46,10 @@ const SFTPContainer = ({uuid}) => {
 		removeSockets,
 		readSockets,
 	} = corCrudInfo;
-	const {path} = corListInfo;
 
+	const {path} = corListInfo;
 	const {highlight, mode, socket} = corSftpInfo;
+
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
@@ -134,7 +135,7 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
 		}
-	}, [readList, readSockets]);
+	}, [readList, readSockets, socket, uuid]);
 
 	useEffect(() => {
 		if (
@@ -143,6 +144,7 @@ const SFTPContainer = ({uuid}) => {
 			writeList.length === writeSockets.length
 		) {
 			const value = writeList.slice().shift();
+			console.log(value);
 			const write_socket = writeSockets.slice().shift();
 			dispatch(
 				commandWriteAction({
@@ -169,10 +171,9 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList, writeSockets]);
+	}, [writeList, writeSockets, socket, path, uuid]);
 
 	useEffect(() => {
-		console.log(incinerator);
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
 			console.log(value);
@@ -207,7 +208,7 @@ const SFTPContainer = ({uuid}) => {
 			}
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator, removeSockets]);
+	}, [incinerator, removeSockets, socket, path, uuid]);
 
 	useEffect(() => {
 		if (removeSockets.length !== 0) {
@@ -258,7 +259,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [removeSockets]);
+	}, [removeSockets, highlight, path]);
 
 	return <SFTP uuid={uuid} />;
 };
