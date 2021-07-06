@@ -66,7 +66,7 @@ const FileListNav = ({uuid}) => {
 		[listState, uuid],
 	);
 	const {path} = corListInfo;
-	const {mode} = corSftpInfo;
+	const {mode, socket} = corSftpInfo;
 
 	const [currentPath, setCurrentPath] = useState('');
 
@@ -76,9 +76,9 @@ const FileListNav = ({uuid}) => {
 		nextPath !== undefined &&
 			dispatch(
 				commandCdAction({
-					socket: corSftpInfo.socket,
+					socket: socket,
 					uuid: uuid,
-					path: corSftpInfo.path,
+					path: path,
 					cd_path: nextPath,
 				}),
 			) &&
@@ -141,16 +141,16 @@ const FileListNav = ({uuid}) => {
 	const refresh = useCallback(() => {
 		dispatch(
 			commandPwdAction({
-				socket: corSftpInfo.socket,
+				socket: socket,
 				uuid: uuid,
 				pwd_path: null,
 			}),
 		);
-	}, [uuid, corSftpInfo, dispatch]);
+	}, [uuid, dispatch]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
-	}, [uuid, corSftpInfo]);
+	}, [uuid, corListInfo]);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>

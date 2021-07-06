@@ -285,7 +285,7 @@ const FileListContents = ({uuid}) => {
 					commandCdAction({
 						socket: corSftpInfo.socket,
 						uuid: uuid,
-						path: corSftpInfo.path,
+						path: path,
 						cd_path: item.name,
 					}),
 				);

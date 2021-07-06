@@ -22,7 +22,10 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
 import {HISTORY_CONNECTION_SUCCESS} from '../../reducers/sftp/history';
 import {CRUD_CONNECTION_SUCCESS} from '../../reducers/sftp/crud';
-import {commandPwdAction} from "../../reducers/sftp/list";
+import {
+	commandPwdAction,
+	FILELIST_CONNECTION_SUCCESS,
+} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -62,6 +65,12 @@ function* sendCommand(action) {
 						});
 						yield put({
 							type: HISTORY_CONNECTION_SUCCESS,
+							payload: {
+								uuid: uuid,
+							},
+						});
+						yield put({
+							type: FILELIST_CONNECTION_SUCCESS,
 							payload: {
 								uuid: uuid,
 							},

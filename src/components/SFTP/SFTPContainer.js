@@ -28,6 +28,11 @@ const SFTPContainer = ({uuid}) => {
 		sftp,
 		uuid,
 	]);
+	const listState = useSelector((state) => state.list.listState);
+	const corListInfo = useMemo(
+		() => listState.find((it) => it.uuid === uuid),
+		[listState, uuid],
+	);
 
 	const corCrudInfo = useMemo(
 		() => crudState.find((it) => it.uuid === uuid),
@@ -41,11 +46,6 @@ const SFTPContainer = ({uuid}) => {
 		removeSockets,
 		readSockets,
 	} = corCrudInfo;
-	const listState = useSelector((state) => state.list.listState);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
-	);
 	const {path} = corListInfo;
 
 	const {highlight, mode, socket} = corSftpInfo;

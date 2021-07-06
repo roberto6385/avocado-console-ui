@@ -7,21 +7,18 @@ import {
 	race,
 	delay,
 	takeEvery,
-	actionChannel,
-	takeLatest,
-	throttle,
 } from 'redux-saga/effects';
-import {
-	ERROR,
-
-
-
-} from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
-import {commandLsAction, INIT_FILELIST, PWD_FAILURE, PWD_REQUEST, PWD_SUCCESS} from "../../reducers/sftp/list";
+import {
+	commandLsAction,
+	INIT_FILELIST,
+	PWD_FAILURE,
+	PWD_REQUEST,
+	PWD_SUCCESS,
+} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -59,6 +56,7 @@ function* sendCommand(action) {
 					ls_pathList = pathFunction({path: res.path});
 					console.log(ls_pathList);
 				} else {
+					console.log(payload.pwd_path);
 					const prevList = pathFunction({path: payload.pwd_path});
 					const nextList = pathFunction({path: res.path});
 

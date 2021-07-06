@@ -179,11 +179,11 @@ const FileListDropDown = ({uuid}) => {
 		({item, listindex, itemIndex}) => (e) => {
 			console.log(item, listindex, itemIndex);
 			if (e.shiftKey) {
-				if (corSftpInfo.path !== pathList[listindex]) {
+				if (path !== pathList[listindex]) {
 					dispatch(
 						commandCdAction({
 							socket: corSftpInfo.socket,
-							path: corSftpInfo.path,
+							path: path,
 							uuid: uuid,
 							cd_path: pathList[listindex],
 						}),
@@ -221,7 +221,7 @@ const FileListDropDown = ({uuid}) => {
 						dispatch(
 							commandCdAction({
 								socket: corSftpInfo.socket,
-								path: corSftpInfo.path,
+								path: path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -245,7 +245,7 @@ const FileListDropDown = ({uuid}) => {
 						dispatch(
 							commandCdAction({
 								socket: corSftpInfo.socket,
-								path: corSftpInfo.path,
+								path: path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
 							}),
@@ -258,7 +258,7 @@ const FileListDropDown = ({uuid}) => {
 						dispatch(
 							commandCdAction({
 								socket: corSftpInfo.socket,
-								path: corSftpInfo.path,
+								path: path,
 								uuid: uuid,
 								cd_path: `${pathList[listindex]}/${item.name}`,
 							}),
@@ -294,7 +294,7 @@ const FileListDropDown = ({uuid}) => {
 					dispatch(
 						commandCdAction({
 							socket: corSftpInfo.socket,
-							path: corSftpInfo.path,
+							path: path,
 							uuid: uuid,
 							cd_path: finalPath,
 						}),
@@ -375,7 +375,7 @@ const FileListDropDown = ({uuid}) => {
 				dispatch(
 					commandCdAction({
 						socket: corSftpInfo.socket,
-						path: corSftpInfo.path,
+						path: path,
 						uuid: uuid,
 						cd_path: clickedPath,
 					}),
