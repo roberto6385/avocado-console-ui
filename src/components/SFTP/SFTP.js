@@ -16,13 +16,13 @@ const _SFTP = styled.div`
 `;
 
 const SFTP = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const theme = useSelector((state) => state.common.theme);
 
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {mode} = corSftpInfo;
 
 	return mode === 'edit' ? (

@@ -8,6 +8,7 @@ export const CREATE_NEW_WEBSOCKET_FAILURE = 'sftp/CREATE_NEW_WEBSOCKET_FAILURE';
 export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
 export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
 export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
+
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
@@ -18,18 +19,25 @@ export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
+export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
+export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
+export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
+
 const initialState = {
 	crudState: [],
 };
-
 const ObjFinder = (target, uuid) => {
 	return target.find((it) => it.uuid === uuid);
 };
-
 export const createNewWebsocket = (payload) => ({
 	type: CREATE_NEW_WEBSOCKET_REQUEST,
 	payload,
 });
+export const searchDeleteListAction = (payload) => ({
+	type: LS_REQUEST_DELETE,
+	payload,
+});
+
 export const removeNewWebsocket = (payload) => ({
 	type: REMOVE_NEW_WEBSOCKET_REQUEST,
 	payload,
@@ -118,5 +126,4 @@ const crud = (state = initialState, action) =>
 				break;
 		}
 	});
-
 export default crud;

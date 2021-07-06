@@ -85,7 +85,7 @@ const SignInForm = () => {
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);
-	const {loading} = useSelector((state) => state.userTicket);
+	const loading = useSelector((state) => state.userTicket.loading);
 	const [rememberMe, setRememberMe] = useState(false);
 	const idRef = useRef(null);
 	const passwordRef = useRef(null);

@@ -10,7 +10,6 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -20,6 +19,7 @@ import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
 import {FIND_HISTORY} from "../../reducers/sftp/history";
 import {removeNewWebsocket} from "../../reducers/sftp/crud";
+import {commandPwdAction} from "../../reducers/sftp/list";
 
 function* sendCommand(action) {
 	const {payload} = action;

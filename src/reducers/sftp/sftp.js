@@ -10,19 +10,6 @@ export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
 export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
 export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
 export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
-// pwd
-export const PWD_REQUEST = 'sftp/PWD_REQUEST';
-export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
-export const PWD_FAILURE = 'sftp/PWD_FAILURE';
-// ls
-export const LS_REQUEST = 'sftp/LS_REQUEST';
-export const LS_SUCCESS = 'sftp/LS_SUCCESS';
-export const LS_FAILURE = 'sftp/LS_FAILURE';
-
-// ls
-export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
-export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
-export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
 
 // cd
 export const CD_REQUEST = 'sftp/CD_REQUEST';
@@ -37,11 +24,6 @@ export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
-
-// rmdir
-export const RMDIR_REQUEST = 'sftp/RMDIR_REQUEST';
-export const RMDIR_SUCCESS = 'sftp/RMDIR_SUCCESS';
-export const RMDIR_FAILURE = 'sftp/RMDIR_FAILURE';
 
 // mkdir
 export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
@@ -83,12 +65,12 @@ export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
 export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
+export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
+
+
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
-export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
-
-export const INIT_FILELIST = 'sftp/INIT_FILELIST';
 
 // actions
 
@@ -117,23 +99,8 @@ export const commandRmAction = (payload) => ({
 	payload,
 });
 
-export const commandPwdAction = (payload) => ({
-	type: PWD_REQUEST,
-	payload,
-});
-
 export const commandMkdirAction = (payload) => ({
 	type: MKDIR_REQUEST,
-	payload,
-});
-
-export const commandLsAction = (payload) => ({
-	type: LS_REQUEST,
-	payload,
-});
-
-export const searchDeleteListAction = (payload) => ({
-	type: LS_REQUEST_DELETE,
 	payload,
 });
 
@@ -179,15 +146,10 @@ const sftp = (state = initialState, action) =>
 					status: 'none', // ok
 					uuid: action.payload.uuid, // ok
 
-					path: '', // 현재 경로 ok
-
-					pathList: [],
-					fileList: [],
+					highlight: [],
 
 					mode: 'list', // ok
 					prevMode: '', // ok
-
-					highlight: [],
 
 					text: '',
 					editText: '',
@@ -214,43 +176,6 @@ const sftp = (state = initialState, action) =>
 				);
 				break;
 			case DISCONNECTION_FAILURE:
-				// draft.loading = false;
-				break;
-
-			// 현재 경로 조회
-			case PWD_REQUEST:
-				// draft.loading = true;
-
-				break;
-			case PWD_SUCCESS:
-				// draft.loading = false;
-				target.path = action.payload.path;
-				target.pathList = action.payload.pathList;
-				if (action.payload.removeIndex) {
-					for (let i = 0; i < action.payload.removeIndex; i++) {
-						target.fileList.pop();
-					}
-				}
-
-				break;
-			case PWD_FAILURE:
-				// draft.loading = false;
-				break;
-
-			// 현재 경로 조회
-			case LS_REQUEST:
-				// draft.loading = true;
-				break;
-			case LS_SUCCESS:
-				// draft.loading = false;
-				console.log(plainTarget.fileList);
-				console.log(action.payload.fileList);
-				target.fileList.push(action.payload.fileList);
-				// target.fileList = plainTarget.fileList.concat([
-				// 	action.payload.fileList,
-				// ]);
-				break;
-			case LS_FAILURE:
 				// draft.loading = false;
 				break;
 
@@ -332,9 +257,6 @@ const sftp = (state = initialState, action) =>
 				);
 				break;
 
-			case INIT_FILELIST:
-				target.fileList = [];
-				break;
 			default:
 				return state;
 		}

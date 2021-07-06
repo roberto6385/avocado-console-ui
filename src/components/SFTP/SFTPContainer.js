@@ -6,12 +6,12 @@ import {
 	commandRmAction,
 	commandWriteAction,
 	INITIALIZING_HIGHLIGHT,
-	searchDeleteListAction,
 } from '../../reducers/sftp/sftp';
 import SFTP from './SFTP';
 import {
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
+	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
@@ -21,9 +21,9 @@ import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
+	const sftp = useSelector((state) => state.sftp.sftp);
 	const crudState = useSelector((state) => state.crud.crudState);
-	const {current_tab} = useSelector((state) => state.common);
+	const current_tab = useSelector((state) => state.common.current_tab);
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,

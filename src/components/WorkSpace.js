@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import Nav from './Nav';
 import MainPage from './MainPage';
@@ -142,9 +142,18 @@ const _ServerName = styled.div`
 
 const WorkSpace = () => {
 	const dispatch = useDispatch();
-	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
-	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
+	const {tab, current_tab, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const {ssh, loading: sshLoading} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
+	);
+	const {sftp, loading: sftpLoading} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);

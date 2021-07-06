@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
@@ -17,8 +17,11 @@ const _Container = styled.div`
 `;
 
 const Home = () => {
-	const {userTicket, userInfo} = useSelector((state) => state.userTicket);
-	const {theme} = useSelector((state) => state.common);
+	const {userTicket, userInfo} = useSelector(
+		(state) => state.userTicket,
+		shallowEqual,
+	);
+	const theme = useSelector((state) => state.common.theme);
 	const history = useHistory();
 	const dispatch = useDispatch();
 

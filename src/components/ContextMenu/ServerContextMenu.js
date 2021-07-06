@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {connectionAction} from '../../reducers/sftp/sftp';
@@ -15,8 +15,8 @@ import {ContextMenu} from '../../styles/default';
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server, tab, theme} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {server, theme} = useSelector((state) => state.common, shallowEqual);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],

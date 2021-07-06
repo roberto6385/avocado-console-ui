@@ -9,7 +9,6 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	ERROR,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
@@ -18,6 +17,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';
+import {commandPwdAction} from "../../reducers/sftp/list";
 
 function* sendCommand(action) {
 	const {payload} = action;

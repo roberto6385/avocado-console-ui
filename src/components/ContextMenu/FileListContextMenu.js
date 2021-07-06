@@ -3,7 +3,7 @@ import {animation, Item, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp/crud';
 import {ContextMenu} from '../../styles/default';
@@ -11,8 +11,11 @@ import {ContextMenu} from '../../styles/default';
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const {theme, server, tab, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
@@ -22,7 +25,7 @@ const FileListContextMenu = ({uuid}) => {
 		tab,
 		uuid,
 	]);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],

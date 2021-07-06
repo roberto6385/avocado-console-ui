@@ -1,12 +1,12 @@
 import produce from 'immer';
 
-export const ADD_HISTORY = 'sftp/ADD_HISTORY';
-export const FIND_HISTORY = 'sftp/FIND_HISTORY';
-export const REMOVE_HISTORY = 'sftp/REMOVE_HISTORY';
-export const ADD_HISTORY_HI = 'sftp/ADD_HISTORY_HI';
-export const INITIAL_HISTORY_HI = 'sftp/INITIAL_HISTORY_HI';
+export const ADD_HISTORY = 'history/ADD_HISTORY';
+export const FIND_HISTORY = 'history/FIND_HISTORY';
+export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
+export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
+export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 
-export const HISTORY_CONNECTION_SUCCESS = 'history/CONNECTION_SUCCESS';
+export const HISTORY_CONNECTION_SUCCESS = 'history/HISTORY_CONNECTION_SUCCESS';
 
 let HISTORY_ID = 0;
 

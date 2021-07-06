@@ -45,7 +45,7 @@ const _Thead = styled.thead`
 const TableHead = ({uuid}) => {
 	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	const Sorting = useCallback(
 		(e) => {

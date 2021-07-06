@@ -32,7 +32,7 @@ const _Header = styled.div`
 `;
 
 const SSHContainer = ({uuid, server}) => {
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 	const [open, setOpen] = useState(false);
 	const snippetRef = useRef();
 	const MenuPosition = useRef();

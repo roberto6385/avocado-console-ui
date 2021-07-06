@@ -30,13 +30,19 @@ const _PopupModal = styled(PopupModal)`
 const ChangePasswordForm = ({open, setOpen}) => {
 	const {t} = useTranslation('changePasswordForm');
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
-	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
-		useInput('');
+	const [
+		currentPassword,
+		onChangeCurrentPassword,
+		setCurrentPassword,
+	] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [confrimPassword, onChangeConfirmPassword, setConfrimPassword] =
-		useInput('');
+	const [
+		confrimPassword,
+		onChangeConfirmPassword,
+		setConfrimPassword,
+	] = useInput('');
 
 	const onSubmitForm = useCallback(
 		(e) => {

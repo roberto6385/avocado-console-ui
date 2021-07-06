@@ -7,15 +7,14 @@ import {
 	EDIT_WRITE_SUCCESS,
 	ERROR,
 	GET_SUCCESS,
-	LS_SUCCESS,
 	MKDIR_SUCCESS,
 	PUT_SUCCESS,
-	PWD_SUCCESS,
 	READ_SUCCESS,
 	RENAME_SUCCESS,
 	RM_SUCCESS,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp/sftp';
+import {LS_SUCCESS, PWD_SUCCESS} from "../../reducers/sftp/list";
 
 let fileBuffer = new ArrayBuffer(0);
 

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	SET_SEARCH_MODE,
 	SSH_DECREASE_FONT_SIZE,
@@ -31,8 +31,9 @@ const Footer = () => {
 	const dispatch = useDispatch();
 	const {server, tab, current_tab, theme} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
-	const {font_size} = useSelector((state) => state.ssh);
+	const font_size = useSelector((state) => state.ssh.font_size);
 
 	const onClickIncreaseFont = useCallback(() => {
 		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});

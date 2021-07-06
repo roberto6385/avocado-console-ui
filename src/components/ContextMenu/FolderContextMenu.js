@@ -12,7 +12,7 @@ import {DropDownMenu} from '../../styles/default';
 
 const FolderContextMenu = ({data, setOpenRename}) => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	const {t} = useTranslation('contextMenu');
 	const FolderContextMenuMessage = {

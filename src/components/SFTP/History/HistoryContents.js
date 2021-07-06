@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import styled from 'styled-components';
@@ -134,11 +134,14 @@ const _HistorySizeText = styled.span`
 const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const {sftp} = useSelector((state) => state.sftp);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const sftp = useSelector((state) => state.sftp.sftp);
 
 	const historyState = useSelector((state) => state.history.historyState);
-	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const {theme, server, tab, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
 		tab,
 		uuid,

@@ -1,14 +1,14 @@
 import React, {useCallback, useMemo} from 'react';
 import styled from 'styled-components';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {borderColor} from '../../../styles/color';
-import {PrimaryGreenButton} from "../../../styles/button";
+import {PrimaryGreenButton} from '../../../styles/button';
 
 const _Container = styled.div`
 	height: 100%;
@@ -49,6 +49,7 @@ const IdentitiesAside = () => {
 	const {t} = useTranslation('identitiesAside');
 	const {identity, theme, current_tab, tab} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
 	const history = useHistory();
 	const currentKey = useMemo(

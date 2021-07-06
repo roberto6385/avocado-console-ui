@@ -37,12 +37,12 @@ const _ButtonContainer = styled.div`
 `;
 
 const EditNav = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
+		sftp,
+		uuid,
+	]);
 	const {text, editText, editFile, path, prevMode, mode} = corSftpInfo;
 
 	const dispatch = useDispatch();

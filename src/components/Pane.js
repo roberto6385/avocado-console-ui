@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
@@ -51,9 +51,12 @@ const _HeaderText = styled.div`
 
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssh} = useSelector((state) => state.ssh);
-	const {sftp} = useSelector((state) => state.sftp);
+	const {tab, current_tab, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const ssh = useSelector((state) => state.ssh.ssh);
+	const sftp = useSelector((state) => state.sftp.sftp);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {animation, Item, Separator} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {DropDownMenu} from '../../styles/default';
@@ -11,8 +11,11 @@ import PropTypes from 'prop-types';
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
-	const {theme, rightSideKey} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {theme, rightSideKey} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const openSideMenu = useCallback(
 		(key) => () => {

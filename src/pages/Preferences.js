@@ -6,7 +6,7 @@ import SettingAppLayout from '../components/Setting/SettingLayout';
 import PreferencesSpace from '../components/Setting/Space/PreferencesSpace';
 
 const Preferences = () => {
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
 
 	useEffect(() => {

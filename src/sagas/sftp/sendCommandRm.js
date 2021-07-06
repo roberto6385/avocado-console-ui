@@ -9,15 +9,15 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
+	INITIALIZING_HIGHLIGHT,
 	RM_FAILURE,
 	RM_REQUEST,
-
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
-import {removeNewWebsocket, SHIFT_SOCKETS} from "../../reducers/sftp/crud";
+import {removeNewWebsocket, SHIFT_SOCKETS} from '../../reducers/sftp/crud';
+import {commandPwdAction} from "../../reducers/sftp/list";
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -92,6 +92,11 @@ function* watchSendCommand() {
 					}),
 				);
 				yield put({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+
+				yield put({
 					type: SHIFT_SOCKETS,
 					payload: {uuid, todo: 'remove'},
 				});
@@ -107,12 +112,6 @@ function* watchSendCommand() {
 			yield call(sendCommand, action);
 		}
 	}
-
-	// const reqChannel = yield actionChannel(RM_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandRmSaga() {

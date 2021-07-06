@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
 import {
@@ -26,7 +26,10 @@ const CornerIcons_Container = styled.div`
 
 const RightCornerIcons = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
-	const {theme, tab, rightSideKey} = useSelector((state) => state.common);
+	const {theme, tab, rightSideKey} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const MenuPosition = useRef();
 
 	const accountRef = useRef();

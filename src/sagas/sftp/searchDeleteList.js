@@ -10,17 +10,16 @@ import {
 } from 'redux-saga/effects';
 import {
 	ERROR,
-	LS_FAILURE_DELETE,
-	LS_REQUEST_DELETE,
-	LS_SUCCESS_DELETE,
-	searchDeleteListAction,
+
+
+
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
 import {
 	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
+	DELETE_WORK_TRANSPORTER, LS_FAILURE_DELETE, LS_REQUEST_DELETE, LS_SUCCESS_DELETE, searchDeleteListAction,
 } from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {

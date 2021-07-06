@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {
-	CHANGE_MODE,
-	commandCdAction,
-	commandPwdAction,
-} from '../../../reducers/sftp/sftp';
+import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp/sftp';
 
 import {
 	arrowUpwordIcon,
@@ -26,6 +22,7 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
+import {commandPwdAction} from '../../../reducers/sftp/list';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -55,8 +52,8 @@ const _Form = styled.form`
 
 const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const theme = useSelector((state) => state.common.theme);
 
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
@@ -70,15 +67,15 @@ const FileListNav = ({uuid}) => {
 		const pathInput = document.getElementById('fileListNavInput');
 		console.log(nextPath);
 		nextPath !== undefined &&
-		dispatch(
-			commandCdAction({
-				socket: corSftpInfo.socket,
-				uuid: uuid,
-				path: corSftpInfo.path,
-				cd_path: nextPath,
-			}),
-		) &&
-		pathInput.blur();
+			dispatch(
+				commandCdAction({
+					socket: corSftpInfo.socket,
+					uuid: uuid,
+					path: corSftpInfo.path,
+					cd_path: nextPath,
+				}),
+			) &&
+			pathInput.blur();
 	};
 
 	const goBack = (e) => {
@@ -112,26 +109,26 @@ const FileListNav = ({uuid}) => {
 
 	const dropdownList = () => {
 		mode !== 'drop' &&
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'drop',
-				currentMode: mode,
-			},
-		});
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'drop',
+					currentMode: mode,
+				},
+			});
 	};
 
 	const basicList = () => {
 		mode !== 'list' &&
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'list',
-				currentMode: mode,
-			},
-		});
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'list',
+					currentMode: mode,
+				},
+			});
 	};
 
 	const refresh = useCallback(() => {

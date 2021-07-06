@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -103,7 +103,10 @@ const _FooterListGroupItem = styled(_ListGroupItem)`
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
-	const {current_tab, theme} = useSelector((state) => state.common);
+	const {current_tab, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const {
 		font,
 		font_size,
@@ -111,7 +114,7 @@ const SSH = ({uuid}) => {
 		ssh,
 		ssh_history,
 		auto_completion_mode,
-	} = useSelector((state) => state.ssh);
+	} = useSelector((state) => state.ssh, shallowEqual);
 	const currentLine = useMemo(
 		() => ssh.find((v) => v.uuid === uuid).current_line,
 		[ssh, uuid],
@@ -129,20 +132,18 @@ const SSH = ({uuid}) => {
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
-	const sshTerm = useMemo(
-		() => ssh.find((v) => v.uuid === uuid).terminal,
-		[ssh, uuid],
-	);
+	const sshTerm = useMemo(() => ssh.find((v) => v.uuid === uuid).terminal, [
+		ssh,
+		uuid,
+	]);
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
 	//do not work with current
 	const searchRef = useRef(null);
-	const {
-		ref: ref,
-		width: width,
-		height: height,
-	} = useDebouncedResizeObserver(500);
+	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
+		500,
+	);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onPressEnter = useCallback(

@@ -29,9 +29,9 @@ const _Title = styled.div`
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
-	const {sftp} = useSelector((state) => state.sftp);
+	const sftp = useSelector((state) => state.sftp.sftp);
 	const historyState = useSelector((state) => state.history.historyState);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

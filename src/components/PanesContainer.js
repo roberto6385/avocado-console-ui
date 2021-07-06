@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
 
@@ -17,14 +17,19 @@ export const _Container = styled.div`
 `;
 
 const PanesContainer = () => {
-	const {tab, cols} = useSelector((state) => state.common);
+	const {tab, cols} = useSelector((state) => state.common, shallowEqual);
 
-	const {loading: sshLoading} = useSelector((state) => state.ssh);
-	const {loading: sftpLoading} = useSelector((state) => state.sftp);
-	const visibleTab = useMemo(
-		() => tab.filter((v) => v.display === true),
-		[tab],
+	const {loading: sshLoading} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
 	);
+	const {loading: sftpLoading} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const visibleTab = useMemo(() => tab.filter((v) => v.display === true), [
+		tab,
+	]);
 	return (
 		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}

@@ -12,17 +12,16 @@ import {
 	throttle,
 } from 'redux-saga/effects';
 import {
-	commandLsAction,
 	ERROR,
-	INIT_FILELIST,
-	PWD_FAILURE,
-	PWD_REQUEST,
-	PWD_SUCCESS,
+
+
+
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
+import {commandLsAction, INIT_FILELIST, PWD_FAILURE, PWD_REQUEST, PWD_SUCCESS} from "../../reducers/sftp/list";
 
 function* sendCommand(action) {
 	const {payload} = action;

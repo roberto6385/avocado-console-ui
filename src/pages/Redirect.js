@@ -37,7 +37,7 @@ const getParameter = (name) => {
 };
 
 const Redirect = () => {
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
 	const dispatch = useDispatch();
 

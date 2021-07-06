@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -47,10 +47,16 @@ const WarningAlertPopup = () => {
 	const identity = useSelector((state) => state.common.identity);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
-	const {warning_alert_popup} = useSelector((state) => state.popup);
-	const {clicked_server, accountListControlId, accountCheckList, nav} =
-		useSelector((state) => state.common);
-	const {sftp} = useSelector((state) => state.sftp);
+	const warning_alert_popup = useSelector(
+		(state) => state.popup.warning_alert_popup,
+	);
+	const {
+		clicked_server,
+		accountListControlId,
+		accountCheckList,
+		nav,
+	} = useSelector((state) => state.common, shallowEqual);
+	const sftp = useSelector((state) => state.sftp.sftp);
 
 	const AlertMessage = {
 		sftp_delete_file_folder: t('deleteFileFolder'),

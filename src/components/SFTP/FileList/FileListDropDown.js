@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
 import styled from 'styled-components';
 
@@ -97,8 +97,11 @@ const _Li = styled.li`
 
 const FileListDropDown = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme, tab, server, identity} = useSelector((state) => state.common);
+	const sftp = useSelector((state) => state.sftp.sftp);
+	const {theme, tab, server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
 		uuid,
@@ -107,7 +110,7 @@ const FileListDropDown = ({uuid}) => {
 		tab,
 		uuid,
 	]);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],

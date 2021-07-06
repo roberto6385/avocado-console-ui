@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
@@ -93,9 +93,10 @@ const _Tr = styled.tr`
 
 const FileListContents = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
+	const sftp = useSelector((state) => state.sftp.sftp);
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
 	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
 		sftp,
@@ -105,7 +106,7 @@ const FileListContents = ({uuid}) => {
 		tab,
 		uuid,
 	]);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],
@@ -121,8 +122,8 @@ const FileListContents = ({uuid}) => {
 	const {
 		path,
 		fileList,
-		highlight,
 		pathList,
+		highlight,
 		sortKeyword,
 		toggle,
 	} = corSftpInfo;

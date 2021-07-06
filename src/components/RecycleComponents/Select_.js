@@ -64,7 +64,7 @@ const Select_ = ({
 	disabled,
 	popup,
 }) => {
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 	const selectRef = useRef(null);
 	const val = useMemo(
 		() => options.find((op) => op.value === value),
