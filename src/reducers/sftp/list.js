@@ -49,6 +49,10 @@ const list = (state = initialState, action) =>
 				});
 				break;
 
+			case READY_STATE:
+				target.ready = 3;
+				break;
+
 			// 현재 경로 조회
 			case PWD_REQUEST:
 				// draft.loading = true;

@@ -15,6 +15,8 @@ import {
 	ERROR,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
+import useSubscribe from '../../hooks/useSubscribe';
+
 import {closeChannel, sftpSubscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
@@ -23,9 +25,9 @@ import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(sftpSubscribe, {
+	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+		uuid:payload.uuid,
 	});
 
 	try {

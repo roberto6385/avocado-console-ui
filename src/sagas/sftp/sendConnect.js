@@ -15,6 +15,8 @@ import {
 	ERROR,
 } from '../../reducers/sftp/sftp';
 import {closeChannel, sftpSubscribe} from '../channel';
+import useSubscribe from '../../hooks/useSubscribe';
+
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
@@ -33,7 +35,7 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(sftpSubscribe, {socket});
+		const channel = yield call(useSubscribe, {socket});
 
 		yield call(messageSender, {
 			keyword: 'Connection',

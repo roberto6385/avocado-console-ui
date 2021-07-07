@@ -41,7 +41,6 @@
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "4.0.3",
 		"react-select": "^4.3.1",
-		"react-sortable": "^2.0.0",
 		"react-split": "^2.0.11",
 		"react-split-pane": "^0.1.92",
 		"react-tabs": "^3.2.2",

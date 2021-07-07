@@ -66,17 +66,16 @@ const _ReconectBlock = styled.div`
 
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const [readyState, setReadyState] = useState(1);
+	const [readyState, setReadyState] = useState(null);
 	const {tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
 	const sftp = useSelector((state) => state.sftp.sftp);
+	const listState = useSelector((state) => state.list.listState);
 
-	// const corSshSocketReady = ssh.find((v) => v.uuid === uuid)?.ws.readyState;
-	// const corSftpSocketReady = sftp.find((v) => v.uuid === uuid)?.socket
-	// 	.readyState;
+	const corSftpList = listState.find((v) => v.uuid === uuid);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -106,13 +105,13 @@ const Pane = ({uuid, type, server}) => {
 		[ssh, sftp, uuid, type],
 	);
 
-	// useEffect(() => {
-	// 	if (corSshSocketReady !== undefined) {
-	// 		setReadyState(corSshSocketReady);
-	// 	} else if (corSftpSocketReady !== undefined) {
-	// 		setReadyState(corSftpSocketReady);
-	// 	}
-	// }, [uuid, corSshSocketReady, corSftpSocketReady]);
+	useEffect(() => {
+		if (corSftpList !== undefined) {
+			setReadyState(corSftpList.ready);
+		}
+	}, [uuid, corSftpList]);
+
+	console.log(corSftpList);
 
 	return (
 		<_Container onClick={onClickChangeTab}>

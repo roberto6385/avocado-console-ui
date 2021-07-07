@@ -9,6 +9,7 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
+import useSubscribe from '../../hooks/useSubscribe';
 import {closeChannel, sftpSubscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
@@ -23,9 +24,9 @@ import {
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(sftpSubscribe, {
+	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+		uuid:payload.uuid,
 	});
 	try {
 		yield call(messageSender, {

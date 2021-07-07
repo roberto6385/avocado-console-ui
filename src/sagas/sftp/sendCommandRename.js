@@ -15,6 +15,8 @@ import {
 	RENAME_SUCCESS,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
+import useSubscribe from '../../hooks/useSubscribe';
+
 import {closeChannel, sftpSubscribe} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
 import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
@@ -22,9 +24,9 @@ import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 function* sendCommand(action) {
 	const {payload} = action;
 
-	const channel = yield call(sftpSubscribe, {
+	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+		uuid: payload.uuid,
 	});
 	yield call(messageSender, {
 		keyword: 'CommandByRename',
