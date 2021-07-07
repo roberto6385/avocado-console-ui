@@ -18,7 +18,7 @@ import {
 	SAVE_TEXT,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
 import {FIND_HISTORY} from '../../reducers/sftp/history';
 import {removeNewWebsocket} from '../../reducers/sftp/crud';
@@ -26,7 +26,7 @@ import {removeNewWebsocket} from '../../reducers/sftp/crud';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(subscribe, payload.read_socket);
+	const channel = yield call(sftpSubscribe, payload.read_socket);
 
 	const filepath =
 		payload.read_path === '/'

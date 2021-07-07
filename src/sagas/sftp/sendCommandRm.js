@@ -14,14 +14,14 @@ import {
 	RM_REQUEST,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
 import {removeNewWebsocket, SHIFT_SOCKETS} from '../../reducers/sftp/crud';
 import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.remove_socket);
+	const channel = yield call(sftpSubscribe, payload.remove_socket);
 	try {
 		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
