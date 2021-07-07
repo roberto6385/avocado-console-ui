@@ -37,7 +37,7 @@ input[type='number'] {
 
 /* modal background */
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
-	z-index: 5;
+	z-index: 999;
 	background: rgba(0, 0, 0, 0.2) !important;
 }
 

@@ -9,7 +9,7 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
 import {
@@ -22,7 +22,7 @@ import {
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, payload.socket);
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',

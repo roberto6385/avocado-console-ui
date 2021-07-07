@@ -34,7 +34,7 @@ export function sftpSubscribe(socket, buffer) {
 		};
 
 		socket.onclose = () => {
-			console.log('sftp socket close');
+			console.log('close');
 			emit(END);
 		};
 
@@ -44,7 +44,27 @@ export function sftpSubscribe(socket, buffer) {
 	}, buffer || buffers.none());
 }
 
+export function fileSubscribe(socket, buffer) {
+	return eventChannel((emit) => {
+		socket.onmessage = (event) => {
+			emit(event.data);
+		};
 
+		socket.onerror = (event) => {
+			console.log(event);
+			socket.close();
+		};
+
+		socket.onclose = () => {
+			console.log('sftp socket close');
+			emit(END);
+		};
+
+		return () => {
+			socket.onmessage = null;
+		};
+	}, buffer || buffers.none());
+}
 
 export function closeChannel(channel) {
 	channel && channel.close();

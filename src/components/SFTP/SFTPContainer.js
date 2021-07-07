@@ -24,10 +24,10 @@ const SFTPContainer = ({uuid}) => {
 	const sftp = useSelector((state) => state.sftp.sftp);
 	const crudState = useSelector((state) => state.crud.crudState);
 	const current_tab = useSelector((state) => state.common.current_tab);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const listState = useSelector((state) => state.list.listState);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),

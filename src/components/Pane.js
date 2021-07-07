@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -13,11 +13,13 @@ import {
 	activePaneHeaderColor,
 	borderColor,
 	fontColor,
+	greenHoverButtonColor,
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
-import {ClickableIconButton, IconBox} from '../styles/button';
+import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
 import {disconnectAction} from '../reducers/sftp/sftp';
+import {PreventDragCopy} from '../styles/function';
 
 const _Container = styled.div`
 	height: 100%;
@@ -28,6 +30,7 @@ const _Container = styled.div`
 	.hidden {
 		display: none;
 	}
+	position: relative;
 `;
 
 const _Header = styled.div`
@@ -49,14 +52,31 @@ const _HeaderText = styled.div`
 	color: ${(props) => props.color};
 `;
 
+const _ReconectBlock = styled.div`
+	background: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
+	${PreventDragCopy}
+`;
+
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
+	const [readyState, setReadyState] = useState(1);
 	const {tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
 	const sftp = useSelector((state) => state.sftp.sftp);
+
+	// const corSshSocketReady = ssh.find((v) => v.uuid === uuid)?.ws.readyState;
+	// const corSftpSocketReady = sftp.find((v) => v.uuid === uuid)?.socket
+	// 	.readyState;
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -86,8 +106,21 @@ const Pane = ({uuid, type, server}) => {
 		[ssh, sftp, uuid, type],
 	);
 
+	// useEffect(() => {
+	// 	if (corSshSocketReady !== undefined) {
+	// 		setReadyState(corSshSocketReady);
+	// 	} else if (corSftpSocketReady !== undefined) {
+	// 		setReadyState(corSftpSocketReady);
+	// 	}
+	// }, [uuid, corSshSocketReady, corSftpSocketReady]);
+
 	return (
 		<_Container onClick={onClickChangeTab}>
+			{readyState === 3 && (
+				<_ReconectBlock>
+					<PrimaryRedButton>Reconnect</PrimaryRedButton>
+				</_ReconectBlock>
+			)}
 			{tab.filter((v) => v.display === true).length > 1 && (
 				<_Header
 					back={

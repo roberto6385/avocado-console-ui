@@ -16,12 +16,12 @@ import {
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {disconnectResponse} from '../../ws/sftp/disconnect_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(fileSubscribe, payload.socket);
 	yield put({type: CLOSE_TAB, data: payload.uuid});
 
 	try {

@@ -14,15 +14,20 @@ import {
 	RM_REQUEST,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import {closeChannel, sftpSubscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
 import {removeNewWebsocket, SHIFT_SOCKETS} from '../../reducers/sftp/crud';
 import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(sftpSubscribe, payload.remove_socket);
+	const channel = yield call(fileSubscribe, payload.remove_socket);
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('already socket is closing');
+			return;
+		}
+
 		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
 				keyword: payload.keyword,

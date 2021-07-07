@@ -15,7 +15,7 @@ import {
 	ERROR,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
 import {commandPwdAction} from '../../reducers/sftp/list';
@@ -23,7 +23,7 @@ import {commandPwdAction} from '../../reducers/sftp/list';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, payload.socket);
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByCd',

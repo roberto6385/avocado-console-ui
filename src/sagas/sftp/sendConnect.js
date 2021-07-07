@@ -14,7 +14,7 @@ import {
 	CONNECTION_SUCCESS,
 	ERROR,
 } from '../../reducers/sftp/sftp';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
@@ -33,7 +33,7 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(subscribe, socket);
+		const channel = yield call(sftpSubscribe, {socket});
 
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -49,6 +49,7 @@ function* sendCommand(action) {
 			if (timeout) {
 				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});

@@ -1,6 +1,6 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import {ERROR} from '../../reducers/sftp/sftp';
-import {subscribe} from '../channel';
+import {fileSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
@@ -17,7 +17,7 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(subscribe, socket);
+		const channel = yield call(fileSubscribe, socket);
 
 		yield call(messageSender, {
 			keyword: 'Connection',

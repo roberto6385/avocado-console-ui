@@ -15,14 +15,14 @@ import {
 	MKDIR_SUCCESS,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, sftpSubscribe} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';
-import {commandPwdAction} from "../../reducers/sftp/list";
+import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, payload.socket);
 
 	console.log(payload);
 	yield call(messageSender, {

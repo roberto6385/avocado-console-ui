@@ -14,7 +14,7 @@ import {
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp/sftp';
-import {closeChannel, sftpSubscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
 import {FIND_HISTORY} from '../../reducers/sftp/history';
@@ -23,10 +23,15 @@ import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(sftpSubscribe, payload.write_socket);
+	const channel = yield call(fileSubscribe, payload.write_socket);
 	const senderLength = 1024 * 4;
 
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('already socket is closing');
+			return;
+		}
+
 		const filepath =
 			payload.write_path === '/'
 				? `${payload.write_path}${payload.file.name}`

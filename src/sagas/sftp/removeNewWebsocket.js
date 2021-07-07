@@ -1,6 +1,6 @@
 import {all, call, fork, take, put, actionChannel} from 'redux-saga/effects';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
 	REMOVE_NEW_WEBSOCKET_FAILURE,
@@ -10,7 +10,7 @@ import {
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {
