@@ -22,7 +22,7 @@ export function subscribe(socket, buffer) {
 	}, buffer || buffers.none());
 }
 
-export function sftpSubscribe(socket, buffer) {
+export function sftpSubscribe({socket, buffer, call}) {
 	return eventChannel((emit) => {
 		socket.onmessage = (event) => {
 			emit(event.data);
@@ -35,6 +35,7 @@ export function sftpSubscribe(socket, buffer) {
 
 		socket.onclose = () => {
 			console.log('close');
+			call();
 			emit(END);
 		};
 

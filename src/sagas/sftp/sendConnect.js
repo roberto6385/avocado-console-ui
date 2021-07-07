@@ -49,7 +49,6 @@ function* sendCommand(action) {
 			if (timeout) {
 				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
-				socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});

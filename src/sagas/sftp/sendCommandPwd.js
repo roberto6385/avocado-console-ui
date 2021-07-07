@@ -18,11 +18,15 @@ import {
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
+	READY_STATE,
 } from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(sftpSubscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, {
+		socket: payload.socket,
+		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+	});
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',

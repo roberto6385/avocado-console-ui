@@ -17,12 +17,15 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, sftpSubscribe} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';
-import {commandPwdAction} from '../../reducers/sftp/list';
+import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	const channel = yield call(sftpSubscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, {
+		socket: payload.socket,
+		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+	});
 
 	console.log(payload);
 	yield call(messageSender, {

@@ -18,12 +18,16 @@ import messageSender from './messageSender';
 import {closeChannel, sftpSubscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import {commandPwdAction} from '../../reducers/sftp/list';
+import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(sftpSubscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, {
+		socket: payload.socket,
+		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+	});
+
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByCd',
@@ -38,6 +42,7 @@ function* sendCommand(action) {
 			if (timeout) {
 				console.log('CD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				payload.socket.close();
 			} else {
 				const res = yield call(cdResponse, {data});
 

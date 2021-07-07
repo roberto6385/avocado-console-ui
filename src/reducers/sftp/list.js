@@ -13,6 +13,7 @@ export const LS_SUCCESS = 'sftp/LS_SUCCESS';
 export const LS_FAILURE = 'sftp/LS_FAILURE';
 // etc
 export const INIT_FILELIST = 'sftp/INIT_FILELIST';
+export const READY_STATE = 'sftp/READY_STATE';
 
 const initialState = {
 	listState: [],
@@ -44,6 +45,7 @@ const list = (state = initialState, action) =>
 					path: '', // 현재 경로 ok
 					fileList: [],
 					pathList: [],
+					ready: 1,
 				});
 				break;
 

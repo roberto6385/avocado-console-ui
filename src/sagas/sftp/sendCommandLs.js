@@ -13,12 +13,20 @@ import {closeChannel, sftpSubscribe} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
-import {LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp/list';
+import {
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+	READY_STATE,
+} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(sftpSubscribe, payload.socket);
+	const channel = yield call(sftpSubscribe, {
+		socket: payload.socket,
+		call: yield put({type: READY_STATE, payload: {uuid: payload.uuid}}),
+	});
 
 	try {
 		yield call(messageSender, {
