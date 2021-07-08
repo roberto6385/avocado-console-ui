@@ -40,6 +40,10 @@ function* sendCommand(action) {
 		}
 
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			const {timeout, data} = yield race({
 				timeout: delay(200),
 				data: take(channel),

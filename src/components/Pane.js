@@ -13,7 +13,6 @@ import {
 	activePaneHeaderColor,
 	borderColor,
 	fontColor,
-	greenHoverButtonColor,
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
@@ -106,24 +105,15 @@ const Pane = ({uuid, type, server}) => {
 		[type, dispatch, uuid, ssh, sftp],
 	);
 	//
-	useEffect(() => {
-		console.log('check!!!');
-		if (type === 'SSH') {
-			console.log('ssh 처리 필요');
-		} else {
-			if (corSftpList !== undefined) {
-				setReadyState(corSftpList.socketStatus);
-			}
-		}
-	}, [corSftpList, type]);
 
 	return (
 		<_Container onClick={onClickChangeTab}>
-			{readyState === 3 && (
-				<_ReconectBlock>
-					<PrimaryRedButton>Reconnect</PrimaryRedButton>
-				</_ReconectBlock>
-			)}
+			{(type === 'SSH' && corSftpList.socketStatus === 3) ||
+				(type === 'SFTP' && corSftpList.socketStatus === 3 && (
+					<_ReconectBlock>
+						<PrimaryRedButton>Reconnect</PrimaryRedButton>
+					</_ReconectBlock>
+				))}
 			{tab.filter((v) => v.display === true).length > 1 && (
 				<_Header
 					back={

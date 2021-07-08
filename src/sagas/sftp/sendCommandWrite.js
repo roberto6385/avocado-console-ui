@@ -49,6 +49,10 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
 				timeout: delay(1000),
