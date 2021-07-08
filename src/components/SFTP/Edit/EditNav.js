@@ -35,6 +35,7 @@ const _ButtonContainer = styled.div`
 `;
 
 const EditNav = ({uuid}) => {
+	const dispatch = useDispatch();
 	const theme = useSelector((state) => state.common.theme);
 
 	const {
@@ -54,8 +55,6 @@ const EditNav = ({uuid}) => {
 		() => sftp_etcState.find((it) => it.uuid === uuid),
 		[sftp_etcState, uuid],
 	);
-
-	const dispatch = useDispatch();
 
 	const editedFileDownload = useCallback(() => {
 		// 이 부분도 read List에 저장해서 다운 받는 방식으로

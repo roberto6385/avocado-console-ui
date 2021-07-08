@@ -16,12 +16,11 @@ const _SFTP = styled.div`
 `;
 
 const SFTP = ({uuid}) => {
+	const theme = useSelector((state) => state.common.theme);
 	const {etc: sftp_etcState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
 	);
-	const theme = useSelector((state) => state.common.theme);
-
 	const {mode} = useMemo(
 		() => sftp_etcState.find((it) => it.uuid === uuid),
 		[sftp_etcState, uuid],

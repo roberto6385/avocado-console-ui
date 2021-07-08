@@ -148,13 +148,17 @@ const HistoryContents = ({uuid}) => {
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
 	const {history, history_highlight} = useMemo(
 		() => sftp_historyState.find((it) => it.uuid === uuid),
 		[sftp_historyState, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
@@ -162,11 +166,6 @@ const HistoryContents = ({uuid}) => {
 				(it) => it.key === corTab.server.key && it.checked === true,
 			),
 		[identity, corTab],
-	);
-
-	const {path} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
 	);
 
 	const openUpload = useCallback(async () => {
@@ -211,7 +210,7 @@ const HistoryContents = ({uuid}) => {
 		dispatch,
 		uuid,
 		path,
-		userTicket.access_token,
+		userTicket,
 		corServer.host,
 		corServer.port,
 		correspondedIdentity.user,
@@ -246,12 +245,37 @@ const HistoryContents = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket.access_token,
+			userTicket,
 			corServer.host,
 			corServer.port,
 			correspondedIdentity.user,
 			correspondedIdentity.password,
 		],
+	);
+	const compareNumber = useCallback(
+		(first, second) => {
+			console.log(first, second);
+			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
+
+			let list = [];
+			if (first <= second) {
+				for (let i = first; i <= second; i++) {
+					list.push(history[i]);
+				}
+			} else {
+				for (let i = first; i >= second; i--) {
+					list.push(history[i]);
+				}
+			}
+			dispatch({
+				type: ADD_HISTORY_HI,
+				payload: {
+					uuid,
+					history: list,
+				},
+			});
+		},
+		[dispatch, history, uuid],
 	);
 
 	const selectItem = useCallback(
@@ -305,33 +329,7 @@ const HistoryContents = ({uuid}) => {
 				});
 			}
 		},
-		[dispatch, history, history_highlight],
-	);
-
-	const compareNumber = useCallback(
-		(first, second) => {
-			console.log(first, second);
-			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
-
-			let list = [];
-			if (first <= second) {
-				for (let i = first; i <= second; i++) {
-					list.push(history[i]);
-				}
-			} else {
-				for (let i = first; i >= second; i--) {
-					list.push(history[i]);
-				}
-			}
-			dispatch({
-				type: ADD_HISTORY_HI,
-				payload: {
-					uuid,
-					history: list,
-				},
-			});
-		},
-		[dispatch, history, uuid],
+		[compareNumber, dispatch, history, history_highlight, uuid],
 	);
 
 	const removeHistory = useCallback(

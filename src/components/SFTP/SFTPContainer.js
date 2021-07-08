@@ -29,6 +29,7 @@ const SFTPContainer = ({uuid}) => {
 		file: sftp_fileState,
 		socket: sftp_socketState,
 		etc: sftp_etcState,
+		history: sftp_historyState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const {path} = useMemo(
@@ -60,14 +61,18 @@ const SFTPContainer = ({uuid}) => {
 		() => sftp_etcState.find((it) => it.uuid === uuid),
 		[sftp_etcState, uuid],
 	);
+	const {history_highlight} = useMemo(
+		() => sftp_historyState.find((it) => it.uuid === uuid),
+		[sftp_historyState, uuid],
+	);
 
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
 			if (!uuid || current_tab !== uuid) return;
-			// if (highlight.length === 0 && history_highlight.length === 0) {
-			// 	return;
-			// }
+			if (highlight.length === 0 && history_highlight.length === 0) {
+				return;
+			}
 			const root = evt.target;
 
 			// if (highlight.length !== 0 || history_highlight.length !== 0) {
@@ -99,7 +104,13 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 			}
 		},
-		[uuid],
+		[
+			current_tab,
+			dispatch,
+			highlight.length,
+			history_highlight.length,
+			uuid,
+		],
 	);
 
 	useEffect(() => {
@@ -270,7 +281,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [removeSockets, highlight, path]);
+	}, [removeSockets, highlight, path, dispatch, uuid]);
 
 	return <SFTP uuid={uuid} />;
 };

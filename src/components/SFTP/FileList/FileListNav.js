@@ -77,21 +77,24 @@ const FileListNav = ({uuid}) => {
 
 	const [currentPath, setCurrentPath] = useState('');
 
-	const goHome = (e, nextPath = '/root') => {
-		const pathInput = document.getElementById('fileListNavInput');
-		console.log(nextPath);
-		nextPath !== undefined &&
-			dispatch(
-				commandCdAction({
-					socket: socket,
-					uuid: uuid,
-					path: path,
-					cd_path: nextPath,
-					dispatch: dispatch,
-				}),
-			) &&
-			pathInput.blur();
-	};
+	const goHome = useCallback(
+		(e, nextPath = '/root') => {
+			const pathInput = document.getElementById('fileListNavInput');
+			console.log(nextPath);
+			nextPath !== undefined &&
+				dispatch(
+					commandCdAction({
+						socket: socket,
+						uuid: uuid,
+						path: path,
+						cd_path: nextPath,
+						dispatch: dispatch,
+					}),
+				) &&
+				pathInput.blur();
+		},
+		[dispatch, path, socket, uuid],
+	);
 
 	const goBack = useCallback(
 		(e) => {
@@ -228,4 +231,4 @@ FileListNav.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default React.memo(FileListNav);
+export default FileListNav;

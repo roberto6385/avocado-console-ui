@@ -45,7 +45,7 @@ const HistoryNav = ({uuid}) => {
 
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 	const {history_highlight} = useMemo(
 		() => sftp_historyState.find((it) => it.uuid === uuid),
@@ -106,7 +106,7 @@ const HistoryNav = ({uuid}) => {
 		dispatch,
 		uuid,
 		path,
-		userTicket.access_token,
+		userTicket,
 		corServer.host,
 		corServer.port,
 		correspondedIdentity.user,

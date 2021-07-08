@@ -71,7 +71,7 @@ const Pane = ({uuid, type, server}) => {
 		shallowEqual,
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
-	const sftp_socketState = useSelector((state) => state.sftp.socket);
+	const {socket: sftp_socketState} = useSelector((state) => state.sftp);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)

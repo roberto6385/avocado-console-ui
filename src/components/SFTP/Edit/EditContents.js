@@ -26,6 +26,7 @@ const _Container = styled.div`
 	}
 `;
 const EditContents = ({uuid}) => {
+	const dispatch = useDispatch();
 	const theme = useSelector((state) => state.common.theme);
 	const {edit: sftp_editState} = useSelector(
 		(state) => state.sftp,
@@ -35,12 +36,14 @@ const EditContents = ({uuid}) => {
 		() => sftp_editState.find((it) => it.uuid === uuid),
 		[sftp_editState, uuid],
 	);
-	const dispatch = useDispatch();
 
-	const writeText = useCallback((e) => {
-		const {value} = e.target;
-		dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
-	}, []);
+	const writeText = useCallback(
+		(e) => {
+			const {value} = e.target;
+			dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
+		},
+		[dispatch, uuid],
+	);
 
 	return (
 		<_Container back={editColor[theme]} color={fontColor[theme]}>
