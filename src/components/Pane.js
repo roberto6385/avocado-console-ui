@@ -17,7 +17,7 @@ import {
 	tabColor,
 } from '../styles/color';
 import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
-import {disconnectAction} from '../reducers/sftp/sftp';
+import {disconnectAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
 
 const _Container = styled.div`
@@ -72,7 +72,7 @@ const Pane = ({uuid, type, server}) => {
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const listState = useSelector((state) => state.list.listState);
+	const socket = useSelector((state) => state.sftp.socket);
 
 	const corSsh = ssh.find((v) => v.uuid === uuid);
 	const corSftpList = listState.find((v) => v.uuid === uuid);

@@ -9,11 +9,12 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
+	commandPwdAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import {closeChannel} from '../channel';
 
 import messageSender from './messageSender';
@@ -21,13 +22,6 @@ import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
-import {HISTORY_CONNECTION_SUCCESS} from '../../reducers/sftp/history';
-import {CRUD_CONNECTION_SUCCESS} from '../../reducers/sftp/crud';
-import {
-	commandPwdAction,
-	FILELIST_CONNECTION_SUCCESS,
-	READY_STATE,
-} from '../../reducers/sftp/list';
 import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
@@ -70,24 +64,7 @@ function* sendCommand(action) {
 								socket: socket,
 							},
 						});
-						yield put({
-							type: HISTORY_CONNECTION_SUCCESS,
-							payload: {
-								uuid: uuid,
-							},
-						});
-						yield put({
-							type: FILELIST_CONNECTION_SUCCESS,
-							payload: {
-								uuid: uuid,
-							},
-						});
-						yield put({
-							type: CRUD_CONNECTION_SUCCESS,
-							payload: {
-								uuid: uuid,
-							},
-						});
+
 						yield put({
 							type: OPEN_TAB,
 							data: {

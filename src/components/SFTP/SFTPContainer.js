@@ -2,22 +2,20 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+	ADD_HISTORY,
 	commandReadAction,
 	commandRmAction,
-	commandWriteAction,
-	INITIALIZING_HIGHLIGHT,
-} from '../../reducers/sftp/sftp';
-import SFTP from './SFTP';
-import {
-	DELETE_WORK_LIST,
+	commandWriteAction, DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
+	INITIAL_HISTORY_HI,
+	INITIALIZING_HIGHLIGHT,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
-} from '../../reducers/sftp/crud';
-import {ADD_HISTORY, INITIAL_HISTORY_HI} from '../../reducers/sftp/history';
+} from '../../reducers/sftp';
+import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -28,7 +26,7 @@ const SFTPContainer = ({uuid}) => {
 		() => sftp.find((it) => it.uuid === uuid),
 		[sftp, uuid],
 	);
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

@@ -11,15 +11,14 @@ import {
 import {
 	CD_FAILURE,
 	CD_REQUEST,
-	CD_SUCCESS,
-	ERROR,
-} from '../../reducers/sftp/sftp';
+	CD_SUCCESS, commandPwdAction,
+	ERROR, READY_STATE,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 
 import {closeChannel} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {

@@ -9,16 +9,16 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	commandPwdAction,
 	ERROR,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
-	MKDIR_SUCCESS,
-} from '../../reducers/sftp/sftp';
+	MKDIR_SUCCESS, READY_STATE,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 
 import {closeChannel} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';
-import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 import useSubscribe from "../../hooks/useSubscribe";
 
 function* sendCommand(action) {

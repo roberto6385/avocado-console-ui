@@ -7,9 +7,9 @@ import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
+import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp";
 
 const _Container = styled.div`
 	display: flex;
@@ -56,7 +56,7 @@ const HistoryNav = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

@@ -29,19 +29,19 @@ import {
 	historyUploadColor,
 } from '../../../styles/color';
 
-import {
-	ADD_HISTORY_HI,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
-} from '../../../reducers/sftp/history';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
-
 import {PreventDragCopy} from '../../../styles/function';
 import {
 	ClickableIconButton,
 	IconBox,
 	PrimaryGreenButton,
 } from '../../../styles/button';
+import {
+	ADD_HISTORY_HI,
+	createNewWebsocket,
+	INITIAL_HISTORY_HI,
+	PUSH_WRITE_LIST,
+	REMOVE_HISTORY
+} from "../../../reducers/sftp";
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -161,7 +161,7 @@ const HistoryContents = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

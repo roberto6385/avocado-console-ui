@@ -8,17 +8,11 @@ import {
 	delay,
 	takeEvery,
 } from 'redux-saga/effects';
-import {ERROR} from '../../reducers/sftp/sftp';
+import {ERROR, LS_FAILURE, LS_REQUEST, LS_SUCCESS, READY_STATE} from '../../reducers/sftp';
 import {closeChannel} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
-import {
-	LS_FAILURE,
-	LS_REQUEST,
-	LS_SUCCESS,
-	READY_STATE,
-} from '../../reducers/sftp/list';
 import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CHANGE_MODE, commandCdAction} from '../../../reducers/sftp/sftp';
+import {CHANGE_MODE, commandCdAction, commandPwdAction, READY_STATE} from '../../../reducers/sftp';
 
 import {
 	arrowUpwordIcon,
@@ -22,7 +22,6 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
-import {commandPwdAction, READY_STATE} from '../../../reducers/sftp/list';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -60,7 +59,7 @@ const FileListNav = ({uuid}) => {
 		[sftp, uuid],
 	);
 
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

@@ -9,16 +9,16 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	ERROR,
+	commandPwdAction,
+	ERROR, READY_STATE,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 
 import {closeChannel} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
-import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
 import useSubscribe from "../../hooks/useSubscribe";
 
 function* sendCommand(action) {

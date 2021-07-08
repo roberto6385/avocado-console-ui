@@ -8,7 +8,7 @@ import {HEIGHT_48} from '../../../styles/length';
 import {
 	CHANGE_SORT_KEYWORD,
 	INITIALIZING_HIGHLIGHT,
-} from '../../../reducers/sftp/sftp';
+} from '../../../reducers/sftp';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 
 const _Tr = styled.tr`

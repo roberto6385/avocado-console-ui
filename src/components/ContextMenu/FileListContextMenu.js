@@ -5,14 +5,14 @@ import {useTranslation} from 'react-i18next';
 
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
-import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp/crud';
 import {ContextMenu} from '../../styles/default';
+import {createNewWebsocket, PUSH_READ_LIST} from "../../reducers/sftp";
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

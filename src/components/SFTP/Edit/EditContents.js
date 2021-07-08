@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {SAVE_EDITTEXT} from '../../../reducers/sftp/sftp';
+import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {FONT_14} from '../../../styles/length';
 import {editColor, fontColor} from '../../../styles/color';

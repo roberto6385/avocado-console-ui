@@ -20,12 +20,6 @@ import {
 	PopupText,
 } from '../../styles/default';
 
-import {INITIAL_HISTORY_HI, REMOVE_HISTORY} from '../../reducers/sftp/history';
-import {
-	createNewWebsocket,
-	INIT_DELETE_WORK_LIST,
-} from '../../reducers/sftp/crud';
-
 import {
 	ClickableIconButton,
 	IconButton,
@@ -33,6 +27,7 @@ import {
 	PrimaryRedButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
+import {createNewWebsocket, INIT_DELETE_WORK_LIST, INITIAL_HISTORY_HI, REMOVE_HISTORY} from "../../reducers/sftp";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

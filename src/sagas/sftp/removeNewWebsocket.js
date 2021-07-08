@@ -3,10 +3,10 @@ import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
-	REMOVE_NEW_WEBSOCKET_FAILURE,
-	REMOVE_NEW_WEBSOCKET_REQUEST,
-	REMOVE_NEW_WEBSOCKET_SUCCESS,
-} from '../../reducers/sftp/crud';
+    REMOVE_NEW_WEBSOCKET_FAILURE,
+    REMOVE_NEW_WEBSOCKET_REQUEST,
+    REMOVE_NEW_WEBSOCKET_SUCCESS
+} from "../../reducers/sftp";
 
 function* sendCommand(action) {
 	const {payload} = action;

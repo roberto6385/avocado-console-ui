@@ -9,15 +9,14 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	INITIALIZING_HIGHLIGHT,
+	commandPwdAction,
+	INITIALIZING_HIGHLIGHT, removeNewWebsocket,
 	RM_FAILURE,
-	RM_REQUEST,
-} from '../../reducers/sftp/sftp';
+	RM_REQUEST, SHIFT_SOCKETS,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
-import {removeNewWebsocket, SHIFT_SOCKETS} from '../../reducers/sftp/crud';
-import {commandPwdAction} from '../../reducers/sftp/list';
 
 function* sendCommand(action) {
 	const {payload} = action;

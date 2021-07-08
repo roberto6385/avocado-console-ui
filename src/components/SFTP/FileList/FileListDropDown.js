@@ -8,12 +8,12 @@ import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
-	commandCdAction,
-	INITIALIZING_HIGHLIGHT,
+	commandCdAction, createNewWebsocket,
+	INITIALIZING_HIGHLIGHT, PUSH_READ_LIST, READY_STATE,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
-} from '../../../reducers/sftp/sftp';
+} from '../../../reducers/sftp';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -31,11 +31,8 @@ import {
 	tabColor,
 } from '../../../styles/color';
 
-import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
-
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
-import {READY_STATE} from '../../../reducers/sftp/list';
 
 const _Container = styled.div`
 	display: flex;
@@ -117,7 +114,7 @@ const FileListDropDown = ({uuid}) => {
 		[corTab],
 	);
 
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

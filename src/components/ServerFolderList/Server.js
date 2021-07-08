@@ -28,7 +28,7 @@ import {
 } from '../../styles/default';
 import styled from 'styled-components';
 import {IconBox} from '../../styles/button';
-import {connectionAction} from '../../reducers/sftp/sftp';
+import {connectionAction} from '../../reducers/sftp';
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;

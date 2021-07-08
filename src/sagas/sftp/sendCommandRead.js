@@ -9,19 +9,17 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	CHANGE_MODE,
+	CHANGE_MODE, FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
-	READ_SUCCESS,
+	READ_SUCCESS, removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
-import {FIND_HISTORY} from '../../reducers/sftp/history';
-import {removeNewWebsocket} from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {
 	const {payload} = action;

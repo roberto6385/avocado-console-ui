@@ -12,7 +12,6 @@ import {
 	PopupModal,
 	PopupText,
 } from '../../styles/default';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../reducers/sftp/crud';
 
 import {
 	ClickableIconButton,
@@ -21,7 +20,7 @@ import {
 	PrimaryGreyButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
-import {CHANGE_MODE, CLOSE_EDITOR, SAVE_TEXT} from '../../reducers/sftp/sftp';
+import {CHANGE_MODE, CLOSE_EDITOR, createNewWebsocket, PUSH_WRITE_LIST, SAVE_TEXT} from '../../reducers/sftp';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -32,7 +31,7 @@ const SavePopup = () => {
 	const dispatch = useDispatch();
 	const save_popup = useSelector((state) => state.popup.save_popup);
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,

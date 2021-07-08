@@ -12,15 +12,15 @@ import messageSender from './messageSender';
 import {closeChannel} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
+import useSubscribe from '../../hooks/useSubscribe';
 import {
 	commandLsAction,
 	INIT_FILELIST,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
-	READY_STATE,
-} from '../../reducers/sftp/list';
-import useSubscribe from '../../hooks/useSubscribe';
+	READY_STATE
+} from "../../reducers/sftp";
 
 function* sendCommand(action) {
 	const {payload} = action;

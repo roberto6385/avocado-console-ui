@@ -1,6 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR} from '../../reducers/sftp/sftp';
-import {LS_SUCCESS} from "../../reducers/sftp/list";
+import {ERROR, LS_SUCCESS} from '../../reducers/sftp';
 
 export function lsResponse({data}) {
 	try {

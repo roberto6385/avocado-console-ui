@@ -5,7 +5,7 @@ import useInput from '../../hooks/useInput';
 import {
 	commandMkdirAction,
 	commandRenameAction,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../icons/icons';
@@ -35,7 +35,7 @@ const InputPopup = () => {
 	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const theme = useSelector((state) => state.common.theme);
 	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');

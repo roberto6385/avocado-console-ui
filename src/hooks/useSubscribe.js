@@ -1,5 +1,5 @@
 import {buffers, END, eventChannel} from 'redux-saga';
-import {READY_STATE} from '../reducers/sftp/list';
+import {READY_STATE} from "../reducers/sftp";
 
 export default function useSubscribe({socket, buffer, dispatch}) {
 	return eventChannel((emit) => {

@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp/sftp';
+import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
@@ -10,8 +10,6 @@ import {
 	squareDeleteIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
-
-import {ADD_HISTORY} from '../../../reducers/sftp/history';
 
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
@@ -44,7 +42,7 @@ const EditNav = ({uuid}) => {
 		uuid,
 	]);
 
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

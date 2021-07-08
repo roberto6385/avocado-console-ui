@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {CD_SUCCESS, ERROR} from '../../reducers/sftp/sftp';
+import {CD_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export function cdResponse({data}) {
 	try {

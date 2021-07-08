@@ -8,10 +8,10 @@ import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
-	commandCdAction,
-	INITIALIZING_HIGHLIGHT,
+	commandCdAction, createNewWebsocket,
+	INITIALIZING_HIGHLIGHT, PUSH_READ_LIST, READY_STATE,
 	REMOVE_HIGHLIGHT,
-} from '../../../reducers/sftp/sftp';
+} from '../../../reducers/sftp';
 import {
 	formatByteSizeString,
 	sortFunction,
@@ -34,11 +34,8 @@ import {
 import LoadingSpinner from '../../loadingSpinner';
 import styled from 'styled-components';
 
-import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
-
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
-import {READY_STATE} from '../../../reducers/sftp/list';
 
 const _Table = styled.table`
 	display: flex;
@@ -103,7 +100,7 @@ const FileListContents = ({uuid}) => {
 		() => sftp.find((it) => it.uuid === uuid),
 		[sftp, uuid],
 	);
-	const listState = useSelector((state) => state.list.listState);
+	const path = useSelector((state) => state.sftp.path);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],

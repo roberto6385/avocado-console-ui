@@ -1,15 +1,15 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
-import {ERROR} from '../../reducers/sftp/sftp';
+import {
+    CREATE_NEW_WEBSOCKET_FAILURE,
+    CREATE_NEW_WEBSOCKET_REQUEST,
+    CREATE_NEW_WEBSOCKET_SUCCESS,
+    ERROR
+} from '../../reducers/sftp';
 import {fileSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
-import {
-	CREATE_NEW_WEBSOCKET_FAILURE,
-	CREATE_NEW_WEBSOCKET_REQUEST,
-	CREATE_NEW_WEBSOCKET_SUCCESS,
-} from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {
 	const {payload} = action;
