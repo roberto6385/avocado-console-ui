@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {
 	CHANGE_MODE,
@@ -56,20 +56,25 @@ const _Form = styled.form`
 
 const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
-	const sftp = useSelector((state) => state.sftp.sftp);
+	const {
+		path: sftp_pathState,
+		socket: sftp_socketState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const theme = useSelector((state) => state.common.theme);
 
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
-
-	const {path: sftp_pathState} = useSelector((state) => state.sftp);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {mode, socket} = corSftpInfo;
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
+	);
+	const {mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	const [currentPath, setCurrentPath] = useState('');
 

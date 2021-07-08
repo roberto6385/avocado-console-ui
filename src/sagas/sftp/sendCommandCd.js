@@ -11,8 +11,10 @@ import {
 import {
 	CD_FAILURE,
 	CD_REQUEST,
-	CD_SUCCESS, commandPwdAction,
-	ERROR, READY_STATE,
+	CD_SUCCESS,
+	commandPwdAction,
+	ERROR,
+	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 
@@ -41,13 +43,13 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
 				console.log('CD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
-				payload.socket.close();
+				// payload.socket.close();
 			} else {
 				const res = yield call(cdResponse, {data});
 

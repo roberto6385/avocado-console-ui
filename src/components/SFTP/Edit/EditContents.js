@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {FONT_14} from '../../../styles/length';
@@ -26,13 +26,15 @@ const _Container = styled.div`
 	}
 `;
 const EditContents = ({uuid}) => {
-	const sftp = useSelector((state) => state.sftp.sftp);
 	const theme = useSelector((state) => state.common.theme);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const {editText} = corSftpInfo;
+	const {edit: sftp_editState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const {editText} = useMemo(
+		() => sftp_editState.find((it) => it.uuid === uuid),
+		[sftp_editState, uuid],
+	);
 	const dispatch = useDispatch();
 
 	const writeText = useCallback((e) => {

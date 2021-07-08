@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
@@ -35,19 +35,25 @@ const _ButtonContainer = styled.div`
 `;
 
 const EditNav = ({uuid}) => {
-	const sftp = useSelector((state) => state.sftp.sftp);
 	const theme = useSelector((state) => state.common.theme);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
 
-	const {path:sftp_pathState} = useSelector((state) => state.sftp);
+	const {
+		path: sftp_pathState,
+		edit: sftp_editState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {text, editText, editFile, prevMode, mode} = corSftpInfo;
+	const {text, editText, editFile} = useMemo(
+		() => sftp_editState.find((it) => it.uuid === uuid),
+		[sftp_editState, uuid],
+	);
+	const {prevMode, mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	const dispatch = useDispatch();
 

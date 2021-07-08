@@ -11,16 +11,18 @@ import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const sftp = useSelector((state) => state.sftp.sftp);
-	const {path:sftp_pathState} = useSelector((state) => state.sftp);
+	const {path: sftp_pathState, file: sftp_fileState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+	const {highlight} = useMemo(
+		() => sftp_fileState.find((it) => it.uuid === uuid),
+		[sftp_fileState, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
@@ -43,7 +45,6 @@ const FileListContextMenu = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {highlight} = corSftpInfo;
 
 	const contextDownload = useCallback(async () => {
 		const array = [];

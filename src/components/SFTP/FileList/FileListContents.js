@@ -94,24 +94,30 @@ const _Tr = styled.tr`
 
 const FileListContents = ({uuid}) => {
 	const dispatch = useDispatch();
-	const sftp = useSelector((state) => state.sftp.sftp);
+	const {
+		path: sftp_pathState,
+		file: sftp_fileState,
+		etc: sftp_etcState,
+		socket: sftp_socketState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+	const {sortKeyword, toggle} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
 	);
-	const {path: sftp_pathState, file: sftp_fileState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
 	);
+
 	const {path, pathList} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {fileList} = useMemo(
+	const {fileList, highlight} = useMemo(
 		() => sftp_fileState.find((it) => it.uuid === uuid),
 		[sftp_fileState, uuid],
 	);
@@ -132,7 +138,6 @@ const FileListContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {highlight, sortKeyword, toggle} = corSftpInfo;
 
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
@@ -304,7 +309,7 @@ const FileListContents = ({uuid}) => {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				dispatch(
 					commandCdAction({
-						socket: corSftpInfo.socket,
+						socket: socket,
 						uuid: uuid,
 						path: path,
 						cd_path: item.name,
@@ -314,7 +319,7 @@ const FileListContents = ({uuid}) => {
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[corSftpInfo],
+		[],
 	);
 
 	useEffect(() => {
