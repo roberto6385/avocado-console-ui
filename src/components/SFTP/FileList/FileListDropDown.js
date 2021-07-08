@@ -35,6 +35,7 @@ import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
+import {READY_STATE} from '../../../reducers/sftp/list';
 
 const _Container = styled.div`
 	display: flex;
@@ -102,14 +103,14 @@ const FileListDropDown = ({uuid}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -176,137 +177,144 @@ const FileListDropDown = ({uuid}) => {
 	};
 
 	const selectFile = useCallback(
-		({item, listindex, itemIndex}) => (e) => {
-			console.log(item, listindex, itemIndex);
-			if (e.shiftKey) {
-				if (path !== pathList[listindex]) {
-					dispatch(
-						commandCdAction({
-							socket: corSftpInfo.socket,
-							path: path,
-							uuid: uuid,
-							cd_path: pathList[listindex],
-						}),
-					);
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-				} else {
-					if (highlight.length === 0) {
+		({item, listindex, itemIndex}) =>
+			(e) => {
+				console.log(item, listindex, itemIndex);
+				if (e.shiftKey) {
+					if (path !== pathList[listindex]) {
+						dispatch(
+							commandCdAction({
+								socket: corSftpInfo.socket,
+								path: path,
+								uuid: uuid,
+								cd_path: pathList[listindex],
+								dispatch: dispatch,
+							}),
+						);
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
 							payload: {uuid, item: {...item, path}},
 						});
 					} else {
-						if (highlight[0].name === path.split('/').pop()) {
+						if (highlight.length === 0) {
 							dispatch({
-								type: INITIALIZING_HIGHLIGHT,
-								payload: {uuid},
+								type: ADD_ONE_HIGHLIGHT,
+								payload: {uuid, item: {...item, path}},
 							});
+						} else {
+							if (highlight[0].name === path.split('/').pop()) {
+								dispatch({
+									type: INITIALIZING_HIGHLIGHT,
+									payload: {uuid},
+								});
+							}
+							const corList = currentFileList[listindex];
+							const firstIndex = corList.findIndex(
+								(it) => it?.name === highlight[0].name,
+							);
+							compareNumber(corList, firstIndex, itemIndex);
 						}
-						const corList = currentFileList[listindex];
-						const firstIndex = corList.findIndex(
-							(it) => it?.name === highlight[0].name,
-						);
-						compareNumber(corList, firstIndex, itemIndex);
 					}
-				}
-			} else if (e.metaKey) {
-				if (path !== pathList[listindex]) {
-					if (
-						tempItem !== null &&
-						tempItem.path === pathList[listindex]
-					) {
-						dispatch(
-							commandCdAction({
-								socket: corSftpInfo.socket,
-								path: path,
-								uuid: uuid,
-								cd_path: pathList[listindex],
-							}),
-						);
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: {...tempItem.item, path}},
-						});
-						dispatch({
-							type: REMOVE_TEMP_HIGHLIGHT,
-							payload: {uuid},
-						});
-						return;
-					}
-
-					if (item.type === 'file') {
-						dispatch(
-							commandCdAction({
-								socket: corSftpInfo.socket,
-								path: path,
-								uuid: uuid,
-								cd_path: pathList[listindex],
-							}),
-						);
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-					} else {
-						dispatch(
-							commandCdAction({
-								socket: corSftpInfo.socket,
-								path: path,
-								uuid: uuid,
-								cd_path: `${pathList[listindex]}/${item.name}`,
-							}),
-						);
-						dispatch({
-							type: TEMP_HIGHLIGHT,
-							payload: {
-								uuid,
-								item,
-								path: pathList[listindex],
-							},
-						});
-					}
-				} else {
-					highlight.find((it) => it.name === item.name) === undefined
-						? dispatch({
+				} else if (e.metaKey) {
+					if (path !== pathList[listindex]) {
+						if (
+							tempItem !== null &&
+							tempItem.path === pathList[listindex]
+						) {
+							dispatch(
+								commandCdAction({
+									socket: corSftpInfo.socket,
+									path: path,
+									uuid: uuid,
+									cd_path: pathList[listindex],
+									dispatch: dispatch,
+								}),
+							);
+							dispatch({
 								type: ADD_HIGHLIGHT,
 								payload: {uuid, item: {...item, path}},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
+							});
+							dispatch({
+								type: ADD_HIGHLIGHT,
+								payload: {uuid, item: {...tempItem.item, path}},
+							});
+							dispatch({
+								type: REMOVE_TEMP_HIGHLIGHT,
+								payload: {uuid},
+							});
+							return;
+						}
+
+						if (item.type === 'file') {
+							dispatch(
+								commandCdAction({
+									socket: corSftpInfo.socket,
+									path: path,
+									uuid: uuid,
+									cd_path: pathList[listindex],
+									dispatch: dispatch,
+								}),
+							);
+							dispatch({
+								type: ADD_ONE_HIGHLIGHT,
 								payload: {uuid, item: {...item, path}},
-						  });
+							});
+						} else {
+							dispatch(
+								commandCdAction({
+									socket: corSftpInfo.socket,
+									path: path,
+									uuid: uuid,
+									cd_path: `${pathList[listindex]}/${item.name}`,
+									dispatch: dispatch,
+								}),
+							);
+							dispatch({
+								type: TEMP_HIGHLIGHT,
+								payload: {
+									uuid,
+									item,
+									path: pathList[listindex],
+								},
+							});
+						}
+					} else {
+						highlight.find((it) => it.name === item.name) ===
+						undefined
+							? dispatch({
+									type: ADD_HIGHLIGHT,
+									payload: {uuid, item: {...item, path}},
+							  })
+							: dispatch({
+									type: REMOVE_HIGHLIGHT,
+									payload: {uuid, item: {...item, path}},
+							  });
+					}
+				} else {
+					const finalPath =
+						item.type === 'directory'
+							? pathList[listindex] === '/'
+								? `${pathList[listindex]}${item.name}`
+								: `${pathList[listindex]}/${item.name}`
+							: pathList[listindex];
+					if (path !== finalPath) {
+						dispatch(
+							commandCdAction({
+								socket: corSftpInfo.socket,
+								path: path,
+								uuid: uuid,
+								cd_path: finalPath,
+								dispatch: dispatch,
+							}),
+						);
+					}
+					item.type === 'file' &&
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+						});
 				}
-			} else {
-				const finalPath =
-					item.type === 'directory'
-						? pathList[listindex] === '/'
-							? `${pathList[listindex]}${item.name}`
-							: `${pathList[listindex]}/${item.name}`
-						: pathList[listindex];
-				if (path !== finalPath) {
-					dispatch(
-						commandCdAction({
-							socket: corSftpInfo.socket,
-							path: path,
-							uuid: uuid,
-							cd_path: finalPath,
-						}),
-					);
-				}
-				item.type === 'file' &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-			}
-		},
+			},
 		[corSftpInfo, currentFileList, corListInfo],
 	);
 
@@ -367,34 +375,36 @@ const FileListDropDown = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		({item, clickedPath}) => (e) => {
-			e.preventDefault();
-			e.stopPropagation();
+		({item, clickedPath}) =>
+			(e) => {
+				e.preventDefault();
+				e.stopPropagation();
 
-			if (path !== clickedPath) {
-				dispatch(
-					commandCdAction({
-						socket: corSftpInfo.socket,
-						path: path,
-						uuid: uuid,
-						cd_path: clickedPath,
-					}),
-				);
-			}
+				if (path !== clickedPath) {
+					dispatch(
+						commandCdAction({
+							socket: corSftpInfo.socket,
+							path: path,
+							uuid: uuid,
+							cd_path: clickedPath,
+							dispatch: dispatch,
+						}),
+					);
+				}
 
-			console.log(highlight.length);
-			console.log(item);
-			console.log(clickedPath);
+				console.log(highlight.length);
+				console.log(item);
+				console.log(clickedPath);
 
-			highlight.length < 2 &&
-				item !== undefined &&
-				clickedPath !== undefined &&
-				dispatch({
-					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item: {...item, path}},
-				});
-			show(e);
-		},
+				highlight.length < 2 &&
+					item !== undefined &&
+					clickedPath !== undefined &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item: {...item, path}},
+					});
+				show(e);
+			},
 		[corSftpInfo, corListInfo],
 	);
 

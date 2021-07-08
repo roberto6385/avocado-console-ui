@@ -19,7 +19,7 @@ import {
 	LS_SUCCESS,
 	READY_STATE,
 } from '../../reducers/sftp/list';
-import useSubscribe from "../../hooks/useSubscribe";
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -27,6 +27,11 @@ function* sendCommand(action) {
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
 		uuid: payload.uuid,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
 	});
 
 	try {

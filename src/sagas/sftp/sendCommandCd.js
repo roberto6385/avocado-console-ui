@@ -24,10 +24,14 @@ import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	console.log(payload);
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
 		uuid: payload.uuid,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
 	});
 
 	try {
@@ -38,7 +42,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -60,6 +64,7 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
+								dispatch: payload.dispatch,
 							}),
 						);
 

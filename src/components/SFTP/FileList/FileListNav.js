@@ -22,7 +22,7 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
-import {commandPwdAction} from '../../../reducers/sftp/list';
+import {commandPwdAction, READY_STATE} from '../../../reducers/sftp/list';
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -55,10 +55,10 @@ const FileListNav = ({uuid}) => {
 	const sftp = useSelector((state) => state.sftp.sftp);
 	const theme = useSelector((state) => state.common.theme);
 
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 
 	const listState = useSelector((state) => state.list.listState);
 	const corListInfo = useMemo(
@@ -80,6 +80,7 @@ const FileListNav = ({uuid}) => {
 					uuid: uuid,
 					path: path,
 					cd_path: nextPath,
+					dispatch: dispatch,
 				}),
 			) &&
 			pathInput.blur();

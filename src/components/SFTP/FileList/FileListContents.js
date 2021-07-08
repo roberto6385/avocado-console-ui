@@ -38,6 +38,7 @@ import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
+import {READY_STATE} from '../../../reducers/sftp/list';
 
 const _Table = styled.table`
 	display: flex;
@@ -98,20 +99,20 @@ const FileListContents = ({uuid}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
+	);
 	const listState = useSelector((state) => state.list.listState);
 	const corListInfo = useMemo(
 		() => listState.find((it) => it.uuid === uuid),
 		[listState, uuid],
 	);
 	const {path, fileList, pathList} = corListInfo;
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -190,22 +191,24 @@ const FileListContents = ({uuid}) => {
 	);
 
 	const contextMenuOpen = useCallback(
-		(item = '') => (e) => {
-			e.preventDefault();
-			if (item.name === '..' || item.name === '') return;
-			show(e);
-			!highlight
-				.slice()
-				.find(
-					(v) =>
-						JSON.stringify(v) === JSON.stringify({...item, path}),
-				) &&
-				item !== '' &&
-				dispatch({
-					type: ADD_ONE_HIGHLIGHT,
-					payload: {uuid, item: {...item, path}},
-				});
-		},
+		(item = '') =>
+			(e) => {
+				e.preventDefault();
+				if (item.name === '..' || item.name === '') return;
+				show(e);
+				!highlight
+					.slice()
+					.find(
+						(v) =>
+							JSON.stringify(v) ===
+							JSON.stringify({...item, path}),
+					) &&
+					item !== '' &&
+					dispatch({
+						type: ADD_ONE_HIGHLIGHT,
+						payload: {uuid, item: {...item, path}},
+					});
+			},
 		[dispatch, highlight, uuid, path, show],
 	);
 
@@ -230,50 +233,51 @@ const FileListContents = ({uuid}) => {
 	};
 
 	const selectItem = useCallback(
-		({item, index}) => (e) => {
-			if (item.name === '..') return;
-			if (e.metaKey) {
-				!highlight
-					.slice()
-					.find(
-						(v) =>
-							JSON.stringify(v) ===
-							JSON.stringify({...item, path}),
-					)
-					? dispatch({
+		({item, index}) =>
+			(e) => {
+				if (item.name === '..') return;
+				if (e.metaKey) {
+					!highlight
+						.slice()
+						.find(
+							(v) =>
+								JSON.stringify(v) ===
+								JSON.stringify({...item, path}),
+						)
+						? dispatch({
+								type: ADD_HIGHLIGHT,
+								payload: {uuid, item: {...item, path}},
+						  })
+						: dispatch({
+								type: REMOVE_HIGHLIGHT,
+								payload: {uuid, item: {...item, path}},
+						  });
+				} else if (e.shiftKey) {
+					if (highlight.length === 0) {
+						dispatch({
 							type: ADD_HIGHLIGHT,
 							payload: {uuid, item: {...item, path}},
-					  })
-					: dispatch({
-							type: REMOVE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-					  });
-			} else if (e.shiftKey) {
-				if (highlight.length === 0) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
+						});
+					} else {
+						const firstIndex = currentFileList.findIndex(
+							(it) => it.name === highlight[0].name,
+						);
+						compareNumber(currentFileList, firstIndex, index);
+					}
 				} else {
-					const firstIndex = currentFileList.findIndex(
-						(it) => it.name === highlight[0].name,
-					);
-					compareNumber(currentFileList, firstIndex, index);
+					!highlight
+						.slice()
+						.find(
+							(v) =>
+								JSON.stringify(v) ===
+								JSON.stringify({...item, path}),
+						) &&
+						dispatch({
+							type: ADD_ONE_HIGHLIGHT,
+							payload: {uuid, item: {...item, path}},
+						});
 				}
-			} else {
-				!highlight
-					.slice()
-					.find(
-						(v) =>
-							JSON.stringify(v) ===
-							JSON.stringify({...item, path}),
-					) &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-			}
-		},
+			},
 		[highlight, uuid, path, currentFileList],
 	);
 
@@ -287,6 +291,7 @@ const FileListContents = ({uuid}) => {
 						uuid: uuid,
 						path: path,
 						cd_path: item.name,
+						dispatch: dispatch,
 					}),
 				);
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});

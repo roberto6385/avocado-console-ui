@@ -11,6 +11,7 @@ import {
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/default';
+import {READY_STATE} from '../../reducers/sftp/list';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
@@ -51,6 +52,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
+				dispatch: dispatch,
 			}),
 		);
 	}, [server, userTicket, data, correspondedIdentity]);

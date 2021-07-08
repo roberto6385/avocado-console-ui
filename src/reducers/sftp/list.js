@@ -45,12 +45,12 @@ const list = (state = initialState, action) =>
 					path: '', // 현재 경로 ok
 					fileList: [],
 					pathList: [],
-					ready: 1,
+					socketStatus: 1,
 				});
 				break;
 
 			case READY_STATE:
-				target.ready = 3;
+				target.socketStatus = 3;
 				break;
 
 			// 현재 경로 조회
