@@ -10,7 +10,8 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
-	ERROR, READY_STATE,
+	ERROR,
+	READY_STATE,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
@@ -19,14 +20,18 @@ import messageSender from './messageSender';
 
 import {closeChannel} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
-import useSubscribe from "../../hooks/useSubscribe";
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		uuid: payload.uuid,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
 	});
 	yield call(messageSender, {
 		keyword: 'CommandByRename',

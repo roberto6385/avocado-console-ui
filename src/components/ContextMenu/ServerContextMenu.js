@@ -54,7 +54,14 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				dispatch: dispatch,
 			}),
 		);
-	}, [server, userTicket, data, correspondedIdentity]);
+	}, [
+		server,
+		dispatch,
+		userTicket,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+		data.key,
+	]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
@@ -68,7 +75,14 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				password: correspondedIdentity.password,
 			},
 		});
-	}, [server, data, userTicket, correspondedIdentity]);
+	}, [
+		server,
+		dispatch,
+		userTicket,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+		data.key,
+	]);
 
 	const handleItemClick = useCallback(
 		(v) => () => {
@@ -98,7 +112,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					return;
 			}
 		},
-		[correspondedIdentity],
+		[data.id, dispatch, openSFTP, openSSH, setOpenRename],
 	);
 
 	return (

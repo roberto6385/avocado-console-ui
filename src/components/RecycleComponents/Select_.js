@@ -139,7 +139,7 @@ const Select_ = ({
 			setValue(e.value);
 			selectRef.current?.blur();
 		},
-		[selectRef],
+		[setValue],
 	);
 
 	return (

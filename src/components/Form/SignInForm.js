@@ -118,7 +118,7 @@ const SignInForm = () => {
 				);
 			}
 		},
-		[user, password, rememberMe],
+		[user, password, rememberMe, setUser, setPassword, dispatch],
 	);
 
 	const typeChange = useCallback(
@@ -175,11 +175,11 @@ const SignInForm = () => {
 			setRememberMe(true);
 		}
 		idRef.current?.focus();
-	}, []);
+	}, [setPassword, setUser]);
 
 	useEffect(() => {
 		i18n.changeLanguage('ko-KR');
-	}, []);
+	}, [i18n]);
 
 	return !loading ? (
 		<_UserForm onSubmit={onSubmitForm}>

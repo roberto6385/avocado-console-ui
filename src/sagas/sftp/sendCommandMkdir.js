@@ -13,20 +13,25 @@ import {
 	ERROR,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
-	MKDIR_SUCCESS, READY_STATE,
+	MKDIR_SUCCESS,
+	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 
 import {closeChannel} from '../channel';
 import {mkdirResponse} from '../../ws/sftp/mkdir_response';
-import useSubscribe from "../../hooks/useSubscribe";
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		uuid: payload.uuid,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
 	});
 
 	console.log(payload);

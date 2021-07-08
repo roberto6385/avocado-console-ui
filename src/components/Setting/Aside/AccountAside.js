@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {settingInput} from '../../../styles/color';
 import {Input} from '../../../styles/default';
-import {PrimaryGreenButton} from "../../../styles/button";
+import {PrimaryGreenButton} from '../../../styles/button';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
@@ -33,7 +33,7 @@ const AccountAside = () => {
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	return (

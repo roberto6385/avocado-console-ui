@@ -73,7 +73,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[rightSideKey, toggle],
+		[dispatch, rightSideKey, setToggle, toggle],
 	);
 
 	const onClickNotification = useCallback(() => {
@@ -81,25 +81,34 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			type: OPEN_ALERT_POPUP,
 			data: 'developing',
 		});
-	}, []);
+	}, [dispatch]);
 
-	const openAccount = useCallback((e) => {
-		showAccountMenu(e, {
-			position: getAccountMenuPosition(),
-		});
-	}, []);
+	const openAccount = useCallback(
+		(e) => {
+			showAccountMenu(e, {
+				position: getAccountMenuPosition(),
+			});
+		},
+		[getAccountMenuPosition, showAccountMenu],
+	);
 
-	const openSetting = useCallback((e) => {
-		showSettingMenu(e, {
-			position: getSettingMenuPosition(),
-		});
-	}, []);
+	const openSetting = useCallback(
+		(e) => {
+			showSettingMenu(e, {
+				position: getSettingMenuPosition(),
+			});
+		},
+		[getSettingMenuPosition, showSettingMenu],
+	);
 
-	const openColumn = useCallback((e) => {
-		showColumnMenu2(e, {
-			position: getColumnMenuPosition(),
-		});
-	}, []);
+	const openColumn = useCallback(
+		(e) => {
+			showColumnMenu2(e, {
+				position: getColumnMenuPosition(),
+			});
+		},
+		[getColumnMenuPosition, showColumnMenu2],
+	);
 
 	return (
 		<CornerIcons_Container back={tabbarColor[theme]}>

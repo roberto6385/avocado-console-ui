@@ -61,7 +61,7 @@ const IdentitiesAside = () => {
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	const handleCheck = useCallback(

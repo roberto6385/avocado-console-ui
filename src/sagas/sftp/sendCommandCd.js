@@ -27,7 +27,6 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		uuid: payload.uuid,
 		dispatch: () =>
 			payload.dispatch({
 				type: READY_STATE,

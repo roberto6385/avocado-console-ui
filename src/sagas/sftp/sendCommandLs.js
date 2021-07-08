@@ -28,7 +28,6 @@ function* sendCommand(action) {
 	console.log(payload);
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		uuid: payload.uuid,
 		dispatch: () =>
 			payload.dispatch({
 				type: READY_STATE,
@@ -86,7 +85,6 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(LS_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(LS_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

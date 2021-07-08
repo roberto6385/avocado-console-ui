@@ -74,7 +74,7 @@ const SavePopup = () => {
 				break;
 			}
 		}
-	}, [save_popup]);
+	}, [dispatch, save_popup.key, save_popup.uuid, sftp_etcState]);
 
 	const submitFunction = useCallback(
 		(e) => {

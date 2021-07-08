@@ -147,6 +147,10 @@ const AddServerForm = () => {
 		{value: 'KeyFile', label: t('keyFile')},
 	];
 
+	const closeModal = useCallback(() => {
+		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
+	}, [dispatch]);
+
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -254,20 +258,25 @@ const AddServerForm = () => {
 			}
 		},
 		[
+			add_server_form_popup.type,
+			add_server_form_popup.id,
+			server,
 			name,
-			protocol,
 			host,
 			port,
-			account,
-			password,
-			add_server_form_popup,
+			protocol,
+			dispatch,
 			userTicket,
+			username,
+			password,
+			authentication,
+			identity,
+			correspondedIdentity,
+			account,
+			clicked_server,
+			closeModal,
 		],
 	);
-
-	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-	}, [dispatch]);
 
 	useEffect(() => {
 		if (add_server_form_popup.open) {
@@ -304,7 +313,25 @@ const AddServerForm = () => {
 				setNote('');
 			}
 		}
-	}, [add_server_form_popup]);
+	}, [
+		add_server_form_popup,
+		correspondedIdentity.identityName,
+		correspondedIdentity.password,
+		correspondedIdentity.type,
+		correspondedIdentity.user,
+		server,
+		setAccount,
+		setAuthentication,
+		setHost,
+		setIdentityList,
+		setKeyFile,
+		setName,
+		setNote,
+		setPassword,
+		setPort,
+		setProtocol,
+		setUsername,
+	]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -318,7 +345,7 @@ const AddServerForm = () => {
 			};
 		});
 		add_server_form_popup.type === 'edit' && setIdentityList(newArray);
-	}, [clicked_server, add_server_form_popup]);
+	}, [clicked_server, add_server_form_popup, identity, setIdentityList]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -333,7 +360,14 @@ const AddServerForm = () => {
 			setPassword(selectedIdentity.password);
 			setAuthentication(selectedIdentity.type);
 		}
-	}, [account, identity, clicked_server]);
+	}, [
+		account,
+		identity,
+		clicked_server,
+		setUsername,
+		setPassword,
+		setAuthentication,
+	]);
 
 	return (
 		<_PopupModal

@@ -121,7 +121,7 @@ const Server = ({data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data, dispatch],
+		[data.key, dispatch, show],
 	);
 
 	const handleSubmit = useCallback(
@@ -135,7 +135,7 @@ const Server = ({data, indent}) => {
 				});
 			setOpenRename(false);
 		},
-		[data, renameValue],
+		[data.key, data.name, dispatch, renameValue],
 	);
 
 	const EscapeKey = useCallback((e) => {
@@ -154,7 +154,7 @@ const Server = ({data, indent}) => {
 			data.type === 'folder' &&
 				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
 		},
-		[data],
+		[data, dispatch],
 	);
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -166,7 +166,7 @@ const Server = ({data, indent}) => {
 			}
 		};
 		fillInForm();
-	}, [openRename, renameRef, data]);
+	}, [openRename, renameRef, data, setRenameValue]);
 
 	return (
 		<React.Fragment>

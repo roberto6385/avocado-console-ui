@@ -138,18 +138,18 @@ const Nav = ({toggle, setToggle}) => {
 			i++;
 		}
 		dispatch({type: ADD_FOLDER, data: folderName});
-	}, [nav]);
+	}, [dispatch, nav, t]);
 
 	const newServer = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_SERVER_FORM_POPUP,
 			data: {type: 'add'},
 		});
-	}, []);
+	}, [dispatch]);
 
 	const onClickOpenTggle = useCallback(() => {
 		setToggle(!toggle);
-	}, [toggle]);
+	}, [setToggle, toggle]);
 
 	return (
 		<_Aside

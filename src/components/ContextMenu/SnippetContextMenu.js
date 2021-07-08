@@ -14,14 +14,14 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 		shallowEqual,
 	);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
-	const ws = useMemo(() => ssh.find((v) => v.uuid === current_tab)?.ws, [
-		ssh,
-		current_tab,
-	]);
+	const ws = useMemo(
+		() => ssh.find((v) => v.uuid === current_tab)?.ws,
+		[ssh, current_tab],
+	);
 
 	const onClickOpenSnippets = useCallback(() => {
 		setOpen(true);
-	}, []);
+	}, [setOpen]);
 
 	const menuEvent = useCallback(
 		(v) => () => {

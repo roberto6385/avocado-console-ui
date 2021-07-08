@@ -31,7 +31,7 @@ const AsideContainer = ({toggle, setToggle}) => {
 
 	const closeAside = useCallback(() => {
 		setToggle(false);
-	}, []);
+	}, [setToggle]);
 
 	return (
 		<_Container

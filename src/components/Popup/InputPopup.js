@@ -79,6 +79,7 @@ const InputPopup = () => {
 										? `${path}${formValue}`
 										: `${path}/${formValue}`,
 								path: path,
+								dispatch: dispatch,
 							}),
 						);
 					}
@@ -96,6 +97,7 @@ const InputPopup = () => {
 								path === '/'
 									? `${path}${formValue}`
 									: `${path}/${formValue}`,
+							dispatch: dispatch,
 						}),
 					);
 					break;

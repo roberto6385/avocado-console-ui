@@ -74,7 +74,7 @@ const SettingNav = ({match}) => {
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	return (

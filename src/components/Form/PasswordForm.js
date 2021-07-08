@@ -73,7 +73,7 @@ const PasswordForm = () => {
 			// 		}),
 			// 	);
 		},
-		[id, email, password, passwordConfirm],
+		[dispatch],
 	);
 
 	const sendAuth = useCallback(

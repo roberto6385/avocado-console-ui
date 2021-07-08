@@ -37,17 +37,17 @@ const Footer = () => {
 
 	const onClickIncreaseFont = useCallback(() => {
 		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});
-	}, [font_size]);
+	}, [dispatch, font_size]);
 
 	const onClickDeceaseFont = useCallback(() => {
 		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
-	}, [font_size]);
+	}, [dispatch, font_size]);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		const current = tab.slice().find((v) => v.uuid === current_tab);
 		if (current_tab !== null && current.type === 'SSH')
 			dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab, tab]);
+	}, [current_tab, dispatch, tab]);
 
 	return (
 		<_Footer theme_value={theme}>

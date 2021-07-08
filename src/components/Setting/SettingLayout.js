@@ -53,7 +53,7 @@ const SettingAppLayout = ({children}) => {
 				},
 			});
 		}
-	}, [userInfo]);
+	}, [dispatch, userInfo]);
 
 	return (
 		<_Container>

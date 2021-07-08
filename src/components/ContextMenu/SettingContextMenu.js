@@ -21,7 +21,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	const openSideMenu = useCallback(
@@ -33,7 +33,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[rightSideKey, toggle],
+		[dispatch, rightSideKey, setToggle, toggle],
 	);
 
 	return (
