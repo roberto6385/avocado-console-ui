@@ -88,6 +88,7 @@ const Server = ({data, indent}) => {
 						name: correspondedServer.name, // create tab info
 						key: correspondedServer.key,
 						id: correspondedServer.id,
+						dispatch: dispatch,
 					}),
 				);
 			}

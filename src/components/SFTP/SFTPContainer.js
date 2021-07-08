@@ -177,6 +177,7 @@ const SFTPContainer = ({uuid}) => {
 					file: value.file,
 					path: path,
 					todo: value.todo,
+					dispatch: dispatch,
 				}),
 			);
 			dispatch({
@@ -213,6 +214,7 @@ const SFTPContainer = ({uuid}) => {
 							value.file.type === 'file'
 								? 'CommandByRm'
 								: 'CommandByRmdir',
+						dispatch: dispatch,
 					}),
 				);
 			}

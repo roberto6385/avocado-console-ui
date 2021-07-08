@@ -33,13 +33,13 @@ function* sendCommand(action) {
 				payload: {uuid: payload.uuid},
 			}),
 	});
-	yield call(messageSender, {
-		keyword: 'CommandByRename',
-		ws: payload.socket,
-		path: payload.prev_path,
-		newPath: payload.next_path,
-	});
 	try {
+		yield call(messageSender, {
+			keyword: 'CommandByRename',
+			ws: payload.socket,
+			path: payload.prev_path,
+			newPath: payload.next_path,
+		});
 		while (true) {
 			const {timeout, data} = yield race({
 				timeout: delay(5000),
@@ -63,6 +63,7 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
+								dispatch: payload.dispatch,
 							}),
 						);
 						break;

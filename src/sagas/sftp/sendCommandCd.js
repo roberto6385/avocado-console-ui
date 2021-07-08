@@ -48,7 +48,6 @@ function* sendCommand(action) {
 			if (timeout) {
 				console.log('CD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
-				// payload.socket.close();
 			} else {
 				const res = yield call(cdResponse, {data});
 

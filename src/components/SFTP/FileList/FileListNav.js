@@ -164,6 +164,7 @@ const FileListNav = ({uuid}) => {
 				socket: socket,
 				uuid: uuid,
 				pwd_path: null,
+				dispatch: dispatch,
 			}),
 		);
 	}, [dispatch, socket, uuid]);

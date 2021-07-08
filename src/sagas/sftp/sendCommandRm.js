@@ -10,9 +10,11 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
-	INITIALIZING_HIGHLIGHT, removeNewWebsocket,
+	INITIALIZING_HIGHLIGHT,
+	removeNewWebsocket,
 	RM_FAILURE,
-	RM_REQUEST, SHIFT_SOCKETS,
+	RM_REQUEST,
+	SHIFT_SOCKETS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
@@ -62,6 +64,7 @@ function* sendCommand(action) {
 							socket: payload.socket,
 							uuid: payload.uuid,
 							pwd_path: payload.path,
+							dispatch: payload.dispatch,
 						}),
 					);
 				}
