@@ -128,7 +128,7 @@ const FileListContents = ({uuid}) => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 
 	const correspondedIdentity = useMemo(
@@ -171,7 +171,7 @@ const FileListContents = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket.access_token,
+			userTicket,
 			corServer.host,
 			corServer.port,
 			correspondedIdentity.user,
@@ -204,7 +204,7 @@ const FileListContents = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket.access_token,
+			userTicket,
 			corServer.host,
 			corServer.port,
 			correspondedIdentity.user,
@@ -234,25 +234,28 @@ const FileListContents = ({uuid}) => {
 		[dispatch, highlight, uuid, path, show],
 	);
 
-	const compareNumber = (list, first, second) => {
-		dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+	const compareNumber = useCallback(
+		(list, first, second) => {
+			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 
-		if (first <= second) {
-			for (let i = first; i <= second; i++) {
-				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
-				});
+			if (first <= second) {
+				for (let i = first; i <= second; i++) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
+			} else {
+				for (let i = first; i >= second; i--) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
 			}
-		} else {
-			for (let i = first; i >= second; i--) {
-				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
-				});
-			}
-		}
-	};
+		},
+		[dispatch, path, uuid],
+	);
 
 	const selectItem = useCallback(
 		({item, index}) =>
@@ -300,7 +303,7 @@ const FileListContents = ({uuid}) => {
 						});
 				}
 			},
-		[highlight, uuid, path, currentFileList],
+		[highlight, dispatch, uuid, path, currentFileList, compareNumber],
 	);
 
 	const changePath = useCallback(
@@ -319,7 +322,7 @@ const FileListContents = ({uuid}) => {
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[],
+		[dispatch, path, socket, uuid],
 	);
 
 	useEffect(() => {
