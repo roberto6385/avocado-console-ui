@@ -10,7 +10,9 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction, FIND_HISTORY, removeNewWebsocket,
+	commandPwdAction,
+	FIND_HISTORY,
+	removeNewWebsocket,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -53,7 +55,7 @@ function* sendCommand(action) {
 			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {

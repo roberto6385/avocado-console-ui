@@ -9,10 +9,12 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	CHANGE_MODE, FIND_HISTORY,
+	CHANGE_MODE,
+	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
-	READ_SUCCESS, removeNewWebsocket,
+	READ_SUCCESS,
+	removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
@@ -54,7 +56,7 @@ function* sendCommand(action) {
 				return;
 			}
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {

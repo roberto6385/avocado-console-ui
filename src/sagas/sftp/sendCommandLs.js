@@ -7,8 +7,16 @@ import {
 	race,
 	delay,
 	takeEvery,
+	actionChannel,
 } from 'redux-saga/effects';
-import {ERROR, LS_FAILURE, LS_REQUEST, LS_SUCCESS, READY_STATE} from '../../reducers/sftp';
+import {
+	ERROR,
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+	READY_STATE,
+	WRITE_REQUEST,
+} from '../../reducers/sftp';
 import {closeChannel} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
@@ -36,7 +44,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(200),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -78,7 +86,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
+	// yield takeEvery(LS_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(LS_REQUEST);
+	while (true) {
+		const action = yield take(reqChannel);
+		yield call(sendCommand, action);
+	}
 }
 
 export default function* commandLsSaga() {
