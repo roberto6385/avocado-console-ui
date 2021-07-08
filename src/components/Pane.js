@@ -65,17 +65,13 @@ const _ReconectBlock = styled.div`
 
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const [readyState, setReadyState] = useState(null);
+	const [ready, setReady] = useState(1);
 	const {tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
-	const sftp = useSelector((state) => state.sftp.sftp);
-	const socket = useSelector((state) => state.sftp.socket);
-
-	const corSsh = ssh.find((v) => v.uuid === uuid);
-	const corSftpList = listState.find((v) => v.uuid === uuid);
+	const sftp_socketState = useSelector((state) => state.sftp.socket);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -84,6 +80,10 @@ const Pane = ({uuid, type, server}) => {
 
 	const onClickDelete = useCallback(
 		(e) => {
+			const {socket: sftpSocket} = sftp_socketState.find(
+				(v) => v.uuid === uuid,
+			);
+
 			e.stopPropagation();
 			if (type === 'SSH') {
 				dispatch({
@@ -97,23 +97,32 @@ const Pane = ({uuid, type, server}) => {
 				dispatch(
 					disconnectAction({
 						uuid,
-						socket: sftp.find((v) => v.uuid === uuid).socket,
+						socket: sftpSocket,
 					}),
 				);
 			}
 		},
-		[type, dispatch, uuid, ssh, sftp],
+		[sftp_socketState, type, uuid, dispatch, ssh],
 	);
 	//
 
+	useEffect(() => {
+		if (type === 'SSH') {
+			const {ready} = ssh.find((v) => v.uuid === uuid);
+			setReady(ready);
+		} else {
+			const {ready} = sftp_socketState.find((v) => v.uuid === uuid);
+			setReady(ready);
+		}
+	}, [sftp_socketState, ssh, type, uuid]);
+
 	return (
 		<_Container onClick={onClickChangeTab}>
-			{(type === 'SSH' && corSftpList.socketStatus === 3) ||
-				(type === 'SFTP' && corSftpList.socketStatus === 3 && (
-					<_ReconectBlock>
-						<PrimaryRedButton>Reconnect</PrimaryRedButton>
-					</_ReconectBlock>
-				))}
+			{ready === 3 && (
+				<_ReconectBlock>
+					<PrimaryRedButton>Reconnect</PrimaryRedButton>
+				</_ReconectBlock>
+			)}
 			{tab.filter((v) => v.display === true).length > 1 && (
 				<_Header
 					back={

@@ -8,8 +8,11 @@ import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
-	commandCdAction, createNewWebsocket,
-	INITIALIZING_HIGHLIGHT, PUSH_READ_LIST, READY_STATE,
+	commandCdAction,
+	createNewWebsocket,
+	INITIALIZING_HIGHLIGHT,
+	PUSH_READ_LIST,
+	READY_STATE,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {
@@ -100,12 +103,18 @@ const FileListContents = ({uuid}) => {
 		() => sftp.find((it) => it.uuid === uuid),
 		[sftp, uuid],
 	);
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const {path: sftp_pathState, file: sftp_fileState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
 	);
-	const {path, fileList, pathList} = corListInfo;
+	const {path, pathList} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {fileList} = useMemo(
+		() => sftp_fileState.find((it) => it.uuid === uuid),
+		[sftp_fileState, uuid],
+	);
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
@@ -153,7 +162,16 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[sftp, server, identity, tab, userTicket, listState],
+		[
+			dispatch,
+			uuid,
+			path,
+			userTicket.access_token,
+			corServer.host,
+			corServer.port,
+			correspondedIdentity.user,
+			correspondedIdentity.password,
+		],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -178,12 +196,14 @@ const FileListContents = ({uuid}) => {
 			}
 		},
 		[
+			dispatch,
 			uuid,
-			corSftpInfo,
-			corServer,
-			correspondedIdentity,
-			userTicket,
-			corListInfo,
+			path,
+			userTicket.access_token,
+			corServer.host,
+			corServer.port,
+			correspondedIdentity.user,
+			correspondedIdentity.password,
 		],
 	);
 
@@ -312,7 +332,7 @@ const FileListContents = ({uuid}) => {
 			setCurrentKey(sortKeyword);
 			setCurrentFileList(sortedList);
 		}
-	}, [fileList, pathList, sortKeyword, toggle, corListInfo]);
+	}, [fileList, pathList, sortKeyword, toggle, currentKey]);
 
 	return (
 		<React.Fragment>

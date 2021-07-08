@@ -40,8 +40,8 @@ import {
 	createNewWebsocket,
 	INITIAL_HISTORY_HI,
 	PUSH_WRITE_LIST,
-	REMOVE_HISTORY
-} from "../../../reducers/sftp";
+	REMOVE_HISTORY,
+} from '../../../reducers/sftp';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -136,18 +136,21 @@ const HistoryContents = ({uuid}) => {
 	const {t} = useTranslation('historyContents');
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
-	const historyState = useSelector((state) => state.history.historyState);
+	const {path: sftp_pathState, history: sftp_historyState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
-	const corHistoryInfo = useMemo(
-		() => historyState.find((it) => it.uuid === uuid),
-		[historyState, uuid],
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
+	const {history, history_highlight} = useMemo(
+		() => sftp_historyState.find((it) => it.uuid === uuid),
+		[sftp_historyState, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -161,13 +164,10 @@ const HistoryContents = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
 	);
-	const {path} = corListInfo;
-	const {history, history_highlight} = corHistoryInfo;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -207,7 +207,16 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [userTicket, corServer, corListInfo, correspondedIdentity]);
+	}, [
+		dispatch,
+		uuid,
+		path,
+		userTicket.access_token,
+		corServer.host,
+		corServer.port,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+	]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -233,7 +242,16 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[userTicket, corServer, corListInfo, correspondedIdentity],
+		[
+			dispatch,
+			uuid,
+			path,
+			userTicket.access_token,
+			corServer.host,
+			corServer.port,
+			correspondedIdentity.user,
+			correspondedIdentity.password,
+		],
 	);
 
 	const selectItem = useCallback(
@@ -290,43 +308,38 @@ const HistoryContents = ({uuid}) => {
 		[dispatch, history, history_highlight],
 	);
 
-	const compareNumber = (first, second) => {
-		console.log(first, second);
-		dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
+	const compareNumber = useCallback(
+		(first, second) => {
+			console.log(first, second);
+			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 
-		let list = [];
-		if (first <= second) {
-			for (let i = first; i <= second; i++) {
-				list.push(history[i]);
+			let list = [];
+			if (first <= second) {
+				for (let i = first; i <= second; i++) {
+					list.push(history[i]);
+				}
+			} else {
+				for (let i = first; i >= second; i--) {
+					list.push(history[i]);
+				}
 			}
-		} else {
-			for (let i = first; i >= second; i--) {
-				list.push(history[i]);
-			}
-		}
-		dispatch({
-			type: ADD_HISTORY_HI,
-			payload: {
-				uuid,
-				history: list,
-			},
-		});
-	};
+			dispatch({
+				type: ADD_HISTORY_HI,
+				payload: {
+					uuid,
+					history: list,
+				},
+			});
+		},
+		[dispatch, history, uuid],
+	);
 
 	const removeHistory = useCallback(
 		(history) => () => {
 			dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
 		},
-		[dispatch],
+		[dispatch, uuid],
 	);
-
-	// const {show} = useContextMenu({
-	// 	id: uuid + 'history',
-	// });
-
-	// const contextMenuOpen = useCallback((e, history) => {
-	// 	show(e);
-	// }, []);
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>

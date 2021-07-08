@@ -6,30 +6,30 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu} from '../../styles/default';
-import {createNewWebsocket, PUSH_READ_LIST} from "../../reducers/sftp";
+import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const path = useSelector((state) => state.sftp.path);
+	const {path:sftp_pathState} = useSelector((state) => state.sftp);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
 	);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -44,7 +44,6 @@ const FileListContextMenu = ({uuid}) => {
 		[identity, corTab],
 	);
 	const {highlight} = corSftpInfo;
-	const {path} = corListInfo;
 
 	const contextDownload = useCallback(async () => {
 		const array = [];

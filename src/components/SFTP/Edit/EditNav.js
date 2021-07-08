@@ -37,17 +37,16 @@ const _ButtonContainer = styled.div`
 const EditNav = ({uuid}) => {
 	const sftp = useSelector((state) => state.sftp.sftp);
 	const theme = useSelector((state) => state.common.theme);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const corSftpInfo = useMemo(
+		() => sftp.find((it) => it.uuid === uuid),
+		[sftp, uuid],
 	);
-	const {path} = corListInfo;
+
+	const {path:sftp_pathState} = useSelector((state) => state.sftp);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
 	const {text, editText, editFile, prevMode, mode} = corSftpInfo;
 
 	const dispatch = useDispatch();
@@ -71,7 +70,7 @@ const EditNav = ({uuid}) => {
 				progress: 100,
 			},
 		});
-	}, [corSftpInfo, corListInfo]);
+	}, [editFile.name, editText, dispatch, uuid, path]);
 
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {
@@ -87,7 +86,7 @@ const EditNav = ({uuid}) => {
 				data: {key: 'sftp_edit_save', uuid},
 			});
 		}
-	}, [text, editText, dispatch, corSftpInfo]);
+	}, [text, editText, dispatch, uuid]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
@@ -102,7 +101,7 @@ const EditNav = ({uuid}) => {
 				payload: {uuid, mode: prevMode, currentMode: mode},
 			});
 		}
-	}, [corSftpInfo]);
+	}, [dispatch, editText, mode, prevMode, text, uuid]);
 
 	return (
 		<_Container

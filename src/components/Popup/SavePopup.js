@@ -20,7 +20,13 @@ import {
 	PrimaryGreyButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
-import {CHANGE_MODE, CLOSE_EDITOR, createNewWebsocket, PUSH_WRITE_LIST, SAVE_TEXT} from '../../reducers/sftp';
+import {
+	CHANGE_MODE,
+	CLOSE_EDITOR,
+	createNewWebsocket,
+	PUSH_WRITE_LIST,
+	SAVE_TEXT,
+} from '../../reducers/sftp';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -30,8 +36,11 @@ const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
 	const save_popup = useSelector((state) => state.popup.save_popup);
-	const sftp = useSelector((state) => state.sftp.sftp);
-	const path = useSelector((state) => state.sftp.path);
+	const {
+		path: sftp_pathState,
+		etc: sftp_etcState,
+		edit: sftp_editState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
@@ -51,8 +60,7 @@ const SavePopup = () => {
 			}
 			case 'sftp_edit_close': {
 				const uuid = save_popup.uuid;
-				const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-				const {prevMode} = corSftpInfo;
+				const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 				dispatch({type: CLOSE_SAVE_POPUP});
 				dispatch({
 					type: CLOSE_EDITOR,
@@ -74,15 +82,16 @@ const SavePopup = () => {
 
 			const uuid = save_popup.uuid;
 			const corTab = tab.find((it) => it.uuid === uuid);
-			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-			const corListInfo = listState.find((it) => it.uuid === uuid);
+			const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
+			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
+			const {editText, editFile} = sftp_editState.find(
+				(it) => it.uuid === uuid,
+			);
 			const correspondedIdentity = identity.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
 			);
 
 			const corServer = server.find((it) => it.key === corTab.server.key);
-			const {path} = corListInfo;
-			const {editText, editFile, prevMode} = corSftpInfo;
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});
@@ -154,7 +163,19 @@ const SavePopup = () => {
 			}
 			closeModal();
 		},
-		[save_popup, sftp, tab, identity, server, userTicket, listState],
+		[
+			save_popup.uuid,
+			save_popup.key,
+			tab,
+			sftp_etcState,
+			sftp_pathState,
+			sftp_editState,
+			identity,
+			server,
+			closeModal,
+			dispatch,
+			userTicket,
+		],
 	);
 
 	return (

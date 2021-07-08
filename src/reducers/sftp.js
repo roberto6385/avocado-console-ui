@@ -280,9 +280,7 @@ const sftp = (state = initialState, action) =>
 					socket: action.payload.socket, //V
 					status: 'none', //V
 					uuid: action.payload.uuid, //V
-					highlight: [], //V
 					path: '', // 현재 경로 ok//V
-					fileList: [], //V
 					pathList: [], //V
 					socketStatus: 1, //V
 					mode: 'list', // ok //V

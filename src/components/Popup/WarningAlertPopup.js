@@ -27,7 +27,12 @@ import {
 	PrimaryRedButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
-import {createNewWebsocket, INIT_DELETE_WORK_LIST, INITIAL_HISTORY_HI, REMOVE_HISTORY} from "../../reducers/sftp";
+import {
+	createNewWebsocket,
+	INIT_DELETE_WORK_LIST,
+	INITIAL_HISTORY_HI,
+	REMOVE_HISTORY,
+} from '../../reducers/sftp';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -45,14 +50,12 @@ const WarningAlertPopup = () => {
 	const warning_alert_popup = useSelector(
 		(state) => state.popup.warning_alert_popup,
 	);
-	const {
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-		nav,
-	} = useSelector((state) => state.common, shallowEqual);
-	const sftp = useSelector((state) => state.sftp.sftp);
-	const historyState = useSelector((state) => state.history.historyState);
+	const {clicked_server, accountListControlId, accountCheckList, nav} =
+		useSelector((state) => state.common, shallowEqual);
+	const {history: sftp_historyState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 
 	const AlertMessage = {
 		sftp_delete_file_folder: t('deleteFileFolder'),
@@ -106,10 +109,9 @@ const WarningAlertPopup = () => {
 				}
 
 				case 'sftp_delete_history': {
-					const corHistoryInfo = historyState.find(
+					const {history_highlight} = sftp_historyState.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
-					const {history_highlight} = corHistoryInfo;
 					history_highlight.forEach((item) => {
 						console.log(item);
 						dispatch({
@@ -161,16 +163,18 @@ const WarningAlertPopup = () => {
 			closeModal();
 		},
 		[
+			warning_alert_popup.key,
+			warning_alert_popup.uuid,
+			closeModal,
 			clicked_server,
-			accountListControlId,
-			warning_alert_popup,
-			sftp,
-			historyState,
-			nav,
+			dispatch,
 			tab,
 			server,
 			identity,
 			userTicket,
+			sftp_historyState,
+			accountListControlId,
+			accountCheckList,
 		],
 	);
 

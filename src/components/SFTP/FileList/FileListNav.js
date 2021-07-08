@@ -3,7 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CHANGE_MODE, commandCdAction, commandPwdAction, READY_STATE} from '../../../reducers/sftp';
+import {
+	CHANGE_MODE,
+	commandCdAction,
+	commandPwdAction,
+	READY_STATE,
+} from '../../../reducers/sftp';
 
 import {
 	arrowUpwordIcon,
@@ -59,12 +64,11 @@ const FileListNav = ({uuid}) => {
 		[sftp, uuid],
 	);
 
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const {path: sftp_pathState} = useSelector((state) => state.sftp);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
 	);
-	const {path} = corListInfo;
 	const {mode, socket} = corSftpInfo;
 
 	const [currentPath, setCurrentPath] = useState('');
@@ -150,7 +154,7 @@ const FileListNav = ({uuid}) => {
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
-	}, [uuid, corListInfo]);
+	}, [uuid, path]);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>

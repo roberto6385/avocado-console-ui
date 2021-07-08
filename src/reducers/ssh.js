@@ -76,6 +76,7 @@ const reducer = (state = initialState, action) => {
 					}),
 					current_line: '',
 					loading: false,
+					ready: 1,
 				});
 				break;
 

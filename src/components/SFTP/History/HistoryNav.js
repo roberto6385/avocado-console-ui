@@ -9,7 +9,7 @@ import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
-import {createNewWebsocket, PUSH_WRITE_LIST} from "../../../reducers/sftp";
+import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp';
 
 const _Container = styled.div`
 	display: flex;
@@ -29,24 +29,27 @@ const _Title = styled.div`
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
-	const historyState = useSelector((state) => state.history.historyState);
+	const {history: sftp_historyState, path: sftp_pathState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
 
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab],
 	);
-	const corHistoryInfo = useMemo(
-		() => historyState.find((it) => it.uuid === uuid),
-		[historyState, uuid],
+	const {history_highlight} = useMemo(
+		() => sftp_historyState.find((it) => it.uuid === uuid),
+		[sftp_historyState, uuid],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
@@ -56,13 +59,10 @@ const HistoryNav = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
 	);
-	const {path} = corListInfo;
-	const {history_highlight} = corHistoryInfo;
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -102,7 +102,16 @@ const HistoryNav = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [path, corServer, uuid, correspondedIdentity]);
+	}, [
+		dispatch,
+		uuid,
+		path,
+		userTicket.access_token,
+		corServer.host,
+		corServer.port,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+	]);
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {

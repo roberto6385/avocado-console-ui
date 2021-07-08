@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
 	commandReadAction,
 	commandRmAction,
-	commandWriteAction, DELETE_WORK_LIST,
+	commandWriteAction,
+	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
@@ -19,34 +20,46 @@ import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const sftp = useSelector((state) => state.sftp.sftp);
-	const crudState = useSelector((state) => state.crud.crudState);
 	const current_tab = useSelector((state) => state.common.current_tab);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
-	const path = useSelector((state) => state.sftp.path);
-	const corListInfo = useMemo(
-		() => listState.find((it) => it.uuid === uuid),
-		[listState, uuid],
-	);
-
-	const corCrudInfo = useMemo(
-		() => crudState.find((it) => it.uuid === uuid),
-		[crudState, uuid],
-	);
 	const {
-		readList,
-		writeList,
-		incinerator,
-		writeSockets,
-		removeSockets,
-		readSockets,
-	} = corCrudInfo;
+		path: sftp_pathState,
+		upload: sftp_uploadState,
+		download: sftp_downloadState,
+		delete: sftp_deleteState,
+		file: sftp_fileState,
+		socket: sftp_socketState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const {path} = corListInfo;
-	const {highlight, mode, socket} = corSftpInfo;
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {writeList, writeSockets} = useMemo(
+		() => sftp_uploadState.find((it) => it.uuid === uuid),
+		[sftp_uploadState, uuid],
+	);
+	const {readList, readSockets} = useMemo(
+		() => sftp_downloadState.find((it) => it.uuid === uuid),
+		[sftp_downloadState, uuid],
+	);
+	const {incinerator, removeSockets} = useMemo(
+		() => sftp_deleteState.find((it) => it.uuid === uuid),
+		[sftp_deleteState, uuid],
+	);
+
+	const {highlight} = useMemo(
+		() => sftp_fileState.find((it) => it.uuid === uuid),
+		[sftp_fileState, uuid],
+	);
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
+	);
+	const {mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
@@ -95,7 +108,7 @@ const SFTPContainer = ({uuid}) => {
 		return function cleanUp() {
 			body.removeEventListener('click', focusOut);
 		};
-	}, [corSftpInfo]);
+	}, [body, focusOut]);
 
 	useEffect(() => {
 		if (
@@ -133,7 +146,7 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
 		}
-	}, [readList, readSockets, socket, uuid]);
+	}, [dispatch, mode, readList, readSockets, socket, uuid]);
 
 	useEffect(() => {
 		if (
@@ -169,7 +182,7 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList, writeSockets, socket, path, uuid]);
+	}, [writeList, writeSockets, socket, path, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0) {
@@ -206,7 +219,7 @@ const SFTPContainer = ({uuid}) => {
 			}
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator, removeSockets, socket, path, uuid]);
+	}, [incinerator, removeSockets, socket, path, uuid, dispatch]);
 
 	useEffect(() => {
 		if (removeSockets.length !== 0) {
