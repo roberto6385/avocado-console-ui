@@ -150,7 +150,7 @@ const WorkSpace = () => {
 		(state) => state.ssh,
 		shallowEqual,
 	);
-	const {sftp, loading: sftpLoading} = useSelector(
+	const {loading: sftpLoading, socket: sftp_socketState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
 	);
@@ -163,7 +163,7 @@ const WorkSpace = () => {
 		(uuid) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
-		[],
+		[dispatch],
 	);
 
 	const onClickDelete = useCallback(
@@ -181,12 +181,14 @@ const WorkSpace = () => {
 				dispatch(
 					disconnectAction({
 						uuid: data.uuid,
-						socket: sftp.find((v) => v.uuid === data.uuid)?.socket,
+						socket: sftp_socketState.find(
+							(v) => v.uuid === data.uuid,
+						).socket,
 					}),
 				);
 			}
 		},
-		[ssh, sftp],
+		[dispatch, ssh, sftp_socketState],
 	);
 
 	const prevPutItem = useCallback(
@@ -212,7 +214,7 @@ const WorkSpace = () => {
 				},
 			});
 		},
-		[tab, oldOlder, draggedItem],
+		[tab, dispatch, oldOlder, draggedItem],
 	);
 
 	return (
