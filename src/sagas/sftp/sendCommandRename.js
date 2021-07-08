@@ -15,11 +15,11 @@ import {
 	RENAME_SUCCESS,
 } from '../../reducers/sftp/sftp';
 import messageSender from './messageSender';
-import useSubscribe from '../../hooks/useSubscribe';
 
-import {closeChannel, sftpSubscribe} from '../channel';
+import {closeChannel} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
 import {commandPwdAction, READY_STATE} from '../../reducers/sftp/list';
+import useSubscribe from "../../hooks/useSubscribe";
 
 function* sendCommand(action) {
 	const {payload} = action;

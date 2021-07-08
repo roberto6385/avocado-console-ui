@@ -14,8 +14,7 @@ import {
 	CONNECTION_SUCCESS,
 	ERROR,
 } from '../../reducers/sftp/sftp';
-import {closeChannel, sftpSubscribe} from '../channel';
-import useSubscribe from '../../hooks/useSubscribe';
+import {closeChannel} from '../channel';
 
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
@@ -28,6 +27,7 @@ import {
 	commandPwdAction,
 	FILELIST_CONNECTION_SUCCESS,
 } from '../../reducers/sftp/list';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;

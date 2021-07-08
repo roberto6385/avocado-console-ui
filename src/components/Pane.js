@@ -73,9 +73,9 @@ const Pane = ({uuid, type, server}) => {
 	);
 	const ssh = useSelector((state) => state.ssh.ssh);
 	const sftp = useSelector((state) => state.sftp.sftp);
-	const listState = useSelector((state) => state.list.listState);
 
-	const corSftpList = listState.find((v) => v.uuid === uuid);
+	// const corSsh = ssh.find((v) => v.uuid === uuid);
+	// const corSftp = sftp.find((v) => v.uuid === uuid);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -104,14 +104,21 @@ const Pane = ({uuid, type, server}) => {
 		},
 		[ssh, sftp, uuid, type],
 	);
-
-	useEffect(() => {
-		if (corSftpList !== undefined) {
-			setReadyState(corSftpList.ready);
-		}
-	}, [uuid, corSftpList]);
-
-	console.log(corSftpList);
+	//
+	// useEffect(() => {
+	// 	console.log('check!!!');
+	// 	if (type === 'SSH') {
+	// 		if (corSsh !== undefined) {
+	// 			console.log('SSH 현재 소켓 상태 ' + corSsh.ws.readyState);
+	// 			setReadyState(corSsh.ws.readyState);
+	// 		}
+	// 	} else {
+	// 		if (corSftp !== undefined) {
+	// 			console.log('SFTP 현재 소켓 상태 ' + corSftp.socket.readyState);
+	// 			setReadyState(corSftp.socket.readyState);
+	// 		}
+	// 	}
+	// }, [corSsh, corSftp]);
 
 	return (
 		<_Container onClick={onClickChangeTab}>

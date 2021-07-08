@@ -9,8 +9,7 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import {ERROR} from '../../reducers/sftp/sftp';
-import useSubscribe from '../../hooks/useSubscribe';
-import {closeChannel, sftpSubscribe} from '../channel';
+import {closeChannel} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
@@ -20,13 +19,14 @@ import {
 	LS_SUCCESS,
 	READY_STATE,
 } from '../../reducers/sftp/list';
+import useSubscribe from "../../hooks/useSubscribe";
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
-		uuid:payload.uuid,
+		uuid: payload.uuid,
 	});
 
 	try {

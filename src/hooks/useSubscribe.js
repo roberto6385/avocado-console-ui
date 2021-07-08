@@ -1,34 +1,36 @@
-import React from 'react';
 import {buffers, END, eventChannel} from 'redux-saga';
-import {useDispatch} from 'react-redux';
 import {READY_STATE} from '../reducers/sftp/list';
+import {useEffect, useState} from 'react';
 
-const useSubscribe = ({socket, buffer, uuid = ''}) => {
-	console.log(socket, uuid);
-	const dispatch = useDispatch();
+const useSubscribe = ({socket, buffer, uuid}) => {
+	const [evtChannel, setEvtChannel] = useState(null);
 
-	return eventChannel((emit) => {
-		socket.onmessage = (event) => {
-			emit(event.data);
-		};
+	useEffect(() => {
+		setEvtChannel(
+			eventChannel((emit) => {
+				socket.onmessage = (event) => {
+					emit(event.data);
+				};
 
-		socket.onerror = (event) => {
-			console.log(event);
-			socket.close();
-		};
+				socket.onerror = (event) => {
+					console.log(event);
+					socket.close();
+				};
 
-		socket.onclose = () => {
-			console.log('close');
-			if (uuid !== '') {
-				dispatch({type: READY_STATE, payload: {uuid}});
-			}
-			emit(END);
-		};
+				socket.onclose = function () {
+					console.log('socket close!');
+					console.log(uuid);
+					emit(END);
+				};
 
-		return () => {
-			socket.onmessage = null;
-		};
-	}, buffer || buffers.none());
+				return () => {
+					socket.onmessage = null;
+				};
+			}, buffer || buffers.none()),
+		);
+	}, []);
+
+	return evtChannel;
 };
 
 export default useSubscribe;

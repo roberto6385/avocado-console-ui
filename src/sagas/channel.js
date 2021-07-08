@@ -22,29 +22,6 @@ export function subscribe(socket, buffer) {
 	}, buffer || buffers.none());
 }
 
-export function sftpSubscribe({socket, buffer, call}) {
-	return eventChannel((emit) => {
-		socket.onmessage = (event) => {
-			emit(event.data);
-		};
-
-		socket.onerror = (event) => {
-			console.log(event);
-			socket.close();
-		};
-
-		socket.onclose = () => {
-			console.log('close');
-			call();
-			emit(END);
-		};
-
-		return () => {
-			socket.onmessage = null;
-		};
-	}, buffer || buffers.none());
-}
-
 export function fileSubscribe(socket, buffer) {
 	return eventChannel((emit) => {
 		socket.onmessage = (event) => {
