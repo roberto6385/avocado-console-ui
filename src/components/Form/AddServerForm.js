@@ -315,10 +315,7 @@ const AddServerForm = () => {
 		}
 	}, [
 		add_server_form_popup,
-		correspondedIdentity.identityName,
-		correspondedIdentity.password,
-		correspondedIdentity.type,
-		correspondedIdentity.user,
+		correspondedIdentity,
 		server,
 		setAccount,
 		setAuthentication,
