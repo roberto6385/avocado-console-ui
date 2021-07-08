@@ -52,7 +52,7 @@ const InputPopup = () => {
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});
-	}, []);
+	}, [dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -109,8 +109,7 @@ const InputPopup = () => {
 			closeModal();
 		},
 		[
-			input_popup.uuid,
-			input_popup.key,
+			input_popup,
 			sftp_socketState,
 			sftp_pathState,
 			sftp_fileState,

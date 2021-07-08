@@ -75,7 +75,7 @@ const Folder = ({open, data, indent}) => {
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data]);
+	}, [clicked_server, data.key, dispatch]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);

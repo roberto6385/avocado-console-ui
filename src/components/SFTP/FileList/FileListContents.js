@@ -167,16 +167,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[
-			dispatch,
-			uuid,
-			path,
-			userTicket,
-			corServer.host,
-			corServer.port,
-			correspondedIdentity.user,
-			correspondedIdentity.password,
-		],
+		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
 	);
 	const edit = useCallback(
 		(item) => (e) => {
@@ -200,16 +191,7 @@ const FileListContents = ({uuid}) => {
 				);
 			}
 		},
-		[
-			dispatch,
-			uuid,
-			path,
-			userTicket,
-			corServer.host,
-			corServer.port,
-			correspondedIdentity.user,
-			correspondedIdentity.password,
-		],
+		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
 	);
 
 	const contextMenuOpen = useCallback(

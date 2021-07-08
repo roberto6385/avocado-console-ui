@@ -75,12 +75,7 @@ const WarningAlertPopup = () => {
 				payload: {uuid: warning_alert_popup.uuid},
 			});
 		closeModal();
-	}, [
-		closeModal,
-		dispatch,
-		warning_alert_popup.key,
-		warning_alert_popup.uuid,
-	]);
+	}, [closeModal, dispatch, warning_alert_popup]);
 
 	const submitFunction = useCallback(
 		async (e) => {
@@ -168,8 +163,7 @@ const WarningAlertPopup = () => {
 			closeModal();
 		},
 		[
-			warning_alert_popup.key,
-			warning_alert_popup.uuid,
+			warning_alert_popup,
 			closeModal,
 			clicked_server,
 			dispatch,

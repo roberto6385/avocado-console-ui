@@ -29,7 +29,7 @@ const Home = () => {
 		if (!userTicket) {
 			history.push('/signin');
 		}
-	}, [userTicket]);
+	}, [history, userTicket]);
 
 	useEffect(() => {
 		if (userInfo) {
@@ -46,7 +46,7 @@ const Home = () => {
 				},
 			});
 		}
-	}, [userInfo]);
+	}, [dispatch, userInfo]);
 
 	return (
 		<_Container background={navColor[theme]}>

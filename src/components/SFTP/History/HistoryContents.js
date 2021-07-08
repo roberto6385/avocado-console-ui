@@ -206,16 +206,7 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [
-		dispatch,
-		uuid,
-		path,
-		userTicket,
-		corServer.host,
-		corServer.port,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
-	]);
+	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -241,16 +232,7 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[
-			dispatch,
-			uuid,
-			path,
-			userTicket,
-			corServer.host,
-			corServer.port,
-			correspondedIdentity.user,
-			correspondedIdentity.password,
-		],
+		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
 	);
 	const compareNumber = useCallback(
 		(first, second) => {

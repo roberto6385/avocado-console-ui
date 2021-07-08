@@ -102,16 +102,7 @@ const HistoryNav = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [
-		dispatch,
-		uuid,
-		path,
-		userTicket,
-		corServer.host,
-		corServer.port,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
-	]);
+	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {

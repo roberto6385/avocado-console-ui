@@ -72,10 +72,8 @@ const FileListContextMenu = ({uuid}) => {
 		highlight,
 		path,
 		userTicket,
-		corServer.host,
-		corServer.port,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
+		corServer,
+		correspondedIdentity,
 	]);
 
 	const contextEdit = useCallback(() => {
@@ -102,10 +100,8 @@ const FileListContextMenu = ({uuid}) => {
 		uuid,
 		path,
 		userTicket,
-		corServer.host,
-		corServer.port,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
+		corServer,
+		correspondedIdentity,
 	]);
 
 	const handleItemClick = useCallback(

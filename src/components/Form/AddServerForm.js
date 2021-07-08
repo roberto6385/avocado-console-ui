@@ -258,8 +258,7 @@ const AddServerForm = () => {
 			}
 		},
 		[
-			add_server_form_popup.type,
-			add_server_form_popup.id,
+			add_server_form_popup,
 			server,
 			name,
 			host,

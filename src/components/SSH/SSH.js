@@ -132,18 +132,20 @@ const SSH = ({uuid}) => {
 		[ssh_history, currentLine],
 	);
 	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
-	const sshTerm = useMemo(() => ssh.find((v) => v.uuid === uuid).terminal, [
-		ssh,
-		uuid,
-	]);
+	const sshTerm = useMemo(
+		() => ssh.find((v) => v.uuid === uuid).terminal,
+		[ssh, uuid],
+	);
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
 	//do not work with current
 	const searchRef = useRef(null);
-	const {ref: ref, width: width, height: height} = useDebouncedResizeObserver(
-		500,
-	);
+	const {
+		ref: ref,
+		width: width,
+		height: height,
+	} = useDebouncedResizeObserver(500);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onPressEnter = useCallback(
@@ -203,7 +205,7 @@ const SSH = ({uuid}) => {
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid]);
+	}, [fitAddon, searchAddon, sshTerm, uuid]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -277,6 +279,7 @@ const SSH = ({uuid}) => {
 		historyList,
 		ignoreAutoCompletion,
 		currentLine,
+		dispatch,
 	]);
 	//current tab terminal is focused
 	useEffect(() => {
@@ -300,7 +303,16 @@ const SSH = ({uuid}) => {
 				},
 			});
 		}
-	}, [ws, uuid, sshTerm, width, height, isComponentMounted]);
+	}, [
+		ws,
+		uuid,
+		sshTerm,
+		width,
+		height,
+		isComponentMounted,
+		fitAddon,
+		dispatch,
+	]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -313,14 +325,14 @@ const SSH = ({uuid}) => {
 			setSearch('');
 			searchAddon.findPrevious('');
 		}
-	}, [current_tab, uuid, search_mode, searchRef]);
+	}, [current_tab, uuid, search_mode, searchRef, setSearch, searchAddon]);
 	//search a word on the terminal
 	useEffect(() => {
 		if (current_tab === uuid) {
 			searchAddon.findPrevious('');
 			searchAddon.findPrevious(search);
 		}
-	}, [current_tab, uuid, search]);
+	}, [current_tab, uuid, search, searchAddon]);
 	//set History List
 	useEffect(() => {
 		if (auto_completion_mode && currentLine.length > 1) {

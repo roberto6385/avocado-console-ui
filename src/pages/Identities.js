@@ -14,7 +14,7 @@ const Identities = () => {
 		if (!userTicket) {
 			history.push('/signin');
 		}
-	}, [userTicket]);
+	}, [history, userTicket]);
 
 	return (
 		<SettingAppLayout>

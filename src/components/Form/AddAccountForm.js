@@ -92,11 +92,8 @@ const AddAccountForm = () => {
 	);
 
 	const [identity, onChangeIdentity, setIdentity] = useInput('');
-	const [
-		authentication,
-		onChangeAuthentication,
-		setAuthentication,
-	] = useInput('Password');
+	const [authentication, onChangeAuthentication, setAuthentication] =
+		useInput('Password');
 	const [username, onChangeUsername, setUsername] = useInput('');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
@@ -134,13 +131,13 @@ const AddAccountForm = () => {
 			}
 			closeModal();
 		},
-		[identity, password, dispatch],
+		[authentication, closeModal, identity, username, password, keyFile],
 	);
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (account_form_popup.open) {
@@ -165,7 +162,18 @@ const AddAccountForm = () => {
 				setNote('');
 			}
 		}
-	}, [account_form_popup, accountListControlId]);
+	}, [
+		account_form_popup,
+		accountListControlId,
+		account,
+		setAuthentication,
+		t,
+		setIdentity,
+		setUsername,
+		setKeyFile,
+		setPassword,
+		setNote,
+	]);
 
 	return (
 		<_PopupModal
