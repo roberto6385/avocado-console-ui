@@ -163,6 +163,7 @@ const SSH = ({uuid}) => {
 					uuid: uuid,
 					ws: ws,
 					input: v.substring(currentLine.length),
+					dispatch: dispatch,
 				},
 			});
 			dispatch({
@@ -171,6 +172,7 @@ const SSH = ({uuid}) => {
 					uuid: uuid,
 					ws: ws,
 					input: '\r',
+					dispatch: dispatch,
 				},
 			});
 		},
@@ -243,6 +245,7 @@ const SSH = ({uuid}) => {
 						input: historyList[currentHistory].substring(
 							currentLine.length,
 						),
+						dispatch: dispatch,
 					},
 				});
 				dispatch({
@@ -251,6 +254,7 @@ const SSH = ({uuid}) => {
 						uuid: uuid,
 						ws: ws,
 						input: '\r',
+						dispatch: dispatch,
 					},
 				});
 			} else {
@@ -260,6 +264,7 @@ const SSH = ({uuid}) => {
 						uuid: uuid,
 						ws: ws,
 						input: data,
+						dispatch: dispatch,
 					},
 				});
 				if (data.charCodeAt(0) === 13 && ignoreAutoCompletion)
@@ -300,6 +305,7 @@ const SSH = ({uuid}) => {
 						width: width,
 						height: height,
 					},
+					dispatch: dispatch,
 				},
 			});
 		}

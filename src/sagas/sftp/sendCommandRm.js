@@ -50,7 +50,6 @@ function* sendCommand(action) {
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('RM 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);

@@ -32,6 +32,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 						uuid: current_tab,
 						ws: ws,
 						input: v.content,
+						dispatch:dispatch
 					},
 				});
 		},

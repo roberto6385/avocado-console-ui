@@ -48,7 +48,6 @@ function* sendCommand(action) {
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				console.log(data);
