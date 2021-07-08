@@ -35,7 +35,7 @@ const FileListContextMenu = ({uuid}) => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 
 	const correspondedIdentity = useMemo(
@@ -66,7 +66,17 @@ const FileListContextMenu = ({uuid}) => {
 			type: PUSH_READ_LIST,
 			payload: {uuid, array},
 		});
-	}, [uuid, highlight, path, corServer, correspondedIdentity, userTicket]);
+	}, [
+		dispatch,
+		uuid,
+		highlight,
+		path,
+		userTicket,
+		corServer.host,
+		corServer.port,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+	]);
 
 	const contextEdit = useCallback(() => {
 		for (let value of highlight) {
@@ -86,7 +96,17 @@ const FileListContextMenu = ({uuid}) => {
 				}),
 			);
 		}
-	}, [highlight, path, corServer, correspondedIdentity, userTicket, uuid]);
+	}, [
+		highlight,
+		dispatch,
+		uuid,
+		path,
+		userTicket,
+		corServer.host,
+		corServer.port,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+	]);
 
 	const handleItemClick = useCallback(
 		async ({event}) => {
@@ -125,7 +145,7 @@ const FileListContextMenu = ({uuid}) => {
 					return;
 			}
 		},
-		[uuid],
+		[contextDownload, contextEdit, dispatch, uuid],
 	);
 	return (
 		<ContextMenu

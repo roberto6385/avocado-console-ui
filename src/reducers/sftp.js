@@ -194,12 +194,6 @@ const ObjFinder = (target, uuid) => {
 
 const sftp = (state = initialState, action) =>
 	produce(state, (draft) => {
-		// 직접 변형 가능
-		const target = ObjFinder(draft.sftp, action.payload?.uuid);
-		// 직접 변경 불가능
-		const plainTarget = ObjFinder(state.sftp, action.payload?.uuid);
-		// target === plainTarget => false
-
 		// new list
 		const socket_target = ObjFinder(draft.socket, action.payload?.uuid);
 		const path_target = ObjFinder(draft.path, action.payload?.uuid);
@@ -208,8 +202,15 @@ const sftp = (state = initialState, action) =>
 		const etc_target = ObjFinder(draft.etc, action.payload?.uuid);
 		const edit_target = ObjFinder(draft.edit, action.payload?.uuid);
 
+		const upload_target = ObjFinder(draft.upload, action.payload?.uuid);
+		const download_target = ObjFinder(draft.download, action.payload?.uuid);
+		const delete_target = ObjFinder(draft.delete, action.payload?.uuid);
+
 		const file_plain = ObjFinder(state.file, action.payload?.uuid);
 		const history_plain = ObjFinder(state.history, action.payload?.uuid);
+		const upload_plain = ObjFinder(state.upload, action.payload?.uuid);
+		const download_plain = ObjFinder(state.download, action.payload?.uuid);
+		const delete_plain = ObjFinder(state.delete, action.payload?.uuid);
 
 		switch (action.type) {
 			// 연결
@@ -235,6 +236,7 @@ const sftp = (state = initialState, action) =>
 					uuid: action.payload.uuid,
 					fileList: [],
 					highlight: [],
+					tempFile: null,
 				});
 				draft.history.push({
 					uuid: action.payload.uuid,
@@ -271,35 +273,6 @@ const sftp = (state = initialState, action) =>
 					prevMode: '',
 				});
 
-				// -------------- //
-
-				draft.sftp.push({
-					tempPath: '',
-					tempItem: null,
-
-					socket: action.payload.socket, //V
-					status: 'none', //V
-					uuid: action.payload.uuid, //V
-					path: '', // 현재 경로 ok//V
-					pathList: [], //V
-					socketStatus: 1, //V
-					mode: 'list', // ok //V
-					prevMode: '', // ok //V
-					history: [], //V
-					history_highlight: [], //V
-					readSockets: [], // 경로, file 저장 //V
-					writeSockets: [], // 경로, file 저장 //V
-					removeSockets: [], //V
-					readList: [], // 경로, file 저장 //V
-					writeList: [], // 경로, file 저장 //V
-					removeList: [], //V
-					incinerator: [], //V
-					text: '', //V
-					editText: '', //V
-					editFile: {}, //V
-					sortKeyword: 'name', //V
-					toggle: true, //V
-				});
 				break;
 			case CONNECTION_FAILURE:
 				draft.loading = false;
@@ -363,7 +336,7 @@ const sftp = (state = initialState, action) =>
 			// 정렬 키워드 변경
 			case CHANGE_SORT_KEYWORD:
 				etc_target.sortKeyword = action.payload.keyword;
-				etc_target.toggle = !target.toggle;
+				etc_target.toggle = !etc_target.toggle;
 				break;
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
@@ -371,13 +344,13 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case TEMP_HIGHLIGHT: //O
-				target.tempItem = {
+				file_target.tempFile = {
 					item: action.payload.item,
 					path: action.payload.path,
 				};
 				break;
 			case REMOVE_TEMP_HIGHLIGHT: //O
-				target.tempItem = null;
+				file_target.tempFile = null;
 				break;
 
 			case INITIALIZING_HIGHLIGHT:
@@ -475,58 +448,60 @@ const sftp = (state = initialState, action) =>
 			// -- // 여기부턴 나중에!!
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
 				action.payload.todo === 'write' &&
-					target.writeSockets.push(action.payload.socket);
+					upload_target.writeSockets.push(action.payload.socket);
 				action.payload.todo === 'read' &&
-					target.readSockets.push(action.payload.socket);
+					download_target.readSockets.push(action.payload.socket);
 				action.payload.todo === 'remove' &&
-					target.removeSockets.push(action.payload.socket);
+					delete_target.removeSockets.push(action.payload.socket);
 				break;
 
 			case SHIFT_SOCKETS:
-				action.payload.todo === 'write' && target.writeSockets.shift();
-				action.payload.todo === 'read' && target.readSockets.shift();
+				action.payload.todo === 'write' &&
+					upload_target.writeSockets.shift();
+				action.payload.todo === 'read' &&
+					download_target.readSockets.shift();
 				action.payload.todo === 'remove' &&
-					target.removeSockets.shift();
+					delete_target.removeSockets.shift();
 				break;
 			// read, write, remove
 			case PUSH_READ_LIST:
-				target.readList = plainTarget.readList.concat(
+				download_target.readList = download_plain.readList.concat(
 					action.payload.array,
 				);
 				break;
 			case SHIFT_READ_LIST:
-				target.readList.shift();
+				download_target.readList.shift();
 				break;
 
 			case PUSH_WRITE_LIST:
-				target.writeList = plainTarget.writeList.concat(
+				upload_target.writeList = upload_plain.writeList.concat(
 					action.payload.array,
 				);
 				break;
 			case SHIFT_WRITE_LIST:
-				target.writeList.shift();
+				upload_target.writeList.shift();
 				break;
 
 			case SHIFT_INCINERATOR_LIST:
-				target.incinerator.shift();
+				delete_target.incinerator.shift();
 				break;
 
 			case DELETE_WORK_TRANSPORTER:
-				target.incinerator = plainTarget.incinerator.concat(
-					target.removeList.sort((a, b) => {
+				delete_target.incinerator = delete_plain.incinerator.concat(
+					delete_target.removeList.sort((a, b) => {
 						return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
 					}),
 				);
-				target.removeList = [];
+				delete_target.removeList = [];
 				break;
 
 			case DELETE_WORK_LIST:
-				target.removeList = plainTarget.removeList.concat(
+				delete_target.removeList = delete_plain.removeList.concat(
 					action.payload.array,
 				);
 				break;
 			case INIT_DELETE_WORK_LIST:
-				target.removeList = [];
+				delete_target.removeList = [];
 				break;
 
 			default:

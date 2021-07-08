@@ -123,7 +123,7 @@ const FileListDropDown = ({uuid}) => {
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {fileList, highlight} = useMemo(
+	const {fileList, highlight, tempFile} = useMemo(
 		() => sftp_fileState.find((it) => it.uuid === uuid),
 		[sftp_fileState, uuid],
 	);
@@ -131,7 +131,7 @@ const FileListDropDown = ({uuid}) => {
 		() => sftp_socketState.find((it) => it.uuid === uuid),
 		[sftp_socketState, uuid],
 	);
-	const {tempItem, sortKeyword, toggle} = useMemo(
+	const {sortKeyword, toggle} = useMemo(
 		() => sftp_etcState.find((it) => it.uuid === uuid),
 		[sftp_etcState, uuid],
 	);
@@ -149,43 +149,46 @@ const FileListDropDown = ({uuid}) => {
 		id: uuid + 'fileList',
 	});
 
-	const compareNumber = (list, first, second) => {
-		console.log(list);
-		console.log(first);
-		console.log(second);
+	const compareNumber = useCallback(
+		(list, first, second) => {
+			console.log(list);
+			console.log(first);
+			console.log(second);
 
-		if (first === -1) {
-			dispatch({
-				type: ADD_HIGHLIGHT,
-				payload: {uuid, item: {...list[second], path}},
-			});
-			return;
-		}
-
-		if (first !== -1 && first <= second) {
-			dispatch({
-				type: INITIALIZING_HIGHLIGHT,
-				payload: {uuid},
-			});
-			for (let i = first; i <= second; i++) {
+			if (first === -1) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
+					payload: {uuid, item: {...list[second], path}},
 				});
+				return;
 			}
-		} else {
-			dispatch({
-				type: INITIALIZING_HIGHLIGHT,
-				payload: {uuid},
-			});
-			for (let i = first; i >= second; i--) {
+
+			if (first !== -1 && first <= second) {
 				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
 				});
+				for (let i = first; i <= second; i++) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
+			} else {
+				dispatch({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+				for (let i = first; i >= second; i--) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
 			}
-		}
-	};
+		},
+		[dispatch, path, uuid],
+	);
 
 	const selectFile = useCallback(
 		({item, listindex, itemIndex}) =>
@@ -229,8 +232,8 @@ const FileListDropDown = ({uuid}) => {
 				} else if (e.metaKey) {
 					if (path !== pathList[listindex]) {
 						if (
-							tempItem !== null &&
-							tempItem.path === pathList[listindex]
+							tempFile !== null &&
+							tempFile.path === pathList[listindex]
 						) {
 							dispatch(
 								commandCdAction({
@@ -247,7 +250,7 @@ const FileListDropDown = ({uuid}) => {
 							});
 							dispatch({
 								type: ADD_HIGHLIGHT,
-								payload: {uuid, item: {...tempItem.item, path}},
+								payload: {uuid, item: {...tempFile.item, path}},
 							});
 							dispatch({
 								type: REMOVE_TEMP_HIGHLIGHT,
@@ -335,7 +338,7 @@ const FileListDropDown = ({uuid}) => {
 			highlight,
 			currentFileList,
 			compareNumber,
-			tempItem,
+			tempFile,
 		],
 	);
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FileListContents from './FileListContents';
 import FileListNav from './FileListNav';
 import FileListDropDown from './FileListDropDown';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 const _Container = styled.div`
@@ -15,11 +15,14 @@ const _Container = styled.div`
 `;
 
 const FileList = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {mode} = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
+	const {etc: sftp_etcState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const {mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	return (
 		<_Container>
