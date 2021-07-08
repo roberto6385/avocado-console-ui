@@ -56,8 +56,6 @@ export const SSH_CHANGE_SNIPPET_REQUEST = 'SSH_CHANGE_SNIPPET_REQUEST';
 export const SSH_CHANGE_SNIPPET_SUCCESS = 'SSH_CHANGE_SNIPPET_SUCCESS';
 export const SSH_CHANGE_SNIPPET_FAILURE = 'SSH_CHANGE_SNIPPET_FAILURE';
 
-export const READY_STATE = 'ssh/READY_STATE';
-
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
@@ -78,17 +76,8 @@ const reducer = (state = initialState, action) => {
 					}),
 					current_line: '',
 					loading: false,
-					socketStatus: 1,
 				});
 				break;
-
-			case READY_STATE: {
-				const index = draft.ssh.findIndex(
-					(v) => v.uuid === action.data.uuid,
-				);
-				draft.ssh[index].socketStatus = 3;
-				break;
-			}
 
 			case SSH_SEND_CONNECTION_FAILURE:
 				// connection이 실패했을때 alert 메시지를 보내거나 re-connection이 필요
