@@ -7,7 +7,6 @@ import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
-	READY_STATE,
 } from '../../../reducers/sftp';
 
 import {
@@ -94,36 +93,45 @@ const FileListNav = ({uuid}) => {
 			pathInput.blur();
 	};
 
-	const goBack = (e) => {
-		if (path !== '/') {
-			console.log(path);
-			let tempPath = path.split('/');
-			tempPath.pop();
-			console.log(tempPath);
-			let nextPath = tempPath.join('/').trim();
-			goHome(e, nextPath === '' ? '/' : nextPath);
-		}
-	};
-	const searchPath = (e) => {
-		e.preventDefault();
-		currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
-	};
+	const goBack = useCallback(
+		(e) => {
+			if (path !== '/') {
+				console.log(path);
+				let tempPath = path.split('/');
+				tempPath.pop();
+				console.log(tempPath);
+				let nextPath = tempPath.join('/').trim();
+				goHome(e, nextPath === '' ? '/' : nextPath);
+			}
+		},
+		[goHome, path],
+	);
+	const searchPath = useCallback(
+		(e) => {
+			e.preventDefault();
+			currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
+		},
+		[currentPath, goHome, path],
+	);
 
-	const handleChange = (e) => {
+	const handleChange = useCallback((e) => {
 		const {value} = e.target;
 		setCurrentPath(value);
-	};
+	}, []);
 
-	const EscapeKey = (e) => {
-		const pathInput = document.getElementById('fileListNavInput');
+	const EscapeKey = useCallback(
+		(e) => {
+			const pathInput = document.getElementById('fileListNavInput');
 
-		if (e.keyCode === 27) {
-			setCurrentPath(path);
-			pathInput.blur();
-		}
-	};
+			if (e.keyCode === 27) {
+				setCurrentPath(path);
+				pathInput.blur();
+			}
+		},
+		[path],
+	);
 
-	const dropdownList = () => {
+	const dropdownList = useCallback(() => {
 		mode !== 'drop' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -133,9 +141,9 @@ const FileListNav = ({uuid}) => {
 					currentMode: mode,
 				},
 			});
-	};
+	}, [dispatch, mode, uuid]);
 
-	const basicList = () => {
+	const basicList = useCallback(() => {
 		mode !== 'list' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -145,7 +153,7 @@ const FileListNav = ({uuid}) => {
 					currentMode: mode,
 				},
 			});
-	};
+	}, [dispatch, mode, uuid]);
 
 	const refresh = useCallback(() => {
 		dispatch(
@@ -155,7 +163,7 @@ const FileListNav = ({uuid}) => {
 				pwd_path: null,
 			}),
 		);
-	}, [uuid, dispatch]);
+	}, [dispatch, socket, uuid]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
