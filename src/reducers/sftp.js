@@ -289,28 +289,28 @@ const sftp = (state = initialState, action) =>
 				draft.socket = state.socket.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.path = state.socket.filter(
+				draft.path = state.path.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.upload = state.socket.filter(
+				draft.upload = state.upload.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.download = state.socket.filter(
+				draft.download = state.download.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.delete = state.socket.filter(
+				draft.delete = state.delete.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.file = state.socket.filter(
+				draft.file = state.file.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.history = state.socket.filter(
+				draft.history = state.history.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.edit = state.socket.filter(
+				draft.edit = state.edit.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.etc = state.socket.filter(
+				draft.etc = state.etc.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
 				break;

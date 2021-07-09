@@ -130,7 +130,7 @@ const Redirect = () => {
 							});
 					});
 			});
-	});
+	}, [dispatch, history]);
 
 	useEffect(() => {
 		if (userTicket) history.push('/');

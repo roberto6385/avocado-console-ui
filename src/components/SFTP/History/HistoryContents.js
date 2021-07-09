@@ -323,7 +323,7 @@ const HistoryContents = ({uuid}) => {
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
-			{history.length === 0 ? (
+			{history?.length === 0 ? (
 				<DropSpaceDiv back={tabColor[theme]} bcolor={iconColor[theme]}>
 					<_AnnounceText theme_value={theme}>
 						{t('paragraph')}

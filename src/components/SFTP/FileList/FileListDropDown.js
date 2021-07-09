@@ -440,7 +440,7 @@ const FileListDropDown = ({uuid}) => {
 					});
 				show(e);
 			},
-		[path, highlight.length, dispatch, uuid, show, socket],
+		[path, highlight, dispatch, uuid, show, socket],
 	);
 
 	useEffect(() => {
@@ -462,7 +462,7 @@ const FileListDropDown = ({uuid}) => {
 			setCurrentKey(sortKeyword);
 			setCurrentFileList(nextList);
 		}
-	}, [fileList, sortKeyword, toggle, path, pathList.length, currentKey]);
+	}, [fileList, sortKeyword, toggle, path, pathList, currentKey]);
 	return (
 		<_Container>
 			{currentFileList.map((listItem, listindex) => {

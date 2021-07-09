@@ -26,7 +26,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[rightSideKey, toggle],
+		[dispatch, rightSideKey, setToggle, toggle],
 	);
 
 	const logout = useCallback(() => {
@@ -35,7 +35,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		);
 		sessionStorage.clear();
 		window.location.reload();
-	}, [userTicket]);
+	}, [dispatch, userTicket]);
 
 	return (
 		<DropDownMenu

@@ -16,7 +16,7 @@ const ColumnContextMenu = () => {
 				data: {cols: cols},
 			});
 		},
-		[],
+		[dispatch],
 	);
 
 	return (

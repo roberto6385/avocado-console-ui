@@ -104,13 +104,7 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 			}
 		},
-		[
-			current_tab,
-			dispatch,
-			highlight.length,
-			history_highlight.length,
-			uuid,
-		],
+		[current_tab, dispatch, highlight, history_highlight, uuid],
 	);
 
 	useEffect(() => {

@@ -16,7 +16,7 @@ const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 		// 	dispatch({type: SFTP_DELETE_HISTORY, data: {id: value.id}});
 		// }
 		setHighlight([]);
-	}, [highlight]);
+	}, [setHighlight]);
 
 	const handleItemClick = useCallback(
 		(id) => () => {
@@ -28,7 +28,7 @@ const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
 					return;
 			}
 		},
-		[],
+		[contextDeleteHistory],
 	);
 
 	return (

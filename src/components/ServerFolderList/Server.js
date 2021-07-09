@@ -122,7 +122,7 @@ const Server = ({data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data.key, dispatch, show],
+		[data, dispatch, show],
 	);
 
 	const handleSubmit = useCallback(
@@ -136,7 +136,7 @@ const Server = ({data, indent}) => {
 				});
 			setOpenRename(false);
 		},
-		[data.key, data.name, dispatch, renameValue],
+		[data, dispatch, renameValue],
 	);
 
 	const EscapeKey = useCallback((e) => {
