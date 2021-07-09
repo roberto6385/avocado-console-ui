@@ -143,11 +143,6 @@ const Pane = ({uuid, type, server}) => {
 			});
 		} else {
 			const {path} = sftp_pathState.find((v) => v.uuid === uuid);
-			const {history} = sftp_history.find((v) => v.uuid === uuid);
-			console.log('path');
-			console.log(path);
-			console.log('history');
-			console.log(history);
 
 			dispatch(
 				reconnectionAction({

@@ -8,7 +8,6 @@ import {
 	race,
 	delay,
 	takeEvery,
-	debounce,
 } from 'redux-saga/effects';
 
 import {
@@ -35,8 +34,6 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 function* sendConnection(action) {
 	let uuid = null;
 
-	console.log(action);
-
 	try {
 		const ws = yield call(initWebsocket);
 		const channel = yield call(useSubscribe, {
@@ -47,11 +44,14 @@ function* sendConnection(action) {
 				),
 		});
 		let pass = false;
+
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
 			ws: ws,
 			data: action.data,
 		});
+
+		console.log(ws);
 
 		while (true) {
 			const {timeout, result} = yield race({
@@ -61,7 +61,6 @@ function* sendConnection(action) {
 
 			if (timeout) {
 				closeChannel(channel);
-				ws.close();
 			} else {
 				const res = yield call(GetMessage, result);
 				console.log(res);
@@ -204,6 +203,7 @@ function* sendCommand(action) {
 				if (timeout) {
 					closeChannel(channel);
 					console.log('send command close');
+					action.data.ws.close();
 				} else {
 					const res = yield call(GetMessage, result);
 
@@ -296,7 +296,6 @@ function* watchSendCommand() {
 
 function* watchSendWindowChange() {
 	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
-	// yield debounce(500, SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {
