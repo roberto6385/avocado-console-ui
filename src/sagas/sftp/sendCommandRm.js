@@ -54,28 +54,28 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				yield put(
-					removeNewWebsocket({
-						socket: payload.remove_socket,
-					}),
-				);
-				yield put({
-					type: INITIALIZING_HIGHLIGHT,
-					payload: {uuid: payload.uuid},
-				});
-
-				yield put({
-					type: SHIFT_SOCKETS,
-					payload: {uuid: payload.uuid, todo: 'remove'},
-				});
-				yield put(
-					commandPwdAction({
-						socket: payload.socket,
-						uuid: payload.uuid,
-						pwd_path: payload.path,
-						dispatch: payload.dispatch,
-					}),
-				);
+				// yield put(
+				// 	removeNewWebsocket({
+				// 		socket: payload.remove_socket,
+				// 	}),
+				// );
+				// yield put({
+				// 	type: INITIALIZING_HIGHLIGHT,
+				// 	payload: {uuid: payload.uuid},
+				// });
+				//
+				// yield put({
+				// 	type: SHIFT_SOCKETS,
+				// 	payload: {uuid: payload.uuid, todo: 'remove'},
+				// });
+				// yield put(
+				// 	commandPwdAction({
+				// 		socket: payload.socket,
+				// 		uuid: payload.uuid,
+				// 		pwd_path: payload.path,
+				// 		dispatch: payload.dispatch,
+				// 	}),
+				// );
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});
@@ -85,15 +85,14 @@ function* sendCommand(action) {
 						if (payload.path === payload.rm_path) {
 							console.log(payload.path);
 							console.log(payload.rm_path);
-							console.log('same');
-							// yield put(
-							// 	commandPwdAction({
-							// 		socket: payload.socket,
-							// 		uuid: payload.uuid,
-							// 		pwd_path: payload.path,
-							// 		dispatch: payload.dispatch,
-							// 	}),
-							// );
+							yield put(
+								commandPwdAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									pwd_path: payload.path,
+									dispatch: payload.dispatch,
+								}),
+							);
 						}
 						break;
 					default:
@@ -108,45 +107,45 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeLatest(RM_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(RM_REQUEST);
-	// let uuid = null;
-	// let socket = null;
-	//
-	// while (true) {
-	// 	const {timeout, action} = yield race({
-	// 		timeout: delay(1000),
-	// 		action: take(reqChannel),
-	// 	});
-	// 	if (timeout) {
-	// 		console.log('send command rm - end');
-	// 		if (uuid !== null && socket !== null) {
-	// 			yield put(
-	// 				removeNewWebsocket({
-	// 					socket: socket,
-	// 				}),
-	// 			);
-	// 			yield put({
-	// 				type: INITIALIZING_HIGHLIGHT,
-	// 				payload: {uuid},
-	// 			});
-	//
-	// 			yield put({
-	// 				type: SHIFT_SOCKETS,
-	// 				payload: {uuid, todo: 'remove'},
-	// 			});
-	//
-	// 			uuid = null;
-	// 			socket = null;
-	// 		}
-	// 		yield take(RM_REQUEST);
-	// 	} else {
-	// 		console.log(action);
-	// 		uuid = action.payload.uuid;
-	// 		socket = action.payload.remove_socket;
-	// 		yield call(sendCommand, action);
-	// 	}
-	// }
+	// yield takeLatest(RM_REQUEST, sendCommand);
+	const reqChannel = yield actionChannel(RM_REQUEST);
+	let uuid = null;
+	let socket = null;
+
+	while (true) {
+		const {timeout, action} = yield race({
+			timeout: delay(1000),
+			action: take(reqChannel),
+		});
+		if (timeout) {
+			console.log('send command rm - end');
+			if (uuid !== null && socket !== null) {
+				yield put(
+					removeNewWebsocket({
+						socket: socket,
+					}),
+				);
+				yield put({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+
+				yield put({
+					type: SHIFT_SOCKETS,
+					payload: {uuid, todo: 'remove'},
+				});
+
+				uuid = null;
+				socket = null;
+			}
+			yield take(RM_REQUEST);
+		} else {
+			console.log(action);
+			uuid = action.payload.uuid;
+			socket = action.payload.remove_socket;
+			yield call(sendCommand, action);
+		}
+	}
 }
 
 export default function* commandRmSaga() {

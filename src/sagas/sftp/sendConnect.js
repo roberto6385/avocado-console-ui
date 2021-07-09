@@ -6,8 +6,6 @@ import {
 	put,
 	race,
 	delay,
-	takeLatest,
-	debounce,
 	throttle,
 } from 'redux-saga/effects';
 import {
