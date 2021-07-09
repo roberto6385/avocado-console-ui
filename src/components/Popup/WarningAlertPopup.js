@@ -185,6 +185,7 @@ const WarningAlertPopup = () => {
 					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
+					onClick={cancelFunction}
 				>
 					{closeIcon}
 				</ClickableIconButton>

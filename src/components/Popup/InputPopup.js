@@ -110,7 +110,6 @@ const InputPopup = () => {
 		[input_popup, formValue, sftp],
 	);
 	//when form is open, fill in pre-value and focus and select it
-	console.log('rerendering...');
 	useEffect(() => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
@@ -143,6 +142,7 @@ const InputPopup = () => {
 					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
+					onClick={closeModal}
 				>
 					{closeIcon}
 				</ClickableIconButton>

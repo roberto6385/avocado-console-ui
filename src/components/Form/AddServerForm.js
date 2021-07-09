@@ -129,11 +129,8 @@ const AddServerForm = () => {
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput(22);
 	const [account, onChangeIdentity, setAccount] = useInput('');
-	const [
-		authentication,
-		onChangeAuthentication,
-		setAuthentication,
-	] = useInput('Password');
+	const [authentication, onChangeAuthentication, setAuthentication] =
+		useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 
 	const [username, onChangeUsername, setUsername] = useInput('');
@@ -349,6 +346,7 @@ const AddServerForm = () => {
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
 				<ClickableIconButton
+					onClick={closeModal}
 					color={fontColor[theme]}
 					size={'20px'}
 					margin={'0px'}
