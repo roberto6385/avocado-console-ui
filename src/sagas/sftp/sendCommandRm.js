@@ -7,22 +7,31 @@ import {
 	actionChannel,
 	race,
 	delay,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	INITIALIZING_HIGHLIGHT,
+	removeNewWebsocket,
 	RM_FAILURE,
 	RM_REQUEST,
-
-} from '../../reducers/sftp/sftp';
+	RM_SUCCESS,
+	SHIFT_SOCKETS,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
-import {removeNewWebsocket, SHIFT_SOCKETS} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.remove_socket);
+	console.log(`${payload.rm_path}/${payload.file.name}`);
+	const channel = yield call(fileSubscribe, payload.remove_socket);
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('already socket is closing');
+			return;
+		}
+
 		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
 				keyword: payload.keyword,
@@ -35,35 +44,60 @@ function* sendCommand(action) {
 		}
 
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('RM 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				// yield put(
+				// 	removeNewWebsocket({
+				// 		socket: payload.remove_socket,
+				// 	}),
+				// );
+				// yield put({
+				// 	type: INITIALIZING_HIGHLIGHT,
+				// 	payload: {uuid: payload.uuid},
+				// });
+				//
+				// yield put({
+				// 	type: SHIFT_SOCKETS,
+				// 	payload: {uuid: payload.uuid, todo: 'remove'},
+				// });
+				// yield put(
+				// 	commandPwdAction({
+				// 		socket: payload.socket,
+				// 		uuid: payload.uuid,
+				// 		pwd_path: payload.path,
+				// 		dispatch: payload.dispatch,
+				// 	}),
+				// );
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});
 				console.log(res);
-				// switch (res.type) {
-				// 	case RM_SUCCESS:
-				if (payload.path === payload.rm_path) {
-					yield put(
-						commandPwdAction({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							pwd_path: payload.path,
-						}),
-					);
+				switch (res.type) {
+					case RM_SUCCESS:
+						if (payload.path === payload.rm_path) {
+							console.log(payload.path);
+							console.log(payload.rm_path);
+							yield put(
+								commandPwdAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									pwd_path: payload.path,
+									dispatch: payload.dispatch,
+								}),
+							);
+						}
+						break;
+					default:
+						break;
 				}
-
-				// break;
-				//
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
 			}
 		}
 	} catch (err) {
@@ -73,7 +107,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(RM_REQUEST, sendCommand);
+	// yield takeLatest(RM_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(RM_REQUEST);
 	let uuid = null;
 	let socket = null;
@@ -92,6 +126,11 @@ function* watchSendCommand() {
 					}),
 				);
 				yield put({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+
+				yield put({
 					type: SHIFT_SOCKETS,
 					payload: {uuid, todo: 'remove'},
 				});
@@ -107,12 +146,6 @@ function* watchSendCommand() {
 			yield call(sendCommand, action);
 		}
 	}
-
-	// const reqChannel = yield actionChannel(RM_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandRmSaga() {

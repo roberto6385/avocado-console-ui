@@ -28,7 +28,7 @@ import {
 } from '../../styles/default';
 import styled from 'styled-components';
 import {IconBox} from '../../styles/button';
-import {connectionAction} from '../../reducers/sftp/sftp';
+import {connectionAction} from '../../reducers/sftp';
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -88,6 +88,7 @@ const Server = ({data, indent}) => {
 						name: correspondedServer.name, // create tab info
 						key: correspondedServer.key,
 						id: correspondedServer.id,
+						dispatch: dispatch,
 					}),
 				);
 			}
@@ -121,7 +122,7 @@ const Server = ({data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data, dispatch],
+		[data, dispatch, show],
 	);
 
 	const handleSubmit = useCallback(
@@ -135,7 +136,7 @@ const Server = ({data, indent}) => {
 				});
 			setOpenRename(false);
 		},
-		[data, renameValue],
+		[data, dispatch, renameValue],
 	);
 
 	const EscapeKey = useCallback((e) => {
@@ -154,7 +155,7 @@ const Server = ({data, indent}) => {
 			data.type === 'folder' &&
 				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
 		},
-		[data],
+		[data, dispatch],
 	);
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -166,7 +167,7 @@ const Server = ({data, indent}) => {
 			}
 		};
 		fillInForm();
-	}, [openRename, renameRef, data]);
+	}, [openRename, renameRef, data, setRenameValue]);
 
 	return (
 		<React.Fragment>

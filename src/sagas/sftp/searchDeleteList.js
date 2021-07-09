@@ -9,24 +9,22 @@ import {
 	fork,
 } from 'redux-saga/effects';
 import {
+	DELETE_WORK_LIST,
+	DELETE_WORK_TRANSPORTER,
 	ERROR,
 	LS_FAILURE_DELETE,
 	LS_REQUEST_DELETE,
 	LS_SUCCESS_DELETE,
 	searchDeleteListAction,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
-import {
-	DELETE_WORK_LIST,
-	DELETE_WORK_TRANSPORTER,
-} from '../../reducers/sftp/crud';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {
@@ -41,7 +39,6 @@ function* sendCommand(action) {
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('DELETE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);

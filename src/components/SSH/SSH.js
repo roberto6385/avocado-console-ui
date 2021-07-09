@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -103,7 +103,10 @@ const _FooterListGroupItem = styled(_ListGroupItem)`
 const SSH = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
-	const {current_tab, theme} = useSelector((state) => state.common);
+	const {current_tab, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const {
 		font,
 		font_size,
@@ -111,7 +114,7 @@ const SSH = ({uuid}) => {
 		ssh,
 		ssh_history,
 		auto_completion_mode,
-	} = useSelector((state) => state.ssh);
+	} = useSelector((state) => state.ssh, shallowEqual);
 	const currentLine = useMemo(
 		() => ssh.find((v) => v.uuid === uuid).current_line,
 		[ssh, uuid],
@@ -149,7 +152,7 @@ const SSH = ({uuid}) => {
 		(e) => {
 			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
-		[search],
+		[search, searchAddon],
 	);
 
 	const onClickCommand = useCallback(
@@ -160,6 +163,7 @@ const SSH = ({uuid}) => {
 					uuid: uuid,
 					ws: ws,
 					input: v.substring(currentLine.length),
+					dispatch: dispatch,
 				},
 			});
 			dispatch({
@@ -168,23 +172,24 @@ const SSH = ({uuid}) => {
 					uuid: uuid,
 					ws: ws,
 					input: '\r',
+					dispatch: dispatch,
 				},
 			});
 		},
-		[currentLine, uuid, ws],
+		[currentLine.length, dispatch, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab]);
+	}, [current_tab, dispatch]);
 
 	const onClickArrowUp = useCallback(() => {
 		searchAddon.findPrevious(search);
-	}, [search]);
+	}, [search, searchAddon]);
 
 	const onClickArrowDown = useCallback(() => {
 		searchAddon.findNext(search);
-	}, [search]);
+	}, [search, searchAddon]);
 	//terminal setting
 	useEffect(() => {
 		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
@@ -202,7 +207,7 @@ const SSH = ({uuid}) => {
 		return () => {
 			setIsComponentMounted(false);
 		};
-	}, [sshTerm, uuid]);
+	}, [fitAddon, searchAddon, sshTerm, uuid]);
 	//terminal get input data
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
@@ -240,6 +245,7 @@ const SSH = ({uuid}) => {
 						input: historyList[currentHistory].substring(
 							currentLine.length,
 						),
+						dispatch: dispatch,
 					},
 				});
 				dispatch({
@@ -248,6 +254,7 @@ const SSH = ({uuid}) => {
 						uuid: uuid,
 						ws: ws,
 						input: '\r',
+						dispatch: dispatch,
 					},
 				});
 			} else {
@@ -257,6 +264,7 @@ const SSH = ({uuid}) => {
 						uuid: uuid,
 						ws: ws,
 						input: data,
+						dispatch: dispatch,
 					},
 				});
 				if (data.charCodeAt(0) === 13 && ignoreAutoCompletion)
@@ -276,6 +284,7 @@ const SSH = ({uuid}) => {
 		historyList,
 		ignoreAutoCompletion,
 		currentLine,
+		dispatch,
 	]);
 	//current tab terminal is focused
 	useEffect(() => {
@@ -296,10 +305,20 @@ const SSH = ({uuid}) => {
 						width: width,
 						height: height,
 					},
+					dispatch: dispatch,
 				},
 			});
 		}
-	}, [ws, uuid, sshTerm, width, height, isComponentMounted]);
+	}, [
+		ws,
+		uuid,
+		sshTerm,
+		width,
+		height,
+		isComponentMounted,
+		fitAddon,
+		dispatch,
+	]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -312,14 +331,14 @@ const SSH = ({uuid}) => {
 			setSearch('');
 			searchAddon.findPrevious('');
 		}
-	}, [current_tab, uuid, search_mode, searchRef]);
+	}, [current_tab, uuid, search_mode, searchRef, setSearch, searchAddon]);
 	//search a word on the terminal
 	useEffect(() => {
 		if (current_tab === uuid) {
 			searchAddon.findPrevious('');
 			searchAddon.findPrevious(search);
 		}
-	}, [current_tab, uuid, search]);
+	}, [current_tab, uuid, search, searchAddon]);
 	//set History List
 	useEffect(() => {
 		if (auto_completion_mode && currentLine.length > 1) {

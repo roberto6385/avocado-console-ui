@@ -1,15 +1,15 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
-import {ERROR} from '../../reducers/sftp/sftp';
-import {closeChannel, subscribe} from '../channel';
-import messageSender from './messageSender';
-import {createWebsocket} from './socket';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 import {
 	CREATE_NEW_WEBSOCKET_FAILURE,
 	CREATE_NEW_WEBSOCKET_REQUEST,
 	CREATE_NEW_WEBSOCKET_SUCCESS,
-} from '../../reducers/sftp/crud';
+	ERROR,
+} from '../../reducers/sftp';
+import {fileSubscribe} from '../channel';
+import messageSender from './messageSender';
+import {createWebsocket} from './socket';
+import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -17,7 +17,7 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(subscribe, socket);
+		const channel = yield call(fileSubscribe, socket);
 
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -26,16 +26,6 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			// const {timeout, data} = yield race({
-			// 	timeout: delay(3000),
-			// 	data: take(channel),
-			// });
-			// if (timeout) {
-			// 	console.log(
-			// 		'CREATE_NEW_WEBSOCKE 채널 사용이 없습니다. 종료합니다.',
-			// 	);
-			// 	closeChannel(channel);
-			// } else {
 			const data = yield take(channel);
 			const res = yield call(createNewSocketResponse, {data});
 
@@ -66,7 +56,6 @@ function* sendCommand(action) {
 
 				default:
 					break;
-				// }
 			}
 		}
 	} catch (err) {

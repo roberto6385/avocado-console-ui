@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
@@ -9,8 +9,11 @@ import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 const SnippetContextMenu = ({uuid, setOpen}) => {
 	const {t} = useTranslation('snippets');
 	const dispatch = useDispatch();
-	const {theme, current_tab} = useSelector((state) => state.common);
-	const {ssh, snippets} = useSelector((state) => state.ssh);
+	const {theme, current_tab} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 	const ws = useMemo(
 		() => ssh.find((v) => v.uuid === current_tab)?.ws,
 		[ssh, current_tab],
@@ -18,7 +21,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 
 	const onClickOpenSnippets = useCallback(() => {
 		setOpen(true);
-	}, []);
+	}, [setOpen]);
 
 	const menuEvent = useCallback(
 		(v) => () => {
@@ -29,6 +32,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 						uuid: current_tab,
 						ws: ws,
 						input: v.content,
+						dispatch:dispatch
 					},
 				});
 		},

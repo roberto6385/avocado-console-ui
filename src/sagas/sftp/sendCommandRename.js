@@ -11,32 +11,41 @@ import {
 import {
 	commandPwdAction,
 	ERROR,
+	READY_STATE,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
 	RENAME_SUCCESS,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+
+import {closeChannel} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	const channel = yield call(subscribe, payload.socket);
-	yield call(messageSender, {
-		keyword: 'CommandByRename',
-		ws: payload.socket,
-		path: payload.prev_path,
-		newPath: payload.next_path,
+	const channel = yield call(useSubscribe, {
+		socket: payload.socket,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
 	});
 	try {
+		yield call(messageSender, {
+			keyword: 'CommandByRename',
+			ws: payload.socket,
+			path: payload.prev_path,
+			newPath: payload.next_path,
+		});
 		while (true) {
 			const {timeout, data} = yield race({
 				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('RENAME 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);
@@ -53,6 +62,7 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
+								dispatch: payload.dispatch,
 							}),
 						);
 						break;

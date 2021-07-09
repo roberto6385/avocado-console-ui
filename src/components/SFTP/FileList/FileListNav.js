@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {
 	CHANGE_MODE,
 	commandCdAction,
 	commandPwdAction,
-} from '../../../reducers/sftp/sftp';
+} from '../../../reducers/sftp';
 
 import {
 	arrowUpwordIcon,
@@ -55,98 +55,123 @@ const _Form = styled.form`
 
 const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
+	const {
+		path: sftp_pathState,
+		socket: sftp_socketState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
+	const theme = useSelector((state) => state.common.theme);
 
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const {path, mode} = corSftpInfo;
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
+	);
+	const {mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	const [currentPath, setCurrentPath] = useState('');
 
-	const goHome = (e, nextPath = '/root') => {
-		const pathInput = document.getElementById('fileListNavInput');
-		console.log(nextPath);
-		nextPath !== undefined &&
-		dispatch(
-			commandCdAction({
-				socket: corSftpInfo.socket,
-				uuid: uuid,
-				path: corSftpInfo.path,
-				cd_path: nextPath,
-			}),
-		) &&
-		pathInput.blur();
-	};
+	const goHome = useCallback(
+		(e, nextPath = '/root') => {
+			const pathInput = document.getElementById('fileListNavInput');
+			console.log(nextPath);
+			nextPath !== undefined &&
+				dispatch(
+					commandCdAction({
+						socket: socket,
+						uuid: uuid,
+						path: path,
+						cd_path: nextPath,
+						dispatch: dispatch,
+					}),
+				) &&
+				pathInput.blur();
+		},
+		[dispatch, path, socket, uuid],
+	);
 
-	const goBack = (e) => {
-		if (path !== '/') {
-			console.log(path);
-			let tempPath = path.split('/');
-			tempPath.pop();
-			console.log(tempPath);
-			let nextPath = tempPath.join('/').trim();
-			goHome(e, nextPath === '' ? '/' : nextPath);
-		}
-	};
-	const searchPath = (e) => {
-		e.preventDefault();
-		currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
-	};
+	const goBack = useCallback(
+		(e) => {
+			if (path !== '/') {
+				console.log(path);
+				let tempPath = path.split('/');
+				tempPath.pop();
+				console.log(tempPath);
+				let nextPath = tempPath.join('/').trim();
+				goHome(e, nextPath === '' ? '/' : nextPath);
+			}
+		},
+		[goHome, path],
+	);
+	const searchPath = useCallback(
+		(e) => {
+			e.preventDefault();
+			currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
+		},
+		[currentPath, goHome, path],
+	);
 
-	const handleChange = (e) => {
+	const handleChange = useCallback((e) => {
 		const {value} = e.target;
 		setCurrentPath(value);
-	};
+	}, []);
 
-	const EscapeKey = (e) => {
-		const pathInput = document.getElementById('fileListNavInput');
+	const EscapeKey = useCallback(
+		(e) => {
+			const pathInput = document.getElementById('fileListNavInput');
 
-		if (e.keyCode === 27) {
-			setCurrentPath(path);
-			pathInput.blur();
-		}
-	};
+			if (e.keyCode === 27) {
+				setCurrentPath(path);
+				pathInput.blur();
+			}
+		},
+		[path],
+	);
 
-	const dropdownList = () => {
+	const dropdownList = useCallback(() => {
 		mode !== 'drop' &&
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'drop',
-				currentMode: mode,
-			},
-		});
-	};
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'drop',
+					currentMode: mode,
+				},
+			});
+	}, [dispatch, mode, uuid]);
 
-	const basicList = () => {
+	const basicList = useCallback(() => {
 		mode !== 'list' &&
-		dispatch({
-			type: CHANGE_MODE,
-			payload: {
-				uuid,
-				mode: 'list',
-				currentMode: mode,
-			},
-		});
-	};
+			dispatch({
+				type: CHANGE_MODE,
+				payload: {
+					uuid,
+					mode: 'list',
+					currentMode: mode,
+				},
+			});
+	}, [dispatch, mode, uuid]);
 
 	const refresh = useCallback(() => {
 		dispatch(
 			commandPwdAction({
-				socket: corSftpInfo.socket,
+				socket: socket,
 				uuid: uuid,
 				pwd_path: null,
+				dispatch: dispatch,
 			}),
 		);
-	}, [uuid, corSftpInfo, dispatch]);
+	}, [dispatch, socket, uuid]);
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
-	}, [uuid, corSftpInfo]);
+	}, [uuid, path]);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
@@ -207,4 +232,4 @@ FileListNav.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default React.memo(FileListNav);
+export default FileListNav;

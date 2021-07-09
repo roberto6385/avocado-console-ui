@@ -9,7 +9,7 @@ import {ContextMenu} from '../../styles/default';
 
 const ServerAccountContextMenu = () => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	const editAccount = useCallback(() => {
 		dispatch({

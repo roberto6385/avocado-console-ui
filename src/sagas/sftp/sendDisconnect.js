@@ -7,22 +7,22 @@ import {
 	takeEvery,
 	race,
 	delay,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,
 	DISCONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {disconnectResponse} from '../../ws/sftp/disconnect_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
-	yield put({type: CLOSE_TAB, data: payload.uuid});
+	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {
@@ -31,41 +31,35 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(5000),
-				data: take(channel),
-			});
-			if (timeout) {
-				// disconnection 은 의미가 없는듯...?
-				console.log('Disconnection 채널 사용이 없습니다. 종료합니다.');
-				closeChannel(channel);
-			} else {
-				const res = yield call(disconnectResponse, {data});
-				switch (res.type) {
-					case DISCONNECTION_SUCCESS:
-						console.log('disconnection success!!');
-						yield put({
-							type: DISCONNECTION_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-							},
-						});
-						break;
+			const data = yield take(channel);
+			const res = yield call(disconnectResponse, {data});
+			switch (res.type) {
+				case DISCONNECTION_SUCCESS:
+					yield put({type: CLOSE_TAB, data: payload.uuid});
 
-					case ERROR:
-						console.log(res.err);
-						break;
-				}
+					yield put({
+						type: DISCONNECTION_SUCCESS,
+						payload: {
+							uuid: payload.uuid,
+						},
+					});
+					break;
+
+				case ERROR:
+					console.log(res.err);
+					break;
 			}
 		}
 	} catch (err) {
+		closeChannel(channel);
+		yield put({type: CLOSE_TAB, data: payload.uuid});
 		yield put({type: DISCONNECTION_FAILURE});
 		console.log(err);
 	}
 }
 
 function* watchSendCommand() {
-	yield takeEvery(DISCONNECTION_REQUEST, sendCommand);
+	yield takeLatest(DISCONNECTION_REQUEST, sendCommand);
 }
 
 export default function* disconnectSaga() {

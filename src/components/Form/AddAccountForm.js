@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
 import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
@@ -83,9 +83,13 @@ const _Form = styled.form`
 const AddAccountForm = () => {
 	const {t} = useTranslation('addAccountForm');
 	const dispatch = useDispatch();
-	const {account, accountListControlId, currentResourceListKey, theme} =
-		useSelector((state) => state.common);
-	const {account_form_popup} = useSelector((state) => state.popup);
+	const {account, accountListControlId, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const account_form_popup = useSelector(
+		(state) => state.popup.account_form_popup,
+	);
 
 	const [identity, onChangeIdentity, setIdentity] = useInput('');
 	const [authentication, onChangeAuthentication, setAuthentication] =
@@ -127,13 +131,13 @@ const AddAccountForm = () => {
 			}
 			closeModal();
 		},
-		[identity, password, dispatch],
+		[authentication, closeModal, identity, username, password, keyFile],
 	);
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_ACCOUT_FORM_POPUP});
 		dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (account_form_popup.open) {
@@ -158,7 +162,18 @@ const AddAccountForm = () => {
 				setNote('');
 			}
 		}
-	}, [account_form_popup, accountListControlId]);
+	}, [
+		account_form_popup,
+		accountListControlId,
+		account,
+		setAuthentication,
+		t,
+		setIdentity,
+		setUsername,
+		setKeyFile,
+		setPassword,
+		setNote,
+	]);
 
 	return (
 		<_PopupModal

@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../listConversion';
 import styled from 'styled-components';
@@ -29,19 +29,19 @@ import {
 	historyUploadColor,
 } from '../../../styles/color';
 
-import {
-	ADD_HISTORY_HI,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
-} from '../../../reducers/sftp/history';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
-
 import {PreventDragCopy} from '../../../styles/function';
 import {
 	ClickableIconButton,
 	IconBox,
 	PrimaryGreenButton,
 } from '../../../styles/button';
+import {
+	ADD_HISTORY_HI,
+	createNewWebsocket,
+	INITIAL_HISTORY_HI,
+	PUSH_WRITE_LIST,
+	REMOVE_HISTORY,
+} from '../../../reducers/sftp';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -134,26 +134,31 @@ const _HistorySizeText = styled.span`
 const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const {sftp} = useSelector((state) => state.sftp);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
-	const historyState = useSelector((state) => state.history.historyState);
-	const {theme, server, tab, identity} = useSelector((state) => state.common);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const corHistoryInfo = useMemo(
-		() => historyState.find((it) => it.uuid === uuid),
-		[historyState, uuid],
+	const {path: sftp_pathState, history: sftp_historyState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const {theme, server, tab, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {history, history_highlight} = useMemo(
+		() => sftp_historyState.find((it) => it.uuid === uuid),
+		[sftp_historyState, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
@@ -162,9 +167,6 @@ const HistoryContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-
-	const {path} = corSftpInfo;
-	const {history, history_highlight} = corHistoryInfo;
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -204,7 +206,7 @@ const HistoryContents = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [userTicket, corServer, correspondedIdentity]);
+	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
 
 	const upload = useCallback(
 		async (files) => {
@@ -230,7 +232,32 @@ const HistoryContents = ({uuid}) => {
 				payload: {uuid, array},
 			});
 		},
-		[userTicket, corServer, correspondedIdentity],
+		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
+	);
+	const compareNumber = useCallback(
+		(first, second) => {
+			console.log(first, second);
+			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
+
+			let list = [];
+			if (first <= second) {
+				for (let i = first; i <= second; i++) {
+					list.push(history[i]);
+				}
+			} else {
+				for (let i = first; i >= second; i--) {
+					list.push(history[i]);
+				}
+			}
+			dispatch({
+				type: ADD_HISTORY_HI,
+				payload: {
+					uuid,
+					history: list,
+				},
+			});
+		},
+		[dispatch, history, uuid],
 	);
 
 	const selectItem = useCallback(
@@ -284,50 +311,19 @@ const HistoryContents = ({uuid}) => {
 				});
 			}
 		},
-		[dispatch, history, history_highlight],
+		[compareNumber, dispatch, history, history_highlight, uuid],
 	);
-
-	const compareNumber = (first, second) => {
-		console.log(first, second);
-		dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
-
-		let list = [];
-		if (first <= second) {
-			for (let i = first; i <= second; i++) {
-				list.push(history[i]);
-			}
-		} else {
-			for (let i = first; i >= second; i--) {
-				list.push(history[i]);
-			}
-		}
-		dispatch({
-			type: ADD_HISTORY_HI,
-			payload: {
-				uuid,
-				history: list,
-			},
-		});
-	};
 
 	const removeHistory = useCallback(
 		(history) => () => {
 			dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
 		},
-		[dispatch],
+		[dispatch, uuid],
 	);
-
-	// const {show} = useContextMenu({
-	// 	id: uuid + 'history',
-	// });
-
-	// const contextMenuOpen = useCallback((e, history) => {
-	// 	show(e);
-	// }, []);
 
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
-			{history.length === 0 ? (
+			{history?.length === 0 ? (
 				<DropSpaceDiv back={tabColor[theme]} bcolor={iconColor[theme]}>
 					<_AnnounceText theme_value={theme}>
 						{t('paragraph')}
@@ -404,7 +400,7 @@ const HistoryContents = ({uuid}) => {
 								</_HistorySizeText>
 								<ClickableIconButton
 									size={'sm'}
-									margin={'0px 0px 0px 4px'}
+									margin={'10px'}
 									theme_value={theme}
 									onClick={removeHistory(history)}
 									className={'history_contents'}

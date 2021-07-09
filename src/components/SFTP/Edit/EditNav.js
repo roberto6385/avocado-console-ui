@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp/sftp';
+import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 import {
@@ -10,8 +10,6 @@ import {
 	squareDeleteIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
-
-import {ADD_HISTORY} from '../../../reducers/sftp/history';
 
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
@@ -37,15 +35,26 @@ const _ButtonContainer = styled.div`
 `;
 
 const EditNav = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
-	const {text, editText, editFile, path, prevMode, mode} = corSftpInfo;
-
 	const dispatch = useDispatch();
+	const theme = useSelector((state) => state.common.theme);
+
+	const {
+		path: sftp_pathState,
+		edit: sftp_editState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {text, editText, editFile} = useMemo(
+		() => sftp_editState.find((it) => it.uuid === uuid),
+		[sftp_editState, uuid],
+	);
+	const {prevMode, mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	const editedFileDownload = useCallback(() => {
 		// 이 부분도 read List에 저장해서 다운 받는 방식으로
@@ -66,7 +75,7 @@ const EditNav = ({uuid}) => {
 				progress: 100,
 			},
 		});
-	}, [corSftpInfo]);
+	}, [editFile.name, editText, dispatch, uuid, path]);
 
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {
@@ -82,7 +91,7 @@ const EditNav = ({uuid}) => {
 				data: {key: 'sftp_edit_save', uuid},
 			});
 		}
-	}, [text, editText, dispatch, corSftpInfo]);
+	}, [text, editText, dispatch, uuid]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
@@ -97,7 +106,7 @@ const EditNav = ({uuid}) => {
 				payload: {uuid, mode: prevMode, currentMode: mode},
 			});
 		}
-	}, [corSftpInfo]);
+	}, [dispatch, editText, mode, prevMode, text, uuid]);
 
 	return (
 		<_Container

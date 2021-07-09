@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import Nav from './Nav';
 import MainPage from './MainPage';
@@ -18,7 +18,7 @@ import {
 	tabColor,
 } from '../styles/color';
 import {ClickableIconButton, IconBox} from '../styles/button';
-import {disconnectAction} from '../reducers/sftp/sftp';
+import {disconnectAction} from '../reducers/sftp';
 
 const _Container = styled.div`
 	display: flex;
@@ -142,9 +142,18 @@ const _ServerName = styled.div`
 
 const WorkSpace = () => {
 	const dispatch = useDispatch();
-	const {tab, current_tab, theme} = useSelector((state) => state.common);
-	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
-	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
+	const {tab, current_tab, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const {ssh, loading: sshLoading} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
+	);
+	const {loading: sftpLoading, socket: sftp_socketState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);
@@ -154,7 +163,7 @@ const WorkSpace = () => {
 		(uuid) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
-		[],
+		[dispatch],
 	);
 
 	const onClickDelete = useCallback(
@@ -172,12 +181,14 @@ const WorkSpace = () => {
 				dispatch(
 					disconnectAction({
 						uuid: data.uuid,
-						socket: sftp.find((v) => v.uuid === data.uuid)?.socket,
+						socket: sftp_socketState.find(
+							(v) => v.uuid === data.uuid,
+						).socket,
 					}),
 				);
 			}
 		},
-		[ssh, sftp],
+		[dispatch, ssh, sftp_socketState],
 	);
 
 	const prevPutItem = useCallback(
@@ -203,7 +214,7 @@ const WorkSpace = () => {
 				},
 			});
 		},
-		[tab, oldOlder, draggedItem],
+		[tab, dispatch, oldOlder, draggedItem],
 	);
 
 	return (

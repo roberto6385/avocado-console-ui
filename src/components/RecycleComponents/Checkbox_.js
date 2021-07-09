@@ -15,7 +15,7 @@ borderRadius: '4px',
 `;
 
 const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	return (
 		<Container className='pretty p-icon p-curve'>

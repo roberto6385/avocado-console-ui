@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
 import styled from 'styled-components';
 
@@ -9,11 +9,14 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
+	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
+	PUSH_READ_LIST,
+	READY_STATE,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
-} from '../../../reducers/sftp/sftp';
+} from '../../../reducers/sftp';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -21,7 +24,7 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {sortFunction} from '../listConversion';
-import {HEIGHT_48, WIDTH_200, WIDTH_220} from '../../../styles/length';
+import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
 import {
 	activeColor,
 	borderColor,
@@ -30,8 +33,6 @@ import {
 	highColor,
 	tabColor,
 } from '../../../styles/color';
-
-import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
@@ -97,20 +98,42 @@ const _Li = styled.li`
 
 const FileListDropDown = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme, tab, server, identity} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+	const {theme, tab, server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
 	);
+
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
+	);
+
+	const {
+		path: sftp_pathState,
+		file: sftp_fileState,
+		socket: sftp_socketState,
+		etc: sftp_etcState,
+	} = useSelector((state) => state.sftp, shallowEqual);
+	const {path, pathList} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const {fileList, highlight, tempFile} = useMemo(
+		() => sftp_fileState.find((it) => it.uuid === uuid),
+		[sftp_fileState, uuid],
+	);
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
+	);
+	const {sortKeyword, toggle} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
 	);
 
 	const correspondedIdentity = useMemo(
@@ -120,64 +143,66 @@ const FileListDropDown = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {fileList, pathList, highlight, path, tempItem, sortKeyword, toggle} =
-		corSftpInfo;
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
 		id: uuid + 'fileList',
 	});
 
-	const compareNumber = (list, first, second) => {
-		console.log(list);
-		console.log(first);
-		console.log(second);
+	const compareNumber = useCallback(
+		(list, first, second) => {
+			console.log(list);
+			console.log(first);
+			console.log(second);
 
-		if (first === -1) {
-			dispatch({
-				type: ADD_HIGHLIGHT,
-				payload: {uuid, item: {...list[second], path}},
-			});
-			return;
-		}
-
-		if (first !== -1 && first <= second) {
-			dispatch({
-				type: INITIALIZING_HIGHLIGHT,
-				payload: {uuid},
-			});
-			for (let i = first; i <= second; i++) {
+			if (first === -1) {
 				dispatch({
 					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
+					payload: {uuid, item: {...list[second], path}},
 				});
+				return;
 			}
-		} else {
-			dispatch({
-				type: INITIALIZING_HIGHLIGHT,
-				payload: {uuid},
-			});
-			for (let i = first; i >= second; i--) {
+
+			if (first !== -1 && first <= second) {
 				dispatch({
-					type: ADD_HIGHLIGHT,
-					payload: {uuid, item: {...list[i], path}},
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
 				});
+				for (let i = first; i <= second; i++) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
+			} else {
+				dispatch({
+					type: INITIALIZING_HIGHLIGHT,
+					payload: {uuid},
+				});
+				for (let i = first; i >= second; i--) {
+					dispatch({
+						type: ADD_HIGHLIGHT,
+						payload: {uuid, item: {...list[i], path}},
+					});
+				}
 			}
-		}
-	};
+		},
+		[dispatch, path, uuid],
+	);
 
 	const selectFile = useCallback(
 		({item, listindex, itemIndex}) =>
 			(e) => {
 				console.log(item, listindex, itemIndex);
 				if (e.shiftKey) {
-					if (corSftpInfo.path !== pathList[listindex]) {
+					if (path !== pathList[listindex]) {
 						dispatch(
 							commandCdAction({
-								socket: corSftpInfo.socket,
-								path: corSftpInfo.path,
+								socket: socket,
+								path: path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
+								dispatch: dispatch,
 							}),
 						);
 						dispatch({
@@ -207,15 +232,16 @@ const FileListDropDown = ({uuid}) => {
 				} else if (e.metaKey) {
 					if (path !== pathList[listindex]) {
 						if (
-							tempItem !== null &&
-							tempItem.path === pathList[listindex]
+							tempFile !== null &&
+							tempFile.path === pathList[listindex]
 						) {
 							dispatch(
 								commandCdAction({
-									socket: corSftpInfo.socket,
-									path: corSftpInfo.path,
+									socket: socket,
+									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
+									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -224,7 +250,7 @@ const FileListDropDown = ({uuid}) => {
 							});
 							dispatch({
 								type: ADD_HIGHLIGHT,
-								payload: {uuid, item: {...tempItem.item, path}},
+								payload: {uuid, item: {...tempFile.item, path}},
 							});
 							dispatch({
 								type: REMOVE_TEMP_HIGHLIGHT,
@@ -236,10 +262,11 @@ const FileListDropDown = ({uuid}) => {
 						if (item.type === 'file') {
 							dispatch(
 								commandCdAction({
-									socket: corSftpInfo.socket,
-									path: corSftpInfo.path,
+									socket: socket,
+									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
+									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -249,10 +276,11 @@ const FileListDropDown = ({uuid}) => {
 						} else {
 							dispatch(
 								commandCdAction({
-									socket: corSftpInfo.socket,
-									path: corSftpInfo.path,
+									socket: socket,
+									path: path,
 									uuid: uuid,
 									cd_path: `${pathList[listindex]}/${item.name}`,
+									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -286,10 +314,11 @@ const FileListDropDown = ({uuid}) => {
 					if (path !== finalPath) {
 						dispatch(
 							commandCdAction({
-								socket: corSftpInfo.socket,
-								path: corSftpInfo.path,
+								socket: socket,
+								path: path,
 								uuid: uuid,
 								cd_path: finalPath,
+								dispatch: dispatch,
 							}),
 						);
 					}
@@ -300,7 +329,17 @@ const FileListDropDown = ({uuid}) => {
 						});
 				}
 			},
-		[corSftpInfo, currentFileList],
+		[
+			path,
+			pathList,
+			dispatch,
+			socket,
+			uuid,
+			highlight,
+			currentFileList,
+			compareNumber,
+			tempFile,
+		],
 	);
 
 	const edit = useCallback(
@@ -311,9 +350,29 @@ const FileListDropDown = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
+				dispatch(
+					createNewWebsocket({
+						token: userTicket.access_token, // connection info
+						host: corServer.host,
+						port: corServer.port,
+						user: correspondedIdentity.user,
+						password: correspondedIdentity.password,
+						todo: 'read',
+						uuid: uuid,
+					}),
+				);
 			}
 		},
-		[sftp],
+		[
+			dispatch,
+			uuid,
+			path,
+			userTicket,
+			corServer.host,
+			corServer.port,
+			correspondedIdentity.user,
+			correspondedIdentity.password,
+		],
 	);
 
 	const download = useCallback(
@@ -338,7 +397,16 @@ const FileListDropDown = ({uuid}) => {
 				);
 			}
 		},
-		[sftp, server, identity, tab, userTicket],
+		[
+			dispatch,
+			uuid,
+			path,
+			userTicket,
+			corServer.host,
+			corServer.port,
+			correspondedIdentity.user,
+			correspondedIdentity.password,
+		],
 	);
 
 	const contextMenuOpen = useCallback(
@@ -350,10 +418,11 @@ const FileListDropDown = ({uuid}) => {
 				if (path !== clickedPath) {
 					dispatch(
 						commandCdAction({
-							socket: corSftpInfo.socket,
-							path: corSftpInfo.path,
+							socket: socket,
+							path: path,
 							uuid: uuid,
 							cd_path: clickedPath,
+							dispatch: dispatch,
 						}),
 					);
 				}
@@ -371,7 +440,7 @@ const FileListDropDown = ({uuid}) => {
 					});
 				show(e);
 			},
-		[corSftpInfo],
+		[path, highlight, dispatch, uuid, show, socket],
 	);
 
 	useEffect(() => {
@@ -393,15 +462,9 @@ const FileListDropDown = ({uuid}) => {
 			setCurrentKey(sortKeyword);
 			setCurrentFileList(nextList);
 		}
-	}, [fileList, sortKeyword, toggle, path]);
+	}, [fileList, sortKeyword, toggle, path, pathList, currentKey]);
 	return (
-		<_Container
-		// className={
-		// fileList.length === pathList.length && fileList.length !== 0
-		// 	? ''
-		// 	: 'blurEffect'
-		// }
-		>
+		<_Container>
 			{currentFileList.map((listItem, listindex) => {
 				return (
 					<_Ul

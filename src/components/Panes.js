@@ -17,11 +17,10 @@ const _Container = styled.div`
 `;
 
 const Panes = ({tab}) => {
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	return (
 		<_Container>
-
 			{tab.length === 1 && (
 				<Pane
 					uuid={tab[0].uuid}

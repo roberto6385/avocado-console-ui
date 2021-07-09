@@ -44,7 +44,7 @@ const AlertPopup = () => {
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_ALERT_POPUP});
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<_PopupModal

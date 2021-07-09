@@ -85,7 +85,7 @@ const SignInForm = () => {
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [visible, setVisible] = useState(true);
-	const {loading} = useSelector((state) => state.userTicket);
+	const loading = useSelector((state) => state.userTicket.loading);
 	const [rememberMe, setRememberMe] = useState(false);
 	const idRef = useRef(null);
 	const passwordRef = useRef(null);
@@ -118,7 +118,7 @@ const SignInForm = () => {
 				);
 			}
 		},
-		[user, password, rememberMe],
+		[user, password, rememberMe, setUser, setPassword, dispatch],
 	);
 
 	const typeChange = useCallback(
@@ -175,11 +175,11 @@ const SignInForm = () => {
 			setRememberMe(true);
 		}
 		idRef.current?.focus();
-	}, []);
+	}, [setPassword, setUser]);
 
 	useEffect(() => {
 		i18n.changeLanguage('ko-KR');
-	}, []);
+	}, [i18n]);
 
 	return !loading ? (
 		<_UserForm onSubmit={onSubmitForm}>

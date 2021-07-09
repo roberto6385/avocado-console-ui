@@ -192,7 +192,7 @@ const IdentitiesSpace = () => {
 				payload: {key: item.key},
 			});
 		},
-		[],
+		[dispatch],
 	);
 
 	const handleCheck = useCallback(
@@ -210,7 +210,7 @@ const IdentitiesSpace = () => {
 			// 		},
 			// 	});
 		},
-		[identity, currentResourceListKey],
+		[],
 	);
 
 	const onClickCheck = useCallback(
@@ -228,7 +228,7 @@ const IdentitiesSpace = () => {
 				},
 			});
 		},
-		[identity, currentResourceListKey],
+		[identity, dispatch, currentResourceListKey],
 	);
 
 	useEffect(() => {
@@ -236,7 +236,7 @@ const IdentitiesSpace = () => {
 			type: CHANGE_CURRENT_RESOURCE_KEY,
 			payload: {key: server[0].key},
 		});
-	}, [server]);
+	}, [dispatch, server]);
 
 	return (
 		<SettingMainContainer theme_value={theme}>

@@ -6,7 +6,7 @@ import {
 	put,
 	race,
 	delay,
-	takeEvery,
+	throttle,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -14,15 +14,15 @@ import {
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
 	ERROR,
-} from '../../reducers/sftp/sftp';
-import {closeChannel, subscribe} from '../channel';
+} from '../../reducers/sftp';
+import {closeChannel} from '../channel';
+
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
-import {HISTORY_CONNECTION_SUCCESS} from '../../reducers/sftp/history';
-import {CRUD_CONNECTION_SUCCESS} from '../../reducers/sftp/crud';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -30,7 +30,11 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(subscribe, socket);
+		const channel = yield call(useSubscribe, {
+			socket,
+			dispatch: () =>
+				console.log('최초 연결시 끊김 체크는 다른 방법을 사용해야 함'),
+		});
 
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -40,12 +44,12 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(3000),
+				timeout: delay(4000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('Connection 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				// socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});
@@ -60,18 +64,7 @@ function* sendCommand(action) {
 								socket: socket,
 							},
 						});
-						yield put({
-							type: HISTORY_CONNECTION_SUCCESS,
-							payload: {
-								uuid: uuid,
-							},
-						});
-						yield put({
-							type: CRUD_CONNECTION_SUCCESS,
-							payload: {
-								uuid: uuid,
-							},
-						});
+
 						yield put({
 							type: OPEN_TAB,
 							data: {
@@ -90,6 +83,7 @@ function* sendCommand(action) {
 								socket: socket,
 								uuid: uuid,
 								pwd_path: null,
+								dispatch: payload.dispatch,
 							}),
 						);
 
@@ -120,7 +114,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(CONNECTION_REQUEST, sendCommand);
+	yield throttle(1000, CONNECTION_REQUEST, sendCommand);
 }
 
 export default function* connectSaga() {

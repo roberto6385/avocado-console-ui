@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	burgerMenuIcon,
 	newFolderIcon,
@@ -127,7 +127,7 @@ const isValidFolderName = (folderArray, name) => {
 const Nav = ({toggle, setToggle}) => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common);
+	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
 	const [search, onChangeSearch] = useInput('');
 
 	const newFolder = useCallback(() => {
@@ -138,18 +138,18 @@ const Nav = ({toggle, setToggle}) => {
 			i++;
 		}
 		dispatch({type: ADD_FOLDER, data: folderName});
-	}, [nav]);
+	}, [dispatch, nav, t]);
 
 	const newServer = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_SERVER_FORM_POPUP,
 			data: {type: 'add'},
 		});
-	}, []);
+	}, [dispatch]);
 
 	const onClickOpenTggle = useCallback(() => {
 		setToggle(!toggle);
-	}, [toggle]);
+	}, [setToggle, toggle]);
 
 	return (
 		<_Aside

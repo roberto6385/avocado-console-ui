@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import styled from 'styled-components';
@@ -30,9 +30,15 @@ const _Text = styled.div`
 
 const MainPage = () => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
-	const {ssh, loading: sshLoading} = useSelector((state) => state.ssh);
-	const {sftp, loading: sftpLoading} = useSelector((state) => state.sftp);
+	const theme = useSelector((state) => state.common.theme);
+	const {loading: sshLoading} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
+	);
+	const {loading: sftpLoading} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('mainPage');
 
@@ -66,7 +72,7 @@ const MainPage = () => {
 
 	const onClickVisibleForm = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<_Container back={mainBackColor[theme]}>

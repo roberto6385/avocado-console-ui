@@ -6,12 +6,12 @@ import {useHistory} from 'react-router-dom';
 import LoginLayout from '../components/LoginLayout';
 
 const SignIn = () => {
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
 
 	useEffect(() => {
 		if (userTicket) history.push('/');
-	}, [userTicket]);
+	}, [history, userTicket]);
 
 	return (
 		<LoginLayout>

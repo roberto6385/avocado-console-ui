@@ -75,7 +75,7 @@ const Folder = ({open, data, indent}) => {
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data]);
+	}, [clicked_server, data.key, dispatch]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
@@ -91,7 +91,7 @@ const Folder = ({open, data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 			show(e);
 		},
-		[data, dispatch],
+		[data.key, dispatch, show],
 	);
 
 	const handleSubmit = useCallback(
@@ -130,7 +130,7 @@ const Folder = ({open, data, indent}) => {
 			// 	});
 			// }
 		},
-		[data, renameValue],
+		[data.key, data.name, dispatch, nav, renameValue],
 	);
 
 	const EscapeKey = useCallback(
@@ -145,7 +145,7 @@ const Folder = ({open, data, indent}) => {
 
 	const prevPutItem = useCallback(() => {
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
-	}, [data]);
+	}, [data.key, dispatch]);
 
 	const nextPutItem = useCallback(
 		(e) => {
@@ -157,7 +157,7 @@ const Folder = ({open, data, indent}) => {
 					data: {next: data, indent: parseInt(indent)},
 				});
 		},
-		[data, indent],
+		[data, dispatch, indent],
 	);
 
 	const handleBlur = useCallback(() => {
@@ -176,7 +176,7 @@ const Folder = ({open, data, indent}) => {
 			}
 		};
 		fillInForm();
-	}, [openRename, renameRef, data]);
+	}, [openRename, renameRef, data, setRenameValue]);
 
 	useEffect(() => {
 		setOpenTab(open);
@@ -191,7 +191,7 @@ const Folder = ({open, data, indent}) => {
 			dispatch({type: SET_CLICKED_SERVER, data: createdFolderInfo.key});
 			setOpenRename(true);
 		}
-	}, [createdFolderInfo]);
+	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
 	return (
 		<React.Fragment>

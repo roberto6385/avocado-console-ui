@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {WRITE_SUCCESS} from '../../reducers/sftp/sftp';
+import {WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
@@ -40,34 +40,6 @@ export function writeResponse({data, payload}) {
 							writeByteSum = 0;
 							writePercent = 0;
 						}
-
-						console.log({
-							here:
-								'here here here here here here here here here',
-						});
-						console.log({
-							completed: write.getCompleted(),
-							writeByteSum: writeByteSum,
-							currentFileLength: payload.file.size,
-							percent: writePercent,
-						});
-						console.log({
-							type: WRITE_SUCCESS,
-							byteSum: writeByteSum,
-							end:
-								write.getWritebytes() === -1
-									? true
-									: writeByteSum === payload.file.size,
-							last: write.getCompleted(),
-							percent:
-								write.getWritebytes() === -1
-									? 100
-									: writePercent,
-						});
-						console.log({
-							here:
-								'here here here here here here here here here',
-						});
 
 						return {
 							type: WRITE_SUCCESS,

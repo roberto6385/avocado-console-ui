@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import {SAVE_EDITTEXT} from '../../../reducers/sftp/sftp';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {FONT_14} from '../../../styles/length';
 import {editColor, fontColor} from '../../../styles/color';
@@ -26,19 +26,24 @@ const _Container = styled.div`
 	}
 `;
 const EditContents = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const {editText} = corSftpInfo;
 	const dispatch = useDispatch();
+	const theme = useSelector((state) => state.common.theme);
+	const {edit: sftp_editState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const {editText} = useMemo(
+		() => sftp_editState.find((it) => it.uuid === uuid),
+		[sftp_editState, uuid],
+	);
 
-	const writeText = useCallback((e) => {
-		const {value} = e.target;
-		dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
-	}, []);
+	const writeText = useCallback(
+		(e) => {
+			const {value} = e.target;
+			dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
+		},
+		[dispatch, uuid],
+	);
 
 	return (
 		<_Container back={editColor[theme]} color={fontColor[theme]}>

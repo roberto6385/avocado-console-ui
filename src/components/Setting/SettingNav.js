@@ -68,13 +68,13 @@ const _Li = styled.li`
 const SettingNav = ({match}) => {
 	const history = useHistory();
 	const {t} = useTranslation('settingNav');
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	return (

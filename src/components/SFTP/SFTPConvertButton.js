@@ -1,16 +1,19 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {sftpIconConvert} from '../../icons/icons';
 import {ClickableIconButton} from '../../styles/button';
-import {connectionAction} from '../../reducers/sftp/sftp';
+import {connectionAction} from '../../reducers/sftp';
 
 const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const {server, identity, theme} = useSelector((state) => state.common);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {server, identity, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const connection = useCallback(() => {
 		const correspondedServer = server.find((x) => x.id === data.id);
@@ -29,6 +32,7 @@ const SFTPConvertButton = ({data}) => {
 					name: correspondedServer.name, // create tab info
 					key: correspondedServer.key,
 					id: correspondedServer.id,
+					dispatch: dispatch,
 				}),
 			);
 		} else {

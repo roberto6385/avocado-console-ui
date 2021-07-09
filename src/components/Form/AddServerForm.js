@@ -129,11 +129,8 @@ const AddServerForm = () => {
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput(22);
 	const [account, onChangeIdentity, setAccount] = useInput('');
-	const [
-		authentication,
-		onChangeAuthentication,
-		setAuthentication,
-	] = useInput('Password');
+	const [authentication, onChangeAuthentication, setAuthentication] =
+		useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 
 	const [username, onChangeUsername, setUsername] = useInput('');
@@ -149,6 +146,10 @@ const AddServerForm = () => {
 		{value: 'Password', label: t('password')},
 		{value: 'KeyFile', label: t('keyFile')},
 	];
+
+	const closeModal = useCallback(() => {
+		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
+	}, [dispatch]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -257,20 +258,24 @@ const AddServerForm = () => {
 			}
 		},
 		[
+			add_server_form_popup,
+			server,
 			name,
-			protocol,
 			host,
 			port,
-			account,
-			password,
-			add_server_form_popup,
+			protocol,
+			dispatch,
 			userTicket,
+			username,
+			password,
+			authentication,
+			identity,
+			correspondedIdentity,
+			account,
+			clicked_server,
+			closeModal,
 		],
 	);
-
-	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
-	}, [dispatch]);
 
 	useEffect(() => {
 		if (add_server_form_popup.open) {
@@ -307,7 +312,22 @@ const AddServerForm = () => {
 				setNote('');
 			}
 		}
-	}, [add_server_form_popup]);
+	}, [
+		add_server_form_popup,
+		correspondedIdentity,
+		server,
+		setAccount,
+		setAuthentication,
+		setHost,
+		setIdentityList,
+		setKeyFile,
+		setName,
+		setNote,
+		setPassword,
+		setPort,
+		setProtocol,
+		setUsername,
+	]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -321,7 +341,7 @@ const AddServerForm = () => {
 			};
 		});
 		add_server_form_popup.type === 'edit' && setIdentityList(newArray);
-	}, [clicked_server, add_server_form_popup]);
+	}, [clicked_server, add_server_form_popup, identity, setIdentityList]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -336,7 +356,14 @@ const AddServerForm = () => {
 			setPassword(selectedIdentity.password);
 			setAuthentication(selectedIdentity.type);
 		}
-	}, [account, identity, clicked_server]);
+	}, [
+		account,
+		identity,
+		clicked_server,
+		setUsername,
+		setPassword,
+		setAuthentication,
+	]);
 
 	return (
 		<_PopupModal
@@ -345,6 +372,7 @@ const AddServerForm = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			theme_value={theme}
+			className={'hello'}
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
@@ -352,6 +380,7 @@ const AddServerForm = () => {
 					color={fontColor[theme]}
 					size={'20px'}
 					margin={'0px'}
+					onClick={closeModal}
 				>
 					{closeIcon}
 				</ClickableIconButton>

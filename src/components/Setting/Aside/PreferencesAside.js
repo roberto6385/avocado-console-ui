@@ -13,7 +13,7 @@ import {
 	CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
 } from '../../../reducers/ssh';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {borderColor, fontColor} from '../../../styles/color';
 //Setting Page Side Bar
@@ -57,8 +57,11 @@ const font_theme = [
 const PreferencesAside = () => {
 	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
-	const {theme, lang} = useSelector((state) => state.common);
-	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
+	const {theme, lang} = useSelector((state) => state.common, shallowEqual);
+	const {font, auto_completion_mode} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
+	);
 
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [generalTheme, setGeneralTheme] = useState(theme);

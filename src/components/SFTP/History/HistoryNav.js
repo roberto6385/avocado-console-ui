@@ -1,15 +1,15 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp/crud';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
+import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp';
 
 const _Container = styled.div`
 	display: flex;
@@ -29,26 +29,27 @@ const _Title = styled.div`
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
-	const {sftp} = useSelector((state) => state.sftp);
-	const historyState = useSelector((state) => state.history.historyState);
-	const {userTicket} = useSelector((state) => state.userTicket);
-	const {theme, tab, server, identity} = useSelector((state) => state.common);
+	const {history: sftp_historyState, path: sftp_pathState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {theme, tab, server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
-	);
 
-	const corHistoryInfo = useMemo(
-		() => historyState.find((it) => it.uuid === uuid),
-		[historyState, uuid],
-	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
+	);
+	const {history_highlight} = useMemo(
+		() => sftp_historyState.find((it) => it.uuid === uuid),
+		[sftp_historyState, uuid],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
@@ -58,8 +59,10 @@ const HistoryNav = ({uuid}) => {
 		[identity, corTab],
 	);
 
-	const {path} = corSftpInfo;
-	const {history_highlight} = corHistoryInfo;
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -99,7 +102,7 @@ const HistoryNav = ({uuid}) => {
 			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [corSftpInfo]);
+	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {

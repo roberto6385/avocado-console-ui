@@ -56,9 +56,18 @@ export const SSH_CHANGE_SNIPPET_REQUEST = 'SSH_CHANGE_SNIPPET_REQUEST';
 export const SSH_CHANGE_SNIPPET_SUCCESS = 'SSH_CHANGE_SNIPPET_SUCCESS';
 export const SSH_CHANGE_SNIPPET_FAILURE = 'SSH_CHANGE_SNIPPET_FAILURE';
 
+export const READY_STATE = 'ssh/READY_STATE';
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
+			case READY_STATE: {
+				const index = draft.ssh.findIndex(
+					(v) => v.uuid === action.data.uuid,
+				);
+				draft.ssh[index].ready = 3;
+				break;
+			}
 			case SSH_SEND_CONNECTION_REQUEST:
 				draft.loading = true;
 				break;
@@ -76,6 +85,7 @@ const reducer = (state = initialState, action) => {
 					}),
 					current_line: '',
 					loading: false,
+					ready: 1,
 				});
 				break;
 

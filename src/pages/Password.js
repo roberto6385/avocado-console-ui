@@ -11,7 +11,7 @@ const Password = () => {
 
 	useEffect(() => {
 		if (userTicket) history.push('/');
-	}, [userTicket]);
+	}, [history, userTicket]);
 
 	return (
 		<LoginLayout>

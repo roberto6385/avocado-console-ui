@@ -69,7 +69,7 @@ const ServerFolderList = ({search}) => {
 
 	const dropNavList = useCallback(() => {
 		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');

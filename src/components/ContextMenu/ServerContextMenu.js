@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {connectionAction} from '../../reducers/sftp/sftp';
+import {connectionAction, READY_STATE} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
@@ -15,8 +15,8 @@ import {ContextMenu} from '../../styles/default';
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server, tab, theme} = useSelector((state) => state.common);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {server, theme} = useSelector((state) => state.common, shallowEqual);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],
@@ -51,9 +51,17 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
+				dispatch: dispatch,
 			}),
 		);
-	}, [server, userTicket, data, correspondedIdentity]);
+	}, [
+		server,
+		dispatch,
+		userTicket,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+		data.key,
+	]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
@@ -67,7 +75,14 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				password: correspondedIdentity.password,
 			},
 		});
-	}, [server, data, userTicket, correspondedIdentity]);
+	}, [
+		server,
+		dispatch,
+		userTicket,
+		correspondedIdentity.user,
+		correspondedIdentity.password,
+		data.key,
+	]);
 
 	const handleItemClick = useCallback(
 		(v) => () => {
@@ -97,7 +112,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					return;
 			}
 		},
-		[correspondedIdentity],
+		[data.id, dispatch, openSFTP, openSSH, setOpenRename],
 	);
 
 	return (

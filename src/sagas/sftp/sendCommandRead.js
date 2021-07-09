@@ -10,48 +10,56 @@ import {
 } from 'redux-saga/effects';
 import {
 	CHANGE_MODE,
+	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
+	removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
-} from '../../reducers/sftp/sftp';
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+import {closeChannel, fileSubscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
-import {FIND_HISTORY} from "../../reducers/sftp/history";
-import {removeNewWebsocket} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(subscribe, payload.read_socket);
-
-	const filepath =
-		payload.read_path === '/'
-			? `${payload.read_path}${payload.file.name}`
-			: `${payload.read_path}/${payload.file.name}`;
-
-	const senderLength = 1024 * 56;
-
-	yield call(messageSender, {
-		keyword: 'CommandByRead',
-		ws: payload.read_socket,
-		path: filepath,
-		offset: 0,
-		length: senderLength,
-		completed: false,
-	});
+	const channel = yield call(fileSubscribe, payload.read_socket);
 
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('already socket is closing');
+			return;
+		}
+
+		const filepath =
+			payload.read_path === '/'
+				? `${payload.read_path}${payload.file.name}`
+				: `${payload.read_path}/${payload.file.name}`;
+
+		const senderLength = 1024 * 56;
+
+		yield call(messageSender, {
+			keyword: 'CommandByRead',
+			ws: payload.read_socket,
+			path: filepath,
+			offset: 0,
+			length: senderLength,
+			completed: false,
+		});
+
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('READ 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				// const data = yield take(channel);

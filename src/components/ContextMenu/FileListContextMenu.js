@@ -1,32 +1,41 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {animation, Item, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
-import {createNewWebsocket, PUSH_READ_LIST} from "../../reducers/sftp/crud";
 import {ContextMenu} from '../../styles/default';
-
+import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme, server, tab, identity} = useSelector((state) => state.common);
+	const {path: sftp_pathState, file: sftp_fileState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const {theme, server, tab, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
-	const corSftpInfo = useMemo(() => sftp.find((it) => it.uuid === uuid), [
-		sftp,
-		uuid,
-	]);
-	const corTab = useMemo(() => tab.find((it) => it.uuid === uuid), [
-		tab,
-		uuid,
-	]);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {highlight} = useMemo(
+		() => sftp_fileState.find((it) => it.uuid === uuid),
+		[sftp_fileState, uuid],
+	);
+	const {path} = useMemo(
+		() => sftp_pathState.find((it) => it.uuid === uuid),
+		[sftp_pathState, uuid],
+	);
+	const corTab = useMemo(
+		() => tab.find((it) => it.uuid === uuid),
+		[tab, uuid],
+	);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
-		[corTab],
+		[corTab.server.key, server],
 	);
 
 	const correspondedIdentity = useMemo(
@@ -36,9 +45,8 @@ const FileListContextMenu = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {highlight, path} = corSftpInfo;
 
-	const contextDownload = async () => {
+	const contextDownload = useCallback(async () => {
 		const array = [];
 		for await (let value of highlight) {
 			array.push({path, file: value, todo: 'read'});
@@ -58,53 +66,83 @@ const FileListContextMenu = ({uuid}) => {
 			type: PUSH_READ_LIST,
 			payload: {uuid, array},
 		});
-	};
+	}, [
+		dispatch,
+		uuid,
+		highlight,
+		path,
+		userTicket,
+		corServer,
+		correspondedIdentity,
+	]);
 
-	const contextEdit = () => {
+	const contextEdit = useCallback(() => {
 		for (let value of highlight) {
 			dispatch({
 				type: PUSH_READ_LIST,
 				payload: {uuid, array: [{path, file: value, todo: 'edit'}]},
 			});
+			dispatch(
+				createNewWebsocket({
+					token: userTicket.access_token, // connection info
+					host: corServer.host,
+					port: corServer.port,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+					todo: 'read',
+					uuid: uuid,
+				}),
+			);
 		}
-	};
+	}, [
+		highlight,
+		dispatch,
+		uuid,
+		path,
+		userTicket,
+		corServer,
+		correspondedIdentity,
+	]);
 
-	const handleItemClick = async ({event}) => {
-		switch (event.currentTarget.id) {
-			case 'download':
-				await contextDownload();
-				break;
-			case 'edit':
-				contextEdit(event);
-				break;
-			case 'new_folder':
-				dispatch({
-					type: OPEN_INPUT_POPUP,
-					data: {key: 'sftp_new_folder', uuid: uuid},
-				});
-				break;
-			case 'rename_work':
-				dispatch({
-					type: OPEN_INPUT_POPUP,
-					data: {
-						key: 'sftp_rename_file_folder',
-						uuid: uuid,
-					},
-				});
-				break;
-			case 'delete_work':
-				dispatch({
-					type: OPEN_WARNING_ALERT_POPUP,
-					data: {
-						key: 'sftp_delete_file_folder',
-						uuid: uuid,
-					},
-				});
-				break;
-			default:
-				return;
-		}
-	};
+	const handleItemClick = useCallback(
+		async ({event}) => {
+			switch (event.currentTarget.id) {
+				case 'download':
+					await contextDownload();
+					break;
+				case 'edit':
+					contextEdit(event);
+					break;
+				case 'new_folder':
+					dispatch({
+						type: OPEN_INPUT_POPUP,
+						data: {key: 'sftp_new_folder', uuid: uuid},
+					});
+					break;
+				case 'rename_work':
+					dispatch({
+						type: OPEN_INPUT_POPUP,
+						data: {
+							key: 'sftp_rename_file_folder',
+							uuid: uuid,
+						},
+					});
+					break;
+				case 'delete_work':
+					dispatch({
+						type: OPEN_WARNING_ALERT_POPUP,
+						data: {
+							key: 'sftp_delete_file_folder',
+							uuid: uuid,
+						},
+					});
+					break;
+				default:
+					return;
+			}
+		},
+		[contextDownload, contextEdit, dispatch, uuid],
+	);
 	return (
 		<ContextMenu
 			id={uuid + 'fileList'}

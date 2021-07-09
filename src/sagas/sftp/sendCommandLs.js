@@ -4,22 +4,37 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	race,
 	delay,
 	takeEvery,
-	throttle,
+	actionChannel,
+	takeLatest,
 } from 'redux-saga/effects';
-import {ERROR, LS_FAILURE, LS_REQUEST, LS_SUCCESS} from '../../reducers/sftp/sftp';
-import {closeChannel, subscribe} from '../channel';
+import {
+	ERROR,
+	LS_FAILURE,
+	LS_REQUEST,
+	LS_SUCCESS,
+	READY_STATE,
+	WRITE_REQUEST,
+} from '../../reducers/sftp';
+import {closeChannel} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(useSubscribe, {
+		socket: payload.socket,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
+	});
 
 	try {
 		yield call(messageSender, {
@@ -29,14 +44,13 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('LS 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				console.log('ls end');
 			} else {
-				// const data = yield take(channel);
 				const res = yield call(lsResponse, {data});
 				console.log(res);
 				switch (res.type) {
@@ -71,13 +85,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(LS_REQUEST, sendCommand);
-	// yield throttle(500, LS_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(LS_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
+	yield takeLatest(LS_REQUEST, sendCommand);
 }
 
 export default function* commandLsSaga() {

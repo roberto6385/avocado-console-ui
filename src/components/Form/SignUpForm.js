@@ -63,7 +63,7 @@ const SignUpForm = () => {
 			// 		}),
 			// 	);
 		},
-		[id, name, email, password, passwordConfirm],
+		[dispatch],
 	);
 
 	const typeChange = useCallback(

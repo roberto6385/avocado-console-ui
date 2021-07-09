@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
 import styled from 'styled-components';
 
@@ -12,7 +12,6 @@ import {
 	PopupModal,
 	PopupText,
 } from '../../styles/default';
-import {PUSH_WRITE_LIST} from '../../reducers/sftp/crud';
 
 import {
 	ClickableIconButton,
@@ -21,7 +20,13 @@ import {
 	PrimaryGreyButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
-import {CHANGE_MODE, CLOSE_EDITOR, SAVE_TEXT} from '../../reducers/sftp/sftp';
+import {
+	CHANGE_MODE,
+	CLOSE_EDITOR,
+	createNewWebsocket,
+	PUSH_WRITE_LIST,
+	SAVE_TEXT,
+} from '../../reducers/sftp';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -30,9 +35,18 @@ const _PopupModal = styled(PopupModal)`
 const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
 	const save_popup = useSelector((state) => state.popup.save_popup);
-	const sftp = useSelector((state) => state.sftp.sftp);
+	const {
+		path: sftp_pathState,
+		etc: sftp_etcState,
+		edit: sftp_editState,
+	} = useSelector((state) => state.sftp, shallowEqual);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {theme, tab, server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
@@ -46,8 +60,7 @@ const SavePopup = () => {
 			}
 			case 'sftp_edit_close': {
 				const uuid = save_popup.uuid;
-				const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-				const {prevMode} = corSftpInfo;
+				const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 				dispatch({type: CLOSE_SAVE_POPUP});
 				dispatch({
 					type: CLOSE_EDITOR,
@@ -61,21 +74,41 @@ const SavePopup = () => {
 				break;
 			}
 		}
-	}, [save_popup]);
+	}, [dispatch, save_popup, sftp_etcState]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
 
 			const uuid = save_popup.uuid;
-			const corSftpInfo = sftp.find((it) => it.uuid === uuid);
-			const {editText, editFile, prevMode, path} = corSftpInfo;
+			const corTab = tab.find((it) => it.uuid === uuid);
+			const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
+			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
+			const {editText, editFile} = sftp_editState.find(
+				(it) => it.uuid === uuid,
+			);
+			const correspondedIdentity = identity.find(
+				(it) => it.key === corTab.server.key && it.checked === true,
+			);
+
+			const corServer = server.find((it) => it.key === corTab.server.key);
 			const uploadFile = new File([editText], editFile.name, {
 				type: 'text/plain',
 			});
 
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'write',
+							uuid: uuid,
+						}),
+					);
 					dispatch({
 						type: PUSH_WRITE_LIST,
 						payload: {
@@ -92,6 +125,17 @@ const SavePopup = () => {
 					break;
 				}
 				case 'sftp_edit_close': {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'write',
+							uuid: uuid,
+						}),
+					);
 					dispatch({
 						type: PUSH_WRITE_LIST,
 						payload: {
@@ -119,7 +163,18 @@ const SavePopup = () => {
 			}
 			closeModal();
 		},
-		[save_popup, sftp],
+		[
+			save_popup,
+			tab,
+			sftp_etcState,
+			sftp_pathState,
+			sftp_editState,
+			identity,
+			server,
+			closeModal,
+			dispatch,
+			userTicket,
+		],
 	);
 
 	return (

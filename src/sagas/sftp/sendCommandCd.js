@@ -14,16 +14,26 @@ import {
 	CD_SUCCESS,
 	commandPwdAction,
 	ERROR,
-} from '../../reducers/sftp/sftp';
+	READY_STATE,
+} from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
+
+import {closeChannel} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	console.log(payload);
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(useSubscribe, {
+		socket: payload.socket,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
+	});
+
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByCd',
@@ -32,11 +42,10 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('CD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
 			} else {
 				const res = yield call(cdResponse, {data});
@@ -53,6 +62,7 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
+								dispatch: payload.dispatch,
 							}),
 						);
 
@@ -73,12 +83,12 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: CD_FAILURE});
 		yield put({
 			type: OPEN_ALERT_POPUP,
 			data: 'wrong_path',
 		});
-		closeChannel(channel);
 	}
 }
 

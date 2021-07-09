@@ -1,5 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, RENAME_SUCCESS} from '../../reducers/sftp/sftp';
+import {ERROR, RENAME_SUCCESS} from '../../reducers/sftp';
 
 export function renameResponse({data}) {
 	try {

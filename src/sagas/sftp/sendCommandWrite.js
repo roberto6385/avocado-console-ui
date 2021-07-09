@@ -8,25 +8,31 @@ import {
 	race,
 	delay,
 	takeEvery,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	FIND_HISTORY,
+	removeNewWebsocket,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
-} from '../../reducers/sftp/sftp';
-import {closeChannel, subscribe} from '../channel';
+} from '../../reducers/sftp';
+import {closeChannel, fileSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
-import {FIND_HISTORY} from "../../reducers/sftp/history";
-import {removeNewWebsocket} from "../../reducers/sftp/crud";
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.write_socket);
+	const channel = yield call(fileSubscribe, payload.write_socket);
 	const senderLength = 1024 * 4;
 
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('already socket is closing');
+			return;
+		}
+
 		const filepath =
 			payload.write_path === '/'
 				? `${payload.write_path}${payload.file.name}`
@@ -44,14 +50,18 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('WRITE 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				console.log('upload end');
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(writeResponse, {data, payload});
@@ -97,11 +107,14 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
+
 							yield put(
 								commandPwdAction({
 									socket: payload.socket,
 									uuid: payload.uuid,
 									pwd_path: payload.path,
+									dispatch: payload.dispatch,
+									key: 'write',
 								}),
 							);
 						}
@@ -118,25 +131,19 @@ function* sendCommand(action) {
 
 						break;
 
-					// case ERROR:
-					// 	console.log(res.err);
-					// 	break;
+					default:
+						break;
 				}
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		yield put({type: WRITE_FAILURE});
-		// yield put(
-		// 	removeNewWebsocket({
-		// 		socket: payload.write_socket,
-		// 	}),
-		// );
 	}
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(WRITE_REQUEST, sendCommand);
+	// yield takeLatest(WRITE_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(WRITE_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

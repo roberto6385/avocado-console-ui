@@ -7,26 +7,34 @@ import {
 	race,
 	delay,
 	takeEvery,
-	actionChannel,
 	takeLatest,
-	throttle,
 } from 'redux-saga/effects';
+import messageSender from './messageSender';
+import {closeChannel} from '../channel';
+import {pwdResponse} from '../../ws/sftp/pwd_response';
+import {pathFunction} from '../../components/SFTP/listConversion';
+import useSubscribe from '../../hooks/useSubscribe';
 import {
 	commandLsAction,
-	ERROR,
 	INIT_FILELIST,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
-} from '../../reducers/sftp/sftp';
-import messageSender from './messageSender';
-import {closeChannel, subscribe} from '../channel';
-import {pwdResponse} from '../../ws/sftp/pwd_response';
-import {pathFunction} from '../../components/SFTP/listConversion';
+	READY_STATE,
+} from '../../reducers/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(subscribe, payload.socket);
+	const channel = yield call(useSubscribe, {
+		socket: payload.socket,
+		uuid: payload.uuid,
+		dispatch: () =>
+			payload.dispatch({
+				type: READY_STATE,
+				payload: {uuid: payload.uuid},
+			}),
+	});
+
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByPwd',
@@ -35,12 +43,12 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
-				console.log('PWD 채널 사용이 없습니다. 종료합니다.');
 				closeChannel(channel);
+				console.log('pwd end');
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(pwdResponse, {data});
@@ -60,6 +68,7 @@ function* sendCommand(action) {
 					ls_pathList = pathFunction({path: res.path});
 					console.log(ls_pathList);
 				} else {
+					console.log(payload.pwd_path);
 					const prevList = pathFunction({path: payload.pwd_path});
 					const nextList = pathFunction({path: res.path});
 
@@ -73,44 +82,54 @@ function* sendCommand(action) {
 					console.log('현재 경로');
 					console.log(current_filter);
 
-					remove_index =
-						prev_filter.length === 0
-							? next_filter.length === 0
-								? 1 // 제거 없음 추가 없음 1
-								: 0 // 제거 없음 추가 있음 0
-							: next_filter.length === 0
-							? prev_filter.length + 1 // 제거 있음 추가 없음 => 제거 + 1
-							: prev_filter.length; // 제거 있음 추가 있음 => 제거
-					ls_pathList =
-						next_filter.length === 0 ? [res.path] : next_filter;
+					if (payload.key === 'write') {
+						remove_index =
+							prev_filter.length === 0 && next_filter.length === 0
+								? 1
+								: 0;
+						ls_pathList =
+							prev_filter.length === 0 && next_filter.length === 0
+								? [res.path]
+								: [];
+					} else {
+						remove_index =
+							prev_filter.length === 0
+								? next_filter.length === 0
+									? 1 // 제거 없음 추가 없음 1
+									: 0 // 제거 없음 추가 있음 0
+								: next_filter.length === 0
+								? prev_filter.length + 1 // 제거 있음 추가 없음 => 제거 + 1
+								: prev_filter.length; // 제거 있음 추가 있음 => 제거
+						ls_pathList =
+							next_filter.length === 0 ? [res.path] : next_filter;
+					}
 				}
-				// switch (res.type) {
-				// 	case PWD_SUCCESS:
-				yield put({
-					type: PWD_SUCCESS,
-					payload: {
-						uuid: payload.uuid,
-						path: res.path,
-						pathList: res.pathList,
-						removeIndex: remove_index,
-					},
-				});
-				// 내가 필요한 경로만큼만 요청!
-				for (let value of ls_pathList) {
-					yield put(
-						commandLsAction({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							ls_path: value,
-						}),
-					);
+				switch (res.type) {
+					case PWD_SUCCESS:
+						yield put({
+							type: PWD_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								path: res.path,
+								pathList: res.pathList,
+								removeIndex: remove_index,
+							},
+						});
+						// 내가 필요한 경로만큼만 요청!
+						for (let value of ls_pathList) {
+							yield put(
+								commandLsAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									ls_path: value,
+									dispatch: payload.dispatch,
+								}),
+							);
+						}
+						break;
+					default:
+						break;
 				}
-				// break;
-
-				// case ERROR:
-				// 	console.log(res.err);
-				// 	break;
-				// }
 			}
 		}
 	} catch (err) {
@@ -120,8 +139,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeLatest(PWD_REQUEST, sendCommand);
-	yield takeEvery(PWD_REQUEST, sendCommand);
+	yield takeLatest(PWD_REQUEST, sendCommand);
 }
 
 export default function* commandPwdSaga() {

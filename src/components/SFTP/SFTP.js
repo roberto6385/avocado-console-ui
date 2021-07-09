@@ -4,7 +4,7 @@ import FileList from './FileList/FileList';
 import History from './History/History';
 
 import Edit from './Edit/Edit';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {sideColor} from '../../styles/color';
 
@@ -16,14 +16,15 @@ const _SFTP = styled.div`
 `;
 
 const SFTP = ({uuid}) => {
-	const {sftp} = useSelector((state) => state.sftp);
-	const {theme} = useSelector((state) => state.common);
-
-	const corSftpInfo = useMemo(
-		() => sftp.find((it) => it.uuid === uuid),
-		[sftp, uuid],
+	const theme = useSelector((state) => state.common.theme);
+	const {etc: sftp_etcState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
 	);
-	const {mode} = corSftpInfo;
+	const {mode} = useMemo(
+		() => sftp_etcState.find((it) => it.uuid === uuid),
+		[sftp_etcState, uuid],
+	);
 
 	return mode === 'edit' ? (
 		<_SFTP>

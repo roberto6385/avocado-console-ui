@@ -3,7 +3,7 @@ import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {getRevoke} from '../../reducers/auth/revoke';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
@@ -12,13 +12,16 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {theme, rightSideKey} = useSelector((state) => state.common);
+	const {theme, rightSideKey} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const changePath = useCallback(
 		(path) => () => {
 			history.push(path);
 		},
-		[],
+		[history],
 	);
 
 	const openSideMenu = useCallback(
@@ -30,7 +33,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[rightSideKey, toggle],
+		[dispatch, rightSideKey, setToggle, toggle],
 	);
 
 	return (

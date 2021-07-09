@@ -8,6 +8,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	debounce,
 } from 'redux-saga/effects';
 
 import {
@@ -21,20 +22,30 @@ import {
 	SSH_SEND_COMMAND_FAILURE,
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_WINDOW_CHANGE_FAILURE,
+	READY_STATE,
 } from '../../reducers/ssh';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
+import useSubscribe from '../../hooks/useSubscribe';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
 	let uuid = null;
 
+	console.log(action);
+
 	try {
 		const ws = yield call(initWebsocket);
-		const channel = yield call(subscribe, ws);
+		const channel = yield call(useSubscribe, {
+			socket: ws,
+			dispatch: () =>
+				console.log(
+					'최초 끊김은 uuid가 없어서 의미 없음 => 다른방식으로 처리',
+				),
+		});
 		let pass = false;
 		yield call(ssht_ws_request, {
 			keyword: 'SendConnect',
@@ -164,7 +175,16 @@ function* sendDisconnection(action) {
 }
 
 function* sendCommand(action) {
-	const channel = yield call(subscribe, action.data.ws);
+	console.log(action);
+
+	const channel = yield call(useSubscribe, {
+		socket: action.data.ws,
+		dispatch: () =>
+			action.data.dispatch({
+				type: READY_STATE,
+				data: {uuid: action.data.uuid},
+			}),
+	});
 
 	try {
 		if (action.data.ws.readyState === 1) {
@@ -182,6 +202,7 @@ function* sendCommand(action) {
 
 				if (timeout) {
 					closeChannel(channel);
+					console.log('send command close');
 				} else {
 					const res = yield call(GetMessage, result);
 
@@ -209,7 +230,14 @@ function* sendCommand(action) {
 }
 
 function* sendWindowChange(action) {
-	const channel = yield call(subscribe, action.data.ws);
+	const channel = yield call(useSubscribe, {
+		socket: action.data.ws,
+		dispatch: () =>
+			action.data.dispatch({
+				type: READY_STATE,
+				data: {uuid: action.data.uuid},
+			}),
+	});
 
 	try {
 		if (action.data.ws.readyState === 1) {
@@ -267,6 +295,7 @@ function* watchSendCommand() {
 
 function* watchSendWindowChange() {
 	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	// yield debounce(500, SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

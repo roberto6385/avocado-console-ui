@@ -1,6 +1,5 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR} from '../../reducers/sftp/sftp';
-import {CREATE_NEW_WEBSOCKET_SUCCESS} from "../../reducers/sftp/crud";
+import {CREATE_NEW_WEBSOCKET_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export function createNewSocketResponse({data}) {
 	try {

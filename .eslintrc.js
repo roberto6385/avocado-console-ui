@@ -30,6 +30,8 @@ module.exports = {
 		'react/no-render-return-value': 2,
 		'react/no-unknown-property': 2,
 		'react/require-render-return': 2, //render method를 작성할때 return 이 없으면 경고
+		'react-hooks/rules-of-hooks': 'error',
+		'react-hooks/exhaustive-deps': 'warn',
 	},
 	settings: {
 		react: {
@@ -39,5 +41,10 @@ module.exports = {
 	globals: {
 		naver: 'readonly', // global 변수 naver 설정
 	},
-	extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'], // 확장하고 싶은 기본 규칙 추가 ex) ["eslint:recommended", "plugin:react/recommended"]
+	extends: [
+		'eslint:recommended',
+		'plugin:react/recommended',
+		'prettier',
+		'plugin:react-hooks/recommended',
+	], // 확장하고 싶은 기본 규칙 추가 ex) ["eslint:recommended", "plugin:react/recommended"]
 };

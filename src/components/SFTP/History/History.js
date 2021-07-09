@@ -18,7 +18,7 @@ const _Container = styled.div`
 `;
 
 const History = ({uuid}) => {
-	const {theme} = useSelector((state) => state.common);
+	const theme = useSelector((state) => state.common.theme);
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
