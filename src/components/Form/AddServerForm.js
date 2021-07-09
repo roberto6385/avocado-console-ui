@@ -29,7 +29,7 @@ import {
 import {
 	borderColor,
 	fontColor,
-	greyBackgroundNormalButtonColor,
+	greyNormalButtonBackgroundColor,
 } from '../../styles/color';
 import {
 	ClickableIconButton,
@@ -487,7 +487,7 @@ const AddServerForm = () => {
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
-										greyBackgroundNormalButtonColor[theme]
+										greyNormalButtonBackgroundColor[theme]
 									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}

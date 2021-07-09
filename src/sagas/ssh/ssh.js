@@ -8,13 +8,12 @@ import {
 	race,
 	delay,
 	takeEvery,
-	debounce,
+	throttle,
 } from 'redux-saga/effects';
 
 import {
 	SSH_SEND_CONNECTION_REQUEST,
 	SSH_SEND_CONNECTION_SUCCESS,
-	SSH_SEND_CONNECTION_FAILURE,
 	SSH_SEND_DISCONNECTION_REQUEST,
 	SSH_SEND_DISCONNECTION_SUCCESS,
 	SSH_SEND_COMMAND_REQUEST,
@@ -31,6 +30,7 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import useSubscribe from '../../hooks/useSubscribe';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {CONNECTION_REQUEST} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -282,7 +282,7 @@ function* sendWindowChange(action) {
 }
 
 function* watchSendConnection() {
-	yield takeLatest(SSH_SEND_CONNECTION_REQUEST, sendConnection);
+	yield throttle(1000, SSH_SEND_CONNECTION_REQUEST, sendConnection);
 }
 
 function* watchSendDisconnection() {

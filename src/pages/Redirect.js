@@ -8,12 +8,11 @@ import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
 import background from '../images/login.png';
 import styled from 'styled-components';
 import LoadingSpinner from '../components/loadingSpinner';
-import {L_LOGO} from '../styles/color';
 
 const _Container = styled.div`
 	width: 100%;
 	height: 100%;
-	background: ${L_LOGO};
+	background: #126466;
 	background-image: url(${background});
 	object-fit: contain;
 	background-size: cover;

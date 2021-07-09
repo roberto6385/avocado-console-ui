@@ -7,12 +7,12 @@ import {
 	greenActiveButtonColor,
 	greenHoverButtonColor,
 	greenNormalButtonColor,
-	greyBackgroundActiveButtonColor,
-	greyBackgroundHoverButtonColor,
-	greyBackgroundNormalButtonColor,
-	greyBoarderActiveButtonColor,
-	greyBoarderHoverButtonColor,
-	greyBoarderNormalButtonColor,
+	greyActiveButtonBackgroundColor,
+	greyHoverButtonBackgroundColor,
+	greyNormalButtonBackgroundColor,
+	greyActiveButtonBoarderColor,
+	greyHoverButtonBoarderColor,
+	greyNormalButtonBoarderColor,
 	greyButtonColor,
 	iconColor,
 	redActiveButtonColor,
@@ -67,29 +67,29 @@ export const PrimaryGreyButton = styled(DefaultButton)`
 	color: ${(props) =>
 		greyButtonColor[props.theme_value] || greyButtonColor[0]};
 	background: ${(props) =>
-		greyBackgroundNormalButtonColor[props.theme_value] ||
-		greyBackgroundNormalButtonColor[0]};
+		greyNormalButtonBackgroundColor[props.theme_value] ||
+		greyNormalButtonBackgroundColor[0]};
 	border: solid 1px
 		${(props) =>
-			greyBoarderNormalButtonColor[props.theme_value] ||
-			greyBackgroundHoverButtonColor[0]};
+			greyNormalButtonBoarderColor[props.theme_value] ||
+			greyHoverButtonBackgroundColor[0]};
 	&:hover {
 		background: ${(props) =>
-			greyBackgroundHoverButtonColor[props.theme_value] ||
-			greyBackgroundHoverButtonColor[0]};
+			greyHoverButtonBackgroundColor[props.theme_value] ||
+			greyHoverButtonBackgroundColor[0]};
 		border: solid 1px
 			${(props) =>
-				greyBoarderHoverButtonColor[props.theme_value] ||
-				greyBoarderHoverButtonColor[0]};
+				greyHoverButtonBoarderColor[props.theme_value] ||
+				greyHoverButtonBoarderColor[0]};
 	}
 	&:active {
 		background: ${(props) =>
-			greyBackgroundActiveButtonColor[props.theme_value] ||
-			greyBackgroundActiveButtonColor[0]};
+			greyActiveButtonBackgroundColor[props.theme_value] ||
+			greyActiveButtonBackgroundColor[0]};
 		border: solid 1px
 			${(props) =>
-				greyBoarderActiveButtonColor[props.theme_value] ||
-				greyBoarderActiveButtonColor[0]};
+				greyActiveButtonBoarderColor[props.theme_value] ||
+				greyActiveButtonBoarderColor[0]};
 	}
 `;
 
