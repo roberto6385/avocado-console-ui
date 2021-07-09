@@ -25,6 +25,10 @@ function* sendCommand(action) {
 	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {
+		if (payload.socket.readyState === 3) {
+			yield put({type: CLOSE_TAB, data: payload.uuid});
+			return;
+		}
 		yield call(messageSender, {
 			keyword: 'Disconnection',
 			ws: payload.socket,

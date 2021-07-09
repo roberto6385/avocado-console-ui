@@ -61,6 +61,7 @@ function* sendConnection(action) {
 
 			if (timeout) {
 				closeChannel(channel);
+				ws.close();
 			} else {
 				const res = yield call(GetMessage, result);
 				console.log(res);

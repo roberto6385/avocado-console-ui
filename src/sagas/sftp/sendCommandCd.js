@@ -35,6 +35,10 @@ function* sendCommand(action) {
 	});
 
 	try {
+		if (payload.socket.readyState === 3) {
+			console.log('closed');
+			return;
+		}
 		yield call(messageSender, {
 			keyword: 'CommandByCd',
 			ws: payload.socket,
