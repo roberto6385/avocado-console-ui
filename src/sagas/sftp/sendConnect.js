@@ -49,7 +49,6 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});

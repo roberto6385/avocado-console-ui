@@ -638,7 +638,14 @@ const reducer = (state = initialState, action) => {
 					server: action.data.server,
 				};
 				//save new tab info
-				draft.tab.push(new_tab);
+				if (action.data.prevUuid) {
+					const index = draft.tab.findIndex(
+						(v) => v.uuid === action.data.prevUuid,
+					);
+					draft.tab.splice(index, 0, new_tab);
+				} else {
+					draft.tab.push(new_tab);
+				}
 				//set current tab
 				draft.current_tab = action.data.uuid;
 				draft.current_tab = fillTabs(

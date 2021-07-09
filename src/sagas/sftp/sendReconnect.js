@@ -50,7 +50,6 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(reconnectResponse, {data});
@@ -79,6 +78,7 @@ function* sendCommand(action) {
 									name: payload.name,
 									key: payload.key,
 								},
+								prevUuid: payload.prevUuid,
 							},
 						});
 
