@@ -6,8 +6,9 @@ import {
 	put,
 	race,
 	delay,
-	takeEvery,
 	takeLatest,
+	debounce,
+	throttle,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -115,7 +116,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeLatest(CONNECTION_REQUEST, sendCommand);
+	yield throttle(1000, CONNECTION_REQUEST, sendCommand);
 }
 
 export default function* connectSaga() {
