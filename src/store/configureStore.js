@@ -19,17 +19,20 @@ const tokenRefreshMiddleware =
 	(action) => {
 		if (
 			getState().userTicket.userTicket &&
-			action.type !== LOGOUT &&
-			action.type !== REFRESH_USER_TICKET_REQUEST &&
-			action.type !== REFRESH_USER_TICKET_SUCCESS &&
-			action.type !== REFRESH_USER_TICKET_FAILURE
+			!(
+				action.type === LOGOUT ||
+				action.type === REFRESH_USER_TICKET_REQUEST ||
+				action.type === REFRESH_USER_TICKET_SUCCESS ||
+				action.type === REFRESH_USER_TICKET_FAILURE
+			)
 		) {
 			if (
-				Date.now -
-					sessionStorage.getItem('lastTouchTime') +
-					10 * 60 * 100 >
-				getState().userTicket.userTicket.expires_in
+				Date.now() -
+					getState().userTicket.userTicket.expires_in * 1000 +
+					10 * 60 * 1000 >
+				Date.parse(getState().userTicket.userTicket.create_date)
 			) {
+				console.log('HERE');
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({
 					type: REFRESH_USER_TICKET_REQUEST,

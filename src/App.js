@@ -23,7 +23,10 @@ import RefreshPopup from './components/Popup/RefreshPopup';
 import {useDispatch, useSelector} from 'react-redux';
 import {useCookies} from 'react-cookie';
 import {useIdleTimer} from 'react-idle-timer';
-import {REFRESH_USER_TICKET_REQUEST, REFRESH_USER_TICKET_SUCCESS} from './reducers/auth/userTicket';
+import {
+	REFRESH_USER_TICKET_REQUEST,
+	REFRESH_USER_TICKET_SUCCESS,
+} from './reducers/auth/userTicket';
 import base64 from 'base-64';
 import {getRevoke} from './reducers/auth/revoke';
 

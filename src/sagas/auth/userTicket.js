@@ -1,4 +1,4 @@
-import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
+import {all, fork, put, call, takeLatest, delay} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_USER_TICKET_REQUEST,
@@ -8,8 +8,6 @@ import {
 	REFRESH_USER_TICKET_SUCCESS,
 	REFRESH_USER_TICKET_FAILURE,
 } from '../../reducers/auth/userTicket';
-import {OPEN_REFRESH_POPUP} from '../../reducers/popup';
-import jwtDecode from 'jwt-decode';
 
 const querystring = require('query-string');
 
@@ -32,7 +30,6 @@ async function getUserTicketApi(params) {
 		},
 	);
 }
-
 async function getUserInfoApi(params) {
 	console.log(params);
 	return await axios.get(
@@ -65,7 +62,6 @@ function refreshUserTicketApi(params) {
 		},
 	);
 }
-
 function* getUserTicket(action) {
 	console.log(action);
 	try {
@@ -92,7 +88,6 @@ function* getUserTicket(action) {
 
 function* refreshUserTicket(action) {
 	try {
-		console.log(action.params);
 		const res = yield call(refreshUserTicketApi, action.params);
 		console.log(res);
 

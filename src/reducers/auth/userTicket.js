@@ -1,17 +1,15 @@
 import produce from 'immer';
-import {GET_REFRESH_TICKET_SUCCESS} from './refreshTicket';
-
 // action types
 export const GET_USER_TICKET_REQUEST = 'userTicket/GET_USER_TICKET_REQUEST';
 export const GET_USER_TICKET_SUCCESS = 'userTicket/GET_USER_TICKET_SUCCESS';
 export const GET_USER_TICKET_FAILURE = 'userTicket/GET_USER_TICKET_FAILURE';
 
 export const REFRESH_USER_TICKET_REQUEST =
-	'refreshTicket/REFRESH_USER_TICKET_REQUEST';
+	'userTicket/REFRESH_USER_TICKET_REQUEST';
 export const REFRESH_USER_TICKET_SUCCESS =
 	'userTicket/REFRESH_USER_TICKET_SUCCESS';
 export const REFRESH_USER_TICKET_FAILURE =
-	'refreshTicket/GET_REFRESH_TICKET_FAILURE';
+	'userTicket/GET_REFRESH_TICKET_FAILURE';
 
 export const REVOKE_USER_TICKET = 'userTicket/REVOKE_USER_TICKET';
 
