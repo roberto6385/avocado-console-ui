@@ -48,6 +48,7 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				payload.socket.close();
 			} else {
 				const res = yield call(mkdirResponse, {data});
 

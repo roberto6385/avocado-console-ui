@@ -1,11 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
-import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
+import {
+	SSH_SEND_CONNECTION_REQUEST,
+	SSH_SEND_DISCONNECTION_REQUEST,
+} from '../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
 
 import {FONT_14} from '../styles/length';
@@ -17,7 +20,7 @@ import {
 	tabColor,
 } from '../styles/color';
 import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
-import {disconnectAction} from '../reducers/sftp';
+import {connectionAction, disconnectAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
 
 const _Container = styled.div`
@@ -64,12 +67,18 @@ const _ReconectBlock = styled.div`
 `;
 
 const Pane = ({uuid, type, server}) => {
+	console.log(server);
 	const dispatch = useDispatch();
 	const [ready, setReady] = useState(1);
-	const {tab, current_tab, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {
+		tab,
+		current_tab,
+		theme,
+		identity,
+		server: commonServer,
+	} = useSelector((state) => state.common, shallowEqual);
+	const {userTicket} = useSelector((state) => state.userTicket);
+
 	const ssh = useSelector((state) => state.ssh.ssh);
 	const {socket: sftp_socketState} = useSelector((state) => state.sftp);
 
@@ -104,7 +113,42 @@ const Pane = ({uuid, type, server}) => {
 		},
 		[sftp_socketState, type, uuid, dispatch, ssh],
 	);
-	//
+
+	const onReconnect = useCallback(() => {
+		const correspondedServer = commonServer.find(
+			(i) => i.key === server.key,
+		);
+		const correspondedIdentity = identity.find(
+			(it) => it.key === server.key && it.checked === true,
+		);
+
+		if (type === 'SSH') {
+			dispatch({
+				type: SSH_SEND_CONNECTION_REQUEST,
+				data: {
+					token: userTicket.access_token,
+					...correspondedServer,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+				},
+			});
+		} else {
+			dispatch(
+				connectionAction({
+					token: userTicket.access_token, // connection info
+					host: correspondedServer.host,
+					port: correspondedServer.port,
+					user: correspondedIdentity.user,
+					password: correspondedIdentity.password,
+
+					name: correspondedServer.name, // create tab info
+					key: correspondedServer.key,
+					id: correspondedServer.id,
+					dispatch: dispatch,
+				}),
+			);
+		}
+	}, [commonServer, dispatch, identity, server.key, type, userTicket]);
 
 	useEffect(() => {
 		if (type === 'SSH') {
@@ -120,7 +164,9 @@ const Pane = ({uuid, type, server}) => {
 		<_Container onClick={onClickChangeTab}>
 			{ready === 3 && (
 				<_ReconectBlock>
-					<PrimaryRedButton>Reconnect</PrimaryRedButton>
+					<PrimaryRedButton onClick={onReconnect}>
+						Reconnect
+					</PrimaryRedButton>
 				</_ReconectBlock>
 			)}
 			{tab.filter((v) => v.display === true).length > 1 && (

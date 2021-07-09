@@ -8,6 +8,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	debounce,
 } from 'redux-saga/effects';
 
 import {
@@ -38,7 +39,10 @@ function* sendConnection(action) {
 		const ws = yield call(initWebsocket);
 		const channel = yield call(useSubscribe, {
 			socket: ws,
-			dispatch: () => console.log('최초 끊김은 다른방식으로 처리'),
+			dispatch: () =>
+				console.log(
+					'최초 끊김은 uuid가 없어서 의미 없음 => 다른방식으로 처리',
+				),
 		});
 		let pass = false;
 		yield call(ssht_ws_request, {
@@ -55,6 +59,7 @@ function* sendConnection(action) {
 
 			if (timeout) {
 				closeChannel(channel);
+				ws.close();
 			} else {
 				const res = yield call(GetMessage, result);
 				console.log(res);
@@ -286,6 +291,7 @@ function* watchSendCommand() {
 
 function* watchSendWindowChange() {
 	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	// yield debounce(500, SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
 export default function* sshtSage() {

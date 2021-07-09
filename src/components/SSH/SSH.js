@@ -152,7 +152,7 @@ const SSH = ({uuid}) => {
 		(e) => {
 			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
-		[search],
+		[search, searchAddon],
 	);
 
 	const onClickCommand = useCallback(
@@ -176,20 +176,20 @@ const SSH = ({uuid}) => {
 				},
 			});
 		},
-		[currentLine, uuid, ws],
+		[currentLine.length, dispatch, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab]);
+	}, [current_tab, dispatch]);
 
 	const onClickArrowUp = useCallback(() => {
 		searchAddon.findPrevious(search);
-	}, [search]);
+	}, [search, searchAddon]);
 
 	const onClickArrowDown = useCallback(() => {
 		searchAddon.findNext(search);
-	}, [search]);
+	}, [search, searchAddon]);
 	//terminal setting
 	useEffect(() => {
 		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
