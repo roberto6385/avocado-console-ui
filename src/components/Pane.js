@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CHANGE_CURRENT_TAB} from '../reducers/common';
+import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {
@@ -20,7 +20,11 @@ import {
 	tabColor,
 } from '../styles/color';
 import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
-import {connectionAction, disconnectAction} from '../reducers/sftp';
+import {
+	connectionAction,
+	disconnectAction,
+	reconnectionAction,
+} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
 
 const _Container = styled.div`
@@ -79,7 +83,11 @@ const Pane = ({uuid, type, server}) => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
 	const ssh = useSelector((state) => state.ssh.ssh);
-	const {socket: sftp_socketState} = useSelector((state) => state.sftp);
+	const {
+		socket: sftp_socketState,
+		path: sftp_pathState,
+		history: sftp_history,
+	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const onClickChangeTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -122,6 +130,8 @@ const Pane = ({uuid, type, server}) => {
 		);
 
 		if (type === 'SSH') {
+			const closedSsh = ssh.find((v) => v.uuid === uuid);
+			console.log(closedSsh);
 			dispatch({
 				type: SSH_SEND_CONNECTION_REQUEST,
 				data: {
@@ -132,8 +142,15 @@ const Pane = ({uuid, type, server}) => {
 				},
 			});
 		} else {
+			const {path} = sftp_pathState.find((v) => v.uuid === uuid);
+			const {history} = sftp_history.find((v) => v.uuid === uuid);
+			console.log('path');
+			console.log(path);
+			console.log('history');
+			console.log(history);
+
 			dispatch(
-				connectionAction({
+				reconnectionAction({
 					token: userTicket.access_token, // connection info
 					host: correspondedServer.host,
 					port: correspondedServer.port,
@@ -144,10 +161,24 @@ const Pane = ({uuid, type, server}) => {
 					key: correspondedServer.key,
 					id: correspondedServer.id,
 					dispatch: dispatch,
+
+					prevUuid: uuid,
+					prevPath: path,
 				}),
 			);
 		}
-	}, [commonServer, dispatch, identity, server.key, type, userTicket]);
+	}, [
+		commonServer,
+		dispatch,
+		identity,
+		server,
+		sftp_history,
+		sftp_pathState,
+		ssh,
+		type,
+		userTicket,
+		uuid,
+	]);
 
 	useEffect(() => {
 		if (type === 'SSH') {

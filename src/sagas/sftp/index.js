@@ -2,6 +2,7 @@ import {cancel, fork, take, all} from 'redux-saga/effects';
 
 import commandPwdSaga from './sendCommandPwd';
 import connectSaga from './sendConnect';
+import reconnectSaga from './sendReconnect';
 import disconnectSaga from './sendDisconnect';
 import commandLsSaga from './sendCommandLs';
 import commandCdSaga from './sendCommandCd';
@@ -18,6 +19,7 @@ import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 export default function* sftpSaga() {
 	yield all([
 		fork(connectSaga),
+		fork(reconnectSaga),
 		fork(disconnectSaga),
 		fork(commandPwdSaga),
 		fork(commandLsSaga),

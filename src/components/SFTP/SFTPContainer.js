@@ -19,6 +19,7 @@ import {
 import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
+	console.log(uuid);
 	const dispatch = useDispatch();
 	const current_tab = useSelector((state) => state.common.current_tab);
 	const {
@@ -32,38 +33,22 @@ const SFTPContainer = ({uuid}) => {
 		history: sftp_historyState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const {path} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {writeList, writeSockets} = useMemo(
-		() => sftp_uploadState.find((it) => it.uuid === uuid),
-		[sftp_uploadState, uuid],
-	);
-	const {readList, readSockets} = useMemo(
-		() => sftp_downloadState.find((it) => it.uuid === uuid),
-		[sftp_downloadState, uuid],
-	);
-	const {incinerator, removeSockets, initList, initPath} = useMemo(
-		() => sftp_deleteState.find((it) => it.uuid === uuid),
-		[sftp_deleteState, uuid],
-	);
+	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 
-	const {highlight} = useMemo(
-		() => sftp_fileState.find((it) => it.uuid === uuid),
-		[sftp_fileState, uuid],
+	const {writeList, writeSockets} = sftp_uploadState.find(
+		(it) => it.uuid === uuid,
 	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
+	const {readList, readSockets} = sftp_downloadState.find(
+		(it) => it.uuid === uuid,
 	);
-	const {mode} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
-	const {history_highlight} = useMemo(
-		() => sftp_historyState.find((it) => it.uuid === uuid),
-		[sftp_historyState, uuid],
+	const {incinerator, removeSockets, initList, initPath} =
+		sftp_deleteState.find((it) => it.uuid === uuid);
+
+	const {highlight} = sftp_fileState.find((it) => it.uuid === uuid);
+	const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
+	const {mode} = sftp_etcState.find((it) => it.uuid === uuid);
+	const {history_highlight} = sftp_historyState.find(
+		(it) => it.uuid === uuid,
 	);
 
 	const body = document.getElementById('root');

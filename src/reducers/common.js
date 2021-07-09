@@ -628,6 +628,7 @@ const reducer = (state = initialState, action) => {
 			case CHANGE_LANGUAGE:
 				draft.lang = action.payload.language;
 				break;
+
 			case OPEN_TAB: {
 				//fill in new tab info
 				const new_tab = {

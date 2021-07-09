@@ -1,77 +1,70 @@
 import produce from 'immer';
 
-// action types
-
-// 연결
 export const CONNECTION_REQUEST = 'sftp/CONNECTION_REQUEST';
 export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
 export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
-// 해제
+
+export const RECONNECTION_REQUEST = 'sftp/RECONNECTION_REQUEST';
+export const RECONNECTION_SUCCESS = 'sftp/RECONNECTION_SUCCESS';
+export const RECONNECTION_FAILURE = 'sftp/RECONNECTION_FAILURE';
+
 export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
 export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
 export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
 
-// cd
 export const CD_REQUEST = 'sftp/CD_REQUEST';
 export const CD_SUCCESS = 'sftp/CD_SUCCESS';
 export const CD_FAILURE = 'sftp/CD_FAILURE';
-// rename
+
 export const RENAME_REQUEST = 'sftp/RENAME_REQUEST';
 export const RENAME_SUCCESS = 'sftp/RENAME_SUCCESS';
 export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
 
-// rm
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
 
-// mkdir
 export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
 export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
 export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
 
-// put
-export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
-// get
-export const GET_SUCCESS = 'sftp/GET_SUCCESS';
-
-// write
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
 export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
 export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
 
-// read
 export const READ_REQUEST = 'sftp/READ_REQUEST';
 export const READ_SUCCESS = 'sftp/READ_SUCCESS';
 export const READ_FAILURE = 'sftp/READ_FAILURE';
 
-// edit
 export const EDIT_READ_SUCCESS = 'sftp/EDIT_READ_SUCCESS';
 export const EDIT_WRITE_SUCCESS = 'sftp/EDIT_WRITE_SUCCESS';
 
-// pwd
 export const PWD_REQUEST = 'sftp/PWD_REQUEST';
 export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
 export const PWD_FAILURE = 'sftp/PWD_FAILURE';
-// ls
+
 export const LS_REQUEST = 'sftp/LS_REQUEST';
 export const LS_SUCCESS = 'sftp/LS_SUCCESS';
 export const LS_FAILURE = 'sftp/LS_FAILURE';
-// etc
-export const INIT_FILELIST = 'sftp/INIT_FILELIST';
-export const READY_STATE = 'sftp/READY_STATE';
-
-// 에러
-export const ERROR = 'sftp/ERROR';
-
-//etc
 
 export const CREATE_NEW_WEBSOCKET_REQUEST = 'sftp/CREATE_NEW_WEBSOCKET_REQUEST';
 export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
 export const CREATE_NEW_WEBSOCKET_FAILURE = 'sftp/CREATE_NEW_WEBSOCKET_FAILURE';
+
 export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
 export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
 export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
+
+export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
+export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
+export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
+
+export const ERROR = 'sftp/ERROR';
+
+//etc
+export const INIT_FILELIST = 'sftp/INIT_FILELIST';
+export const READY_STATE = 'sftp/READY_STATE';
+
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
@@ -82,16 +75,12 @@ export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
-export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
-export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
-export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
 
 export const ADD_HISTORY = 'history/ADD_HISTORY';
 export const FIND_HISTORY = 'history/FIND_HISTORY';
 export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
-export let HISTORY_ID = 0;
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -104,15 +93,27 @@ export const ADD_HIGHLIGHT = 'sftp/ADD_HIGHLIGHT';
 export const ADD_ONE_HIGHLIGHT = 'sftp/ADD_ONE_HIGHLIGHT';
 export const INITIALIZING_HIGHLIGHT = 'sftp/INITIALIZING_HIGHLIGHT';
 export const REMOVE_HIGHLIGHT = 'sftp/REMOVE_HIGHLIGHT';
+
 export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
+export const CHANGE_SOCKET_UUID = 'sftp/CHANGE_SOCKET_UUID';
+
+// 필요없음.
+export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
+export const GET_SUCCESS = 'sftp/GET_SUCCESS';
+
 // actions
 
 export const connectionAction = (payload) => ({
 	type: CONNECTION_REQUEST,
+	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const reconnectionAction = (payload) => ({
+	type: RECONNECTION_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
 });
 
@@ -172,6 +173,7 @@ export const removeNewWebsocket = (payload) => ({
 	payload,
 });
 
+let HISTORY_ID = 0;
 // initial State
 const initialState = {
 	loading: false,
@@ -215,6 +217,27 @@ const sftp = (state = initialState, action) =>
 			// 연결
 			case CONNECTION_REQUEST:
 				draft.loading = true;
+				break;
+
+			case RECONNECTION_REQUEST:
+				draft.loading = true;
+				break;
+
+			case RECONNECTION_SUCCESS:
+				draft.loading = false;
+
+				socket_target.uuid = action.payload.newUuid;
+				socket_target.socket = action.payload.socket;
+				socket_target.ready = 1;
+				path_target.uuid = action.payload.newUuid;
+				file_target.uuid = action.payload.newUuid;
+				history_target.uuid = action.payload.newUuid;
+				etc_target.uuid = action.payload.newUuid;
+				edit_target.uuid = action.payload.newUuid;
+				upload_target.uuid = action.payload.newUuid;
+				download_target.uuid = action.payload.newUuid;
+				delete_target.uuid = action.payload.newUuid;
+
 				break;
 
 			case CONNECTION_SUCCESS:
@@ -276,6 +299,10 @@ const sftp = (state = initialState, action) =>
 
 				break;
 			case CONNECTION_FAILURE:
+				draft.loading = false;
+				break;
+
+			case RECONNECTION_FAILURE:
 				draft.loading = false;
 				break;
 

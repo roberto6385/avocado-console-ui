@@ -9,20 +9,21 @@ import {
 	throttle,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
-	CONNECTION_FAILURE,
-	CONNECTION_REQUEST,
-	CONNECTION_SUCCESS,
+	RECONNECTION_FAILURE,
+	RECONNECTION_REQUEST,
+	RECONNECTION_SUCCESS,
 	ERROR,
+	commandPwdAction,
+	commandCdAction,
 } from '../../reducers/sftp';
 import {closeChannel} from '../channel';
 
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {OPEN_TAB} from '../../reducers/common';
+import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {connectResponse} from '../../ws/sftp/connect_response';
 import useSubscribe from '../../hooks/useSubscribe';
+import {reconnectResponse} from '../../ws/sftp/reconnect_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -52,16 +53,19 @@ function* sendCommand(action) {
 				socket.close();
 			} else {
 				console.log(data);
-				const res = yield call(connectResponse, {data});
+				const res = yield call(reconnectResponse, {data});
 				const uuid = res.uuid;
 
 				switch (res.type) {
-					case CONNECTION_SUCCESS:
+					case RECONNECTION_SUCCESS:
+						yield put({type: CLOSE_TAB, data: payload.prevUuid});
+
 						yield put({
-							type: CONNECTION_SUCCESS,
+							type: RECONNECTION_SUCCESS,
 							payload: {
-								uuid: uuid,
+								uuid: payload.prevUuid,
 								socket: socket,
+								newUuid: uuid,
 							},
 						});
 
@@ -79,10 +83,11 @@ function* sendCommand(action) {
 						});
 
 						yield put(
-							commandPwdAction({
+							commandCdAction({
 								socket: socket,
 								uuid: uuid,
-								pwd_path: null,
+								path: payload.prevPath,
+								cd_path: payload.prevPath,
 								dispatch: payload.dispatch,
 							}),
 						);
@@ -94,7 +99,7 @@ function* sendCommand(action) {
 							type: OPEN_ALERT_POPUP,
 							data: 'invalid_server',
 						});
-						yield put({type: CONNECTION_FAILURE, data: res.err});
+						yield put({type: RECONNECTION_FAILURE, data: res.err});
 
 						break;
 
@@ -109,14 +114,14 @@ function* sendCommand(action) {
 			type: OPEN_ALERT_POPUP,
 			data: 'invalid_server',
 		});
-		yield put({type: CONNECTION_FAILURE, data: err});
+		yield put({type: RECONNECTION_FAILURE, data: err});
 	}
 }
 
 function* watchSendCommand() {
-	yield throttle(1000, CONNECTION_REQUEST, sendCommand);
+	yield throttle(1000, RECONNECTION_REQUEST, sendCommand);
 }
 
-export default function* connectSaga() {
+export default function* reconnectSaga() {
 	yield all([fork(watchSendCommand)]);
 }
