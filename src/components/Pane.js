@@ -67,7 +67,6 @@ const _ReconectBlock = styled.div`
 `;
 
 const Pane = ({uuid, type, server}) => {
-	console.log(server);
 	const dispatch = useDispatch();
 	const [ready, setReady] = useState(1);
 	const {

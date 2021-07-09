@@ -8,6 +8,7 @@ import {
 	delay,
 	takeEvery,
 	actionChannel,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	ERROR,
@@ -43,13 +44,13 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
+				console.log('ls end');
 			} else {
-				// const data = yield take(channel);
 				const res = yield call(lsResponse, {data});
 				console.log(res);
 				switch (res.type) {
@@ -84,11 +85,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(LS_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	yield takeLatest(LS_REQUEST, sendCommand);
 }
 
 export default function* commandLsSaga() {

@@ -8,6 +8,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -55,11 +56,12 @@ function* sendCommand(action) {
 			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
+				console.log('upload end');
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(writeResponse, {data, payload});
@@ -136,7 +138,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeEvery(WRITE_REQUEST, sendCommand);
+	// yield takeLatest(WRITE_REQUEST, sendCommand);
 	const reqChannel = yield actionChannel(WRITE_REQUEST);
 	while (true) {
 		const action = yield take(reqChannel);

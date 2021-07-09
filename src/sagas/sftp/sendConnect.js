@@ -7,6 +7,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -44,11 +45,12 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(3000),
+				timeout: delay(4000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
+				// socket.close();
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});
@@ -113,7 +115,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(CONNECTION_REQUEST, sendCommand);
+	yield takeLatest(CONNECTION_REQUEST, sendCommand);
 }
 
 export default function* connectSaga() {

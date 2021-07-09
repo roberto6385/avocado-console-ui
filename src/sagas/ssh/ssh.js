@@ -35,6 +35,8 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 function* sendConnection(action) {
 	let uuid = null;
 
+	console.log(action);
+
 	try {
 		const ws = yield call(initWebsocket);
 		const channel = yield call(useSubscribe, {
@@ -59,7 +61,6 @@ function* sendConnection(action) {
 
 			if (timeout) {
 				closeChannel(channel);
-				ws.close();
 			} else {
 				const res = yield call(GetMessage, result);
 				console.log(res);
@@ -174,6 +175,8 @@ function* sendDisconnection(action) {
 }
 
 function* sendCommand(action) {
+	console.log(action);
+
 	const channel = yield call(useSubscribe, {
 		socket: action.data.ws,
 		dispatch: () =>
@@ -199,6 +202,7 @@ function* sendCommand(action) {
 
 				if (timeout) {
 					closeChannel(channel);
+					console.log('send command close');
 				} else {
 					const res = yield call(GetMessage, result);
 

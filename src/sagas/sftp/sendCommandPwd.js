@@ -7,6 +7,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	takeLatest,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
 import {closeChannel} from '../channel';
@@ -42,11 +43,12 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
+				console.log('pwd end');
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(pwdResponse, {data});
@@ -91,27 +93,31 @@ function* sendCommand(action) {
 					ls_pathList =
 						next_filter.length === 0 ? [res.path] : next_filter;
 				}
-				// switch (res.type) {
-				// 	case PWD_SUCCESS:
-				yield put({
-					type: PWD_SUCCESS,
-					payload: {
-						uuid: payload.uuid,
-						path: res.path,
-						pathList: res.pathList,
-						removeIndex: remove_index,
-					},
-				});
-				// 내가 필요한 경로만큼만 요청!
-				for (let value of ls_pathList) {
-					yield put(
-						commandLsAction({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							ls_path: value,
-							dispatch: payload.dispatch,
-						}),
-					);
+				switch (res.type) {
+					case PWD_SUCCESS:
+						yield put({
+							type: PWD_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								path: res.path,
+								pathList: res.pathList,
+								removeIndex: remove_index,
+							},
+						});
+						// 내가 필요한 경로만큼만 요청!
+						for (let value of ls_pathList) {
+							yield put(
+								commandLsAction({
+									socket: payload.socket,
+									uuid: payload.uuid,
+									ls_path: value,
+									dispatch: payload.dispatch,
+								}),
+							);
+						}
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -122,7 +128,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(PWD_REQUEST, sendCommand);
+	yield takeLatest(PWD_REQUEST, sendCommand);
 }
 
 export default function* commandPwdSaga() {
