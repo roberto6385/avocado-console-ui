@@ -42,7 +42,7 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(200),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -83,12 +83,12 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		closeChannel(channel);
 		yield put({type: CD_FAILURE});
 		yield put({
 			type: OPEN_ALERT_POPUP,
 			data: 'wrong_path',
 		});
-		closeChannel(channel);
 	}
 }
 

@@ -1,9 +1,9 @@
 import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import {
-    CREATE_NEW_WEBSOCKET_FAILURE,
-    CREATE_NEW_WEBSOCKET_REQUEST,
-    CREATE_NEW_WEBSOCKET_SUCCESS,
-    ERROR
+	CREATE_NEW_WEBSOCKET_FAILURE,
+	CREATE_NEW_WEBSOCKET_REQUEST,
+	CREATE_NEW_WEBSOCKET_SUCCESS,
+	ERROR,
 } from '../../reducers/sftp';
 import {fileSubscribe} from '../channel';
 import messageSender from './messageSender';
