@@ -43,7 +43,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -82,16 +82,27 @@ function* sendCommand(action) {
 					console.log('현재 경로');
 					console.log(current_filter);
 
-					remove_index =
-						prev_filter.length === 0
-							? next_filter.length === 0
-								? 1 // 제거 없음 추가 없음 1
-								: 0 // 제거 없음 추가 있음 0
-							: next_filter.length === 0
-							? prev_filter.length + 1 // 제거 있음 추가 없음 => 제거 + 1
-							: prev_filter.length; // 제거 있음 추가 있음 => 제거
-					ls_pathList =
-						next_filter.length === 0 ? [res.path] : next_filter;
+					if (payload.key === 'write') {
+						remove_index =
+							prev_filter.length === 0 && next_filter.length === 0
+								? 1
+								: 0;
+						ls_pathList =
+							prev_filter.length === 0 && next_filter.length === 0
+								? [res.path]
+								: [];
+					} else {
+						remove_index =
+							prev_filter.length === 0
+								? next_filter.length === 0
+									? 1 // 제거 없음 추가 없음 1
+									: 0 // 제거 없음 추가 있음 0
+								: next_filter.length === 0
+								? prev_filter.length + 1 // 제거 있음 추가 없음 => 제거 + 1
+								: prev_filter.length; // 제거 있음 추가 있음 => 제거
+						ls_pathList =
+							next_filter.length === 0 ? [res.path] : next_filter;
+					}
 				}
 				switch (res.type) {
 					case PWD_SUCCESS:

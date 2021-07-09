@@ -56,7 +56,7 @@ function* sendCommand(action) {
 			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(500),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -107,12 +107,14 @@ function* sendCommand(action) {
 									percent: res.percent,
 								},
 							});
+
 							yield put(
 								commandPwdAction({
 									socket: payload.socket,
 									uuid: payload.uuid,
 									pwd_path: payload.path,
 									dispatch: payload.dispatch,
+									key: 'write',
 								}),
 							);
 						}
@@ -127,6 +129,9 @@ function* sendCommand(action) {
 							},
 						});
 
+						break;
+
+					default:
 						break;
 				}
 			}

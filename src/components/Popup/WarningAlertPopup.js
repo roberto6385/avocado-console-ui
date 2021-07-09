@@ -31,6 +31,7 @@ import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
+	PUSH_INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 
@@ -52,10 +53,11 @@ const WarningAlertPopup = () => {
 	);
 	const {clicked_server, accountListControlId, accountCheckList, nav} =
 		useSelector((state) => state.common, shallowEqual);
-	const {history: sftp_historyState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {
+		history: sftp_historyState,
+		file: sftp_fileState,
+		path: sftp_pathState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const AlertMessage = {
 		sftp_delete_file_folder: t('deleteFileFolder'),
@@ -84,6 +86,19 @@ const WarningAlertPopup = () => {
 			switch (warning_alert_popup.key) {
 				case 'sftp_delete_file_folder': {
 					const uuid = warning_alert_popup.uuid;
+
+					const {highlight} = sftp_fileState.find(
+						(it) => it.uuid === warning_alert_popup.uuid,
+					);
+					const {path} = sftp_pathState.find(
+						(it) => it.uuid === warning_alert_popup.uuid,
+					);
+
+					dispatch({
+						type: PUSH_INIT_DELETE_WORK_LIST,
+						payload: {uuid, list: highlight, path},
+					});
+
 					const corTab = tab.find((it) => it.uuid === uuid);
 					const corServer = server.find(
 						(it) => it.key === corTab.server.key,
@@ -167,6 +182,8 @@ const WarningAlertPopup = () => {
 			closeModal,
 			clicked_server,
 			dispatch,
+			sftp_fileState,
+			sftp_pathState,
 			tab,
 			server,
 			identity,

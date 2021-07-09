@@ -73,6 +73,7 @@ export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
 export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
 export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
+export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
@@ -173,9 +174,7 @@ export const removeNewWebsocket = (payload) => ({
 
 // initial State
 const initialState = {
-	sftp: [],
 	loading: false,
-	// uuid 공통
 	socket: [],
 	path: [],
 	upload: [],
@@ -258,6 +257,8 @@ const sftp = (state = initialState, action) =>
 					removeSockets: [],
 					removeList: [],
 					incinerator: [],
+					initList: [],
+					initPath: '',
 				});
 				draft.edit.push({
 					uuid: action.payload.uuid,
@@ -286,6 +287,30 @@ const sftp = (state = initialState, action) =>
 			case DISCONNECTION_SUCCESS:
 				// draft.loading = false;
 				draft.socket = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.path = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.upload = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.download = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.delete = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.file = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.history = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.edit = state.socket.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
+				draft.etc = state.socket.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
 				break;
@@ -493,6 +518,8 @@ const sftp = (state = initialState, action) =>
 					}),
 				);
 				delete_target.removeList = [];
+				delete_target.initList = [];
+				delete_target.initPath = '';
 				break;
 
 			case DELETE_WORK_LIST:
@@ -500,6 +527,12 @@ const sftp = (state = initialState, action) =>
 					action.payload.array,
 				);
 				break;
+
+			case PUSH_INIT_DELETE_WORK_LIST:
+				delete_target.initList = action.payload.list;
+				delete_target.initPath = action.payload.path;
+				break;
+
 			case INIT_DELETE_WORK_LIST:
 				delete_target.removeList = [];
 				break;

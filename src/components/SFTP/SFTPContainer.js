@@ -44,7 +44,7 @@ const SFTPContainer = ({uuid}) => {
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
-	const {incinerator, removeSockets} = useMemo(
+	const {incinerator, removeSockets, initList, initPath} = useMemo(
 		() => sftp_deleteState.find((it) => it.uuid === uuid),
 		[sftp_deleteState, uuid],
 	);
@@ -199,7 +199,6 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
-			console.log(value);
 			const remove_socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
@@ -235,17 +234,15 @@ const SFTPContainer = ({uuid}) => {
 	}, [incinerator, removeSockets, socket, path, uuid, dispatch]);
 
 	useEffect(() => {
-		if (removeSockets.length !== 0) {
+		if (removeSockets.length !== 0 && initList.length !== 0) {
 			const remove_socket = removeSockets.slice().shift();
 
 			const array = [];
-			for (let value of highlight) {
+			for (let value of initList) {
 				if (value.name !== '.' && value.name !== '..') {
-					array.push({file: value, path});
+					array.push({file: value, path: initPath});
 				}
 			}
-			console.log(array);
-
 			dispatch({
 				type: DELETE_WORK_LIST,
 				payload: {
@@ -269,9 +266,9 @@ const SFTPContainer = ({uuid}) => {
 					if (item.file.type === 'directory') {
 						console.log(item);
 						const delete_path =
-							path === '/'
-								? `${path}${item.file.name}`
-								: `${path}/${item.file.name}`;
+							initPath === '/'
+								? `${initPath}${item.file.name}`
+								: `${initPath}/${item.file.name}`;
 						dispatch(
 							searchDeleteListAction({
 								socket: remove_socket,
@@ -283,7 +280,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [removeSockets, highlight, path, dispatch, uuid]);
+	}, [initList, initPath, dispatch, uuid, removeSockets]);
 
 	return <SFTP uuid={uuid} />;
 };
