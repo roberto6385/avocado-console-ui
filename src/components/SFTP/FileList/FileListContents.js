@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
+
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
@@ -32,10 +34,7 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import LoadingSpinner from '../../loadingSpinner';
-import styled from 'styled-components';
-
 import {createNewWebsocket, PUSH_READ_LIST} from '../../../reducers/sftp/crud';
-
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {ClickableIconButton, IconBox} from '../../../styles/button';
 

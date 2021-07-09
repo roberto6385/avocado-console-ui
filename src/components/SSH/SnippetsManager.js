@@ -236,6 +236,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
+					onClick={onClickCancel}
 				>
 					{closeIcon}
 				</ClickableIconButton>
