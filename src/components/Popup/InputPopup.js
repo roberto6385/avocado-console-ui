@@ -152,6 +152,7 @@ const InputPopup = () => {
 					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
+					onClick={closeModal}
 				>
 					{closeIcon}
 				</ClickableIconButton>

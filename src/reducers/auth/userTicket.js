@@ -1,10 +1,16 @@
 import produce from 'immer';
-
 // action types
 export const GET_USER_TICKET_REQUEST = 'userTicket/GET_USER_TICKET_REQUEST';
 export const GET_USER_TICKET_SUCCESS = 'userTicket/GET_USER_TICKET_SUCCESS';
 export const GET_USER_TICKET_FAILURE = 'userTicket/GET_USER_TICKET_FAILURE';
-export const REFRESH_USER_TICKET = 'userTicket/REFRESH_USER_TICKET';
+
+export const REFRESH_USER_TICKET_REQUEST =
+	'userTicket/REFRESH_USER_TICKET_REQUEST';
+export const REFRESH_USER_TICKET_SUCCESS =
+	'userTicket/REFRESH_USER_TICKET_SUCCESS';
+export const REFRESH_USER_TICKET_FAILURE =
+	'userTicket/GET_REFRESH_TICKET_FAILURE';
+
 export const REVOKE_USER_TICKET = 'userTicket/REVOKE_USER_TICKET';
 
 //  actions
@@ -36,8 +42,15 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = false;
 				break;
 
-			case REFRESH_USER_TICKET:
+			case REFRESH_USER_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case REFRESH_USER_TICKET_SUCCESS:
 				draft.userTicket = Object.assign(draft.userTicket, action.data);
+				draft.loading = false;
+				break;
+			case REFRESH_USER_TICKET_FAILURE:
+				draft.loading = false;
 				break;
 
 			case REVOKE_USER_TICKET:
@@ -50,3 +63,4 @@ const userTicket = (state = initialState, action) =>
 	});
 
 export default userTicket;
+// action types

@@ -2,6 +2,7 @@ import produce from 'immer';
 
 export const initialState = {
 	alert_popup: {open: false},
+	refresh_popup: {open: false},
 	warning_alert_popup: {open: false},
 	input_popup: {open: false},
 	save_popup: {open: false},
@@ -11,6 +12,9 @@ export const initialState = {
 
 export const OPEN_ALERT_POPUP = 'OPEN_ALERT_POPUP';
 export const CLOSE_ALERT_POPUP = 'CLOSE_ALERT_POPUP';
+
+export const OPEN_REFRESH_POPUP = 'OPEN_REFRESH_POPUP';
+export const CLOSE_REFRESH_POPUP = 'CLOSE_REFRESH_POPUP';
 
 export const OPEN_WARNING_ALERT_POPUP = 'OPEN_WARNING_ALERT_POPUP';
 export const CLOSE_WARNING_ALERT_POPUP = 'CLOSE_WARNING_ALERT_POPUP';
@@ -37,6 +41,15 @@ const reducer = (state = initialState, action) => {
 			case CLOSE_ALERT_POPUP:
 				console.log('CLOSE ALERT POPUP');
 				draft.alert_popup = {open: false};
+				break;
+
+			case OPEN_REFRESH_POPUP:
+				console.log('OPEN REFRESH POPUP');
+				draft.refresh_popup = {open: true};
+				break;
+			case CLOSE_REFRESH_POPUP:
+				console.log('CLOSE REFRESH POPUP');
+				draft.refresh_popup = {open: false};
 				break;
 
 			case OPEN_WARNING_ALERT_POPUP: {

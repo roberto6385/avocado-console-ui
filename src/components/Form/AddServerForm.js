@@ -377,10 +377,10 @@ const AddServerForm = () => {
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
 				<ClickableIconButton
+					onClick={closeModal}
 					color={fontColor[theme]}
 					size={'20px'}
 					margin={'0px'}
-					onClick={closeModal}
 				>
 					{closeIcon}
 				</ClickableIconButton>

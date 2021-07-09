@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
@@ -12,7 +13,6 @@ import {
 	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
-	READY_STATE,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {

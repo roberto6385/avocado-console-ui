@@ -1,9 +1,12 @@
-import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
+import {all, fork, put, call, takeLatest, delay} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_USER_TICKET_REQUEST,
 	GET_USER_TICKET_FAILURE,
 	GET_USER_TICKET_SUCCESS,
+	REFRESH_USER_TICKET_REQUEST,
+	REFRESH_USER_TICKET_SUCCESS,
+	REFRESH_USER_TICKET_FAILURE,
 } from '../../reducers/auth/userTicket';
 
 const querystring = require('query-string');
@@ -27,7 +30,6 @@ async function getUserTicketApi(params) {
 		},
 	);
 }
-
 async function getUserInfoApi(params) {
 	console.log(params);
 	return await axios.get(
@@ -43,6 +45,23 @@ async function getUserInfoApi(params) {
 	);
 }
 
+function refreshUserTicketApi(params) {
+	return axios.post(
+		'/oauth2/v1/token',
+		querystring.stringify({
+			grant_type: 'refresh_token',
+			refresh_token: params.refresh_token,
+		}),
+		{
+			headers: {
+				Authorization: params.Authorization,
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			baseURL:
+				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
+}
 function* getUserTicket(action) {
 	console.log(action);
 	try {
@@ -50,6 +69,7 @@ function* getUserTicket(action) {
 		console.log(res);
 		const user = yield call(getUserInfoApi, res.data);
 		console.log(user);
+
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
 			payload: {
@@ -66,10 +86,25 @@ function* getUserTicket(action) {
 	}
 }
 
+function* refreshUserTicket(action) {
+	try {
+		const res = yield call(refreshUserTicketApi, action.params);
+		console.log(res);
+
+		yield put({type: REFRESH_USER_TICKET_SUCCESS, data: res.data});
+	} catch (err) {
+		yield put({type: REFRESH_USER_TICKET_FAILURE, data: err.response.data});
+	}
+}
+
 function* watchGetUserTicket() {
 	yield takeLatest(GET_USER_TICKET_REQUEST, getUserTicket);
 }
 
+function* watchRefreshUserTicket() {
+	yield takeLatest(REFRESH_USER_TICKET_REQUEST, refreshUserTicket);
+}
+
 export default function* userTicketSaga() {
-	yield all([fork(watchGetUserTicket)]);
+	yield all([fork(watchGetUserTicket), fork(watchRefreshUserTicket)]);
 }
