@@ -1,6 +1,7 @@
 import {all, fork} from 'redux-saga/effects';
 import clientTicket from './auth/clientTicket';
 import userTicket from './auth/userTicket';
+import putModifySaga from './auth/modify';
 
 import verify from './auth/verify';
 import revoke from './auth/revoke';
@@ -13,6 +14,7 @@ export default function* rootSaga() {
 	yield all([
 		fork(clientTicket),
 		fork(userTicket),
+		fork(putModifySaga),
 
 		fork(verify),
 		fork(revoke),

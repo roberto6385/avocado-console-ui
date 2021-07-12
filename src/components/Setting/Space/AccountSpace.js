@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import InputFiled_ from '../../RecycleComponents/InputFiled_';
@@ -17,6 +17,7 @@ import {
 	PrimaryDisabledButton,
 	PrimaryGreenButton,
 } from '../../../styles/button';
+import ChangeNameForm from '../../Form/NameForm';
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -39,14 +40,14 @@ const _Section = styled.section`
 
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
-	const {theme, account} = useSelector((state) => state.common);
+	const {theme, account} = useSelector((state) => state.common, shallowEqual);
 
 	const [open, setOpen] = useState(false);
+	const [nameOpen, setNameOpen] = useState(false);
 	const [authType, setAuthType] = useState('first_option');
 	const [mfaType, setMfaType] = useState('use');
 	const [authValue, setAuthValue] = useState('google');
 	const [mfaValue, setMfaValue] = useState('otp');
-	const [name, setName] = useState('');
 
 	const {current: authOptions} = useRef([
 		{value: 'first_option', label: t('idPassword')},
@@ -70,25 +71,6 @@ const AccountSpace = () => {
 		{value: 'face_id', label: t('faceId')},
 	]);
 
-	const handleSubmit = useCallback(
-		(e) => {
-			e.preventDefault();
-			console.log(name);
-		},
-		[name],
-	);
-
-	const handleBlur = useCallback(
-		(e) => {
-			setName(account.name);
-		},
-		[account.name],
-	);
-
-	useEffect(() => {
-		setName(account.name);
-	}, [account.name]);
-
 	return (
 		<SettingMainContainer theme_value={theme}>
 			<SettingTitle theme_value={theme}>
@@ -104,14 +86,13 @@ const AccountSpace = () => {
 					/>
 				</InputFiled_>
 				<InputFiled_ title={t('name')}>
-					<form onSubmit={handleSubmit} onBlur={handleBlur}>
-						<_Input
-							value={name}
-							theme_value={theme}
-							placeholder={t('namePlace')}
-							onChange={(e) => setName(e.target.value)}
-						/>
-					</form>
+					<_Input
+						value={account.name}
+						theme_value={theme}
+						placeholder={t('namePlace')}
+						readOnly
+						onClick={() => setNameOpen(true)}
+					/>
 				</InputFiled_>
 				<InputFiled_ title={t('email')}>
 					<_Input
@@ -141,10 +122,7 @@ const AccountSpace = () => {
 							{t('changePassword')}
 						</_PrimaryGreenButton>
 					) : (
-						<_PrimaryDisabledButton
-							onClick={() => setOpen(true)}
-							disabled
-						>
+						<_PrimaryDisabledButton disabled>
 							{t('changePassword')}
 						</_PrimaryDisabledButton>
 					)}
@@ -175,6 +153,7 @@ const AccountSpace = () => {
 				/>
 			</SettingContentsContainer>
 			<ChangePasswordForm open={open} setOpen={setOpen} />
+			<ChangeNameForm open={nameOpen} setOpen={setNameOpen} />
 		</SettingMainContainer>
 	);
 };

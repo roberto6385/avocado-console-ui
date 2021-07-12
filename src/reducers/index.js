@@ -13,6 +13,7 @@ import sftp from './sftp';
 import popup from './popup';
 import clientTicket from './auth/clientTicket';
 import userTicket from './auth/userTicket';
+import modify from './auth/modify';
 import refreshTicket from './auth/refreshTicket';
 import verify from './auth/verify';
 import revoke, {GET_REVOKE_SUCCESS} from './auth/revoke';
@@ -57,6 +58,7 @@ const appReducer = combineReducers({
 	popup,
 	clientTicket,
 	userTicket,
+	modify,
 	refreshTicket,
 	verify,
 	revoke,
