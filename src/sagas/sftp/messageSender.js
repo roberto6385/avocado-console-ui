@@ -6,6 +6,8 @@ const sendConnect = ({ws, data}) => {
 	var request = new SFTP.Request();
 	var connect = new SFTP.ConnectRequest();
 
+	console.log(data);
+
 	connect.setToken(data.token);
 	connect.setHost(data.host);
 	connect.setUser(data.user);

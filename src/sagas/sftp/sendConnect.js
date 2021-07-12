@@ -13,6 +13,7 @@ import {
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
+	disconnectAction,
 	ERROR,
 } from '../../reducers/sftp';
 import {closeChannel} from '../channel';
@@ -95,6 +96,11 @@ function* sendCommand(action) {
 						});
 						yield put({type: CONNECTION_FAILURE, data: res.err});
 
+						yield put(
+							disconnectAction({
+								socket: socket,
+							}),
+						);
 						break;
 
 					default:

@@ -39,7 +39,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-
 		dispatch(
 			connectionAction({
 				token: userTicket.access_token, // connection info

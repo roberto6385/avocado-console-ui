@@ -25,7 +25,7 @@ function* sendCommand(action) {
 	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {
-		if (payload.socket.readyState === 3) {
+		if (payload.socket.readyState === 3 && payload.uuid !== undefined) {
 			yield put({type: CLOSE_TAB, data: payload.uuid});
 			return;
 		}
@@ -39,14 +39,16 @@ function* sendCommand(action) {
 			const res = yield call(disconnectResponse, {data});
 			switch (res.type) {
 				case DISCONNECTION_SUCCESS:
-					yield put({type: CLOSE_TAB, data: payload.uuid});
+					if (payload.uuid !== undefined) {
+						yield put({type: CLOSE_TAB, data: payload.uuid});
 
-					yield put({
-						type: DISCONNECTION_SUCCESS,
-						payload: {
-							uuid: payload.uuid,
-						},
-					});
+						yield put({
+							type: DISCONNECTION_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+							},
+						});
+					}
 					break;
 
 				case ERROR:
