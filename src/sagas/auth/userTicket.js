@@ -91,7 +91,6 @@ function* refreshUserTicket(action) {
 	try {
 		const res = yield call(refreshUserTicketApi, action.params);
 		console.log(res);
-
 		yield put({type: REFRESH_USER_TICKET_SUCCESS, data: res.data});
 	} catch (err) {
 		yield put({type: REFRESH_USER_TICKET_FAILURE, data: err.response.data});

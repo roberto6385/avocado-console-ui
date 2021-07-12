@@ -11,9 +11,9 @@ const SignIn = () => {
 
 	console.log(userTicket);
 
-	// useEffect(() => {
-	// 	if (userTicket) history.push('/');
-	// }, [history, userTicket]);
+	useEffect(() => {
+		if (userTicket) history.push('/');
+	}, [history, userTicket]);
 
 	return (
 		<LoginLayout>
