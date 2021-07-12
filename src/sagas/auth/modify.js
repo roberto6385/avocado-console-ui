@@ -8,12 +8,12 @@ const querystring = require('query-string');
 
 async function putModifyApi(params) {
 	console.log(params);
-	return await axios.get(
-		`/open/api/v1/users/id/${params.id}@netand.co.kr`,
-		// querystring.stringify({
-		// 	// name: params.name,
-		// 	// password: params.password,
-		// }),
+	return await axios.put(
+		`/open/api/v1/users/${params.userUid}`,
+		querystring.stringify({
+			name: params.name,
+			password: params.password,
+		}),
 		{
 			headers: {
 				Authorization: `Bearer ${params.access_token}`,

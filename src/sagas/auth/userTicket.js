@@ -78,7 +78,7 @@ function* getUserTicket(action) {
 					id: user.data.id,
 					email: user.data.email,
 					name: user.data.name,
-					uid: user.data.userUid,
+					userUid: user.data.userUid,
 				},
 			},
 		});

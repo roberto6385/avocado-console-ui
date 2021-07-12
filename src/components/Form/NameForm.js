@@ -49,12 +49,12 @@ const ChangeNameForm = ({open, setOpen}) => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+			console.log(userInfo);
 
 			if (currentName !== '' && currentPassword !== '') {
 				dispatch(
 					putModify({
-						id: userInfo.id,
-						uid: userInfo.uid,
+						uid: userInfo.userUid,
 						name: currentName,
 						password: currentPassword,
 						access_token: userTicket.access_token,
