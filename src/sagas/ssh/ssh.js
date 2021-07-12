@@ -8,6 +8,7 @@ import {
 	race,
 	delay,
 	takeEvery,
+	throttle,
 } from 'redux-saga/effects';
 
 import {
@@ -22,6 +23,8 @@ import {
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_WINDOW_CHANGE_FAILURE,
 	READY_STATE,
+	SSH_SEND_RECONNECTION_REQUEST,
+	SSH_SEND_RECONNECTION_SUCCESS,
 } from '../../reducers/ssh';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initWebsocket} from './socket';
@@ -33,6 +36,8 @@ import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 
 function* sendConnection(action) {
 	let uuid = null;
+
+	console.log(action);
 
 	try {
 		const ws = yield call(initWebsocket);
@@ -90,6 +95,109 @@ function* sendConnection(action) {
 										name: action.data.name,
 										key: action.data.key,
 									},
+								},
+							});
+						}
+						yield put({
+							type: SSH_SEND_COMMAND_SUCCESS,
+							data: {
+								uuid: uuid,
+								result: res.result,
+							},
+						});
+
+						break;
+
+					case 'ERROR':
+						yield put({type: CLOSE_TAB, data: uuid});
+						yield put({
+							type: SSH_SEND_DISCONNECTION_SUCCESS,
+							data: uuid,
+						});
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
+						break;
+
+					default:
+						break;
+				}
+			}
+		}
+	} catch (err) {
+		console.log(err);
+	}
+}
+function* sendReConnection(action) {
+	let uuid = null;
+
+	console.log(action);
+
+	try {
+		const ws = yield call(initWebsocket);
+		const channel = yield call(useSubscribe, {
+			socket: ws,
+			dispatch: () =>
+				action.data.dispatch({
+					type: READY_STATE,
+					data: {uuid: action.data.prevUuid},
+				}),
+		});
+		let pass = false;
+
+		yield call(ssht_ws_request, {
+			keyword: 'SendConnect',
+			ws: ws,
+			data: action.data,
+		});
+
+		while (true) {
+			const {timeout, result} = yield race({
+				timeout: delay(4000),
+				result: take(channel),
+			});
+
+			if (timeout) {
+				closeChannel(channel);
+			} else {
+				const res = yield call(GetMessage, result);
+				console.log(res);
+				switch (res.type) {
+					case 'CONNECT':
+						uuid = res.result;
+						pass = true;
+						break;
+
+					case 'COMMAND':
+						if (pass === true) {
+							console.log(uuid);
+							pass = false;
+
+							yield put({
+								type: CLOSE_TAB,
+								data: action.data.prevUuid,
+							});
+
+							yield put({
+								type: SSH_SEND_RECONNECTION_SUCCESS,
+								data: {
+									uuid: uuid,
+									prevUuid: action.data.prevUuid,
+									ws: ws,
+								},
+							});
+							yield put({
+								type: OPEN_TAB,
+								data: {
+									uuid: uuid,
+									type: 'SSH',
+									server: {
+										id: action.data.id,
+										name: action.data.name,
+										key: action.data.key,
+									},
+									prevUuid: action.data.prevUuid,
 								},
 							});
 						}
@@ -283,7 +391,11 @@ function* sendWindowChange(action) {
 }
 
 function* watchSendConnection() {
-	yield takeLatest(SSH_SEND_CONNECTION_REQUEST, sendConnection);
+	yield throttle(1000, SSH_SEND_CONNECTION_REQUEST, sendConnection);
+}
+
+function* watchSendReConnection() {
+	yield throttle(1000, SSH_SEND_RECONNECTION_REQUEST, sendReConnection);
 }
 
 function* watchSendDisconnection() {
@@ -304,5 +416,6 @@ export default function* sshtSage() {
 		fork(watchSendDisconnection),
 		fork(watchSendCommand),
 		fork(watchSendWindowChange),
+		fork(watchSendReConnection),
 	]);
 }

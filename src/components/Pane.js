@@ -8,6 +8,7 @@ import SFTPContainer from './SFTP/SFTPContainer';
 import {
 	SSH_SEND_CONNECTION_REQUEST,
 	SSH_SEND_DISCONNECTION_REQUEST,
+	SSH_SEND_RECONNECTION_REQUEST,
 } from '../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
 
@@ -94,12 +95,10 @@ const Pane = ({uuid, type, server}) => {
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, dispatch, uuid]);
 
+	console.log(current_tab);
+
 	const onClickDelete = useCallback(
 		(e) => {
-			const {socket: sftpSocket} = sftp_socketState.find(
-				(v) => v.uuid === uuid,
-			);
-
 			e.stopPropagation();
 			if (type === 'SSH') {
 				dispatch({
@@ -113,7 +112,8 @@ const Pane = ({uuid, type, server}) => {
 				dispatch(
 					disconnectAction({
 						uuid,
-						socket: sftpSocket,
+						socket: sftp_socketState.find((v) => v.uuid === uuid)
+							.socket,
 					}),
 				);
 			}
@@ -130,15 +130,16 @@ const Pane = ({uuid, type, server}) => {
 		);
 
 		if (type === 'SSH') {
-			const closedSsh = ssh.find((v) => v.uuid === uuid);
-			console.log(closedSsh);
 			dispatch({
-				type: SSH_SEND_CONNECTION_REQUEST,
+				type: SSH_SEND_RECONNECTION_REQUEST,
 				data: {
 					token: userTicket.access_token,
 					...correspondedServer,
 					user: correspondedIdentity.user,
 					password: correspondedIdentity.password,
+
+					dispatch: dispatch,
+					prevUuid: uuid,
 				},
 			});
 		} else {

@@ -28,6 +28,10 @@ export const SSH_SET_FONT_REQUEST = 'SSH_SET_FONT_REQUEST';
 export const SSH_SET_FONT_SUCCESS = 'SSH_SET_FONT_SUCCESS';
 export const SSH_SET_FONT_FAILURE = 'SSH_SET_FONT_FAILURE';
 
+export const SSH_SEND_RECONNECTION_REQUEST = 'SSH_SEND_RECONNECTION_REQUEST';
+export const SSH_SEND_RECONNECTION_SUCCESS = 'SSH_SEND_RECONNECTION_SUCCESS';
+export const SSH_SEND_RECONNECTION_FAILURE = 'SSH_SEND_RECONNECTION_FAILURE';
+
 export const SSH_SEND_CONNECTION_REQUEST = 'SSH_SEND_CONNECTION_REQUEST';
 export const SSH_SEND_CONNECTION_SUCCESS = 'SSH_SEND_CONNECTION_SUCCESS';
 export const SSH_SEND_CONNECTION_FAILURE = 'SSH_SEND_CONNECTION_FAILURE';
@@ -68,6 +72,23 @@ const reducer = (state = initialState, action) => {
 				draft.ssh[index].ready = 3;
 				break;
 			}
+
+			case SSH_SEND_RECONNECTION_REQUEST:
+				draft.loading = true;
+				break;
+
+			case SSH_SEND_RECONNECTION_SUCCESS: {
+				const index = draft.ssh.findIndex(
+					(v) => v.uuid === action.data.prevUuid,
+				);
+				draft.ssh[index].uuid = action.data.uuid;
+				draft.ssh[index].ws = action.data.ws;
+				draft.ssh[index].ready = 1;
+				draft.loading = false;
+
+				break;
+			}
+
 			case SSH_SEND_CONNECTION_REQUEST:
 				draft.loading = true;
 				break;
