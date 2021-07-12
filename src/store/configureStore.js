@@ -52,7 +52,7 @@ const tokenRefreshMiddleware =
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, tokenRefreshMiddleware];
+const middlewares = [tokenRefreshMiddleware, sagaMiddleware];
 const enhancer = composeWithDevTools(applyMiddleware(...middlewares));
 
 export const store = createStore(rootReducer, enhancer);

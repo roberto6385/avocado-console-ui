@@ -8,10 +8,13 @@ import {
 	REFRESH_USER_TICKET_SUCCESS,
 	REFRESH_USER_TICKET_FAILURE,
 } from '../../reducers/auth/userTicket';
+import base64 from 'base-64';
 
 const querystring = require('query-string');
 
 async function getUserTicketApi(params) {
+	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
+
 	return await axios.post(
 		'/oauth2/v1/token',
 
@@ -22,7 +25,7 @@ async function getUserTicketApi(params) {
 		}),
 		{
 			headers: {
-				Authorization: params.Authorization,
+				Authorization: 'Basic ' + encodeData,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			baseURL:

@@ -107,11 +107,8 @@ const SignInForm = () => {
 				localStorage.setItem('password', password);
 				setUser('');
 				setPassword('');
-				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-				dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
 				dispatch(
 					getUserTicket({
-						Authorization: 'Basic ' + encodeData,
 						username: user,
 						password: password,
 					}),

@@ -1,7 +1,6 @@
 import produce from 'immer';
 
 export const initialState = {
-	encodeData: null,
 	current_tab: null,
 	clicked_server: null,
 	cols: 1,
@@ -215,7 +214,6 @@ export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
 export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const EDIT_SERVER = 'EDIT_SERVER';
-export const SAVE_ENCODE_DATA = 'SAVE_ENCODE_DATA';
 
 export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
 export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
@@ -367,10 +365,6 @@ const isValidFolderName = (folderArray, name) => {
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case SAVE_ENCODE_DATA: {
-				draft.encodeData = action.data;
-				break;
-			}
 			case ADD_FOLDER: {
 				const data = {
 					type: 'folder',

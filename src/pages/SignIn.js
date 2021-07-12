@@ -9,6 +9,8 @@ const SignIn = () => {
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
 
+	console.log(userTicket);
+
 	useEffect(() => {
 		if (userTicket) history.push('/');
 	}, [history, userTicket]);
