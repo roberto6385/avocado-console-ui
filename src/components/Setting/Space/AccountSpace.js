@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -46,6 +46,7 @@ const AccountSpace = () => {
 	const [mfaType, setMfaType] = useState('use');
 	const [authValue, setAuthValue] = useState('google');
 	const [mfaValue, setMfaValue] = useState('otp');
+	const [name, setName] = useState('');
 
 	const {current: authOptions} = useRef([
 		{value: 'first_option', label: t('idPassword')},
@@ -69,6 +70,25 @@ const AccountSpace = () => {
 		{value: 'face_id', label: t('faceId')},
 	]);
 
+	const handleSubmit = useCallback(
+		(e) => {
+			e.preventDefault();
+			console.log(name);
+		},
+		[name],
+	);
+
+	const handleBlur = useCallback(
+		(e) => {
+			setName(account.name);
+		},
+		[account.name],
+	);
+
+	useEffect(() => {
+		setName(account.name);
+	}, [account.name]);
+
 	return (
 		<SettingMainContainer theme_value={theme}>
 			<SettingTitle theme_value={theme}>
@@ -84,12 +104,14 @@ const AccountSpace = () => {
 					/>
 				</InputFiled_>
 				<InputFiled_ title={t('name')}>
-					<_Input
-						value={account.name}
-						theme_value={theme}
-						placeholder={t('namePlace')}
-						readOnly
-					/>
+					<form onSubmit={handleSubmit} onBlur={handleBlur}>
+						<_Input
+							value={name}
+							theme_value={theme}
+							placeholder={t('namePlace')}
+							onChange={(e) => setName(e.target.value)}
+						/>
+					</form>
 				</InputFiled_>
 				<InputFiled_ title={t('email')}>
 					<_Input
