@@ -92,19 +92,16 @@ const SignInForm = () => {
 
 	const onSubmitForm = useCallback(
 		(e) => {
-			console.log('submit check');
 			e.preventDefault();
-			console.log('submit check');
 			if (user === '') {
 				idRef.current?.focus();
 			} else if (password === '') {
 				passwordRef.current?.focus();
 			} else {
-				console.log('encoding...');
-
 				localStorage.setItem('rememberMe', rememberMe);
 				localStorage.setItem('user', user);
 				localStorage.setItem('password', password);
+
 				setUser('');
 				setPassword('');
 				dispatch(

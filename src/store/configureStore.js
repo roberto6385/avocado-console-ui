@@ -34,16 +34,14 @@ const tokenRefreshMiddleware =
 			) {
 				console.log('HERE');
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-				next(
-					dispatch({
-						type: REFRESH_USER_TICKET_REQUEST,
-						params: {
-							refresh_token:
-								getState().userTicket.userTicket.refresh_token,
-							Authorization: 'Basic ' + encodeData,
-						},
-					}),
-				);
+				dispatch({
+					type: REFRESH_USER_TICKET_REQUEST,
+					params: {
+						refresh_token:
+							getState().userTicket.userTicket.refresh_token,
+						Authorization: 'Basic ' + encodeData,
+					},
+				});
 			}
 		}
 

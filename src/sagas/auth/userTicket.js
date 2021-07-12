@@ -1,4 +1,4 @@
-import {all, fork, put, call, takeLatest, delay} from 'redux-saga/effects';
+import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_USER_TICKET_REQUEST,
@@ -12,10 +12,10 @@ import base64 from 'base-64';
 
 const querystring = require('query-string');
 
-async function getUserTicketApi(params) {
+function getUserTicketApi(params) {
 	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 
-	return await axios.post(
+	return axios.post(
 		'/oauth2/v1/token',
 
 		querystring.stringify({
@@ -33,19 +33,16 @@ async function getUserTicketApi(params) {
 		},
 	);
 }
-async function getUserInfoApi(params) {
+function getUserInfoApi(params) {
 	console.log(params);
-	return await axios.get(
-		`/open/api/v1/users/id/${params.user_id}@netand.co.kr`,
-		{
-			headers: {
-				Authorization: `Bearer ${params.access_token}`,
-				'Content-Type': 'application/json',
-			},
-			baseURL:
-				'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+	return axios.get(`/open/api/v1/users/id/${params.user_id}@netand.co.kr`, {
+		headers: {
+			Authorization: `Bearer ${params.access_token}`,
+			'Content-Type': 'application/json',
 		},
-	);
+		baseURL:
+			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+	});
 }
 
 function refreshUserTicketApi(params) {
