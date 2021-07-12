@@ -4,16 +4,15 @@ import {
 	PUT_MODIFY_REQUEST,
 } from '../../reducers/auth/modify';
 import axios from 'axios';
-const querystring = require('query-string');
 
 async function putModifyApi(params) {
 	console.log(params);
 	return await axios.put(
 		`/open/api/v1/users/${params.userUid}`,
-		querystring.stringify({
+		{
 			name: params.name,
 			password: params.password,
-		}),
+		},
 		{
 			headers: {
 				Authorization: `Bearer ${params.access_token}`,
