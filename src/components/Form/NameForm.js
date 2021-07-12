@@ -54,7 +54,7 @@ const ChangeNameForm = ({open, setOpen}) => {
 			if (currentName !== '' && currentPassword !== '') {
 				dispatch(
 					putModify({
-						uid: userInfo.userUid,
+						userUid: userInfo.userUid,
 						name: currentName,
 						password: currentPassword,
 						access_token: userTicket.access_token,
