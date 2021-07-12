@@ -112,13 +112,6 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const [clickedSnippet, setClickedSnippet] = useState(null);
 	const nameInput = useRef(null);
 
-	const click = (id) => {
-		setName(tempSnippets.find((v) => v.id === id).name);
-		setContent(tempSnippets.find((v) => v.id === id).content);
-		setClickedSnippet(id);
-		nameInput.current?.focus();
-	};
-
 	const onChangeName = useCallback(
 		(e) => {
 			setName(e.target.value);
@@ -171,6 +164,54 @@ const SnippetsManeger = ({open, setOpen}) => {
 			console.log(snippets);
 			console.log(tempSnippets);
 
+			let i = 0;
+			let j = 0;
+
+			while (i < snippets.length || j < tempSnippets.length) {
+				if (snippets[i].id === tempSnippets[j].id) {
+					if (
+						snippets[i].name !== tempSnippets[j].name ||
+						snippets[i].content !== tempSnippets[j].content
+					) {
+						dispatch({
+							type: 'edit snippnet',
+							data: {
+								id: tempSnippets[j].id,
+								name: tempSnippets[j].name,
+								content: tempSnippets[j].content,
+							},
+						});
+					}
+					i++;
+					j++;
+				} else if (snippets[i].id < tempSnippets[j].id) {
+					if (i + 1 >= tempSnippets.length ) {
+						dispatch({
+							type: 'add snippets',
+							data: {
+								id: tempSnippets[j].id,
+								name: tempSnippets[j].name,
+								content: tempSnippets[j].content,
+							},
+						});
+						j++;
+					}
+					i++;
+				} else {
+					if (
+						j + 1 < tempSnippets.length &&
+						snippets[i].id < tempSnippets[j + 1].id
+					) {
+						dispatch({
+							type: 'delete snippets',
+							data: {id: snippets[i].id},
+						});
+						i++;
+					}
+					j++;
+				}
+			}
+
 			dispatch({
 				type: SSH_CHANGE_SNIPPET_REQUEST,
 				data: {snippets: tempSnippets, snippents_index: index},
@@ -181,6 +222,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
+			console.log(id);
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);
@@ -198,40 +240,47 @@ const SnippetsManeger = ({open, setOpen}) => {
 				content: '',
 			},
 		]);
-		setClickedSnippet(index);
-		setIndex(index + 1);
 		setName('');
 		setContent('');
+		setClickedSnippet(index);
+		setIndex(index + 1);
 		nameInput.current?.focus();
-	}, [tempSnippets, index, nameInput]);
+	}, [tempSnippets, index]);
 
 	const onClickDeleteSnippet = useCallback(() => {
 		if (clickedSnippet !== null) {
-			setTempSnippets(
-				tempSnippets.filter((x) => x.id !== clickedSnippet),
+			const newSnippets = tempSnippets.filter(
+				(x) => x.id !== clickedSnippet,
 			);
-			if (tempSnippets.length !== 0) {
-				console.log(tempSnippets[0].id);
-				onClickSnippet(tempSnippets[0].id);
-			} else setClickedSnippet(null);
+
+			if (newSnippets.length !== 0) {
+				setName(newSnippets[0].name);
+				setContent(newSnippets[0].content);
+				setClickedSnippet(newSnippets[0].id);
+			} else {
+				setName('');
+				setContent('');
+				setClickedSnippet(null);
+			}
+
+			setTempSnippets(newSnippets);
+			nameInput.current?.focus();
 		}
 	}, [clickedSnippet, tempSnippets]);
 
 	useEffect(() => {
-		if (snippets.length !== 0 && open) {
-			setClickedSnippet(snippets[0].id);
-			setName(snippets[0].name);
-			setContent(snippets[0].content);
-		} else {
-			setClickedSnippet(null);
-			setName('');
-			setContent('');
+		if (open) {
+			if (snippets.length !== 0) {
+				setClickedSnippet(snippets[0].id);
+				setName(snippets[0].name);
+				setContent(snippets[0].content);
+			} else {
+				setClickedSnippet(null);
+				setName('');
+				setContent('');
+			}
 		}
-	}, [open, snippets]);
-
-	useEffect(() => {
-		nameInput.current?.focus();
-	}, [clickedSnippet]);
+	}, [open, snippets, nameInput]);
 
 	return (
 		<_PopupModal
@@ -288,6 +337,7 @@ const SnippetsManeger = ({open, setOpen}) => {
 				<_Form>
 					<InputFiled_ title={t('name')}>
 						<Input
+							autoFocus={true}
 							ref={nameInput}
 							value={name}
 							onChange={onChangeName}

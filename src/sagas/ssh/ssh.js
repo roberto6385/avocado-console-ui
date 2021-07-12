@@ -30,7 +30,6 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import useSubscribe from '../../hooks/useSubscribe';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {CONNECTION_REQUEST} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	let uuid = null;
