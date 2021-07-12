@@ -46,7 +46,7 @@ const commonLocalPersistConfig = {
 const sshLocalPersistConfig = {
 	key: 'sshLocal',
 	storage: storage,
-	whitelist: ['ssh_history', 'snippets'],
+	whitelist: ['ssh_history', 'snippets', 'snippents_index'],
 };
 
 const appReducer = combineReducers({

@@ -112,6 +112,13 @@ const SnippetsManeger = ({open, setOpen}) => {
 	const [clickedSnippet, setClickedSnippet] = useState(null);
 	const nameInput = useRef(null);
 
+	const click = (id) => {
+		setName(tempSnippets.find((v) => v.id === id).name);
+		setContent(tempSnippets.find((v) => v.id === id).content);
+		setClickedSnippet(id);
+		nameInput.current?.focus();
+	};
+
 	const onChangeName = useCallback(
 		(e) => {
 			setName(e.target.value);
@@ -161,6 +168,9 @@ const SnippetsManeger = ({open, setOpen}) => {
 		} else if (new Set(name).size !== name.length) {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
 		} else {
+			console.log(snippets);
+			console.log(tempSnippets);
+
 			dispatch({
 				type: SSH_CHANGE_SNIPPET_REQUEST,
 				data: {snippets: tempSnippets, snippents_index: index},
@@ -200,9 +210,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 			setTempSnippets(
 				tempSnippets.filter((x) => x.id !== clickedSnippet),
 			);
-			if (tempSnippets.length !== 0)
-				setClickedSnippet(tempSnippets[0].id);
-			else setClickedSnippet(null);
+			if (tempSnippets.length !== 0) {
+				console.log(tempSnippets[0].id);
+				onClickSnippet(tempSnippets[0].id);
+			} else setClickedSnippet(null);
 		}
 	}, [clickedSnippet, tempSnippets]);
 

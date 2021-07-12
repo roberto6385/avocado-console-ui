@@ -2,10 +2,10 @@ import {createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {persistStore} from 'redux-persist';
+import base64 from 'base-64';
 
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
-import base64 from 'base-64';
 import {
 	REFRESH_USER_TICKET_FAILURE,
 	REFRESH_USER_TICKET_REQUEST,
@@ -29,19 +29,21 @@ const tokenRefreshMiddleware =
 			if (
 				Date.now() -
 					getState().userTicket.userTicket.expires_in * 1000 +
-					10 * 60 * 1000 >
+					59 * 60 * 1000 >
 				Date.parse(getState().userTicket.userTicket.create_date)
 			) {
 				console.log('HERE');
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-				dispatch({
-					type: REFRESH_USER_TICKET_REQUEST,
-					params: {
-						refresh_token:
-							getState().userTicket.userTicket.refresh_token,
-						Authorization: 'Basic ' + encodeData,
-					},
-				});
+				next(
+					dispatch({
+						type: REFRESH_USER_TICKET_REQUEST,
+						params: {
+							refresh_token:
+								getState().userTicket.userTicket.refresh_token,
+							Authorization: 'Basic ' + encodeData,
+						},
+					}),
+				);
 			}
 		}
 
