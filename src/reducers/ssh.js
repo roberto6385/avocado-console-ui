@@ -100,8 +100,6 @@ const reducer = (state = initialState, action) => {
 					terminal: new Terminal({
 						cursorBlink: true,
 						minimumContrastRatio: 7,
-						// fontFamily: draft.font,
-						// fontSize: draft.font_size,
 						letterSpacing: 0,
 					}),
 					current_line: '',

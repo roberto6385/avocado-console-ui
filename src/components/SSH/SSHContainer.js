@@ -46,11 +46,11 @@ const SSHContainer = ({uuid, server}) => {
 		return MenuPosition.current;
 	}
 
-	const openSnippet = (e) => {
+	const openSnippet = useCallback((e) => {
 		show(e, {
 			position: getSettingMenuPosition(),
 		});
-	};
+	}, []);
 
 	const onCLickFullScreen = useCallback(() => {
 		document

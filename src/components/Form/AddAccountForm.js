@@ -13,7 +13,7 @@ import {ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {
 	borderColor,
 	fontColor,
-	greyBackgroundNormalButtonColor,
+	greyNormalButtonBackgroundColor,
 } from '../../styles/color';
 import {
 	ClickableIconButton,
@@ -198,7 +198,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<InputFiled_ title={t('identity')} flex={1}>
 						<_LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
+							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -219,7 +219,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<InputFiled_ title={t('userName')} flex={1}>
 						<_LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
+							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
@@ -233,7 +233,7 @@ const AddAccountForm = () => {
 					<_Item>
 						<InputFiled_ title={t('password')} flex={1}>
 							<_LongInput
-								back={greyBackgroundNormalButtonColor[theme]}
+								back={greyNormalButtonBackgroundColor[theme]}
 								color={fontColor[theme]}
 								b_color={borderColor[theme]}
 								type='password'
@@ -250,7 +250,7 @@ const AddAccountForm = () => {
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
-										greyBackgroundNormalButtonColor[theme]
+										greyNormalButtonBackgroundColor[theme]
 									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
@@ -282,7 +282,7 @@ const AddAccountForm = () => {
 							<InputFiled_ title={t('keyFilePassword')} flex={1}>
 								<_LongInput
 									back={
-										greyBackgroundNormalButtonColor[theme]
+										greyNormalButtonBackgroundColor[theme]
 									}
 									color={fontColor[theme]}
 									b_color={borderColor[theme]}
@@ -298,7 +298,7 @@ const AddAccountForm = () => {
 				<_Item>
 					<InputFiled_ title={t('note')} flex={1}>
 						<_LongInput
-							back={greyBackgroundNormalButtonColor[theme]}
+							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
 							b_color={borderColor[theme]}
 							type='text'
