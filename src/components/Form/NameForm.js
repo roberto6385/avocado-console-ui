@@ -31,16 +31,12 @@ const _PopupModal = styled(PopupModal)`
 const ChangeNameForm = ({open, setOpen}) => {
 	const {t} = useTranslation('changeNameForm');
 	const dispatch = useDispatch();
-	const {theme, account} = useSelector((state) => state.common, shallowEqual);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo, userTicket} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-
-	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
-		useInput('');
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput('');
-	useInput('');
 
 	const closeModal = useCallback(() => {
 		setOpen(false);
@@ -51,12 +47,12 @@ const ChangeNameForm = ({open, setOpen}) => {
 			e.preventDefault();
 			console.log(userInfo);
 
-			if (currentName !== '' && currentPassword !== '') {
+			if (currentName !== '') {
 				dispatch(
 					putModify({
 						userUid: userInfo.userUid,
 						name: currentName,
-						password: currentPassword,
+						password: localStorage.getItem('password'),
 						access_token: userTicket.access_token,
 					}),
 				);
@@ -64,21 +60,14 @@ const ChangeNameForm = ({open, setOpen}) => {
 
 			closeModal();
 		},
-		[
-			userTicket,
-			userInfo,
-			currentName,
-			currentPassword,
-			closeModal,
-			dispatch,
-		],
+		[userTicket, userInfo, currentName, closeModal, dispatch],
 	);
 
 	useEffect(() => {
 		if (open) {
-			setCurrentPassword('');
+			setCurrentName('');
 		}
-	}, [open, setCurrentPassword]);
+	}, [open, setCurrentName]);
 
 	return (
 		<_PopupModal
@@ -109,15 +98,15 @@ const ChangeNameForm = ({open, setOpen}) => {
 						theme_value={theme}
 					/>
 				</InputFiled_>
-				<InputFiled_ title={t('current')}>
-					<Input
-						type='password'
-						value={currentPassword}
-						onChange={onChangeCurrentPassword}
-						placeholder={t('place.current')}
-						theme_value={theme}
-					/>
-				</InputFiled_>
+				{/*<InputFiled_ title={t('current')}>*/}
+				{/*	<Input*/}
+				{/*		type='password'*/}
+				{/*		value={currentPassword}*/}
+				{/*		onChange={onChangeCurrentPassword}*/}
+				{/*		placeholder={t('place.current')}*/}
+				{/*		theme_value={theme}*/}
+				{/*	/>*/}
+				{/*</InputFiled_>*/}
 			</Form>
 
 			<ModalFooter theme_value={theme}>
