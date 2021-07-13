@@ -141,7 +141,6 @@ const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const [prevOffset, setPrevOffset] = useState(0);
 	const {
 		path: sftp_pathState,
 		history: sftp_historyState,
@@ -370,8 +369,7 @@ const HistoryContents = ({uuid}) => {
 								v.path === history.path &&
 								v.todo === history.todo,
 						);
-					if (!item || item.offset === prevOffset) return;
-					setPrevOffset(item.offset);
+					if (!item) return;
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -403,7 +401,6 @@ const HistoryContents = ({uuid}) => {
 			dispatch,
 			path,
 			pause,
-			prevOffset,
 			sftp_socket,
 			userTicket,
 			uuid,
