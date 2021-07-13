@@ -3,10 +3,15 @@ import {WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
-export function writeResponse({data, payload}) {
-	console.log(writePercent);
-	console.log(writeByteSum);
-
+export function writeResponse({data, payload, pass}) {
+	if (pass) {
+		writePercent = 0;
+		writeByteSum = 0;
+		if (payload.offset !== undefined) {
+			writeByteSum = payload.offset;
+			writePercent = (writeByteSum * 100) / payload.file.size;
+		}
+	}
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);

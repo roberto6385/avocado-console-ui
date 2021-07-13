@@ -38,8 +38,10 @@ import {
 } from '../../../styles/button';
 import {
 	ADD_HISTORY_HI,
+	commandPwdAction,
 	createNewWebsocket,
 	INITIAL_HISTORY_HI,
+	PUSH_READ_LIST,
 	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
 	removeNewWebsocket,
@@ -139,10 +141,11 @@ const HistoryContents = ({uuid}) => {
 	const {t} = useTranslation('historyContents');
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
-	const {path: sftp_pathState, history: sftp_historyState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {
+		path: sftp_pathState,
+		history: sftp_historyState,
+		socket: sftp_socketState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -155,7 +158,11 @@ const HistoryContents = ({uuid}) => {
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {history, history_highlight} = useMemo(
+	const {socket: sftp_socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
+	);
+	const {history, history_highlight, pause} = useMemo(
 		() => sftp_historyState.find((it) => it.uuid === uuid),
 		[sftp_historyState, uuid],
 	);
@@ -326,25 +333,99 @@ const HistoryContents = ({uuid}) => {
 
 	const onPause = useCallback(
 		(history) => (e) => {
-			if (history.progress !== 100) {
+			console.log(history);
+			if (history.socket.readyState === 1) {
+				if (history.progress !== 100) {
+					if (history.todo === 'write') {
+						dispatch(
+							removeNewWebsocket({
+								socket: history.socket,
+							}),
+						);
+						if (history.path === path) {
+							dispatch(
+								commandPwdAction({
+									socket: sftp_socket,
+									uuid: uuid,
+									pwd_path: path,
+									dispatch: dispatch,
+								}),
+							);
+						}
+					} else if (history.todo === 'read') {
+						dispatch(
+							removeNewWebsocket({
+								socket: history.socket,
+							}),
+						);
+					}
+				}
+			} else {
+				if (history.progress === 100) return;
+
+				console.log('re start');
 				if (history.todo === 'write') {
-					console.log(history);
 					dispatch(
-						removeNewWebsocket({
-							socket: history.socket,
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'write',
+							uuid: uuid,
 						}),
 					);
+					const item = pause
+						.slice()
+						.find(
+							(v) =>
+								v.file === history.file &&
+								v.path === path &&
+								v.todo === 'write',
+						);
+
+					console.log(item);
+					dispatch({
+						type: PUSH_WRITE_LIST,
+						payload: {
+							uuid,
+							array: [item],
+						},
+					});
 				} else if (history.todo === 'read') {
-					console.log(history);
+					//
 					dispatch(
-						removeNewWebsocket({
-							socket: history.socket,
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'read',
+							uuid: uuid,
 						}),
 					);
+					dispatch({
+						type: PUSH_READ_LIST,
+						payload: {
+							uuid,
+							array: [{path, file: history.file, todo: 'read'}],
+						},
+					});
 				}
 			}
 		},
-		[dispatch],
+		[
+			corServer,
+			correspondedIdentity,
+			dispatch,
+			path,
+			pause,
+			sftp_socket,
+			userTicket,
+			uuid,
+		],
 	);
 
 	return (

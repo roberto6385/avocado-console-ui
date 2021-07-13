@@ -81,6 +81,8 @@ export const FIND_HISTORY = 'history/FIND_HISTORY';
 export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
+export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
+export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -264,6 +266,7 @@ const sftp = (state = initialState, action) =>
 					uuid: action.payload.uuid,
 					history: [],
 					history_highlight: [],
+					pause: [],
 				});
 				draft.upload.push({
 					uuid: action.payload.uuid,
@@ -464,15 +467,42 @@ const sftp = (state = initialState, action) =>
 				file_target.fileList = [];
 				break;
 
-			//--//
+			case ADD_PAUSED_LIST: {
+				const index = history_plain.pause.findIndex(
+					(v) =>
+						v.file === action.payload.data.file &&
+						v.path === action.payload.data.path &&
+						v.todo === action.payload.data.todo,
+				);
+				console.log(index);
+				if (index === -1) {
+					history_target.pause.push({...action.payload.data});
+				} else {
+					history_target.pause.slice(index, 1, {
+						...action.payload.data,
+					});
+				}
+				break;
+			}
+
+			case REMOVE_PAUSED_LIST: {
+				history_target.pause = history_plain.pause.filter(
+					(v) =>
+						!(
+							v.file === action.payload.data.file &&
+							v.path === action.payload.data.path &&
+							v.todo === action.payload.data.todo
+						),
+				);
+				break;
+			}
 
 			case ADD_HISTORY:
 				history_target.history.unshift({...action.payload, HISTORY_ID});
 				HISTORY_ID++;
 				break;
 
-			case FIND_HISTORY:
-				// eslint-disable-next-line no-case-declarations
+			case FIND_HISTORY: {
 				const index = history_target.history.findIndex(
 					(h) =>
 						h.name === action.payload.name &&
@@ -483,6 +513,7 @@ const sftp = (state = initialState, action) =>
 						action.payload.progress;
 				}
 				break;
+			}
 			case REMOVE_HISTORY:
 				history_target.history = history_plain.history.filter(
 					(it) => it !== action.payload.history,

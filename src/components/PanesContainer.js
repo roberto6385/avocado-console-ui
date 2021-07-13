@@ -19,7 +19,6 @@ export const _Container = styled.div`
 const PanesContainer = () => {
 	const {tab, cols} = useSelector((state) => state.common, shallowEqual);
 
-	console.log(tab);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,

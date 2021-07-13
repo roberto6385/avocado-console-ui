@@ -130,6 +130,7 @@ const SFTPContainer = ({uuid}) => {
 						progress: 0,
 						path: value.path,
 						socket: read_socket,
+						file: value.file,
 					},
 				});
 			}
@@ -158,20 +159,24 @@ const SFTPContainer = ({uuid}) => {
 					path: path,
 					todo: value.todo,
 					dispatch: dispatch,
+					offset: value?.offset,
 				}),
 			);
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.file.name,
-					size: value.file.size,
-					todo: value.todo,
-					progress: 0,
-					path: value.path,
-					socket: write_socket,
-				},
-			});
+			if (value?.offset === undefined) {
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.file.name,
+						size: value.file.size,
+						todo: value.todo,
+						progress: 0,
+						path: value.path,
+						socket: write_socket,
+						file: value.file,
+					},
+				});
+			}
 
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});

@@ -51,7 +51,7 @@ function* sendCommand(action) {
 				return;
 			}
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {

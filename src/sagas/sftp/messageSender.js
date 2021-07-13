@@ -198,6 +198,8 @@ const sendCommandByWrite = ({
 		var cmd = new SFTP.CommandRequest();
 		var write = new SFTP.WriteFileRequest();
 
+		console.log(offset);
+
 		write.setPath(path);
 		write.setOffset(offset);
 		write.setLength(length);
