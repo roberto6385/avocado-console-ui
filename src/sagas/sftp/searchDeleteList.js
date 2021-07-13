@@ -24,6 +24,11 @@ import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
 function* sendCommand(action) {
 	const {payload} = action;
 
+	if (payload.socket.readyState === 3) {
+		console.log('already socket is closing');
+		return;
+	}
+
 	const channel = yield call(fileSubscribe, payload.socket);
 
 	try {

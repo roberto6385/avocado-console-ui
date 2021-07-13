@@ -25,6 +25,11 @@ import useSubscribe from '../../hooks/useSubscribe';
 function* sendCommand(action) {
 	const {payload} = action;
 
+	if (payload.socket.readyState === 3) {
+		console.log('already socket is closing');
+		return;
+	}
+
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
 		dispatch: () =>
@@ -48,7 +53,6 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				payload.socket.close();
 			} else {
 				const res = yield call(mkdirResponse, {data});
 

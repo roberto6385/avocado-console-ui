@@ -46,7 +46,7 @@ const App = () => {
 				window.location.reload();
 			}
 		},
-		[userTicket],
+		[dispatch, userTicket],
 	);
 
 	const handleOnAction = useCallback((e) => {

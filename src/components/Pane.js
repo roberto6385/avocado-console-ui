@@ -95,8 +95,6 @@ const Pane = ({uuid, type, server}) => {
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, dispatch, uuid]);
 
-	console.log(current_tab);
-
 	const onClickDelete = useCallback(
 		(e) => {
 			e.stopPropagation();

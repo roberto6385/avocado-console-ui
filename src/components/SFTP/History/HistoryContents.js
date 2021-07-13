@@ -12,6 +12,7 @@ import {
 	deleteIcon,
 	fileUploadIcon,
 	pauseCircleIcon,
+	playCircleIcon,
 	removeCircleIcon,
 } from '../../../icons/icons';
 import {HEIGHT_48, HEIGHT_132} from '../../../styles/length';
@@ -41,7 +42,9 @@ import {
 	INITIAL_HISTORY_HI,
 	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
+	removeNewWebsocket,
 } from '../../../reducers/sftp';
+import {put} from 'redux-saga/effects';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -321,6 +324,29 @@ const HistoryContents = ({uuid}) => {
 		[dispatch, uuid],
 	);
 
+	const onPause = useCallback(
+		(history) => (e) => {
+			if (history.progress !== 100) {
+				if (history.todo === 'write') {
+					console.log(history);
+					dispatch(
+						removeNewWebsocket({
+							socket: history.socket,
+						}),
+					);
+				} else if (history.todo === 'read') {
+					console.log(history);
+					dispatch(
+						removeNewWebsocket({
+							socket: history.socket,
+						}),
+					);
+				}
+			}
+		},
+		[dispatch],
+	);
+
 	return (
 		<Dropzone onDrop={(files) => upload(files)}>
 			{history?.length === 0 ? (
@@ -358,6 +384,7 @@ const HistoryContents = ({uuid}) => {
 								}
 							>
 								<ClickableIconButton
+									onClick={onPause(history)}
 									size='20px'
 									margin={'10px'}
 									color={
@@ -374,7 +401,9 @@ const HistoryContents = ({uuid}) => {
 									}
 								>
 									{history.progress !== 100
-										? pauseCircleIcon
+										? history.socket.readyState === 3
+											? playCircleIcon
+											: pauseCircleIcon
 										: history.todo === 'write'
 										? arrowCircleUpIcon
 										: history.todo === 'read'

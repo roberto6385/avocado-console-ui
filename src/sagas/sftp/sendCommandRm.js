@@ -4,7 +4,6 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	race,
 	delay,
 	takeLatest,
@@ -27,7 +26,10 @@ function* sendCommand(action) {
 	console.log(`${payload.rm_path}/${payload.file.name}`);
 	const channel = yield call(fileSubscribe, payload.remove_socket);
 	try {
-		if (payload.socket.readyState === 3) {
+		if (
+			payload.socket.readyState === 3 ||
+			payload.remove_socket.readyState === 3
+		) {
 			console.log('already socket is closing');
 			return;
 		}

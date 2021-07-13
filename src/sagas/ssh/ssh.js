@@ -309,8 +309,6 @@ function* sendCommand(action) {
 
 				if (timeout) {
 					closeChannel(channel);
-					console.log('send command close');
-					action.data.ws.close();
 				} else {
 					const res = yield call(GetMessage, result);
 

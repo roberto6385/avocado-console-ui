@@ -5,11 +5,11 @@ import {
 	CREATE_NEW_WEBSOCKET_SUCCESS,
 	ERROR,
 } from '../../reducers/sftp';
-import {fileSubscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
+import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -17,7 +17,11 @@ function* sendCommand(action) {
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(fileSubscribe, socket);
+		const channel = yield call(useSubscribe, {
+			socket,
+			dispatch: () =>
+				console.log('최초 연결시 끊김 체크는 다른 방법을 사용해야 함'),
+		});
 
 		yield call(messageSender, {
 			keyword: 'Connection',

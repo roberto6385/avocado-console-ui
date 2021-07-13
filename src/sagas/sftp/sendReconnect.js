@@ -13,7 +13,6 @@ import {
 	RECONNECTION_REQUEST,
 	RECONNECTION_SUCCESS,
 	ERROR,
-	commandPwdAction,
 	commandCdAction,
 } from '../../reducers/sftp';
 import {closeChannel} from '../channel';

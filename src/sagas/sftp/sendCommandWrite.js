@@ -7,8 +7,6 @@ import {
 	actionChannel,
 	race,
 	delay,
-	takeEvery,
-	takeLatest,
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
@@ -28,7 +26,10 @@ function* sendCommand(action) {
 	const senderLength = 1024 * 4;
 
 	try {
-		if (payload.socket.readyState === 3) {
+		if (
+			payload.socket.readyState === 3 ||
+			payload.write_socket.readyState === 3
+		) {
 			console.log('already socket is closing');
 			return;
 		}

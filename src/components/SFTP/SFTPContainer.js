@@ -19,7 +19,6 @@ import {
 import SFTP from './SFTP';
 
 const SFTPContainer = ({uuid}) => {
-	console.log(uuid);
 	const dispatch = useDispatch();
 	const current_tab = useSelector((state) => state.common.current_tab);
 	const {
@@ -129,6 +128,8 @@ const SFTPContainer = ({uuid}) => {
 						size: value.file.size,
 						todo: value.todo,
 						progress: 0,
+						path: value.path,
+						socket: read_socket,
 					},
 				});
 			}
@@ -167,6 +168,8 @@ const SFTPContainer = ({uuid}) => {
 					size: value.file.size,
 					todo: value.todo,
 					progress: 0,
+					path: value.path,
+					socket: write_socket,
 				},
 			});
 

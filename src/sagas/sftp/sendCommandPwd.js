@@ -6,7 +6,6 @@ import {
 	put,
 	race,
 	delay,
-	takeEvery,
 	takeLatest,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
@@ -25,6 +24,12 @@ import {
 
 function* sendCommand(action) {
 	const {payload} = action;
+
+	if (payload.socket.readyState === 3) {
+		console.log('already socket is closing');
+		return;
+	}
+
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
 		uuid: payload.uuid,

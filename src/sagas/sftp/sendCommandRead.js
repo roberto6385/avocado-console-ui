@@ -29,7 +29,10 @@ function* sendCommand(action) {
 	const channel = yield call(fileSubscribe, payload.read_socket);
 
 	try {
-		if (payload.socket.readyState === 3) {
+		if (
+			payload.socket.readyState === 3 ||
+			payload.read_socket.readyState === 3
+		) {
 			console.log('already socket is closing');
 			return;
 		}

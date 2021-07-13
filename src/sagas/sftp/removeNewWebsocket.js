@@ -1,13 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	actionChannel,
-	takeLatest,
-	takeEvery,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
@@ -20,6 +11,11 @@ import {
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(fileSubscribe, payload.socket);
+
+	if (payload.socket.readyState === 3) {
+		console.log('already socket is closing');
+		return;
+	}
 
 	try {
 		yield call(messageSender, {
@@ -49,11 +45,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeEvery(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(REMOVE_NEW_WEBSOCKET_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* removeWebsocketSaga() {

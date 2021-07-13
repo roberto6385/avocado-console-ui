@@ -1,14 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	race,
-	delay,
-	takeLatest,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeLatest} from 'redux-saga/effects';
 import {
 	DISCONNECTION_FAILURE,
 	DISCONNECTION_REQUEST,

@@ -6,8 +6,6 @@ import {
 	put,
 	race,
 	delay,
-	takeEvery,
-	actionChannel,
 	takeLatest,
 } from 'redux-saga/effects';
 import {
@@ -16,7 +14,6 @@ import {
 	LS_REQUEST,
 	LS_SUCCESS,
 	READY_STATE,
-	WRITE_REQUEST,
 } from '../../reducers/sftp';
 import {closeChannel} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
@@ -27,6 +24,12 @@ import useSubscribe from '../../hooks/useSubscribe';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
+
+	if (payload.socket.readyState === 3) {
+		console.log('already socket is closing');
+		return;
+	}
+
 	const channel = yield call(useSubscribe, {
 		socket: payload.socket,
 		dispatch: () =>

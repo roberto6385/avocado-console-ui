@@ -269,6 +269,10 @@ export const homeIcon = <span className='material-icons'>home</span>;
 export const pauseCircleIcon = (
 	<span className='material-icons'>pause_circle_outline</span>
 );
+
+export const playCircleIcon = (
+	<span className='material-icons'>play_circle_outline</span>
+);
 export const arrowCircleUpIcon = (
 	<span className='material-icons'>arrow_circle_up</span>
 );
