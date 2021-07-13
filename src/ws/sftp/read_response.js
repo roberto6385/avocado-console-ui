@@ -14,8 +14,16 @@ const appendBuffer = (buffer1, buffer2) => {
 	return tmp.buffer;
 };
 
-export async function readResponse({data, payload}) {
+export async function readResponse({data, payload, pass}) {
 	try {
+		if (pass) {
+			readPercent = 0;
+			readByteSum = 0;
+			if (payload.offset !== undefined) {
+				readByteSum = payload.offset;
+				readPercent = (readByteSum * 100) / payload.file.size;
+			}
+		}
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
 			if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {

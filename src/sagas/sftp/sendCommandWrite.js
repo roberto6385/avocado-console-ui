@@ -28,7 +28,7 @@ function* sendCommand(action) {
 	const senderLength = 1024 * 4;
 	let lastSum = 0;
 	let pass = true;
-
+	console.log('upload check');
 	try {
 		if (
 			payload.socket.readyState === 3 ||
@@ -48,27 +48,27 @@ function* sendCommand(action) {
 			ws: payload.write_socket,
 			path: filepath,
 			offset: payload.offset ? payload.offset : 0,
-			length: payload.offset ? 0 : senderLength,
+			length: senderLength,
 			uploadFile: payload.file,
 			completed: false,
 			mode: payload.offset ? 2 : 1,
 		});
 
 		while (true) {
+			if (payload.socket.readyState === 3) {
+				console.log('already socket is closing');
+				return;
+			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
 				timeout: delay(500),
 				data: take(channel),
 			});
-
-			if (payload.socket.readyState === 3) {
-				console.log('already socket is closing');
-				return;
-			}
 			if (timeout) {
 				closeChannel(channel);
 				console.log('upload end');
 				if (lastSum !== 0) {
+					console.log(lastSum);
 					yield put({
 						type: ADD_PAUSED_LIST,
 						payload: {
@@ -76,7 +76,7 @@ function* sendCommand(action) {
 							data: {
 								offset: lastSum,
 								todo: payload.todo,
-								path: payload.path,
+								path: payload.write_path,
 								file: payload.file,
 							},
 						},
@@ -159,6 +159,8 @@ function* sendCommand(action) {
 								size: payload.file.size,
 								todo: payload.todo,
 								progress: res.percent,
+								ready: payload.write_socket.readyState,
+								socket: payload.write_socket,
 							},
 						});
 

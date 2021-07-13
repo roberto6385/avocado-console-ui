@@ -83,6 +83,7 @@ export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
 export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
+export const HISTORY_READY = 'history/HISTORY_READY';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -476,11 +477,11 @@ const sftp = (state = initialState, action) =>
 				);
 				console.log(index);
 				if (index === -1) {
-					history_target.pause.push({...action.payload.data});
+					history_target.pause.push(action.payload.data);
 				} else {
-					history_target.pause.slice(index, 1, {
-						...action.payload.data,
-					});
+					console.log('여기');
+					console.log(action.payload.data);
+					history_target.pause.splice(index, 1, action.payload.data);
 				}
 				break;
 			}
@@ -502,6 +503,15 @@ const sftp = (state = initialState, action) =>
 				HISTORY_ID++;
 				break;
 
+			case HISTORY_READY: {
+				const index = history_plain.history.findIndex(
+					(v) => v === action.payload.history,
+				);
+				history_target.history[index].ready = 3;
+
+				break;
+			}
+
 			case FIND_HISTORY: {
 				const index = history_target.history.findIndex(
 					(h) =>
@@ -509,6 +519,9 @@ const sftp = (state = initialState, action) =>
 						h.todo === action.payload.todo,
 				);
 				if (index !== -1) {
+					history_target.history[index].ready = action.payload.ready;
+					history_target.history[index].socket =
+						action.payload.socket;
 					history_target.history[index].progress =
 						action.payload.progress;
 				}

@@ -9,11 +9,13 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
+	ADD_PAUSED_LIST,
 	CHANGE_MODE,
 	FIND_HISTORY,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
+	REMOVE_PAUSED_LIST,
 	removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
@@ -27,6 +29,10 @@ function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
 	const channel = yield call(fileSubscribe, payload.read_socket);
+	// const senderLength = 1024 * 56;
+	const senderLength = 1024 * 4;
+	let lastSum = 0;
+	let pass = true;
 
 	try {
 		if (
@@ -42,14 +48,12 @@ function* sendCommand(action) {
 				? `${payload.read_path}${payload.file.name}`
 				: `${payload.read_path}/${payload.file.name}`;
 
-		const senderLength = 1024 * 56;
-
 		yield call(messageSender, {
 			keyword: 'CommandByRead',
 			ws: payload.read_socket,
 			path: filepath,
-			offset: 0,
-			length: senderLength,
+			offset: payload.offset ? payload.offset : 0,
+			length: payload.offset ? 0 : senderLength,
 			completed: false,
 		});
 
@@ -64,14 +68,33 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				console.log('download end');
+				if (lastSum !== 0) {
+					yield put({
+						type: ADD_PAUSED_LIST,
+						payload: {
+							uuid: payload.uuid,
+							data: {
+								offset: lastSum,
+								todo: payload.todo,
+								path: payload.read_path,
+								file: payload.file,
+							},
+						},
+					});
+				}
 			} else {
 				// const data = yield take(channel);
-				const res = yield call(readResponse, {data, payload});
+				const res = yield call(readResponse, {data, payload, pass});
+				pass = false;
 				console.log(res);
 				switch (res.type) {
 					case READ_SUCCESS:
 						if (res.last === false) {
 							if (res.end === false) {
+								console.log(res.byteSum);
+								lastSum = res.byteSum;
+
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
 									ws: payload.read_socket,
@@ -96,8 +119,11 @@ function* sendCommand(action) {
 							payload: {
 								uuid: payload.uuid,
 								name: payload.file.name,
+								size: payload.file.size,
 								todo: payload.todo,
 								progress: res.percent,
+								ready: payload.read_socket.readyState,
+								socket: payload.read_socket,
 							},
 						});
 						if (res.last && res.percent === 100) {
@@ -111,6 +137,17 @@ function* sendCommand(action) {
 								payload: {
 									uuid: payload.uuid,
 									percent: res.percent,
+								},
+							});
+							yield put({
+								type: REMOVE_PAUSED_LIST,
+								payload: {
+									uuid: payload.uuid,
+									data: {
+										todo: payload.todo,
+										path: payload.path,
+										file: payload.file,
+									},
 								},
 							});
 							if (payload.todo === 'edit') {

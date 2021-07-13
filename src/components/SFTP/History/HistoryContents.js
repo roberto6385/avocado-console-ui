@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -40,6 +40,7 @@ import {
 	ADD_HISTORY_HI,
 	commandPwdAction,
 	createNewWebsocket,
+	HISTORY_READY,
 	INITIAL_HISTORY_HI,
 	PUSH_READ_LIST,
 	PUSH_WRITE_LIST,
@@ -140,7 +141,7 @@ const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-
+	const [prevOffset, setPrevOffset] = useState(0);
 	const {
 		path: sftp_pathState,
 		history: sftp_historyState,
@@ -334,14 +335,21 @@ const HistoryContents = ({uuid}) => {
 	const onPause = useCallback(
 		(history) => (e) => {
 			console.log(history);
-			if (history.socket.readyState === 1) {
-				if (history.progress !== 100) {
+			if (history.progress !== 100) {
+				if (history.ready === 1) {
+					dispatch(
+						removeNewWebsocket({
+							socket: history.socket,
+						}),
+					);
+					dispatch({
+						type: HISTORY_READY,
+						payload: {
+							uuid: uuid,
+							history: history,
+						},
+					});
 					if (history.todo === 'write') {
-						dispatch(
-							removeNewWebsocket({
-								socket: history.socket,
-							}),
-						);
 						if (history.path === path) {
 							dispatch(
 								commandPwdAction({
@@ -352,49 +360,18 @@ const HistoryContents = ({uuid}) => {
 								}),
 							);
 						}
-					} else if (history.todo === 'read') {
-						dispatch(
-							removeNewWebsocket({
-								socket: history.socket,
-							}),
-						);
 					}
-				}
-			} else {
-				if (history.progress === 100) return;
-
-				console.log('re start');
-				if (history.todo === 'write') {
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'write',
-							uuid: uuid,
-						}),
-					);
+				} else {
 					const item = pause
 						.slice()
 						.find(
 							(v) =>
 								v.file === history.file &&
-								v.path === path &&
-								v.todo === 'write',
+								v.path === history.path &&
+								v.todo === history.todo,
 						);
-
-					console.log(item);
-					dispatch({
-						type: PUSH_WRITE_LIST,
-						payload: {
-							uuid,
-							array: [item],
-						},
-					});
-				} else if (history.todo === 'read') {
-					//
+					if (!item || item.offset === prevOffset) return;
+					setPrevOffset(item.offset);
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -402,15 +379,19 @@ const HistoryContents = ({uuid}) => {
 							port: corServer.port,
 							user: correspondedIdentity.user,
 							password: correspondedIdentity.password,
-							todo: 'read',
+							todo: history.todo,
 							uuid: uuid,
 						}),
 					);
+
 					dispatch({
-						type: PUSH_READ_LIST,
+						type:
+							history.todo === 'write'
+								? PUSH_WRITE_LIST
+								: PUSH_READ_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: history.file, todo: 'read'}],
+							array: [item],
 						},
 					});
 				}
@@ -422,6 +403,7 @@ const HistoryContents = ({uuid}) => {
 			dispatch,
 			path,
 			pause,
+			prevOffset,
 			sftp_socket,
 			userTicket,
 			uuid,
@@ -482,7 +464,7 @@ const HistoryContents = ({uuid}) => {
 									}
 								>
 									{history.progress !== 100
-										? history.socket.readyState === 3
+										? history.ready === 3
 											? playCircleIcon
 											: pauseCircleIcon
 										: history.todo === 'write'
