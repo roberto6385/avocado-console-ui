@@ -2,11 +2,10 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CHANGE_CURRENT_TAB, CLOSE_TAB} from '../reducers/common';
+import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTPContainer from './SFTP/SFTPContainer';
 import {
-	SSH_SEND_CONNECTION_REQUEST,
 	SSH_SEND_DISCONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_REQUEST,
 } from '../reducers/ssh';
@@ -21,11 +20,7 @@ import {
 	tabColor,
 } from '../styles/color';
 import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
-import {
-	connectionAction,
-	disconnectAction,
-	reconnectionAction,
-} from '../reducers/sftp';
+import {disconnectAction, reconnectionAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
 
 const _Container = styled.div`
@@ -94,8 +89,6 @@ const Pane = ({uuid, type, server}) => {
 		if (current_tab !== uuid)
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, dispatch, uuid]);
-
-	console.log(current_tab);
 
 	const onClickDelete = useCallback(
 		(e) => {

@@ -92,9 +92,8 @@ const SignInForm = () => {
 
 	const onSubmitForm = useCallback(
 		(e) => {
-			console.log('submit check');
 			e.preventDefault();
-			console.log('submit check');
+
 			if (user === '') {
 				idRef.current?.focus();
 			} else if (password === '') {

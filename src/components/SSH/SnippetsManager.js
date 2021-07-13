@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {SSH_CHANGE_SNIPPET_REQUEST} from '../../reducers/ssh';
+import {
+	SSH_ADD_SNIPPET_REQUEST,
+	SSH_CHANGE_SNIPPET_REQUEST,
+	SSH_DELETE_SNIPPET_REQUEST,
+} from '../../reducers/ssh';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
@@ -161,68 +165,59 @@ const SnippetsManeger = ({open, setOpen}) => {
 		} else if (new Set(name).size !== name.length) {
 			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
 		} else {
-			console.log(snippets);
-			console.log(tempSnippets);
+			const deleteSnippets = snippets.filter(
+				(x) => !tempSnippets.map((x) => x.id).includes(x.id),
+			);
 
-			let i = 0;
-			let j = 0;
+			const editSnippets = tempSnippets
+				.filter((x) => snippets.map((x) => x.id).includes(x.id))
+				.filter(
+					(x) =>
+						!tempSnippets
+							.filter((x2) => snippets.includes(x2))
+							.includes(x),
+				);
 
-			while (i < snippets.length || j < tempSnippets.length) {
-				if (snippets[i].id === tempSnippets[j].id) {
-					if (
-						snippets[i].name !== tempSnippets[j].name ||
-						snippets[i].content !== tempSnippets[j].content
-					) {
-						dispatch({
-							type: 'edit snippnet',
-							data: {
-								id: tempSnippets[j].id,
-								name: tempSnippets[j].name,
-								content: tempSnippets[j].content,
-							},
-						});
-					}
-					i++;
-					j++;
-				} else if (snippets[i].id < tempSnippets[j].id) {
-					if (i + 1 >= tempSnippets.length ) {
-						dispatch({
-							type: 'add snippets',
-							data: {
-								id: tempSnippets[j].id,
-								name: tempSnippets[j].name,
-								content: tempSnippets[j].content,
-							},
-						});
-						j++;
-					}
-					i++;
-				} else {
-					if (
-						j + 1 < tempSnippets.length &&
-						snippets[i].id < tempSnippets[j + 1].id
-					) {
-						dispatch({
-							type: 'delete snippets',
-							data: {id: snippets[i].id},
-						});
-						i++;
-					}
-					j++;
-				}
+			const addSnippets = tempSnippets.filter(
+				(x) => !snippets.map((x) => x.id).includes(x.id),
+			);
+
+			console.log(deleteSnippets, editSnippets, addSnippets);
+
+			for (let i = 0; i < deleteSnippets.length; i++) {
+				dispatch({
+					type: SSH_DELETE_SNIPPET_REQUEST,
+					data: deleteSnippets[i].id,
+				});
 			}
 
-			dispatch({
-				type: SSH_CHANGE_SNIPPET_REQUEST,
-				data: {snippets: tempSnippets, snippents_index: index},
-			});
+			for (let i = 0; i < editSnippets.length; i++) {
+				dispatch({
+					type: SSH_CHANGE_SNIPPET_REQUEST,
+					data: {
+						id: editSnippets[i].id,
+						name: editSnippets[i].name,
+						content: editSnippets[i].content,
+					},
+				});
+			}
+
+			for (let i = 0; i < addSnippets.length; i++) {
+				dispatch({
+					type: SSH_ADD_SNIPPET_REQUEST,
+					data: {
+						name: addSnippets[i].name,
+						content: addSnippets[i].content,
+					},
+				});
+			}
+
 			setOpen(false);
 		}
 	}, [snippets, tempSnippets, index]);
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
-			console.log(id);
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setClickedSnippet(id);

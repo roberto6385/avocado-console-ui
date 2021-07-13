@@ -28,11 +28,6 @@ const App = () => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	const handleOnIdle = useCallback((e) => {
-		console.log('logout 하야 함');
-		//expire token
-	}, []);
-
 	const handleOnActive = useCallback(
 		(e) => {
 			//다시 움직이기 시작
@@ -55,7 +50,6 @@ const App = () => {
 
 	const {getRemainingTime, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
-		onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
 		debounce: 500,
