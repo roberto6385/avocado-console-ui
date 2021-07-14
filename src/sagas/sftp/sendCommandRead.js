@@ -12,6 +12,7 @@ import {
 	ADD_PAUSED_LIST,
 	CHANGE_MODE,
 	FIND_HISTORY,
+	read_chunkSize,
 	READ_FAILURE,
 	READ_REQUEST,
 	READ_SUCCESS,
@@ -27,10 +28,8 @@ import {readResponse} from '../../ws/sftp/read_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	console.log(payload);
+	console.log(payload.offset);
 	const channel = yield call(fileSubscribe, payload.read_socket);
-	// const senderLength = 1024 * 56;
-	const senderLength = 1024 * 4;
 	let lastSum = 0;
 	let pass = true;
 
@@ -52,8 +51,8 @@ function* sendCommand(action) {
 			keyword: 'CommandByRead',
 			ws: payload.read_socket,
 			path: filepath,
-			offset: payload.offset ? payload.offset : 0,
-			length: payload.offset ? 0 : senderLength,
+			offset: payload.offset ? payload.offset + 1 : 0,
+			length: read_chunkSize,
 			completed: false,
 		});
 
@@ -68,7 +67,7 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				console.log('download end');
+				console.log(lastSum);
 				if (lastSum !== 0) {
 					yield put({
 						type: ADD_PAUSED_LIST,
@@ -91,16 +90,14 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case READ_SUCCESS:
 						if (res.last === false) {
+							lastSum = res.byteSum;
 							if (res.end === false) {
-								console.log(res.byteSum);
-								lastSum = res.byteSum;
-
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
 									ws: payload.read_socket,
 									path: filepath,
 									offset: res.byteSum + 1,
-									length: senderLength,
+									length: read_chunkSize,
 									completed: false,
 								});
 							} else {
@@ -109,7 +106,7 @@ function* sendCommand(action) {
 									ws: payload.read_socket,
 									path: filepath,
 									offset: res.byteSum,
-									length: senderLength,
+									length: read_chunkSize,
 									completed: true,
 								});
 							}
@@ -127,18 +124,14 @@ function* sendCommand(action) {
 							},
 						});
 						if (res.last && res.percent === 100) {
+							lastSum = 0;
+
 							yield put(
 								removeNewWebsocket({
 									socket: payload.read_socket,
 								}),
 							);
-							yield put({
-								type: READ_SUCCESS,
-								payload: {
-									uuid: payload.uuid,
-									percent: res.percent,
-								},
-							});
+
 							yield put({
 								type: REMOVE_PAUSED_LIST,
 								payload: {
@@ -183,10 +176,9 @@ function* sendCommand(action) {
 							}
 						}
 						break;
-					//
-					// case ERROR:
-					// 	console.log(res.err);
-					// 	break;
+
+					default:
+						break;
 				}
 			}
 		}

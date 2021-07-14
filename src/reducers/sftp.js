@@ -178,6 +178,9 @@ export const removeNewWebsocket = (payload) => ({
 });
 
 let HISTORY_ID = 0;
+
+export const write_chunkSize = 1024 * 4;
+export const read_chunkSize = 1024 * 4;
 // initial State
 const initialState = {
 	loading: false,
@@ -492,7 +495,8 @@ const sftp = (state = initialState, action) =>
 						v.todo === action.payload.data.todo,
 				);
 				history_target.pause[index].offset =
-					history_target.pause[index].offset + 1024 * 4;
+					history_target.pause[index].offset +
+					action.payload.newOffset;
 
 				break;
 			}

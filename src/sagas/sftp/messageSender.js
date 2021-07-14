@@ -171,6 +171,8 @@ const sendCommandByRead = ({ws, path, offset, length, completed}) => {
 	var cmd = new SFTP.CommandRequest();
 	var read = new SFTP.ReadFileRequest();
 
+	console.log(offset);
+
 	read.setPath(path);
 	read.setOffset(offset);
 	read.setLength(length);

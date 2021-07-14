@@ -48,8 +48,9 @@ export async function readResponse({data, payload, pass}) {
 						console.log(read.getReadbytes());
 						console.log('payload.file.size : ' + payload.file.size);
 
-						if (read.getCompleted() === false)
+						if (read.getCompleted() === false) {
 							readByteSum += read.getReadbytes();
+						}
 						readPercent = (readByteSum * 100) / payload.file.size;
 
 						console.log('readByteSum : ' + readByteSum);

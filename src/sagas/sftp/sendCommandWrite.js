@@ -14,6 +14,7 @@ import {
 	FIND_HISTORY,
 	REMOVE_PAUSED_LIST,
 	removeNewWebsocket,
+	write_chunkSize,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
@@ -25,10 +26,8 @@ import {writeResponse} from '../../ws/sftp/write_response';
 function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(fileSubscribe, payload.write_socket);
-	const senderLength = 1024 * 4;
 	let lastSum = 0;
 	let pass = true;
-	console.log('upload check');
 	try {
 		if (
 			payload.socket.readyState === 3 ||
@@ -48,7 +47,7 @@ function* sendCommand(action) {
 			ws: payload.write_socket,
 			path: filepath,
 			offset: payload.offset ? payload.offset : 0,
-			length: payload.offset ? 0 : senderLength,
+			length: payload.offset ? 0 : write_chunkSize,
 			uploadFile: payload.file,
 			completed: false,
 			mode: payload.offset ? 2 : 1,
@@ -88,13 +87,6 @@ function* sendCommand(action) {
 				console.log(res);
 				switch (res.type) {
 					case WRITE_SUCCESS:
-						yield put({
-							type: WRITE_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								percent: res.percent,
-							},
-						});
 						if (res.last === false) {
 							lastSum = res.byteSum;
 							if (res.end === false) {
@@ -103,7 +95,7 @@ function* sendCommand(action) {
 									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
-									length: senderLength,
+									length: write_chunkSize,
 									uploadFile: payload.file,
 									completed: false,
 									mode: 2,
@@ -115,7 +107,7 @@ function* sendCommand(action) {
 									ws: payload.write_socket,
 									path: filepath,
 									offset: res.byteSum,
-									length: senderLength,
+									length: write_chunkSize,
 									uploadFile: payload.file,
 									completed: true,
 									mode: 2,

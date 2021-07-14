@@ -14,11 +14,14 @@ import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
 	ADD_PAUSED_LIST,
 	EDIT_PAUSED_LIST,
+	read_chunkSize,
+	READ_SUCCESS,
 	REMOVE_NEW_WEBSOCKET_FAILURE,
 	REMOVE_NEW_WEBSOCKET_REQUEST,
 	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp';
+import {write_chunkSize} from '../../reducers/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -63,6 +66,23 @@ function* sendCommand(action) {
 									path: payload.path,
 									file: payload.file,
 								},
+								newOffset: write_chunkSize,
+							},
+						});
+						break;
+
+					case READ_SUCCESS:
+						yield take(ADD_PAUSED_LIST);
+						yield put({
+							type: EDIT_PAUSED_LIST,
+							payload: {
+								uuid: payload.uuid,
+								data: {
+									todo: payload.todo,
+									path: payload.path,
+									file: payload.file,
+								},
+								newOffset: read_chunkSize,
 							},
 						});
 						break;

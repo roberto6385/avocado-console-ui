@@ -1,6 +1,7 @@
 import SFTP from '../../dist/sftp_pb';
 import {
 	ERROR,
+	READ_SUCCESS,
 	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp';
@@ -39,6 +40,13 @@ export function removeNewSocketResponse({data}) {
 					) {
 						return {
 							type: WRITE_SUCCESS,
+						};
+					} else if (
+						command.getCommandCase() ===
+						SFTP.CommandResponse.CommandCase.READFILE
+					) {
+						return {
+							type: READ_SUCCESS,
 						};
 					}
 				} else if (
