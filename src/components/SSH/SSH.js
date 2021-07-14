@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
+import * as XtermWebfont from 'xterm-webfont';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -199,9 +200,11 @@ const SSH = ({uuid}) => {
 					document.getElementById('terminal_' + uuid).firstChild,
 				);
 		}
+		// sshTerm.loadAddon(new XtermWebfont());
 		sshTerm.loadAddon(fitAddon);
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
+		// sshTerm.loadWebfontAndOpen(document.getElementById('terminal_' + uuid));
 		fitAddon.fit();
 
 		return () => {

@@ -12,6 +12,7 @@ import {
 	REFRESH_USER_TICKET_SUCCESS,
 } from '../reducers/auth/userTicket';
 import {LOGOUT} from '../reducers/user';
+import {SAVE_ENCODE_DATA} from '../reducers/common';
 
 const tokenRefreshMiddleware =
 	({dispatch, getState}) =>
@@ -29,10 +30,9 @@ const tokenRefreshMiddleware =
 			if (
 				Date.now() -
 					getState().userTicket.userTicket.expires_in * 1000 +
-					59 * 60 * 1000 >
+					50 * 60 * 1000 >
 				Date.parse(getState().userTicket.userTicket.create_date)
 			) {
-				console.log('HERE');
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 				dispatch({
 					type: REFRESH_USER_TICKET_REQUEST,

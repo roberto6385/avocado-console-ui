@@ -4,7 +4,6 @@ import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {getRevoke} from '../../reducers/auth/revoke';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 

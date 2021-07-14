@@ -230,17 +230,17 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_CHANGE_SNIPPET_REQUEST:
-				// draft.snippets = draft.snippets.map((x) => {
-				// 	if (x.id === action.data.id) return x;
-				// 	else
-				// 		return {
-				// 			...x,
-				// 			name: action.data.name,
-				// 			content: action.data.content,
-				// 		};
-				// });
-				draft.snippets = action.data.snippets;
-				draft.snippents_index = action.data.snippents_index;
+				draft.snippets = draft.snippets.map((x) => {
+					if (x.id !== action.data.id) return x;
+					else
+						return {
+							...x,
+							name: action.data.name,
+							content: action.data.content,
+						};
+				});
+				// draft.snippets = action.data.snippets;
+				// draft.snippents_index = action.data.snippents_index;
 				break;
 
 			case CHANGE_AUTO_COMPLETION_MODE:

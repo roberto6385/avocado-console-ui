@@ -35,7 +35,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		);
 		sessionStorage.clear();
 		window.location.reload();
-	}, [dispatch, userTicket]);
+	}, [userTicket]);
 
 	return (
 		<DropDownMenu
