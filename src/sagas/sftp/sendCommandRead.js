@@ -51,7 +51,7 @@ function* sendCommand(action) {
 			keyword: 'CommandByRead',
 			ws: payload.read_socket,
 			path: filepath,
-			offset: payload.offset ? payload.offset + 1 : 0,
+			offset: payload.offset ? payload.offset : 0,
 			length: read_chunkSize,
 			completed: false,
 		});
@@ -90,8 +90,8 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case READ_SUCCESS:
 						if (res.last === false) {
-							lastSum = res.byteSum;
 							if (res.end === false) {
+								lastSum = res.byteSum;
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
 									ws: payload.read_socket,

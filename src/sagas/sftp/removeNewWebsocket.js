@@ -73,18 +73,18 @@ function* sendCommand(action) {
 
 					case READ_SUCCESS:
 						yield take(ADD_PAUSED_LIST);
-						yield put({
-							type: EDIT_PAUSED_LIST,
-							payload: {
-								uuid: payload.uuid,
-								data: {
-									todo: payload.todo,
-									path: payload.path,
-									file: payload.file,
-								},
-								newOffset: read_chunkSize,
-							},
-						});
+						// yield put({
+						// 	type: EDIT_PAUSED_LIST,
+						// 	payload: {
+						// 		uuid: payload.uuid,
+						// 		data: {
+						// 			todo: payload.todo,
+						// 			path: payload.path,
+						// 			file: payload.file,
+						// 		},
+						// 		newOffset: read_chunkSize,
+						// 	},
+						// });
 						break;
 					default:
 						break;
