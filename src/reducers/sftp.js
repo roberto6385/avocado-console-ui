@@ -82,6 +82,7 @@ export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
+export const EDIT_PAUSED_LIST = 'history/EDIT_PAUSED_LIST';
 export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
 export const HISTORY_READY = 'history/HISTORY_READY';
 
@@ -475,14 +476,24 @@ const sftp = (state = initialState, action) =>
 						v.path === action.payload.data.path &&
 						v.todo === action.payload.data.todo,
 				);
-				console.log(index);
 				if (index === -1) {
 					history_target.pause.push(action.payload.data);
 				} else {
-					console.log('여기');
-					console.log(action.payload.data);
-					history_target.pause.splice(index, 1, action.payload.data);
+					history_target.pause[index].offset =
+						action.payload.data.offset;
 				}
+				break;
+			}
+			case EDIT_PAUSED_LIST: {
+				const index = history_plain.pause.findIndex(
+					(v) =>
+						v.file === action.payload.data.file &&
+						v.path === action.payload.data.path &&
+						v.todo === action.payload.data.todo,
+				);
+				history_target.pause[index].offset =
+					history_target.pause[index].offset + 1024 * 4;
+
 				break;
 			}
 

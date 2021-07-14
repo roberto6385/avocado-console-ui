@@ -1,5 +1,9 @@
 import SFTP from '../../dist/sftp_pb';
-import {ERROR, REMOVE_NEW_WEBSOCKET_SUCCESS} from '../../reducers/sftp';
+import {
+	ERROR,
+	REMOVE_NEW_WEBSOCKET_SUCCESS,
+	WRITE_SUCCESS,
+} from '../../reducers/sftp';
 
 export function removeNewSocketResponse({data}) {
 	try {
@@ -24,6 +28,19 @@ export function removeNewSocketResponse({data}) {
 					console.log(disconnect);
 
 					return {type: REMOVE_NEW_WEBSOCKET_SUCCESS};
+				} else if (
+					response.getResponseCase() ===
+					SFTP.Response.ResponseCase.COMMAND
+				) {
+					const command = response.getCommand();
+					if (
+						command.getCommandCase() ===
+						SFTP.CommandResponse.CommandCase.WRITEFILE
+					) {
+						return {
+							type: WRITE_SUCCESS,
+						};
+					}
 				} else if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.ERROR

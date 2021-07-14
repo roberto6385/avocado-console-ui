@@ -12,9 +12,12 @@ import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
+	ADD_PAUSED_LIST,
+	EDIT_PAUSED_LIST,
 	REMOVE_NEW_WEBSOCKET_FAILURE,
 	REMOVE_NEW_WEBSOCKET_REQUEST,
 	REMOVE_NEW_WEBSOCKET_SUCCESS,
+	WRITE_SUCCESS,
 } from '../../reducers/sftp';
 
 function* sendCommand(action) {
@@ -27,6 +30,7 @@ function* sendCommand(action) {
 	}
 
 	try {
+		console.log(payload.socket);
 		yield call(messageSender, {
 			keyword: 'Disconnection',
 			ws: payload.socket,
@@ -43,14 +47,28 @@ function* sendCommand(action) {
 			} else {
 				const res = yield call(removeNewSocketResponse, {data});
 				console.log(res);
-				// switch (res.type) {
-				// 	case REMOVE_NEW_WEBSOCKET_SUCCESS:
-				yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
-				break;
+				switch (res.type) {
+					case REMOVE_NEW_WEBSOCKET_SUCCESS:
+						yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
+						break;
 
-				// default:
-				// 	break;
-				// }
+					case WRITE_SUCCESS:
+						yield take(ADD_PAUSED_LIST);
+						yield put({
+							type: EDIT_PAUSED_LIST,
+							payload: {
+								uuid: payload.uuid,
+								data: {
+									todo: payload.todo,
+									path: payload.path,
+									file: payload.file,
+								},
+							},
+						});
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	} catch (err) {

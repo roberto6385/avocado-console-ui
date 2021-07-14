@@ -88,10 +88,16 @@ function* sendCommand(action) {
 				console.log(res);
 				switch (res.type) {
 					case WRITE_SUCCESS:
+						yield put({
+							type: WRITE_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								percent: res.percent,
+							},
+						});
 						if (res.last === false) {
+							lastSum = res.byteSum;
 							if (res.end === false) {
-								lastSum = res.byteSum;
-
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
 									ws: payload.write_socket,
@@ -102,6 +108,7 @@ function* sendCommand(action) {
 									completed: false,
 									mode: 2,
 								});
+								console.log(lastSum);
 							} else {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',
@@ -121,14 +128,6 @@ function* sendCommand(action) {
 									socket: payload.write_socket,
 								}),
 							);
-
-							yield put({
-								type: WRITE_SUCCESS,
-								payload: {
-									uuid: payload.uuid,
-									percent: res.percent,
-								},
-							});
 
 							yield put(
 								commandPwdAction({

@@ -140,6 +140,7 @@ const _HistorySizeText = styled.span`
 const HistoryContents = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyContents');
+	const [prevOffset, setPrevOffset] = useState(0);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {
 		path: sftp_pathState,
@@ -358,6 +359,10 @@ const HistoryContents = ({uuid}) => {
 					dispatch(
 						removeNewWebsocket({
 							socket: history.socket,
+							uuid: uuid,
+							todo: history.todo,
+							path: history.path,
+							file: history.file,
 						}),
 					);
 				} else {
@@ -369,7 +374,10 @@ const HistoryContents = ({uuid}) => {
 								v.path === history.path &&
 								v.todo === history.todo,
 						);
-					if (!item) return;
+
+					if (!item || item.offset === prevOffset) return;
+					setPrevOffset(item.offset);
+
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -401,6 +409,7 @@ const HistoryContents = ({uuid}) => {
 			dispatch,
 			path,
 			pause,
+			prevOffset,
 			sftp_socket,
 			userTicket,
 			uuid,
