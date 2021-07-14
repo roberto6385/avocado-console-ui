@@ -48,7 +48,7 @@ function* sendCommand(action) {
 			ws: payload.write_socket,
 			path: filepath,
 			offset: payload.offset ? payload.offset : 0,
-			length: senderLength,
+			length: payload.offset ? 0 : senderLength,
 			uploadFile: payload.file,
 			completed: false,
 			mode: payload.offset ? 2 : 1,

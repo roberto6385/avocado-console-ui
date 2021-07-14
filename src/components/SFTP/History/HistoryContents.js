@@ -273,7 +273,6 @@ const HistoryContents = ({uuid}) => {
 	const selectItem = useCallback(
 		(selectValue, index) => (e) => {
 			e.stopPropagation();
-			console.log(selectValue, index);
 			const prev_history = history.slice();
 			const prev_history_hi = history_highlight.slice();
 			if (e.metaKey) {
@@ -333,14 +332,10 @@ const HistoryContents = ({uuid}) => {
 
 	const onPause = useCallback(
 		(history) => (e) => {
+			e.stopPropagation();
 			console.log(history);
 			if (history.progress !== 100) {
 				if (history.ready === 1) {
-					dispatch(
-						removeNewWebsocket({
-							socket: history.socket,
-						}),
-					);
 					dispatch({
 						type: HISTORY_READY,
 						payload: {
@@ -360,6 +355,11 @@ const HistoryContents = ({uuid}) => {
 							);
 						}
 					}
+					dispatch(
+						removeNewWebsocket({
+							socket: history.socket,
+						}),
+					);
 				} else {
 					const item = pause
 						.slice()

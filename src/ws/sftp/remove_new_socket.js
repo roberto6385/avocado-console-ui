@@ -9,6 +9,13 @@ export function removeNewSocketResponse({data}) {
 				const response = message.getResponse();
 				console.log(response);
 				console.log('response status: ', response.getStatus());
+
+				console.log(response.getResponseCase());
+				console.log(SFTP.Response.ResponseCase.DISCONNECT);
+				console.log(
+					response.getResponseCase() ===
+						SFTP.Response.ResponseCase.DISCONNECT,
+				);
 				if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.DISCONNECT

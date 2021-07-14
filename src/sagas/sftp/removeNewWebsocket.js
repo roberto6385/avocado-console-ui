@@ -1,4 +1,13 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeLatest,
+	race,
+	delay,
+} from 'redux-saga/effects';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
@@ -24,16 +33,24 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			const data = yield take(channel);
-			const res = yield call(removeNewSocketResponse, {data});
-			console.log(res);
-			switch (res.type) {
-				case REMOVE_NEW_WEBSOCKET_SUCCESS:
-					yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
-					break;
+			const {timeout, data} = yield race({
+				timeout: delay(5000),
+				data: take(channel),
+			});
+			if (timeout) {
+				closeChannel(channel);
+				console.log('remove new websocket end');
+			} else {
+				const res = yield call(removeNewSocketResponse, {data});
+				console.log(res);
+				// switch (res.type) {
+				// 	case REMOVE_NEW_WEBSOCKET_SUCCESS:
+				yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
+				break;
 
-				default:
-					break;
+				// default:
+				// 	break;
+				// }
 			}
 		}
 	} catch (err) {
@@ -44,7 +61,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
+	yield takeLatest(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
 }
 
 export default function* removeWebsocketSaga() {
