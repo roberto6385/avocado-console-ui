@@ -1,5 +1,5 @@
 export const L_GREEN_NORMAL = '#178082';
-export const D_GREEN_ACTIVE = '#31bbb3';;
+export const D_GREEN_ACTIVE = '#31bbb3';
 
 export const sideColor = ['#ffffff', '#1e364c'];
 export const navColor = ['#ffffff', '#1e364c'];
@@ -27,6 +27,7 @@ export const iconColor = ['#959ea1', 'rgba(255,255,255,0.6)'];
 export const tabColor = ['#ffffff', '#1b2935'];
 export const mainBackColor = ['#f8f9fa', '#1b2935'];
 export const logoColor = ['#126466', '#4ca6a8'];
+export const navCloseTerminalButtonColor = ['#f0f3f6', '#223b52'];
 export const terminalColor = ['#f8f9fa', '#182530'];
 export const terminalFontColor = ['#212121', '#ffffff'];
 export const terminalSelectionColor = ['#182530', '#f8f9fa'];
@@ -54,7 +55,6 @@ export const historyDeleteColor = '#d45959';
 
 export const buttonFontColor = ['#ffffff', '#212121'];
 export const greyButtonColor = ['#556367', 'rgba(255, 255, 255, 0.6)'];
-
 //Green Button
 export const greenNormalButtonColor = ['#178082', '#44c8c0'];
 export const greenHoverButtonColor = ['#389193', '#389193'];

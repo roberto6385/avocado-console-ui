@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
-import * as XtermWebfont from 'xterm-webfont';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -101,7 +100,7 @@ const _FooterListGroupItem = styled(_ListGroupItem)`
 	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
-const SSH = ({uuid}) => {
+const SSH = ({uuid, toggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
 	const {current_tab, theme} = useSelector(
@@ -374,6 +373,7 @@ const SSH = ({uuid}) => {
 			id={`terminal_container_${uuid}`}
 			ref={ref}
 			theme_value={theme}
+			className={!toggle && 'close-nav-terminal'}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
 			<_ListGroup
@@ -534,6 +534,7 @@ const SSH = ({uuid}) => {
 
 SSH.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	toggle: PropTypes.bool.isRequired,
 };
 
 export default SSH;
