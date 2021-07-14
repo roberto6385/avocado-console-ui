@@ -1,4 +1,4 @@
-import {all, fork, put, call, takeLatest, delay} from 'redux-saga/effects';
+import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 import {
 	GET_USER_TICKET_REQUEST,

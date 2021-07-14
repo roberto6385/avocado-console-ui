@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
@@ -28,32 +28,42 @@ const App = () => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	const handleOnActive = useCallback(
-		(e) => {
-			//다시 움직이기 시작
-			if (userTicket) {
-				dispatch(
-					getRevoke({
-						Authorization: 'Bearer ' + userTicket.access_token,
-					}),
-				);
-				sessionStorage.clear();
-				window.location.reload();
-			}
-		},
-		[userTicket],
-	);
-
-	const handleOnAction = useCallback((e) => {
-		sessionStorage.setItem('lastTouchTime', Date.now());
+	const handleOnIdle = useCallback(() => {
+		sessionStorage.setItem('lastTouchTime', getLastActiveTime());
 	}, []);
 
-	const {getRemainingTime, getLastActiveTime} = useIdleTimer({
+	const handleOnActive = useCallback(() => {
+		//다시 움직이기 시작
+		if (userTicket) {
+			dispatch(
+				getRevoke({
+					Authorization: 'Bearer ' + userTicket.access_token,
+				}),
+			);
+			sessionStorage.clear();
+			window.location.reload();
+		}
+	}, [userTicket]);
+
+	const handleOnAction = useCallback(() => {
+		// sessionStorage.setItem('lastTouchTime', Date.now());
+	}, []);
+
+	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
+		onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
 		debounce: 500,
 	});
+
+	useEffect(() => {
+		if (userTicket) start();
+		else {
+			reset();
+			pause();
+		}
+	}, [userTicket]);
 
 	return (
 		<BrowserRouter>

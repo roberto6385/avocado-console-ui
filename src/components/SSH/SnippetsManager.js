@@ -274,8 +274,10 @@ const SnippetsManeger = ({open, setOpen}) => {
 				setName('');
 				setContent('');
 			}
+			setIndex(snippents_index);
+			setTempSnippets(snippets);
 		}
-	}, [open, snippets, nameInput]);
+	}, [open, snippets, snippents_index, nameInput]);
 
 	return (
 		<_PopupModal
