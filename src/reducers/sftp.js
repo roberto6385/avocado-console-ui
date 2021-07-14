@@ -180,7 +180,7 @@ export const removeNewWebsocket = (payload) => ({
 let HISTORY_ID = 0;
 
 export const write_chunkSize = 1024 * 4;
-export const read_chunkSize = 1024 * 4;
+export const read_chunkSize = 1024 * 56;
 // initial State
 const initialState = {
 	loading: false,
