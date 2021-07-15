@@ -528,17 +528,24 @@ const sftp = (state = initialState, action) =>
 			}
 
 			case FIND_HISTORY: {
-				const index = history_target.history.findIndex(
-					(h) =>
-						h.name === action.payload.name &&
-						h.todo === action.payload.todo,
-				);
+				const index = history_target.history
+					.slice()
+					// .reverse()
+					.findIndex(
+						(h) =>
+							h.name === action.payload.name &&
+							h.todo === action.payload.todo &&
+							h.progress !== 100,
+					);
 				if (index !== -1) {
+					console.log(index);
 					history_target.history[index].ready = action.payload.ready;
 					history_target.history[index].socket =
 						action.payload.socket;
 					history_target.history[index].progress =
 						action.payload.progress;
+				} else {
+					console.log('없다!');
 				}
 				break;
 			}

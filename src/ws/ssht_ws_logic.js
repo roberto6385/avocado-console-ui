@@ -14,7 +14,7 @@ export const SendConnect = (token, host, user, password, port) => {
 	connect.setPort(port);
 
 	connect.setKeepalivecount(0);
-	connect.setKeepaliveinterval(6000);
+	connect.setKeepaliveinterval(60000);
 
 	request.setConnect(connect);
 	message.setRequest(request);
