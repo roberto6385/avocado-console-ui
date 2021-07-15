@@ -30,6 +30,7 @@ export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
 
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
 export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
+export const WRITE_PASS = 'sftp/WRITE_PASS';
 export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
 
 export const READ_REQUEST = 'sftp/READ_REQUEST';
@@ -277,6 +278,7 @@ const sftp = (state = initialState, action) =>
 					uuid: action.payload.uuid,
 					writeSocket: null, // 경로, file 저장
 					writeList: [], // 경로, file 저장
+					pass: true,
 				});
 				draft.download.push({
 					uuid: action.payload.uuid,
@@ -537,17 +539,23 @@ const sftp = (state = initialState, action) =>
 			}
 
 			case FIND_HISTORY: {
-				const index = history_target.history.findIndex(
-					(h) =>
-						h.name === action.payload.name &&
-						h.todo === action.payload.todo,
-					// && h.progress !== 100,
-				);
+				const index = history_target.history
+					.slice()
+					.reverse()
+					.findIndex(
+						(h) =>
+							h.name === action.payload.name &&
+							h.todo === action.payload.todo &&
+							h.progress !== 100,
+					);
 				if (index !== -1) {
 					console.log(index);
-					history_target.history[index].ready = action.payload.ready;
-					history_target.history[index].progress =
-						action.payload.progress;
+					history_target.history[
+						history_target.history.length - index - 1
+					].ready = action.payload.ready;
+					history_target.history[
+						history_target.history.length - index - 1
+					].progress = action.payload.progress;
 				} else {
 					console.log('없다!');
 				}
@@ -595,16 +603,21 @@ const sftp = (state = initialState, action) =>
 				download_target.readList.shift();
 				break;
 
+			case WRITE_PASS:
+				upload_target.pass = false;
+				break;
+
 			case PUSH_WRITE_LIST:
 				upload_target.writeList = upload_plain.writeList.concat(
 					action.payload.array,
 				);
 				break;
 			case PUSH_PAUSE_WRITE_LIST:
-				upload_target.writeList.splice(0, 1, action.payload.array);
+				upload_target.writeList.unshift(action.payload.array);
 				break;
 			case SHIFT_WRITE_LIST:
 				upload_target.writeList.shift();
+				upload_target.pass = true;
 				break;
 
 			case SHIFT_INCINERATOR_LIST:

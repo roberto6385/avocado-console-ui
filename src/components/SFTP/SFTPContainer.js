@@ -16,10 +16,9 @@ import {
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
 	SHIFT_SOCKETS,
-	SHIFT_WRITE_LIST,
+	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
-import {put} from 'redux-saga/effects';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const SFTPContainer = ({uuid}) => {
 
 	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 
-	const {writeList, writeSocket} = sftp_uploadState.find(
+	const {writeList, writeSocket, pass} = sftp_uploadState.find(
 		(it) => it.uuid === uuid,
 	);
 	const {readList, readSockets} = sftp_downloadState.find(
@@ -157,9 +156,11 @@ const SFTPContainer = ({uuid}) => {
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
 		}
 	}, [dispatch, mode, readList, readSockets, socket, uuid]);
+	console.log(writeList);
 
 	useEffect(() => {
 		if (writeList.length !== 0 && writeSocket !== null) {
+			if (!pass) return;
 			const value = writeList.slice().shift();
 			console.log(value);
 			dispatch(
@@ -175,6 +176,7 @@ const SFTPContainer = ({uuid}) => {
 					// historyId: value?.historyId,
 				}),
 			);
+			dispatch({type: WRITE_PASS, payload: {uuid}});
 		}
 		if (writeList.length === 0 && writeSocket !== null) {
 			dispatch(
@@ -185,7 +187,7 @@ const SFTPContainer = ({uuid}) => {
 				}),
 			);
 		}
-	}, [writeList, writeSocket, socket, uuid, dispatch]);
+	}, [pass, writeList, writeSocket, socket, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0) {

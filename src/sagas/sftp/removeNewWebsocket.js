@@ -53,6 +53,10 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case REMOVE_NEW_WEBSOCKET_SUCCESS:
 						yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
+						yield put({
+							type: SHIFT_SOCKETS,
+							payload: {uuid: payload.uuid, todo: payload.todo},
+						});
 
 						break;
 

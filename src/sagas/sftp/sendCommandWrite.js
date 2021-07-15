@@ -4,19 +4,15 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	race,
 	delay,
 	takeLatest,
-	takeEvery,
 } from 'redux-saga/effects';
 import {
 	ADD_PAUSED_LIST,
 	commandPwdAction,
 	FIND_HISTORY,
-	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	REMOVE_PAUSED_LIST,
-	removeNewWebsocket,
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
 	write_chunkSize,
@@ -65,7 +61,7 @@ function* sendCommand(action) {
 			}
 			// timeout delay의 time 간격으로 messageReader가 실행된다.
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -89,6 +85,10 @@ function* sendCommand(action) {
 								// id: payload.historyId,
 							},
 						},
+					});
+					yield put({
+						type: SHIFT_WRITE_LIST,
+						payload: {uuid: payload.uuid},
 					});
 				}
 			} else {
@@ -123,9 +123,19 @@ function* sendCommand(action) {
 									mode: 2,
 								});
 							}
+							yield put({
+								type: FIND_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.file.name,
+									size: payload.file.size,
+									todo: payload.todo,
+									progress: res.percent,
+									ready: payload.write_socket.readyState,
+								},
+							});
 						} else if (res.percent === 100) {
 							lastSum = 0;
-							yield put({type: WRITE_SUCCESS});
 							yield put({
 								type: SHIFT_WRITE_LIST,
 								payload: {uuid: payload.uuid},
@@ -152,18 +162,6 @@ function* sendCommand(action) {
 								},
 							});
 						}
-						yield put({
-							type: FIND_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								size: payload.file.size,
-								todo: payload.todo,
-								progress: res.percent,
-								ready: payload.write_socket.readyState,
-								socket: payload.write_socket,
-							},
-						});
 
 						break;
 

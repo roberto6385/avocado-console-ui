@@ -39,7 +39,6 @@ import {
 import {
 	ADD_HISTORY,
 	ADD_HISTORY_HI,
-	ADD_PAUSED_LIST,
 	commandPwdAction,
 	createNewWebsocket,
 	HISTORY_READY,
@@ -49,9 +48,7 @@ import {
 	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
 	removeNewWebsocket,
-	WRITE_SUCCESS,
 } from '../../../reducers/sftp';
-import {put} from 'redux-saga/effects';
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -398,6 +395,7 @@ const HistoryContents = ({uuid}) => {
 									uuid: uuid,
 									pwd_path: path,
 									dispatch: dispatch,
+									key: 'write',
 								}),
 							);
 						}
@@ -421,6 +419,7 @@ const HistoryContents = ({uuid}) => {
 								v.todo === history.todo,
 						);
 
+					console.log(item);
 					if (!item || item.offset === prevOffset) return;
 					setPrevOffset(item.offset);
 
