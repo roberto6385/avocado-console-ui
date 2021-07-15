@@ -78,6 +78,7 @@ export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const ADD_HISTORY = 'history/ADD_HISTORY';
 export const FIND_HISTORY = 'history/FIND_HISTORY';
+export const CHANGE_HISTORY_SOCKET = 'history/CHANGE_HISTORY_SOCKET';
 export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
@@ -102,8 +103,6 @@ export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
-
-export const CHANGE_SOCKET_UUID = 'sftp/CHANGE_SOCKET_UUID';
 
 // 필요없음.
 export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
@@ -480,7 +479,9 @@ const sftp = (state = initialState, action) =>
 						v.todo === action.payload.data.todo,
 				);
 				if (index === -1) {
-					history_target.pause.push(action.payload.data);
+					history_target.pause.push({
+						...action.payload.data,
+					});
 				} else {
 					history_target.pause[index].offset =
 						action.payload.data.offset;
@@ -523,20 +524,25 @@ const sftp = (state = initialState, action) =>
 					(v) => v === action.payload.history,
 				);
 				history_target.history[index].ready = 3;
+				break;
+			}
 
+			case CHANGE_HISTORY_SOCKET: {
+				const index = history_target.history.findIndex(
+					(v) => v.HISTORY_ID === action.payload.historyId,
+				);
+				history_target.history[index].socket = action.payload.socket;
 				break;
 			}
 
 			case FIND_HISTORY: {
-				const index = history_target.history
-					.slice()
-					// .reverse()
-					.findIndex(
-						(h) =>
-							h.name === action.payload.name &&
-							h.todo === action.payload.todo &&
-							h.progress !== 100,
-					);
+				const index = history_target.history.findIndex(
+					(h) =>
+						h.name === action.payload.name &&
+						h.todo === action.payload.todo &&
+						h.socket === action.payload.socket,
+					// && h.progress !== 100,
+				);
 				if (index !== -1) {
 					console.log(index);
 					history_target.history[index].ready = action.payload.ready;

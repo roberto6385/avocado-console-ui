@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
+	CHANGE_HISTORY_SOCKET,
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
@@ -117,6 +118,7 @@ const SFTPContainer = ({uuid}) => {
 					mode: mode,
 					todo: value.todo,
 					offset: value?.offset,
+					historyId: value?.historyId,
 				}),
 			);
 
@@ -134,6 +136,16 @@ const SFTPContainer = ({uuid}) => {
 							socket: read_socket,
 							file: value.file,
 							ready: 1,
+						},
+					});
+				} else {
+					// socket change
+					dispatch({
+						type: CHANGE_HISTORY_SOCKET,
+						payload: {
+							uuid,
+							socket: read_socket,
+							historyId: value.historyId,
 						},
 					});
 				}
@@ -160,10 +172,10 @@ const SFTPContainer = ({uuid}) => {
 					uuid: uuid,
 					write_path: value.path,
 					file: value.file,
-					path: path,
 					todo: value.todo,
 					dispatch: dispatch,
 					offset: value?.offset,
+					historyId: value?.historyId,
 				}),
 			);
 			if (value?.offset === undefined) {
@@ -181,12 +193,22 @@ const SFTPContainer = ({uuid}) => {
 						ready: 1,
 					},
 				});
+			} else {
+				// socket change
+				dispatch({
+					type: CHANGE_HISTORY_SOCKET,
+					payload: {
+						uuid,
+						socket: write_socket,
+						historyId: value.historyId,
+					},
+				});
 			}
 
 			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
 			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList, writeSockets, socket, path, uuid, dispatch]);
+	}, [writeList, writeSockets, socket, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0) {

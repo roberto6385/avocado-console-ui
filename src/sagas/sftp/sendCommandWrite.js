@@ -7,11 +7,14 @@ import {
 	actionChannel,
 	race,
 	delay,
+	takeLatest,
+	takeEvery,
 } from 'redux-saga/effects';
 import {
 	ADD_PAUSED_LIST,
 	commandPwdAction,
 	FIND_HISTORY,
+	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	REMOVE_PAUSED_LIST,
 	removeNewWebsocket,
 	write_chunkSize,
@@ -77,6 +80,7 @@ function* sendCommand(action) {
 								todo: payload.todo,
 								path: payload.write_path,
 								file: payload.file,
+								// id: payload.historyId,
 							},
 						},
 					});
@@ -115,6 +119,7 @@ function* sendCommand(action) {
 							}
 						} else if (res.percent === 100) {
 							lastSum = 0;
+							yield put({type: WRITE_SUCCESS});
 							yield put(
 								removeNewWebsocket({
 									socket: payload.write_socket,
@@ -125,7 +130,7 @@ function* sendCommand(action) {
 								commandPwdAction({
 									socket: payload.socket,
 									uuid: payload.uuid,
-									pwd_path: payload.path,
+									pwd_path: payload.write_path,
 									dispatch: payload.dispatch,
 									key: 'write',
 								}),
@@ -136,7 +141,7 @@ function* sendCommand(action) {
 									uuid: payload.uuid,
 									data: {
 										todo: payload.todo,
-										path: payload.path,
+										path: payload.write_path,
 										file: payload.file,
 									},
 								},
@@ -169,11 +174,16 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// yield takeLatest(WRITE_REQUEST, sendCommand);
+	// while (true) {
+	// 	yield takeEvery(WRITE_REQUEST, sendCommand);
+	// 	yield take(WRITE_SUCCESS);
+	// }
 	const reqChannel = yield actionChannel(WRITE_REQUEST);
+	const writeChannel = yield actionChannel(WRITE_SUCCESS);
 	while (true) {
 		const action = yield take(reqChannel);
 		yield call(sendCommand, action);
+		yield take(writeChannel);
 	}
 }
 

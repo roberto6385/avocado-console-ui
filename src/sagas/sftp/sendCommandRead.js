@@ -78,6 +78,7 @@ function* sendCommand(action) {
 								todo: payload.todo,
 								path: payload.read_path,
 								file: payload.file,
+								// id: payload.historyId,
 							},
 						},
 					});

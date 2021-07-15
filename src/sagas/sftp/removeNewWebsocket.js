@@ -14,7 +14,6 @@ import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
 	ADD_PAUSED_LIST,
 	EDIT_PAUSED_LIST,
-	read_chunkSize,
 	READ_SUCCESS,
 	REMOVE_NEW_WEBSOCKET_FAILURE,
 	REMOVE_NEW_WEBSOCKET_REQUEST,

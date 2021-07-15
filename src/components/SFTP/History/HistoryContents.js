@@ -38,6 +38,7 @@ import {
 } from '../../../styles/button';
 import {
 	ADD_HISTORY_HI,
+	ADD_PAUSED_LIST,
 	commandPwdAction,
 	createNewWebsocket,
 	HISTORY_READY,
@@ -46,6 +47,7 @@ import {
 	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
 	removeNewWebsocket,
+	WRITE_SUCCESS,
 } from '../../../reducers/sftp';
 import {put} from 'redux-saga/effects';
 
@@ -344,7 +346,7 @@ const HistoryContents = ({uuid}) => {
 							history: history,
 						},
 					});
-					if (history.todo === 'write') {
+					if (history.todo === 'write' && history.progress !== 0) {
 						if (history.path === path) {
 							dispatch(
 								commandPwdAction({
@@ -355,6 +357,22 @@ const HistoryContents = ({uuid}) => {
 								}),
 							);
 						}
+					}
+
+					if (history.progress === 0) {
+						dispatch({
+							type: ADD_PAUSED_LIST,
+							payload: {
+								uuid: uuid,
+								data: {
+									offset: 0,
+									todo: history.todo,
+									path: history.path,
+									file: history.file,
+									// id: history.HISTORY_ID,
+								},
+							},
+						});
 					}
 					dispatch(
 						removeNewWebsocket({
@@ -389,6 +407,7 @@ const HistoryContents = ({uuid}) => {
 							uuid: uuid,
 						}),
 					);
+					dispatch({type: WRITE_SUCCESS});
 
 					dispatch({
 						type:
@@ -397,7 +416,7 @@ const HistoryContents = ({uuid}) => {
 								: PUSH_READ_LIST,
 						payload: {
 							uuid,
-							array: [item],
+							array: [{...item, historyId: history.HISTORY_ID}],
 						},
 					});
 				}
