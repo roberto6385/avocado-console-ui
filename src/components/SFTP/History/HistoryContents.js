@@ -37,12 +37,14 @@ import {
 	PrimaryGreenButton,
 } from '../../../styles/button';
 import {
+	ADD_HISTORY,
 	ADD_HISTORY_HI,
 	ADD_PAUSED_LIST,
 	commandPwdAction,
 	createNewWebsocket,
 	HISTORY_READY,
 	INITIAL_HISTORY_HI,
+	PUSH_PAUSE_WRITE_LIST,
 	PUSH_READ_LIST,
 	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
@@ -148,6 +150,7 @@ const HistoryContents = ({uuid}) => {
 		path: sftp_pathState,
 		history: sftp_historyState,
 		socket: sftp_socketState,
+		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
@@ -180,6 +183,10 @@ const HistoryContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
+	const {writeSocket} = useMemo(
+		() => sftp_uploadState.find((it) => it.uuid === uuid),
+		[sftp_uploadState, uuid],
+	);
 
 	const openUpload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -193,13 +200,25 @@ const HistoryContents = ({uuid}) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
-				console.log({
-					token: userTicket.access_token, // connection info
-					host: corServer.host,
-					port: corServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'write',
+						progress: 0,
+						path: path,
+						file: value,
+						ready: 1,
+					},
 				});
+			}
+			dispatch({
+				type: PUSH_WRITE_LIST,
+				payload: {uuid, array},
+			});
+			if (!writeSocket) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -212,21 +231,43 @@ const HistoryContents = ({uuid}) => {
 					}),
 				);
 			}
-
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
+	}, [
+		writeSocket,
+		dispatch,
+		uuid,
+		path,
+		userTicket,
+		corServer,
+		correspondedIdentity,
+	]);
 
 	const upload = useCallback(
 		async (files) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'write',
+						progress: 0,
+						path: path,
+						file: value,
+						ready: 1,
+					},
+				});
 				console.log(value);
+			}
+			dispatch({
+				type: PUSH_WRITE_LIST,
+				payload: {uuid, array},
+			});
+			if (!writeSocket) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -239,13 +280,16 @@ const HistoryContents = ({uuid}) => {
 					}),
 				);
 			}
-
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 		},
-		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
+		[
+			writeSocket,
+			dispatch,
+			uuid,
+			path,
+			userTicket,
+			corServer,
+			correspondedIdentity,
+		],
 	);
 	const compareNumber = useCallback(
 		(first, second) => {
@@ -337,7 +381,7 @@ const HistoryContents = ({uuid}) => {
 		(history) => (e) => {
 			e.stopPropagation();
 			console.log(history);
-			if (history.progress !== 100) {
+			if (history.progress !== 100 && history.progress !== 0) {
 				if (history.ready === 1) {
 					dispatch({
 						type: HISTORY_READY,
@@ -346,7 +390,7 @@ const HistoryContents = ({uuid}) => {
 							history: history,
 						},
 					});
-					if (history.todo === 'write' && history.progress !== 0) {
+					if (history.todo === 'write') {
 						if (history.path === path) {
 							dispatch(
 								commandPwdAction({
@@ -358,25 +402,9 @@ const HistoryContents = ({uuid}) => {
 							);
 						}
 					}
-
-					if (history.progress === 0) {
-						dispatch({
-							type: ADD_PAUSED_LIST,
-							payload: {
-								uuid: uuid,
-								data: {
-									offset: 0,
-									todo: history.todo,
-									path: history.path,
-									file: history.file,
-									// id: history.HISTORY_ID,
-								},
-							},
-						});
-					}
 					dispatch(
 						removeNewWebsocket({
-							socket: history.socket,
+							socket: writeSocket,
 							uuid: uuid,
 							todo: history.todo,
 							path: history.path,
@@ -396,6 +424,17 @@ const HistoryContents = ({uuid}) => {
 					if (!item || item.offset === prevOffset) return;
 					setPrevOffset(item.offset);
 
+					dispatch({
+						type:
+							history.todo === 'write'
+								? PUSH_PAUSE_WRITE_LIST
+								: PUSH_READ_LIST,
+						payload: {
+							uuid,
+							array: {...item, historyId: history.HISTORY_ID},
+						},
+					});
+
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -407,22 +446,11 @@ const HistoryContents = ({uuid}) => {
 							uuid: uuid,
 						}),
 					);
-					dispatch({type: WRITE_SUCCESS});
-
-					dispatch({
-						type:
-							history.todo === 'write'
-								? PUSH_WRITE_LIST
-								: PUSH_READ_LIST,
-						payload: {
-							uuid,
-							array: [{...item, historyId: history.HISTORY_ID}],
-						},
-					});
 				}
 			}
 		},
 		[
+			writeSocket,
 			corServer,
 			correspondedIdentity,
 			dispatch,

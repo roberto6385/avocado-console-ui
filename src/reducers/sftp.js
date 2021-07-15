@@ -71,6 +71,7 @@ export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
+export const PUSH_PAUSE_WRITE_LIST = 'sftp/PUSH_PAUSE_WRITE_LIST';
 export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
@@ -274,7 +275,7 @@ const sftp = (state = initialState, action) =>
 				});
 				draft.upload.push({
 					uuid: action.payload.uuid,
-					writeSockets: [], // 경로, file 저장
+					writeSocket: null, // 경로, file 저장
 					writeList: [], // 경로, file 저장
 				});
 				draft.download.push({
@@ -539,15 +540,12 @@ const sftp = (state = initialState, action) =>
 				const index = history_target.history.findIndex(
 					(h) =>
 						h.name === action.payload.name &&
-						h.todo === action.payload.todo &&
-						h.socket === action.payload.socket,
+						h.todo === action.payload.todo,
 					// && h.progress !== 100,
 				);
 				if (index !== -1) {
 					console.log(index);
 					history_target.history[index].ready = action.payload.ready;
-					history_target.history[index].socket =
-						action.payload.socket;
 					history_target.history[index].progress =
 						action.payload.progress;
 				} else {
@@ -571,8 +569,8 @@ const sftp = (state = initialState, action) =>
 
 			// -- // 여기부턴 나중에!!
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
-				action.payload.todo === 'write' &&
-					upload_target.writeSockets.push(action.payload.socket);
+				if (action.payload.todo === 'write')
+					upload_target.writeSocket = action.payload.socket;
 				action.payload.todo === 'read' &&
 					download_target.readSockets.push(action.payload.socket);
 				action.payload.todo === 'remove' &&
@@ -580,11 +578,11 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case SHIFT_SOCKETS:
-				action.payload.todo === 'write' &&
-					upload_target.writeSockets.shift();
-				action.payload.todo === 'read' &&
+				if (action.payload.todo === 'write')
+					upload_target.writeSocket = null;
+				if (action.payload.todo === 'read')
 					download_target.readSockets.shift();
-				action.payload.todo === 'remove' &&
+				if (action.payload.todo === 'remove')
 					delete_target.removeSockets.shift();
 				break;
 			// read, write, remove
@@ -601,6 +599,9 @@ const sftp = (state = initialState, action) =>
 				upload_target.writeList = upload_plain.writeList.concat(
 					action.payload.array,
 				);
+				break;
+			case PUSH_PAUSE_WRITE_LIST:
+				upload_target.writeList.splice(0, 1, action.payload.array);
 				break;
 			case SHIFT_WRITE_LIST:
 				upload_target.writeList.shift();

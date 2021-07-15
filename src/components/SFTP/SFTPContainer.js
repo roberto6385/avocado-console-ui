@@ -11,6 +11,7 @@ import {
 	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	removeNewWebsocket,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_READ_LIST,
@@ -18,6 +19,7 @@ import {
 	SHIFT_WRITE_LIST,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
+import {put} from 'redux-saga/effects';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const SFTPContainer = ({uuid}) => {
 
 	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 
-	const {writeList, writeSockets} = sftp_uploadState.find(
+	const {writeList, writeSocket} = sftp_uploadState.find(
 		(it) => it.uuid === uuid,
 	);
 	const {readList, readSockets} = sftp_downloadState.find(
@@ -157,58 +159,33 @@ const SFTPContainer = ({uuid}) => {
 	}, [dispatch, mode, readList, readSockets, socket, uuid]);
 
 	useEffect(() => {
-		if (
-			writeList.length !== 0 &&
-			writeSockets.length !== 0 &&
-			writeList.length === writeSockets.length
-		) {
+		if (writeList.length !== 0 && writeSocket !== null) {
 			const value = writeList.slice().shift();
 			console.log(value);
-			const write_socket = writeSockets.slice().shift();
 			dispatch(
 				commandWriteAction({
 					socket: socket,
-					write_socket: write_socket,
+					write_socket: writeSocket,
 					uuid: uuid,
 					write_path: value.path,
 					file: value.file,
 					todo: value.todo,
 					dispatch: dispatch,
 					offset: value?.offset,
-					historyId: value?.historyId,
+					// historyId: value?.historyId,
 				}),
 			);
-			if (value?.offset === undefined) {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.file.name,
-						size: value.file.size,
-						todo: value.todo,
-						progress: 0,
-						path: value.path,
-						socket: write_socket,
-						file: value.file,
-						ready: 1,
-					},
-				});
-			} else {
-				// socket change
-				dispatch({
-					type: CHANGE_HISTORY_SOCKET,
-					payload: {
-						uuid,
-						socket: write_socket,
-						historyId: value.historyId,
-					},
-				});
-			}
-
-			dispatch({type: SHIFT_WRITE_LIST, payload: {uuid}});
-			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'write'}});
 		}
-	}, [writeList, writeSockets, socket, uuid, dispatch]);
+		if (writeList.length === 0 && writeSocket !== null) {
+			dispatch(
+				removeNewWebsocket({
+					socket: writeSocket,
+					todo: 'write',
+					uuid: uuid,
+				}),
+			);
+		}
+	}, [writeList, writeSocket, socket, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0) {

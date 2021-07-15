@@ -18,6 +18,7 @@ import {
 	REMOVE_NEW_WEBSOCKET_FAILURE,
 	REMOVE_NEW_WEBSOCKET_REQUEST,
 	REMOVE_NEW_WEBSOCKET_SUCCESS,
+	SHIFT_SOCKETS,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp';
 import {write_chunkSize} from '../../reducers/sftp';
@@ -52,6 +53,7 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case REMOVE_NEW_WEBSOCKET_SUCCESS:
 						yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
+
 						break;
 
 					case WRITE_SUCCESS:

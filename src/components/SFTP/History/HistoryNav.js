@@ -9,7 +9,11 @@ import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HEIGHT_50} from '../../../styles/length';
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
-import {createNewWebsocket, PUSH_WRITE_LIST} from '../../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	createNewWebsocket,
+	PUSH_WRITE_LIST,
+} from '../../../reducers/sftp';
 
 const _Container = styled.div`
 	display: flex;
@@ -29,10 +33,11 @@ const _Title = styled.div`
 const HistoryNav = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
-	const {history: sftp_historyState, path: sftp_pathState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {
+		history: sftp_historyState,
+		path: sftp_pathState,
+		upload: sftp_uploadState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
@@ -63,6 +68,10 @@ const HistoryNav = ({uuid}) => {
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
+	const {writeSocket} = useMemo(
+		() => sftp_uploadState.find((it) => it.uuid === uuid),
+		[sftp_uploadState, uuid],
+	);
 
 	const upload = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -77,13 +86,25 @@ const HistoryNav = ({uuid}) => {
 			const array = [];
 			for await (let value of files) {
 				array.push({path, file: value, todo: 'write'});
-				console.log({
-					token: userTicket.access_token, // connection info
-					host: corServer.host,
-					port: corServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: value.name,
+						size: value.size,
+						todo: 'write',
+						progress: 0,
+						path: path,
+						file: value,
+						ready: 1,
+					},
 				});
+			}
+			dispatch({
+				type: PUSH_WRITE_LIST,
+				payload: {uuid, array},
+			});
+			if (!writeSocket) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -96,13 +117,17 @@ const HistoryNav = ({uuid}) => {
 					}),
 				);
 			}
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, uuid, path, userTicket, corServer, correspondedIdentity]);
+	}, [
+		writeSocket,
+		dispatch,
+		uuid,
+		path,
+		userTicket,
+		corServer,
+		correspondedIdentity,
+	]);
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {

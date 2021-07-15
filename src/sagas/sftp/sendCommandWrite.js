@@ -17,6 +17,8 @@ import {
 	REMOVE_NEW_WEBSOCKET_SUCCESS,
 	REMOVE_PAUSED_LIST,
 	removeNewWebsocket,
+	SHIFT_SOCKETS,
+	SHIFT_WRITE_LIST,
 	write_chunkSize,
 	WRITE_FAILURE,
 	WRITE_REQUEST,
@@ -72,6 +74,10 @@ function* sendCommand(action) {
 				if (lastSum !== 0) {
 					console.log(lastSum);
 					yield put({
+						type: SHIFT_SOCKETS,
+						payload: {uuid: payload.uuid, todo: payload.todo},
+					});
+					yield put({
 						type: ADD_PAUSED_LIST,
 						payload: {
 							uuid: payload.uuid,
@@ -120,11 +126,10 @@ function* sendCommand(action) {
 						} else if (res.percent === 100) {
 							lastSum = 0;
 							yield put({type: WRITE_SUCCESS});
-							yield put(
-								removeNewWebsocket({
-									socket: payload.write_socket,
-								}),
-							);
+							yield put({
+								type: SHIFT_WRITE_LIST,
+								payload: {uuid: payload.uuid},
+							});
 
 							yield put(
 								commandPwdAction({
@@ -175,16 +180,15 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	// while (true) {
-	// 	yield takeEvery(WRITE_REQUEST, sendCommand);
-	// 	yield take(WRITE_SUCCESS);
+	yield takeLatest(WRITE_REQUEST, sendCommand);
 	// }
-	const reqChannel = yield actionChannel(WRITE_REQUEST);
-	const writeChannel = yield actionChannel(WRITE_SUCCESS);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-		yield take(writeChannel);
-	}
+	// const reqChannel = yield actionChannel(WRITE_REQUEST);
+	// const writeChannel = yield actionChannel(WRITE_SUCCESS);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// 	yield take(writeChannel);
+	// }
 }
 
 export default function* commandWriteSaga() {
