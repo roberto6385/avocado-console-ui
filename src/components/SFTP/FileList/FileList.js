@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import FileListContents from './FileListContents';
-import FileListNav from './FileListNav';
+
 import FileListDropDown from './FileListDropDown';
 import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -26,7 +26,6 @@ const FileList = ({uuid}) => {
 
 	return (
 		<_Container>
-			<FileListNav uuid={uuid} />
 			{mode === 'list' ? (
 				<FileListContents uuid={uuid} />
 			) : (

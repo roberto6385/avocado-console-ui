@@ -60,7 +60,7 @@ const _ToggleButton = styled.button`
 	background-color: ${(props) =>
 		navCloseTerminalButtonColor[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
-	z-index: 4;
+	margin-bottom: 2px;
 `;
 
 const SSHContainer = ({uuid, server}) => {
@@ -96,10 +96,6 @@ const SSHContainer = ({uuid, server}) => {
 
 	const onClickCloseNav = useCallback(() => {
 		setToggle(!toggle);
-	}, [toggle]);
-
-	useEffect(() => {
-		console.log(toggle);
 	}, [toggle]);
 
 	return (

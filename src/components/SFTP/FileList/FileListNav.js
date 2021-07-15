@@ -16,7 +16,7 @@ import {
 	viewColumnIcon,
 	viewListIcon,
 } from '../../../icons/icons';
-import {FONT_14, HEIGHT_34, HEIGHT_50} from '../../../styles/length';
+import {FONT_14, HEIGHT_34} from '../../../styles/length';
 import {
 	activeColor,
 	borderColor,
@@ -26,6 +26,13 @@ import {
 	tabColor,
 } from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
+
+const _Container = styled.div`
+	display: flex;
+	flex: 1;
+	align-items: center;
+	height: 50px;
+`;
 
 const _input = styled.input`
 	height: ${HEIGHT_34};
@@ -37,15 +44,6 @@ const _input = styled.input`
 	outline: none;
 	background: ${(props) => props.back};
 	color: ${(props) => props.color};
-`;
-
-const _Container = styled.div`
-	display: flex;
-	align-items: center;
-	background: ${(props) => props?.back};
-	border-bottom: 1px solid;
-	border-color: ${(props) => props?.bcolor};
-	height: ${HEIGHT_50};
 `;
 
 const _Form = styled.form`

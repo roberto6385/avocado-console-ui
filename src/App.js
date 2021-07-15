@@ -23,6 +23,13 @@ import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import RefreshPopup from './components/Popup/RefreshPopup';
 import {getRevoke} from './reducers/auth/revoke';
+import {LOGOUT} from './reducers/user';
+import {
+	REFRESH_USER_TICKET_FAILURE,
+	REFRESH_USER_TICKET_REQUEST,
+	REFRESH_USER_TICKET_SUCCESS,
+} from './reducers/auth/userTicket';
+import base64 from 'base-64';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -47,7 +54,25 @@ const App = () => {
 
 	const handleOnAction = useCallback(() => {
 		// sessionStorage.setItem('lastTouchTime', Date.now());
-	}, []);
+		// if (userTicket.userTicket) {
+		// 	if (
+		// 		Date.now() - userTicket.expires_in * 1000 + 50 * 60 * 1000 >
+		// 		Date.parse(userTicket.create_date)
+		// 	) {
+		// 		const encodeData = base64.encode(`${'web'}:${'123456789'}`);
+		//
+		// 		dispatch({
+		// 			type: REFRESH_USER_TICKET_REQUEST,
+		// 			params: {
+		// 				refresh_token: userTicket.refresh_token,
+		// 				Authorization: 'Basic ' + encodeData,
+		// 			},
+		// 		});
+		//
+		// 		console.log('HERE');
+		// 	}
+		// }
+	}, [userTicket]);
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,

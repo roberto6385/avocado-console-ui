@@ -15,7 +15,7 @@ import {
 	playCircleIcon,
 	removeCircleIcon,
 } from '../../../icons/icons';
-import {HEIGHT_48, HEIGHT_132} from '../../../styles/length';
+import {HEIGHT_48, HEIGHT_132, WIDTH_256} from '../../../styles/length';
 import {
 	activeColor,
 	borderColor,
@@ -47,7 +47,14 @@ import {
 	REMOVE_HISTORY,
 	removeNewWebsocket,
 } from '../../../reducers/sftp';
-import {put} from 'redux-saga/effects';
+
+const _Container = styled.div`
+	min-width: 256px;
+	width: 256px;
+	border-left: 1px solid;
+	border-color: ${(props) => borderColor[props.theme_value]};
+	background: ${(props) => tabColor[props.theme_value]};
+`;
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
@@ -408,114 +415,124 @@ const HistoryContents = ({uuid}) => {
 	);
 
 	return (
-		<Dropzone onDrop={(files) => upload(files)}>
-			{history?.length === 0 ? (
-				<DropSpaceDiv back={tabColor[theme]} bcolor={iconColor[theme]}>
-					<_AnnounceText theme_value={theme}>
-						{t('paragraph')}
-					</_AnnounceText>
-					<DropSpace_Button theme_value={theme} onClick={openUpload}>
-						<IconBox
-							size='sm'
-							margin_right={'8px'}
-							color={theme === 0 ? 'white' : 'black'}
+		<_Container theme_value={theme}>
+			<Dropzone onDrop={(files) => upload(files)}>
+				{history?.length === 0 ? (
+					<DropSpaceDiv
+						back={tabColor[theme]}
+						bcolor={iconColor[theme]}
+					>
+						<_AnnounceText theme_value={theme}>
+							{t('paragraph')}
+						</_AnnounceText>
+						<DropSpace_Button
+							theme_value={theme}
+							onClick={openUpload}
 						>
-							{fileUploadIcon}
-						</IconBox>
-						<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
-					</DropSpace_Button>
-				</DropSpaceDiv>
-			) : (
-				<_Ul>
-					{history.map((history, index) => {
-						return (
-							<_Li
-								className={'history_contents'}
-								key={history.HISTORY_ID}
-								onClick={selectItem(history, index)}
-								theme_value={theme}
-								borderWidth={`${history.progress}%`}
-								clicked={
-									history_highlight.find(
-										(item) => item === history,
-									)
-										? 1
-										: 0
-								}
+							<IconBox
+								size='sm'
+								margin_right={'8px'}
+								color={theme === 0 ? 'white' : 'black'}
 							>
-								<ClickableIconButton
-									onClick={onPause(history)}
-									size='20px'
-									margin={'10px'}
-									color={
-										history.progress !== 100
-											? historyPauseColor
-											: history.todo === 'write'
-											? historyUploadColor
-											: history.todo === 'read'
-											? historyDownloadColor
-											: history.todo === 'edit'
-											? historyEditColor
-											: history.todo === 'rm' &&
-											  historyDeleteColor
+								{fileUploadIcon}
+							</IconBox>
+							<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
+						</DropSpace_Button>
+					</DropSpaceDiv>
+				) : (
+					<_Ul>
+						{history.map((history, index) => {
+							return (
+								<_Li
+									className={'history_contents'}
+									key={history.HISTORY_ID}
+									onClick={selectItem(history, index)}
+									theme_value={theme}
+									borderWidth={`${history.progress}%`}
+									clicked={
+										history_highlight.find(
+											(item) => item === history,
+										)
+											? 1
+											: 0
 									}
 								>
-									{history.progress !== 100
-										? history.ready === 3
-											? playCircleIcon
-											: pauseCircleIcon
-										: history.todo === 'write'
-										? arrowCircleUpIcon
-										: history.todo === 'read'
-										? arrowCircleDownIcon
-										: history.todo === 'edit'
-										? buildCircleIcon
-										: history.todo === 'rm' &&
-										  removeCircleIcon}
-								</ClickableIconButton>
-								<HistoryText
-									className={'history_contents'}
-									flex={1}
-									progress={history.progress !== 100 ? 1 : 0}
-									theme_value={theme}
-								>
-									{history.name}
-								</HistoryText>
-								<_HistorySizeText
-									theme_value={theme}
-									className={'history_contents'}
-								>
-									{formatByteSizeString(history.size)}
-								</_HistorySizeText>
-								<ClickableIconButton
-									size={'sm'}
-									margin={'10px'}
-									theme_value={theme}
-									onClick={removeHistory(history)}
-									className={'history_contents'}
-								>
-									{deleteIcon}
-								</ClickableIconButton>
+									<ClickableIconButton
+										onClick={onPause(history)}
+										size='20px'
+										margin={'10px'}
+										color={
+											history.progress !== 100
+												? historyPauseColor
+												: history.todo === 'write'
+												? historyUploadColor
+												: history.todo === 'read'
+												? historyDownloadColor
+												: history.todo === 'edit'
+												? historyEditColor
+												: history.todo === 'rm' &&
+												  historyDeleteColor
+										}
+									>
+										{history.progress !== 100
+											? history.ready === 3
+												? playCircleIcon
+												: pauseCircleIcon
+											: history.todo === 'write'
+											? arrowCircleUpIcon
+											: history.todo === 'read'
+											? arrowCircleDownIcon
+											: history.todo === 'edit'
+											? buildCircleIcon
+											: history.todo === 'rm' &&
+											  removeCircleIcon}
+									</ClickableIconButton>
+									<HistoryText
+										className={'history_contents'}
+										flex={1}
+										progress={
+											history.progress !== 100 ? 1 : 0
+										}
+										theme_value={theme}
+									>
+										{history.name}
+									</HistoryText>
+									<_HistorySizeText
+										theme_value={theme}
+										className={'history_contents'}
+									>
+										{formatByteSizeString(history.size)}
+									</_HistorySizeText>
+									<ClickableIconButton
+										size={'sm'}
+										margin={'10px'}
+										theme_value={theme}
+										onClick={removeHistory(history)}
+										className={'history_contents'}
+									>
+										{deleteIcon}
+									</ClickableIconButton>
 
-								{history.progress !== 100 && (
-									<Progress>
-										<Bar
-											back={activeColor[theme]}
-											width={`${history.progress}%`}
-										/>
-									</Progress>
-								)}
-							</_Li>
-						);
-					})}
-				</_Ul>
-			)}
-			{/*<HistoryContextMenu*/}
-			{/*	uuid={uuid}*/}
-			{/*	// highlight={highlight}*/}
-			{/*	// setHighlight={setHighlight}*/}
-			{/*/>*/}
-		</Dropzone>
+									{history.progress !== 100 && (
+										<Progress>
+											<Bar
+												back={activeColor[theme]}
+												width={`${history.progress}%`}
+											/>
+										</Progress>
+									)}
+								</_Li>
+							);
+						})}
+					</_Ul>
+				)}
+				{/*<HistoryContextMenu*/}
+				{/*	uuid={uuid}*/}
+				{/*	// highlight={highlight}*/}
+				{/*	// setHighlight={setHighlight}*/}
+				{/*/>*/}
+			</Dropzone>
+		</_Container>
 	);
 };
 HistoryContents.propTypes = {

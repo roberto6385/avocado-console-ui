@@ -12,7 +12,6 @@ import {
 	REFRESH_USER_TICKET_SUCCESS,
 } from '../reducers/auth/userTicket';
 import {LOGOUT} from '../reducers/user';
-import {SAVE_ENCODE_DATA} from '../reducers/common';
 
 const tokenRefreshMiddleware =
 	({dispatch, getState}) =>
@@ -34,14 +33,16 @@ const tokenRefreshMiddleware =
 				Date.parse(getState().userTicket.userTicket.create_date)
 			) {
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-				dispatch({
-					type: REFRESH_USER_TICKET_REQUEST,
-					params: {
-						refresh_token:
-							getState().userTicket.userTicket.refresh_token,
-						Authorization: 'Basic ' + encodeData,
-					},
-				});
+				next(
+					dispatch({
+						type: REFRESH_USER_TICKET_REQUEST,
+						params: {
+							refresh_token:
+								getState().userTicket.userTicket.refresh_token,
+							Authorization: 'Basic ' + encodeData,
+						},
+					}),
+				);
 			}
 		}
 

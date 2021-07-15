@@ -21,10 +21,9 @@ const History = ({uuid}) => {
 	const theme = useSelector((state) => state.common.theme);
 
 	return (
-		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<HistoryNav uuid={uuid} />
-			<HistoryContents uuid={uuid} />
-		</_Container>
+		// <_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
+		<HistoryContents uuid={uuid} />
+		// </_Container>
 	);
 };
 
