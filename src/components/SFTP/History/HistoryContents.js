@@ -43,6 +43,7 @@ import {
 	createNewWebsocket,
 	HISTORY_READY,
 	INITIAL_HISTORY_HI,
+	PUSH_PAUSE_READ_LIST,
 	PUSH_PAUSE_WRITE_LIST,
 	PUSH_READ_LIST,
 	PUSH_WRITE_LIST,
@@ -148,6 +149,7 @@ const HistoryContents = ({uuid}) => {
 		history: sftp_historyState,
 		socket: sftp_socketState,
 		upload: sftp_uploadState,
+		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
@@ -183,6 +185,10 @@ const HistoryContents = ({uuid}) => {
 	const {writeSocket} = useMemo(
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
+	);
+	const {readSocket} = useMemo(
+		() => sftp_downloadState.find((it) => it.uuid === uuid),
+		[sftp_downloadState, uuid],
 	);
 
 	const openUpload = useCallback(async () => {
@@ -400,9 +406,13 @@ const HistoryContents = ({uuid}) => {
 							);
 						}
 					}
+					console.log('드루와드루와');
 					dispatch(
 						removeNewWebsocket({
-							socket: writeSocket,
+							socket:
+								history.todo === 'write'
+									? writeSocket
+									: readSocket,
 							uuid: uuid,
 							todo: history.todo,
 							path: history.path,
@@ -427,7 +437,7 @@ const HistoryContents = ({uuid}) => {
 						type:
 							history.todo === 'write'
 								? PUSH_PAUSE_WRITE_LIST
-								: PUSH_READ_LIST,
+								: PUSH_PAUSE_READ_LIST,
 						payload: {
 							uuid,
 							array: {...item, historyId: history.HISTORY_ID},
@@ -449,6 +459,7 @@ const HistoryContents = ({uuid}) => {
 			}
 		},
 		[
+			readSocket,
 			writeSocket,
 			corServer,
 			correspondedIdentity,

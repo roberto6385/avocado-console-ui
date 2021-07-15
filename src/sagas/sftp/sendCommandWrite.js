@@ -66,9 +66,9 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				console.log('upload end');
 				if (lastSum !== 0) {
-					console.log(lastSum);
+					alert(lastSum);
+
 					yield put({
 						type: SHIFT_SOCKETS,
 						payload: {uuid: payload.uuid, todo: payload.todo},
@@ -110,7 +110,6 @@ function* sendCommand(action) {
 									completed: false,
 									mode: 2,
 								});
-								console.log(lastSum);
 							} else {
 								yield call(messageSender, {
 									keyword: 'CommandByWrite',

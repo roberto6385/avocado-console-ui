@@ -35,6 +35,8 @@ export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
 
 export const READ_REQUEST = 'sftp/READ_REQUEST';
 export const READ_SUCCESS = 'sftp/READ_SUCCESS';
+export const READ_PASS = 'sftp/READ_PASS';
+
 export const READ_FAILURE = 'sftp/READ_FAILURE';
 
 export const EDIT_READ_SUCCESS = 'sftp/EDIT_READ_SUCCESS';
@@ -70,6 +72,7 @@ export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
+export const PUSH_PAUSE_READ_LIST = 'sftp/PUSH_PAUSE_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
 export const PUSH_PAUSE_WRITE_LIST = 'sftp/PUSH_PAUSE_WRITE_LIST';
@@ -80,7 +83,6 @@ export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 
 export const ADD_HISTORY = 'history/ADD_HISTORY';
 export const FIND_HISTORY = 'history/FIND_HISTORY';
-export const CHANGE_HISTORY_SOCKET = 'history/CHANGE_HISTORY_SOCKET';
 export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
@@ -181,7 +183,7 @@ export const removeNewWebsocket = (payload) => ({
 let HISTORY_ID = 0;
 
 export const write_chunkSize = 1024 * 4;
-export const read_chunkSize = 1024 * 56;
+export const read_chunkSize = 1024 * 4; // 56
 // initial State
 const initialState = {
 	loading: false,
@@ -282,8 +284,9 @@ const sftp = (state = initialState, action) =>
 				});
 				draft.download.push({
 					uuid: action.payload.uuid,
-					readSockets: [], // 경로, file 저장
+					readSocket: null, // 경로, file 저장
 					readList: [], // 경로, file 저장
+					pass: true,
 				});
 				draft.delete.push({
 					uuid: action.payload.uuid,
@@ -530,14 +533,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			}
 
-			case CHANGE_HISTORY_SOCKET: {
-				const index = history_target.history.findIndex(
-					(v) => v.HISTORY_ID === action.payload.historyId,
-				);
-				history_target.history[index].socket = action.payload.socket;
-				break;
-			}
-
 			case FIND_HISTORY: {
 				const index = history_target.history
 					.slice()
@@ -575,12 +570,11 @@ const sftp = (state = initialState, action) =>
 				history_target.history_highlight = [];
 				break;
 
-			// -- // 여기부턴 나중에!!
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
 				if (action.payload.todo === 'write')
 					upload_target.writeSocket = action.payload.socket;
-				action.payload.todo === 'read' &&
-					download_target.readSockets.push(action.payload.socket);
+				if (action.payload.todo === 'read')
+					download_target.readSocket = action.payload.socket;
 				action.payload.todo === 'remove' &&
 					delete_target.removeSockets.push(action.payload.socket);
 				break;
@@ -589,7 +583,7 @@ const sftp = (state = initialState, action) =>
 				if (action.payload.todo === 'write')
 					upload_target.writeSocket = null;
 				if (action.payload.todo === 'read')
-					download_target.readSockets.shift();
+					download_target.readSocket = null;
 				if (action.payload.todo === 'remove')
 					delete_target.removeSockets.shift();
 				break;
@@ -601,10 +595,15 @@ const sftp = (state = initialState, action) =>
 				break;
 			case SHIFT_READ_LIST:
 				download_target.readList.shift();
+				download_target.pass = true;
 				break;
 
 			case WRITE_PASS:
 				upload_target.pass = false;
+				break;
+
+			case READ_PASS:
+				download_target.pass = false;
 				break;
 
 			case PUSH_WRITE_LIST:
@@ -614,6 +613,9 @@ const sftp = (state = initialState, action) =>
 				break;
 			case PUSH_PAUSE_WRITE_LIST:
 				upload_target.writeList.unshift(action.payload.array);
+				break;
+			case PUSH_PAUSE_READ_LIST:
+				download_target.readList.unshift(action.payload.array);
 				break;
 			case SHIFT_WRITE_LIST:
 				upload_target.writeList.shift();

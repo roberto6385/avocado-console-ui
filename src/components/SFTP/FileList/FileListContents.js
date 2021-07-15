@@ -8,6 +8,7 @@ import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
 import {
 	ADD_HIGHLIGHT,
+	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	createNewWebsocket,
@@ -99,6 +100,7 @@ const FileListContents = ({uuid}) => {
 		file: sftp_fileState,
 		etc: sftp_etcState,
 		socket: sftp_socketState,
+		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, lang, server, tab, identity} = useSelector(
 		(state) => state.common,
@@ -120,6 +122,10 @@ const FileListContents = ({uuid}) => {
 	const {fileList, highlight} = useMemo(
 		() => sftp_fileState.find((it) => it.uuid === uuid),
 		[sftp_fileState, uuid],
+	);
+	const {readSocket} = useMemo(
+		() => sftp_downloadState.find((it) => it.uuid === uuid),
+		[sftp_downloadState, uuid],
 	);
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
@@ -154,20 +160,43 @@ const FileListContents = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
 				});
-				dispatch(
-					createNewWebsocket({
-						token: userTicket.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
-						todo: 'read',
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
 						uuid: uuid,
-					}),
-				);
+						name: item.name,
+						size: item.size,
+						todo: 'read',
+						progress: 0,
+						path: path,
+						file: item,
+						ready: 1,
+					},
+				});
+				if (!readSocket) {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'read',
+							uuid: uuid,
+						}),
+					);
+				}
 			}
 		},
-		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
+		[
+			readSocket,
+			dispatch,
+			uuid,
+			path,
+			userTicket,
+			corServer,
+			correspondedIdentity,
+		],
 	);
 	const edit = useCallback(
 		(item) => (e) => {

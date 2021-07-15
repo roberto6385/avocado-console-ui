@@ -4,9 +4,9 @@ import {
 	fork,
 	take,
 	put,
-	actionChannel,
 	race,
 	delay,
+	takeLatest,
 } from 'redux-saga/effects';
 import {
 	ADD_PAUSED_LIST,
@@ -17,10 +17,11 @@ import {
 	READ_REQUEST,
 	READ_SUCCESS,
 	REMOVE_PAUSED_LIST,
-	removeNewWebsocket,
 	SAVE_EDITTEXT,
 	SAVE_FILE_FOR_EDIT,
 	SAVE_TEXT,
+	SHIFT_READ_LIST,
+	SHIFT_SOCKETS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
@@ -28,7 +29,6 @@ import {readResponse} from '../../ws/sftp/read_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	console.log(payload.offset);
 	const channel = yield call(fileSubscribe, payload.read_socket);
 	let lastSum = 0;
 	let pass = true;
@@ -62,13 +62,17 @@ function* sendCommand(action) {
 				return;
 			}
 			const {timeout, data} = yield race({
-				timeout: delay(500),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
-				console.log(lastSum);
 				if (lastSum !== 0) {
+					alert(lastSum);
+					yield put({
+						type: SHIFT_SOCKETS,
+						payload: {uuid: payload.uuid, todo: payload.todo},
+					});
 					yield put({
 						type: ADD_PAUSED_LIST,
 						payload: {
@@ -82,6 +86,10 @@ function* sendCommand(action) {
 							},
 						},
 					});
+					yield put({
+						type: SHIFT_READ_LIST,
+						payload: {uuid: payload.uuid},
+					});
 				}
 			} else {
 				// const data = yield take(channel);
@@ -91,8 +99,8 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case READ_SUCCESS:
 						if (res.last === false) {
+							lastSum = res.byteSum;
 							if (res.end === false) {
-								lastSum = res.byteSum;
 								yield call(messageSender, {
 									keyword: 'CommandByRead',
 									ws: payload.read_socket,
@@ -111,27 +119,23 @@ function* sendCommand(action) {
 									completed: true,
 								});
 							}
-						}
-						yield put({
-							type: FIND_HISTORY,
-							payload: {
-								uuid: payload.uuid,
-								name: payload.file.name,
-								size: payload.file.size,
-								todo: payload.todo,
-								progress: res.percent,
-								ready: payload.read_socket.readyState,
-								socket: payload.read_socket,
-							},
-						});
-						if (res.last && res.percent === 100) {
+							yield put({
+								type: FIND_HISTORY,
+								payload: {
+									uuid: payload.uuid,
+									name: payload.file.name,
+									size: payload.file.size,
+									todo: payload.todo,
+									progress: res.percent,
+									ready: payload.read_socket.readyState,
+								},
+							});
+						} else if (res.percent === 100) {
 							lastSum = 0;
-
-							yield put(
-								removeNewWebsocket({
-									socket: payload.read_socket,
-								}),
-							);
+							yield put({
+								type: SHIFT_READ_LIST,
+								payload: {uuid: payload.uuid},
+							});
 
 							yield put({
 								type: REMOVE_PAUSED_LIST,
@@ -139,11 +143,12 @@ function* sendCommand(action) {
 									uuid: payload.uuid,
 									data: {
 										todo: payload.todo,
-										path: payload.path,
+										path: payload.read_path,
 										file: payload.file,
 									},
 								},
 							});
+
 							if (payload.todo === 'edit') {
 								yield put({
 									type: SAVE_TEXT,
@@ -190,11 +195,12 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	const reqChannel = yield actionChannel(READ_REQUEST);
-	while (true) {
-		const action = yield take(reqChannel);
-		yield call(sendCommand, action);
-	}
+	yield takeLatest(READ_REQUEST, sendCommand);
+	// const reqChannel = yield actionChannel(READ_REQUEST);
+	// while (true) {
+	// 	const action = yield take(reqChannel);
+	// 	yield call(sendCommand, action);
+	// }
 }
 
 export default function* commandReadSaga() {

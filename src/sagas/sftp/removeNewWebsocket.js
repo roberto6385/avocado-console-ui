@@ -7,6 +7,7 @@ import {
 	takeLatest,
 	race,
 	delay,
+	takeEvery,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
 import {closeChannel, fileSubscribe} from '../channel';
@@ -40,71 +41,79 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(5000),
-				data: take(channel),
-			});
-			if (timeout) {
-				closeChannel(channel);
-				console.log('remove new websocket end');
-			} else {
-				const res = yield call(removeNewSocketResponse, {data});
-				console.log(res);
-				switch (res.type) {
-					case REMOVE_NEW_WEBSOCKET_SUCCESS:
-						yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
-						yield put({
-							type: SHIFT_SOCKETS,
-							payload: {uuid: payload.uuid, todo: payload.todo},
-						});
+			// const {timeout, data} = yield race({
+			// 	timeout: delay(5000),
+			// 	data: take(channel),
+			// });
+			// if (timeout) {
+			// 	closeChannel(channel);
+			// 	console.log('remove new websocket end');
+			// } else {
+			const data = yield take(channel);
+			const res = yield call(removeNewSocketResponse, {data});
+			console.log(res);
+			switch (res.type) {
+				case REMOVE_NEW_WEBSOCKET_SUCCESS:
+					yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
 
-						break;
+					break;
 
-					case WRITE_SUCCESS:
-						yield take(ADD_PAUSED_LIST);
-						yield put({
-							type: EDIT_PAUSED_LIST,
-							payload: {
-								uuid: payload.uuid,
-								data: {
-									todo: payload.todo,
-									path: payload.path,
-									file: payload.file,
-								},
-								newOffset: write_chunkSize,
+				case WRITE_SUCCESS:
+					console.log('WRITE_SUCCESS!!!');
+
+					yield take(ADD_PAUSED_LIST);
+					yield put({
+						type: EDIT_PAUSED_LIST,
+						payload: {
+							uuid: payload.uuid,
+							data: {
+								todo: payload.todo,
+								path: payload.path,
+								file: payload.file,
 							},
-						});
-						break;
+							newOffset: write_chunkSize,
+						},
+					});
+					break;
 
-					case READ_SUCCESS:
-						yield take(ADD_PAUSED_LIST);
-						// yield put({
-						// 	type: EDIT_PAUSED_LIST,
-						// 	payload: {
-						// 		uuid: payload.uuid,
-						// 		data: {
-						// 			todo: payload.todo,
-						// 			path: payload.path,
-						// 			file: payload.file,
-						// 		},
-						// 		newOffset: read_chunkSize,
-						// 	},
-						// });
-						break;
-					default:
-						break;
-				}
+				case READ_SUCCESS:
+					console.log('READ_SUCCESS!!!');
+					yield take(ADD_PAUSED_LIST);
+
+					// yield put({
+					// 	type: EDIT_PAUSED_LIST,
+					// 	payload: {
+					// 		uuid: payload.uuid,
+					// 		data: {
+					// 			todo: payload.todo,
+					// 			path: payload.path,
+					// 			file: payload.file,
+					// 		},
+					// 		newOffset: read_chunkSize,
+					// 	},
+					// });
+					break;
+				default:
+					break;
+				// }
 			}
 		}
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
 		yield put({type: REMOVE_NEW_WEBSOCKET_FAILURE});
+	} finally {
+		console.log(payload);
+		payload.socket.close();
+		yield put({
+			type: SHIFT_SOCKETS,
+			payload: {uuid: payload.uuid, todo: payload.todo},
+		});
 	}
 }
 
 function* watchSendCommand() {
-	yield takeLatest(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
+	yield takeEvery(REMOVE_NEW_WEBSOCKET_REQUEST, sendCommand);
 }
 
 export default function* removeWebsocketSaga() {

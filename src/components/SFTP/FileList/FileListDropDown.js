@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import {
 	ADD_HIGHLIGHT,
+	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
 	commandCdAction,
 	createNewWebsocket,
@@ -118,10 +119,15 @@ const FileListDropDown = ({uuid}) => {
 		file: sftp_fileState,
 		socket: sftp_socketState,
 		etc: sftp_etcState,
+		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {path, pathList} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
+	);
+	const {readSocket} = useMemo(
+		() => sftp_downloadState.find((it) => it.uuid === uuid),
+		[sftp_downloadState, uuid],
 	);
 	const {fileList, highlight, tempFile} = useMemo(
 		() => sftp_fileState.find((it) => it.uuid === uuid),
@@ -384,20 +390,36 @@ const FileListDropDown = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
 				});
-				dispatch(
-					createNewWebsocket({
-						token: userTicket.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
-						todo: 'read',
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
 						uuid: uuid,
-					}),
-				);
+						name: item.name,
+						size: item.size,
+						todo: 'read',
+						progress: 0,
+						path: path,
+						file: item,
+						ready: 1,
+					},
+				});
+				if (!readSocket) {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'read',
+							uuid: uuid,
+						}),
+					);
+				}
 			}
 		},
 		[
+			readSocket,
 			dispatch,
 			uuid,
 			path,

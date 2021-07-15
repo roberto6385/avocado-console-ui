@@ -11,6 +11,7 @@ import {
 	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	READ_PASS,
 	removeNewWebsocket,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
@@ -36,12 +37,16 @@ const SFTPContainer = ({uuid}) => {
 
 	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 
-	const {writeList, writeSocket, pass} = sftp_uploadState.find(
-		(it) => it.uuid === uuid,
-	);
-	const {readList, readSockets} = sftp_downloadState.find(
-		(it) => it.uuid === uuid,
-	);
+	const {
+		writeList,
+		writeSocket,
+		pass: upPass,
+	} = sftp_uploadState.find((it) => it.uuid === uuid);
+	const {
+		readList,
+		readSocket,
+		pass: downPass,
+	} = sftp_downloadState.find((it) => it.uuid === uuid);
 	const {incinerator, removeSockets, initList, initPath} =
 		sftp_deleteState.find((it) => it.uuid === uuid);
 
@@ -102,65 +107,37 @@ const SFTPContainer = ({uuid}) => {
 	}, [body, focusOut]);
 
 	useEffect(() => {
-		if (
-			readList.length !== 0 &&
-			readSockets.length !== 0 &&
-			readList.length === readSockets.length
-		) {
+		if (readList.length !== 0 && readSocket !== null) {
+			if (!downPass) return;
 			const value = readList.slice().shift();
-			const read_socket = readSockets.slice().shift();
 			dispatch(
 				commandReadAction({
 					socket: socket,
-					read_socket: read_socket,
+					read_socket: readSocket,
 					uuid: uuid,
 					read_path: value.path,
 					file: value.file,
 					mode: mode,
 					todo: value.todo,
 					offset: value?.offset,
-					historyId: value?.historyId,
 				}),
 			);
-
-			if (value.todo === 'read') {
-				if (value?.offset === undefined) {
-					dispatch({
-						type: ADD_HISTORY,
-						payload: {
-							uuid: uuid,
-							name: value.file.name,
-							size: value.file.size,
-							todo: value.todo,
-							progress: 0,
-							path: value.path,
-							socket: read_socket,
-							file: value.file,
-							ready: 1,
-						},
-					});
-				} else {
-					// socket change
-					dispatch({
-						type: CHANGE_HISTORY_SOCKET,
-						payload: {
-							uuid,
-							socket: read_socket,
-							historyId: value.historyId,
-						},
-					});
-				}
-			}
-
-			dispatch({type: SHIFT_READ_LIST, payload: {uuid}});
-			dispatch({type: SHIFT_SOCKETS, payload: {uuid, todo: 'read'}});
+			dispatch({type: READ_PASS, payload: {uuid}});
 		}
-	}, [dispatch, mode, readList, readSockets, socket, uuid]);
-	console.log(writeList);
+		if (readList.length === 0 && readSocket !== null) {
+			dispatch(
+				removeNewWebsocket({
+					socket: readSocket,
+					todo: 'read',
+					uuid: uuid,
+				}),
+			);
+		}
+	}, [downPass, dispatch, mode, readList, readSocket, socket, uuid]);
 
 	useEffect(() => {
 		if (writeList.length !== 0 && writeSocket !== null) {
-			if (!pass) return;
+			if (!upPass) return;
 			const value = writeList.slice().shift();
 			console.log(value);
 			dispatch(
@@ -173,7 +150,6 @@ const SFTPContainer = ({uuid}) => {
 					todo: value.todo,
 					dispatch: dispatch,
 					offset: value?.offset,
-					// historyId: value?.historyId,
 				}),
 			);
 			dispatch({type: WRITE_PASS, payload: {uuid}});
@@ -187,7 +163,7 @@ const SFTPContainer = ({uuid}) => {
 				}),
 			);
 		}
-	}, [pass, writeList, writeSocket, socket, uuid, dispatch]);
+	}, [upPass, writeList, writeSocket, socket, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0) {

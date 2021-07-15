@@ -6,15 +6,20 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu} from '../../styles/default';
-import {createNewWebsocket, PUSH_READ_LIST} from '../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	createNewWebsocket,
+	PUSH_READ_LIST,
+} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {path: sftp_pathState, file: sftp_fileState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {
+		path: sftp_pathState,
+		file: sftp_fileState,
+		download: sftp_downloadState,
+	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -27,6 +32,10 @@ const FileListContextMenu = ({uuid}) => {
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
+	);
+	const {readSocket} = useMemo(
+		() => sftp_downloadState.find((it) => it.uuid === uuid),
+		[sftp_downloadState, uuid],
 	);
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
@@ -50,6 +59,25 @@ const FileListContextMenu = ({uuid}) => {
 		const array = [];
 		for await (let value of highlight) {
 			array.push({path, file: value, todo: 'read'});
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.name,
+					size: value.size,
+					todo: 'read',
+					progress: 0,
+					path: path,
+					file: value,
+					ready: 1,
+				},
+			});
+		}
+		dispatch({
+			type: PUSH_READ_LIST,
+			payload: {uuid, array},
+		});
+		if (!readSocket) {
 			dispatch(
 				createNewWebsocket({
 					token: userTicket.access_token, // connection info
@@ -62,11 +90,8 @@ const FileListContextMenu = ({uuid}) => {
 				}),
 			);
 		}
-		dispatch({
-			type: PUSH_READ_LIST,
-			payload: {uuid, array},
-		});
 	}, [
+		readSocket,
 		dispatch,
 		uuid,
 		highlight,

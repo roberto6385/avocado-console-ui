@@ -31,6 +31,13 @@ export async function readResponse({data, payload, pass}) {
 				console.log(response);
 				console.log('response status: ', response.getStatus());
 
+				console.log(response.getResponseCase());
+				console.log(SFTP.Response.ResponseCase.READFILE);
+				console.log(
+					response.getResponseCase() ===
+						SFTP.Response.ResponseCase.READFILE,
+				);
+
 				if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.COMMAND
