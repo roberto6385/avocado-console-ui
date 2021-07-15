@@ -406,7 +406,7 @@ const HistoryContents = ({uuid}) => {
 							);
 						}
 					}
-					console.log('드루와드루와');
+					console.log('history contents remove websocket');
 					dispatch(
 						removeNewWebsocket({
 							socket:
