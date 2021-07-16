@@ -282,6 +282,7 @@ export const arrowCircleDownIcon = (
 export const buildCircleIcon = (
 	<span className='material-icons'>build_circle</span>
 );
+
 export const removeCircleIcon = (
 	<span className='material-icons'>remove_circle_outline</span>
 );

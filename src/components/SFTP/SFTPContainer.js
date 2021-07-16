@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
-	CHANGE_HISTORY_SOCKET,
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
@@ -15,8 +14,6 @@ import {
 	removeNewWebsocket,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
-	SHIFT_READ_LIST,
-	SHIFT_SOCKETS,
 	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
@@ -113,7 +110,7 @@ const SFTPContainer = ({uuid}) => {
 			dispatch(
 				commandReadAction({
 					socket: socket,
-					read_socket: readSocket,
+					read_socket: value.todo === 'read' ? readSocket : socket,
 					uuid: uuid,
 					read_path: value.path,
 					file: value.file,

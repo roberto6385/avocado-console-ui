@@ -13,7 +13,6 @@ import {
 	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
 	PUSH_READ_LIST,
-	READY_STATE,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
@@ -356,20 +355,23 @@ const FileListDropDown = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
-				dispatch(
-					createNewWebsocket({
-						token: userTicket.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
-						todo: 'read',
-						uuid: uuid,
-					}),
-				);
+				if (!readSocket) {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'read',
+							uuid: uuid,
+						}),
+					);
+				}
 			}
 		},
 		[
+			readSocket,
 			dispatch,
 			uuid,
 			path,

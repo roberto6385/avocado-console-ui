@@ -21,6 +21,7 @@ import {
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
 import {
+	ADD_HISTORY,
 	CHANGE_MODE,
 	CLOSE_EDITOR,
 	createNewWebsocket,
@@ -40,6 +41,7 @@ const SavePopup = () => {
 		path: sftp_pathState,
 		etc: sftp_etcState,
 		edit: sftp_editState,
+		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {theme, tab, server, identity} = useSelector(
@@ -87,6 +89,9 @@ const SavePopup = () => {
 			const {editText, editFile} = sftp_editState.find(
 				(it) => it.uuid === uuid,
 			);
+			const {writeSocket} = sftp_uploadState.find(
+				(it) => it.uuid === uuid,
+			);
 			const correspondedIdentity = identity.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
 			);
@@ -98,17 +103,6 @@ const SavePopup = () => {
 
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'write',
-							uuid: uuid,
-						}),
-					);
 					dispatch({
 						type: PUSH_WRITE_LIST,
 						payload: {
@@ -116,26 +110,41 @@ const SavePopup = () => {
 							array: [{path, file: uploadFile, todo: 'edit'}],
 						},
 					});
-
 					dispatch({
 						type: SAVE_TEXT,
 						payload: {uuid, text: editText},
 					});
+					dispatch({
+						type: ADD_HISTORY,
+						payload: {
+							uuid: uuid,
+							name: uploadFile.name,
+							size: uploadFile.size,
+							todo: 'edit',
+							progress: 100,
+							path: path,
+							file: uploadFile,
+							ready: 1,
+						},
+					});
+
+					if (!writeSocket) {
+						dispatch(
+							createNewWebsocket({
+								token: userTicket.access_token, // connection info
+								host: corServer.host,
+								port: corServer.port,
+								user: correspondedIdentity.user,
+								password: correspondedIdentity.password,
+								todo: 'write',
+								uuid: uuid,
+							}),
+						);
+					}
 
 					break;
 				}
 				case 'sftp_edit_close': {
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'write',
-							uuid: uuid,
-						}),
-					);
 					dispatch({
 						type: PUSH_WRITE_LIST,
 						payload: {
@@ -143,6 +152,32 @@ const SavePopup = () => {
 							array: [{path, file: uploadFile, todo: 'edit'}],
 						},
 					});
+					dispatch({
+						type: ADD_HISTORY,
+						payload: {
+							uuid: uuid,
+							name: uploadFile.name,
+							size: uploadFile.size,
+							todo: 'edit',
+							progress: 100,
+							path: path,
+							file: uploadFile,
+							ready: 1,
+						},
+					});
+					if (!writeSocket) {
+						dispatch(
+							createNewWebsocket({
+								token: userTicket.access_token, // connection info
+								host: corServer.host,
+								port: corServer.port,
+								user: correspondedIdentity.user,
+								password: correspondedIdentity.password,
+								todo: 'write',
+								uuid: uuid,
+							}),
+						);
+					}
 					dispatch({
 						type: SAVE_TEXT,
 						payload: {uuid, text: editText},
@@ -169,6 +204,7 @@ const SavePopup = () => {
 			sftp_etcState,
 			sftp_pathState,
 			sftp_editState,
+			sftp_uploadState,
 			identity,
 			server,
 			closeModal,

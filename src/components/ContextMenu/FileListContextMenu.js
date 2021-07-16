@@ -107,6 +107,8 @@ const FileListContextMenu = ({uuid}) => {
 				type: PUSH_READ_LIST,
 				payload: {uuid, array: [{path, file: value, todo: 'edit'}]},
 			});
+		}
+		if (!readSocket) {
 			dispatch(
 				createNewWebsocket({
 					token: userTicket.access_token, // connection info
@@ -120,6 +122,7 @@ const FileListContextMenu = ({uuid}) => {
 			);
 		}
 	}, [
+		readSocket,
 		highlight,
 		dispatch,
 		uuid,

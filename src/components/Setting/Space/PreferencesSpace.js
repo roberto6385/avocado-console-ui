@@ -52,14 +52,15 @@ const PreferencesSpace = () => {
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
-	const {current: background_theme} = useRef([
+
+	const background_theme = [
 		{value: 0, label: t('light')},
 		{value: 1, label: t('dark')},
-	]);
-	const {current: languageOptions} = useRef([
+	];
+	const languageOptions = [
 		{value: 'en-US', label: t('en')},
 		{value: 'ko-KR', label: t('ko')},
-	]);
+	];
 
 	useEffect(() => {
 		dispatch({

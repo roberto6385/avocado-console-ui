@@ -55,7 +55,6 @@ function* sendCommand(action) {
 			switch (res.type) {
 				case REMOVE_NEW_WEBSOCKET_SUCCESS:
 					yield put({type: REMOVE_NEW_WEBSOCKET_SUCCESS});
-
 					break;
 
 				case WRITE_SUCCESS:
@@ -103,7 +102,6 @@ function* sendCommand(action) {
 		closeChannel(channel);
 		yield put({type: REMOVE_NEW_WEBSOCKET_FAILURE});
 	} finally {
-		console.log(payload);
 		payload.socket.close();
 		yield put({
 			type: SHIFT_SOCKETS,

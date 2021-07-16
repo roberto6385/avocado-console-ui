@@ -68,7 +68,6 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				if (lastSum !== 0) {
-					alert(lastSum);
 					yield put({
 						type: SHIFT_SOCKETS,
 						payload: {uuid: payload.uuid, todo: payload.todo},
@@ -127,7 +126,6 @@ function* sendCommand(action) {
 									size: payload.file.size,
 									todo: payload.todo,
 									progress: res.percent,
-									ready: payload.read_socket.readyState,
 								},
 							});
 						} else if (res.percent === 100) {
@@ -196,11 +194,6 @@ function* sendCommand(action) {
 
 function* watchSendCommand() {
 	yield takeLatest(READ_REQUEST, sendCommand);
-	// const reqChannel = yield actionChannel(READ_REQUEST);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// }
 }
 
 export default function* commandReadSaga() {

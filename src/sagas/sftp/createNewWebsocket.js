@@ -1,4 +1,15 @@
-import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	fork,
+	take,
+	put,
+	takeEvery,
+	takeLatest,
+	race,
+	delay,
+	throttle,
+} from 'redux-saga/effects';
 import {
 	CREATE_NEW_WEBSOCKET_FAILURE,
 	CREATE_NEW_WEBSOCKET_REQUEST,
@@ -10,6 +21,7 @@ import {createWebsocket} from './socket';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 import useSubscribe from '../../hooks/useSubscribe';
+import {closeChannel} from '../channel';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -30,6 +42,13 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
+			// const {timeout, data} = yield race({
+			// 	timeout: delay(4000),
+			// 	data: take(channel),
+			// });
+			// if (timeout) {
+			// 	closeChannel(channel);
+			// } else {
 			const data = yield take(channel);
 			const res = yield call(createNewSocketResponse, {data});
 
@@ -62,6 +81,7 @@ function* sendCommand(action) {
 					break;
 			}
 		}
+		// }
 	} catch (err) {
 		console.log(err);
 		yield put({
@@ -73,7 +93,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	yield takeEvery(CREATE_NEW_WEBSOCKET_REQUEST, sendCommand);
+	yield throttle(1000, CREATE_NEW_WEBSOCKET_REQUEST, sendCommand);
 }
 
 export default function* createWebsocketSaga() {

@@ -89,7 +89,7 @@ export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
 export const EDIT_PAUSED_LIST = 'history/EDIT_PAUSED_LIST';
 export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
-export const HISTORY_READY = 'history/HISTORY_READY';
+// export const HISTORY_READY = 'history/HISTORY_READY';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -525,13 +525,13 @@ const sftp = (state = initialState, action) =>
 				HISTORY_ID++;
 				break;
 
-			case HISTORY_READY: {
-				const index = history_plain.history.findIndex(
-					(v) => v === action.payload.history,
-				);
-				history_target.history[index].ready = 3;
-				break;
-			}
+			// case HISTORY_READY: {
+			// 	const index = history_plain.history.findIndex(
+			// 		(v) => v === action.payload.history,
+			// 	);
+			// 	history_target.history[index].ready = 3;
+			// 	break;
+			// }
 
 			case FIND_HISTORY: {
 				const index = history_target.history
@@ -545,9 +545,9 @@ const sftp = (state = initialState, action) =>
 					);
 				if (index !== -1) {
 					console.log(index);
-					history_target.history[
-						history_target.history.length - index - 1
-					].ready = action.payload.ready;
+					// history_target.history[
+					// 	history_target.history.length - index - 1
+					// ].ready = action.payload.ready;
 					history_target.history[
 						history_target.history.length - index - 1
 					].progress = action.payload.progress;

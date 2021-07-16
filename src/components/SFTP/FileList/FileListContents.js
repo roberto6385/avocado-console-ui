@@ -207,20 +207,31 @@ const FileListContents = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
-				dispatch(
-					createNewWebsocket({
-						token: userTicket.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
-						todo: 'read',
-						uuid: uuid,
-					}),
-				);
+
+				if (!readSocket) {
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: 'read',
+							uuid: uuid,
+						}),
+					);
+				}
 			}
 		},
-		[dispatch, uuid, path, userTicket, corServer, correspondedIdentity],
+		[
+			readSocket,
+			dispatch,
+			uuid,
+			path,
+			userTicket,
+			corServer,
+			correspondedIdentity,
+		],
 	);
 
 	const contextMenuOpen = useCallback(

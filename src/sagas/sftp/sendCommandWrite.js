@@ -51,7 +51,7 @@ function* sendCommand(action) {
 			length: payload.offset ? 0 : write_chunkSize,
 			uploadFile: payload.file,
 			completed: false,
-			mode: payload.offset ? 2 : 1,
+			mode: payload.offset && payload.offset !== 0 ? 2 : 1,
 		});
 
 		while (true) {
@@ -67,8 +67,6 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				if (lastSum !== 0) {
-					alert(lastSum);
-
 					yield put({
 						type: SHIFT_SOCKETS,
 						payload: {uuid: payload.uuid, todo: payload.todo},
@@ -82,7 +80,6 @@ function* sendCommand(action) {
 								todo: payload.todo,
 								path: payload.write_path,
 								file: payload.file,
-								// id: payload.historyId,
 							},
 						},
 					});
@@ -130,7 +127,6 @@ function* sendCommand(action) {
 									size: payload.file.size,
 									todo: payload.todo,
 									progress: res.percent,
-									ready: payload.write_socket.readyState,
 								},
 							});
 						} else if (res.percent === 100) {
@@ -176,16 +172,7 @@ function* sendCommand(action) {
 }
 
 function* watchSendCommand() {
-	// while (true) {
 	yield takeLatest(WRITE_REQUEST, sendCommand);
-	// }
-	// const reqChannel = yield actionChannel(WRITE_REQUEST);
-	// const writeChannel = yield actionChannel(WRITE_SUCCESS);
-	// while (true) {
-	// 	const action = yield take(reqChannel);
-	// 	yield call(sendCommand, action);
-	// 	yield take(writeChannel);
-	// }
 }
 
 export default function* commandWriteSaga() {
