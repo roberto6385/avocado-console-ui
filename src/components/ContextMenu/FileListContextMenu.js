@@ -18,7 +18,7 @@ const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {
 		path: sftp_pathState,
-		file: sftp_fileState,
+		high: sftp_highState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
@@ -27,8 +27,8 @@ const FileListContextMenu = ({uuid}) => {
 	);
 
 	const {highlight} = useMemo(
-		() => sftp_fileState.find((it) => it.uuid === uuid),
-		[sftp_fileState, uuid],
+		() => sftp_highState.find((it) => it.uuid === uuid),
+		[sftp_highState, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),

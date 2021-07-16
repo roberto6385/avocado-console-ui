@@ -184,7 +184,7 @@ const HistoryContents = ({uuid}) => {
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
 	);
-	const {readSocket} = useMemo(
+	const {readSocket, readList} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
@@ -234,9 +234,10 @@ const HistoryContents = ({uuid}) => {
 		};
 		document.body.removeChild(uploadInput);
 	}, [
-		writeSocket,
 		dispatch,
 		uuid,
+		writeSocket,
+		writeList,
 		path,
 		userTicket,
 		corServer,
@@ -370,11 +371,17 @@ const HistoryContents = ({uuid}) => {
 		[compareNumber, dispatch, history, history_highlight, uuid],
 	);
 
+	//TODO progress가 0인 히스토리 삭제 시 작업삭제
 	const removeHistory = useCallback(
 		(history) => () => {
+			if (history.progress === 0) {
+				console.log(history);
+				console.log(writeList);
+				console.log(readList);
+			}
 			dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
 		},
-		[dispatch, uuid],
+		[dispatch, readList, uuid, writeList],
 	);
 
 	const onPause = useCallback(

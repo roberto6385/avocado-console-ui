@@ -27,7 +27,7 @@ const SFTPContainer = ({uuid}) => {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 		delete: sftp_deleteState,
-		file: sftp_fileState,
+		high: sftp_highState,
 		socket: sftp_socketState,
 		etc: sftp_etcState,
 		history: sftp_historyState,
@@ -53,7 +53,7 @@ const SFTPContainer = ({uuid}) => {
 		pass: deletePass,
 	} = sftp_deleteState.find((it) => it.uuid === uuid);
 
-	const {highlight} = sftp_fileState.find((it) => it.uuid === uuid);
+	const {highlight} = sftp_highState.find((it) => it.uuid === uuid);
 	const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
 	const {mode} = sftp_etcState.find((it) => it.uuid === uuid);
 	const {history_highlight} = sftp_historyState.find(

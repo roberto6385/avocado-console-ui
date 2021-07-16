@@ -117,6 +117,7 @@ const FileListDropDown = ({uuid}) => {
 	const {
 		path: sftp_pathState,
 		file: sftp_fileState,
+		high: sftp_highState,
 		socket: sftp_socketState,
 		etc: sftp_etcState,
 		download: sftp_downloadState,
@@ -129,9 +130,13 @@ const FileListDropDown = ({uuid}) => {
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
-	const {fileList, highlight, tempFile} = useMemo(
+	const {fileList, tempFile} = useMemo(
 		() => sftp_fileState.find((it) => it.uuid === uuid),
 		[sftp_fileState, uuid],
+	);
+	const {highlight} = useMemo(
+		() => sftp_highState.find((it) => it.uuid === uuid),
+		[sftp_highState, uuid],
 	);
 	const {socket} = useMemo(
 		() => sftp_socketState.find((it) => it.uuid === uuid),

@@ -199,6 +199,7 @@ const initialState = {
 	history: [],
 	edit: [],
 	etc: [],
+	high: [],
 };
 
 // etc function
@@ -215,6 +216,7 @@ const sftp = (state = initialState, action) =>
 		const history_target = ObjFinder(draft.history, action.payload?.uuid);
 		const etc_target = ObjFinder(draft.etc, action.payload?.uuid);
 		const edit_target = ObjFinder(draft.edit, action.payload?.uuid);
+		const high_target = ObjFinder(draft.high, action.payload?.uuid);
 
 		const upload_target = ObjFinder(draft.upload, action.payload?.uuid);
 		const download_target = ObjFinder(draft.download, action.payload?.uuid);
@@ -270,8 +272,11 @@ const sftp = (state = initialState, action) =>
 				draft.file.push({
 					uuid: action.payload.uuid,
 					fileList: [],
-					highlight: [],
 					tempFile: null,
+				});
+				draft.high.push({
+					uuid: action.payload.uuid,
+					highlight: [],
 				});
 				draft.history.push({
 					uuid: action.payload.uuid,
@@ -369,7 +374,7 @@ const sftp = (state = initialState, action) =>
 				break;
 			case CD_SUCCESS:
 				// draft.loading = false;
-				file_target.highlight = [];
+				high_target.highlight = [];
 
 				break;
 			case CD_FAILURE:
@@ -380,7 +385,7 @@ const sftp = (state = initialState, action) =>
 			case CHANGE_MODE:
 				etc_target.mode = action.payload.mode;
 				etc_target.prevMode = action.payload.currentMode;
-				file_target.highlight = [];
+				high_target.highlight = [];
 				break;
 
 			// 텍스트 저장
@@ -409,7 +414,7 @@ const sftp = (state = initialState, action) =>
 				break;
 			// 하이라이팅
 			case ADD_HIGHLIGHT:
-				file_target.highlight.push(action.payload.item);
+				high_target.highlight.push(action.payload.item);
 				break;
 
 			case TEMP_HIGHLIGHT: //O
@@ -423,22 +428,24 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case INITIALIZING_HIGHLIGHT:
-				file_target.highlight = [];
+				high_target.highlight = [];
 				break;
 
 			case ADD_ONE_HIGHLIGHT:
-				file_target.highlight?.splice(
+				high_target.highlight?.splice(
 					0,
 					Number.MAX_VALUE,
 					action.payload.item,
 				);
 				break;
 			case REMOVE_HIGHLIGHT:
-				file_target.highlight = file_plain.highlight.filter(
-					(v) =>
-						JSON.stringify(v) !==
-						JSON.stringify(action.payload.item),
-				);
+				high_target.highlight = high_target.highlight
+					.slice()
+					.filter(
+						(v) =>
+							JSON.stringify(v) !==
+							JSON.stringify(action.payload.item),
+					);
 				break;
 
 			//--//
@@ -652,6 +659,7 @@ const sftp = (state = initialState, action) =>
 			case PUSH_INIT_DELETE_WORK_LIST:
 				delete_target.initList = action.payload.list;
 				delete_target.initPath = action.payload.path;
+				high_target.highlight = [];
 				break;
 
 			case INIT_DELETE_WORK_LIST:

@@ -34,7 +34,7 @@ const InputPopup = () => {
 	const {
 		socket: sftp_socketState,
 		path: sftp_pathState,
-		file: sftp_fileState,
+		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const theme = useSelector((state) => state.common.theme);
@@ -61,7 +61,7 @@ const InputPopup = () => {
 			const uuid = input_popup.uuid;
 			const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
 			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
-			const {highlight} = sftp_fileState.find((it) => it.uuid === uuid);
+			const {highlight} = sftp_highState.find((it) => it.uuid === uuid);
 
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
@@ -112,7 +112,7 @@ const InputPopup = () => {
 			input_popup,
 			sftp_socketState,
 			sftp_pathState,
-			sftp_fileState,
+			sftp_highState,
 			closeModal,
 			dispatch,
 			formValue,
@@ -124,19 +124,19 @@ const InputPopup = () => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
 				if (input_popup.key === 'sftp_rename_file_folder') {
-					const {highlight} = sftp_fileState.find(
+					const {highlight} = sftp_highState.find(
 						(it) => it.uuid === input_popup.uuid,
 					);
 					await setFormValue(highlight[0].name);
 				} else {
-					await setFormValue('');
+					// await setFormValue('');
 				}
 				await inputRef.current?.select();
 				await inputRef.current?.focus();
 			}
 		};
 		fillInForm();
-	}, [inputRef, input_popup, setFormValue, sftp_fileState]);
+	}, [inputRef, input_popup, setFormValue, sftp_highState]);
 
 	return (
 		<_PopupModal

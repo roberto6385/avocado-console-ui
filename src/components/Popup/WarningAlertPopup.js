@@ -56,7 +56,7 @@ const WarningAlertPopup = () => {
 	const {
 		history: sftp_historyState,
 		delete: sftp_deleteState,
-		file: sftp_fileState,
+		high: sftp_highState,
 		path: sftp_pathState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
@@ -90,7 +90,7 @@ const WarningAlertPopup = () => {
 					const {removeSocket, incinerator} = sftp_deleteState.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
-					const {highlight} = sftp_fileState.find(
+					const {highlight} = sftp_highState.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
 					const {path} = sftp_pathState.find(
