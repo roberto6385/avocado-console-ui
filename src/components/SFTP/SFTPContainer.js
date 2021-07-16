@@ -110,7 +110,7 @@ const SFTPContainer = ({uuid}) => {
 			dispatch(
 				commandReadAction({
 					socket: socket,
-					read_socket: value.todo === 'read' ? readSocket : socket,
+					read_socket: readSocket,
 					uuid: uuid,
 					read_path: value.path,
 					file: value.file,

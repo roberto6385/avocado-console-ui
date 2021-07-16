@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -380,9 +380,8 @@ const HistoryContents = ({uuid}) => {
 
 	const onPause = useCallback(
 		(history) => (e) => {
-			e.stopPropagation();
 			console.log(history);
-			if (history.progress !== 100) {
+			if (history.progress !== 100 && history.progress !== 0) {
 				if (
 					(history.todo === 'read' && readSocket) ||
 					(history.todo === 'write' && writeSocket)
@@ -413,86 +412,59 @@ const HistoryContents = ({uuid}) => {
 						}),
 					);
 				} else {
-					if (
-						(history.todo === 'read' && downPass) ||
-						(history.todo === 'write' && upPass)
-					) {
-						let item = pause
-							.slice()
-							.find(
-								(v) =>
-									v.file === history.file &&
-									v.path === history.path &&
-									v.todo === history.todo,
-							);
+					let item = pause
+						.slice()
+						.find(
+							(v) =>
+								v.file === history.file &&
+								v.path === history.path &&
+								v.todo === history.todo,
+						);
 
-						if (history.progress === 0) {
-							item = {
-								file: history.file,
-								path: history.path,
-								todo: history.todo,
-								offset: 0,
-							};
-						}
-						if (!item || item.offset === prevOffset) return;
-						setPrevOffset(item.offset);
+					console.log(item);
+					console.log(prevOffset);
 
-						dispatch({
-							type:
-								history.todo === 'write'
-									? PUSH_PAUSE_WRITE_LIST
-									: PUSH_PAUSE_READ_LIST,
-							payload: {
-								uuid,
-								array: {...item},
-							},
-						});
+					if (!item || item.offset === prevOffset) return;
+					setPrevOffset(item.offset);
+					console.log('in');
 
-						if (history.todo === 'write') {
-							if (!writeSocket) {
-								dispatch(
-									createNewWebsocket({
-										token: userTicket.access_token, // connection info
-										host: corServer.host,
-										port: corServer.port,
-										user: correspondedIdentity.user,
-										password: correspondedIdentity.password,
-										todo: history.todo,
-										uuid: uuid,
-									}),
-								);
-							}
-						} else if (history.todo === 'read') {
-							if (!readSocket) {
-								dispatch(
-									createNewWebsocket({
-										token: userTicket.access_token, // connection info
-										host: corServer.host,
-										port: corServer.port,
-										user: correspondedIdentity.user,
-										password: correspondedIdentity.password,
-										todo: history.todo,
-										uuid: uuid,
-									}),
-								);
-							}
-						}
-					}
+					dispatch({
+						type:
+							history.todo === 'write'
+								? PUSH_PAUSE_WRITE_LIST
+								: PUSH_PAUSE_READ_LIST,
+						payload: {
+							uuid,
+							array: {...item},
+						},
+					});
+
+					dispatch(
+						createNewWebsocket({
+							token: userTicket.access_token, // connection info
+							host: corServer.host,
+							port: corServer.port,
+							user: correspondedIdentity.user,
+							password: correspondedIdentity.password,
+							todo: history.todo,
+							uuid: uuid,
+						}),
+					);
 				}
 			}
 		},
 		[
 			readSocket,
 			writeSocket,
-			corServer,
-			correspondedIdentity,
 			dispatch,
+			uuid,
 			path,
+			sftp_socket,
 			pause,
 			prevOffset,
-			sftp_socket,
 			userTicket,
-			uuid,
+			corServer,
+			correspondedIdentity,
 		],
 	);
 

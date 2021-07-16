@@ -76,8 +76,11 @@ function* sendCommand(action) {
 					break;
 
 				case READ_SUCCESS:
-					console.log('READ_SUCCESS!!!');
 					yield take(ADD_PAUSED_LIST);
+					yield call(messageSender, {
+						keyword: 'Disconnection',
+						ws: payload.socket,
+					});
 
 					// yield put({
 					// 	type: EDIT_PAUSED_LIST,

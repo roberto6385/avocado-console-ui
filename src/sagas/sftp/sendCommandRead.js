@@ -94,6 +94,8 @@ function* sendCommand(action) {
 				// const data = yield take(channel);
 				const res = yield call(readResponse, {data, payload, pass});
 				pass = false;
+				if (payload.read_socket.readyState === 3)
+					alert('socket close!');
 				console.log(res);
 				switch (res.type) {
 					case READ_SUCCESS:
