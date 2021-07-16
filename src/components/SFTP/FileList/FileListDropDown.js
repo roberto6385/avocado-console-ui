@@ -124,7 +124,7 @@ const FileListDropDown = ({uuid}) => {
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {readSocket} = useMemo(
+	const {readSocket, readList} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
@@ -355,6 +355,7 @@ const FileListDropDown = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
+				//TODO 편집은 나중에
 				if (!readSocket) {
 					dispatch(
 						createNewWebsocket({
@@ -405,7 +406,7 @@ const FileListDropDown = ({uuid}) => {
 						ready: 1,
 					},
 				});
-				if (!readSocket) {
+				if (!readSocket && readList.length === 0) {
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -421,6 +422,7 @@ const FileListDropDown = ({uuid}) => {
 			}
 		},
 		[
+			readList,
 			readSocket,
 			dispatch,
 			uuid,

@@ -68,7 +68,7 @@ const HistoryNav = ({uuid}) => {
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
 	);
-	const {writeSocket} = useMemo(
+	const {writeSocket, writeList} = useMemo(
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
 	);
@@ -104,7 +104,7 @@ const HistoryNav = ({uuid}) => {
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
-			if (!writeSocket) {
+			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -120,6 +120,7 @@ const HistoryNav = ({uuid}) => {
 		};
 		document.body.removeChild(uploadInput);
 	}, [
+		writeList,
 		writeSocket,
 		dispatch,
 		uuid,

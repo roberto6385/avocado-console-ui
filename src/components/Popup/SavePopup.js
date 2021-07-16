@@ -127,7 +127,7 @@ const SavePopup = () => {
 							ready: 1,
 						},
 					});
-
+					//TODO 편집은 나중에
 					if (!writeSocket) {
 						dispatch(
 							createNewWebsocket({
@@ -165,6 +165,7 @@ const SavePopup = () => {
 							ready: 1,
 						},
 					});
+					//TODO 편집은 나중에
 					if (!writeSocket) {
 						dispatch(
 							createNewWebsocket({

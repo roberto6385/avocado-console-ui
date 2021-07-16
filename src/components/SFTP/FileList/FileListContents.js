@@ -123,7 +123,7 @@ const FileListContents = ({uuid}) => {
 		() => sftp_fileState.find((it) => it.uuid === uuid),
 		[sftp_fileState, uuid],
 	);
-	const {readSocket} = useMemo(
+	const {readSocket, readList} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
@@ -173,7 +173,7 @@ const FileListContents = ({uuid}) => {
 						ready: 1,
 					},
 				});
-				if (!readSocket) {
+				if (!readSocket && readList.length === 0) {
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -189,6 +189,7 @@ const FileListContents = ({uuid}) => {
 			}
 		},
 		[
+			readList,
 			readSocket,
 			dispatch,
 			uuid,
@@ -207,7 +208,7 @@ const FileListContents = ({uuid}) => {
 					type: PUSH_READ_LIST,
 					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
 				});
-
+				//TODO 편집은 readList 나중에
 				if (!readSocket) {
 					dispatch(
 						createNewWebsocket({

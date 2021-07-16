@@ -180,11 +180,11 @@ const HistoryContents = ({uuid}) => {
 			),
 		[identity, corTab],
 	);
-	const {writeSocket, pass: upPass} = useMemo(
+	const {writeSocket, writeList} = useMemo(
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
 	);
-	const {readSocket, pass: downPass} = useMemo(
+	const {readSocket} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
@@ -219,7 +219,7 @@ const HistoryContents = ({uuid}) => {
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
-			if (!writeSocket) {
+			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -268,7 +268,7 @@ const HistoryContents = ({uuid}) => {
 				type: PUSH_WRITE_LIST,
 				payload: {uuid, array},
 			});
-			if (!writeSocket) {
+			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
 						token: userTicket.access_token, // connection info
@@ -283,6 +283,7 @@ const HistoryContents = ({uuid}) => {
 			}
 		},
 		[
+			writeList,
 			writeSocket,
 			dispatch,
 			uuid,
