@@ -70,7 +70,6 @@ const FileListContextMenu = ({uuid}) => {
 					progress: 0,
 					path: path,
 					file: value,
-					ready: 1,
 				},
 			});
 		}
@@ -119,7 +118,6 @@ const FileListContextMenu = ({uuid}) => {
 					progress: 0,
 					path: path,
 					file: value,
-					ready: 1,
 				},
 			});
 		}

@@ -55,6 +55,7 @@ const WarningAlertPopup = () => {
 		useSelector((state) => state.common, shallowEqual);
 	const {
 		history: sftp_historyState,
+		delete: sftp_deleteState,
 		file: sftp_fileState,
 		path: sftp_pathState,
 	} = useSelector((state) => state.sftp, shallowEqual);
@@ -86,7 +87,9 @@ const WarningAlertPopup = () => {
 			switch (warning_alert_popup.key) {
 				case 'sftp_delete_file_folder': {
 					const uuid = warning_alert_popup.uuid;
-
+					const {removeSocket, incinerator} = sftp_deleteState.find(
+						(it) => it.uuid === warning_alert_popup.uuid,
+					);
 					const {highlight} = sftp_fileState.find(
 						(it) => it.uuid === warning_alert_popup.uuid,
 					);
@@ -108,17 +111,19 @@ const WarningAlertPopup = () => {
 							it.key === corTab.server.key && it.checked === true,
 					);
 
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'remove',
-							uuid: uuid,
-						}),
-					);
+					if (!removeSocket && incinerator.length === 0) {
+						dispatch(
+							createNewWebsocket({
+								token: userTicket.access_token, // connection info
+								host: corServer.host,
+								port: corServer.port,
+								user: correspondedIdentity.user,
+								password: correspondedIdentity.password,
+								todo: 'remove',
+								uuid: uuid,
+							}),
+						);
+					}
 
 					break;
 				}
@@ -182,8 +187,6 @@ const WarningAlertPopup = () => {
 			closeModal,
 			clicked_server,
 			dispatch,
-			sftp_fileState,
-			sftp_pathState,
 			tab,
 			server,
 			identity,

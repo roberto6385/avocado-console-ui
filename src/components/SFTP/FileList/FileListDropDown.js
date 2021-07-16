@@ -366,10 +366,8 @@ const FileListDropDown = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: item,
-						ready: 1,
 					},
 				});
-				//TODO 편집은 나중에
 				if (!readSocket && readList.length === 0) {
 					dispatch(
 						createNewWebsocket({
@@ -418,7 +416,6 @@ const FileListDropDown = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: item,
-						ready: 1,
 					},
 				});
 				if (!readSocket && readList.length === 0) {

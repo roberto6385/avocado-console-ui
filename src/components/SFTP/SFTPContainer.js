@@ -14,11 +14,9 @@ import {
 	removeNewWebsocket,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
-	SHIFT_READ_LIST,
 	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
-import {put} from 'redux-saga/effects';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -46,7 +44,7 @@ const SFTPContainer = ({uuid}) => {
 		readSocket,
 		pass: downPass,
 	} = sftp_downloadState.find((it) => it.uuid === uuid);
-	const {incinerator, removeSockets, initList, initPath} =
+	const {incinerator, removeSocket, initList, initPath} =
 		sftp_deleteState.find((it) => it.uuid === uuid);
 
 	const {highlight} = sftp_fileState.find((it) => it.uuid === uuid);
@@ -167,12 +165,11 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (incinerator.length !== 0) {
 			const value = incinerator.slice().shift();
-			const remove_socket = removeSockets.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
 					commandRmAction({
 						socket: socket,
-						remove_socket: remove_socket,
+						remove_socket: removeSocket,
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
@@ -185,30 +182,28 @@ const SFTPContainer = ({uuid}) => {
 					}),
 				);
 			}
-			if (value.file.path) {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.file.name,
-						size: value.file.size,
-						todo: 'rm',
-						progress: 100,
-					},
-				});
-			}
 			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator, removeSockets, socket, path, uuid, dispatch]);
+	}, [incinerator, removeSocket, socket, path, uuid, dispatch]);
 
 	useEffect(() => {
-		if (removeSockets.length !== 0 && initList.length !== 0) {
-			const remove_socket = removeSockets.slice().shift();
-
+		if (removeSocket !== null && initList.length !== 0) {
 			const array = [];
 			for (let value of initList) {
 				if (value.name !== '.' && value.name !== '..') {
 					array.push({file: value, path: initPath});
+					dispatch({
+						type: ADD_HISTORY,
+						payload: {
+							uuid: uuid,
+							name: value.name,
+							size: value.size,
+							todo: 'rm',
+							progress: 0,
+							path: path,
+							file: value,
+						},
+					});
 				}
 			}
 			dispatch({
@@ -239,7 +234,7 @@ const SFTPContainer = ({uuid}) => {
 								: `${initPath}/${item.file.name}`;
 						dispatch(
 							searchDeleteListAction({
-								socket: remove_socket,
+								socket: removeSocket,
 								uuid: uuid,
 								delete_path: delete_path,
 							}),
@@ -248,7 +243,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [initList, initPath, dispatch, uuid, removeSockets]);
+	}, [initList, initPath, dispatch, uuid, removeSocket]);
 
 	return <SFTP uuid={uuid} />;
 };

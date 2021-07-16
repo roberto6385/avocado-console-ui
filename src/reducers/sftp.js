@@ -292,7 +292,7 @@ const sftp = (state = initialState, action) =>
 				});
 				draft.delete.push({
 					uuid: action.payload.uuid,
-					removeSockets: [],
+					removeSocket: null,
 					removeList: [],
 					incinerator: [],
 					initList: [],
@@ -527,14 +527,6 @@ const sftp = (state = initialState, action) =>
 				HISTORY_ID++;
 				break;
 
-			// case HISTORY_READY: {
-			// 	const index = history_plain.history.findIndex(
-			// 		(v) => v === action.payload.history,
-			// 	);
-			// 	history_target.history[index].ready = 3;
-			// 	break;
-			// }
-
 			case FIND_HISTORY: {
 				const index = history_target.history
 					.slice()
@@ -547,9 +539,6 @@ const sftp = (state = initialState, action) =>
 					);
 				if (index !== -1) {
 					console.log(index);
-					// history_target.history[
-					// 	history_target.history.length - index - 1
-					// ].ready = action.payload.ready;
 					history_target.history[
 						history_target.history.length - index - 1
 					].progress = action.payload.progress;
@@ -577,8 +566,8 @@ const sftp = (state = initialState, action) =>
 					upload_target.writeSocket = action.payload.socket;
 				if (action.payload.todo === 'read')
 					download_target.readSocket = action.payload.socket;
-				action.payload.todo === 'remove' &&
-					delete_target.removeSockets.push(action.payload.socket);
+				if (action.payload.todo === 'remove')
+					delete_target.removeSocket = action.payload.socket;
 				break;
 
 			case SHIFT_SOCKETS:
@@ -587,7 +576,7 @@ const sftp = (state = initialState, action) =>
 				if (action.payload.todo === 'read')
 					download_target.readSocket = null;
 				if (action.payload.todo === 'remove')
-					delete_target.removeSockets.shift();
+					delete_target.removeSocket = null;
 				break;
 			// read, write, remove
 			case PUSH_READ_LIST:

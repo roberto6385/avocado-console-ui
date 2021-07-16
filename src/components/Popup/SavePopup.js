@@ -26,7 +26,6 @@ import {
 	CLOSE_EDITOR,
 	createNewWebsocket,
 	PUSH_EDIT_WRITE_LIST,
-	PUSH_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 
@@ -125,7 +124,6 @@ const SavePopup = () => {
 							progress: 100,
 							path: path,
 							file: uploadFile,
-							ready: 1,
 						},
 					});
 					//TODO 편집은 나중에
@@ -163,7 +161,6 @@ const SavePopup = () => {
 							progress: 100,
 							path: path,
 							file: uploadFile,
-							ready: 1,
 						},
 					});
 					//TODO 편집은 나중에

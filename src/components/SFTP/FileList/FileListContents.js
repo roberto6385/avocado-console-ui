@@ -171,7 +171,6 @@ const FileListContents = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: item,
-						ready: 1,
 					},
 				});
 				if (!readSocket && readList.length === 0) {
@@ -219,7 +218,6 @@ const FileListContents = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: item,
-						ready: 1,
 					},
 				});
 

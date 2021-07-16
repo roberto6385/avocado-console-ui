@@ -211,7 +211,6 @@ const HistoryContents = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: value,
-						ready: 1,
 					},
 				});
 			}
@@ -259,7 +258,6 @@ const HistoryContents = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: value,
-						ready: 1,
 					},
 				});
 				console.log(value);
