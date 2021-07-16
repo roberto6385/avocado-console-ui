@@ -9,12 +9,22 @@ export function lsSearchResponse({data}) {
 				const response = message.getResponse();
 				console.log(response);
 				console.log('response status: ', response.getStatus());
+				console.log(response.getResponseCase());
+				console.log(
+					response.getResponseCase() ===
+						SFTP.Response.ResponseCase.COMMAND,
+				);
 
 				if (
 					response.getResponseCase() ===
 					SFTP.Response.ResponseCase.COMMAND
 				) {
 					const command = response.getCommand();
+					console.log(command.getCommandCase());
+					console.log(
+						command.getCommandCase() ===
+							SFTP.CommandResponse.CommandCase.LS,
+					);
 					if (
 						command.getCommandCase() ===
 						SFTP.CommandResponse.CommandCase.LS

@@ -6,6 +6,7 @@ import {
 	commandReadAction,
 	commandRmAction,
 	commandWriteAction,
+	DELETE_PASS,
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
@@ -44,8 +45,13 @@ const SFTPContainer = ({uuid}) => {
 		readSocket,
 		pass: downPass,
 	} = sftp_downloadState.find((it) => it.uuid === uuid);
-	const {incinerator, removeSocket, initList, initPath} =
-		sftp_deleteState.find((it) => it.uuid === uuid);
+	const {
+		incinerator,
+		removeSocket,
+		initList,
+		initPath,
+		pass: deletePass,
+	} = sftp_deleteState.find((it) => it.uuid === uuid);
 
 	const {highlight} = sftp_fileState.find((it) => it.uuid === uuid);
 	const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
@@ -163,7 +169,8 @@ const SFTPContainer = ({uuid}) => {
 	}, [upPass, writeList, writeSocket, socket, uuid, dispatch]);
 
 	useEffect(() => {
-		if (incinerator.length !== 0) {
+		if (incinerator.length !== 0 && removeSocket !== null) {
+			if (!deletePass) return;
 			const value = incinerator.slice().shift();
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
@@ -174,6 +181,7 @@ const SFTPContainer = ({uuid}) => {
 						file: value.file,
 						rm_path: value.path,
 						path: path,
+						todo: 'rm',
 						keyword:
 							value.file.type === 'file'
 								? 'CommandByRm'
@@ -181,10 +189,10 @@ const SFTPContainer = ({uuid}) => {
 						dispatch: dispatch,
 					}),
 				);
+				dispatch({type: DELETE_PASS, payload: {uuid}});
 			}
-			dispatch({type: SHIFT_INCINERATOR_LIST, payload: {uuid}});
 		}
-	}, [incinerator, removeSocket, socket, path, uuid, dispatch]);
+	}, [deletePass, incinerator, removeSocket, socket, path, uuid, dispatch]);
 
 	useEffect(() => {
 		if (removeSocket !== null && initList.length !== 0) {
@@ -243,7 +251,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [initList, initPath, dispatch, uuid, removeSocket]);
+	}, [initList, initPath, dispatch, uuid, removeSocket, path]);
 
 	return <SFTP uuid={uuid} />;
 };

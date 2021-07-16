@@ -23,6 +23,7 @@ export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
+export const DELETE_PASS = 'sftp/DELETE_PASS';
 
 export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
 export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
@@ -297,6 +298,7 @@ const sftp = (state = initialState, action) =>
 					incinerator: [],
 					initList: [],
 					initPath: '',
+					pass: true,
 				});
 				draft.edit.push({
 					uuid: action.payload.uuid,
@@ -597,6 +599,9 @@ const sftp = (state = initialState, action) =>
 			case WRITE_PASS:
 				upload_target.pass = false;
 				break;
+			case DELETE_PASS:
+				delete_target.pass = false;
+				break;
 
 			case READ_PASS:
 				download_target.pass = false;
@@ -623,6 +628,8 @@ const sftp = (state = initialState, action) =>
 
 			case SHIFT_INCINERATOR_LIST:
 				delete_target.incinerator.shift();
+				delete_target.pass = true;
+
 				break;
 
 			case DELETE_WORK_TRANSPORTER:

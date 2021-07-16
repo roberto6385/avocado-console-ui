@@ -10,11 +10,13 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandPwdAction,
+	FIND_HISTORY,
 	INITIALIZING_HIGHLIGHT,
 	removeNewWebsocket,
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,
+	SHIFT_INCINERATOR_LIST,
 	SHIFT_SOCKETS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
@@ -59,6 +61,8 @@ function* sendCommand(action) {
 				yield put(
 					removeNewWebsocket({
 						socket: payload.remove_socket,
+						todo: 'rm',
+						uuid: payload,
 					}),
 				);
 				yield put({
@@ -84,6 +88,28 @@ function* sendCommand(action) {
 				console.log(res);
 				switch (res.type) {
 					case RM_SUCCESS:
+						console.log({
+							uuid: payload.uuid,
+							name: payload.file.name,
+							size: payload.file.size,
+							todo: payload.todo,
+							progress: 100,
+						});
+						yield put({
+							type: FIND_HISTORY,
+							payload: {
+								uuid: payload.uuid,
+								name: payload.file.name,
+								size: payload.file.size,
+								todo: payload.todo,
+								progress: 100,
+							},
+						});
+						yield put({
+							type: SHIFT_INCINERATOR_LIST,
+							payload: {uuid: payload.uuid},
+						});
+
 						if (payload.path === payload.rm_path) {
 							console.log(payload.path);
 							console.log(payload.rm_path);
