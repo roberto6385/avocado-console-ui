@@ -132,6 +132,41 @@ function* sendCommand(action) {
 							});
 						} else if (res.percent === 100) {
 							lastSum = 0;
+							if (payload.todo === 'edit') {
+								yield put({
+									type: SAVE_TEXT,
+									payload: {
+										uuid: payload.uuid,
+										text: res.text,
+									},
+								});
+
+								yield put({
+									type: SAVE_EDITTEXT,
+									payload: {
+										uuid: payload.uuid,
+										editText: res.text,
+									},
+								});
+
+								yield put({
+									type: SAVE_FILE_FOR_EDIT,
+									payload: {
+										uuid: payload.uuid,
+										editFile: payload.file,
+									},
+								});
+
+								yield put({
+									type: CHANGE_MODE,
+									payload: {
+										uuid: payload.uuid,
+										mode: 'edit',
+										currentMode: payload.mode,
+									},
+								});
+							}
+
 							yield put({
 								type: SHIFT_READ_LIST,
 								payload: {uuid: payload.uuid},
@@ -148,38 +183,6 @@ function* sendCommand(action) {
 									},
 								},
 							});
-
-							if (payload.todo === 'edit') {
-								yield put({
-									type: SAVE_TEXT,
-									payload: {
-										uuid: payload.uuid,
-										text: res.text,
-									},
-								});
-								yield put({
-									type: SAVE_EDITTEXT,
-									payload: {
-										uuid: payload.uuid,
-										editText: res.text,
-									},
-								});
-								yield put({
-									type: SAVE_FILE_FOR_EDIT,
-									payload: {
-										uuid: payload.uuid,
-										editFile: payload.file,
-									},
-								});
-								yield put({
-									type: CHANGE_MODE,
-									payload: {
-										uuid: payload.uuid,
-										mode: 'edit',
-										currentMode: payload.mode,
-									},
-								});
-							}
 						}
 						break;
 

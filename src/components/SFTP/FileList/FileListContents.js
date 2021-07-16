@@ -13,6 +13,7 @@ import {
 	commandCdAction,
 	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
+	PUSH_EDIT_READ_LIST,
 	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
@@ -205,11 +206,25 @@ const FileListContents = ({uuid}) => {
 			console.log(item);
 			if (item.name !== '..' && item.type !== 'directory') {
 				dispatch({
-					type: PUSH_READ_LIST,
-					payload: {uuid, array: [{path, file: item, todo: 'edit'}]},
+					type: PUSH_EDIT_READ_LIST,
+					payload: {uuid, obj: {path, file: item, todo: 'edit'}},
 				});
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: item.name,
+						size: item.size,
+						todo: 'edit',
+						progress: 0,
+						path: path,
+						file: item,
+						ready: 1,
+					},
+				});
+
 				//TODO 편집은 readList 나중에
-				if (!readSocket) {
+				if (!readSocket && readList.length === 0) {
 					dispatch(
 						createNewWebsocket({
 							token: userTicket.access_token, // connection info
@@ -225,6 +240,7 @@ const FileListContents = ({uuid}) => {
 			}
 		},
 		[
+			readList,
 			readSocket,
 			dispatch,
 			uuid,

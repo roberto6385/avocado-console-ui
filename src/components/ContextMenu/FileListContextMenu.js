@@ -9,6 +9,7 @@ import {ContextMenu} from '../../styles/default';
 import {
 	ADD_HISTORY,
 	createNewWebsocket,
+	PUSH_EDIT_READ_LIST,
 	PUSH_READ_LIST,
 } from '../../reducers/sftp';
 
@@ -105,12 +106,25 @@ const FileListContextMenu = ({uuid}) => {
 	const contextEdit = useCallback(() => {
 		for (let value of highlight) {
 			dispatch({
-				type: PUSH_READ_LIST,
-				payload: {uuid, array: [{path, file: value, todo: 'edit'}]},
+				type: PUSH_EDIT_READ_LIST,
+				payload: {uuid, obj: {path, file: value, todo: 'edit'}},
+			});
+			dispatch({
+				type: ADD_HISTORY,
+				payload: {
+					uuid: uuid,
+					name: value.name,
+					size: value.size,
+					todo: 'edit',
+					progress: 0,
+					path: path,
+					file: value,
+					ready: 1,
+				},
 			});
 		}
 		//TODO 편집은 나중에
-		if (!readSocket) {
+		if (!readSocket && readList.length === 0) {
 			dispatch(
 				createNewWebsocket({
 					token: userTicket.access_token, // connection info
@@ -124,6 +138,7 @@ const FileListContextMenu = ({uuid}) => {
 			);
 		}
 	}, [
+		readList,
 		readSocket,
 		highlight,
 		dispatch,

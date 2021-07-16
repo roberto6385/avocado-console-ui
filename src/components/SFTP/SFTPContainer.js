@@ -14,9 +14,11 @@ import {
 	removeNewWebsocket,
 	searchDeleteListAction,
 	SHIFT_INCINERATOR_LIST,
+	SHIFT_READ_LIST,
 	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
+import {put} from 'redux-saga/effects';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();

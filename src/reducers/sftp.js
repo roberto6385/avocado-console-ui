@@ -72,9 +72,11 @@ export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
+export const PUSH_EDIT_READ_LIST = 'sftp/PUSH_EDIT_READ_LIST';
 export const PUSH_PAUSE_READ_LIST = 'sftp/PUSH_PAUSE_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
 export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
+export const PUSH_EDIT_WRITE_LIST = 'sftp/PUSH_EDIT_WRITE_LIST';
 export const PUSH_PAUSE_WRITE_LIST = 'sftp/PUSH_PAUSE_WRITE_LIST';
 export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
@@ -593,6 +595,11 @@ const sftp = (state = initialState, action) =>
 					action.payload.array,
 				);
 				break;
+
+			case PUSH_EDIT_READ_LIST:
+				download_target.readList.splice(1, 0, action.payload.obj);
+
+				break;
 			case SHIFT_READ_LIST:
 				download_target.readList.shift();
 				download_target.pass = true;
@@ -610,6 +617,9 @@ const sftp = (state = initialState, action) =>
 				upload_target.writeList = upload_plain.writeList.concat(
 					action.payload.array,
 				);
+				break;
+			case PUSH_EDIT_WRITE_LIST:
+				upload_target.writeList.splice(1, 0, action.payload.obj);
 				break;
 			case PUSH_PAUSE_WRITE_LIST:
 				upload_target.writeList.unshift(action.payload.array);

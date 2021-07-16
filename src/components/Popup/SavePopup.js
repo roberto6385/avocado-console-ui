@@ -25,6 +25,7 @@ import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
 	createNewWebsocket,
+	PUSH_EDIT_WRITE_LIST,
 	PUSH_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
@@ -89,7 +90,7 @@ const SavePopup = () => {
 			const {editText, editFile} = sftp_editState.find(
 				(it) => it.uuid === uuid,
 			);
-			const {writeSocket} = sftp_uploadState.find(
+			const {writeSocket, writeList} = sftp_uploadState.find(
 				(it) => it.uuid === uuid,
 			);
 			const correspondedIdentity = identity.find(
@@ -104,10 +105,10 @@ const SavePopup = () => {
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
 					dispatch({
-						type: PUSH_WRITE_LIST,
+						type: PUSH_EDIT_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile, todo: 'edit'}],
+							obj: {path, file: uploadFile, todo: 'edit'},
 						},
 					});
 					dispatch({
@@ -128,7 +129,7 @@ const SavePopup = () => {
 						},
 					});
 					//TODO 편집은 나중에
-					if (!writeSocket) {
+					if (!writeSocket && writeList.length === 0) {
 						dispatch(
 							createNewWebsocket({
 								token: userTicket.access_token, // connection info
@@ -146,10 +147,10 @@ const SavePopup = () => {
 				}
 				case 'sftp_edit_close': {
 					dispatch({
-						type: PUSH_WRITE_LIST,
+						type: PUSH_EDIT_WRITE_LIST,
 						payload: {
 							uuid,
-							array: [{path, file: uploadFile, todo: 'edit'}],
+							obj: {path, file: uploadFile, todo: 'edit'},
 						},
 					});
 					dispatch({
@@ -166,7 +167,7 @@ const SavePopup = () => {
 						},
 					});
 					//TODO 편집은 나중에
-					if (!writeSocket) {
+					if (!writeSocket && writeList.length === 0) {
 						dispatch(
 							createNewWebsocket({
 								token: userTicket.access_token, // connection info

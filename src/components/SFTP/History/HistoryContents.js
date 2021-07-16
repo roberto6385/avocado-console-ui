@@ -384,7 +384,8 @@ const HistoryContents = ({uuid}) => {
 			console.log(history);
 			if (history.progress !== 100 && history.progress !== 0) {
 				if (
-					(history.todo === 'read' && readSocket) ||
+					((history.todo === 'read' || history.todo === 'edit') &&
+						readSocket) ||
 					(history.todo === 'write' && writeSocket)
 				) {
 					if (history.todo === 'write') {
