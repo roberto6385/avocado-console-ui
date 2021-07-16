@@ -11,11 +11,21 @@ export const REFRESH_USER_TICKET_SUCCESS =
 export const REFRESH_USER_TICKET_FAILURE =
 	'userTicket/GET_REFRESH_TICKET_FAILURE';
 
-export const REVOKE_USER_TICKET = 'userTicket/REVOKE_USER_TICKET';
+export const REVOKE_USER_TICKET_REQUEST =
+	'userTicket/REVOKE_USER_TICKET_REQUEST';
+export const REVOKE_USER_TICKET_SUCCESS =
+	'userTicket/REVOKE_USER_TICKET_SUCCESS';
+export const REVOKE_USER_TICKET_FAILURE =
+	'userTicket/GET_REVOKE_TICKET_FAILURE';
 
 //  actions
 export const getUserTicket = (params) => ({
 	type: GET_USER_TICKET_REQUEST,
+	params,
+});
+
+export const revokeUserTicket = (params) => ({
+	type: REVOKE_USER_TICKET_REQUEST,
 	params,
 });
 
@@ -53,10 +63,18 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = false;
 				break;
 
-			case REVOKE_USER_TICKET:
+			case REVOKE_USER_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case REVOKE_USER_TICKET_SUCCESS:
+				draft.loading = false;
 				draft.userTicket = null;
 				draft.userInfo = null;
 				break;
+			case REVOKE_USER_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
 			default:
 				return state;
 		}

@@ -22,12 +22,10 @@ import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import RefreshPopup from './components/Popup/RefreshPopup';
-import {getRevoke} from './reducers/auth/revoke';
-import {LOGOUT} from './reducers/user';
+
 import {
-	REFRESH_USER_TICKET_FAILURE,
+	revokeUserTicket,
 	REFRESH_USER_TICKET_REQUEST,
-	REFRESH_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import base64 from 'base-64';
 
@@ -36,46 +34,46 @@ const App = () => {
 	const {userTicket} = useSelector((state) => state.userTicket);
 
 	const handleOnIdle = useCallback(() => {
+		// console.log('stop');
 		sessionStorage.setItem('lastTouchTime', getLastActiveTime());
 	}, []);
 
 	const handleOnActive = useCallback(() => {
-		//다시 움직이기 시작
+		//after idle time, user is online
 		if (userTicket) {
 			dispatch(
-				getRevoke({
+				revokeUserTicket({
 					Authorization: 'Bearer ' + userTicket.access_token,
 				}),
 			);
 			sessionStorage.clear();
-			window.location.reload();
 		}
 	}, [userTicket]);
 
 	const handleOnAction = useCallback(() => {
-		// sessionStorage.setItem('lastTouchTime', Date.now());
-		// if (userTicket.userTicket) {
-		// 	if (
-		// 		Date.now() - userTicket.expires_in * 1000 + 50 * 60 * 1000 >
-		// 		Date.parse(userTicket.create_date)
-		// 	) {
-		// 		const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-		//
-		// 		dispatch({
-		// 			type: REFRESH_USER_TICKET_REQUEST,
-		// 			params: {
-		// 				refresh_token: userTicket.refresh_token,
-		// 				Authorization: 'Basic ' + encodeData,
-		// 			},
-		// 		});
-		//
-		// 		console.log('HERE');
-		// 	}
-		// }
+		sessionStorage.setItem('lastTouchTime', Date.now());
+		if (userTicket) {
+			//from 10 min before expire token
+			if (
+				Date.now() - userTicket.expires_in * 1000 + 50 * 60 * 1000 >
+				Date.parse(userTicket.create_date)
+			) {
+				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
+
+				dispatch({
+					type: REFRESH_USER_TICKET_REQUEST,
+					params: {
+						refresh_token: userTicket.refresh_token,
+						Authorization: 'Basic ' + encodeData,
+					},
+				});
+			}
+		}
 	}, [userTicket]);
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
+		// timeout: 3000,
 		onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,

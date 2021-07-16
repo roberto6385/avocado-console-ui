@@ -6,8 +6,8 @@ import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {fontColor, tabColor} from '../../styles/color';
 import SFTPNav from './SFTPNav';
-import HistoryContents from './History/HistoryContents';
-import FileListContents from './FileList/FileListContents';
+import History from './History/History';
+import FileList from './FileList/FileList';
 import FileListDropDown from './FileList/FileListDropDown';
 
 const _Container = styled.div`
@@ -92,11 +92,11 @@ const SFTP = ({uuid}) => {
 			</SFTPNavContainer>
 			<_SFTP theme_value={theme} className={!toggle && 'close-nav-sftp'}>
 				{mode === 'list' ? (
-					<FileListContents uuid={uuid} />
+					<FileList uuid={uuid} />
 				) : (
 					<FileListDropDown uuid={uuid} />
 				)}
-				<HistoryContents uuid={uuid} />
+				<History uuid={uuid} />
 			</_SFTP>
 		</_Container>
 	);
