@@ -47,20 +47,9 @@ export const ServerItem = styled(Nav.Item)`
 		props.clicked
 			? navHighColor[props.theme_value]
 			: navColor[props.theme_value]};
-	.bookmark_button {
-		display: none;
-	}
-	.active {
-		display: block;
-	}
-	&:hover {
-		.bookmark_button {
-			display: block;
-		}
-	}
 `;
 
-const Server = ({data, indent}) => {
+const FavoritesServer = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity, favorites} = useSelector(
 		(state) => state.common,
@@ -229,24 +218,6 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-					<ClickableIconButton
-						className={
-							favorites.includes(data)
-								? 'bookmark_button active'
-								: 'bookmark_button'
-						}
-						size={'sm'}
-						margin_right={'0px'}
-						theme_value={theme}
-						onClick={handleBookmark}
-						color={
-							favorites.includes(data)
-								? activeColor[theme]
-								: undefined
-						}
-					>
-						{starIcon}
-					</ClickableIconButton>
 				</FolderServerTitle>
 			</ServerItem>
 			<ServerContextMenu
@@ -258,9 +229,9 @@ const Server = ({data, indent}) => {
 	);
 };
 
-Server.propTypes = {
+FavoritesServer.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default Server;
+export default FavoritesServer;

@@ -12,6 +12,7 @@ export const initialState = {
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
+	favorites: [],
 	nav: [
 		{
 			type: 'folder',
@@ -498,6 +499,20 @@ const reducer = (state = initialState, action) => {
 					state.nav,
 					action.data.key,
 				);
+				const index = draft.favorites.findIndex(
+					(v) => JSON.stringify(v) === JSON.stringify(action.data),
+				);
+				console.log(index);
+				if (index === -1) {
+					// not exist
+					draft.favorites.push(action.data);
+				} else {
+					//
+					draft.favorites = state.favorites.filter(
+						(v) =>
+							JSON.stringify(v) !== JSON.stringify(action.data),
+					);
+				}
 				console.log(parent);
 				break;
 			}

@@ -39,6 +39,7 @@ import {
 import LightModeLogo from '../images/logo@2x.png';
 import DarkModeLogo from '../images/logo_white@3x.png';
 import {ClickableIconButton, IconBox} from '../styles/button';
+import FavoriteList from './ServerFolderList/FavoritesList';
 
 const floatings = [lghtFloatingButton, drkFloatingButton];
 
@@ -304,7 +305,7 @@ const Nav = ({toggle, setToggle}) => {
 						</_Form>
 						<_AddButton theme_value={theme}>{plusIcon}</_AddButton>
 					</_FormContainer>
-					<ServerFolderList search={search} />
+					<FavoriteList search={search} />
 				</>
 			)}
 
