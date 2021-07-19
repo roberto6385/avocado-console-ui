@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
-import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
+import {
+	OPEN_ADD_FAVORITES_FORM_POPUP,
+	OPEN_ADD_SERVER_FORM_POPUP,
+} from '../reducers/popup';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import drkFloatingButton from '../images/drk_floating button.png';
 import lghtFloatingButton from '../images/lght_floating button.png';
@@ -203,6 +206,10 @@ const Nav = ({toggle, setToggle}) => {
 		});
 	}, [dispatch]);
 
+	const newFavorites = useCallback(() => {
+		dispatch({type: OPEN_ADD_FAVORITES_FORM_POPUP});
+	}, [dispatch]);
+
 	const onClickOpenTggle = useCallback(() => {
 		setToggle(!toggle);
 	}, [setToggle, toggle]);
@@ -270,7 +277,10 @@ const Nav = ({toggle, setToggle}) => {
 			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
 				<>
 					<_FormContainer>
-						<_Form theme_value={theme}>
+						<_Form
+							theme_value={theme}
+							onSubmit={(e) => e.preventDefault()}
+						>
 							<IconBox theme_value={theme} margin_right={'6px'}>
 								{searchIcon}
 							</IconBox>
@@ -291,7 +301,10 @@ const Nav = ({toggle, setToggle}) => {
 			) : (
 				<>
 					<_FormContainer>
-						<_Form theme_value={theme}>
+						<_Form
+							theme_value={theme}
+							onSubmit={(e) => e.preventDefault()}
+						>
 							<IconBox theme_value={theme} margin_right={'6px'}>
 								{searchIcon}
 							</IconBox>
@@ -303,7 +316,9 @@ const Nav = ({toggle, setToggle}) => {
 								theme_value={theme}
 							/>
 						</_Form>
-						<_AddButton theme_value={theme}>{plusIcon}</_AddButton>
+						<_AddButton onClick={newFavorites} theme_value={theme}>
+							{plusIcon}
+						</_AddButton>
 					</_FormContainer>
 					<FavoriteList search={search} />
 				</>

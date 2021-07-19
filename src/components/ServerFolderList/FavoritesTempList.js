@@ -63,10 +63,10 @@ function searchTreeStart(root, name) {
 	return tempRoot;
 }
 
-const FavoriteList = ({search}) => {
+const FavoriteTempList = ({search}) => {
 	const dispatch = useDispatch();
-	const {favorites, theme} = useSelector((state) => state.common);
-	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
+	const {tempFavorites, theme} = useSelector((state) => state.common);
+	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
 
 	const dropNavList = useCallback(() => {
 		console.log('drop nav list');
@@ -85,8 +85,8 @@ const FavoriteList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorite(searchTreeStart(favorites, search));
-	}, [favorites, search]);
+		setfilteredFavorite(searchTreeStart(tempFavorites, search));
+	}, [tempFavorites, search]);
 
 	return (
 		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
@@ -106,9 +106,9 @@ const FavoriteList = ({search}) => {
 	);
 };
 
-FavoriteList.propTypes = {
+FavoriteTempList.propTypes = {
 	search: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 
-export default FavoriteList;
+export default FavoriteTempList;

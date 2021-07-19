@@ -21,6 +21,7 @@ export {default as warningAlertPopup} from './Popup/WarningAlertPopup';
 
 export {default as addServerForm} from './Form/AddServerForm';
 export {default as addAccountForm} from './Form/AddAccountForm';
+export {default as addFavoritesForm} from './Form/AddFavoritesForm';
 export {default as changePasswordForm} from './Form/ChangePasswordForm';
 export {default as changeNameForm} from './Form/ChangeNameForm';
 

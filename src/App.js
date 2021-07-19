@@ -23,6 +23,7 @@ import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import RefreshPopup from './components/Popup/RefreshPopup';
 import {getRevoke} from './reducers/auth/revoke';
+import AddFavoritesForm from './components/Form/AddFavoritesForm';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -79,6 +80,7 @@ const App = () => {
 				<Route component={NotFound} />
 			</Switch>
 			<AddServerForm />
+			<AddFavoritesForm />
 			<AlertPopup />
 			<WarningAlertPopup />
 			<InputPopup />

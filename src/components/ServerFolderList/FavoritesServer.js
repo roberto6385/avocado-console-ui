@@ -4,13 +4,11 @@ import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../hooks/useDoubleClick';
-import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
 import {
-	BOOKMARKING,
-	CHANGE_SERVER_FOLDER_NAME,
+	CHANGE_FAVORITES_FOLDER_NAME,
 	SET_CLICKED_SERVER,
-	SORT_SERVER_AND_FOLDER,
+	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {Nav} from 'react-bootstrap';
@@ -21,15 +19,16 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {awsServerIcon, linuxServerIcon, starIcon} from '../../icons/icons';
+import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
 import {
 	FolderServerTitle,
 	NewServerFolderForm,
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {ClickableIconButton, IconBox} from '../../styles/button';
+import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
+import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -51,7 +50,7 @@ export const ServerItem = styled(Nav.Item)`
 
 const FavoritesServer = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, theme, identity, favorites} = useSelector(
+	const {clicked_server, server, theme, identity} = useSelector(
 		(state) => state.common,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
@@ -132,7 +131,7 @@ const FavoritesServer = ({data, indent}) => {
 
 			if (renameValue !== data.name)
 				dispatch({
-					type: CHANGE_SERVER_FOLDER_NAME,
+					type: CHANGE_FAVORITES_FOLDER_NAME,
 					data: {key: data.key, name: renameValue},
 				});
 			setOpenRename(false);
@@ -151,17 +150,18 @@ const FavoritesServer = ({data, indent}) => {
 
 	const nextPutItem = useCallback(
 		(e) => {
+			console.log('next put item');
+
 			e.stopPropagation();
 
 			data.type === 'folder' &&
-				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
+				dispatch({
+					type: SORT_FAVORITES_SERVER_AND_FOLDER,
+					data: {next: data},
+				});
 		},
 		[data, dispatch],
 	);
-
-	const handleBookmark = useCallback(() => {
-		dispatch({type: BOOKMARKING, data: data});
-	}, [data, dispatch]);
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -220,7 +220,7 @@ const FavoritesServer = ({data, indent}) => {
 					)}
 				</FolderServerTitle>
 			</ServerItem>
-			<ServerContextMenu
+			<FavoritesContextMenu
 				correspondedIdentity={correspondedIdentity}
 				data={data}
 				setOpenRename={setOpenRename}

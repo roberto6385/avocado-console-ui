@@ -197,8 +197,8 @@ export const NewServerFolderInput = styled.input`
 export const FolderServerTitle = styled.div`
 	flex: 1;
 	display: flex;
-	align-items: center;
 	justify-content: space-between;
+	align-items: center;
 	font-size: 14px;
 	color: ${(props) => fontColor[props.theme_value]};
 `;

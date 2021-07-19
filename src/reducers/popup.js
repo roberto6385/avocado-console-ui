@@ -7,6 +7,7 @@ export const initialState = {
 	input_popup: {open: false},
 	save_popup: {open: false},
 	add_server_form_popup: {open: false},
+	add_favorites_form_popup: {open: false},
 	account_form_popup: {open: false},
 };
 
@@ -27,6 +28,9 @@ export const CLOSE_SAVE_POPUP = 'CLOSE_SAVE_POPUP';
 
 export const OPEN_ADD_SERVER_FORM_POPUP = 'OPEN_ADD_SERVER_FORM_POPUP';
 export const CLOSE_ADD_SERVER_FORM_POPUP = 'CLOSE_ADD_SERVER_FORM_POPUP';
+
+export const OPEN_ADD_FAVORITES_FORM_POPUP = 'OPEN_ADD_FAVORITES_FORM_POPUP';
+export const CLOSE_ADD_FAVORITES_FORM_POPUP = 'CLOSE_ADD_FAVORITES_FORM_POPUP';
 
 export const OPEN_ADD_ACCOUT_FORM_POPUP = 'OPEN_ADD_ACCOUT_FORM_POPUP';
 export const CLOSE_ADD_ACCOUT_FORM_POPUP = 'CLOSE_ADD_ACCOUT_FORM_POPUP';
@@ -93,6 +97,16 @@ const reducer = (state = initialState, action) => {
 			}
 			case CLOSE_ADD_SERVER_FORM_POPUP:
 				draft.add_server_form_popup = {open: false};
+				break;
+
+			case OPEN_ADD_FAVORITES_FORM_POPUP: {
+				draft.add_favorites_form_popup = {
+					open: true,
+				};
+				break;
+			}
+			case CLOSE_ADD_FAVORITES_FORM_POPUP:
+				draft.add_favorites_form_popup = {open: false};
 				break;
 
 			case OPEN_ADD_ACCOUT_FORM_POPUP: {

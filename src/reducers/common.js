@@ -8,11 +8,13 @@ export const initialState = {
 	minimize: false,
 	server_index: 4,
 	folder_index: 2,
+	favorites_folder_index: 0,
 	account: {account: '', name: '', email: ''},
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 	favorites: [],
+	tempFavorites: [],
 	nav: [
 		{
 			type: 'folder',
@@ -236,13 +238,17 @@ export const initialState = {
 };
 
 export const ADD_FOLDER = 'ADD_FOLDER';
+export const ADD_FAVORITES_FOLDER = 'ADD_FAVORITES_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
 export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
+export const CHANGE_FAVORITES_FOLDER_NAME = 'CHANGE_FAVORITES_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
 export const SORT_TAB = 'SORT_TAB';
 export const SORT_SERVER_AND_FOLDER = 'SORT_SERVER_AND_FOLDER';
+export const SORT_FAVORITES_SERVER_AND_FOLDER =
+	'SORT_FAVORITES_SERVER_AND_FOLDER';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
@@ -262,6 +268,8 @@ export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 export const BOOKMARKING = 'common/BOOKMARKING';
+export const SAVE_FAVORITES = 'common/SAVE_FAVORITES';
+export const UNDO_FAVORITES = 'common/UNDO_FAVORITES';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -420,6 +428,21 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
+			case ADD_FAVORITES_FOLDER: {
+				const data = {
+					type: 'folder',
+					id: draft.favorites_folder_index,
+					key: 'f_' + draft.favorites_folder_index.toString(),
+					name: action.data,
+					contain: [],
+				};
+
+				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
+
+				draft.favorites_folder_index++;
+				break;
+			}
+
 			case SORT_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
 				const prevParent = searchParentTreeStart(
@@ -457,6 +480,7 @@ const reducer = (state = initialState, action) => {
 					return;
 
 				if (action.data.next === 'toEdge') {
+					console.log('밖으로');
 					// let i = 1;
 					// while (nextParent !== draft.nav) {
 					// 	nextParent = searchParentTreeNode(
@@ -494,6 +518,100 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
+			case SAVE_FAVORITES: {
+				draft.favorites = draft.tempFavorites;
+				break;
+			}
+			case UNDO_FAVORITES: {
+				draft.tempFavorites = draft.favorites;
+				break;
+			}
+			case SORT_FAVORITES_SERVER_AND_FOLDER: {
+				// 이동할 데이터의 부모
+				const prevParent = searchParentTreeStart(
+					draft.favorites,
+					draft.clicked_server,
+				);
+				// 이동할 데이터
+				const prev = searchTreeStart(
+					draft.favorites,
+					draft.clicked_server,
+				);
+
+				// 이동시킬 위치의 부모
+				let nextParent = searchParentTreeStart(
+					draft.favorites,
+					action.data.next.key,
+				);
+				// 이동시킬 위치
+				const node = searchTreeStart(
+					draft.favorites,
+					action.data.next.key,
+				);
+				console.log('favorites bookmark move');
+				console.log(prevParent);
+				console.log(prev);
+				console.log(nextParent);
+				console.log(node);
+
+				if (
+					prev === node ||
+					(prevParent === draft.favorites &&
+						action.data.next === 'toEdge')
+				)
+					return;
+
+				let i = 1;
+				while (nextParent !== draft.favorites) {
+					if (nextParent === prev) break;
+					i = i + 1;
+					nextParent = searchParentTreeStart(
+						draft.favorites,
+						nextParent.key,
+					);
+				}
+
+				if (action.data.next !== 'toEdge' && i !== action.data.indent)
+					return;
+
+				if (action.data.next === 'toEdge') {
+					// let i = 1;
+					// while (nextParent !== draft.favorites) {
+					// 	nextParent = searchParentTreeNode(
+					// 		draft.favorites,
+					// 		nextParent.key,
+					// 	);
+					// 	i = i + 1;
+					// }
+					// if (action.data.indent !== i) {
+					// 	return;
+					// }
+
+					// 가장자리로 보내는지 아닌지 체크
+					// 가장 상위 위치에 데이터 추가
+					draft.favorites.push(prev);
+
+					// 부모에서 이동시킨 데이터 삭제
+					const index = prevParent.contain.indexOf(prev);
+					prevParent.contain.splice(index, 1);
+				} else {
+					// 이동시킬 위치에 삭제한 데이터 추가
+					if (node.contain) node.contain.push(prev);
+					else node.push(prev);
+
+					// 부모에서 이동시킨 데이터 삭제
+					if (draft.favorites.includes(prev)) {
+						const index = draft.favorites.indexOf(prev);
+						draft.favorites.splice(index, 1);
+					} else {
+						const index = prevParent.contain.indexOf(prev);
+						prevParent.contain.splice(index, 1);
+					}
+				}
+
+				break;
+			}
+
 			case BOOKMARKING: {
 				const parent = searchParentTreeStart(
 					state.nav,
@@ -513,7 +631,7 @@ const reducer = (state = initialState, action) => {
 							JSON.stringify(v) !== JSON.stringify(action.data),
 					);
 				}
-				console.log(parent);
+				draft.tempFavorites = draft.favorites;
 				break;
 			}
 
@@ -532,6 +650,21 @@ const reducer = (state = initialState, action) => {
 				}
 
 				searchTreeStart(draft.nav, action.data.key).name =
+					action.data.name;
+
+				draft.tab = draft.tab.map((v) => {
+					if (v.server.key === action.data.key)
+						return {
+							...v,
+							server: {...v.server, name: action.data.name},
+						};
+					else return v;
+				});
+				break;
+			}
+
+			case CHANGE_FAVORITES_FOLDER_NAME: {
+				searchTreeStart(draft.tempFavorites, action.data.key).name =
 					action.data.name;
 
 				draft.tab = draft.tab.map((v) => {

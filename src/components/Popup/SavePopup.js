@@ -1,7 +1,10 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_SAVE_POPUP} from '../../reducers/popup';
+import {
+	CLOSE_ADD_FAVORITES_FORM_POPUP,
+	CLOSE_SAVE_POPUP,
+} from '../../reducers/popup';
 import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../icons/icons';
@@ -28,6 +31,7 @@ import {
 	PUSH_EDIT_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
+import {SAVE_FAVORITES, UNDO_FAVORITES} from '../../reducers/common';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -52,6 +56,7 @@ const SavePopup = () => {
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
+		favorites_save: t('favoritesSave'),
 	};
 
 	const closeModal = useCallback(() => {
@@ -75,12 +80,26 @@ const SavePopup = () => {
 
 				break;
 			}
+			case 'favorites_save': {
+				dispatch({type: UNDO_FAVORITES});
+				dispatch({type: CLOSE_SAVE_POPUP});
+				dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
+
+				// 초기화
+				break;
+			}
 		}
 	}, [dispatch, save_popup, sftp_etcState]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
+			if (save_popup.key === 'favorites_save') {
+				dispatch({type: SAVE_FAVORITES});
+				closeModal();
+
+				return;
+			}
 
 			const uuid = save_popup.uuid;
 			const corTab = tab.find((it) => it.uuid === uuid);
@@ -92,6 +111,7 @@ const SavePopup = () => {
 			const {writeSocket, writeList} = sftp_uploadState.find(
 				(it) => it.uuid === uuid,
 			);
+
 			const correspondedIdentity = identity.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
 			);

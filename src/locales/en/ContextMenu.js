@@ -6,6 +6,7 @@ export default {
 	connectSsh: 'Connect to SSH',
 	connectSftp: 'Connect to SFTP',
 	properties: 'Properties',
+	deleteBookmark: 'delete bookmark',
 
 	download: 'Download',
 	edit: 'Edit',

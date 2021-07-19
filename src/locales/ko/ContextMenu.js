@@ -6,6 +6,7 @@ export default {
 	connectSsh: 'SSH 접속',
 	connectSftp: 'SFTP 접속',
 	properties: '속성',
+	deleteBookmark: '즐겨찾기 삭제',
 
 	download: '다운로드',
 	edit: '편집',
