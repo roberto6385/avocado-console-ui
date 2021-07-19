@@ -9,11 +9,14 @@ import drkFloatingButton from '../images/drk_floating button.png';
 import lghtFloatingButton from '../images/lght_floating button.png';
 import {
 	burgerMenuIcon,
+	closeIcon,
 	newFolderIcon,
 	plusIcon,
 	searchIcon,
+	sftpIcon,
+	sshIcon,
 } from '../icons/icons';
-import {ADD_FOLDER} from '../reducers/common';
+import {ADD_FOLDER, CHANGE_NAVTAB} from '../reducers/common';
 import PropTypes from 'prop-types';
 import {
 	HEIGHT_48,
@@ -28,6 +31,9 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
+	activeColor,
+	tabColor,
+	tabbarColor,
 	inputBack,
 } from '../styles/color';
 import LightModeLogo from '../images/logo@2x.png';
@@ -61,19 +67,32 @@ const _AddFolerServerContainer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	padding: 10px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
+	border-color: ${(props) => borderColor[props?.theme_value]};
+	background: ${(props) => navColor[props?.theme_value]};
+`;
+
+const _FormContainer = styled.div`
+	padding: 10px 12px;
+	display: flex;
 `;
 const _Form = styled.form`
 	display: flex;
+	flex: 1;
 	align-items: center;
-	padding: 16px 10px;
-	height: ${HEIGHT_48};
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
+	height: ${HEIGHT_36};
+	border-radius: 4px;
+	padding: 6px;
+	background: ${(props) => inputBack[props.theme_value]};
+`;
+
+const _AddButton = styled.button`
+	border: 1px solid;
+	border-radius: 4px;
+	margin-left: 8px;
+	color: #959ea1;
+	border-color: ${(props) => borderColor[props?.theme_value]};
+	background: ${(props) => navColor[props?.theme_value]};
 `;
 
 const _NewServerTitle = styled.div`
@@ -83,13 +102,13 @@ const _NewServerTitle = styled.div`
 `;
 
 const _Input = styled.input`
-	width: ${WIDTH_165};
+	// width: ${WIDTH_165};
 	height: ${HEIGHT_36};
 	border: none;
 	font-size: ${FONT_14};
 	padding: 0px;
-	background: transparent;
-	color: ${(props) => props.color};
+	background: ${(props) => inputBack[props.theme_value]};
+	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 const _OpenButton = styled.div`
@@ -101,6 +120,41 @@ const _OpenButton = styled.div`
 	right: -30px;
 	bottom: 10px;
 	display: ${(props) => props?.display};
+`;
+
+const _Tab = styled.div`
+	display: flex;
+	flex-warp: nowrap;
+	align-items: center;
+	justify-content: space-between;
+	height: 100%;
+	width: 127px;
+`;
+
+const _TabItem = styled.div`
+	display: flex;
+	cursor: pointer;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	font-weight: bold;
+	background: ${(props) => navColor[props.theme_value]};
+	color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: fontColor[props.theme_value]};
+	margin: 0px 16px;
+	border-bottom: 2px solid;
+	border-color: ${(props) =>
+		props.clicked
+			? activeColor[props.theme_value]
+			: navColor[props.theme_value]};
+	width: 100%;
+`;
+
+const _ServerName = styled.div`
+	flex: 1;
+	overflow: hidden;
 `;
 
 const isValidFolderName = (folderArray, name) => {
@@ -120,8 +174,16 @@ const isValidFolderName = (folderArray, name) => {
 const Nav = ({toggle, setToggle}) => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
+	const {nav, theme, current_nav_tab} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const [search, onChangeSearch] = useInput('');
+
+	const tabs = [
+		{title: '자원', key: 0},
+		{title: '즐겨찾기', key: 1},
+	];
 
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
@@ -144,6 +206,13 @@ const Nav = ({toggle, setToggle}) => {
 		setToggle(!toggle);
 	}, [setToggle, toggle]);
 
+	const handleCurrentKey = useCallback(
+		(key) => () => {
+			dispatch({type: CHANGE_NAVTAB, payload: key});
+		},
+		[dispatch],
+	);
+
 	return (
 		<_Aside
 			className={toggle ? 'nav' : 'nav close'}
@@ -164,39 +233,80 @@ const Nav = ({toggle, setToggle}) => {
 					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
-			<_AddFolerServerContainer
-				back={navColor[theme]}
-				bcolor={borderColor[theme]}
-			>
+			<_AddFolerServerContainer theme_value={theme}>
 				{/* TODO */}
-				<ClickableIconButton
-					margin={'6px'}
-					color={fontColor[theme]}
-					onClick={newServer}
-				>
-					{plusIcon}
-				</ClickableIconButton>
-				<_NewServerTitle color={fontColor[theme]}>
-					{t('newServer')}
-				</_NewServerTitle>
-				<ClickableIconButton theme_value={theme} onClick={newFolder}>
-					{newFolderIcon}
-				</ClickableIconButton>
+				{/*<ClickableIconButton*/}
+				{/*	margin={'6px'}*/}
+				{/*	color={fontColor[theme]}*/}
+				{/*	onClick={newServer}*/}
+				{/*>*/}
+				{/*	{plusIcon}*/}
+				{/*</ClickableIconButton>*/}
+				{/*<_NewServerTitle color={fontColor[theme]}>*/}
+				{/*	{t('newServer')}*/}
+				{/*</_NewServerTitle>*/}
+				{/*<ClickableIconButton theme_value={theme} onClick={newFolder}>*/}
+				{/*	{newFolderIcon}*/}
+				{/*</ClickableIconButton>*/}
+				{tabs.map((v) => {
+					return (
+						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>
+							<_TabItem
+								clicked={current_nav_tab === v.key ? 1 : 0}
+								theme_value={theme}
+								color={
+									current_nav_tab === v.key
+										? activeColor[theme]
+										: fontColor[theme]
+								}
+							>
+								{v.title}
+							</_TabItem>
+						</_Tab>
+					);
+				})}
 			</_AddFolerServerContainer>
-			<_Form back={navColor[theme]} bcolor={borderColor[theme]}>
-				<IconBox theme_value={theme} margin_right={'6px'}>
-					{searchIcon}
-				</IconBox>
-				<_Input
-					onChange={onChangeSearch}
-					value={search}
-					type='text'
-					placeholder={t('search')}
-					color={fontColor[theme]}
-					back={navInputColor[theme]}
-				/>
-			</_Form>
-			<ServerFolderList search={search} />
+			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
+				<>
+					<_FormContainer>
+						<_Form theme_value={theme}>
+							<IconBox theme_value={theme} margin_right={'6px'}>
+								{searchIcon}
+							</IconBox>
+							<_Input
+								onChange={onChangeSearch}
+								value={search}
+								type='text'
+								placeholder={t('search')}
+								theme_value={theme}
+							/>
+						</_Form>
+						<_AddButton onClick={newServer} theme_value={theme}>
+							{plusIcon}
+						</_AddButton>
+					</_FormContainer>
+					<ServerFolderList search={search} />
+				</>
+			) : (
+				<>
+					<_FormContainer>
+						<_Form theme_value={theme}>
+							<IconBox theme_value={theme} margin_right={'6px'}>
+								{searchIcon}
+							</IconBox>
+							<_Input
+								onChange={onChangeSearch}
+								value={search}
+								type='text'
+								placeholder={t('search')}
+								theme_value={theme}
+							/>
+						</_Form>
+						<_AddButton theme_value={theme}>{plusIcon}</_AddButton>
+					</_FormContainer>
+					<ServerFolderList search={search} />
+				</>
+			)}
 
 			<_OpenButton
 				onClick={() => setToggle(!toggle)}

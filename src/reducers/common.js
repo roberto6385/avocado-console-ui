@@ -2,6 +2,7 @@ import produce from 'immer';
 
 export const initialState = {
 	current_tab: null,
+	current_nav_tab: 0, // nav에서 자원, 즐겨찾기
 	clicked_server: null,
 	cols: 1,
 	minimize: false,
@@ -224,6 +225,8 @@ export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
 export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
+
+export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -583,6 +586,10 @@ const reducer = (state = initialState, action) => {
 					return a['id'] - b['id'];
 				});
 
+				break;
+
+			case CHANGE_NAVTAB:
+				draft.current_nav_tab = action.payload;
 				break;
 
 			// case SAVE_ACCOUT:

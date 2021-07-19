@@ -22,7 +22,7 @@ import {
 	borderColor,
 	fontColor,
 	iconColor,
-	filelistInputBack,
+	inputBack,
 	tabColor,
 } from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
@@ -205,7 +205,7 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={filelistInputBack[theme]}
+					back={inputBack[theme]}
 					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>

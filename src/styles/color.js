@@ -1,13 +1,12 @@
 export const L_GREEN_NORMAL = '#178082';
-export const D_GREEN_ACTIVE = '#31bbb3';;
+export const D_GREEN_ACTIVE = '#31bbb3';
 
 export const sideColor = ['#ffffff', '#1e364c'];
 export const navColor = ['#ffffff', '#1e364c'];
 export const navInputColor = ['#f0f3f6', '#1b2935'];
 
 export const modalColor = ['#ffffff', '#223b52'];
-export const filelistInputBack = ['#f0f3f6', '#21303e'];
-export const inputBack = ['#ffffff', '#1b2935'];
+export const inputBack = ['#f0f3f6', '#21303e'];
 
 export const tabbarColor = ['#f0f3f6', '#1e364c'];
 export const borderColor = ['#e3e5e5', 'rgba(0, 0, 0, 0.3)'];
