@@ -5,6 +5,8 @@ import ServerFolderList from './ServerFolderList/ServerFolderList';
 import useInput from '../hooks/useInput';
 import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import drkFloatingButton from '../images/drk_floating button.png';
+import lghtFloatingButton from '../images/lght_floating button.png';
 import {
 	burgerMenuIcon,
 	newFolderIcon,
@@ -31,6 +33,8 @@ import {
 import LightModeLogo from '../images/logo@2x.png';
 import DarkModeLogo from '../images/logo_white@3x.png';
 import {ClickableIconButton, IconBox} from '../styles/button';
+
+const floatings = [lghtFloatingButton, drkFloatingButton];
 
 const _Aside = styled.aside`
 	display: flex;
@@ -92,22 +96,11 @@ const _OpenButton = styled.div`
 	outline: none;
 	line-height: 0px;
 	cursor: pointer;
-	// border: 1px solid;
-	// border-color: ${(props) => iconColor[props?.theme_value]};
-	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 	position: absolute;
 	padding: 4px;
-	border-radius: 50%;
-	background: ${(props) => inputBack[props?.theme_value]};
 	right: -30px;
 	bottom: 10px;
 	display: ${(props) => props?.display};
-`;
-
-const _Right = styled.span`
-	position: relative;
-	right: -8px;
-	color: ${(props) => iconColor[props?.theme_value]};
 `;
 
 const isValidFolderName = (folderArray, name) => {
@@ -175,6 +168,7 @@ const Nav = ({toggle, setToggle}) => {
 				back={navColor[theme]}
 				bcolor={borderColor[theme]}
 			>
+				{/* TODO */}
 				<ClickableIconButton
 					margin={'6px'}
 					color={fontColor[theme]}
@@ -209,12 +203,7 @@ const Nav = ({toggle, setToggle}) => {
 				display={toggle ? 'none' : 'inline-block'}
 				theme_value={theme}
 			>
-				<_Right
-					className='material-icons button_super'
-					theme_value={theme}
-				>
-					navigate_next
-				</_Right>
+				<img src={floatings[theme]} alt='floating button' />
 			</_OpenButton>
 		</_Aside>
 	);
