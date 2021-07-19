@@ -11,7 +11,12 @@ import {
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import Collapse_ from '../RecycleComponents/Collapse_';
-import {arrowDropDownIcon, arrowRightIcon, folderIcon} from '../../icons/icons';
+import {
+	arrowDownIcon,
+	arrowDropDownIcon,
+	arrowRightIcon,
+	folderIcon,
+} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	activeColor,
@@ -243,7 +248,7 @@ const Folder = ({open, data, indent}) => {
 					margin={'0px 0px 0px 12px'}
 					onClick={onClickOpen}
 				>
-					{openTab ? arrowDropDownIcon : arrowRightIcon}
+					{openTab ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</FolderItem>
 			{data.contain.length !== 0 && (

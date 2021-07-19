@@ -7,6 +7,7 @@ import {useDoubleClick} from '../../hooks/useDoubleClick';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
 import useInput from '../../hooks/useInput';
 import {
+	BOOKMARKING,
 	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -20,14 +21,14 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
+import {awsServerIcon, linuxServerIcon, starIcon} from '../../icons/icons';
 import {
 	FolderServerTitle,
 	NewServerFolderForm,
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconBox} from '../../styles/button';
+import {ClickableIconButton, IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
 
 export const ServerItem = styled(Nav.Item)`
@@ -157,6 +158,11 @@ const Server = ({data, indent}) => {
 		},
 		[data, dispatch],
 	);
+
+	const handleBookmark = useCallback(() => {
+		dispatch({type: BOOKMARKING, data: data});
+	}, [data, dispatch]);
+
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -212,6 +218,14 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
+					<ClickableIconButton
+						size={'sm'}
+						margin_right={'0px'}
+						theme_value={theme}
+						onClick={handleBookmark}
+					>
+						{starIcon}
+					</ClickableIconButton>
 				</FolderServerTitle>
 			</ServerItem>
 			<ServerContextMenu

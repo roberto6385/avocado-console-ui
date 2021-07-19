@@ -27,6 +27,21 @@ export const initialState = {
 					icon: 'aws',
 				},
 				{
+					type: 'folder',
+					id: 2,
+					key: 'f_2',
+					name: 'test servers',
+					contain: [
+						{
+							type: 'server',
+							id: 5,
+							key: 's_5',
+							name: 'Test API',
+							icon: 'aws',
+						},
+					],
+				},
+				{
 					type: 'server',
 					id: 1,
 					key: 's_1',
@@ -110,6 +125,15 @@ export const initialState = {
 			protocol: 'SSH2',
 			port: 10022,
 			icon: 'linux',
+		},
+		{
+			id: 5,
+			key: 's_5',
+			name: 'Open API',
+			host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
+			protocol: 'SSH2',
+			port: 22,
+			icon: 'aws',
 		},
 	],
 	// resource identity key
@@ -197,6 +221,15 @@ export const initialState = {
 			type: 'Password',
 			key: 's_4',
 		},
+		{
+			id: 8,
+			identityName: 'root',
+			user: 'root',
+			password: 'Netand141)',
+			checked: true,
+			type: 'Password',
+			key: 's_5',
+		},
 	],
 	tab: [],
 };
@@ -227,6 +260,7 @@ export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
 export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
+export const BOOKMARKING = 'common/BOOKMARKING';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -456,6 +490,15 @@ const reducer = (state = initialState, action) => {
 					}
 				}
 
+				break;
+			}
+
+			case BOOKMARKING: {
+				const parent = searchParentTreeStart(
+					state.nav,
+					action.data.key,
+				);
+				console.log(parent);
 				break;
 			}
 

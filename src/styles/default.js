@@ -196,6 +196,8 @@ export const NewServerFolderInput = styled.input`
 
 export const FolderServerTitle = styled.div`
 	flex: 1;
+	display: flex;
+	justify-content: space-between;
 	font-size: 14px;
 	color: ${(props) => fontColor[props.theme_value]};
 `;
