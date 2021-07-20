@@ -7,17 +7,20 @@ import {useTranslation} from 'react-i18next';
 import {connectionAction} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/default';
-import {BOOKMARKING, LOCAL_SAVE_FAVORITES} from '../../reducers/common';
+import {
+	ADD_FAVORITES_FOLDER,
+	BOOKMARKING,
+	LOCAL_SAVE_FAVORITES,
+} from '../../reducers/common';
 
-const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
+const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server, theme} = useSelector((state) => state.common, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const correspondedServer = useMemo(
-		() => server.find((i) => i.key === data.key),
-		[server, data],
+	const {server, theme, favorites} = useSelector(
+		(state) => state.common,
+		shallowEqual,
 	);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const menu = {
 		connect: t('connectSsh'),
@@ -57,6 +60,33 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 		});
 	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
 
+	const isValidFolderName = useCallback((folderArray, name) => {
+		let pass = true;
+
+		for (let i of folderArray) {
+			if (i.type === 'folder') {
+				if (i.name === name) return false;
+				else if (i.contain.length > 0) {
+					pass = pass && isValidFolderName(i.contain, name);
+				}
+			}
+		}
+		return pass;
+	}, []);
+
+	const newFolder = useCallback(() => {
+		let folderName = t('newFolder');
+		let i = 0;
+		while (!isValidFolderName(favorites, folderName)) {
+			folderName = `${t('newFolder')} ${i}`;
+			i++;
+		}
+		dispatch({
+			type: ADD_FAVORITES_FOLDER,
+			data: {name: folderName, index: i, key: 'favorites'},
+		});
+	}, [dispatch, favorites, isValidFolderName, t]);
+
 	const handleItemClick = useCallback(
 		(v) => () => {
 			switch (v) {
@@ -71,6 +101,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					dispatch({type: LOCAL_SAVE_FAVORITES});
 					break;
 				case 'new_folder':
+					newFolder();
 					break;
 				default:
 					return;
@@ -97,7 +128,6 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 FavoritesContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	correspondedIdentity: PropTypes.object.isRequired,
-	setOpenRename: PropTypes.func.isRequired,
 };
 
 export default FavoritesContextMenu;

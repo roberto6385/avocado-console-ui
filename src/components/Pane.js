@@ -223,7 +223,7 @@ const Pane = ({uuid, type, server}) => {
 					<ClickableIconButton
 						theme_value={theme}
 						size={'micro'}
-						margin={'0xp 0px 0px 6px'}
+						margin='0px'
 						onClick={onClickDelete}
 					>
 						{closeIcon}

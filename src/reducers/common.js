@@ -429,7 +429,19 @@ const reducer = (state = initialState, action) => {
 					contain: [],
 				};
 
-				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
+				if (action.data.key === 'favorites') {
+					addDataOnNode(draft.favorites, draft.clicked_server, data);
+					localStorage.setItem(
+						'favorites',
+						JSON.stringify(draft.favorites),
+					);
+				} else {
+					addDataOnNode(
+						draft.tempFavorites,
+						draft.clicked_server,
+						data,
+					);
+				}
 
 				break;
 			}

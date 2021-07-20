@@ -112,7 +112,7 @@ const AddFavoritesForm = () => {
 		}
 		dispatch({
 			type: ADD_FAVORITES_FOLDER,
-			data: {name: folderName, index: i},
+			data: {name: folderName, index: i, key: 'tempFavorites'},
 		});
 	}, [dispatch, tempFavorites, isValidFolderName, t]);
 
