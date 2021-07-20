@@ -167,8 +167,8 @@ const Nav = ({toggle, setToggle}) => {
 	const [search, onChangeSearch] = useInput('');
 
 	const tabs = [
-		{title: '자원', key: 0},
-		{title: '즐겨찾기', key: 1},
+		{title: t('resource'), key: 0},
+		{title: t('bookmark'), key: 1},
 	];
 
 	const newFolder = useCallback(() => {

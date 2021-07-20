@@ -9,9 +9,8 @@ const Container = styled.div`
 `;
 
 const _I = styled.i`
-background: ${(props) => activeColor[props.theme_value]}; ,
-borderRadius: '4px',
-
+	background: ${(props) => activeColor[props.theme_value]};
+	border-radius: 4px;
 `;
 
 const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {

@@ -14,6 +14,18 @@ export const fileIcon = (
 	</svg>
 );
 
+export const bookmarkIcon = (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='20'
+		height='20'
+		fill='none'
+		viewBox='0 0 20 20'
+	>
+		<path d='M10 13.604l2.91 1.76c.533.323 1.185-.154 1.045-.757l-.772-3.31 2.574-2.23c.47-.406.217-1.177-.4-1.226l-3.387-.288-1.325-3.127c-.238-.568-1.052-.568-1.29 0L8.03 7.546l-3.387.288c-.617.049-.87.82-.4 1.227l2.574 2.23-.772 3.31c-.14.602.512 1.079 1.045.756L10 13.605z' />
+	</svg>
+);
+
 export const viewColumnIcon = (
 	<svg
 		xmlns='http://www.w3.org/2000/svg'

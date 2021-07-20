@@ -22,7 +22,12 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {awsServerIcon, linuxServerIcon, starIcon} from '../../icons/icons';
+import {
+	awsServerIcon,
+	bookmarkIcon,
+	linuxServerIcon,
+	starIcon,
+} from '../../icons/icons';
 import {
 	FolderServerTitle,
 	NewServerFolderForm,
@@ -230,7 +235,7 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-					<ClickableIconButton
+					<IconBox
 						className={
 							favorites.find(
 								(v) =>
@@ -252,8 +257,8 @@ const Server = ({data, indent}) => {
 								: undefined
 						}
 					>
-						{starIcon}
-					</ClickableIconButton>
+						{bookmarkIcon}
+					</IconBox>
 				</FolderServerTitle>
 			</ServerItem>
 			<ServerContextMenu

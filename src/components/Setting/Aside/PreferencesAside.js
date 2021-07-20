@@ -140,13 +140,13 @@ const PreferencesAside = () => {
 					setValue={setTerminalFont}
 					popup={true}
 				/>
-				<CheckboxContanier>
-					<Checkbox_
-						title={t('textCompletion')}
-						value={textCompletion}
-						handleCheck={(e) => setTextCompletion(e.target.checked)}
-					/>
-				</CheckboxContanier>
+				{/*<CheckboxContanier>*/}
+				<Checkbox_
+					title={t('textCompletion')}
+					value={textCompletion}
+					handleCheck={(e) => setTextCompletion(e.target.checked)}
+				/>
+				{/*</CheckboxContanier>*/}
 			</_ContentsContainer>
 
 			<_Title theme_value={theme}>{t('sftp')}</_Title>
