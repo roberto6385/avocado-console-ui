@@ -6,8 +6,8 @@ import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
-import {HEIGHT_50} from '../../../styles/length';
-import {borderColor, fontColor, tabColor} from '../../../styles/color';
+import {HEIGHT_50, WIDTH_256} from '../../../styles/length';
+import {borderColor, fontColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
 import {
 	ADD_HISTORY,
@@ -16,14 +16,15 @@ import {
 } from '../../../reducers/sftp';
 
 const _Container = styled.div`
+	min-width: ${WIDTH_256};
+	width: ${WIDTH_256};
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 0px 16px;
-	height: ${HEIGHT_50};
-	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
+	height: 50px;
+	border-left: 1px solid;
+	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
 const _Title = styled.div`
@@ -141,7 +142,7 @@ const HistoryNav = ({uuid}) => {
 	}, [history_highlight, uuid, dispatch]);
 
 	return (
-		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
+		<_Container theme_value={theme}>
 			<_Title theme_value={theme}>{t('title')}</_Title>
 			<div>
 				<ClickableIconButton

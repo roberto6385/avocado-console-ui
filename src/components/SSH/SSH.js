@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
-import * as XtermWebfont from 'xterm-webfont';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -101,7 +100,7 @@ const _FooterListGroupItem = styled(_ListGroupItem)`
 	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
-const SSH = ({uuid}) => {
+const SSH = ({uuid, toggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
 	const {current_tab, theme} = useSelector(
@@ -146,7 +145,7 @@ const SSH = ({uuid}) => {
 		ref: ref,
 		width: width,
 		height: height,
-	} = useDebouncedResizeObserver(500);
+	} = useDebouncedResizeObserver(3000);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onPressEnter = useCallback(
@@ -177,12 +176,12 @@ const SSH = ({uuid}) => {
 				},
 			});
 		},
-		[currentLine.length, dispatch, uuid, ws],
+		[currentLine.length, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab, dispatch]);
+	}, [current_tab]);
 
 	const onClickArrowUp = useCallback(() => {
 		searchAddon.findPrevious(search);
@@ -200,12 +199,10 @@ const SSH = ({uuid}) => {
 					document.getElementById('terminal_' + uuid).firstChild,
 				);
 		}
-		// sshTerm.loadAddon(new XtermWebfont());
+
 		sshTerm.loadAddon(fitAddon);
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
-		// sshTerm.loadWebfontAndOpen(document.getElementById('terminal_' + uuid));
-		fitAddon.fit();
 
 		return () => {
 			setIsComponentMounted(false);
@@ -308,20 +305,10 @@ const SSH = ({uuid}) => {
 						width: width,
 						height: height,
 					},
-					dispatch: dispatch,
 				},
 			});
 		}
-	}, [
-		ws,
-		uuid,
-		sshTerm,
-		width,
-		height,
-		isComponentMounted,
-		fitAddon,
-		dispatch,
-	]);
+	}, [ws, uuid, sshTerm, width, height, isComponentMounted, fitAddon]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
@@ -374,6 +361,7 @@ const SSH = ({uuid}) => {
 			id={`terminal_container_${uuid}`}
 			ref={ref}
 			theme_value={theme}
+			className={!toggle && 'close-nav-terminal'}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
 			<_ListGroup
@@ -534,6 +522,7 @@ const SSH = ({uuid}) => {
 
 SSH.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	toggle: PropTypes.bool.isRequired,
 };
 
 export default SSH;

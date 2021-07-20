@@ -16,6 +16,7 @@ import SettingContextMenu from './ContextMenu/SettingContextMenu';
 import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import {ClickableIconButton} from '../styles/button';
+import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -31,9 +32,9 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		shallowEqual,
 	);
 	const MenuPosition = useRef();
-
 	const accountRef = useRef();
 	const settingRef = useRef();
+	const notificationRef = useRef();
 	const columnRef = useRef();
 
 	const {show: showAccountMenu} = useContextMenu({
@@ -42,7 +43,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	const {show: showSettingMenu} = useContextMenu({
 		id: 'setting',
 	});
-	const {show: showColumnMenu2} = useContextMenu({
+	const {show: shownotificationMenu} = useContextMenu({
+		id: 'notification',
+	});
+	const {show: showColumnMenu} = useContextMenu({
 		id: 'column',
 	});
 
@@ -54,6 +58,13 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	const getSettingMenuPosition = useCallback(() => {
 		const {right, bottom} = settingRef.current?.getBoundingClientRect();
+		MenuPosition.current = {x: right - 130, y: bottom};
+		return MenuPosition.current;
+	}, [MenuPosition]);
+
+	const getNotificationMenuPosition = useCallback(() => {
+		const {right, bottom} =
+			notificationRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
 	}, [MenuPosition]);
@@ -73,15 +84,15 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey, setToggle, toggle],
+		[rightSideKey, setToggle, toggle],
 	);
-
-	const onClickNotification = useCallback(() => {
+	//TODO: 배포전 수정
+	const openNotification = useCallback(() => {
 		dispatch({
 			type: OPEN_ALERT_POPUP,
 			data: 'developing',
 		});
-	}, [dispatch]);
+	}, []);
 
 	const openAccount = useCallback(
 		(e) => {
@@ -101,13 +112,22 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
+	// const openNotification = useCallback(
+	// 	(e) => {
+	// 		shownotificationMenu(e, {
+	// 			position: getNotificationMenuPosition(),
+	// 		});
+	// 	},
+	// 	[getNotificationMenuPosition, shownotificationMenu],
+	// );
+
 	const openColumn = useCallback(
 		(e) => {
-			showColumnMenu2(e, {
+			showColumnMenu(e, {
 				position: getColumnMenuPosition(),
 			});
 		},
-		[getColumnMenuPosition, showColumnMenu2],
+		[getColumnMenuPosition, showColumnMenu],
 	);
 
 	return (
@@ -128,7 +148,8 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			</ClickableIconButton>
 			<ClickableIconButton
 				theme_value={theme}
-				onClick={onClickNotification}
+				ref={notificationRef}
+				onClick={openNotification}
 			>
 				{notificationIcon}
 			</ClickableIconButton>
@@ -144,6 +165,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<ColumnContextMenu />
+			{/*<NotificationContextMenu />*/}
 		</CornerIcons_Container>
 	);
 };

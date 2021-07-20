@@ -113,11 +113,11 @@ export const GetMessage = (data) => {
 					SSH.Response.ResponseCase.ERROR
 				) {
 					const error = response.getError();
-					console.log(error);
+					console.log(error.getMessage());
 					console.log('ERROR');
 					return {
 						type: 'ERROR',
-						result: error,
+						result: error.getMessage(),
 					};
 				}
 			}

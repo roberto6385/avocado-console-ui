@@ -5,8 +5,9 @@ import {useTranslation} from 'react-i18next';
 
 import {DropDownMenu} from '../../styles/default';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
-import {getRevoke} from '../../reducers/auth/revoke';
+
 import PropTypes from 'prop-types';
+import {revokeUserTicket} from '../../reducers/auth/userTicket';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
@@ -31,7 +32,9 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 
 	const logout = useCallback(() => {
 		dispatch(
-			getRevoke({Authorization: 'Bearer ' + userTicket.access_token}),
+			revokeUserTicket({
+				Authorization: 'Bearer ' + userTicket.access_token,
+			}),
 		);
 		sessionStorage.clear();
 		window.location.reload();
