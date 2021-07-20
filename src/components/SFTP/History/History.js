@@ -52,6 +52,7 @@ import {
 const _Container = styled.div`
 	min-width: 256px;
 	width: 256px;
+	overflow: scroll;
 	border-left: 1px solid;
 	border-color: ${(props) => borderColor[props.theme_value]};
 	background: ${(props) => tabColor[props.theme_value]};

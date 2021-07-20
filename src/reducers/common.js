@@ -30,21 +30,6 @@ export const initialState = {
 					icon: 'aws',
 				},
 				{
-					type: 'folder',
-					id: 2,
-					key: 'f_2',
-					name: 'test servers',
-					contain: [
-						{
-							type: 'server',
-							id: 5,
-							key: 's_5',
-							name: 'Test API',
-							icon: 'aws',
-						},
-					],
-				},
-				{
 					type: 'server',
 					id: 1,
 					key: 's_1',
@@ -128,15 +113,6 @@ export const initialState = {
 			protocol: 'SSH2',
 			port: 10022,
 			icon: 'linux',
-		},
-		{
-			id: 5,
-			key: 's_5',
-			name: 'Open API',
-			host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
-			protocol: 'SSH2',
-			port: 22,
-			icon: 'aws',
 		},
 	],
 	// resource identity key
@@ -223,15 +199,6 @@ export const initialState = {
 			checked: true,
 			type: 'Password',
 			key: 's_4',
-		},
-		{
-			id: 8,
-			identityName: 'root',
-			user: 'root',
-			password: 'Netand141)',
-			checked: true,
-			type: 'Password',
-			key: 's_5',
 		},
 	],
 	tab: [],
