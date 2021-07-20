@@ -145,7 +145,7 @@ const SSH = ({uuid, toggle}) => {
 		ref: ref,
 		width: width,
 		height: height,
-	} = useDebouncedResizeObserver(500);
+	} = useDebouncedResizeObserver(3000);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
 	const onPressEnter = useCallback(
@@ -176,12 +176,12 @@ const SSH = ({uuid, toggle}) => {
 				},
 			});
 		},
-		[currentLine.length, dispatch, uuid, ws],
+		[currentLine.length, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
-	}, [current_tab, dispatch]);
+	}, [current_tab]);
 
 	const onClickArrowUp = useCallback(() => {
 		searchAddon.findPrevious(search);
@@ -199,12 +199,10 @@ const SSH = ({uuid, toggle}) => {
 					document.getElementById('terminal_' + uuid).firstChild,
 				);
 		}
-		// sshTerm.loadAddon(new XtermWebfont());
+
 		sshTerm.loadAddon(fitAddon);
 		sshTerm.loadAddon(searchAddon);
 		sshTerm.open(document.getElementById('terminal_' + uuid));
-		// sshTerm.loadWebfontAndOpen(document.getElementById('terminal_' + uuid));
-		fitAddon.fit();
 
 		return () => {
 			setIsComponentMounted(false);
@@ -307,20 +305,10 @@ const SSH = ({uuid, toggle}) => {
 						width: width,
 						height: height,
 					},
-					dispatch: dispatch,
 				},
 			});
 		}
-	}, [
-		ws,
-		uuid,
-		sshTerm,
-		width,
-		height,
-		isComponentMounted,
-		fitAddon,
-		dispatch,
-	]);
+	}, [ws, uuid, sshTerm, width, height, isComponentMounted, fitAddon]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {

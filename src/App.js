@@ -21,7 +21,6 @@ import AddServerForm from './components/Form/AddServerForm';
 import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
-import RefreshPopup from './components/Popup/RefreshPopup';
 
 import {
 	revokeUserTicket,
@@ -41,11 +40,11 @@ const App = () => {
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userTicket) {
-			dispatch(
-				revokeUserTicket({
-					Authorization: 'Bearer ' + userTicket.access_token,
-				}),
-			);
+			// dispatch(
+			// 	revokeUserTicket({
+			// 		Authorization: 'Bearer ' + userTicket.access_token,
+			// 	}),
+			// );
 			sessionStorage.clear();
 		}
 	}, [userTicket]);
@@ -73,7 +72,6 @@ const App = () => {
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
-		// timeout: 3000,
 		onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
@@ -106,7 +104,6 @@ const App = () => {
 			<WarningAlertPopup />
 			<InputPopup />
 			<SavePopup />
-			<RefreshPopup />
 		</BrowserRouter>
 	);
 };

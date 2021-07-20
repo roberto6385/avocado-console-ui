@@ -198,6 +198,27 @@ export const initialState = {
 		},
 	],
 	tab: [],
+	notification_index: 3,
+	notification: [
+		{
+			id: 0,
+			message: 'ssh connection',
+			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			confirm: true,
+		},
+		{
+			id: 1,
+			message: 'ssh connection',
+			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			confirm: false,
+		},
+		{
+			id: 2,
+			message: 'sftp connection',
+			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			confirm: false,
+		},
+	],
 };
 
 export const ADD_FOLDER = 'ADD_FOLDER';
@@ -224,6 +245,9 @@ export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
 export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
+
+export const GET_NOTICE = 'common/GET_NOTICE';
+export const ADD_NOTICE = 'common/ADD_NOTICE';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -706,6 +730,17 @@ const reducer = (state = initialState, action) => {
 			case RIGHT_SIDE_KEY:
 				draft.rightSideKey = action.payload;
 				break;
+
+			case ADD_NOTICE:
+				if (draft.notification.length > 30) draft.notification.shift();
+				draft.notification.push({
+					id: draft.notification_index++,
+					message: action.data,
+					date: Date(),
+					confirm: false,
+				});
+				break;
+
 			default:
 				break;
 		}

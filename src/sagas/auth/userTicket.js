@@ -37,7 +37,6 @@ function getUserTicketApi(params) {
 	);
 }
 function getUserInfoApi(params) {
-	console.log(params);
 	return axios.get(`/open/api/v1/users/id/${params.user_id}@netand.co.kr`, {
 		headers: {
 			Authorization: `Bearer ${params.access_token}`,
@@ -50,9 +49,7 @@ function getUserInfoApi(params) {
 function* getUserTicket(action) {
 	try {
 		const res = yield call(getUserTicketApi, action.params);
-		console.log(res);
 		const user = yield call(getUserInfoApi, res.data);
-		console.log(user);
 
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
