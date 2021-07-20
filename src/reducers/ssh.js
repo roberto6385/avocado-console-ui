@@ -172,6 +172,7 @@ const reducer = (state = initialState, action) => {
 					).terminal;
 					const result = action.data.result;
 					sshTerm.write(result);
+					if (action.data.focus) sshTerm.focus();
 
 					if (draft.tab === true) {
 						draft.tab = false;

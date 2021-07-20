@@ -266,13 +266,25 @@ function* sendCommand(action) {
 
 						switch (res.type) {
 							case 'COMMAND':
-								yield put({
-									type: SSH_SEND_COMMAND_SUCCESS,
-									data: {
-										uuid: action.data.uuid,
-										result: res.result,
-									},
-								});
+								if (action.data.focus) {
+									yield put({
+										type: SSH_SEND_COMMAND_SUCCESS,
+										data: {
+											uuid: action.data.uuid,
+											result: res.result,
+											focus: action.data.focus,
+										},
+									});
+								} else {
+									yield put({
+										type: SSH_SEND_COMMAND_SUCCESS,
+										data: {
+											uuid: action.data.uuid,
+											result: res.result,
+										},
+									});
+								}
+
 								break;
 							default:
 								break;
