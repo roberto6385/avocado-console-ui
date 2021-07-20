@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {
 	CHANGE_FAVORITES_FOLDER_NAME,
@@ -62,10 +62,10 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const FavoritesFolder = ({open, data, indent}) => {
+const FavoritesFolder = ({open, data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, theme, createdFolderInfo, tempFavorites} =
-		useSelector((state) => state.common);
+		useSelector((state) => state.common, shallowEqual);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
@@ -167,13 +167,11 @@ const FavoritesFolder = ({open, data, indent}) => {
 		[data, dispatch, indent],
 	);
 
-	const handleBlur = useCallback(
-		(e) => {
-			renameRef.current = null;
-			handleSubmit(e);
-		},
-		[handleSubmit],
-	);
+	const handleBlur = useCallback(() => {
+		setOpenRename(false);
+		renameRef.current = null;
+		dispatch({type: SET_CLICKED_SERVER, data: null});
+	}, [dispatch]);
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -202,15 +200,15 @@ const FavoritesFolder = ({open, data, indent}) => {
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
-	useEffect(() => {
-		setOpenRename(true);
-	}, []);
+	// useEffect(() => {
+	// 	temp && setOpenRename(true);
+	// }, [temp]);
 
 	return (
 		<React.Fragment>
 			<FolderItem
 				onClick={onCLickFolder}
-				onDoubleClick={() => setOpenRename(true)}
+				onDoubleClick={() => temp && setOpenRename(true)}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
@@ -260,6 +258,7 @@ const FavoritesFolder = ({open, data, indent}) => {
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
 								<FavoritesFolder
+									temp={temp}
 									key={i.key}
 									open={open}
 									data={i}
@@ -285,6 +284,7 @@ FavoritesFolder.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
+	temp: PropTypes.bool.isRequired,
 };
 
 export default FavoritesFolder;
