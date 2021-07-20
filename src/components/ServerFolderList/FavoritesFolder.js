@@ -65,7 +65,7 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const FavoritesFolder = ({open, data, indent, temp}) => {
+const FavoritesFolder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, theme, createdFolderInfo, tempFavorites} =
 		useSelector((state) => state?.common, shallowEqual);
@@ -207,7 +207,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		<React.Fragment>
 			<FolderItem
 				onClick={onCLickFolder}
-				onDoubleClick={() => temp && setOpenRename(true)}
+				onDoubleClick={() => setOpenRename(true)}
 				onContextMenu={contextMenuOpen}
 				draggable='true'
 				onDragStart={prevPutItem}
@@ -259,7 +259,6 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
 								<FavoritesFolder
-									temp={temp}
 									key={i.key}
 									open={open}
 									data={i}
@@ -285,7 +284,6 @@ FavoritesFolder.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
-	temp: PropTypes.bool.isRequired,
 };
 
 export default FavoritesFolder;

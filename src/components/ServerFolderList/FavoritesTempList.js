@@ -93,7 +93,6 @@ const FavoriteTempList = ({search}) => {
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
 					<FavoritesFolder
-						temp={true}
 						key={data.key}
 						open={search !== ''}
 						data={data}

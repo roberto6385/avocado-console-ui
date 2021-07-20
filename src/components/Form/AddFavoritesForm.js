@@ -13,31 +13,23 @@ import {
 	CLOSE_ADD_FAVORITES_FORM_POPUP,
 	OPEN_SAVE_POPUP,
 } from '../../reducers/popup';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {closeIcon} from '../../icons/icons';
-import {
-	Form,
-	Input,
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-} from '../../styles/default';
+import {Form, ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {borderColor, fontColor} from '../../styles/color';
 import {
 	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
-	SecondaryGreenButton,
 } from '../../styles/button';
 import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
-	width: 562px;
+	width: 460px;
 `;
 
 const _Form = styled(Form)`
-	height: 395px;
+	height: 397px;
 `;
 
 const ListContainer = styled.div`

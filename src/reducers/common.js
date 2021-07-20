@@ -431,17 +431,13 @@ const reducer = (state = initialState, action) => {
 
 				if (action.data.key === 'favorites') {
 					addDataOnNode(draft.favorites, draft.clicked_server, data);
+
 					localStorage.setItem(
 						'favorites',
 						JSON.stringify(draft.favorites),
 					);
-				} else {
-					addDataOnNode(
-						draft.tempFavorites,
-						draft.clicked_server,
-						data,
-					);
 				}
+				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
 
 				break;
 			}
@@ -683,15 +679,17 @@ const reducer = (state = initialState, action) => {
 			case CHANGE_FAVORITES_FOLDER_NAME: {
 				searchTreeStart(draft.tempFavorites, action.data.key).name =
 					action.data.name;
+				searchTreeStart(draft.favorites, action.data.key).name =
+					action.data.name;
 
-				draft.tab = draft.tab.map((v) => {
-					if (v.server.key === action.data.key)
-						return {
-							...v,
-							server: {...v.server, name: action.data.name},
-						};
-					else return v;
-				});
+				// draft.tab = draft.tab.map((v) => {
+				// 	if (v.server.key === action.data.key)
+				// 		return {
+				// 			...v,
+				// 			server: {...v.server, name: action.data.name},
+				// 		};
+				// 	else return v;
+				// });
 				break;
 			}
 
@@ -764,6 +762,8 @@ const reducer = (state = initialState, action) => {
 					);
 
 				deleteTreeStart(draft.favorites, draft.clicked_server);
+				draft.tempFavorites = draft.favorites;
+
 				break;
 			}
 
