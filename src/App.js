@@ -29,10 +29,10 @@ const App = () => {
 	const dispatch = useDispatch();
 	const {userTicket} = useSelector((state) => state.userTicket);
 
-	const handleOnIdle = useCallback(() => {
-		// console.log('stop');
-		sessionStorage.setItem('lastTouchTime', getLastActiveTime());
-	}, []);
+	// const handleOnIdle = useCallback(() => {
+	// 	// console.log('stop');
+	// 	// sessionStorage.setItem('lastTouchTime', getLastActiveTime());
+	// }, []);
 
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
@@ -43,7 +43,7 @@ const App = () => {
 	}, [userTicket]);
 
 	const handleOnAction = useCallback(() => {
-		sessionStorage.setItem('lastTouchTime', Date.now());
+		// sessionStorage.setItem('lastTouchTime', Date.now());
 		if (userTicket) {
 			//from 10 min before expire token
 			if (
@@ -65,8 +65,7 @@ const App = () => {
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
-		// timeout: 3000,
-		onIdle: handleOnIdle,
+		// onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
 		debounce: 5000,
