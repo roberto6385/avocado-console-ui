@@ -10,15 +10,15 @@ import {
 } from '../../reducers/popup';
 import {DropDownMenu} from '../../styles/default';
 
-const FolderContextMenu = ({data, setOpenRename}) => {
+const FolderContextMenu = ({data}) => {
 	const dispatch = useDispatch();
 	const theme = useSelector((state) => state.common.theme);
 
 	const {t} = useTranslation('contextMenu');
 	const FolderContextMenuMessage = {
-		new_server: t('newServer'),
+		// new_server: t('newServer'),
 		// rename: 'Rename',
-		// delete: 'Delete',
+		delete: t('delete'),
 	};
 
 	const handleItemClick = useCallback(
@@ -30,9 +30,6 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 						data: {type: 'add'},
 					});
 					break;
-				case 'rename':
-					setOpenRename(true);
-					break;
 				case 'delete':
 					dispatch({
 						type: OPEN_WARNING_ALERT_POPUP,
@@ -43,7 +40,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 					return;
 			}
 		},
-		[],
+		[dispatch],
 	);
 
 	return (
@@ -63,7 +60,7 @@ const FolderContextMenu = ({data, setOpenRename}) => {
 
 FolderContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	setOpenRename: PropTypes.func.isRequired,
+	// setOpenRename: PropTypes.func.isRequired,
 };
 
 export default FolderContextMenu;

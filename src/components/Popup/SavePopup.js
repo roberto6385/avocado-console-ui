@@ -31,7 +31,11 @@ import {
 	PUSH_EDIT_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
-import {SAVE_FAVORITES, UNDO_FAVORITES} from '../../reducers/common';
+import {
+	LOCAL_SAVE_FAVORITES,
+	SAVE_FAVORITES,
+	UNDO_FAVORITES,
+} from '../../reducers/common';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -96,6 +100,8 @@ const SavePopup = () => {
 			e.preventDefault();
 			if (save_popup.key === 'favorites_save') {
 				dispatch({type: SAVE_FAVORITES});
+				dispatch({type: LOCAL_SAVE_FAVORITES});
+
 				closeModal();
 
 				return;

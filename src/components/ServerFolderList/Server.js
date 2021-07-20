@@ -9,6 +9,7 @@ import useInput from '../../hooks/useInput';
 import {
 	BOOKMARKING,
 	CHANGE_SERVER_FOLDER_NAME,
+	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../reducers/common';
@@ -63,7 +64,7 @@ export const ServerItem = styled(Nav.Item)`
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity, favorites} = useSelector(
-		(state) => state.common,
+		(state) => state?.common,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [openRename, setOpenRename] = useState(false);
@@ -171,6 +172,7 @@ const Server = ({data, indent}) => {
 
 	const handleBookmark = useCallback(() => {
 		dispatch({type: BOOKMARKING, data: data});
+		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [data, dispatch]);
 
 	//when re-name form is open, fill in pre-value and focus and select it

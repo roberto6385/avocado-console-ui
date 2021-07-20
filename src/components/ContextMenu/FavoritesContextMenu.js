@@ -4,14 +4,10 @@ import {animation, Item} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {connectionAction, READY_STATE} from '../../reducers/sftp';
-import {
-	OPEN_ADD_SERVER_FORM_POPUP,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
+import {connectionAction} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/default';
-import {BOOKMARKING} from '../../reducers/common';
+import {BOOKMARKING, LOCAL_SAVE_FAVORITES} from '../../reducers/common';
 
 const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
@@ -45,14 +41,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				id: correspondedServer.id,
 			}),
 		);
-	}, [
-		server,
-		dispatch,
-		userTicket,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
-		data.key,
-	]);
+	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
@@ -66,14 +55,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				password: correspondedIdentity.password,
 			},
 		});
-	}, [
-		server,
-		dispatch,
-		userTicket,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
-		data.key,
-	]);
+	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
 
 	const handleItemClick = useCallback(
 		(v) => () => {
@@ -86,6 +68,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					break;
 				case 'delete_bookmark':
 					dispatch({type: BOOKMARKING, data: data});
+					dispatch({type: LOCAL_SAVE_FAVORITES});
 					break;
 				case 'new_folder':
 					break;
@@ -93,7 +76,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					return;
 			}
 		},
-		[data, dispatch, openSFTP, openSSH, setOpenRename],
+		[data, dispatch, openSFTP, openSSH],
 	);
 
 	return (

@@ -7,6 +7,7 @@ import {useDoubleClick} from '../../hooks/useDoubleClick';
 import useInput from '../../hooks/useInput';
 import {
 	CHANGE_FAVORITES_FOLDER_NAME,
+	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../reducers/common';
@@ -158,6 +159,7 @@ const FavoritesServer = ({data, indent}) => {
 					type: SORT_FAVORITES_SERVER_AND_FOLDER,
 					data: {next: data},
 				});
+			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch],
 	);

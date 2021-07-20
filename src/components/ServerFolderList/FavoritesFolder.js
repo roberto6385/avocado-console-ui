@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {
 	CHANGE_FAVORITES_FOLDER_NAME,
+	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../reducers/common';
@@ -26,6 +27,8 @@ import {
 import styled from 'styled-components';
 import {IconBox, IconButton} from '../../styles/button';
 import FavoritesServer from './FavoritesServer';
+import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
+import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 
 const FolderItem = styled.div`
 	display: flex;
@@ -65,12 +68,11 @@ const isValidFolderName = (folderArray, name) => {
 const FavoritesFolder = ({open, data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, theme, createdFolderInfo, tempFavorites} =
-		useSelector((state) => state.common, shallowEqual);
+		useSelector((state) => state?.common, shallowEqual);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
-
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
 			dispatch({type: SET_CLICKED_SERVER, data: null});
@@ -163,6 +165,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					type: SORT_FAVORITES_SERVER_AND_FOLDER,
 					data: {next: data, indent: parseInt(indent)},
 				});
+			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch, indent],
 	);
@@ -200,15 +203,12 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
-	// useEffect(() => {
-	// 	temp && setOpenRename(true);
-	// }, [temp]);
-
 	return (
 		<React.Fragment>
 			<FolderItem
 				onClick={onCLickFolder}
 				onDoubleClick={() => temp && setOpenRename(true)}
+				onContextMenu={contextMenuOpen}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
@@ -244,6 +244,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					)}
 				</FolderServerTitle>
 				<IconButton
+					type={'button'}
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -275,7 +276,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					</React.Fragment>
 				</Collapse_>
 			)}
-			{/*<FolderContextMenu data={data} setOpenRename={setOpenRename} />*/}
+			<FolderContextMenu data={data} />
 		</React.Fragment>
 	);
 };

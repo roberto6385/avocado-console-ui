@@ -8,7 +8,6 @@ export const initialState = {
 	minimize: false,
 	server_index: 4,
 	folder_index: 2,
-	favorites_folder_index: 0,
 	account: {account: '', name: '', email: ''},
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
@@ -226,17 +225,13 @@ export const initialState = {
 };
 
 export const ADD_FOLDER = 'ADD_FOLDER';
-export const ADD_FAVORITES_FOLDER = 'ADD_FAVORITES_FOLDER';
 export const SAVE_SERVER = 'SAVE_SERVER';
 export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
 export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
-export const CHANGE_FAVORITES_FOLDER_NAME = 'CHANGE_FAVORITES_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
 export const OPEN_TAB = 'OPEN_TAB';
 export const SORT_TAB = 'SORT_TAB';
 export const SORT_SERVER_AND_FOLDER = 'SORT_SERVER_AND_FOLDER';
-export const SORT_FAVORITES_SERVER_AND_FOLDER =
-	'SORT_FAVORITES_SERVER_AND_FOLDER';
 export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
@@ -256,7 +251,12 @@ export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 export const BOOKMARKING = 'common/BOOKMARKING';
+export const ADD_FAVORITES_FOLDER = 'ADD_FAVORITES_FOLDER';
+export const CHANGE_FAVORITES_FOLDER_NAME = 'CHANGE_FAVORITES_FOLDER_NAME';
+export const SORT_FAVORITES_SERVER_AND_FOLDER =
+	'SORT_FAVORITES_SERVER_AND_FOLDER';
 export const SAVE_FAVORITES = 'common/SAVE_FAVORITES';
+export const LOCAL_SAVE_FAVORITES = 'common/LOCAL_SAVE_FAVORITES';
 export const UNDO_FAVORITES = 'common/UNDO_FAVORITES';
 export const INIT_FAVORITES = 'common/INIT_FAVORITES';
 
@@ -423,15 +423,14 @@ const reducer = (state = initialState, action) => {
 			case ADD_FAVORITES_FOLDER: {
 				const data = {
 					type: 'folder',
-					id: draft.favorites_folder_index,
-					key: 'f_' + draft.favorites_folder_index.toString(),
-					name: action.data,
+					id: action.data.index,
+					key: 'f_' + action.data.index.toString(),
+					name: action.data.name,
 					contain: [],
 				};
 
 				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
 
-				draft.favorites_folder_index++;
 				break;
 			}
 
@@ -512,10 +511,7 @@ const reducer = (state = initialState, action) => {
 
 			case SAVE_FAVORITES: {
 				draft.favorites = draft.tempFavorites;
-				localStorage.setItem(
-					'favorites',
-					JSON.stringify(draft.tempFavorites),
-				);
+
 				break;
 			}
 			case UNDO_FAVORITES: {
@@ -605,6 +601,8 @@ const reducer = (state = initialState, action) => {
 					}
 				}
 
+				draft.tempFavorites = draft.favorites;
+
 				break;
 			}
 
@@ -624,18 +622,21 @@ const reducer = (state = initialState, action) => {
 					);
 				}
 				draft.tempFavorites = draft.favorites;
-				localStorage.setItem(
-					'favorites',
-					JSON.stringify(draft.favorites),
-				);
 
 				break;
 			}
 
 			case INIT_FAVORITES:
-				draft.favorites = JSON.parse(localStorage.getItem('favorites'));
-				draft.tempFavorites = JSON.parse(
-					localStorage.getItem('favorites'),
+				draft.favorites =
+					JSON.parse(localStorage.getItem('favorites')) || [];
+				draft.tempFavorites =
+					JSON.parse(localStorage.getItem('favorites')) || [];
+				break;
+
+			case LOCAL_SAVE_FAVORITES:
+				localStorage.setItem(
+					'favorites',
+					JSON.stringify(draft.favorites),
 				);
 				break;
 
@@ -746,11 +747,11 @@ const reducer = (state = initialState, action) => {
 					);
 				else
 					deleteServerUnderTree(
-						searchTreeStart(draft.nav, draft.clicked_server),
+						searchTreeStart(draft.favorites, draft.clicked_server),
 						draft.server,
 					);
 
-				deleteTreeStart(draft.nav, draft.clicked_server);
+				deleteTreeStart(draft.favorites, draft.clicked_server);
 				break;
 			}
 

@@ -5,24 +5,15 @@ import styled from 'styled-components';
 
 import {
 	ADD_FAVORITES_FOLDER,
-	ADD_FOLDER,
-	CHANGE_IDENTITY_CHECKED,
-	CHANGE_PROTOCOL,
-	EDIT_SERVER,
+	LOCAL_SAVE_FAVORITES,
 	SAVE_FAVORITES,
-	SAVE_SERVER,
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
-import {GetMessage} from '../../ws/ssht_ws_logic';
-import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {
 	CLOSE_ADD_FAVORITES_FORM_POPUP,
-	CLOSE_ADD_SERVER_FORM_POPUP,
-	OPEN_ALERT_POPUP,
 	OPEN_SAVE_POPUP,
 } from '../../reducers/popup';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
-import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {
 	Form,
@@ -31,65 +22,18 @@ import {
 	ModalHeader,
 	PopupModal,
 } from '../../styles/default';
-import {
-	borderColor,
-	fontColor,
-	greyNormalButtonBackgroundColor,
-} from '../../styles/color';
+import {borderColor, fontColor} from '../../styles/color';
 import {
 	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/button';
-import FavoriteList from '../ServerFolderList/FavoritesList';
 import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
 	width: 562px;
-`;
-
-const _Input = styled(Input)`
-	width: '178px';
-`;
-
-const _SecondaryGreenButton = styled(SecondaryGreenButton)`
-	margin: 10px 8px 0px 8px;
-`;
-
-const _FileInput = styled.input`
-	display: none;
-	border: 1px solid;
-	border-color: ${(props) => props?.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-`;
-
-const _InputFiled = styled(InputFiled_)`
-	margin-right: 16px;
-`;
-
-const _Label = styled.label`
-	width: 100%;
-	height: '34px'
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
-	margin: 0;
-	cursor: pointer;
-`;
-
-const _ItemContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-`;
-const _SecondItem = styled.div`
-	margin-left: 16px;
 `;
 
 const _Form = styled(Form)`
@@ -105,31 +49,9 @@ const ListContainer = styled.div`
 	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
-const isValidHostname = (host) => {
-	if (
-		/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-			host,
-		)
-	)
-		return true;
-	return false;
-};
-
 const _ModalFooter = styled(ModalFooter)`
 	justify-content: space-between;
 `;
-
-const duplicationTest = (server, name, host, port, protocol) => {
-	const nameArray = server.filter((v) => name === v.name);
-	//name 제외
-	if (nameArray.length > 0) return false;
-	//host, port, protocol
-	const hostArray = server.filter((v) => host === v.host);
-	for (let i of hostArray) {
-		if (i.port === port && i.protocol === protocol) return false;
-	}
-	return true;
-};
 
 const AddFavoritesForm = () => {
 	const {t} = useTranslation('addFavoritesForm');
@@ -160,6 +82,7 @@ const AddFavoritesForm = () => {
 			e.preventDefault();
 			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
 				dispatch({type: SAVE_FAVORITES});
+				dispatch({type: LOCAL_SAVE_FAVORITES});
 			}
 			// dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
 		},
@@ -187,7 +110,10 @@ const AddFavoritesForm = () => {
 			folderName = `${t('newFolder')} ${i}`;
 			i++;
 		}
-		dispatch({type: ADD_FAVORITES_FOLDER, data: folderName});
+		dispatch({
+			type: ADD_FAVORITES_FOLDER,
+			data: {name: folderName, index: i},
+		});
 	}, [dispatch, tempFavorites, isValidFolderName, t]);
 
 	useEffect(() => {

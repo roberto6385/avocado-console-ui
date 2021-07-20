@@ -8,6 +8,7 @@ import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
+	LOCAL_SAVE_FAVORITES,
 } from '../../reducers/common';
 
 import {cancelFillIcon, closeIcon} from '../../icons/icons';
@@ -151,7 +152,10 @@ const WarningAlertPopup = () => {
 
 				case 'delete_server_folder':
 					console.log(clicked_server);
-					clicked_server && dispatch({type: DELETE_SERVER_FOLDER});
+					if (clicked_server) {
+						dispatch({type: DELETE_SERVER_FOLDER});
+						dispatch({type: LOCAL_SAVE_FAVORITES});
+					}
 					break;
 
 				case 'delete_account': {

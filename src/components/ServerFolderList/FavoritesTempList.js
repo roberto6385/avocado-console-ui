@@ -69,7 +69,7 @@ const FavoriteTempList = ({search}) => {
 	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
 
 	const dropNavList = useCallback(() => {
-		console.log('drop nav list');
+		//TODO favorites temp list drag and drop
 		dispatch({
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
 			data: {next: 'toEdge'},
