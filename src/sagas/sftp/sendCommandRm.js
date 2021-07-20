@@ -20,13 +20,13 @@ import {
 	SHIFT_SOCKETS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {rmResponse} from '../../ws/sftp/rm_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(`${payload.rm_path}/${payload.file.name}`);
-	const channel = yield call(fileSubscribe, payload.remove_socket);
+	const channel = yield call(subscribe, payload.remove_socket);
 	try {
 		if (
 			payload.socket.readyState === 3 ||

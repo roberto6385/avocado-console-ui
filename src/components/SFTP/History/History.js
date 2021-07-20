@@ -440,7 +440,6 @@ const History = ({uuid}) => {
 
 					if (!item || item.offset === prevOffset) return;
 					setPrevOffset(item.offset);
-					console.log('in');
 
 					dispatch({
 						type:
@@ -543,7 +542,12 @@ const History = ({uuid}) => {
 										}
 									>
 										{history.progress !== 100
-											? history.ready === 3
+											? (history.todo === 'write' &&
+													!writeSocket &&
+													history.progress !== 0) ||
+											  (history.todo === 'read' &&
+													!readSocket &&
+													history.progress !== 0)
 												? playCircleIcon
 												: pauseCircleIcon
 											: history.todo === 'write'

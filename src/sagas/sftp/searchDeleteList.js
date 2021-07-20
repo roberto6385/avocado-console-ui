@@ -18,7 +18,7 @@ import {
 	searchDeleteListAction,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {lsSearchResponse} from '../../ws/sftp/ls_search_response';
 
 function* sendCommand(action) {
@@ -29,7 +29,7 @@ function* sendCommand(action) {
 		return;
 	}
 
-	const channel = yield call(fileSubscribe, payload.socket);
+	const channel = yield call(subscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {

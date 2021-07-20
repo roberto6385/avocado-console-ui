@@ -24,12 +24,12 @@ import {
 	SHIFT_SOCKETS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {readResponse} from '../../ws/sftp/read_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(fileSubscribe, payload.read_socket);
+	const channel = yield call(subscribe, payload.read_socket);
 	let lastSum = 0;
 	let pass = true;
 

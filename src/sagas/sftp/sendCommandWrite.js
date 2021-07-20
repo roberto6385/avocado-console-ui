@@ -20,13 +20,13 @@ import {
 	WRITE_REQUEST,
 	WRITE_SUCCESS,
 } from '../../reducers/sftp';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {writeResponse} from '../../ws/sftp/write_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(fileSubscribe, payload.write_socket);
+	const channel = yield call(subscribe, payload.write_socket);
 	let lastSum = 0;
 	let pass = true;
 	try {

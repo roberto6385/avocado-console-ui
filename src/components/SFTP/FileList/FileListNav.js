@@ -30,6 +30,7 @@ import {ClickableIconButton} from '../../../styles/button';
 const _Container = styled.div`
 	display: flex;
 	flex: 1;
+	overflow: scroll;
 	align-items: center;
 	height: 50px;
 `;

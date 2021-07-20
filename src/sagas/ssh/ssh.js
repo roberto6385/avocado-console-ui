@@ -29,7 +29,6 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import useSubscribe from '../../hooks/useSubscribe';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {READY_STATE} from '../../reducers/ssh';
 import {ERROR} from '../../reducers/sftp';
@@ -41,7 +40,7 @@ function* sendConnection(action) {
 		const ws = yield call(initWebsocket);
 
 		if (ws.readyState === 1) {
-			const channel = yield call(useSubscribe, {socket: ws});
+			const channel = yield call(subscribe, ws);
 			let pass = false;
 
 			yield call(ssht_ws_request, {
@@ -127,7 +126,7 @@ function* sendReConnection(action) {
 
 	try {
 		const ws = yield call(initWebsocket);
-		const channel = yield call(useSubscribe, {socket: ws});
+		const channel = yield call(subscribe, ws);
 		let pass = false;
 
 		yield call(ssht_ws_request, {
@@ -241,9 +240,7 @@ function* sendDisconnection(action) {
 
 function* sendCommand(action) {
 	if (action.data.ws.readyState === 1) {
-		const channel = yield call(useSubscribe, {
-			socket: action.data.ws,
-		});
+		const channel = yield call(subscribe, action.data.ws);
 
 		try {
 			if (action.data.ws.readyState === 1) {
@@ -261,6 +258,7 @@ function* sendCommand(action) {
 
 					if (timeout) {
 						closeChannel(channel);
+						action.data.ws.close();
 					} else {
 						const res = yield call(GetMessage, result);
 
@@ -296,7 +294,7 @@ function* sendCommand(action) {
 
 function* sendWindowChange(action) {
 	if (action.data.ws.readyState === 1) {
-		const channel = yield call(useSubscribe, {socket: action.data.ws});
+		const channel = yield call(subscribe, action.data.ws);
 
 		try {
 			yield call(ssht_ws_request, {

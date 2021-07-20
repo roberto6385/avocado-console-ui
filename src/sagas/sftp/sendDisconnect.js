@@ -7,12 +7,12 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {CLOSE_TAB} from '../../reducers/common';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {disconnectResponse} from '../../ws/sftp/disconnect_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(fileSubscribe, payload.socket);
+	const channel = yield call(subscribe, payload.socket);
 
 	try {
 		if (payload.socket.readyState === 3 && payload.uuid !== undefined) {

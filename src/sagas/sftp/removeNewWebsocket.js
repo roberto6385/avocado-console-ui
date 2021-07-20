@@ -10,7 +10,7 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
-import {closeChannel, fileSubscribe} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';
 import {
 	ADD_PAUSED_LIST,
@@ -26,7 +26,7 @@ import {write_chunkSize} from '../../reducers/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;
-	const channel = yield call(fileSubscribe, payload.socket);
+	const channel = yield call(subscribe, payload.socket);
 
 	if (payload.socket.readyState === 3) {
 		console.log('already socket is closing');

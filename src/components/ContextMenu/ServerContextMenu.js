@@ -4,7 +4,7 @@ import {animation, Item} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {connectionAction, READY_STATE} from '../../reducers/sftp';
+import {connectionAction} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,

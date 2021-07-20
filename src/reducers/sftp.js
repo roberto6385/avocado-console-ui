@@ -92,7 +92,6 @@ export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
 export const EDIT_PAUSED_LIST = 'history/EDIT_PAUSED_LIST';
 export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
-// export const HISTORY_READY = 'history/HISTORY_READY';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -186,7 +185,7 @@ export const removeNewWebsocket = (payload) => ({
 let HISTORY_ID = 0;
 
 export const write_chunkSize = 1024 * 4;
-export const read_chunkSize = 1024 * 4; // 56
+export const read_chunkSize = 1024 * 56; // 56
 // initial State
 const initialState = {
 	loading: false,

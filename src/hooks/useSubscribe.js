@@ -1,6 +1,6 @@
 import {buffers, END, eventChannel} from 'redux-saga';
 
-export default function useSubscribe({socket, buffer}) {
+export default function useSubscribe({socket, buffer, dispatch}) {
 	return eventChannel((emit) => {
 		socket.onmessage = (event) => {
 			emit(event.data);
@@ -12,6 +12,8 @@ export default function useSubscribe({socket, buffer}) {
 		};
 
 		socket.onclose = () => {
+			console.log('The connection has been lost');
+			dispatch();
 			emit(END);
 		};
 
