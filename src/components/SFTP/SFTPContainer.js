@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
@@ -14,7 +14,6 @@ import {
 	READ_PASS,
 	removeNewWebsocket,
 	searchDeleteListAction,
-	SHIFT_INCINERATOR_LIST,
 	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
