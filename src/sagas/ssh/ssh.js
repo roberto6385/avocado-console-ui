@@ -31,7 +31,6 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {READY_STATE} from '../../reducers/ssh';
-import {ERROR} from '../../reducers/sftp';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -273,13 +272,25 @@ function* sendCommand(action) {
 
 						switch (res.type) {
 							case 'COMMAND':
-								yield put({
-									type: SSH_SEND_COMMAND_SUCCESS,
-									data: {
-										uuid: action.data.uuid,
-										result: res.result,
-									},
-								});
+								if (action.data.focus) {
+									yield put({
+										type: SSH_SEND_COMMAND_SUCCESS,
+										data: {
+											uuid: action.data.uuid,
+											result: res.result,
+											focus: action.data.focus,
+										},
+									});
+								} else {
+									yield put({
+										type: SSH_SEND_COMMAND_SUCCESS,
+										data: {
+											uuid: action.data.uuid,
+											result: res.result,
+										},
+									});
+								}
+
 								break;
 							default:
 								break;

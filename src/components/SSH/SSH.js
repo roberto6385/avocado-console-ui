@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
+import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import {
@@ -20,7 +21,6 @@ import {
 	closeIcon,
 	searchIcon,
 } from '../../icons/icons';
-import {useTranslation} from 'react-i18next';
 import {
 	borderColor,
 	contextHover,

@@ -22,11 +22,8 @@ import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import AddFavoritesForm from './components/Form/AddFavoritesForm';
-import {
-	REFRESH_USER_TICKET_REQUEST,
-} from './reducers/auth/userTicket';
+import {REFRESH_USER_TICKET_REQUEST} from './reducers/auth/userTicket';
 import base64 from 'base-64';
-
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -40,12 +37,8 @@ const App = () => {
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userTicket) {
-			// dispatch(
-			// 	revokeUserTicket({
-			// 		Authorization: 'Bearer ' + userTicket.access_token,
-			// 	}),
-			// );
 			sessionStorage.clear();
+			window.location.reload();
 		}
 	}, [userTicket]);
 
@@ -54,7 +47,7 @@ const App = () => {
 		if (userTicket) {
 			//from 10 min before expire token
 			if (
-				Date.now() - userTicket.expires_in * 1000 + 50 * 60 * 1000 >
+				Date.now() - userTicket.expires_in * 1000 + 10 * 60 * 1000 >
 				Date.parse(userTicket.create_date)
 			) {
 				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
@@ -72,10 +65,11 @@ const App = () => {
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
+		// timeout: 3000,
 		onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
-		debounce: 500,
+		debounce: 5000,
 	});
 
 	useEffect(() => {

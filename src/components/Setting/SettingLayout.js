@@ -7,8 +7,8 @@ import Footer from '../Footer';
 import {useDispatch, useSelector} from 'react-redux';
 import {borderColor, navColor} from '../../styles/color';
 import {SAVE_ACCOUT} from '../../reducers/common';
-import LightModeLogo from '../../images/logo@2x.png';
-import DarkModeLogo from '../../images/logo_white@3x.png';
+import LightModeLogo from '../../images/logo/logo@2x.png';
+import DarkModeLogo from '../../images/logo/logo_white@3x.png';
 
 const _Container = styled.div`
 	display: flex;

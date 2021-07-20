@@ -175,6 +175,7 @@ const reducer = (state = initialState, action) => {
 					).terminal;
 					const result = action.data.result;
 					sshTerm.write(result);
+					if (action.data.focus) sshTerm.focus();
 
 					if (draft.tab === true) {
 						draft.tab = false;
@@ -241,8 +242,6 @@ const reducer = (state = initialState, action) => {
 							content: action.data.content,
 						};
 				});
-				// draft.snippets = action.data.snippets;
-				// draft.snippents_index = action.data.snippents_index;
 				break;
 
 			case CHANGE_AUTO_COMPLETION_MODE:

@@ -32,10 +32,11 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 						uuid: current_tab,
 						ws: ws,
 						input: v.content,
+						focus: true,
 					},
 				});
 		},
-		[current_tab, ws, dispatch],
+		[current_tab, ws],
 	);
 
 	return (
