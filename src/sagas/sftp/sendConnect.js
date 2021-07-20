@@ -54,7 +54,6 @@ function* sendCommand(action) {
 					});
 				}
 			} else {
-				console.log(data);
 				const res = yield call(connectResponse, {data});
 				uuid = res.uuid;
 

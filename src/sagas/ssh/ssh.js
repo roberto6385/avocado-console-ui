@@ -95,7 +95,6 @@ function* sendConnection(action) {
 									result: res.result,
 								},
 							});
-
 							break;
 
 						case 'ERROR':
@@ -144,7 +143,7 @@ function* sendReConnection(action) {
 				closeChannel(channel);
 			} else {
 				const res = yield call(GetMessage, result);
-				console.log(res);
+
 				switch (res.type) {
 					case 'CONNECT':
 						uuid = res.result;
@@ -160,7 +159,6 @@ function* sendReConnection(action) {
 								type: CLOSE_TAB,
 								data: action.data.prevUuid,
 							});
-
 							yield put({
 								type: SSH_SEND_RECONNECTION_SUCCESS,
 								data: {
@@ -217,84 +215,110 @@ function* sendReConnection(action) {
 
 function* sendDisconnection(action) {
 	const channel = yield call(subscribe, action.data.ws);
-	console.log(action.data);
 
 	try {
+		if (action.data.ws.readyState !== 1) {
+			yield put({type: CLOSE_TAB, data: action.data.uuid});
+			yield put({
+				type: SSH_SEND_DISCONNECTION_SUCCESS,
+				data: action.data.uuid,
+			});
+			return;
+		}
+
+		yield call(ssht_ws_request, {
+			keyword: 'SendDisconnect',
+			ws: action.data.ws,
+		});
+
+		while (true) {
+			const data = yield take(channel);
+			const res = yield call(GetMessage, data);
+			switch (res.type) {
+				case 'DISCONNECT':
+					yield put({type: CLOSE_TAB, data: action.data.uuid});
+					yield put({
+						type: SSH_SEND_DISCONNECTION_SUCCESS,
+						data: action.data.uuid,
+					});
+					break;
+
+				case 'ERROR':
+					break;
+
+				default:
+					yield put({type: CLOSE_TAB, data: action.data.uuid});
+					yield put({
+						type: SSH_SEND_DISCONNECTION_SUCCESS,
+						data: action.data.uuid,
+					});
+					break;
+			}
+		}
+	} catch (err) {
+		console.log(err);
+		closeChannel(channel);
 		yield put({type: CLOSE_TAB, data: action.data.uuid});
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
 			data: action.data.uuid,
 		});
-
-		if (action.data.ws.readyState === 1) {
-			yield call(ssht_ws_request, {
-				keyword: 'SendDisconnect',
-				ws: action.data.ws,
-			});
-		}
-	} catch (err) {
-		console.log(err);
-		closeChannel(channel);
 	}
 }
 
 function* sendCommand(action) {
-	console.log(action.data);
 	if (action.data.ws.readyState === 1) {
 		const channel = yield call(subscribe, action.data.ws);
 
 		try {
-			if (action.data.ws.readyState === 1) {
-				yield call(ssht_ws_request, {
-					keyword: 'SendCommand',
-					ws: action.data.ws,
-					data: action.data.input,
+			yield call(ssht_ws_request, {
+				keyword: 'SendCommand',
+				ws: action.data.ws,
+				data: action.data.input,
+			});
+
+			while (true) {
+				const {timeout, result} = yield race({
+					timeout: delay(5000),
+					result: take(channel),
 				});
 
-				while (true) {
-					const {timeout, result} = yield race({
-						timeout: delay(5000),
-						result: take(channel),
-					});
+				if (timeout) {
+					closeChannel(channel);
+					console.log(action.data.ws.readyState);
+					if (action.data.ws.readyState !== 1) {
+						yield put({
+							type: READY_STATE,
+							data: {uuid: action.data.uuid},
+						});
+					}
+				} else {
+					const res = yield call(GetMessage, result);
 
-					if (timeout) {
-						closeChannel(channel);
-						action.data.ws.close();
-						console.log(action.data.ws.readyState);
-						if (action.data.ws.readyState !== 1) {
-							yield put({
-								type: READY_STATE,
-								data: {uuid: action.data.uuid},
-							});
-						}
-					} else {
-						const res = yield call(GetMessage, result);
+					switch (res.type) {
+						case 'COMMAND':
+							if (action.data.focus) {
+								yield put({
+									type: SSH_SEND_COMMAND_SUCCESS,
+									data: {
+										uuid: action.data.uuid,
+										result: res.result,
+										focus: action.data.focus,
+									},
+								});
+							} else {
+								yield put({
+									type: SSH_SEND_COMMAND_SUCCESS,
+									data: {
+										uuid: action.data.uuid,
+										result: res.result,
+									},
+								});
+							}
 
-						switch (res.type) {
-							case 'COMMAND':
-								if (action.data.focus) {
-									yield put({
-										type: SSH_SEND_COMMAND_SUCCESS,
-										data: {
-											uuid: action.data.uuid,
-											result: res.result,
-											focus: action.data.focus,
-										},
-									});
-								} else {
-									yield put({
-										type: SSH_SEND_COMMAND_SUCCESS,
-										data: {
-											uuid: action.data.uuid,
-											result: res.result,
-										},
-									});
-								}
-
-								break;
-							default:
-								break;
-						}
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -319,7 +343,7 @@ function* sendWindowChange(action) {
 
 			while (true) {
 				const {timeout, result} = yield race({
-					timeout: delay(5000),
+					timeout: delay(1000),
 					result: take(channel),
 				});
 
