@@ -213,7 +213,6 @@ const FileListDropDown = ({uuid}) => {
 								path: path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
-								dispatch: dispatch,
 							}),
 						);
 						dispatch({
@@ -252,7 +251,6 @@ const FileListDropDown = ({uuid}) => {
 									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
-									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -277,7 +275,6 @@ const FileListDropDown = ({uuid}) => {
 									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
-									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -291,7 +288,6 @@ const FileListDropDown = ({uuid}) => {
 									path: path,
 									uuid: uuid,
 									cd_path: `${pathList[listindex]}/${item.name}`,
-									dispatch: dispatch,
 								}),
 							);
 							dispatch({
@@ -329,7 +325,6 @@ const FileListDropDown = ({uuid}) => {
 								path: path,
 								uuid: uuid,
 								cd_path: finalPath,
-								dispatch: dispatch,
 							}),
 						);
 					}
@@ -465,7 +460,6 @@ const FileListDropDown = ({uuid}) => {
 							path: path,
 							uuid: uuid,
 							cd_path: clickedPath,
-							dispatch: dispatch,
 						}),
 					);
 				}

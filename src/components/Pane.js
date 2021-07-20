@@ -131,7 +131,6 @@ const Pane = ({uuid, type, server}) => {
 					user: correspondedIdentity.user,
 					password: correspondedIdentity.password,
 
-					dispatch: dispatch,
 					prevUuid: uuid,
 				},
 			});
@@ -149,7 +148,6 @@ const Pane = ({uuid, type, server}) => {
 					name: correspondedServer.name, // create tab info
 					key: correspondedServer.key,
 					id: correspondedServer.id,
-					dispatch: dispatch,
 
 					prevUuid: uuid,
 					prevPath: path,

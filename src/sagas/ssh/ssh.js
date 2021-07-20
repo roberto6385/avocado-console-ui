@@ -260,15 +260,12 @@ function* sendCommand(action) {
 
 					if (timeout) {
 						closeChannel(channel);
+						action.data.ws.close();
 						console.log(action.data.ws.readyState);
 						if (action.data.ws.readyState !== 1) {
 							yield put({
-								type: SSH_SEND_COMMAND_REQUEST,
-								data: {
-									ws: action.data.ws,
-									uuid: action.data.uuid,
-									key: 'close',
-								},
+								type: READY_STATE,
+								data: {uuid: action.data.uuid},
 							});
 						}
 					} else {
@@ -295,12 +292,6 @@ function* sendCommand(action) {
 			closeChannel(channel);
 			yield put({type: SSH_SEND_COMMAND_FAILURE});
 		}
-	} else {
-		yield put({
-			type: READY_STATE,
-			data: {uuid: action.data.uuid},
-		});
-		console.log('HERERERERERERERERE---------RERERERERERERERERERE');
 	}
 }
 
@@ -325,12 +316,8 @@ function* sendWindowChange(action) {
 					closeChannel(channel);
 					if (action.data.ws.readyState !== 1) {
 						yield put({
-							type: SSH_SEND_WINDOW_CHANGE_REQUEST,
-							data: {
-								ws: action.data.ws,
-								uuid: action.data.uuid,
-								key: 'close',
-							},
+							type: READY_STATE,
+							data: {uuid: action.data.uuid},
 						});
 					}
 				} else {
@@ -361,12 +348,6 @@ function* sendWindowChange(action) {
 			closeChannel(channel);
 			yield put({type: SSH_SEND_WINDOW_CHANGE_FAILURE});
 		}
-	} else {
-		yield put({
-			type: READY_STATE,
-			data: {uuid: action.data.uuid},
-		});
-		console.log('HERERERERERERERERE---------RERERERERERERERERERE');
 	}
 }
 

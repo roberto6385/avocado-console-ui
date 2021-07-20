@@ -15,11 +15,10 @@ import {
 	LS_SUCCESS,
 	READY_STATE,
 } from '../../reducers/sftp';
-import {closeChannel} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {sortFunction} from '../../components/SFTP/listConversion';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
-import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -30,14 +29,7 @@ function* sendCommand(action) {
 		return;
 	}
 
-	const channel = yield call(useSubscribe, {
-		socket: payload.socket,
-		dispatch: () =>
-			payload.dispatch({
-				type: READY_STATE,
-				payload: {uuid: payload.uuid},
-			}),
-	});
+	const channel = yield call(subscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {
@@ -53,6 +45,12 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				console.log('ls end');
+				if (payload.socket.readyState !== 1) {
+					yield put({
+						type: READY_STATE,
+						payload: {uuid: payload.uuid},
+					});
+				}
 			} else {
 				const res = yield call(lsResponse, {data});
 				console.log(res);

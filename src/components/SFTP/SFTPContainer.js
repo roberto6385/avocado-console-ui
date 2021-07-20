@@ -150,7 +150,6 @@ const SFTPContainer = ({uuid}) => {
 					write_path: value.path,
 					file: value.file,
 					todo: value.todo,
-					dispatch: dispatch,
 					offset: value?.offset,
 				}),
 			);
@@ -185,7 +184,6 @@ const SFTPContainer = ({uuid}) => {
 							value.file.type === 'file'
 								? 'CommandByRm'
 								: 'CommandByRmdir',
-						dispatch: dispatch,
 					}),
 				);
 				dispatch({type: DELETE_PASS, payload: {uuid}});

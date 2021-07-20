@@ -18,10 +18,9 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 
-import {closeChannel} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -31,14 +30,7 @@ function* sendCommand(action) {
 		return;
 	}
 
-	const channel = yield call(useSubscribe, {
-		socket: payload.socket,
-		dispatch: () =>
-			payload.dispatch({
-				type: READY_STATE,
-				payload: {uuid: payload.uuid},
-			}),
-	});
+	const channel = yield call(subscribe, payload.socket);
 
 	try {
 		if (payload.socket.readyState === 3) {
@@ -57,6 +49,12 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				if (payload.socket.readyState !== 1) {
+					yield put({
+						type: READY_STATE,
+						payload: {uuid: payload.uuid},
+					});
+				}
 			} else {
 				const res = yield call(cdResponse, {data});
 

@@ -87,7 +87,6 @@ const FileListNav = ({uuid}) => {
 						uuid: uuid,
 						path: path,
 						cd_path: nextPath,
-						dispatch: dispatch,
 					}),
 				) &&
 				pathInput.blur();
@@ -163,7 +162,6 @@ const FileListNav = ({uuid}) => {
 				socket: socket,
 				uuid: uuid,
 				pwd_path: null,
-				dispatch: dispatch,
 			}),
 		);
 	}, [dispatch, socket, uuid]);

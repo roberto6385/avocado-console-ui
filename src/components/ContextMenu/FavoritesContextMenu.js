@@ -43,7 +43,6 @@ const FavoritesContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
-				dispatch: dispatch,
 			}),
 		);
 	}, [

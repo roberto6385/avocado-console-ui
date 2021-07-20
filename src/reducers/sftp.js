@@ -245,6 +245,7 @@ const sftp = (state = initialState, action) =>
 				socket_target.ready = 1;
 				path_target.uuid = action.payload.newUuid;
 				file_target.uuid = action.payload.newUuid;
+				high_target.uuid = action.payload.newUuid;
 				history_target.uuid = action.payload.newUuid;
 				etc_target.uuid = action.payload.newUuid;
 				edit_target.uuid = action.payload.newUuid;
@@ -450,6 +451,7 @@ const sftp = (state = initialState, action) =>
 			//--//
 
 			case READY_STATE:
+				if (action.payload.uuid === null) return;
 				socket_target.ready = 3;
 				break;
 

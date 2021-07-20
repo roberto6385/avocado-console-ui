@@ -141,7 +141,6 @@ function* sendCommand(action) {
 									socket: payload.socket,
 									uuid: payload.uuid,
 									pwd_path: payload.write_path,
-									dispatch: payload.dispatch,
 									key: 'write',
 								}),
 							);

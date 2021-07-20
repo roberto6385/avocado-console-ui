@@ -79,7 +79,6 @@ const InputPopup = () => {
 										? `${path}${formValue}`
 										: `${path}/${formValue}`,
 								path: path,
-								dispatch: dispatch,
 							}),
 						);
 					}
@@ -97,7 +96,6 @@ const InputPopup = () => {
 								path === '/'
 									? `${path}${formValue}`
 									: `${path}/${formValue}`,
-							dispatch: dispatch,
 						}),
 					);
 					break;
@@ -129,7 +127,7 @@ const InputPopup = () => {
 					);
 					await setFormValue(highlight[0].name);
 				} else {
-					// await setFormValue('');
+					await setFormValue('');
 				}
 				await inputRef.current?.select();
 				await inputRef.current?.focus();

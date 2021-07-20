@@ -18,9 +18,8 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 
-import {closeChannel} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {renameResponse} from '../../ws/sftp/rename_response';
-import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -30,14 +29,7 @@ function* sendCommand(action) {
 		return;
 	}
 
-	const channel = yield call(useSubscribe, {
-		socket: payload.socket,
-		dispatch: () =>
-			payload.dispatch({
-				type: READY_STATE,
-				payload: {uuid: payload.uuid},
-			}),
-	});
+	const channel = yield call(subscribe, payload.socket);
 	try {
 		yield call(messageSender, {
 			keyword: 'CommandByRename',
@@ -52,6 +44,12 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				if (payload.socket.readyState !== 1) {
+					yield put({
+						type: READY_STATE,
+						payload: {uuid: payload.uuid},
+					});
+				}
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(renameResponse, {data});

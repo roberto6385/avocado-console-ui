@@ -407,7 +407,6 @@ const History = ({uuid}) => {
 									socket: sftp_socket,
 									uuid: uuid,
 									pwd_path: path,
-									dispatch: dispatch,
 									key: 'write',
 								}),
 							);

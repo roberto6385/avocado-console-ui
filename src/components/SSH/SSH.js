@@ -163,7 +163,6 @@ const SSH = ({uuid, toggle}) => {
 					uuid: uuid,
 					ws: ws,
 					input: v.substring(currentLine.length),
-					dispatch: dispatch,
 				},
 			});
 			dispatch({
@@ -172,11 +171,10 @@ const SSH = ({uuid, toggle}) => {
 					uuid: uuid,
 					ws: ws,
 					input: '\r',
-					dispatch: dispatch,
 				},
 			});
 		},
-		[currentLine.length, uuid, ws],
+		[currentLine.length, dispatch, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
@@ -245,7 +243,6 @@ const SSH = ({uuid, toggle}) => {
 						input: historyList[currentHistory].substring(
 							currentLine.length,
 						),
-						dispatch: dispatch,
 					},
 				});
 				dispatch({
@@ -254,7 +251,6 @@ const SSH = ({uuid, toggle}) => {
 						uuid: uuid,
 						ws: ws,
 						input: '\r',
-						dispatch: dispatch,
 					},
 				});
 			} else {
@@ -264,7 +260,6 @@ const SSH = ({uuid, toggle}) => {
 						uuid: uuid,
 						ws: ws,
 						input: data,
-						dispatch: dispatch,
 					},
 				});
 				if (data.charCodeAt(0) === 13 && ignoreAutoCompletion)

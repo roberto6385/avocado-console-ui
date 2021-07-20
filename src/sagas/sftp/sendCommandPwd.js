@@ -9,10 +9,9 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import messageSender from './messageSender';
-import {closeChannel} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
-import useSubscribe from '../../hooks/useSubscribe';
 import {
 	commandLsAction,
 	INIT_FILELIST,
@@ -30,15 +29,7 @@ function* sendCommand(action) {
 		return;
 	}
 
-	const channel = yield call(useSubscribe, {
-		socket: payload.socket,
-		uuid: payload.uuid,
-		dispatch: () =>
-			payload.dispatch({
-				type: READY_STATE,
-				payload: {uuid: payload.uuid},
-			}),
-	});
+	const channel = yield call(subscribe, payload.socket);
 
 	try {
 		yield call(messageSender, {
@@ -54,6 +45,12 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				console.log('pwd end');
+				if (payload.socket.readyState !== 1) {
+					yield put({
+						type: READY_STATE,
+						payload: {uuid: payload.uuid},
+					});
+				}
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(pwdResponse, {data});

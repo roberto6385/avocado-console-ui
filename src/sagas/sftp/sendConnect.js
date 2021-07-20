@@ -15,27 +15,24 @@ import {
 	CONNECTION_SUCCESS,
 	disconnectAction,
 	ERROR,
+	READY_STATE,
 } from '../../reducers/sftp';
-import {closeChannel} from '../channel';
+import {closeChannel, subscribe} from '../channel';
 
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {connectResponse} from '../../ws/sftp/connect_response';
-import useSubscribe from '../../hooks/useSubscribe';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
+	let uuid = null;
 
 	try {
 		const socket = yield call(createWebsocket);
-		const channel = yield call(useSubscribe, {
-			socket,
-			dispatch: () =>
-				console.log('최초 연결시 끊김 체크는 다른 방법을 사용해야 함'),
-		});
+		const channel = yield call(subscribe, socket);
 
 		yield call(messageSender, {
 			keyword: 'Connection',
@@ -50,10 +47,16 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				if (socket.readyState !== 1) {
+					yield put({
+						type: READY_STATE,
+						payload: {uuid},
+					});
+				}
 			} else {
 				console.log(data);
 				const res = yield call(connectResponse, {data});
-				const uuid = res.uuid;
+				uuid = res.uuid;
 
 				switch (res.type) {
 					case CONNECTION_SUCCESS:
@@ -83,7 +86,6 @@ function* sendCommand(action) {
 								socket: socket,
 								uuid: uuid,
 								pwd_path: null,
-								dispatch: payload.dispatch,
 							}),
 						);
 

@@ -6,7 +6,7 @@ import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
-import {HEIGHT_50, WIDTH_256} from '../../../styles/length';
+import {WIDTH_256} from '../../../styles/length';
 import {borderColor, fontColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
 import {

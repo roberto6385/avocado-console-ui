@@ -359,7 +359,6 @@ const FileList = ({uuid}) => {
 						uuid: uuid,
 						path: path,
 						cd_path: item.name,
-						dispatch: dispatch,
 					}),
 				);
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
