@@ -69,6 +69,7 @@ const reducer = (state = initialState, action) => {
 				const index = draft.ssh.findIndex(
 					(v) => v.uuid === action.data.uuid,
 				);
+				if (index === -1) return;
 				draft.ssh[index].ready = 3;
 				break;
 			}
@@ -127,10 +128,12 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST: {
+				if (action.data.key === 'close') return;
 				const index = draft.ssh.findIndex(
 					(v) => v.uuid === action.data.uuid,
 				);
-				const current_line = draft.ssh[index].current_line;
+
+				const current_line = draft.ssh[index].current_line || '';
 
 				if (action.data.input.charCodeAt(0) < 31) {
 					if (action.data.input.charCodeAt(0) === 13) {

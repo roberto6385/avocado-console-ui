@@ -218,6 +218,7 @@ function* sendReConnection(action) {
 
 function* sendDisconnection(action) {
 	const channel = yield call(subscribe, action.data.ws);
+	console.log(action.data);
 
 	try {
 		yield put({type: CLOSE_TAB, data: action.data.uuid});
@@ -239,6 +240,7 @@ function* sendDisconnection(action) {
 }
 
 function* sendCommand(action) {
+	console.log(action.data);
 	if (action.data.ws.readyState === 1) {
 		const channel = yield call(subscribe, action.data.ws);
 
@@ -258,7 +260,17 @@ function* sendCommand(action) {
 
 					if (timeout) {
 						closeChannel(channel);
-						action.data.ws.close();
+						console.log(action.data.ws.readyState);
+						if (action.data.ws.readyState !== 1) {
+							yield put({
+								type: SSH_SEND_COMMAND_REQUEST,
+								data: {
+									ws: action.data.ws,
+									uuid: action.data.uuid,
+									key: 'close',
+								},
+							});
+						}
 					} else {
 						const res = yield call(GetMessage, result);
 
@@ -311,6 +323,16 @@ function* sendWindowChange(action) {
 
 				if (timeout) {
 					closeChannel(channel);
+					if (action.data.ws.readyState !== 1) {
+						yield put({
+							type: SSH_SEND_WINDOW_CHANGE_REQUEST,
+							data: {
+								ws: action.data.ws,
+								uuid: action.data.uuid,
+								key: 'close',
+							},
+						});
+					}
 				} else {
 					const res = yield call(GetMessage, result);
 
