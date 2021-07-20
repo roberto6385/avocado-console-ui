@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import background from '../images/login_bg_design_1.jpg';
-import DarkModeLogo from '../images/logo_white@3x.png';
+import DarkModeLogo from '../images/logo/logo_white@3x.png';
 
 const _Container = styled.div`
 	background-image: url(${background});

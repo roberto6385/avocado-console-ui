@@ -10,37 +10,19 @@ import {
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import drkFloatingButton from '../images/drk_floating button.png';
 import lghtFloatingButton from '../images/lght_floating button.png';
-import {
-	burgerMenuIcon,
-	closeIcon,
-	newFolderIcon,
-	plusIcon,
-	searchIcon,
-	sftpIcon,
-	sshIcon,
-} from '../icons/icons';
+import {burgerMenuIcon, plusIcon, searchIcon} from '../icons/icons';
 import {ADD_FOLDER, CHANGE_NAVTAB} from '../reducers/common';
 import PropTypes from 'prop-types';
+import {WIDTH_256, FONT_14, HEIGHT_36, WIDTH_165} from '../styles/length';
 import {
-	HEIGHT_48,
-	WIDTH_256,
-	FONT_14,
-	HEIGHT_36,
-	WIDTH_165,
-} from '../styles/length';
-import {
-	navInputColor,
 	navColor,
 	borderColor,
 	fontColor,
-	iconColor,
 	activeColor,
-	tabColor,
-	tabbarColor,
 	inputBack,
 } from '../styles/color';
-import LightModeLogo from '../images/logo@2x.png';
-import DarkModeLogo from '../images/logo_white@3x.png';
+import LightModeLogo from '../images/logo/logo@2x.png';
+import DarkModeLogo from '../images/logo/logo_white@3x.png';
 import {ClickableIconButton, IconBox} from '../styles/button';
 import FavoriteList from './ServerFolderList/FavoritesList';
 

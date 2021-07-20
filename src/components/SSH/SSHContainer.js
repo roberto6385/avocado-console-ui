@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -8,15 +8,16 @@ import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import SnippetsManeger from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
-import {
-	borderColor,
-	fontColor,
-	navCloseTerminalButtonColor,
-	tabColor,
-	terminalColor,
-} from '../../styles/color';
+import {borderColor, tabColor, terminalColor} from '../../styles/color';
 import SnippetContextMenu from '../ContextMenu/SnippetContextMenu';
 import {ClickableIconButton} from '../../styles/button';
+import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
+import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
+import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
+import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
+
+const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
+const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
 
 const _Container = styled.div`
 	position: relative;
@@ -50,17 +51,12 @@ const _Header = styled.div`
 	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
-const _ToggleButton = styled.button`
-	width: 150px;
-	border: none;
+const _ToggleButton = styled.img`
+	width: 54px;
+	height: 18px;
 	margin-left: auto;
 	margin-right: auto;
 	transition: transform 0.5s;
-	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-	background-color: ${(props) =>
-		navCloseTerminalButtonColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
-	margin-bottom: 2px;
 `;
 
 const SSHContainer = ({uuid, server}) => {
@@ -94,9 +90,13 @@ const SSHContainer = ({uuid, server}) => {
 			.requestFullscreen();
 	}, [uuid]);
 
-	const onClickCloseNav = useCallback(() => {
-		setToggle(!toggle);
-	}, [toggle]);
+	const onClickFold = useCallback(() => {
+		setToggle(false);
+	}, []);
+
+	const onClickUnfold = useCallback(() => {
+		setToggle(true);
+	}, []);
 
 	return (
 		<_Container>
@@ -121,14 +121,20 @@ const SSHContainer = ({uuid, server}) => {
 						{fullScreenIcon}
 					</ClickableIconButton>
 				</_Header>
-				{(nav.length === 1 || cols === 1) && (
-					<_ToggleButton
-						theme_value={theme}
-						onClick={onClickCloseNav}
-					>
-						...
-					</_ToggleButton>
-				)}
+				{(nav.length === 1 || cols === 1) &&
+					(toggle ? (
+						<_ToggleButton
+							src={toolbarFold[theme]}
+							alt='toolbar fold button'
+							onClick={onClickFold}
+						/>
+					) : (
+						<_ToggleButton
+							src={toolbarUnfold[theme]}
+							alt='toolbar fold button'
+							onClick={onClickUnfold}
+						/>
+					))}
 			</_HeaderContainer>
 			<SSH uuid={uuid} toggle={toggle} />
 			<SnippetsManeger open={open} setOpen={setOpen} />
