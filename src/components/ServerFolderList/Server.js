@@ -187,8 +187,6 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data, setRenameValue]);
 
-	console.log(favorites);
-
 	return (
 		<React.Fragment>
 			<ServerItem
