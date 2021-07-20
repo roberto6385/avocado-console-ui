@@ -4,7 +4,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
-import {SAVE_ACCOUT} from '../reducers/common';
+import {INIT_FAVORITES, SAVE_ACCOUT} from '../reducers/common';
 import {navColor} from '../styles/color';
 
 const _Container = styled.div`
@@ -21,7 +21,7 @@ const Home = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const theme = useSelector((state) => state.common.theme);
+	const theme = useSelector((state) => state?.common.theme);
 	const history = useHistory();
 	const dispatch = useDispatch();
 
@@ -30,6 +30,10 @@ const Home = () => {
 			history.push('/signin');
 		}
 	}, [history, userTicket]);
+
+	useEffect(() => {
+		dispatch({type: INIT_FAVORITES});
+	});
 
 	useEffect(() => {
 		if (userInfo) {

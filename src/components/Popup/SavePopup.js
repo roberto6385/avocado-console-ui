@@ -146,7 +146,6 @@ const SavePopup = () => {
 							file: uploadFile,
 						},
 					});
-					//TODO 편집은 나중에
 					if (!writeSocket && writeList.length === 0) {
 						dispatch(
 							createNewWebsocket({
@@ -183,7 +182,6 @@ const SavePopup = () => {
 							file: uploadFile,
 						},
 					});
-					//TODO 편집은 나중에
 					if (!writeSocket && writeList.length === 0) {
 						dispatch(
 							createNewWebsocket({

@@ -1,15 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeEvery,
-	takeLatest,
-	race,
-	delay,
-	throttle,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, throttle} from 'redux-saga/effects';
 import {
 	CREATE_NEW_WEBSOCKET_FAILURE,
 	CREATE_NEW_WEBSOCKET_REQUEST,
@@ -61,10 +50,12 @@ function* sendCommand(action) {
 					break;
 
 				case ERROR:
-					yield put({
-						type: OPEN_ALERT_POPUP,
-						data: 'invalid_server',
-					});
+					if (socket.readyState === 1) {
+						yield put({
+							type: OPEN_ALERT_POPUP,
+							data: 'invalid_server',
+						});
+					}
 					yield put({
 						type: CREATE_NEW_WEBSOCKET_FAILURE,
 						data: res.err,

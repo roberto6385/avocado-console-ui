@@ -258,6 +258,7 @@ export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 export const BOOKMARKING = 'common/BOOKMARKING';
 export const SAVE_FAVORITES = 'common/SAVE_FAVORITES';
 export const UNDO_FAVORITES = 'common/UNDO_FAVORITES';
+export const INIT_FAVORITES = 'common/INIT_FAVORITES';
 
 export const GET_NOTICE = 'common/GET_NOTICE';
 export const ADD_NOTICE = 'common/ADD_NOTICE';
@@ -511,6 +512,10 @@ const reducer = (state = initialState, action) => {
 
 			case SAVE_FAVORITES: {
 				draft.favorites = draft.tempFavorites;
+				localStorage.setItem(
+					'favorites',
+					JSON.stringify(draft.tempFavorites),
+				);
 				break;
 			}
 			case UNDO_FAVORITES: {
@@ -604,10 +609,6 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case BOOKMARKING: {
-				const parent = searchParentTreeStart(
-					state.nav,
-					action.data.key,
-				);
 				const index = draft.favorites.findIndex(
 					(v) => JSON.stringify(v) === JSON.stringify(action.data),
 				);
@@ -623,8 +624,20 @@ const reducer = (state = initialState, action) => {
 					);
 				}
 				draft.tempFavorites = draft.favorites;
+				localStorage.setItem(
+					'favorites',
+					JSON.stringify(draft.favorites),
+				);
+
 				break;
 			}
+
+			case INIT_FAVORITES:
+				draft.favorites = JSON.parse(localStorage.getItem('favorites'));
+				draft.tempFavorites = JSON.parse(
+					localStorage.getItem('favorites'),
+				);
+				break;
 
 			case CHANGE_SERVER_FOLDER_NAME: {
 				console.log(action.data);

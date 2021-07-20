@@ -121,7 +121,6 @@ const FileListContextMenu = ({uuid}) => {
 				},
 			});
 		}
-		//TODO 편집은 나중에
 		if (!readSocket && readList.length === 0) {
 			dispatch(
 				createNewWebsocket({

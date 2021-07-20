@@ -92,10 +92,12 @@ function* sendCommand(action) {
 						break;
 
 					case ERROR:
-						yield put({
-							type: OPEN_ALERT_POPUP,
-							data: 'invalid_server',
-						});
+						if (socket.readyState === 1) {
+							yield put({
+								type: OPEN_ALERT_POPUP,
+								data: 'invalid_server',
+							});
+						}
 						yield put({type: CONNECTION_FAILURE, data: res.err});
 
 						yield put(

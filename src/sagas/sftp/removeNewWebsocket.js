@@ -1,14 +1,4 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	takeLatest,
-	race,
-	delay,
-	takeEvery,
-} from 'redux-saga/effects';
+import {all, call, fork, take, put, takeEvery} from 'redux-saga/effects';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {removeNewSocketResponse} from '../../ws/sftp/remove_new_socket';

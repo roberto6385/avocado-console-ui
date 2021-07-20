@@ -227,7 +227,6 @@ const FileList = ({uuid}) => {
 					},
 				});
 
-				//TODO 편집은 readList 나중에
 				if (!readSocket && readList.length === 0) {
 					dispatch(
 						createNewWebsocket({

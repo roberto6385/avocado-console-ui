@@ -185,6 +185,8 @@ const Server = ({data, indent}) => {
 		fillInForm();
 	}, [openRename, renameRef, data, setRenameValue]);
 
+	console.log(favorites);
+
 	return (
 		<React.Fragment>
 			<ServerItem
@@ -230,7 +232,10 @@ const Server = ({data, indent}) => {
 					)}
 					<ClickableIconButton
 						className={
-							favorites.includes(data)
+							favorites.find(
+								(v) =>
+									JSON.stringify(v) === JSON.stringify(data),
+							)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -239,7 +244,10 @@ const Server = ({data, indent}) => {
 						theme_value={theme}
 						onClick={handleBookmark}
 						color={
-							favorites.includes(data)
+							favorites.find(
+								(v) =>
+									JSON.stringify(v) === JSON.stringify(data),
+							)
 								? activeColor[theme]
 								: undefined
 						}

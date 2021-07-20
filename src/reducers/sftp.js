@@ -362,6 +362,9 @@ const sftp = (state = initialState, action) =>
 				draft.etc = state.etc.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
+				draft.high = state.high.filter(
+					(it) => it.uuid !== action.payload.uuid,
+				);
 				break;
 			case DISCONNECTION_FAILURE:
 				// draft.loading = false;
@@ -450,10 +453,14 @@ const sftp = (state = initialState, action) =>
 
 			//--//
 
-			case READY_STATE:
-				if (action.payload.uuid === null) return;
+			case READY_STATE: {
+				const index = draft.socket.findIndex(
+					(v) => v.uuid === action.payload.uuid,
+				);
+				if (index === -1) return;
 				socket_target.ready = 3;
 				break;
+			}
 
 			// 현재 경로 조회
 			case PWD_REQUEST:
