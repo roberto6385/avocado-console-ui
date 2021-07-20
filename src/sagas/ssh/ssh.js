@@ -302,7 +302,6 @@ function* sendCommand(action) {
 			type: READY_STATE,
 			data: {uuid: action.data.uuid},
 		});
-		console.log('HERERERERERERERERE---------RERERERERERERERERERE');
 	}
 }
 
@@ -358,7 +357,6 @@ function* sendWindowChange(action) {
 			type: READY_STATE,
 			data: {uuid: action.data.uuid},
 		});
-		console.log('HERERERERERERERERE---------RERERERERERERERERERE');
 	}
 }
 
