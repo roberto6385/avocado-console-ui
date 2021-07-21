@@ -161,10 +161,10 @@ const FavoritesServer = ({data, indent, temp}) => {
 		[data, dispatch],
 	);
 
-	const handleDragOver = (e) => {
+	const handleDragOver = useCallback((e) => {
 		e.stopPropagation();
 		e.preventDefault();
-	};
+	}, []);
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {

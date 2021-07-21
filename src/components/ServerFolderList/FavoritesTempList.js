@@ -7,9 +7,12 @@ import {Nav} from 'react-bootstrap';
 
 import {navColor} from '../../styles/color';
 import {HiddenScroll} from '../../styles/function';
-import FavoritesServer from './FavoritesServer';
+import FavoritesServer, {ServerItem} from './FavoritesServer';
 import FavoritesFolder from './FavoritesFolder';
-import {SORT_FAVORITES_SERVER_AND_FOLDER} from '../../reducers/common';
+import {
+	LOCAL_SAVE_FAVORITES,
+	SORT_FAVORITES_SERVER_AND_FOLDER,
+} from '../../reducers/common';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -76,6 +79,8 @@ const FavoriteTempList = ({search}) => {
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
 			data: {next: 'toEdge'},
 		});
+
+		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -90,8 +95,18 @@ const FavoriteTempList = ({search}) => {
 		setfilteredFavorite(searchTreeStart(tempFavorites, search));
 	}, [tempFavorites, search]);
 
+	const handleDragOver = useCallback((e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	}, []);
+
 	return (
-		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
+		<_Nav
+			onDrop={dropNavList}
+			onDragOver={handleDragOver}
+			theme_value={theme}
+			id='sortableServerNav'
+		>
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
 					<FavoritesFolder

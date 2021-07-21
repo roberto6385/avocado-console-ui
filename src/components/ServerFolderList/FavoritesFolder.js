@@ -183,10 +183,10 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		dispatch({type: SET_CLICKED_SERVER, data: null});
 	}, [dispatch]);
 
-	const handleDragOver = (e) => {
+	const handleDragOver = useCallback((e) => {
 		e.stopPropagation();
 		e.preventDefault();
-	};
+	}, []);
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
