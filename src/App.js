@@ -27,7 +27,7 @@ import base64 from 'base-64';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	// const handleOnIdle = useCallback(() => {
 	// 	// console.log('stop');

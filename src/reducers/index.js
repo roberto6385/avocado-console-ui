@@ -12,7 +12,7 @@ import ssh from './ssh';
 import sftp from './sftp';
 import popup from './popup';
 import clientTicket from './auth/clientTicket';
-import userTicket from './auth/userTicket';
+import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 import modify from './auth/modify';
 import verify from './auth/verify';
 import find from './auth/find';
@@ -63,6 +63,10 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
+	if (action.type === REVOKE_USER_TICKET_SUCCESS) {
+		return appReducer(undefined, action);
+	}
+
 	return appReducer(state, action);
 };
 
