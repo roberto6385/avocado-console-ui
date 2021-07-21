@@ -7,12 +7,14 @@ export const initialState = {
 	cols: 1,
 	minimize: false,
 	server_index: 4,
+	favorites_folder_index: 0,
 	folder_index: 2,
 	account: {account: '', name: '', email: ''},
 	rightSideKey: '',
 	theme: 0, // light === 0  and dark === 1 우선 redux로 구현
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 	favorites: [],
+	favoritesRenameKey: null,
 	tempFavorites: [],
 	nav: [
 		{
@@ -423,11 +425,14 @@ const reducer = (state = initialState, action) => {
 			case ADD_FAVORITES_FOLDER: {
 				const data = {
 					type: 'folder',
-					id: action.data.index,
-					key: 'f_' + action.data.index.toString(),
+					id: draft.favorites_folder_index,
+					key: 'f_' + draft.favorites_folder_index.toString(),
 					name: action.data.name,
 					contain: [],
 				};
+
+				draft.favoritesRenameKey =
+					'f_' + draft.favorites_folder_index.toString();
 
 				if (action.data.key === 'favorites') {
 					addDataOnNode(draft.favorites, draft.clicked_server, data);
@@ -439,6 +444,7 @@ const reducer = (state = initialState, action) => {
 				}
 				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
 
+				draft.favorites_folder_index++;
 				break;
 			}
 
@@ -639,12 +645,19 @@ const reducer = (state = initialState, action) => {
 					JSON.parse(localStorage.getItem('favorites')) || [];
 				draft.tempFavorites =
 					JSON.parse(localStorage.getItem('favorites')) || [];
+				draft.favorites_folder_index = JSON.parse(
+					localStorage.getItem('favorites_folder_index') || 0,
+				);
 				break;
 
 			case LOCAL_SAVE_FAVORITES:
 				localStorage.setItem(
 					'favorites',
 					JSON.stringify(draft.favorites),
+				);
+				localStorage.setItem(
+					'favorites_folder_index',
+					JSON.stringify(draft.favorites_folder_index),
 				);
 				break;
 
@@ -677,10 +690,15 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_FAVORITES_FOLDER_NAME: {
-				searchTreeStart(draft.tempFavorites, action.data.key).name =
-					action.data.name;
-				searchTreeStart(draft.favorites, action.data.key).name =
-					action.data.name;
+				if (action.data.temp) {
+					searchTreeStart(draft.tempFavorites, action.data.key).name =
+						action.data.name;
+				} else {
+					searchTreeStart(draft.tempFavorites, action.data.key).name =
+						action.data.name;
+					searchTreeStart(draft.favorites, action.data.key).name =
+						action.data.name;
+				}
 
 				// draft.tab = draft.tab.map((v) => {
 				// 	if (v.server.key === action.data.key)
@@ -769,6 +787,7 @@ const reducer = (state = initialState, action) => {
 
 			case SET_CLICKED_SERVER:
 				draft.clicked_server = action.data;
+				if (action.data === null) draft.favoritesRenameKey = null;
 				break;
 
 			case CHANGE_SIDEBAR_DISPLAY:

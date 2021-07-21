@@ -86,6 +86,7 @@ const SavePopup = () => {
 			}
 			case 'favorites_save': {
 				dispatch({type: UNDO_FAVORITES});
+				dispatch({type: LOCAL_SAVE_FAVORITES});
 				dispatch({type: CLOSE_SAVE_POPUP});
 				dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
 

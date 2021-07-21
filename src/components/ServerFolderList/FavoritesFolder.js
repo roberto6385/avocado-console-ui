@@ -65,10 +65,15 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const FavoritesFolder = ({open, data, indent}) => {
+const FavoritesFolder = ({open, data, indent, temp}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, theme, createdFolderInfo, tempFavorites} =
-		useSelector((state) => state?.common, shallowEqual);
+	const {
+		clicked_server,
+		theme,
+		createdFolderInfo,
+		tempFavorites,
+		favoritesRenameKey,
+	} = useSelector((state) => state?.common, shallowEqual);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
@@ -108,7 +113,7 @@ const FavoritesFolder = ({open, data, indent}) => {
 			if (isValidFolderName(tempFavorites, renameValue.trim())) {
 				dispatch({
 					type: CHANGE_FAVORITES_FOLDER_NAME,
-					data: {key: data.key, name: renameValue.trim()},
+					data: {key: data.key, name: renameValue.trim(), temp},
 				});
 
 				setOpenRename(false);
@@ -127,6 +132,8 @@ const FavoritesFolder = ({open, data, indent}) => {
 					dispatch({type: SET_CLICKED_SERVER, data: null});
 				}
 			}
+
+			dispatch({type: LOCAL_SAVE_FAVORITES});
 
 			// if (renameValue !== data.name) {
 			// 	dispatch({
@@ -203,6 +210,13 @@ const FavoritesFolder = ({open, data, indent}) => {
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
+	useEffect(() => {
+		renameRef.current?.focus();
+		if (data.key === favoritesRenameKey) {
+			setOpenRename(true);
+		}
+	}, [data, favoritesRenameKey]);
+
 	return (
 		<React.Fragment>
 			<FolderItem
@@ -263,6 +277,7 @@ const FavoritesFolder = ({open, data, indent}) => {
 									open={open}
 									data={i}
 									indent={indent + 1}
+									temp={temp}
 								/>
 							) : (
 								<FavoritesServer
@@ -284,6 +299,7 @@ FavoritesFolder.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
+	temp: PropTypes.bool.isRequired,
 };
 
 export default FavoritesFolder;

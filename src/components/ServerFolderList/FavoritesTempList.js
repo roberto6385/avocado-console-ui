@@ -93,13 +93,18 @@ const FavoriteTempList = ({search}) => {
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
 					<FavoritesFolder
-						key={data.key}
+						key={data.key + data.name}
 						open={search !== ''}
 						data={data}
 						indent={1}
+						temp={true}
 					/>
 				) : (
-					<FavoritesServer key={data.key} data={data} indent={1} />
+					<FavoritesServer
+						key={data.key + data.name}
+						data={data}
+						indent={1}
+					/>
 				),
 			)}
 		</_Nav>

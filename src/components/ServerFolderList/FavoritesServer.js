@@ -125,19 +125,19 @@ const FavoritesServer = ({data, indent}) => {
 		[data, dispatch, show],
 	);
 
-	const handleSubmit = useCallback(
-		(e) => {
-			e.preventDefault();
-
-			if (renameValue !== data.name)
-				dispatch({
-					type: CHANGE_FAVORITES_FOLDER_NAME,
-					data: {key: data.key, name: renameValue},
-				});
-			setOpenRename(false);
-		},
-		[data, dispatch, renameValue],
-	);
+	// const handleSubmit = useCallback(
+	// 	(e) => {
+	// 		e.preventDefault();
+	//
+	// 		if (renameValue !== data.name)
+	// 			dispatch({
+	// 				type: CHANGE_FAVORITES_FOLDER_NAME,
+	// 				data: {key: data.key, name: renameValue},
+	// 			});
+	// 		setOpenRename(false);
+	// 	},
+	// 	[data, dispatch, renameValue],
+	// );
 
 	const EscapeKey = useCallback((e) => {
 		if (e.keyCode === 27) setOpenRename(false);
@@ -203,20 +203,20 @@ const FavoritesServer = ({data, indent}) => {
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (
-						<NewServerFolderForm
-							onSubmit={handleSubmit}
-							onBlur={handleSubmit}
-						>
-							<NewServerFolderInput
-								ref={renameRef}
-								type='text'
-								value={renameValue}
-								onChange={onChangeRenameValue}
-								onKeyDown={EscapeKey}
-								theme_value={theme}
-							/>
-						</NewServerFolderForm>
+						// <NewServerFolderForm
+						// 	onSubmit={handleSubmit}
+						// 	onBlur={handleSubmit}
+						// >
+						<NewServerFolderInput
+							ref={renameRef}
+							type='text'
+							value={renameValue}
+							onChange={onChangeRenameValue}
+							onKeyDown={EscapeKey}
+							theme_value={theme}
+						/>
 					) : (
+						// </NewServerFolderForm>
 						data.name
 					)}
 				</FolderServerTitle>

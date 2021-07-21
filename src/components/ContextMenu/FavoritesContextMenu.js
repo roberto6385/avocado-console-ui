@@ -83,7 +83,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 		}
 		dispatch({
 			type: ADD_FAVORITES_FOLDER,
-			data: {name: folderName, index: i, key: 'favorites'},
+			data: {name: folderName, key: 'favorites'},
 		});
 	}, [dispatch, favorites, isValidFolderName, t]);
 
