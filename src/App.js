@@ -22,28 +22,30 @@ import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import AddFavoritesForm from './components/Form/AddFavoritesForm';
-import {REFRESH_USER_TICKET_REQUEST} from './reducers/auth/userTicket';
+import {
+	REFRESH_USER_TICKET_REQUEST,
+	REVOKE_USER_TICKET_SUCCESS,
+} from './reducers/auth/userTicket';
 import base64 from 'base-64';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
-	const handleOnIdle = useCallback(() => {
-		// console.log('stop');
-		sessionStorage.setItem('lastTouchTime', getLastActiveTime());
-	}, []);
+	// const handleOnIdle = useCallback(() => {
+	// 	// console.log('stop');
+	// 	// sessionStorage.setItem('lastTouchTime', getLastActiveTime());
+	// }, []);
 
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userTicket) {
-			sessionStorage.clear();
-			window.location.reload();
+			dispatch({type: REVOKE_USER_TICKET_SUCCESS});
 		}
 	}, [userTicket]);
 
 	const handleOnAction = useCallback(() => {
-		sessionStorage.setItem('lastTouchTime', Date.now());
+		// sessionStorage.setItem('lastTouchTime', Date.now());
 		if (userTicket) {
 			//from 10 min before expire token
 			if (
@@ -65,8 +67,7 @@ const App = () => {
 
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
-		// timeout: 3000,
-		onIdle: handleOnIdle,
+		// onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
 		debounce: 5000,

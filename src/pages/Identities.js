@@ -13,6 +13,7 @@ const Identities = () => {
 	useEffect(() => {
 		if (!userTicket) {
 			history.push('/signin');
+			location.reload();
 		}
 	}, [history, userTicket]);
 

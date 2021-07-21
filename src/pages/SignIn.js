@@ -10,8 +10,10 @@ const SignIn = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (userTicket) history.push('/');
-	}, [history, userTicket]);
+		if (userTicket) {
+			history.push('/');
+		}
+	}, [userTicket]);
 
 	return (
 		<LoginLayout>

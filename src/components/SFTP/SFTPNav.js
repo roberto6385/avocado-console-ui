@@ -11,9 +11,10 @@ const _Container = styled.div`
 	display: flex;
 	overflow: hidden;
 	height: 50px;
+	min-height: 50px;
+	background: ${(props) => tabColor[props.theme_value]};
 	border-bottom: 1px solid;
 	border-color: ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => tabColor[props.theme_value]};
 `;
 
 const SFTPNav = ({uuid}) => {

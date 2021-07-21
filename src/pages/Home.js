@@ -28,6 +28,7 @@ const Home = () => {
 	useEffect(() => {
 		if (!userTicket) {
 			history.push('/signin');
+			location.reload();
 		}
 	}, [history, userTicket]);
 

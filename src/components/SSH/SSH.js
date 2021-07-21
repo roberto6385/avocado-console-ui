@@ -41,8 +41,6 @@ const _Container = styled.div`
 `;
 
 const _Terminal = styled(_Container)`
-	height: 100%;
-	width: 100%;
 	overflow: scroll;
 	padding: 0px;
 `;
