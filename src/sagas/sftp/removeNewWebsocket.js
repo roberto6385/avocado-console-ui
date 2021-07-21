@@ -98,7 +98,7 @@ function* sendCommand(action) {
 		payload.socket.close();
 		yield put({
 			type: SHIFT_SOCKETS,
-			payload: {uuid: payload.uuid, todo: payload.todo},
+			payload: {uuid: payload.uuid, todo: payload.todo, key: payload.key},
 		});
 	}
 }

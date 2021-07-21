@@ -44,6 +44,7 @@ function* sendCommand(action) {
 							uuid: payload.uuid,
 							socket: socket,
 							todo: payload.todo,
+							key: payload.key,
 						},
 					});
 

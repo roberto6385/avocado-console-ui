@@ -28,7 +28,6 @@ import {
 	CHANGE_MODE,
 	CLOSE_EDITOR,
 	createNewWebsocket,
-	PUSH_EDIT_WRITE_LIST,
 	SAVE_TEXT,
 } from '../../reducers/sftp';
 import {
@@ -131,13 +130,6 @@ const SavePopup = () => {
 			switch (save_popup.key) {
 				case 'sftp_edit_save': {
 					dispatch({
-						type: PUSH_EDIT_WRITE_LIST,
-						payload: {
-							uuid,
-							obj: {path, file: uploadFile, todo: 'edit'},
-						},
-					});
-					dispatch({
 						type: SAVE_TEXT,
 						payload: {uuid, text: editText},
 					});
@@ -148,9 +140,10 @@ const SavePopup = () => {
 							name: uploadFile.name,
 							size: uploadFile.size,
 							todo: 'edit',
-							progress: 100,
+							progress: 0,
 							path: path,
 							file: uploadFile,
+							key: 'write',
 						},
 					});
 					if (!writeSocket && writeList.length === 0) {
@@ -171,22 +164,16 @@ const SavePopup = () => {
 				}
 				case 'sftp_edit_close': {
 					dispatch({
-						type: PUSH_EDIT_WRITE_LIST,
-						payload: {
-							uuid,
-							obj: {path, file: uploadFile, todo: 'edit'},
-						},
-					});
-					dispatch({
 						type: ADD_HISTORY,
 						payload: {
 							uuid: uuid,
 							name: uploadFile.name,
 							size: uploadFile.size,
 							todo: 'edit',
-							progress: 100,
+							progress: 0,
 							path: path,
 							file: uploadFile,
+							key: 'write',
 						},
 					});
 					if (!writeSocket && writeList.length === 0) {

@@ -6,12 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu} from '../../styles/default';
-import {
-	ADD_HISTORY,
-	createNewWebsocket,
-	PUSH_EDIT_READ_LIST,
-	PUSH_READ_LIST,
-} from '../../reducers/sftp';
+import {ADD_HISTORY, createNewWebsocket} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
@@ -57,9 +52,7 @@ const FileListContextMenu = ({uuid}) => {
 	);
 
 	const contextDownload = useCallback(async () => {
-		const array = [];
 		for await (let value of highlight) {
-			array.push({path, file: value, todo: 'read'});
 			dispatch({
 				type: ADD_HISTORY,
 				payload: {
@@ -73,10 +66,6 @@ const FileListContextMenu = ({uuid}) => {
 				},
 			});
 		}
-		dispatch({
-			type: PUSH_READ_LIST,
-			payload: {uuid, array},
-		});
 		if (!readSocket && readList.length === 0) {
 			dispatch(
 				createNewWebsocket({
@@ -105,10 +94,6 @@ const FileListContextMenu = ({uuid}) => {
 	const contextEdit = useCallback(() => {
 		for (let value of highlight) {
 			dispatch({
-				type: PUSH_EDIT_READ_LIST,
-				payload: {uuid, obj: {path, file: value, todo: 'edit'}},
-			});
-			dispatch({
 				type: ADD_HISTORY,
 				payload: {
 					uuid: uuid,
@@ -118,6 +103,7 @@ const FileListContextMenu = ({uuid}) => {
 					progress: 0,
 					path: path,
 					file: value,
+					key: 'read',
 				},
 			});
 		}

@@ -72,12 +72,9 @@ export const READY_STATE = 'sftp/READY_STATE';
 export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
 export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
 export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
-export const PUSH_READ_LIST = 'sftp/PUSH_READ_LIST';
-export const PUSH_EDIT_READ_LIST = 'sftp/PUSH_EDIT_READ_LIST';
+
 export const PUSH_PAUSE_READ_LIST = 'sftp/PUSH_PAUSE_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
-export const PUSH_WRITE_LIST = 'sftp/PUSH_WRITE_LIST';
-export const PUSH_EDIT_WRITE_LIST = 'sftp/PUSH_EDIT_WRITE_LIST';
 export const PUSH_PAUSE_WRITE_LIST = 'sftp/PUSH_PAUSE_WRITE_LIST';
 export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
@@ -92,6 +89,7 @@ export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
 export const ADD_PAUSED_LIST = 'history/ADD_PAUSED_LIST';
 export const EDIT_PAUSED_LIST = 'history/EDIT_PAUSED_LIST';
 export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
+export const REMOVE_READ_WRITE_LIST = 'history/REMOVE_READ_WRITE_LIST';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
 
@@ -221,7 +219,6 @@ const sftp = (state = initialState, action) =>
 		const download_target = ObjFinder(draft.download, action.payload?.uuid);
 		const delete_target = ObjFinder(draft.delete, action.payload?.uuid);
 
-		const file_plain = ObjFinder(state.file, action.payload?.uuid);
 		const history_plain = ObjFinder(state.history, action.payload?.uuid);
 		const upload_plain = ObjFinder(state.upload, action.payload?.uuid);
 		const download_plain = ObjFinder(state.download, action.payload?.uuid);
@@ -527,6 +524,17 @@ const sftp = (state = initialState, action) =>
 				break;
 			}
 
+			case REMOVE_READ_WRITE_LIST: {
+				upload_target.writeList = upload_plain.writeList.filter(
+					(v) => v.HISTORY_ID !== action.payload.history.HISTORY_ID,
+				);
+				download_target.readList = download_plain.readList.filter(
+					(v) => v.HISTORY_ID !== action.payload.history.HISTORY_ID,
+				);
+
+				break;
+			}
+
 			case REMOVE_PAUSED_LIST: {
 				history_target.pause = history_plain.pause.filter(
 					(v) =>
@@ -539,10 +547,28 @@ const sftp = (state = initialState, action) =>
 				break;
 			}
 
-			case ADD_HISTORY:
+			case ADD_HISTORY: {
 				history_target.history.unshift({...action.payload, HISTORY_ID});
+				const item = {
+					path: action.payload.path,
+					file: action.payload.file,
+					todo: action.payload.todo,
+					HISTORY_ID,
+				};
+				if (action.payload.todo === 'write') {
+					upload_target.writeList.push(item);
+				} else if (action.payload.todo === 'read') {
+					download_target.readList.push(item);
+				} else if (action.payload.todo === 'edit') {
+					if (action.payload.key === 'read') {
+						download_target.readList.splice(1, 0, item);
+					} else {
+						upload_target.writeList.splice(1, 0, item);
+					}
+				}
 				HISTORY_ID++;
 				break;
+			}
 
 			case FIND_HISTORY: {
 				const index = history_target.history
@@ -583,29 +609,32 @@ const sftp = (state = initialState, action) =>
 					upload_target.writeSocket = action.payload.socket;
 				if (action.payload.todo === 'read')
 					download_target.readSocket = action.payload.socket;
+				if (action.payload.todo === 'edit') {
+					if (action.payload.key === 'write')
+						upload_target.writeSocket = action.payload.socket;
+					if (action.payload.key === 'read')
+						download_target.readSocket = action.payload.socket;
+				}
 				if (action.payload.todo === 'remove')
 					delete_target.removeSocket = action.payload.socket;
 				break;
 
 			case SHIFT_SOCKETS:
+				console.log(action.payload.todo);
 				if (action.payload.todo === 'write')
 					upload_target.writeSocket = null;
 				if (action.payload.todo === 'read')
 					download_target.readSocket = null;
+				if (action.payload.todo === 'edit') {
+					if (action.payload.key === 'write')
+						upload_target.writeSocket = null;
+					if (action.payload.key === 'read')
+						download_target.readSocket = null;
+				}
 				if (action.payload.todo === 'remove')
 					delete_target.removeSocket = null;
 				break;
-			// read, write, remove
-			case PUSH_READ_LIST:
-				download_target.readList = download_plain.readList.concat(
-					action.payload.array,
-				);
-				break;
 
-			case PUSH_EDIT_READ_LIST:
-				download_target.readList.splice(1, 0, action.payload.obj);
-
-				break;
 			case SHIFT_READ_LIST:
 				download_target.readList.shift();
 				download_target.pass = true;
@@ -622,14 +651,6 @@ const sftp = (state = initialState, action) =>
 				download_target.pass = false;
 				break;
 
-			case PUSH_WRITE_LIST:
-				upload_target.writeList = upload_plain.writeList.concat(
-					action.payload.array,
-				);
-				break;
-			case PUSH_EDIT_WRITE_LIST:
-				upload_target.writeList.splice(1, 0, action.payload.obj);
-				break;
 			case PUSH_PAUSE_WRITE_LIST:
 				upload_target.writeList.unshift(action.payload.array);
 				break;

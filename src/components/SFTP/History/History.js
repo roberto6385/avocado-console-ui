@@ -44,8 +44,8 @@ import {
 	INITIAL_HISTORY_HI,
 	PUSH_PAUSE_READ_LIST,
 	PUSH_PAUSE_WRITE_LIST,
-	PUSH_WRITE_LIST,
 	REMOVE_HISTORY,
+	REMOVE_READ_WRITE_LIST,
 	removeNewWebsocket,
 } from '../../../reducers/sftp';
 
@@ -207,9 +207,7 @@ const History = ({uuid}) => {
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
-			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value, todo: 'write'});
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
@@ -223,10 +221,6 @@ const History = ({uuid}) => {
 					},
 				});
 			}
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
@@ -254,9 +248,7 @@ const History = ({uuid}) => {
 	]);
 	const upload = useCallback(
 		async (files) => {
-			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value, todo: 'write'});
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
@@ -271,10 +263,6 @@ const History = ({uuid}) => {
 				});
 				console.log(value);
 			}
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
@@ -384,12 +372,20 @@ const History = ({uuid}) => {
 		(history) => () => {
 			if (history.progress === 0) {
 				console.log(history);
-				console.log(writeList);
-				console.log(readList);
+				dispatch({
+					type: REMOVE_READ_WRITE_LIST,
+					payload: {uuid, history},
+				});
 			}
-			dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
+			if (
+				history.progress === 0 ||
+				history.progress === 100 ||
+				isNaN(history.progress)
+			) {
+				dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
+			}
 		},
-		[dispatch, readList, uuid, writeList],
+		[dispatch, uuid],
 	);
 
 	const onPause = useCallback(
@@ -397,9 +393,9 @@ const History = ({uuid}) => {
 			console.log(history);
 			if (history.progress !== 100 && history.progress !== 0) {
 				if (
-					((history.todo === 'read' || history.todo === 'edit') &&
-						readSocket) ||
-					(history.todo === 'write' && writeSocket)
+					(history.todo === 'read' && readSocket) ||
+					(history.todo === 'write' && writeSocket) ||
+					(history.todo === 'edit' && (writeSocket || readSocket))
 				) {
 					if (history.todo === 'write') {
 						if (history.path === path) {
@@ -421,6 +417,7 @@ const History = ({uuid}) => {
 									: readSocket,
 							uuid: uuid,
 							todo: history.todo,
+							key: history.key,
 							path: history.path,
 							file: history.file,
 						}),
@@ -443,9 +440,15 @@ const History = ({uuid}) => {
 
 					dispatch({
 						type:
-							history.todo === 'write'
-								? PUSH_PAUSE_WRITE_LIST
-								: PUSH_PAUSE_READ_LIST,
+							(history.todo === 'write' &&
+								PUSH_PAUSE_WRITE_LIST) ||
+							(history.todo === 'read' && PUSH_PAUSE_READ_LIST) ||
+							(history.todo === 'edit' &&
+								history.key === 'write' &&
+								PUSH_PAUSE_WRITE_LIST) ||
+							(history.todo === 'edit' &&
+								history.key === 'read' &&
+								PUSH_PAUSE_READ_LIST),
 						payload: {
 							uuid,
 							array: {...item},
@@ -461,6 +464,7 @@ const History = ({uuid}) => {
 							password: correspondedIdentity.password,
 							todo: history.todo,
 							uuid: uuid,
+							key: history.key,
 						}),
 					);
 				}
@@ -543,11 +547,15 @@ const History = ({uuid}) => {
 									>
 										{history.progress !== 100
 											? (history.todo === 'write' &&
-													!writeSocket &&
-													history.progress !== 0) ||
+													!writeSocket) ||
 											  (history.todo === 'read' &&
-													!readSocket &&
-													history.progress !== 0)
+													!readSocket) ||
+											  (history.todo === 'edit' &&
+													((history.key === 'write' &&
+														!writeSocket) ||
+														(history.key ===
+															'read' &&
+															!readSocket)))
 												? playCircleIcon
 												: pauseCircleIcon
 											: history.todo === 'write'

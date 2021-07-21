@@ -12,8 +12,6 @@ import {
 	commandCdAction,
 	createNewWebsocket,
 	INITIALIZING_HIGHLIGHT,
-	PUSH_EDIT_READ_LIST,
-	PUSH_READ_LIST,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
@@ -353,10 +351,6 @@ const FileListDropDown = ({uuid}) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
 				dispatch({
-					type: PUSH_EDIT_READ_LIST,
-					payload: {uuid, obj: {path, file: item, todo: 'edit'}},
-				});
-				dispatch({
 					type: ADD_HISTORY,
 					payload: {
 						uuid: uuid,
@@ -366,6 +360,7 @@ const FileListDropDown = ({uuid}) => {
 						progress: 0,
 						path: path,
 						file: item,
+						key: 'read',
 					},
 				});
 				if (!readSocket && readList.length === 0) {
@@ -402,10 +397,6 @@ const FileListDropDown = ({uuid}) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch({
-					type: PUSH_READ_LIST,
-					payload: {uuid, array: [{path, file: item, todo: 'read'}]},
-				});
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {

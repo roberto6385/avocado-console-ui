@@ -70,7 +70,11 @@ function* sendCommand(action) {
 				if (lastSum !== 0) {
 					yield put({
 						type: SHIFT_SOCKETS,
-						payload: {uuid: payload.uuid, todo: payload.todo},
+						payload: {
+							uuid: payload.uuid,
+							todo: payload.todo,
+							key: 'read',
+						},
 					});
 					yield put({
 						type: ADD_PAUSED_LIST,

@@ -73,9 +73,10 @@ const EditNav = ({uuid}) => {
 				size: blob.size,
 				todo: 'read',
 				progress: 100,
+				file: editFile,
 			},
 		});
-	}, [editFile.name, editText, dispatch, uuid, path]);
+	}, [editFile, editText, path, dispatch, uuid]);
 
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {

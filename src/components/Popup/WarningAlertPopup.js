@@ -142,13 +142,19 @@ const WarningAlertPopup = () => {
 					);
 					history_highlight.forEach((item) => {
 						console.log(item);
-						dispatch({
-							type: REMOVE_HISTORY,
-							payload: {
-								uuid: warning_alert_popup.uuid,
-								history: item,
-							},
-						});
+						if (
+							item.progress === 0 ||
+							item.progress === 100 ||
+							isNaN(item.progress)
+						) {
+							dispatch({
+								type: REMOVE_HISTORY,
+								payload: {
+									uuid: warning_alert_popup.uuid,
+									history: item,
+								},
+							});
+						}
 					});
 					dispatch({
 						type: INITIAL_HISTORY_HI,

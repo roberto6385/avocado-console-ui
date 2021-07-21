@@ -9,11 +9,7 @@ import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {WIDTH_256} from '../../../styles/length';
 import {borderColor, fontColor} from '../../../styles/color';
 import {ClickableIconButton} from '../../../styles/button';
-import {
-	ADD_HISTORY,
-	createNewWebsocket,
-	PUSH_WRITE_LIST,
-} from '../../../reducers/sftp';
+import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
 
 const _Container = styled.div`
 	min-width: ${WIDTH_256};
@@ -84,9 +80,7 @@ const HistoryNav = ({uuid}) => {
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
 
-			const array = [];
 			for await (let value of files) {
-				array.push({path, file: value, todo: 'write'});
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
@@ -100,10 +94,6 @@ const HistoryNav = ({uuid}) => {
 					},
 				});
 			}
-			dispatch({
-				type: PUSH_WRITE_LIST,
-				payload: {uuid, array},
-			});
 			if (!writeSocket && writeList.length === 0) {
 				dispatch(
 					createNewWebsocket({
@@ -132,7 +122,7 @@ const HistoryNav = ({uuid}) => {
 
 	const historyDelete = useCallback(() => {
 		if (history_highlight.length === 0) {
-			//
+			// TODO 전체삭제 처리가 필요하다면 이곳에서 구현
 		} else {
 			dispatch({
 				type: OPEN_WARNING_ALERT_POPUP,
