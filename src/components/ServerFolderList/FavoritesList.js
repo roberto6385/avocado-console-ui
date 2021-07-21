@@ -72,7 +72,7 @@ const FavoriteList = ({search}) => {
 	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
 
 	const dropNavList = useCallback(() => {
-		console.log('drop nav list');
+		console.log('drop favorites list');
 		dispatch({
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
 			data: {next: 'toEdge'},
@@ -108,6 +108,7 @@ const FavoriteList = ({search}) => {
 						key={data.key + data.name}
 						data={data}
 						indent={1}
+						temp={false}
 					/>
 				),
 			)}

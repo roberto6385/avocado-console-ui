@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import useInput from '../../hooks/useInput';
 import {
-	CHANGE_FAVORITES_FOLDER_NAME,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
@@ -21,11 +20,7 @@ import {
 	navHighColor,
 } from '../../styles/color';
 import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
-import {
-	FolderServerTitle,
-	NewServerFolderForm,
-	NewServerFolderInput,
-} from '../../styles/default';
+import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
@@ -49,7 +44,7 @@ export const ServerItem = styled(Nav.Item)`
 			: navColor[props.theme_value]};
 `;
 
-const FavoritesServer = ({data, indent}) => {
+const FavoritesServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity} = useSelector(
 		(state) => state.common,
@@ -65,6 +60,8 @@ const FavoritesServer = ({data, indent}) => {
 
 	const onHybridClick = useDoubleClick(
 		() => {
+			if (temp) return;
+
 			const correspondedServer = server.find((i) => i.id === data.id);
 
 			if (correspondedServer.protocol === 'SSH2') {
@@ -150,7 +147,7 @@ const FavoritesServer = ({data, indent}) => {
 
 	const nextPutItem = useCallback(
 		(e) => {
-			console.log('next put item');
+			console.log('favorites server next put item');
 
 			e.stopPropagation();
 
@@ -163,6 +160,11 @@ const FavoritesServer = ({data, indent}) => {
 		},
 		[data, dispatch],
 	);
+
+	const handleDragOver = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	};
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -182,6 +184,7 @@ const FavoritesServer = ({data, indent}) => {
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={prevPutItem}
+				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				theme_value={theme}
@@ -221,17 +224,20 @@ const FavoritesServer = ({data, indent}) => {
 					)}
 				</FolderServerTitle>
 			</ServerItem>
-			<FavoritesContextMenu
-				correspondedIdentity={correspondedIdentity}
-				data={data}
-				setOpenRename={setOpenRename}
-			/>
+			{!temp && (
+				<FavoritesContextMenu
+					correspondedIdentity={correspondedIdentity}
+					data={data}
+					setOpenRename={setOpenRename}
+				/>
+			)}
 		</React.Fragment>
 	);
 };
 
 FavoritesServer.propTypes = {
 	data: PropTypes.object.isRequired,
+	temp: PropTypes.bool.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 

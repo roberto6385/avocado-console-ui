@@ -70,6 +70,8 @@ const FavoriteTempList = ({search}) => {
 
 	const dropNavList = useCallback(() => {
 		//TODO favorites temp list drag and drop
+
+		console.log('drop favorites temp list');
 		dispatch({
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
 			data: {next: 'toEdge'},
@@ -104,6 +106,7 @@ const FavoriteTempList = ({search}) => {
 						key={data.key + data.name}
 						data={data}
 						indent={1}
+						temp={true}
 					/>
 				),
 			)}

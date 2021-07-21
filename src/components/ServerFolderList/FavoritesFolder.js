@@ -27,7 +27,6 @@ import {
 import styled from 'styled-components';
 import {IconBox, IconButton} from '../../styles/button';
 import FavoritesServer from './FavoritesServer';
-import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 
 const FolderItem = styled.div`
@@ -164,8 +163,9 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 
 	const nextPutItem = useCallback(
 		(e) => {
+			e.preventDefault();
 			e.stopPropagation();
-			console.log('next put item');
+			console.log('favorite folder next put item');
 
 			data.type === 'folder' &&
 				dispatch({
@@ -183,6 +183,10 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		dispatch({type: SET_CLICKED_SERVER, data: null});
 	}, [dispatch]);
 
+	const handleDragOver = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	};
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -201,7 +205,6 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 
 	useEffect(() => {
 		if (data.key === clicked_server) {
-			console.log(data);
 			setOpenTab(true);
 		}
 		if (data === createdFolderInfo) {
@@ -225,6 +228,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 				onContextMenu={contextMenuOpen}
 				draggable='true'
 				onDragStart={prevPutItem}
+				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
 				theme_value={theme}
 				clicked={clicked_server === data.key ? 1 : 0}
@@ -284,13 +288,14 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 									key={i.key}
 									data={i}
 									indent={indent + 1}
+									temp={temp}
 								/>
 							),
 						)}
 					</React.Fragment>
 				</Collapse_>
 			)}
-			<FolderContextMenu data={data} />
+			{!temp && <FolderContextMenu data={data} />}
 		</React.Fragment>
 	);
 };
