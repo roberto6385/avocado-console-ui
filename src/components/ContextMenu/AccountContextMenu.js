@@ -27,7 +27,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey, setToggle, toggle],
+		[rightSideKey, setToggle, toggle],
 	);
 
 	const logout = useCallback(() => {
@@ -36,8 +36,8 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				Authorization: 'Bearer ' + userTicket.access_token,
 			}),
 		);
-		sessionStorage.clear();
 		window.location.reload();
+		sessionStorage.clear();
 	}, [userTicket]);
 
 	return (

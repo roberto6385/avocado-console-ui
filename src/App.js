@@ -37,8 +37,8 @@ const App = () => {
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userTicket) {
-			sessionStorage.clear();
 			window.location.reload();
+			sessionStorage.clear();
 		}
 	}, [userTicket]);
 
