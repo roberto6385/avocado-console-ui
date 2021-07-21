@@ -81,6 +81,7 @@ function* sendCommand(action) {
 									key: payload.key,
 								},
 								prevUuid: payload.prevUuid,
+								prevIndex: payload.prevIndex,
 							},
 						});
 

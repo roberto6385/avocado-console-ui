@@ -848,10 +848,11 @@ const reducer = (state = initialState, action) => {
 				};
 				//save new tab info
 				if (action.data.prevUuid) {
-					const index = draft.tab.findIndex(
-						(v) => v.uuid === action.data.prevUuid,
-					);
-					draft.tab.splice(index, 0, new_tab);
+					if (action.data.prevIndex > draft.tab.length) {
+						draft.tab.push(new_tab);
+					} else {
+						draft.tab.splice(action.data.prevIndex, 0, new_tab);
+					}
 				} else {
 					draft.tab.push(new_tab);
 				}

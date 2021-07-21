@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {DropDownMenu} from '../../styles/default';
+import {ContextMenu} from '../../styles/default';
 
 const FolderContextMenu = ({data}) => {
 	const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const FolderContextMenu = ({data}) => {
 	);
 
 	return (
-		<DropDownMenu
+		<ContextMenu
 			id={data.key + 'folder'}
 			animation={animation.slide}
 			theme_value={theme}
@@ -54,7 +54,7 @@ const FolderContextMenu = ({data}) => {
 					{FolderContextMenuMessage[v]}
 				</Item>
 			))}
-		</DropDownMenu>
+		</ContextMenu>
 	);
 };
 

@@ -122,6 +122,8 @@ const Pane = ({uuid, type, server}) => {
 			(it) => it.key === server.key && it.checked === true,
 		);
 
+		const index = tab.findIndex((v) => v.uuid === uuid);
+
 		if (type === 'SSH') {
 			dispatch({
 				type: SSH_SEND_RECONNECTION_REQUEST,
@@ -132,6 +134,7 @@ const Pane = ({uuid, type, server}) => {
 					password: correspondedIdentity.password,
 
 					prevUuid: uuid,
+					prevIndex: index,
 				},
 			});
 		} else {
@@ -150,6 +153,7 @@ const Pane = ({uuid, type, server}) => {
 					id: correspondedServer.id,
 
 					prevUuid: uuid,
+					prevIndex: index,
 					prevPath: path,
 				}),
 			);

@@ -43,17 +43,20 @@ const _PopupModal = styled(PopupModal)`
 const WarningAlertPopup = () => {
 	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
-	const server = useSelector((state) => state.common.server);
-	const tab = useSelector((state) => state.common.tab);
-	const identity = useSelector((state) => state.common.identity);
+	const {
+		theme,
+		server,
+		tab,
+		identity,
+		clicked_server,
+		accountListControlId,
+		accountCheckList,
+	} = useSelector((state) => state.common, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const warning_alert_popup = useSelector(
 		(state) => state.popup.warning_alert_popup,
 	);
-	const {clicked_server, accountListControlId, accountCheckList, nav} =
-		useSelector((state) => state.common, shallowEqual);
 	const {
 		history: sftp_historyState,
 		delete: sftp_deleteState,
@@ -107,6 +110,10 @@ const WarningAlertPopup = () => {
 					const corServer = server.find(
 						(it) => it.key === corTab.server.key,
 					);
+					console.log(tab);
+					console.log(server);
+					console.log(corTab);
+					console.log(corServer);
 					const correspondedIdentity = identity.find(
 						(it) =>
 							it.key === corTab.server.key && it.checked === true,
@@ -187,7 +194,8 @@ const WarningAlertPopup = () => {
 			closeModal();
 		},
 		[
-			warning_alert_popup,
+			warning_alert_popup.uuid,
+			warning_alert_popup.key,
 			closeModal,
 			clicked_server,
 			dispatch,

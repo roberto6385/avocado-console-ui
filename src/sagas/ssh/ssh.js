@@ -178,6 +178,7 @@ function* sendReConnection(action) {
 										key: action.data.key,
 									},
 									prevUuid: action.data.prevUuid,
+									prevIndex: action.data.prevIndex,
 								},
 							});
 						}
@@ -285,6 +286,7 @@ function* sendCommand(action) {
 
 				if (timeout) {
 					closeChannel(channel);
+					action.data.ws.close();
 					console.log(action.data.ws.readyState);
 					if (action.data.ws.readyState !== 1) {
 						yield put({
