@@ -40,6 +40,8 @@ const _HeaderContainer = styled.div`
 	flex-direction: column;
 	transition: transform 0.5s;
 	background-color: ${(props) => terminalColor[props.theme_value]};
+	height: 50px;
+	max-height: 50px;
 `;
 const _Header = styled.div`
 	display: flex;
@@ -57,6 +59,7 @@ const _ToggleButton = styled.img`
 	margin-left: auto;
 	margin-right: auto;
 	transition: transform 0.5s;
+	z-index: 5;
 `;
 
 const SSHContainer = ({uuid, server}) => {
