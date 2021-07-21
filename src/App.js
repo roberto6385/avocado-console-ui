@@ -22,7 +22,10 @@ import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
 import AddFavoritesForm from './components/Form/AddFavoritesForm';
-import {REFRESH_USER_TICKET_REQUEST} from './reducers/auth/userTicket';
+import {
+	REFRESH_USER_TICKET_REQUEST,
+	REVOKE_USER_TICKET_SUCCESS,
+} from './reducers/auth/userTicket';
 import base64 from 'base-64';
 
 const App = () => {
@@ -37,8 +40,7 @@ const App = () => {
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userTicket) {
-			sessionStorage.clear();
-			window.location.reload();
+			dispatch({type: REVOKE_USER_TICKET_SUCCESS});
 		}
 	}, [userTicket]);
 
