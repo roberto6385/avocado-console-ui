@@ -36,8 +36,8 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				Authorization: 'Bearer ' + userTicket.access_token,
 			}),
 		);
-		window.location.reload();
-		sessionStorage.clear();
+		// window.location.reload();
+		// sessionStorage.clear();
 	}, [userTicket]);
 
 	return (
