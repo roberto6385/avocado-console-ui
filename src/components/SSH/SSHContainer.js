@@ -20,7 +20,6 @@ const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
 
 const _Container = styled.div`
-	position: relative;
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
@@ -39,9 +38,9 @@ const _HeaderContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	transition: transform 0.5s;
-	background-color: ${(props) => terminalColor[props.theme_value]};
 	height: 50px;
 	max-height: 50px;
+	background-color: ${(props) => terminalColor[props.theme_value]};
 `;
 const _Header = styled.div`
 	display: flex;
