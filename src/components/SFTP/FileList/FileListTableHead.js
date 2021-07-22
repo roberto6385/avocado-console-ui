@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -9,7 +9,12 @@ import {
 	CHANGE_SORT_KEYWORD,
 	INITIALIZING_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {borderColor, fontColor, tabColor} from '../../../styles/color';
+import {
+	activeColor,
+	borderColor,
+	fontColor,
+	tabColor,
+} from '../../../styles/color';
 
 const _Tr = styled.tr`
 	top: 0px;
@@ -33,6 +38,7 @@ const _Th = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 2;
+	color: ${(props) => props.color};
 `;
 
 const _Thead = styled.thead`
@@ -46,7 +52,12 @@ const TableHead = ({uuid}) => {
 	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
 	const theme = useSelector((state) => state.common.theme);
-
+	const {etc: sftp_etcState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
+	const corEtc = sftp_etcState.find((v) => v.uuid === uuid);
+	const {sortKeyword} = corEtc;
 	const Sorting = useCallback(
 		(e) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
@@ -105,10 +116,11 @@ const TableHead = ({uuid}) => {
 						<_Th
 							key={item.key}
 							id={`fileListTableHead_${item.key}`}
-							// borderColor={
-							// 	sortKeyword === item.key &&
-							// 	`2px solid ${MAIN_COLOR}`
-							// }
+							color={
+								sortKeyword === item.key
+									? activeColor[theme]
+									: undefined
+							}
 							textAlign={item.key === 'size' && 'right'}
 							// back={sortKeyword === item.key && HIGHLIGHT_COLOR}
 							onClick={Sorting}
