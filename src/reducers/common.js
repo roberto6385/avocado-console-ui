@@ -402,6 +402,30 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
+function searchFavorites(root, v, data) {
+	if (v.type === 'server') {
+		if (JSON.stringify(v) === JSON.stringify(data)) {
+			console.log(v);
+			return root.splice(
+				root.findIndex(
+					(v) => JSON.stringify(v) === JSON.stringify(data),
+				),
+				1,
+			);
+		}
+	} else if (v.contain.length > 0) {
+		for (let x of v.contain) {
+			searchFavorites(v.contain, x, data);
+		}
+	}
+}
+
+function searchFavoritesStart(root, data) {
+	for (let x of root) {
+		searchFavorites(root, x, data);
+	}
+}
+
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
@@ -621,20 +645,12 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case BOOKMARKING: {
-				const index = draft.favorites.findIndex(
-					(v) => JSON.stringify(v) === JSON.stringify(action.data),
-				);
-				console.log(index);
-				if (index === -1) {
-					// not exist
-					draft.favorites.push(action.data);
+				if (action.there) {
+					searchFavoritesStart(draft.favorites, action.data);
 				} else {
-					//
-					draft.favorites = state.favorites.filter(
-						(v) =>
-							JSON.stringify(v) !== JSON.stringify(action.data),
-					);
+					draft.favorites.push(action.data);
 				}
+
 				draft.tempFavorites = draft.favorites;
 
 				break;

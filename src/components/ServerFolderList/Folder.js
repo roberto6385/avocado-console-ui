@@ -189,7 +189,6 @@ const Folder = ({open, data, indent}) => {
 
 	useEffect(() => {
 		if (data.key === clicked_server) {
-			console.log(data);
 			setOpenTab(true);
 		}
 		if (data === createdFolderInfo) {

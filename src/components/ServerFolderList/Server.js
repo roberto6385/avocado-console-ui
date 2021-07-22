@@ -9,6 +9,7 @@ import useInput from '../../hooks/useInput';
 import {
 	BOOKMARKING,
 	CHANGE_SERVER_FOLDER_NAME,
+	DELETE_SERVER_FOLDER,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -175,10 +176,33 @@ const Server = ({data, indent}) => {
 		[data, dispatch],
 	);
 
-	const handleBookmark = useCallback(() => {
-		dispatch({type: BOOKMARKING, data: data});
-		dispatch({type: LOCAL_SAVE_FAVORITES});
-	}, [data, dispatch]);
+	const handleBookmark = useCallback(
+		(there) => () => {
+			dispatch({type: BOOKMARKING, data: data, there});
+			dispatch({type: LOCAL_SAVE_FAVORITES});
+		},
+		[data, dispatch],
+	);
+
+	function searchTree(v, data) {
+		if (v.type === 'server' || !v.contain.length) {
+			return JSON.stringify(v) === JSON.stringify(data);
+		}
+
+		for (let x of v.contain) {
+			let result = searchTree(x, data);
+			if (result) return result;
+		}
+		return false;
+	}
+
+	function searchTreeStart(root, data) {
+		for (let x of root) {
+			const result = searchTree(x, data);
+			if (result) return result;
+		}
+		return false;
+	}
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -237,22 +261,18 @@ const Server = ({data, indent}) => {
 					)}
 					<IconBox
 						className={
-							favorites.find(
-								(v) =>
-									JSON.stringify(v) === JSON.stringify(data),
-							)
+							searchTreeStart(favorites, data)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
 						size={'sm'}
 						margin_right={'0px'}
 						theme_value={theme}
-						onClick={handleBookmark}
+						onClick={handleBookmark(
+							searchTreeStart(favorites, data),
+						)}
 						color={
-							favorites.find(
-								(v) =>
-									JSON.stringify(v) === JSON.stringify(data),
-							)
+							searchTreeStart(favorites, data)
 								? activeColor[theme]
 								: undefined
 						}
