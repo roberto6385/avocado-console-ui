@@ -44,8 +44,9 @@ const SFTPNavContainer = styled.div`
 	flex-direction: column;
 	transition: transform 0.5s;
 	height: 50px;
-	// max-height: 50px;
+	max-height: 50px;
 	background: ${(props) => tabColor[props.theme_value]};
+	z-index: 5;
 `;
 
 const _ToggleButton = styled.img`
