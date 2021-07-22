@@ -14,7 +14,6 @@ import {
 	READ_PASS,
 	removeNewWebsocket,
 	searchDeleteListAction,
-	SHIFT_TOTAL,
 	WRITE_PASS,
 } from '../../reducers/sftp';
 import SFTP from './SFTP';
