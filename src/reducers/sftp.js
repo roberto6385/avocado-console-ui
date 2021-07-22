@@ -80,6 +80,7 @@ export const SHIFT_SOCKETS = 'sftp/SHIFT_SOCKETS';
 export const SHIFT_WRITE_LIST = 'sftp/SHIFT_WRITE_LIST';
 export const DELETE_WORK_TRANSPORTER = 'sftp/DELETE_WORK_TRANSPORTER';
 export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
+export const SHIFT_TOTAL = 'sftp/SHIFT_TOTAL';
 
 export const ADD_HISTORY = 'history/ADD_HISTORY';
 export const FIND_HISTORY = 'history/FIND_HISTORY';
@@ -301,6 +302,7 @@ const sftp = (state = initialState, action) =>
 					initList: [],
 					initPath: '',
 					pass: true,
+					total: [],
 				});
 				draft.edit.push({
 					uuid: action.payload.uuid,
@@ -668,23 +670,57 @@ const sftp = (state = initialState, action) =>
 
 				break;
 
-			case DELETE_WORK_TRANSPORTER:
-				delete_target.incinerator = delete_plain.incinerator.concat(
-					delete_target.removeList.sort((a, b) => {
-						return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
-					}),
-				);
+			case SHIFT_TOTAL: {
+				delete_target.total.shift();
+				break;
+			}
+
+			case DELETE_WORK_TRANSPORTER: {
+				console.log(delete_plain.removeList);
+				const arr = [];
+				for (let v of delete_plain.removeList) {
+					console.log(v.list);
+					delete_target.total.push(v.list);
+
+					for (let x of v.list) {
+						arr.push(x);
+					}
+				}
+				console.log(arr);
+
+				delete_target.incinerator =
+					delete_plain.incinerator.concat(arr);
+				console.log(delete_target.incinerator);
+				// delete_target.incinerator.push(arr);
+				// delete_target.incinerator = delete_plain.incinerator.concat(
+				// 	delete_target.removeList.sort((a, b) => {
+				// 		return a.path < b.path ? 1 : a.path > b.path ? -1 : 0;
+				// 	}),
+				// );
 				delete_target.removeList = [];
 				delete_target.initList = [];
 				delete_target.initPath = '';
 				break;
-
-			case DELETE_WORK_LIST:
-				delete_target.removeList = delete_plain.removeList.concat(
-					action.payload.array,
+			}
+			case DELETE_WORK_LIST: {
+				const index = delete_target.removeList.findIndex(
+					(v) => v.key === action.payload.key,
 				);
+				if (index === -1) {
+					delete_target.removeList.push({
+						key: action.payload.key,
+						list: [action.payload.item],
+					});
+				} else {
+					delete_target.removeList[index].list.unshift(
+						action.payload.item,
+					);
+				}
+				// delete_target.removeList = delete_plain.removeList.concat(
+				// 	action.payload.array,
+				// );
 				break;
-
+			}
 			case PUSH_INIT_DELETE_WORK_LIST:
 				delete_target.initList = action.payload.list;
 				delete_target.initPath = action.payload.path;

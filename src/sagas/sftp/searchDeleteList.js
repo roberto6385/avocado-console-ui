@@ -52,6 +52,15 @@ function* sendCommand(action) {
 				for (let value of res.list) {
 					if (value.name !== '.' && value.name !== '..') {
 						array.push({file: value, path: payload.delete_path});
+						const item = {file: value, path: payload.delete_path};
+						yield put({
+							type: DELETE_WORK_LIST,
+							payload: {
+								uuid: payload.uuid,
+								item,
+								key: payload.key,
+							},
+						});
 					}
 				}
 
@@ -61,13 +70,13 @@ function* sendCommand(action) {
 				switch (res.type) {
 					case LS_SUCCESS_DELETE:
 						if (array.length !== 0) {
-							yield put({
-								type: DELETE_WORK_LIST,
-								payload: {
-									uuid: payload.uuid,
-									array,
-								},
-							});
+							// yield put({
+							// 	type: DELETE_WORK_LIST,
+							// 	payload: {
+							// 		uuid: payload.uuid,
+							// 		array,
+							// 	},
+							// });
 							for (let item of array.slice()) {
 								if (item.file.type === 'directory') {
 									console.log(
@@ -78,6 +87,7 @@ function* sendCommand(action) {
 											socket: payload.socket,
 											uuid: payload.uuid,
 											delete_path: `${payload.delete_path}/${item.file.name}`,
+											key: payload.key,
 										}),
 									);
 								} else {

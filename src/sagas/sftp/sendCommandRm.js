@@ -18,6 +18,7 @@ import {
 	RM_SUCCESS,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_SOCKETS,
+	SHIFT_TOTAL,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -99,12 +100,18 @@ function* sendCommand(action) {
 							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
-								name: payload.file.name,
+								name: payload.key,
 								size: payload.file.size,
 								todo: payload.todo,
-								progress: 100,
+								progress: payload.percent,
 							},
 						});
+						if (payload.percent === 100) {
+							yield put({
+								type: SHIFT_TOTAL,
+								payload: {uuid: payload.uuid},
+							});
+						}
 						yield put({
 							type: SHIFT_INCINERATOR_LIST,
 							payload: {uuid: payload.uuid},
