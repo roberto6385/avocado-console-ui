@@ -578,11 +578,6 @@ const reducer = (state = initialState, action) => {
 					draft.favorites,
 					action.data.next.key,
 				);
-				console.log('favorites bookmark move');
-				console.log(prevParent);
-				console.log(prev);
-				console.log(nextParent);
-				console.log(node);
 
 				if (
 					prev === node ||
@@ -605,20 +600,6 @@ const reducer = (state = initialState, action) => {
 					return;
 
 				if (action.data.next === 'toEdge') {
-					// let i = 1;
-					// while (nextParent !== draft.favorites) {
-					// 	nextParent = searchParentTreeNode(
-					// 		draft.favorites,
-					// 		nextParent.key,
-					// 	);
-					// 	i = i + 1;
-					// }
-					// if (action.data.indent !== i) {
-					// 	return;
-					// }
-
-					// 가장자리로 보내는지 아닌지 체크
-					// 가장 상위 위치에 데이터 추가
 					draft.favorites.push(prev);
 
 					// 부모에서 이동시킨 데이터 삭제

@@ -97,7 +97,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 					openSFTP();
 					break;
 				case 'delete_bookmark':
-					dispatch({type: BOOKMARKING, data: data});
+					dispatch({type: BOOKMARKING, data: data, there: true});
 					dispatch({type: LOCAL_SAVE_FAVORITES});
 					break;
 				case 'new_folder':
