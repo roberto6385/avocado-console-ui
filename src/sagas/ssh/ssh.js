@@ -117,6 +117,11 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		yield put({type: CLOSE_TAB, data: uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: uuid,
+		});
 	}
 }
 function* sendReConnection(action) {
@@ -211,6 +216,11 @@ function* sendReConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		yield put({type: CLOSE_TAB, data: uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: uuid,
+		});
 	}
 }
 
@@ -245,14 +255,14 @@ function* sendDisconnection(action) {
 					break;
 
 				case 'ERROR':
-					break;
-
-				default:
 					yield put({type: CLOSE_TAB, data: action.data.uuid});
 					yield put({
 						type: SSH_SEND_DISCONNECTION_SUCCESS,
 						data: action.data.uuid,
 					});
+					break;
+
+				default:
 					break;
 			}
 		}
@@ -316,8 +326,11 @@ function* sendCommand(action) {
 									},
 								});
 							}
-
 							break;
+
+						case 'ERROR':
+							break;
+
 						default:
 							break;
 					}
@@ -326,7 +339,6 @@ function* sendCommand(action) {
 		} catch (err) {
 			console.log(err);
 			closeChannel(channel);
-			yield put({type: SSH_SEND_COMMAND_FAILURE});
 		}
 	}
 }
@@ -370,11 +382,11 @@ function* sendWindowChange(action) {
 							});
 							console.log(res.result);
 							break;
+
 						case 'ERROR':
-							console.log(action.data);
 							break;
+
 						default:
-							console.log(action.data);
 							break;
 					}
 				}
@@ -382,7 +394,6 @@ function* sendWindowChange(action) {
 		} catch (err) {
 			console.log(err);
 			closeChannel(channel);
-			yield put({type: SSH_SEND_WINDOW_CHANGE_FAILURE});
 		}
 	}
 }

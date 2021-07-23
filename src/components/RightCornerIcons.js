@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RIGHT_SIDE_KEY} from '../reducers/common';
@@ -43,9 +43,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	const {show: showSettingMenu} = useContextMenu({
 		id: 'setting',
 	});
-	const {show: shownotificationMenu} = useContextMenu({
-		id: 'notification',
-	});
+	// const {show: shownotificationMenu} = useContextMenu({
+	// 	id: 'notification',
+	// });
+	const [shownotificationMenu, setShownotificationMenu] = useState(false);
 	const {show: showColumnMenu} = useContextMenu({
 		id: 'column',
 	});
@@ -62,12 +63,12 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	const getNotificationMenuPosition = useCallback(() => {
-		const {right, bottom} =
-			notificationRef.current?.getBoundingClientRect();
-		MenuPosition.current = {x: right - 130, y: bottom};
-		return MenuPosition.current;
-	}, [MenuPosition]);
+	// const getNotificationMenuPosition = useCallback(() => {
+	// 	const {right, bottom} =
+	// 		notificationRef.current?.getBoundingClientRect();
+	// 	MenuPosition.current = {x: right - 130, y: bottom};
+	// 	return MenuPosition.current;
+	// }, [MenuPosition]);
 
 	const getColumnMenuPosition = useCallback(() => {
 		const {right, bottom} = columnRef.current?.getBoundingClientRect();
@@ -75,24 +76,13 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	const openSideMenu = useCallback(
-		(key) => () => {
-			if (toggle && rightSideKey === key) {
-				setToggle(false);
-			} else {
-				dispatch({type: RIGHT_SIDE_KEY, payload: key});
-				setToggle(true);
-			}
-		},
-		[rightSideKey, setToggle, toggle],
-	);
 	//TODO: 배포전 수정
-	const openNotification = useCallback(() => {
-		dispatch({
-			type: OPEN_ALERT_POPUP,
-			data: 'developing',
-		});
-	}, []);
+	// const openNotification = useCallback(() => {
+	// 	dispatch({
+	// 		type: OPEN_ALERT_POPUP,
+	// 		data: 'developing',
+	// 	});
+	// }, []);
 
 	const openAccount = useCallback(
 		(e) => {
@@ -112,14 +102,9 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
-	// const openNotification = useCallback(
-	// 	(e) => {
-	// 		shownotificationMenu(e, {
-	// 			position: getNotificationMenuPosition(),
-	// 		});
-	// 	},
-	// 	[getNotificationMenuPosition, shownotificationMenu],
-	// );
+	const openNotification = useCallback(() => {
+		setShownotificationMenu(!shownotificationMenu);
+	}, [shownotificationMenu]);
 
 	const openColumn = useCallback(
 		(e) => {
@@ -165,7 +150,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<ColumnContextMenu />
-			{/*<NotificationContextMenu />*/}
+			{shownotificationMenu && <NotificationContextMenu />}
 		</CornerIcons_Container>
 	);
 };
