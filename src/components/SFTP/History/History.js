@@ -547,10 +547,13 @@ const History = ({uuid}) => {
 									>
 										{history.progress !== 100
 											? (history.todo === 'write' &&
+													history.progress !== 0 &&
 													!writeSocket) ||
 											  (history.todo === 'read' &&
+													history.progress !== 0 &&
 													!readSocket) ||
 											  (history.todo === 'edit' &&
+													history.progress !== 0 &&
 													((history.key === 'write' &&
 														!writeSocket) ||
 														(history.key ===
