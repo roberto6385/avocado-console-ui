@@ -29,14 +29,6 @@ function* sendCommand(action) {
 	console.log(`${payload.rm_path}/${payload.file.name}`);
 	const channel = yield call(subscribe, payload.remove_socket);
 	try {
-		if (
-			payload.socket.readyState === 3 ||
-			payload.remove_socket.readyState === 3
-		) {
-			console.log('already socket is closing');
-			return;
-		}
-
 		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
 				keyword: payload.keyword,

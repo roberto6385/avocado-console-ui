@@ -30,14 +30,6 @@ function* sendCommand(action) {
 	let lastSum = 0;
 	let pass = true;
 	try {
-		if (
-			payload.socket.readyState === 3 ||
-			payload.write_socket.readyState === 3
-		) {
-			console.log('already socket is closing');
-			return;
-		}
-
 		const filepath =
 			payload.write_path === '/'
 				? `${payload.write_path}${payload.file.name}`

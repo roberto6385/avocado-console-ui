@@ -10,7 +10,6 @@ import {
 } from 'redux-saga/effects';
 import {
 	commandLsAction,
-	commandPwdAction,
 	ERROR,
 	LS_FAILURE,
 	LS_REQUEST,

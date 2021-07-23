@@ -14,6 +14,7 @@ import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {pathFunction} from '../../components/SFTP/listConversion';
 import {
 	commandLsAction,
+	commandPwdAction,
 	INIT_FILELIST,
 	LS_SUCCESS,
 	PWD_FAILURE,
@@ -26,6 +27,7 @@ function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
 	const channel = yield call(subscribe, payload.socket);
+	let pass = false;
 
 	try {
 		yield call(messageSender, {
@@ -35,12 +37,21 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
 				console.log('pwd end');
+				if (!pass) {
+					yield put(
+						commandPwdAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							pwd_path: payload.pwd_path,
+						}),
+					);
+				}
 				if (payload.socket.readyState !== 1) {
 					yield put({
 						type: READY_STATE,
@@ -113,6 +124,7 @@ function* sendCommand(action) {
 								removeIndex: remove_index,
 							},
 						});
+						pass = true;
 						// 내가 필요한 경로만큼만 요청!
 						for (let value of ls_pathList) {
 							yield put(

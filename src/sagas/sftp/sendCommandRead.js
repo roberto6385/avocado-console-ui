@@ -34,14 +34,6 @@ function* sendCommand(action) {
 	let pass = true;
 
 	try {
-		if (
-			payload.socket.readyState === 3 ||
-			payload.read_socket.readyState === 3
-		) {
-			console.log('already socket is closing');
-			return;
-		}
-
 		const filepath =
 			payload.read_path === '/'
 				? `${payload.read_path}${payload.file.name}`
