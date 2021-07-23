@@ -1,7 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {RIGHT_SIDE_KEY} from '../reducers/common';
 import {
 	accountIcon,
 	notificationIcon,
@@ -17,6 +16,7 @@ import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import {ClickableIconButton} from '../styles/button';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -131,13 +131,24 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			>
 				{settingIcon}
 			</ClickableIconButton>
-			<ClickableIconButton
-				theme_value={theme}
-				ref={notificationRef}
-				onClick={openNotification}
-			>
-				{notificationIcon}
-			</ClickableIconButton>
+			<Dropdown>
+				<ClickableIconButton
+					theme_value={theme}
+					ref={notificationRef}
+					onClick={openNotification}
+				>
+					{notificationIcon}
+				</ClickableIconButton>
+				<Dropdown.Menu>
+					<Dropdown.Item eventKey='1'>Action</Dropdown.Item>
+					<Dropdown.Item eventKey='2'>Another action</Dropdown.Item>
+					<Dropdown.Item eventKey='3'>
+						Something else here
+					</Dropdown.Item>
+					<Dropdown.Item eventKey='4'>Separated link</Dropdown.Item>
+				</Dropdown.Menu>
+			</Dropdown>
+
 			{tab.length !== 0 && (
 				<ClickableIconButton
 					theme_value={theme}
