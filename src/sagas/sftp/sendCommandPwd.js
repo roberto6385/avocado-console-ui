@@ -15,6 +15,7 @@ import {pathFunction} from '../../components/SFTP/listConversion';
 import {
 	commandLsAction,
 	INIT_FILELIST,
+	LS_SUCCESS,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
@@ -39,7 +40,7 @@ function* sendCommand(action) {
 
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(1000),
+				timeout: delay(5000),
 				data: take(channel),
 			});
 			if (timeout) {
@@ -127,6 +128,7 @@ function* sendCommand(action) {
 									dispatch: payload.dispatch,
 								}),
 							);
+							yield take(LS_SUCCESS);
 						}
 						break;
 					default:

@@ -70,7 +70,6 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-								dispatch: payload.dispatch,
 							}),
 						);
 

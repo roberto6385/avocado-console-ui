@@ -66,6 +66,15 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				if (payload.socket.readyState === 1) {
+					yield put(
+						commandPwdAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							pwd_path: payload.write_path,
+						}),
+					);
+				}
 				if (lastSum !== 0) {
 					yield put({
 						type: SHIFT_SOCKETS,
@@ -140,14 +149,6 @@ function* sendCommand(action) {
 								payload: {uuid: payload.uuid},
 							});
 
-							yield put(
-								commandPwdAction({
-									socket: payload.socket,
-									uuid: payload.uuid,
-									pwd_path: payload.write_path,
-									key: 'write',
-								}),
-							);
 							yield put({
 								type: REMOVE_PAUSED_LIST,
 								payload: {
