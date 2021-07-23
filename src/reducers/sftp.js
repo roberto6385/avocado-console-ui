@@ -431,7 +431,8 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case INITIALIZING_HIGHLIGHT:
-				high_target.highlight = [];
+				if (high_target.highlight.length !== 0)
+					high_target.highlight = [];
 				break;
 
 			case ADD_ONE_HIGHLIGHT:
@@ -604,7 +605,8 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case INITIAL_HISTORY_HI:
-				history_target.history_highlight = [];
+				if (history_target.history_highlight.length !== 0)
+					history_target.history_highlight = [];
 				break;
 
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
