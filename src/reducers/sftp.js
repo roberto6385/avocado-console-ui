@@ -375,8 +375,9 @@ const sftp = (state = initialState, action) =>
 
 				break;
 			case CD_SUCCESS:
-				// draft.loading = false;
 				high_target.highlight = [];
+				path_target.path = action.payload.path;
+				path_target.pathList = action.payload.pathList;
 
 				break;
 			case CD_FAILURE:

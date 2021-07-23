@@ -125,7 +125,6 @@ function* sendCommand(action) {
 									socket: payload.socket,
 									uuid: payload.uuid,
 									ls_path: value,
-									dispatch: payload.dispatch,
 								}),
 							);
 							yield take(LS_SUCCESS);

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
 import useInput from '../../hooks/useInput';
@@ -40,6 +40,13 @@ const InputPopup = () => {
 	const theme = useSelector((state) => state.common.theme);
 	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
+	const [prevFormValue, setPrevFormValue] = useState();
+
+	const uuid = input_popup.uuid;
+	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
+	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
+	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
+
 	const inputRef = useRef(null);
 	const HeaderMessage = {
 		sftp_rename_file_folder: t('renameHeader'),
@@ -58,30 +65,24 @@ const InputPopup = () => {
 		(e) => {
 			e.preventDefault();
 
-			const uuid = input_popup.uuid;
-			const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
-			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
-			const {highlight} = sftp_highState.find((it) => it.uuid === uuid);
-
+			console.log(input_popup.key);
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
-					for (let value of highlight) {
-						dispatch(
-							commandRenameAction({
-								socket: socket,
-								uuid: uuid,
-								prev_path:
-									path === '/'
-										? `${path}${value.name}`
-										: `${path}/${value.name}`,
-								next_path:
-									path === '/'
-										? `${path}${formValue}`
-										: `${path}/${formValue}`,
-								path: path,
-							}),
-						);
-					}
+					dispatch(
+						commandRenameAction({
+							socket: socket,
+							uuid: uuid,
+							prev_path:
+								path === '/'
+									? `${path}${prevFormValue}`
+									: `${path}/${prevFormValue}`,
+							next_path:
+								path === '/'
+									? `${path}${formValue}`
+									: `${path}/${formValue}`,
+							path: path,
+						}),
+					);
 					break;
 				}
 
@@ -108,11 +109,12 @@ const InputPopup = () => {
 		},
 		[
 			input_popup,
-			sftp_socketState,
-			sftp_pathState,
-			sftp_highState,
 			closeModal,
 			dispatch,
+			socket,
+			uuid,
+			path,
+			prevFormValue,
 			formValue,
 		],
 	);
@@ -122,10 +124,8 @@ const InputPopup = () => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
 				if (input_popup.key === 'sftp_rename_file_folder') {
-					const {highlight} = sftp_highState.find(
-						(it) => it.uuid === input_popup.uuid,
-					);
-					await setFormValue(highlight[0].name);
+					(await highlight.length) !== 0 &&
+						setFormValue(prevFormValue);
 				} else {
 					await setFormValue('');
 				}
@@ -134,7 +134,20 @@ const InputPopup = () => {
 			}
 		};
 		fillInForm();
-	}, [inputRef, input_popup, setFormValue, sftp_highState]);
+	}, [
+		highlight,
+		inputRef,
+		input_popup,
+		prevFormValue,
+		setFormValue,
+		sftp_highState,
+	]);
+
+	useEffect(() => {
+		if (highlight !== undefined && highlight.length === 1) {
+			setPrevFormValue(highlight[0].name);
+		}
+	}, [highlight]);
 
 	return (
 		<_PopupModal

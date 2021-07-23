@@ -21,6 +21,7 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
+import {pathFunction} from '../../components/SFTP/listConversion';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -62,7 +63,11 @@ function* sendCommand(action) {
 					case CD_SUCCESS:
 						yield put({
 							type: CD_SUCCESS,
-							payload: {uuid: payload.uuid},
+							payload: {
+								uuid: payload.uuid,
+								path: payload.cd_path,
+								pathList: pathFunction({path: payload.cd_path}),
+							},
 						});
 
 						yield put(

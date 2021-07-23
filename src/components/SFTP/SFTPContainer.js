@@ -22,7 +22,6 @@ const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const current_tab = useSelector((state) => state.common.current_tab);
 	const {
-		path: sftp_pathState,
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 		delete: sftp_deleteState,
