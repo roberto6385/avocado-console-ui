@@ -40,7 +40,7 @@ const InputPopup = () => {
 	const theme = useSelector((state) => state.common.theme);
 	const input_popup = useSelector((state) => state.popup.input_popup);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
-	const [prevFormValue, setPrevFormValue] = useState();
+	const [prevFormValue, setPrevFormValue] = useState('');
 
 	const uuid = input_popup.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
@@ -124,9 +124,9 @@ const InputPopup = () => {
 		const fillInForm = async () => {
 			if (input_popup.open) {
 				if (input_popup.key === 'sftp_rename_file_folder') {
-					(await highlight.length) !== 0 &&
-						setFormValue(prevFormValue);
+					setFormValue(prevFormValue);
 				} else {
+					console.log('실행');
 					await setFormValue('');
 				}
 				await inputRef.current?.select();
@@ -134,14 +134,7 @@ const InputPopup = () => {
 			}
 		};
 		fillInForm();
-	}, [
-		highlight,
-		inputRef,
-		input_popup,
-		prevFormValue,
-		setFormValue,
-		sftp_highState,
-	]);
+	}, [inputRef, input_popup, prevFormValue, setFormValue, sftp_highState]);
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {

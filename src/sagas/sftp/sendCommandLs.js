@@ -9,6 +9,8 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
+	commandLsAction,
+	commandPwdAction,
 	ERROR,
 	LS_FAILURE,
 	LS_REQUEST,
@@ -23,6 +25,7 @@ import messageSender from './messageSender';
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
+	let pass = false;
 
 	const channel = yield call(subscribe, payload.socket);
 
@@ -34,12 +37,21 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
 				console.log('ls end');
+				if (!pass) {
+					yield put(
+						commandLsAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							ls_path: payload.ls_path,
+						}),
+					);
+				}
 				if (payload.socket.readyState !== 1) {
 					yield put({
 						type: READY_STATE,
@@ -65,6 +77,7 @@ function* sendCommand(action) {
 								}),
 							},
 						});
+						pass = true;
 						break;
 
 					case ERROR:
