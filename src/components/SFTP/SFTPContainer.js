@@ -32,8 +32,6 @@ const SFTPContainer = ({uuid}) => {
 		history: sftp_historyState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
-
 	const {
 		writeList,
 		writeSocket,
@@ -198,7 +196,6 @@ const SFTPContainer = ({uuid}) => {
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
-						path: path,
 						todo: 'rm',
 						percent: percent,
 						key: key,
@@ -216,7 +213,6 @@ const SFTPContainer = ({uuid}) => {
 		incinerator,
 		removeSocket,
 		socket,
-		path,
 		uuid,
 		dispatch,
 		history,
@@ -242,7 +238,7 @@ const SFTPContainer = ({uuid}) => {
 							size: value.size,
 							todo: 'rm',
 							progress: 0,
-							path: path,
+							path: initPath,
 							file: value,
 						},
 					});
@@ -291,7 +287,7 @@ const SFTPContainer = ({uuid}) => {
 				}
 			}
 		}
-	}, [initList, initPath, dispatch, uuid, removeSocket, path]);
+	}, [initList, initPath, dispatch, uuid, removeSocket]);
 
 	return <SFTP uuid={uuid} />;
 };

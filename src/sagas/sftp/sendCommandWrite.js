@@ -66,15 +66,13 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				if (payload.socket.readyState === 1) {
-					yield put(
-						commandPwdAction({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							pwd_path: payload.write_path,
-						}),
-					);
-				}
+				yield put(
+					commandPwdAction({
+						socket: payload.socket,
+						uuid: payload.uuid,
+						pwd_path: null,
+					}),
+				);
 				if (lastSum !== 0) {
 					yield put({
 						type: SHIFT_SOCKETS,

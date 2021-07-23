@@ -79,7 +79,7 @@ function* sendCommand(action) {
 					commandPwdAction({
 						socket: payload.socket,
 						uuid: payload.uuid,
-						pwd_path: payload.path,
+						pwd_path: null,
 					}),
 				);
 			} else {
@@ -116,18 +116,6 @@ function* sendCommand(action) {
 							payload: {uuid: payload.uuid},
 						});
 
-						if (payload.path === payload.rm_path) {
-							console.log(payload.path);
-							console.log(payload.rm_path);
-							// yield put(
-							// 	commandPwdAction({
-							// 		socket: payload.socket,
-							// 		uuid: payload.uuid,
-							// 		pwd_path: payload.path,
-							// 		dispatch: payload.dispatch,
-							// 	}),
-							// );
-						}
 						break;
 					default:
 						break;
