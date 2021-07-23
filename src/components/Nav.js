@@ -274,9 +274,9 @@ const Nav = ({toggle, setToggle}) => {
 								theme_value={theme}
 							/>
 						</_Form>
-						<_AddButton onClick={newServer} theme_value={theme}>
-							{plusIcon}
-						</_AddButton>
+						{/*<_AddButton onClick={newServer} theme_value={theme}>*/}
+						{/*	{plusIcon}*/}
+						{/*</_AddButton>*/}
 					</_FormContainer>
 					<ServerFolderList search={search} />
 				</>
