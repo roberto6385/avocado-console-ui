@@ -220,7 +220,7 @@ export const initialState = {
 		{
 			id: 2,
 			message: 'sftp connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			date: 'Mon Jul 23 2021 18:06:00 GMT+0900 (일본 표준시)',
 			confirm: false,
 		},
 	],
@@ -944,7 +944,7 @@ const reducer = (state = initialState, action) => {
 				draft.notification.push({
 					id: draft.notification_index++,
 					message: action.data,
-					date: Date(),
+					date: Date.now(),
 					confirm: false,
 				});
 				break;

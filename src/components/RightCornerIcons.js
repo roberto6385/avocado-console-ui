@@ -1,22 +1,23 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useRef} from 'react';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
+import {useContextMenu} from 'react-contexify';
+import PropTypes from 'prop-types';
+
 import {
 	accountIcon,
 	notificationIcon,
 	settingIcon,
 	windowIcon,
 } from '../icons/icons';
-import PropTypes from 'prop-types';
 import {OPEN_ALERT_POPUP} from '../reducers/popup';
 import {tabbarColor} from '../styles/color';
-import {useContextMenu} from 'react-contexify';
+import {ClickableIconButton} from '../styles/button';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
 import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
-import {ClickableIconButton} from '../styles/button';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
 
 const CornerIcons_Container = styled.div`
 	display: flex;
@@ -26,30 +27,23 @@ const CornerIcons_Container = styled.div`
 `;
 
 const RightCornerIcons = ({toggle, setToggle}) => {
-	const dispatch = useDispatch();
-	const {theme, tab, rightSideKey} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {theme, tab} = useSelector((state) => state.common, shallowEqual);
 	const MenuPosition = useRef();
 	const accountRef = useRef();
 	const settingRef = useRef();
-	const notificationRef = useRef();
 	const columnRef = useRef();
-
+	const dropdownRef = useRef();
 	const {show: showAccountMenu} = useContextMenu({
 		id: 'account',
 	});
 	const {show: showSettingMenu} = useContextMenu({
 		id: 'setting',
 	});
-	// const {show: shownotificationMenu} = useContextMenu({
-	// 	id: 'notification',
-	// });
-	const [shownotificationMenu, setShownotificationMenu] = useState(false);
 	const {show: showColumnMenu} = useContextMenu({
 		id: 'column',
 	});
+	const [shownotificationMenu, setShownotificationMenu] =
+		useDetectOutsideClick(dropdownRef, false);
 
 	const getAccountMenuPosition = useCallback(() => {
 		const {right, bottom} = accountRef.current?.getBoundingClientRect();
@@ -76,14 +70,6 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	//TODO: 배포전 수정
-	// const openNotification = useCallback(() => {
-	// 	dispatch({
-	// 		type: OPEN_ALERT_POPUP,
-	// 		data: 'developing',
-	// 	});
-	// }, []);
-
 	const openAccount = useCallback(
 		(e) => {
 			showAccountMenu(e, {
@@ -101,6 +87,14 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		},
 		[getSettingMenuPosition, showSettingMenu],
 	);
+
+	//TODO: 배포전 수정
+	// const openNotification = useCallback(() => {
+	// 	dispatch({
+	// 		type: OPEN_ALERT_POPUP,
+	// 		data: 'developing',
+	// 	});
+	// }, []);
 
 	const openNotification = useCallback(() => {
 		setShownotificationMenu(!shownotificationMenu);
@@ -131,23 +125,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			>
 				{settingIcon}
 			</ClickableIconButton>
-			<Dropdown>
-				<ClickableIconButton
-					theme_value={theme}
-					ref={notificationRef}
-					onClick={openNotification}
-				>
-					{notificationIcon}
-				</ClickableIconButton>
-				<Dropdown.Menu>
-					<Dropdown.Item eventKey='1'>Action</Dropdown.Item>
-					<Dropdown.Item eventKey='2'>Another action</Dropdown.Item>
-					<Dropdown.Item eventKey='3'>
-						Something else here
-					</Dropdown.Item>
-					<Dropdown.Item eventKey='4'>Separated link</Dropdown.Item>
-				</Dropdown.Menu>
-			</Dropdown>
+
+			<ClickableIconButton theme_value={theme} onClick={openNotification}>
+				{notificationIcon}
+			</ClickableIconButton>
 
 			{tab.length !== 0 && (
 				<ClickableIconButton
@@ -160,8 +141,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
+			<NotificationContextMenu
+				show={shownotificationMenu}
+				dropdownRef={dropdownRef}
+			/>
 			<ColumnContextMenu />
-			{shownotificationMenu && <NotificationContextMenu />}
 		</CornerIcons_Container>
 	);
 };
