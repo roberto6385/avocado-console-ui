@@ -19,7 +19,7 @@ import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
 
-const CornerIcons_Container = styled.div`
+const Container = styled.div`
 	display: flex;
 	align-items: center;
 	background: ${(props) => props?.back};
@@ -31,8 +31,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	const MenuPosition = useRef();
 	const accountRef = useRef();
 	const settingRef = useRef();
+	const notificationRef = useRef();
+	const notificationMunuRef = useRef();
 	const columnRef = useRef();
-	const dropdownRef = useRef();
+
 	const {show: showAccountMenu} = useContextMenu({
 		id: 'account',
 	});
@@ -43,7 +45,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		id: 'column',
 	});
 	const [shownotificationMenu, setShownotificationMenu] =
-		useDetectOutsideClick(dropdownRef, false);
+		useDetectOutsideClick(notificationMunuRef, false);
 
 	const getAccountMenuPosition = useCallback(() => {
 		const {right, bottom} = accountRef.current?.getBoundingClientRect();
@@ -59,7 +61,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	// const getNotificationMenuPosition = useCallback(() => {
 	// 	const {right, bottom} =
-	// 		notificationRef.current?.getBoundingClientRect();
+	// 		notificationMunuRef.current?.getBoundingClientRect();
 	// 	MenuPosition.current = {x: right - 130, y: bottom};
 	// 	return MenuPosition.current;
 	// }, [MenuPosition]);
@@ -97,8 +99,8 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	// }, []);
 
 	const openNotification = useCallback(() => {
-		setShownotificationMenu(!shownotificationMenu);
-	}, [shownotificationMenu]);
+		setShownotificationMenu(true);
+	}, []);
 
 	const openColumn = useCallback(
 		(e) => {
@@ -110,7 +112,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<CornerIcons_Container back={tabbarColor[theme]}>
+		<Container back={tabbarColor[theme]}>
 			<ClickableIconButton
 				theme_value={theme}
 				ref={accountRef}
@@ -126,7 +128,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				{settingIcon}
 			</ClickableIconButton>
 
-			<ClickableIconButton theme_value={theme} onClick={openNotification}>
+			<ClickableIconButton
+				theme_value={theme}
+				ref={notificationRef}
+				onClick={openNotification}
+			>
 				{notificationIcon}
 			</ClickableIconButton>
 
@@ -143,10 +149,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<NotificationContextMenu
 				show={shownotificationMenu}
-				dropdownRef={dropdownRef}
+				notificationRef={notificationRef}
+				notificationMunuRef={notificationMunuRef}
 			/>
 			<ColumnContextMenu />
-		</CornerIcons_Container>
+		</Container>
 	);
 };
 

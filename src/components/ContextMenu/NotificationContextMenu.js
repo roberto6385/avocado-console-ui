@@ -1,27 +1,44 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import PropTypes from 'prop-types';
 
-import {borderColor, fontColor, modalColor} from '../../styles/color';
+import {borderColor, fontColor, sshSearch} from '../../styles/color';
+
+const slideIn = keyframes`
+  	from {
+    	opacity: 0;
+    	transform: scale3d(1, 0.3, 1);
+  	}
+  	to {
+    	opacity: 1;
+  	}
+`;
+
+const slideOut = keyframes`
+	from {
+    	opacity: 1;
+  	}
+  	to {
+    	opacity: 0;
+     	transform: scale3d(1, 0.3, 1);
+  	}
+`;
 
 const _Nav = styled.div`
-	z-index: 5;
-	top: 0;
-	right: 50px;
 	position: absolute;
-	top: 60px;
-	transform: translateY(-20px);
-	visibility: ${(props) => props?.visibility};
+	left: ${(props) => props?.left};
+	top: ${(props) => props?.top};
 	width: 300px;
-	border: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => modalColor[props.theme_value]};
+	visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+	transition: visibility 0.3s linear;
+	transform-origin: top center;
+	animation: ${(props) => (props.show ? slideIn : slideOut)} 0.3s linear;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 4px;
+	background: ${(props) => sshSearch[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
-
-	.active {
-		transform: translateY(0);
-		visibility: visible;
-	}
+	z-index: 7;
 `;
 
 const _Item = styled.li`
@@ -62,15 +79,24 @@ const calculateData = (data) => {
 	return date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate();
 };
 
-const NotificationContextMenu = ({show, dropdownRef}) => {
+const NotificationContextMenu = ({
+	show,
+	notificationRef,
+	notificationMunuRef,
+}) => {
 	const {notification, theme} = useSelector((state) => state.common);
-
 	return (
 		<_Nav
-			ref={dropdownRef}
+			ref={notificationMunuRef}
 			id={'notification'}
 			theme_value={theme}
-			visibility={show ? 'visible' : 'hidden'}
+			show={show}
+			left={
+				notificationRef.current?.getBoundingClientRect().left -
+				288 +
+				'px'
+			}
+			top={notificationRef.current?.getBoundingClientRect().bottom + 'px'}
 		>
 			<ul>
 				{notification.map((v) => (
@@ -86,7 +112,8 @@ const NotificationContextMenu = ({show, dropdownRef}) => {
 
 NotificationContextMenu.propTypes = {
 	show: PropTypes.bool.isRequired,
-	dropdownRef: PropTypes.object.isRequired,
+	notificationRef: PropTypes.object.isRequired,
+	notificationMunuRef: PropTypes.object.isRequired,
 };
 
 export default NotificationContextMenu;
