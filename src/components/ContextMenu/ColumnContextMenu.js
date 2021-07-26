@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const ColumnContextMenu = () => {
 	const dispatch = useDispatch();
-
 	const theme = useSelector((state) => state.common.theme);
 
 	const changeColumn = useCallback(
@@ -16,7 +15,7 @@ const ColumnContextMenu = () => {
 				data: {cols: cols},
 			});
 		},
-		[dispatch],
+		[],
 	);
 
 	return (

@@ -43,8 +43,10 @@ const _SecondaryGreenButton = styled(SecondaryGreenButton)`
 
 const PasswordForm = () => {
 	const dispatch = useDispatch();
-	const {loading} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('passwordForm');
+
+	const {loading} = useSelector((state) => state.userTicket);
+
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');
 	const [password, onChangePassword] = useInput('');

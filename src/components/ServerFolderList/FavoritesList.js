@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
@@ -68,7 +68,10 @@ function searchTreeStart(root, name) {
 
 const FavoriteList = ({search}) => {
 	const dispatch = useDispatch();
-	const {favorites, theme} = useSelector((state) => state.common);
+	const {favorites, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
 
 	const dropNavList = useCallback(() => {

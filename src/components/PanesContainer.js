@@ -18,7 +18,6 @@ export const _Container = styled.div`
 
 const PanesContainer = () => {
 	const {tab, cols} = useSelector((state) => state.common, shallowEqual);
-
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -31,6 +30,7 @@ const PanesContainer = () => {
 		() => tab.filter((v) => v.display === true),
 		[tab],
 	);
+
 	return (
 		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}

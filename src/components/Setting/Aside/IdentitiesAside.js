@@ -46,12 +46,13 @@ const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 
 const IdentitiesAside = () => {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const {t} = useTranslation('identitiesAside');
+
 	const {identity, theme, current_tab, tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const history = useHistory();
 	const currentKey = useMemo(
 		() => tab.find((v) => v.uuid === current_tab)?.server.key,
 		[tab, current_tab],

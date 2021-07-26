@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import ServerContextMenu from '../ContextMenu/ServerContextMenu';
@@ -34,7 +34,7 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {ClickableIconButton, IconBox} from '../../styles/button';
+import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
 
 export const ServerItem = styled(Nav.Item)`
@@ -70,8 +70,9 @@ const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity, favorites} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');

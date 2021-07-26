@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {
@@ -12,9 +12,9 @@ import {ContextMenu} from '../../styles/default';
 
 const FolderContextMenu = ({data}) => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
-
 	const {t} = useTranslation('contextMenu');
+	const {theme} = useSelector((state) => state.common.theme, shallowEqual);
+
 	const FolderContextMenuMessage = {
 		// new_server: t('newServer'),
 		// rename: 'Rename',
@@ -60,7 +60,6 @@ const FolderContextMenu = ({data}) => {
 
 FolderContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	// setOpenRename: PropTypes.func.isRequired,
 };
 
 export default FolderContextMenu;

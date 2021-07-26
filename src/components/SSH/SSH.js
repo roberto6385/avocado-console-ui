@@ -137,7 +137,7 @@ const SSH = ({uuid, toggle}) => {
 	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
-	//do not work with current
+	//do not work with {current}
 	const searchRef = useRef(null);
 	const {
 		ref: ref,

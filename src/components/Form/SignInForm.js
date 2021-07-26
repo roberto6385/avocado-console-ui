@@ -1,13 +1,11 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import base64 from 'base-64';
 
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/auth/userTicket';
-import {SAVE_ENCODE_DATA} from '../../reducers/common';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';

@@ -14,13 +14,13 @@ import {
 } from '../../reducers/common';
 
 const FavoritesContextMenu = ({correspondedIdentity, data}) => {
-	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('contextMenu');
 	const {server, theme, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
 	const menu = {
 		connect: t('connectSsh'),

@@ -10,7 +10,6 @@ import {
 	settingIcon,
 	windowIcon,
 } from '../icons/icons';
-import {OPEN_ALERT_POPUP} from '../reducers/popup';
 import {tabbarColor} from '../styles/color';
 import {ClickableIconButton} from '../styles/button';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
@@ -19,7 +18,7 @@ import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	background: ${(props) => props?.back};
@@ -59,13 +58,6 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	// const getNotificationMenuPosition = useCallback(() => {
-	// 	const {right, bottom} =
-	// 		notificationMunuRef.current?.getBoundingClientRect();
-	// 	MenuPosition.current = {x: right - 130, y: bottom};
-	// 	return MenuPosition.current;
-	// }, [MenuPosition]);
-
 	const getColumnMenuPosition = useCallback(() => {
 		const {right, bottom} = columnRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
@@ -90,14 +82,6 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
-	//TODO: 배포전 수정
-	// const openNotification = useCallback(() => {
-	// 	dispatch({
-	// 		type: OPEN_ALERT_POPUP,
-	// 		data: 'developing',
-	// 	});
-	// }, []);
-
 	const openNotification = useCallback(() => {
 		setShownotificationMenu(true);
 	}, []);
@@ -112,7 +96,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<Container back={tabbarColor[theme]}>
+		<_Container back={tabbarColor[theme]}>
 			<ClickableIconButton
 				theme_value={theme}
 				ref={accountRef}
@@ -149,11 +133,15 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<NotificationContextMenu
 				show={shownotificationMenu}
-				notificationRef={notificationRef}
+				location={{
+					left: notificationRef.current?.getBoundingClientRect().left,
+					top: notificationRef.current?.getBoundingClientRect()
+						.bottom,
+				}}
 				notificationMunuRef={notificationMunuRef}
 			/>
 			<ColumnContextMenu />
-		</Container>
+		</_Container>
 	);
 };
 

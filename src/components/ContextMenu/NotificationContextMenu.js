@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled, {keyframes} from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -79,24 +79,20 @@ const calculateData = (data) => {
 	return date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate();
 };
 
-const NotificationContextMenu = ({
-	show,
-	notificationRef,
-	notificationMunuRef,
-}) => {
-	const {notification, theme} = useSelector((state) => state.common);
+const NotificationContextMenu = ({show, location, notificationMunuRef}) => {
+	const {notification, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+
 	return (
 		<_Nav
 			ref={notificationMunuRef}
 			id={'notification'}
 			theme_value={theme}
 			show={show}
-			left={
-				notificationRef.current?.getBoundingClientRect().left -
-				288 +
-				'px'
-			}
-			top={notificationRef.current?.getBoundingClientRect().bottom + 'px'}
+			left={location.left - 288 + 'px'}
+			top={location.top + 'px'}
 		>
 			<ul>
 				{notification.map((v) => (
@@ -112,7 +108,7 @@ const NotificationContextMenu = ({
 
 NotificationContextMenu.propTypes = {
 	show: PropTypes.bool.isRequired,
-	notificationRef: PropTypes.object.isRequired,
+	location: PropTypes.object.isRequired,
 	notificationMunuRef: PropTypes.object.isRequired,
 };
 

@@ -81,14 +81,7 @@ const _AddButton = styled.button`
 	background: ${(props) => navColor[props?.theme_value]};
 `;
 
-const _NewServerTitle = styled.div`
-	font-size: 14px;
-	color: ${(props) => props.color};
-	flex: 1;
-`;
-
 const _Input = styled.input`
-	// width: ${WIDTH_165};
 	height: ${HEIGHT_36};
 	border: none;
 	font-size: ${FONT_14};
@@ -136,11 +129,6 @@ const _TabItem = styled.div`
 			? activeColor[props.theme_value]
 			: navColor[props.theme_value]};
 	width: 100%;
-`;
-
-const _ServerName = styled.div`
-	flex: 1;
-	overflow: hidden;
 `;
 
 const isValidFolderName = (folderArray, name) => {

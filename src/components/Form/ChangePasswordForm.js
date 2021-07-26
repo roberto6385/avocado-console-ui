@@ -7,7 +7,6 @@ import useInput from '../../hooks/useInput';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	Form,
 	Input,
@@ -29,13 +28,15 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const ChangePasswordForm = ({open, setOpen}) => {
-	const {t} = useTranslation('changePasswordForm');
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
+	const {t} = useTranslation('changePasswordForm');
+
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo, userTicket} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
 	);
+
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
@@ -49,13 +50,6 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			// dispatch({
-			// 	type: OPEN_ALERT_POPUP,
-			// 	data: 'developing',
-			// });
-
-			console.log(userInfo);
-
 			if (
 				currentPassword === localStorage.getItem('password') &&
 				password === confrimPassword &&

@@ -30,7 +30,7 @@ const _Text = styled.div`
 
 const MainPage = () => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
+	const theme = useSelector((state) => state.common.theme, shallowEqual);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -39,7 +39,7 @@ const MainPage = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 	const {t} = useTranslation('mainPage');
 
 	// 삭제 ㄴㄴ
