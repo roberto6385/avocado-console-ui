@@ -144,6 +144,7 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		pass = true;
 		yield put({type: PWD_FAILURE});
 	}
 }

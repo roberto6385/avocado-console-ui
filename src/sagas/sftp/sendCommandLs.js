@@ -80,6 +80,8 @@ function* sendCommand(action) {
 						break;
 
 					case ERROR:
+						pass = true;
+
 						console.log(res.err);
 						break;
 				}

@@ -64,8 +64,8 @@ const InputPopup = () => {
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
+			if (formValue === '') return;
 
-			console.log(input_popup.key);
 			switch (input_popup.key) {
 				case 'sftp_rename_file_folder': {
 					dispatch(
@@ -87,7 +87,6 @@ const InputPopup = () => {
 				}
 
 				case 'sftp_new_folder': {
-					if (formValue === '') return;
 					dispatch(
 						commandMkdirAction({
 							socket: socket,
@@ -126,7 +125,6 @@ const InputPopup = () => {
 				if (input_popup.key === 'sftp_rename_file_folder') {
 					setFormValue(prevFormValue);
 				} else {
-					console.log('실행');
 					await setFormValue('');
 				}
 				await inputRef.current?.select();
@@ -134,7 +132,7 @@ const InputPopup = () => {
 			}
 		};
 		fillInForm();
-	}, [inputRef, input_popup, prevFormValue, setFormValue, sftp_highState]);
+	}, [inputRef, input_popup, prevFormValue, setFormValue]);
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {

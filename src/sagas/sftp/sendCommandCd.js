@@ -93,6 +93,7 @@ function* sendCommand(action) {
 						break;
 					case ERROR:
 						console.log(res.err);
+						pass = true;
 						yield put({type: CD_FAILURE});
 						yield put({
 							type: OPEN_ALERT_POPUP,
