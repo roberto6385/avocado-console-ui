@@ -31,6 +31,8 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {READY_STATE} from '../../reducers/ssh';
+import base64 from 'base-64';
+import {REFRESH_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -103,10 +105,18 @@ function* sendConnection(action) {
 								type: SSH_SEND_DISCONNECTION_SUCCESS,
 								data: uuid,
 							});
-							yield put({
-								type: OPEN_ALERT_POPUP,
-								data: 'invalid_server',
-							});
+
+							//invalid server
+							if (res.result.includes('connection')) {
+								yield put({
+									type: OPEN_ALERT_POPUP,
+									data: 'invalid_server',
+								});
+							}
+							//token expire
+							if (res.result.includes('token')) {
+								//TODO: do something?
+							}
 							break;
 
 						default:
@@ -117,6 +127,11 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		yield put({type: CLOSE_TAB, data: uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: uuid,
+		});
 	}
 }
 function* sendReConnection(action) {
@@ -198,10 +213,17 @@ function* sendReConnection(action) {
 							type: SSH_SEND_DISCONNECTION_SUCCESS,
 							data: uuid,
 						});
-						yield put({
-							type: OPEN_ALERT_POPUP,
-							data: 'invalid_server',
-						});
+						//invalid server
+						if (res.result.includes('connection')) {
+							yield put({
+								type: OPEN_ALERT_POPUP,
+								data: 'invalid_server',
+							});
+						}
+						//token expire
+						if (res.result.includes('token')) {
+							//TODO: do something?
+						}
 						break;
 
 					default:
@@ -211,6 +233,11 @@ function* sendReConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		yield put({type: CLOSE_TAB, data: uuid});
+		yield put({
+			type: SSH_SEND_DISCONNECTION_SUCCESS,
+			data: uuid,
+		});
 	}
 }
 
@@ -245,14 +272,14 @@ function* sendDisconnection(action) {
 					break;
 
 				case 'ERROR':
-					break;
-
-				default:
 					yield put({type: CLOSE_TAB, data: action.data.uuid});
 					yield put({
 						type: SSH_SEND_DISCONNECTION_SUCCESS,
 						data: action.data.uuid,
 					});
+					break;
+
+				default:
 					break;
 			}
 		}
@@ -316,8 +343,11 @@ function* sendCommand(action) {
 									},
 								});
 							}
-
 							break;
+
+						case 'ERROR':
+							break;
+
 						default:
 							break;
 					}
@@ -326,7 +356,6 @@ function* sendCommand(action) {
 		} catch (err) {
 			console.log(err);
 			closeChannel(channel);
-			yield put({type: SSH_SEND_COMMAND_FAILURE});
 		}
 	}
 }
@@ -370,11 +399,11 @@ function* sendWindowChange(action) {
 							});
 							console.log(res.result);
 							break;
+
 						case 'ERROR':
-							console.log(action.data);
 							break;
+
 						default:
-							console.log(action.data);
 							break;
 					}
 				}
@@ -382,7 +411,6 @@ function* sendWindowChange(action) {
 		} catch (err) {
 			console.log(err);
 			closeChannel(channel);
-			yield put({type: SSH_SEND_WINDOW_CHANGE_FAILURE});
 		}
 	}
 }
