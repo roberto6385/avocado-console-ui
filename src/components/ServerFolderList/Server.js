@@ -9,7 +9,6 @@ import useInput from '../../hooks/useInput';
 import {
 	BOOKMARKING,
 	CHANGE_SERVER_FOLDER_NAME,
-	DELETE_SERVER_FOLDER,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -70,7 +69,7 @@ export const ServerItem = styled(Nav.Item)`
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity, favorites} = useSelector(
-		(state) => state?.common,
+		(state) => state.common,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket);
 	const [openRename, setOpenRename] = useState(false);

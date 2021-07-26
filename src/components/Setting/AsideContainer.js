@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import PreferencesAside from './Aside/PreferencesAside';
@@ -27,7 +27,10 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('asideContainer');
-	const {rightSideKey, theme} = useSelector((state) => state.common);
+	const {rightSideKey, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const closeAside = useCallback(() => {
 		setToggle(false);

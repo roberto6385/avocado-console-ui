@@ -193,7 +193,7 @@ const History = ({uuid}) => {
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
 	);
-	const {readSocket, readList} = useMemo(
+	const {readSocket} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);

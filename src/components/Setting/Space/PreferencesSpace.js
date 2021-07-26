@@ -8,7 +8,7 @@ import {
 } from '../../../styles/font';
 import Select_ from '../../RecycleComponents/Select_';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
@@ -45,7 +45,7 @@ const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('preferencesAside');
 	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
-	const {theme, lang} = useSelector((state) => state.common);
+	const {theme, lang} = useSelector((state) => state.common, shallowEqual);
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
 	const [language, setLanguage] = useState(lang);
 	const [generalTheme, setGeneralTheme] = useState(theme);

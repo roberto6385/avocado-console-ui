@@ -143,7 +143,7 @@ const _ServerName = styled.div`
 const WorkSpace = () => {
 	const dispatch = useDispatch();
 	const {tab, current_tab, theme} = useSelector(
-		(state) => state?.common,
+		(state) => state.common,
 		shallowEqual,
 	);
 	const {ssh, loading: sshLoading} = useSelector(

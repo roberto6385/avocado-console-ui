@@ -224,20 +224,6 @@ const Nav = ({toggle, setToggle}) => {
 				)}
 			</_Header>
 			<_AddFolerServerContainer theme_value={theme}>
-				{/* TODO */}
-				{/*<ClickableIconButton*/}
-				{/*	margin={'6px'}*/}
-				{/*	color={fontColor[theme]}*/}
-				{/*	onClick={newServer}*/}
-				{/*>*/}
-				{/*	{plusIcon}*/}
-				{/*</ClickableIconButton>*/}
-				{/*<_NewServerTitle color={fontColor[theme]}>*/}
-				{/*	{t('newServer')}*/}
-				{/*</_NewServerTitle>*/}
-				{/*<ClickableIconButton theme_value={theme} onClick={newFolder}>*/}
-				{/*	{newFolderIcon}*/}
-				{/*</ClickableIconButton>*/}
 				{tabs.map((v) => {
 					return (
 						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>

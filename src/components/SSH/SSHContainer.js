@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
@@ -62,9 +62,10 @@ const _ToggleButton = styled.img`
 `;
 
 const SSHContainer = ({uuid, server}) => {
-	const theme = useSelector((state) => state.common.theme);
-	const cols = useSelector((state) => state.common.cols);
-	const nav = useSelector((state) => state.common.nav);
+	const {theme, cols, nav} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const [open, setOpen] = useState(false);
 	const [toggle, setToggle] = useState(true);

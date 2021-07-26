@@ -160,10 +160,6 @@ const FileListDropDown = ({uuid}) => {
 
 	const compareNumber = useCallback(
 		(list, first, second) => {
-			console.log(list);
-			console.log(first);
-			console.log(second);
-
 			if (first === -1) {
 				dispatch({
 					type: ADD_HIGHLIGHT,

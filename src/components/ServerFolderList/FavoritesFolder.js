@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -19,11 +19,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {
-	FolderServerTitle,
-	NewServerFolderForm,
-	NewServerFolderInput,
-} from '../../styles/default';
+import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import {IconBox, IconButton} from '../../styles/button';
 import FavoritesServer from './FavoritesServer';
@@ -72,7 +68,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		createdFolderInfo,
 		tempFavorites,
 		favoritesRenameKey,
-	} = useSelector((state) => state?.common, shallowEqual);
+	} = useSelector((state) => state.common, shallowEqual);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);

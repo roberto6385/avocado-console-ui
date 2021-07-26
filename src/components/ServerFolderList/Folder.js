@@ -11,12 +11,7 @@ import {
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import Collapse_ from '../RecycleComponents/Collapse_';
-import {
-	arrowDownIcon,
-	arrowDropDownIcon,
-	arrowRightIcon,
-	folderIcon,
-} from '../../icons/icons';
+import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	activeColor,
