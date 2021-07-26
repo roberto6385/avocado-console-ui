@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {formatByteSizeString} from '../listConversion';
+import {formatByteSizeString} from '../functions';
 import styled from 'styled-components';
 import {
 	arrowCircleDownIcon,
@@ -193,7 +193,7 @@ const History = ({uuid}) => {
 		() => sftp_uploadState.find((it) => it.uuid === uuid),
 		[sftp_uploadState, uuid],
 	);
-	const {readSocket, readList} = useMemo(
+	const {readSocket} = useMemo(
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
@@ -404,7 +404,6 @@ const History = ({uuid}) => {
 									socket: sftp_socket,
 									uuid: uuid,
 									pwd_path: path,
-									key: 'write',
 								}),
 							);
 						}
@@ -547,10 +546,13 @@ const History = ({uuid}) => {
 									>
 										{history.progress !== 100
 											? (history.todo === 'write' &&
+													history.progress !== 0 &&
 													!writeSocket) ||
 											  (history.todo === 'read' &&
+													history.progress !== 0 &&
 													!readSocket) ||
 											  (history.todo === 'edit' &&
+													history.progress !== 0 &&
 													((history.key === 'write' &&
 														!writeSocket) ||
 														(history.key ===

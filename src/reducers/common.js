@@ -773,7 +773,7 @@ const reducer = (state = initialState, action) => {
 				else
 					deleteServerUnderTree(
 						searchTreeStart(draft.favorites, draft.clicked_server),
-						draft.server,
+						draft.favorites,
 					);
 
 				deleteTreeStart(draft.favorites, draft.clicked_server);

@@ -21,7 +21,7 @@ const Home = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const theme = useSelector((state) => state?.common.theme);
+	const theme = useSelector((state) => state.common.theme);
 	const history = useHistory();
 	const dispatch = useDispatch();
 

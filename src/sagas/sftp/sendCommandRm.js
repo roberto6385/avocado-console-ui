@@ -18,6 +18,7 @@ import {
 	RM_SUCCESS,
 	SHIFT_INCINERATOR_LIST,
 	SHIFT_SOCKETS,
+	SHIFT_TOTAL,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -28,14 +29,6 @@ function* sendCommand(action) {
 	console.log(`${payload.rm_path}/${payload.file.name}`);
 	const channel = yield call(subscribe, payload.remove_socket);
 	try {
-		if (
-			payload.socket.readyState === 3 ||
-			payload.remove_socket.readyState === 3
-		) {
-			console.log('already socket is closing');
-			return;
-		}
-
 		if (payload.file.name !== '..' && payload.file.name !== '.') {
 			yield call(messageSender, {
 				keyword: payload.keyword,
@@ -78,8 +71,7 @@ function* sendCommand(action) {
 					commandPwdAction({
 						socket: payload.socket,
 						uuid: payload.uuid,
-						pwd_path: payload.path,
-						dispatch: payload.dispatch,
+						pwd_path: null,
 					}),
 				);
 			} else {
@@ -99,29 +91,23 @@ function* sendCommand(action) {
 							type: FIND_HISTORY,
 							payload: {
 								uuid: payload.uuid,
-								name: payload.file.name,
+								name: payload.key,
 								size: payload.file.size,
 								todo: payload.todo,
-								progress: 100,
+								progress: payload.percent,
 							},
 						});
+						if (payload.percent === 100) {
+							yield put({
+								type: SHIFT_TOTAL,
+								payload: {uuid: payload.uuid},
+							});
+						}
 						yield put({
 							type: SHIFT_INCINERATOR_LIST,
 							payload: {uuid: payload.uuid},
 						});
 
-						if (payload.path === payload.rm_path) {
-							console.log(payload.path);
-							console.log(payload.rm_path);
-							// yield put(
-							// 	commandPwdAction({
-							// 		socket: payload.socket,
-							// 		uuid: payload.uuid,
-							// 		pwd_path: payload.path,
-							// 		dispatch: payload.dispatch,
-							// 	}),
-							// );
-						}
 						break;
 					default:
 						break;

@@ -1,6 +1,6 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
-import {pathFunction} from '../../components/SFTP/listConversion';
+import {pathFunction} from '../../components/SFTP/functions';
 
 export function pwdResponse({data}) {
 	try {

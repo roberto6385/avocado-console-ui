@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
@@ -7,7 +7,7 @@ import {Nav} from 'react-bootstrap';
 
 import {navColor} from '../../styles/color';
 import {HiddenScroll} from '../../styles/function';
-import FavoritesServer, {ServerItem} from './FavoritesServer';
+import FavoritesServer from './FavoritesServer';
 import FavoritesFolder from './FavoritesFolder';
 import {
 	LOCAL_SAVE_FAVORITES,

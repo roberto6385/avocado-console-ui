@@ -18,11 +18,6 @@ function* sendCommand(action) {
 	const {payload} = action;
 	const channel = yield call(subscribe, payload.socket);
 
-	if (payload.socket.readyState === 3) {
-		console.log('already socket is closing');
-		return;
-	}
-
 	try {
 		console.log(payload.socket);
 		yield call(messageSender, {

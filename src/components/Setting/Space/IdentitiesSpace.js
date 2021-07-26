@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
 	CHANGE_CURRENT_RESOURCE_KEY,
@@ -170,6 +170,7 @@ const IdentitiesSpace = () => {
 	const {t} = useTranslation('identitiesSpace');
 	const {identity, server, currentResourceListKey, nav, theme} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
 	const dispatch = useDispatch();
 	const [resourceSearch, onChangeResourceSearch, setResourceSearch] =

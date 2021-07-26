@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Menu} from 'react-contexify';
 
 const NotificationContextMenu = () => {

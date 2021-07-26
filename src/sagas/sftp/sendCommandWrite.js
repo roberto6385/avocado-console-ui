@@ -30,14 +30,6 @@ function* sendCommand(action) {
 	let lastSum = 0;
 	let pass = true;
 	try {
-		if (
-			payload.socket.readyState === 3 ||
-			payload.write_socket.readyState === 3
-		) {
-			console.log('already socket is closing');
-			return;
-		}
-
 		const filepath =
 			payload.write_path === '/'
 				? `${payload.write_path}${payload.file.name}`
@@ -66,6 +58,13 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
+				yield put(
+					commandPwdAction({
+						socket: payload.socket,
+						uuid: payload.uuid,
+						pwd_path: null,
+					}),
+				);
 				if (lastSum !== 0) {
 					yield put({
 						type: SHIFT_SOCKETS,
@@ -140,14 +139,6 @@ function* sendCommand(action) {
 								payload: {uuid: payload.uuid},
 							});
 
-							yield put(
-								commandPwdAction({
-									socket: payload.socket,
-									uuid: payload.uuid,
-									pwd_path: payload.write_path,
-									key: 'write',
-								}),
-							);
 							yield put({
 								type: REMOVE_PAUSED_LIST,
 								payload: {

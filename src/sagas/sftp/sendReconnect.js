@@ -91,7 +91,6 @@ function* sendCommand(action) {
 								uuid: uuid,
 								path: payload.prevPath,
 								cd_path: payload.prevPath,
-								dispatch: payload.dispatch,
 							}),
 						);
 

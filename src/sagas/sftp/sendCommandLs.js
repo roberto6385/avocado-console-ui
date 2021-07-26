@@ -9,6 +9,7 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
+	commandLsAction,
 	ERROR,
 	LS_FAILURE,
 	LS_REQUEST,
@@ -16,18 +17,14 @@ import {
 	READY_STATE,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
-import {sortFunction} from '../../components/SFTP/listConversion';
+import {sortFunction} from '../../components/SFTP/functions';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-
-	if (payload.socket.readyState === 3) {
-		console.log('already socket is closing');
-		return;
-	}
+	let pass = false;
 
 	const channel = yield call(subscribe, payload.socket);
 
@@ -39,12 +36,21 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
 				console.log('ls end');
+				if (!pass) {
+					yield put(
+						commandLsAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							ls_path: payload.ls_path,
+						}),
+					);
+				}
 				if (payload.socket.readyState !== 1) {
 					yield put({
 						type: READY_STATE,
@@ -70,6 +76,7 @@ function* sendCommand(action) {
 								}),
 							},
 						});
+						pass = true;
 						break;
 
 					case ERROR:

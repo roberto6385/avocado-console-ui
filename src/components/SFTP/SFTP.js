@@ -59,9 +59,10 @@ const _ToggleButton = styled.img`
 `;
 
 const SFTP = ({uuid}) => {
-	const theme = useSelector((state) => state.common.theme);
-	const nav = useSelector((state) => state.common.nav);
-	const cols = useSelector((state) => state.common.cols);
+	const {theme, nav, cols} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const {etc: sftp_etcState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,

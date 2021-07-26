@@ -19,7 +19,7 @@ import {
 	formatByteSizeString,
 	sortFunction,
 	dataFormater,
-} from '../listConversion';
+} from '../functions';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -348,7 +348,10 @@ const FileList = ({uuid}) => {
 						socket: socket,
 						uuid: uuid,
 						path: path,
-						cd_path: item.name,
+						cd_path:
+							path === '/'
+								? path + item.name
+								: path + '/' + item.name,
 					}),
 				);
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});

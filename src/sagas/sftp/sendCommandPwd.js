@@ -11,10 +11,12 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
-import {pathFunction} from '../../components/SFTP/listConversion';
+import {pathFunction} from '../../components/SFTP/functions';
 import {
 	commandLsAction,
+	commandPwdAction,
 	INIT_FILELIST,
+	LS_SUCCESS,
 	PWD_FAILURE,
 	PWD_REQUEST,
 	PWD_SUCCESS,
@@ -23,13 +25,9 @@ import {
 
 function* sendCommand(action) {
 	const {payload} = action;
-
-	if (payload.socket.readyState === 3) {
-		console.log('already socket is closing');
-		return;
-	}
-
+	console.log(payload);
 	const channel = yield call(subscribe, payload.socket);
+	let pass = false;
 
 	try {
 		yield call(messageSender, {
@@ -45,6 +43,15 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				console.log('pwd end');
+				if (!pass) {
+					yield put(
+						commandPwdAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							pwd_path: payload.pwd_path,
+						}),
+					);
+				}
 				if (payload.socket.readyState !== 1) {
 					yield put({
 						type: READY_STATE,
@@ -117,6 +124,7 @@ function* sendCommand(action) {
 								removeIndex: remove_index,
 							},
 						});
+						pass = true;
 						// 내가 필요한 경로만큼만 요청!
 						for (let value of ls_pathList) {
 							yield put(
@@ -124,9 +132,9 @@ function* sendCommand(action) {
 									socket: payload.socket,
 									uuid: payload.uuid,
 									ls_path: value,
-									dispatch: payload.dispatch,
 								}),
 							);
+							yield take(LS_SUCCESS);
 						}
 						break;
 					default:

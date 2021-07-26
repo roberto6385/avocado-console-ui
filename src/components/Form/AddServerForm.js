@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
@@ -110,10 +110,10 @@ const duplicationTest = (server, name, host, port, protocol) => {
 const AddServerForm = () => {
 	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
-	const server = useSelector((state) => state.common.server);
-	const theme = useSelector((state) => state.common.theme);
-	const clicked_server = useSelector((state) => state.common.clicked_server);
-	const identity = useSelector((state) => state.common.identity);
+	const {server, theme, clicked_server, identity} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	// username, password는 이곳에서 가져와야 함.
 	const correspondedIdentity = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),

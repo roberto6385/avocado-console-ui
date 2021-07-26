@@ -24,11 +24,6 @@ import {renameResponse} from '../../ws/sftp/rename_response';
 function* sendCommand(action) {
 	const {payload} = action;
 
-	if (payload.socket.readyState === 3) {
-		console.log('already socket is closing');
-		return;
-	}
-
 	const channel = yield call(subscribe, payload.socket);
 	try {
 		yield call(messageSender, {
@@ -65,7 +60,6 @@ function* sendCommand(action) {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-								dispatch: payload.dispatch,
 							}),
 						);
 						break;

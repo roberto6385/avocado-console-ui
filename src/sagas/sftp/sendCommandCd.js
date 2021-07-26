@@ -12,6 +12,7 @@ import {
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
+	commandCdAction,
 	commandPwdAction,
 	ERROR,
 	READY_STATE,
@@ -21,14 +22,13 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {cdResponse} from '../../ws/sftp/cd_response';
+import {pathFunction} from '../../components/SFTP/functions';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	if (payload.socket.readyState === 3) {
-		console.log('already socket is closing');
-		return;
-	}
+	console.log(payload.cd_path);
+	let pass = false;
 
 	const channel = yield call(subscribe, payload.socket);
 
@@ -44,11 +44,23 @@ function* sendCommand(action) {
 		});
 		while (true) {
 			const {timeout, data} = yield race({
-				timeout: delay(5000),
+				timeout: delay(1000),
 				data: take(channel),
 			});
 			if (timeout) {
 				closeChannel(channel);
+				console.log('cd end');
+				if (!pass) {
+					yield put(
+						commandCdAction({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							path: payload.path,
+							cd_path: payload.cd_path,
+						}),
+					);
+				}
+
 				if (payload.socket.readyState !== 1) {
 					yield put({
 						type: READY_STATE,
@@ -62,15 +74,19 @@ function* sendCommand(action) {
 					case CD_SUCCESS:
 						yield put({
 							type: CD_SUCCESS,
-							payload: {uuid: payload.uuid},
+							payload: {
+								uuid: payload.uuid,
+								path: payload.cd_path,
+								pathList: pathFunction({path: payload.cd_path}),
+							},
 						});
+						pass = true;
 
 						yield put(
 							commandPwdAction({
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-								dispatch: payload.dispatch,
 							}),
 						);
 

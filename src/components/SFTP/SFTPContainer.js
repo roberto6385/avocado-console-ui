@@ -22,7 +22,6 @@ const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const current_tab = useSelector((state) => state.common.current_tab);
 	const {
-		path: sftp_pathState,
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 		delete: sftp_deleteState,
@@ -31,8 +30,6 @@ const SFTPContainer = ({uuid}) => {
 		etc: sftp_etcState,
 		history: sftp_historyState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-
-	const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 
 	const {
 		writeList,
@@ -49,13 +46,14 @@ const SFTPContainer = ({uuid}) => {
 		removeSocket,
 		initList,
 		initPath,
+		total,
 		pass: deletePass,
 	} = sftp_deleteState.find((it) => it.uuid === uuid);
 
 	const {highlight} = sftp_highState.find((it) => it.uuid === uuid);
 	const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
 	const {mode} = sftp_etcState.find((it) => it.uuid === uuid);
-	const {history_highlight} = sftp_historyState.find(
+	const {history_highlight, history} = sftp_historyState.find(
 		(it) => it.uuid === uuid,
 	);
 
@@ -169,7 +167,26 @@ const SFTPContainer = ({uuid}) => {
 	useEffect(() => {
 		if (incinerator.length !== 0 && removeSocket !== null) {
 			if (!deletePass) return;
+			const deleteHistory = history
+				.slice()
+				.reverse()
+				.find((v) => v.todo === 'rm' && v.progress !== 100);
 			const value = incinerator.slice().shift();
+			const keyValue = value.path
+				.replace(deleteHistory.path, '')
+				.split('/')[1];
+			const key = keyValue ? keyValue : value.file.name;
+			console.log(key);
+			const totalLength = total.slice().shift().length;
+			console.log(totalLength);
+			const Remaining = incinerator.filter(
+				(v) =>
+					v.path.replace(deleteHistory.path, '').split('/')[1] ===
+					deleteHistory.name,
+			);
+
+			const percent =
+				((totalLength - Remaining.length) / totalLength) * 100;
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch(
 					commandRmAction({
@@ -178,8 +195,9 @@ const SFTPContainer = ({uuid}) => {
 						uuid: uuid,
 						file: value.file,
 						rm_path: value.path,
-						path: path,
 						todo: 'rm',
+						percent: percent,
+						key: key,
 						keyword:
 							value.file.type === 'file'
 								? 'CommandByRm'
@@ -189,7 +207,16 @@ const SFTPContainer = ({uuid}) => {
 				dispatch({type: DELETE_PASS, payload: {uuid}});
 			}
 		}
-	}, [deletePass, incinerator, removeSocket, socket, path, uuid, dispatch]);
+	}, [
+		deletePass,
+		incinerator,
+		removeSocket,
+		socket,
+		uuid,
+		dispatch,
+		history,
+		total,
+	]);
 
 	useEffect(() => {
 		if (removeSocket !== null && initList.length !== 0) {
@@ -197,6 +224,11 @@ const SFTPContainer = ({uuid}) => {
 			for (let value of initList) {
 				if (value.name !== '.' && value.name !== '..') {
 					array.push({file: value, path: initPath});
+					const item = {file: value, path: initPath};
+					const key =
+						item.path === '/'
+							? item.path + item.file.name
+							: item.path + '/' + item.file.name;
 					dispatch({
 						type: ADD_HISTORY,
 						payload: {
@@ -205,19 +237,20 @@ const SFTPContainer = ({uuid}) => {
 							size: value.size,
 							todo: 'rm',
 							progress: 0,
-							path: path,
+							path: initPath,
 							file: value,
+						},
+					});
+					dispatch({
+						type: DELETE_WORK_LIST,
+						payload: {
+							uuid: uuid,
+							item,
+							key,
 						},
 					});
 				}
 			}
-			dispatch({
-				type: DELETE_WORK_LIST,
-				payload: {
-					uuid: uuid,
-					array,
-				},
-			});
 
 			if (
 				array.slice().filter((v) => v.file.type === 'directory')
@@ -233,6 +266,10 @@ const SFTPContainer = ({uuid}) => {
 				for (let item of array.slice()) {
 					if (item.file.type === 'directory') {
 						console.log(item);
+						const key =
+							item.path === '/'
+								? item.path + item.file.name
+								: item.path + '/' + item.file.name;
 						const delete_path =
 							initPath === '/'
 								? `${initPath}${item.file.name}`
@@ -242,13 +279,14 @@ const SFTPContainer = ({uuid}) => {
 								socket: removeSocket,
 								uuid: uuid,
 								delete_path: delete_path,
+								key,
 							}),
 						);
 					}
 				}
 			}
 		}
-	}, [initList, initPath, dispatch, uuid, removeSocket, path]);
+	}, [initList, initPath, dispatch, uuid, removeSocket]);
 
 	return <SFTP uuid={uuid} />;
 };
