@@ -6,7 +6,11 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
 import {ContextMenu} from '../../styles/default';
-import {ADD_HISTORY, createNewWebsocket} from '../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	createNewWebsocket,
+	commandStatAction,
+} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const {t} = useTranslation('contextMenu');
@@ -15,6 +19,7 @@ const FileListContextMenu = ({uuid}) => {
 		path: sftp_pathState,
 		high: sftp_highState,
 		download: sftp_downloadState,
+		socket: sftp_socketState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme, server, tab, identity} = useSelector(
 		(state) => state.common,
@@ -24,6 +29,10 @@ const FileListContextMenu = ({uuid}) => {
 	const {highlight} = useMemo(
 		() => sftp_highState.find((it) => it.uuid === uuid),
 		[sftp_highState, uuid],
+	);
+	const {socket} = useMemo(
+		() => sftp_socketState.find((it) => it.uuid === uuid),
+		[sftp_socketState, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
@@ -165,11 +174,21 @@ const FileListContextMenu = ({uuid}) => {
 						},
 					});
 					break;
+
+				case 'attr_work':
+					dispatch(
+						commandStatAction({
+							stat_path: path,
+							file: highlight[0],
+							socket: socket,
+						}),
+					);
+					break;
 				default:
 					return;
 			}
 		},
-		[contextDownload, contextEdit, dispatch, uuid],
+		[contextDownload, contextEdit, dispatch, uuid, path, highlight, socket],
 	);
 	return (
 		<ContextMenu
@@ -214,6 +233,13 @@ const FileListContextMenu = ({uuid}) => {
 				onClick={handleItemClick}
 			>
 				{t('delete')}
+			</Item>
+			<Item
+				disabled={highlight.length === 0}
+				id='attr_work'
+				onClick={handleItemClick}
+			>
+				{t('attr')}
 			</Item>
 		</ContextMenu>
 	);

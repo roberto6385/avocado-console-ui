@@ -13,4 +13,5 @@ export default {
 	newFolder: 'New Folder',
 	rename: 'Rename',
 	delete: 'Delete',
+	attr: 'Attribute',
 };

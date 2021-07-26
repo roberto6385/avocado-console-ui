@@ -12,6 +12,10 @@ export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
 export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
 export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
 
+export const STAT_REQUEST = 'sftp/STAT_REQUEST';
+export const STAT_SUCCESS = 'sftp/STAT_SUCCESS';
+export const STAT_FAILURE = 'sftp/STAT_FAILURE';
+
 export const CD_REQUEST = 'sftp/CD_REQUEST';
 export const CD_SUCCESS = 'sftp/CD_SUCCESS';
 export const CD_FAILURE = 'sftp/CD_FAILURE';
@@ -118,6 +122,11 @@ export const GET_SUCCESS = 'sftp/GET_SUCCESS';
 export const connectionAction = (payload) => ({
 	type: CONNECTION_REQUEST,
 	payload, // 웹 소켓 연결을 위한 정보
+});
+
+export const commandStatAction = (payload) => ({
+	type: STAT_REQUEST,
+	payload,
 });
 
 export const reconnectionAction = (payload) => ({

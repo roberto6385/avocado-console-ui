@@ -13,4 +13,5 @@ export default {
 	newFolder: '새 폴더',
 	rename: '이름 변경',
 	delete: '삭제',
+	attr:'속성'
 };

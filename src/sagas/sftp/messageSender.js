@@ -315,6 +315,7 @@ const messageSender = ({
 				mode,
 			});
 			break;
+
 		default:
 			break;
 	}
