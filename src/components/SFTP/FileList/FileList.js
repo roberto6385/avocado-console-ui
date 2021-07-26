@@ -19,7 +19,7 @@ import {
 	formatByteSizeString,
 	sortFunction,
 	dataFormater,
-} from '../listConversion';
+} from '../functions';
 import {
 	editIcon,
 	fileDownloadIcon,

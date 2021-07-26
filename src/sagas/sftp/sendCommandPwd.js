@@ -11,7 +11,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
-import {pathFunction} from '../../components/SFTP/listConversion';
+import {pathFunction} from '../../components/SFTP/functions';
 import {
 	commandLsAction,
 	commandPwdAction,

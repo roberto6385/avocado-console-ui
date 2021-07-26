@@ -22,7 +22,7 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
-import {sortFunction} from '../listConversion';
+import {sortFunction} from '../functions';
 import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
 import {
 	activeColor,

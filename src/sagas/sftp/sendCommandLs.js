@@ -17,7 +17,7 @@ import {
 	READY_STATE,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
-import {sortFunction} from '../../components/SFTP/listConversion';
+import {sortFunction} from '../../components/SFTP/functions';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
 

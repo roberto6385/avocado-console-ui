@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {formatByteSizeString} from '../listConversion';
+import {formatByteSizeString} from '../functions';
 import styled from 'styled-components';
 import {
 	arrowCircleDownIcon,
