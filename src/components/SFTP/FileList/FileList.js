@@ -69,10 +69,10 @@ const _Tr = styled.tr`
 	padding-left: 16px;
 	display: flex;
 	height: ${HEIGHT_48};
-	color: ${(props) => props.color};
-	background: ${(props) => props.back};
+	color: ${(props) => fontColor[props.theme_value]};
+	background: ${(props) => tabColor[props.theme_value]};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) => borderColor[props.theme_value]};
 	cursor: pointer;
 `;
 
@@ -99,9 +99,7 @@ const FileList = ({
 						if (item.name !== '.') {
 							return (
 								<_Tr
-									back={tabColor[theme]}
-									color={fontColor[theme]}
-									bcolor={borderColor[theme]}
+									theme_value={theme}
 									onContextMenu={onContextMenu(item)}
 									onClick={onClick({item, index})}
 									onDoubleClick={onDoubleClick(item)}

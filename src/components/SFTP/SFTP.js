@@ -1,19 +1,17 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
-import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {tabColor} from '../../styles/color';
 import SFTPNav from './SFTPNav';
 import History from './History/History';
-import FileList from './FileList/FileList';
-import FileListDropDown from './FileList/FileListDropDown';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
-import FileList_ from "./containers/FileList_";
+import FileList_ from './containers/FileList_';
+import DropList_ from './containers/DropList_';
 
 const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
@@ -100,7 +98,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 				{mode === 'list' ? (
 					<FileList_ uuid={uuid} />
 				) : (
-					<FileListDropDown uuid={uuid} />
+					<DropList_ uuid={uuid} />
 				)}
 				<History uuid={uuid} />
 			</_SFTP>
