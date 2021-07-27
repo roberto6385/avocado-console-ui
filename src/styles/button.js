@@ -163,7 +163,6 @@ export const SecondaryDisabledButton = styled(DefaultButton)`
 
 export const IconBox = styled.div`
 	background: transparent;
-	cursor: pointer;
 	border: none;
 	line-height: 0px;
 	padding: 0px;
