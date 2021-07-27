@@ -220,6 +220,7 @@ export const IconBox = styled.div`
 `;
 
 export const IconButton = styled.button`
+	//
 	background: transparent;
 	border: none;
 	line-height: 0px;
