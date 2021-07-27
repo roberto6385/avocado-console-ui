@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
-	SET_SEARCH_MODE,
+	SSH_SET_SEARCH_MODE,
 	SSH_DECREASE_FONT_SIZE,
 	SSH_INCREASE_FONT_SIZE,
 } from '../reducers/ssh';
@@ -33,20 +33,20 @@ const Footer = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const font_size = useSelector((state) => state.ssh.font_size);
+	const {font_size} = useSelector((state) => state.ssh, shallowEqual);
 
-	const onClickIncreaseFont = useCallback(() => {
+	const onClickIncreaseFontSize = useCallback(() => {
 		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});
 	}, [font_size]);
 
-	const onClickDeceaseFont = useCallback(() => {
+	const onClickDeceaseFontSize = useCallback(() => {
 		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
 	}, [font_size]);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		const current = tab.slice().find((v) => v.uuid === current_tab);
 		if (current_tab !== null && current.type === 'SSH')
-			dispatch({type: SET_SEARCH_MODE});
+			dispatch({type: SSH_SET_SEARCH_MODE});
 	}, [current_tab, tab]);
 
 	return (
@@ -58,7 +58,7 @@ const Footer = () => {
 						color={fontColor[theme]}
 						margin_right={'10px'}
 						size={'micro'}
-						onClick={onClickDeceaseFont}
+						onClick={onClickDeceaseFontSize}
 					>
 						{zoomOutIcon}
 					</ClickableIconButton>
@@ -66,7 +66,7 @@ const Footer = () => {
 						color={fontColor[theme]}
 						margin_right={'10px'}
 						size={'micro'}
-						onClick={onClickIncreaseFont}
+						onClick={onClickIncreaseFontSize}
 					>
 						{zoomInIcon}
 					</ClickableIconButton>

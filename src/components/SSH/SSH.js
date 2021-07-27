@@ -11,7 +11,7 @@ import useInput from '../../hooks/useInput';
 import {
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
 	SSH_SEND_COMMAND_REQUEST,
-	SET_SEARCH_MODE,
+	SSH_SET_SEARCH_MODE,
 } from '../../reducers/ssh';
 
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
@@ -45,7 +45,7 @@ const _Terminal = styled(_Container)`
 	padding: 0px;
 `;
 
-const SearchInput = styled.input`
+const _SearchInput = styled.input`
 	flex: 1;
 	margin-right: 5px;
 	background: transparent;
@@ -53,7 +53,7 @@ const SearchInput = styled.input`
 	color: ${(props) => fontColor[props.theme_value]};
 `;
 
-const _SearchPopupContainer = styled.div`
+const _SearchContainer = styled.div`
 	width: 400px;
 	height: 42px;
 	align-items: center;
@@ -65,7 +65,6 @@ const _SearchPopupContainer = styled.div`
 	right: 10px;
 	bottom: 10px;
 	display: none;
-	// xterm.js 의 canvas가 z-index:3을 갖고 있어서 5를 넣어줌.
 	z-index: 5;
 `;
 
@@ -93,14 +92,15 @@ const _ListGroupItem = styled(ListGroup.Item)`
 	border: none;
 `;
 
-const _FooterListGroupItem = styled(_ListGroupItem)`
+const _AutoCompletionListFooter = styled(_ListGroupItem)`
 	font-size: 10px;
 	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
-const SSH = ({uuid, toggle}) => {
+const SSH = ({uuid, isToolbarUnfold}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
+
 	const {current_tab, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -113,23 +113,25 @@ const SSH = ({uuid, toggle}) => {
 		ssh_history,
 		auto_completion_mode,
 	} = useSelector((state) => state.ssh, shallowEqual);
-	const currentLine = useMemo(
+
+	const currentCommand = useMemo(
 		() => ssh.find((v) => v.uuid === uuid).current_line,
 		[ssh, uuid],
 	);
 	const [search, onChangeSearch, setSearch] = useInput('');
-	const [currentHistory, setCurrentHistory] = useState(0);
 	const historyList = useMemo(
 		() =>
-			currentLine === ''
+			currentCommand === ''
 				? []
 				: ssh_history
-						.filter((v) => v.startsWith(currentLine))
+						.filter((v) => v.startsWith(currentCommand))
 						.slice(-5)
 						.reverse(),
-		[ssh_history, currentLine],
+		[ssh_history, currentCommand],
 	);
-	const [ignoreAutoCompletion, setIgnoreAutoCompletion] = useState(false);
+	const [clickedHistory, setClickedHistory] = useState(0);
+	const [ignoreAutoCompletionMode, setIgnoreAutoCompletionMode] =
+		useState(false);
 	const sshTerm = useMemo(
 		() => ssh.find((v) => v.uuid === uuid).terminal,
 		[ssh, uuid],
@@ -140,27 +142,27 @@ const SSH = ({uuid, toggle}) => {
 	//do not work with {current}
 	const searchRef = useRef(null);
 	const {
-		ref: ref,
+		ref: sshContainerRef,
 		width: width,
 		height: height,
 	} = useDebouncedResizeObserver(3000);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
-	const onPressEnter = useCallback(
+	const onKeyPressSearchEnter = useCallback(
 		(e) => {
 			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
 		[search, searchAddon],
 	);
 
-	const onClickCommand = useCallback(
+	const onClickCommandHistory = useCallback(
 		(v) => () => {
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
 				data: {
 					uuid: uuid,
 					ws: ws,
-					input: v.substring(currentLine.length),
+					input: v.substring(currentCommand.length),
 				},
 			});
 			dispatch({
@@ -172,11 +174,11 @@ const SSH = ({uuid, toggle}) => {
 				},
 			});
 		},
-		[currentLine.length, dispatch, uuid, ws],
+		[currentCommand.length, dispatch, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
-		if (current_tab !== null) dispatch({type: SET_SEARCH_MODE});
+		if (current_tab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
 	}, [current_tab]);
 
 	const onClickArrowUp = useCallback(() => {
@@ -209,26 +211,26 @@ const SSH = ({uuid, toggle}) => {
 		const processInput = sshTerm.onData((data) => {
 			if (
 				auto_completion_mode &&
-				currentLine.length > 1 &&
+				currentCommand.length > 1 &&
 				data.charCodeAt(0) === 27
 			) {
 				if (data.substr(1) === '[A') {
 					//Up
-					if (currentHistory === 0)
-						setCurrentHistory(historyList.length - 1);
-					else setCurrentHistory(currentHistory - 1);
+					if (clickedHistory === 0)
+						setClickedHistory(historyList.length - 1);
+					else setClickedHistory(clickedHistory - 1);
 				} else if (data.substr(1) === '[B') {
 					//Down
-					if (currentHistory === historyList.length - 1)
-						setCurrentHistory(0);
-					else setCurrentHistory(currentHistory + 1);
+					if (clickedHistory === historyList.length - 1)
+						setClickedHistory(0);
+					else setClickedHistory(clickedHistory + 1);
 				} else {
-					setIgnoreAutoCompletion(true);
+					setIgnoreAutoCompletionMode(true);
 				}
 			} else if (
-				currentLine.length > 1 &&
+				currentCommand.length > 1 &&
 				auto_completion_mode &&
-				!ignoreAutoCompletion &&
+				!ignoreAutoCompletionMode &&
 				historyList.length > 0 &&
 				data.charCodeAt(0) === 13
 			) {
@@ -238,8 +240,8 @@ const SSH = ({uuid, toggle}) => {
 					data: {
 						uuid: uuid,
 						ws: ws,
-						input: historyList[currentHistory].substring(
-							currentLine.length,
+						input: historyList[clickedHistory].substring(
+							currentCommand.length,
 						),
 					},
 				});
@@ -260,8 +262,8 @@ const SSH = ({uuid, toggle}) => {
 						input: data,
 					},
 				});
-				if (data.charCodeAt(0) === 13 && ignoreAutoCompletion)
-					setIgnoreAutoCompletion(false);
+				if (data.charCodeAt(0) === 13 && ignoreAutoCompletionMode)
+					setIgnoreAutoCompletionMode(false);
 			}
 		});
 
@@ -273,10 +275,10 @@ const SSH = ({uuid, toggle}) => {
 		ws,
 		sshTerm,
 		auto_completion_mode,
-		currentHistory,
+		clickedHistory,
 		historyList,
-		ignoreAutoCompletion,
-		currentLine,
+		ignoreAutoCompletionMode,
+		currentCommand,
 		dispatch,
 	]);
 	//current tab terminal is focused
@@ -324,10 +326,15 @@ const SSH = ({uuid, toggle}) => {
 	}, [current_tab, uuid, search, searchAddon]);
 	//set History List
 	useEffect(() => {
-		if (auto_completion_mode && currentLine.length > 1) {
-			setCurrentHistory(0);
+		if (auto_completion_mode && currentCommand.length > 1) {
+			setClickedHistory(0);
 		}
-	}, [auto_completion_mode, ssh_history, currentLine, ignoreAutoCompletion]);
+	}, [
+		auto_completion_mode,
+		ssh_history,
+		currentCommand,
+		ignoreAutoCompletionMode,
+	]);
 	//change font
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
@@ -352,9 +359,9 @@ const SSH = ({uuid, toggle}) => {
 	return (
 		<_Container
 			id={`terminal_container_${uuid}`}
-			ref={ref}
+			ref={sshContainerRef}
 			theme_value={theme}
-			className={!toggle && 'close-nav-terminal'}
+			className={!isToolbarUnfold && 'close-nav-terminal'}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
 			<_ListGroup
@@ -436,10 +443,10 @@ const SSH = ({uuid, toggle}) => {
 						: 'undefine'
 				}
 				display={
-					currentLine.length > 1 &&
+					currentCommand.length > 1 &&
 					current_tab === uuid &&
 					auto_completion_mode &&
-					!ignoreAutoCompletion &&
+					!ignoreAutoCompletionMode &&
 					historyList.length > 0
 						? 'flex'
 						: 'none'
@@ -447,23 +454,20 @@ const SSH = ({uuid, toggle}) => {
 			>
 				{historyList.map((v, i) => (
 					<_ListGroupItem
-						clicked={i === currentHistory ? 1 : 0}
+						clicked={i === clickedHistory ? 1 : 0}
 						theme_value={theme}
-						onClick={onClickCommand(v)}
+						onClick={onClickCommandHistory(v)}
 						key={i}
 					>
 						{v}
 					</_ListGroupItem>
 				))}
-				<_FooterListGroupItem theme_value={theme}>
+				<_AutoCompletionListFooter theme_value={theme}>
 					{t('autoCompletionFooter')}
-				</_FooterListGroupItem>
+				</_AutoCompletionListFooter>
 			</_ListGroup>
 
-			<_SearchPopupContainer
-				theme_value={theme}
-				id={`ssh_search_${uuid}`}
-			>
+			<_SearchContainer theme_value={theme} id={`ssh_search_${uuid}`}>
 				<IconBox
 					size={'xs'}
 					theme_value={theme}
@@ -472,8 +476,8 @@ const SSH = ({uuid, toggle}) => {
 				>
 					{searchIcon}
 				</IconBox>
-				<SearchInput
-					onKeyPress={onPressEnter}
+				<_SearchInput
+					onKeyPress={onKeyPressSearchEnter}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder={t('search')}
@@ -508,14 +512,14 @@ const SSH = ({uuid, toggle}) => {
 				>
 					{closeIcon}
 				</ClickableIconButton>
-			</_SearchPopupContainer>
+			</_SearchContainer>
 		</_Container>
 	);
 };
 
 SSH.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	toggle: PropTypes.bool.isRequired,
+	isToolbarUnfold: PropTypes.bool.isRequired,
 };
 
 export default SSH;

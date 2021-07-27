@@ -146,9 +146,10 @@ const isValidFolderName = (folderArray, name) => {
 };
 
 const Nav = ({toggle, setToggle}) => {
-	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
-	const {nav, theme, current_nav_tab} = useSelector(
+	const {t} = useTranslation('nav');
+
+	const {theme, current_nav_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -159,22 +160,24 @@ const Nav = ({toggle, setToggle}) => {
 		{title: t('bookmark'), key: 1},
 	];
 
-	const newFolder = useCallback(() => {
-		let folderName = t('newFolder');
-		let i = 0;
-		while (!isValidFolderName(nav, folderName)) {
-			folderName = `${t('newFolder')} ${i}`;
-			i++;
-		}
-		dispatch({type: ADD_FOLDER, data: folderName});
-	}, [dispatch, nav, t]);
+	//TODO: ADD FOLDER
+	// const onClickAddFolder = useCallback(() => {
+	// 	let folderName = t('newFolder');
+	// 	let i = 0;
+	// 	while (!isValidFolderName(nav, folderName)) {
+	// 		folderName = `${t('newFolder')} ${i}`;
+	// 		i++;
+	// 	}
+	// 	dispatch({type: ADD_FOLDER, data: folderName});
+	// }, [dispatch, nav, t]);
 
-	const newServer = useCallback(() => {
-		dispatch({
-			type: OPEN_ADD_SERVER_FORM_POPUP,
-			data: {type: 'add'},
-		});
-	}, [dispatch]);
+	//TODO: ADD SERVER
+	// const onClickAddServer = useCallback(() => {
+	// 	dispatch({
+	// 		type: OPEN_ADD_SERVER_FORM_POPUP,
+	// 		data: {type: 'add'},
+	// 	});
+	// }, [dispatch]);
 
 	const newFavorites = useCallback(() => {
 		dispatch({type: OPEN_ADD_FAVORITES_FORM_POPUP});
@@ -248,7 +251,7 @@ const Nav = ({toggle, setToggle}) => {
 								theme_value={theme}
 							/>
 						</_Form>
-						{/*<_AddButton onClick={newServer} theme_value={theme}>*/}
+						{/*<_AddButton onClick={onClickAddServer} theme_value={theme}>*/}
 						{/*	{plusIcon}*/}
 						{/*</_AddButton>*/}
 					</_FormContainer>

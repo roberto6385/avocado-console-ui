@@ -41,8 +41,9 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const WarningAlertPopup = () => {
-	const {t} = useTranslation('warningAlertPopup');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('warningAlertPopup');
+
 	const {
 		theme,
 		server,
@@ -110,10 +111,6 @@ const WarningAlertPopup = () => {
 					const corServer = server.find(
 						(it) => it.key === corTab.server.key,
 					);
-					console.log(tab);
-					console.log(server);
-					console.log(corTab);
-					console.log(corServer);
 					const correspondedIdentity = identity.find(
 						(it) =>
 							it.key === corTab.server.key && it.checked === true,

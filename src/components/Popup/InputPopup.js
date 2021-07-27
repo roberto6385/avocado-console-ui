@@ -29,8 +29,9 @@ const _Form = styled(Form)`
 `;
 
 const InputPopup = () => {
-	const {t} = useTranslation('inputPopup');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('inputPopup');
+
 	const {
 		socket: sftp_socketState,
 		path: sftp_pathState,
@@ -38,15 +39,16 @@ const InputPopup = () => {
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {input_popup} = useSelector((state) => state.popup, shallowEqual);
+
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
+	const inputRef = useRef(null);
 
 	const uuid = input_popup.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 
-	const inputRef = useRef(null);
 	const HeaderMessage = {
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),

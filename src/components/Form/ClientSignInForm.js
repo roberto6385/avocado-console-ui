@@ -29,7 +29,7 @@ const ClientSignInForm = () => {
 			const encodeData = base64.encode(`${user}:${password}`);
 			dispatch(getClientTicket({Authorization: 'Basic ' + encodeData}));
 		},
-		[user, password, dispatch],
+		[user, password],
 	);
 
 	return (

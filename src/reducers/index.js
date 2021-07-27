@@ -17,11 +17,6 @@ import verify from './auth/verify';
 import find from './auth/find';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 
-// export const transformCircular = createTransform(
-// 	(inboundState, key) => stringify(inboundState),
-// 	(outboundState, key) => parse(outboundState),
-// );
-
 //userTicket.accesstoken => 저장가능
 export const userTicketFilter = createWhitelistFilter('userTicket', [
 	'userTicket',

@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import SettingAppLayout from '../components/Setting/SettingLayout';
-
-import {useHistory} from 'react-router-dom';
 import IdentitiesSpace from '../components/Setting/Space/IdentitiesSpace';
 
 const Identities = () => {
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
+
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
 	useEffect(() => {
 		if (!userTicket) {

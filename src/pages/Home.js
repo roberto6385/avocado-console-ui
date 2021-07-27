@@ -17,13 +17,14 @@ const _Container = styled.div`
 `;
 
 const Home = () => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
 	const {userTicket, userInfo} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const theme = useSelector((state) => state.common.theme);
-	const history = useHistory();
-	const dispatch = useDispatch();
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	useEffect(() => {
 		if (!userTicket) {
@@ -34,7 +35,7 @@ const Home = () => {
 
 	useEffect(() => {
 		dispatch({type: INIT_FAVORITES});
-	});
+	}, []);
 
 	useEffect(() => {
 		if (userInfo) {

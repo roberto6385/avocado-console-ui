@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 const querystring = require('query-string');
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
 import background from '../images/login.png';
@@ -36,9 +36,10 @@ const getParameter = (name) => {
 };
 
 const Redirect = () => {
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const history = useHistory();
 	const dispatch = useDispatch();
+
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
 	useEffect(() => {
 		const encodeData = base64.encode(`${'web'}:${'123456789'}`);

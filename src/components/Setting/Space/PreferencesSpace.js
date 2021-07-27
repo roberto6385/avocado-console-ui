@@ -10,7 +10,7 @@ import Select_ from '../../RecycleComponents/Select_';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
-	CHANGE_AUTO_COMPLETION_MODE,
+	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
 } from '../../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
@@ -64,7 +64,7 @@ const PreferencesSpace = () => {
 
 	useEffect(() => {
 		dispatch({
-			type: CHANGE_AUTO_COMPLETION_MODE,
+			type: SSH_CHANGE_AUTO_COMPLETION_MODE,
 			data: textCompletion,
 		});
 	}, [textCompletion, dispatch]);

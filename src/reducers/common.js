@@ -305,7 +305,7 @@ function searchTreeNode(node, key) {
 	return null;
 }
 
-function searchTreeStart(root, key) {
+function startSearchingTree(root, key) {
 	for (let x of root) {
 		let result = searchTreeNode(x, key);
 		if (result !== null) return result;
@@ -326,20 +326,7 @@ function searchParentTreeNode(parent, node, key) {
 	return null;
 }
 
-function searchServerTreePath(parent, node, key) {
-	if (node.key === key) {
-		return parent;
-	} else if (node.contain && node.contain.length > 0) {
-		let result = null;
-		for (let i = 0; !result && i < node.contain.length; i++) {
-			result = searchServerTreePath(node, node.contain[i], key);
-		}
-		return result;
-	}
-	return null;
-}
-
-function searchParentTreeStart(root, key) {
+function startSearchingParentTree(root, key) {
 	for (let x of root) {
 		let result = searchParentTreeNode(root, x, key);
 		if (result !== null) return result;
@@ -357,7 +344,7 @@ function deleteTreeNode(parent, node, key) {
 	}
 }
 
-function deleteTreeStart(root, key) {
+function startDeleteingTree(root, key) {
 	for (let i = 0; i < root.length; i++) {
 		if (root[i].key === key) {
 			root.splice(i, 1);
@@ -380,8 +367,8 @@ function addDataOnNode(nav, clicked_server, data) {
 	let node = null;
 	if (!clicked_server) node = nav;
 	else if (clicked_server[0] === 's')
-		node = searchParentTreeStart(nav, clicked_server);
-	else node = searchTreeStart(nav, clicked_server);
+		node = startSearchingParentTree(nav, clicked_server);
+	else node = startSearchingTree(nav, clicked_server);
 
 	if (node.contain) node.contain.push(data);
 	else node.push(data);
@@ -474,20 +461,26 @@ const reducer = (state = initialState, action) => {
 
 			case SORT_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
-				const prevParent = searchParentTreeStart(
+				const prevParent = startSearchingParentTree(
 					draft.nav,
 					draft.clicked_server,
 				);
 				// 이동할 데이터
-				const prev = searchTreeStart(draft.nav, draft.clicked_server);
+				const prev = startSearchingTree(
+					draft.nav,
+					draft.clicked_server,
+				);
 
 				// 이동시킬 위치의 부모
-				let nextParent = searchParentTreeStart(
+				let nextParent = startSearchingParentTree(
 					draft.nav,
 					action.data.next.key,
 				);
 				// 이동시킬 위치
-				const node = searchTreeStart(draft.nav, action.data.next.key);
+				const node = startSearchingTree(
+					draft.nav,
+					action.data.next.key,
+				);
 
 				if (
 					prev === node ||
@@ -499,7 +492,7 @@ const reducer = (state = initialState, action) => {
 				while (nextParent !== draft.nav) {
 					if (nextParent === prev) break;
 					i = i + 1;
-					nextParent = searchParentTreeStart(
+					nextParent = startSearchingParentTree(
 						draft.nav,
 						nextParent.key,
 					);
@@ -558,23 +551,23 @@ const reducer = (state = initialState, action) => {
 			}
 			case SORT_FAVORITES_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
-				const prevParent = searchParentTreeStart(
+				const prevParent = startSearchingParentTree(
 					draft.favorites,
 					draft.clicked_server,
 				);
 				// 이동할 데이터
-				const prev = searchTreeStart(
+				const prev = startSearchingTree(
 					draft.favorites,
 					draft.clicked_server,
 				);
 
 				// 이동시킬 위치의 부모
-				let nextParent = searchParentTreeStart(
+				let nextParent = startSearchingParentTree(
 					draft.favorites,
 					action.data.next.key,
 				);
 				// 이동시킬 위치
-				const node = searchTreeStart(
+				const node = startSearchingTree(
 					draft.favorites,
 					action.data.next.key,
 				);
@@ -590,7 +583,7 @@ const reducer = (state = initialState, action) => {
 				while (nextParent !== draft.favorites) {
 					if (nextParent === prev) break;
 					i = i + 1;
-					nextParent = searchParentTreeStart(
+					nextParent = startSearchingParentTree(
 						draft.favorites,
 						nextParent.key,
 					);
@@ -672,7 +665,7 @@ const reducer = (state = initialState, action) => {
 					draft.server.splice(keyIndex, 1, newServer);
 				}
 
-				searchTreeStart(draft.nav, action.data.key).name =
+				startSearchingTree(draft.nav, action.data.key).name =
 					action.data.name;
 
 				draft.tab = draft.tab.map((v) => {
@@ -688,12 +681,16 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_FAVORITES_FOLDER_NAME: {
 				if (action.data.temp) {
-					searchTreeStart(draft.tempFavorites, action.data.key).name =
-						action.data.name;
+					startSearchingTree(
+						draft.tempFavorites,
+						action.data.key,
+					).name = action.data.name;
 				} else {
-					searchTreeStart(draft.tempFavorites, action.data.key).name =
-						action.data.name;
-					searchTreeStart(draft.favorites, action.data.key).name =
+					startSearchingTree(
+						draft.tempFavorites,
+						action.data.key,
+					).name = action.data.name;
+					startSearchingTree(draft.favorites, action.data.key).name =
 						action.data.name;
 				}
 
@@ -719,7 +716,8 @@ const reducer = (state = initialState, action) => {
 
 				draft.server.splice(index, 1, newServer);
 
-				searchTreeStart(draft.nav, newServer.key).name = newServer.name;
+				startSearchingTree(draft.nav, newServer.key).name =
+					newServer.name;
 
 				draft.tab = draft.tab.map((v) => {
 					if (v.server.key === newServer.key)
@@ -772,11 +770,14 @@ const reducer = (state = initialState, action) => {
 					);
 				else
 					deleteServerUnderTree(
-						searchTreeStart(draft.favorites, draft.clicked_server),
+						startSearchingTree(
+							draft.favorites,
+							draft.clicked_server,
+						),
 						draft.favorites,
 					);
 
-				deleteTreeStart(draft.favorites, draft.clicked_server);
+				startDeleteingTree(draft.favorites, draft.clicked_server);
 				draft.tempFavorites = draft.favorites;
 
 				break;

@@ -50,8 +50,8 @@ const PasswordForm = () => {
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');
 	const [password, onChangePassword] = useInput('');
-	const [passwordConfirm, onChangePasswordConfirm] = useInput('');
-	const [visible, setVisible] = useState(true);
+	const [confirmPassword, onChangeConfirmPassword] = useInput('');
+	const [hidePassword, setHidePassword] = useState(true);
 	const idRef = useRef(null);
 
 	const onSubmitForm = useCallback(
@@ -63,7 +63,7 @@ const PasswordForm = () => {
 				data: 'developing',
 			});
 
-			//TODO: Chnage Password Action
+			//TODO: Change Password Action
 
 			// 	const encodeData = base64.encode(`${user}:${password}`);
 			// 	dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
@@ -108,9 +108,9 @@ const PasswordForm = () => {
 	const typeChange = useCallback(
 		(e) => {
 			e.preventDefault();
-			setVisible(!visible);
+			setHidePassword(!hidePassword);
 		},
-		[visible],
+		[hidePassword],
 	);
 
 	const focusin = useCallback(
@@ -121,7 +121,7 @@ const PasswordForm = () => {
 				passwordContainer.classList.add('focus');
 			} else {
 				const passwordContainer = document.getElementById(
-					'passwordConfirm_container',
+					'confirmPassword_container',
 				);
 				passwordContainer.classList.add('focus');
 			}
@@ -136,7 +136,7 @@ const PasswordForm = () => {
 				passwordContainer.classList.remove('focus');
 			} else {
 				const passwordContainer = document.getElementById(
-					'passwordConfirm_container',
+					'confirmPassword_container',
 				);
 				passwordContainer.classList.remove('focus');
 			}
@@ -191,7 +191,7 @@ const PasswordForm = () => {
 					<UserPasswordInput
 						onFocus={focusin('password')}
 						onBlur={focusout('password')}
-						type={visible ? 'password' : 'text'}
+						type={hidePassword ? 'password' : 'text'}
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('password')}
@@ -202,20 +202,20 @@ const PasswordForm = () => {
 						color={'#757575'}
 						onClick={typeChange}
 					>
-						{visible
+						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
 			</InputFiled_>
 			<InputFiled_ marginBottom={'18px'}>
-				<UserPasswordContainer id={'passwordConfirm_container'}>
+				<UserPasswordContainer id={'confirmPassword_container'}>
 					<UserPasswordInput
 						onFocus={focusin('confirm')}
 						onBlur={focusout('confirm')}
-						type={visible ? 'password' : 'text'}
-						value={passwordConfirm}
-						onChange={onChangePasswordConfirm}
+						type={hidePassword ? 'password' : 'text'}
+						value={confirmPassword}
+						onChange={onChangeConfirmPassword}
 						placeholder={t('confirmPassword')}
 					/>
 				</UserPasswordContainer>

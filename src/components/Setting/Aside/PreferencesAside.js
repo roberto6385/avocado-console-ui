@@ -10,7 +10,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {
-	CHANGE_AUTO_COMPLETION_MODE,
+	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
 } from '../../../reducers/ssh';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -51,8 +51,9 @@ const font_theme = [
 ];
 
 const PreferencesAside = () => {
-	const {t, i18n} = useTranslation('preferencesAside');
 	const dispatch = useDispatch();
+	const {t, i18n} = useTranslation('preferencesAside');
+
 	const {theme, lang} = useSelector((state) => state.common, shallowEqual);
 	const {font, auto_completion_mode} = useSelector(
 		(state) => state.ssh,
@@ -77,7 +78,7 @@ const PreferencesAside = () => {
 
 	useEffect(() => {
 		dispatch({
-			type: CHANGE_AUTO_COMPLETION_MODE,
+			type: SSH_CHANGE_AUTO_COMPLETION_MODE,
 			data: textCompletion,
 		});
 	}, [textCompletion, dispatch]);
