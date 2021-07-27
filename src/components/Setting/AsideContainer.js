@@ -15,7 +15,7 @@ const _Container = styled.div`
 	height: 100%;
 	width: 300px;
 	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
-	z-index: 5; // terminal보다 높아야 함.
+	z-index: 5;
 	background: ${(props) => sideColor[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
 `;

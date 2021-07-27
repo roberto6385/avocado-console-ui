@@ -26,7 +26,7 @@ const PanesContainer = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
-	const visibleTab = useMemo(
+	const visibleTabs = useMemo(
 		() => tab.filter((v) => v.display === true),
 		[tab],
 	);
@@ -35,20 +35,20 @@ const PanesContainer = () => {
 		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}
 
-			{visibleTab.length <= cols ? (
-				<Panes tab={visibleTab} />
-			) : visibleTab.length <= cols * 2 ? (
+			{visibleTabs.length <= cols ? (
+				<Panes tab={visibleTabs} />
+			) : visibleTabs.length <= cols * 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
-					<Panes tab={visibleTab.slice(0, cols)} />
-					<Panes tab={visibleTab.slice(cols)} />
+					<Panes tab={visibleTabs.slice(0, cols)} />
+					<Panes tab={visibleTabs.slice(cols)} />
 				</SplitPane>
 			) : (
 				<SplitPane split='horizontal' defaultSize={'66%'}>
 					<SplitPane split='horizontal' defaultSize={'50%'}>
-						<Panes tab={visibleTab.slice(0, cols)} />
-						<Panes tab={visibleTab.slice(cols, cols * 2)} />
+						<Panes tab={visibleTabs.slice(0, cols)} />
+						<Panes tab={visibleTabs.slice(cols, cols * 2)} />
 					</SplitPane>
-					<Panes tab={visibleTab.slice(cols * 2)} />
+					<Panes tab={visibleTabs.slice(cols * 2)} />
 				</SplitPane>
 			)}
 		</_Container>

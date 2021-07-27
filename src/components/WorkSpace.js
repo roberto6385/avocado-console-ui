@@ -161,14 +161,14 @@ const WorkSpace = () => {
 	const [asideToggle, setAsideToggle] = useState(false);
 	const [navToggle, setNavToggle] = useState(true);
 
-	const changeVisibleTab = useCallback(
+	const onChangeChangeVisibleTab = useCallback(
 		(uuid) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
-		[dispatch],
+		[],
 	);
 
-	const onClickDelete = useCallback(
+	const onClickCloseTab = useCallback(
 		(data) => (e) => {
 			e.stopPropagation();
 			if (data.type === 'SSH') {
@@ -190,7 +190,7 @@ const WorkSpace = () => {
 				);
 			}
 		},
-		[dispatch, ssh, sftp_socketState],
+		[ssh, sftp_socketState],
 	);
 
 	const prevPutItem = useCallback(
@@ -233,7 +233,9 @@ const WorkSpace = () => {
 									key={data.uuid}
 									onDragOver={(e) => e.preventDefault()}
 									onDrop={nextPutItem(data)}
-									onClick={changeVisibleTab(data.uuid)}
+									onClick={onChangeChangeVisibleTab(
+										data.uuid,
+									)}
 								>
 									<_TabItem
 										draggable='true'
@@ -256,7 +258,7 @@ const WorkSpace = () => {
 											{data.type === 'SFTP' && sftpIcon}
 										</IconBox>
 										<_ServerName
-											onClick={changeVisibleTab(
+											onClick={onChangeChangeVisibleTab(
 												data.uuid,
 											)}
 										>
@@ -266,7 +268,7 @@ const WorkSpace = () => {
 											size={'xs'}
 											margin={'0px 0px 0px 6px'}
 											theme_value={theme}
-											onClick={onClickDelete(data)}
+											onClick={onClickCloseTab(data)}
 										>
 											{closeIcon}
 										</ClickableIconButton>

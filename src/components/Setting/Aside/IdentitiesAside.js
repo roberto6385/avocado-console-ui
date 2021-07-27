@@ -53,6 +53,7 @@ const IdentitiesAside = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
+
 	const currentKey = useMemo(
 		() => tab.find((v) => v.uuid === current_tab)?.server.key,
 		[tab, current_tab],

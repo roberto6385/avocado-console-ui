@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -80,12 +79,14 @@ const _OAuthButton = styled.button`
 const SignInForm = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('signInForm');
+
+	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [visible, setVisible] = useState(true);
-	const loading = useSelector((state) => state.userTicket.loading);
+	const [hidePassword, setHidePassword] = useState(true);
 	const [rememberMe, setRememberMe] = useState(false);
-	const idRef = useRef(null);
+	const userRef = useRef(null);
 	const passwordRef = useRef(null);
 
 	const onSubmitForm = useCallback(
@@ -93,7 +94,7 @@ const SignInForm = () => {
 			e.preventDefault();
 
 			if (user === '') {
-				idRef.current?.focus();
+				userRef.current?.focus();
 			} else if (password === '') {
 				passwordRef.current?.focus();
 			} else {
@@ -117,9 +118,9 @@ const SignInForm = () => {
 	const typeChange = useCallback(
 		(e) => {
 			e.preventDefault();
-			setVisible(!visible);
+			setHidePassword(!hidePassword);
 		},
-		[visible],
+		[hidePassword],
 	);
 
 	const focusin = useCallback(() => {
@@ -167,7 +168,7 @@ const SignInForm = () => {
 			setPassword(localStorage.getItem('password'));
 			setRememberMe(true);
 		}
-		idRef.current?.focus();
+		userRef.current?.focus();
 	}, [setPassword, setUser]);
 
 	useEffect(() => {
@@ -183,7 +184,7 @@ const SignInForm = () => {
 
 			<InputFiled_ marginBottom={'18px'}>
 				<UserInput
-					ref={idRef}
+					ref={userRef}
 					value={user}
 					onChange={onChangeUser}
 					placeholder={t('id')}
@@ -195,7 +196,7 @@ const SignInForm = () => {
 						ref={passwordRef}
 						onFocus={focusin}
 						onBlur={focusout}
-						type={visible ? 'password' : 'text'}
+						type={hidePassword ? 'password' : 'text'}
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('password')}
@@ -206,7 +207,7 @@ const SignInForm = () => {
 						color={'#757575'}
 						onClick={typeChange}
 					>
-						{visible
+						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
 					</IconButton>

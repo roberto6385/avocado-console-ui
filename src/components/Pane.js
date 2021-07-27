@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+
 import {CHANGE_CURRENT_TAB} from '../reducers/common';
 import SSHContainer from './SSH/SSHContainer';
 import SFTP_ from './SFTP/containers/SFTP_';
@@ -10,8 +11,6 @@ import {
 	SSH_SEND_RECONNECTION_REQUEST,
 } from '../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
-
-import {FONT_14} from '../styles/length';
 import {
 	activePaneHeaderColor,
 	borderColor,
@@ -50,7 +49,7 @@ const _Header = styled.div`
 const _HeaderText = styled.div`
 	display: flex;
 	align-items: center;
-	font-size: ${FONT_14};
+	font-size: 14px;
 	color: ${(props) => props.color};
 `;
 

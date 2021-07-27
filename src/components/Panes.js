@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 
 const _Container = styled.div`
 	height: 100%;
@@ -17,7 +17,8 @@ const _Container = styled.div`
 `;
 
 const Panes = ({tab}) => {
-	const theme = useSelector((state) => state.common.theme);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
+
 	return (
 		<_Container>
 			{tab.length === 1 && (

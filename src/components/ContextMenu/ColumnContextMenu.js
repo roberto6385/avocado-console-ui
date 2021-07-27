@@ -2,11 +2,11 @@ import React, {useCallback} from 'react';
 import {DropDownMenu} from '../../styles/default';
 import {animation, Item} from 'react-contexify';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../../reducers/common';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 const ColumnContextMenu = () => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const changeColumn = useCallback(
 		(cols) => () => {

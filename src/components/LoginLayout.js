@@ -32,7 +32,7 @@ const _Span = styled.div`
 	align-items: center;
 `;
 
-const _Subtitle = styled.div`
+const _Description = styled.div`
 	letter-spacing: 0.15px;
 	color: #ffffff;
 	width: 411px;
@@ -49,7 +49,7 @@ const _Footer = styled.div`
 	bottom: 35px;
 	left: 42px;
 `;
-const _Hr = styled.div`
+const _SpanText = styled.div`
 	width: 38px;
 	height: 3px;
 	border-radius: 13px;
@@ -63,12 +63,12 @@ const LoginLayout = ({children}) => {
 			<_HeaderContainer>
 				<img src={DarkModeLogo} height='45.9' alt='DarkModeLogo' />
 				<_Span>
-					<_Hr /> ex.slogan of avocado solution
+					<_SpanText /> ex.slogan of avocado solution
 				</_Span>
-				<_Subtitle>
+				<_Description>
 					Manage your servers from your browser with a professional
 					and feature rich terminal and remote desktop client
-				</_Subtitle>
+				</_Description>
 			</_HeaderContainer>
 			{children}
 			<_Footer>Copyright NETAND Co.,Ltd. All rights reserved.</_Footer>

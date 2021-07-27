@@ -147,7 +147,7 @@ const AddServerForm = () => {
 		{value: 'KeyFile', label: t('keyFile')},
 	];
 
-	const closeModal = useCallback(() => {
+	const onClickCloseModal = useCallback(() => {
 		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
 	}, [dispatch]);
 
@@ -254,7 +254,7 @@ const AddServerForm = () => {
 						},
 					});
 
-				closeModal();
+				onClickCloseModal();
 			}
 		},
 		[
@@ -273,7 +273,7 @@ const AddServerForm = () => {
 			correspondedIdentity,
 			account,
 			clicked_server,
-			closeModal,
+			onClickCloseModal,
 		],
 	);
 
@@ -368,7 +368,7 @@ const AddServerForm = () => {
 	return (
 		<_PopupModal
 			isOpen={add_server_form_popup.open}
-			onRequestClose={closeModal}
+			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			theme_value={theme}
@@ -377,7 +377,7 @@ const AddServerForm = () => {
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
 				<ClickableIconButton
-					onClick={closeModal}
+					onClick={onClickCloseModal}
 					color={fontColor[theme]}
 					size={'20px'}
 					margin={'0px'}
@@ -548,7 +548,7 @@ const AddServerForm = () => {
 			<ModalFooter theme_value={theme}>
 				<PrimaryGreyButton
 					theme_value={theme}
-					onClick={closeModal}
+					onClick={onClickCloseModal}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}

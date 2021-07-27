@@ -27,6 +27,7 @@ const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 const AccountAside = () => {
 	const {t} = useTranslation('accountAside');
 	const history = useHistory();
+
 	const {theme, account} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(

@@ -7,13 +7,15 @@ import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 
 const SnippetContextMenu = ({uuid, setOpen}) => {
-	const {t} = useTranslation('snippets');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('snippets');
+
 	const {theme, current_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
+
 	const ws = useMemo(
 		() => ssh.find((v) => v.uuid === current_tab)?.ws,
 		[ssh, current_tab],

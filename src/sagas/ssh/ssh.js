@@ -18,9 +18,7 @@ import {
 	SSH_SEND_DISCONNECTION_SUCCESS,
 	SSH_SEND_COMMAND_REQUEST,
 	SSH_SEND_COMMAND_SUCCESS,
-	SSH_SEND_COMMAND_FAILURE,
 	SSH_SEND_WINDOW_CHANGE_REQUEST,
-	SSH_SEND_WINDOW_CHANGE_FAILURE,
 	SSH_SEND_RECONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_SUCCESS,
 } from '../../reducers/ssh';
@@ -31,8 +29,6 @@ import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {READY_STATE} from '../../reducers/ssh';
-import base64 from 'base-64';
-import {REFRESH_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -115,7 +111,7 @@ function* sendConnection(action) {
 							}
 							//token expire
 							if (res.result.includes('token')) {
-								//TODO: do something?
+								//TODO: refresh token
 							}
 							break;
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 
 import SFTPConvertButton from '../SFTP/SFTPConvertButton';
-import SnippetsManeger from './SnippetsManager';
+import SnippetsManager from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 import {borderColor, tabColor, terminalColor} from '../../styles/color';
@@ -42,6 +42,7 @@ const _HeaderContainer = styled.div`
 	max-height: 50px;
 	background-color: ${(props) => terminalColor[props.theme_value]};
 `;
+
 const _Header = styled.div`
 	display: flex;
 	align-items: center;
@@ -52,7 +53,7 @@ const _Header = styled.div`
 	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
-const _ToggleButton = styled.img`
+const _ToolbarFoldUnfoldButton = styled.img`
 	width: 54px;
 	height: 18px;
 	margin-left: auto;
@@ -66,22 +67,19 @@ const SSHContainer = ({uuid, server}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-
-	const [open, setOpen] = useState(false);
-	const [toggle, setToggle] = useState(true);
 	const snippetRef = useRef();
-	const MenuPosition = useRef();
+	const [isSnippetsManagerOpen, setIsSnippetsManagerOpend] = useState(false);
+	const [isToolbarUnfold, setIsToolbarUnfold] = useState(true);
 	const {show} = useContextMenu({
 		id: uuid + 'snippet',
 	});
 
 	function getSettingMenuPosition() {
 		const {left, bottom} = snippetRef.current?.getBoundingClientRect();
-		MenuPosition.current = {x: left + 10, y: bottom + 10};
-		return MenuPosition.current;
+		return {x: left + 10, y: bottom + 10};
 	}
 
-	const openSnippet = useCallback((e) => {
+	const onClickOpenSnippetManager = useCallback((e) => {
 		show(e, {
 			position: getSettingMenuPosition(),
 		});
@@ -93,26 +91,26 @@ const SSHContainer = ({uuid, server}) => {
 			.requestFullscreen();
 	}, [uuid]);
 
-	const onClickFold = useCallback(() => {
-		setToggle(false);
+	const onClickFoldToolbar = useCallback(() => {
+		setIsToolbarUnfold(false);
 	}, []);
 
-	const onClickUnfold = useCallback(() => {
-		setToggle(true);
+	const onClickUnfoldToolbar = useCallback(() => {
+		setIsToolbarUnfold(true);
 	}, []);
 
 	return (
 		<_Container>
 			<_HeaderContainer
 				theme_value={theme}
-				className={!toggle && 'close-nav-header'}
+				className={!isToolbarUnfold && 'close-nav-header'}
 			>
 				<_Header theme_value={theme}>
 					<ClickableIconButton
 						theme_value={theme}
 						ref={snippetRef}
 						margin={'16px'}
-						onClick={openSnippet}
+						onClick={onClickOpenSnippetManager}
 					>
 						{snippetIcon}
 					</ClickableIconButton>
@@ -125,23 +123,29 @@ const SSHContainer = ({uuid, server}) => {
 					</ClickableIconButton>
 				</_Header>
 				{(nav.length === 1 || cols === 1) &&
-					(toggle ? (
-						<_ToggleButton
+					(isToolbarUnfold ? (
+						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}
 							alt='toolbar fold button'
-							onClick={onClickFold}
+							onClick={onClickFoldToolbar}
 						/>
 					) : (
-						<_ToggleButton
+						<_ToolbarFoldUnfoldButton
 							src={toolbarUnfold[theme]}
 							alt='toolbar fold button'
-							onClick={onClickUnfold}
+							onClick={onClickUnfoldToolbar}
 						/>
 					))}
 			</_HeaderContainer>
-			<SSH uuid={uuid} toggle={toggle} />
-			<SnippetsManeger open={open} setOpen={setOpen} />
-			<SnippetContextMenu uuid={uuid} setOpen={setOpen} />
+			<SSH uuid={uuid} isToolbarUnfold={isToolbarUnfold} />
+			<SnippetsManager
+				open={isSnippetsManagerOpen}
+				setOpen={setIsSnippetsManagerOpend}
+			/>
+			<SnippetContextMenu
+				uuid={uuid}
+				setOpen={setIsSnippetsManagerOpend}
+			/>
 		</_Container>
 	);
 };

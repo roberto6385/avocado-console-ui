@@ -41,8 +41,9 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const SavePopup = () => {
-	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('savePopup');
+
 	const {save_popup} = useSelector((state) => state.popup, shallowEqual);
 	const {
 		path: sftp_pathState,

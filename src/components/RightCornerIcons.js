@@ -21,7 +21,7 @@ import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
-	background: ${(props) => props?.back};
+	background: ${(props) => tabbarColor[props.theme_value]};
 	height: 100%;
 `;
 
@@ -96,7 +96,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<_Container back={tabbarColor[theme]}>
+		<_Container theme_value={theme}>
 			<ClickableIconButton
 				theme_value={theme}
 				ref={accountRef}

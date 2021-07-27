@@ -18,11 +18,11 @@ export const initialState = {
 	loading: false,
 };
 
-export const CHANGE_AUTO_COMPLETION_MODE = 'CHANGE_AUTO_COMPLETION_MODE';
-
+export const SSH_CHANGE_AUTO_COMPLETION_MODE =
+	'SSH_CHANGE_AUTO_COMPLETION_MODE';
 export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
 export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
-export const SET_SEARCH_MODE = 'SET_SEARCH_MODE';
+export const SSH_SET_SEARCH_MODE = 'SSH_SET_SEARCH_MODE';
 
 export const SSH_SET_FONT_REQUEST = 'SSH_SET_FONT_REQUEST';
 export const SSH_SET_FONT_SUCCESS = 'SSH_SET_FONT_SUCCESS';
@@ -213,7 +213,7 @@ const reducer = (state = initialState, action) => {
 				draft.font_size--;
 				break;
 
-			case SET_SEARCH_MODE:
+			case SSH_SET_SEARCH_MODE:
 				draft.search_mode = !draft.search_mode;
 				break;
 
@@ -244,7 +244,7 @@ const reducer = (state = initialState, action) => {
 				});
 				break;
 
-			case CHANGE_AUTO_COMPLETION_MODE:
+			case SSH_CHANGE_AUTO_COMPLETION_MODE:
 				draft.auto_completion_mode = action.data;
 				break;
 
