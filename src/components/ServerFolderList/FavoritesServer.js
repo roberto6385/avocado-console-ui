@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../hooks/useDoubleClick';
 import useInput from '../../hooks/useInput';
@@ -48,8 +48,9 @@ const FavoritesServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 	const [openRename, setOpenRename] = useState(false);
 	const renameRef = useRef(null);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');

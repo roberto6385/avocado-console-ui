@@ -10,7 +10,6 @@ import {
 	settingIcon,
 	windowIcon,
 } from '../icons/icons';
-import {OPEN_ALERT_POPUP} from '../reducers/popup';
 import {tabbarColor} from '../styles/color';
 import {ClickableIconButton} from '../styles/button';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
@@ -19,7 +18,7 @@ import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
 
-const CornerIcons_Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	background: ${(props) => props?.back};
@@ -31,8 +30,10 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	const MenuPosition = useRef();
 	const accountRef = useRef();
 	const settingRef = useRef();
+	const notificationRef = useRef();
+	const notificationMunuRef = useRef();
 	const columnRef = useRef();
-	const dropdownRef = useRef();
+
 	const {show: showAccountMenu} = useContextMenu({
 		id: 'account',
 	});
@@ -43,7 +44,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		id: 'column',
 	});
 	const [shownotificationMenu, setShownotificationMenu] =
-		useDetectOutsideClick(dropdownRef, false);
+		useDetectOutsideClick(notificationMunuRef, false);
 
 	const getAccountMenuPosition = useCallback(() => {
 		const {right, bottom} = accountRef.current?.getBoundingClientRect();
@@ -56,13 +57,6 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
 	}, [MenuPosition]);
-
-	// const getNotificationMenuPosition = useCallback(() => {
-	// 	const {right, bottom} =
-	// 		notificationRef.current?.getBoundingClientRect();
-	// 	MenuPosition.current = {x: right - 130, y: bottom};
-	// 	return MenuPosition.current;
-	// }, [MenuPosition]);
 
 	const getColumnMenuPosition = useCallback(() => {
 		const {right, bottom} = columnRef.current?.getBoundingClientRect();
@@ -88,17 +82,9 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
-	//TODO: 배포전 수정
-	// const openNotification = useCallback(() => {
-	// 	dispatch({
-	// 		type: OPEN_ALERT_POPUP,
-	// 		data: 'developing',
-	// 	});
-	// }, []);
-
 	const openNotification = useCallback(() => {
-		setShownotificationMenu(!shownotificationMenu);
-	}, [shownotificationMenu]);
+		setShownotificationMenu(true);
+	}, []);
 
 	const openColumn = useCallback(
 		(e) => {
@@ -110,7 +96,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<CornerIcons_Container back={tabbarColor[theme]}>
+		<_Container back={tabbarColor[theme]}>
 			<ClickableIconButton
 				theme_value={theme}
 				ref={accountRef}
@@ -126,7 +112,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				{settingIcon}
 			</ClickableIconButton>
 
-			<ClickableIconButton theme_value={theme} onClick={openNotification}>
+			<ClickableIconButton
+				theme_value={theme}
+				ref={notificationRef}
+				onClick={openNotification}
+			>
 				{notificationIcon}
 			</ClickableIconButton>
 
@@ -143,10 +133,15 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
 			<NotificationContextMenu
 				show={shownotificationMenu}
-				dropdownRef={dropdownRef}
+				location={{
+					left: notificationRef.current?.getBoundingClientRect().left,
+					top: notificationRef.current?.getBoundingClientRect()
+						.bottom,
+				}}
+				notificationMunuRef={notificationMunuRef}
 			/>
 			<ColumnContextMenu />
-		</CornerIcons_Container>
+		</_Container>
 	);
 };
 

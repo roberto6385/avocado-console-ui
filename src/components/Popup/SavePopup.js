@@ -43,14 +43,14 @@ const _PopupModal = styled(PopupModal)`
 const SavePopup = () => {
 	const {t} = useTranslation('savePopup');
 	const dispatch = useDispatch();
-	const save_popup = useSelector((state) => state.popup.save_popup);
+	const {save_popup} = useSelector((state) => state.popup, shallowEqual);
 	const {
 		path: sftp_pathState,
 		etc: sftp_etcState,
 		edit: sftp_editState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 	const {theme, tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

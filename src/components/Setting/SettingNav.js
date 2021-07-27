@@ -10,7 +10,7 @@ import {
 	settingIcon,
 } from '../../icons/icons';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {
 	activeColor,
 	borderColor,
@@ -68,7 +68,7 @@ const _Li = styled.li`
 const SettingNav = ({match}) => {
 	const history = useHistory();
 	const {t} = useTranslation('settingNav');
-	const theme = useSelector((state) => state.common.theme);
+	const theme = useSelector((state) => state.common.theme, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {

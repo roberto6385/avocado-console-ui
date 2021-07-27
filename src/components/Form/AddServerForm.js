@@ -114,14 +114,15 @@ const AddServerForm = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {add_server_form_popup} = useSelector(
+		(state) => state.popup,
+		shallowEqual,
+	);
 	// username, password는 이곳에서 가져와야 함.
 	const correspondedIdentity = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),
 		[identity, clicked_server],
-	);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const add_server_form_popup = useSelector(
-		(state) => state.popup.add_server_form_popup,
 	);
 
 	const [name, onChangeName, setName] = useInput('');
@@ -132,7 +133,6 @@ const AddServerForm = () => {
 	const [authentication, onChangeAuthentication, setAuthentication] =
 		useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
-
 	const [username, onChangeUsername, setUsername] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');

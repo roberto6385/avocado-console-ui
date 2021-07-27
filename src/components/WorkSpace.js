@@ -142,6 +142,7 @@ const _ServerName = styled.div`
 
 const WorkSpace = () => {
 	const dispatch = useDispatch();
+
 	const {tab, current_tab, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -154,6 +155,7 @@ const WorkSpace = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
+
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);

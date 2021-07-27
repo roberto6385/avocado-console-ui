@@ -52,10 +52,10 @@ const WarningAlertPopup = () => {
 		accountListControlId,
 		accountCheckList,
 	} = useSelector((state) => state.common, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
-
-	const warning_alert_popup = useSelector(
-		(state) => state.popup.warning_alert_popup,
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {warning_alert_popup} = useSelector(
+		(state) => state.popup,
+		shallowEqual,
 	);
 	const {
 		history: sftp_historyState,

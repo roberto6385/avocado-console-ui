@@ -36,9 +36,8 @@ const InputPopup = () => {
 		path: sftp_pathState,
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-
-	const theme = useSelector((state) => state.common.theme);
-	const input_popup = useSelector((state) => state.popup.input_popup);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
+	const {input_popup} = useSelector((state) => state.popup, shallowEqual);
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
 

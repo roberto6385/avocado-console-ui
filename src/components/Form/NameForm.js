@@ -7,7 +7,6 @@ import useInput from '../../hooks/useInput';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	Form,
 	Input,
@@ -29,13 +28,15 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const ChangeNameForm = ({open, setOpen}) => {
-	const {t} = useTranslation('changeNameForm');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('changeNameForm');
+
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo, userTicket} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
 	);
+
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput('');
 
 	const closeModal = useCallback(() => {

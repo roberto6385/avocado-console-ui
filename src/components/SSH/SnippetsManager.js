@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -107,8 +107,11 @@ const _ListContainer = styled.div`
 const SnippetsManeger = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
-	const {theme} = useSelector((state) => state.common);
-	const {snippets, snippents_index} = useSelector((state) => state.ssh);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
+	const {snippets, snippents_index} = useSelector(
+		(state) => state.ssh,
+		shallowEqual,
+	);
 	const [tempSnippets, setTempSnippets] = useState(snippets);
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');

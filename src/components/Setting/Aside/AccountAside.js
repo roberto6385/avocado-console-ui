@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import InputFiled_ from '../../RecycleComponents/InputFiled_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {settingInput} from '../../../styles/color';
 import {Input} from '../../../styles/default';
@@ -27,7 +27,7 @@ const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 const AccountAside = () => {
 	const {t} = useTranslation('accountAside');
 	const history = useHistory();
-	const {theme, account} = useSelector((state) => state.common);
+	const {theme, account} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {

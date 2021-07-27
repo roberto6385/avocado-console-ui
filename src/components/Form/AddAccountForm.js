@@ -81,14 +81,16 @@ const _Form = styled.form`
 `;
 
 const AddAccountForm = () => {
-	const {t} = useTranslation('addAccountForm');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('addAccountForm');
+
 	const {account, accountListControlId, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const account_form_popup = useSelector(
-		(state) => state.popup.account_form_popup,
+	const {account_form_popup} = useSelector(
+		(state) => state.popup,
+		shallowEqual,
 	);
 
 	const [identity, onChangeIdentity, setIdentity] = useInput('');

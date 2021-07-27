@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
 import {revokeUserTicket} from '../../reducers/auth/userTicket';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
-	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('rightCornerIcons');
+
 	const {theme, rightSideKey} = useSelector(
 		(state) => state.common,
 		shallowEqual,

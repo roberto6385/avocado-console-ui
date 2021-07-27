@@ -13,8 +13,9 @@ import {
 } from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
-	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('contextMenu');
+
 	const {
 		path: sftp_pathState,
 		high: sftp_highState,

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -33,8 +33,10 @@ const _PrimaryGreenButton = styled(UserSubmitButton)`
 
 const SignUpForm = () => {
 	const dispatch = useDispatch();
-	const {loading} = useSelector((state) => state.userTicket);
 	const {t} = useTranslation('signUpForm');
+
+	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+
 	const [id, onChangeId, setId] = useInput('');
 	const [name, onChangeName, setName] = useInput('');
 	const [email, onChangeEmail, setEmail] = useInput('');

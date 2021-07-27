@@ -76,9 +76,9 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server: commonServer,
 	} = useSelector((state) => state.common, shallowEqual);
-	const {userTicket} = useSelector((state) => state.userTicket);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
-	const ssh = useSelector((state) => state.ssh.ssh);
+	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
 	const {
 		socket: sftp_socketState,
 		path: sftp_pathState,

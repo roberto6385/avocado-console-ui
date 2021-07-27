@@ -46,17 +46,19 @@ const _ModalFooter = styled(ModalFooter)`
 `;
 
 const AddFavoritesForm = () => {
-	const {t} = useTranslation('addFavoritesForm');
 	const dispatch = useDispatch();
+	const {t} = useTranslation('addFavoritesForm');
+
 	const {tempFavorites, favorites, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const [search, onChangeSearch] = useInput('');
-
-	const add_favorites_form_popup = useSelector(
-		(state) => state.popup.add_favorites_form_popup,
+	const {add_favorites_form_popup} = useSelector(
+		(state) => state.popup,
+		shallowEqual,
 	);
+
+	const [search, onChangeSearch] = useInput('');
 
 	const closeModal = useCallback(() => {
 		if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
@@ -67,7 +69,7 @@ const AddFavoritesForm = () => {
 		} else {
 			dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
 		}
-	}, [dispatch, favorites, tempFavorites]);
+	}, [ favorites, tempFavorites]);
 
 	const onSubmitForm = useCallback(
 		(e) => {

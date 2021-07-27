@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import SettingNav from './SettingNav';
 import Footer from '../Footer';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {borderColor, navColor} from '../../styles/color';
 import {SAVE_ACCOUT} from '../../reducers/common';
 import LightModeLogo from '../../images/logo/logo@2x.png';
@@ -35,8 +35,8 @@ const _Header = styled.div`
 
 const SettingAppLayout = ({children}) => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common);
-	const {userInfo} = useSelector((state) => state.userTicket);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
+	const {userInfo} = useSelector((state) => state.userTicket, shallowEqual);
 
 	useEffect(() => {
 		if (userInfo) {

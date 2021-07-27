@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import Server from './Server';
 import {
@@ -63,6 +63,7 @@ const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const {nav, clicked_server, theme, createdFolderInfo} = useSelector(
 		(state) => state.common,
+		shallowEqual,
 	);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);

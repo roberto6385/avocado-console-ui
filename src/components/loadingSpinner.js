@@ -3,7 +3,7 @@ import Loading from '../images/loading.gif';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
 
-const Img = styled.img`
+const _Img = styled.img`
 	width: ${(props) => props?.size}px;
 	height: ${(props) => props?.size}px;
 `;
@@ -20,7 +20,7 @@ const LoadingSpinner = ({size = 30}) => {
 	return (
 		<Container>
 			<p style={{color: 'transparent'}}>loading</p>
-			<Img size={size} src={Loading} alt='' />
+			<_Img size={size} src={Loading} alt='' />
 		</Container>
 	);
 };

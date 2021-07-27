@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
@@ -64,7 +64,7 @@ function searchTreeStart(root, name) {
 
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common);
+	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
 	const [filteredNav, setfilteredNav] = useState(nav);
 
 	const dropNavList = useCallback(() => {

@@ -73,13 +73,14 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
 			dispatch({type: SET_CLICKED_SERVER, data: null});
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data.key, dispatch]);
+	}, [clicked_server, data.key]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
