@@ -92,7 +92,7 @@ const FileList = ({
 	return (
 		<React.Fragment>
 			{list.length === 0 && <LoadingSpinner />}
-			<_Table onContextMenu={onContextMenu} back={tabColor[theme]}>
+			<_Table onContextMenu={onContextMenu()} back={tabColor[theme]}>
 				<TableHead uuid={uuid} />
 				<_Tbody active={fileListHighColor[theme]}>
 					{list.map((item, index) => {

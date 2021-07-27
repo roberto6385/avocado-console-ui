@@ -80,7 +80,7 @@ const DropList_ = ({uuid}) => {
 		id: uuid + 'fileList',
 	});
 
-	const compareNumber = useCallback(
+	const compareItem = useCallback(
 		(list, first, second) => {
 			if (first === -1) {
 				dispatch({
@@ -152,7 +152,7 @@ const DropList_ = ({uuid}) => {
 							const firstIndex = corList.findIndex(
 								(it) => it?.name === highlight[0].name,
 							);
-							compareNumber(corList, firstIndex, itemIndex);
+							compareItem(corList, firstIndex, itemIndex);
 						}
 					}
 				} else if (e.metaKey) {
@@ -259,7 +259,7 @@ const DropList_ = ({uuid}) => {
 			uuid,
 			highlight,
 			currentFileList,
-			compareNumber,
+			compareItem,
 			tempFile,
 		],
 	);
@@ -372,10 +372,6 @@ const DropList_ = ({uuid}) => {
 						}),
 					);
 				}
-
-				console.log(highlight.length);
-				console.log(item);
-				console.log(clickedPath);
 
 				highlight.length < 2 &&
 					item !== undefined &&

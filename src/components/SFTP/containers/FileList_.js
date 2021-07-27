@@ -214,7 +214,7 @@ const FileList_ = ({uuid}) => {
 		[dispatch, highlight, uuid, path, show],
 	);
 
-	const compareNumber = useCallback(
+	const compareItem = useCallback(
 		(list, first, second) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 
@@ -267,7 +267,7 @@ const FileList_ = ({uuid}) => {
 						const firstIndex = currentFileList.findIndex(
 							(it) => it.name === highlight[0].name,
 						);
-						compareNumber(currentFileList, firstIndex, index);
+						compareItem(currentFileList, firstIndex, index);
 					}
 				} else {
 					!highlight
@@ -283,7 +283,7 @@ const FileList_ = ({uuid}) => {
 						});
 				}
 			},
-		[highlight, dispatch, uuid, path, currentFileList, compareNumber],
+		[highlight, dispatch, uuid, path, currentFileList, compareItem],
 	);
 
 	useEffect(() => {

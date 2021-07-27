@@ -236,7 +236,7 @@ const FileListContextMenu = ({uuid}) => {
 				{t('delete')}
 			</Item>
 			<Item
-				disabled={highlight.length === 0}
+				disabled={highlight.length !== 1}
 				id='attr_work'
 				onClick={handleItemClick}
 			>

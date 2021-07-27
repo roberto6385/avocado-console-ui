@@ -288,7 +288,7 @@ const History = ({uuid}) => {
 			correspondedIdentity,
 		],
 	);
-	const compareNumber = useCallback(
+	const compareItem = useCallback(
 		(first, second) => {
 			console.log(first, second);
 			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
@@ -347,7 +347,7 @@ const History = ({uuid}) => {
 						},
 					});
 				} else {
-					compareNumber(
+					compareItem(
 						prev_history.findIndex(
 							(item) => item === prev_history_hi[0],
 						),
@@ -364,7 +364,7 @@ const History = ({uuid}) => {
 				});
 			}
 		},
-		[compareNumber, dispatch, history, history_highlight, uuid],
+		[compareItem, dispatch, history, history_highlight, uuid],
 	);
 
 	//TODO progress가 0인 히스토리 삭제 시 작업삭제
