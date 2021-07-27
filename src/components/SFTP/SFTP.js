@@ -13,6 +13,7 @@ import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
+import FileList_ from "./containers/FileList_";
 
 const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
@@ -58,20 +59,7 @@ const _ToggleButton = styled.img`
 	z-index: 5;
 `;
 
-const SFTP = ({uuid}) => {
-	const {theme, nav, cols} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
-	const {etc: sftp_etcState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
-	const {mode} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
-
+const SFTP = ({uuid, theme, nav, mode, cols}) => {
 	const [toggle, setToggle] = useState(true);
 
 	const onClickFold = useCallback(() => {
@@ -110,7 +98,7 @@ const SFTP = ({uuid}) => {
 			</SFTPNavContainer>
 			<_SFTP theme_value={theme} className={!toggle && 'close-nav-sftp'}>
 				{mode === 'list' ? (
-					<FileList uuid={uuid} />
+					<FileList_ uuid={uuid} />
 				) : (
 					<FileListDropDown uuid={uuid} />
 				)}
@@ -122,6 +110,10 @@ const SFTP = ({uuid}) => {
 
 SFTP.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	theme: PropTypes.number.isRequired,
+	nav: PropTypes.array.isRequired,
+	mode: PropTypes.string.isRequired,
+	cols: PropTypes.number.isRequired,
 };
 
 export default SFTP;

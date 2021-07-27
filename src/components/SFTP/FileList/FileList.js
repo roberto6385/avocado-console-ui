@@ -1,25 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {useContextMenu} from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
-import {
-	ADD_HIGHLIGHT,
-	ADD_HISTORY,
-	ADD_ONE_HIGHLIGHT,
-	commandCdAction,
-	createNewWebsocket,
-	INITIALIZING_HIGHLIGHT,
-	REMOVE_HIGHLIGHT,
-} from '../../../reducers/sftp';
-import {
-	formatByteSizeString,
-	sortFunction,
-	dataFormater,
-} from '../functions';
+import {formatByteSizeString, dataFormater} from '../functions';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -92,309 +76,35 @@ const _Tr = styled.tr`
 	cursor: pointer;
 `;
 
-const FileList = ({uuid}) => {
-	const dispatch = useDispatch();
-	const {
-		path: sftp_pathState,
-		file: sftp_fileState,
-		high: sftp_highState,
-		etc: sftp_etcState,
-		socket: sftp_socketState,
-		download: sftp_downloadState,
-	} = useSelector((state) => state.sftp, shallowEqual);
-	const {theme, lang, server, tab, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
-	const {sortKeyword, toggle} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
-	);
-
-	const {path, pathList} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {fileList} = useMemo(
-		() => sftp_fileState.find((it) => it.uuid === uuid),
-		[sftp_fileState, uuid],
-	);
-	const {highlight} = useMemo(
-		() => sftp_highState.find((it) => it.uuid === uuid),
-		[sftp_highState, uuid],
-	);
-	const {readSocket, readList} = useMemo(
-		() => sftp_downloadState.find((it) => it.uuid === uuid),
-		[sftp_downloadState, uuid],
-	);
-	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
-	);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
-	);
-
-	const correspondedIdentity = useMemo(
-		() =>
-			identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
-			),
-		[identity, corTab],
-	);
-
-	const [currentFileList, setCurrentFileList] = useState([]);
-	const [currentKey, setCurrentKey] = useState(sortKeyword);
-	const {show} = useContextMenu({
-		id: uuid + 'fileList',
-	});
-
-	const download = useCallback(
-		(item) => (e) => {
-			e.stopPropagation();
-			if (item.name !== '..' && item.type !== 'directory') {
-				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: item.name,
-						size: item.size,
-						todo: 'read',
-						progress: 0,
-						path: path,
-						file: item,
-					},
-				});
-				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'read',
-							uuid: uuid,
-						}),
-					);
-				}
-			}
-		},
-		[
-			readList,
-			readSocket,
-			dispatch,
-			uuid,
-			path,
-			userTicket,
-			corServer,
-			correspondedIdentity,
-		],
-	);
-
-	const edit = useCallback(
-		(item) => (e) => {
-			e.stopPropagation();
-			console.log(item);
-			if (item.name !== '..' && item.type !== 'directory') {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: item.name,
-						size: item.size,
-						todo: 'edit',
-						progress: 0,
-						path: path,
-						file: item,
-						key: 'read',
-					},
-				});
-
-				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
-							token: userTicket.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
-							todo: 'read',
-							uuid: uuid,
-						}),
-					);
-				}
-			}
-		},
-		[
-			readList,
-			readSocket,
-			dispatch,
-			uuid,
-			path,
-			userTicket,
-			corServer,
-			correspondedIdentity,
-		],
-	);
-
-	const contextMenuOpen = useCallback(
-		(item = '') =>
-			(e) => {
-				e.preventDefault();
-				if (item.name === '..' || item.name === '') return;
-				show(e);
-				!highlight
-					.slice()
-					.find(
-						(v) =>
-							JSON.stringify(v) ===
-							JSON.stringify({...item, path}),
-					) &&
-					item !== '' &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
-			},
-		[dispatch, highlight, uuid, path, show],
-	);
-
-	const compareNumber = useCallback(
-		(list, first, second) => {
-			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
-
-			if (first <= second) {
-				for (let i = first; i <= second; i++) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...list[i], path}},
-					});
-				}
-			} else {
-				for (let i = first; i >= second; i--) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...list[i], path}},
-					});
-				}
-			}
-		},
-		[dispatch, path, uuid],
-	);
-
-	const selectItem = useCallback(
-		({item, index}) =>
-			(e) => {
-				if (item.name === '..') return;
-				if (e.metaKey) {
-					!highlight
-						.slice()
-						.find(
-							(v) =>
-								JSON.stringify(v) ===
-								JSON.stringify({...item, path}),
-						)
-						? dispatch({
-								type: ADD_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  });
-				} else if (e.shiftKey) {
-					if (highlight.length === 0) {
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-					} else {
-						const firstIndex = currentFileList.findIndex(
-							(it) => it.name === highlight[0].name,
-						);
-						compareNumber(currentFileList, firstIndex, index);
-					}
-				} else {
-					!highlight
-						.slice()
-						.find(
-							(v) =>
-								JSON.stringify(v) ===
-								JSON.stringify({...item, path}),
-						) &&
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-				}
-			},
-		[highlight, dispatch, uuid, path, currentFileList, compareNumber],
-	);
-
-	const changePath = useCallback(
-		(item) => () => {
-			if (item.type === 'directory') {
-				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch(
-					commandCdAction({
-						socket: socket,
-						uuid: uuid,
-						path: path,
-						cd_path:
-							path === '/'
-								? path + item.name
-								: path + '/' + item.name,
-					}),
-				);
-				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
-			}
-		},
-		[dispatch, path, socket, uuid],
-	);
-
-	useEffect(() => {
-		if (
-			fileList.length === pathList.length &&
-			pathList.length !== 0 &&
-			fileList.length !== 0
-		) {
-			let nextList = fileList[fileList.length - 1];
-			const sortedList = sortFunction({
-				fileList: nextList,
-				keyword: sortKeyword,
-				toggle: currentKey === sortKeyword ? toggle : true,
-			});
-			setCurrentKey(sortKeyword);
-			setCurrentFileList(sortedList);
-		}
-	}, [fileList, pathList, sortKeyword, toggle, currentKey]);
-
+const FileList = ({
+	uuid,
+	path,
+	highlight,
+	theme,
+	lang,
+	list,
+	onContextMenu,
+	onClick,
+	onDownload,
+	onEdit,
+	onDoubleClick,
+}) => {
 	return (
 		<React.Fragment>
-			{currentFileList.length === 0 && <LoadingSpinner />}
-			<_Table onContextMenu={contextMenuOpen()} back={tabColor[theme]}>
+			{list.length === 0 && <LoadingSpinner />}
+			<_Table onContextMenu={onContextMenu} back={tabColor[theme]}>
 				<TableHead uuid={uuid} />
 				<_Tbody active={fileListHighColor[theme]}>
-					{currentFileList.map((item, index) => {
-						// . 파일은 표시하지 않음.
-						// item.name !== '..'
+					{list.map((item, index) => {
 						if (item.name !== '.') {
 							return (
 								<_Tr
 									back={tabColor[theme]}
 									color={fontColor[theme]}
 									bcolor={borderColor[theme]}
-									onContextMenu={contextMenuOpen(item)}
-									onClick={selectItem({item, index})}
-									onDoubleClick={changePath(item)}
+									onContextMenu={onContextMenu(item)}
+									onClick={onClick({item, index})}
+									onDoubleClick={onDoubleClick(item)}
 									key={index + uuid}
 									className={
 										highlight.find(
@@ -445,7 +155,7 @@ const FileList = ({uuid}) => {
 											<ClickableIconButton
 												theme_value={theme}
 												margin_right={'12px'}
-												onClick={edit(item)}
+												onClick={onEdit(item)}
 											>
 												{editIcon}
 											</ClickableIconButton>
@@ -454,7 +164,7 @@ const FileList = ({uuid}) => {
 											<ClickableIconButton
 												theme_value={theme}
 												margin={'0px'}
-												onClick={download(item)}
+												onClick={onDownload(item)}
 											>
 												{fileDownloadIcon}
 											</ClickableIconButton>
@@ -473,6 +183,16 @@ const FileList = ({uuid}) => {
 
 FileList.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	path: PropTypes.string.isRequired,
+	highlight: PropTypes.array.isRequired,
+	theme: PropTypes.number.isRequired,
+	lang: PropTypes.string.isRequired,
+	list: PropTypes.array.isRequired,
+	onContextMenu: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired,
+	onDownload: PropTypes.func.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	onDoubleClick: PropTypes.func.isRequired,
 };
 
 export default FileList;
