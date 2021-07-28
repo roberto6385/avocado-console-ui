@@ -52,7 +52,7 @@ const _CheckboxAnchorContainer = styled.div`
 `;
 
 const _Or = styled.div`
-	color: #757575;
+	// color: #757575;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
