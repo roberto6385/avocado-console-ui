@@ -5,7 +5,6 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import InputField_ from '../RecycleComponents/inputField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {
 	UserForm,
 	UserInput,
@@ -19,7 +18,9 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/icon";
+import {IconButton} from '../../styles/icon';
+import {postCreateUser} from '../../reducers/auth/create';
+import {useHistory} from 'react-router-dom';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -34,38 +35,71 @@ const _PrimaryGreenButton = styled(UserSubmitButton)`
 const SignUpForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('signUpForm');
+	const history = useHistory();
 
+	const {user} = useSelector((state) => state.create, shallowEqual);
 	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
 
-	const [id, onChangeId, setId] = useInput('');
-	const [name, onChangeName, setName] = useInput('');
-	const [email, onChangeEmail, setEmail] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
+	const [id, onChangeId, setId] = useInput('apple');
+	const [name, onChangeName, setName] = useInput('사과');
+	const [email, onChangeEmail, setEmail] = useInput('apple@netand.co.kr');
+	const [password, onChangePassword, setPassword] = useInput('123456789');
 	const [passwordConfirm, onChangePasswordConfirm, setPasswordConfirm] =
-		useInput('');
+		useInput('123456789');
 	const [visible, setVisible] = useState(true);
 	const idRef = useRef(null);
+
+	function isEmail(asValue) {
+		const pattern =
+			/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		return pattern.test(asValue);
+	}
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch({
-				type: OPEN_ALERT_POPUP,
-				data: 'developing',
-			});
-			//TODO: Sign up ACtion
+			// dispatch({
+			// 	type: OPEN_ALERT_POPUP,
+			// 	data: 'developing',
+			// });
+			console.log(id, name, email, password, passwordConfirm);
+			if (
+				id === '' ||
+				name === '' ||
+				email === '' ||
+				password === '' ||
+				passwordConfirm === ''
+			) {
+				console.log('입력하지 않은 값이 있습니다.');
+			} else {
+				if (!isEmail(email)) {
+					console.log('올바른 이메일 형식이 아닙니다.');
+				} else if (password !== passwordConfirm) {
+					console.log('비밀번호가 서로 다릅니다.');
+				} else {
+					console.log('check');
+					dispatch(
+						postCreateUser({
+							id,
+							name,
+							email,
+							password,
+						}),
+					);
+				}
+			}
 
-			// 	const encodeData = base64.encode(`${user}:${password}`);
-			// 	dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-			// 	dispatch(
-			// 		getUserTicket({
-			// 			Authorization: 'Basic ' + encodeData,
-			// 			username: user,
-			// 			password: password,
-			// 		}),
-			// 	);
+			// const encodeData = base64.encode(`${user}:${password}`);
+			// dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
+			// dispatch(
+			// 	getUserTicket({
+			// 		Authorization: 'Basic ' + encodeData,
+			// 		username: user,
+			// 		password: password,
+			// 	}),
+			// );
 		},
-		[dispatch],
+		[email, id, name, password, passwordConfirm],
 	);
 
 	const typeChange = useCallback(
@@ -110,6 +144,10 @@ const SignUpForm = () => {
 	useEffect(() => {
 		idRef.current?.focus();
 	}, [idRef]);
+
+	useEffect(() => {
+		if (user) history.push('/');
+	}, [history, user]);
 
 	return !loading ? (
 		<UserForm onSubmit={onSubmitForm}>

@@ -1,10 +1,8 @@
 import {combineReducers} from 'redux';
 import {persistReducer} from 'redux-persist';
-import createTransform from 'redux-persist/es/createTransform';
 import storageSession from 'redux-persist/lib/storage/session';
 import storage from 'redux-persist/lib/storage';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
-import {parse, stringify} from 'flatted';
 
 import user from './user';
 import common from './common';
@@ -15,6 +13,7 @@ import clientTicket from './auth/clientTicket';
 import modify from './auth/modify';
 import verify from './auth/verify';
 import find from './auth/find';
+import create from './auth/create';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 
 //userTicket.accesstoken => 저장가능
@@ -53,6 +52,7 @@ const appReducer = combineReducers({
 	modify,
 	verify,
 	find,
+	create,
 });
 
 const rootReducer = (state, action) => {
