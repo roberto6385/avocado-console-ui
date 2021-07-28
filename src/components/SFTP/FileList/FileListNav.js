@@ -25,7 +25,7 @@ import {
 	inputBack,
 	tabColor,
 } from '../../../styles/color';
-import {ClickableIconButton} from '../../../styles/button';
+import {ClickableIconButton} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;

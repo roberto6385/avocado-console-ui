@@ -15,11 +15,11 @@ import {
 	UserTitleSpan,
 } from '../../styles/default';
 import LoadingSpinner from '../loadingSpinner';
-import {IconButton} from '../../styles/button';
 import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
+import {IconButton} from "../../styles/icon";
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;

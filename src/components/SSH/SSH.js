@@ -30,7 +30,7 @@ import {
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
-import {ClickableIconButton, IconBox} from '../../styles/button';
+import {ClickableIconButton, IconBox} from "../../styles/icon";
 
 const _Container = styled.div`
 	height: 100%;
@@ -48,7 +48,7 @@ const _Terminal = styled(_Container)`
 const _SearchInput = styled.input`
 	flex: 1;
 	margin-right: 5px;
-	background: transparent;
+	background-color: transparent;
 	border: none;
 	color: ${(props) => fontColor[props.theme_value]};
 `;
@@ -58,7 +58,7 @@ const _SearchContainer = styled.div`
 	height: 42px;
 	align-items: center;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	background: ${(props) => sshSearch[props.theme_value]};
+	background-color: ${(props) => sshSearch[props.theme_value]};
 	border-radius: 4px;
 	padding-left: 13px;
 	position: absolute;
@@ -78,13 +78,13 @@ const _ListGroup = styled(ListGroup)`
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	zindex: 5;
 	padding: 8px 0;
-	background: ${(props) => sshSearch[props.theme_value]};
+	background-color: ${(props) => sshSearch[props.theme_value]};
 `;
 
 const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
 	overflow: auto;
-	background: ${(props) =>
+	background-color: ${(props) =>
 		props.clicked
 			? contextHover[props.theme_value]
 			: sshSearch[props.theme_value]};

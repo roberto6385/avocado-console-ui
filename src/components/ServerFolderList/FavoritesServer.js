@@ -22,9 +22,9 @@ import {
 import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
 import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
-import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
 import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
+import {IconBox} from "../../styles/icon";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;

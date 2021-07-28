@@ -30,11 +30,8 @@ import {
 } from '../../../styles/color';
 
 import {PreventDragCopy} from '../../../styles/function';
-import {
-	ClickableIconButton,
-	IconBox,
-	PrimaryGreenButton,
-} from '../../../styles/button';
+import {PrimaryGreenButton} from '../../../styles/button';
+import {ClickableIconButton, IconBox} from '../../../styles/icon';
 
 const _Container = styled.div`
 	min-width: 256px;

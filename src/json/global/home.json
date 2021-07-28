@@ -1,0 +1,54 @@
+{
+	"home": {
+		"content": {
+			"navigation": {
+				"color": {},
+				"background-color": {},
+				"border-color": {},
+				"navigation": {
+					"selected": {
+						"color": {},
+						"border-color": {}
+					}
+				},
+				"search": {
+					"background-color": {},
+					"input": {"color": {}, "background-color": {}}
+				},
+				"li": {
+					"background-color": {},
+					"border-color": {},
+					"selected": {
+						"background-color": {},
+						"border-color": {}
+					}
+				}
+			},
+			"content": {
+				"tab": {},
+				"content": {
+					"ssh": {
+						"terminal": {
+							"color": {},
+							"background-color": {}
+						},
+						"search": {
+							"background-color": {},
+							"input": {
+								"color": {},
+								"background-color": {}
+							}
+						},
+						"li": {
+							"background-color": {},
+							"color": {},
+							"border-color": {},
+							"selected": {"background-color": {}}
+						}
+					}
+				},
+				"aside": {}
+			}
+		}
+	}
+}

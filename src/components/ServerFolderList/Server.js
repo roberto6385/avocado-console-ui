@@ -34,8 +34,8 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconBox} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
+import {IconBox} from "../../styles/icon";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;

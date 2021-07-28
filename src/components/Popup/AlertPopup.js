@@ -13,13 +13,12 @@ import {
 	PopupText,
 } from '../../styles/default';
 import {
-	ClickableIconButton,
-	IconBox,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
+import {ClickableIconButton, IconBox} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	width: 288px;

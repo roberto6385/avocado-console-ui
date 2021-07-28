@@ -22,8 +22,6 @@ import {
 } from '../../styles/default';
 
 import {
-	ClickableIconButton,
-	IconButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/button';
@@ -35,6 +33,7 @@ import {
 	PUSH_INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
+import {ClickableIconButton, IconButton} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

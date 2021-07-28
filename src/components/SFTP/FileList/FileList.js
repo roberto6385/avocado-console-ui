@@ -22,7 +22,7 @@ import LoadingSpinner from '../../loadingSpinner';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconBox} from '../../../styles/button';
+import {ClickableIconButton, IconBox} from "../../../styles/icon";
 
 const _Table = styled.table`
 	display: flex;

@@ -12,7 +12,7 @@ import {
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
-import {ClickableIconButton} from '../../../styles/button';
+import {ClickableIconButton} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;

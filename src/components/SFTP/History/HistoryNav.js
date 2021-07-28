@@ -8,8 +8,8 @@ import styled from 'styled-components';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {WIDTH_256} from '../../../styles/length';
 import {borderColor, fontColor} from '../../../styles/color';
-import {ClickableIconButton} from '../../../styles/button';
 import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
+import {ClickableIconButton} from "../../../styles/icon";
 
 const _Container = styled.div`
 	min-width: ${WIDTH_256};

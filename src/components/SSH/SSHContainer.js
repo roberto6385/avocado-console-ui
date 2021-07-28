@@ -10,11 +10,11 @@ import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
 import {borderColor, tabColor, terminalColor} from '../../styles/color';
 import SnippetContextMenu from '../ContextMenu/SnippetContextMenu';
-import {ClickableIconButton} from '../../styles/button';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
+import {ClickableIconButton} from "../../styles/icon";
 
 const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];

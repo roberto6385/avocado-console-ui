@@ -9,7 +9,7 @@ import {
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
 import {fontColor, footerColor} from '../styles/color';
-import {ClickableIconButton} from '../styles/button';
+import {ClickableIconButton} from "../styles/icon";
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};

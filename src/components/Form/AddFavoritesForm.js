@@ -17,11 +17,11 @@ import {closeIcon} from '../../icons/icons';
 import {Form, ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {borderColor, fontColor} from '../../styles/color';
 import {
-	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/button';
 import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
+import {ClickableIconButton} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

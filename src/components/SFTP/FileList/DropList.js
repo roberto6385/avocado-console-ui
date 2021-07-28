@@ -20,7 +20,7 @@ import {
 } from '../../../styles/color';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconBox} from '../../../styles/button';
+import {ClickableIconButton, IconBox} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;

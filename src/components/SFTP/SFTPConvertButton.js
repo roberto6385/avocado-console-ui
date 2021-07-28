@@ -4,8 +4,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {sftpIconConvert} from '../../icons/icons';
-import {ClickableIconButton} from '../../styles/button';
 import {connectionAction} from '../../reducers/sftp';
+import {ClickableIconButton} from "../../styles/icon";
 
 const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();

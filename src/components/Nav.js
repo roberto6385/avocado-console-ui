@@ -13,7 +13,7 @@ import lghtFloatingButton from '../images/lght_floating button.png';
 import {burgerMenuIcon, plusIcon, searchIcon} from '../icons/icons';
 import {ADD_FOLDER, CHANGE_NAVTAB} from '../reducers/common';
 import PropTypes from 'prop-types';
-import {WIDTH_256, FONT_14, HEIGHT_36, WIDTH_165} from '../styles/length';
+import {WIDTH_256, FONT_14, HEIGHT_36} from '../styles/length';
 import {
 	navColor,
 	borderColor,
@@ -23,8 +23,8 @@ import {
 } from '../styles/color';
 import LightModeLogo from '../images/logo/logo@2x.png';
 import DarkModeLogo from '../images/logo/logo_white@3x.png';
-import {ClickableIconButton, IconBox} from '../styles/button';
 import FavoriteList from './ServerFolderList/FavoritesList';
+import {ClickableIconButton, IconBox} from "../styles/icon";
 
 const floatings = [lghtFloatingButton, drkFloatingButton];
 
@@ -45,17 +45,14 @@ const _Header = styled.div`
 	align-items: center;
 	height: 54px;
 	padding: 18px 16px 19px;
-	background: ${(props) => props.back};
 `;
 
-const _AddFolerServerContainer = styled.div`
+const _FolerServerTab = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props?.theme_value]};
-	background: ${(props) => navColor[props?.theme_value]};
 `;
 
 const _FormContainer = styled.div`
@@ -200,7 +197,7 @@ const Nav = ({toggle, setToggle}) => {
 			bcolor={borderColor[theme]}
 			back={navColor[theme]}
 		>
-			<_Header back={navColor[theme]}>
+			<_Header>
 				<ClickableIconButton
 					margin_right={'6px'}
 					theme_value={theme}
@@ -214,7 +211,7 @@ const Nav = ({toggle, setToggle}) => {
 					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
-			<_AddFolerServerContainer theme_value={theme}>
+			<_FolerServerTab>
 				{tabs.map((v) => {
 					return (
 						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>
@@ -232,7 +229,7 @@ const Nav = ({toggle, setToggle}) => {
 						</_Tab>
 					);
 				})}
-			</_AddFolerServerContainer>
+			</_FolerServerTab>
 			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
 				<>
 					<_FormContainer>
