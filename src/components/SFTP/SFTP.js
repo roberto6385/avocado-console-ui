@@ -35,7 +35,6 @@ const _SFTP = styled.div`
 	display: flex;
 	flex: 1 1 0;
 	overflow: hidden;
-	background: ${(props) => tabColor[props.theme_value]};
 `;
 
 const SFTPNavContainer = styled.div`
@@ -44,7 +43,6 @@ const SFTPNavContainer = styled.div`
 	transition: transform 0.5s;
 	height: 50px;
 	max-height: 50px;
-	background: ${(props) => tabColor[props.theme_value]};
 	z-index: 5;
 `;
 
@@ -74,10 +72,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 		</_Container>
 	) : (
 		<_Container>
-			<SFTPNavContainer
-				theme_value={theme}
-				className={!toggle && 'close-nav-header'}
-			>
+			<SFTPNavContainer className={!toggle && 'close-nav-header'}>
 				<SFTPNav uuid={uuid} />
 				{(nav.length === 1 || cols === 1) &&
 					(toggle ? (
@@ -94,7 +89,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 						/>
 					))}
 			</SFTPNavContainer>
-			<_SFTP theme_value={theme} className={!toggle && 'close-nav-sftp'}>
+			<_SFTP className={!toggle && 'close-nav-sftp'}>
 				{mode === 'list' ? (
 					<FileList_ uuid={uuid} />
 				) : (

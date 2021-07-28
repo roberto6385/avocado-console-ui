@@ -63,7 +63,6 @@ const DropSpaceDiv = styled.div`
 	margin: 8px;
 	border: 1px dashed;
 	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -488,10 +487,7 @@ const History = ({uuid}) => {
 		<_Container theme_value={theme}>
 			<Dropzone onDrop={(files) => upload(files)}>
 				{history?.length === 0 ? (
-					<DropSpaceDiv
-						back={tabColor[theme]}
-						bcolor={iconColor[theme]}
-					>
+					<DropSpaceDiv bcolor={iconColor[theme]}>
 						<_AnnounceText theme_value={theme}>
 							{t('paragraph')}
 						</_AnnounceText>
@@ -608,11 +604,6 @@ const History = ({uuid}) => {
 						})}
 					</_Ul>
 				)}
-				{/*<HistoryContextMenu*/}
-				{/*	uuid={uuid}*/}
-				{/*	// highlight={highlight}*/}
-				{/*	// setHighlight={setHighlight}*/}
-				{/*/>*/}
 			</Dropzone>
 		</_Container>
 	);
