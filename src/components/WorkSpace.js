@@ -17,8 +17,8 @@ import {
 	tabbarColor,
 	tabColor,
 } from '../styles/color';
-import {ClickableIconButton, IconBox} from '../styles/button';
 import {disconnectAction} from '../reducers/sftp';
+import {ClickableIconButton, IconBox} from "../styles/icon";
 
 const _Container = styled.div`
 	display: flex;

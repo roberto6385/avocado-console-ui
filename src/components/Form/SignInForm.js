@@ -21,11 +21,11 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/default';
-import {IconButton} from '../../styles/button';
 import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
+import {IconButton} from "../../styles/icon";
 
 const _UserForm = styled(UserForm)`
 	height: 650px;

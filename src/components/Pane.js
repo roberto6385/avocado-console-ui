@@ -18,9 +18,10 @@ import {
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
-import {ClickableIconButton, IconBox, PrimaryRedButton} from '../styles/button';
+import {PrimaryRedButton} from '../styles/button';
 import {disconnectAction, reconnectionAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
+import {ClickableIconButton, IconBox} from "../styles/icon";
 
 const _Container = styled.div`
 	height: 100%;

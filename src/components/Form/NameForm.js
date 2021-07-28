@@ -15,12 +15,12 @@ import {
 	PopupModal,
 } from '../../styles/default';
 import {
-	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
+import {ClickableIconButton} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

@@ -1,0 +1,50 @@
+{
+	"header": {
+		"background-color": {},
+		"border-color": {}
+	},
+	"content": {
+		"navigation": {
+			"color": {},
+			"background-color": {},
+			"border-color": {},
+			"li": {
+				"border-color": {},
+				"selected": {
+					"background-color": {},
+					"border-color": {}
+					//maybe declear inside icon
+					//					"icon": {
+					//						"color": {}
+					//					}
+				}
+			}
+		},
+		"content": {
+			"color": {},
+			"background-color": {},
+			"title": {"border-color": {}},
+			"content": {
+				"identities": {
+					"ui": {
+						"color": {},
+						"background-color": {},
+						"border-color": {},
+						"li": {
+							"background-color": {},
+							"border-color": {},
+							"selected": {
+								"resource": {"background-color": {}},
+								"account": {"background-color": {}}
+							}
+						},
+						"search": {
+							"background-color": {},
+							"input": {"color": {}}
+						}
+					}
+				}
+			}
+		}
+	}
+}

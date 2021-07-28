@@ -1,0 +1,21 @@
+{
+	"ssh": {
+		"terminal": {
+			"color": {},
+			"background-color": {}
+		},
+		"search": {
+			"background-color": {},
+			"input": {
+				"color": {},
+				"background-color": {}
+			}
+		},
+		"li": {
+			"background-color": {},
+			"color": {},
+			"border-color": {},
+			"selected": {"background-color": {}}
+		}
+	}
+}

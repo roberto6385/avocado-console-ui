@@ -1,0 +1,76 @@
+{
+	"button": {
+		"primary": {
+			"green": {
+				"color": {},
+				"background-color": {},
+				"hover": {"background-color": {}},
+				"active": {"background-color": {}}
+			},
+			"red": {
+				"color": {},
+				"background-color": {},
+				"hover": {"background-color": {}},
+				"active": {"background-color": {}}
+			},
+			"grey": {
+				"color": {},
+				"background-color": {},
+				"border-color": {},
+				"hover": {"background-color": {}, "border-color": {}},
+				"active": {"background-color": {}, "border-color": {}}
+			},
+			"disabled": {
+				"color": {},
+				"background-color": {}
+			}
+		},
+		"secondary": {
+			"green": {
+				"color": {},
+				"background-color": {},
+				"border-color": {},
+				"hover": {
+					"color": {},
+					"border-color": {}
+				},
+				"active": {
+					"color": {},
+					"border-color": {}
+				}
+			},
+			"red": {
+				"color": {},
+				"background-color": {},
+				"border-color": {},
+				"hover": {
+					"color": {},
+					"border-color": {}
+				},
+				"active": {
+					"color": {},
+					"border-color": {}
+				}
+			},
+			"grey": {
+				"color": {},
+				"background-color": {},
+				"hover": {
+					"background-color": {}
+				},
+				"active": {
+					"background-color": {}
+				},
+				"disabled": {
+					"color": {},
+					"background-color": {},
+					"border-color": {}
+				}
+			},
+			"disabled": {
+				"color": {},
+				"background-color": {}
+			}
+		}
+	}
+}

@@ -14,11 +14,11 @@ import {
 	PopupModal,
 } from '../../styles/default';
 import {
-	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/button';
 import {fontColor} from '../../styles/color';
+import {ClickableIconButton} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;

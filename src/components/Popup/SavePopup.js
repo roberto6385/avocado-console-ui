@@ -17,8 +17,6 @@ import {
 } from '../../styles/default';
 
 import {
-	ClickableIconButton,
-	IconBox,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/button';
@@ -35,6 +33,7 @@ import {
 	SAVE_FAVORITES,
 	UNDO_FAVORITES,
 } from '../../reducers/common';
+import {ClickableIconButton, IconBox} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;

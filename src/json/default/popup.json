@@ -1,0 +1,14 @@
+{
+	"popup": {
+		"color": {},
+		"backgrond-color": {},
+		"icon": {
+			"confirm": {
+				"color": {}
+			},
+			"warning": {
+				"color": {}
+			}
+		}
+	}
+}

@@ -16,11 +16,11 @@ import {
 	greyNormalButtonBackgroundColor,
 } from '../../styles/color';
 import {
-	ClickableIconButton,
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/button';
+import {ClickableIconButton} from "../../styles/icon";
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;

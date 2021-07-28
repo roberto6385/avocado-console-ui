@@ -9,7 +9,7 @@ import {closeIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {SettingTitle} from '../../styles/default';
 import {borderColor, fontColor, sideColor} from '../../styles/color';
-import {ClickableIconButton} from '../../styles/button';
+import {ClickableIconButton} from "../../styles/icon";
 
 const _Container = styled.div`
 	height: 100%;

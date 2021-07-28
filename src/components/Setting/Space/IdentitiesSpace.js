@@ -22,7 +22,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/default';
-import {IconBox} from '../../../styles/button';
+import {IconBox} from "../../../styles/icon";
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -51,7 +51,6 @@ const _Li = styled.li`
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
-	// background: ${(props) => props.back};
 	background: ${(props) =>
 		props.clicked
 			? accountHigh[props.theme_value]
@@ -123,7 +122,7 @@ const _CheckBoxIdentity = styled(_UserNameType)`
 	padding: 6px;
 `;
 
-const _Form = styled.form`
+const _Search = styled.form`
 	font-size: 12px;
 	display: flex;
 	align-items: center;
@@ -251,7 +250,7 @@ const IdentitiesSpace = () => {
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Form theme_value={theme}>
+						<_Search theme_value={theme}>
 							<IconBox
 								size={'xs'}
 								margin_right={'6px'}
@@ -266,7 +265,7 @@ const IdentitiesSpace = () => {
 								placeholder={t('search')}
 								theme_value={theme}
 							/>
-						</_Form>
+						</_Search>
 					</_LiHeader>
 					<_Li theme_value={theme} className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
@@ -326,7 +325,7 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Form theme_value={theme}>
+						<_Search theme_value={theme}>
 							<IconBox
 								size={'xs'}
 								margin_right={'6px'}
@@ -341,7 +340,7 @@ const IdentitiesSpace = () => {
 								placeholder={t('search')}
 								theme_value={theme}
 							/>
-						</_Form>
+						</_Search>
 					</_LiHeader>
 					<_Li
 						theme_value={theme}

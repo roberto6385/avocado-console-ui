@@ -6,7 +6,7 @@ import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import InputFiled_ from '../RecycleComponents/InputFiled_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {SecondaryGreenButton, IconButton} from '../../styles/button';
+import {SecondaryGreenButton} from '../../styles/button';
 import {
 	UserForm,
 	UserInput,
@@ -21,6 +21,7 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
+import {IconButton} from "../../styles/icon";
 
 const Item_Container = styled.div`
 	display: flex;

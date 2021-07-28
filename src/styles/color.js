@@ -23,6 +23,7 @@ export const activePaneHeaderColor = [
 
 export const fontColor = ['#212121', 'rgba(255,255,255,0.87)'];
 export const iconColor = ['#959ea1', 'rgba(255,255,255,0.6)'];
+export const iconHoverColor = ['#556367', 'rgba(255, 255, 255, 0.87)'];
 export const tabColor = ['#ffffff', '#1b2935'];
 export const mainBackColor = ['#f8f9fa', '#1b2935'];
 export const logoColor = ['#126466', '#4ca6a8'];

@@ -1,0 +1,10 @@
+{
+	"footer": {
+		"color": {},
+		"background-color": {},
+		"icon-button": {
+			"color": {},
+			"hover": {"color": {}}
+		}
+	}
+}

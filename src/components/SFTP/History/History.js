@@ -32,8 +32,6 @@ import {
 
 import {PreventDragCopy} from '../../../styles/function';
 import {
-	ClickableIconButton,
-	IconBox,
 	PrimaryGreenButton,
 } from '../../../styles/button';
 import {
@@ -48,6 +46,7 @@ import {
 	REMOVE_READ_WRITE_LIST,
 	removeNewWebsocket,
 } from '../../../reducers/sftp';
+import {ClickableIconButton, IconBox} from "../../../styles/icon";
 
 const _Container = styled.div`
 	min-width: 256px;
