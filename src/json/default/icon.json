@@ -1,14 +1,10 @@
 {
-	"icon": {
-		"icon": {
-			"color": {},
-			"selected": {"color": {}}
-		},
-		"button": {
-			"color": {},
-			"hover": {
-				"color": {}
-			}
+	"color": {},
+	"selected": {"color": {}},
+	"button": {
+		"color": {},
+		"hover": {
+			"color": {}
 		}
 	}
 }

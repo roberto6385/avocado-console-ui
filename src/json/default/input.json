@@ -1,4 +1,12 @@
 {
+	"color": {
+		"light": "",
+		"dark": ""
+	},
+	"background": {
+		"light": "",
+		"dark": ""
+	},
 	"on-popup": {
 		"background": {
 			"light": "",
@@ -8,13 +16,5 @@
 			"light": "",
 			"dark": ""
 		}
-	},
-	"background": {
-		"light": "",
-		"dark": ""
-	},
-	"color": {
-		"light": "",
-		"dark": ""
 	}
 }

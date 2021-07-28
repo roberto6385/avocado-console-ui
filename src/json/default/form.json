@@ -1,15 +1,11 @@
 {
-	"form": {
-		"color": {},
-		"background-color": {},
-		"border-color": {},
-		"header": {"border-color": {}},
-		"content": {
-			"second-block": {
-				"background-color": {},
-				"selected": {"background-color": {}, "border-color": {}}
-			}
-		},
-		"footer": {"border-color": {}}
+	"color": {},
+	"background": {},
+	"border": {},
+	"content": {
+		"second-block": {
+			"background": {},
+			"selected": {"background": {}, "border": {}}
+		}
 	}
 }

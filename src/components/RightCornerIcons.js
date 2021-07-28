@@ -16,12 +16,12 @@ import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
-import {ClickableIconButton} from "../styles/icon";
+import {ClickableIconButton} from '../styles/icon';
 
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
-	background: ${(props) => tabbarColor[props.theme_value]};
+	background: transparant;
 	height: 100%;
 `;
 
@@ -96,7 +96,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<_Container theme_value={theme}>
+		<_Container>
 			<ClickableIconButton
 				theme_value={theme}
 				ref={accountRef}

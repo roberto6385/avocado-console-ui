@@ -8,9 +8,7 @@
 		"dark": ""
 	},
 	"border": {
-		"color": {
-			"light": "",
-			"dark": ""
-		}
+		"light": "",
+		"dark": ""
 	}
 }

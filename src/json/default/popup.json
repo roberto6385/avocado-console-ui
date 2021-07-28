@@ -1,14 +1,12 @@
 {
-	"popup": {
-		"color": {},
-		"backgrond-color": {},
-		"icon": {
-			"confirm": {
-				"color": {}
-			},
-			"warning": {
-				"color": {}
-			}
+	"color": {},
+	"backgrond": {},
+	"icon": {
+		"confirm": {
+			"color": {}
+		},
+		"warning": {
+			"color": {}
 		}
 	}
 }

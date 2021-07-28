@@ -3,38 +3,24 @@
 		"light": "",
 		"dark": ""
 	},
+
 	"item": {
 		"background": {
 			"light": "",
-			"dark": "",
-			"active": {
-				"light": "",
-				"dark": ""
-			}
+			"dark": ""
 		},
 		"color": {
 			"light": "",
-			"dark": "",
-			"active": {
-				"light": "",
-				"dark": ""
-			}
+			"dark": ""
 		},
 		"border": {
-			"color": {
-				"light": "",
-				"dark": "",
-				"active": {
-					"light": "",
-					"dark": ""
-				}
-			}
-		}
-	},
-	"corner": {
-		"background": {
 			"light": "",
 			"dark": ""
+		},
+		"selected": {
+			"background": {"light": "", "dark": ""},
+			"color": {"light": "", "dark": ""},
+			"border": {"light": "", "dark": ""}
 		}
 	}
 }

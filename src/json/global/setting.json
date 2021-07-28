@@ -1,46 +1,36 @@
 {
 	"header": {
-		"background-color": {},
-		"border-color": {}
+		"background": {},
+		"border": {}
 	},
 	"content": {
 		"navigation": {
 			"color": {},
-			"background-color": {},
-			"border-color": {},
-			"li": {
-				"border-color": {},
+			"background": {},
+			"border": {},
+			"item": {
+				"border": {},
 				"selected": {
-					"background-color": {},
-					"border-color": {}
-					//maybe declear inside icon
-					//					"icon": {
-					//						"color": {}
-					//					}
+					"background": {},
+					"border": {}
 				}
 			}
 		},
 		"content": {
 			"color": {},
-			"background-color": {},
-			"title": {"border-color": {}},
+			"background": {},
+			"title": {"border": {}},
 			"content": {
 				"identities": {
-					"ui": {
-						"color": {},
-						"background-color": {},
-						"border-color": {},
-						"li": {
-							"background-color": {},
-							"border-color": {},
-							"selected": {
-								"resource": {"background-color": {}},
-								"account": {"background-color": {}}
-							}
-						},
-						"search": {
-							"background-color": {},
-							"input": {"color": {}}
+					"color": {},
+					"background": {},
+					"border": {},
+					"item": {
+						"background": {},
+						"border": {},
+						"selected": {
+							"resource": {"background": {}},
+							"account": {"background": {}}
 						}
 					}
 				}

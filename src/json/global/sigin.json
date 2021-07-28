@@ -1,19 +1,5 @@
 {
-	"a": {
-		"active": {
-			"color": {
-				"light": "",
-				"dark": ""
-			}
-		},
-		"default": {
-			"color": {
-				"light": "",
-				"dark": ""
-			}
-		}
-	},
-	"bacground": {
+	"background": {
 		"light": "",
 		"dark": ""
 	},
@@ -21,12 +7,24 @@
 		"light": "",
 		"dark": ""
 	},
+
+	"a": {
+		"green": {
+			"color": {}
+		},
+
+		"grey": {
+			"color": {}
+		}
+	},
+
 	"divider": {
 		"color": {
 			"light": "",
 			"dark": ""
 		}
 	},
+
 	"input": {
 		"background": {
 			"light": "",

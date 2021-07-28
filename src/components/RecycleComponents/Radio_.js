@@ -1,7 +1,6 @@
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {L_GREEN_NORMAL} from '../../styles/color';
 import radio from '../../json/default/radio.json';
 
 const _Container = styled.div`

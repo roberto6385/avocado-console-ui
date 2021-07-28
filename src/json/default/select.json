@@ -1,75 +1,65 @@
 {
 	"control": {
+		"color": {
+			"light": "",
+			"dark": ""
+		},
 		"border": {
-			"color": {
-				"light": "#f8f9fa",
-				"dark": "rgba(0, 0, 0, 0.12)"
-			},
-			"focus": {
-				"light": "#4ca6a8",
-				"dark": "#44c8c0"
-			}
+			"light": "#f8f9fa",
+			"dark": "rgba(0, 0, 0, 0.12)"
 		},
 		"background": {
 			"light": "#ffffff",
 			"dark": "rgba(0,0,0,0.22)"
+		},
+		"focus": {
+			"border": {"light": "#4ca6a8", "dark": "#44c8c0"}
+		},
+
+		"on-popup": {
+			"background": {},
+			"border": {}
 		}
 	},
+
 	"menu-list": {
+		"background": {
+			"light": "#ffffff",
+			"dark": "#2f4b60"
+		},
+
 		"on-popup": {
 			"background": {
 				"light": "#ffffff",
 				"dark": "#212F3D"
 			}
-		},
-		"background": {
-			"light": "#ffffff",
-			"dark": "#2f4b60"
 		}
 	},
+
 	"option": {
-		"background": {
-			"on-popup": {
-				"disabled": {
-					"light": "",
-					"dark": ""
-				},
-				"selected": {
-					"light": "",
-					"dark": ""
-				},
-				"focused": {
-					"light": "",
-					"dark": ""
-				},
-				"active": {
-					"light": "",
-					"dark": ""
-				}
-			},
+		"color": {},
+		"background": {},
+
+		"disabled": {
+			"background": {"light": "", "dark": ""}
+		},
+		"selected": {
+			"background": {"light": "", "dark": ""}
+		},
+		"focused": {
+			"background": {"light": "", "dark": ""}
+		},
+
+		"on-popup": {
 			"disabled": {
-				"light": "",
-				"dark": ""
+				"background": {"light": "", "dark": ""}
 			},
 			"selected": {
-				"light": "",
-				"dark": ""
+				"background": {"light": "", "dark": ""}
 			},
 			"focused": {
-				"light": "",
-				"dark": ""
-			},
-			"active": {
-				"light": "",
-				"dark": ""
+				"background": {"light": "", "dark": ""}
 			}
-		},
-		"color": ""
-	},
-	"single-value": {
-		"color": {
-			"light": "",
-			"dark": ""
 		}
 	}
 }
