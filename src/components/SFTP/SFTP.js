@@ -5,13 +5,13 @@ import Edit from './Edit/Edit';
 import styled from 'styled-components';
 import {tabColor} from '../../styles/color';
 import SFTPNav from './SFTPNav';
-import History from './History/History';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
 import FileList_ from './containers/FileList_';
 import DropList_ from './containers/DropList_';
+import History_ from './containers/History_';
 
 const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
@@ -95,7 +95,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 				) : (
 					<DropList_ uuid={uuid} />
 				)}
-				<History uuid={uuid} />
+				<History_ uuid={uuid} />
 			</_SFTP>
 		</_Container>
 	);
