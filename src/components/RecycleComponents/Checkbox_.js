@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {activeColor} from '../../styles/color';
+import checkbox from '../../json/default/checkbox.json';
 
 const Container = styled.div`
 	z-index: 0;
@@ -25,6 +26,7 @@ const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
 					theme_value={
 						theme_value === undefined ? theme : theme_value
 					}
+					//TODO color={checkbox.i.background[theme]}
 				>
 					done
 				</_I>

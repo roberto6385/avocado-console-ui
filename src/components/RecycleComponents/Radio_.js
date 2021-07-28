@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {L_GREEN_NORMAL} from '../../styles/color';
+import radio from '../../json/default/radio.json';
 
 const _Container = styled.div`
 	padding: 0px 8px;
@@ -18,10 +19,10 @@ const _Container = styled.div`
 	}
 
 	.pretty.p-default input:checked ~ .state label:after {
-		background-color: ${L_GREEN_NORMAL} !important;
+		background-color: ${radio.input.checked.background} !important;
 	}
 	.pretty.p-default input:disabled ~ .state label:after {
-		background-color: white !important;
+		background-color: ${radio.input.disabled.background} !important;
 	}
 `;
 

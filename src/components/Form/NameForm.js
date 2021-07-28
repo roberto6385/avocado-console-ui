@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+import InputField_ from '../RecycleComponents/inputField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {
@@ -90,7 +90,7 @@ const ChangeNameForm = ({open, setOpen}) => {
 				</ClickableIconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<InputFiled_ title={t('name')}>
+				<InputField_ title={t('name')}>
 					<Input
 						type='text'
 						value={currentName}
@@ -98,8 +98,8 @@ const ChangeNameForm = ({open, setOpen}) => {
 						placeholder={t('place.name')}
 						theme_value={theme}
 					/>
-				</InputFiled_>
-				{/*<InputFiled_ title={t('current')}>*/}
+				</InputField_>
+				{/*<InputField_ title={t('current')}>*/}
 				{/*	<Input*/}
 				{/*		type='password'*/}
 				{/*		value={currentPassword}*/}
@@ -107,7 +107,7 @@ const ChangeNameForm = ({open, setOpen}) => {
 				{/*		placeholder={t('place.current')}*/}
 				{/*		theme_value={theme}*/}
 				{/*	/>*/}
-				{/*</InputFiled_>*/}
+				{/*</InputField_>*/}
 			</Form>
 
 			<ModalFooter theme_value={theme}>

@@ -16,7 +16,7 @@ const _Title = styled.div`
 	line-height: 1.5;
 `;
 
-const InputFiled_ = ({title, children, flex, marginBottom}) => {
+const InputField_ = ({title, children, flex, marginBottom}) => {
 	return (
 		<_Container flex={flex} marginBottom={marginBottom}>
 			{title && <_Title>{title}</_Title>}
@@ -25,11 +25,11 @@ const InputFiled_ = ({title, children, flex, marginBottom}) => {
 	);
 };
 
-InputFiled_.propTypes = {
+InputField_.propTypes = {
 	title: PropTypes.string,
 	children: PropTypes.element.isRequired,
 	flex: PropTypes.number,
 	marginBottom: PropTypes.string,
 };
 
-export default InputFiled_;
+export default InputField_;

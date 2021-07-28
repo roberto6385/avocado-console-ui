@@ -1,0 +1,75 @@
+{
+	"control": {
+		"border": {
+			"color": {
+				"light": "#f8f9fa",
+				"dark": "rgba(0, 0, 0, 0.12)"
+			},
+			"focus": {
+				"light": "#4ca6a8",
+				"dark": "#44c8c0"
+			}
+		},
+		"background": {
+			"light": "#ffffff",
+			"dark": "rgba(0,0,0,0.22)"
+		}
+	},
+	"menu-list": {
+		"on-popup": {
+			"background": {
+				"light": "#ffffff",
+				"dark": "#212F3D"
+			}
+		},
+		"background": {
+			"light": "#ffffff",
+			"dark": "#2f4b60"
+		}
+	},
+	"option": {
+		"background": {
+			"on-popup": {
+				"disabled": {
+					"light": "",
+					"dark": ""
+				},
+				"selected": {
+					"light": "",
+					"dark": ""
+				},
+				"focused": {
+					"light": "",
+					"dark": ""
+				},
+				"active": {
+					"light": "",
+					"dark": ""
+				}
+			},
+			"disabled": {
+				"light": "",
+				"dark": ""
+			},
+			"selected": {
+				"light": "",
+				"dark": ""
+			},
+			"focused": {
+				"light": "",
+				"dark": ""
+			},
+			"active": {
+				"light": "",
+				"dark": ""
+			}
+		},
+		"color": ""
+	},
+	"single-value": {
+		"color": {
+			"light": "",
+			"dark": ""
+		}
+	}
+}

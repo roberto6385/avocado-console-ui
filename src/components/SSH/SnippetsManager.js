@@ -9,7 +9,7 @@ import {
 	SSH_CHANGE_SNIPPET_REQUEST,
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+import InputField_ from '../RecycleComponents/inputField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {
@@ -337,7 +337,7 @@ const SnippetsManager = ({open, setOpen}) => {
 					))}
 				</_Ul>
 				<_Form>
-					<InputFiled_ title={t('name')}>
+					<InputField_ title={t('name')}>
 						<Input
 							autoFocus={true}
 							ref={nameInputRef}
@@ -347,8 +347,8 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.name')}
 							theme_value={theme}
 						/>
-					</InputFiled_>
-					<InputFiled_ title={t('content')}>
+					</InputField_>
+					<InputField_ title={t('content')}>
 						<_Textarea
 							value={content}
 							onChange={onChangeContent}
@@ -356,7 +356,7 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.content')}
 							theme_value={theme}
 						/>
-					</InputFiled_>
+					</InputField_>
 				</_Form>
 			</_ListContainer>
 			<ModalFooter theme_value={theme}>

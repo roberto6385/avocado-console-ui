@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import InputFiled_ from '../../RecycleComponents/InputFiled_';
+import InputField_ from '../../RecycleComponents/inputField_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {shallowEqual, useSelector} from 'react-redux';
@@ -39,38 +39,38 @@ const AccountAside = () => {
 
 	return (
 		<_Container>
-			<InputFiled_ title={t('account')}>
+			<InputField_ title={t('account')}>
 				<_Input
 					theme_value={theme}
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
 				/>
-			</InputFiled_>
-			<InputFiled_ title={t('name')}>
+			</InputField_>
+			<InputField_ title={t('name')}>
 				<_Input
 					theme_value={theme}
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
 				/>
-			</InputFiled_>
-			<InputFiled_ title={t('email')}>
+			</InputField_>
+			<InputField_ title={t('email')}>
 				<_Input
 					theme_value={theme}
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly
 				/>
-			</InputFiled_>
-			<InputFiled_ title={t('auth')}>
+			</InputField_>
+			<InputField_ title={t('auth')}>
 				<_PrimaryGreenButton
 					theme_value={theme}
 					onClick={changePath('/account')}
 				>
 					{t('changeAuth')}
 				</_PrimaryGreenButton>
-			</InputFiled_>
+			</InputField_>
 		</_Container>
 	);
 };

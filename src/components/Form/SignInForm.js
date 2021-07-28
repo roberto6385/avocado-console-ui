@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/auth/userTicket';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+import InputField_ from '../RecycleComponents/inputField_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
 import appleButton from '../../images/apple_btn.png';
 import googleButton from '../../images/google_btn.png';
@@ -182,15 +182,15 @@ const SignInForm = () => {
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
 			</UserTitleSpan>
 
-			<InputFiled_ marginBottom={'18px'}>
+			<InputField_ marginBottom={'18px'}>
 				<UserInput
 					ref={userRef}
 					value={user}
 					onChange={onChangeUser}
 					placeholder={t('id')}
 				/>
-			</InputFiled_>
-			<InputFiled_ marginBottom={'18px'}>
+			</InputField_>
+			<InputField_ marginBottom={'18px'}>
 				<_UserPasswordContainer id={'password_container'}>
 					<UserPasswordInput
 						ref={passwordRef}
@@ -212,7 +212,7 @@ const SignInForm = () => {
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</_UserPasswordContainer>
-			</InputFiled_>
+			</InputField_>
 			<_CheckboxAnchorContainer>
 				<Checkbox_
 					title={t('remember')}

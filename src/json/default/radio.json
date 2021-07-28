@@ -1,0 +1,11 @@
+{
+	"input": {
+		"checked": {
+			"background": "#178082"
+		},
+		"disabled": {
+			"background": "#ffffff"
+		}
+	},
+	"label": {}
+}

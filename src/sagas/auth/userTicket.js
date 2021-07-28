@@ -17,7 +17,7 @@ const querystring = require('query-string');
 
 function getUserTicketApi(params) {
 	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-
+	console.log('Basic ' + encodeData);
 	return axios.post(
 		'/oauth2/v1/token',
 
@@ -49,7 +49,9 @@ function getUserInfoApi(params) {
 function* getUserTicket(action) {
 	try {
 		const res = yield call(getUserTicketApi, action.params);
+		console.log(res);
 		const user = yield call(getUserInfoApi, res.data);
+		console.log(user);
 
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,

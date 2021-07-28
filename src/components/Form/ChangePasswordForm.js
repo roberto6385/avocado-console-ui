@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+import InputField_ from '../RecycleComponents/inputField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {
@@ -106,7 +106,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 				</ClickableIconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<InputFiled_ title={t('current')}>
+				<InputField_ title={t('current')}>
 					<Input
 						type='password'
 						value={currentPassword}
@@ -114,9 +114,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.current')}
 						theme_value={theme}
 					/>
-				</InputFiled_>
+				</InputField_>
 
-				<InputFiled_ title={t('new')}>
+				<InputField_ title={t('new')}>
 					<Input
 						type='password'
 						value={password}
@@ -124,8 +124,8 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.new')}
 						theme_value={theme}
 					/>
-				</InputFiled_>
-				<InputFiled_ title={t('confirm')}>
+				</InputField_>
+				<InputField_ title={t('confirm')}>
 					<Input
 						type='password'
 						value={confrimPassword}
@@ -133,7 +133,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.confirm')}
 						theme_value={theme}
 					/>
-				</InputFiled_>
+				</InputField_>
 			</Form>
 
 			<ModalFooter theme_value={theme}>

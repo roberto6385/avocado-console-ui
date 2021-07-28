@@ -16,7 +16,7 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+import InputField_ from '../RecycleComponents/inputField_';
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {
@@ -59,7 +59,7 @@ const _FileInput = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _InputFiled = styled(InputFiled_)`
+const _InputFiled = styled(InputField_)`
 	margin-right: 16px;
 `;
 
@@ -405,7 +405,7 @@ const AddServerForm = () => {
 							options={protocol_options}
 							value={protocol}
 							setValue={setProtocol}
-							popup={true}
+							popup={false}
 						/>
 					</_SecondItem>
 				</_ItemContainer>
@@ -421,7 +421,7 @@ const AddServerForm = () => {
 						/>
 					</_InputFiled>
 					<_SecondItem>
-						<InputFiled_ title={t('port')}>
+						<InputField_ title={t('port')}>
 							<_Input
 								theme_value={theme}
 								type='number'
@@ -430,7 +430,7 @@ const AddServerForm = () => {
 								readOnly
 								placeholder={t('place.port')}
 							/>
-						</InputFiled_>
+						</InputField_>
 					</_SecondItem>
 				</_ItemContainer>
 
@@ -456,7 +456,7 @@ const AddServerForm = () => {
 					</_SecondItem>
 				</_ItemContainer>
 				<_ItemContainer>
-					<InputFiled_ title={t('userName')} flex={1}>
+					<InputField_ title={t('userName')} flex={1}>
 						<Input
 							theme_value={theme}
 							type='text'
@@ -465,11 +465,11 @@ const AddServerForm = () => {
 							readOnly
 							placeholder={t('place.userName')}
 						/>
-					</InputFiled_>
+					</InputField_>
 				</_ItemContainer>
 				{authentication === 'Password' ? (
 					<_ItemContainer>
-						<InputFiled_ title={t('password')} flex={1}>
+						<InputField_ title={t('password')} flex={1}>
 							<Input
 								theme_value={theme}
 								type='password'
@@ -478,12 +478,12 @@ const AddServerForm = () => {
 								readOnly
 								placeholder={t('place.password')}
 							/>
-						</InputFiled_>
+						</InputField_>
 					</_ItemContainer>
 				) : (
 					<React.Fragment>
 						<_ItemContainer>
-							<InputFiled_ title={t('private')} flex={1}>
+							<InputField_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -502,7 +502,7 @@ const AddServerForm = () => {
 										placeholder={t('keyFile')}
 									/>
 								</_Label>
-							</InputFiled_>
+							</InputField_>
 							<_SecondaryGreenButton
 								theme_value={theme}
 								onClick={(e) => {
@@ -519,7 +519,7 @@ const AddServerForm = () => {
 						</_ItemContainer>
 
 						<_ItemContainer>
-							<InputFiled_ title={t('keyFilePassword')} flex={1}>
+							<InputField_ title={t('keyFilePassword')} flex={1}>
 								<Input
 									theme_value={theme}
 									type='password'
@@ -528,12 +528,12 @@ const AddServerForm = () => {
 									readOnly
 									placeholder={t('place.password')}
 								/>
-							</InputFiled_>
+							</InputField_>
 						</_ItemContainer>
 					</React.Fragment>
 				)}
 				<_ItemContainer>
-					<InputFiled_ title={t('note')} flex={1}>
+					<InputField_ title={t('note')} flex={1}>
 						<Input
 							theme_value={theme}
 							type='text'
@@ -542,7 +542,7 @@ const AddServerForm = () => {
 							readOnly
 							placeholder={t('place.note')}
 						/>
-					</InputFiled_>
+					</InputField_>
 				</_ItemContainer>
 			</Form>
 			<ModalFooter theme_value={theme}>
