@@ -25,7 +25,46 @@
 				}
 			},
 			"content": {
-				"tab": {},
+				"tab": {
+					"background": {
+						"light": "",
+						"dark": ""
+					},
+					"item": {
+						"background": {
+							"light": "",
+							"dark": "",
+							"active": {
+								"light": "",
+								"dark": ""
+							}
+						},
+						"color": {
+							"light": "",
+							"dark": "",
+							"active": {
+								"light": "",
+								"dark": ""
+							}
+						},
+						"border": {
+							"color": {
+								"light": "",
+								"dark": "",
+								"active": {
+									"light": "",
+									"dark": ""
+								}
+							}
+						}
+					},
+					"corner": {
+						"background": {
+							"light": "",
+							"dark": ""
+						}
+					}
+				},
 				"content": {
 					"ssh": {
 						"terminal": {
@@ -45,9 +84,170 @@
 							"border-color": {},
 							"selected": {"background-color": {}}
 						}
+					},
+					"sftp": {
+						"background": {
+							"light": "",
+							"dark": ""
+						},
+						"color": {
+							"light": "",
+							"dark": ""
+						},
+						"border": {
+							"color": {
+								"light": "",
+								"dark": ""
+							}
+						},
+						"toolbar": {
+							"background": {
+								"light": "",
+								"dark": ""
+							},
+							"color": {
+								"light": "",
+								"dark": ""
+							},
+							"border": {
+								"color": {
+									"light": "",
+									"dark": ""
+								}
+							}
+						},
+						"file-list": {
+							"table": {
+								"background": {
+									"light": "",
+									"dark": ""
+								},
+								"tr": {
+									"background": {
+										"light": "",
+										"dark": ""
+									},
+									"border": {
+										"color": {
+											"light": "",
+											"dark": ""
+										}
+									},
+									"color": {
+										"light": "",
+										"dark": ""
+									}
+								},
+								"th": {
+									"active": {
+										"color": {
+											"light": "",
+											"dark": ""
+										}
+									},
+									"color": {
+										"light": "",
+										"dark": ""
+									}
+								}
+							}
+						},
+						"history": {
+							"background": {
+								"light": "",
+								"dark": ""
+							},
+							"color": {
+								"light": "",
+								"dark": "",
+								"pause": {
+									"light": "",
+									"dark": ""
+								},
+								"upload": {
+									"light": "",
+									"dark": ""
+								},
+								"download": {
+									"light": "",
+									"dark": ""
+								},
+								"edit": {
+									"light": "",
+									"dark": ""
+								},
+								"delete": {
+									"light": "",
+									"dark": ""
+								},
+								"progress": {
+									"light": "",
+									"dark": ""
+								}
+							},
+							"border": {
+								"color": {
+									"light": "",
+									"dark": ""
+								}
+							},
+							"text": {
+								"color": {
+									"light": "",
+									"dark": ""
+								},
+								"announce": {
+									"color": {
+										"light": "",
+										"dark": ""
+									}
+								},
+								"size": {
+									"color": {
+										"light": "",
+										"dark": ""
+									}
+								}
+							},
+							"list-item": {
+								"background": {
+									"light": "",
+									"dark": "",
+									"active": {
+										"light": "",
+										"dark": ""
+									},
+									"selected": {
+										"light": "",
+										"dark": ""
+									}
+								},
+								"border": {
+									"color": {
+										"light": "",
+										"dark": ""
+									}
+								}
+							}
+						}
 					}
 				},
-				"aside": {}
+				"aside": {
+					"background": {
+						"light": "",
+						"dark": ""
+					},
+					"color": {
+						"light": "",
+						"dark": ""
+					},
+					"border": {
+						"color": {
+							"light": "",
+							"dark": ""
+						}
+					}
+				}
 			}
 		}
 	}
