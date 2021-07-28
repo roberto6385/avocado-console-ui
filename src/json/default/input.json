@@ -1,4 +1,14 @@
 {
+	"on-popup": {
+		"background": {
+			"light": "",
+			"dark": ""
+		},
+		"color": {
+			"light": "",
+			"dark": ""
+		}
+	},
 	"background": {
 		"light": "",
 		"dark": ""

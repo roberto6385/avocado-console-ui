@@ -100,7 +100,7 @@ const PreferencesAside = () => {
 	return (
 		<_Container>
 			<_Title theme_value={theme}>{t('general')}</_Title>
-			<_ContentsContainer color={fontColor[theme]}>
+			<_ContentsContainer>
 				<Select_
 					width={'266px'}
 					title={t('lang')}
@@ -120,7 +120,7 @@ const PreferencesAside = () => {
 			</_ContentsContainer>
 
 			<_Title theme_value={theme}>{t('terminal')}</_Title>
-			<_ContentsContainer color={fontColor[theme]}>
+			<_ContentsContainer>
 				<Select_
 					width={'266px'}
 					title={t('uiTheme')}
@@ -146,7 +146,7 @@ const PreferencesAside = () => {
 			</_ContentsContainer>
 
 			<_Title theme_value={theme}>{t('sftp')}</_Title>
-			<_ContentsContainer color={fontColor[theme]}>
+			<_ContentsContainer>
 				<Select_
 					title={t('editorTheme')}
 					options={editor_theme}

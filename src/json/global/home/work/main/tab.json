@@ -1,0 +1,40 @@
+{
+	"background": {
+		"light": "",
+		"dark": ""
+	},
+	"item": {
+		"background": {
+			"light": "",
+			"dark": "",
+			"active": {
+				"light": "",
+				"dark": ""
+			}
+		},
+		"color": {
+			"light": "",
+			"dark": "",
+			"active": {
+				"light": "",
+				"dark": ""
+			}
+		},
+		"border": {
+			"color": {
+				"light": "",
+				"dark": "",
+				"active": {
+					"light": "",
+					"dark": ""
+				}
+			}
+		}
+	},
+	"corner": {
+		"background": {
+			"light": "",
+			"dark": ""
+		}
+	}
+}
