@@ -23,7 +23,6 @@ import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
 import {IconButton, Icon} from '../../../styles/icon';
-import FileStatForm from '../../Form/FileStatForm';
 
 const _Table = styled.table`
 	display: flex;
