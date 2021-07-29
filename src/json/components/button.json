@@ -1,72 +1,28 @@
 {
 	"normal": {
-		"color": {},
-		"background": {},
-		"hover": {"background": {}},
-		"active": {"background": {}}
+		"font-color": "",
+		"background-color": "",
+		"hover": {"background-color": ""},
+		"active": {"background-color": ""}
 	},
+
 	"warning": {
-		"color": {},
-		"background": {},
-		"hover": {"background": {}},
-		"active": {"background": {}}
+		"font-color": "",
+		"background-color": "",
+		"hover": {"background-color": ""},
+		"active": {"background-color": ""}
 	},
-	"grey": {
-		"color": {},
-		"background": {},
+
+	"border": {
+		"font-color": "",
+		"background-color": "",
 		"border": {},
-		"hover": {"background": {}, "border": {}},
-		"active": {"background": {}, "border": {}}
+		"hover": {"background-color": "", "border-color": ""},
+		"active": {"background-color": "", "border-color": ""}
 	},
+
 	"disabled": {
-		"color": {},
-		"background": {}
-	},
-	"secondary": {
-		"green": {
-			"color": {},
-			"background": {},
-			"border": {},
-			"hover": {
-				"color": {},
-				"border": {}
-			},
-			"active": {
-				"color": {},
-				"border": {}
-			}
-		},
-		"red": {
-			"color": {},
-			"background": {},
-			"border": {},
-			"hover": {
-				"color": {},
-				"border": {}
-			},
-			"active": {
-				"color": {},
-				"border": {}
-			}
-		},
-		"grey": {
-			"color": {},
-			"background": {},
-			"hover": {
-				"background": {}
-			},
-			"active": {
-				"background": {}
-			},
-			"disabled": {
-				"color": {},
-				"background": {},
-				"border": {}
-			}
-		},
-		"disabled": {
-			"color": {},
-			"background": {}
-		}
+		"font-color": {},
+		"background-color": {}
 	}
 }

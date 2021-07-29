@@ -47,10 +47,10 @@
 			"radio": {
 				"style-1": {
 					"checked": {
-						"background": "#178082"
+						"background": {}
 					},
 					"disabled": {
-						"background": "#ffffff"
+						"background": {}
 					}
 				},
 				"style-2": {}

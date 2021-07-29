@@ -1,17 +1,19 @@
 {
-	"color": {},
-	"green": {"color": {}},
-	"red": {"color": {}},
-	"selected": {"color": {}},
-
-	"defult-button": {
-		"color": {}
+	"dynamic": {
+		"simple": {
+			"font-color": "",
+			"selected": {"font-color": ""},
+			"normal": {"font-color": ""},
+			"warning": {"font-color": ""}
+		},
+		"button": {"font-color": ""},
+		"hover-button": {
+			"font-color": "",
+			"hover": {
+				"font-color": ""
+			}
+		}
 	},
 
-	"button": {
-		"color": {},
-		"hover": {
-			"color": {}
-		}
-	}
+	"images": {}
 }
