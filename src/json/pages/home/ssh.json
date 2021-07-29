@@ -1,15 +1,13 @@
 {
-	"ssh": {
-		"terminal": {
+	"terminal": {
+		"color": {},
+		"background": {}
+	},
+	"search": {
+		"background": {},
+		"input": {
 			"color": {},
 			"background": {}
-		},
-		"search": {
-			"background": {},
-			"input": {
-				"color": {},
-				"background": {}
-			}
 		}
 	}
 }

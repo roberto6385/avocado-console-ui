@@ -20,7 +20,7 @@ import {
     UserSubmitButton,
     UserTitle,
     UserTitleSpan
-} from "../../styles/components/user";
+} from "../../styles/components/siginIn";
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;

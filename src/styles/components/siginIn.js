@@ -4,6 +4,7 @@ import {borderColor, inputFocusBoaderColor, L_GREEN_NORMAL} from '../color';
 import {PrimaryGreenButton} from './button';
 
 export const UserForm = styled.form`
+	color: black;
 	background: white;
 	width: 500px;
 	height: 614px;

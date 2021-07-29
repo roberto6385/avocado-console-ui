@@ -2,12 +2,14 @@
 	"color": {},
 	"background": {},
 	"border": {},
+
 	"tab": {
 		"selected": {
 			"color": {},
 			"border": {}
 		}
 	},
+
 	"item": {
 		"background": {},
 		"border": {},

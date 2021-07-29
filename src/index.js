@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import './i18n';
 import App from './App';
 import {store, persistor} from './store/configureStore';
-import './styles/index.css';
+import './styles/global/index.css';
 
 ReactDOM.render(
 	<CookiesProvider>

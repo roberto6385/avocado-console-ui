@@ -24,7 +24,7 @@ import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
 import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
 import {Icon} from "../../styles/icon";
-import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
+import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;

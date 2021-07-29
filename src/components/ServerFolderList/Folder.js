@@ -21,7 +21,7 @@ import {
 } from '../../styles/color';
 import styled from 'styled-components';
 import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
-import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
+import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 const FolderItem = styled.div`
 	display: flex;

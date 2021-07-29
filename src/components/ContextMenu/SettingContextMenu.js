@@ -5,7 +5,7 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
-import {DropDownMenu} from "../../styles/components/context-menu";
+import {DropDownMenu} from "../../styles/components/contextMenu";
 
 const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');

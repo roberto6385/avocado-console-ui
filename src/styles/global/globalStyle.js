@@ -1,5 +1,5 @@
 import {createGlobalStyle} from 'styled-components';
-import {borderColor, fontColor} from './color';
+import {borderColor, fontColor} from '../color';
 
 const GlobalStyle = createGlobalStyle`
   body {

@@ -23,7 +23,7 @@ import styled from 'styled-components';
 import FavoritesServer from './FavoritesServer';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
-import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
+import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 const FolderItem = styled.div`
 	display: flex;

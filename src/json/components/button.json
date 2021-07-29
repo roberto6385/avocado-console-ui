@@ -1,28 +1,26 @@
 {
-	"primary": {
-		"green": {
-			"color": {},
-			"background": {},
-			"hover": {"background": {}},
-			"active": {"background": {}}
-		},
-		"red": {
-			"color": {},
-			"background": {},
-			"hover": {"background": {}},
-			"active": {"background": {}}
-		},
-		"grey": {
-			"color": {},
-			"background": {},
-			"border": {},
-			"hover": {"background": {}, "border": {}},
-			"active": {"background": {}, "border": {}}
-		},
-		"disabled": {
-			"color": {},
-			"background": {}
-		}
+	"normal": {
+		"color": {},
+		"background": {},
+		"hover": {"background": {}},
+		"active": {"background": {}}
+	},
+	"warning": {
+		"color": {},
+		"background": {},
+		"hover": {"background": {}},
+		"active": {"background": {}}
+	},
+	"grey": {
+		"color": {},
+		"background": {},
+		"border": {},
+		"hover": {"background": {}, "border": {}},
+		"active": {"background": {}, "border": {}}
+	},
+	"disabled": {
+		"color": {},
+		"background": {}
 	},
 	"secondary": {
 		"green": {

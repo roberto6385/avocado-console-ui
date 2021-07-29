@@ -31,7 +31,7 @@ import {
 import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
 import {Icon} from "../../styles/icon";
-import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
+import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;

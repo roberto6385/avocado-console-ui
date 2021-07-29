@@ -10,7 +10,7 @@ import {
 	createNewWebsocket,
 	commandStatAction,
 } from '../../reducers/sftp';
-import {ContextMenu} from "../../styles/components/context-menu";
+import {ContextMenu} from "../../styles/components/contextMenu";
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();

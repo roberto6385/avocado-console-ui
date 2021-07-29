@@ -18,7 +18,7 @@ import {
 } from '../../../styles/color';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {Icon} from "../../../styles/icon";
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/setting-page";
+import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;

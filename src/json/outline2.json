@@ -1,28 +1,64 @@
 {
 	"pages": {
-		"home": {
-			"navigation": {},
-			"tab": {},
-			"aside": {},
-			"ssh": {},
-			"sftp": {}
+		"web-terminal": {
+			"main": {
+				"navigation": {},
+				"tab": {},
+				"aside": {},
+				"ssh": {},
+				"sftp": {}
+			},
+
+			"setting": {}
 		},
-		"setting": {},
-		"signin": {},
-		"footer": {}
+		"sign-in": {},
+		"default": {
+			"footer": {}
+		}
 	},
-	"components": {
-		"button": {},
-		"checkbox": {},
-		"context-menu": {},
-		"form": {},
-		"icon": {},
-		"input": {},
-		"radio": {},
-		"select": {}
-	},
-	"default": {
+
+	"basic": {
 		"color": {},
-		"border": {}
+		"border": {},
+		"pages": {
+			"button": {},
+			"checkbox": {
+				"background": {}
+			},
+			"context-menu": {
+				"background": {},
+				"color": {},
+				"border": {},
+				"selected": {
+					"background": {}
+				}
+			},
+			"dialog": {},
+			"panel": {},
+			"icons": {
+				"dynamic": {
+					"simple": {},
+					"button": {}
+				},
+				"images": {}
+			},
+			"text-boxs": {},
+			"text-area": {},
+			"radio": {
+				"style-1": {
+					"checked": {
+						"background": "#178082"
+					},
+					"disabled": {
+						"background": "#ffffff"
+					}
+				},
+				"style-2": {}
+			},
+			"combo-box": {
+				"style-1": {},
+				"style-2": {}
+			}
+		}
 	}
 }

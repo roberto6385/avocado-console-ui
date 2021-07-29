@@ -11,7 +11,7 @@ import {
 	BOOKMARKING,
 	LOCAL_SAVE_FAVORITES,
 } from '../../reducers/common';
-import {ContextMenu} from "../../styles/components/context-menu";
+import {ContextMenu} from "../../styles/components/contextMenu";
 
 const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	const dispatch = useDispatch();

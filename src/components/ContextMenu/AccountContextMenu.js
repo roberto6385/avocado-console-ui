@@ -7,7 +7,7 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {revokeUserTicket} from '../../reducers/auth/userTicket';
-import {DropDownMenu} from "../../styles/components/context-menu";
+import {DropDownMenu} from "../../styles/components/contextMenu";
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();

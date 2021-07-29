@@ -3,36 +3,32 @@
 		"background": {},
 		"border": {}
 	},
+
+	"navigation": {
+		"color": {},
+		"background": {},
+		"border": {},
+		"item": {
+			"border": {},
+			"selected": {
+				"background": {},
+				"border": {}
+			}
+		}
+	},
+
 	"content": {
-		"navigation": {
+		"style-1": {"color": {}, "background": {}, "title": {"border": {}}},
+		"identities-style-2": {
 			"color": {},
 			"background": {},
 			"border": {},
 			"item": {
+				"background": {},
 				"border": {},
 				"selected": {
-					"background": {},
-					"border": {}
-				}
-			}
-		},
-		"content": {
-			"color": {},
-			"background": {},
-			"title": {"border": {}},
-			"content": {
-				"identities": {
-					"color": {},
-					"background": {},
-					"border": {},
-					"item": {
-						"background": {},
-						"border": {},
-						"selected": {
-							"resource": {"background": {}},
-							"account": {"background": {}}
-						}
-					}
+					"resource": {"background": {}},
+					"account": {"background": {}}
 				}
 			}
 		}

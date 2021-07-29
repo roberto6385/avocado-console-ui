@@ -25,7 +25,7 @@ import {
     UserSubmitButton,
     UserTitle,
     UserTitleSpan
-} from "../../styles/components/user";
+} from "../../styles/components/siginIn";
 
 const _UserForm = styled(UserForm)`
 	height: 650px;

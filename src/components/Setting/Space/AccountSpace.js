@@ -12,7 +12,7 @@ import {
 	PrimaryGreenButton,
 } from '../../../styles/components/button';
 import ChangeNameForm from '../../Form/NameForm';
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/setting-page";
+import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
 import {Input} from "../../../styles/components/input";
 
 const _Input = styled(Input)`

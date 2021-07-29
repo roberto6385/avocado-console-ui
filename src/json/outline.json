@@ -19,13 +19,42 @@
 	},
 	"components": {
 		"button": {},
-		"checkbox": {},
-		"context-menu": {},
-		"form": {},
-		"icon": {},
-		"input": {},
-		"radio": {},
-		"select": {}
+		"checkbox": {
+			"background": {}
+		},
+		"context-menu": {
+			"background": {},
+			"color": {},
+			"border": {},
+			"selected": {
+				"background": {}
+			}
+		},
+		"dialog": {},
+		"panel": {},
+		"icons": {
+			"dynamic": {
+				"simple": {},
+				"button": {}
+			},
+			"images": {}
+		},
+		"text-boxs": {},
+		"text-area": {},
+		"radio": {
+			"style-1": {
+				"checked": {
+					"background": "#178082"
+				},
+				"disabled": {
+					"background": "#ffffff"
+				}
+			}
+		},
+		"combo-box": {
+			"style-1": {},
+			"style-2": {}
+		}
 	},
 	"default": {
 		"color": {},

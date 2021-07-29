@@ -12,7 +12,7 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {DefaultIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 import {
 	UserForm,
 	UserInput,
@@ -20,14 +20,15 @@ import {
 	UserPasswordInput,
 	UserSubmitButton,
 	UserTitle,
-	UserTitleSpan
-} from "../../styles/components/user";
+	UserTitleSpan,
+} from '../../styles/components/siginIn';
 
 const Item_Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 18px;
+
 `;
 
 const _UserSubmitButton = styled(UserSubmitButton)`

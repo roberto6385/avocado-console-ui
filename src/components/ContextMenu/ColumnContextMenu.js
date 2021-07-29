@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {animation, Item} from 'react-contexify';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../../reducers/common';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DropDownMenu} from "../../styles/components/context-menu";
+import {DropDownMenu} from "../../styles/components/contextMenu";
 
 const ColumnContextMenu = () => {
 	const dispatch = useDispatch();

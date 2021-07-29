@@ -15,7 +15,7 @@ import {
 } from '../../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {useTranslation} from 'react-i18next';
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/setting-page";
+import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
 
 const CheckboxContanier = styled.div`
 	margin-bottom: 16px;
