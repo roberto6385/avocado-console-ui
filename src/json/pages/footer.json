@@ -1,10 +1,8 @@
 {
-	"footer": {
-		"color": {},
-		"background": {},
-		"icon-button": {
-			"color": {},
-			"hover": {"color": {}}
-		}
+	"font": {"color": ""},
+	"background": {},
+	"icon-button": {
+		"font": {"color": ""},
+		"hover": {"font": {"color": ""}}
 	}
 }

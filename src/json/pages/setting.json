@@ -1,34 +1,54 @@
 {
 	"header": {
-		"background": {},
-		"border": {}
+		"background-color": "",
+		"border": {
+			"color": ""
+		}
 	},
 
 	"navigation": {
-		"color": {},
-		"background": {},
-		"border": {},
-		"item": {
-			"border": {},
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {
+			"color": ""
+		},
+		"items": {
+			"border": {
+				"color": ""
+			},
 			"selected": {
-				"background": {},
-				"border": {}
+				"background-color": "",
+				"border": {
+					"color": ""
+				}
 			}
 		}
 	},
 
 	"content": {
-		"style-1": {"color": {}, "background": {}, "title": {"border": {}}},
-		"identities-style-2": {
-			"color": {},
-			"background": {},
-			"border": {},
-			"item": {
-				"background": {},
-				"border": {},
+		"normal-style": {
+			"font": {"color": ""},
+			"background-color": "",
+			"title": {
+				"border": {
+					"color": ""
+				}
+			}
+		},
+		"identities-page-style": {
+			"font": {"color": ""},
+			"background-color": "",
+			"border": {
+				"color": ""
+			},
+			"items": {
+				"background-color": "",
+				"border": {
+					"color": ""
+				},
 				"selected": {
-					"resource": {"background": {}},
-					"account": {"background": {}}
+					"resource-table-style": {"background-color": ""},
+					"account-table-style": {"background-color": ""}
 				}
 			}
 		}

@@ -2,226 +2,478 @@
 	"pages": {
 		"web-terminal": {
 			"main": {
-				"navigation": {},
+				"navigation": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+
+					"tab": {
+						"selected": {
+							"font": {"color": ""},
+							"border": {
+								"color": ""
+							}
+						}
+					},
+
+					"items": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						},
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				},
 				"tab": {
-					"background-color": {},
+					"background-color": "",
 					"normal-item": {
-						"background-color": {},
+						"background-color": "",
 						"font": {
-							"color": {}
+							"color": ""
 						},
 						"border": {
-							"color": {}
+							"color": ""
 						}
 					},
 					"selected-item": {
-						"background-color": {},
-						"font": {"color": {}},
-						"border": {"color": {}}
+						"background-color": "",
+						"font": {"color": ""},
+						"border": {"color": ""}
 					}
 				},
 				"aside": {
-					"background-color": {},
-					"font": {"color": {}},
-					"border": {"color": {}}
+					"background-color": "",
+					"font": {"color": ""},
+					"border": {"color": ""}
 				},
-				"ssh": {},
+				"ssh": {
+					"toolbar": {
+						"font": {"color": ""},
+						"background-color": "",
+						"border": {"color": ""}
+					},
+					"terminal": {
+						"font": {"color": ""},
+						"background-color": ""
+					},
+					"search": {
+						"background-color": "",
+						"input": {
+							"font": {"color": ""},
+							"background-color": ""
+						}
+					}
+				},
 				"sftp": {
-					"background-color": {},
-					"font": {"color": {}},
-					"border": {"color": {}},
+					"background-color": "",
+					"font": {"color": ""},
+					"border": {"color": ""},
 
 					"toolbar": {
-						"background-color": {},
-						"font": {"color": {}},
-						"border": {"color": {}}
+						"background-color": "",
+						"font": {"color": ""},
+						"border": {"color": ""}
 					},
 
 					"file-list": {
-						"background-color": {},
+						"background-color": "",
 
 						"one-line": {
-							"font": {"color": {}},
-							"background-color": {},
-							"border": {"color": {}}
+							"font": {"color": ""},
+							"background-color": "",
+							"border": {"color": ""}
 						},
 						"item": {
 							"normal": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"selected": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							}
 						}
 					},
 
 					"history": {
-						"background-color": {},
-						"border": {"color": {}},
+						"background-color": "",
+						"border": {"color": ""},
 
 						"text": {
-							"font": {"color": {}},
+							"font": {"color": ""},
 							"announce": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"size": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							}
 						},
 
 						"icon": {
 							"pause": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"upload": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"download": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"edit": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"delete": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							}
 						},
 
 						"item": {
-							"background-color": {},
-							"border": {"color": {}},
+							"background-color": "",
+							"border": {"color": ""},
 							"progress": {
-								"font": {"color": {}}
+								"font": {"color": ""}
 							},
 							"selected": {
-								"background-color": {}
+								"background-color": ""
 							}
 						}
 					}
 				}
 			},
 
-			"setting": {}
+			"setting": {
+				"header": {
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				},
+
+				"navigation": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"items": {
+						"border": {
+							"color": ""
+						},
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				},
+
+				"content": {
+					"normal-style": {
+						"font": {"color": ""},
+						"background-color": "",
+						"title": {
+							"border": {
+								"color": ""
+							}
+						}
+					},
+					"identities-page-style": {
+						"font": {"color": ""},
+						"background-color": "",
+						"border": {
+							"color": ""
+						},
+						"items": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							},
+							"selected": {
+								"resource-table-style": {
+									"background-color": ""
+								},
+								"account-table-style": {"background-color": ""}
+							}
+						}
+					}
+				}
+			}
 		},
 		"sign-in": {
-			"background-color": {},
-			"font": {"color": {}},
+			"background-color": "",
+			"font": {"color": ""},
 
 			"link": {
 				"primary": {
-					"font": {"color": {}}
+					"font": {"color": ""}
 				},
 
 				"secondary": {
-					"font": {"color": {}}
+					"font": {"color": ""}
 				}
 			},
 
 			"hosizontal-line": {
-				"font": {"color": {}}
+				"font": {"color": ""}
 			},
 
 			"text-box": {
-				"background-color": {},
-				"font": {"color": {}}
+				"background-color": "",
+				"font": {"color": ""}
 			}
 		},
 		"default": {
-			"footer": {}
+			"footer": {
+				"font": {
+					"color": ""
+				},
+				"background": {},
+				"icon-button": {
+					"font": {
+						"color": ""
+					},
+					"hover": {
+						"font": {
+							"color": ""
+						}
+					}
+				}
+			}
 		}
 	},
 
 	"basic": {
-		"font": {"color": {}},
-		"border": {"color": {}},
+		"font": {"color": ""},
+		"border": {"color": ""},
+
 		"pages": {
-			"button": {},
-			"checkbox": {
-				"background-color-color": {}
-			},
-			"context-menu": {
-				"background-color": {},
-				"font": {"color": {}},
-				"border": {"color": {}},
-				"selected": {
-					"background-color": {}
+			"button": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"hover": {"background-color": ""},
+					"active": {"background-color": ""}
+				},
+
+				"warning-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"hover": {"background-color": ""},
+					"active": {"background-color": ""}
+				},
+
+				"transparent-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"hover": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						}
+					},
+					"active": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						}
+					}
+				},
+
+				"disabled-style": {
+					"font": {"color": ""},
+					"background-color": ""
 				}
 			},
-			"dialog": {},
-			"panel": {},
+			"checkbox": {
+				"normal-style": {
+					"background-color-color": ""
+				}
+			},
+			"context-menu": {
+				"normal-style": {
+					"background-color": "",
+					"font": {"color": ""},
+					"border": {"color": ""},
+					"selected": {
+						"background-color": ""
+					}
+				}
+			},
+			"dialog-boxs": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"sub-block": {
+						"background-color": "",
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				}
+			},
+			"panels": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				}
+			},
 			"icons": {
 				"dynamic": {
-					"simple": {},
-					"button": {}
+					"simple": {
+						"font": {"color": ""},
+						"selected": {"font": {"color": ""}},
+						"normal": {"font": {"color": ""}},
+						"warning": {"font": {"color": ""}}
+					},
+					"button": {"font": {"color": ""}},
+					"hover-button": {
+						"font": {"color": ""},
+						"hover": {
+							"font": {"color": ""}
+						}
+					}
 				},
 				"images": {}
 			},
-			"text-boxs": {},
-			"text-area": {},
+			"text-boxs": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"focus": {
+						"border": {
+							"color": ""
+						}
+					}
+				},
+
+				"dialog-box-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				},
+
+				"search-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"focus": {
+						"border": {
+							"color": ""
+						}
+					}
+				}
+			},
+			"text-area": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"focus": {
+						"border": {
+							"color": ""
+						}
+					}
+				},
+
+				"dialog-box-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				}
+			},
 			"radio": {
-				"normal": {
+				"normal-style": {
 					"checked": {
-						"background-color": {}
+						"background-color": ""
 					},
 					"disabled": {
-						"background-color": {}
+						"background-color": ""
 					}
 				}
 			},
 			"combo-box": {
 				"normal-style": {
 					"control": {
-						"font": {"color": {}},
-						"border": {"color": {}},
-						"background-color": {},
+						"font": {"color": ""},
+						"border": {"color": ""},
+						"background-color": "",
 						"focus": {
-							"border": {"color": {}}
+							"border": {"color": ""}
 						}
 					},
 
 					"menu-list": {
-						"background-color": {}
+						"background-color": ""
 					},
 
 					"option": {
-						"font": {"color": {}},
-						"background-color": {},
+						"font": {"color": ""},
+						"background-color": "",
 						"disabled": {
-							"background-color": {}
+							"background-color": ""
 						},
 						"selected": {
-							"background-color": {}
+							"background-color": ""
 						},
 						"focused": {
-							"background-color": {}
+							"background-color": ""
 						}
 					}
 				},
-				"popup-style": {
+				"dialog-box-style": {
 					"control": {
-						"font": {"color": {}},
-						"border": {"color": {}},
-						"background-color": {},
+						"font": {"color": ""},
+						"border": {"color": ""},
+						"background-color": "",
 						"focus": {
-							"border": {"color": {}}
+							"border": {"color": ""}
 						}
 					},
 
 					"menu-list": {
-						"background-color": {}
+						"background-color": ""
 					},
 
 					"option": {
-						"font": {"color": {}},
-						"background-color": {},
+						"font": {"color": ""},
+						"background-color": "",
 						"disabled": {
-							"background-color": {}
+							"background-color": ""
 						},
 						"selected": {
-							"background-color": {}
+							"background-color": ""
 						},
 						"focused": {
-							"background-color": {}
+							"background-color": ""
 						}
 					}
 				}

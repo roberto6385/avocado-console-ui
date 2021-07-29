@@ -1,0 +1,33 @@
+{
+	"normal-style": {
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {
+			"color": ""
+		},
+		"focus": {
+			"border": {
+				"color": ""
+			}
+		}
+	},
+	"dialog-box-style": {
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {
+			"color": ""
+		}
+	},
+	"search-style": {
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {
+			"color": ""
+		},
+		"focus": {
+			"border": {
+				"color": ""
+			}
+		}
+	}
+}
