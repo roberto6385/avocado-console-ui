@@ -1,4 +1,4 @@
-//Button
+//Button styles
 import styled from 'styled-components';
 import {
 	buttonFontColor,
@@ -18,7 +18,7 @@ import {
 	redHoverButtonColor,
 	redNormalButtonColor,
 	secondaryDisabledButtonColor,
-} from './color';
+} from '../color';
 
 export const DefaultButton = styled.button`
 	height: 34px;

@@ -6,7 +6,13 @@ import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import InputField_ from '../RecycleComponents/inputField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {SecondaryGreenButton} from '../../styles/button';
+import {SecondaryGreenButton} from '../../styles/components/button';
+import LoadingSpinner from '../loadingSpinner';
+import {
+	passwordVisibilityIcon,
+	passwordVisibilityOffIcon,
+} from '../../icons/icons';
+import {DefaultIconButton} from "../../styles/icon";
 import {
 	UserForm,
 	UserInput,
@@ -14,14 +20,8 @@ import {
 	UserPasswordInput,
 	UserSubmitButton,
 	UserTitle,
-	UserTitleSpan,
-} from '../../styles/default';
-import LoadingSpinner from '../loadingSpinner';
-import {
-	passwordVisibilityIcon,
-	passwordVisibilityOffIcon,
-} from '../../icons/icons';
-import {DefaultIconButton} from "../../styles/icon";
+	UserTitleSpan
+} from "../../styles/components/user";
 
 const Item_Container = styled.div`
 	display: flex;

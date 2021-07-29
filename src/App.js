@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useIdleTimer} from 'react-idle-timer';
 
 import {
@@ -27,10 +27,15 @@ import {
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import base64 from 'base-64';
+import {createGlobalStyle} from 'styled-components';
+import {borderColor, fontColor} from './styles/color';
+import GlobalStyle from './styles/globalStyle';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	// const handleOnIdle = useCallback(() => {
 	// 	// console.log('stop');
@@ -83,6 +88,7 @@ const App = () => {
 
 	return (
 		<BrowserRouter>
+			<GlobalStyle theme_value={theme} />
 			<Switch>
 				<Route path='/' exact component={Home} />
 				<Route path='/signin' component={SignIn} />

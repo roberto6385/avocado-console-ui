@@ -5,12 +5,12 @@ import {useTranslation} from 'react-i18next';
 
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
-import {ContextMenu} from '../../styles/default';
 import {
 	ADD_HISTORY,
 	createNewWebsocket,
 	commandStatAction,
 } from '../../reducers/sftp';
+import {ContextMenu} from "../../styles/components/context-menu";
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();

@@ -7,17 +7,13 @@ import useInput from '../../hooks/useInput';
 import InputField_ from '../RecycleComponents/inputField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {
-	Form,
-	Input,
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-} from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
 import {DefaultIconButton} from '../../styles/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {Input} from "../../styles/components/input";
+import {Form} from "../../styles/components/form";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

@@ -19,13 +19,9 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {
-	FolderServerTitle,
-	NewServerFolderForm,
-	NewServerFolderInput,
-} from '../../styles/default';
 import styled from 'styled-components';
 import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
+import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
 
 const FolderItem = styled.div`
 	display: flex;
@@ -216,13 +212,13 @@ const Folder = ({open, data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<FolderServerTitle theme_value={theme}>
+				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
-						<NewServerFolderForm
+						<NavigationBarItemForm
 							onSubmit={handleSubmit}
 							onBlur={handleSubmit}
 						>
-							<NewServerFolderInput
+							<NavigationBarInput
 								ref={renameRef}
 								type='text'
 								value={renameValue}
@@ -231,11 +227,11 @@ const Folder = ({open, data, indent}) => {
 								onBlur={handleBlur}
 								theme_value={theme}
 							/>
-						</NewServerFolderForm>
+						</NavigationBarItemForm>
 					) : (
 						data.name
 					)}
-				</FolderServerTitle>
+				</NavigationBarTitle>
 				<IconButton
 					theme_value={theme}
 					size={'sm'}

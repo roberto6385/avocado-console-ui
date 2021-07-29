@@ -8,7 +8,7 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu} from '../../styles/default';
+import {ContextMenu} from "../../styles/components/context-menu";
 
 const FolderContextMenu = ({data}) => {
 	const dispatch = useDispatch();

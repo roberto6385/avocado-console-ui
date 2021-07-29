@@ -30,7 +30,7 @@ import {
 } from '../../../styles/color';
 
 import {PreventDragCopy} from '../../../styles/function';
-import {PrimaryGreenButton} from '../../../styles/button';
+import {PrimaryGreenButton} from '../../../styles/components/button';
 import {IconButton, Icon} from '../../../styles/icon';
 
 const _Container = styled.div`

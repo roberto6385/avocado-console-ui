@@ -10,7 +10,7 @@ import {
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {ContextMenu} from '../../styles/default';
+import {ContextMenu} from "../../styles/components/context-menu";
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');

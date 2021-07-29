@@ -8,15 +8,8 @@ import {
 import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../icons/icons';
-import {
-	ModalFooter,
-	ModalHeader,
-	ModalMessage,
-	PopupModal,
-	PopupText,
-} from '../../styles/default';
 
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {
 	ADD_HISTORY,
@@ -31,6 +24,7 @@ import {
 	UNDO_FAVORITES,
 } from '../../reducers/common';
 import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
+import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -245,7 +239,7 @@ const SavePopup = () => {
 				<Icon margin_right='6px' color={'#178082'}>
 					{alertFillIcon}
 				</Icon>
-				<PopupText>{SaveMessage[save_popup.key]}</PopupText>
+				<AlertText>{SaveMessage[save_popup.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>

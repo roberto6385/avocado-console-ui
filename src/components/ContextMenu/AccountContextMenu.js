@@ -3,11 +3,11 @@ import {animation, Item, Separator} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {DropDownMenu} from '../../styles/default';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {revokeUserTicket} from '../../reducers/auth/userTicket';
+import {DropDownMenu} from "../../styles/components/context-menu";
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();

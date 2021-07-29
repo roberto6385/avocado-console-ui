@@ -6,19 +6,13 @@ import styled from 'styled-components';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
 import {
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-	ModalMessage,
-	PopupText,
-} from '../../styles/default';
-import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	PrimaryRedButton,
-} from '../../styles/button';
+} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {Icon, DefaultIconButton} from '../../styles/icon';
+import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
 
 const _PopupModal = styled(PopupModal)`
 	width: 288px;
@@ -81,7 +75,7 @@ const AlertPopup = () => {
 					</Icon>
 				)}
 
-				<PopupText>{AlertMessage[alert_popup.key]}</PopupText>
+				<AlertText>{AlertMessage[alert_popup.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>

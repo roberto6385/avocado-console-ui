@@ -6,18 +6,14 @@ import {useTranslation} from 'react-i18next';
 import InputField_ from '../../RecycleComponents/inputField_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import Select_ from '../../RecycleComponents/Select_';
-import {
-	Input,
-	SettingContentsContainer,
-	SettingMainContainer,
-	SettingTitle,
-} from '../../../styles/default';
 import ChangePasswordForm from '../../Form/ChangePasswordForm';
 import {
 	PrimaryDisabledButton,
 	PrimaryGreenButton,
-} from '../../../styles/button';
+} from '../../../styles/components/button';
 import ChangeNameForm from '../../Form/NameForm';
+import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/setting-page";
+import {Input} from "../../../styles/components/input";
 
 const _Input = styled(Input)`
 	width: 500px;

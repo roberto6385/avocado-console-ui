@@ -14,11 +14,12 @@ import {
 	OPEN_SAVE_POPUP,
 } from '../../reducers/popup';
 import {closeIcon} from '../../icons/icons';
-import {Form, ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {borderColor, fontColor} from '../../styles/color';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
 import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
 import {DefaultIconButton} from '../../styles/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {Form} from "../../styles/components/form";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

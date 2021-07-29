@@ -13,19 +13,19 @@ import naverButton from '../../images/naver_btn.png';
 import kakaoButton from '../../images/kakao_btn.png';
 import LoadingSpinner from '../loadingSpinner';
 import {
-	UserForm,
-	UserInput,
-	UserPasswordContainer,
-	UserPasswordInput,
-	UserSubmitButton,
-	UserTitle,
-	UserTitleSpan,
-} from '../../styles/default';
-import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
 import {DefaultIconButton} from "../../styles/icon";
+import {
+    UserForm,
+    UserInput,
+    UserPasswordContainer,
+    UserPasswordInput,
+    UserSubmitButton,
+    UserTitle,
+    UserTitleSpan
+} from "../../styles/components/user";
 
 const _UserForm = styled(UserForm)`
 	height: 650px;

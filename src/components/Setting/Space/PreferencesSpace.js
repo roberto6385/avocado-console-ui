@@ -5,7 +5,7 @@ import {
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-} from '../../../styles/font';
+} from '../../../styles/components/font';
 import Select_ from '../../RecycleComponents/Select_';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -15,11 +15,7 @@ import {
 } from '../../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {useTranslation} from 'react-i18next';
-import {
-	SettingContentsContainer,
-	SettingMainContainer,
-	SettingTitle,
-} from '../../../styles/default';
+import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/setting-page";
 
 const CheckboxContanier = styled.div`
 	margin-bottom: 16px;

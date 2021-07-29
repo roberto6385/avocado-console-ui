@@ -5,7 +5,7 @@ import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu} from '../../styles/default';
+import {ContextMenu} from "../../styles/components/context-menu";
 
 const ServerAccountContextMenu = () => {
 	const dispatch = useDispatch();

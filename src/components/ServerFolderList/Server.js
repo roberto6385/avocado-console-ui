@@ -28,14 +28,10 @@ import {
 	linuxServerIcon,
 	starIcon,
 } from '../../icons/icons';
-import {
-	FolderServerTitle,
-	NewServerFolderForm,
-	NewServerFolderInput,
-} from '../../styles/default';
 import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
 import {Icon} from "../../styles/icon";
+import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigation-bar";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -241,13 +237,13 @@ const Server = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<FolderServerTitle theme_value={theme}>
+				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
-						<NewServerFolderForm
+						<NavigationBarItemForm
 							onSubmit={handleSubmit}
 							onBlur={handleSubmit}
 						>
-							<NewServerFolderInput
+							<NavigationBarInput
 								ref={renameRef}
 								type='text'
 								value={renameValue}
@@ -255,7 +251,7 @@ const Server = ({data, indent}) => {
 								onKeyDown={EscapeKey}
 								theme_value={theme}
 							/>
-						</NewServerFolderForm>
+						</NavigationBarItemForm>
 					) : (
 						data.name
 					)}
@@ -279,7 +275,7 @@ const Server = ({data, indent}) => {
 					>
 						{bookmarkIcon}
 					</Icon>
-				</FolderServerTitle>
+				</NavigationBarTitle>
 			</ServerItem>
 			<ServerContextMenu
 				correspondedIdentity={correspondedIdentity}

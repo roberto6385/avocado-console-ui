@@ -6,12 +6,12 @@ import {useTranslation} from 'react-i18next';
 
 import {connectionAction} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {ContextMenu} from '../../styles/default';
 import {
 	ADD_FAVORITES_FOLDER,
 	BOOKMARKING,
 	LOCAL_SAVE_FAVORITES,
 } from '../../reducers/common';
+import {ContextMenu} from "../../styles/components/context-menu";
 
 const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	const dispatch = useDispatch();
