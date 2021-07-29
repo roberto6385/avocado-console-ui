@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {activeColor} from '../../styles/color';
-import checkbox from '../../json/default/checkbox.json';
 
 const Container = styled.div`
 	z-index: 0;

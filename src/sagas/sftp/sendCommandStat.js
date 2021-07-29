@@ -48,16 +48,6 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				console.log('stat end');
-				if (!pass) {
-					// yield put(
-					// 	commandCdAction({
-					// 		socket: payload.socket,
-					// 		uuid: payload.uuid,
-					// 		path: payload.path,
-					// 		cd_path: payload.cd_path,
-					// 	}),
-					// );
-				}
 
 				if (payload.socket.readyState !== 1) {
 					yield put({
@@ -73,13 +63,13 @@ function* sendCommand(action) {
 
 				switch (res.type) {
 					case STAT_SUCCESS:
-						// yield put({
-						// 	type: STAT_SUCCESS,
-						// 	payload: {
-						// 		uuid: payload.uuid,
-						// 		path: payload.cd_path,
-						// 	},
-						// });
+						yield put({
+							type: STAT_SUCCESS,
+							payload: {
+								uuid: payload.uuid,
+								data: res,
+							},
+						});
 						pass = true;
 
 						// yield put(

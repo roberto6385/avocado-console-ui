@@ -207,6 +207,7 @@ const initialState = {
 	edit: [],
 	etc: [],
 	high: [],
+	stat: null,
 };
 
 // etc function
@@ -741,6 +742,15 @@ const sftp = (state = initialState, action) =>
 
 			case INIT_DELETE_WORK_LIST:
 				delete_target.removeList = [];
+				break;
+
+			case STAT_REQUEST:
+				draft.stat = null;
+				break;
+			case STAT_SUCCESS:
+				draft.stat = action.payload.data;
+				break;
+			case STAT_FAILURE:
 				break;
 
 			default:

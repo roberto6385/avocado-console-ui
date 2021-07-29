@@ -6,9 +6,17 @@ import {commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../icons/icons';
-import {Form, ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
+import {
+	Form,
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+	UserInput,
+} from '../../styles/default';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import {DefaultIconButton} from '../../styles/icon';
+import InputField_ from '../RecycleComponents/inputField_';
+import Checkbox_ from '../RecycleComponents/Checkbox_';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -20,11 +28,27 @@ const _Form = styled(Form)`
 
 const FileStatForm = () => {
 	const dispatch = useDispatch();
-
+	const valueArray = [
+		{
+			key: 'Read',
+			value: 4,
+		},
+		{
+			key: 'Write',
+			value: 2,
+		},
+		{
+			key: 'Execute',
+			value: 1,
+		},
+	];
+	const [permission, setPermission] = useState(0);
+	const [type, setType] = useState(null);
 	const {
 		socket: sftp_socketState,
 		path: sftp_pathState,
 		high: sftp_highState,
+		stat,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {stat_form_popup} = useSelector((state) => state.popup, shallowEqual);
@@ -33,7 +57,6 @@ const FileStatForm = () => {
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
-
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_STAT_FORM_POPUP});
 	}, [dispatch]);
@@ -47,6 +70,8 @@ const FileStatForm = () => {
 		[closeModal],
 	);
 
+	const calculator = useCallback(() => {}, []);
+
 	useEffect(() => {
 		if (stat_form_popup.open) {
 			dispatch(
@@ -58,6 +83,14 @@ const FileStatForm = () => {
 			);
 		}
 	}, [dispatch, highlight, path, socket, stat_form_popup.open]);
+
+	useEffect(() => {
+		console.log(stat);
+		if (stat) {
+			setType(stat.fileType);
+			setPermission(stat.permission);
+		}
+	}, [stat]);
 
 	return (
 		<_PopupModal
@@ -81,7 +114,63 @@ const FileStatForm = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
-				<input type='text' />
+				<InputField_>
+					<div>
+						<span>Owner</span>
+						{valueArray.map((v) => {
+							return (
+								<Checkbox_
+									key={v.key}
+									title={v.key}
+									id={'Owner_' + v.key}
+									value={v.value}
+									handleCheck={calculator}
+									theme_value={0}
+								/>
+							);
+						})}
+					</div>
+
+					<div>
+						<span>Group</span>
+						{valueArray.map((v) => {
+							return (
+								<Checkbox_
+									key={v.key}
+									title={v.key}
+									id={'Group' + v.key}
+									value={v.value}
+									handleCheck={calculator}
+									theme_value={0}
+								/>
+							);
+						})}
+					</div>
+
+					<div>
+						<span>Public</span>
+						{valueArray.map((v) => {
+							return (
+								<Checkbox_
+									key={v.key}
+									title={v.key}
+									id={'Public' + v.key}
+									value={v.value}
+									handleCheck={calculator}
+									theme_value={0}
+								/>
+							);
+						})}
+					</div>
+				</InputField_>
+				<InputField_>
+					<UserInput
+						type='number'
+						max={777}
+						value={permission}
+						onChange={(e) => setPermission(e.target.value)}
+					/>
+				</InputField_>
 			</_Form>
 
 			<ModalFooter theme_value={theme}>
