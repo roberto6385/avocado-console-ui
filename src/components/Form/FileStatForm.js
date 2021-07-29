@@ -114,7 +114,7 @@ const FileStatForm = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
-				<InputField_>
+				<div>
 					<div>
 						<span>Owner</span>
 						{valueArray.map((v) => {
@@ -123,7 +123,7 @@ const FileStatForm = () => {
 									key={v.key}
 									title={v.key}
 									id={'Owner_' + v.key}
-									value={v.value}
+									value={false}
 									handleCheck={calculator}
 									theme_value={0}
 								/>
@@ -139,7 +139,7 @@ const FileStatForm = () => {
 									key={v.key}
 									title={v.key}
 									id={'Group' + v.key}
-									value={v.value}
+									value={false}
 									handleCheck={calculator}
 									theme_value={0}
 								/>
@@ -155,14 +155,14 @@ const FileStatForm = () => {
 									key={v.key}
 									title={v.key}
 									id={'Public' + v.key}
-									value={v.value}
+									value={false}
 									handleCheck={calculator}
 									theme_value={0}
 								/>
 							);
 						})}
 					</div>
-				</InputField_>
+				</div>
 				<InputField_>
 					<UserInput
 						type='number'
