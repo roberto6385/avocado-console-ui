@@ -20,7 +20,7 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/button';
-import {ClickableIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -187,14 +187,9 @@ const AddAccountForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addAccount')}</div>
-				<ClickableIconButton
-					color={fontColor[theme]}
-					size={'sm'}
-					margin={'0px'}
-					onClick={closeModal}
-				>
+				<DefaultIconButton size={'sm'} margin={'0px'} onClick={closeModal}>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>

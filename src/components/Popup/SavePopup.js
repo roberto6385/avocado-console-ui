@@ -16,10 +16,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import {fontColor} from '../../styles/color';
 import {
 	ADD_HISTORY,
@@ -33,7 +30,7 @@ import {
 	SAVE_FAVORITES,
 	UNDO_FAVORITES,
 } from '../../reducers/common';
-import {ClickableIconButton, IconBox} from "../../styles/icon";
+import {IconButton, IconBox, DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -234,14 +231,14 @@ const SavePopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<ClickableIconButton
-					color={fontColor[theme]}
+				<DefaultIconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>

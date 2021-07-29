@@ -25,7 +25,7 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/icon";
+import {DefaultIconButton} from "../../styles/icon";
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -201,7 +201,7 @@ const SignInForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton
+					<DefaultIconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -210,7 +210,7 @@ const SignInForm = () => {
 						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</IconButton>
+					</DefaultIconButton>
 				</_UserPasswordContainer>
 			</InputField_>
 			<_CheckboxAnchorContainer>

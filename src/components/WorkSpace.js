@@ -18,7 +18,7 @@ import {
 	tabColor,
 } from '../styles/color';
 import {disconnectAction} from '../reducers/sftp';
-import {ClickableIconButton, IconBox} from "../styles/icon";
+import {IconButton, IconBox} from "../styles/icon";
 
 const _Container = styled.div`
 	display: flex;
@@ -264,14 +264,14 @@ const WorkSpace = () => {
 										>
 											{data.server.name}
 										</_ServerName>
-										<ClickableIconButton
+										<IconButton
 											size={'xs'}
 											margin={'0px 0px 0px 6px'}
 											theme_value={theme}
 											onClick={onClickCloseTab(data)}
 										>
 											{closeIcon}
-										</ClickableIconButton>
+										</IconButton>
 									</_TabItem>
 								</_Tab>
 							);

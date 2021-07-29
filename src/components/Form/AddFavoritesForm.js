@@ -16,12 +16,9 @@ import {
 import {closeIcon} from '../../icons/icons';
 import {Form, ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {borderColor, fontColor} from '../../styles/color';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
-import {ClickableIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -69,7 +66,7 @@ const AddFavoritesForm = () => {
 		} else {
 			dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
 		}
-	}, [ favorites, tempFavorites]);
+	}, [favorites, tempFavorites]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -126,14 +123,14 @@ const AddFavoritesForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<ClickableIconButton
+				<DefaultIconButton
+					theme_value={theme}
 					onClick={closeModal}
-					color={fontColor[theme]}
 					size={'20px'}
 					margin={'0px'}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={onSubmitForm}>

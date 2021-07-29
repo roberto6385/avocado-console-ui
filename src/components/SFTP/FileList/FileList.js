@@ -22,7 +22,7 @@ import LoadingSpinner from '../../loadingSpinner';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconBox} from "../../../styles/icon";
+import {IconButton, IconBox} from "../../../styles/icon";
 
 const _Table = styled.table`
 	display: flex;
@@ -150,22 +150,22 @@ const FileList = ({
 									<_Th min={'105px'}>{item.permission}</_Th>
 									<_Th min={'63px'} justify={'flex-end'}>
 										{item.type === 'file' && (
-											<ClickableIconButton
+											<IconButton
 												theme_value={theme}
 												margin_right={'12px'}
 												onClick={onEdit(item)}
 											>
 												{editIcon}
-											</ClickableIconButton>
+											</IconButton>
 										)}
 										{item.name !== '..' && (
-											<ClickableIconButton
+											<IconButton
 												theme_value={theme}
 												margin={'0px'}
 												onClick={onDownload(item)}
 											>
 												{fileDownloadIcon}
-											</ClickableIconButton>
+											</IconButton>
 										)}
 									</_Th>
 								</_Tr>

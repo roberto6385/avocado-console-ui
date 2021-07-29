@@ -9,7 +9,7 @@ import {closeIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {SettingTitle} from '../../styles/default';
 import {borderColor, fontColor, sideColor} from '../../styles/color';
-import {ClickableIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _Container = styled.div`
 	height: 100%;
@@ -45,13 +45,13 @@ const AsideContainer = ({toggle, setToggle}) => {
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
-				<ClickableIconButton
-					color={fontColor[theme]}
+				<DefaultIconButton
+					theme_value={theme}
 					margin={'0px'}
 					onClick={closeAside}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</_SettingTitle>
 			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}

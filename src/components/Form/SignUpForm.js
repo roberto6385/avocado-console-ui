@@ -19,7 +19,7 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -36,6 +36,7 @@ const SignUpForm = () => {
 	const {t} = useTranslation('signUpForm');
 
 	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const [id, onChangeId, setId] = useInput('');
 	const [name, onChangeName, setName] = useInput('');
@@ -153,7 +154,8 @@ const SignUpForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton
+					<DefaultIconButton
+						theme_value={theme}
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -162,7 +164,7 @@ const SignUpForm = () => {
 						{visible
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</IconButton>
+					</DefaultIconButton>
 				</UserPasswordContainer>
 			</InputField_>
 			<InputField_ marginBottom={'18px'}>

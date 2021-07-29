@@ -24,7 +24,7 @@ import {
 import LightModeLogo from '../images/logo/logo@2x.png';
 import DarkModeLogo from '../images/logo/logo_white@3x.png';
 import FavoriteList from './ServerFolderList/FavoritesList';
-import {ClickableIconButton, IconBox} from "../styles/icon";
+import {IconButton, IconBox} from '../styles/icon';
 
 const floatings = [lghtFloatingButton, drkFloatingButton];
 
@@ -34,9 +34,9 @@ const _Aside = styled.aside`
 	width: ${WIDTH_256};
 	min-width: ${WIDTH_256};
 	border-right: 1px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) => borderColor[props.theme_value]};
 	height: 100%;
-	background: ${(props) => props.back};
+	background: ${(props) => navColor[props.theme_value]};
 	z-index;
 `;
 
@@ -52,7 +52,7 @@ const _FolerServerTab = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	border-bottom: 1px solid;
+	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
 `;
 
 const _FormContainer = styled.div`
@@ -192,26 +192,22 @@ const Nav = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<_Aside
-			className={toggle ? 'nav' : 'nav close'}
-			bcolor={borderColor[theme]}
-			back={navColor[theme]}
-		>
+		<_Aside className={toggle ? 'nav' : 'nav close'} theme_value={theme}>
 			<_Header>
-				<ClickableIconButton
+				<IconButton
 					margin_right={'6px'}
 					theme_value={theme}
 					onClick={onClickOpenTggle}
 				>
 					{burgerMenuIcon}
-				</ClickableIconButton>
+				</IconButton>
 				{theme === 0 ? (
 					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
 				) : (
 					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
-			<_FolerServerTab>
+			<_FolerServerTab theme_value={theme}>
 				{tabs.map((v) => {
 					return (
 						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>

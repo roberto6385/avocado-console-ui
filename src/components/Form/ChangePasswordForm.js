@@ -14,13 +14,10 @@ import {
 	ModalHeader,
 	PopupModal,
 } from '../../styles/default';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
-import {ClickableIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -96,14 +93,14 @@ const ChangePasswordForm = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<ClickableIconButton
+				<DefaultIconButton
 					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
 				<InputField_ title={t('current')}>

@@ -1,20 +1,12 @@
 {
-	"color": {
-		"light": "",
-		"dark": ""
-	},
-	"background": {
-		"light": "",
-		"dark": ""
-	},
+	"color": {},
+	"background": {},
+	"border": {},
+	"focus": {"border": {}},
+	"search": {"color": {}, "background": {}, "border": {}},
 	"on-popup": {
-		"background": {
-			"light": "",
-			"dark": ""
-		},
-		"color": {
-			"light": "",
-			"dark": ""
-		}
+		"color": {},
+		"background": {},
+		"border": {}
 	}
 }

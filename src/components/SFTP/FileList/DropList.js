@@ -20,7 +20,7 @@ import {
 } from '../../../styles/color';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconBox} from "../../../styles/icon";
+import {IconButton, IconBox} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;
@@ -186,7 +186,7 @@ const DropList = ({
 												<_ButtonContainer>
 													{item.type === 'file' &&
 														item.name !== '..' && (
-															<ClickableIconButton
+															<IconButton
 																theme_value={
 																	theme
 																}
@@ -199,10 +199,10 @@ const DropList = ({
 																)}
 															>
 																{editIcon}
-															</ClickableIconButton>
+															</IconButton>
 														)}
 													{item.name !== '..' && (
-														<ClickableIconButton
+														<IconButton
 															theme_value={theme}
 															zIndex={1}
 															margin_right={'0px'}
@@ -211,7 +211,7 @@ const DropList = ({
 															)}
 														>
 															{fileDownloadIcon}
-														</ClickableIconButton>
+														</IconButton>
 													)}
 												</_ButtonContainer>
 											</>

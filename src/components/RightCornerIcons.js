@@ -16,7 +16,7 @@ import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';
 import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
-import {ClickableIconButton} from '../styles/icon';
+import {IconButton} from '../styles/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -97,37 +97,37 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<_Container>
-			<ClickableIconButton
+			<IconButton
 				theme_value={theme}
 				ref={accountRef}
 				onClick={openAccount}
 			>
 				{accountIcon}
-			</ClickableIconButton>
-			<ClickableIconButton
+			</IconButton>
+			<IconButton
 				theme_value={theme}
 				ref={settingRef}
 				onClick={openSetting}
 			>
 				{settingIcon}
-			</ClickableIconButton>
+			</IconButton>
 
-			<ClickableIconButton
+			<IconButton
 				theme_value={theme}
 				ref={notificationRef}
 				onClick={openNotification}
 			>
 				{notificationIcon}
-			</ClickableIconButton>
+			</IconButton>
 
 			{tab.length !== 0 && (
-				<ClickableIconButton
+				<IconButton
 					theme_value={theme}
 					ref={columnRef}
 					onClick={openColumn}
 				>
 					{windowIcon}
-				</ClickableIconButton>
+				</IconButton>
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />

@@ -21,7 +21,7 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/icon";
+import {DefaultIconButton} from "../../styles/icon";
 
 const Item_Container = styled.div`
 	display: flex;
@@ -197,7 +197,7 @@ const PasswordForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton
+					<DefaultIconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -206,7 +206,7 @@ const PasswordForm = () => {
 						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</IconButton>
+					</DefaultIconButton>
 				</UserPasswordContainer>
 			</InputField_>
 			<InputField_ marginBottom={'18px'}>

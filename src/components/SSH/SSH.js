@@ -30,7 +30,7 @@ import {
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
-import {ClickableIconButton, IconBox} from "../../styles/icon";
+import {IconButton, IconBox} from "../../styles/icon";
 
 const _Container = styled.div`
 	height: 100%;
@@ -485,7 +485,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					ref={searchRef}
 					theme_value={theme}
 				/>
-				<ClickableIconButton
+				<IconButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
@@ -493,8 +493,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					onClick={onClickArrowUp}
 				>
 					{arrowDropUpIcon}
-				</ClickableIconButton>
-				<ClickableIconButton
+				</IconButton>
+				<IconButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
@@ -502,8 +502,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					onClick={onClickArrowDown}
 				>
 					{arrowDropDownIcon}
-				</ClickableIconButton>
-				<ClickableIconButton
+				</IconButton>
+				<IconButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
@@ -511,7 +511,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					onClick={onClickOpenSearchBar}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</IconButton>
 			</_SearchContainer>
 		</_Container>
 	);

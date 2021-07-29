@@ -1,6 +1,13 @@
 {
 	"color": {},
+	"green": {"color": {}},
+	"red": {"color": {}},
 	"selected": {"color": {}},
+
+	"defult-button": {
+		"color": {}
+	},
+
 	"button": {
 		"color": {},
 		"hover": {

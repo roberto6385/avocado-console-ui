@@ -29,11 +29,8 @@ import {
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/button';
-import {ClickableIconButton} from "../../styles/icon";
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {IconButton, DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -294,35 +291,35 @@ const SnippetsManager = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('snippetsManager')}</div>
-				<ClickableIconButton
-					color={fontColor[theme]}
+				<DefaultIconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCancel}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 			<_ListContainer>
 				<_Ul theme_value={theme} back={mainBackColor[theme]}>
 					<_HeaderLi>
 						<_Header>{t('snippetList')}</_Header>
-						<ClickableIconButton
+						<IconButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'8px'}
 							onClick={onClickAddSnippet}
 						>
 							{plusIcon}
-						</ClickableIconButton>
-						<ClickableIconButton
+						</IconButton>
+						<IconButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'0px'}
 							onClick={onClickRemoveSnippet}
 						>
 							{deleteIcon}
-						</ClickableIconButton>
+						</IconButton>
 					</_HeaderLi>
 
 					{tempSnippets.map((v) => (

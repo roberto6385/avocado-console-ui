@@ -23,7 +23,7 @@ import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import FavoritesServer from './FavoritesServer';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
-import {IconBox, IconButton} from "../../styles/icon";
+import {IconButton, IconBox, DefaultIconButton} from '../../styles/icon';
 
 const FolderItem = styled.div`
 	display: flex;

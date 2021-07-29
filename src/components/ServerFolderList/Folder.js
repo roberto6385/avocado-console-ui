@@ -25,7 +25,7 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconBox, IconButton} from "../../styles/icon";
+import {IconButton, IconBox, DefaultIconButton} from '../../styles/icon';
 
 const FolderItem = styled.div`
 	display: flex;
