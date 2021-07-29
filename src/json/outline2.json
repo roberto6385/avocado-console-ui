@@ -3,34 +3,148 @@
 		"web-terminal": {
 			"main": {
 				"navigation": {},
-				"tab": {},
-				"aside": {},
+				"tab": {
+					"background-color": {},
+					"normal-item": {
+						"background-color": {},
+						"font": {
+							"color": {}
+						},
+						"border": {
+							"color": {}
+						}
+					},
+					"selected-item": {
+						"background-color": {},
+						"font": {"color": {}},
+						"border": {"color": {}}
+					}
+				},
+				"aside": {
+					"background-color": {},
+					"font": {"color": {}},
+					"border": {"color": {}}
+				},
 				"ssh": {},
-				"sftp": {}
+				"sftp": {
+					"background-color": {},
+					"font": {"color": {}},
+					"border": {"color": {}},
+
+					"toolbar": {
+						"background-color": {},
+						"font": {"color": {}},
+						"border": {"color": {}}
+					},
+
+					"file-list": {
+						"background-color": {},
+
+						"one-line": {
+							"font": {"color": {}},
+							"background-color": {},
+							"border": {"color": {}}
+						},
+						"item": {
+							"normal": {
+								"font": {"color": {}}
+							},
+							"selected": {
+								"font": {"color": {}}
+							}
+						}
+					},
+
+					"history": {
+						"background-color": {},
+						"border": {"color": {}},
+
+						"text": {
+							"font": {"color": {}},
+							"announce": {
+								"font": {"color": {}}
+							},
+							"size": {
+								"font": {"color": {}}
+							}
+						},
+
+						"icon": {
+							"pause": {
+								"font": {"color": {}}
+							},
+							"upload": {
+								"font": {"color": {}}
+							},
+							"download": {
+								"font": {"color": {}}
+							},
+							"edit": {
+								"font": {"color": {}}
+							},
+							"delete": {
+								"font": {"color": {}}
+							}
+						},
+
+						"item": {
+							"background-color": {},
+							"border": {"color": {}},
+							"progress": {
+								"font": {"color": {}}
+							},
+							"selected": {
+								"background-color": {}
+							}
+						}
+					}
+				}
 			},
 
 			"setting": {}
 		},
-		"sign-in": {},
+		"sign-in": {
+			"background-color": {},
+			"font": {"color": {}},
+
+			"link": {
+				"primary": {
+					"font": {"color": {}}
+				},
+
+				"secondary": {
+					"font": {"color": {}}
+				}
+			},
+
+			"hosizontal-line": {
+				"font": {"color": {}}
+			},
+
+			"text-box": {
+				"background-color": {},
+				"font": {"color": {}}
+			}
+		},
 		"default": {
 			"footer": {}
 		}
 	},
 
 	"basic": {
-		"color": {},
-		"border": {},
+		"font": {"color": {}},
+		"border": {"color": {}},
 		"pages": {
 			"button": {},
 			"checkbox": {
-				"background": {}
+				"background-color-color": {}
 			},
 			"context-menu": {
-				"background": {},
-				"color": {},
-				"border": {},
+				"background-color": {},
+				"font": {"color": {}},
+				"border": {"color": {}},
 				"selected": {
-					"background": {}
+					"background-color": {}
 				}
 			},
 			"dialog": {},
@@ -45,19 +159,72 @@
 			"text-boxs": {},
 			"text-area": {},
 			"radio": {
-				"style-1": {
+				"normal": {
 					"checked": {
-						"background": {}
+						"background-color": {}
 					},
 					"disabled": {
-						"background": {}
+						"background-color": {}
 					}
-				},
-				"style-2": {}
+				}
 			},
 			"combo-box": {
-				"style-1": {},
-				"style-2": {}
+				"normal-style": {
+					"control": {
+						"font": {"color": {}},
+						"border": {"color": {}},
+						"background-color": {},
+						"focus": {
+							"border": {"color": {}}
+						}
+					},
+
+					"menu-list": {
+						"background-color": {}
+					},
+
+					"option": {
+						"font": {"color": {}},
+						"background-color": {},
+						"disabled": {
+							"background-color": {}
+						},
+						"selected": {
+							"background-color": {}
+						},
+						"focused": {
+							"background-color": {}
+						}
+					}
+				},
+				"popup-style": {
+					"control": {
+						"font": {"color": {}},
+						"border": {"color": {}},
+						"background-color": {},
+						"focus": {
+							"border": {"color": {}}
+						}
+					},
+
+					"menu-list": {
+						"background-color": {}
+					},
+
+					"option": {
+						"font": {"color": {}},
+						"background-color": {},
+						"disabled": {
+							"background-color": {}
+						},
+						"selected": {
+							"background-color": {}
+						},
+						"focused": {
+							"background-color": {}
+						}
+					}
+				}
 			}
 		}
 	}
