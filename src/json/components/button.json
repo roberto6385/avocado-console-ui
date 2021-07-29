@@ -1,0 +1,28 @@
+{
+	"normal": {
+		"font-color": "",
+		"background-color": "",
+		"hover": {"background-color": ""},
+		"active": {"background-color": ""}
+	},
+
+	"warning": {
+		"font-color": "",
+		"background-color": "",
+		"hover": {"background-color": ""},
+		"active": {"background-color": ""}
+	},
+
+	"border": {
+		"font-color": "",
+		"background-color": "",
+		"border": {},
+		"hover": {"background-color": "", "border-color": ""},
+		"active": {"background-color": "", "border-color": ""}
+	},
+
+	"disabled": {
+		"font-color": {},
+		"background-color": {}
+	}
+}

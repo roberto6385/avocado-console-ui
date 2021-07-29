@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
-import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
+import {DropDownMenu} from "../../styles/components/contextMenu";
 
 const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');

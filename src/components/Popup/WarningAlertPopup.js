@@ -13,15 +13,7 @@ import {
 
 import {cancelFillIcon, closeIcon} from '../../icons/icons';
 
-import {
-	ModalFooter,
-	ModalHeader,
-	ModalMessage,
-	PopupModal,
-	PopupText,
-} from '../../styles/default';
-
-import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
+import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {
 	createNewWebsocket,
@@ -31,6 +23,7 @@ import {
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
 import {DefaultIconButton} from '../../styles/icon';
+import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -236,7 +229,7 @@ const WarningAlertPopup = () => {
 				>
 					{cancelFillIcon}
 				</DefaultIconButton>
-				<PopupText>{AlertMessage[warning_alert_popup.key]}</PopupText>
+				<AlertText>{AlertMessage[warning_alert_popup.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>

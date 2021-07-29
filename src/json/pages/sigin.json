@@ -8,7 +8,7 @@
 		"dark": ""
 	},
 
-	"a": {
+	"link": {
 		"green": {
 			"color": {}
 		},
@@ -18,14 +18,14 @@
 		}
 	},
 
-	"divider": {
+	"hosizontal-line": {
 		"color": {
 			"light": "",
 			"dark": ""
 		}
 	},
 
-	"input": {
+	"text-box": {
 		"background": {
 			"light": "",
 			"dark": ""

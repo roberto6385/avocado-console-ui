@@ -1,22 +1,22 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_STAT_FORM_POPUP} from '../../reducers/popup';
-import useInput from '../../hooks/useInput';
+
 import {commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
-import {useTranslation} from 'react-i18next';
+
 import {closeIcon} from '../../icons/icons';
-import {
-	Form,
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-	UserInput,
-} from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import {DefaultIconButton} from '../../styles/icon';
 import InputField_ from '../RecycleComponents/inputField_';
 import Checkbox_ from '../RecycleComponents/Checkbox_';
+import {ModalFooter, PopupModal} from '../../styles/components/modal';
+import {Form} from '../../styles/components/form';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
+import {UserInput} from '../../styles/components/siginIn';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;

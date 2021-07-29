@@ -1,0 +1,19 @@
+{
+	"dynamic": {
+		"simple": {
+			"font-color": "",
+			"selected": {"font-color": ""},
+			"normal": {"font-color": ""},
+			"warning": {"font-color": ""}
+		},
+		"button": {"font-color": ""},
+		"hover-button": {
+			"font-color": "",
+			"hover": {
+				"font-color": ""
+			}
+		}
+	},
+
+	"images": {}
+}

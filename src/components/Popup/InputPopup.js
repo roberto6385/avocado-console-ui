@@ -7,14 +7,17 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../icons/icons';
 import {
-	Form,
-	Input,
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
+import {DefaultIconButton} from '../../styles/icon';
+import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/default';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
-import {DefaultIconButton} from '../../styles/icon';
+} from '../../styles/components/modal';
+import {Input} from '../../styles/components/input';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;

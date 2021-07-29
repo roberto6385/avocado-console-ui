@@ -5,14 +5,6 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import InputField_ from '../RecycleComponents/inputField_';
-import {
-	UserForm,
-	UserInput,
-	UserPasswordContainer,
-	UserSubmitButton,
-	UserTitle,
-	UserTitleSpan,
-} from '../../styles/default';
 import LoadingSpinner from '../loadingSpinner';
 import {
 	passwordVisibilityIcon,
@@ -21,6 +13,14 @@ import {
 import {DefaultIconButton} from '../../styles/icon';
 import {useHistory} from 'react-router-dom';
 import {postCreateUser} from '../../reducers/auth/create';
+import {
+    UserForm,
+    UserInput,
+    UserPasswordContainer,
+    UserSubmitButton,
+    UserTitle,
+    UserTitleSpan
+} from "../../styles/components/siginIn";
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;

@@ -1,4 +1,4 @@
-// terminal font
+//Terminal font
 export const ROBOTO = "'Roboto', sans-serif";
 export const ROBOTO_MONO = "'RobotoMono', sans-serif";
 export const MONTSERRAT = "'Montserrat', sans-serif";

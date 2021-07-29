@@ -9,7 +9,6 @@ import InputFiled_ from '../RecycleComponents/InputFiled_';
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
-import {ModalFooter, ModalHeader, PopupModal} from '../../styles/default';
 import {
 	borderColor,
 	fontColor,
@@ -19,8 +18,9 @@ import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
-} from '../../styles/button';
+} from '../../styles/components/button';
 import {DefaultIconButton} from '../../styles/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;

@@ -20,13 +20,6 @@ import InputField_ from '../RecycleComponents/inputField_';
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {
-	Form,
-	Input,
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-} from '../../styles/default';
-import {
 	borderColor,
 	fontColor,
 	greyNormalButtonBackgroundColor,
@@ -35,8 +28,11 @@ import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 	SecondaryGreenButton,
-} from '../../styles/button';
+} from '../../styles/components/button';
 import {DefaultIconButton} from '../../styles/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {Input} from "../../styles/components/input";
+import {Form} from "../../styles/components/form";
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

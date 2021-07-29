@@ -13,13 +13,6 @@ import InputField_ from '../RecycleComponents/inputField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {
-	Form,
-	Input,
-	ModalFooter,
-	ModalHeader,
-	PopupModal,
-} from '../../styles/default';
-import {
 	borderColor,
 	fontColor,
 	inputFocusBoaderColor,
@@ -29,8 +22,11 @@ import {
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
 import {IconButton, DefaultIconButton} from '../../styles/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {Input} from "../../styles/components/input";
+import {Form} from "../../styles/components/form";
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;

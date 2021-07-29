@@ -6,7 +6,7 @@ import {
 	ROBOTO,
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
-} from '../../../styles/font';
+} from '../../../styles/components/font';
 import {useTranslation} from 'react-i18next';
 import Checkbox_ from '../../RecycleComponents/Checkbox_';
 import {

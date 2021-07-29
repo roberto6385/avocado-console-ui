@@ -1,0 +1,64 @@
+{
+	"pages": {
+		"web-terminal": {
+			"main": {
+				"navigation": {},
+				"tab": {},
+				"aside": {},
+				"ssh": {},
+				"sftp": {}
+			},
+
+			"setting": {}
+		},
+		"sign-in": {},
+		"default": {
+			"footer": {}
+		}
+	},
+
+	"basic": {
+		"color": {},
+		"border": {},
+		"pages": {
+			"button": {},
+			"checkbox": {
+				"background": {}
+			},
+			"context-menu": {
+				"background": {},
+				"color": {},
+				"border": {},
+				"selected": {
+					"background": {}
+				}
+			},
+			"dialog": {},
+			"panel": {},
+			"icons": {
+				"dynamic": {
+					"simple": {},
+					"button": {}
+				},
+				"images": {}
+			},
+			"text-boxs": {},
+			"text-area": {},
+			"radio": {
+				"style-1": {
+					"checked": {
+						"background": {}
+					},
+					"disabled": {
+						"background": {}
+					}
+				},
+				"style-2": {}
+			},
+			"combo-box": {
+				"style-1": {},
+				"style-2": {}
+			}
+		}
+	}
+}

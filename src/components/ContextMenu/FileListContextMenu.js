@@ -4,17 +4,13 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {ADD_HISTORY, createNewWebsocket} from '../../reducers/sftp';
+import {ContextMenu} from '../../styles/components/contextMenu';
 import {
 	OPEN_INPUT_POPUP,
 	OPEN_STAT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu} from '../../styles/default';
-import {
-	ADD_HISTORY,
-	createNewWebsocket,
-	commandStatAction,
-} from '../../reducers/sftp';
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();

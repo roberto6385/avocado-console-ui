@@ -2,8 +2,9 @@ import React, {useCallback, useEffect} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useIdleTimer} from 'react-idle-timer';
+import base64 from 'base-64';
 
 import {
 	NotFound,
@@ -26,12 +27,14 @@ import {
 	REFRESH_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
-import base64 from 'base-64';
-import FileStatForm from "./components/Form/FileStatForm";
+import FileStatForm from './components/Form/FileStatForm';
+import GlobalStyle from './styles/global/globalStyle';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	// const handleOnIdle = useCallback(() => {
 	// 	// console.log('stop');
@@ -84,6 +87,7 @@ const App = () => {
 
 	return (
 		<BrowserRouter>
+			<GlobalStyle theme_value={theme} />
 			<Switch>
 				<Route path='/' exact component={Home} />
 				<Route path='/signin' component={SignIn} />
@@ -97,7 +101,7 @@ const App = () => {
 			</Switch>
 			<AddServerForm />
 			<AddFavoritesForm />
-			<FileStatForm/>
+			<FileStatForm />
 			<AlertPopup />
 			<WarningAlertPopup />
 			<InputPopup />

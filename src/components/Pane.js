@@ -18,7 +18,7 @@ import {
 	paneHeaderHigh,
 	tabColor,
 } from '../styles/color';
-import {PrimaryRedButton} from '../styles/button';
+import {PrimaryRedButton} from '../styles/components/button';
 import {disconnectAction, reconnectionAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
 import {IconButton, Icon} from "../styles/icon";

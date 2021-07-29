@@ -20,11 +20,11 @@ import {
 	navHighColor,
 } from '../../styles/color';
 import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
-import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
 import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
 import {Icon} from "../../styles/icon";
+import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -191,9 +191,9 @@ const FavoritesServer = ({data, indent, temp}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<FolderServerTitle theme_value={theme}>
+				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
-						<NewServerFolderInput
+						<NavigationBarInput
 							ref={renameRef}
 							type='text'
 							value={renameValue}
@@ -204,7 +204,7 @@ const FavoritesServer = ({data, indent, temp}) => {
 					) : (
 						data.name
 					)}
-				</FolderServerTitle>
+				</NavigationBarTitle>
 			</ServerItem>
 			{!temp && (
 				<FavoritesContextMenu

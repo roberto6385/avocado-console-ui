@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DropDownMenu} from '../../styles/default';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
+import {DropDownMenu} from "../../styles/components/contextMenu";
 
 const SnippetContextMenu = ({uuid, setOpen}) => {
 	const dispatch = useDispatch();

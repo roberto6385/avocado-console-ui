@@ -19,11 +19,11 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import FavoritesServer from './FavoritesServer';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
 import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
+import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
 
 const FolderItem = styled.div`
 	display: flex;
@@ -42,7 +42,7 @@ const FolderItem = styled.div`
 			? navHighColor[props.theme_value]
 			: navColor[props.theme_value]};
 `;
-const _Input = styled(NewServerFolderInput)`
+const _Input = styled(NavigationBarInput)`
 	background: transparent;
 `;
 
@@ -243,7 +243,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					{folderIcon}
 				</Icon>
 
-				<FolderServerTitle theme_value={theme}>
+				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
 						<_Input
 							ref={renameRef}
@@ -257,7 +257,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					) : (
 						data.name
 					)}
-				</FolderServerTitle>
+				</NavigationBarTitle>
 				<IconButton
 					type={'button'}
 					theme_value={theme}

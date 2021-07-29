@@ -1,13 +1,17 @@
 import React, {useCallback} from 'react';
-import InputField_ from '../../RecycleComponents/inputField_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+
+import InputField_ from '../../RecycleComponents/inputField_';
 import {settingInput} from '../../../styles/color';
-import {Input} from '../../../styles/default';
-import {PrimaryGreenButton, PrimaryRedButton} from '../../../styles/button';
 import {postDeleteAccount} from '../../../reducers/auth/delete';
+import {
+	PrimaryGreenButton,
+	PrimaryRedButton,
+} from '../../../styles/components/button';
+import {Input} from '../../../styles/components/input';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;

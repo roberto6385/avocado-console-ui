@@ -10,7 +10,6 @@ import {
 	settingIcon,
 	windowIcon,
 } from '../icons/icons';
-import {tabbarColor} from '../styles/color';
 import SettingContextMenu from './ContextMenu/SettingContextMenu';
 import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
 import AccountContextMenu from './ContextMenu/AccountContextMenu';

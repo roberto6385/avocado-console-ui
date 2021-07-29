@@ -1,0 +1,36 @@
+{
+	"header": {
+		"background": {},
+		"border": {}
+	},
+
+	"navigation": {
+		"color": {},
+		"background": {},
+		"border": {},
+		"item": {
+			"border": {},
+			"selected": {
+				"background": {},
+				"border": {}
+			}
+		}
+	},
+
+	"content": {
+		"style-1": {"color": {}, "background": {}, "title": {"border": {}}},
+		"identities-style-2": {
+			"color": {},
+			"background": {},
+			"border": {},
+			"item": {
+				"background": {},
+				"border": {},
+				"selected": {
+					"resource": {"background": {}},
+					"account": {"background": {}}
+				}
+			}
+		}
+	}
+}

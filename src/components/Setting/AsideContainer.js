@@ -7,9 +7,9 @@ import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
-import {SettingTitle} from '../../styles/default';
 import {borderColor, fontColor, sideColor} from '../../styles/color';
 import {DefaultIconButton} from '../../styles/icon';
+import {SettingTitle} from "../../styles/components/settingPage";
 
 const _Container = styled.div`
 	height: 100%;
