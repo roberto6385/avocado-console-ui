@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -34,7 +34,9 @@ const ChangeNameForm = ({open, setOpen}) => {
 		shallowEqual,
 	);
 
-	const [currentName, onChangeCurrentName, setCurrentName] = useInput('');
+	const nameRef = useRef(null);
+
+	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
 
 	const closeModal = useCallback(() => {
 		setOpen(false);
@@ -60,6 +62,10 @@ const ChangeNameForm = ({open, setOpen}) => {
 		},
 		[userTicket, userInfo, currentName, closeModal, dispatch],
 	);
+
+	useEffect(() => {
+		currentName === '' && nameRef.current?.focus();
+	}, [currentName]);
 
 	useEffect(() => {
 		if (open) {
@@ -89,6 +95,7 @@ const ChangeNameForm = ({open, setOpen}) => {
 			<Form onSubmit={onSubmitForm}>
 				<InputField_ title={t('name')}>
 					<Input
+						ref={nameRef}
 						type='text'
 						value={currentName}
 						onChange={onChangeCurrentName}
@@ -96,15 +103,6 @@ const ChangeNameForm = ({open, setOpen}) => {
 						theme_value={theme}
 					/>
 				</InputField_>
-				{/*<InputField_ title={t('current')}>*/}
-				{/*	<Input*/}
-				{/*		type='password'*/}
-				{/*		value={currentPassword}*/}
-				{/*		onChange={onChangeCurrentPassword}*/}
-				{/*		placeholder={t('place.current')}*/}
-				{/*		theme_value={theme}*/}
-				{/*	/>*/}
-				{/*</InputField_>*/}
 			</Form>
 
 			<ModalFooter theme_value={theme}>

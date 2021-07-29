@@ -2,6 +2,7 @@ import {all, fork} from 'redux-saga/effects';
 import clientTicket from './auth/clientTicket';
 import userTicket from './auth/userTicket';
 import createUser from './auth/create';
+import deleteAccount from './auth/delete';
 import putModifySaga from './auth/modify';
 import verify from './auth/verify';
 import find from './auth/find';
@@ -19,5 +20,6 @@ export default function* rootSaga() {
 		fork(sftp),
 		fork(sshtSage),
 		fork(createUser),
+		fork(deleteAccount),
 	]);
 }

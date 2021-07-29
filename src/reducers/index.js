@@ -14,6 +14,7 @@ import modify from './auth/modify';
 import verify from './auth/verify';
 import find from './auth/find';
 import create from './auth/create';
+import deleteAccount from './auth/delete';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 
 //userTicket.accesstoken => 저장가능
@@ -53,6 +54,7 @@ const appReducer = combineReducers({
 	verify,
 	find,
 	create,
+	deleteAccount,
 });
 
 const rootReducer = (state, action) => {

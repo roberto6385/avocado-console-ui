@@ -2,11 +2,12 @@ import React, {useCallback} from 'react';
 import InputField_ from '../../RecycleComponents/inputField_';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {settingInput} from '../../../styles/color';
 import {Input} from '../../../styles/default';
-import {PrimaryGreenButton} from '../../../styles/button';
+import {PrimaryGreenButton, PrimaryRedButton} from '../../../styles/button';
+import {postDeleteAccount} from '../../../reducers/auth/delete';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
@@ -24,9 +25,20 @@ const _PrimaryGreenButton = styled(PrimaryGreenButton)`
 	padding: 7px 7px 7px 6px;
 `;
 
+const _PrimaryRednButton = styled(PrimaryRedButton)`
+	width: 268px;
+	margin: 0px;
+	padding: 7px 7px 7px 6px;
+`;
+
 const AccountAside = () => {
 	const {t} = useTranslation('accountAside');
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const {userInfo, userTicket} = useSelector(
+		(state) => state.userTicket,
+		shallowEqual,
+	);
 
 	const {theme, account} = useSelector((state) => state.common, shallowEqual);
 
@@ -36,6 +48,15 @@ const AccountAside = () => {
 		},
 		[history],
 	);
+
+	const handleDelete = useCallback(() => {
+		dispatch(
+			postDeleteAccount({
+				userUid: userInfo.userUid,
+				token: userTicket.access_token,
+			}),
+		);
+	}, [dispatch, userInfo, userTicket]);
 
 	return (
 		<_Container>
@@ -70,6 +91,11 @@ const AccountAside = () => {
 				>
 					{t('changeAuth')}
 				</_PrimaryGreenButton>
+			</InputField_>
+			<InputField_>
+				<_PrimaryRednButton theme_value={theme} onClick={handleDelete}>
+					계정 삭제
+				</_PrimaryRednButton>
 			</InputField_>
 		</_Container>
 	);
