@@ -21,10 +21,7 @@ import {
 	PopupText,
 } from '../../styles/default';
 
-import {
-	PrimaryGreyButton,
-	PrimaryRedButton,
-} from '../../styles/button';
+import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/button';
 import {fontColor} from '../../styles/color';
 import {
 	createNewWebsocket,
@@ -33,7 +30,7 @@ import {
 	PUSH_INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {ClickableIconButton, IconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -221,20 +218,24 @@ const WarningAlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<ClickableIconButton
-					color={fontColor[theme]}
+				<DefaultIconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={cancelFunction}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
-				<IconButton margin_right='6px' color={'#D55959'}>
+				<DefaultIconButton
+					theme_value={theme}
+					margin_right='6px'
+					color={'#D55959'}
+				>
 					{cancelFillIcon}
-				</IconButton>
+				</DefaultIconButton>
 				<PopupText>{AlertMessage[warning_alert_popup.key]}</PopupText>
 			</ModalMessage>
 

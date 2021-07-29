@@ -18,9 +18,9 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from '../../styles/icon';
-import {postCreateUser} from '../../reducers/auth/create';
+import {DefaultIconButton} from '../../styles/icon';
 import {useHistory} from 'react-router-dom';
+import {postCreateUser} from '../../reducers/auth/create';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -39,6 +39,7 @@ const SignUpForm = () => {
 
 	const {user} = useSelector((state) => state.create, shallowEqual);
 	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const [id, onChangeId, setId] = useInput('apple');
 	const [name, onChangeName, setName] = useInput('사과');
@@ -191,7 +192,8 @@ const SignUpForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<IconButton
+					<DefaultIconButton
+						theme_value={theme}
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -200,7 +202,7 @@ const SignUpForm = () => {
 						{visible
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</IconButton>
+					</DefaultIconButton>
 				</UserPasswordContainer>
 			</InputField_>
 			<InputField_ marginBottom={'18px'}>

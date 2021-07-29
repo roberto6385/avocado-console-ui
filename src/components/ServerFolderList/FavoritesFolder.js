@@ -23,7 +23,7 @@ import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import FavoritesServer from './FavoritesServer';
 import FolderContextMenu from '../ContextMenu/FolderContextMenu';
-import {IconBox, IconButton} from "../../styles/icon";
+import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
 
 const FolderItem = styled.div`
 	display: flex;
@@ -231,7 +231,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconBox
+				<Icon
 					margin_right={'12px'}
 					size={'sm'}
 					color={
@@ -241,7 +241,7 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					}
 				>
 					{folderIcon}
-				</IconBox>
+				</Icon>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (

@@ -9,7 +9,7 @@ import {
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
 import {fontColor, footerColor} from '../styles/color';
-import {ClickableIconButton} from "../styles/icon";
+import {DefaultIconButton} from '../styles/icon';
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};
@@ -54,30 +54,30 @@ const Footer = () => {
 			<span theme_value={theme}>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
 				<_HostContainer>
-					<ClickableIconButton
-						color={fontColor[theme]}
+					<DefaultIconButton
+						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickDeceaseFontSize}
 					>
 						{zoomOutIcon}
-					</ClickableIconButton>
-					<ClickableIconButton
-						color={fontColor[theme]}
+					</DefaultIconButton>
+					<DefaultIconButton
+						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickIncreaseFontSize}
 					>
 						{zoomInIcon}
-					</ClickableIconButton>
-					<ClickableIconButton
-						color={fontColor[theme]}
+					</DefaultIconButton>
+					<DefaultIconButton
+						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickOpenSearchBar}
 					>
 						{searchIcon}
-					</ClickableIconButton>
+					</DefaultIconButton>
 
 					{current_tab &&
 						server.find(

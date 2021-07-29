@@ -36,7 +36,7 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/button';
-import {ClickableIconButton} from "../../styles/icon";
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -376,14 +376,14 @@ const AddServerForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
-				<ClickableIconButton
+				<DefaultIconButton
 					onClick={onClickCloseModal}
-					color={fontColor[theme]}
+					theme_value={theme}
 					size={'20px'}
 					margin={'0px'}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 
 			<Form onSubmit={onSubmitForm}>

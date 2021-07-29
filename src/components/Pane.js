@@ -21,7 +21,7 @@ import {
 import {PrimaryRedButton} from '../styles/button';
 import {disconnectAction, reconnectionAction} from '../reducers/sftp';
 import {PreventDragCopy} from '../styles/function';
-import {ClickableIconButton, IconBox} from "../styles/icon";
+import {IconButton, Icon} from "../styles/icon";
 
 const _Container = styled.div`
 	height: 100%;
@@ -205,33 +205,33 @@ const Pane = ({uuid, type, server}) => {
 				>
 					<_HeaderText color={fontColor[theme]}>
 						{type === 'SSH' && (
-							<IconBox
+							<Icon
 								size={'xs'}
 								margin_right={'6px'}
 								color={fontColor[theme]}
 							>
 								{sshIcon}
-							</IconBox>
+							</Icon>
 						)}
 						{type === 'SFTP' && (
-							<IconBox
+							<Icon
 								size={'xs'}
 								margin_right={'6px'}
 								color={fontColor[theme]}
 							>
 								{sftpIcon}
-							</IconBox>
+							</Icon>
 						)}
 						{server.name}
 					</_HeaderText>
-					<ClickableIconButton
+					<IconButton
 						theme_value={theme}
 						size={'micro'}
 						margin='0px'
 						onClick={onClickDelete}
 					>
 						{closeIcon}
-					</ClickableIconButton>
+					</IconButton>
 				</_Header>
 			)}
 			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}

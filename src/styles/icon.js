@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import {iconColor, iconHoverColor} from './color';
+import {fontColor, iconColor, iconHoverColor} from './color';
 
-export const IconBox = styled.div`
+export const Icon = styled.div`
 	background: transparent;
 	border: none;
 	line-height: 0px;
@@ -59,7 +59,7 @@ export const IconBox = styled.div`
 	}
 `;
 
-export const IconButton = styled.button`
+export const DefaultIconButton = styled.button`
 	background: transparent;
 	border: none;
 	line-height: 0px;
@@ -76,7 +76,7 @@ export const IconButton = styled.button`
 				? '16px'
 				: props.size
 			: '24px'};
-	color: ${(props) => props?.color || iconColor[props.theme_value]};
+	color: ${(props) => props?.color || fontColor[props.theme_value]};
 
 	span {
 		//if icon is span, font-size does not apply
@@ -93,7 +93,7 @@ export const IconButton = styled.button`
 	}
 
 	svg {
-		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+		fill: ${(props) => props?.color || fontColor[props.theme_value]};
 		width: ${(props) =>
 			props?.size
 				? props.size === 'sm'
@@ -117,7 +117,13 @@ export const IconButton = styled.button`
 	}
 `;
 
-export const ClickableIconButton = styled(IconButton)`
+export const IconButton = styled(DefaultIconButton)`
+	color: ${(props) => props?.color || iconColor[props.theme_value]};
+
+	svg {
+		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+	}
+
 	&:hover {
 		// hover color on svg icon does not work => use opacity
 		color: ${(props) =>

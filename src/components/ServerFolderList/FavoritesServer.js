@@ -24,7 +24,7 @@ import {FolderServerTitle, NewServerFolderInput} from '../../styles/default';
 import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
 import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
-import {IconBox} from "../../styles/icon";
+import {Icon} from "../../styles/icon";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -178,7 +178,7 @@ const FavoritesServer = ({data, indent, temp}) => {
 				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconBox
+				<Icon
 					size={'sm'}
 					margin_right={'12px'}
 					color={
@@ -189,7 +189,7 @@ const FavoritesServer = ({data, indent, temp}) => {
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
-				</IconBox>
+				</Icon>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (

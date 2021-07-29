@@ -25,7 +25,7 @@ import {
 	NewServerFolderInput,
 } from '../../styles/default';
 import styled from 'styled-components';
-import {IconBox, IconButton} from "../../styles/icon";
+import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
 
 const FolderItem = styled.div`
 	display: flex;
@@ -204,7 +204,7 @@ const Folder = ({open, data, indent}) => {
 				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconBox
+				<Icon
 					margin_right={'12px'}
 					size={'sm'}
 					color={
@@ -214,7 +214,7 @@ const Folder = ({open, data, indent}) => {
 					}
 				>
 					{folderIcon}
-				</IconBox>
+				</Icon>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (

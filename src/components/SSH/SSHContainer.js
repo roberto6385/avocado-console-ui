@@ -14,7 +14,7 @@ import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
-import {ClickableIconButton} from "../../styles/icon";
+import {IconButton} from "../../styles/icon";
 
 const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
 const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
@@ -106,21 +106,21 @@ const SSHContainer = ({uuid, server}) => {
 				className={!isToolbarUnfold && 'close-nav-header'}
 			>
 				<_Header theme_value={theme}>
-					<ClickableIconButton
+					<IconButton
 						theme_value={theme}
 						ref={snippetRef}
 						margin={'16px'}
 						onClick={onClickOpenSnippetManager}
 					>
 						{snippetIcon}
-					</ClickableIconButton>
+					</IconButton>
 					<SFTPConvertButton data={server} />
-					<ClickableIconButton
+					<IconButton
 						theme_value={theme}
 						onClick={onCLickFullScreen}
 					>
 						{fullScreenIcon}
-					</ClickableIconButton>
+					</IconButton>
 				</_Header>
 				{(nav.length === 1 || cols === 1) &&
 					(isToolbarUnfold ? (

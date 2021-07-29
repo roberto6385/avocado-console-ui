@@ -13,12 +13,9 @@ import {
 	ModalHeader,
 	PopupModal,
 } from '../../styles/default';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/button';
+import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
 import {fontColor} from '../../styles/color';
-import {ClickableIconButton} from "../../styles/icon";
+import {IconButton, DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -151,14 +148,14 @@ const InputPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{HeaderMessage[input_popup.key]}</div>
-				<ClickableIconButton
-					color={fontColor[theme]}
+				<DefaultIconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>

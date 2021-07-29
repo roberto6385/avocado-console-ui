@@ -31,7 +31,7 @@ import {
 
 import {PreventDragCopy} from '../../../styles/function';
 import {PrimaryGreenButton} from '../../../styles/button';
-import {ClickableIconButton, IconBox} from '../../../styles/icon';
+import {IconButton, Icon} from '../../../styles/icon';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -155,13 +155,13 @@ const History = ({
 							theme_value={theme}
 							onClick={onUploadWithClick}
 						>
-							<IconBox
+							<Icon
 								size='sm'
 								margin_right={'8px'}
 								color={theme === 0 ? 'white' : 'black'}
 							>
 								{fileUploadIcon}
-							</IconBox>
+							</Icon>
 							<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
 						</DropSpace_Button>
 					</DropSpaceDiv>
@@ -183,7 +183,7 @@ const History = ({
 											: 0
 									}
 								>
-									<ClickableIconButton
+									<IconButton
 										onClick={onPauseAndStart(history)}
 										size='20px'
 										margin={'10px'}
@@ -224,7 +224,7 @@ const History = ({
 											? buildCircleIcon
 											: history.todo === 'rm' &&
 											  removeCircleIcon}
-									</ClickableIconButton>
+									</IconButton>
 									<HistoryText
 										className={'history_contents'}
 										flex={1}
@@ -241,7 +241,7 @@ const History = ({
 									>
 										{formatByteSizeString(history.size)}
 									</_HistorySizeText>
-									<ClickableIconButton
+									<IconButton
 										size={'sm'}
 										margin={'10px'}
 										theme_value={theme}
@@ -249,7 +249,7 @@ const History = ({
 										className={'history_contents'}
 									>
 										{deleteIcon}
-									</ClickableIconButton>
+									</IconButton>
 
 									{history.progress !== 100 && (
 										<Progress>

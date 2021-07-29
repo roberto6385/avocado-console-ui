@@ -35,7 +35,7 @@ import {
 } from '../../styles/default';
 import styled from 'styled-components';
 import {connectionAction} from '../../reducers/sftp';
-import {IconBox} from "../../styles/icon";
+import {Icon} from "../../styles/icon";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -228,7 +228,7 @@ const Server = ({data, indent}) => {
 				clicked={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
-				<IconBox
+				<Icon
 					size={'sm'}
 					margin_right={'12px'}
 					color={
@@ -239,7 +239,7 @@ const Server = ({data, indent}) => {
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
-				</IconBox>
+				</Icon>
 
 				<FolderServerTitle theme_value={theme}>
 					{openRename ? (
@@ -259,7 +259,7 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-					<IconBox
+					<Icon
 						className={
 							searchTreeStart(favorites, data)
 								? 'bookmark_button active'
@@ -278,7 +278,7 @@ const Server = ({data, indent}) => {
 						}
 					>
 						{bookmarkIcon}
-					</IconBox>
+					</Icon>
 				</FolderServerTitle>
 			</ServerItem>
 			<ServerContextMenu

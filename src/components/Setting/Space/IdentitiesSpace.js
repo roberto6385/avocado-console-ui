@@ -22,7 +22,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/default';
-import {IconBox} from "../../../styles/icon";
+import {Icon} from "../../../styles/icon";
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -251,13 +251,13 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_Search theme_value={theme}>
-							<IconBox
+							<Icon
 								size={'xs'}
 								margin_right={'6px'}
 								theme_value={theme}
 							>
 								{searchIcon}
-							</IconBox>
+							</Icon>
 							<_Input
 								onChange={onChangeResourceSearch}
 								value={resourceSearch}
@@ -326,13 +326,13 @@ const IdentitiesSpace = () => {
 							</_Span>
 						</_Name>
 						<_Search theme_value={theme}>
-							<IconBox
+							<Icon
 								size={'xs'}
 								margin_right={'6px'}
 								theme_value={theme}
 							>
 								{searchIcon}
-							</IconBox>
+							</Icon>
 							<_Input
 								onChange={onChangeIdentitySearch}
 								value={identitySearch}

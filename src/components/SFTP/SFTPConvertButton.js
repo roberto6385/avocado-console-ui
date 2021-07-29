@@ -5,7 +5,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {sftpIconConvert} from '../../icons/icons';
 import {connectionAction} from '../../reducers/sftp';
-import {ClickableIconButton} from "../../styles/icon";
+import {IconButton} from "../../styles/icon";
 
 const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();
@@ -40,9 +40,9 @@ const SFTPConvertButton = ({data}) => {
 	}, [server, data, identity, userTicket, dispatch]);
 
 	return (
-		<ClickableIconButton theme_value={theme} onClick={connection}>
+		<IconButton theme_value={theme} onClick={connection}>
 			{sftpIconConvert}
-		</ClickableIconButton>
+		</IconButton>
 	);
 };
 

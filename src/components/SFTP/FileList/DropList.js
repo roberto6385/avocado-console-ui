@@ -20,7 +20,7 @@ import {
 } from '../../../styles/color';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {ClickableIconButton, IconBox} from "../../../styles/icon";
+import {IconButton, Icon} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;
@@ -153,19 +153,19 @@ const DropList = ({
 											className={'filelist_contents'}
 										>
 											{item.type === 'directory' ? (
-												<IconBox
+												<Icon
 													margin_right={'8px'}
 													color={activeColor[theme]}
 												>
 													{folderOpenIcon}
-												</IconBox>
+												</Icon>
 											) : (
-												<IconBox
+												<Icon
 													margin_right={'8px'}
 													theme_value={theme}
 												>
 													{fileIcon}
-												</IconBox>
+												</Icon>
 											)}
 
 											<div
@@ -186,7 +186,7 @@ const DropList = ({
 												<_ButtonContainer>
 													{item.type === 'file' &&
 														item.name !== '..' && (
-															<ClickableIconButton
+															<IconButton
 																theme_value={
 																	theme
 																}
@@ -199,10 +199,10 @@ const DropList = ({
 																)}
 															>
 																{editIcon}
-															</ClickableIconButton>
+															</IconButton>
 														)}
 													{item.name !== '..' && (
-														<ClickableIconButton
+														<IconButton
 															theme_value={theme}
 															zIndex={1}
 															margin_right={'0px'}
@@ -211,7 +211,7 @@ const DropList = ({
 															)}
 														>
 															{fileDownloadIcon}
-														</ClickableIconButton>
+														</IconButton>
 													)}
 												</_ButtonContainer>
 											</>

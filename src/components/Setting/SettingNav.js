@@ -19,7 +19,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {ClickableIconButton, IconBox} from "../../styles/icon";
+import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -80,13 +80,13 @@ const SettingNav = ({match}) => {
 	return (
 		<_Container theme_value={theme}>
 			<_BackContainer onClick={changePath('/')} theme_value={theme}>
-				<ClickableIconButton
+				<DefaultIconButton
+					theme_value={theme}
 					margin={'0px'}
-					color={fontColor[theme]}
 					onClick={changePath('/')}
 				>
 					{chevronLeftIcon}
-				</ClickableIconButton>
+				</DefaultIconButton>
 				<_Header>{t('back')}</_Header>
 			</_BackContainer>
 
@@ -96,7 +96,7 @@ const SettingNav = ({match}) => {
 					clicked={match.path === '/account'}
 					theme_value={theme}
 				>
-					<IconBox
+					<Icon
 						size={'sm'}
 						margin={'0px'}
 						color={
@@ -106,7 +106,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{accountIcon}
-					</IconBox>
+					</Icon>
 					<_Header>{t('account')}</_Header>
 				</_Li>
 				<_Li
@@ -114,7 +114,7 @@ const SettingNav = ({match}) => {
 					clicked={match.path === '/preferences'}
 					theme_value={theme}
 				>
-					<IconBox
+					<Icon
 						size={'sm'}
 						margin={'0px'}
 						color={
@@ -124,7 +124,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{settingIcon}
-					</IconBox>
+					</Icon>
 					<_Header>{t('preferences')}</_Header>
 				</_Li>
 				<_Li
@@ -132,7 +132,7 @@ const SettingNav = ({match}) => {
 					clicked={match.path === '/identities'}
 					theme_value={theme}
 				>
-					<IconBox
+					<Icon
 						size={'sm'}
 						margin={'0px'}
 						color={
@@ -142,7 +142,7 @@ const SettingNav = ({match}) => {
 						}
 					>
 						{identityIcon}
-					</IconBox>
+					</Icon>
 					<_Header>{t('identities')}</_Header>
 				</_Li>
 			</_Ul>

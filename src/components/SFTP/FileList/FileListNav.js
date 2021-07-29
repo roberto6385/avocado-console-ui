@@ -25,7 +25,7 @@ import {
 	inputBack,
 	tabColor,
 } from '../../../styles/color';
-import {ClickableIconButton} from "../../../styles/icon";
+import {IconButton} from "../../../styles/icon";
 
 const _Container = styled.div`
 	display: flex;
@@ -172,29 +172,29 @@ const FileListNav = ({uuid}) => {
 
 	return (
 		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<ClickableIconButton
+			<IconButton
 				margin={'13px 5px 13px 16px'}
 				theme_value={theme}
 				onClick={goBack}
 			>
 				{arrowUpwordIcon}
-			</ClickableIconButton>
-			<ClickableIconButton
+			</IconButton>
+			<IconButton
 				margin={'13px 5px'}
 				color={mode === 'list' ? activeColor[theme] : iconColor[theme]}
 				theme_value={theme}
 				onClick={basicList}
 			>
 				{viewListIcon}
-			</ClickableIconButton>
-			<ClickableIconButton
+			</IconButton>
+			<IconButton
 				margin={'13px 16px 13px 5px'}
 				theme_value={theme}
 				color={mode === 'drop' ? activeColor[theme] : iconColor[theme]}
 				onClick={dropdownList}
 			>
 				{viewColumnIcon}
-			</ClickableIconButton>
+			</IconButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
 				<_input
 					id='fileListNavInput'
@@ -207,20 +207,20 @@ const FileListNav = ({uuid}) => {
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<ClickableIconButton
+			<IconButton
 				margin={'13px 5px 13px 16px'}
 				theme_value={theme}
 				onClick={refresh}
 			>
 				{refreshIcon}
-			</ClickableIconButton>
-			<ClickableIconButton
+			</IconButton>
+			<IconButton
 				margin={'13px 16px 13px 5px'}
 				theme_value={theme}
 				onClick={goHome}
 			>
 				{homeIcon}
-			</ClickableIconButton>
+			</IconButton>
 		</_Container>
 	);
 };
