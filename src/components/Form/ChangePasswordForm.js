@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -37,8 +37,12 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [confrimPassword, onChangeConfirmPassword, setConfrimPassword] =
+	const [confirmPassword, onChangeConfirmPassword, setConfrimPassword] =
 		useInput('');
+
+	const currentRef = useRef(null);
+	const passwordRef = useRef(null);
+	const confirmRef = useRef(null);
 
 	const closeModal = useCallback(() => {
 		setOpen(false);
@@ -47,11 +51,26 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
+
 			if (
-				currentPassword === localStorage.getItem('password') &&
-				password === confrimPassword &&
-				password !== ''
+				password === '' ||
+				currentPassword === '' ||
+				confirmPassword === ''
 			) {
+				console.log('입력하지 않은 값이 있습니다.');
+				currentPassword === '' && currentRef.current?.focus();
+				password === '' && passwordRef.current?.focus();
+				confirmPassword === '' && confirmRef.current?.focus();
+			} else if (currentPassword !== localStorage.getItem('password')) {
+				console.log('현재 비밀번호 값이 올바르지 않습니다.');
+				setCurrentPassword('');
+				currentRef.current?.focus();
+			} else if (password !== confirmPassword) {
+				console.log('입력한 두 비밀번호가 일치하지 않습니다');
+				setPassword('');
+				setConfrimPassword('');
+				passwordRef.current?.focus();
+			} else {
 				dispatch(
 					putModify({
 						userUid: userInfo.userUid,
@@ -60,17 +79,19 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						access_token: userTicket.access_token,
 					}),
 				);
+				closeModal();
 			}
-
-			closeModal();
 		},
 		[
-			userInfo,
-			currentPassword,
 			password,
-			confrimPassword,
+			currentPassword,
+			confirmPassword,
 			closeModal,
+			setCurrentPassword,
+			setPassword,
+			setConfrimPassword,
 			dispatch,
+			userInfo,
 			userTicket,
 		],
 	);
@@ -105,6 +126,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 			<Form onSubmit={onSubmitForm}>
 				<InputField_ title={t('current')}>
 					<Input
+						ref={currentRef}
 						type='password'
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
@@ -115,6 +137,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 
 				<InputField_ title={t('new')}>
 					<Input
+						ref={passwordRef}
 						type='password'
 						value={password}
 						onChange={onChangePassword}
@@ -124,8 +147,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 				</InputField_>
 				<InputField_ title={t('confirm')}>
 					<Input
+						ref={confirmRef}
 						type='password'
-						value={confrimPassword}
+						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('place.confirm')}
 						theme_value={theme}
