@@ -28,6 +28,7 @@ const _Form = styled(Form)`
 
 const FileStatForm = () => {
 	const dispatch = useDispatch();
+
 	const valueArray = [
 		{
 			key: 'Read',
@@ -115,53 +116,51 @@ const FileStatForm = () => {
 
 			<_Form onSubmit={submitFunction}>
 				<div>
-					<div>
-						<span>Owner</span>
-						{valueArray.map((v) => {
-							return (
-								<Checkbox_
-									key={v.key}
-									title={v.key}
-									id={'Owner_' + v.key}
-									value={false}
-									handleCheck={calculator}
-									theme_value={0}
-								/>
-							);
-						})}
-					</div>
+					<span>Owner</span>
+					{valueArray.map((v) => {
+						return (
+							<Checkbox_
+								key={v.key}
+								title={v.key}
+								id={'Owner_' + v.key}
+								value={v.value}
+								handleCheck={calculator}
+								theme_value={0}
+							/>
+						);
+					})}
+				</div>
 
-					<div>
-						<span>Group</span>
-						{valueArray.map((v) => {
-							return (
-								<Checkbox_
-									key={v.key}
-									title={v.key}
-									id={'Group' + v.key}
-									value={false}
-									handleCheck={calculator}
-									theme_value={0}
-								/>
-							);
-						})}
-					</div>
+				<div>
+					<span>Group</span>
+					{valueArray.map((v) => {
+						return (
+							<Checkbox_
+								key={v.key}
+								title={v.key}
+								id={'Group' + v.key}
+								value={v.value}
+								handleCheck={calculator}
+								theme_value={0}
+							/>
+						);
+					})}
+				</div>
 
-					<div>
-						<span>Public</span>
-						{valueArray.map((v) => {
-							return (
-								<Checkbox_
-									key={v.key}
-									title={v.key}
-									id={'Public' + v.key}
-									value={false}
-									handleCheck={calculator}
-									theme_value={0}
-								/>
-							);
-						})}
-					</div>
+				<div>
+					<span>Public</span>
+					{valueArray.map((v) => {
+						return (
+							<Checkbox_
+								key={v.key}
+								title={v.key}
+								id={'Public' + v.key}
+								value={v.value}
+								handleCheck={calculator}
+								theme_value={0}
+							/>
+						);
+					})}
 				</div>
 				<InputField_>
 					<UserInput
