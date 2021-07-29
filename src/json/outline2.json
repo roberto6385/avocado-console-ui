@@ -1,0 +1,28 @@
+{
+	"pages": {
+		"home": {
+			"navigation": {},
+			"tab": {},
+			"aside": {},
+			"ssh": {},
+			"sftp": {}
+		},
+		"setting": {},
+		"signin": {},
+		"footer": {}
+	},
+	"components": {
+		"button": {},
+		"checkbox": {},
+		"context-menu": {},
+		"form": {},
+		"icon": {},
+		"input": {},
+		"radio": {},
+		"select": {}
+	},
+	"default": {
+		"color": {},
+		"border": {}
+	}
+}

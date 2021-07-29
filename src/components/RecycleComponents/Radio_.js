@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import radio from '../../json/default/radio.json';
+import radio from '../../json/components/radio.json';
 
 const _Container = styled.div`
 	padding: 0px 8px;
