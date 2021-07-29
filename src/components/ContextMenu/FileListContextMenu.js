@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {OPEN_INPUT_POPUP, OPEN_WARNING_ALERT_POPUP} from '../../reducers/popup';
+import {
+	OPEN_INPUT_POPUP,
+	OPEN_STAT_FORM_POPUP,
+	OPEN_WARNING_ALERT_POPUP,
+} from '../../reducers/popup';
 import {ContextMenu} from '../../styles/default';
 import {
 	ADD_HISTORY,
@@ -177,13 +181,13 @@ const FileListContextMenu = ({uuid}) => {
 					break;
 
 				case 'attr_work':
-					dispatch(
-						commandStatAction({
-							stat_path: path,
-							file: highlight[0],
-							socket: socket,
-						}),
-					);
+					dispatch({
+						type: OPEN_STAT_FORM_POPUP,
+						payload: {
+							uuid: uuid,
+							key: 'sftp_stat',
+						},
+					});
 					break;
 				default:
 					return;

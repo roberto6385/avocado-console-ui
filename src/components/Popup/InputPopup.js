@@ -14,8 +14,7 @@ import {
 	PopupModal,
 } from '../../styles/default';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/button';
-import {fontColor} from '../../styles/color';
-import {IconButton, DefaultIconButton} from '../../styles/icon';
+import {DefaultIconButton} from '../../styles/icon';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;

@@ -8,6 +8,7 @@ export const initialState = {
 	add_server_form_popup: {open: false},
 	add_favorites_form_popup: {open: false},
 	account_form_popup: {open: false},
+	stat_form_popup: {open: false},
 };
 
 export const OPEN_ALERT_POPUP = 'OPEN_ALERT_POPUP';
@@ -30,6 +31,9 @@ export const CLOSE_ADD_FAVORITES_FORM_POPUP = 'CLOSE_ADD_FAVORITES_FORM_POPUP';
 
 export const OPEN_ADD_ACCOUT_FORM_POPUP = 'OPEN_ADD_ACCOUT_FORM_POPUP';
 export const CLOSE_ADD_ACCOUT_FORM_POPUP = 'CLOSE_ADD_ACCOUT_FORM_POPUP';
+
+export const OPEN_STAT_FORM_POPUP = 'OPEN_STAT_FORM_POPUP';
+export const CLOSE_STAT_FORM_POPUP = 'CLOSE_STAT_FORM_POPUP';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -107,6 +111,20 @@ const reducer = (state = initialState, action) => {
 			}
 			case CLOSE_ADD_ACCOUT_FORM_POPUP:
 				draft.account_form_popup = {open: false};
+				break;
+
+			case OPEN_STAT_FORM_POPUP:
+				draft.stat_form_popup = {
+					open: true,
+					key: action.payload.key,
+					uuid: action.payload.uuid,
+				};
+				break;
+
+			case CLOSE_STAT_FORM_POPUP:
+				draft.stat_form_popup = {
+					open: false,
+				};
 				break;
 
 			default:

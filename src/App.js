@@ -27,6 +27,7 @@ import {
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import base64 from 'base-64';
+import FileStatForm from "./components/Form/FileStatForm";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -96,6 +97,7 @@ const App = () => {
 			</Switch>
 			<AddServerForm />
 			<AddFavoritesForm />
+			<FileStatForm/>
 			<AlertPopup />
 			<WarningAlertPopup />
 			<InputPopup />
