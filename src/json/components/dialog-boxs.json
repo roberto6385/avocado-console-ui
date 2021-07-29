@@ -1,0 +1,18 @@
+{
+	"normal-style": {
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {
+			"color": ""
+		},
+		"sub-block": {
+			"background-color": "",
+			"selected": {
+				"background-color": "",
+				"border": {
+					"color": ""
+				}
+			}
+		}
+	}
+}

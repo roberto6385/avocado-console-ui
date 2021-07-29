@@ -2,18 +2,135 @@
 	"pages": {
 		"web-terminal": {
 			"main": {
-				"navigation": {},
+				"navigation": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+
+					"tab": {
+						"selected": {
+							"font": {"color": ""},
+							"border": {
+								"color": ""
+							}
+						}
+					},
+
+					"items": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						},
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				},
 				"tab": {},
 				"aside": {},
-				"ssh": {},
+				"ssh": {
+					"toolbar": {
+						"font": {"color": ""},
+						"background-color": "",
+						"border": {"color": ""}
+					},
+					"terminal": {
+						"font": {"color": ""},
+						"background-color": ""
+					},
+					"search": {
+						"background-color": "",
+						"input": {
+							"font": {"color": ""},
+							"background-color": ""
+						}
+					}
+				},
 				"sftp": {}
 			},
 
-			"setting": {}
+			"setting": {
+				"header": {
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				},
+
+				"navigation": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"items": {
+						"border": {
+							"color": ""
+						},
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				},
+
+				"content": {
+					"normal-style": {
+						"font": {"color": ""},
+						"background-color": "",
+						"title": {
+							"border": {
+								"color": ""
+							}
+						}
+					},
+					"identities-page-style": {
+						"font": {"color": ""},
+						"background-color": "",
+						"border": {
+							"color": ""
+						},
+						"items": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							},
+							"selected": {
+								"resource-table-style": {
+									"background-color": ""
+								},
+								"account-table-style": {"background-color": ""}
+							}
+						}
+					}
+				}
+			}
 		},
 		"sign-in": {},
 		"default": {
-			"footer": {}
+			"footer": {
+				"font": {
+					"color": ""
+				},
+				"background": {},
+				"icon-button": {
+					"font": {
+						"color": ""
+					},
+					"hover": {
+						"font": {
+							"color": ""
+						}
+					}
+				}
+			}
 		}
 	},
 
@@ -21,7 +138,46 @@
 		"color": {},
 		"border": {},
 		"pages": {
-			"button": {},
+			"button": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"hover": {"background-color": ""},
+					"active": {"background-color": ""}
+				},
+
+				"warning-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"hover": {"background-color": ""},
+					"active": {"background-color": ""}
+				},
+
+				"transparent-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"hover": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						}
+					},
+					"active": {
+						"background-color": "",
+						"border": {
+							"color": ""
+						}
+					}
+				},
+
+				"disabled-style": {
+					"font": {"color": ""},
+					"background-color": ""
+				}
+			},
 			"checkbox": {
 				"background": {}
 			},
@@ -33,12 +189,48 @@
 					"background": {}
 				}
 			},
-			"dialog": {},
-			"panel": {},
+			"dialog-boxs": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					},
+					"sub-block": {
+						"background-color": "",
+						"selected": {
+							"background-color": "",
+							"border": {
+								"color": ""
+							}
+						}
+					}
+				}
+			},
+			"panels": {
+				"normal-style": {
+					"font": {"color": ""},
+					"background-color": "",
+					"border": {
+						"color": ""
+					}
+				}
+			},
 			"icons": {
 				"dynamic": {
-					"simple": {},
-					"button": {}
+					"simple": {
+						"font": {"color": ""},
+						"selected": {"font": {"color": ""}},
+						"normal": {"font": {"color": ""}},
+						"warning": {"font": {"color": ""}}
+					},
+					"button": {"font": {"color": ""}},
+					"hover-button": {
+						"font": {"color": ""},
+						"hover": {
+							"font": {"color": ""}
+						}
+					}
 				},
 				"images": {}
 			},

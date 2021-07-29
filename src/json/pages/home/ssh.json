@@ -1,13 +1,18 @@
 {
+	"toolbar": {
+		"font": {"color": ""},
+		"background-color": "",
+		"border": {"color": ""}
+	},
 	"terminal": {
-		"color": {},
-		"background": {}
+		"font": {"color": ""},
+		"background-color": ""
 	},
 	"search": {
-		"background": {},
+		"background-color": "",
 		"input": {
-			"color": {},
-			"background": {}
+			"font": {"color": ""},
+			"background-color": ""
 		}
 	}
 }

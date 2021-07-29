@@ -1,21 +1,29 @@
 {
-	"color": {},
-	"background": {},
-	"border": {},
+	"font": {"color": ""},
+	"background-color": "",
+	"border": {
+		"color": ""
+	},
 
 	"tab": {
 		"selected": {
-			"color": {},
-			"border": {}
+			"font": {"color": ""},
+			"border": {
+				"color": ""
+			}
 		}
 	},
 
-	"item": {
-		"background": {},
-		"border": {},
+	"items": {
+		"background-color": "",
+		"border": {
+			"color": ""
+		},
 		"selected": {
-			"background": {},
-			"border": {}
+			"background-color": "",
+			"border": {
+				"color": ""
+			}
 		}
 	}
 }
