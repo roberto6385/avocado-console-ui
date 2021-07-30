@@ -17,7 +17,6 @@ import {
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
@@ -72,7 +71,7 @@ const WarningAlertPopup = () => {
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
-	}, [dispatch]);
+	}, []);
 
 	const cancelFunction = useCallback(() => {
 		warning_alert_popup.key === 'sftp_delete_file_folder' &&

@@ -16,7 +16,7 @@ import {
 	CLOSE_ADD_SERVER_FORM_POPUP,
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
-import TextBox_ from '../RecycleComponents/TextBox_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {
@@ -55,7 +55,7 @@ const _FileInput = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _InputFiled = styled(TextBox_)`
+const _InputFiled = styled(TextBoxField_)`
 	margin-right: 16px;
 `;
 
@@ -143,7 +143,7 @@ const AddServerDialog = () => {
 		{value: 'KeyFile', label: t('keyFile')},
 	];
 
-	const onClickCloseModal = useCallback(() => {
+	const onClickCloseDialog = useCallback(() => {
 		dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
 	}, [dispatch]);
 
@@ -250,7 +250,7 @@ const AddServerDialog = () => {
 						},
 					});
 
-				onClickCloseModal();
+				onClickCloseDialog();
 			}
 		},
 		[
@@ -269,7 +269,7 @@ const AddServerDialog = () => {
 			correspondedIdentity,
 			account,
 			clicked_server,
-			onClickCloseModal,
+			onClickCloseDialog,
 		],
 	);
 
@@ -364,7 +364,7 @@ const AddServerDialog = () => {
 	return (
 		<_PopupModal
 			isOpen={add_server_form_popup.open}
-			onRequestClose={onClickCloseModal}
+			onRequestClose={onClickCloseDialog}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			theme_value={theme}
@@ -373,7 +373,7 @@ const AddServerDialog = () => {
 			<ModalHeader theme_value={theme}>
 				<div>{t('addServer')}</div>
 				<IconButton
-					onClick={onClickCloseModal}
+					onClick={onClickCloseDialog}
 					theme_value={theme}
 					size={'20px'}
 					margin={'0px'}
@@ -417,7 +417,7 @@ const AddServerDialog = () => {
 						/>
 					</_InputFiled>
 					<_SecondItem>
-						<TextBox_ title={t('port')}>
+						<TextBoxField_ title={t('port')}>
 							<_Input
 								theme_value={theme}
 								type='number'
@@ -426,7 +426,7 @@ const AddServerDialog = () => {
 								readOnly
 								placeholder={t('place.port')}
 							/>
-						</TextBox_>
+						</TextBoxField_>
 					</_SecondItem>
 				</_ItemContainer>
 
@@ -452,7 +452,7 @@ const AddServerDialog = () => {
 					</_SecondItem>
 				</_ItemContainer>
 				<_ItemContainer>
-					<TextBox_ title={t('userName')} flex={1}>
+					<TextBoxField_ title={t('userName')} flex={1}>
 						<Input
 							theme_value={theme}
 							type='text'
@@ -461,11 +461,11 @@ const AddServerDialog = () => {
 							readOnly
 							placeholder={t('place.userName')}
 						/>
-					</TextBox_>
+					</TextBoxField_>
 				</_ItemContainer>
 				{authentication === 'Password' ? (
 					<_ItemContainer>
-						<TextBox_ title={t('password')} flex={1}>
+						<TextBoxField_ title={t('password')} flex={1}>
 							<Input
 								theme_value={theme}
 								type='password'
@@ -474,12 +474,12 @@ const AddServerDialog = () => {
 								readOnly
 								placeholder={t('place.password')}
 							/>
-						</TextBox_>
+						</TextBoxField_>
 					</_ItemContainer>
 				) : (
 					<React.Fragment>
 						<_ItemContainer>
-							<TextBox_ title={t('private')} flex={1}>
+							<TextBoxField_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -498,7 +498,7 @@ const AddServerDialog = () => {
 										placeholder={t('keyFile')}
 									/>
 								</_Label>
-							</TextBox_>
+							</TextBoxField_>
 							<_SecondaryGreenButton
 								theme_value={theme}
 								onClick={(e) => {
@@ -515,7 +515,7 @@ const AddServerDialog = () => {
 						</_ItemContainer>
 
 						<_ItemContainer>
-							<TextBox_ title={t('keyFilePassword')} flex={1}>
+							<TextBoxField_ title={t('keyFilePassword')} flex={1}>
 								<Input
 									theme_value={theme}
 									type='password'
@@ -524,12 +524,12 @@ const AddServerDialog = () => {
 									readOnly
 									placeholder={t('place.password')}
 								/>
-							</TextBox_>
+							</TextBoxField_>
 						</_ItemContainer>
 					</React.Fragment>
 				)}
 				<_ItemContainer>
-					<TextBox_ title={t('note')} flex={1}>
+					<TextBoxField_ title={t('note')} flex={1}>
 						<Input
 							theme_value={theme}
 							type='text'
@@ -538,13 +538,13 @@ const AddServerDialog = () => {
 							readOnly
 							placeholder={t('place.note')}
 						/>
-					</TextBox_>
+					</TextBoxField_>
 				</_ItemContainer>
 			</Form>
 			<ModalFooter theme_value={theme}>
 				<PrimaryGreyButton
 					theme_value={theme}
-					onClick={onClickCloseModal}
+					onClick={onClickCloseDialog}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}

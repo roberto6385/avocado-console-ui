@@ -5,7 +5,7 @@ import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
@@ -25,6 +25,7 @@ import {
 	ModalHeader,
 	PopupModal,
 } from '../../styles/components/disalogBox';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -202,7 +203,7 @@ const AddAccountDialog = () => {
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
-					<InputFiled_ title={t('identity')} flex={1}>
+					<TextBoxField_ title={t('identity')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -212,7 +213,7 @@ const AddAccountDialog = () => {
 							onChange={onChangeIdentity}
 							placeholder={t('place.identity')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 					<Select_
 						width={'178px'}
 						title={t('auth')}
@@ -223,7 +224,7 @@ const AddAccountDialog = () => {
 					/>
 				</_Item>
 				<_Item>
-					<InputFiled_ title={t('userName')} flex={1}>
+					<TextBoxField_ title={t('userName')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -233,11 +234,11 @@ const AddAccountDialog = () => {
 							onChange={onChangeUsername}
 							placeholder={t('place.userName')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 				</_Item>
 				{authentication === 'Password' ? (
 					<_Item>
-						<InputFiled_ title={t('password')} flex={1}>
+						<TextBoxField_ title={t('password')} flex={1}>
 							<_LongInput
 								back={greyNormalButtonBackgroundColor[theme]}
 								color={fontColor[theme]}
@@ -247,12 +248,12 @@ const AddAccountDialog = () => {
 								onChange={onChangePassword}
 								placeholder={t('place.password')}
 							/>
-						</InputFiled_>
+						</TextBoxField_>
 					</_Item>
 				) : (
 					<React.Fragment>
 						<_Item>
-							<InputFiled_ title={t('private')} flex={1}>
+							<TextBoxField_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -269,7 +270,7 @@ const AddAccountDialog = () => {
 										onChange={onChangeKeyFile}
 									/>
 								</_Label>
-							</InputFiled_>
+							</TextBoxField_>
 							<_BrowseButton
 								onClick={(e) => {
 									e.preventDefault();
@@ -285,7 +286,10 @@ const AddAccountDialog = () => {
 						</_Item>
 
 						<_Item>
-							<InputFiled_ title={t('keyFilePassword')} flex={1}>
+							<TextBoxField_
+								title={t('keyFilePassword')}
+								flex={1}
+							>
 								<_LongInput
 									back={
 										greyNormalButtonBackgroundColor[theme]
@@ -297,12 +301,12 @@ const AddAccountDialog = () => {
 									onChange={onChangePassword}
 									placeholder={t('place.password')}
 								/>
-							</InputFiled_>
+							</TextBoxField_>
 						</_Item>
 					</React.Fragment>
 				)}
 				<_Item>
-					<InputFiled_ title={t('note')} flex={1}>
+					<TextBoxField_ title={t('note')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -312,7 +316,7 @@ const AddAccountDialog = () => {
 							onChange={onChangeNote}
 							placeholder={t('place.note')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 				</_Item>
 			</_Form>
 			<ModalFooter theme_value={theme}>

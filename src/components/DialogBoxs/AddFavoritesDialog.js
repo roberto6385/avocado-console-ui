@@ -15,11 +15,18 @@ import {
 } from '../../reducers/popup';
 import {closeIcon} from '../../icons/icons';
 import {borderColor, fontColor} from '../../styles/color';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
 import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
 import {IconButton} from '../../styles/components/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/disalogBox";
-import {Form} from "../../styles/components/form";
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

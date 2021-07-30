@@ -66,6 +66,26 @@ export const ServerItem = styled(Nav.Item)`
 	}
 `;
 
+function searchTree(v, data) {
+	if (v.type === 'server' || !v.contain.length) {
+		return JSON.stringify(v) === JSON.stringify(data);
+	}
+
+	for (let x of v.contain) {
+		let result = searchTree(x, data);
+		if (result) return result;
+	}
+	return false;
+}
+
+function startSearchTree(root, data) {
+	for (let x of root) {
+		const result = searchTree(x, data);
+		if (result) return result;
+	}
+	return false;
+}
+
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity, favorites} = useSelector(
@@ -184,26 +204,6 @@ const Server = ({data, indent}) => {
 		[data, dispatch],
 	);
 
-	function searchTree(v, data) {
-		if (v.type === 'server' || !v.contain.length) {
-			return JSON.stringify(v) === JSON.stringify(data);
-		}
-
-		for (let x of v.contain) {
-			let result = searchTree(x, data);
-			if (result) return result;
-		}
-		return false;
-	}
-
-	function searchTreeStart(root, data) {
-		for (let x of root) {
-			const result = searchTree(x, data);
-			if (result) return result;
-		}
-		return false;
-	}
-
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -261,7 +261,7 @@ const Server = ({data, indent}) => {
 					)}
 					<IconButton
 						className={
-							searchTreeStart(favorites, data)
+							startSearchTree(favorites, data)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -269,10 +269,10 @@ const Server = ({data, indent}) => {
 						margin_right={'0px'}
 						theme_value={theme}
 						onClick={handleBookmark(
-							searchTreeStart(favorites, data),
+							startSearchTree(favorites, data),
 						)}
 						color={
-							searchTreeStart(favorites, data)
+							startSearchTree(favorites, data)
 								? activeColor[theme]
 								: iconColor[theme]
 						}

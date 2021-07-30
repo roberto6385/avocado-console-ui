@@ -21,7 +21,7 @@ import {
 import {PrimaryRedButton} from '../../styles/components/button';
 import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
-import {HoverButton, Icon} from "../../styles/components/icon";
+import {HoverButton, Icon} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	height: 100%;
@@ -85,7 +85,7 @@ const Pane = ({uuid, type, server}) => {
 		history: sftp_history,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const onClickChangeTab = useCallback(() => {
+	const onClickChangeCurrentTab = useCallback(() => {
 		if (current_tab !== uuid)
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, dispatch, uuid]);
@@ -182,7 +182,7 @@ const Pane = ({uuid, type, server}) => {
 	}, [sftp_socketState, ssh, type, uuid]);
 
 	return (
-		<_Container onClick={onClickChangeTab}>
+		<_Container onClick={onClickChangeCurrentTab}>
 			{ready === 3 && (
 				<_ReconectBlock>
 					<PrimaryRedButton onClick={onReconnect}>

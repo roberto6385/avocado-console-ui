@@ -14,18 +14,18 @@ import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
 import {disconnectAction} from '../../reducers/sftp';
 
-const _TabsContianer = styled.div`
-	display: flex;
-	overflow: auto;
-	max-width: calc(100% - 152px);
-	height: 54px;
-`;
-
-const _TabBar = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background: ${(props) => tabbarColor[props.theme_value]};
+`;
+
+const _Tabs = styled.div`
+	display: flex;
+	overflow: auto;
+	max-width: calc(100% - 152px);
+	height: 54px;
 `;
 
 const _TabItem = styled.div`
@@ -58,7 +58,7 @@ const _Tab = styled.div`
 	justify-content: space-between;
 `;
 
-const _ServerName = styled.div`
+const _ServerTitle = styled.div`
 	flex: 1;
 	overflow: hidden;
 `;
@@ -80,7 +80,7 @@ const TabBar = () => {
 	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);
 
-	const onChangeChangeVisibleTab = useCallback(
+	const onClickChangeVisibleTab = useCallback(
 		(uuid) => () => {
 			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
 		},
@@ -139,15 +139,15 @@ const TabBar = () => {
 	);
 
 	return (
-		<_TabBar theme_value={theme}>
-			<_TabsContianer>
+		<_Container theme_value={theme}>
+			<_Tabs>
 				{tab.map((data) => {
 					return (
 						<_Tab
 							key={data.uuid}
 							onDragOver={(e) => e.preventDefault()}
 							onDrop={nextPutItem(data)}
-							onClick={onChangeChangeVisibleTab(data.uuid)}
+							onClick={onClickChangeVisibleTab(data.uuid)}
 						>
 							<_TabItem
 								draggable='true'
@@ -167,13 +167,11 @@ const TabBar = () => {
 									{data.type === 'SSH' && sshIcon}
 									{data.type === 'SFTP' && sftpIcon}
 								</Icon>
-								<_ServerName
-									onClick={onChangeChangeVisibleTab(
-										data.uuid,
-									)}
+								<_ServerTitle
+									onClick={onClickChangeVisibleTab(data.uuid)}
 								>
 									{data.server.name}
-								</_ServerName>
+								</_ServerTitle>
 								<HoverButton
 									size={'xs'}
 									margin={'0px 0px 0px 6px'}
@@ -186,9 +184,9 @@ const TabBar = () => {
 						</_Tab>
 					);
 				})}
-			</_TabsContianer>
+			</_Tabs>
 			<RightCornerIcons toggle={asideToggle} setToggle={setAsideToggle} />
-		</_TabBar>
+		</_Container>
 	);
 };
 

@@ -57,9 +57,9 @@ const InputPopup = () => {
 		sftp_new_folder: t('newFolderPlace'),
 	};
 
-	const closeModal = useCallback(() => {
+	const onClickCloseModal = useCallback(() => {
 		dispatch({type: CLOSE_INPUT_POPUP});
-	}, [dispatch]);
+	}, []);
 
 	const submitFunction = useCallback(
 		(e) => {
@@ -104,11 +104,11 @@ const InputPopup = () => {
 				default:
 					break;
 			}
-			closeModal();
+			onClickCloseModal();
 		},
 		[
 			input_popup,
-			closeModal,
+			onClickCloseModal,
 			dispatch,
 			socket,
 			uuid,
@@ -143,7 +143,7 @@ const InputPopup = () => {
 	return (
 		<_PopupModal
 			isOpen={input_popup.open}
-			onRequestClose={closeModal}
+			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			theme_value={theme}
@@ -154,7 +154,7 @@ const InputPopup = () => {
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
-					onClick={closeModal}
+					onClick={onClickCloseModal}
 				>
 					{closeIcon}
 				</IconButton>
@@ -171,7 +171,10 @@ const InputPopup = () => {
 			</_Form>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
+				<PrimaryGreyButton
+					theme_value={theme}
+					onClick={onClickCloseModal}
+				>
 					{t('cancel')}
 				</PrimaryGreyButton>
 				<PrimaryGreenButton

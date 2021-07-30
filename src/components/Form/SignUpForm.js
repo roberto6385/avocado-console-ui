@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import TextBox_ from '../RecycleComponents/TextBox_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
@@ -157,31 +157,31 @@ const SignUpForm = () => {
 				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
 			</UserTitleSpan>
 
-			<TextBox_ marginBottom={'18px'}>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserInput
 					ref={idRef}
 					value={id}
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</TextBox_>
+			</TextBoxField_>
 
-			<TextBox_ marginBottom={'18px'}>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserInput
 					value={name}
 					onChange={onChangeName}
 					placeholder={t('name')}
 				/>
-			</TextBox_>
+			</TextBoxField_>
 
-			<TextBox_ marginBottom={'18px'}>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserInput
 					value={email}
 					onChange={onChangeEmail}
 					placeholder={t('email')}
 				/>
-			</TextBox_>
-			<TextBox_ marginBottom={'18px'}>
+			</TextBoxField_>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'password_container'}>
 					<_PasswordInput
 						onFocus={focusin('password')}
@@ -203,8 +203,8 @@ const SignUpForm = () => {
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
-			</TextBox_>
-			<TextBox_ marginBottom={'18px'}>
+			</TextBoxField_>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'passwordConfirm_container'}>
 					<_PasswordInput
 						onFocus={focusin('confirm')}
@@ -216,7 +216,7 @@ const SignUpForm = () => {
 						placeholder={t('confirmPassword')}
 					/>
 				</UserPasswordContainer>
-			</TextBox_>
+			</TextBoxField_>
 			<_PrimaryGreenButton type='submit'>
 				{t('signUp')}
 			</_PrimaryGreenButton>

@@ -41,37 +41,8 @@ const MainPage = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
-	// 삭제 ㄴㄴ
-	//
-	// const refresh = useCallback(() => {
-	// 	dispatch(
-	// 		getRefreshTicket({
-	// 			Authorization: 'Basic ' + encodeData,
-	// 			refresh_token: userTicket.refresh_token,
-	// 		}),
-	// 	);
-	// }, [userTicket, dispatch, encodeData]);
-	//
-	// const verify = useCallback(() => {
-	// 	dispatch(
-	// 		getVerify({
-	// 			Authorization: 'Bearer ' + userTicket.access_token,
-	// 		}),
-	// 	);
-	// }, [userTicket, dispatch]);
-	//
-	// const findActiveToken = useCallback(() => {
-	// 	dispatch(
-	// 		findToken({
-	// 			offset: 0, //레코드 넘버
-	// 			limit: 20, // 조회할 데이터 개수
-	// 		}),
-	// 	);
-	// }, [encodeData, userTicket]);
-
-	const onClickVisibleForm = useCallback(() => {
+	const onClickOpenAddServerDialog = useCallback(() => {
 		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
 	}, [dispatch]);
 
@@ -84,7 +55,7 @@ const MainPage = () => {
 					<_Text color={logoColor[theme]}>{t('title')}</_Text>
 				)}
 				{/*<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>*/}
-				{/*<PrimaryButton onClick={onClickVisibleForm}>*/}
+				{/*<PrimaryButton onClick={onClickOpenAddServerDialog}>*/}
 				{/*	{t('addServer')}*/}
 				{/*</PrimaryButton>*/}
 			</_Contents>

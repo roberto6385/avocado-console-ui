@@ -53,7 +53,7 @@ function searchTreeNode(node, name) {
 	return val;
 }
 
-function searchTreeStart(root, name) {
+function startSearchTree(root, name) {
 	let tempRoot = [];
 	for (let x of root) {
 		const result = searchTreeNode(x, name);
@@ -65,11 +65,11 @@ function searchTreeStart(root, name) {
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
 	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
-	const [filteredNav, setfilteredNav] = useState(nav);
+	const [filteredNavList, setFilteredNavList] = useState(nav);
 
 	const dropNavList = useCallback(() => {
 		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
-	}, [dispatch]);
+	}, []);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');
@@ -80,12 +80,12 @@ const ServerFolderList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredNav(searchTreeStart(nav, search));
+		setFilteredNavList(startSearchTree(nav, search));
 	}, [nav, search]);
 
 	return (
 		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
-			{filteredNav.map((data) =>
+			{filteredNavList.map((data) =>
 				data.type === 'folder' ? (
 					<Folder
 						key={data.key}

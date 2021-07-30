@@ -10,7 +10,6 @@ import {
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
 import {Icon, IconButton} from '../../styles/components/icon';
 import {
 	AlertText,

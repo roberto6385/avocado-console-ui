@@ -16,7 +16,7 @@ const _Title = styled.div`
 	line-height: 1.5;
 `;
 
-const TextBox_ = ({title, children, flex, marginBottom}) => {
+const TextBoxField_ = ({title, children, flex, marginBottom}) => {
 	return (
 		<_Container flex={flex} marginBottom={marginBottom}>
 			{title && <_Title>{title}</_Title>}
@@ -25,11 +25,11 @@ const TextBox_ = ({title, children, flex, marginBottom}) => {
 	);
 };
 
-TextBox_.propTypes = {
+TextBoxField_.propTypes = {
 	title: PropTypes.string,
 	children: PropTypes.element.isRequired,
 	flex: PropTypes.number,
 	marginBottom: PropTypes.string,
 };
 
-export default TextBox_;
+export default TextBoxField_;

@@ -63,7 +63,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	const openAccount = useCallback(
+	const openAccountMenu = useCallback(
 		(e) => {
 			showAccountMenu(e, {
 				position: getAccountMenuPosition(),
@@ -72,7 +72,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getAccountMenuPosition, showAccountMenu],
 	);
 
-	const openSetting = useCallback(
+	const openSettingMenu = useCallback(
 		(e) => {
 			showSettingMenu(e, {
 				position: getSettingMenuPosition(),
@@ -81,11 +81,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
-	const openNotification = useCallback(() => {
+	const openNotificationMenu = useCallback(() => {
 		setShownotificationMenu(true);
 	}, []);
 
-	const openColumn = useCallback(
+	const openColumnMenu = useCallback(
 		(e) => {
 			showColumnMenu(e, {
 				position: getColumnMenuPosition(),
@@ -99,14 +99,14 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<HoverButton
 				theme_value={theme}
 				ref={accountRef}
-				onClick={openAccount}
+				onClick={openAccountMenu}
 			>
 				{accountIcon}
 			</HoverButton>
 			<HoverButton
 				theme_value={theme}
 				ref={settingRef}
-				onClick={openSetting}
+				onClick={openSettingMenu}
 			>
 				{settingIcon}
 			</HoverButton>
@@ -114,7 +114,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 			<HoverButton
 				theme_value={theme}
 				ref={notificationRef}
-				onClick={openNotification}
+				onClick={openNotificationMenu}
 			>
 				{notificationIcon}
 			</HoverButton>
@@ -123,7 +123,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 				<HoverButton
 					theme_value={theme}
 					ref={columnRef}
-					onClick={openColumn}
+					onClick={openColumnMenu}
 				>
 					{windowIcon}
 				</HoverButton>

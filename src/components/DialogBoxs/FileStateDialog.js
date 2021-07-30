@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import {closeIcon} from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
-import TextBox_ from '../RecycleComponents/TextBox_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
@@ -163,14 +163,14 @@ const FileStateDialog = () => {
 						);
 					})}
 				</div>
-				<TextBox_>
+				<TextBoxField_>
 					<UserInput
 						type='number'
 						max={777}
 						value={permission}
 						onChange={(e) => setPermission(e.target.value)}
 					/>
-				</TextBox_>
+				</TextBoxField_>
 			</_Form>
 
 			<ModalFooter theme_value={theme}>

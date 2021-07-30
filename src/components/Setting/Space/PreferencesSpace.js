@@ -15,9 +15,13 @@ import {
 } from '../../../reducers/ssh';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {useTranslation} from 'react-i18next';
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
+import {
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../../styles/components/settingPage';
 
-const CheckboxContanier = styled.div`
+const _CheckBoxContanier = styled.div`
 	margin-bottom: 16px;
 `;
 
@@ -115,13 +119,13 @@ const PreferencesSpace = () => {
 					value={terminalFont}
 					setValue={setTerminalFont}
 				/>
-				<CheckboxContanier>
+				<_CheckBoxContanier>
 					<CheckBox_
 						title={t('textCompletion')}
 						value={textCompletion}
 						handleCheck={(e) => setTextCompletion(e.target.checked)}
 					/>
-				</CheckboxContanier>
+				</_CheckBoxContanier>
 				{/*<CheckBox_*/}
 				{/*	title={'Copy text on selection'}*/}
 				{/*	value={copyText}*/}

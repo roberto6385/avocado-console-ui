@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import TextBox_ from '../../RecycleComponents/TextBox_';
+import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import Select_ from '../../RecycleComponents/Select_';
 import ChangePasswordDialog from '../../DialogBoxs/ChangePasswordDialog';
@@ -73,15 +73,15 @@ const AccountSpace = () => {
 				{t('title.account')}
 			</SettingTitle>
 			<SettingContentsContainer>
-				<TextBox_ title={t('account')}>
+				<TextBoxField_ title={t('account')}>
 					<_Input
 						theme_value={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
 					/>
-				</TextBox_>
-				<TextBox_ title={t('name')}>
+				</TextBoxField_>
+				<TextBoxField_ title={t('name')}>
 					<_Input
 						value={account.name}
 						theme_value={theme}
@@ -89,15 +89,15 @@ const AccountSpace = () => {
 						readOnly
 						onClick={() => setNameOpen(true)}
 					/>
-				</TextBox_>
-				<TextBox_ title={t('email')}>
+				</TextBoxField_>
+				<TextBoxField_ title={t('email')}>
 					<_Input
 						value={account.email}
 						theme_value={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
-				</TextBox_>
+				</TextBoxField_>
 			</SettingContentsContainer>
 			<SettingTitle theme_value={theme}>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>

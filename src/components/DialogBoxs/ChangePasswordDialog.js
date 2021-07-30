@@ -4,14 +4,13 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import TextBox_ from '../RecycleComponents/TextBox_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
 import {IconButton} from '../../styles/components/icon';
 import {
@@ -127,7 +126,7 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 				</IconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<TextBox_ title={t('current')}>
+				<TextBoxField_ title={t('current')}>
 					<Input
 						ref={currentRef}
 						type='password'
@@ -136,9 +135,9 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						placeholder={t('place.current')}
 						theme_value={theme}
 					/>
-				</TextBox_>
+				</TextBoxField_>
 
-				<TextBox_ title={t('new')}>
+				<TextBoxField_ title={t('new')}>
 					<Input
 						ref={passwordRef}
 						type='password'
@@ -147,8 +146,8 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						placeholder={t('place.new')}
 						theme_value={theme}
 					/>
-				</TextBox_>
-				<TextBox_ title={t('confirm')}>
+				</TextBoxField_>
+				<TextBoxField_ title={t('confirm')}>
 					<Input
 						ref={confirmRef}
 						type='password'
@@ -157,7 +156,7 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						placeholder={t('place.confirm')}
 						theme_value={theme}
 					/>
-				</TextBox_>
+				</TextBoxField_>
 			</Form>
 
 			<ModalFooter theme_value={theme}>

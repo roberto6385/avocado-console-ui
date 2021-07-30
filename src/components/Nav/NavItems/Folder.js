@@ -20,7 +20,7 @@ import {
 	navHighColor,
 } from '../../../styles/color';
 import styled from 'styled-components';
-import {HoverButton, Icon, IconButton} from '../../../styles/components/icon';
+import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarItemForm,
 	NavigationBarInput,
@@ -65,10 +65,11 @@ const Folder = ({open, data, indent}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const renameRef = useRef(null);
+
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+	const renameRef = useRef(null);
 
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
@@ -78,7 +79,7 @@ const Folder = ({open, data, indent}) => {
 		}
 	}, [clicked_server, data.key, dispatch]);
 
-	const onClickOpen = useCallback(() => {
+	const onClickOpenFolder = useCallback(() => {
 		setOpenTab(!openTab);
 	}, [openTab]);
 
@@ -239,7 +240,7 @@ const Folder = ({open, data, indent}) => {
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					onClick={onClickOpen}
+					onClick={onClickOpenFolder}
 					color={iconColor[theme]}
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}

@@ -102,7 +102,6 @@ const WorkSpace = () => {
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
 				<TabBar />
-
 				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}

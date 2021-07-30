@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import TextBox_ from '../RecycleComponents/TextBox_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {
@@ -38,7 +38,6 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 	);
 
 	const nameRef = useRef(null);
-
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
 
 	const closeModal = useCallback(() => {
@@ -96,7 +95,7 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 				</IconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<TextBox_ title={t('name')}>
+				<TextBoxField_ title={t('name')}>
 					<Input
 						ref={nameRef}
 						type='text'
@@ -105,7 +104,7 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 						placeholder={t('place.name')}
 						theme_value={theme}
 					/>
-				</TextBox_>
+				</TextBoxField_>
 			</Form>
 
 			<ModalFooter theme_value={theme}>

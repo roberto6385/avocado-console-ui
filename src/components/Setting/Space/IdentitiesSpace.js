@@ -17,8 +17,12 @@ import {
 	identityHigh,
 } from '../../../styles/color';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
-import {Icon} from "../../../styles/components/icon";
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
+import {Icon} from '../../../styles/components/icon';
+import {
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../../styles/components/settingPage';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -153,7 +157,7 @@ function searchTreeNode(node, key) {
 	return '';
 }
 
-function searchTreeStart(root, key) {
+function StartSearchTree(root, key) {
 	for (let x of root) {
 		const result = searchTreeNode(x, key);
 		if (result) return result;
@@ -290,7 +294,7 @@ const IdentitiesSpace = () => {
 									}
 								>
 									<_ResourceName>
-										{searchTreeStart(nav, item.key)}
+										{StartSearchTree(nav, item.key)}
 									</_ResourceName>
 									<_AddressName>{item.host}</_AddressName>
 									<_ProtocolPortName>
