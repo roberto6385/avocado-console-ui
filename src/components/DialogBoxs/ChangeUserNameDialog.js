@@ -4,23 +4,30 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import InputField_ from '../RecycleComponents/inputField_';
+import TextBox_ from '../RecycleComponents/TextBox_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
-import {DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
-import {Input} from "../../styles/components/input";
-import {Form} from "../../styles/components/form";
+import {IconButton} from '../../styles/components/icon';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import {Input} from '../../styles/components/input';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
 	width: 404px;
 `;
 
-const ChangeNameForm = ({open, setOpen}) => {
+const ChangeUserNameDialog = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
@@ -79,17 +86,17 @@ const ChangeNameForm = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<DefaultIconButton
-					color={fontColor[theme]}
+				<IconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<InputField_ title={t('name')}>
+				<TextBox_ title={t('name')}>
 					<Input
 						ref={nameRef}
 						type='text'
@@ -98,7 +105,7 @@ const ChangeNameForm = ({open, setOpen}) => {
 						placeholder={t('place.name')}
 						theme_value={theme}
 					/>
-				</InputField_>
+				</TextBox_>
 			</Form>
 
 			<ModalFooter theme_value={theme}>
@@ -113,9 +120,9 @@ const ChangeNameForm = ({open, setOpen}) => {
 	);
 };
 
-ChangeNameForm.propTypes = {
+ChangeUserNameDialog.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default ChangeNameForm;
+export default ChangeUserNameDialog;

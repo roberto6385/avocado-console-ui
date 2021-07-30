@@ -9,7 +9,7 @@ import {
 	SSH_CHANGE_SNIPPET_REQUEST,
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
-import InputField_ from '../RecycleComponents/inputField_';
+import TextBox_ from '../RecycleComponents/TextBox_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {
@@ -23,8 +23,8 @@ import {
 	snippetsListColor,
 } from '../../styles/color';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
-import {IconButton, DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {HoverButton, IconButton} from '../../styles/components/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/disalogBox";
 import {Input} from "../../styles/components/input";
 import {Form} from "../../styles/components/form";
 
@@ -287,35 +287,35 @@ const SnippetsManager = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('snippetsManager')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCancel}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<_ListContainer>
 				<_Ul theme_value={theme} back={mainBackColor[theme]}>
 					<_HeaderLi>
 						<_Header>{t('snippetList')}</_Header>
-						<IconButton
+						<HoverButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'8px'}
 							onClick={onClickAddSnippet}
 						>
 							{plusIcon}
-						</IconButton>
-						<IconButton
+						</HoverButton>
+						<HoverButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'0px'}
 							onClick={onClickRemoveSnippet}
 						>
 							{deleteIcon}
-						</IconButton>
+						</HoverButton>
 					</_HeaderLi>
 
 					{tempSnippets.map((v) => (
@@ -330,7 +330,7 @@ const SnippetsManager = ({open, setOpen}) => {
 					))}
 				</_Ul>
 				<_Form>
-					<InputField_ title={t('name')}>
+					<TextBox_ title={t('name')}>
 						<Input
 							autoFocus={true}
 							ref={nameInputRef}
@@ -340,8 +340,8 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.name')}
 							theme_value={theme}
 						/>
-					</InputField_>
-					<InputField_ title={t('content')}>
+					</TextBox_>
+					<TextBox_ title={t('content')}>
 						<_Textarea
 							value={content}
 							onChange={onChangeContent}
@@ -349,7 +349,7 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.content')}
 							theme_value={theme}
 						/>
-					</InputField_>
+					</TextBox_>
 				</_Form>
 			</_ListContainer>
 			<ModalFooter theme_value={theme}>

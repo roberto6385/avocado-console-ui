@@ -5,7 +5,7 @@ import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {logoColor, mainBackColor} from '../styles/color';
-import LoadingSpinner from './loadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 
 const _Container = styled.div`
 	background: ${(props) => props?.back};

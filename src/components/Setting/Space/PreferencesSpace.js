@@ -7,7 +7,7 @@ import {
 	ROBOTO_SLAP,
 } from '../../../styles/components/font';
 import Select_ from '../../RecycleComponents/Select_';
-import Checkbox_ from '../../RecycleComponents/Checkbox_';
+import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
@@ -116,13 +116,13 @@ const PreferencesSpace = () => {
 					setValue={setTerminalFont}
 				/>
 				<CheckboxContanier>
-					<Checkbox_
+					<CheckBox_
 						title={t('textCompletion')}
 						value={textCompletion}
 						handleCheck={(e) => setTextCompletion(e.target.checked)}
 					/>
 				</CheckboxContanier>
-				{/*<Checkbox_*/}
+				{/*<CheckBox_*/}
 				{/*	title={'Copy text on selection'}*/}
 				{/*	value={copyText}*/}
 				{/*	setValue={setCopyText}*/}

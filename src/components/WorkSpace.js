@@ -1,24 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 
-import Nav from './Nav';
 import MainPage from './MainPage';
-import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
-import RightCornerIcons from './RightCornerIcons';
-import PanesContainer from './PanesContainer';
+import PanesContainer from './Panels/PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../reducers/common';
-import {SSH_SEND_DISCONNECTION_REQUEST} from '../reducers/ssh';
-import {
-	activeColor,
-	fontColor,
-	mainBackColor,
-	tabbarColor,
-	tabColor,
-} from '../styles/color';
-import {disconnectAction} from '../reducers/sftp';
-import {IconButton, Icon} from "../styles/icon";
+import {mainBackColor} from '../styles/color';
+
+import TabBar from './Tab/TabBar';
+import NavBar from './Nav/NavBar';
 
 const _Container = styled.div`
 	display: flex;
@@ -56,43 +46,6 @@ const _MainContainer = styled.div`
 	flex-direction: column;
 `;
 
-const _Nav = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: ${(props) => tabbarColor[props.theme_value]};
-`;
-
-const _TabItem = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 16px;
-	height: 100%;
-	font-weight: bold;
-	background: ${(props) =>
-		props.clicked
-			? tabColor[props.theme_value]
-			: tabbarColor[props.theme_value]};
-	color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: fontColor[props.theme_value]};
-	width: 160px;
-	border-top: 2px solid;
-	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: tabbarColor[props.theme_value]};
-`;
-
-const _Tab = styled.div`
-	display: flex;
-	flex-warp: nowrap;
-	align-items: center;
-	justify-content: space-between;
-`;
-
 const _MainSpace = styled.div`
 	display: flex;
 	flex: 1;
@@ -128,160 +81,28 @@ const _WorkSpaceContainer = styled.div`
 	opacity: ${(props) => props?.opacity || 1};
 `;
 
-const _TabsContianer = styled.div`
-	display: flex;
-	overflow: auto;
-	max-width: calc(100% - 152px);
-	height: 54px;
-`;
-
-const _ServerName = styled.div`
-	flex: 1;
-	overflow: hidden;
-`;
-
 const WorkSpace = () => {
-	const dispatch = useDispatch();
-
-	const {tab, current_tab, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
-	const {ssh, loading: sshLoading} = useSelector(
+	const {tab, theme} = useSelector((state) => state.common, shallowEqual);
+	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
 	);
-	const {loading: sftpLoading, socket: sftp_socketState} = useSelector(
+	const {loading: sftpLoading} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
 	);
 
-	const [oldOlder, setOldOlder] = useState(0);
-	const [draggedItem, setDraggedItem] = useState({});
 	const [asideToggle, setAsideToggle] = useState(false);
 	const [navToggle, setNavToggle] = useState(true);
 
-	const onChangeChangeVisibleTab = useCallback(
-		(uuid) => () => {
-			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
-		},
-		[],
-	);
-
-	const onClickCloseTab = useCallback(
-		(data) => (e) => {
-			e.stopPropagation();
-			if (data.type === 'SSH') {
-				dispatch({
-					type: SSH_SEND_DISCONNECTION_REQUEST,
-					data: {
-						uuid: data.uuid,
-						ws: ssh.find((v) => v.uuid === data.uuid).ws,
-					},
-				});
-			} else if (data.type === 'SFTP') {
-				dispatch(
-					disconnectAction({
-						uuid: data.uuid,
-						socket: sftp_socketState.find(
-							(v) => v.uuid === data.uuid,
-						).socket,
-					}),
-				);
-			}
-		},
-		[ssh, sftp_socketState],
-	);
-
-	const prevPutItem = useCallback(
-		(item) => () => {
-			setOldOlder(tab.findIndex((it) => it === item));
-			setDraggedItem(item);
-		},
-		[tab],
-	);
-
-	const nextPutItem = useCallback(
-		(item) => (e) => {
-			e.preventDefault();
-			if (item === undefined) return;
-			const newOlder = tab.findIndex((it) => it === item);
-
-			dispatch({
-				type: SORT_TAB,
-				data: {
-					oldOrder: oldOlder,
-					newOrder: newOlder,
-					newTab: draggedItem,
-				},
-			});
-		},
-		[tab, dispatch, oldOlder, draggedItem],
-	);
-
 	return (
 		<_Container>
-			<Nav toggle={navToggle} setToggle={setNavToggle} />
+			<NavBar toggle={navToggle} setToggle={setNavToggle} />
 			<_MainContainer
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
-				<_Nav theme_value={theme}>
-					<_TabsContianer>
-						{tab.map((data) => {
-							return (
-								<_Tab
-									key={data.uuid}
-									onDragOver={(e) => e.preventDefault()}
-									onDrop={nextPutItem(data)}
-									onClick={onChangeChangeVisibleTab(
-										data.uuid,
-									)}
-								>
-									<_TabItem
-										draggable='true'
-										onDragStart={prevPutItem(data)}
-										clicked={
-											current_tab === data.uuid ? 1 : 0
-										}
-										theme_value={theme}
-									>
-										<Icon
-											margin_right={'6px'}
-											size={'xs'}
-											color={
-												current_tab === data.uuid
-													? activeColor[theme]
-													: fontColor[theme]
-											}
-										>
-											{data.type === 'SSH' && sshIcon}
-											{data.type === 'SFTP' && sftpIcon}
-										</Icon>
-										<_ServerName
-											onClick={onChangeChangeVisibleTab(
-												data.uuid,
-											)}
-										>
-											{data.server.name}
-										</_ServerName>
-										<IconButton
-											size={'xs'}
-											margin={'0px 0px 0px 6px'}
-											theme_value={theme}
-											onClick={onClickCloseTab(data)}
-										>
-											{closeIcon}
-										</IconButton>
-									</_TabItem>
-								</_Tab>
-							);
-						})}
-					</_TabsContianer>
-					<RightCornerIcons
-						toggle={asideToggle}
-						setToggle={setAsideToggle}
-					/>
-				</_Nav>
+				<TabBar />
+
 				<_MainSpace theme_value={theme}>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}

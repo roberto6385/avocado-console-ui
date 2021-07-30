@@ -5,14 +5,14 @@ import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {navColor} from '../../styles/color';
-import {HiddenScroll} from '../../styles/function';
-import FavoritesServer from './FavoritesServer';
-import FavoritesFolder from './FavoritesFolder';
+import {navColor} from '../../../styles/color';
+import {HiddenScroll} from '../../../styles/function';
+import FavoriteServer from './FavoriteServer';
+import FavoriteFolder from './FavoriteFolder';
 import {
 	LOCAL_SAVE_FAVORITES,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
+} from '../../../reducers/common';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -99,7 +99,7 @@ const FavoriteList = ({search}) => {
 		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
-					<FavoritesFolder
+					<FavoriteFolder
 						key={data.key + data.name}
 						open={search !== ''}
 						data={data}
@@ -107,7 +107,7 @@ const FavoriteList = ({search}) => {
 						temp={false}
 					/>
 				) : (
-					<FavoritesServer
+					<FavoriteServer
 						key={data.key + data.name}
 						data={data}
 						indent={1}

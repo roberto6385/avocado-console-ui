@@ -10,12 +10,12 @@ import {
 	PrimaryGreenButton,
 	PrimaryGreyButton,
 } from '../../styles/components/button';
-import {DefaultIconButton} from '../../styles/icon';
+import {IconButton} from '../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/modal';
+} from '../../styles/components/disalogBox';
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
 
@@ -150,14 +150,14 @@ const InputPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{HeaderMessage[input_popup.key]}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>

@@ -9,13 +9,13 @@ import {
 	notificationIcon,
 	settingIcon,
 	windowIcon,
-} from '../icons/icons';
-import SettingContextMenu from './ContextMenu/SettingContextMenu';
-import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
-import AccountContextMenu from './ContextMenu/AccountContextMenu';
-import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
-import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
-import {IconButton} from '../styles/icon';
+} from '../../icons/icons';
+import SettingContextMenu from '../ContextMenu/SettingContextMenu';
+import ColumnContextMenu from '../ContextMenu/ColumnContextMenu';
+import AccountContextMenu from '../ContextMenu/AccountContextMenu';
+import NotificationContextMenu from '../ContextMenu/NotificationContextMenu';
+import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
+import {HoverButton} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -96,37 +96,37 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<_Container>
-			<IconButton
+			<HoverButton
 				theme_value={theme}
 				ref={accountRef}
 				onClick={openAccount}
 			>
 				{accountIcon}
-			</IconButton>
-			<IconButton
+			</HoverButton>
+			<HoverButton
 				theme_value={theme}
 				ref={settingRef}
 				onClick={openSetting}
 			>
 				{settingIcon}
-			</IconButton>
+			</HoverButton>
 
-			<IconButton
+			<HoverButton
 				theme_value={theme}
 				ref={notificationRef}
 				onClick={openNotification}
 			>
 				{notificationIcon}
-			</IconButton>
+			</HoverButton>
 
 			{tab.length !== 0 && (
-				<IconButton
+				<HoverButton
 					theme_value={theme}
 					ref={columnRef}
 					onClick={openColumn}
 				>
 					{windowIcon}
-				</IconButton>
+				</HoverButton>
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />

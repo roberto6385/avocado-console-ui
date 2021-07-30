@@ -9,7 +9,7 @@ import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {WIDTH_256} from '../../../styles/length';
 import {borderColor, fontColor} from '../../../styles/color';
 import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
-import {IconButton} from "../../../styles/icon";
+import {HoverButton} from "../../../styles/components/icon";
 
 const _Container = styled.div`
 	min-width: ${WIDTH_256};
@@ -135,21 +135,21 @@ const HistoryNav = ({uuid}) => {
 		<_Container theme_value={theme}>
 			<_Title theme_value={theme}>{t('title')}</_Title>
 			<div>
-				<IconButton
+				<HoverButton
 					theme_value={theme}
 					margin={'10px'}
 					onClick={upload}
 				>
 					{fileUploadIcon}
-				</IconButton>
-				<IconButton
+				</HoverButton>
+				<HoverButton
 					theme_value={theme}
 					margin={'0px'}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
 					{deleteIcon}
-				</IconButton>
+				</HoverButton>
 			</div>
 		</_Container>
 	);

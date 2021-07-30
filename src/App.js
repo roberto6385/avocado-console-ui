@@ -18,16 +18,16 @@ import {
 	Redirect,
 } from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
-import AddServerForm from './components/Form/AddServerForm';
+import AddServerDialog from './components/DialogBoxs/AddServerDialog';
 import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
-import AddFavoritesForm from './components/Form/AddFavoritesForm';
+import AddFavoritesDialog from './components/DialogBoxs/AddFavoritesDialog';
 import {
 	REFRESH_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
-import FileStatForm from './components/Form/FileStatForm';
+import FileStateDialog from './components/DialogBoxs/FileStateDialog';
 import GlobalStyle from './styles/global/globalStyle';
 
 const App = () => {
@@ -99,9 +99,9 @@ const App = () => {
 				<Route path='/Redirect' component={Redirect} />
 				<Route component={NotFound} />
 			</Switch>
-			<AddServerForm />
-			<AddFavoritesForm />
-			<FileStatForm />
+			<AddServerDialog />
+			<AddFavoritesDialog />
+			<FileStateDialog />
 			<AlertPopup />
 			<WarningAlertPopup />
 			<InputPopup />

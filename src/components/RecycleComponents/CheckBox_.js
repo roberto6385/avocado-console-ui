@@ -13,7 +13,7 @@ const _I = styled.i`
 	border-radius: 4px;
 `;
 
-const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
+const CheckBox_ = ({title = '', theme_value, value, handleCheck}) => {
 	const theme = useSelector((state) => state.common.theme);
 
 	return (
@@ -35,11 +35,11 @@ const Checkbox_ = ({title = '', theme_value, value, handleCheck}) => {
 	);
 };
 
-Checkbox_.propTypes = {
+CheckBox_.propTypes = {
 	title: PropTypes.string,
 	theme_value: PropTypes.number,
 	value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
 	handleCheck: PropTypes.func.isRequired,
 };
 
-export default Checkbox_;
+export default CheckBox_;

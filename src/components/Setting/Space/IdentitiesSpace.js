@@ -16,8 +16,8 @@ import {
 	identitySearchInput,
 	identityHigh,
 } from '../../../styles/color';
-import Checkbox_ from '../../RecycleComponents/Checkbox_';
-import {Icon} from "../../../styles/icon";
+import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import {Icon} from "../../../styles/components/icon";
 import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
@@ -377,7 +377,7 @@ const IdentitiesSpace = () => {
 											: t('keyFile')}
 									</_UserNameType>
 									<_CheckBoxIdentity>
-										<Checkbox_
+										<CheckBox_
 											value={item.checked}
 											handleCheck={handleCheck(item)}
 										/>

@@ -16,9 +16,9 @@ import {
 import {closeIcon} from '../../icons/icons';
 import {borderColor, fontColor} from '../../styles/color';
 import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
-import FavoriteTempList from '../ServerFolderList/FavoritesTempList';
-import {DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
+import {IconButton} from '../../styles/components/icon';
+import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/disalogBox";
 import {Form} from "../../styles/components/form";
 
 const _PopupModal = styled(PopupModal)`
@@ -43,7 +43,7 @@ const _ModalFooter = styled(ModalFooter)`
 	justify-content: space-between;
 `;
 
-const AddFavoritesForm = () => {
+const AddFavoritesDialog = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
@@ -124,14 +124,14 @@ const AddFavoritesForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					onClick={closeModal}
 					size={'20px'}
 					margin={'0px'}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={onSubmitForm}>
@@ -167,4 +167,4 @@ const AddFavoritesForm = () => {
 	);
 };
 
-export default AddFavoritesForm;
+export default AddFavoritesDialog;

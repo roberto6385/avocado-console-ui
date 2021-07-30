@@ -8,7 +8,7 @@ import AccountAside from './Aside/AccountAside';
 import {closeIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {borderColor, fontColor, sideColor} from '../../styles/color';
-import {DefaultIconButton} from '../../styles/icon';
+import {IconButton} from '../../styles/components/icon';
 import {SettingTitle} from "../../styles/components/settingPage";
 
 const _Container = styled.div`
@@ -45,13 +45,13 @@ const AsideContainer = ({toggle, setToggle}) => {
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					margin={'0px'}
 					onClick={closeAside}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</_SettingTitle>
 			{rightSideKey === 'Account' && <AccountAside />}
 			{rightSideKey === 'Preferences' && <PreferencesAside />}

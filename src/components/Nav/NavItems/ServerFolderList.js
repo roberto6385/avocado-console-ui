@@ -7,9 +7,9 @@ import {Nav} from 'react-bootstrap';
 
 import Folder from './Folder';
 import Server from './Server';
-import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
-import {navColor} from '../../styles/color';
-import {HiddenScroll} from '../../styles/function';
+import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
+import {navColor} from '../../../styles/color';
+import {HiddenScroll} from '../../../styles/function';
 
 export const _Nav = styled(Nav)`
 	display: block;

@@ -19,8 +19,12 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/components/button';
-import {DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {IconButton} from '../../styles/components/icon';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -80,7 +84,7 @@ const _Form = styled.form`
 	margin: 18px 8px 12px 8px;
 `;
 
-const AddAccountForm = () => {
+const AddAccountDialog = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addAccountForm');
 
@@ -187,9 +191,14 @@ const AddAccountForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addAccount')}</div>
-				<DefaultIconButton size={'sm'} margin={'0px'} onClick={closeModal}>
+				<IconButton
+					theme_value={theme}
+					size={'sm'}
+					margin={'0px'}
+					onClick={closeModal}
+				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
@@ -322,4 +331,4 @@ const AddAccountForm = () => {
 	);
 };
 
-export default AddAccountForm;
+export default AddAccountDialog;

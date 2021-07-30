@@ -3,9 +3,9 @@ import {shallowEqual, useSelector} from 'react-redux';
 import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
 
-import '../styles/resize.css';
-import Panes from './Panes';
-import LoadingSpinner from './loadingSpinner';
+import '../../styles/resize.css';
+import PaneOrganizer from './PaneOrganizer';
+import LoadingSpinner from '../LoadingSpinner';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -36,19 +36,19 @@ const PanesContainer = () => {
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}
 
 			{visibleTabs.length <= cols ? (
-				<Panes tab={visibleTabs} />
+				<PaneOrganizer tab={visibleTabs} />
 			) : visibleTabs.length <= cols * 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
-					<Panes tab={visibleTabs.slice(0, cols)} />
-					<Panes tab={visibleTabs.slice(cols)} />
+					<PaneOrganizer tab={visibleTabs.slice(0, cols)} />
+					<PaneOrganizer tab={visibleTabs.slice(cols)} />
 				</SplitPane>
 			) : (
 				<SplitPane split='horizontal' defaultSize={'66%'}>
 					<SplitPane split='horizontal' defaultSize={'50%'}>
-						<Panes tab={visibleTabs.slice(0, cols)} />
-						<Panes tab={visibleTabs.slice(cols, cols * 2)} />
+						<PaneOrganizer tab={visibleTabs.slice(0, cols)} />
+						<PaneOrganizer tab={visibleTabs.slice(cols, cols * 2)} />
 					</SplitPane>
-					<Panes tab={visibleTabs.slice(cols * 2)} />
+					<PaneOrganizer tab={visibleTabs.slice(cols * 2)} />
 				</SplitPane>
 			)}
 		</_Container>

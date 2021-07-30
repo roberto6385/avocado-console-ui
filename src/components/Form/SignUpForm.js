@@ -4,23 +4,23 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import InputField_ from '../RecycleComponents/inputField_';
-import LoadingSpinner from '../loadingSpinner';
+import TextBox_ from '../RecycleComponents/TextBox_';
+import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {DefaultIconButton} from '../../styles/icon';
+import {IconButton} from '../../styles/components/icon';
 import {useHistory} from 'react-router-dom';
 import {postCreateUser} from '../../reducers/auth/create';
 import {
-    UserForm,
-    UserInput,
-    UserPasswordContainer,
-    UserSubmitButton,
-    UserTitle,
-    UserTitleSpan
-} from "../../styles/components/siginIn";
+	UserForm,
+	UserInput,
+	UserPasswordContainer,
+	UserSubmitButton,
+	UserTitle,
+	UserTitleSpan,
+} from '../../styles/components/siginIn';
 
 const _PasswordInput = styled(UserInput)`
 	padding: 0px;
@@ -157,31 +157,31 @@ const SignUpForm = () => {
 				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
 			</UserTitleSpan>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBox_ marginBottom={'18px'}>
 				<UserInput
 					ref={idRef}
 					value={id}
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</InputField_>
+			</TextBox_>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBox_ marginBottom={'18px'}>
 				<UserInput
 					value={name}
 					onChange={onChangeName}
 					placeholder={t('name')}
 				/>
-			</InputField_>
+			</TextBox_>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBox_ marginBottom={'18px'}>
 				<UserInput
 					value={email}
 					onChange={onChangeEmail}
 					placeholder={t('email')}
 				/>
-			</InputField_>
-			<InputField_ marginBottom={'18px'}>
+			</TextBox_>
+			<TextBox_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'password_container'}>
 					<_PasswordInput
 						onFocus={focusin('password')}
@@ -192,8 +192,7 @@ const SignUpForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<DefaultIconButton
-						theme_value={theme}
+					<IconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -202,10 +201,10 @@ const SignUpForm = () => {
 						{visible
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</DefaultIconButton>
+					</IconButton>
 				</UserPasswordContainer>
-			</InputField_>
-			<InputField_ marginBottom={'18px'}>
+			</TextBox_>
+			<TextBox_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'passwordConfirm_container'}>
 					<_PasswordInput
 						onFocus={focusin('confirm')}
@@ -217,7 +216,7 @@ const SignUpForm = () => {
 						placeholder={t('confirmPassword')}
 					/>
 				</UserPasswordContainer>
-			</InputField_>
+			</TextBox_>
 			<_PrimaryGreenButton type='submit'>
 				{t('signUp')}
 			</_PrimaryGreenButton>

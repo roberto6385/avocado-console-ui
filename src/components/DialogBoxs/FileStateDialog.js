@@ -6,10 +6,10 @@ import {commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 
 import {closeIcon} from '../../icons/icons';
-import {DefaultIconButton} from '../../styles/icon';
-import InputField_ from '../RecycleComponents/inputField_';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
-import {ModalFooter, PopupModal} from '../../styles/components/modal';
+import {IconButton} from '../../styles/components/icon';
+import TextBox_ from '../RecycleComponents/TextBox_';
+import CheckBox_ from '../RecycleComponents/CheckBox_';
+import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import {
@@ -26,7 +26,7 @@ const _Form = styled(Form)`
 	padding-bottom: 29px;
 `;
 
-const FileStatForm = () => {
+const FileStateDialog = () => {
 	const dispatch = useDispatch();
 
 	const valueArray = [
@@ -43,6 +43,7 @@ const FileStatForm = () => {
 			value: 1,
 		},
 	];
+
 	const [permission, setPermission] = useState(0);
 	const [type, setType] = useState(null);
 	const {
@@ -104,14 +105,14 @@ const FileStatForm = () => {
 			<ModalHeader theme_value={theme}>
 				{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
 				<div>속성</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
@@ -119,7 +120,7 @@ const FileStatForm = () => {
 					<span>Owner</span>
 					{valueArray.map((v) => {
 						return (
-							<Checkbox_
+							<CheckBox_
 								key={v.key}
 								title={v.key}
 								id={'Owner_' + v.key}
@@ -135,7 +136,7 @@ const FileStatForm = () => {
 					<span>Group</span>
 					{valueArray.map((v) => {
 						return (
-							<Checkbox_
+							<CheckBox_
 								key={v.key}
 								title={v.key}
 								id={'Group' + v.key}
@@ -151,7 +152,7 @@ const FileStatForm = () => {
 					<span>Public</span>
 					{valueArray.map((v) => {
 						return (
-							<Checkbox_
+							<CheckBox_
 								key={v.key}
 								title={v.key}
 								id={'Public' + v.key}
@@ -162,14 +163,14 @@ const FileStatForm = () => {
 						);
 					})}
 				</div>
-				<InputField_>
+				<TextBox_>
 					<UserInput
 						type='number'
 						max={777}
 						value={permission}
 						onChange={(e) => setPermission(e.target.value)}
 					/>
-				</InputField_>
+				</TextBox_>
 			</_Form>
 
 			<ModalFooter theme_value={theme}>
@@ -187,4 +188,4 @@ const FileStatForm = () => {
 	);
 };
 
-export default FileStatForm;
+export default FileStateDialog;

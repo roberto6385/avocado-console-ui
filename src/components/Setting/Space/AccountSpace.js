@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import InputField_ from '../../RecycleComponents/inputField_';
+import TextBox_ from '../../RecycleComponents/TextBox_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import Select_ from '../../RecycleComponents/Select_';
-import ChangePasswordForm from '../../Form/ChangePasswordForm';
+import ChangePasswordDialog from '../../DialogBoxs/ChangePasswordDialog';
 import {
 	PrimaryDisabledButton,
 	PrimaryGreenButton,
 } from '../../../styles/components/button';
-import ChangeNameForm from '../../Form/NameForm';
+import ChangeUserNameDialog from '../../DialogBoxs/ChangeUserNameDialog';
 import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
 import {Input} from "../../../styles/components/input";
 
@@ -73,15 +73,15 @@ const AccountSpace = () => {
 				{t('title.account')}
 			</SettingTitle>
 			<SettingContentsContainer>
-				<InputField_ title={t('account')}>
+				<TextBox_ title={t('account')}>
 					<_Input
 						theme_value={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
 					/>
-				</InputField_>
-				<InputField_ title={t('name')}>
+				</TextBox_>
+				<TextBox_ title={t('name')}>
 					<_Input
 						value={account.name}
 						theme_value={theme}
@@ -89,15 +89,15 @@ const AccountSpace = () => {
 						readOnly
 						onClick={() => setNameOpen(true)}
 					/>
-				</InputField_>
-				<InputField_ title={t('email')}>
+				</TextBox_>
+				<TextBox_ title={t('email')}>
 					<_Input
 						value={account.email}
 						theme_value={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
-				</InputField_>
+				</TextBox_>
 			</SettingContentsContainer>
 			<SettingTitle theme_value={theme}>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>
@@ -148,8 +148,8 @@ const AccountSpace = () => {
 					disabled={mfaType === 'not_use'}
 				/>
 			</SettingContentsContainer>
-			<ChangePasswordForm open={open} setOpen={setOpen} />
-			<ChangeNameForm open={nameOpen} setOpen={setNameOpen} />
+			<ChangePasswordDialog open={open} setOpen={setOpen} />
+			<ChangeUserNameDialog open={nameOpen} setOpen={setNameOpen} />
 		</SettingMainContainer>
 	);
 };

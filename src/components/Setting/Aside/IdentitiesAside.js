@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
-import Checkbox_ from '../../RecycleComponents/Checkbox_';
+import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {borderColor} from '../../../styles/color';
 import {PrimaryGreenButton} from '../../../styles/components/button';
 
@@ -109,7 +109,7 @@ const IdentitiesAside = () => {
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
-									<Checkbox_
+									<CheckBox_
 										value={item.checked}
 										handleCheck={handleCheck(item)}
 									/>

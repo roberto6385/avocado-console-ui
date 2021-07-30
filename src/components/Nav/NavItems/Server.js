@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {useDoubleClick} from '../../hooks/useDoubleClick';
-import useInput from '../../hooks/useInput';
+import {useDoubleClick} from '../../../hooks/useDoubleClick';
+import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
+import useInput from '../../../hooks/useInput';
 import {
+	BOOKMARKING,
+	CHANGE_SERVER_FOLDER_NAME,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
+	SORT_SERVER_AND_FOLDER,
+} from '../../../reducers/common';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {Nav} from 'react-bootstrap';
 
 import {
@@ -18,13 +21,21 @@ import {
 	iconColor,
 	navColor,
 	navHighColor,
-} from '../../styles/color';
-import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
+} from '../../../styles/color';
+import {
+	awsServerIcon,
+	bookmarkIcon,
+	linuxServerIcon,
+	starIcon,
+} from '../../../icons/icons';
 import styled from 'styled-components';
-import {connectionAction} from '../../reducers/sftp';
-import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
-import {Icon} from "../../styles/icon";
-import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
+import {connectionAction} from '../../../reducers/sftp';
+import {Icon, IconButton} from '../../../styles/components/icon';
+import {
+	NavigationBarItemForm,
+	NavigationBarInput,
+	NavigationBarTitle,
+} from '../../../styles/components/navigationBar';
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -42,11 +53,22 @@ export const ServerItem = styled(Nav.Item)`
 		props.clicked
 			? navHighColor[props.theme_value]
 			: navColor[props.theme_value]};
+	.bookmark_button {
+		display: none;
+	}
+	.active {
+		display: block;
+	}
+	&:hover {
+		.bookmark_button {
+			display: block;
+		}
+	}
 `;
 
-const FavoritesServer = ({data, indent, temp}) => {
+const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, theme, identity} = useSelector(
+	const {clicked_server, server, theme, identity, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -61,8 +83,6 @@ const FavoritesServer = ({data, indent, temp}) => {
 
 	const onHybridClick = useDoubleClick(
 		() => {
-			if (temp) return;
-
 			const correspondedServer = server.find((i) => i.id === data.id);
 
 			if (correspondedServer.protocol === 'SSH2') {
@@ -123,6 +143,20 @@ const FavoritesServer = ({data, indent, temp}) => {
 		[data, dispatch, show],
 	);
 
+	const handleSubmit = useCallback(
+		(e) => {
+			e.preventDefault();
+
+			if (renameValue !== data.name)
+				dispatch({
+					type: CHANGE_SERVER_FOLDER_NAME,
+					data: {key: data.key, name: renameValue},
+				});
+			setOpenRename(false);
+		},
+		[data, dispatch, renameValue],
+	);
+
 	const EscapeKey = useCallback((e) => {
 		if (e.keyCode === 27) setOpenRename(false);
 	}, []);
@@ -134,24 +168,41 @@ const FavoritesServer = ({data, indent, temp}) => {
 
 	const nextPutItem = useCallback(
 		(e) => {
-			console.log('favorites server next put item');
-
 			e.stopPropagation();
 
 			data.type === 'folder' &&
-				dispatch({
-					type: SORT_FAVORITES_SERVER_AND_FOLDER,
-					data: {next: data},
-				});
+				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
+		},
+		[data, dispatch],
+	);
+
+	const handleBookmark = useCallback(
+		(there) => () => {
+			dispatch({type: BOOKMARKING, data: data, there});
 			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch],
 	);
 
-	const handleDragOver = useCallback((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}, []);
+	function searchTree(v, data) {
+		if (v.type === 'server' || !v.contain.length) {
+			return JSON.stringify(v) === JSON.stringify(data);
+		}
+
+		for (let x of v.contain) {
+			let result = searchTree(x, data);
+			if (result) return result;
+		}
+		return false;
+	}
+
+	function searchTreeStart(root, data) {
+		for (let x of root) {
+			const result = searchTree(x, data);
+			if (result) return result;
+		}
+		return false;
+	}
 
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
@@ -171,7 +222,6 @@ const FavoritesServer = ({data, indent, temp}) => {
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={prevPutItem}
-				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
 				theme_value={theme}
@@ -193,34 +243,56 @@ const FavoritesServer = ({data, indent, temp}) => {
 
 				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
-						<NavigationBarInput
-							ref={renameRef}
-							type='text'
-							value={renameValue}
-							onChange={onChangeRenameValue}
-							onKeyDown={EscapeKey}
-							theme_value={theme}
-						/>
+						<NavigationBarItemForm
+							onSubmit={handleSubmit}
+							onBlur={handleSubmit}
+						>
+							<NavigationBarInput
+								ref={renameRef}
+								type='text'
+								value={renameValue}
+								onChange={onChangeRenameValue}
+								onKeyDown={EscapeKey}
+								theme_value={theme}
+							/>
+						</NavigationBarItemForm>
 					) : (
 						data.name
 					)}
+					<IconButton
+						className={
+							searchTreeStart(favorites, data)
+								? 'bookmark_button active'
+								: 'bookmark_button'
+						}
+						size={'sm'}
+						margin_right={'0px'}
+						theme_value={theme}
+						onClick={handleBookmark(
+							searchTreeStart(favorites, data),
+						)}
+						color={
+							searchTreeStart(favorites, data)
+								? activeColor[theme]
+								: iconColor[theme]
+						}
+					>
+						{bookmarkIcon}
+					</IconButton>
 				</NavigationBarTitle>
 			</ServerItem>
-			{!temp && (
-				<FavoritesContextMenu
-					correspondedIdentity={correspondedIdentity}
-					data={data}
-					setOpenRename={setOpenRename}
-				/>
-			)}
+			<ServerContextMenu
+				correspondedIdentity={correspondedIdentity}
+				data={data}
+				setOpenRename={setOpenRename}
+			/>
 		</React.Fragment>
 	);
 };
 
-FavoritesServer.propTypes = {
+Server.propTypes = {
 	data: PropTypes.object.isRequired,
-	temp: PropTypes.bool.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FavoritesServer;
+export default Server;

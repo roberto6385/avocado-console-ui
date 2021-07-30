@@ -5,18 +5,18 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import {getUserTicket} from '../../reducers/auth/userTicket';
-import InputField_ from '../RecycleComponents/inputField_';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
-import appleButton from '../../images/apple_btn.png';
-import googleButton from '../../images/google_btn.png';
-import naverButton from '../../images/naver_btn.png';
-import kakaoButton from '../../images/kakao_btn.png';
-import LoadingSpinner from '../loadingSpinner';
+import TextBox_ from '../RecycleComponents/TextBox_';
+import CheckBox_ from '../RecycleComponents/CheckBox_';
+import appleButton from '../../images/alternativeAuth/apple_btn.png';
+import googleButton from '../../images/alternativeAuth/google_btn.png';
+import naverButton from '../../images/alternativeAuth/naver_btn.png';
+import kakaoButton from '../../images/alternativeAuth/kakao_btn.png';
+import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {DefaultIconButton} from "../../styles/icon";
+import {IconButton} from "../../styles/components/icon";
 import {
     UserForm,
     UserInput,
@@ -182,15 +182,15 @@ const SignInForm = () => {
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
 			</UserTitleSpan>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBox_ marginBottom={'18px'}>
 				<UserInput
 					ref={userRef}
 					value={user}
 					onChange={onChangeUser}
 					placeholder={t('id')}
 				/>
-			</InputField_>
-			<InputField_ marginBottom={'18px'}>
+			</TextBox_>
+			<TextBox_ marginBottom={'18px'}>
 				<_UserPasswordContainer id={'password_container'}>
 					<UserPasswordInput
 						ref={passwordRef}
@@ -201,7 +201,7 @@ const SignInForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<DefaultIconButton
+					<IconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -210,11 +210,11 @@ const SignInForm = () => {
 						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</DefaultIconButton>
+					</IconButton>
 				</_UserPasswordContainer>
-			</InputField_>
+			</TextBox_>
 			<_CheckboxAnchorContainer>
-				<Checkbox_
+				<CheckBox_
 					title={t('remember')}
 					value={rememberMe}
 					handleCheck={onClickRememberMe}

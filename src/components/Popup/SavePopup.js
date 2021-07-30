@@ -23,8 +23,8 @@ import {
 	SAVE_FAVORITES,
 	UNDO_FAVORITES,
 } from '../../reducers/common';
-import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
-import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
+import {HoverButton, Icon, IconButton} from '../../styles/components/icon';
+import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/disalogBox";
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -225,14 +225,14 @@ const SavePopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
