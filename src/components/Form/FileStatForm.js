@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_STAT_FORM_POPUP} from '../../reducers/popup';
 
-import {commandStatAction} from '../../reducers/sftp';
+import {commandChmodAction, commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 
 import {closeIcon} from '../../icons/icons';
@@ -27,21 +27,28 @@ const _Form = styled(Form)`
 	padding-bottom: 29px;
 `;
 
+const RowDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 16px;
+`;
+
+const ColDiv = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+const KeySpan = styled.span`
+	font-size: 18px;
+`;
+
 const FileStatForm = () => {
 	const dispatch = useDispatch();
-
 	const [permission, setPermission] = useState(0);
-	const [checked, setChecked] = useState([
-		{key: 'own', type: 'Execute', value: '1', checked: false},
-		{key: 'own', type: 'Write', value: '2', checked: false},
-		{key: 'own', type: 'Read', value: '4', checked: false},
-		{key: 'grp', type: 'Execute', value: '1', checked: false},
-		{key: 'grp', type: 'Write', value: '2', checked: false},
-		{key: 'grp', type: 'Read', value: '4', checked: false},
-		{key: 'pub', type: 'Execute', value: '1', checked: false},
-		{key: 'pub', type: 'Write', value: '2', checked: false},
-		{key: 'pub', type: 'Read', value: '4', checked: false},
-	]);
+	const [own, setOwner] = useState(null);
+	const [grp, setGroup] = useState(null);
+	const [pub, setPublic] = useState(null);
+	const [checked, setChecked] = useState([]);
 	const [type, setType] = useState(null);
 	const {
 		socket: sftp_socketState,
@@ -58,23 +65,129 @@ const FileStatForm = () => {
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_STAT_FORM_POPUP});
+		setOwner(null);
+		setGroup(null);
+		setPublic(null);
 	}, [dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
+			if (!own || !grp || !pub) return;
 
-			console.log(permission);
-
-			const arr = parseInt(permission).toString().split('');
-			const t = type === 40 ? 'd' : '-';
-			console.log(arr);
-			console.log(
-				t + octToSymbol({own: arr[0], grp: arr[1], pub: arr[2]}),
+			// console.log(t + octToSymbol({own, grp, pub}));
+			const prev = type + own + grp + pub;
+			const per = parseInt(prev, 8);
+			dispatch(
+				commandChmodAction({
+					permissions: per,
+					path: stat.path,
+					socket: socket,
+					uuid: uuid,
+				}),
 			);
 			closeModal();
 		},
-		[closeModal, permission, type],
+		[closeModal, dispatch, grp, own, pub, socket, stat, type, uuid],
+	);
+
+	const checkFunc = useCallback(
+		(x) => (e) => {
+			console.log(e.target.checked);
+			const prev = checked.slice();
+			const item = checked.find(
+				(v) => JSON.stringify(v) === JSON.stringify(x),
+			);
+			console.log(item);
+			const index = checked.findIndex(
+				(v) => JSON.stringify(v) === JSON.stringify(x),
+			);
+			console.log(index);
+			prev.splice(index, 1, {
+				...item,
+				checked: e.target.checked,
+			});
+			let checkValue = [
+				{key: 'own', list: []},
+				{key: 'grp', list: []},
+				{key: 'pub', list: []},
+			];
+			prev.forEach((v) => {
+				checkValue
+					.find((x) => x.key === v.key)
+					.list.push(v.checked === true ? 1 : 0);
+			});
+			let permission = [];
+			checkValue.forEach((v) => {
+				permission.push(parseInt(parseInt(v.list.join('')), 2));
+			});
+			setOwner(permission[0].toString());
+			setGroup(permission[1].toString());
+			setPublic(permission[2].toString());
+			setPermission(permission.join(''));
+			setChecked(prev);
+		},
+		[checked],
+	);
+
+	const handleInputValue = useCallback(
+		(e) => {
+			const {value} = e.target;
+			setPermission(value);
+			const parsedValue = parseInt(value);
+
+			if (value.length === 3 && parsedValue > -1 && parsedValue < 778) {
+				console.log(value);
+				let octValue = '';
+				value.split('').forEach((v) => {
+					const k = parseInt(v).toString(2);
+					let caseValue = k;
+					if (k.length === 1) {
+						caseValue = '00' + k;
+					} else if (k.length === 2) {
+						caseValue = '0' + k;
+					}
+					octValue += caseValue;
+				});
+				const checkList = checked.slice();
+				octValue.split('').map((v, i) => {
+					v === '1'
+						? (checkList[i].checked = true)
+						: (checkList[i].checked = false);
+				});
+				setChecked(checkList);
+			}
+		},
+		[checked],
+	);
+
+	const handleBlur = useCallback(
+		(e) => {
+			const {value} = e.target;
+			const parsedValue = parseInt(value);
+
+			if (value.length !== 3 || parsedValue < 0 || parsedValue > 777) {
+				let checkValue = [
+					{key: 'own', list: []},
+					{key: 'grp', list: []},
+					{key: 'pub', list: []},
+				];
+				checked.forEach((v) => {
+					v.checked
+						? checkValue.find((x) => x.key === v.key).list.push('1')
+						: checkValue
+								.find((x) => x.key === v.key)
+								.list.push('0');
+				});
+				console.log(checkValue);
+				let result = '';
+				checkValue.forEach((v) => {
+					result += parseInt(parseInt(v.list.join('')), 2).toString();
+				});
+				setPermission(result);
+			}
+		},
+		[checked],
 	);
 
 	useEffect(() => {
@@ -92,68 +205,176 @@ const FileStatForm = () => {
 	useEffect(() => {
 		console.log(stat);
 		if (stat) {
-			setType(stat.fileType);
-			setPermission(stat.permission);
+			setType(stat.data.fileType);
+			const arr = stat.data.permission.toString().split('');
+			setOwner(arr[0]);
+			setGroup(arr[1]);
+			setPublic(arr[2]);
 		}
 	}, [stat]);
 
-	return (
-		<_PopupModal
-			isOpen={stat_form_popup.open}
-			onRequestClose={closeModal}
-			ariaHideApp={false}
-			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
-		>
-			<ModalHeader theme_value={theme}>
-				{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
-				<div>속성</div>
-				<DefaultIconButton
-					theme_value={theme}
-					size={'sm'}
-					margin={'0px'}
-					onClick={closeModal}
-				>
-					{closeIcon}
-				</DefaultIconButton>
-			</ModalHeader>
+	useEffect(() => {
+		if (own && grp && pub) {
+			let value = '';
+			setPermission(own + grp + pub);
+			// setPermission(own)
+			const item = [own, grp, pub];
+			item.forEach((i) => {
+				const k = parseInt(i).toString(2);
+				let caseValue = k;
+				if (k.length === 1) {
+					caseValue = '00' + k;
+				} else if (k.length === 2) {
+					caseValue = '0' + k;
+				}
+				value += caseValue;
+			});
+			console.log(value);
+			const checkList = [
+				{key: 'own', type: 'Read', value: '4', checked: false},
+				{key: 'own', type: 'Write', value: '2', checked: false},
+				{key: 'own', type: 'Execute', value: '1', checked: false},
+				{key: 'grp', type: 'Read', value: '4', checked: false},
+				{key: 'grp', type: 'Write', value: '2', checked: false},
+				{key: 'grp', type: 'Execute', value: '1', checked: false},
+				{key: 'pub', type: 'Read', value: '4', checked: false},
+				{key: 'pub', type: 'Write', value: '2', checked: false},
+				{key: 'pub', type: 'Execute', value: '1', checked: false},
+			];
 
-			<_Form onSubmit={submitFunction}>
-				<InputField_>
-					{checked.map((x) => {
-						return (
+			value.split('').map((v, i) => {
+				v === '1'
+					? (checkList[i].checked = true)
+					: (checkList[i].checked = false);
+			});
+			setChecked(checkList);
+		}
+	}, [grp, own, pub]);
+
+	return (
+		checked.length !== 0 && (
+			<_PopupModal
+				isOpen={stat_form_popup.open}
+				onRequestClose={closeModal}
+				ariaHideApp={false}
+				shouldCloseOnOverlayClick={false}
+				theme_value={theme}
+			>
+				<ModalHeader theme_value={theme}>
+					{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
+					<div>권한</div>
+					<DefaultIconButton
+						theme_value={theme}
+						size={'sm'}
+						margin={'0px'}
+						onClick={closeModal}
+					>
+						{closeIcon}
+					</DefaultIconButton>
+				</ModalHeader>
+
+				<_Form onSubmit={submitFunction}>
+					<RowDiv>
+						<ColDiv>
+							<KeySpan>Owner</KeySpan>
+							<br />
+
 							<Checkbox_
-								key={x.key + x.type}
-								title={x.type}
-								value={false}
-								handleCheck={() => console.log('')}
+								title={checked[0].type}
+								value={checked[0].checked}
+								handleCheck={checkFunc(checked[0])}
 								theme_value={0}
 							/>
-						);
-					})}
-				</InputField_>
-				<InputField_>
-					<UserInput
-						type='number'
-						max={777}
-						value={permission}
-						onChange={(e) => setPermission(e.target.value)}
-					/>
-				</InputField_>
-			</_Form>
+							<br />
+							<Checkbox_
+								title={checked[1].type}
+								value={checked[1].checked}
+								handleCheck={checkFunc(checked[1])}
+								theme_value={0}
+							/>
 
-			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
-					취소
-				</PrimaryGreyButton>
-				<PrimaryGreenButton
-					theme_value={theme}
-					onClick={submitFunction}
-				>
-					저장
-				</PrimaryGreenButton>
-			</ModalFooter>
-		</_PopupModal>
+							<br />
+							<Checkbox_
+								title={checked[2].type}
+								value={checked[2].checked}
+								handleCheck={checkFunc(checked[2])}
+								theme_value={0}
+							/>
+						</ColDiv>
+						<ColDiv>
+							<KeySpan>Group</KeySpan>
+							<br />
+
+							<Checkbox_
+								title={checked[3].type}
+								value={checked[3].checked}
+								handleCheck={checkFunc(checked[3])}
+								theme_value={0}
+							/>
+							<br />
+							<Checkbox_
+								title={checked[4].type}
+								value={checked[4].checked}
+								handleCheck={checkFunc(checked[4])}
+								theme_value={0}
+							/>
+							<br />
+							<Checkbox_
+								title={checked[5].type}
+								value={checked[5].checked}
+								handleCheck={checkFunc(checked[5])}
+								theme_value={0}
+							/>
+						</ColDiv>
+						<ColDiv>
+							<KeySpan>Public</KeySpan>
+							<br />
+
+							<Checkbox_
+								title={checked[6].type}
+								value={checked[6].checked}
+								handleCheck={checkFunc(checked[6])}
+								theme_value={0}
+							/>
+							<br />
+							<Checkbox_
+								title={checked[7].type}
+								value={checked[7].checked}
+								handleCheck={checkFunc(checked[7])}
+								theme_value={0}
+							/>
+							<br />
+							<Checkbox_
+								title={checked[8].type}
+								value={checked[8].checked}
+								handleCheck={checkFunc(checked[8])}
+								theme_value={0}
+							/>
+						</ColDiv>
+					</RowDiv>
+					<InputField_>
+						<UserInput
+							type='text'
+							value={permission}
+							onChange={handleInputValue}
+							onBlur={handleBlur}
+						/>
+					</InputField_>
+				</_Form>
+
+				<ModalFooter theme_value={theme}>
+					<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
+						취소
+					</PrimaryGreyButton>
+					<PrimaryGreenButton
+						theme_value={theme}
+						onClick={submitFunction}
+					>
+						저장
+					</PrimaryGreenButton>
+				</ModalFooter>
+			</_PopupModal>
+		)
 	);
 };
 

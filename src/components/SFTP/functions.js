@@ -123,14 +123,22 @@ export const pathFunction = ({path}) => {
 };
 
 const caseCheck = (item) => {
-	switch (parseInt(item).toString(2)) {
-		case '0':
+	const k = parseInt(item).toString(2);
+	let caseValue = k;
+	if (k.length === 1) {
+		caseValue = '00' + k;
+	} else if (k.length === 2) {
+		caseValue = '0' + k;
+	}
+
+	switch (caseValue) {
+		case '000':
 			return '---';
-		case '1':
+		case '001':
 			return '--x';
-		case '10':
+		case '010':
 			return '-w-';
-		case '11':
+		case '011':
 			return '-wx';
 		case '100':
 			return 'r--';

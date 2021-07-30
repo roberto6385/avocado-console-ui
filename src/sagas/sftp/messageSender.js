@@ -121,6 +121,22 @@ const sendCommandByStat = ({ws, path}) => {
 
 	ws.send(message.serializeBinary());
 };
+const sendCommandByChmod = ({ws, path, permissions}) => {
+	var message = new SFTP.Message();
+	var request = new SFTP.Request();
+	var cmd = new SFTP.CommandRequest();
+	var chmod = new SFTP.ChangeModeRequest();
+	console.log(path);
+	console.log(permissions);
+	chmod.setPath(path);
+	chmod.setPermissions(permissions);
+
+	cmd.setChmod(chmod);
+	request.setCommand(cmd);
+	message.setRequest(request);
+
+	ws.send(message.serializeBinary());
+};
 
 const sendCommandByLs = ({ws, path}) => {
 	var message = new SFTP.Message();
@@ -193,6 +209,7 @@ const sendCommandByWrite = ({
 	uploadFile,
 	completed,
 	mode,
+	permission,
 }) => {
 	const sendBuffer = (data) => {
 		var message = new SFTP.Message();
@@ -250,6 +267,7 @@ const messageSender = ({
 	length,
 	completed,
 	mode,
+	permissions,
 }) => {
 	switch (keyword) {
 		case 'Connection':
@@ -280,6 +298,9 @@ const messageSender = ({
 			sendCommandByRm({ws, path});
 			break;
 
+		case 'CommandByChmod':
+			sendCommandByChmod({ws, path, permissions});
+			break;
 		case 'CommandByStat':
 			sendCommandByStat({ws, path});
 			break;

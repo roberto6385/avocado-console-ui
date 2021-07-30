@@ -9,37 +9,33 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
+	CHMOD_FAILURE,
+	CHMOD_REQUEST,
+	CHMOD_SUCCESS,
+	commandPwdAction,
 	ERROR,
 	READY_STATE,
-	STAT_FAILURE,
-	STAT_REQUEST,
-	STAT_SUCCESS,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
-import {statResponse} from '../../ws/sftp/stat_response';
+import {chmodResponse} from '../../ws/sftp/chmod_response';
 
 function* sendCommand(action) {
 	const {payload} = action;
 
-	let pass = false;
-
 	const channel = yield call(subscribe, payload.socket);
 
 	try {
-		const path =
-			payload.cd_path === '/'
-				? payload.stat_path + payload.file.name
-				: payload.stat_path + '/' + payload.file.name;
 		if (payload.socket.readyState === 3) {
 			console.log('closed');
 			return;
 		}
 		yield call(messageSender, {
-			keyword: 'CommandByStat',
+			keyword: 'CommandByChmod',
 			ws: payload.socket,
-			path: path,
+			path: payload.path,
+			permissions: payload.permissions,
 		});
 		while (true) {
 			const {timeout, data} = yield race({
@@ -48,7 +44,7 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				console.log('stat end');
+				console.log('chmod end');
 
 				if (payload.socket.readyState !== 1) {
 					yield put({
@@ -57,36 +53,31 @@ function* sendCommand(action) {
 					});
 				}
 			} else {
-				const res = yield call(statResponse, {data});
+				const res = yield call(chmodResponse, {data});
 
-				//TODO: add fileType, permission handler
 				console.log(res);
 
 				switch (res.type) {
-					case STAT_SUCCESS:
+					case CHMOD_SUCCESS:
 						yield put({
-							type: STAT_SUCCESS,
+							type: CHMOD_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
 								data: res,
-								path: path,
 							},
 						});
-						pass = true;
-
-						// yield put(
-						// 	commandPwdAction({
-						// 		socket: payload.socket,
-						// 		uuid: payload.uuid,
-						// 		pwd_path: payload.path,
-						// 	}),
-						// );
+						yield put(
+							commandPwdAction({
+								socket: payload.socket,
+								uuid: payload.uuid,
+								pwd_path: null,
+							}),
+						);
 
 						break;
 					case ERROR:
 						console.log(res.err);
-						pass = true;
-						yield put({type: STAT_FAILURE});
+						yield put({type: CHMOD_FAILURE});
 						break;
 					default:
 						console.log(res);
@@ -97,12 +88,12 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: STAT_FAILURE});
+		yield put({type: CHMOD_FAILURE});
 	}
 }
 
 function* watchSendCommand() {
-	yield takeLatest(STAT_REQUEST, sendCommand);
+	yield takeLatest(CHMOD_REQUEST, sendCommand);
 }
 
 export default function* commandStatSaga() {

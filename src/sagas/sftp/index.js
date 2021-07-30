@@ -15,6 +15,7 @@ import searchListSaga from './searchDeleteList';
 import createWebsocketSaga from './createNewWebsocket';
 import removeWebsocketSaga from './removeNewWebsocket';
 import commandStatSaga from './sendCommandStat';
+import commandChmodSaga from './sendCommandChmod';
 import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 export default function* sftpSaga() {
@@ -34,6 +35,7 @@ export default function* sftpSaga() {
 		fork(createWebsocketSaga),
 		fork(removeWebsocketSaga),
 		fork(commandStatSaga),
+		fork(commandChmodSaga),
 	]);
 	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
 }

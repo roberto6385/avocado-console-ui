@@ -41,15 +41,15 @@ export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
 export const READ_REQUEST = 'sftp/READ_REQUEST';
 export const READ_SUCCESS = 'sftp/READ_SUCCESS';
 export const READ_PASS = 'sftp/READ_PASS';
-
 export const READ_FAILURE = 'sftp/READ_FAILURE';
-
-export const EDIT_READ_SUCCESS = 'sftp/EDIT_READ_SUCCESS';
-export const EDIT_WRITE_SUCCESS = 'sftp/EDIT_WRITE_SUCCESS';
 
 export const PWD_REQUEST = 'sftp/PWD_REQUEST';
 export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
 export const PWD_FAILURE = 'sftp/PWD_FAILURE';
+
+export const CHMOD_REQUEST = 'sftp/CHMOD_REQUEST';
+export const CHMOD_SUCCESS = 'sftp/CHMOD_SUCCESS';
+export const CHMOD_FAILURE = 'sftp/CHMOD_FAILURE';
 
 export const LS_REQUEST = 'sftp/LS_REQUEST';
 export const LS_SUCCESS = 'sftp/LS_SUCCESS';
@@ -113,11 +113,12 @@ export const CHANGE_SORT_KEYWORD = 'sftp/CHANGE_SORT_KEYWORD';
 export const TEMP_HIGHLIGHT = 'sftp/TEMP_HIGHLIGHT';
 export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
-// 필요없음.
-export const PUT_SUCCESS = 'sftp/PUT_SUCCESS';
-export const GET_SUCCESS = 'sftp/GET_SUCCESS';
-
 // actions
+
+export const commandChmodAction = (payload) => ({
+	type: CHMOD_REQUEST,
+	payload,
+});
 
 export const connectionAction = (payload) => ({
 	type: CONNECTION_REQUEST,
@@ -748,7 +749,10 @@ const sftp = (state = initialState, action) =>
 				draft.stat = null;
 				break;
 			case STAT_SUCCESS:
-				draft.stat = action.payload.data;
+				draft.stat = {
+					data: action.payload.data,
+					path: action.payload.path,
+				};
 				break;
 			case STAT_FAILURE:
 				break;
