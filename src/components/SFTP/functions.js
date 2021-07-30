@@ -121,3 +121,31 @@ export const pathFunction = ({path}) => {
 	});
 	return pathList;
 };
+
+const caseCheck = (item) => {
+	switch (parseInt(item).toString(2)) {
+		case '0':
+			return '---';
+		case '1':
+			return '--x';
+		case '10':
+			return '-w-';
+		case '11':
+			return '-wx';
+		case '100':
+			return 'r--';
+		case '101':
+			return 'r-x';
+		case '110':
+			return 'rw-';
+		case '111':
+			return 'rwx';
+	}
+};
+
+export const octToSymbol = ({own, grp, pub}) => {
+	const a = caseCheck(own);
+	const b = caseCheck(grp);
+	const c = caseCheck(pub);
+	return a + b + c;
+};

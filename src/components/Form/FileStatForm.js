@@ -17,6 +17,7 @@ import {
 	PrimaryGreyButton,
 } from '../../styles/components/button';
 import {UserInput} from '../../styles/components/siginIn';
+import {octToSymbol} from '../SFTP/functions';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -29,21 +30,18 @@ const _Form = styled(Form)`
 const FileStatForm = () => {
 	const dispatch = useDispatch();
 
-	const valueArray = [
-		{
-			key: 'Read',
-			value: 4,
-		},
-		{
-			key: 'Write',
-			value: 2,
-		},
-		{
-			key: 'Execute',
-			value: 1,
-		},
-	];
 	const [permission, setPermission] = useState(0);
+	const [checked, setChecked] = useState([
+		{key: 'own', type: 'Execute', value: '1', checked: false},
+		{key: 'own', type: 'Write', value: '2', checked: false},
+		{key: 'own', type: 'Read', value: '4', checked: false},
+		{key: 'grp', type: 'Execute', value: '1', checked: false},
+		{key: 'grp', type: 'Write', value: '2', checked: false},
+		{key: 'grp', type: 'Read', value: '4', checked: false},
+		{key: 'pub', type: 'Execute', value: '1', checked: false},
+		{key: 'pub', type: 'Write', value: '2', checked: false},
+		{key: 'pub', type: 'Read', value: '4', checked: false},
+	]);
 	const [type, setType] = useState(null);
 	const {
 		socket: sftp_socketState,
@@ -65,13 +63,19 @@ const FileStatForm = () => {
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('submit');
+
+			console.log(permission);
+
+			const arr = parseInt(permission).toString().split('');
+			const t = type === 40 ? 'd' : '-';
+			console.log(arr);
+			console.log(
+				t + octToSymbol({own: arr[0], grp: arr[1], pub: arr[2]}),
+			);
 			closeModal();
 		},
-		[closeModal],
+		[closeModal, permission, type],
 	);
-
-	const calculator = useCallback(() => {}, []);
 
 	useEffect(() => {
 		if (stat_form_popup.open) {
@@ -115,53 +119,19 @@ const FileStatForm = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={submitFunction}>
-				<div>
-					<span>Owner</span>
-					{valueArray.map((v) => {
+				<InputField_>
+					{checked.map((x) => {
 						return (
 							<Checkbox_
-								key={v.key}
-								title={v.key}
-								id={'Owner_' + v.key}
-								value={v.value}
-								handleCheck={calculator}
+								key={x.key + x.type}
+								title={x.type}
+								value={false}
+								handleCheck={() => console.log('')}
 								theme_value={0}
 							/>
 						);
 					})}
-				</div>
-
-				<div>
-					<span>Group</span>
-					{valueArray.map((v) => {
-						return (
-							<Checkbox_
-								key={v.key}
-								title={v.key}
-								id={'Group' + v.key}
-								value={v.value}
-								handleCheck={calculator}
-								theme_value={0}
-							/>
-						);
-					})}
-				</div>
-
-				<div>
-					<span>Public</span>
-					{valueArray.map((v) => {
-						return (
-							<Checkbox_
-								key={v.key}
-								title={v.key}
-								id={'Public' + v.key}
-								value={v.value}
-								handleCheck={calculator}
-								theme_value={0}
-							/>
-						);
-					})}
-				</div>
+				</InputField_>
 				<InputField_>
 					<UserInput
 						type='number'
