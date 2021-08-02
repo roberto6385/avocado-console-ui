@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
@@ -18,7 +18,8 @@ import {
 	tabColor,
 } from '../styles/color';
 import {disconnectAction} from '../reducers/sftp';
-import {IconButton, Icon} from "../styles/icon";
+import {IconButton, Icon} from '../styles/icon';
+import {toast} from 'react-toastify';
 
 const _Container = styled.div`
 	display: flex;
@@ -218,6 +219,9 @@ const WorkSpace = () => {
 		},
 		[tab, dispatch, oldOlder, draggedItem],
 	);
+	useEffect(() => {
+		toast.success('happy', {autoClose: 4000});
+	});
 
 	return (
 		<_Container>

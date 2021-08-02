@@ -29,6 +29,7 @@ import {
 } from './reducers/auth/userTicket';
 import FileStatForm from './components/Form/FileStatForm';
 import GlobalStyle from './styles/global/globalStyle';
+import Toast_ from './components/RecycleComponents/Toast_';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -106,6 +107,7 @@ const App = () => {
 			<WarningAlertPopup />
 			<InputPopup />
 			<SavePopup />
+			<Toast_ />
 		</BrowserRouter>
 	);
 };
