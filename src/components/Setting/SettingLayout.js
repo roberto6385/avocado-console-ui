@@ -29,7 +29,7 @@ const _Header = styled.div`
 	padding: 18px 46px 19px 46px;
 	height: 54px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	// border-color: ${(props) => borderColor[props.theme_value]};
 	background: ${(props) => navColor[props.theme_value]};
 `;
 

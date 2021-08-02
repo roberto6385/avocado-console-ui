@@ -28,7 +28,7 @@ import {
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import FileStateDialog from './components/DialogBoxs/FileStateDialog';
-import GlobalStyle from './styles/global/globalStyle';
+import GlobalStyle from './styles/global/GlobalStyle';
 
 const App = () => {
 	const dispatch = useDispatch();
