@@ -228,6 +228,7 @@ const DropList_ = ({uuid}) => {
 							  });
 					}
 				} else {
+					if (pathList.length !== fileList.length) return;
 					const finalPath =
 						item.type === 'directory'
 							? pathList[listindex] === '/'
@@ -253,6 +254,7 @@ const DropList_ = ({uuid}) => {
 			},
 		[
 			path,
+			fileList,
 			pathList,
 			dispatch,
 			socket,

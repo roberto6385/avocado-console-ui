@@ -83,6 +83,7 @@ const FileList_ = ({uuid}) => {
 
 	const handleChangeDirectory = useCallback(
 		(item) => () => {
+			if (pathList.length !== fileList.length) return;
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
 				dispatch(
@@ -99,7 +100,7 @@ const FileList_ = ({uuid}) => {
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[dispatch, path, socket, uuid],
+		[dispatch, fileList.length, path, pathList.length, socket, uuid],
 	);
 
 	const handleDownload = useCallback(

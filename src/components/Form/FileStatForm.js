@@ -17,7 +17,6 @@ import {
 	PrimaryGreyButton,
 } from '../../styles/components/button';
 import {UserInput} from '../../styles/components/siginIn';
-import {octToSymbol} from '../SFTP/functions';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
