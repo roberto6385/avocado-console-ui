@@ -4,23 +4,29 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import InputField_ from '../RecycleComponents/inputField_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
 import {putModify} from '../../reducers/auth/modify';
-import {DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
-import {Input} from "../../styles/components/input";
-import {Form} from "../../styles/components/form";
+import {IconButton} from '../../styles/components/icon';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import {Input} from '../../styles/components/input';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
 	width: 404px;
 `;
 
-const ChangePasswordForm = ({open, setOpen}) => {
+const ChangePasswordDialog = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
@@ -110,17 +116,17 @@ const ChangePasswordForm = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
-				<DefaultIconButton
-					color={fontColor[theme]}
+				<IconButton
+					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<Form onSubmit={onSubmitForm}>
-				<InputField_ title={t('current')}>
+				<TextBoxField_ title={t('current')}>
 					<Input
 						ref={currentRef}
 						type='password'
@@ -129,9 +135,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.current')}
 						theme_value={theme}
 					/>
-				</InputField_>
+				</TextBoxField_>
 
-				<InputField_ title={t('new')}>
+				<TextBoxField_ title={t('new')}>
 					<Input
 						ref={passwordRef}
 						type='password'
@@ -140,8 +146,8 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.new')}
 						theme_value={theme}
 					/>
-				</InputField_>
-				<InputField_ title={t('confirm')}>
+				</TextBoxField_>
+				<TextBoxField_ title={t('confirm')}>
 					<Input
 						ref={confirmRef}
 						type='password'
@@ -150,7 +156,7 @@ const ChangePasswordForm = ({open, setOpen}) => {
 						placeholder={t('place.confirm')}
 						theme_value={theme}
 					/>
-				</InputField_>
+				</TextBoxField_>
 			</Form>
 
 			<ModalFooter theme_value={theme}>
@@ -165,9 +171,9 @@ const ChangePasswordForm = ({open, setOpen}) => {
 	);
 };
 
-ChangePasswordForm.propTypes = {
+ChangePasswordDialog.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default ChangePasswordForm;
+export default ChangePasswordDialog;

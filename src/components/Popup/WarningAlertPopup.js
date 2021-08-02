@@ -13,8 +13,10 @@ import {
 
 import {cancelFillIcon, closeIcon} from '../../icons/icons';
 
-import {PrimaryGreyButton, PrimaryRedButton} from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
+import {
+	PrimaryGreyButton,
+	PrimaryRedButton,
+} from '../../styles/components/button';
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
@@ -22,8 +24,14 @@ import {
 	PUSH_INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
 } from '../../reducers/sftp';
-import {DefaultIconButton} from '../../styles/icon';
-import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
+import {Icon, IconButton} from '../../styles/components/icon';
+import {
+	AlertText,
+	ModalFooter,
+	ModalHeader,
+	ModalMessage,
+	PopupModal,
+} from '../../styles/components/disalogBox';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -63,7 +71,7 @@ const WarningAlertPopup = () => {
 
 	const closeModal = useCallback(() => {
 		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
-	}, [dispatch]);
+	}, []);
 
 	const cancelFunction = useCallback(() => {
 		warning_alert_popup.key === 'sftp_delete_file_folder' &&
@@ -211,24 +219,20 @@ const WarningAlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={cancelFunction}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<ModalMessage theme_value={theme}>
-				<DefaultIconButton
-					theme_value={theme}
-					margin_right='6px'
-					color={'#D55959'}
-				>
+				<Icon margin_right='6px' color={'#D55959'}>
 					{cancelFillIcon}
-				</DefaultIconButton>
+				</Icon>
 				<AlertText>{AlertMessage[warning_alert_popup.key]}</AlertText>
 			</ModalMessage>
 

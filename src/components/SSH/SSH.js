@@ -30,7 +30,7 @@ import {
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
-import {IconButton, Icon} from "../../styles/icon";
+import {HoverButton, Icon} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	height: 100%;
@@ -85,7 +85,7 @@ const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
 	overflow: auto;
 	background-color: ${(props) =>
-		props.clicked
+		props.selected
 			? contextHover[props.theme_value]
 			: sshSearch[props.theme_value]};
 	color: ${(props) => fontColor[props.theme_value]};
@@ -129,7 +129,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 						.reverse(),
 		[ssh_history, currentCommand],
 	);
-	const [clickedHistory, setClickedHistory] = useState(0);
+	const [selectedHistory, setSelectedHistory] = useState(0);
 	const [ignoreAutoCompletionMode, setIgnoreAutoCompletionMode] =
 		useState(false);
 	const sshTerm = useMemo(
@@ -148,7 +148,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	} = useDebouncedResizeObserver(3000);
 	const [isComponentMounted, setIsComponentMounted] = useState(true);
 
-	const onKeyPressSearchEnter = useCallback(
+	const onKeyPressEnter = useCallback(
 		(e) => {
 			if (e.key === 'Enter') searchAddon.findPrevious(search);
 		},
@@ -181,11 +181,11 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		if (current_tab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
 	}, [current_tab]);
 
-	const onClickArrowUp = useCallback(() => {
+	const onClickUpArrow = useCallback(() => {
 		searchAddon.findPrevious(search);
 	}, [search, searchAddon]);
 
-	const onClickArrowDown = useCallback(() => {
+	const onClickDownrrow = useCallback(() => {
 		searchAddon.findNext(search);
 	}, [search, searchAddon]);
 	//terminal setting
@@ -216,14 +216,14 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			) {
 				if (data.substr(1) === '[A') {
 					//Up
-					if (clickedHistory === 0)
-						setClickedHistory(historyList.length - 1);
-					else setClickedHistory(clickedHistory - 1);
+					if (selectedHistory === 0)
+						setSelectedHistory(historyList.length - 1);
+					else setSelectedHistory(selectedHistory - 1);
 				} else if (data.substr(1) === '[B') {
 					//Down
-					if (clickedHistory === historyList.length - 1)
-						setClickedHistory(0);
-					else setClickedHistory(clickedHistory + 1);
+					if (selectedHistory === historyList.length - 1)
+						setSelectedHistory(0);
+					else setSelectedHistory(selectedHistory + 1);
 				} else {
 					setIgnoreAutoCompletionMode(true);
 				}
@@ -240,7 +240,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					data: {
 						uuid: uuid,
 						ws: ws,
-						input: historyList[clickedHistory].substring(
+						input: historyList[selectedHistory].substring(
 							currentCommand.length,
 						),
 					},
@@ -275,7 +275,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		ws,
 		sshTerm,
 		auto_completion_mode,
-		clickedHistory,
+		selectedHistory,
 		historyList,
 		ignoreAutoCompletionMode,
 		currentCommand,
@@ -327,7 +327,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	//set History List
 	useEffect(() => {
 		if (auto_completion_mode && currentCommand.length > 1) {
-			setClickedHistory(0);
+			setSelectedHistory(0);
 		}
 	}, [
 		auto_completion_mode,
@@ -454,7 +454,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			>
 				{historyList.map((v, i) => (
 					<_ListGroupItem
-						clicked={i === clickedHistory ? 1 : 0}
+						selected={i === selectedHistory ? 1 : 0}
 						theme_value={theme}
 						onClick={onClickCommandHistory(v)}
 						key={i}
@@ -472,12 +472,12 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					size={'xs'}
 					theme_value={theme}
 					margin_right={'5px'}
-					onClick={onClickArrowUp}
+					onClick={onClickUpArrow}
 				>
 					{searchIcon}
 				</Icon>
 				<_SearchInput
-					onKeyPress={onKeyPressSearchEnter}
+					onKeyPress={onKeyPressEnter}
 					onChange={onChangeSearch}
 					value={search}
 					placeholder={t('search')}
@@ -485,25 +485,25 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					ref={searchRef}
 					theme_value={theme}
 				/>
-				<IconButton
+				<HoverButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
 					margin='8px'
-					onClick={onClickArrowUp}
+					onClick={onClickUpArrow}
 				>
 					{arrowDropUpIcon}
-				</IconButton>
-				<IconButton
+				</HoverButton>
+				<HoverButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
 					margin_right='8px'
-					onClick={onClickArrowDown}
+					onClick={onClickDownrrow}
 				>
 					{arrowDropDownIcon}
-				</IconButton>
-				<IconButton
+				</HoverButton>
+				<HoverButton
 					size={'sm'}
 					type='button'
 					theme_value={theme}
@@ -511,7 +511,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					onClick={onClickOpenSearchBar}
 				>
 					{closeIcon}
-				</IconButton>
+				</HoverButton>
 			</_SearchContainer>
 		</_Container>
 	);

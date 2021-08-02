@@ -10,9 +10,14 @@ import {
 	PrimaryGreyButton,
 	PrimaryRedButton,
 } from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
-import {Icon, DefaultIconButton} from '../../styles/icon';
-import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/modal";
+import {Icon, IconButton} from '../../styles/components/icon';
+import {
+	AlertText,
+	ModalFooter,
+	ModalHeader,
+	ModalMessage,
+	PopupModal,
+} from '../../styles/components/disalogBox';
 
 const _PopupModal = styled(PopupModal)`
 	width: 288px;
@@ -51,15 +56,14 @@ const AlertPopup = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('alert')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
-					color={fontColor[theme]}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCloseModal}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 
 			<ModalMessage>

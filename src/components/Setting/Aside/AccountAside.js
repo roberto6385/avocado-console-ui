@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import InputField_ from '../../RecycleComponents/inputField_';
+import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {settingInput} from '../../../styles/color';
 import {postDeleteAccount} from '../../../reducers/auth/delete';
 import {
@@ -43,7 +43,6 @@ const AccountAside = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-
 	const {theme, account} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(
@@ -64,43 +63,43 @@ const AccountAside = () => {
 
 	return (
 		<_Container>
-			<InputField_ title={t('account')}>
+			<TextBoxField_ title={t('account')}>
 				<_Input
 					theme_value={theme}
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
 				/>
-			</InputField_>
-			<InputField_ title={t('name')}>
+			</TextBoxField_>
+			<TextBoxField_ title={t('name')}>
 				<_Input
 					theme_value={theme}
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
 				/>
-			</InputField_>
-			<InputField_ title={t('email')}>
+			</TextBoxField_>
+			<TextBoxField_ title={t('email')}>
 				<_Input
 					theme_value={theme}
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly
 				/>
-			</InputField_>
-			<InputField_ title={t('auth')}>
+			</TextBoxField_>
+			<TextBoxField_ title={t('auth')}>
 				<_PrimaryGreenButton
 					theme_value={theme}
 					onClick={changePath('/account')}
 				>
 					{t('changeAuth')}
 				</_PrimaryGreenButton>
-			</InputField_>
-			<InputField_>
+			</TextBoxField_>
+			<TextBoxField_>
 				<_PrimaryRednButton theme_value={theme} onClick={handleDelete}>
 					계정 삭제
 				</_PrimaryRednButton>
-			</InputField_>
+			</TextBoxField_>
 		</_Container>
 	);
 };

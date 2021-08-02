@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
-import InputField_ from '../RecycleComponents/inputField_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {SecondaryGreenButton} from '../../styles/components/button';
-import LoadingSpinner from '../loadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {DefaultIconButton} from '../../styles/icon';
+import {IconButton} from '../../styles/components/icon';
 import {
 	UserForm,
 	UserInput,
@@ -28,7 +28,6 @@ const Item_Container = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 18px;
-
 `;
 
 const _UserSubmitButton = styled(UserSubmitButton)`
@@ -93,6 +92,7 @@ const PasswordForm = () => {
 		},
 		[dispatch],
 	);
+
 	const checkAuth = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -130,6 +130,7 @@ const PasswordForm = () => {
 		},
 		[],
 	);
+
 	const focusout = useCallback(
 		(keyword) => () => {
 			if (keyword === 'password') {
@@ -158,14 +159,14 @@ const PasswordForm = () => {
 				<a href={'/signin'}> {t('signIn')} </a>
 			</UserTitleSpan>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserInput
 					ref={idRef}
 					value={id}
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</InputField_>
+			</TextBoxField_>
 
 			<Item_Container>
 				<span>{t('auth')}</span>
@@ -175,20 +176,20 @@ const PasswordForm = () => {
 			</Item_Container>
 
 			<Item_Container>
-				<InputField_ flex={1} marginBottom={'0px'}>
+				<TextBoxField_ flex={1} marginBottom={'0px'}>
 					<UserInput
 						type='email'
 						value={email}
 						onChange={onChangeEmail}
 						placeholder={t('authInput')}
 					/>
-				</InputField_>
+				</TextBoxField_>
 				<_SecondaryGreenButton onClick={checkAuth}>
 					{t('check')}
 				</_SecondaryGreenButton>
 			</Item_Container>
 
-			<InputField_ marginBottom={'18px'}>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'password_container'}>
 					<UserPasswordInput
 						onFocus={focusin('password')}
@@ -198,7 +199,7 @@ const PasswordForm = () => {
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
-					<DefaultIconButton
+					<IconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={'#757575'}
@@ -207,10 +208,10 @@ const PasswordForm = () => {
 						{hidePassword
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
-					</DefaultIconButton>
+					</IconButton>
 				</UserPasswordContainer>
-			</InputField_>
-			<InputField_ marginBottom={'18px'}>
+			</TextBoxField_>
+			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'confirmPassword_container'}>
 					<UserPasswordInput
 						onFocus={focusin('confirm')}
@@ -221,7 +222,7 @@ const PasswordForm = () => {
 						placeholder={t('confirmPassword')}
 					/>
 				</UserPasswordContainer>
-			</InputField_>
+			</TextBoxField_>
 			<_UserSubmitButton type='submit'>
 				{t('changePassword')}
 			</_UserSubmitButton>

@@ -18,11 +18,11 @@ import {
 	fontColor,
 	tabColor,
 } from '../../../styles/color';
-import LoadingSpinner from '../../loadingSpinner';
+import LoadingSpinner from '../../LoadingSpinner';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {IconButton, Icon} from '../../../styles/icon';
+import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Table = styled.table`
 	display: flex;
@@ -149,22 +149,22 @@ const FileList = ({
 									<_Th min={'105px'}>{item.permission}</_Th>
 									<_Th min={'63px'} justify={'flex-end'}>
 										{item.type === 'file' && (
-											<IconButton
+											<HoverButton
 												theme_value={theme}
 												margin_right={'12px'}
 												onClick={onEdit(item)}
 											>
 												{editIcon}
-											</IconButton>
+											</HoverButton>
 										)}
 										{item.name !== '..' && (
-											<IconButton
+											<HoverButton
 												theme_value={theme}
 												margin={'0px'}
 												onClick={onDownload(item)}
 											>
 												{fileDownloadIcon}
-											</IconButton>
+											</HoverButton>
 										)}
 									</_Th>
 								</_Tr>

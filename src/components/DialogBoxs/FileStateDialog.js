@@ -6,10 +6,10 @@ import {commandChmodAction, commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 
 import {closeIcon} from '../../icons/icons';
-import {DefaultIconButton} from '../../styles/icon';
-import InputField_ from '../RecycleComponents/inputField_';
-import Checkbox_ from '../RecycleComponents/Checkbox_';
-import {ModalFooter, PopupModal} from '../../styles/components/modal';
+import {IconButton} from '../../styles/components/icon';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import CheckBox_ from '../RecycleComponents/CheckBox_';
+import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import {
@@ -41,8 +41,24 @@ const KeySpan = styled.span`
 	font-size: 18px;
 `;
 
-const FileStatForm = () => {
+const FileStateDialog = () => {
 	const dispatch = useDispatch();
+
+	const valueArray = [
+		{
+			key: 'Read',
+			value: 4,
+		},
+		{
+			key: 'Write',
+			value: 2,
+		},
+		{
+			key: 'Execute',
+			value: 1,
+		},
+	];
+
 	const [permission, setPermission] = useState(0);
 	const [own, setOwner] = useState(null);
 	const [grp, setGroup] = useState(null);
@@ -262,14 +278,14 @@ const FileStatForm = () => {
 				<ModalHeader theme_value={theme}>
 					{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
 					<div>권한</div>
-					<DefaultIconButton
+					<IconButton
 						theme_value={theme}
 						size={'sm'}
 						margin={'0px'}
 						onClick={closeModal}
 					>
 						{closeIcon}
-					</DefaultIconButton>
+					</IconButton>
 				</ModalHeader>
 
 				<_Form onSubmit={submitFunction}>
@@ -278,14 +294,14 @@ const FileStatForm = () => {
 							<KeySpan>Owner</KeySpan>
 							<br />
 
-							<Checkbox_
+							<CheckBox_
 								title={checked[0].type}
 								value={checked[0].checked}
 								handleCheck={checkFunc(checked[0])}
 								theme_value={0}
 							/>
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[1].type}
 								value={checked[1].checked}
 								handleCheck={checkFunc(checked[1])}
@@ -293,7 +309,7 @@ const FileStatForm = () => {
 							/>
 
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[2].type}
 								value={checked[2].checked}
 								handleCheck={checkFunc(checked[2])}
@@ -304,21 +320,21 @@ const FileStatForm = () => {
 							<KeySpan>Group</KeySpan>
 							<br />
 
-							<Checkbox_
+							<CheckBox_
 								title={checked[3].type}
 								value={checked[3].checked}
 								handleCheck={checkFunc(checked[3])}
 								theme_value={0}
 							/>
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[4].type}
 								value={checked[4].checked}
 								handleCheck={checkFunc(checked[4])}
 								theme_value={0}
 							/>
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[5].type}
 								value={checked[5].checked}
 								handleCheck={checkFunc(checked[5])}
@@ -329,21 +345,21 @@ const FileStatForm = () => {
 							<KeySpan>Public</KeySpan>
 							<br />
 
-							<Checkbox_
+							<CheckBox_
 								title={checked[6].type}
 								value={checked[6].checked}
 								handleCheck={checkFunc(checked[6])}
 								theme_value={0}
 							/>
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[7].type}
 								value={checked[7].checked}
 								handleCheck={checkFunc(checked[7])}
 								theme_value={0}
 							/>
 							<br />
-							<Checkbox_
+							<CheckBox_
 								title={checked[8].type}
 								value={checked[8].checked}
 								handleCheck={checkFunc(checked[8])}
@@ -351,14 +367,14 @@ const FileStatForm = () => {
 							/>
 						</ColDiv>
 					</RowDiv>
-					<InputField_>
+					<TextBoxField_>
 						<UserInput
 							type='text'
 							value={permission}
 							onChange={handleInputValue}
 							onBlur={handleBlur}
 						/>
-					</InputField_>
+					</TextBoxField_>
 				</_Form>
 
 				<ModalFooter theme_value={theme}>
@@ -377,4 +393,4 @@ const FileStatForm = () => {
 	);
 };
 
-export default FileStatForm;
+export default FileStateDialog;

@@ -5,9 +5,9 @@ import axios from 'axios';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
-import background from '../images/login.png';
+import background from '../images/loginBackground/login_bg_design_2.png';
 import styled from 'styled-components';
-import LoadingSpinner from '../components/loadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const _Container = styled.div`
 	width: 100%;

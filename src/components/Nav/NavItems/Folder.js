@@ -3,27 +3,29 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
+import Server from './Server';
 import {
-	CHANGE_FAVORITES_FOLDER_NAME,
-	LOCAL_SAVE_FAVORITES,
+	CHANGE_SERVER_FOLDER_NAME,
 	SET_CLICKED_SERVER,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
-import useInput from '../../hooks/useInput';
-import Collapse_ from '../RecycleComponents/Collapse_';
-import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../icons/icons';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+	SORT_SERVER_AND_FOLDER,
+} from '../../../reducers/common';
+import useInput from '../../../hooks/useInput';
+import Collapse_ from '../../RecycleComponents/Collapse_';
+import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
+import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
 import {
 	activeColor,
 	iconColor,
 	navColor,
 	navHighColor,
-} from '../../styles/color';
+} from '../../../styles/color';
 import styled from 'styled-components';
-import FavoritesServer from './FavoritesServer';
-import FolderContextMenu from '../ContextMenu/FolderContextMenu';
-import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
-import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
+import {Icon, IconButton} from '../../../styles/components/icon';
+import {
+	NavigationBarItemForm,
+	NavigationBarInput,
+	NavigationBarTitle,
+} from '../../../styles/components/navigationBar';
 
 const FolderItem = styled.div`
 	display: flex;
@@ -42,9 +44,6 @@ const FolderItem = styled.div`
 			? navHighColor[props.theme_value]
 			: navColor[props.theme_value]};
 `;
-const _Input = styled(NavigationBarInput)`
-	background: transparent;
-`;
 
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
@@ -60,19 +59,17 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const FavoritesFolder = ({open, data, indent, temp}) => {
+const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {
-		clicked_server,
-		theme,
-		createdFolderInfo,
-		tempFavorites,
-		favoritesRenameKey,
-	} = useSelector((state) => state.common, shallowEqual);
-	const renameRef = useRef(null);
+	const {nav, clicked_server, theme, createdFolderInfo} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
+	const renameRef = useRef(null);
 
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
@@ -80,9 +77,9 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data.key]);
+	}, [clicked_server, data.key, dispatch]);
 
-	const onClickOpen = useCallback(() => {
+	const onClickOpenFolder = useCallback(() => {
 		setOpenTab(!openTab);
 	}, [openTab]);
 
@@ -102,14 +99,13 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 	const handleSubmit = useCallback(
 		(e) => {
 			e.preventDefault();
-
 			if (renameValue === '') return;
 
 			console.log(data.name);
-			if (isValidFolderName(tempFavorites, renameValue.trim())) {
+			if (isValidFolderName(nav, renameValue.trim())) {
 				dispatch({
-					type: CHANGE_FAVORITES_FOLDER_NAME,
-					data: {key: data.key, name: renameValue.trim(), temp},
+					type: CHANGE_SERVER_FOLDER_NAME,
+					data: {key: data.key, name: renameValue.trim()},
 				});
 
 				setOpenRename(false);
@@ -129,8 +125,6 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 				}
 			}
 
-			dispatch({type: LOCAL_SAVE_FAVORITES});
-
 			// if (renameValue !== data.name) {
 			// 	dispatch({
 			// 		type: CHANGE_SERVER_FOLDER_NAME,
@@ -138,38 +132,32 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 			// 	});
 			// }
 		},
-		[data.key, data.name, dispatch, tempFavorites, renameValue],
+		[data.key, data.name, dispatch, nav, renameValue],
 	);
 
-	const handleKeyDown = useCallback(
+	const EscapeKey = useCallback(
 		(e) => {
 			if (e.keyCode === 27) {
 				setOpenRename(false);
 				dispatch({type: SET_CLICKED_SERVER, data: null});
-			} else if (e.keyCode === 13) {
-				handleSubmit(e);
 			}
 		},
-		[dispatch, handleSubmit],
+		[dispatch],
 	);
 
 	const prevPutItem = useCallback(() => {
-		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
 	}, [data.key, dispatch]);
 
 	const nextPutItem = useCallback(
 		(e) => {
-			e.preventDefault();
 			e.stopPropagation();
-			console.log('favorite folder next put item');
 
 			data.type === 'folder' &&
 				dispatch({
-					type: SORT_FAVORITES_SERVER_AND_FOLDER,
+					type: SORT_SERVER_AND_FOLDER,
 					data: {next: data, indent: parseInt(indent)},
 				});
-			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch, indent],
 	);
@@ -180,10 +168,6 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		dispatch({type: SET_CLICKED_SERVER, data: null});
 	}, [dispatch]);
 
-	const handleDragOver = useCallback((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}, []);
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -210,22 +194,12 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
-	useEffect(() => {
-		renameRef.current?.focus();
-		if (data.key === favoritesRenameKey) {
-			setOpenRename(true);
-		}
-	}, [data, favoritesRenameKey]);
-
 	return (
 		<React.Fragment>
 			<FolderItem
 				onClick={onCLickFolder}
-				onDoubleClick={() => setOpenRename(true)}
-				onContextMenu={contextMenuOpen}
 				draggable='true'
 				onDragStart={prevPutItem}
-				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
 				theme_value={theme}
 				clicked={clicked_server === data.key ? 1 : 0}
@@ -245,25 +219,29 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 
 				<NavigationBarTitle theme_value={theme}>
 					{openRename ? (
-						<_Input
-							ref={renameRef}
-							type='text'
-							value={renameValue}
-							onChange={onChangeRenameValue}
-							onKeyDown={handleKeyDown}
-							onBlur={handleBlur}
-							theme_value={theme}
-						/>
+						<NavigationBarItemForm
+							onSubmit={handleSubmit}
+							onBlur={handleSubmit}
+						>
+							<NavigationBarInput
+								ref={renameRef}
+								type='text'
+								value={renameValue}
+								onChange={onChangeRenameValue}
+								onKeyDown={EscapeKey}
+								onBlur={handleBlur}
+								theme_value={theme}
+							/>
+						</NavigationBarItemForm>
 					) : (
 						data.name
 					)}
 				</NavigationBarTitle>
 				<IconButton
-					type={'button'}
-					theme_value={theme}
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					onClick={onClickOpen}
+					onClick={onClickOpenFolder}
+					color={iconColor[theme]}
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
@@ -273,35 +251,32 @@ const FavoritesFolder = ({open, data, indent, temp}) => {
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<FavoritesFolder
+								<Folder
 									key={i.key}
 									open={open}
 									data={i}
 									indent={indent + 1}
-									temp={temp}
 								/>
 							) : (
-								<FavoritesServer
+								<Server
 									key={i.key}
 									data={i}
 									indent={indent + 1}
-									temp={temp}
 								/>
 							),
 						)}
 					</React.Fragment>
 				</Collapse_>
 			)}
-			{!temp && <FolderContextMenu data={data} />}
+			{/*<FolderContextMenu data={data} setOpenRename={setOpenRename} />*/}
 		</React.Fragment>
 	);
 };
 
-FavoritesFolder.propTypes = {
+Folder.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
-	temp: PropTypes.bool.isRequired,
 };
 
-export default FavoritesFolder;
+export default Folder;

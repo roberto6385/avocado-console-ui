@@ -9,7 +9,7 @@ import {
 	SSH_CHANGE_SNIPPET_REQUEST,
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
-import InputField_ from '../RecycleComponents/inputField_';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {
@@ -22,11 +22,18 @@ import {
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
-import {IconButton, DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
-import {Input} from "../../styles/components/input";
-import {Form} from "../../styles/components/form";
+import {
+	PrimaryGreenButton,
+	PrimaryGreyButton,
+} from '../../styles/components/button';
+import {HoverButton, IconButton} from '../../styles/components/icon';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import {Input} from '../../styles/components/input';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -76,12 +83,12 @@ const _Li = styled.li`
 	justify-content: space-between;
 	padding: 1px 16px 3px 14px;
 	background: ${(props) =>
-		props.clicked
+		props.selected
 			? snippetsCLickedListColor[props.theme_value]
 			: snippetsListColor[props.theme_value]};
 	border-left: 2px solid
 		${(props) =>
-			props.clicked
+			props.selected
 				? snippetsBoarderColor[props.theme_value]
 				: snippetsListColor[props.theme_value]};
 `;
@@ -111,7 +118,7 @@ const SnippetsManager = ({open, setOpen}) => {
 	const [index, setIndex] = useState(snippents_index);
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
-	const [clickedSnippet, setClickedSnippet] = useState(null);
+	const [selectedSnippet, setSelectedSnippet] = useState(null);
 	const nameInputRef = useRef(null);
 
 	const onChangeName = useCallback(
@@ -119,13 +126,13 @@ const SnippetsManager = ({open, setOpen}) => {
 			setName(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
-					if (v.id === clickedSnippet)
+					if (v.id === selectedSnippet)
 						return {...v, name: e.target.value};
 					else return v;
 				}),
 			);
 		},
-		[clickedSnippet, tempSnippets],
+		[selectedSnippet, tempSnippets],
 	);
 
 	const onChangeContent = useCallback(
@@ -133,13 +140,13 @@ const SnippetsManager = ({open, setOpen}) => {
 			setContent(e.target.value);
 			setTempSnippets(
 				tempSnippets.map((v) => {
-					if (v.id === clickedSnippet)
+					if (v.id === selectedSnippet)
 						return {...v, content: e.target.value};
 					else return v;
 				}),
 			);
 		},
-		[clickedSnippet, tempSnippets],
+		[selectedSnippet, tempSnippets],
 	);
 
 	const onClickCancel = useCallback(() => {
@@ -218,7 +225,7 @@ const SnippetsManager = ({open, setOpen}) => {
 		(id) => () => {
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
-			setClickedSnippet(id);
+			setSelectedSnippet(id);
 			nameInputRef.current?.focus();
 		},
 		[tempSnippets, nameInputRef],
@@ -235,40 +242,40 @@ const SnippetsManager = ({open, setOpen}) => {
 		]);
 		setName('');
 		setContent('');
-		setClickedSnippet(index);
+		setSelectedSnippet(index);
 		setIndex(index + 1);
 		nameInputRef.current?.focus();
 	}, [tempSnippets, index]);
 
 	const onClickRemoveSnippet = useCallback(() => {
-		if (clickedSnippet !== null) {
+		if (selectedSnippet !== null) {
 			const newSnippets = tempSnippets.filter(
-				(x) => x.id !== clickedSnippet,
+				(x) => x.id !== selectedSnippet,
 			);
 
 			if (newSnippets.length !== 0) {
 				setName(newSnippets[0].name);
 				setContent(newSnippets[0].content);
-				setClickedSnippet(newSnippets[0].id);
+				setSelectedSnippet(newSnippets[0].id);
 			} else {
 				setName('');
 				setContent('');
-				setClickedSnippet(null);
+				setSelectedSnippet(null);
 			}
 
 			setTempSnippets(newSnippets);
 			nameInputRef.current?.focus();
 		}
-	}, [clickedSnippet, tempSnippets]);
+	}, [selectedSnippet, tempSnippets]);
 
 	useEffect(() => {
 		if (open) {
 			if (snippets.length !== 0) {
-				setClickedSnippet(snippets[0].id);
+				setSelectedSnippet(snippets[0].id);
 				setName(snippets[0].name);
 				setContent(snippets[0].content);
 			} else {
-				setClickedSnippet(null);
+				setSelectedSnippet(null);
 				setName('');
 				setContent('');
 			}
@@ -287,35 +294,35 @@ const SnippetsManager = ({open, setOpen}) => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('snippetsManager')}</div>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCancel}
 				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<_ListContainer>
 				<_Ul theme_value={theme} back={mainBackColor[theme]}>
 					<_HeaderLi>
 						<_Header>{t('snippetList')}</_Header>
-						<IconButton
+						<HoverButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'8px'}
 							onClick={onClickAddSnippet}
 						>
 							{plusIcon}
-						</IconButton>
-						<IconButton
+						</HoverButton>
+						<HoverButton
 							size={'sm'}
 							theme_value={theme}
 							margin={'0px'}
 							onClick={onClickRemoveSnippet}
 						>
 							{deleteIcon}
-						</IconButton>
+						</HoverButton>
 					</_HeaderLi>
 
 					{tempSnippets.map((v) => (
@@ -323,14 +330,14 @@ const SnippetsManager = ({open, setOpen}) => {
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
 							theme_value={theme}
-							clicked={clickedSnippet === v.id ? 1 : 0}
+							selected={selectedSnippet === v.id ? 1 : 0}
 						>
 							{v.name === '' ? t('new') : v.name}
 						</_Li>
 					))}
 				</_Ul>
 				<_Form>
-					<InputField_ title={t('name')}>
+					<TextBoxField_ title={t('name')}>
 						<Input
 							autoFocus={true}
 							ref={nameInputRef}
@@ -340,8 +347,8 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.name')}
 							theme_value={theme}
 						/>
-					</InputField_>
-					<InputField_ title={t('content')}>
+					</TextBoxField_>
+					<TextBoxField_ title={t('content')}>
 						<_Textarea
 							value={content}
 							onChange={onChangeContent}
@@ -349,7 +356,7 @@ const SnippetsManager = ({open, setOpen}) => {
 							placeholder={t('place.content')}
 							theme_value={theme}
 						/>
-					</InputField_>
+					</TextBoxField_>
 				</_Form>
 			</_ListContainer>
 			<ModalFooter theme_value={theme}>

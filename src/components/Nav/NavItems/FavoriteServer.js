@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {useDoubleClick} from '../../hooks/useDoubleClick';
-import useInput from '../../hooks/useInput';
+import {useDoubleClick} from '../../../hooks/useDoubleClick';
+import useInput from '../../../hooks/useInput';
 import {
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
+} from '../../../reducers/common';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {Nav} from 'react-bootstrap';
 
 import {
@@ -18,13 +18,13 @@ import {
 	iconColor,
 	navColor,
 	navHighColor,
-} from '../../styles/color';
-import {awsServerIcon, linuxServerIcon} from '../../icons/icons';
+} from '../../../styles/color';
+import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import styled from 'styled-components';
-import {connectionAction} from '../../reducers/sftp';
-import FavoritesContextMenu from '../ContextMenu/FavoritesContextMenu';
-import {Icon} from "../../styles/icon";
-import {NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
+import {connectionAction} from '../../../reducers/sftp';
+import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
+import {Icon} from "../../../styles/components/icon";
+import {NavigationBarInput, NavigationBarTitle} from "../../../styles/components/navigationBar";
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -44,7 +44,7 @@ export const ServerItem = styled(Nav.Item)`
 			: navColor[props.theme_value]};
 `;
 
-const FavoritesServer = ({data, indent, temp}) => {
+const FavoriteServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, theme, identity} = useSelector(
 		(state) => state.common,
@@ -217,10 +217,10 @@ const FavoritesServer = ({data, indent, temp}) => {
 	);
 };
 
-FavoritesServer.propTypes = {
+FavoriteServer.propTypes = {
 	data: PropTypes.object.isRequired,
 	temp: PropTypes.bool.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FavoritesServer;
+export default FavoriteServer;

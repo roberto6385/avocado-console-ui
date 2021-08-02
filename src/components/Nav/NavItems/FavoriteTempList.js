@@ -5,11 +5,14 @@ import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import Folder from './Folder';
-import Server from './Server';
-import {SORT_SERVER_AND_FOLDER} from '../../reducers/common';
-import {navColor} from '../../styles/color';
-import {HiddenScroll} from '../../styles/function';
+import {navColor} from '../../../styles/color';
+import {HiddenScroll} from '../../../styles/function';
+import FavoriteServer from './FavoriteServer';
+import FavoriteFolder from './FavoriteFolder';
+import {
+	LOCAL_SAVE_FAVORITES,
+	SORT_FAVORITES_SERVER_AND_FOLDER,
+} from '../../../reducers/common';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -17,9 +20,10 @@ export const _Nav = styled(Nav)`
 	flex: 1 1 0;
 	overflow-y: scroll;
 	background: ${(props) => navColor[props.theme_value]};
+
 	width: 100%;
 	height: 100%;
-	z-index: 3;
+	z-index: 999;
 	${HiddenScroll}
 `;
 
@@ -62,13 +66,23 @@ function searchTreeStart(root, name) {
 	return tempRoot;
 }
 
-const ServerFolderList = ({search}) => {
+const FavoriteTempList = ({search}) => {
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
-	const [filteredNav, setfilteredNav] = useState(nav);
+	const {tempFavorites, theme} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
 
 	const dropNavList = useCallback(() => {
-		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
+		//TODO favorites temp list drag and drop
+		console.log('drop favorites temp list');
+		dispatch({
+			type: SORT_FAVORITES_SERVER_AND_FOLDER,
+			data: {next: 'toEdge'},
+		});
+
+		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -80,30 +94,46 @@ const ServerFolderList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredNav(searchTreeStart(nav, search));
-	}, [nav, search]);
+		setfilteredFavorite(searchTreeStart(tempFavorites, search));
+	}, [tempFavorites, search]);
+
+	const handleDragOver = useCallback((e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	}, []);
 
 	return (
-		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
-			{filteredNav.map((data) =>
+		<_Nav
+			onDrop={dropNavList}
+			onDragOver={handleDragOver}
+			theme_value={theme}
+			id='sortableServerNav'
+		>
+			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
-					<Folder
-						key={data.key}
+					<FavoriteFolder
+						key={data.key + data.name}
 						open={search !== ''}
 						data={data}
 						indent={1}
+						temp={true}
 					/>
 				) : (
-					<Server key={data.key} data={data} indent={1} />
+					<FavoriteServer
+						key={data.key + data.name}
+						data={data}
+						indent={1}
+						temp={true}
+					/>
 				),
 			)}
 		</_Nav>
 	);
 };
 
-ServerFolderList.propTypes = {
+FavoriteTempList.propTypes = {
 	search: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 
-export default ServerFolderList;
+export default FavoriteTempList;

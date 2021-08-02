@@ -9,13 +9,13 @@ import {
 	notificationIcon,
 	settingIcon,
 	windowIcon,
-} from '../icons/icons';
-import SettingContextMenu from './ContextMenu/SettingContextMenu';
-import ColumnContextMenu from './ContextMenu/ColumnContextMenu';
-import AccountContextMenu from './ContextMenu/AccountContextMenu';
-import NotificationContextMenu from './ContextMenu/NotificationContextMenu';
-import {useDetectOutsideClick} from '../hooks/useDetectOutsideClick';
-import {IconButton} from '../styles/icon';
+} from '../../icons/icons';
+import SettingContextMenu from '../ContextMenu/SettingContextMenu';
+import ColumnContextMenu from '../ContextMenu/ColumnContextMenu';
+import AccountContextMenu from '../ContextMenu/AccountContextMenu';
+import NotificationContextMenu from '../ContextMenu/NotificationContextMenu';
+import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
+import {HoverButton} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -63,7 +63,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
-	const openAccount = useCallback(
+	const openAccountMenu = useCallback(
 		(e) => {
 			showAccountMenu(e, {
 				position: getAccountMenuPosition(),
@@ -72,7 +72,7 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getAccountMenuPosition, showAccountMenu],
 	);
 
-	const openSetting = useCallback(
+	const openSettingMenu = useCallback(
 		(e) => {
 			showSettingMenu(e, {
 				position: getSettingMenuPosition(),
@@ -81,11 +81,11 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 		[getSettingMenuPosition, showSettingMenu],
 	);
 
-	const openNotification = useCallback(() => {
+	const openNotificationMenu = useCallback(() => {
 		setShownotificationMenu(true);
 	}, []);
 
-	const openColumn = useCallback(
+	const openColumnMenu = useCallback(
 		(e) => {
 			showColumnMenu(e, {
 				position: getColumnMenuPosition(),
@@ -96,37 +96,37 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<_Container>
-			<IconButton
+			<HoverButton
 				theme_value={theme}
 				ref={accountRef}
-				onClick={openAccount}
+				onClick={openAccountMenu}
 			>
 				{accountIcon}
-			</IconButton>
-			<IconButton
+			</HoverButton>
+			<HoverButton
 				theme_value={theme}
 				ref={settingRef}
-				onClick={openSetting}
+				onClick={openSettingMenu}
 			>
 				{settingIcon}
-			</IconButton>
+			</HoverButton>
 
-			<IconButton
+			<HoverButton
 				theme_value={theme}
 				ref={notificationRef}
-				onClick={openNotification}
+				onClick={openNotificationMenu}
 			>
 				{notificationIcon}
-			</IconButton>
+			</HoverButton>
 
 			{tab.length !== 0 && (
-				<IconButton
+				<HoverButton
 					theme_value={theme}
 					ref={columnRef}
-					onClick={openColumn}
+					onClick={openColumnMenu}
 				>
 					{windowIcon}
-				</IconButton>
+				</HoverButton>
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />

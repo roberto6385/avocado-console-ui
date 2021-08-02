@@ -9,7 +9,7 @@ import {
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
 import {fontColor, footerColor} from '../styles/color';
-import {DefaultIconButton} from '../styles/icon';
+import {IconButton} from '../styles/components/icon';
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};
@@ -22,7 +22,7 @@ const _Footer = styled.footer`
 	padding: 0 16px;
 `;
 
-const _HostContainer = styled.div`
+const _RightContainer = styled.div`
 	display: flex;
 	align-items: center;
 `;
@@ -43,7 +43,7 @@ const Footer = () => {
 		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
 	}, [font_size]);
 
-	const onClickOpenSearchBar = useCallback(() => {
+	const onClickOpenSshSearchBar = useCallback(() => {
 		const current = tab.slice().find((v) => v.uuid === current_tab);
 		if (current_tab !== null && current.type === 'SSH')
 			dispatch({type: SSH_SET_SEARCH_MODE});
@@ -53,31 +53,31 @@ const Footer = () => {
 		<_Footer theme_value={theme}>
 			<span theme_value={theme}>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
-				<_HostContainer>
-					<DefaultIconButton
+				<_RightContainer>
+					<IconButton
 						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickDeceaseFontSize}
 					>
 						{zoomOutIcon}
-					</DefaultIconButton>
-					<DefaultIconButton
+					</IconButton>
+					<IconButton
 						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickIncreaseFontSize}
 					>
 						{zoomInIcon}
-					</DefaultIconButton>
-					<DefaultIconButton
+					</IconButton>
+					<IconButton
 						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
-						onClick={onClickOpenSearchBar}
+						onClick={onClickOpenSshSearchBar}
 					>
 						{searchIcon}
-					</DefaultIconButton>
+					</IconButton>
 
 					{current_tab &&
 						server.find(
@@ -86,7 +86,7 @@ const Footer = () => {
 								tab.find((i) => i.uuid === current_tab)?.server
 									.id,
 						)?.host}
-				</_HostContainer>
+				</_RightContainer>
 			)}
 		</_Footer>
 	);

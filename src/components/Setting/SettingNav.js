@@ -19,7 +19,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {IconButton, Icon, DefaultIconButton} from '../../styles/icon';
+import {HoverButton, Icon, IconButton} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -80,13 +80,13 @@ const SettingNav = ({match}) => {
 	return (
 		<_Container theme_value={theme}>
 			<_BackContainer onClick={changePath('/')} theme_value={theme}>
-				<DefaultIconButton
+				<IconButton
 					theme_value={theme}
 					margin={'0px'}
 					onClick={changePath('/')}
 				>
 					{chevronLeftIcon}
-				</DefaultIconButton>
+				</IconButton>
 				<_Header>{t('back')}</_Header>
 			</_BackContainer>
 

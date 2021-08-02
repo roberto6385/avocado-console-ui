@@ -5,7 +5,7 @@ import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import InputFiled_ from '../RecycleComponents/InputFiled_';
+
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
@@ -19,8 +19,13 @@ import {
 	PrimaryGreyButton,
 	SecondaryGreenButton,
 } from '../../styles/components/button';
-import {DefaultIconButton} from '../../styles/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/modal";
+import {IconButton} from '../../styles/components/icon';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -80,7 +85,7 @@ const _Form = styled.form`
 	margin: 18px 8px 12px 8px;
 `;
 
-const AddAccountForm = () => {
+const AddAccountDialog = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addAccountForm');
 
@@ -187,13 +192,18 @@ const AddAccountForm = () => {
 		>
 			<ModalHeader theme_value={theme}>
 				<div>{t('addAccount')}</div>
-				<DefaultIconButton size={'sm'} margin={'0px'} onClick={closeModal}>
+				<IconButton
+					theme_value={theme}
+					size={'sm'}
+					margin={'0px'}
+					onClick={closeModal}
+				>
 					{closeIcon}
-				</DefaultIconButton>
+				</IconButton>
 			</ModalHeader>
 			<_Form onSubmit={onSubmitForm}>
 				<_Item>
-					<InputFiled_ title={t('identity')} flex={1}>
+					<TextBoxField_ title={t('identity')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -203,7 +213,7 @@ const AddAccountForm = () => {
 							onChange={onChangeIdentity}
 							placeholder={t('place.identity')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 					<Select_
 						width={'178px'}
 						title={t('auth')}
@@ -214,7 +224,7 @@ const AddAccountForm = () => {
 					/>
 				</_Item>
 				<_Item>
-					<InputFiled_ title={t('userName')} flex={1}>
+					<TextBoxField_ title={t('userName')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -224,11 +234,11 @@ const AddAccountForm = () => {
 							onChange={onChangeUsername}
 							placeholder={t('place.userName')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 				</_Item>
 				{authentication === 'Password' ? (
 					<_Item>
-						<InputFiled_ title={t('password')} flex={1}>
+						<TextBoxField_ title={t('password')} flex={1}>
 							<_LongInput
 								back={greyNormalButtonBackgroundColor[theme]}
 								color={fontColor[theme]}
@@ -238,12 +248,12 @@ const AddAccountForm = () => {
 								onChange={onChangePassword}
 								placeholder={t('place.password')}
 							/>
-						</InputFiled_>
+						</TextBoxField_>
 					</_Item>
 				) : (
 					<React.Fragment>
 						<_Item>
-							<InputFiled_ title={t('private')} flex={1}>
+							<TextBoxField_ title={t('private')} flex={1}>
 								<_Label
 									htmlFor={'add_server_form_type_file'}
 									back={
@@ -260,7 +270,7 @@ const AddAccountForm = () => {
 										onChange={onChangeKeyFile}
 									/>
 								</_Label>
-							</InputFiled_>
+							</TextBoxField_>
 							<_BrowseButton
 								onClick={(e) => {
 									e.preventDefault();
@@ -276,7 +286,10 @@ const AddAccountForm = () => {
 						</_Item>
 
 						<_Item>
-							<InputFiled_ title={t('keyFilePassword')} flex={1}>
+							<TextBoxField_
+								title={t('keyFilePassword')}
+								flex={1}
+							>
 								<_LongInput
 									back={
 										greyNormalButtonBackgroundColor[theme]
@@ -288,12 +301,12 @@ const AddAccountForm = () => {
 									onChange={onChangePassword}
 									placeholder={t('place.password')}
 								/>
-							</InputFiled_>
+							</TextBoxField_>
 						</_Item>
 					</React.Fragment>
 				)}
 				<_Item>
-					<InputFiled_ title={t('note')} flex={1}>
+					<TextBoxField_ title={t('note')} flex={1}>
 						<_LongInput
 							back={greyNormalButtonBackgroundColor[theme]}
 							color={fontColor[theme]}
@@ -303,7 +316,7 @@ const AddAccountForm = () => {
 							onChange={onChangeNote}
 							placeholder={t('place.note')}
 						/>
-					</InputFiled_>
+					</TextBoxField_>
 				</_Item>
 			</_Form>
 			<ModalFooter theme_value={theme}>
@@ -322,4 +335,4 @@ const AddAccountForm = () => {
 	);
 };
 
-export default AddAccountForm;
+export default AddAccountDialog;

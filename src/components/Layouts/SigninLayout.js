@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import background from '../images/login_bg_design_1.jpg';
-import DarkModeLogo from '../images/logo/logo_white@3x.png';
+import background from '../../images/loginBackground/login_bg_design_1.jpg';
+import DarkModeLogo from '../../images/logo/logo_white@3x.png';
 
 const _Container = styled.div`
 	background-image: url(${background});
@@ -57,7 +57,7 @@ const _SpanText = styled.div`
 	background-image: linear-gradient(to top, #30b3b6, #62d2a3);
 `;
 
-const LoginLayout = ({children}) => {
+const SigninLayout = ({children}) => {
 	return (
 		<_Container>
 			<_HeaderContainer>
@@ -76,7 +76,7 @@ const LoginLayout = ({children}) => {
 	);
 };
 
-LoginLayout.propTypes = {
+SigninLayout.propTypes = {
 	children: PropTypes.node.isRequired,
 };
-export default LoginLayout;
+export default SigninLayout;

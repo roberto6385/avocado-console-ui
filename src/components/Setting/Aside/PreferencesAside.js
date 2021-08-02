@@ -8,7 +8,7 @@ import {
 	ROBOTO_SLAP,
 } from '../../../styles/components/font';
 import {useTranslation} from 'react-i18next';
-import Checkbox_ from '../../RecycleComponents/Checkbox_';
+import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
@@ -138,7 +138,7 @@ const PreferencesAside = () => {
 					popup={true}
 				/>
 
-				<Checkbox_
+				<CheckBox_
 					title={t('textCompletion')}
 					value={textCompletion}
 					handleCheck={(e) => setTextCompletion(e.target.checked)}

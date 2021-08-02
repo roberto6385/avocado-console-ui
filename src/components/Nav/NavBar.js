@@ -1,30 +1,30 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import ServerFolderList from './ServerFolderList/ServerFolderList';
-import useInput from '../hooks/useInput';
+import ServerFolderList from './NavItems/ServerFolderList';
+import useInput from '../../hooks/useInput';
 import {
 	OPEN_ADD_FAVORITES_FORM_POPUP,
 	OPEN_ADD_SERVER_FORM_POPUP,
-} from '../reducers/popup';
+} from '../../reducers/popup';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import drkFloatingButton from '../images/drk_floating button.png';
-import lghtFloatingButton from '../images/lght_floating button.png';
-import {burgerMenuIcon, plusIcon, searchIcon} from '../icons/icons';
-import {ADD_FOLDER, CHANGE_NAVTAB} from '../reducers/common';
+import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
+import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
+import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
+import {ADD_FOLDER, CHANGE_NAVTAB} from '../../reducers/common';
 import PropTypes from 'prop-types';
-import {WIDTH_256, FONT_14, HEIGHT_36} from '../styles/length';
+import {WIDTH_256, FONT_14, HEIGHT_36} from '../../styles/length';
 import {
 	navColor,
 	borderColor,
 	fontColor,
 	activeColor,
 	inputBack,
-} from '../styles/color';
-import LightModeLogo from '../images/logo/logo@2x.png';
-import DarkModeLogo from '../images/logo/logo_white@3x.png';
-import FavoriteList from './ServerFolderList/FavoritesList';
-import {IconButton, Icon} from '../styles/icon';
+} from '../../styles/color';
+import LightModeLogo from '../../images/logo/logo@2x.png';
+import DarkModeLogo from '../../images/logo/logo_white@3x.png';
+import FavoriteList from './NavItems/FavoriteList';
+import {HoverButton, Icon} from '../../styles/components/icon';
 
 const floatings = [lghtFloatingButton, drkFloatingButton];
 
@@ -142,7 +142,7 @@ const isValidFolderName = (folderArray, name) => {
 	return pass;
 };
 
-const Nav = ({toggle, setToggle}) => {
+const NavBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
 
@@ -194,13 +194,13 @@ const Nav = ({toggle, setToggle}) => {
 	return (
 		<_Aside className={toggle ? 'nav' : 'nav close'} theme_value={theme}>
 			<_Header>
-				<IconButton
+				<HoverButton
 					margin_right={'6px'}
 					theme_value={theme}
 					onClick={onClickOpenTggle}
 				>
 					{burgerMenuIcon}
-				</IconButton>
+				</HoverButton>
 				{theme === 0 ? (
 					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
 				) : (
@@ -287,9 +287,9 @@ const Nav = ({toggle, setToggle}) => {
 	);
 };
 
-Nav.propTypes = {
+NavBar.propTypes = {
 	toggle: PropTypes.bool.isRequired,
 	setToggle: PropTypes.func.isRequired,
 };
 
-export default Nav;
+export default NavBar;

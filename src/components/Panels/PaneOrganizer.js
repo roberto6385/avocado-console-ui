@@ -16,7 +16,7 @@ const _Container = styled.div`
 	}
 `;
 
-const Panes = ({tab}) => {
+const PaneOrganizer = ({tab}) => {
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	return (
@@ -172,8 +172,8 @@ const Panes = ({tab}) => {
 	);
 };
 
-Panes.propTypes = {
+PaneOrganizer.propTypes = {
 	tab: PropTypes.array.isRequired,
 };
 
-export default Panes;
+export default PaneOrganizer;

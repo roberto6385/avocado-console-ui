@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {CHANGE_CURRENT_TAB} from '../reducers/common';
-import SSHContainer from './SSH/SSHContainer';
-import SFTP_ from './SFTP/containers/SFTP_';
+import {CHANGE_CURRENT_TAB} from '../../reducers/common';
+import SSHContainer from '../SSH/SSHContainer';
+import SFTP_ from '../SFTP/containers/SFTP_';
 import {
 	SSH_SEND_DISCONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_REQUEST,
-} from '../reducers/ssh';
-import {closeIcon, sftpIcon, sshIcon} from '../icons/icons';
+} from '../../reducers/ssh';
+import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import {
 	activePaneHeaderColor,
 	borderColor,
 	fontColor,
 	paneHeaderHigh,
 	tabColor,
-} from '../styles/color';
-import {PrimaryRedButton} from '../styles/components/button';
-import {disconnectAction, reconnectionAction} from '../reducers/sftp';
-import {PreventDragCopy} from '../styles/function';
-import {IconButton, Icon} from "../styles/icon";
+} from '../../styles/color';
+import {PrimaryRedButton} from '../../styles/components/button';
+import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
+import {PreventDragCopy} from '../../styles/function';
+import {HoverButton, Icon} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	height: 100%;
@@ -85,7 +85,7 @@ const Pane = ({uuid, type, server}) => {
 		history: sftp_history,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const onClickChangeTab = useCallback(() => {
+	const onClickChangeCurrentTab = useCallback(() => {
 		if (current_tab !== uuid)
 			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
 	}, [current_tab, dispatch, uuid]);
@@ -182,7 +182,7 @@ const Pane = ({uuid, type, server}) => {
 	}, [sftp_socketState, ssh, type, uuid]);
 
 	return (
-		<_Container onClick={onClickChangeTab}>
+		<_Container onClick={onClickChangeCurrentTab}>
 			{ready === 3 && (
 				<_ReconectBlock>
 					<PrimaryRedButton onClick={onReconnect}>
@@ -224,14 +224,14 @@ const Pane = ({uuid, type, server}) => {
 						)}
 						{server.name}
 					</_HeaderText>
-					<IconButton
+					<HoverButton
 						theme_value={theme}
 						size={'micro'}
 						margin='0px'
 						onClick={onClickDelete}
 					>
 						{closeIcon}
-					</IconButton>
+					</HoverButton>
 				</_Header>
 			)}
 			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}

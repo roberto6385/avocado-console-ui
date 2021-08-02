@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {navColor} from '../../styles/color';
-import {HiddenScroll} from '../../styles/function';
-import FavoritesServer from './FavoritesServer';
-import FavoritesFolder from './FavoritesFolder';
+import {navColor} from '../../../styles/color';
+import {HiddenScroll} from '../../../styles/function';
+import FavoriteServer from './FavoriteServer';
+import FavoriteFolder from './FavoriteFolder';
 import {
 	LOCAL_SAVE_FAVORITES,
 	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
+} from '../../../reducers/common';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -66,22 +66,20 @@ function searchTreeStart(root, name) {
 	return tempRoot;
 }
 
-const FavoriteTempList = ({search}) => {
+const FavoriteList = ({search}) => {
 	const dispatch = useDispatch();
-	const {tempFavorites, theme} = useSelector(
+	const {favorites, theme} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
+	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
 
 	const dropNavList = useCallback(() => {
-		//TODO favorites temp list drag and drop
-		console.log('drop favorites temp list');
+		console.log('drop favorites list');
 		dispatch({
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
 			data: {next: 'toEdge'},
 		});
-
 		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [dispatch]);
 
@@ -94,36 +92,26 @@ const FavoriteTempList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorite(searchTreeStart(tempFavorites, search));
-	}, [tempFavorites, search]);
-
-	const handleDragOver = useCallback((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}, []);
+		setfilteredFavorite(searchTreeStart(favorites, search));
+	}, [favorites, search]);
 
 	return (
-		<_Nav
-			onDrop={dropNavList}
-			onDragOver={handleDragOver}
-			theme_value={theme}
-			id='sortableServerNav'
-		>
+		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
-					<FavoritesFolder
+					<FavoriteFolder
 						key={data.key + data.name}
 						open={search !== ''}
 						data={data}
 						indent={1}
-						temp={true}
+						temp={false}
 					/>
 				) : (
-					<FavoritesServer
+					<FavoriteServer
 						key={data.key + data.name}
 						data={data}
 						indent={1}
-						temp={true}
+						temp={false}
 					/>
 				),
 			)}
@@ -131,9 +119,9 @@ const FavoriteTempList = ({search}) => {
 	);
 };
 
-FavoriteTempList.propTypes = {
+FavoriteList.propTypes = {
 	search: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 
-export default FavoriteTempList;
+export default FavoriteList;

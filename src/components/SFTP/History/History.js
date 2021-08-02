@@ -31,7 +31,7 @@ import {
 
 import {PreventDragCopy} from '../../../styles/function';
 import {PrimaryGreenButton} from '../../../styles/components/button';
-import {IconButton, Icon} from '../../../styles/icon';
+import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -183,7 +183,7 @@ const History = ({
 											: 0
 									}
 								>
-									<IconButton
+									<HoverButton
 										onClick={onPauseAndStart(history)}
 										size='20px'
 										margin={'10px'}
@@ -224,7 +224,7 @@ const History = ({
 											? buildCircleIcon
 											: history.todo === 'rm' &&
 											  removeCircleIcon}
-									</IconButton>
+									</HoverButton>
 									<HistoryText
 										className={'history_contents'}
 										flex={1}
@@ -241,7 +241,7 @@ const History = ({
 									>
 										{formatByteSizeString(history.size)}
 									</_HistorySizeText>
-									<IconButton
+									<HoverButton
 										size={'sm'}
 										margin={'10px'}
 										theme_value={theme}
@@ -249,7 +249,7 @@ const History = ({
 										className={'history_contents'}
 									>
 										{deleteIcon}
-									</IconButton>
+									</HoverButton>
 
 									{history.progress !== 100 && (
 										<Progress>

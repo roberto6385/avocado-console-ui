@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {useDoubleClick} from '../../hooks/useDoubleClick';
-import ServerContextMenu from '../ContextMenu/ServerContextMenu';
-import useInput from '../../hooks/useInput';
+import {useDoubleClick} from '../../../hooks/useDoubleClick';
+import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
+import useInput from '../../../hooks/useInput';
 import {
 	BOOKMARKING,
 	CHANGE_SERVER_FOLDER_NAME,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
-} from '../../reducers/common';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
+} from '../../../reducers/common';
+import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {Nav} from 'react-bootstrap';
 
 import {
@@ -21,17 +21,21 @@ import {
 	iconColor,
 	navColor,
 	navHighColor,
-} from '../../styles/color';
+} from '../../../styles/color';
 import {
 	awsServerIcon,
 	bookmarkIcon,
 	linuxServerIcon,
 	starIcon,
-} from '../../icons/icons';
+} from '../../../icons/icons';
 import styled from 'styled-components';
-import {connectionAction} from '../../reducers/sftp';
-import {Icon} from "../../styles/icon";
-import {NavigationBarItemForm, NavigationBarInput, NavigationBarTitle} from "../../styles/components/navigationBar";
+import {connectionAction} from '../../../reducers/sftp';
+import {Icon, IconButton} from '../../../styles/components/icon';
+import {
+	NavigationBarItemForm,
+	NavigationBarInput,
+	NavigationBarTitle,
+} from '../../../styles/components/navigationBar';
 
 export const ServerItem = styled(Nav.Item)`
 	display: flex;
@@ -61,6 +65,26 @@ export const ServerItem = styled(Nav.Item)`
 		}
 	}
 `;
+
+function searchTree(v, data) {
+	if (v.type === 'server' || !v.contain.length) {
+		return JSON.stringify(v) === JSON.stringify(data);
+	}
+
+	for (let x of v.contain) {
+		let result = searchTree(x, data);
+		if (result) return result;
+	}
+	return false;
+}
+
+function startSearchTree(root, data) {
+	for (let x of root) {
+		const result = searchTree(x, data);
+		if (result) return result;
+	}
+	return false;
+}
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -180,26 +204,6 @@ const Server = ({data, indent}) => {
 		[data, dispatch],
 	);
 
-	function searchTree(v, data) {
-		if (v.type === 'server' || !v.contain.length) {
-			return JSON.stringify(v) === JSON.stringify(data);
-		}
-
-		for (let x of v.contain) {
-			let result = searchTree(x, data);
-			if (result) return result;
-		}
-		return false;
-	}
-
-	function searchTreeStart(root, data) {
-		for (let x of root) {
-			const result = searchTree(x, data);
-			if (result) return result;
-		}
-		return false;
-	}
-
 	//when re-name form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -255,9 +259,9 @@ const Server = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-					<Icon
+					<IconButton
 						className={
-							searchTreeStart(favorites, data)
+							startSearchTree(favorites, data)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -265,16 +269,16 @@ const Server = ({data, indent}) => {
 						margin_right={'0px'}
 						theme_value={theme}
 						onClick={handleBookmark(
-							searchTreeStart(favorites, data),
+							startSearchTree(favorites, data),
 						)}
 						color={
-							searchTreeStart(favorites, data)
+							startSearchTree(favorites, data)
 								? activeColor[theme]
-								: undefined
+								: iconColor[theme]
 						}
 					>
 						{bookmarkIcon}
-					</Icon>
+					</IconButton>
 				</NavigationBarTitle>
 			</ServerItem>
 			<ServerContextMenu

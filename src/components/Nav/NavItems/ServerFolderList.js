@@ -1,18 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {navColor} from '../../styles/color';
-import {HiddenScroll} from '../../styles/function';
-import FavoritesServer from './FavoritesServer';
-import FavoritesFolder from './FavoritesFolder';
-import {
-	LOCAL_SAVE_FAVORITES,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../reducers/common';
+import Folder from './Folder';
+import Server from './Server';
+import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
+import {navColor} from '../../../styles/color';
+import {HiddenScroll} from '../../../styles/function';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -20,10 +17,9 @@ export const _Nav = styled(Nav)`
 	flex: 1 1 0;
 	overflow-y: scroll;
 	background: ${(props) => navColor[props.theme_value]};
-
 	width: 100%;
 	height: 100%;
-	z-index: 999;
+	z-index: 3;
 	${HiddenScroll}
 `;
 
@@ -57,7 +53,7 @@ function searchTreeNode(node, name) {
 	return val;
 }
 
-function searchTreeStart(root, name) {
+function startSearchTree(root, name) {
 	let tempRoot = [];
 	for (let x of root) {
 		const result = searchTreeNode(x, name);
@@ -66,22 +62,14 @@ function searchTreeStart(root, name) {
 	return tempRoot;
 }
 
-const FavoriteList = ({search}) => {
+const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
-	const {favorites, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
-	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
+	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
+	const [filteredNavList, setFilteredNavList] = useState(nav);
 
 	const dropNavList = useCallback(() => {
-		console.log('drop favorites list');
-		dispatch({
-			type: SORT_FAVORITES_SERVER_AND_FOLDER,
-			data: {next: 'toEdge'},
-		});
-		dispatch({type: LOCAL_SAVE_FAVORITES});
-	}, [dispatch]);
+		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
+	}, []);
 
 	useEffect(() => {
 		const sortableServerNav = document.getElementById('sortableServerNav');
@@ -92,36 +80,30 @@ const FavoriteList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorite(searchTreeStart(favorites, search));
-	}, [favorites, search]);
+		setFilteredNavList(startSearchTree(nav, search));
+	}, [nav, search]);
 
 	return (
 		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
-			{filteredFavorite.map((data) =>
+			{filteredNavList.map((data) =>
 				data.type === 'folder' ? (
-					<FavoritesFolder
-						key={data.key + data.name}
+					<Folder
+						key={data.key}
 						open={search !== ''}
 						data={data}
 						indent={1}
-						temp={false}
 					/>
 				) : (
-					<FavoritesServer
-						key={data.key + data.name}
-						data={data}
-						indent={1}
-						temp={false}
-					/>
+					<Server key={data.key} data={data} indent={1} />
 				),
 			)}
 		</_Nav>
 	);
 };
 
-FavoriteList.propTypes = {
+ServerFolderList.propTypes = {
 	search: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 
-export default FavoriteList;
+export default ServerFolderList;

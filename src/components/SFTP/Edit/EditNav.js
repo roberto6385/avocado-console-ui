@@ -12,7 +12,7 @@ import {
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
 import {borderColor, fontColor, tabColor} from '../../../styles/color';
-import {IconButton} from "../../../styles/icon";
+import {HoverButton} from "../../../styles/components/icon";
 
 const _Container = styled.div`
 	display: flex;
@@ -117,27 +117,27 @@ const EditNav = ({uuid}) => {
 		>
 			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>
-				<IconButton
+				<HoverButton
 					size={'sm'}
 					theme_value={theme}
 					onClick={editedFileSave}
 				>
 					{saveIcon}
-				</IconButton>
-				<IconButton
+				</HoverButton>
+				<HoverButton
 					size={'sm'}
 					theme_value={theme}
 					onClick={editedFileDownload}
 				>
 					{fileDownloadIcon}
-				</IconButton>
-				<IconButton
+				</HoverButton>
+				<HoverButton
 					size={'sm'}
 					theme_value={theme}
 					onClick={closeEditMode}
 				>
 					{squareDeleteIcon}
-				</IconButton>
+				</HoverButton>
 			</_ButtonContainer>
 		</_Container>
 	);
