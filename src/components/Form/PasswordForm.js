@@ -6,7 +6,7 @@ import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
-import {SecondaryGreenButton} from '../../styles/components/button';
+import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
@@ -34,7 +34,7 @@ const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
 `;
 
-const _SecondaryGreenButton = styled(SecondaryGreenButton)`
+const _SecondaryGreenButton = styled(NormalBorderButton)`
 	height: 40px;
 	border-radius: 4px;
 	width: 120px;

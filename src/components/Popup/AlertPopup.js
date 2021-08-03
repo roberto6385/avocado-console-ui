@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
 import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
 import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	PrimaryRedButton,
+	NormalButton,
+	TransparentButton,
+	WarningButton,
 } from '../../styles/components/button';
 import {Icon, IconButton} from '../../styles/components/icon';
 import {
@@ -83,28 +83,28 @@ const AlertPopup = () => {
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
+				<TransparentButton
 					theme_value={theme}
 					onClick={onClickCloseModal}
 				>
 					{t('cancel')}
-				</PrimaryGreyButton>
+				</TransparentButton>
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ||
 				alert_popup.key === 'invalid_server' ? (
-					<PrimaryRedButton
+					<WarningButton
 						theme_value={theme}
 						onClick={onClickCloseModal}
 					>
 						{t('ok')}
-					</PrimaryRedButton>
+					</WarningButton>
 				) : (
-					<PrimaryGreenButton
+					<NormalButton
 						theme_value={theme}
 						onClick={onClickCloseModal}
 					>
 						{t('ok')}
-					</PrimaryGreenButton>
+					</NormalButton>
 				)}
 			</ModalFooter>
 		</_PopupModal>

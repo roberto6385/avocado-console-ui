@@ -5,7 +5,6 @@ import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {navColor} from '../../../styles/color';
 import {HiddenScroll} from '../../../styles/function';
 import FavoriteServer from './FavoriteServer';
 import FavoriteFolder from './FavoriteFolder';
@@ -19,8 +18,6 @@ export const _Nav = styled(Nav)`
 	min-height: 0;
 	flex: 1 1 0;
 	overflow-y: scroll;
-	background: ${(props) => navColor[props.theme_value]};
-
 	width: 100%;
 	height: 100%;
 	z-index: 999;
@@ -106,7 +103,6 @@ const FavoriteTempList = ({search}) => {
 		<_Nav
 			onDrop={dropNavList}
 			onDragOver={handleDragOver}
-			theme_value={theme}
 			id='sortableServerNav'
 		>
 			{filteredFavorite.map((data) =>

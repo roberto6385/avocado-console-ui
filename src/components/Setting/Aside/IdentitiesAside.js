@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {borderColor} from '../../../styles/color';
-import {PrimaryGreenButton} from '../../../styles/components/button';
+import {NormalButton} from '../../../styles/components/button';
 
 const _Container = styled.div`
 	height: 100%;
@@ -38,7 +38,7 @@ const _CheckboxContainer = styled(_AuthenticationContainer)`
 	justify-content: center;
 `;
 
-const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+const _PrimaryGreenButton = styled(NormalButton)`
 	width: 268px;
 	margin: 34px 16px;
 	padding: 7px 16px;

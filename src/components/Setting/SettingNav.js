@@ -19,7 +19,7 @@ import {
 	navColor,
 	navHighColor,
 } from '../../styles/color';
-import {HoverButton, Icon, IconButton} from '../../styles/components/icon';
+import {Icon, IconButton} from '../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;

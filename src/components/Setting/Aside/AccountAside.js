@@ -7,10 +7,7 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {settingInput} from '../../../styles/color';
 import {postDeleteAccount} from '../../../reducers/auth/delete';
-import {
-	PrimaryGreenButton,
-	PrimaryRedButton,
-} from '../../../styles/components/button';
+import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
 
 const _Container = styled.div`
@@ -23,13 +20,13 @@ const _Input = styled(Input)`
 	background: ${(props) => settingInput[props.theme_value]};
 `;
 
-const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+const _PrimaryGreenButton = styled(NormalButton)`
 	width: 268px;
 	margin: 0px;
 	padding: 7px 7px 7px 6px;
 `;
 
-const _PrimaryRednButton = styled(PrimaryRedButton)`
+const _PrimaryRednButton = styled(WarningButton)`
 	width: 268px;
 	margin: 0px;
 	padding: 7px 7px 7px 6px;

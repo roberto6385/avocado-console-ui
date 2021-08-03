@@ -15,10 +15,7 @@ import {
 } from '../../reducers/popup';
 import {closeIcon} from '../../icons/icons';
 import {borderColor, fontColor} from '../../styles/color';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
 import {IconButton} from '../../styles/components/icon';
 import {
@@ -147,27 +144,24 @@ const AddFavoritesDialog = () => {
 				</ListContainer>
 			</_Form>
 			<_ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
+				<TransparentButton
 					theme_value={theme}
 					onClick={newFolder}
 					color={fontColor[theme]}
 				>
 					{t('newFolder')}
-				</PrimaryGreyButton>
+				</TransparentButton>
 				<div>
-					<PrimaryGreyButton
+					<TransparentButton
 						theme_value={theme}
 						onClick={closeModal}
 						color={fontColor[theme]}
 					>
 						{t('cancel')}
-					</PrimaryGreyButton>
-					<PrimaryGreenButton
-						theme_value={theme}
-						onClick={onSubmitForm}
-					>
+					</TransparentButton>
+					<NormalButton theme_value={theme} onClick={onSubmitForm}>
 						{t('save')}
-					</PrimaryGreenButton>
+					</NormalButton>
 				</div>
 			</_ModalFooter>
 		</_PopupModal>

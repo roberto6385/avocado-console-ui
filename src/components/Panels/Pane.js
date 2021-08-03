@@ -18,7 +18,7 @@ import {
 	paneHeaderHigh,
 	tabColor,
 } from '../../styles/color';
-import {PrimaryRedButton} from '../../styles/components/button';
+import {WarningButton} from '../../styles/components/button';
 import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
@@ -185,9 +185,9 @@ const Pane = ({uuid, type, server}) => {
 		<_Container onClick={onClickChangeCurrentTab}>
 			{ready === 3 && (
 				<_ReconectBlock>
-					<PrimaryRedButton onClick={onReconnect}>
+					<WarningButton onClick={onReconnect}>
 						Reconnect
-					</PrimaryRedButton>
+					</WarningButton>
 				</_ReconectBlock>
 			)}
 			{tab.filter((v) => v.display === true).length > 1 && (

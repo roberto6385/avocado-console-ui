@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../icons/icons';
 
-import {PrimaryGreenButton, PrimaryGreyButton} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {fontColor} from '../../styles/color';
 import {
 	ADD_HISTORY,
@@ -24,7 +24,13 @@ import {
 	UNDO_FAVORITES,
 } from '../../reducers/common';
 import {HoverButton, Icon, IconButton} from '../../styles/components/icon';
-import {AlertText, ModalFooter, ModalHeader, ModalMessage, PopupModal} from "../../styles/components/disalogBox";
+import {
+	AlertText,
+	ModalFooter,
+	ModalHeader,
+	ModalMessage,
+	PopupModal,
+} from '../../styles/components/disalogBox';
 
 const _PopupModal = styled(PopupModal)`
 	width: 290px;
@@ -243,15 +249,12 @@ const SavePopup = () => {
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
+				<TransparentButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton
-					theme_value={theme}
-					onClick={submitFunction}
-				>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={submitFunction}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

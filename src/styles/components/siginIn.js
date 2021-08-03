@@ -1,7 +1,7 @@
 //Login, signin, change password pages styles
 import styled from 'styled-components';
 import {borderColor, inputFocusBoaderColor, L_GREEN_NORMAL} from '../color';
-import {PrimaryGreenButton} from './button';
+import {NormalButton} from './button';
 
 export const UserForm = styled.form`
 	color: black;
@@ -43,7 +43,7 @@ export const UserInput = styled.input`
 		outline: 0 none;
 	}
 `;
-export const UserSubmitButton = styled(PrimaryGreenButton)`
+export const UserSubmitButton = styled(NormalButton)`
 	width: 360px;
 	height: 40px;
 	border-radius: 4px;

@@ -7,10 +7,7 @@ import useInput from '../../hooks/useInput';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {putModify} from '../../reducers/auth/modify';
 import {IconButton} from '../../styles/components/icon';
 import {
@@ -160,12 +157,12 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 			</Form>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
+				<TransparentButton theme_value={theme} onClick={closeModal}>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

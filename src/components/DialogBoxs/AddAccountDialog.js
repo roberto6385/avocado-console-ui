@@ -15,9 +15,9 @@ import {
 	greyNormalButtonBackgroundColor,
 } from '../../styles/color';
 import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	SecondaryGreenButton,
+	NormalButton,
+	TransparentButton,
+	NormalBorderButton,
 } from '../../styles/components/button';
 import {IconButton} from '../../styles/components/icon';
 import {
@@ -48,7 +48,7 @@ const _Input = styled.input`
 	color: ${(props) => props.color};
 `;
 
-const _BrowseButton = styled(SecondaryGreenButton)`
+const _BrowseButton = styled(NormalBorderButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -320,16 +320,16 @@ const AddAccountDialog = () => {
 				</_Item>
 			</_Form>
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
+				<TransparentButton
 					theme_value={theme}
 					onClick={closeModal}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

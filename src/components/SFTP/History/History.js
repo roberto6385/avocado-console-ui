@@ -30,7 +30,7 @@ import {
 } from '../../../styles/color';
 
 import {PreventDragCopy} from '../../../styles/function';
-import {PrimaryGreenButton} from '../../../styles/components/button';
+import {NormalButton} from '../../../styles/components/button';
 import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Container = styled.div`
@@ -79,7 +79,7 @@ const _Li = styled.li`
 	border-color: ${(props) => borderColor[props.theme_value]};
 `;
 
-const DropSpace_Button = styled(PrimaryGreenButton)`
+const DropSpace_Button = styled(NormalButton)`
 	display: flex;
 	align-items: center;
 	justify-content: center;

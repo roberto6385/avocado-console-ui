@@ -13,10 +13,7 @@ import {
 
 import {cancelFillIcon, closeIcon} from '../../icons/icons';
 
-import {
-	PrimaryGreyButton,
-	PrimaryRedButton,
-} from '../../styles/components/button';
+import {TransparentButton, WarningButton} from '../../styles/components/button';
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
@@ -237,12 +234,12 @@ const WarningAlertPopup = () => {
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={cancelFunction}>
+				<TransparentButton theme_value={theme} onClick={cancelFunction}>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryRedButton theme_value={theme} onClick={submitFunction}>
+				</TransparentButton>
+				<WarningButton theme_value={theme} onClick={submitFunction}>
 					{t('delete')}
-				</PrimaryRedButton>
+				</WarningButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

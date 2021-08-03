@@ -3,15 +3,12 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import ServerFolderList from './NavItems/ServerFolderList';
 import useInput from '../../hooks/useInput';
-import {
-	OPEN_ADD_FAVORITES_FORM_POPUP,
-	OPEN_ADD_SERVER_FORM_POPUP,
-} from '../../reducers/popup';
+import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
-import {ADD_FOLDER, CHANGE_NAVTAB} from '../../reducers/common';
+import {CHANGE_NAVTAB} from '../../reducers/common';
 import PropTypes from 'prop-types';
 import {WIDTH_256, FONT_14, HEIGHT_36} from '../../styles/length';
 import {
@@ -114,7 +111,6 @@ const _TabItem = styled.div`
 	align-items: center;
 	height: 100%;
 	font-weight: bold;
-	background: ${(props) => navColor[props.theme_value]};
 	color: ${(props) =>
 		props.clicked
 			? activeColor[props.theme_value]

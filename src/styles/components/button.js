@@ -4,20 +4,25 @@ import {
 	buttonFontColor,
 	disabledButtonColor,
 	disabledButtonFontColor,
-	greenActiveButtonColor,
-	greenHoverButtonColor,
-	greenNormalButtonColor,
-	greyActiveButtonBackgroundColor,
-	greyActiveButtonBoarderColor,
-	greyButtonColor,
-	greyHoverButtonBackgroundColor,
-	greyHoverButtonBoarderColor,
-	greyNormalButtonBackgroundColor,
-	greyNormalButtonBoarderColor,
-	redActiveButtonColor,
-	redHoverButtonColor,
-	redNormalButtonColor,
-	secondaryDisabledButtonColor,
+	normalButtonActiveColor,
+	normalButtonHoverColor,
+	normalButtonColor,
+	transparentButtonColor,
+	transparentButtonHoverBackgroundColor,
+	transparentButtonBoarderColor,
+	warningButtonActiveColor,
+	warningButtonHoverColor,
+	warningButtonColor,
+	transparnetBorderButtonFontColor,
+	transparentButtonActiveBorderColor,
+	normalBorderButtonHoverColor,
+	normalBorderButtonActiveColor,
+	warningBorderButtonFontColor,
+	warningBorderButtonHoverFontColor,
+	warningBorderButtonActiveFontColor,
+	warningBorderButtonHoverColor,
+	warningBorderButtonActiveColor,
+	transparnetBorderButtonHoverColor,
 } from '../color';
 
 export const DefaultButton = styled.button`
@@ -30,69 +35,69 @@ export const DefaultButton = styled.button`
 	margin: 0px 8px;
 `;
 
-export const PrimaryGreenButton = styled(DefaultButton)`
+export const NormalButton = styled(DefaultButton)`
 	color: ${(props) =>
 		buttonFontColor[props.theme_value] || buttonFontColor[0]};
 	background: ${(props) =>
-		greenNormalButtonColor[props.theme_value] || greenNormalButtonColor[0]};
+		normalButtonColor[props.theme_value] || normalButtonColor[0]};
 	&:hover {
 		background: ${(props) =>
-			greenHoverButtonColor[props.theme_value] ||
-			greenHoverButtonColor[0]};
+			normalButtonHoverColor[props.theme_value] ||
+			normalButtonHoverColor[0]};
 	}
 	&:active {
 		background: ${(props) =>
-			greenActiveButtonColor[props.theme_value] ||
-			greenActiveButtonColor[0]};
+			normalButtonActiveColor[props.theme_value] ||
+			normalButtonActiveColor[0]};
 	}
 `;
 
-export const PrimaryRedButton = styled(DefaultButton)`
+export const WarningButton = styled(DefaultButton)`
 	color: ${(props) =>
 		buttonFontColor[props.theme_value] || buttonFontColor[0]};
 	background: ${(props) =>
-		redNormalButtonColor[props.theme_value] || redNormalButtonColor[0]};
+		warningButtonColor[props.theme_value] || warningButtonColor[0]};
 	&:hover {
 		background: ${(props) =>
-			redHoverButtonColor[props.theme_value] || redHoverButtonColor[0]};
+			warningButtonHoverColor[props.theme_value] ||
+			warningButtonHoverColor[0]};
 	}
 	&:active {
 		background: ${(props) =>
-			redActiveButtonColor[props.theme_value] || redActiveButtonColor[0]};
+			warningButtonActiveColor[props.theme_value] ||
+			warningButtonActiveColor[0]};
 	}
 `;
 
-export const PrimaryGreyButton = styled(DefaultButton)`
+export const TransparentButton = styled(DefaultButton)`
+	background: transparent;
 	color: ${(props) =>
-		greyButtonColor[props.theme_value] || greyButtonColor[0]};
-	background: ${(props) =>
-		greyNormalButtonBackgroundColor[props.theme_value] ||
-		greyNormalButtonBackgroundColor[0]};
+		transparentButtonColor[props.theme_value] || transparentButtonColor[0]};
 	border: solid 1px
 		${(props) =>
-			greyNormalButtonBoarderColor[props.theme_value] ||
-			greyHoverButtonBackgroundColor[0]};
+			transparentButtonBoarderColor[props.theme_value] ||
+			transparentButtonBoarderColor[0]};
 	&:hover {
 		background: ${(props) =>
-			greyHoverButtonBackgroundColor[props.theme_value] ||
-			greyHoverButtonBackgroundColor[0]};
+			transparentButtonHoverBackgroundColor[props.theme_value] ||
+			transparentButtonHoverBackgroundColor[0]};
 		border: solid 1px
 			${(props) =>
-				greyHoverButtonBoarderColor[props.theme_value] ||
-				greyHoverButtonBoarderColor[0]};
+				transparentButtonBoarderColor[props.theme_value] ||
+				transparentButtonBoarderColor[0]};
 	}
 	&:active {
 		background: ${(props) =>
-			greyActiveButtonBackgroundColor[props.theme_value] ||
-			greyActiveButtonBackgroundColor[0]};
+			transparentButtonHoverBackgroundColor[props.theme_value] ||
+			transparentButtonHoverBackgroundColor[0]};
 		border: solid 1px
 			${(props) =>
-				greyActiveButtonBoarderColor[props.theme_value] ||
-				greyActiveButtonBoarderColor[0]};
+				transparentButtonActiveBorderColor[props.theme_value] ||
+				transparentButtonActiveBorderColor[0]};
 	}
 `;
 
-export const PrimaryDisabledButton = styled(DefaultButton)`
+export const DisabledButton = styled(DefaultButton)`
 	color: ${(props) =>
 		disabledButtonFontColor[props.theme_value] ||
 		disabledButtonFontColor[0]};
@@ -100,62 +105,87 @@ export const PrimaryDisabledButton = styled(DefaultButton)`
 		disabledButtonColor[props.theme_value] || disabledButtonColor[0]};
 `;
 
-export const SecondaryGreenButton = styled(PrimaryGreyButton)`
+export const NormalBorderButton = styled(TransparentButton)`
 	background: transparent;
 	color: ${(props) =>
-		greenNormalButtonColor[props.theme_value] || greenNormalButtonColor[0]};
+		normalButtonColor[props.theme_value] || normalButtonColor[0]};
 	border: solid 1px
 		${(props) =>
-			greenNormalButtonColor[props.theme_value] ||
-			greenNormalButtonColor[0]};
+			normalButtonColor[props.theme_value] || normalButtonColor[0]};
 	&:hover {
 		color: ${(props) =>
-			greenHoverButtonColor[props.theme_value] ||
-			greenHoverButtonColor[0]};
+			normalButtonHoverColor[props.theme_value] ||
+			normalButtonHoverColor[0]};
 		border: solid 1px
 			${(props) =>
-				greenHoverButtonColor[props.theme_value] ||
-				greenHoverButtonColor[0]};
+				normalButtonHoverColor[props.theme_value] ||
+				normalButtonHoverColor[0]};
+		background: ${(props) =>
+			normalBorderButtonHoverColor[props.theme_value] ||
+			normalBorderButtonHoverColor[0]};
 	}
 	&:active {
 		color: ${(props) =>
-			greenActiveButtonColor[props.theme_value] ||
-			greenActiveButtonColor[0]};
+			normalButtonActiveColor[props.theme_value] ||
+			normalButtonActiveColor[0]};
 		border: solid 1px
 			${(props) =>
-				greenActiveButtonColor[props.theme_value] ||
-				greenActiveButtonColor[0]};
+				normalButtonActiveColor[props.theme_value] ||
+				normalButtonActiveColor[0]};
+		background: ${(props) =>
+			normalBorderButtonActiveColor[props.theme_value] ||
+			normalBorderButtonActiveColor[0]};
 	}
 `;
 
-export const SecondaryRedButton = styled(PrimaryGreyButton)`
+export const WarningBorderButton = styled(TransparentButton)`
 	background: transparent;
 	color: ${(props) =>
-		redNormalButtonColor[props.theme_value] || redNormalButtonColor[0]};
+		warningBorderButtonFontColor[props.theme_value] ||
+		warningBorderButtonFontColor[0]};
 	border: solid 1px
 		${(props) =>
-			redNormalButtonColor[props.theme_value] || redNormalButtonColor[0]};
+			warningBorderButtonFontColor[props.theme_value] ||
+			warningBorderButtonFontColor[0]};
 	&:hover {
 		color: ${(props) =>
-			redHoverButtonColor[props.theme_value] || redHoverButtonColor[0]};
+			warningBorderButtonHoverFontColor[props.theme_value] ||
+			warningBorderButtonHoverFontColor[0]};
 		border: solid 1px
 			${(props) =>
-				redHoverButtonColor[props.theme_value] ||
-				redHoverButtonColor[0]};
+				warningBorderButtonHoverFontColor[props.theme_value] ||
+				warningBorderButtonHoverFontColor[0]};
+		background: ${(props) =>
+			warningBorderButtonHoverColor[props.theme_value] ||
+			warningBorderButtonHoverColor[0]};
 	}
 	&:active {
 		color: ${(props) =>
-			redActiveButtonColor[props.theme_value] || redActiveButtonColor[0]};
+			warningBorderButtonActiveFontColor[props.theme_value] ||
+			warningBorderButtonActiveFontColor[0]};
 		border: solid 1px
 			${(props) =>
-				redActiveButtonColor[props.theme_value] ||
-				redActiveButtonColor[0]};
+				warningBorderButtonActiveFontColor[props.theme_value] ||
+				warningBorderButtonActiveFontColor[0]};
+		background: ${(props) =>
+			warningBorderButtonActiveColor[props.theme_value] ||
+			warningBorderButtonActiveColor[0]};
 	}
 `;
 
-export const SecondaryDisabledButton = styled(DefaultButton)`
+export const TransparentBorderButton = styled(DefaultButton)`
 	background: transparent;
 	color: ${(props) =>
-		secondaryDisabledButtonColor[props.theme_value] ||
-		secondaryDisabledButtonColor[0]};
+		transparnetBorderButtonFontColor[props.theme_value] ||
+		transparnetBorderButtonFontColor[0]};
+	&:hover {
+		background: ${(props) =>
+			transparnetBorderButtonHoverColor[props.theme_value] ||
+			transparnetBorderButtonHoverColor[0]};
+	}
+	&:active {
+		background: ${(props) =>
+			transparnetBorderButtonHoverColor[props.theme_value] ||
+			transparnetBorderButtonHoverColor[0]};
+	}
 `;

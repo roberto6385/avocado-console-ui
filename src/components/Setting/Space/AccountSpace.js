@@ -7,23 +7,24 @@ import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import Select_ from '../../RecycleComponents/Select_';
 import ChangePasswordDialog from '../../DialogBoxs/ChangePasswordDialog';
-import {
-	PrimaryDisabledButton,
-	PrimaryGreenButton,
-} from '../../../styles/components/button';
+import {DisabledButton, NormalButton} from '../../../styles/components/button';
 import ChangeUserNameDialog from '../../DialogBoxs/ChangeUserNameDialog';
-import {SettingContentsContainer, SettingMainContainer, SettingTitle} from "../../../styles/components/settingPage";
-import {Input} from "../../../styles/components/input";
+import {
+	SettingContentsContainer,
+	SettingMainContainer,
+	SettingTitle,
+} from '../../../styles/components/settingPage';
+import {Input} from '../../../styles/components/input';
 
 const _Input = styled(Input)`
 	width: 500px;
 `;
 
-const _PrimaryGreenButton = styled(PrimaryGreenButton)`
+const _PrimaryGreenButton = styled(NormalButton)`
 	margin-top: 7px;
 	width: 160px;
 `;
-const _PrimaryDisabledButton = styled(PrimaryDisabledButton)`
+const _PrimaryDisabledButton = styled(DisabledButton)`
 	margin-top: 7px;
 	width: 160px;
 `;

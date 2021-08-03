@@ -12,10 +12,7 @@ import CheckBox_ from '../RecycleComponents/CheckBox_';
 import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
 import ModalHeader from 'react-bootstrap/ModalHeader';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {UserInput} from '../../styles/components/siginIn';
 
 const _PopupModal = styled(PopupModal)`
@@ -378,15 +375,12 @@ const FileStateDialog = () => {
 				</_Form>
 
 				<ModalFooter theme_value={theme}>
-					<PrimaryGreyButton theme_value={theme} onClick={closeModal}>
+					<TransparentButton theme_value={theme} onClick={closeModal}>
 						취소
-					</PrimaryGreyButton>
-					<PrimaryGreenButton
-						theme_value={theme}
-						onClick={submitFunction}
-					>
+					</TransparentButton>
+					<NormalButton theme_value={theme} onClick={submitFunction}>
 						저장
-					</PrimaryGreenButton>
+					</NormalButton>
 				</ModalFooter>
 			</_PopupModal>
 		)

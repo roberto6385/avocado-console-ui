@@ -25,14 +25,18 @@ import {
 	greyNormalButtonBackgroundColor,
 } from '../../styles/color';
 import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-	SecondaryGreenButton,
+	NormalButton,
+	TransparentButton,
+	NormalBorderButton,
 } from '../../styles/components/button';
 import {IconButton} from '../../styles/components/icon';
-import {ModalFooter, ModalHeader, PopupModal} from "../../styles/components/disalogBox";
-import {Input} from "../../styles/components/input";
-import {Form} from "../../styles/components/form";
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
+import {Input} from '../../styles/components/input';
+import {Form} from '../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -43,7 +47,7 @@ const _Input = styled(Input)`
 	width: '178px';
 `;
 
-const _SecondaryGreenButton = styled(SecondaryGreenButton)`
+const _SecondaryGreenButton = styled(NormalBorderButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -217,7 +221,10 @@ const AddServerDialog = () => {
 						} else if (message.type === 'DISCONNECT') {
 							dispatch({type: CLOSE_ADD_SERVER_FORM_POPUP});
 						} else
-							console.log('V AddServerDialog onmessage: ', message);
+							console.log(
+								'V AddServerDialog onmessage: ',
+								message,
+							);
 					};
 				}
 			} else if (add_server_form_popup.type === 'edit') {
@@ -515,7 +522,10 @@ const AddServerDialog = () => {
 						</_ItemContainer>
 
 						<_ItemContainer>
-							<TextBoxField_ title={t('keyFilePassword')} flex={1}>
+							<TextBoxField_
+								title={t('keyFilePassword')}
+								flex={1}
+							>
 								<Input
 									theme_value={theme}
 									type='password'
@@ -542,16 +552,16 @@ const AddServerDialog = () => {
 				</_ItemContainer>
 			</Form>
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
+				<TransparentButton
 					theme_value={theme}
 					onClick={onClickCloseDialog}
 					color={fontColor[theme]}
 				>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={onSubmitForm}>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={onSubmitForm}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

@@ -6,10 +6,7 @@ import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../icons/icons';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {IconButton} from '../../styles/components/icon';
 import {
 	ModalFooter,
@@ -171,18 +168,15 @@ const InputPopup = () => {
 			</_Form>
 
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton
+				<TransparentButton
 					theme_value={theme}
 					onClick={onClickCloseModal}
 				>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton
-					theme_value={theme}
-					onClick={submitFunction}
-				>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={submitFunction}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

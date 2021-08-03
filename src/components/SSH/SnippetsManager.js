@@ -22,10 +22,7 @@ import {
 	snippetsCLickedListColor,
 	snippetsListColor,
 } from '../../styles/color';
-import {
-	PrimaryGreenButton,
-	PrimaryGreyButton,
-} from '../../styles/components/button';
+import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
 import {
 	ModalFooter,
@@ -360,12 +357,12 @@ const SnippetsManager = ({open, setOpen}) => {
 				</_Form>
 			</_ListContainer>
 			<ModalFooter theme_value={theme}>
-				<PrimaryGreyButton theme_value={theme} onClick={onClickCancel}>
+				<TransparentButton theme_value={theme} onClick={onClickCancel}>
 					{t('cancel')}
-				</PrimaryGreyButton>
-				<PrimaryGreenButton theme_value={theme} onClick={onClickSubmit}>
+				</TransparentButton>
+				<NormalButton theme_value={theme} onClick={onClickSubmit}>
 					{t('save')}
-				</PrimaryGreenButton>
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);
