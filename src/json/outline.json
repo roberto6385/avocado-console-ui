@@ -310,12 +310,6 @@
 										"color": "#212121"
 									}
 								}
-							},
-							"text-box": {
-								"font": {"color": "#212121"},
-								"background-color": "#ffffff",
-								"border": {"color": "#e3e5e5"},
-								"box-shadow": {"color": "rgba(0, 0, 0, 0.19)"}
 							}
 						}
 					}
@@ -473,6 +467,7 @@
 							"search-style": {
 								"font": {"color": ""},
 								"background-color": "",
+								"border": {"color": ""},
 								"focused": {"border": {"color": ""}}
 							}
 						},
@@ -645,9 +640,11 @@
 									}
 								},
 								"sftp": {
-									"background-color": "",
-									"font": {"color": ""},
-									"border": {"color": ""},
+									"background-color": "#1b2935",
+									"font": {
+										"color": "rgba(255, 255, 255, 0.87)"
+									},
+									"border": {"color": "rgba(0, 0, 0, 0.3)"},
 
 									"files": {
 										"normal-list": {
@@ -854,12 +851,6 @@
 										"color": ""
 									}
 								}
-							},
-							"text-box": {
-								"font": {"color": ""},
-								"background-color": "",
-								"border": {"color": ""},
-								"box-shadow": {"color": ""}
 							}
 						}
 					}
@@ -1001,6 +992,7 @@
 							"search-style": {
 								"font": {"color": ""},
 								"background-color": "",
+								"border": {"color": ""},
 								"focused": {"border": {"color": ""}}
 							}
 						},
