@@ -7,7 +7,7 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {revokeUserTicket} from '../../reducers/auth/userTicket';
-import {DropDownMenu} from "../../styles/components/contextMenu";
+import {DropDownMenu} from '../../styles/components/contextMenu';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
@@ -21,6 +21,9 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
+			console.log(toggle);
+			console.log(key);
+			console.log(rightSideKey);
 			if (toggle && rightSideKey === key) {
 				setToggle(false);
 			} else {
@@ -28,7 +31,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				setToggle(true);
 			}
 		},
-		[rightSideKey, setToggle, toggle],
+		[dispatch, rightSideKey, setToggle, toggle],
 	);
 
 	const logout = useCallback(() => {
@@ -37,7 +40,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 				Authorization: 'Bearer ' + userTicket.access_token,
 			}),
 		);
-	}, [userTicket]);
+	}, [dispatch, userTicket]);
 
 	return (
 		<DropDownMenu
