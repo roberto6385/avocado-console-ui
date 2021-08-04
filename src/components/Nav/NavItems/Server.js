@@ -14,19 +14,11 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
-import {Nav} from 'react-bootstrap';
-
-import {
-	activeColor,
-	iconColor,
-	navColor,
-	navHighColor,
-} from '../../../styles/color';
+import {activeColor, iconColor} from '../../../styles/color';
 import {
 	awsServerIcon,
 	bookmarkIcon,
 	linuxServerIcon,
-	starIcon,
 } from '../../../icons/icons';
 import styled from 'styled-components';
 import {connectionAction} from '../../../reducers/sftp';
@@ -35,24 +27,10 @@ import {
 	NavigationBarItemForm,
 	NavigationBarInput,
 	NavigationBarTitle,
+	NavigationItems,
 } from '../../../styles/components/navigationBar';
 
-export const ServerItem = styled(Nav.Item)`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 34px;
-	padding: 0px 16px 0px 8px;
-	padding-left: ${(props) => props?.left};
-	border-left: 2px solid;
-	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: navColor[props.theme_value]};
-	background-color: ${(props) =>
-		props.clicked
-			? navHighColor[props.theme_value]
-			: navColor[props.theme_value]};
+export const ServerItem = styled(NavigationItems)`
 	.bookmark_button {
 		display: none;
 	}

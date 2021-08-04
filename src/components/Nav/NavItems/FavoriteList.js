@@ -20,7 +20,6 @@ export const _Nav = styled(Nav)`
 	flex: 1 1 0;
 	overflow-y: scroll;
 	background: ${(props) => navColor[props.theme_value]};
-
 	width: 100%;
 	height: 100%;
 	z-index: 999;
