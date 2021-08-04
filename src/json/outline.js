@@ -46,36 +46,30 @@ export const themeValues = {
 
 					aside: {
 						backgroundColor: '#ffffff',
-						font: {color: '#212121'},
 						border: {color: '#e3e5e5'},
 					},
 
 					panels: {
 						header: {
 							normalStyle: {
-								font: {color: '#212121'},
 								backgroundColor: '#ffffff',
 								border: {color: '#e3e5e5'},
 							},
 							selectedStyle: {
-								font: {color: '#212121'},
 								backgroundColor: '#e4f3f4',
 								border: {
 									color: 'rgba(23, 128, 130, 0.4)',
 								},
 							},
 						},
-
 						toolBar: {
 							backgroundColor: '#ffffff',
-							font: {color: '#212121'},
 							border: {color: '#e3e5e5'},
 						},
-
 						ssh: {
 							terminal: {
 								font: {color: '#212121'},
-								backgroundColor: '#e4f3f4',
+								backgroundColor: '#f8f9fa',
 							},
 							searchBox: {
 								backgroundColor: '#ffffff',
@@ -373,7 +367,6 @@ export const themeValues = {
 
 						warningStyle: {
 							font: {color: '#d45959'},
-							backgroundColor: 'transparent',
 							border: {color: '#d45959'},
 							hover: {
 								font: {color: '#de6565'},
@@ -389,7 +382,6 @@ export const themeValues = {
 
 						transparentStyle: {
 							font: {color: '#556367'},
-							backgroundColor: 'transparent',
 							hover: {
 								backgroundColor: '#f8f9fa',
 							},
@@ -610,38 +602,28 @@ export const themeValues = {
 
 					aside: {
 						backgroundColor: '#1c3246',
-						font: {color: 'rgba(255,255,255,0.87)'},
 						border: {color: 'rgba(0, 0, 0, 0.3)'},
 					},
 
 					panels: {
 						header: {
 							normalStyle: {
-								font: {
-									color: 'rgba(255,255,255,0.87)',
-								},
 								backgroundColor: '#1b2935',
 								border: {
 									color: 'rgba(0, 0, 0, 0.3)',
 								},
 							},
 							selectedStyle: {
-								font: {
-									color: 'rgba(255,255,255,0.87)',
-								},
 								backgroundColor: '#1f323c',
 								border: {
 									color: 'rgba(68, 200, 192, 0.5)',
 								},
 							},
 						},
-
 						toolBar: {
-							backgroundColor: '1b2935',
-							font: {color: 'rgba(255,255,255,0.87)'},
+							backgroundColor: '#1b2935',
 							border: {color: 'rgba(0, 0, 0, 0.3)'},
 						},
-
 						ssh: {
 							terminal: {
 								font: {
@@ -985,7 +967,6 @@ export const themeValues = {
 						},
 						warningStyle: {
 							font: {color: '#d45959'},
-							backgroundColor: 'transparent',
 							border: {color: '#d45959'},
 							hover: {
 								font: {color: '#de6565'},
@@ -1002,7 +983,6 @@ export const themeValues = {
 							font: {
 								color: 'rgba(255, 255, 255, 0.6)',
 							},
-							backgroundColor: 'transparent',
 							hover: {
 								backgroundColor: 'rgba(255, 255, 255, 0.04)',
 							},

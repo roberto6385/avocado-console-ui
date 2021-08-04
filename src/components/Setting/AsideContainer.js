@@ -2,22 +2,24 @@ import React, {useCallback} from 'react';
 import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
+import PropTypes from 'prop-types';
+
 import PreferencesAside from './Aside/PreferencesAside';
 import IdentitiesAside from './Aside/IdentitiesAside';
 import AccountAside from './Aside/AccountAside';
 import {closeIcon} from '../../icons/icons';
-import PropTypes from 'prop-types';
-import {borderColor, fontColor, sideColor} from '../../styles/color';
 import {IconButton} from '../../styles/components/icon';
 import {SettingTitle} from '../../styles/components/settingPage';
 
 const _Container = styled.div`
 	height: 100%;
 	width: 300px;
-	border-left: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-left: 1px solid 	${(props) =>
+		props.theme.pages.webTerminal.main.aside.border.color};
+};
 	z-index: 5;
-	background: ${(props) => sideColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.aside.backgroundColor};
 `;
 
 const _SettingTitle = styled(SettingTitle)`

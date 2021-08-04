@@ -178,8 +178,7 @@ const Folder = ({open, data, indent}) => {
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
-				theme_value={theme}
-				clicked={clicked_server === data.key ? 1 : 0}
+				seleted={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon

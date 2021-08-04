@@ -327,9 +327,7 @@ const AddAccountDialog = () => {
 				>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={onSubmitForm}>
-					{t('save')}
-				</NormalButton>
+				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

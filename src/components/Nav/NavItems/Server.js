@@ -202,8 +202,7 @@ const Server = ({data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				onContextMenu={contextMenuOpen}
-				theme_value={theme}
-				clicked={clicked_server === data.key ? 1 : 0}
+				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon

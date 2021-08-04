@@ -168,13 +168,10 @@ const InputPopup = () => {
 			</_Form>
 
 			<ModalFooter theme_value={theme}>
-				<TransparentButton
-					theme_value={theme}
-					onClick={onClickCloseModal}
-				>
+				<TransparentButton onClick={onClickCloseModal}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={submitFunction}>
+				<NormalButton onClick={submitFunction}>
 					{t('save')}
 				</NormalButton>
 			</ModalFooter>

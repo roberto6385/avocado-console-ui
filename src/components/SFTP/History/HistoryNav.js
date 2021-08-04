@@ -7,9 +7,8 @@ import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {WIDTH_256} from '../../../styles/length';
-import {borderColor, fontColor} from '../../../styles/color';
 import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
-import {HoverButton} from "../../../styles/components/icon";
+import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	min-width: ${WIDTH_256};
@@ -20,11 +19,8 @@ const _Container = styled.div`
 	padding: 0px 16px;
 	height: 50px;
 	border-left: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
-`;
-
-const _Title = styled.div`
-	color: ${(props) => fontColor[props.theme_value]};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.toolBar.border.color};
 `;
 
 const HistoryNav = ({uuid}) => {
@@ -133,7 +129,7 @@ const HistoryNav = ({uuid}) => {
 
 	return (
 		<_Container theme_value={theme}>
-			<_Title theme_value={theme}>{t('title')}</_Title>
+			<div>{t('title')}</div>
 			<div>
 				<HoverButton
 					theme_value={theme}

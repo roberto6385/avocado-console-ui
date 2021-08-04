@@ -11,13 +11,7 @@ import {
 	SSH_SEND_RECONNECTION_REQUEST,
 } from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
-import {
-	activePaneHeaderColor,
-	borderColor,
-	fontColor,
-	paneHeaderHigh,
-	tabColor,
-} from '../../styles/color';
+import {fontColor} from '../../styles/color';
 import {WarningButton} from '../../styles/components/button';
 import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
@@ -43,15 +37,24 @@ const _Header = styled.div`
 	padding: 0px 12px 0px 16px;
 	z-index: 1;
 	border: 1px solid;
-	border-color: ${(props) => props.bcolor};
-	background: ${(props) => props.back};
+	border-color: ${(props) =>
+		props.selected
+			? props.theme.pages.webTerminal.main.panels.header.selectedStyle
+					.border.color
+			: props.theme.pages.webTerminal.main.panels.header.normalStyle
+					.border.color};
+	background: ${(props) =>
+		props.selected
+			? props.theme.pages.webTerminal.main.panels.header.selectedStyle
+					.backgroundColor
+			: props.theme.pages.webTerminal.main.panels.header.normalStyle
+					.backgroundColor};
 `;
 
 const _HeaderText = styled.div`
 	display: flex;
 	align-items: center;
 	font-size: 14px;
-	color: ${(props) => props.color};
 `;
 
 const _ReconectBlock = styled.div`
@@ -191,19 +194,8 @@ const Pane = ({uuid, type, server}) => {
 				</_ReconectBlock>
 			)}
 			{tab.filter((v) => v.display === true).length > 1 && (
-				<_Header
-					back={
-						current_tab === uuid
-							? paneHeaderHigh[theme]
-							: tabColor[theme]
-					}
-					bcolor={
-						current_tab === uuid
-							? activePaneHeaderColor[theme]
-							: borderColor[theme]
-					}
-				>
-					<_HeaderText color={fontColor[theme]}>
+				<_Header selected={current_tab === uuid ? true : false}>
+					<_HeaderText>
 						{type === 'SSH' && (
 							<Icon
 								size={'xs'}

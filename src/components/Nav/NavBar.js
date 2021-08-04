@@ -1,29 +1,28 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
+import PropTypes from 'prop-types';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+
 import ServerFolderList from './NavItems/ServerFolderList';
+import FavoriteList from './NavItems/FavoriteList';
 import useInput from '../../hooks/useInput';
 import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
-import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
-import PropTypes from 'prop-types';
-import {WIDTH_256, FONT_14, HEIGHT_36} from '../../styles/length';
-import {navColor, borderColor, fontColor, inputBack} from '../../styles/color';
+import {HoverButton, Icon} from '../../styles/components/icon';
+import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
+import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import LightModeLogo from '../../images/logo/logo@2x.png';
 import DarkModeLogo from '../../images/logo/logo_white@3x.png';
-import FavoriteList from './NavItems/FavoriteList';
-import {HoverButton, Icon} from '../../styles/components/icon';
 
-const floatings = [lghtFloatingButton, drkFloatingButton];
+const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
 
 const _Aside = styled.aside`
 	display: flex;
 	flex-direction: column;
-	width: ${WIDTH_256};
-	min-width: ${WIDTH_256};
+	width: 256px;
+	min-width: 256px;
 	border-right: 1px solid;
 	border-color: ${(props) =>
 		props.theme.pages.webTerminal.main.navigation.border.color};
@@ -57,10 +56,20 @@ const _Form = styled.form`
 	display: flex;
 	flex: 1;
 	align-items: center;
-	height: ${HEIGHT_36};
+	height: 36px;
 	border-radius: 4px;
 	padding: 6px;
-	background: ${(props) => inputBack[props.theme_value]};
+	background: ${(props) =>
+		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
+`;
+
+const _Input = styled.input`
+	height: 36px;
+	border: none;
+	font-size: 14px;
+	padding: 0px;
+	background: ${(props) =>
+		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
 `;
 
 const _AddButton = styled.button`
@@ -68,17 +77,10 @@ const _AddButton = styled.button`
 	border-radius: 4px;
 	margin-left: 8px;
 	color: #959ea1;
-	border-color: ${(props) => borderColor[props?.theme_value]};
-	background: ${(props) => navColor[props?.theme_value]};
-`;
-
-const _Input = styled.input`
-	height: ${HEIGHT_36};
-	border: none;
-	font-size: ${FONT_14};
-	padding: 0px;
-	background: ${(props) => inputBack[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.navigation.border.color};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.navigation.backgroundColor}; ;
 `;
 
 const _OpenButton = styled.div`
@@ -109,7 +111,7 @@ const _TabItem = styled.div`
 	height: 100%;
 	font-weight: bold;
 	color: ${(props) =>
-		props.clicked
+		props.selected
 			? props.theme.pages.webTerminal.main.navigation.tab.selectedStyle
 					.font.color
 			: props.theme.pages.webTerminal.main.navigation.tab.normalStyle.font
@@ -117,7 +119,7 @@ const _TabItem = styled.div`
 	margin: 0px 16px;
 	border-bottom: 2px solid;
 	border-color: ${(props) =>
-		props.clicked
+		props.selected
 			? props.theme.pages.webTerminal.main.navigation.tab.selectedStyle
 					.border.color
 			: props.theme.pages.webTerminal.main.navigation.tab.normalStyle
@@ -191,25 +193,22 @@ const NavBar = ({toggle, setToggle}) => {
 	return (
 		<_Aside className={toggle ? 'nav' : 'nav close'}>
 			<_Header>
-				<HoverButton
-					margin_right={'6px'}
-					theme_value={theme}
-					onClick={onClickOpenTggle}
-				>
+				<HoverButton margin_right={'6px'} onClick={onClickOpenTggle}>
 					{burgerMenuIcon}
 				</HoverButton>
-				{theme === 0 ? (
+				{theme === 'light' && (
 					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
-				) : (
+				)}
+				{theme === 'dark' && (
 					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
 				)}
 			</_Header>
-			<_FolerServerTab theme_value={theme}>
+			<_FolerServerTab>
 				{tabs.map((v) => {
 					return (
 						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>
 							<_TabItem
-								clicked={current_nav_tab === v.key ? 1 : 0}
+								selected={current_nav_tab === v.key ? 1 : 0}
 							>
 								{v.title}
 							</_TabItem>
@@ -220,22 +219,16 @@ const NavBar = ({toggle, setToggle}) => {
 			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
 				<>
 					<_FormContainer>
-						<_Form
-							theme_value={theme}
-							onSubmit={(e) => e.preventDefault()}
-						>
-							<Icon theme_value={theme} margin_right={'6px'}>
-								{searchIcon}
-							</Icon>
+						<_Form onSubmit={(e) => e.preventDefault()}>
+							<Icon margin_right={'6px'}>{searchIcon}</Icon>
 							<_Input
 								onChange={onChangeSearch}
 								value={search}
 								type='text'
 								placeholder={t('search')}
-								theme_value={theme}
 							/>
 						</_Form>
-						{/*<_AddButton onClick={onClickAddServer} theme_value={theme}>*/}
+						{/*<_AddButton onClick={onClickAddServer} >*/}
 						{/*	{plusIcon}*/}
 						{/*</_AddButton>*/}
 					</_FormContainer>
@@ -244,22 +237,16 @@ const NavBar = ({toggle, setToggle}) => {
 			) : (
 				<>
 					<_FormContainer>
-						<_Form
-							theme_value={theme}
-							onSubmit={(e) => e.preventDefault()}
-						>
-							<Icon theme_value={theme} margin_right={'6px'}>
-								{searchIcon}
-							</Icon>
+						<_Form onSubmit={(e) => e.preventDefault()}>
+							<Icon margin_right={'6px'}>{searchIcon}</Icon>
 							<_Input
 								onChange={onChangeSearch}
 								value={search}
 								type='text'
 								placeholder={t('search')}
-								theme_value={theme}
 							/>
 						</_Form>
-						<_AddButton onClick={newFavorites} theme_value={theme}>
+						<_AddButton onClick={newFavorites}>
 							{plusIcon}
 						</_AddButton>
 					</_FormContainer>
@@ -270,7 +257,6 @@ const NavBar = ({toggle, setToggle}) => {
 			<_OpenButton
 				onClick={() => setToggle(!toggle)}
 				display={toggle ? 'none' : 'inline-block'}
-				theme_value={theme}
 			>
 				<img src={floatings[theme]} alt='floating button' />
 			</_OpenButton>

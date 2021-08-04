@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import {alertFillIcon, closeIcon} from '../../icons/icons';
 
 import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
+
 import {
 	ADD_HISTORY,
 	CHANGE_MODE,
@@ -23,7 +23,7 @@ import {
 	SAVE_FAVORITES,
 	UNDO_FAVORITES,
 } from '../../reducers/common';
-import {HoverButton, Icon, IconButton} from '../../styles/components/icon';
+import {Icon, IconButton} from '../../styles/components/icon';
 import {
 	AlertText,
 	ModalFooter,
@@ -249,10 +249,10 @@ const SavePopup = () => {
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>
-				<TransparentButton theme_value={theme} onClick={closeModal}>
+				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={submitFunction}>
+				<NormalButton onClick={submitFunction}>
 					{t('save')}
 				</NormalButton>
 			</ModalFooter>

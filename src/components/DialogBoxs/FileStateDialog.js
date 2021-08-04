@@ -375,12 +375,10 @@ const FileStateDialog = () => {
 				</_Form>
 
 				<ModalFooter theme_value={theme}>
-					<TransparentButton theme_value={theme} onClick={closeModal}>
+					<TransparentButton onClick={closeModal}>
 						취소
 					</TransparentButton>
-					<NormalButton theme_value={theme} onClick={submitFunction}>
-						저장
-					</NormalButton>
+					<NormalButton onClick={submitFunction}>저장</NormalButton>
 				</ModalFooter>
 			</_PopupModal>
 		)

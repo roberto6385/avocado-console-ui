@@ -7,7 +7,6 @@ import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
-import {borderColor} from '../../../styles/color';
 import {NormalButton} from '../../../styles/components/button';
 
 const _Container = styled.div`
@@ -19,7 +18,8 @@ const _Li = styled.li`
 	height: 48px;
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-bottom: 1px solid
+		${(props) => props.theme.pages.webTerminal.main.aside.border.color};
 `;
 
 const _AccountContainer = styled.div`

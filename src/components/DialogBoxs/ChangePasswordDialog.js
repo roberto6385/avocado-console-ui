@@ -157,12 +157,10 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 			</Form>
 
 			<ModalFooter theme_value={theme}>
-				<TransparentButton theme_value={theme} onClick={closeModal}>
+				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={onSubmitForm}>
-					{t('save')}
-				</NormalButton>
+				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

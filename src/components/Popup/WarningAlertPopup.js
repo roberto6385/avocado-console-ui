@@ -234,10 +234,10 @@ const WarningAlertPopup = () => {
 			</ModalMessage>
 
 			<ModalFooter theme_value={theme}>
-				<TransparentButton theme_value={theme} onClick={cancelFunction}>
+				<TransparentButton onClick={cancelFunction}>
 					{t('cancel')}
 				</TransparentButton>
-				<WarningButton theme_value={theme} onClick={submitFunction}>
+				<WarningButton onClick={submitFunction}>
 					{t('delete')}
 				</WarningButton>
 			</ModalFooter>

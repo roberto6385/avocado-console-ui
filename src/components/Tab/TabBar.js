@@ -1,10 +1,5 @@
 import {Icon, HoverButton} from '../../styles/components/icon';
-import {
-	activeColor,
-	fontColor,
-	tabbarColor,
-	tabColor,
-} from '../../styles/color';
+import {activeColor, fontColor} from '../../styles/color';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import React, {useCallback, useState} from 'react';
@@ -19,7 +14,8 @@ const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background: ${(props) => tabbarColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.tab.backgroundColor};
 `;
 
 const _Tabs = styled.div`
@@ -38,18 +34,22 @@ const _TabItem = styled.div`
 	font-weight: bold;
 	background: ${(props) =>
 		props.clicked
-			? tabColor[props.theme_value]
-			: tabbarColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.tab.selectedItems
+					.backgroundColor
+			: props.theme.pages.webTerminal.main.tab.normalItems
+					.backgroundColor};
 	color: ${(props) =>
 		props.clicked
-			? activeColor[props.theme_value]
-			: fontColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.tab.selectedItems.font.color
+			: props.theme.pages.webTerminal.main.tab.normalItems.font.color};
 	width: 160px;
-	border-top: 2px solid;
-	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: tabbarColor[props.theme_value]};
+	border-top: 2px solid
+		${(props) =>
+			props.clicked
+				? props.theme.pages.webTerminal.main.tab.selectedItems.border
+						.color
+				: props.theme.pages.webTerminal.main.tab.normalItems.border
+						.color};
 `;
 
 const _Tab = styled.div`
@@ -153,7 +153,6 @@ const TabBar = ({toggle, setToggle}) => {
 								draggable='true'
 								onDragStart={prevPutItem(data)}
 								clicked={current_tab === data.uuid ? 1 : 0}
-								theme_value={theme}
 							>
 								<Icon
 									margin_right={'6px'}

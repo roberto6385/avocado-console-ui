@@ -144,22 +144,14 @@ const AddFavoritesDialog = () => {
 				</ListContainer>
 			</_Form>
 			<_ModalFooter theme_value={theme}>
-				<TransparentButton
-					theme_value={theme}
-					onClick={newFolder}
-					color={fontColor[theme]}
-				>
+				<TransparentButton onClick={newFolder}>
 					{t('newFolder')}
 				</TransparentButton>
 				<div>
-					<TransparentButton
-						theme_value={theme}
-						onClick={closeModal}
-						color={fontColor[theme]}
-					>
+					<TransparentButton onClick={closeModal}>
 						{t('cancel')}
 					</TransparentButton>
-					<NormalButton theme_value={theme} onClick={onSubmitForm}>
+					<NormalButton onClick={onSubmitForm}>
 						{t('save')}
 					</NormalButton>
 				</div>

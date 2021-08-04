@@ -20,10 +20,7 @@ import SFTP from '../SFTP';
 
 const SFTP_ = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {current_tab, theme, nav, cols} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {current_tab} = useSelector((state) => state.common, shallowEqual);
 	const {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
@@ -291,7 +288,7 @@ const SFTP_ = ({uuid}) => {
 		}
 	}, [initList, initPath, dispatch, uuid, removeSocket]);
 
-	return <SFTP uuid={uuid} theme={theme} nav={nav} mode={mode} cols={cols} />;
+	return <SFTP uuid={uuid} mode={mode} />;
 };
 
 SFTP_.propTypes = {

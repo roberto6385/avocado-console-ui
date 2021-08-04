@@ -20,12 +20,11 @@ import {FONT_14, HEIGHT_34} from '../../../styles/length';
 import {
 	activeColor,
 	borderColor,
-	fontColor,
 	iconColor,
 	inputBack,
 	tabColor,
 } from '../../../styles/color';
-import {HoverButton} from "../../../styles/components/icon";
+import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -44,7 +43,6 @@ const _input = styled.input`
 	padding: 0px 13px;
 	outline: none;
 	background: ${(props) => props.back};
-	color: ${(props) => props.color};
 `;
 
 const _Form = styled.form`
@@ -203,7 +201,6 @@ const FileListNav = ({uuid}) => {
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
 					back={inputBack[theme]}
-					color={fontColor[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>

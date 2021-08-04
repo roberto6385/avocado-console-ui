@@ -92,17 +92,11 @@ const AlertPopup = () => {
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ||
 				alert_popup.key === 'invalid_server' ? (
-					<WarningButton
-						theme_value={theme}
-						onClick={onClickCloseModal}
-					>
+					<WarningButton onClick={onClickCloseModal}>
 						{t('ok')}
 					</WarningButton>
 				) : (
-					<NormalButton
-						theme_value={theme}
-						onClick={onClickCloseModal}
-					>
+					<NormalButton onClick={onClickCloseModal}>
 						{t('ok')}
 					</NormalButton>
 				)}

@@ -552,16 +552,10 @@ const AddServerDialog = () => {
 				</_ItemContainer>
 			</Form>
 			<ModalFooter theme_value={theme}>
-				<TransparentButton
-					theme_value={theme}
-					onClick={onClickCloseDialog}
-					color={fontColor[theme]}
-				>
+				<TransparentButton onClick={onClickCloseDialog}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={onSubmitForm}>
-					{t('save')}
-				</NormalButton>
+				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

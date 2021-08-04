@@ -357,12 +357,10 @@ const SnippetsManager = ({open, setOpen}) => {
 				</_Form>
 			</_ListContainer>
 			<ModalFooter theme_value={theme}>
-				<TransparentButton theme_value={theme} onClick={onClickCancel}>
+				<TransparentButton onClick={onClickCancel}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton theme_value={theme} onClick={onClickSubmit}>
-					{t('save')}
-				</NormalButton>
+				<NormalButton onClick={onClickSubmit}>{t('save')}</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

@@ -52,63 +52,6 @@ export const historyUploadColor = '#4285f4';
 export const historyEditColor = '#E4E723';
 export const historyDeleteColor = '#d45959';
 
-export const buttonFontColor = ['#ffffff', '#212121'];
-//Normal Button
-export const normalButtonColor = ['#178082', '#44c8c0'];
-export const normalButtonHoverColor = ['#389193', '#69d3cd'];
-export const normalButtonActiveColor = ['#0a6f71', '#31bbb3'];
-//Warning Button
-export const warningButtonColor = ['#d45959', '#d45959'];
-export const warningButtonHoverColor = ['#de6565', '#e27777'];
-export const warningButtonActiveColor = ['#b84646', '#d45959'];
-//Transparent Button
-export const transparentButtonColor = ['#556367', 'rgba(255, 255, 255, 0.6)'];
-export const transparentButtonBoarderColor = [
-	'#c2c2c2',
-	'rgba(255, 255, 255, 0.38)',
-];
-export const transparentButtonHoverBackgroundColor = [
-	'#f8f9fa',
-	'rgba(255, 255, 255, 0.04)',
-];
-export const transparentButtonActiveBorderColor = [
-	'#a8a8a8',
-	'rgba(255, 255, 255, 0.38)',
-];
-//Disabled Button Color
-export const disabledButtonFontColor = ['#ffffff', 'rgba(255, 255, 255, 0.38)'];
-export const disabledButtonColor = ['#e7e9ea', 'rgba(255, 255, 255, 0.12)'];
-//Normal Border Button
-export const normalBorderButtonHoverColor = [
-	'transparent',
-	'rgba(255, 255, 255, 0.04)',
-];
-export const normalBorderButtonActiveColor = [
-	'transparent',
-	'rgba(255, 255, 255, 0.12)',
-];
-//Warning Border Button
-export const warningBorderButtonFontColor = ['#d45959', '#d45959'];
-export const warningBorderButtonHoverFontColor = ['#de6565', '#de6565'];
-export const warningBorderButtonActiveFontColor = ['#b84646', '#b84646'];
-export const warningBorderButtonHoverColor = [
-	'transparent',
-	'rgba(226, 120, 120, 0.04)',
-];
-export const warningBorderButtonActiveColor = [
-	'transparent',
-	'rgba(212, 89, 89, 0.12)',
-];
-//Transparent Border Button Color
-export const transparnetBorderButtonFontColor = [
-	'#556367',
-	'rgba(255, 255, 255, 0.6)',
-];
-export const transparnetBorderButtonHoverColor = [
-	'#f8f9fa',
-	'rgba(255, 255, 255, 0.04)',
-];
-
 export const greyNormalButtonBackgroundColor = ['#ffffff', '#1b2935'];
 
 export const selectInputColor = ['#ffffff', 'rgba(0,0,0,0.22)'];

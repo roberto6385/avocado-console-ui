@@ -15,7 +15,6 @@ import {
 } from '../../../reducers/ssh';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
-import {borderColor, fontColor} from '../../../styles/color';
 //Setting Page Side Bar
 const _Container = styled.div`
 	padding: 0px 16px 15px 17px;
@@ -28,7 +27,8 @@ const _Title = styled.div`
 	align-items: center;
 	height: 50px;
 	font-size: 16px;
-	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-bottom: 1px solid
+		${(props) => props.theme.pages.webTerminal.main.aside.border.color};
 `;
 
 const _ContentsContainer = styled.div`

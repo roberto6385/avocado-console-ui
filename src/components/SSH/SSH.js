@@ -26,18 +26,20 @@ import {
 	contextHover,
 	fontColor,
 	sshSearch,
-	terminalColor,
-	terminalFontColor,
-	terminalSelectionColor,
 } from '../../styles/color';
 import {HoverButton, Icon} from '../../styles/components/icon';
+
+const terminalColor = {light: '#f8f9fa', dark: '#182530'};
+const terminalFontColor = {light: '#212121', dark: 'rgba(255,255,255,0.87)'};
+const terminalSelectionColor = {light: '#182530', dark: '#f8f9fa'};
 
 const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
 	padding: 20px;
-	background-color: ${(props) => terminalColor[props.theme_value]};
+	background-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.ssh.terminal.backgroundColor};
 `;
 
 const _Terminal = styled(_Container)`
@@ -50,7 +52,9 @@ const _SearchInput = styled.input`
 	margin-right: 5px;
 	background-color: transparent;
 	border: none;
-	color: ${(props) => fontColor[props.theme_value]};
+	color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.ssh.searchBox.textBoxs.font
+			.color};
 `;
 
 const _SearchContainer = styled.div`
@@ -58,7 +62,9 @@ const _SearchContainer = styled.div`
 	height: 42px;
 	align-items: center;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
-	background-color: ${(props) => sshSearch[props.theme_value]};
+	background-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.ssh.searchBox
+			.backgroundColor};
 	border-radius: 4px;
 	padding-left: 13px;
 	position: absolute;
@@ -360,7 +366,6 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		<_Container
 			id={`terminal_container_${uuid}`}
 			ref={sshContainerRef}
-			theme_value={theme}
 			className={!isToolbarUnfold && 'close-nav-terminal'}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
@@ -483,7 +488,6 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					placeholder={t('search')}
 					type='text'
 					ref={searchRef}
-					theme_value={theme}
 				/>
 				<HoverButton
 					size={'sm'}

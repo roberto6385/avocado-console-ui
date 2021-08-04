@@ -12,9 +12,13 @@ import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfol
 import FileList_ from './containers/FileList_';
 import DropList_ from './containers/DropList_';
 import History_ from './containers/History_';
+import {shallowEqual, useSelector} from 'react-redux';
 
-const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
-const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
+const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
+const toolbarUnfold = {
+	light: lghtToolbarUnfoldButton,
+	dark: drkToolbarUnfoldButton,
+};
 
 const _Container = styled.div`
 	display: flex;
@@ -55,8 +59,12 @@ const _ToggleButton = styled.img`
 	z-index: 5;
 `;
 
-const SFTP = ({uuid, theme, nav, mode, cols}) => {
+const SFTP = ({uuid, mode}) => {
 	const [toggle, setToggle] = useState(true);
+	const {theme, cols, nav} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 
 	const onClickFold = useCallback(() => {
 		setToggle(false);
@@ -103,10 +111,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 
 SFTP.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	theme: PropTypes.number.isRequired,
-	nav: PropTypes.array.isRequired,
 	mode: PropTypes.string.isRequired,
-	cols: PropTypes.number.isRequired,
 };
 
 export default SFTP;

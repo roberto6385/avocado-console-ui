@@ -33,13 +33,13 @@ export const NavigationItems = styled(Nav.Item)`
 	padding: 0px 16px 0px 8px;
 	padding-left: ${(props) => props?.left};
 	border-color: ${(props) =>
-		props.clicked
+		props.selected
 			? props.theme.pages.webTerminal.main.navigation.items.selectedStyle
 					.border.color
 			: props.theme.pages.webTerminal.main.navigation.items.normalStyle
 					.border.color};
 	background-color: ${(props) =>
-		props.clicked
+		props.selected
 			? props.theme.pages.webTerminal.main.navigation.items.selectedStyle
 					.backgroundColor
 			: props.theme.pages.webTerminal.main.navigation.items.normalStyle

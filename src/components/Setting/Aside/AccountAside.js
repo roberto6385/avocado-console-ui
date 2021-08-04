@@ -6,7 +6,6 @@ import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {settingInput} from '../../../styles/color';
-import {postDeleteAccount} from '../../../reducers/auth/delete';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
 
@@ -20,13 +19,13 @@ const _Input = styled(Input)`
 	background: ${(props) => settingInput[props.theme_value]};
 `;
 
-const _PrimaryGreenButton = styled(NormalButton)`
+const _NormalButton = styled(NormalButton)`
 	width: 268px;
 	margin: 0px;
 	padding: 7px 7px 7px 6px;
 `;
 
-const _PrimaryRednButton = styled(WarningButton)`
+const _WarningButton = styled(WarningButton)`
 	width: 268px;
 	margin: 0px;
 	padding: 7px 7px 7px 6px;
@@ -87,17 +86,14 @@ const AccountAside = () => {
 				/>
 			</TextBoxField_>
 			<TextBoxField_ title={t('auth')}>
-				<_PrimaryGreenButton
-					theme_value={theme}
-					onClick={changePath('/account')}
-				>
+				<_NormalButton onClick={changePath('/account')}>
 					{t('changeAuth')}
-				</_PrimaryGreenButton>
+				</_NormalButton>
 			</TextBoxField_>
 			<TextBoxField_>
-				<_PrimaryRednButton theme_value={theme} onClick={handleDelete}>
+				<_WarningButton onClick={handleDelete}>
 					계정 삭제
-				</_PrimaryRednButton>
+				</_WarningButton>
 			</TextBoxField_>
 		</_Container>
 	);

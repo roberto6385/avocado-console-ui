@@ -8,16 +8,18 @@ import SFTPConvertButton from '../SFTP/SFTPConvertButton';
 import SnippetsManager from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
-import {borderColor, tabColor, terminalColor} from '../../styles/color';
 import SnippetContextMenu from '../ContextMenu/SnippetContextMenu';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
-import {HoverButton} from "../../styles/components/icon";
+import {HoverButton} from '../../styles/components/icon';
 
-const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
-const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
+const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
+const toolbarUnfold = {
+	light: lghtToolbarUnfoldButton,
+	dark: drkToolbarUnfoldButton,
+};
 
 const _Container = styled.div`
 	height: 100%;
@@ -40,7 +42,6 @@ const _HeaderContainer = styled.div`
 	transition: transform 0.5s;
 	height: 50px;
 	max-height: 50px;
-	background-color: ${(props) => terminalColor[props.theme_value]};
 `;
 
 const _Header = styled.div`
@@ -48,9 +49,11 @@ const _Header = styled.div`
 	align-items: center;
 	height: 50px;
 	min-height: 50px;
-	background: ${(props) => tabColor[props.theme_value]};
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.toolBar.backgroundColor};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.toolBar.border.color};
 `;
 
 const _ToolbarFoldUnfoldButton = styled.img`
@@ -102,10 +105,9 @@ const SSHContainer = ({uuid, server}) => {
 	return (
 		<_Container>
 			<_HeaderContainer
-				theme_value={theme}
 				className={!isToolbarUnfold && 'close-nav-header'}
 			>
-				<_Header theme_value={theme}>
+				<_Header>
 					<HoverButton
 						theme_value={theme}
 						ref={snippetRef}
