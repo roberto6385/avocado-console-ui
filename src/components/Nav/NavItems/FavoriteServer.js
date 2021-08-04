@@ -11,38 +11,17 @@ import {
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
-import {Nav} from 'react-bootstrap';
 
-import {
-	activeColor,
-	iconColor,
-	navColor,
-	navHighColor,
-} from '../../../styles/color';
+import {activeColor, iconColor} from '../../../styles/color';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
-import styled from 'styled-components';
 import {connectionAction} from '../../../reducers/sftp';
 import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
-import {Icon} from "../../../styles/components/icon";
-import {NavigationBarInput, NavigationBarTitle} from "../../../styles/components/navigationBar";
-
-export const ServerItem = styled(Nav.Item)`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 34px;
-	padding: 0px 16px 0px 8px;
-	padding-left: ${(props) => props?.left};
-	border-left: 2px solid;
-	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: navColor[props.theme_value]};
-	background-color: ${(props) =>
-		props.clicked
-			? navHighColor[props.theme_value]
-			: navColor[props.theme_value]};
-`;
+import {Icon} from '../../../styles/components/icon';
+import {
+	NavigationBarInput,
+	NavigationBarTitle,
+	NavigationItems,
+} from '../../../styles/components/navigationBar';
 
 const FavoriteServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
@@ -167,7 +146,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 
 	return (
 		<React.Fragment>
-			<ServerItem
+			<NavigationItems
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={prevPutItem}
@@ -205,7 +184,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 						data.name
 					)}
 				</NavigationBarTitle>
-			</ServerItem>
+			</NavigationItems>
 			{!temp && (
 				<FavoritesContextMenu
 					correspondedIdentity={correspondedIdentity}

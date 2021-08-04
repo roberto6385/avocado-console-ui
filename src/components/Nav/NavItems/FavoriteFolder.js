@@ -13,38 +13,17 @@ import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
-import {
-	activeColor,
-	iconColor,
-	navColor,
-	navHighColor,
-} from '../../../styles/color';
+import {activeColor, iconColor} from '../../../styles/color';
 import styled from 'styled-components';
 import FavoriteServer from './FavoriteServer';
 import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
-import {HoverButton, Icon, IconButton} from '../../../styles/components/icon';
+import {HoverButton, Icon} from '../../../styles/components/icon';
 import {
 	NavigationBarInput,
 	NavigationBarTitle,
+	NavigationItems,
 } from '../../../styles/components/navigationBar';
 
-const FolderItem = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 34px;
-	padding: 0px 16px 0px 8px;
-	padding-left: ${(props) => props?.left};
-	border-left: 2px solid;
-	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: navColor[props.theme_value]};
-	background-color: ${(props) =>
-		props.clicked
-			? navHighColor[props.theme_value]
-			: navColor[props.theme_value]};
-`;
 const _Input = styled(NavigationBarInput)`
 	background: transparent;
 `;
@@ -222,7 +201,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 	return (
 		<React.Fragment>
-			<FolderItem
+			<NavigationItems
 				onClick={onCLickFolder}
 				onDoubleClick={() => setOpenRename(true)}
 				onContextMenu={contextMenuOpen}
@@ -271,7 +250,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
 				</HoverButton>
-			</FolderItem>
+			</NavigationItems>
 			{data.contain.length !== 0 && (
 				<Collapse_ open={openTab}>
 					<React.Fragment>
