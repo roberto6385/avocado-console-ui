@@ -30,6 +30,8 @@ import {
 import Toast_ from './components/RecycleComponents/Toast_';
 import FileStateDialog from './components/DialogBoxs/FileStateDialog';
 import GlobalStyle from './styles/global/GlobalStyle';
+import {ThemeProvider} from 'styled-components';
+import {themeValues} from './json/outline';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -88,26 +90,28 @@ const App = () => {
 
 	return (
 		<BrowserRouter>
-			<GlobalStyle theme_value={theme} />
-			<Switch>
-				<Route path='/' exact component={Home} />
-				<Route path='/signin' component={SignIn} />
-				<Route path='/signup' component={SignUp} />
-				<Route path='/password' component={Password} />
-				<Route path='/account' component={Account} />
-				<Route path='/preferences' component={Preferences} />
-				<Route path='/identities' component={Identities} />
-				<Route path='/Redirect' component={Redirect} />
-				<Route component={NotFound} />
-			</Switch>
-			<AddServerDialog />
-			<AddFavoritesDialog />
-			<FileStateDialog />
-			<AlertPopup />
-			<WarningAlertPopup />
-			<InputPopup />
-			<SavePopup />
-			<Toast_ />
+			<ThemeProvider theme={themeValues[theme]}>
+				<GlobalStyle />
+				<Switch>
+					<Route path='/' exact component={Home} />
+					<Route path='/signin' component={SignIn} />
+					<Route path='/signup' component={SignUp} />
+					<Route path='/password' component={Password} />
+					<Route path='/account' component={Account} />
+					<Route path='/preferences' component={Preferences} />
+					<Route path='/identities' component={Identities} />
+					<Route path='/Redirect' component={Redirect} />
+					<Route component={NotFound} />
+				</Switch>
+				<AddServerDialog />
+				<AddFavoritesDialog />
+				<FileStateDialog />
+				<AlertPopup />
+				<WarningAlertPopup />
+				<InputPopup />
+				<SavePopup />
+				<Toast_ />
+			</ThemeProvider>
 		</BrowserRouter>
 	);
 };

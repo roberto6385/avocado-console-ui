@@ -1,15 +1,12 @@
 import {createGlobalStyle} from 'styled-components';
-import {borderColor, fontColor} from '../color';
 
 const GlobalStyle = createGlobalStyle`
   html, body {
-    color: ${(props) => fontColor[props.theme_value]};
+    color: ${(props) => props.theme.basic.default.font.color};
   }
   
-  *, *::before, *::after  {
-    border-color: ${(props) => borderColor[props.theme_value]};
-    
-    
+  * {
+    border-color: ${(props) => props.theme.basic.default.border.color};
   }
 `;
 

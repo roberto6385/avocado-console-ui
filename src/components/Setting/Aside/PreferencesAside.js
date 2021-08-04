@@ -68,8 +68,8 @@ const PreferencesAside = () => {
 	const [terminalFont, setTerminalFont] = useState(font);
 
 	const background_theme = [
-		{value: 0, label: t('light')},
-		{value: 1, label: t('dark')},
+		{value: 'light', label: t('light')},
+		{value: 'dark', label: t('dark')},
 	];
 	const languageOptions = [
 		{value: 'en-US', label: t('en')},
