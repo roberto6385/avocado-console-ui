@@ -1,22 +1,7 @@
 //Button styles
 import styled from 'styled-components';
 import {
-	buttonFontColor,
-	disabledButtonColor,
-	disabledButtonFontColor,
-	normalButtonActiveColor,
-	normalButtonHoverColor,
-	normalButtonColor,
-	transparentButtonColor,
-	transparentButtonHoverBackgroundColor,
-	transparentButtonBoarderColor,
-	warningButtonActiveColor,
-	warningButtonHoverColor,
-	warningButtonColor,
 	transparnetBorderButtonFontColor,
-	transparentButtonActiveBorderColor,
-	normalBorderButtonHoverColor,
-	normalBorderButtonActiveColor,
 	warningBorderButtonFontColor,
 	warningBorderButtonHoverFontColor,
 	warningBorderButtonActiveFontColor,
@@ -37,104 +22,107 @@ export const DefaultButton = styled.button`
 
 export const NormalButton = styled(DefaultButton)`
 	color: ${(props) =>
-		buttonFontColor[props.theme_value] || buttonFontColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.normalStyle.font.color}
 	background: ${(props) =>
-		normalButtonColor[props.theme_value] || normalButtonColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.normalStyle
+			.backgroundColor};
 	&:hover {
 		background: ${(props) =>
-			normalButtonHoverColor[props.theme_value] ||
-			normalButtonHoverColor[0]};
-	}
+			props.theme.basic.pages.buttons.normalStyle.normalStyle.hover
+				.backgroundColor}
 	&:active {
 		background: ${(props) =>
-			normalButtonActiveColor[props.theme_value] ||
-			normalButtonActiveColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.normalStyle.active
+				.backgroundColor};
 	}
 `;
 
 export const WarningButton = styled(DefaultButton)`
 	color: ${(props) =>
-		buttonFontColor[props.theme_value] || buttonFontColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.warningStyle.font.color};
 	background: ${(props) =>
-		warningButtonColor[props.theme_value] || warningButtonColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.warningStyle
+			.backgroundColor};
 	&:hover {
 		background: ${(props) =>
-			warningButtonHoverColor[props.theme_value] ||
-			warningButtonHoverColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.warningStyle.hover
+				.backgroundColor};
 	}
 	&:active {
 		background: ${(props) =>
-			warningButtonActiveColor[props.theme_value] ||
-			warningButtonActiveColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.warningStyle.active
+				.backgroundColor};
 	}
 `;
 
 export const TransparentButton = styled(DefaultButton)`
 	background: transparent;
 	color: ${(props) =>
-		transparentButtonColor[props.theme_value] || transparentButtonColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.transparentStyle
+			.backgroundColor};
 	border: solid 1px
 		${(props) =>
-			transparentButtonBoarderColor[props.theme_value] ||
-			transparentButtonBoarderColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.transparentStyle.border
+				.color};
 	&:hover {
 		background: ${(props) =>
-			transparentButtonHoverBackgroundColor[props.theme_value] ||
-			transparentButtonHoverBackgroundColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.transparentStyle.hover
+				.backgroundColor};
 		border: solid 1px
 			${(props) =>
-				transparentButtonBoarderColor[props.theme_value] ||
-				transparentButtonBoarderColor[0]};
+				props.theme.basic.pages.buttons.normalStyle.transparentStyle
+					.hover.border.color};
 	}
 	&:active {
 		background: ${(props) =>
-			transparentButtonHoverBackgroundColor[props.theme_value] ||
-			transparentButtonHoverBackgroundColor[0]};
+			props.theme.basic.pages.buttons.normalStyle.transparentStyle.active
+				.backgroundColor};
 		border: solid 1px
 			${(props) =>
-				transparentButtonActiveBorderColor[props.theme_value] ||
-				transparentButtonActiveBorderColor[0]};
+				props.theme.basic.pages.buttons.normalStyle.transparentStyle
+					.active.border.color};
 	}
 `;
 
 export const DisabledButton = styled(DefaultButton)`
 	color: ${(props) =>
-		disabledButtonFontColor[props.theme_value] ||
-		disabledButtonFontColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.disabledStyle.font.color};
 	background: ${(props) =>
-		disabledButtonColor[props.theme_value] || disabledButtonColor[0]};
+		props.theme.basic.pages.buttons.normalStyle.disabledStyle
+			.backgroundColor};
 `;
 
 export const NormalBorderButton = styled(TransparentButton)`
 	background: transparent;
 	color: ${(props) =>
-		normalButtonColor[props.theme_value] || normalButtonColor[0]};
+		props.theme.basic.pages.buttons.borderStyle.normalStyle.font.color};
 	border: solid 1px
 		${(props) =>
-			normalButtonColor[props.theme_value] || normalButtonColor[0]};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.border
+				.color};
 	&:hover {
 		color: ${(props) =>
-			normalButtonHoverColor[props.theme_value] ||
-			normalButtonHoverColor[0]};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.hover.font
+				.color};
 		border: solid 1px
 			${(props) =>
-				normalButtonHoverColor[props.theme_value] ||
-				normalButtonHoverColor[0]};
+				props.theme.basic.pages.buttons.borderStyle.normalStyle.hover
+					.backgroundColor};
 		background: ${(props) =>
-			normalBorderButtonHoverColor[props.theme_value] ||
-			normalBorderButtonHoverColor[0]};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.hover.border
+				.color};
 	}
 	&:active {
 		color: ${(props) =>
-			normalButtonActiveColor[props.theme_value] ||
-			normalButtonActiveColor[0]};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.active.font
+				.color};
 		border: solid 1px
 			${(props) =>
-				normalButtonActiveColor[props.theme_value] ||
-				normalButtonActiveColor[0]};
+				props.theme.basic.pages.buttons.borderStyle.normalStyle.active
+					.backgroundColor};
 		background: ${(props) =>
-			normalBorderButtonActiveColor[props.theme_value] ||
-			normalBorderButtonActiveColor[0]};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.active
+				.border.color};
 	}
 `;
 

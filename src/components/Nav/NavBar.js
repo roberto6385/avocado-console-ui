@@ -11,13 +11,7 @@ import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import PropTypes from 'prop-types';
 import {WIDTH_256, FONT_14, HEIGHT_36} from '../../styles/length';
-import {
-	navColor,
-	borderColor,
-	fontColor,
-	activeColor,
-	inputBack,
-} from '../../styles/color';
+import {navColor, borderColor, fontColor, inputBack} from '../../styles/color';
 import LightModeLogo from '../../images/logo/logo@2x.png';
 import DarkModeLogo from '../../images/logo/logo_white@3x.png';
 import FavoriteList from './NavItems/FavoriteList';
@@ -31,9 +25,11 @@ const _Aside = styled.aside`
 	width: ${WIDTH_256};
 	min-width: ${WIDTH_256};
 	border-right: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.navigation.border.color};
 	height: 100%;
-	background: ${(props) => navColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.navigation.backgroundColor};
 	z-index;
 `;
 
@@ -49,7 +45,8 @@ const _FolerServerTab = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-bottom: 1px solid
+		${(props) => props.theme.pages.webTerminal.main.navigation.border.color};
 `;
 
 const _FormContainer = styled.div`
@@ -113,14 +110,18 @@ const _TabItem = styled.div`
 	font-weight: bold;
 	color: ${(props) =>
 		props.clicked
-			? activeColor[props.theme_value]
-			: fontColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.navigation.tab.selectedStyle
+					.font.color
+			: props.theme.pages.webTerminal.main.navigation.tab.normalStyle.font
+					.color};
 	margin: 0px 16px;
 	border-bottom: 2px solid;
 	border-color: ${(props) =>
 		props.clicked
-			? activeColor[props.theme_value]
-			: navColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.navigation.tab.selectedStyle
+					.border.color
+			: props.theme.pages.webTerminal.main.navigation.tab.normalStyle
+					.border.color};
 	width: 100%;
 `;
 
@@ -188,7 +189,7 @@ const NavBar = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<_Aside className={toggle ? 'nav' : 'nav close'} theme_value={theme}>
+		<_Aside className={toggle ? 'nav' : 'nav close'}>
 			<_Header>
 				<HoverButton
 					margin_right={'6px'}
@@ -209,12 +210,6 @@ const NavBar = ({toggle, setToggle}) => {
 						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>
 							<_TabItem
 								clicked={current_nav_tab === v.key ? 1 : 0}
-								theme_value={theme}
-								color={
-									current_nav_tab === v.key
-										? activeColor[theme]
-										: fontColor[theme]
-								}
 							>
 								{v.title}
 							</_TabItem>
