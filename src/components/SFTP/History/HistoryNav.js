@@ -7,9 +7,8 @@ import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {WIDTH_256} from '../../../styles/length';
-import {borderColor, fontColor} from '../../../styles/color';
 import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
-import {HoverButton} from "../../../styles/components/icon";
+import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	min-width: ${WIDTH_256};
@@ -20,11 +19,12 @@ const _Container = styled.div`
 	padding: 0px 16px;
 	height: 50px;
 	border-left: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 `;
 
-const _Title = styled.div`
-	color: ${(props) => fontColor[props.theme_value]};
+const ButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const HistoryNav = ({uuid}) => {
@@ -36,7 +36,7 @@ const HistoryNav = ({uuid}) => {
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const {theme, tab, server, identity} = useSelector(
+	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -132,25 +132,20 @@ const HistoryNav = ({uuid}) => {
 	}, [history_highlight, uuid, dispatch]);
 
 	return (
-		<_Container theme_value={theme}>
-			<_Title theme_value={theme}>{t('title')}</_Title>
-			<div>
-				<HoverButton
-					theme_value={theme}
-					margin={'10px'}
-					onClick={upload}
-				>
+		<_Container>
+			<div>{t('title')}</div>
+			<ButtonContainer>
+				<HoverButton margin={'10px'} onClick={upload}>
 					{fileUploadIcon}
 				</HoverButton>
 				<HoverButton
-					theme_value={theme}
 					margin={'0px'}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
 					{deleteIcon}
 				</HoverButton>
-			</div>
+			</ButtonContainer>
 		</_Container>
 	);
 };

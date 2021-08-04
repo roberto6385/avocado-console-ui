@@ -498,7 +498,7 @@ export const themeValues = {
 						},
 					},
 				},
-				textAreass: {
+				textAreas: {
 					normalStyle: {
 						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
@@ -798,7 +798,7 @@ export const themeValues = {
 									color: 'rgba(255, 255, 255, 0.87)',
 								},
 								backgroundColor: '#1b2935',
-								textAreass: {
+								textAreas: {
 									font: {
 										color: 'rgba(255, 255, 255, 0.87)',
 									},
@@ -1122,7 +1122,7 @@ export const themeValues = {
 						},
 					},
 				},
-				textAreass: {
+				textAreas: {
 					normalStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',

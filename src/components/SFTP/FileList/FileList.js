@@ -18,7 +18,6 @@ import {
 	fontColor,
 	tabColor,
 } from '../../../styles/color';
-import LoadingSpinner from '../../LoadingSpinner';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
@@ -80,7 +79,6 @@ const FileList = ({
 	uuid,
 	path,
 	highlight,
-	theme,
 	lang,
 	list,
 	onContextMenu,
@@ -91,14 +89,13 @@ const FileList = ({
 }) => {
 	return (
 		<React.Fragment>
-			<_Table onContextMenu={onContextMenu()} back={tabColor[theme]}>
+			<_Table onContextMenu={onContextMenu()}>
 				<TableHead uuid={uuid} />
-				<_Tbody active={fileListHighColor[theme]}>
+				<_Tbody>
 					{list.map((item, index) => {
 						if (item.name !== '.') {
 							return (
 								<_Tr
-									theme_value={theme}
 									onContextMenu={onContextMenu(item)}
 									onClick={onClick({item, index})}
 									onDoubleClick={onDoubleClick(item)}
@@ -115,17 +112,11 @@ const FileList = ({
 								>
 									<_Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
-											<Icon
-												margin_right={'8px'}
-												color={activeColor[theme]}
-											>
+											<Icon margin_right={'8px'}>
 												{folderOpenIcon}
 											</Icon>
 										) : (
-											<Icon
-												margin_right={'8px'}
-												theme_value={theme}
-											>
+											<Icon margin_right={'8px'}>
 												{fileIcon}
 											</Icon>
 										)}
@@ -150,7 +141,6 @@ const FileList = ({
 									<_Th min={'63px'} justify={'flex-end'}>
 										{item.type === 'file' && (
 											<HoverButton
-												theme_value={theme}
 												margin_right={'12px'}
 												onClick={onEdit(item)}
 											>
@@ -159,7 +149,6 @@ const FileList = ({
 										)}
 										{item.name !== '..' && (
 											<HoverButton
-												theme_value={theme}
 												margin={'0px'}
 												onClick={onDownload(item)}
 											>
@@ -182,7 +171,6 @@ FileList.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
 	highlight: PropTypes.array.isRequired,
-	theme: PropTypes.number.isRequired,
 	lang: PropTypes.string.isRequired,
 	list: PropTypes.array.isRequired,
 	onContextMenu: PropTypes.func.isRequired,

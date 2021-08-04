@@ -11,8 +11,7 @@ import {
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
-import {borderColor, fontColor, tabColor} from '../../../styles/color';
-import {HoverButton} from "../../../styles/components/icon";
+import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -20,14 +19,11 @@ const _Container = styled.div`
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid;
-	background: ${(props) => props?.back};
-	border-color: ${(props) => props?.bcolor};
 	height: ${HEIGHT_50};
 `;
 
 const _Span = styled.span`
 	font-size: ${FONT_14};
-	color: ${(props) => props.color};
 `;
 const _ButtonContainer = styled.div`
 	display: flex;
@@ -36,7 +32,6 @@ const _ButtonContainer = styled.div`
 
 const EditNav = ({uuid}) => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
 
 	const {
 		path: sftp_pathState,
@@ -110,32 +105,16 @@ const EditNav = ({uuid}) => {
 	}, [dispatch, editText, mode, prevMode, text, uuid]);
 
 	return (
-		<_Container
-			justify={'space-between'}
-			back={tabColor[theme]}
-			bcolor={borderColor[theme]}
-		>
-			<_Span color={fontColor[theme]}>{`${path}/${editFile.name}`}</_Span>
+		<_Container justify={'space-between'}>
+			<_Span>{`${path}/${editFile.name}`}</_Span>
 			<_ButtonContainer>
-				<HoverButton
-					size={'sm'}
-					theme_value={theme}
-					onClick={editedFileSave}
-				>
+				<HoverButton size={'sm'} onClick={editedFileSave}>
 					{saveIcon}
 				</HoverButton>
-				<HoverButton
-					size={'sm'}
-					theme_value={theme}
-					onClick={editedFileDownload}
-				>
+				<HoverButton size={'sm'} onClick={editedFileDownload}>
 					{fileDownloadIcon}
 				</HoverButton>
-				<HoverButton
-					size={'sm'}
-					theme_value={theme}
-					onClick={closeEditMode}
-				>
+				<HoverButton size={'sm'} onClick={closeEditMode}>
 					{squareDeleteIcon}
 				</HoverButton>
 			</_ButtonContainer>

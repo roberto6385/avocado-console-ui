@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
 import styled from 'styled-components';
-import {tabColor} from '../../styles/color';
 import SFTPNav from './SFTPNav';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
@@ -13,15 +12,19 @@ import FileList_ from './containers/FileList_';
 import DropList_ from './containers/DropList_';
 import History_ from './containers/History_';
 
-const toolbarFold = [lghtFToolbarFoldButton, drkToolbarFoldButton];
-const toolbarUnfold = [lghtToolbarUnfoldButton, drkToolbarUnfoldButton];
+const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
+const toolbarUnfold = {
+	light: lghtToolbarUnfoldButton,
+	dark: drkToolbarUnfoldButton,
+};
 
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 	flex: 1 1 0;
-	background: ${(props) => tabColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.backgroundColor};
 
 	.close-nav-sftp {
 		margin-top: -50px;
@@ -67,7 +70,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 	}, []);
 
 	return mode === 'edit' ? (
-		<_Container theme_value={theme}>
+		<_Container>
 			<Edit uuid={uuid} />
 		</_Container>
 	) : (
@@ -103,7 +106,7 @@ const SFTP = ({uuid, theme, nav, mode, cols}) => {
 
 SFTP.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	theme: PropTypes.number.isRequired,
+	theme: PropTypes.string.isRequired,
 	nav: PropTypes.array.isRequired,
 	mode: PropTypes.string.isRequired,
 	cols: PropTypes.number.isRequired,
