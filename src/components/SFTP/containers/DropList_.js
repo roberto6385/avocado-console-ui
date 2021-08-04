@@ -19,7 +19,7 @@ import {sortFunction} from '../functions';
 const DropList_ = ({uuid}) => {
 	const dispatch = useDispatch();
 
-	const {theme, tab, server, identity} = useSelector(
+	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -413,7 +413,6 @@ const DropList_ = ({uuid}) => {
 			uuid={uuid}
 			list={currentFileList}
 			pathList={pathList}
-			theme={theme}
 			onContextMenu={handleContextMenu}
 			highlight={highlight}
 			path={path}

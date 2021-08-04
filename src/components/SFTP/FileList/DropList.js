@@ -10,17 +10,9 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
-import {
-	activeColor,
-	borderColor,
-	fileListHighColor,
-	fontColor,
-	highColor,
-	tabColor,
-} from '../../../styles/color';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
-import {HoverButton, Icon} from "../../../styles/components/icon";
+import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Container = styled.div`
 	display: flex;
@@ -62,14 +54,19 @@ const _Ul = styled.ul`
 	margin: 0px;
 	padding: 0px;
 	outline: none;
-	background: ${(props) => props.back};
 	border-right: 1px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 	color: ${(props) => props.color};
 `;
 
 const _Li = styled.li`
-	background: ${(props) => props?.back};
+	background: ${(props) =>
+		(props.type === 'current' &&
+			props.theme.pages.webTerminal.main.panels.sftp.files.dropList
+				.currentSelectedStyle.item.backgroundColor) ||
+		(props.type === 'prev' &&
+			props.theme.pages.webTerminal.main.panels.sftp.files.dropList
+				.selectedStyle.item.backgroundColor)};
 	min-width: ${WIDTH_220};
 	height: ${HEIGHT_48};
 	white-space: nowrap;
@@ -77,7 +74,7 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 	font-weight: bold;
 `;
 
@@ -85,7 +82,6 @@ const DropList = ({
 	uuid,
 	list,
 	pathList,
-	theme,
 	onClick,
 	onContextMenu,
 	highlight,
@@ -104,13 +100,11 @@ const DropList = ({
 								: '220px'
 						}
 						flex={pathList.length - 1 === listindex && 1}
-						back={tabColor[theme]}
-						color={fontColor[theme]}
-						bcolor={
-							pathList.length - 1 === listindex
-								? 'transparent'
-								: borderColor[theme]
-						}
+						// bcolor={
+						// 	pathList.length - 1 === listindex
+						// 		? 'transparent'
+						// 		: borderColor[theme]
+						// }
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={onContextMenu({
@@ -123,21 +117,19 @@ const DropList = ({
 								item.name !== '.' && (
 									<_Li
 										className={'filelist_contents'}
-										back={
+										type={
 											(highlight.findIndex(
 												(it) =>
 													it?.name === item.name &&
 													path ===
 														pathList[listindex],
 											) > -1 &&
-												fileListHighColor[theme]) ||
+												'current') ||
 											(pathList[listindex + 1]
 												?.split('/')
 												.pop() === item.name &&
-												highColor[theme]) ||
-											tabColor[theme]
+												'prev')
 										}
-										bcolor={borderColor[theme]}
 										key={index}
 										onContextMenu={onContextMenu({
 											item,
@@ -153,17 +145,11 @@ const DropList = ({
 											className={'filelist_contents'}
 										>
 											{item.type === 'directory' ? (
-												<Icon
-													margin_right={'8px'}
-													color={activeColor[theme]}
-												>
+												<Icon margin_right={'8px'}>
 													{folderOpenIcon}
 												</Icon>
 											) : (
-												<Icon
-													margin_right={'8px'}
-													theme_value={theme}
-												>
+												<Icon margin_right={'8px'}>
 													{fileIcon}
 												</Icon>
 											)}
@@ -187,9 +173,6 @@ const DropList = ({
 													{item.type === 'file' &&
 														item.name !== '..' && (
 															<HoverButton
-																theme_value={
-																	theme
-																}
 																margin_right={
 																	'12px'
 																}
@@ -203,7 +186,6 @@ const DropList = ({
 														)}
 													{item.name !== '..' && (
 														<HoverButton
-															theme_value={theme}
 															zIndex={1}
 															margin_right={'0px'}
 															onClick={onDownload(
@@ -231,7 +213,6 @@ const DropList = ({
 DropList.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	pathList: PropTypes.array.isRequired,
-	theme: PropTypes.number.isRequired,
 	onContextMenu: PropTypes.func.isRequired,
 	highlight: PropTypes.array.isRequired,
 	path: PropTypes.string.isRequired,

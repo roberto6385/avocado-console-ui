@@ -16,7 +16,7 @@ import {sortFunction} from '../functions';
 
 const FileList_ = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {theme, lang, server, tab, identity} = useSelector(
+	const {lang, server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -309,7 +309,6 @@ const FileList_ = ({uuid}) => {
 			uuid={uuid}
 			highlight={highlight}
 			path={path}
-			theme={theme}
 			lang={lang}
 			list={currentFileList}
 			onContextMenu={handleContextMenu}

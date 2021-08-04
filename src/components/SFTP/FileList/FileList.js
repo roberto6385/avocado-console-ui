@@ -11,13 +11,7 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_48} from '../../../styles/length';
-import {
-	activeColor,
-	borderColor,
-	fileListHighColor,
-	fontColor,
-	tabColor,
-} from '../../../styles/color';
+import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
@@ -25,7 +19,6 @@ import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Table = styled.table`
 	display: flex;
-	background: ${(props) => props?.back};
 	position: relative;
 	flex: 1;
 	flex-direction: column;
@@ -39,14 +32,15 @@ const _Table = styled.table`
 `;
 
 const _Tbody = styled.tbody`
-	background: ${(props) => props?.back};
 	flex: 1;
 	width: 100%;
 	min-width: 778px;
 	position: absolute;
 	top: ${HEIGHT_48};
 	.active {
-		background: ${(props) => props.active};
+		background: ${(props) =>
+			props.theme.pages.webTerminal.main.panels.sftp.files.normalList
+				.selectedStyle.tr.backgroundColor};
 	}
 `;
 
@@ -68,10 +62,8 @@ const _Tr = styled.tr`
 	padding-left: 16px;
 	display: flex;
 	height: ${HEIGHT_48};
-	color: ${(props) => fontColor[props.theme_value]};
-	background: ${(props) => tabColor[props.theme_value]};
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 	cursor: pointer;
 `;
 

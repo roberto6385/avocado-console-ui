@@ -19,13 +19,16 @@ import {
 const _Tr = styled.tr`
 	top: 0px;
 	height: ${HEIGHT_48};
-	background: ${(props) => props?.back} !important;
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.files.normalList
+			.normalStyle.tr.backgroundColor};
 	display: flex;
 	align-items: center;
 	padding-left: 16px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.b_color};
-	color: ${(props) => props.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.files.normalList
+			.normalStyle.tr.border.color};
 `;
 
 const _Th = styled.th`
@@ -38,7 +41,9 @@ const _Th = styled.th`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 2;
-	color: ${(props) => props.color};
+	color: ${(props) =>
+		props.active &&
+		props.theme.basic.pages.icons.dynamicIcons.selected.font.color};
 `;
 
 const _Thead = styled.thead`
@@ -51,7 +56,6 @@ const _Thead = styled.thead`
 const TableHead = ({uuid}) => {
 	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
 	const {etc: sftp_etcState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
@@ -106,23 +110,14 @@ const TableHead = ({uuid}) => {
 
 	return (
 		<_Thead>
-			<_Tr
-				back={tabColor[theme]}
-				b_color={borderColor[theme]}
-				color={fontColor[theme]}
-			>
-				{tableHeaders.map((item, i) => {
+			<_Tr>
+				{tableHeaders.map((item) => {
 					return (
 						<_Th
 							key={item.key}
 							id={`fileListTableHead_${item.key}`}
-							color={
-								sortKeyword === item.key
-									? activeColor[theme]
-									: undefined
-							}
+							active={sortKeyword === item.key}
 							textAlign={item.key === 'size' && 'right'}
-							// back={sortKeyword === item.key && HIGHLIGHT_COLOR}
 							onClick={Sorting}
 							min={item.min}
 							flex={item.flex}
