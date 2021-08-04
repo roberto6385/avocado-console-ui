@@ -412,31 +412,11 @@ export const themeValues = {
 				},
 				checkBoxs: {
 					normalStyle: {
-						default: {
-							border: {
-								color: '#757575',
-							},
-							backgroundColor: '#ffffff',
-						},
 						check: {
-							backgroundColor: '#178082',
+							font: {color: '#178082'},
 						},
-						indeterminate: {
-							backgroundColor: '#959ea1',
-						},
-					},
-					disabledStyle: {
 						default: {
-							border: {
-								color: '#c2c2c2',
-							},
-							backgroundColor: '#ffffff',
-						},
-						check: {
-							backgroundColor: 'rgba(23, 128, 130, 0.24)',
-						},
-						indeterminate: {
-							backgroundColor: 'rgba(60, 76, 81, 0.24)',
+							font: {color: '#757575'},
 						},
 					},
 				},
@@ -510,20 +490,6 @@ export const themeValues = {
 						},
 					},
 
-					dialogBoxStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#e3e5e5'},
-						focused: {
-							border: {color: '#4ca6a8'},
-						},
-						invalid: {
-							border: {
-								color: '#d45959',
-							},
-						},
-					},
-
 					searchStyle: {
 						font: {color: '#212121'},
 						backgroundColor: '#f0f3f6',
@@ -550,24 +516,10 @@ export const themeValues = {
 				radios: {
 					normalStyle: {
 						check: {
-							backgroundColor: '#178082',
-							border: {color: '#178082'},
+							font: {color: '#178082'},
 						},
 						default: {
-							backgroundColor: 'transparent',
-							border: {color: '#757575'},
-						},
-					},
-					disabledStyle: {
-						check: {
-							backgroundColor: 'rgba(23, 128, 130, 0.24)',
-							border: {
-								color: 'rgba(23, 128, 130, 0.24)',
-							},
-						},
-						default: {
-							backgroundColor: 'transparent',
-							border: {color: '#c2c2c2'},
+							font: {color: '#757575'},
 						},
 					},
 				},
@@ -581,39 +533,18 @@ export const themeValues = {
 						},
 
 						menuList: {
-							backgroundColor: '#ffffff',
+							backgroundColor: {
+								normalStyle: '#ffffff',
+								dialogStyle: '#ffffff',
+							},
 						},
 
 						options: {
 							font: {color: '#212121'},
-							backgroundColor: '#ffffff',
-							disabled: {
-								backgroundColor: null,
+							backgroundColor: {
+								normalStyle: '#ffffff',
+								dialogStyle: '#ffffff',
 							},
-							selected: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
-							focused: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
-						},
-					},
-
-					dialogBoxStyle: {
-						control: {
-							font: {color: '#212121'},
-							border: {color: '#e3e5e5'},
-							backgroundColor: '#ffffff',
-							focused: {border: {color: '#4ca6a8'}},
-						},
-
-						menuList: {
-							backgroundColor: '#ffffff',
-						},
-
-						options: {
-							font: {color: '#212121'},
-							backgroundColor: '#ffffff',
 							disabled: {
 								backgroundColor: null,
 							},
@@ -1099,31 +1030,11 @@ export const themeValues = {
 
 				checkBoxs: {
 					normalStyle: {
-						default: {
-							border: {
-								color: 'rgba(255, 255, 255, 0.6)',
-							},
-							backgroundColor: '#1b2935',
-						},
 						check: {
-							backgroundColor: '#44c8c0',
+							font: {color: '#44c8c0'},
 						},
-						indeterminate: {
-							backgroundColor: 'rgba(255, 255, 255, 0.6)',
-						},
-					},
-					disabledStyle: {
 						default: {
-							border: {
-								color: 'rgba(255, 255, 255, 0.24)',
-							},
-							backgroundColor: '#1b2935',
-						},
-						check: {
-							backgroundColor: 'rgba(68, 200, 192, 0.24)',
-						},
-						indeterminate: {
-							backgroundColor: 'rgba(60, 76, 81, 0.24)',
+							font: {color: 'rgba(255, 255, 255, 0.6)'},
 						},
 					},
 				},
@@ -1203,20 +1114,6 @@ export const themeValues = {
 						},
 					},
 
-					dialogBoxStyle: {
-						font: {color: 'rgba(255, 255, 255, 0.87)'},
-						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {
-							color: 'none',
-						},
-						focused: {border: {color: '#44c8c0'}},
-						invalid: {
-							border: {
-								color: '#de6565',
-							},
-						},
-					},
-
 					searchStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
@@ -1243,91 +1140,44 @@ export const themeValues = {
 				radios: {
 					normalStyle: {
 						check: {
-							backgroundColor: '#44c8c0',
-							border: {color: '#44c8c0'},
+							font: {color: '#44c8c0'},
 						},
-						default: {
-							backgroundColor: 'transparent',
-							border: {
-								color: 'rgba(255, 255, 255, 0.6)',
-							},
-						},
-					},
-					disabledStyle: {
-						check: {
-							backgroundColor: 'rgba(68, 200, 192, 0.24)',
-							border: {
-								color: 'rgba(68, 200, 192, 0.24)',
-							},
-						},
-						default: {
-							backgroundColor: 'transparent',
-							border: {
-								color: 'rgba(255, 255, 255, 0.24)',
-							},
-						},
+						default: {font: {color: 'rgba(255, 255, 255, 0.6)'}},
 					},
 				},
 				comboBoxs: {
-					normalStyle: {
-						control: {
-							font: {
-								color: 'rgba(255, 255, 255, 0.87)',
-							},
-							border: {color: 'none'},
-							backgroundColor: 'rgba(0, 0, 0, 0.22)',
-							focused: {border: {color: '#4ca6a8'}},
+					control: {
+						font: {
+							color: 'rgba(255, 255, 255, 0.87)',
 						},
+						border: {color: 'none'},
+						backgroundColor: 'rgba(0, 0, 0, 0.22)',
+						focused: {border: {color: '#4ca6a8'}},
+					},
 
-						menuList: {
-							backgroundColor: '#253545',
-						},
-
-						options: {
-							font: {
-								color: 'rgba(255, 255, 255, 0.87)',
-							},
-							backgroundColor: '#253545',
-							disabled: {
-								backgroundColor: null,
-							},
-							selected: {
-								backgroundColor: 'rgba(0, 0, 0, 0.12)',
-							},
-							focused: {
-								backgroundColor: 'rgba(0, 0, 0, 0.12)',
-							},
+					menuList: {
+						backgroundColor: {
+							normalStyle: '#253545',
+							dialogStyle: '#2f4b60',
 						},
 					},
 
-					dialogBoxStyle: {
-						control: {
-							font: {
-								color: 'rgba(255, 255, 255, 0.87)',
-							},
-							border: {color: 'none'},
-							backgroundColor: 'rgba(0, 0, 0, 0.22)',
-							focused: {border: {color: '#4ca6a8'}},
+					options: {
+						font: {
+							color: 'rgba(255, 255, 255, 0.87)',
 						},
-
-						menuList: {
-							backgroundColor: '#2f4b60',
+						backgroundColor: {
+							normalStyle: '#253545',
+							dialogStyle: '#2f4b60',
 						},
-
-						options: {
-							font: {
-								color: 'rgba(255, 255, 255, 0.87)',
-							},
-							backgroundColor: '#2f4b60',
-							disabled: {
-								backgroundColor: null,
-							},
-							selected: {
-								backgroundColor: 'rgba(0, 0, 0, 0.12)',
-							},
-							focused: {
-								backgroundColor: 'rgba(0, 0, 0, 0.12)',
-							},
+						disabled: {
+							backgroundColor: null,
+						},
+						selected: {
+							backgroundColor: 'rgba(0, 0, 0, 0.12)',
+						},
+						focused: {
+							backgroundColor: 'rgba(0, 0, 0, 0.12)',
 						},
 					},
 				},
