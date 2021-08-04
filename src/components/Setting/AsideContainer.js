@@ -9,7 +9,7 @@ import {closeIcon} from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {borderColor, fontColor, sideColor} from '../../styles/color';
 import {IconButton} from '../../styles/components/icon';
-import {SettingTitle} from "../../styles/components/settingPage";
+import {SettingTitle} from '../../styles/components/settingPage';
 
 const _Container = styled.div`
 	height: 100%;

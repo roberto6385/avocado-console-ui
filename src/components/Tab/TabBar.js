@@ -13,6 +13,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
 import {disconnectAction} from '../../reducers/sftp';
+import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	display: flex;
@@ -63,7 +64,7 @@ const _ServerTitle = styled.div`
 	overflow: hidden;
 `;
 
-const TabBar = () => {
+const TabBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 
 	const {tab, current_tab, theme} = useSelector(
@@ -78,7 +79,6 @@ const TabBar = () => {
 
 	const [oldOlder, setOldOlder] = useState(0);
 	const [draggedItem, setDraggedItem] = useState({});
-	const [asideToggle, setAsideToggle] = useState(false);
 
 	const onClickChangeVisibleTab = useCallback(
 		(uuid) => () => {
@@ -185,9 +185,14 @@ const TabBar = () => {
 					);
 				})}
 			</_Tabs>
-			<RightCornerIcons toggle={asideToggle} setToggle={setAsideToggle} />
+			<RightCornerIcons toggle={toggle} setToggle={setToggle} />
 		</_Container>
 	);
+};
+
+TabBar.propTypes = {
+	toggle: PropTypes.bool.isRequired,
+	setToggle: PropTypes.func.isRequired,
 };
 
 export default TabBar;
