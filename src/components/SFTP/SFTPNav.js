@@ -13,8 +13,7 @@ const _Container = styled.div`
 	border-bottom: 1px solid;
 	background: ${(props) =>
 		props.theme.pages.webTerminal.main.panels.toolBar.backgroundColor};
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.toolBar.border.color};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 `;
 
 const SFTPNav = ({uuid}) => {

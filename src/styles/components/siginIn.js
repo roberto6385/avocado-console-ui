@@ -5,16 +5,17 @@ import {NormalButton} from './button';
 
 export const UserForm = styled.form`
 	color: black;
-	background: white;
+	background: ${(props) => props.theme.pages.signIn.backgroundColor};
 	width: 500px;
 	height: 614px;
 	padding: 70px;
 	border-radius: 16px;
-	caret-color: black;
+	caret-color: ${(props) => props.theme.basic.default.font.color};
 	display: flex;
 	flex-direction: column;
 	.focus {
-		border-color: ${inputFocusBoaderColor[0]};
+		border-color: ${(props) =>
+			props.theme.pages.signIn.textBoxs.selectedStyle.border.color};
 		outline: 0 none;
 	}
 `;

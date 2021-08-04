@@ -10,7 +10,7 @@ import {
 
 const Container = styled.div`
 	z-index: 0;
-	opacity: ${(props) => props?.opacity && '0.24'};
+	opacity: ${(props) => props.opacity === 'true' && '0.24'};
 `;
 
 const InputContainer = styled.div`
@@ -26,11 +26,9 @@ const CheckBox_ = ({
 	indeterminate = false, // 체크박스 하위 항목중 일부 체크 시
 	disabled = false,
 }) => {
-	const theme = useSelector((state) => state.common.theme);
-
 	return (
 		<Container
-			opacity={disabled}
+			opacity={disabled.toString()}
 			className='pretty p-svg p-curve p-plain p-toggle p-thick'
 		>
 			<input

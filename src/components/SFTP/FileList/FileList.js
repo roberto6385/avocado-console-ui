@@ -11,14 +11,7 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_48} from '../../../styles/length';
-import {
-	activeColor,
-	borderColor,
-	fileListHighColor,
-	fontColor,
-	tabColor,
-} from '../../../styles/color';
-import LoadingSpinner from '../../LoadingSpinner';
+import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
@@ -26,7 +19,6 @@ import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Table = styled.table`
 	display: flex;
-	background: ${(props) => props?.back};
 	position: relative;
 	flex: 1;
 	flex-direction: column;
@@ -40,14 +32,15 @@ const _Table = styled.table`
 `;
 
 const _Tbody = styled.tbody`
-	background: ${(props) => props?.back};
 	flex: 1;
 	width: 100%;
 	min-width: 778px;
 	position: absolute;
 	top: ${HEIGHT_48};
 	.active {
-		background: ${(props) => props.active};
+		background: ${(props) =>
+			props.theme.pages.webTerminal.main.panels.sftp.files.normalList
+				.selectedStyle.tr.backgroundColor};
 	}
 `;
 
@@ -69,10 +62,8 @@ const _Tr = styled.tr`
 	padding-left: 16px;
 	display: flex;
 	height: ${HEIGHT_48};
-	color: ${(props) => fontColor[props.theme_value]};
-	background: ${(props) => tabColor[props.theme_value]};
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 	cursor: pointer;
 `;
 
@@ -80,7 +71,6 @@ const FileList = ({
 	uuid,
 	path,
 	highlight,
-	theme,
 	lang,
 	list,
 	onContextMenu,
@@ -91,14 +81,13 @@ const FileList = ({
 }) => {
 	return (
 		<React.Fragment>
-			<_Table onContextMenu={onContextMenu()} back={tabColor[theme]}>
+			<_Table onContextMenu={onContextMenu()}>
 				<TableHead uuid={uuid} />
-				<_Tbody active={fileListHighColor[theme]}>
+				<_Tbody>
 					{list.map((item, index) => {
 						if (item.name !== '.') {
 							return (
 								<_Tr
-									theme_value={theme}
 									onContextMenu={onContextMenu(item)}
 									onClick={onClick({item, index})}
 									onDoubleClick={onDoubleClick(item)}
@@ -115,17 +104,11 @@ const FileList = ({
 								>
 									<_Th min={'150px'} flex={1}>
 										{item.type === 'directory' ? (
-											<Icon
-												margin_right={'8px'}
-												color={activeColor[theme]}
-											>
+											<Icon margin_right={'8px'}>
 												{folderOpenIcon}
 											</Icon>
 										) : (
-											<Icon
-												margin_right={'8px'}
-												theme_value={theme}
-											>
+											<Icon margin_right={'8px'}>
 												{fileIcon}
 											</Icon>
 										)}
@@ -150,7 +133,6 @@ const FileList = ({
 									<_Th min={'63px'} justify={'flex-end'}>
 										{item.type === 'file' && (
 											<HoverButton
-												theme_value={theme}
 												margin_right={'12px'}
 												onClick={onEdit(item)}
 											>
@@ -159,7 +141,6 @@ const FileList = ({
 										)}
 										{item.name !== '..' && (
 											<HoverButton
-												theme_value={theme}
 												margin={'0px'}
 												onClick={onDownload(item)}
 											>
@@ -182,7 +163,6 @@ FileList.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
 	highlight: PropTypes.array.isRequired,
-	theme: PropTypes.number.isRequired,
 	lang: PropTypes.string.isRequired,
 	list: PropTypes.array.isRequired,
 	onContextMenu: PropTypes.func.isRequired,

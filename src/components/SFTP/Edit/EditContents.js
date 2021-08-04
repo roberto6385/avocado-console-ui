@@ -4,7 +4,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {FONT_14} from '../../../styles/length';
-import {editColor, fontColor} from '../../../styles/color';
 
 const _Container = styled.div`
 	flex: 1;
@@ -14,8 +13,9 @@ const _Container = styled.div`
 	background-position: left 10px;
 	overflow: hidden;
 	textarea {
-		background: ${(props) => props?.back};
-		color: ${(props) => props.color};
+		background: ${(props) =>
+			props.theme.pages.webTerminal.main.panels.sftp.edit.textAreas
+				.backgroundColor};
 		height: 100%;
 		padding: 20px;
 		outline: none;
@@ -27,7 +27,6 @@ const _Container = styled.div`
 `;
 const EditContents = ({uuid}) => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
 	const {edit: sftp_editState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
@@ -46,7 +45,7 @@ const EditContents = ({uuid}) => {
 	);
 
 	return (
-		<_Container back={editColor[theme]} color={fontColor[theme]}>
+		<_Container>
 			<textarea
 				// wrap={JSON.parse(checked) ? 'soft' : 'off'}
 				rows='50'

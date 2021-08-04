@@ -16,16 +16,10 @@ import {
 } from '../../../icons/icons';
 import {HEIGHT_48, HEIGHT_132} from '../../../styles/length';
 import {
-	activeColor,
-	borderColor,
 	historyDeleteColor,
 	historyDownloadColor,
-	fontColor,
-	highColor,
 	historyEditColor,
-	iconColor,
 	historyPauseColor,
-	tabColor,
 	historyUploadColor,
 } from '../../../styles/color';
 
@@ -38,15 +32,16 @@ const _Container = styled.div`
 	width: 256px;
 	overflow: scroll;
 	border-left: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => tabColor[props.theme_value]};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 `;
 
 const DropSpaceDiv = styled.div`
 	height: ${HEIGHT_132};
 	margin: 8px;
 	border: 1px dashed;
-	border-color: ${(props) => props.bcolor};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.history.texts.description
+			.font.color};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -55,7 +50,6 @@ const DropSpaceDiv = styled.div`
 
 const _Ul = styled.ul`
 	${PreventDragCopy}
-	width:${(props) => props.width};
 	list-style: none;
 	margin: 0px;
 	padding: 0px;
@@ -67,16 +61,17 @@ const _Li = styled.li`
 	line-height: 0;
 	position: relative;
 	height: ${HEIGHT_48};
-	// padding: 16px;
 	display: flex;
 	align-items: center;
 	background: ${(props) =>
 		props.clicked
-			? highColor[props.theme_value]
-			: tabColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.panels.sftp.history.items
+					.selectedStyle.backgroundColor
+			: props.theme.pages.webTerminal.main.panels.sftp.history.items
+					.normalStyle.backgroundColor};
 	white-space: nowrap;
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) => props.theme.basic.default.border.color};
 `;
 
 const DropSpace_Button = styled(NormalButton)`
@@ -95,7 +90,9 @@ const HistoryText = styled.div`
 	text-overflow: ellipsis;
 	margin-right: 6px;
 	color: ${(props) =>
-		props.progress ? historyPauseColor : fontColor[props.theme_value]};
+		!props?.progress &&
+		props.theme.pages.webTerminal.main.panels.sftp.history.texts.description
+			.font.color};
 `;
 
 const Progress = styled.div`
@@ -107,11 +104,15 @@ const Progress = styled.div`
 const Bar = styled.div`
 	width: ${(props) => props?.width || '0%'};
 	height: 2px;
-	background: ${(props) => props.back};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.history.items.progressBar
+			.font.color};
 `;
 
-const _AnnounceText = styled.div`
-	color: ${(props) => iconColor[props.theme_value]};
+const _DescriptionText = styled.div`
+	color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.history.texts.description
+			.font.color};
 	padding: 32px 30px 12px 30px;
 	line-height: 1.43;
 	letter-spacing: 0.25px;
@@ -123,14 +124,15 @@ const _BrowseButtonText = styled.div`
 `;
 
 const _HistorySizeText = styled.span`
-	color: ${(props) => fontColor[props.theme_value]};
+	color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.history.texts.size.font
+			.color};
 	font-size: 12px;
 	letter-spacing: 0.25px;
 	line-height: 1.67;
 `;
 
 const History = ({
-	theme,
 	onUploadWithDrop,
 	onUploadWithClick,
 	onSelect,
@@ -144,22 +146,13 @@ const History = ({
 	const {t} = useTranslation('historyContents');
 
 	return (
-		<_Container theme_value={theme}>
+		<_Container>
 			<Dropzone onDrop={(files) => onUploadWithDrop(files)}>
-				{history?.length === 0 ? (
-					<DropSpaceDiv bcolor={iconColor[theme]}>
-						<_AnnounceText theme_value={theme}>
-							{t('paragraph')}
-						</_AnnounceText>
-						<DropSpace_Button
-							theme_value={theme}
-							onClick={onUploadWithClick}
-						>
-							<Icon
-								size='sm'
-								margin_right={'8px'}
-								color={theme === 0 ? 'white' : 'black'}
-							>
+				{history.length === 0 ? (
+					<DropSpaceDiv>
+						<_DescriptionText>{t('paragraph')}</_DescriptionText>
+						<DropSpace_Button onClick={onUploadWithClick}>
+							<Icon size='sm' margin_right={'8px'}>
 								{fileUploadIcon}
 							</Icon>
 							<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
@@ -167,96 +160,82 @@ const History = ({
 					</DropSpaceDiv>
 				) : (
 					<_Ul>
-						{history.map((history, index) => {
+						{history.map((item, index) => {
 							return (
 								<_Li
 									className={'history_contents'}
-									key={history.HISTORY_ID}
-									onClick={onSelect(history, index)}
-									theme_value={theme}
-									borderWidth={`${history.progress}%`}
-									clicked={
-										highlight.find(
-											(item) => item === history,
-										)
-											? 1
-											: 0
-									}
+									key={item.HISTORY_ID}
+									onClick={onSelect(item, index)}
+									borderWidth={`${item.progress}%`}
+									clicked={highlight.find(
+										(v) => v.HISTORY_ID === item.HISTORY_ID,
+									)}
 								>
 									<HoverButton
-										onClick={onPauseAndStart(history)}
+										onClick={onPauseAndStart(item)}
 										size='20px'
 										margin={'10px'}
 										color={
-											history.progress !== 100
+											item.progress !== 100
 												? historyPauseColor
-												: history.todo === 'write'
+												: item.todo === 'write'
 												? historyUploadColor
-												: history.todo === 'read'
+												: item.todo === 'read'
 												? historyDownloadColor
-												: history.todo === 'edit'
+												: item.todo === 'edit'
 												? historyEditColor
-												: history.todo === 'rm' &&
+												: item.todo === 'rm' &&
 												  historyDeleteColor
 										}
 									>
-										{history.progress !== 100
-											? (history.todo === 'write' &&
-													history.progress !== 0 &&
+										{item.progress !== 100
+											? (item.todo === 'write' &&
+													item.progress !== 0 &&
 													!writeSocket) ||
-											  (history.todo === 'read' &&
-													history.progress !== 0 &&
+											  (item.todo === 'read' &&
+													item.progress !== 0 &&
 													!readSocket) ||
-											  (history.todo === 'edit' &&
-													history.progress !== 0 &&
-													((history.key === 'write' &&
+											  (item.todo === 'edit' &&
+													item.progress !== 0 &&
+													((item.key === 'write' &&
 														!writeSocket) ||
-														(history.key ===
-															'read' &&
+														(item.key === 'read' &&
 															!readSocket)))
 												? playCircleIcon
 												: pauseCircleIcon
-											: history.todo === 'write'
+											: item.todo === 'write'
 											? arrowCircleUpIcon
-											: history.todo === 'read'
+											: item.todo === 'read'
 											? arrowCircleDownIcon
-											: history.todo === 'edit'
+											: item.todo === 'edit'
 											? buildCircleIcon
-											: history.todo === 'rm' &&
+											: item.todo === 'rm' &&
 											  removeCircleIcon}
 									</HoverButton>
 									<HistoryText
 										className={'history_contents'}
 										flex={1}
-										progress={
-											history.progress !== 100 ? 1 : 0
-										}
-										theme_value={theme}
+										progress={item.progress === 100}
 									>
-										{history.name}
+										{item.name}
 									</HistoryText>
 									<_HistorySizeText
-										theme_value={theme}
 										className={'history_contents'}
 									>
-										{formatByteSizeString(history.size)}
+										{formatByteSizeString(item.size)}
 									</_HistorySizeText>
 									<HoverButton
 										size={'sm'}
 										margin={'10px'}
-										theme_value={theme}
-										onClick={onRemove(history)}
+										onClick={onRemove(item)}
 										className={'history_contents'}
 									>
 										{deleteIcon}
 									</HoverButton>
 
-									{history.progress !== 100 && (
+									{item.progress !== 100 && (
 										<Progress>
-											<Bar
-												back={activeColor[theme]}
-												width={`${history.progress}%`}
-											/>
+											<Bar width={`${item.progress}%`} />
 										</Progress>
 									)}
 								</_Li>
@@ -269,7 +248,6 @@ const History = ({
 	);
 };
 History.propTypes = {
-	theme: PropTypes.number.isRequired,
 	onUploadWithDrop: PropTypes.func.isRequired,
 	onUploadWithClick: PropTypes.func.isRequired,
 	onSelect: PropTypes.func.isRequired,

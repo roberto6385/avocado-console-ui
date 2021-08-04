@@ -17,13 +17,6 @@ import {
 	viewListIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_34} from '../../../styles/length';
-import {
-	activeColor,
-	borderColor,
-	iconColor,
-	inputBack,
-	tabColor,
-} from '../../../styles/color';
 import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
@@ -57,7 +50,6 @@ const FileListNav = ({uuid}) => {
 		socket: sftp_socketState,
 		etc: sftp_etcState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const theme = useSelector((state) => state.common.theme);
 
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
@@ -169,28 +161,14 @@ const FileListNav = ({uuid}) => {
 	}, [uuid, path]);
 
 	return (
-		<_Container back={tabColor[theme]} bcolor={borderColor[theme]}>
-			<HoverButton
-				margin={'13px 5px 13px 16px'}
-				theme_value={theme}
-				onClick={goBack}
-			>
+		<_Container>
+			<HoverButton margin={'13px 5px 13px 16px'} onClick={goBack}>
 				{arrowUpwordIcon}
 			</HoverButton>
-			<HoverButton
-				margin={'13px 5px'}
-				color={mode === 'list' ? activeColor[theme] : iconColor[theme]}
-				theme_value={theme}
-				onClick={basicList}
-			>
+			<HoverButton margin={'13px 5px'} onClick={basicList}>
 				{viewListIcon}
 			</HoverButton>
-			<HoverButton
-				margin={'13px 16px 13px 5px'}
-				theme_value={theme}
-				color={mode === 'drop' ? activeColor[theme] : iconColor[theme]}
-				onClick={dropdownList}
-			>
+			<HoverButton margin={'13px 16px 13px 5px'} onClick={dropdownList}>
 				{viewColumnIcon}
 			</HoverButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
@@ -200,22 +178,13 @@ const FileListNav = ({uuid}) => {
 					value={currentPath}
 					onChange={handleChange}
 					onKeyDown={EscapeKey}
-					back={inputBack[theme]}
 					onBlur={() => setCurrentPath(path)}
 				/>
 			</_Form>
-			<HoverButton
-				margin={'13px 5px 13px 16px'}
-				theme_value={theme}
-				onClick={refresh}
-			>
+			<HoverButton margin={'13px 5px 13px 16px'} onClick={refresh}>
 				{refreshIcon}
 			</HoverButton>
-			<HoverButton
-				margin={'13px 16px 13px 5px'}
-				theme_value={theme}
-				onClick={goHome}
-			>
+			<HoverButton margin={'13px 16px 13px 5px'} onClick={goHome}>
 				{homeIcon}
 			</HoverButton>
 		</_Container>

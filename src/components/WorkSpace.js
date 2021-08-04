@@ -100,8 +100,6 @@ const WorkSpace = () => {
 	// 	toast.success('happy', {autoClose: 4000});
 	// });
 
-	console.log(asideToggle);
-
 	return (
 		<_Container>
 			<NavBar toggle={navToggle} setToggle={setNavToggle} />

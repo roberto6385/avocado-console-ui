@@ -26,7 +26,7 @@ const History_ = ({uuid}) => {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {theme, server, tab, identity} = useSelector(
+	const {server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -257,7 +257,7 @@ const History_ = ({uuid}) => {
 	);
 
 	const handlePauseAndStart = useCallback(
-		(history) => (e) => {
+		(history) => () => {
 			console.log(history);
 			if (history.progress !== 100 && history.progress !== 0) {
 				if (
@@ -354,7 +354,6 @@ const History_ = ({uuid}) => {
 
 	return (
 		<History
-			theme={theme}
 			onUploadWithDrop={handleUploadWithDrop}
 			onUploadWithClick={handleUploadWithClick}
 			onSelect={selectItem}

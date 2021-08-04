@@ -19,8 +19,12 @@ const _Container = styled.div`
 	padding: 0px 16px;
 	height: 50px;
 	border-left: 1px solid;
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.toolBar.border.color};
+	border-color: ${(props) => props.theme.basic.default.border.color};
+`;
+
+const ButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 const HistoryNav = ({uuid}) => {
@@ -32,7 +36,7 @@ const HistoryNav = ({uuid}) => {
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const {theme, tab, server, identity} = useSelector(
+	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -128,25 +132,20 @@ const HistoryNav = ({uuid}) => {
 	}, [history_highlight, uuid, dispatch]);
 
 	return (
-		<_Container theme_value={theme}>
+		<_Container>
 			<div>{t('title')}</div>
-			<div>
-				<HoverButton
-					theme_value={theme}
-					margin={'10px'}
-					onClick={upload}
-				>
+			<ButtonContainer>
+				<HoverButton margin={'10px'} onClick={upload}>
 					{fileUploadIcon}
 				</HoverButton>
 				<HoverButton
-					theme_value={theme}
 					margin={'0px'}
 					className={'history_contents'}
 					onClick={historyDelete}
 				>
 					{deleteIcon}
 				</HoverButton>
-			</div>
+			</ButtonContainer>
 		</_Container>
 	);
 };

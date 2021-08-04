@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
 import styled from 'styled-components';
-import {tabColor} from '../../styles/color';
 import SFTPNav from './SFTPNav';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
@@ -25,7 +24,8 @@ const _Container = styled.div`
 	flex-direction: column;
 	overflow: hidden;
 	flex: 1 1 0;
-	background: ${(props) => tabColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.backgroundColor};
 
 	.close-nav-sftp {
 		margin-top: -50px;
@@ -75,7 +75,7 @@ const SFTP = ({uuid, mode}) => {
 	}, []);
 
 	return mode === 'edit' ? (
-		<_Container theme_value={theme}>
+		<_Container>
 			<Edit uuid={uuid} />
 		</_Container>
 	) : (
