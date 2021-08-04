@@ -50,12 +50,14 @@ const AccountAside = () => {
 	);
 
 	const handleDelete = useCallback(() => {
-		dispatch(
-			postDeleteAccount({
-				userUid: userInfo.userUid,
-				token: userTicket.access_token,
-			}),
-		);
+		console.log('현재 계정삭제 주석처리');
+		//TODO : 주석 해제시 계정삭제 가능.
+		// dispatch(
+		// 	postDeleteAccount({
+		// 		userUid: userInfo.userUid,
+		// 		token: userTicket.access_token,
+		// 	}),
+		// );
 	}, [dispatch, userInfo, userTicket]);
 
 	return (
