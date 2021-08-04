@@ -5,6 +5,7 @@ import {radioIcon, unCheckedRadioIcon} from '../../icons/icons';
 
 const _Container = styled.div`
 	z-index: 0;
+	opacity: ${(props) => props?.opacity && '0.24'};
 `;
 
 const InputContainer = styled.div`
@@ -21,6 +22,7 @@ const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 			{options.map((op, index) => {
 				return (
 					<_Container
+						opacity={disabled}
 						key={index}
 						className='pretty p-svg p-curve p-plain p-toggle p-thick'
 					>
@@ -33,11 +35,17 @@ const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 							checked={value === op.value}
 						/>
 
-						<InputContainer color={'green'} className='state p-on'>
+						<InputContainer
+							color={'#178082'}
+							className='state p-on'
+						>
 							{radioIcon}
 							<label>{op.label}</label>
 						</InputContainer>
-						<InputContainer className='state p-off'>
+						<InputContainer
+							color={'#757575'}
+							className='state p-off'
+						>
 							{unCheckedRadioIcon}
 							<label>{op.label}</label>
 						</InputContainer>
