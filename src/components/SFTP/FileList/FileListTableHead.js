@@ -20,15 +20,13 @@ const _Tr = styled.tr`
 	top: 0px;
 	height: ${HEIGHT_48};
 	background: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.sftp.files.normalList
-			.normalStyle.tr.backgroundColor};
+		props.theme.pages.webTerminal.main.panels.sftp.backgroundColor};
 	display: flex;
 	align-items: center;
 	padding-left: 16px;
 	border-bottom: 1px solid;
 	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.sftp.files.normalList
-			.normalStyle.tr.border.color};
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
 const _Th = styled.th`

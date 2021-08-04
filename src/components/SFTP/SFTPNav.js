@@ -11,9 +11,8 @@ const _Container = styled.div`
 	height: 50px;
 	min-height: 50px;
 	border-bottom: 1px solid;
-	background: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.toolBar.backgroundColor};
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
 const SFTPNav = ({uuid}) => {

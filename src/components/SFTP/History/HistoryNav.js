@@ -19,7 +19,8 @@ const _Container = styled.div`
 	padding: 0px 16px;
 	height: 50px;
 	border-left: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
 const ButtonContainer = styled.div`

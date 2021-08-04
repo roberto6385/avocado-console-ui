@@ -84,63 +84,9 @@ export const themeValues = {
 							border: {color: '#e3e5e5'},
 
 							files: {
-								normalList: {
-									normalStyle: {
-										tr: {
-											backgroundColor: '#ffffff',
-											font: {
-												color: '#212121',
-											},
-											border: {
-												color: '#e3e5e5',
-											},
-										},
-										item: {
-											font: {color: '#212121'},
-										},
-									},
-									selectedStyle: {
-										tr: {
-											backgroundColor: '#f8f9fa',
-											font: {
-												color: '#212121',
-											},
-											border: {
-												color: '#e3e5e5',
-											},
-										},
-										item: {
-											font: {color: '#212121'},
-										},
-									},
-								},
-								dropList: {
-									normalStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor: '#ffffff',
-										},
-									},
-									currentSelectedStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor: '#f8f9fa',
-										},
-									},
-									selectedStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor:
-												'rgba(228, 243, 244, 0.7)',
-										},
-									},
-								},
+								selectedBackgroundColor: '#f8f9fa',
+								prevPathBackgroundColor:
+									'rgba(228, 243, 244, 0.7)',
 							},
 
 							history: {
@@ -192,10 +138,6 @@ export const themeValues = {
 								},
 							},
 							edit: {
-								font: {
-									color: '#212121',
-								},
-								backgroundColor: '#ffffff',
 								textAreas: {
 									font: {
 										color: '#212121',
@@ -648,68 +590,8 @@ export const themeValues = {
 							border: {color: 'rgba(0, 0, 0, 0.3)'},
 
 							files: {
-								normalList: {
-									normalStyle: {
-										tr: {
-											backgroundColor: '#1b2935',
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											border: {
-												color: 'rgba(0, 0, 0, 0.3)',
-											},
-										},
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-										},
-									},
-									selectedStyle: {
-										tr: {
-											backgroundColor:
-												'rgba(0, 0, 0, 0.12)',
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											border: {
-												color: 'rgba(0, 0, 0, 0.3)',
-											},
-										},
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-										},
-									},
-								},
-								dropList: {
-									normalStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor: '#1b2935',
-										},
-									},
-									currentSelectedStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor:
-												'rgba(0, 0, 0, 0.12)',
-										},
-									},
-									selectedStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor: '#1f323c',
-										},
-									},
-								},
+								selectedBackgroundColor: 'rgba(0, 0, 0, 0.12)',
+								prevPathBackgroundColor: '#1f323c',
 							},
 
 							history: {
