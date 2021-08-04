@@ -9,6 +9,7 @@ import {
 } from '../../icons/icons';
 
 const Container = styled.div`
+	z-index: 0;
 	opacity: ${(props) => props?.opacity && '0.24'};
 `;
 
@@ -22,7 +23,7 @@ const CheckBox_ = ({
 	title = '',
 	value,
 	handleCheck,
-	indeterminate = false,
+	indeterminate = false, // 체크박스 하위 항목중 일부 체크 시
 	disabled = false,
 }) => {
 	const theme = useSelector((state) => state.common.theme);
