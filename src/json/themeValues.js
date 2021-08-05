@@ -540,13 +540,13 @@ export const themeValues = {
 						border: {color: 'rgba(0, 0, 0, 0.3)'},
 
 						addButton: {
-							font: {color: '#959ea1'},
-							backgroundColor: '#fff',
-							border: {color: '#e3e5e5'},
+							font: {color: 'rgba(255, 255, 255, 0.6)'},
+							backgroundColor: '#1e364c',
+							border: {color: 'rgba(255, 255, 255, 0.38)'},
 							hover: {
-								font: {color: '#556367'},
-								backgroundColor: '#f8f9fa',
-								border: {color: '#c2c2c2'},
+								font: {color: 'rgba(255, 255, 255, 0.87)'},
+								backgroundColor: 'rgba(255, 255, 255, 0.04)',
+								border: {color: 'rgba(255, 255, 255, 0.38)'},
 							},
 						},
 

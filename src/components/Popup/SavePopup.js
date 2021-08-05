@@ -8,7 +8,6 @@ import {
 import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../icons/icons';
-
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 
 import {

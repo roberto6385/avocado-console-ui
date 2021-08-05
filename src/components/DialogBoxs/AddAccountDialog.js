@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 
 import ComboBox_ from '../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../icons/icons';
-import {FONT_14} from '../../styles/length';
+
 import {
 	borderColor,
 	fontColor,

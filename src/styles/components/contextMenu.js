@@ -1,7 +1,6 @@
 //Context menu styles
 import styled from 'styled-components';
 import {Menu} from 'react-contexify';
-import {borderColor, contextHover, fontColor, sshSearch} from '../color';
 
 export const ContextMenu = styled(Menu)`
 	z-index: 5px;

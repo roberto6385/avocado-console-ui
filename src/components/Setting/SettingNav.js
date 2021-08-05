@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import {useTranslation} from 'react-i18next';
 import {useHistory, withRouter} from 'react-router-dom';
@@ -9,11 +10,7 @@ import {
 	identityIcon,
 	settingIcon,
 } from '../../icons/icons';
-import PropTypes from 'prop-types';
-import {shallowEqual, useSelector} from 'react-redux';
-import {activeColor, iconColor} from '../../styles/color';
 import {Icon, IconButton} from '../../styles/components/icon';
-
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;

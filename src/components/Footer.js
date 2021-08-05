@@ -7,12 +7,11 @@ import {
 	SSH_INCREASE_FONT_SIZE,
 } from '../reducers/ssh';
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
-import {HEIGHT_26} from '../styles/length';
 
 import {HoverButton} from '../styles/components/icon';
 
 const _Footer = styled.footer`
-	height: ${HEIGHT_26};
+	height: 26px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

@@ -29,11 +29,7 @@ const PaneOrganizer = ({tab}) => {
 				/>
 			)}
 			{tab.length === 2 && (
-				<SplitPane
-					split='vertical'
-					className={theme === 0 ? 'backWhite' : 'backBlack'}
-					defaultSize={'50%'}
-				>
+				<SplitPane split='vertical' defaultSize={'50%'}>
 					<Pane
 						uuid={tab[0].uuid}
 						type={tab[0].type}
@@ -47,16 +43,8 @@ const PaneOrganizer = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 3 && (
-				<SplitPane
-					split='vertical'
-					className={theme === 0 ? 'backWhite' : 'backBlack'}
-					defaultSize={'66%'}
-				>
-					<SplitPane
-						split='vertical'
-						className={theme === 0 ? 'backWhite' : 'backBlack'}
-						defaultSize={'50%'}
-					>
+				<SplitPane split='vertical' defaultSize={'66%'}>
+					<SplitPane split='vertical' defaultSize={'50%'}>
 						<Pane
 							uuid={tab[0].uuid}
 							type={tab[0].type}
@@ -76,21 +64,9 @@ const PaneOrganizer = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 4 && (
-				<SplitPane
-					split='vertical'
-					className={theme === 0 ? 'backWhite' : 'backBlack'}
-					defaultSize={'75%'}
-				>
-					<SplitPane
-						split='vertical'
-						className={theme === 0 ? 'backWhite' : 'backBlack'}
-						defaultSize={'66%'}
-					>
-						<SplitPane
-							split='vertical'
-							className={theme === 0 ? 'backWhite' : 'backBlack'}
-							defaultSize={'50%'}
-						>
+				<SplitPane split='vertical' defaultSize={'75%'}>
+					<SplitPane split='vertical' defaultSize={'66%'}>
+						<SplitPane split='vertical' defaultSize={'50%'}>
 							<Pane
 								uuid={tab[0].uuid}
 								type={tab[0].type}
@@ -116,21 +92,9 @@ const PaneOrganizer = ({tab}) => {
 				</SplitPane>
 			)}
 			{tab.length === 5 && (
-				<SplitPane
-					split='vertical'
-					className={theme === 0 ? 'backWhite' : 'backBlack'}
-					defaultSize={'80%'}
-				>
-					<SplitPane
-						split='vertical'
-						className={theme === 0 ? 'backWhite' : 'backBlack'}
-						defaultSize={'75%'}
-					>
-						<SplitPane
-							split='vertical'
-							className={theme === 0 ? 'backWhite' : 'backBlack'}
-							defaultSize={'66%'}
-						>
+				<SplitPane split='vertical' defaultSize={'80%'}>
+					<SplitPane split='vertical' defaultSize={'75%'}>
+						<SplitPane split='vertical' defaultSize={'66%'}>
 							<SplitPane
 								split='vertical'
 								className={

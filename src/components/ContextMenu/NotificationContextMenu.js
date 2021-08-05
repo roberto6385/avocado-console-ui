@@ -80,23 +80,19 @@ const calculateData = (data) => {
 };
 
 const NotificationContextMenu = ({show, location, notificationMunuRef}) => {
-	const {notification, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {notification} = useSelector((state) => state.common, shallowEqual);
 
 	return (
 		<_Nav
 			ref={notificationMunuRef}
 			id={'notification'}
-			theme_value={theme}
 			show={show}
 			left={location.left - 288 + 'px'}
 			top={location.top + 'px'}
 		>
 			<ul>
 				{notification.map((v) => (
-					<_Item id={v.id} key={v.id} theme_value={theme}>
+					<_Item id={v.id} key={v.id}>
 						<_Message>{v.message}</_Message>
 						<_Date>{calculateData(v.date)}</_Date>
 					</_Item>

@@ -5,9 +5,6 @@ import {shallowEqual, useSelector} from 'react-redux';
 import MainPage from './MainPage';
 import PanesContainer from './Panels/PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
-
-import {mainBackColor} from '../styles/color';
-
 import TabBar from './Tab/TabBar';
 import NavBar from './Nav/NavBar';
 
@@ -97,10 +94,6 @@ const WorkSpace = () => {
 
 	const [asideToggle, setAsideToggle] = useState(false);
 	const [navToggle, setNavToggle] = useState(true);
-
-	// useEffect(() => {
-	// 	toast.success('happy', {autoClose: 4000});
-	// });
 
 	return (
 		<_Container>

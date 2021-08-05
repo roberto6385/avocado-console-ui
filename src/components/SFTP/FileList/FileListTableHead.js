@@ -4,21 +4,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {HEIGHT_48} from '../../../styles/length';
 import {
 	CHANGE_SORT_KEYWORD,
 	INITIALIZING_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {
-	activeColor,
-	borderColor,
-	fontColor,
-	tabColor,
-} from '../../../styles/color';
 
 const _Tr = styled.tr`
 	top: 0px;
-	height: ${HEIGHT_48};
+	height: 48px;
 	background: ${(props) =>
 		props.theme.pages.webTerminal.main.panels.sftp.backgroundColor};
 	display: flex;

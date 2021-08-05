@@ -10,10 +10,9 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
-import {FONT_14, HEIGHT_48} from '../../../styles/length';
 import styled from 'styled-components';
 
-import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
+import {HideScroll, PreventDragCopy} from '../../../styles/function';
 import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Table = styled.table`
@@ -21,13 +20,13 @@ const _Table = styled.table`
 	position: relative;
 	flex: 1;
 	flex-direction: column;
-	font-size: ${FONT_14};
+	font-size: 14px;
 	overflow: scroll;
 	margin: 0;
 	padding: 0;
 	border: none;
 	${PreventDragCopy};
-	${HiddenScroll};
+	${HideScroll};
 `;
 
 const _Tbody = styled.tbody`
@@ -35,7 +34,7 @@ const _Tbody = styled.tbody`
 	width: 100%;
 	min-width: 778px;
 	position: absolute;
-	top: ${HEIGHT_48};
+	top: 48px;
 	.active {
 		background: ${(props) =>
 			props.theme.pages.webTerminal.main.panels.sftp.files
@@ -60,7 +59,7 @@ const _Th = styled.th`
 const _Tr = styled.tr`
 	padding-left: 16px;
 	display: flex;
-	height: ${HEIGHT_48};
+	height: 48px;
 	border-bottom: 1px solid;
 	border-color: ${(props) =>
 		props.theme.pages.webTerminal.main.panels.sftp.border.color};

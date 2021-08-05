@@ -91,7 +91,6 @@ const SnippetsManager = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {snippets, snippents_index} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,

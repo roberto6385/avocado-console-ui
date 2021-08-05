@@ -7,7 +7,7 @@ export const PreventDragCopy = `
 `;
 
 // 스크롤 숨기기
-export const HiddenScroll = `
+export const HideScroll = `
 -ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 	::-webkit-scrollbar {

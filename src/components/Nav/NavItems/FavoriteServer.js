@@ -11,19 +11,18 @@ import {
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
-
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {connectionAction} from '../../../reducers/sftp';
 import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
-	NavigationItemTitle,
 	NavigationItem,
+	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
 
 const FavoriteServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, theme, identity} = useSelector(
+	const {clicked_server, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -163,9 +162,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle theme_value={theme}>
-					{data.name}
-				</NavigationItemTitle>
+				<NavigationItemTitle>{data.name}</NavigationItemTitle>
 			</NavigationItem>
 			{!temp && (
 				<FavoritesContextMenu

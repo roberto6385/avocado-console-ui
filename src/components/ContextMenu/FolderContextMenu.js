@@ -8,12 +8,11 @@ import {
 	OPEN_ADD_SERVER_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu} from "../../styles/components/contextMenu";
+import {ContextMenu} from '../../styles/components/contextMenu';
 
 const FolderContextMenu = ({data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-	const {theme} = useSelector((state) => state.common.theme, shallowEqual);
 
 	const FolderContextMenuMessage = {
 		// new_server: t('newServer'),
@@ -44,11 +43,7 @@ const FolderContextMenu = ({data}) => {
 	);
 
 	return (
-		<ContextMenu
-			id={data.key + 'folder'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<ContextMenu id={data.key + 'folder'} animation={animation.slide}>
 			{Object.keys(FolderContextMenuMessage).map((v) => (
 				<Item onClick={handleItemClick(v)} key={v}>
 					{FolderContextMenuMessage[v]}

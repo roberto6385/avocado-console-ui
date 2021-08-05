@@ -4,16 +4,13 @@ import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
-import {DropDownMenu} from "../../styles/components/contextMenu";
+import {DropDownMenu} from '../../styles/components/contextMenu';
 
 const SnippetContextMenu = ({uuid, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
-	const {theme, current_tab} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {current_tab} = useSelector((state) => state.common, shallowEqual);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 
 	const ws = useMemo(
@@ -42,11 +39,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 	);
 
 	return (
-		<DropDownMenu
-			id={uuid + 'snippet'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<DropDownMenu id={uuid + 'snippet'} animation={animation.slide}>
 			<Item id='open_snippet' onClick={onClickOpenSnippets}>
 				{t('editSnippets')}
 			</Item>

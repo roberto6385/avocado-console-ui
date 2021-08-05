@@ -10,12 +10,12 @@ import {
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {ContextMenu} from "../../styles/components/contextMenu";
+import {ContextMenu} from '../../styles/components/contextMenu';
 
 const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server, theme} = useSelector((state) => state.common, shallowEqual);
+	const {server} = useSelector((state) => state.common, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
@@ -114,11 +114,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	);
 
 	return (
-		<ContextMenu
-			id={data.key + 'server'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
 			{correspondedServer?.protocol === 'SSH2'
 				? Object.keys(Ssh2ServerContextMenuMessage).map((v) => (
 						<Item onClick={handleItemClick(v)} key={v}>
