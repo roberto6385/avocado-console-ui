@@ -49,6 +49,7 @@ export const UserSubmitButton = styled(NormalButton)`
 	line-height: 1.5;
 	letter-spacing: 0.15px;
 `;
+
 export const UserPasswordContainer = styled.div`
 	display: flex;
 	align-items: center;
@@ -58,4 +59,6 @@ export const UserPasswordContainer = styled.div`
 	background: ${(props) =>
 		props.theme.basic.pages.textBoxs.normalStyle.backgroundColor};
 	border: 1px solid;
+	border-color: ${(props) =>
+		props.theme.basic.pages.textBoxs.normalStyle.border.color};
 `;

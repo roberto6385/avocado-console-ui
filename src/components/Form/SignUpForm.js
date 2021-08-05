@@ -17,16 +17,11 @@ import {
 	UserForm,
 	UserInput,
 	UserPasswordContainer,
+	UserPasswordInput,
 	UserSubmitButton,
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
-
-const _PasswordInput = styled(UserInput)`
-	padding: 0px;
-	height: auto;
-	border: none;
-`;
 
 const _PrimaryGreenButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -39,7 +34,6 @@ const SignUpForm = () => {
 
 	const {user} = useSelector((state) => state.create, shallowEqual);
 	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const [id, onChangeId, setId] = useInput('apple');
 	const [name, onChangeName, setName] = useInput('사과');
@@ -59,10 +53,6 @@ const SignUpForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			// dispatch({
-			// 	type: OPEN_ALERT_POPUP,
-			// 	data: 'developing',
-			// });
 			console.log(id, name, email, password, passwordConfirm);
 			if (
 				id === '' ||
@@ -89,18 +79,8 @@ const SignUpForm = () => {
 					);
 				}
 			}
-
-			// const encodeData = base64.encode(`${user}:${password}`);
-			// dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-			// dispatch(
-			// 	getUserTicket({
-			// 		Authorization: 'Basic ' + encodeData,
-			// 		username: user,
-			// 		password: password,
-			// 	}),
-			// );
 		},
-		[email, id, name, password, passwordConfirm],
+		[dispatch, email, id, name, password, passwordConfirm],
 	);
 
 	const typeChange = useCallback(
@@ -183,7 +163,7 @@ const SignUpForm = () => {
 			</TextBoxField_>
 			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'password_container'}>
-					<_PasswordInput
+					<UserPasswordInput
 						onFocus={focusin('password')}
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
@@ -206,7 +186,7 @@ const SignUpForm = () => {
 			</TextBoxField_>
 			<TextBoxField_ marginBottom={'18px'}>
 				<UserPasswordContainer id={'passwordConfirm_container'}>
-					<_PasswordInput
+					<UserPasswordInput
 						onFocus={focusin('confirm')}
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
