@@ -4,13 +4,10 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     color: ${(props) => props.theme.basic.default.font.color};
   }
-  
-  *, *::before, *::after {
-    border-color: ${(props) => props.theme.basic.default.border.color};
-  }
-  
-  input, select, textarea{
-      color: ${(props) => props.theme.basic.default.font.color};
+ 
+textarea{
+    background:${(props) =>
+		props.theme.basic.pages.textAreas.normalStyle.backgroundColor};
 }
 `;
 

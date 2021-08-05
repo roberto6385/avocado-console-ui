@@ -16,16 +16,16 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/components/icon";
+import {IconButton} from '../../styles/components/icon';
 import {
-    UserForm,
-    UserInput,
-    UserPasswordContainer,
-    UserPasswordInput,
-    UserSubmitButton,
-    UserTitle,
-    UserTitleSpan
-} from "../../styles/components/siginIn";
+	UserForm,
+	UserInput,
+	UserPasswordContainer,
+	UserPasswordInput,
+	UserSubmitButton,
+	UserTitle,
+	UserTitleSpan,
+} from '../../styles/components/siginIn';
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -46,7 +46,8 @@ const _CheckboxAnchorContainer = styled.div`
 	font-size: 14px;
 	margin: 8px 0px;
 	a {
-		color: #757575;
+		color: ${(props) =>
+			props.theme.pages.signIn.links.secondary.font.color};
 		text-decoration: underline;
 	}
 `;
@@ -218,7 +219,6 @@ const SignInForm = () => {
 					title={t('remember')}
 					value={rememberMe}
 					handleCheck={onClickRememberMe}
-					theme_value={0}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>

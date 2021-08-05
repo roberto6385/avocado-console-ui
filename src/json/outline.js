@@ -215,22 +215,6 @@ export const themeValues = {
 				horizontalLine: {
 					font: {color: '#c2c2c2'},
 				},
-
-				textBoxs: {
-					placeholder: {
-						color: '#757575',
-					},
-					normalStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#c2c2c2'},
-					},
-					selectedStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#178082'},
-					},
-				},
 			},
 
 			default: {
@@ -428,19 +412,12 @@ export const themeValues = {
 						font: {color: '#212121'},
 						backgroundColor: '#f0f3f6',
 						border: {
-							color: 'none',
+							color: 'transparent',
 						},
 					},
 				},
 				textAreas: {
 					normalStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#e3e5e5'},
-						focused: {border: {color: '#4ca6a8'}},
-					},
-
-					dialogBoxStyle: {
 						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
 						border: {color: '#e3e5e5'},
@@ -731,8 +708,8 @@ export const themeValues = {
 			},
 
 			signIn: {
-				font: {color: '#212121'},
-				backgroundColor: '#ffffff',
+				font: {color: 'rgba(255, 255, 255, 0.87)'},
+				backgroundColor: '#1b2935',
 
 				links: {
 					primary: {
@@ -745,22 +722,6 @@ export const themeValues = {
 
 				horizontalLine: {
 					font: {color: '#c2c2c2'},
-				},
-
-				textBoxs: {
-					placeholder: {
-						color: '#757575',
-					},
-					normalStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#c2c2c2'},
-					},
-					selectedStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#178082'},
-					},
 				},
 			},
 
@@ -967,7 +928,7 @@ export const themeValues = {
 					normalStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						focused: {border: {color: '#44c8c0'}},
 						invalid: {
 							border: {
@@ -980,7 +941,7 @@ export const themeValues = {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						border: {
-							color: 'none',
+							color: 'transparent',
 						},
 					},
 				},
@@ -988,15 +949,8 @@ export const themeValues = {
 					normalStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						focused: {border: {color: '#44c8c0'}},
-					},
-
-					dialogBoxStyle: {
-						font: {color: 'rgba(255, 255, 255, 0.87)'},
-						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
-						focused: {border: {color: ''}},
 					},
 				},
 				radios: {
@@ -1012,7 +966,7 @@ export const themeValues = {
 						font: {
 							color: 'rgba(255, 255, 255, 0.87)',
 						},
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						focused: {border: {color: '#4ca6a8'}},
 					},

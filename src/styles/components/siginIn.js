@@ -1,7 +1,7 @@
 //Login, signin, change password pages styles
 import styled from 'styled-components';
-import {borderColor, inputFocusBoaderColor, L_GREEN_NORMAL} from '../color';
 import {NormalButton} from './button';
+import {Input} from './input';
 
 export const UserForm = styled.form`
 	color: black;
@@ -10,14 +10,10 @@ export const UserForm = styled.form`
 	height: 614px;
 	padding: 70px;
 	border-radius: 16px;
-	caret-color: ${(props) => props.theme.basic.default.font.color};
+	caret-color: ${(props) => props.theme.pages.signIn.font.color};
+	color: ${(props) => props.theme.pages.signIn.font.color};
 	display: flex;
 	flex-direction: column;
-	.focus {
-		border-color: ${(props) =>
-			props.theme.pages.signIn.textBoxs.selectedStyle.border.color};
-		outline: 0 none;
-	}
 `;
 export const UserTitle = styled.div`
 	font-size: 28px;
@@ -28,21 +24,21 @@ export const UserTitleSpan = styled.div`
 	font-size: 14px;
 	margin-bottom: 52px;
 	a {
-		color: ${L_GREEN_NORMAL};
+		color: ${(props) => props.theme.pages.signIn.links.primary.font.color};
 		text-decoration: underline;
 	}
 `;
-export const UserInput = styled.input`
+export const UserInput = styled(Input)`
 	flex: 1;
 	height: 40px;
-	font-size: 14px;
 	padding: 12px 10px;
-	border-radius: 4px;
-	border: 1px solid ${borderColor[0]};
-	&:focus {
-		border-color: ${inputFocusBoaderColor[0]};
-		outline: 0 none;
-	}
+`;
+export const UserPasswordInput = styled(Input)`
+	flex: 1;
+	padding: 0px;
+	height: auto;
+	border: none;
+	background: transparent;
 `;
 export const UserSubmitButton = styled(NormalButton)`
 	width: 360px;
@@ -53,16 +49,13 @@ export const UserSubmitButton = styled(NormalButton)`
 	line-height: 1.5;
 	letter-spacing: 0.15px;
 `;
-export const UserPasswordInput = styled(UserInput)`
-	padding: 0px;
-	height: auto;
-	border: none;
-`;
 export const UserPasswordContainer = styled.div`
 	display: flex;
 	align-items: center;
 	height: 40px;
 	padding: 12px 10px;
 	border-radius: 4px;
-	border: 1px solid ${borderColor[0]};
+	background: ${(props) =>
+		props.theme.basic.pages.textBoxs.normalStyle.backgroundColor};
+	border: 1px solid;
 `;

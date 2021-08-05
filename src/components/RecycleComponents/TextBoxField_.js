@@ -8,6 +8,10 @@ const _Container = styled.div`
 	flex-direction: column;
 	margin-bottom: ${(props) =>
 		props.marginBottom === undefined ? '16px' : props.marginBottom};
+	.focus {
+		border-color: ${(props) =>
+			props.theme.basic.pages.textBoxs.normalStyle.focused.border.color};
+	}
 `;
 
 const _Title = styled.div`
