@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import styled from 'styled-components';
-import {shallowEqual, useSelector} from 'react-redux';
 
 const _Container = styled.div`
 	height: 100%;
@@ -17,8 +16,6 @@ const _Container = styled.div`
 `;
 
 const PaneOrganizer = ({tab}) => {
-	const {theme} = useSelector((state) => state.common, shallowEqual);
-
 	return (
 		<_Container>
 			{tab.length === 1 && (
@@ -95,13 +92,7 @@ const PaneOrganizer = ({tab}) => {
 				<SplitPane split='vertical' defaultSize={'80%'}>
 					<SplitPane split='vertical' defaultSize={'75%'}>
 						<SplitPane split='vertical' defaultSize={'66%'}>
-							<SplitPane
-								split='vertical'
-								className={
-									theme === 0 ? 'backWhite' : 'backBlack'
-								}
-								defaultSize={'50%'}
-							>
+							<SplitPane split='vertical' defaultSize={'50%'}>
 								<Pane
 									uuid={tab[0].uuid}
 									type={tab[0].type}

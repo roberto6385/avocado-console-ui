@@ -67,7 +67,6 @@ const FileStateDialog = () => {
 		high: sftp_highState,
 		stat,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {stat_form_popup} = useSelector((state) => state.popup, shallowEqual);
 
 	const uuid = stat_form_popup.uuid;

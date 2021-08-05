@@ -25,7 +25,7 @@ const _Container = styled.div`
 `;
 
 const RightCornerIcons = ({toggle, setToggle}) => {
-	const {theme, tab} = useSelector((state) => state.common, shallowEqual);
+	const {tab} = useSelector((state) => state.common, shallowEqual);
 	const MenuPosition = useRef();
 	const accountRef = useRef();
 	const settingRef = useRef();

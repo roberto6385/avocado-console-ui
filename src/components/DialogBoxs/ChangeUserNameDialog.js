@@ -28,7 +28,6 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo, userTicket} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
@@ -78,9 +77,8 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
@@ -99,12 +97,11 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 						value={currentName}
 						onChange={onChangeCurrentName}
 						placeholder={t('place.name')}
-						theme_value={theme}
 					/>
 				</TextBoxField_>
 			</Form>
 
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>

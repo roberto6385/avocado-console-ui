@@ -212,8 +212,6 @@ export const arrowDownIcon = (
 	<span className='material-icons'>arrow_drop_down</span>
 );
 
-export const starIcon = <span className='material-icons'>star</span>;
-
 // right corner and setting icon
 export const windowIcon = (
 	<svg

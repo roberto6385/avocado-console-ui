@@ -27,7 +27,6 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo, userTicket} = useSelector(
 		(state) => state.userTicket,
 		shallowEqual,
@@ -109,9 +108,8 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
@@ -130,7 +128,6 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
 						placeholder={t('place.current')}
-						theme_value={theme}
 					/>
 				</TextBoxField_>
 
@@ -141,7 +138,6 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('place.new')}
-						theme_value={theme}
 					/>
 				</TextBoxField_>
 				<TextBoxField_ title={t('confirm')}>
@@ -151,12 +147,11 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('place.confirm')}
-						theme_value={theme}
 					/>
 				</TextBoxField_>
 			</Form>
 
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>

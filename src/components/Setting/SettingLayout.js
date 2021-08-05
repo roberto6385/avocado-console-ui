@@ -41,7 +41,6 @@ const _Header = styled.div`
 
 const SettingAppLayout = ({children}) => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {userInfo} = useSelector((state) => state.userTicket, shallowEqual);
 
 	useEffect(() => {
