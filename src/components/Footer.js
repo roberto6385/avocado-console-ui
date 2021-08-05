@@ -8,7 +8,6 @@ import {
 } from '../reducers/ssh';
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
-import {fontColor, footerColor} from '../styles/color';
 import {IconButton} from '../styles/components/icon';
 
 const _Footer = styled.footer`
@@ -17,8 +16,7 @@ const _Footer = styled.footer`
 	justify-content: space-between;
 	align-items: center;
 	font-size: 12px;
-	background: ${(props) => footerColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	background: ${(props) => props.theme.pages.default.footer.backgroundColor};
 	padding: 0 16px;
 `;
 
@@ -29,7 +27,7 @@ const _RightContainer = styled.div`
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {server, tab, current_tab, theme} = useSelector(
+	const {server, tab, current_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -50,12 +48,11 @@ const Footer = () => {
 	}, [current_tab, tab]);
 
 	return (
-		<_Footer theme_value={theme}>
-			<span theme_value={theme}>Avocado v1.0</span>
+		<_Footer>
+			<span>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
 				<_RightContainer>
 					<IconButton
-						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickDeceaseFontSize}
@@ -63,7 +60,6 @@ const Footer = () => {
 						{zoomOutIcon}
 					</IconButton>
 					<IconButton
-						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickIncreaseFontSize}
@@ -71,7 +67,6 @@ const Footer = () => {
 						{zoomInIcon}
 					</IconButton>
 					<IconButton
-						theme_value={theme}
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickOpenSshSearchBar}
