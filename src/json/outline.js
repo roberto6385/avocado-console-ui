@@ -96,63 +96,9 @@ export const themeValues = {
 							border: {color: '#e3e5e5'},
 
 							files: {
-								normalList: {
-									normalStyle: {
-										tr: {
-											backgroundColor: '#ffffff',
-											font: {
-												color: '#212121',
-											},
-											border: {
-												color: '#e3e5e5',
-											},
-										},
-										item: {
-											font: {color: '#212121'},
-										},
-									},
-									selectedStyle: {
-										tr: {
-											backgroundColor: '#f8f9fa',
-											font: {
-												color: '#212121',
-											},
-											border: {
-												color: '#e3e5e5',
-											},
-										},
-										item: {
-											font: {color: '#212121'},
-										},
-									},
-								},
-								dropList: {
-									normalStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor: '#ffffff',
-										},
-									},
-									currentSelectedStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor: '#f8f9fa',
-										},
-									},
-									selectedStyle: {
-										item: {
-											font: {
-												color: '#212121',
-											},
-											backgroundColor:
-												'rgba(228, 243, 244, 0.7)',
-										},
-									},
-								},
+								selectedBackgroundColor: '#f8f9fa',
+								prevPathBackgroundColor:
+									'rgba(228, 243, 244, 0.7)',
 							},
 
 							history: {
@@ -204,10 +150,6 @@ export const themeValues = {
 								},
 							},
 							edit: {
-								font: {
-									color: '#212121',
-								},
-								backgroundColor: '#ffffff',
 								textAreas: {
 									font: {
 										color: '#212121',
@@ -495,19 +437,12 @@ export const themeValues = {
 						font: {color: '#212121'},
 						backgroundColor: '#f0f3f6',
 						border: {
-							color: 'none',
+							color: 'transparent',
 						},
 					},
 				},
 				textAreas: {
 					normalStyle: {
-						font: {color: '#212121'},
-						backgroundColor: '#ffffff',
-						border: {color: '#e3e5e5'},
-						focused: {border: {color: '#4ca6a8'}},
-					},
-
-					dialogBoxStyle: {
 						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
 						border: {color: '#e3e5e5'},
@@ -525,36 +460,38 @@ export const themeValues = {
 					},
 				},
 				comboBoxs: {
-					normalStyle: {
-						control: {
-							font: {color: '#212121'},
-							border: {color: '#e3e5e5'},
+					control: {
+						font: {color: '#212121'},
+						border: {color: '#e3e5e5'},
+						backgroundColor: '#ffffff',
+						focused: {border: {color: '#4ca6a8'}},
+					},
+
+					menuList: {
+						backgroundColor: {
+							normalStyle: '#ffffff',
+							dialogStyle: '#ffffff',
+						},
+					},
+
+					options: {
+						font: {color: '#212121'},
+						backgroundColor: {
+							normalStyle: '#ffffff',
+							dialogStyle: '#ffffff',
+						},
+						disabled: {
+							font: {color: '#a8a8a8'},
 							backgroundColor: '#ffffff',
-							focused: {border: {color: '#4ca6a8'}},
 						},
-
-						menuList: {
-							backgroundColor: {
-								normalStyle: '#ffffff',
-								dialogStyle: '#ffffff',
-							},
+						selected: {
+							backgroundColor: 'rgba(0, 0, 0, 0.04)',
 						},
-
-						options: {
-							font: {color: '#212121'},
-							backgroundColor: {
-								normalStyle: '#ffffff',
-								dialogStyle: '#ffffff',
-							},
-							disabled: {
-								backgroundColor: null,
-							},
-							selected: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
-							focused: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
+						focused: {
+							backgroundColor: 'rgba(0, 0, 0, 0.04)',
+						},
+						hover: {
+							backgroundColor: 'rgba(228, 243, 244, 0.7)',
 						},
 					},
 				},
@@ -669,68 +606,8 @@ export const themeValues = {
 							border: {color: 'rgba(0, 0, 0, 0.3)'},
 
 							files: {
-								normalList: {
-									normalStyle: {
-										tr: {
-											backgroundColor: '#1b2935',
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											border: {
-												color: 'rgba(0, 0, 0, 0.3)',
-											},
-										},
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-										},
-									},
-									selectedStyle: {
-										tr: {
-											backgroundColor:
-												'rgba(0, 0, 0, 0.12)',
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											border: {
-												color: 'rgba(0, 0, 0, 0.3)',
-											},
-										},
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-										},
-									},
-								},
-								dropList: {
-									normalStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor: '#1b2935',
-										},
-									},
-									currentSelectedStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor:
-												'rgba(0, 0, 0, 0.12)',
-										},
-									},
-									selectedStyle: {
-										item: {
-											font: {
-												color: 'rgba(255, 255, 255, 0.87)',
-											},
-											backgroundColor: '#1f323c',
-										},
-									},
-								},
+								selectedBackgroundColor: 'rgba(0, 0, 0, 0.12)',
+								prevPathBackgroundColor: '#1f323c',
 							},
 
 							history: {
@@ -869,8 +746,8 @@ export const themeValues = {
 			},
 
 			signIn: {
-				font: {color: '#212121'},
-				backgroundColor: '#ffffff',
+				font: {color: 'rgba(255, 255, 255, 0.87)'},
+				backgroundColor: '#1b2935',
 
 				links: {
 					primary: {
@@ -1108,7 +985,7 @@ export const themeValues = {
 					normalStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						focused: {border: {color: '#44c8c0'}},
 						invalid: {
 							border: {
@@ -1121,7 +998,7 @@ export const themeValues = {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						border: {
-							color: 'none',
+							color: 'transparent',
 						},
 					},
 				},
@@ -1129,15 +1006,8 @@ export const themeValues = {
 					normalStyle: {
 						font: {color: 'rgba(255, 255, 255, 0.87)'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						focused: {border: {color: '#44c8c0'}},
-					},
-
-					dialogBoxStyle: {
-						font: {color: 'rgba(255, 255, 255, 0.87)'},
-						backgroundColor: 'rgba(0, 0, 0, 0.22)',
-						border: {color: 'none'},
-						focused: {border: {color: ''}},
 					},
 				},
 				radios: {
@@ -1153,7 +1023,7 @@ export const themeValues = {
 						font: {
 							color: 'rgba(255, 255, 255, 0.87)',
 						},
-						border: {color: 'none'},
+						border: {color: 'transparent'},
 						backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						focused: {border: {color: '#4ca6a8'}},
 					},
@@ -1174,13 +1044,17 @@ export const themeValues = {
 							dialogStyle: '#2f4b60',
 						},
 						disabled: {
-							backgroundColor: null,
+							font: {color: 'rgba(255, 255, 255, 0.38)'},
+							backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						},
 						selected: {
 							backgroundColor: 'rgba(0, 0, 0, 0.12)',
 						},
 						focused: {
 							backgroundColor: 'rgba(0, 0, 0, 0.12)',
+						},
+						hover: {
+							backgroundColor: '#1f323c',
 						},
 					},
 				},

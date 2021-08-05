@@ -1,14 +1,5 @@
 //Button styles
 import styled from 'styled-components';
-import {
-	transparnetBorderButtonFontColor,
-	warningBorderButtonFontColor,
-	warningBorderButtonHoverFontColor,
-	warningBorderButtonActiveFontColor,
-	warningBorderButtonHoverColor,
-	warningBorderButtonActiveColor,
-	transparnetBorderButtonHoverColor,
-} from '../color';
 
 export const DefaultButton = styled.button`
 	height: 34px;

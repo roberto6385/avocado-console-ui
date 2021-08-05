@@ -55,18 +55,19 @@ const _Ul = styled.ul`
 	padding: 0px;
 	outline: none;
 	border-right: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 	color: ${(props) => props.color};
 `;
 
 const _Li = styled.li`
 	background: ${(props) =>
 		(props.type === 'current' &&
-			props.theme.pages.webTerminal.main.panels.sftp.files.dropList
-				.currentSelectedStyle.item.backgroundColor) ||
+			props.theme.pages.webTerminal.main.panels.sftp.files
+				.selectedBackgroundColor) ||
 		(props.type === 'prev' &&
-			props.theme.pages.webTerminal.main.panels.sftp.files.dropList
-				.selectedStyle.item.backgroundColor)};
+			props.theme.pages.webTerminal.main.panels.sftp.files
+				.prevPathBackgroundColor)};
 	min-width: ${WIDTH_220};
 	height: ${HEIGHT_48};
 	white-space: nowrap;
@@ -74,7 +75,8 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 	font-weight: bold;
 `;
 

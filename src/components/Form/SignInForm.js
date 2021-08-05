@@ -46,7 +46,8 @@ const _CheckboxAnchorContainer = styled.div`
 	font-size: 14px;
 	margin: 8px 0px;
 	a {
-		color: #757575;
+		color: ${(props) =>
+			props.theme.pages.signIn.links.secondary.font.color};
 		text-decoration: underline;
 	}
 `;
@@ -216,7 +217,6 @@ const SignInForm = () => {
 					title={t('remember')}
 					value={rememberMe}
 					handleCheck={onClickRememberMe}
-					theme_value={0}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckboxAnchorContainer>

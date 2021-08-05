@@ -8,7 +8,7 @@ import {
 } from '../reducers/ssh';
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
-import {fontColor, footerColor} from '../styles/color';
+
 import {HoverButton} from '../styles/components/icon';
 
 const _Footer = styled.footer`
@@ -17,8 +17,7 @@ const _Footer = styled.footer`
 	justify-content: space-between;
 	align-items: center;
 	font-size: 12px;
-	background: ${(props) => footerColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	background: ${(props) => props.theme.pages.default.footer.backgroundColor};
 	padding: 0 16px;
 `;
 

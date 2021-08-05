@@ -6,7 +6,7 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 } from '../../../styles/components/font';
-import Select_ from '../../RecycleComponents/Select_';
+import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
@@ -87,14 +87,14 @@ const PreferencesSpace = () => {
 		<SettingMainContainer>
 			<SettingTitle>{t('general')}</SettingTitle>
 			<SettingContentsContainer>
-				<Select_
+				<ComboBox_
 					width={'500px'}
 					title={t('lang')}
 					options={languageOptions}
 					value={language}
 					setValue={setLanguage}
 				/>
-				<Select_
+				<ComboBox_
 					width={'500px'}
 					title={t('uiTheme')}
 					options={background_theme}
@@ -105,14 +105,14 @@ const PreferencesSpace = () => {
 
 			<SettingTitle>{t('terminal')}</SettingTitle>
 			<SettingContentsContainer>
-				<Select_
+				<ComboBox_
 					width={'500px'}
 					title={t('uiTheme')}
 					options={terminal_theme}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
-				<Select_
+				<ComboBox_
 					width={'500px'}
 					title={t('font')}
 					options={font_theme}
@@ -135,7 +135,7 @@ const PreferencesSpace = () => {
 
 			<SettingTitle>{t('sftp')}</SettingTitle>
 			<SettingContentsContainer>
-				<Select_
+				<ComboBox_
 					width={'500px'}
 					title={t('editorTheme')}
 					options={editor_theme}

@@ -6,7 +6,7 @@ import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import Select_ from '../RecycleComponents/Select_';
+import ComboBox_ from '../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../icons/icons';
 import {FONT_14} from '../../styles/length';
 import {
@@ -212,13 +212,12 @@ const AddAccountDialog = () => {
 							placeholder={t('place.identity')}
 						/>
 					</TextBoxField_>
-					<Select_
+					<ComboBox_
 						width={'178px'}
 						title={t('auth')}
 						options={authentication_options}
 						value={authentication}
 						setValue={setAuthentication}
-						popup={false}
 					/>
 				</_Item>
 				<_Item>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Select_ from '../../RecycleComponents/Select_';
+import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -101,41 +101,37 @@ const PreferencesAside = () => {
 		<_Container>
 			<_Title>{t('general')}</_Title>
 			<_ContentsContainer>
-				<Select_
+				<ComboBox_
 					width={'266px'}
 					title={t('lang')}
 					options={languageOptions}
 					value={language}
 					setValue={setLanguage}
-					popup={true}
 				/>
-				<Select_
+				<ComboBox_
 					width={'266px'}
 					title={t('uiTheme')}
 					options={background_theme}
 					value={generalTheme}
 					setValue={setGeneralTheme}
-					popup={true}
 				/>
 			</_ContentsContainer>
 
 			<_Title>{t('terminal')}</_Title>
 			<_ContentsContainer>
-				<Select_
+				<ComboBox_
 					width={'266px'}
 					title={t('uiTheme')}
 					options={terminal_theme}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
-					popup={true}
 				/>
-				<Select_
+				<ComboBox_
 					width={'266px'}
 					title={t('font')}
 					options={font_theme}
 					value={terminalFont}
 					setValue={setTerminalFont}
-					popup={true}
 				/>
 
 				<CheckBox_
@@ -147,12 +143,11 @@ const PreferencesAside = () => {
 
 			<_Title>{t('sftp')}</_Title>
 			<_ContentsContainer>
-				<Select_
+				<ComboBox_
 					title={t('editorTheme')}
 					options={editor_theme}
 					value={editorTheme}
 					setValue={setEditorTheme}
-					popup={true}
 				/>
 			</_ContentsContainer>
 		</_Container>

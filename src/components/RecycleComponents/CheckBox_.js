@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
 import {
 	checkIcon,
 	checkOutlineIcon,
@@ -10,12 +9,22 @@ import {
 
 const Container = styled.div`
 	z-index: 0;
-	opacity: ${(props) => props.opacity === 'true' && '0.24'};
+	opacity: ${(props) => (props.opacity === 'true' ? 0.24 : 1)};
 `;
 
 const InputContainer = styled.div`
 	svg {
-		fill: ${(props) => props?.color || '#757575'}};
+		fill: ${(props) =>
+			(props.type === 'indeterminate' &&
+				props.theme.basic.pages.checkBoxs.normalStyle.default.font
+					.color) ||
+			(props.type === 'check' &&
+				props.theme.basic.pages.checkBoxs.normalStyle.check.font
+					.color) ||
+			(props.type === 'checkout' &&
+				props.theme.basic.pages.checkBoxs.normalStyle.default.font
+					.color)}};
+		
 	}
 `;
 
@@ -38,17 +47,17 @@ const CheckBox_ = ({
 				disabled={disabled}
 			/>
 			{indeterminate ? (
-				<InputContainer color={'#757575'} className='state p-on'>
+				<InputContainer type={'indeterminate'} className='state p-on'>
 					{indeterminateIcon}
 					<label>{title}</label>
 				</InputContainer>
 			) : (
-				<InputContainer color={'#178082'} className='state p-on'>
+				<InputContainer type={'check'} className='state p-on'>
 					{checkIcon}
 					<label>{title}</label>
 				</InputContainer>
 			)}
-			<InputContainer color={'#757575'} className='state p-off'>
+			<InputContainer type={'checkout'} className='state p-off'>
 				{checkOutlineIcon}
 				<label>{title}</label>
 			</InputContainer>

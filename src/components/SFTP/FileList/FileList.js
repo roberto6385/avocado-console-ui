@@ -11,7 +11,6 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_48} from '../../../styles/length';
-import {borderColor, fontColor, tabColor} from '../../../styles/color';
 import styled from 'styled-components';
 
 import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
@@ -39,8 +38,8 @@ const _Tbody = styled.tbody`
 	top: ${HEIGHT_48};
 	.active {
 		background: ${(props) =>
-			props.theme.pages.webTerminal.main.panels.sftp.files.normalList
-				.selectedStyle.tr.backgroundColor};
+			props.theme.pages.webTerminal.main.panels.sftp.files
+				.selectedBackgroundColor};
 	}
 `;
 
@@ -63,7 +62,8 @@ const _Tr = styled.tr`
 	display: flex;
 	height: ${HEIGHT_48};
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 	cursor: pointer;
 `;
 

@@ -32,7 +32,8 @@ const _Container = styled.div`
 	width: 256px;
 	overflow: scroll;
 	border-left: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
 const DropSpaceDiv = styled.div`
@@ -71,7 +72,8 @@ const _Li = styled.li`
 					.normalStyle.backgroundColor};
 	white-space: nowrap;
 	border-bottom: 1px solid;
-	border-color: ${(props) => props.theme.basic.default.border.color};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
 const DropSpace_Button = styled(NormalButton)`

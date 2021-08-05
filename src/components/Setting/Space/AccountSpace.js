@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import Radio_ from '../../RecycleComponents/Radio_';
-import Select_ from '../../RecycleComponents/Select_';
+import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import ChangePasswordDialog from '../../DialogBoxs/ChangePasswordDialog';
 import {DisabledButton, NormalButton} from '../../../styles/components/button';
 import ChangeUserNameDialog from '../../DialogBoxs/ChangeUserNameDialog';
@@ -98,7 +98,7 @@ const AccountSpace = () => {
 			<SettingTitle>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>
 				<_Section>
-					<Select_
+					<ComboBox_
 						title={t('auth')}
 						options={authOptions}
 						value={authType}
@@ -128,7 +128,7 @@ const AccountSpace = () => {
 				/>
 			</SettingContentsContainer>
 			<SettingContentsContainer>
-				<Select_
+				<ComboBox_
 					title={t('mfa')}
 					options={mfaOptions}
 					value={mfaType}
