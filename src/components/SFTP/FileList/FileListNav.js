@@ -18,6 +18,7 @@ import {
 } from '../../../icons/icons';
 import {FONT_14, HEIGHT_34} from '../../../styles/length';
 import {HoverButton} from '../../../styles/components/icon';
+import {SearchInput} from '../../../styles/components/input';
 
 const _Container = styled.div`
 	display: flex;
@@ -172,7 +173,7 @@ const FileListNav = ({uuid}) => {
 				{viewColumnIcon}
 			</HoverButton>
 			<_Form onSubmit={searchPath} autoComplete='off'>
-				<_input
+				<SearchInput
 					id='fileListNavInput'
 					type='text'
 					value={currentPath}

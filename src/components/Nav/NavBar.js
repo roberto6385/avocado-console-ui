@@ -10,11 +10,12 @@ import useInput from '../../hooks/useInput';
 import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
 import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
-import {HoverButton, Icon} from '../../styles/components/icon';
+import {HoverButton} from '../../styles/components/icon';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import LightModeLogo from '../../images/logo/logo@2x.png';
 import DarkModeLogo from '../../images/logo/logo_white@3x.png';
+import IconTextBox_ from '../RecycleComponents/IconTextBox_';
 
 const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
 
@@ -56,20 +57,7 @@ const _Form = styled.form`
 	display: flex;
 	flex: 1;
 	align-items: center;
-	height: 36px;
 	border-radius: 4px;
-	padding: 6px;
-	background: ${(props) =>
-		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
-`;
-
-const _Input = styled.input`
-	height: 36px;
-	border: none;
-	font-size: 14px;
-	padding: 0px;
-	background: ${(props) =>
-		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
 `;
 
 const _AddButton = styled.button`
@@ -220,12 +208,12 @@ const NavBar = ({toggle, setToggle}) => {
 				<>
 					<_FormContainer>
 						<_Form onSubmit={(e) => e.preventDefault()}>
-							<Icon margin_right={'6px'}>{searchIcon}</Icon>
-							<_Input
+							<IconTextBox_
+								icon={searchIcon}
 								onChange={onChangeSearch}
 								value={search}
-								type='text'
-								placeholder={t('search')}
+								place={t('search')}
+								height={'36px'}
 							/>
 						</_Form>
 						{/*<_AddButton onClick={onClickAddServer} >*/}
@@ -238,12 +226,12 @@ const NavBar = ({toggle, setToggle}) => {
 				<>
 					<_FormContainer>
 						<_Form onSubmit={(e) => e.preventDefault()}>
-							<Icon margin_right={'6px'}>{searchIcon}</Icon>
-							<_Input
+							<IconTextBox_
+								icon={searchIcon}
 								onChange={onChangeSearch}
 								value={search}
-								type='text'
-								placeholder={t('search')}
+								place={t('search')}
+								height={'36px'}
 							/>
 						</_Form>
 						<_AddButton onClick={newFavorites}>

@@ -36,9 +36,10 @@ const _Form = styled(Form)`
 const ListContainer = styled.div`
 	width: 100%;
 	height: 100%;
-	border-radius: 4px
-	border: 1px solid ${(props) =>
-		props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
+	border-radius: 4px;
+	border: 1px solid
+		${(props) =>
+			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 `;
 
 const _ModalFooter = styled(ModalFooter)`

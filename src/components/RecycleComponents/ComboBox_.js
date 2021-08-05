@@ -122,6 +122,7 @@ const StyledSelect = styled(Select)`
 	.Select__menu {
 		color: ${(props) =>
 			props.theme.basic.pages.comboBoxs.options.font.color};
+		max-width: ${(props) => props.width};
 	}
 `;
 

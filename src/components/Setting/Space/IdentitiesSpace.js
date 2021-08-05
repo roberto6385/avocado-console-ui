@@ -8,14 +8,14 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import {fontColor, identitySearchInput} from '../../../styles/color';
+import {fontColor} from '../../../styles/color';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
-import {Icon} from '../../../styles/components/icon';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
+import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -58,23 +58,6 @@ const _Li = styled.li`
 			: props.theme.pages.webTerminal.setting.content.identitiesPageStyle
 					.items.normalStyle.backgroundColor};
 	letter-spacing: 0.13px;
-	.pretty.p-svg.p-curve {
-		z-index: 0;
-		line-height: 14px;
-		margin: 0px 4px 0px 22.5px;
-		label:before {
-			font-size: 15px !important;
-		}
-		label:after {
-			font-size: 15px !important;
-		}
-		label {
-			font-size: 14px;
-			::bofore,
-			::after {
-				font-size: 15px;
-			}
-		}
 	}
 `;
 
@@ -131,18 +114,8 @@ const _Search = styled.form`
 	font-size: 12px;
 	display: flex;
 	align-items: center;
-	padding: 3px 16px;
 	height: 30px;
-	background: ${(props) => identitySearchInput[props.theme_value]};
 	margin: 9px 16px;
-`;
-
-const _Input = styled.input`
-	width: 233px;
-	height: 24px;
-	border: none;
-	background: transparent;
-	color: ${(props) => fontColor[props.theme_value]};
 `;
 
 const _LiHeader = styled(_Li)`
@@ -256,14 +229,11 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_Search>
-							<Icon size={'xs'} margin_right={'6px'}>
-								{searchIcon}
-							</Icon>
-							<_Input
+							<IconTextBox_
+								icon={searchIcon}
 								onChange={onChangeResourceSearch}
 								value={resourceSearch}
-								type='text'
-								placeholder={t('search')}
+								place={t('search')}
 							/>
 						</_Search>
 					</_LiHeader>
@@ -325,14 +295,11 @@ const IdentitiesSpace = () => {
 							</_Span>
 						</_Name>
 						<_Search>
-							<Icon size={'xs'} margin_right={'6px'}>
-								{searchIcon}
-							</Icon>
-							<_Input
+							<IconTextBox_
+								icon={searchIcon}
 								onChange={onChangeIdentitySearch}
 								value={identitySearch}
-								type='text'
-								placeholder={t('search')}
+								place={t('search')}
 							/>
 						</_Search>
 					</_LiHeader>
