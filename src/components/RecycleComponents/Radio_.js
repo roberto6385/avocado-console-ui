@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {radioIcon, unCheckedRadioIcon} from '../../icons/icons';
@@ -10,7 +10,11 @@ const _Container = styled.div`
 
 const InputContainer = styled.div`
 	svg {
-		fill: ${(props) => props?.color || '#757575'}};
+		fill: ${(props) =>
+			props.type === 'on'
+				? props.theme.basic.pages.radios.normalStyle.check.font.color
+				: props.theme.basic.pages.radios.normalStyle.default.font
+						.color}};
 	}
 `;
 
@@ -35,17 +39,11 @@ const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 							checked={value === op.value}
 						/>
 
-						<InputContainer
-							color={'#178082'}
-							className='state p-on'
-						>
+						<InputContainer type={'on'} className='state p-on'>
 							{radioIcon}
 							<label>{op.label}</label>
 						</InputContainer>
-						<InputContainer
-							color={'#757575'}
-							className='state p-off'
-						>
+						<InputContainer type={'off'} className='state p-off'>
 							{unCheckedRadioIcon}
 							<label>{op.label}</label>
 						</InputContainer>

@@ -27,24 +27,12 @@ import {
 } from '../../styles/components/disalogBox';
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
+import {TextArea} from '../../styles/components/textArea';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
 	height: 520px;
 	z-index: 5;
-`;
-
-const _Textarea = styled.textarea`
-	height: 288px;
-	padding: 6px 10px 260px;
-	border-radius: 4px;
-	border: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => settingInput[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
-	resize: none;
-	&:focus {
-		border-color: ${(props) => inputFocusBoaderColor[props.theme_value]};
-	}
 `;
 
 const _Form = styled(Form)`
@@ -345,7 +333,7 @@ const SnippetsManager = ({open, setOpen}) => {
 						/>
 					</TextBoxField_>
 					<TextBoxField_ title={t('content')}>
-						<_Textarea
+						<TextArea
 							value={content}
 							onChange={onChangeContent}
 							type='text'
