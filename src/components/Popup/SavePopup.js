@@ -7,7 +7,7 @@ import {
 } from '../../reducers/popup';
 import styled from 'styled-components';
 
-import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
+import {alertFillIcon, closeIcon} from '../../icons/icons';
 
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 

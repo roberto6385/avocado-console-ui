@@ -61,14 +61,30 @@ const _Form = styled.form`
 `;
 
 const _AddButton = styled.button`
+	width: 36px;
+	height: 36px;
+	margin-left: 8px;
 	border: 1px solid;
 	border-radius: 4px;
-	margin-left: 8px;
-	color: #959ea1;
+	color: ${(props) =>
+		props.theme.pages.webTerminal.main.navigation.addButton.font.color};
 	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.border.color};
+		props.theme.pages.webTerminal.main.navigation.addButton.border.color};
 	background: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.backgroundColor}; ;
+		props.theme.pages.webTerminal.main.navigation.addButton
+			.backgroundColor};
+
+	&:hover {
+		color: ${(props) =>
+			props.theme.pages.webTerminal.main.navigation.addButton.hover.font
+				.color};
+		border-color: ${(props) =>
+			props.theme.pages.webTerminal.main.navigation.addButton.hover.border
+				.color};
+		background: ${(props) =>
+			props.theme.pages.webTerminal.main.navigation.addButton.hover
+				.backgroundColor};
+	}
 `;
 
 const _OpenButton = styled.div`

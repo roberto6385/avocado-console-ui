@@ -11,7 +11,6 @@ import {
 	SSH_SEND_RECONNECTION_REQUEST,
 } from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
-import {fontColor} from '../../styles/color';
 import {WarningButton} from '../../styles/components/button';
 import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';

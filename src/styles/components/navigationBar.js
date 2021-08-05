@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import {fontColor, navHighColor} from '../color';
 import {Nav} from 'react-bootstrap';
 
-export const NavigationBarTitle = styled.div`
+export const NavigationItemTitle = styled.div`
 	flex: 1;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	font-size: 14px;
-	color: ${(props) => fontColor[props.theme_value]};
 `;
 export const NavigationBarItemForm = styled.form`
 	display: flex;
@@ -24,7 +23,7 @@ export const NavigationBarInput = styled.input`
 	outline: none;
 `;
 
-export const NavigationItems = styled(Nav.Item)`
+export const NavigationItem = styled(Nav.Item)`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

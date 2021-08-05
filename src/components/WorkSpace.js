@@ -45,6 +45,8 @@ const _MainContainer = styled.div`
 	overflow: hidden;
 	width: 100%;
 	flex-direction: column;
+	background: ${(props) =>
+		props.theme.pages.webTerminal.main.backgroundColor};
 `;
 
 const _MainSpace = styled.div`
@@ -54,7 +56,7 @@ const _MainSpace = styled.div`
 	width: 100%;
 	overflow: hidden;
 	position: relative;
-	background: ${(props) => mainBackColor[props.theme_value]};
+
 	.work {
 		margin-right: 300px;
 		transition: margin 0.5s ease-in-out;
@@ -83,7 +85,7 @@ const _WorkSpaceContainer = styled.div`
 `;
 
 const WorkSpace = () => {
-	const {tab, theme} = useSelector((state) => state.common, shallowEqual);
+	const {tab} = useSelector((state) => state.common, shallowEqual);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -107,7 +109,7 @@ const WorkSpace = () => {
 				className={navToggle ? 'mainContainer' : 'mainContainer close'}
 			>
 				<TabBar toggle={asideToggle} setToggle={setAsideToggle} />
-				<_MainSpace theme_value={theme}>
+				<_MainSpace>
 					<_WorkSpaceContainer
 						className={asideToggle ? 'work' : 'work close'}
 						opacity={sshLoading || sftpLoading ? 0.7 : undefined}

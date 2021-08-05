@@ -21,12 +21,6 @@ import {
 	closeIcon,
 	searchIcon,
 } from '../../icons/icons';
-import {
-	borderColor,
-	contextHover,
-	fontColor,
-	sshSearch,
-} from '../../styles/color';
 import {HoverButton, Icon} from '../../styles/components/icon';
 
 const terminalColor = {light: '#f8f9fa', dark: '#182530'};
@@ -81,26 +75,37 @@ const _ListGroup = styled(ListGroup)`
 	bottom: ${(props) => props.bottom};
 	display: ${(props) => props.display};
 	width: 130px;
-	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0 2px 10px 0
+		${(props) =>
+			props.theme.pages.webTerminal.main.panels.ssh.autoComplete.boxShadow
+				.color};
 	zindex: 5;
 	padding: 8px 0;
-	background-color: ${(props) => sshSearch[props.theme_value]};
+	background-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.ssh.autoComplete
+			.backgroundColor};
 `;
 
 const _ListGroupItem = styled(ListGroup.Item)`
 	padding: 6px 5.8px;
+	border: none;
 	overflow: auto;
+	color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.ssh.autoComplete.font.color};
 	background-color: ${(props) =>
 		props.selected
-			? contextHover[props.theme_value]
-			: sshSearch[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
-	border: none;
+			? props.theme.pages.webTerminal.main.panels.ssh.autoComplete.items
+					.selectedStyle.backgroundColor
+			: props.theme.pages.webTerminal.main.panels.ssh.autoComplete.items
+					.normalStyle.backgroundColor};
 `;
 
 const _AutoCompletionListFooter = styled(_ListGroupItem)`
 	font-size: 10px;
-	border-top: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-top: 1px solid
+		${(props) =>
+			props.theme.pages.webTerminal.main.panels.ssh.autoComplete.border
+				.color};
 `;
 
 const SSH = ({uuid, isToolbarUnfold}) => {

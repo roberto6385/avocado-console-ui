@@ -5,7 +5,6 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {INIT_FAVORITES, SAVE_ACCOUT} from '../reducers/common';
-import {navColor} from '../styles/color';
 
 const _Container = styled.div`
 	display: flex;

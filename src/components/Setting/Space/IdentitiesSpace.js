@@ -8,7 +8,6 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import {fontColor} from '../../../styles/color';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {
 	SettingContentsContainer,

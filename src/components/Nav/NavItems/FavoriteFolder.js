@@ -19,8 +19,8 @@ import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarInput,
-	NavigationBarTitle,
-	NavigationItems,
+	NavigationItemTitle,
+	NavigationItem,
 } from '../../../styles/components/navigationBar';
 
 const _Input = styled(NavigationBarInput)`
@@ -199,7 +199,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItems
+			<NavigationItem
 				onClick={onCLickFolder}
 				onDoubleClick={() => setOpenRename(true)}
 				onContextMenu={contextMenuOpen}
@@ -218,7 +218,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationBarTitle>
+				<NavigationItemTitle>
 					{openRename ? (
 						<_Input
 							ref={renameRef}
@@ -231,7 +231,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 					) : (
 						data.name
 					)}
-				</NavigationBarTitle>
+				</NavigationItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -239,7 +239,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
-			</NavigationItems>
+			</NavigationItem>
 			{data.contain.length !== 0 && (
 				<Collapse_ open={openTab}>
 					<React.Fragment>

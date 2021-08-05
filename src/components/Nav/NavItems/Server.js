@@ -26,11 +26,11 @@ import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarItemForm,
 	NavigationBarInput,
-	NavigationBarTitle,
-	NavigationItems,
+	NavigationItemTitle,
+	NavigationItem,
 } from '../../../styles/components/navigationBar';
 
-export const ServerItem = styled(NavigationItems)`
+export const ServerItem = styled(NavigationItem)`
 	.bookmark_button {
 		display: none;
 	}
@@ -214,7 +214,7 @@ const Server = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationBarTitle theme_value={theme}>
+				<NavigationItemTitle theme_value={theme}>
 					{openRename ? (
 						<NavigationBarItemForm
 							onSubmit={handleSubmit}
@@ -247,7 +247,7 @@ const Server = ({data, indent}) => {
 					>
 						{bookmarkIcon}
 					</IconButton>
-				</NavigationBarTitle>
+				</NavigationItemTitle>
 			</ServerItem>
 			<ServerContextMenu
 				correspondedIdentity={correspondedIdentity}
