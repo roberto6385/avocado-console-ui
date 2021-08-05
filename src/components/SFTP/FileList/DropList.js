@@ -100,11 +100,6 @@ const DropList = ({
 								: '220px'
 						}
 						flex={pathList.length - 1 === listindex && 1}
-						// bcolor={
-						// 	pathList.length - 1 === listindex
-						// 		? 'transparent'
-						// 		: borderColor[theme]
-						// }
 						id='fileList_ul'
 						key={listindex}
 						onContextMenu={onContextMenu({

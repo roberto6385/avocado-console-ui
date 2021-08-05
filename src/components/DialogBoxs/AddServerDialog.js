@@ -102,7 +102,7 @@ const duplicationTest = (server, name, host, port, protocol) => {
 const AddServerDialog = () => {
 	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
-	const {server, theme, clicked_server, identity} = useSelector(
+	const {server, clicked_server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -366,10 +366,9 @@ const AddServerDialog = () => {
 			onRequestClose={onClickCloseDialog}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 			className={'hello'}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('addServer')}</div>
 				<IconButton
 					onClick={onClickCloseDialog}
@@ -385,7 +384,6 @@ const AddServerDialog = () => {
 				<_ItemContainer>
 					<_InputFiled title={t('name')} flex={1}>
 						<Input
-							theme_value={theme}
 							type='text'
 							value={name}
 							// onChange={onChangeName}
@@ -406,7 +404,6 @@ const AddServerDialog = () => {
 				<_ItemContainer>
 					<_InputFiled title={t('address')} flex={1}>
 						<Input
-							theme_value={theme}
 							type='text'
 							value={host}
 							// onChange={onChangeHost}
@@ -418,7 +415,6 @@ const AddServerDialog = () => {
 						<TextBoxField_ title={t('port')}>
 							<_Input
 								width={'178px'}
-								theme_value={theme}
 								type='number'
 								value={port}
 								// onChange={onChangePort}
@@ -451,7 +447,6 @@ const AddServerDialog = () => {
 				<_ItemContainer>
 					<TextBoxField_ title={t('userName')} flex={1}>
 						<Input
-							theme_value={theme}
 							type='text'
 							value={username}
 							// onChange={onChangeUsername}
@@ -464,7 +459,6 @@ const AddServerDialog = () => {
 					<_ItemContainer>
 						<TextBoxField_ title={t('password')} flex={1}>
 							<Input
-								theme_value={theme}
 								type='password'
 								value={password}
 								// onChange={onChangePassword}
@@ -490,7 +484,6 @@ const AddServerDialog = () => {
 								</_Label>
 							</TextBoxField_>
 							<_SecondaryGreenButton
-								theme_value={theme}
 								onClick={(e) => {
 									e.preventDefault();
 									document
@@ -510,7 +503,6 @@ const AddServerDialog = () => {
 								flex={1}
 							>
 								<Input
-									theme_value={theme}
 									type='password'
 									value={password}
 									// onChange={onChangePassword}
@@ -524,7 +516,6 @@ const AddServerDialog = () => {
 				<_ItemContainer>
 					<TextBoxField_ title={t('note')} flex={1}>
 						<Input
-							theme_value={theme}
 							type='text'
 							value={note}
 							// onChange={onChangeNote}
@@ -534,7 +525,7 @@ const AddServerDialog = () => {
 					</TextBoxField_>
 				</_ItemContainer>
 			</Form>
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={onClickCloseDialog}>
 					{t('cancel')}
 				</TransparentButton>

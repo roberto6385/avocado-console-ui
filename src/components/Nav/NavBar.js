@@ -8,13 +8,16 @@ import ServerFolderList from './NavItems/ServerFolderList';
 import FavoriteList from './NavItems/FavoriteList';
 import useInput from '../../hooks/useInput';
 import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
-import {burgerMenuIcon, plusIcon, searchIcon} from '../../icons/icons';
+import {
+	avocadoLogo,
+	burgerMenuIcon,
+	plusIcon,
+	searchIcon,
+} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
-import LightModeLogo from '../../images/logo/logo@2x.png';
-import DarkModeLogo from '../../images/logo/logo_white@3x.png';
 import IconTextBox_ from '../RecycleComponents/IconTextBox_';
 
 const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
@@ -31,6 +34,12 @@ const _Aside = styled.aside`
 	background: ${(props) =>
 		props.theme.pages.webTerminal.main.navigation.backgroundColor};
 	z-index;
+`;
+
+const Logo = styled.div`
+	svg {
+		fill: ${(props) => props.theme.pages.webTerminal.main.font.color};
+	}
 `;
 
 const _Header = styled.div`
@@ -200,12 +209,7 @@ const NavBar = ({toggle, setToggle}) => {
 				<HoverButton margin_right={'6px'} onClick={onClickOpenTggle}>
 					{burgerMenuIcon}
 				</HoverButton>
-				{theme === 'light' && (
-					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
-				)}
-				{theme === 'dark' && (
-					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
-				)}
+				<Logo>{avocadoLogo}</Logo>
 			</_Header>
 			<_FolerServerTab>
 				{tabs.map((v) => {

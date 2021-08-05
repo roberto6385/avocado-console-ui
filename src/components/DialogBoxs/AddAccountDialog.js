@@ -88,7 +88,7 @@ const AddAccountDialog = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addAccountForm');
 
-	const {account, accountListControlId, theme} = useSelector(
+	const {account, accountListControlId} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -203,9 +203,6 @@ const AddAccountDialog = () => {
 				<_Item>
 					<TextBoxField_ title={t('identity')} flex={1}>
 						<_LongInput
-							back={greyNormalButtonBackgroundColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
 							type='text'
 							value={identity}
 							onChange={onChangeIdentity}
@@ -223,9 +220,6 @@ const AddAccountDialog = () => {
 				<_Item>
 					<TextBoxField_ title={t('userName')} flex={1}>
 						<_LongInput
-							back={greyNormalButtonBackgroundColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
 							type='text'
 							value={username}
 							onChange={onChangeUsername}
@@ -237,9 +231,6 @@ const AddAccountDialog = () => {
 					<_Item>
 						<TextBoxField_ title={t('password')} flex={1}>
 							<_LongInput
-								back={greyNormalButtonBackgroundColor[theme]}
-								color={fontColor[theme]}
-								b_color={borderColor[theme]}
 								type='password'
 								value={password}
 								onChange={onChangePassword}
@@ -251,14 +242,7 @@ const AddAccountDialog = () => {
 					<React.Fragment>
 						<_Item>
 							<TextBoxField_ title={t('private')} flex={1}>
-								<_Label
-									htmlFor={'add_server_form_type_file'}
-									back={
-										greyNormalButtonBackgroundColor[theme]
-									}
-									color={fontColor[theme]}
-									b_color={borderColor[theme]}
-								>
+								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<_FileInput
 										id={'add_server_form_type_file'}
@@ -288,11 +272,6 @@ const AddAccountDialog = () => {
 								flex={1}
 							>
 								<_LongInput
-									back={
-										greyNormalButtonBackgroundColor[theme]
-									}
-									color={fontColor[theme]}
-									b_color={borderColor[theme]}
 									type='password'
 									value={password}
 									onChange={onChangePassword}
@@ -305,9 +284,6 @@ const AddAccountDialog = () => {
 				<_Item>
 					<TextBoxField_ title={t('note')} flex={1}>
 						<_LongInput
-							back={greyNormalButtonBackgroundColor[theme]}
-							color={fontColor[theme]}
-							b_color={borderColor[theme]}
 							type='text'
 							value={note}
 							onChange={onChangeNote}
@@ -317,10 +293,7 @@ const AddAccountDialog = () => {
 				</_Item>
 			</_Form>
 			<ModalFooter>
-				<TransparentButton
-					onClick={closeModal}
-					color={fontColor[theme]}
-				>
+				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>

@@ -103,8 +103,8 @@ const App = () => {
 						<Route path='/signup' component={SignUp} />
 						<Route path='/password' component={Password} />
 						<Route path='/Redirect' component={Redirect} />
-						<Route component={NotFound} />
 					</ThemeProvider>
+					<Route component={NotFound} />
 				</Switch>
 				<AddServerDialog />
 				<AddFavoritesDialog />

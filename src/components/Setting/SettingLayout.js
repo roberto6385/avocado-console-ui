@@ -6,14 +6,19 @@ import SettingNav from './SettingNav';
 import Footer from '../Footer';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {SAVE_ACCOUT} from '../../reducers/common';
-import LightModeLogo from '../../images/logo/logo@2x.png';
-import DarkModeLogo from '../../images/logo/logo_white@3x.png';
+import {avocadoLogo} from '../../icons/icons';
 
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	font-family: 'Roboto', sans-serif;
+`;
+
+const Logo = styled.div`
+	svg {
+		fill: ${(props) => props.theme.pages.webTerminal.main.font.color};
+	}
 `;
 
 const _ContentsContainer = styled.div`
@@ -59,12 +64,7 @@ const SettingAppLayout = ({children}) => {
 	return (
 		<_Container>
 			<_Header>
-				{theme === 'light' && (
-					<img src={LightModeLogo} height='17' alt='LightModeLogo' />
-				)}
-				{theme === 'dark' && (
-					<img src={DarkModeLogo} height='17' alt='DarkModeLogo' />
-				)}
+				<Logo>{avocadoLogo}</Logo>
 			</_Header>
 			<_ContentsContainer>
 				<SettingNav />

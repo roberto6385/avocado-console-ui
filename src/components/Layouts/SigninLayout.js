@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import background from '../../images/loginBackground/login_bg_design_1.jpg';
-import DarkModeLogo from '../../images/logo/logo_white@3x.png';
+import {avocadoLogo} from '../../icons/icons';
 
 const _Container = styled.div`
 	background-image: url(${background});
@@ -25,11 +25,12 @@ const _HeaderContainer = styled.div`
 const _Span = styled.div`
 	font-size: 16px;
 	font-weight: 500;
-	margin: 22.1px 141px 37px 0px;
+	margin: 22.1px 0px;
 	line-height: 1.5;
 	color: #ffffff;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 `;
 
 const _Description = styled.div`
@@ -57,14 +58,25 @@ const _SpanText = styled.div`
 	background-image: linear-gradient(to top, #30b3b6, #62d2a3);
 `;
 
+const Logo = styled.div`
+	width: 270px;
+	svg {
+		fill: white;
+		width: 270px;
+		height: 45.9px;
+	}
+`;
+
 const SigninLayout = ({children}) => {
 	return (
 		<_Container>
 			<_HeaderContainer>
-				<img src={DarkModeLogo} height='45.9' alt='DarkModeLogo' />
-				<_Span>
-					<_SpanText /> ex.slogan of avocado solution
-				</_Span>
+				<Logo>
+					{avocadoLogo}
+					<_Span>
+						<_SpanText /> ex.slogan of avocado solution
+					</_Span>
+				</Logo>
 				<_Description>
 					Manage your servers from your browser with a professional
 					and feature rich terminal and remote desktop client
