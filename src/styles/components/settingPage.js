@@ -6,7 +6,8 @@ export const SettingMainContainer = styled.div`
 	width: 100%;
 	flex-direction: column;
 	background: ${(props) =>
-		props.theme.pages.webTerminal.main.aside.backgroundColor};
+		props.theme.pages.webTerminal.setting.content.normalStyle
+			.backgroundColor};
 	overflow: scroll;
 	padding: 0px 16px;
 `;
@@ -16,7 +17,9 @@ export const SettingTitle = styled.div`
 	height: 50px;
 	min-height: 50px;
 	border-bottom: 1px solid
-		${(props) => props.theme.pages.webTerminal.main.aside.border.color};
+		${(props) =>
+			props.theme.pages.webTerminal.setting.content.normalStyle.title
+				.border.color};
 	line-height: 1.31;
 	font-size: 16px;
 `;
