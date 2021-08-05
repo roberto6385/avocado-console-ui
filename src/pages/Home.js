@@ -5,7 +5,6 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {INIT_FAVORITES, SAVE_ACCOUT} from '../reducers/common';
-import {navColor} from '../styles/color';
 
 const _Container = styled.div`
 	display: flex;
@@ -13,7 +12,6 @@ const _Container = styled.div`
 	height: 100%;
 	width: 100%;
 	font-family: 'Roboto', sans-serif;
-	background: ${(props) => props?.back};
 `;
 
 const Home = () => {
@@ -24,7 +22,6 @@ const Home = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	useEffect(() => {
 		if (!userTicket) {
@@ -55,7 +52,7 @@ const Home = () => {
 	}, [dispatch, userInfo]);
 
 	return (
-		<_Container background={navColor[theme]}>
+		<_Container>
 			<WorkSpace />
 			<Footer />
 		</_Container>

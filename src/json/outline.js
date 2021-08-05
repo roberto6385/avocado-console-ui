@@ -3,9 +3,23 @@ export const themeValues = {
 		pages: {
 			webTerminal: {
 				main: {
+					font: {color: '#126466'},
+					backgroundColor: '#f8f9fa',
+
 					navigation: {
 						backgroundColor: 'ffffff',
 						border: {color: '#e3e5e5'},
+
+						addButton: {
+							font: {color: '#959ea1'},
+							backgroundColor: '#fff',
+							border: {color: '#e3e5e5'},
+							hover: {
+								font: {color: '#556367'},
+								backgroundColor: '#f8f9fa',
+								border: {color: '#c2c2c2'},
+							},
+						},
 
 						tab: {
 							normalStyle: {
@@ -86,6 +100,21 @@ export const themeValues = {
 									selectedStyle: {
 										backgroundColor: '#ffffff',
 										border: {color: '#178082'},
+									},
+								},
+							},
+
+							autoComplete: {
+								font: {color: '#212121'},
+								backgroundColor: '#ffffff',
+								border: {color: '#f8f9fa'},
+								boxShadow: {color: 'rgba(0, 0, 0, 0.19)'},
+								items: {
+									normalStyle: {
+										backgroundColor: '#ffffff',
+									},
+									selectedStyle: {
+										backgroundColor: 'rgba(0, 0, 0, 0.04)',
 									},
 								},
 							},
@@ -503,9 +532,23 @@ export const themeValues = {
 		pages: {
 			webTerminal: {
 				main: {
+					font: {color: '#4ca6a8'},
+					backgroundColor: '#1b2935',
+
 					navigation: {
 						backgroundColor: '#1e364c',
 						border: {color: 'rgba(0, 0, 0, 0.3)'},
+
+						addButton: {
+							font: {color: '#959ea1'},
+							backgroundColor: '#fff',
+							border: {color: '#e3e5e5'},
+							hover: {
+								font: {color: '#556367'},
+								backgroundColor: '#f8f9fa',
+								border: {color: '#c2c2c2'},
+							},
+						},
 
 						tab: {
 							normalStyle: {
@@ -594,6 +637,20 @@ export const themeValues = {
 									selectedStyle: {
 										backgroundColor: 'rgba(0, 0, 0, 0.22)',
 										border: {color: '#44c8c0'},
+									},
+								},
+							},
+							autoComplete: {
+								font: {color: 'rgba(255, 255, 255, 0.87)'},
+								backgroundColor: '#253545',
+								border: {color: 'rgba(0, 0, 0, 0.3)'},
+								boxShadow: {color: 'rgba(0, 0, 0, 0.19)'},
+								items: {
+									normalStyle: {
+										backgroundColor: '#253545',
+									},
+									selectedStyle: {
+										backgroundColor: 'rgba(0, 0, 0, 0.12)',
 									},
 								},
 							},

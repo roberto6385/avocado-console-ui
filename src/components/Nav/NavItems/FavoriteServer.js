@@ -19,8 +19,8 @@ import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
 	NavigationBarInput,
-	NavigationBarTitle,
-	NavigationItems,
+	NavigationItemTitle,
+	NavigationItem,
 } from '../../../styles/components/navigationBar';
 
 const FavoriteServer = ({data, indent, temp}) => {
@@ -146,7 +146,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItems
+			<NavigationItem
 				onClick={onHybridClick}
 				draggable='true'
 				onDragStart={prevPutItem}
@@ -165,7 +165,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationBarTitle theme_value={theme}>
+				<NavigationItemTitle theme_value={theme}>
 					{openRename ? (
 						<NavigationBarInput
 							ref={renameRef}
@@ -178,8 +178,8 @@ const FavoriteServer = ({data, indent, temp}) => {
 					) : (
 						data.name
 					)}
-				</NavigationBarTitle>
-			</NavigationItems>
+				</NavigationItemTitle>
+			</NavigationItem>
 			{!temp && (
 				<FavoritesContextMenu
 					correspondedIdentity={correspondedIdentity}

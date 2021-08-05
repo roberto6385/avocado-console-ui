@@ -13,13 +13,12 @@ import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
-import {iconColor} from '../../../styles/color';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarItemForm,
 	NavigationBarInput,
-	NavigationBarTitle,
-	NavigationItems,
+	NavigationItemTitle,
+	NavigationItem,
 } from '../../../styles/components/navigationBar';
 
 const isValidFolderName = (folderArray, name) => {
@@ -173,12 +172,12 @@ const Folder = ({open, data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItems
+			<NavigationItem
 				onClick={onCLickFolder}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
-				seleted={clicked_server === data.key ? 1 : 0}
+				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
@@ -189,7 +188,7 @@ const Folder = ({open, data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationBarTitle theme_value={theme}>
+				<NavigationItemTitle>
 					{openRename ? (
 						<NavigationBarItemForm
 							onSubmit={handleSubmit}
@@ -202,13 +201,12 @@ const Folder = ({open, data, indent}) => {
 								onChange={onChangeRenameValue}
 								onKeyDown={EscapeKey}
 								onBlur={handleBlur}
-								theme_value={theme}
 							/>
 						</NavigationBarItemForm>
 					) : (
 						data.name
 					)}
-				</NavigationBarTitle>
+				</NavigationItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -216,7 +214,7 @@ const Folder = ({open, data, indent}) => {
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
-			</NavigationItems>
+			</NavigationItem>
 			{data.contain.length !== 0 && (
 				<Collapse_ open={openTab}>
 					<React.Fragment>

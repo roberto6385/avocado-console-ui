@@ -8,7 +8,7 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import {fontColor, identitySearchInput} from '../../../styles/color';
+import {fontColor} from '../../../styles/color';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {Icon} from '../../../styles/components/icon';
 import {
@@ -133,7 +133,8 @@ const _Search = styled.form`
 	align-items: center;
 	padding: 3px 16px;
 	height: 30px;
-	background: ${(props) => identitySearchInput[props.theme_value]};
+	background: ${(props) =>
+		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
 	margin: 9px 16px;
 `;
 
