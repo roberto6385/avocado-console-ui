@@ -1,7 +1,5 @@
 //Navigation bar styles
 import styled from 'styled-components';
-import {fontColor, navHighColor} from '../color';
-import {Nav} from 'react-bootstrap';
 
 export const NavigationItemTitle = styled.div`
 	flex: 1;
@@ -10,20 +8,8 @@ export const NavigationItemTitle = styled.div`
 	align-items: center;
 	font-size: 14px;
 `;
-export const NavigationBarItemForm = styled.form`
-	display: flex;
-	padding: 4px 0px;
-	border: none;
-`;
-export const NavigationBarInput = styled.input`
-	background: ${(props) => navHighColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
-	margin: 0;
-	border: none;
-	outline: none;
-`;
 
-export const NavigationItem = styled(Nav.Item)`
+export const NavigationItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

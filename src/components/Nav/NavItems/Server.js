@@ -14,7 +14,6 @@ import {
 	SORT_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
-import {activeColor, iconColor} from '../../../styles/color';
 import {
 	awsServerIcon,
 	bookmarkIcon,
@@ -24,8 +23,6 @@ import styled from 'styled-components';
 import {connectionAction} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationBarItemForm,
-	NavigationBarInput,
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
@@ -215,23 +212,7 @@ const Server = ({data, indent}) => {
 				</Icon>
 
 				<NavigationItemTitle theme_value={theme}>
-					{openRename ? (
-						<NavigationBarItemForm
-							onSubmit={handleSubmit}
-							onBlur={handleSubmit}
-						>
-							<NavigationBarInput
-								ref={renameRef}
-								type='text'
-								value={renameValue}
-								onChange={onChangeRenameValue}
-								onKeyDown={EscapeKey}
-								theme_value={theme}
-							/>
-						</NavigationBarItemForm>
-					) : (
-						data.name
-					)}
+					{data.name}
 					<IconButton
 						className={
 							startSearchTree(favorites, data)

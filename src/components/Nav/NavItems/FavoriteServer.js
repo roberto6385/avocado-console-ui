@@ -12,13 +12,11 @@ import {
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 
-import {activeColor, iconColor} from '../../../styles/color';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {connectionAction} from '../../../reducers/sftp';
 import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
-	NavigationBarInput,
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
@@ -166,18 +164,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 				</Icon>
 
 				<NavigationItemTitle theme_value={theme}>
-					{openRename ? (
-						<NavigationBarInput
-							ref={renameRef}
-							type='text'
-							value={renameValue}
-							onChange={onChangeRenameValue}
-							onKeyDown={EscapeKey}
-							theme_value={theme}
-						/>
-					) : (
-						data.name
-					)}
+					{data.name}
 				</NavigationItemTitle>
 			</NavigationItem>
 			{!temp && (

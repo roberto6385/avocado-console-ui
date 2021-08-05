@@ -28,17 +28,6 @@ const _Container = styled.div`
 	height: 50px;
 `;
 
-const _input = styled.input`
-	height: ${HEIGHT_34};
-	width: 100%;
-	border-radius: 4px;
-	font-size: ${FONT_14};
-	border: none;
-	padding: 0px 13px;
-	outline: none;
-	background: ${(props) => props.back};
-`;
-
 const _Form = styled.form`
 	display: flex;
 	flex: 1;

@@ -12,12 +12,6 @@ import {
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {OPEN_ALERT_POPUP} from '../../reducers/popup';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
-import {
-	borderColor,
-	fontColor,
-	inputFocusBoaderColor,
-	settingInput,
-} from '../../styles/color';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
 import {

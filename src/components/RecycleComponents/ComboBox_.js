@@ -2,20 +2,6 @@ import React, {useCallback, useMemo, useRef} from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {
-	borderColor,
-	D_GREEN_ACTIVE,
-	fontColor,
-	identityHigh,
-	popupSelectSelectedColor,
-	popupSelectColor,
-	popupSelectHoverColor,
-	selectSelectedColor,
-	selectColor,
-	selectHoverColor,
-	selectInputColor,
-} from '../../styles/color';
-import {useSelector} from 'react-redux';
 
 const _Title = styled.div`
 	margin: 0 10px 2px 0;

@@ -15,8 +15,6 @@ import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationBarItemForm,
-	NavigationBarInput,
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
@@ -37,7 +35,7 @@ const isValidFolderName = (folderArray, name) => {
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {nav, clicked_server, theme, createdFolderInfo} = useSelector(
+	const {nav, clicked_server, createdFolderInfo} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -188,25 +186,7 @@ const Folder = ({open, data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationItemTitle>
-					{openRename ? (
-						<NavigationBarItemForm
-							onSubmit={handleSubmit}
-							onBlur={handleSubmit}
-						>
-							<NavigationBarInput
-								ref={renameRef}
-								type='text'
-								value={renameValue}
-								onChange={onChangeRenameValue}
-								onKeyDown={EscapeKey}
-								onBlur={handleBlur}
-							/>
-						</NavigationBarItemForm>
-					) : (
-						data.name
-					)}
-				</NavigationItemTitle>
+				<NavigationItemTitle>{data.name}</NavigationItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}

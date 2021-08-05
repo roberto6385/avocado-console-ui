@@ -13,18 +13,18 @@ import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
-import styled from 'styled-components';
 import FavoriteServer from './FavoriteServer';
 import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
+import styled from 'styled-components';
 import {
-	NavigationBarInput,
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
+import {Input} from '../../../styles/components/input';
 
-const _Input = styled(NavigationBarInput)`
-	background: transparent;
+const Input_ = styled(Input)`
+	height: 24px;
 `;
 
 const isValidFolderName = (folderArray, name) => {
@@ -220,7 +220,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 				<NavigationItemTitle>
 					{openRename ? (
-						<_Input
+						<Input_
 							ref={renameRef}
 							type='text'
 							value={renameValue}

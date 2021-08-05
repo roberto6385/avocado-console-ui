@@ -7,13 +7,12 @@ import styled from 'styled-components';
 
 import {closeIcon} from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {UserInput} from '../../styles/components/siginIn';
+import {Input} from '../../styles/components/input';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -363,14 +362,12 @@ const FileStateDialog = () => {
 							/>
 						</ColDiv>
 					</RowDiv>
-					<TextBoxField_>
-						<UserInput
-							type='text'
-							value={permission}
-							onChange={handleInputValue}
-							onBlur={handleBlur}
-						/>
-					</TextBoxField_>
+					<Input
+						type='text'
+						value={permission}
+						onChange={handleInputValue}
+						onBlur={handleBlur}
+					/>
 				</_Form>
 
 				<ModalFooter>
