@@ -60,7 +60,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 		} else {
 			dispatch({type: SET_CLICKED_SERVER, data: data.key});
 		}
-	}, [clicked_server, data.key]);
+	}, [clicked_server, data.key, dispatch]);
 
 	const onClickOpen = useCallback(() => {
 		setOpenTab(!openTab);
