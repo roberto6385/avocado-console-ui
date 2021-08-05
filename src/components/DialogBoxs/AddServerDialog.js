@@ -17,7 +17,7 @@ import {
 	OPEN_ALERT_POPUP,
 } from '../../reducers/popup';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import Select_ from '../RecycleComponents/Select_';
+import ComboBox_ from '../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../icons/icons';
 import {
 	borderColor,
@@ -44,7 +44,7 @@ const _PopupModal = styled(PopupModal)`
 `;
 
 const _Input = styled(Input)`
-	width: '178px';
+	width: 178px;
 `;
 
 const _SecondaryGreenButton = styled(NormalBorderButton)`
@@ -402,13 +402,12 @@ const AddServerDialog = () => {
 						/>
 					</_InputFiled>
 					<_SecondItem>
-						<Select_
+						<ComboBox_
 							width={'178px'}
 							title={t('protocol')}
 							options={protocol_options}
 							value={protocol}
 							setValue={setProtocol}
-							popup={false}
 						/>
 					</_SecondItem>
 				</_ItemContainer>
@@ -426,6 +425,7 @@ const AddServerDialog = () => {
 					<_SecondItem>
 						<TextBoxField_ title={t('port')}>
 							<_Input
+								width={'178px'}
 								theme_value={theme}
 								type='number'
 								value={port}
@@ -438,23 +438,21 @@ const AddServerDialog = () => {
 				</_ItemContainer>
 
 				<_ItemContainer>
-					<Select_
+					<ComboBox_
 						title={t('identity')}
 						flex={1}
 						options={identityList}
 						value={account}
 						setValue={setAccount}
-						popup={true}
 					/>
 					<_SecondItem>
-						<Select_
+						<ComboBox_
 							width={'178px'}
 							title={t('auth')}
 							options={authentication_options}
 							value={authentication}
 							setValue={setAuthentication}
 							disabled={true}
-							popup={true}
 						/>
 					</_SecondItem>
 				</_ItemContainer>

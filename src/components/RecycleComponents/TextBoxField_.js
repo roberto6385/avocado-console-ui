@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	display: flex;
-	flex: ${(props) => props?.flex};
+	flex: ${(props) => props.flex};
 	flex-direction: column;
 	margin-bottom: ${(props) =>
 		props.marginBottom === undefined ? '16px' : props.marginBottom};

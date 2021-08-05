@@ -435,36 +435,38 @@ export const themeValues = {
 					},
 				},
 				comboBoxs: {
-					normalStyle: {
-						control: {
-							font: {color: '#212121'},
-							border: {color: '#e3e5e5'},
+					control: {
+						font: {color: '#212121'},
+						border: {color: '#e3e5e5'},
+						backgroundColor: '#ffffff',
+						focused: {border: {color: '#4ca6a8'}},
+					},
+
+					menuList: {
+						backgroundColor: {
+							normalStyle: '#ffffff',
+							dialogStyle: '#ffffff',
+						},
+					},
+
+					options: {
+						font: {color: '#212121'},
+						backgroundColor: {
+							normalStyle: '#ffffff',
+							dialogStyle: '#ffffff',
+						},
+						disabled: {
+							font: {color: '#a8a8a8'},
 							backgroundColor: '#ffffff',
-							focused: {border: {color: '#4ca6a8'}},
 						},
-
-						menuList: {
-							backgroundColor: {
-								normalStyle: '#ffffff',
-								dialogStyle: '#ffffff',
-							},
+						selected: {
+							backgroundColor: 'rgba(0, 0, 0, 0.04)',
 						},
-
-						options: {
-							font: {color: '#212121'},
-							backgroundColor: {
-								normalStyle: '#ffffff',
-								dialogStyle: '#ffffff',
-							},
-							disabled: {
-								backgroundColor: null,
-							},
-							selected: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
-							focused: {
-								backgroundColor: 'rgba(0, 0, 0, 0.04)',
-							},
+						focused: {
+							backgroundColor: 'rgba(0, 0, 0, 0.04)',
+						},
+						hover: {
+							backgroundColor: 'rgba(228, 243, 244, 0.7)',
 						},
 					},
 				},
@@ -987,13 +989,17 @@ export const themeValues = {
 							dialogStyle: '#2f4b60',
 						},
 						disabled: {
-							backgroundColor: null,
+							font: {color: 'rgba(255, 255, 255, 0.38)'},
+							backgroundColor: 'rgba(0, 0, 0, 0.22)',
 						},
 						selected: {
 							backgroundColor: 'rgba(0, 0, 0, 0.12)',
 						},
 						focused: {
 							backgroundColor: 'rgba(0, 0, 0, 0.12)',
+						},
+						hover: {
+							backgroundColor: '#1f323c',
 						},
 					},
 				},

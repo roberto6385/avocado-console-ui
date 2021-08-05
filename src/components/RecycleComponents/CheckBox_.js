@@ -9,7 +9,7 @@ import {
 
 const Container = styled.div`
 	z-index: 0;
-	opacity: ${(props) => props.opacity === 'true' && '0.24'};
+	opacity: ${(props) => (props.opacity === 'true' ? 0.24 : 1)};
 `;
 
 const InputContainer = styled.div`
