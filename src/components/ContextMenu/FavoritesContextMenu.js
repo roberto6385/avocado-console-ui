@@ -11,12 +11,12 @@ import {
 	BOOKMARKING,
 	LOCAL_SAVE_FAVORITES,
 } from '../../reducers/common';
-import {ContextMenu} from "../../styles/components/contextMenu";
+import {ContextMenu} from '../../styles/components/contextMenu';
 
 const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-	const {server, theme, favorites} = useSelector(
+	const {server, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -111,11 +111,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	);
 
 	return (
-		<ContextMenu
-			id={data.key + 'server'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
 			{Object.keys(menu).map((v) => (
 				<Item onClick={handleItemClick(v)} key={v}>
 					{menu[v]}

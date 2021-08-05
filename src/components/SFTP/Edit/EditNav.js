@@ -9,7 +9,6 @@ import {
 	saveIcon,
 	squareDeleteIcon,
 } from '../../../icons/icons';
-import {FONT_14, HEIGHT_50} from '../../../styles/length';
 
 import {HoverButton} from '../../../styles/components/icon';
 
@@ -19,11 +18,11 @@ const _Container = styled.div`
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid;
-	height: ${HEIGHT_50};
+	height: 50px;
 `;
 
 const _Span = styled.span`
-	font-size: ${FONT_14};
+	font-size: 14px;
 `;
 const _ButtonContainer = styled.div`
 	display: flex;

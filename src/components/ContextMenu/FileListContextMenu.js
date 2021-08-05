@@ -22,7 +22,7 @@ const FileListContextMenu = ({uuid}) => {
 		download: sftp_downloadState,
 		socket: sftp_socketState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {theme, server, tab, identity} = useSelector(
+	const {server, tab, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -192,11 +192,7 @@ const FileListContextMenu = ({uuid}) => {
 		[contextDownload, contextEdit, dispatch, uuid, path, highlight, socket],
 	);
 	return (
-		<ContextMenu
-			id={uuid + 'fileList'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<ContextMenu id={uuid + 'fileList'} animation={animation.slide}>
 			<Item
 				disabled={highlight.length === 0}
 				id='download'

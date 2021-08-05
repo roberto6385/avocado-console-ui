@@ -8,7 +8,7 @@ import {Nav} from 'react-bootstrap';
 import Folder from './Folder';
 import Server from './Server';
 import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
-import {HiddenScroll} from '../../../styles/function';
+import {HideScroll} from '../../../styles/function';
 
 export const _Nav = styled(Nav)`
 	display: block;
@@ -18,7 +18,7 @@ export const _Nav = styled(Nav)`
 	width: 100%;
 	height: 100%;
 	z-index: 3;
-	${HiddenScroll}
+	${HideScroll}
 `;
 
 function searchTreeNode(node, name) {

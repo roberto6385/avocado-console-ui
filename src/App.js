@@ -31,7 +31,8 @@ import Toast_ from './components/RecycleComponents/Toast_';
 import FileStateDialog from './components/DialogBoxs/FileStateDialog';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
-import {themeValues} from './json/outline';
+import {themeValues} from './json/themeValues';
+import {properties} from './json/properties';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -94,14 +95,16 @@ const App = () => {
 				<GlobalStyle />
 				<Switch>
 					<Route path='/' exact component={Home} />
-					<Route path='/signin' component={SignIn} />
-					<Route path='/signup' component={SignUp} />
-					<Route path='/password' component={Password} />
 					<Route path='/account' component={Account} />
 					<Route path='/preferences' component={Preferences} />
 					<Route path='/identities' component={Identities} />
-					<Route path='/Redirect' component={Redirect} />
-					<Route component={NotFound} />
+					<ThemeProvider theme={properties}>
+						<Route path='/signin' component={SignIn} />
+						<Route path='/signup' component={SignUp} />
+						<Route path='/password' component={Password} />
+						<Route path='/Redirect' component={Redirect} />
+						<Route component={NotFound} />
+					</ThemeProvider>
 				</Switch>
 				<AddServerDialog />
 				<AddFavoritesDialog />

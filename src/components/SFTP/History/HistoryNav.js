@@ -6,13 +6,12 @@ import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
-import {WIDTH_256} from '../../../styles/length';
 import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
-	min-width: ${WIDTH_256};
-	width: ${WIDTH_256};
+	min-width: 256px;
+	width: 256px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

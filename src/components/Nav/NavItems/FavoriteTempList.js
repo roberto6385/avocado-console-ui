@@ -5,7 +5,7 @@ import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {HiddenScroll} from '../../../styles/function';
+import {HideScroll} from '../../../styles/function';
 import FavoriteServer from './FavoriteServer';
 import FavoriteFolder from './FavoriteFolder';
 import {
@@ -21,7 +21,7 @@ export const _Nav = styled(Nav)`
 	width: 100%;
 	height: 100%;
 	z-index: 999;
-	${HiddenScroll}
+	${HideScroll}
 `;
 
 function searchTreeNode(node, name) {
@@ -65,10 +65,7 @@ function searchTreeStart(root, name) {
 
 const FavoriteTempList = ({search}) => {
 	const dispatch = useDispatch();
-	const {tempFavorites, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {tempFavorites} = useSelector((state) => state.common, shallowEqual);
 	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
 
 	const dropNavList = useCallback(() => {

@@ -23,8 +23,8 @@ import styled from 'styled-components';
 import {connectionAction} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationItemTitle,
 	NavigationItem,
+	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
 
 export const ServerItem = styled(NavigationItem)`
@@ -63,7 +63,7 @@ function startSearchTree(root, data) {
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, theme, identity, favorites} = useSelector(
+	const {clicked_server, server, identity, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -211,7 +211,7 @@ const Server = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle theme_value={theme}>
+				<NavigationItemTitle>
 					{data.name}
 					<IconButton
 						className={

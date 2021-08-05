@@ -5,11 +5,10 @@ import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
 } from '../../reducers/popup';
-import {ContextMenu} from "../../styles/components/contextMenu";
+import {ContextMenu} from '../../styles/components/contextMenu';
 
 const ServerAccountContextMenu = () => {
 	const dispatch = useDispatch();
-	const theme = useSelector((state) => state.common.theme);
 
 	const editAccount = useCallback(() => {
 		dispatch({
@@ -28,11 +27,7 @@ const ServerAccountContextMenu = () => {
 	}, [dispatch]);
 
 	return (
-		<ContextMenu
-			id={'account'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<ContextMenu id={'account'} animation={animation.slide}>
 			<Item id='edit' onClick={editAccount}>
 				Edit
 			</Item>

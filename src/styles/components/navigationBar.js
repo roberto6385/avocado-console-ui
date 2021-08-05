@@ -9,6 +9,17 @@ export const NavigationItemTitle = styled.div`
 	font-size: 14px;
 `;
 
+export const NavigationBarItemForm = styled.form`
+	display: flex;
+	padding: 4px 0px;
+	border: none;
+`;
+export const NavigationBarInput = styled.input`
+	margin: 0;
+	border: none;
+	outline: none;
+`;
+
 export const NavigationItem = styled.div`
 	display: flex;
 	align-items: center;

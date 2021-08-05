@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
 
-import {navColor} from '../../../styles/color';
-import {HiddenScroll} from '../../../styles/function';
+import {HideScroll} from '../../../styles/function';
 import FavoriteServer from './FavoriteServer';
 import FavoriteFolder from './FavoriteFolder';
 import {
@@ -22,7 +21,7 @@ export const _Nav = styled(Nav)`
 	width: 100%;
 	height: 100%;
 	z-index: 999;
-	${HiddenScroll}
+	${HideScroll}
 `;
 
 function searchTreeNode(node, name) {

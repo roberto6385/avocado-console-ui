@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {SAVE_EDITTEXT} from '../../../reducers/sftp';
 import styled from 'styled-components';
-import {FONT_14} from '../../../styles/length';
 
 const _Container = styled.div`
 	flex: 1;
@@ -21,7 +20,7 @@ const _Container = styled.div`
 		outline: none;
 		border: none;
 		width: 100%;
-		font-size: ${FONT_14};
+		font-size: 14px;
 		resize: none;
 	}
 `;

@@ -1,5 +1,4 @@
 import {Icon, HoverButton} from '../../styles/components/icon';
-import {activeColor, fontColor} from '../../styles/color';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import RightCornerIcons from './RightCornerIcons';
 import React, {useCallback, useState} from 'react';

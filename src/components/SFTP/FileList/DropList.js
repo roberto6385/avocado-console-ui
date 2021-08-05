@@ -9,9 +9,7 @@ import {
 	fileIcon,
 	folderOpenIcon,
 } from '../../../icons/icons';
-import {HEIGHT_48, WIDTH_220} from '../../../styles/length';
-
-import {HiddenScroll, PreventDragCopy} from '../../../styles/function';
+import {HideScroll, PreventDragCopy} from '../../../styles/function';
 import {HoverButton, Icon} from '../../../styles/components/icon';
 
 const _Container = styled.div`
@@ -45,7 +43,7 @@ const _ButtonContainer = styled(_ItemContainer)`
 
 const _Ul = styled.ul`
 	${PreventDragCopy}
-	${HiddenScroll}
+	${HideScroll}
 	height: 100%;
 	min-width: ${(props) => props.width};
 	flex: ${(props) => props.flex};
@@ -68,8 +66,8 @@ const _Li = styled.li`
 		(props.type === 'prev' &&
 			props.theme.pages.webTerminal.main.panels.sftp.files
 				.prevPathBackgroundColor)};
-	min-width: ${WIDTH_220};
-	height: ${HEIGHT_48};
+	min-width: 220px;
+	height: 48px;
 	white-space: nowrap;
 	padding: 0px;
 	display: flex;

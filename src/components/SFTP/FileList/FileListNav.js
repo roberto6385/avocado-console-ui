@@ -16,7 +16,6 @@ import {
 	viewColumnIcon,
 	viewListIcon,
 } from '../../../icons/icons';
-import {FONT_14, HEIGHT_34} from '../../../styles/length';
 import {HoverButton} from '../../../styles/components/icon';
 import {SearchInput} from '../../../styles/components/input';
 

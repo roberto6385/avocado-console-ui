@@ -10,7 +10,7 @@ import {HoverButton} from '../../styles/components/icon';
 const SFTPConvertButton = ({data}) => {
 	const dispatch = useDispatch();
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
-	const {server, identity, theme} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);

@@ -4,6 +4,7 @@ import Dropzone from '../Dropzone';
 import {useTranslation} from 'react-i18next';
 import {formatByteSizeString} from '../functions';
 import styled from 'styled-components';
+
 import {
 	arrowCircleDownIcon,
 	arrowCircleUpIcon,
@@ -14,7 +15,6 @@ import {
 	playCircleIcon,
 	removeCircleIcon,
 } from '../../../icons/icons';
-import {HEIGHT_48, HEIGHT_132} from '../../../styles/length';
 import {
 	historyDeleteColor,
 	historyDownloadColor,
@@ -37,7 +37,7 @@ const _Container = styled.div`
 `;
 
 const DropSpaceDiv = styled.div`
-	height: ${HEIGHT_132};
+	height: 132px;
 	margin: 8px;
 	border: 1px dashed;
 	border-color: ${(props) =>
@@ -61,7 +61,7 @@ const _Ul = styled.ul`
 const _Li = styled.li`
 	line-height: 0;
 	position: relative;
-	height: ${HEIGHT_48};
+	height: 48px;
 	display: flex;
 	align-items: center;
 	background: ${(props) =>

@@ -5,16 +5,13 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
-import {DropDownMenu} from "../../styles/components/contextMenu";
+import {DropDownMenu} from '../../styles/components/contextMenu';
 
 const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {theme, rightSideKey} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -36,11 +33,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<DropDownMenu
-			id={'setting'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<DropDownMenu id={'setting'} animation={animation.slide}>
 			<Item id='EditSetting' onClick={changePath('/account')}>
 				{t('editSetting')}
 			</Item>

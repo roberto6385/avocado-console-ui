@@ -13,10 +13,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 
-	const {theme, rightSideKey} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const openSideMenu = useCallback(
@@ -43,11 +40,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	}, [dispatch, userTicket]);
 
 	return (
-		<DropDownMenu
-			id={'account'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<DropDownMenu id={'account'} animation={animation.slide}>
 			<Item id='UserInfo' onClick={openSideMenu('Account')}>
 				{t('account')}
 			</Item>

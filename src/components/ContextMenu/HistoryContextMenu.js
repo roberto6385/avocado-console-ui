@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import {animation, Item, Menu} from 'react-contexify';
 import PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 
 const _Menu = styled(Menu)`
@@ -9,8 +8,6 @@ const _Menu = styled(Menu)`
 `;
 
 const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
-	const dispatch = useDispatch();
-
 	const contextDeleteHistory = useCallback(() => {
 		// for (let value of highlight) {
 		// 	dispatch({type: SFTP_DELETE_HISTORY, data: {id: value.id}});

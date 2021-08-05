@@ -1,12 +1,11 @@
 import React, {useCallback} from 'react';
 import {animation, Item} from 'react-contexify';
 import {CHANGE_NUMBER_OF_COLUMNS} from '../../reducers/common';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DropDownMenu} from "../../styles/components/contextMenu";
+import {useDispatch} from 'react-redux';
+import {DropDownMenu} from '../../styles/components/contextMenu';
 
 const ColumnContextMenu = () => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const changeColumn = useCallback(
 		(cols) => () => {
@@ -19,11 +18,7 @@ const ColumnContextMenu = () => {
 	);
 
 	return (
-		<DropDownMenu
-			id={'column'}
-			animation={animation.slide}
-			theme_value={theme}
-		>
+		<DropDownMenu id={'column'} animation={animation.slide}>
 			<Item id='NoColumn' onClick={changeColumn(1)}>
 				No Columns
 			</Item>
