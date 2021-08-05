@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
@@ -37,7 +37,7 @@ const _Section = styled.section`
 
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
-	const {theme, account} = useSelector((state) => state.common, shallowEqual);
+	const {account} = useSelector((state) => state.common, shallowEqual);
 
 	const [open, setOpen] = useState(false);
 	const [nameOpen, setNameOpen] = useState(false);
@@ -69,14 +69,11 @@ const AccountSpace = () => {
 	]);
 
 	return (
-		<SettingMainContainer theme_value={theme}>
-			<SettingTitle theme_value={theme}>
-				{t('title.account')}
-			</SettingTitle>
+		<SettingMainContainer>
+			<SettingTitle>{t('title.account')}</SettingTitle>
 			<SettingContentsContainer>
 				<TextBoxField_ title={t('account')}>
 					<_Input
-						theme_value={theme}
 						value={account.account}
 						placeholder={t('accountPlace')}
 						readOnly
@@ -85,7 +82,6 @@ const AccountSpace = () => {
 				<TextBoxField_ title={t('name')}>
 					<_Input
 						value={account.name}
-						theme_value={theme}
 						placeholder={t('namePlace')}
 						readOnly
 						onClick={() => setNameOpen(true)}
@@ -94,13 +90,12 @@ const AccountSpace = () => {
 				<TextBoxField_ title={t('email')}>
 					<_Input
 						value={account.email}
-						theme_value={theme}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
 				</TextBoxField_>
 			</SettingContentsContainer>
-			<SettingTitle theme_value={theme}>{t('title.auth')}</SettingTitle>
+			<SettingTitle>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>
 				<_Section>
 					<Select_
@@ -112,7 +107,6 @@ const AccountSpace = () => {
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
-							theme_value={theme}
 							onClick={() => setOpen(true)}
 							// disabled
 						>

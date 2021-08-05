@@ -99,7 +99,7 @@ const PreferencesAside = () => {
 
 	return (
 		<_Container>
-			<_Title theme_value={theme}>{t('general')}</_Title>
+			<_Title>{t('general')}</_Title>
 			<_ContentsContainer>
 				<Select_
 					width={'266px'}
@@ -119,7 +119,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentsContainer>
 
-			<_Title theme_value={theme}>{t('terminal')}</_Title>
+			<_Title>{t('terminal')}</_Title>
 			<_ContentsContainer>
 				<Select_
 					width={'266px'}
@@ -145,7 +145,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentsContainer>
 
-			<_Title theme_value={theme}>{t('sftp')}</_Title>
+			<_Title>{t('sftp')}</_Title>
 			<_ContentsContainer>
 				<Select_
 					title={t('editorTheme')}

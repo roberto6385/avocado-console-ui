@@ -114,7 +114,7 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 			<ModalHeader theme_value={theme}>
 				<div>{t('title')}</div>
 				<IconButton
-					theme_value={theme}
+					btype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}

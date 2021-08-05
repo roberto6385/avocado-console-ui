@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
@@ -14,7 +14,6 @@ import {
 	OPEN_SAVE_POPUP,
 } from '../../reducers/popup';
 import {closeIcon} from '../../icons/icons';
-import {borderColor, fontColor} from '../../styles/color';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
 import {IconButton} from '../../styles/components/icon';
@@ -37,10 +36,9 @@ const _Form = styled(Form)`
 const ListContainer = styled.div`
 	width: 100%;
 	height: 100%;
-
-	border: 1px solid;
-	border-radius: 4px;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-radius: 4px
+	border: 1px solid ${(props) =>
+		props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 `;
 
 const _ModalFooter = styled(ModalFooter)`
@@ -51,7 +49,7 @@ const AddFavoritesDialog = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
-	const {tempFavorites, favorites, theme} = useSelector(
+	const {tempFavorites, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -124,12 +122,11 @@ const AddFavoritesDialog = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('title')}</div>
 				<IconButton
-					theme_value={theme}
+					btype={'font'}
 					onClick={closeModal}
 					size={'20px'}
 					margin={'0px'}
@@ -139,11 +136,11 @@ const AddFavoritesDialog = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={onSubmitForm}>
-				<ListContainer theme_value={theme}>
+				<ListContainer>
 					<FavoriteTempList search={search} />
 				</ListContainer>
 			</_Form>
-			<_ModalFooter theme_value={theme}>
+			<_ModalFooter>
 				<TransparentButton onClick={newFolder}>
 					{t('newFolder')}
 				</TransparentButton>

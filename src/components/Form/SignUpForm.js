@@ -39,7 +39,6 @@ const SignUpForm = () => {
 
 	const {user} = useSelector((state) => state.create, shallowEqual);
 	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	const [id, onChangeId, setId] = useInput('apple');
 	const [name, onChangeName, setName] = useInput('사과');

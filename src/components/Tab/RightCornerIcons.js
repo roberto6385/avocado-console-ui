@@ -96,35 +96,19 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 
 	return (
 		<_Container>
-			<HoverButton
-				theme_value={theme}
-				ref={accountRef}
-				onClick={openAccountMenu}
-			>
+			<HoverButton ref={accountRef} onClick={openAccountMenu}>
 				{accountIcon}
 			</HoverButton>
-			<HoverButton
-				theme_value={theme}
-				ref={settingRef}
-				onClick={openSettingMenu}
-			>
+			<HoverButton ref={settingRef} onClick={openSettingMenu}>
 				{settingIcon}
 			</HoverButton>
 
-			<HoverButton
-				theme_value={theme}
-				ref={notificationRef}
-				onClick={openNotificationMenu}
-			>
+			<HoverButton ref={notificationRef} onClick={openNotificationMenu}>
 				{notificationIcon}
 			</HoverButton>
 
 			{tab.length !== 0 && (
-				<HoverButton
-					theme_value={theme}
-					ref={columnRef}
-					onClick={openColumnMenu}
-				>
+				<HoverButton ref={columnRef} onClick={openColumnMenu}>
 					{windowIcon}
 				</HoverButton>
 			)}

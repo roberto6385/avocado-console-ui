@@ -39,7 +39,7 @@ const AccountAside = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const {theme, account} = useSelector((state) => state.common, shallowEqual);
+	const {account} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -63,7 +63,6 @@ const AccountAside = () => {
 		<_Container>
 			<TextBoxField_ title={t('account')}>
 				<_Input
-					theme_value={theme}
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
@@ -71,7 +70,6 @@ const AccountAside = () => {
 			</TextBoxField_>
 			<TextBoxField_ title={t('name')}>
 				<_Input
-					theme_value={theme}
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
@@ -79,7 +77,6 @@ const AccountAside = () => {
 			</TextBoxField_>
 			<TextBoxField_ title={t('email')}>
 				<_Input
-					theme_value={theme}
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly

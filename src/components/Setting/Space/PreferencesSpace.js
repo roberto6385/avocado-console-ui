@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -84,8 +84,8 @@ const PreferencesSpace = () => {
 	}, [language, dispatch, i18n, lang]);
 
 	return (
-		<SettingMainContainer theme_value={theme}>
-			<SettingTitle theme_value={theme}>{t('general')}</SettingTitle>
+		<SettingMainContainer>
+			<SettingTitle>{t('general')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
@@ -103,7 +103,7 @@ const PreferencesSpace = () => {
 				/>
 			</SettingContentsContainer>
 
-			<SettingTitle theme_value={theme}>{t('terminal')}</SettingTitle>
+			<SettingTitle>{t('terminal')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}
@@ -133,7 +133,7 @@ const PreferencesSpace = () => {
 				{/*/>*/}
 			</SettingContentsContainer>
 
-			<SettingTitle theme_value={theme}>{t('sftp')}</SettingTitle>
+			<SettingTitle>{t('sftp')}</SettingTitle>
 			<SettingContentsContainer>
 				<Select_
 					width={'500px'}

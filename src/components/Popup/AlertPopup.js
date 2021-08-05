@@ -27,7 +27,6 @@ const AlertPopup = () => {
 	const {t} = useTranslation('alertPopup');
 	const dispatch = useDispatch();
 
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {alert_popup} = useSelector((state) => state.popup, shallowEqual);
 
 	const AlertMessage = {
@@ -52,12 +51,11 @@ const AlertPopup = () => {
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('alert')}</div>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCloseModal}
@@ -70,11 +68,11 @@ const AlertPopup = () => {
 				{alert_popup.key === 'developing' ||
 				alert_popup.key === 'wrong_path' ||
 				alert_popup.key === 'invalid_server' ? (
-					<Icon margin_right='6px' color={'#D55959'}>
+					<Icon margin_right='6px' itype={'warning'}>
 						{cancelFillIcon}
 					</Icon>
 				) : (
-					<Icon margin_right='6px' color={'#178082'}>
+					<Icon margin_right='6px' itype={'confirm'}>
 						{alertFillIcon}
 					</Icon>
 				)}
@@ -82,11 +80,8 @@ const AlertPopup = () => {
 				<AlertText>{AlertMessage[alert_popup.key]}</AlertText>
 			</ModalMessage>
 
-			<ModalFooter theme_value={theme}>
-				<TransparentButton
-					theme_value={theme}
-					onClick={onClickCloseModal}
-				>
+			<ModalFooter>
+				<TransparentButton onClick={onClickCloseModal}>
 					{t('cancel')}
 				</TransparentButton>
 				{alert_popup.key === 'developing' ||

@@ -371,7 +371,6 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			<_Terminal id={`terminal_${uuid}`} />
 			<_ListGroup
 				id={`auto_complete_list_${uuid}`}
-				theme_value={theme}
 				left={
 					width -
 						Number(
@@ -460,25 +459,19 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				{historyList.map((v, i) => (
 					<_ListGroupItem
 						selected={i === selectedHistory ? 1 : 0}
-						theme_value={theme}
 						onClick={onClickCommandHistory(v)}
 						key={i}
 					>
 						{v}
 					</_ListGroupItem>
 				))}
-				<_AutoCompletionListFooter theme_value={theme}>
+				<_AutoCompletionListFooter>
 					{t('autoCompletionFooter')}
 				</_AutoCompletionListFooter>
 			</_ListGroup>
 
-			<_SearchContainer theme_value={theme} id={`ssh_search_${uuid}`}>
-				<Icon
-					size={'xs'}
-					theme_value={theme}
-					margin_right={'5px'}
-					onClick={onClickUpArrow}
-				>
+			<_SearchContainer id={`ssh_search_${uuid}`}>
+				<Icon size={'xs'} margin_right={'5px'} onClick={onClickUpArrow}>
 					{searchIcon}
 				</Icon>
 				<_SearchInput
@@ -489,19 +482,11 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					type='text'
 					ref={searchRef}
 				/>
-				<HoverButton
-					size={'sm'}
-					type='button'
-					theme_value={theme}
-					margin='8px'
-					onClick={onClickUpArrow}
-				>
+				<HoverButton size={'sm'} margin='8px' onClick={onClickUpArrow}>
 					{arrowDropUpIcon}
 				</HoverButton>
 				<HoverButton
 					size={'sm'}
-					type='button'
-					theme_value={theme}
 					margin_right='8px'
 					onClick={onClickDownrrow}
 				>
@@ -509,8 +494,6 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				</HoverButton>
 				<HoverButton
 					size={'sm'}
-					type='button'
-					theme_value={theme}
 					margin='11px'
 					onClick={onClickOpenSearchBar}
 				>

@@ -29,29 +29,19 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('asideContainer');
-	const {rightSideKey, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
 
 	const closeAside = useCallback(() => {
 		setToggle(false);
 	}, [setToggle]);
 
 	return (
-		<_Container
-			className={toggle ? 'aside' : 'aside close'}
-			theme_value={theme}
-		>
-			<_SettingTitle theme_value={theme}>
+		<_Container className={toggle ? 'aside' : 'aside close'}>
+			<_SettingTitle>
 				{rightSideKey === 'Account' && t('account')}
 				{rightSideKey === 'Preferences' && t('preferences')}
 				{rightSideKey === 'Identities' && t('identities')}
-				<IconButton
-					theme_value={theme}
-					margin={'0px'}
-					onClick={closeAside}
-				>
+				<IconButton itype={'font'} margin={'0px'} onClick={closeAside}>
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>

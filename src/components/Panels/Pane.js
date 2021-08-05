@@ -75,7 +75,6 @@ const Pane = ({uuid, type, server}) => {
 	const {
 		tab,
 		current_tab,
-		theme,
 		identity,
 		server: commonServer,
 	} = useSelector((state) => state.common, shallowEqual);
@@ -200,7 +199,7 @@ const Pane = ({uuid, type, server}) => {
 							<Icon
 								size={'xs'}
 								margin_right={'6px'}
-								color={fontColor[theme]}
+								itype={'font'}
 							>
 								{sshIcon}
 							</Icon>
@@ -209,7 +208,7 @@ const Pane = ({uuid, type, server}) => {
 							<Icon
 								size={'xs'}
 								margin_right={'6px'}
-								color={fontColor[theme]}
+								itype={'font'}
 							>
 								{sftpIcon}
 							</Icon>
@@ -217,7 +216,6 @@ const Pane = ({uuid, type, server}) => {
 						{server.name}
 					</_HeaderText>
 					<HoverButton
-						theme_value={theme}
 						size={'micro'}
 						margin='0px'
 						onClick={onClickDelete}

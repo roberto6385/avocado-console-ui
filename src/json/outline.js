@@ -77,6 +77,18 @@ export const themeValues = {
 									font: {color: '#212121'},
 								},
 							},
+							snippetsManager: {
+								list: {
+									normalStyle: {
+										backgroundColor: '#f8f9fa',
+										border: {color: '#f8f9fa'},
+									},
+									selectedStyle: {
+										backgroundColor: '#ffffff',
+										border: {color: '#178082'},
+									},
+								},
+							},
 						},
 						sftp: {
 							backgroundColor: '#ffffff',
@@ -214,7 +226,6 @@ export const themeValues = {
 					},
 
 					navigation: {
-						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
 						border: {color: '#e3e5e5'},
 						items: {
@@ -276,6 +287,9 @@ export const themeValues = {
 
 				textBoxs: {
 					placeholder: {
+						color: '#757575',
+					},
+					icon: {
 						color: '#757575',
 					},
 					normalStyle: {
@@ -424,7 +438,6 @@ export const themeValues = {
 				},
 				dialogBoxs: {
 					normalStyle: {
-						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
 						border: {color: '#e3e5e5'},
 						boxShadow: {
@@ -432,10 +445,6 @@ export const themeValues = {
 						},
 						subBlock: {
 							backgroundColor: '#f8f9fa',
-							selected: {
-								backgroundColor: '#ffffff',
-								border: {color: '#178082'},
-							},
 						},
 					},
 				},
@@ -639,6 +648,18 @@ export const themeValues = {
 									},
 								},
 							},
+							snippetsManager: {
+								list: {
+									normalStyle: {
+										backgroundColor: '#1e364c',
+										border: {color: '#1e364c'},
+									},
+									selectedStyle: {
+										backgroundColor: 'rgba(0, 0, 0, 0.22)',
+										border: {color: '#44c8c0'},
+									},
+								},
+							},
 						},
 						sftp: {
 							backgroundColor: '#1b2935',
@@ -800,7 +821,6 @@ export const themeValues = {
 					},
 
 					navigation: {
-						font: {color: 'rgba(255,255,255,0.87)'},
 						backgroundColor: '#1e364c',
 						border: {
 							color: 'rgba(0, 0, 0, 0.3)',
@@ -867,6 +887,9 @@ export const themeValues = {
 
 				textBoxs: {
 					placeholder: {
+						color: '#757575',
+					},
+					icon: {
 						color: '#757575',
 					},
 					normalStyle: {

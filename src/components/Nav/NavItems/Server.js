@@ -208,11 +208,7 @@ const Server = ({data, indent}) => {
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					color={
-						clicked_server === data.key
-							? activeColor[theme]
-							: iconColor[theme]
-					}
+					itype={clicked_server === data.key && 'selected'}
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
@@ -244,15 +240,10 @@ const Server = ({data, indent}) => {
 						}
 						size={'sm'}
 						margin_right={'0px'}
-						theme_value={theme}
 						onClick={handleBookmark(
 							startSearchTree(favorites, data),
 						)}
-						color={
-							startSearchTree(favorites, data)
-								? activeColor[theme]
-								: iconColor[theme]
-						}
+						color={startSearchTree(favorites, data) && 'selected'}
 					>
 						{bookmarkIcon}
 					</IconButton>

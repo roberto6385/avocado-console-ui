@@ -8,14 +8,7 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import {
-	borderColor,
-	fontColor,
-	identityForm,
-	accountHigh,
-	identitySearchInput,
-	identityHigh,
-} from '../../../styles/color';
+import {fontColor, identitySearchInput} from '../../../styles/color';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {Icon} from '../../../styles/components/icon';
 import {
@@ -36,9 +29,13 @@ const _Span = styled.span`
 const _Ul = styled.ul`
 	background: white;
 	flex: 1;
-	color: ${(props) => fontColor[props.theme_value]};
-	border: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => identityForm[props.theme_value]};
+	border: 1px solid;
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.setting.content.identitiesPageStyle.items
+			.normalStyle.border.color};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.setting.content.identitiesPageStyle.items
+			.normalStyle.backgroundColor};
 `;
 const _ResourceListUl = styled(_Ul)`
 	margin-right: 16px;
@@ -50,11 +47,16 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-bottom: 1px solid;
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.setting.content.identitiesPageStyle.items
+			.normalStyle.border.color};
 	background: ${(props) =>
-		props.clicked
-			? accountHigh[props.theme_value]
-			: identityForm[props.theme_value]};
+		props.selected
+			? props.theme.pages.webTerminal.setting.content.identitiesPageStyle
+					.items.normalStyle.accountTableSelectedStyle.backgroundColor
+			: props.theme.pages.webTerminal.setting.content.identitiesPageStyle
+					.items.normalStyle.backgroundColor};
 	letter-spacing: 0.13px;
 	.pretty.p-svg.p-curve {
 		z-index: 0;
@@ -79,9 +81,12 @@ const _Li = styled.li`
 const _ResourceLi = styled(_Li)`
 	cursor: pointer;
 	background: ${(props) =>
-		props.clicked
-			? identityHigh[props.theme_value]
-			: identityForm[props.theme_value]};
+		props.selected
+			? props.theme.pages.webTerminal.setting.content.identitiesPageStyle
+					.items.normalStyle.resourceTableSelectedStyle
+					.backgroundColor
+			: props.theme.pages.webTerminal.setting.content.identitiesPageStyle
+					.items.normalStyle.backgroundColor};
 `;
 
 const _Name = styled.div`
@@ -167,7 +172,7 @@ function StartSearchTree(root, key) {
 
 const IdentitiesSpace = () => {
 	const {t} = useTranslation('identitiesSpace');
-	const {identity, server, currentResourceListKey, nav, theme} = useSelector(
+	const {identity, server, currentResourceListKey, nav} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -239,23 +244,19 @@ const IdentitiesSpace = () => {
 	}, [dispatch, server]);
 
 	return (
-		<SettingMainContainer theme_value={theme}>
-			<SettingTitle theme_value={theme}>{t('title')}</SettingTitle>
+		<SettingMainContainer>
+			<SettingTitle>{t('title')}</SettingTitle>
 			<_SettingContentsContainer>
-				<_ResourceListUl theme_value={theme}>
-					<_LiHeader theme_value={theme} className={'weight_bold'}>
+				<_ResourceListUl>
+					<_LiHeader className={'weight_bold'}>
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Search theme_value={theme}>
-							<Icon
-								size={'xs'}
-								margin_right={'6px'}
-								theme_value={theme}
-							>
+						<_Search>
+							<Icon size={'xs'} margin_right={'6px'}>
 								{searchIcon}
 							</Icon>
 							<_Input
@@ -263,11 +264,10 @@ const IdentitiesSpace = () => {
 								value={resourceSearch}
 								type='text'
 								placeholder={t('search')}
-								theme_value={theme}
 							/>
 						</_Search>
 					</_LiHeader>
-					<_Li theme_value={theme} className={'weight_bold'}>
+					<_Li className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
 						<_AddressName>{t('address')}</_AddressName>
 						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
@@ -286,10 +286,9 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_ResourceLi
-									theme_value={theme}
 									key={item.id}
 									onClick={selectResourceList(item)}
-									clicked={
+									selected={
 										item.key === currentResourceListKey
 									}
 								>
@@ -308,8 +307,8 @@ const IdentitiesSpace = () => {
 							);
 					})}
 				</_ResourceListUl>
-				<_Ul theme_value={theme}>
-					<_LiHeader theme_value={theme} className={'weight_bold'}>
+				<_Ul>
+					<_LiHeader className={'weight_bold'}>
 						<_Name>
 							{t('account')}
 							<_Span>
@@ -325,12 +324,8 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Search theme_value={theme}>
-							<Icon
-								size={'xs'}
-								margin_right={'6px'}
-								theme_value={theme}
-							>
+						<_Search>
+							<Icon size={'xs'} margin_right={'6px'}>
 								{searchIcon}
 							</Icon>
 							<_Input
@@ -338,12 +333,10 @@ const IdentitiesSpace = () => {
 								value={identitySearch}
 								type='text'
 								placeholder={t('search')}
-								theme_value={theme}
 							/>
 						</_Search>
 					</_LiHeader>
 					<_Li
-						theme_value={theme}
 						className={'weight_bold'}
 						// onContextMenu={contextMenuOpen(-1)}
 					>
@@ -368,9 +361,8 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_Li
-									theme_value={theme}
 									key={item.id}
-									clicked={item.checked}
+									selected={item.checked}
 									onClick={onClickCheck(item)}
 								>
 									<_Name>{item.identityName}</_Name>

@@ -201,7 +201,6 @@ const PasswordForm = () => {
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
-						type='button'
 						color={'#757575'}
 						onClick={typeChange}
 					>

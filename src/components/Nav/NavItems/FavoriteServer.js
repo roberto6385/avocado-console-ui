@@ -159,11 +159,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					color={
-						clicked_server === data.key
-							? activeColor[theme]
-							: iconColor[theme]
-					}
+					itype={clicked_server === data.key && 'selected'}
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}

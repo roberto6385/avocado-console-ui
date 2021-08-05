@@ -49,7 +49,7 @@ const IdentitiesAside = () => {
 	const history = useHistory();
 	const {t} = useTranslation('identitiesAside');
 
-	const {identity, theme, current_tab, tab} = useSelector(
+	const {identity, current_tab, tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -90,7 +90,7 @@ const IdentitiesAside = () => {
 	return (
 		<_Container>
 			<ul>
-				<_Li theme_value={theme}>
+				<_Li>
 					<_AccountContainer>{t('account')}</_AccountContainer>
 					<_AuthenticationContainer>
 						{t('auth')}
@@ -100,7 +100,7 @@ const IdentitiesAside = () => {
 				{identity.map((item) => {
 					if (item.key === currentKey) {
 						return (
-							<_Li key={item.id} theme_value={theme}>
+							<_Li key={item.id}>
 								<_AccountContainer>
 									{item.identityName}
 								</_AccountContainer>
@@ -119,10 +119,7 @@ const IdentitiesAside = () => {
 					}
 				})}
 			</ul>
-			<_PrimaryGreenButton
-				theme_value={theme}
-				onClick={changePath('/identities')}
-			>
+			<_PrimaryGreenButton onClick={changePath('/identities')}>
 				{t('editMore')}
 			</_PrimaryGreenButton>
 		</_Container>

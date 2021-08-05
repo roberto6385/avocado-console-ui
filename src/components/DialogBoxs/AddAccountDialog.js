@@ -69,10 +69,9 @@ const _Label = styled.label`
 	height: '34px'
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
+	border: 1px solid ${(props) =>
+		props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 	background: ${(props) => props.back};
-	color: ${(props) => props.color};
 	margin: 0;
 	cursor: pointer;
 `;
@@ -81,7 +80,7 @@ const _Form = styled.form`
 	display: flex;
 	width: 100%;
 	flex-direction: column;
-	font-size: ${FONT_14};
+	font-size: 14px;
 	margin: 18px 8px 12px 8px;
 `;
 
@@ -188,12 +187,11 @@ const AddAccountDialog = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('addAccount')}</div>
 				<IconButton
-					theme_value={theme}
+					btype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
@@ -319,9 +317,8 @@ const AddAccountDialog = () => {
 					</TextBoxField_>
 				</_Item>
 			</_Form>
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton
-					theme_value={theme}
 					onClick={closeModal}
 					color={fontColor[theme]}
 				>

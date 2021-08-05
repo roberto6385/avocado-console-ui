@@ -20,11 +20,6 @@ import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import Select_ from '../RecycleComponents/Select_';
 import {closeIcon} from '../../icons/icons';
 import {
-	borderColor,
-	fontColor,
-	greyNormalButtonBackgroundColor,
-} from '../../styles/color';
-import {
 	NormalButton,
 	TransparentButton,
 	NormalBorderButton,
@@ -53,10 +48,9 @@ const _SecondaryGreenButton = styled(NormalBorderButton)`
 
 const _FileInput = styled.input`
 	display: none;
-	border: 1px solid;
-	border-color: ${(props) => props?.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+	border: 1px solid
+		${(props) =>
+			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 `;
 
 const _InputFiled = styled(TextBoxField_)`
@@ -68,10 +62,8 @@ const _Label = styled.label`
 	height: '34px'
 	padding: 6px 10px;
 	border-radius: 4px;
-	border: 1px solid;
-	border-color: ${(props) => props.b_color};
-	background: ${(props) => props.back};
-	color: ${(props) => props.color};
+	border: 1px solid 	${(props) =>
+		props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 	margin: 0;
 	cursor: pointer;
 `;
@@ -381,7 +373,7 @@ const AddServerDialog = () => {
 				<div>{t('addServer')}</div>
 				<IconButton
 					onClick={onClickCloseDialog}
-					theme_value={theme}
+					btype={'font'}
 					size={'20px'}
 					margin={'0px'}
 				>
@@ -487,14 +479,7 @@ const AddServerDialog = () => {
 					<React.Fragment>
 						<_ItemContainer>
 							<TextBoxField_ title={t('private')} flex={1}>
-								<_Label
-									htmlFor={'add_server_form_type_file'}
-									back={
-										greyNormalButtonBackgroundColor[theme]
-									}
-									color={fontColor[theme]}
-									b_color={borderColor[theme]}
-								>
+								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<_FileInput
 										type='file'

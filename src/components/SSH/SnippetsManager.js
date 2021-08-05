@@ -16,11 +16,7 @@ import {
 	borderColor,
 	fontColor,
 	inputFocusBoaderColor,
-	mainBackColor,
 	settingInput,
-	snippetsBoarderColor,
-	snippetsCLickedListColor,
-	snippetsListColor,
 } from '../../styles/color';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
@@ -65,8 +61,12 @@ const _Header = styled.div`
 const _Ul = styled.ul`
 	width: 193px;
 	height: 416px;
-	border-right: 1px solid ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => snippetsListColor[props.theme_value]};
+	border-right: 1px solid
+		${(props) =>
+			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
+	background: ${(props) =>
+		props.theme.basic.pages.dialogBoxs.normalStyle.subBlock
+			.backgroundColor};
 	overflow: scroll;
 `;
 
@@ -81,13 +81,17 @@ const _Li = styled.li`
 	padding: 1px 16px 3px 14px;
 	background: ${(props) =>
 		props.selected
-			? snippetsCLickedListColor[props.theme_value]
-			: snippetsListColor[props.theme_value]};
+			? props.theme.pages.webTerminal.main.panels.ssh.snippetsManager.list
+					.selectedStyle.backgroundColor
+			: props.theme.pages.webTerminal.main.panels.ssh.snippetsManager.list
+					.normalStyle.backgroundColor};
 	border-left: 2px solid
 		${(props) =>
 			props.selected
-				? snippetsBoarderColor[props.theme_value]
-				: snippetsListColor[props.theme_value]};
+				? props.theme.pages.webTerminal.main.panels.ssh.snippetsManager
+						.list.selectedStyle.border.color
+				: props.theme.pages.webTerminal.main.panels.ssh.snippetsManager
+						.list.normalStyle.border.color};
 `;
 
 const _HeaderLi = styled(_Li)`
@@ -287,12 +291,11 @@ const SnippetsManager = ({open, setOpen}) => {
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('snippetsManager')}</div>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCancel}
@@ -301,12 +304,11 @@ const SnippetsManager = ({open, setOpen}) => {
 				</IconButton>
 			</ModalHeader>
 			<_ListContainer>
-				<_Ul theme_value={theme} back={mainBackColor[theme]}>
+				<_Ul>
 					<_HeaderLi>
 						<_Header>{t('snippetList')}</_Header>
 						<HoverButton
 							size={'sm'}
-							theme_value={theme}
 							margin={'8px'}
 							onClick={onClickAddSnippet}
 						>
@@ -314,7 +316,6 @@ const SnippetsManager = ({open, setOpen}) => {
 						</HoverButton>
 						<HoverButton
 							size={'sm'}
-							theme_value={theme}
 							margin={'0px'}
 							onClick={onClickRemoveSnippet}
 						>
@@ -326,7 +327,6 @@ const SnippetsManager = ({open, setOpen}) => {
 						<_Li
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
-							theme_value={theme}
 							selected={selectedSnippet === v.id ? 1 : 0}
 						>
 							{v.name === '' ? t('new') : v.name}
@@ -342,7 +342,6 @@ const SnippetsManager = ({open, setOpen}) => {
 							onChange={onChangeName}
 							type='text'
 							placeholder={t('place.name')}
-							theme_value={theme}
 						/>
 					</TextBoxField_>
 					<TextBoxField_ title={t('content')}>
@@ -351,12 +350,11 @@ const SnippetsManager = ({open, setOpen}) => {
 							onChange={onChangeContent}
 							type='text'
 							placeholder={t('place.content')}
-							theme_value={theme}
 						/>
 					</TextBoxField_>
 				</_Form>
 			</_ListContainer>
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={onClickCancel}>
 					{t('cancel')}
 				</TransparentButton>

@@ -270,13 +270,12 @@ const FileStateDialog = () => {
 				onRequestClose={closeModal}
 				ariaHideApp={false}
 				shouldCloseOnOverlayClick={false}
-				theme_value={theme}
 			>
-				<ModalHeader theme_value={theme}>
+				<ModalHeader>
 					{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
 					<div>권한</div>
 					<IconButton
-						theme_value={theme}
+						btype={'font'}
 						size={'sm'}
 						margin={'0px'}
 						onClick={closeModal}
@@ -374,7 +373,7 @@ const FileStateDialog = () => {
 					</TextBoxField_>
 				</_Form>
 
-				<ModalFooter theme_value={theme}>
+				<ModalFooter>
 					<TransparentButton onClick={closeModal}>
 						취소
 					</TransparentButton>

@@ -13,11 +13,10 @@ import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
-import {activeColor, iconColor} from '../../../styles/color';
 import styled from 'styled-components';
 import FavoriteServer from './FavoriteServer';
 import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
-import {HoverButton, Icon} from '../../../styles/components/icon';
+import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarInput,
 	NavigationBarTitle,
@@ -46,7 +45,6 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 	const dispatch = useDispatch();
 	const {
 		clicked_server,
-		theme,
 		createdFolderInfo,
 		tempFavorites,
 		favoritesRenameKey,
@@ -215,17 +213,12 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
-					theme_value={theme}
-					color={
-						clicked_server === data.key
-							? activeColor[theme]
-							: iconColor[theme]
-					}
+					itype={clicked_server === data.key && 'selected'}
 				>
 					{folderIcon}
 				</Icon>
 
-				<NavigationBarTitle theme_value={theme}>
+				<NavigationBarTitle>
 					{openRename ? (
 						<_Input
 							ref={renameRef}
@@ -234,21 +227,18 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 							onChange={onChangeRenameValue}
 							onKeyDown={handleKeyDown}
 							onBlur={handleBlur}
-							theme_value={theme}
 						/>
 					) : (
 						data.name
 					)}
 				</NavigationBarTitle>
-				<HoverButton
-					type={'button'}
-					theme_value={theme}
+				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
 					onClick={onClickOpen}
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
-				</HoverButton>
+				</IconButton>
 			</NavigationItems>
 			{data.contain.length !== 0 && (
 				<Collapse_ open={openTab}>

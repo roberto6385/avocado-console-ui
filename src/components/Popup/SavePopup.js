@@ -7,7 +7,7 @@ import {
 } from '../../reducers/popup';
 import styled from 'styled-components';
 
-import {alertFillIcon, closeIcon} from '../../icons/icons';
+import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
 
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 
@@ -48,7 +48,7 @@ const SavePopup = () => {
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {theme, tab, server, identity} = useSelector(
+	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -227,12 +227,11 @@ const SavePopup = () => {
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('alert')}</div>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={closeModal}
@@ -241,14 +240,14 @@ const SavePopup = () => {
 				</IconButton>
 			</ModalHeader>
 
-			<ModalMessage theme_value={theme}>
-				<Icon margin_right='6px' color={'#178082'}>
+			<ModalMessage>
+				<Icon margin_right='6px' itype={'warning'}>
 					{alertFillIcon}
 				</Icon>
 				<AlertText>{SaveMessage[save_popup.key]}</AlertText>
 			</ModalMessage>
 
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>

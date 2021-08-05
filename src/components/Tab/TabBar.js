@@ -157,10 +157,10 @@ const TabBar = ({toggle, setToggle}) => {
 								<Icon
 									margin_right={'6px'}
 									size={'xs'}
-									color={
+									itype={
 										current_tab === data.uuid
-											? activeColor[theme]
-											: fontColor[theme]
+											? 'selected'
+											: 'font'
 									}
 								>
 									{data.type === 'SSH' && sshIcon}
@@ -174,7 +174,6 @@ const TabBar = ({toggle, setToggle}) => {
 								<HoverButton
 									size={'xs'}
 									margin={'0px 0px 0px 6px'}
-									theme_value={theme}
 									onClick={onClickCloseTab(data)}
 								>
 									{closeIcon}

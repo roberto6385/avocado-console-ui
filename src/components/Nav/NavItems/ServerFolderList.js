@@ -62,7 +62,7 @@ function startSearchTree(root, name) {
 
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
-	const {nav, theme} = useSelector((state) => state.common, shallowEqual);
+	const {nav} = useSelector((state) => state.common, shallowEqual);
 	const [filteredNavList, setFilteredNavList] = useState(nav);
 
 	const dropNavList = useCallback(() => {

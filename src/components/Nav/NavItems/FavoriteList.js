@@ -19,7 +19,6 @@ export const _Nav = styled(Nav)`
 	min-height: 0;
 	flex: 1 1 0;
 	overflow-y: scroll;
-	background: ${(props) => navColor[props.theme_value]};
 	width: 100%;
 	height: 100%;
 	z-index: 999;
@@ -67,10 +66,7 @@ function searchTreeStart(root, name) {
 
 const FavoriteList = ({search}) => {
 	const dispatch = useDispatch();
-	const {favorites, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {favorites} = useSelector((state) => state.common, shallowEqual);
 	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
 
 	const dropNavList = useCallback(() => {
@@ -95,7 +91,7 @@ const FavoriteList = ({search}) => {
 	}, [favorites, search]);
 
 	return (
-		<_Nav onDrop={dropNavList} theme_value={theme} id='sortableServerNav'>
+		<_Nav onDrop={dropNavList} id='sortableServerNav'>
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
 					<FavoriteFolder

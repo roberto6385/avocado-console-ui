@@ -39,7 +39,6 @@ const WarningAlertPopup = () => {
 	const {t} = useTranslation('warningAlertPopup');
 
 	const {
-		theme,
 		server,
 		tab,
 		identity,
@@ -212,12 +211,11 @@ const WarningAlertPopup = () => {
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{t('alert')}</div>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={cancelFunction}
@@ -226,14 +224,14 @@ const WarningAlertPopup = () => {
 				</IconButton>
 			</ModalHeader>
 
-			<ModalMessage theme_value={theme}>
-				<Icon margin_right='6px' color={'#D55959'}>
+			<ModalMessage>
+				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
 				<AlertText>{AlertMessage[warning_alert_popup.key]}</AlertText>
 			</ModalMessage>
 
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={cancelFunction}>
 					{t('cancel')}
 				</TransparentButton>

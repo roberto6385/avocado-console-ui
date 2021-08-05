@@ -16,16 +16,16 @@ import {
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
-import {IconButton} from "../../styles/components/icon";
+import {IconButton} from '../../styles/components/icon';
 import {
-    UserForm,
-    UserInput,
-    UserPasswordContainer,
-    UserPasswordInput,
-    UserSubmitButton,
-    UserTitle,
-    UserTitleSpan
-} from "../../styles/components/siginIn";
+	UserForm,
+	UserInput,
+	UserPasswordContainer,
+	UserPasswordInput,
+	UserSubmitButton,
+	UserTitle,
+	UserTitleSpan,
+} from '../../styles/components/siginIn';
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -52,7 +52,6 @@ const _CheckboxAnchorContainer = styled.div`
 `;
 
 const _Or = styled.div`
-	// color: #757575;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -203,7 +202,6 @@ const SignInForm = () => {
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
-						type='button'
 						color={'#757575'}
 						onClick={typeChange}
 					>

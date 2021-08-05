@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {fontColor, iconColor, iconHoverColor} from '../color';
 
 export const Icon = styled.div`
 	background: transparent;
@@ -18,7 +17,21 @@ export const Icon = styled.div`
 				? '16px'
 				: props.size
 			: '24px'};
-	color: ${(props) => props?.color || iconColor[props.theme_value]};
+	color: ${(props) =>
+		props?.color || props?.itype === 'confirm'
+			? props.theme.basic.pages.icons.dynamicIcons.normal.confirmStyle
+					.font.color
+			: props?.itype === 'warning'
+			? props.theme.basic.pages.icons.dynamicIcons.normal.warningStyle
+					.font.color
+			: props?.itype === 'font'
+			? props.theme.basic.pages.icons.dynamicIcons.normal.fontColorStyle
+					.font.color
+			: props?.itype === 'selected'
+			? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
+			: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle.font
+					.color};
+};
 
 	span {
 		//if icon is span, font-size does not apply
@@ -35,7 +48,20 @@ export const Icon = styled.div`
 	}
 
 	svg {
-		fill: ${(props) => props?.color || iconColor[props.theme_value]};
+		fill: ${(props) =>
+			props?.color || props?.itype === 'confirm'
+				? props.theme.basic.pages.icons.dynamicIcons.normal.confirmStyle
+						.font.color
+				: props?.itype === 'warning'
+				? props.theme.basic.pages.icons.dynamicIcons.normal.warningStyle
+						.font.color
+				: props?.itype === 'font'
+				? props.theme.basic.pages.icons.dynamicIcons.normal
+						.fontColorStyle.font.color
+				: props?.itype === 'selected'
+				? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
+				: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle
+						.font.color};
 		width: ${(props) =>
 			props?.size
 				? props.size === 'sm'
@@ -61,27 +87,18 @@ export const Icon = styled.div`
 
 export const IconButton = styled(Icon)`
 	cursor: pointer;
-	color: ${(props) => props?.color || fontColor[props.theme_value]};
-
-	svg {
-		fill: ${(props) => props?.color || fontColor[props.theme_value]};
-	}
 `;
 
-export const HoverButton = styled(IconButton)`
-	color: ${(props) => props?.color || iconColor[props.theme_value]};
-
-	svg {
-		fill: ${(props) => props?.color || iconColor[props.theme_value]};
-	}
-
+export const HoverButton = styled(Icon)`
+	cursor: pointer;
 	&:hover {
-		// hover color on svg icon does not work => use opacity
 		color: ${(props) =>
-			props?.hover_color || iconHoverColor[props.theme_value]};
+			props?.hover_color ||
+			props.theme.basic.pages.icons.dynamicIcons.hover.font.color};
 		svg {
 			fill: ${(props) =>
-				props?.hover_color || iconHoverColor[props.theme_value]};
+				props?.hover_color ||
+				props.theme.basic.pages.icons.dynamicIcons.hover.font.color};
 		}
 	}
 `;

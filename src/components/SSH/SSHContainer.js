@@ -109,7 +109,6 @@ const SSHContainer = ({uuid, server}) => {
 			>
 				<_Header>
 					<HoverButton
-						theme_value={theme}
 						ref={snippetRef}
 						margin={'16px'}
 						onClick={onClickOpenSnippetManager}
@@ -117,10 +116,7 @@ const SSHContainer = ({uuid, server}) => {
 						{snippetIcon}
 					</HoverButton>
 					<SFTPConvertButton data={server} />
-					<HoverButton
-						theme_value={theme}
-						onClick={onCLickFullScreen}
-					>
+					<HoverButton onClick={onCLickFullScreen}>
 						{fullScreenIcon}
 					</HoverButton>
 				</_Header>

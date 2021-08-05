@@ -9,7 +9,7 @@ import {
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 import {HEIGHT_26} from '../styles/length';
 import {fontColor, footerColor} from '../styles/color';
-import {IconButton} from '../styles/components/icon';
+import {HoverButton} from '../styles/components/icon';
 
 const _Footer = styled.footer`
 	height: ${HEIGHT_26};
@@ -29,7 +29,7 @@ const _RightContainer = styled.div`
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {server, tab, current_tab, theme} = useSelector(
+	const {server, tab, current_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -50,34 +50,31 @@ const Footer = () => {
 	}, [current_tab, tab]);
 
 	return (
-		<_Footer theme_value={theme}>
-			<span theme_value={theme}>Avocado v1.0</span>
+		<_Footer>
+			<span>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
 				<_RightContainer>
-					<IconButton
-						theme_value={theme}
+					<HoverButton
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickDeceaseFontSize}
 					>
 						{zoomOutIcon}
-					</IconButton>
-					<IconButton
-						theme_value={theme}
+					</HoverButton>
+					<HoverButton
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickIncreaseFontSize}
 					>
 						{zoomInIcon}
-					</IconButton>
-					<IconButton
-						theme_value={theme}
+					</HoverButton>
+					<HoverButton
 						margin_right={'10px'}
 						size={'micro'}
 						onClick={onClickOpenSshSearchBar}
 					>
 						{searchIcon}
-					</IconButton>
+					</HoverButton>
 
 					{current_tab &&
 						server.find(

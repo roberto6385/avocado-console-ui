@@ -33,7 +33,6 @@ const InputPopup = () => {
 		path: sftp_pathState,
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
 	const {input_popup} = useSelector((state) => state.popup, shallowEqual);
 
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
@@ -143,12 +142,11 @@ const InputPopup = () => {
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			theme_value={theme}
 		>
-			<ModalHeader theme_value={theme}>
+			<ModalHeader>
 				<div>{HeaderMessage[input_popup.key]}</div>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
 					onClick={onClickCloseModal}
@@ -163,11 +161,10 @@ const InputPopup = () => {
 					value={formValue}
 					onChange={onChangeFormValue}
 					placeholder={Placeholder[input_popup.key]}
-					theme_value={theme}
 				/>
 			</_Form>
 
-			<ModalFooter theme_value={theme}>
+			<ModalFooter>
 				<TransparentButton onClick={onClickCloseModal}>
 					{t('cancel')}
 				</TransparentButton>

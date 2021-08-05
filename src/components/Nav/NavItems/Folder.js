@@ -13,7 +13,7 @@ import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
-import {activeColor, iconColor} from '../../../styles/color';
+import {iconColor} from '../../../styles/color';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationBarItemForm,
@@ -184,11 +184,7 @@ const Folder = ({open, data, indent}) => {
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
-					color={
-						clicked_server === data.key
-							? activeColor[theme]
-							: iconColor[theme]
-					}
+					itype={clicked_server === data.key && 'selected'}
 				>
 					{folderIcon}
 				</Icon>
@@ -217,7 +213,6 @@ const Folder = ({open, data, indent}) => {
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
 					onClick={onClickOpenFolder}
-					color={iconColor[theme]}
 				>
 					{openTab ? arrowDownIcon : arrowRightIcon}
 				</IconButton>

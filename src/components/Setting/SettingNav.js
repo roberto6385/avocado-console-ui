@@ -11,14 +11,7 @@ import {
 } from '../../icons/icons';
 import PropTypes from 'prop-types';
 import {shallowEqual, useSelector} from 'react-redux';
-import {
-	activeColor,
-	borderColor,
-	fontColor,
-	iconColor,
-	navColor,
-	navHighColor,
-} from '../../styles/color';
+import {activeColor, iconColor} from '../../styles/color';
 import {Icon, IconButton} from '../../styles/components/icon';
 
 const _Container = styled.div`
@@ -27,9 +20,10 @@ const _Container = styled.div`
 	width: 256px;
 	min-width: 256px;
 	border-right: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
-	background: ${(props) => navColor[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.setting.navigation.border.color};
+	background: ${(props) =>
+		props.theme.pages.webTerminal.setting.navigation.backgroundColor};
 `;
 
 const _BackContainer = styled.div`
@@ -38,7 +32,8 @@ const _BackContainer = styled.div`
 	height: 50px;
 	padding: 12px 16px;
 	border-bottom: 1px solid;
-	border-color: ${(props) => borderColor[props.theme_value]};
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.setting.navigation.border.color};
 	cursor: pointer;
 `;
 
@@ -57,18 +52,22 @@ const _Li = styled.li`
 	padding: 10px 16px;
 	height: 34px;
 	cursor: pointer;
-	background: ${(props) => props.clicked && navHighColor[props.theme_value]};
+	background: ${(props) =>
+		props.selected &&
+		props.theme.pages.webTerminal.setting.navigation.items.selectedStyle
+			.backgroundColor};
 	border-left: 2px solid;
 	border-color: ${(props) =>
-		props.clicked
-			? activeColor[props.theme_value]
-			: navColor[props.theme_value]};
+		props.selected
+			? props.theme.pages.webTerminal.setting.navigation.items
+					.selectedStyle.border.color
+			: props.theme.pages.webTerminal.setting.navigation.items.normalStyle
+					.border.color};
 `;
 
 const SettingNav = ({match}) => {
 	const history = useHistory();
 	const {t} = useTranslation('settingNav');
-	const theme = useSelector((state) => state.common.theme, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -78,10 +77,10 @@ const SettingNav = ({match}) => {
 	);
 
 	return (
-		<_Container theme_value={theme}>
-			<_BackContainer onClick={changePath('/')} theme_value={theme}>
+		<_Container>
+			<_BackContainer onClick={changePath('/')}>
 				<IconButton
-					theme_value={theme}
+					itype={'font'}
 					margin={'0px'}
 					onClick={changePath('/')}
 				>
@@ -93,17 +92,12 @@ const SettingNav = ({match}) => {
 			<_Ul>
 				<_Li
 					onClick={changePath('/account')}
-					clicked={match.path === '/account'}
-					theme_value={theme}
+					selected={match.path === '/account'}
 				>
 					<Icon
 						size={'sm'}
 						margin={'0px'}
-						color={
-							match.path === '/account'
-								? activeColor[theme]
-								: iconColor[theme]
-						}
+						itype={match.path === '/account' && 'selected'}
 					>
 						{accountIcon}
 					</Icon>
@@ -111,17 +105,12 @@ const SettingNav = ({match}) => {
 				</_Li>
 				<_Li
 					onClick={changePath('/preferences')}
-					clicked={match.path === '/preferences'}
-					theme_value={theme}
+					selected={match.path === '/preferences'}
 				>
 					<Icon
 						size={'sm'}
 						margin={'0px'}
-						color={
-							match.path === '/preferences'
-								? activeColor[theme]
-								: iconColor[theme]
-						}
+						itype={match.path === '/preferences' && 'selected'}
 					>
 						{settingIcon}
 					</Icon>
@@ -129,17 +118,12 @@ const SettingNav = ({match}) => {
 				</_Li>
 				<_Li
 					onClick={changePath('/identities')}
-					clicked={match.path === '/identities'}
-					theme_value={theme}
+					selected={match.path === '/identities'}
 				>
 					<Icon
 						size={'sm'}
 						margin={'0px'}
-						color={
-							match.path === '/identities'
-								? activeColor[theme]
-								: iconColor[theme]
-						}
+						itype={match.path === '/identities' && 'selected'}
 					>
 						{identityIcon}
 					</Icon>
