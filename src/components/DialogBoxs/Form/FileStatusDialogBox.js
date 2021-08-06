@@ -301,14 +301,12 @@ const FileStatusDialogBox = () => {
 								title={checked[0].type}
 								value={checked[0].checked}
 								handleCheck={checkFunc(checked[0])}
-								theme_value={0}
 							/>
 							<br />
 							<CheckBox_
 								title={checked[1].type}
 								value={checked[1].checked}
 								handleCheck={checkFunc(checked[1])}
-								theme_value={0}
 							/>
 
 							<br />
@@ -316,7 +314,6 @@ const FileStatusDialogBox = () => {
 								title={checked[2].type}
 								value={checked[2].checked}
 								handleCheck={checkFunc(checked[2])}
-								theme_value={0}
 							/>
 						</ColDiv>
 						<ColDiv>
@@ -327,21 +324,18 @@ const FileStatusDialogBox = () => {
 								title={checked[3].type}
 								value={checked[3].checked}
 								handleCheck={checkFunc(checked[3])}
-								theme_value={0}
 							/>
 							<br />
 							<CheckBox_
 								title={checked[4].type}
 								value={checked[4].checked}
 								handleCheck={checkFunc(checked[4])}
-								theme_value={0}
 							/>
 							<br />
 							<CheckBox_
 								title={checked[5].type}
 								value={checked[5].checked}
 								handleCheck={checkFunc(checked[5])}
-								theme_value={0}
 							/>
 						</ColDiv>
 						<ColDiv>
@@ -352,21 +346,18 @@ const FileStatusDialogBox = () => {
 								title={checked[6].type}
 								value={checked[6].checked}
 								handleCheck={checkFunc(checked[6])}
-								theme_value={0}
 							/>
 							<br />
 							<CheckBox_
 								title={checked[7].type}
 								value={checked[7].checked}
 								handleCheck={checkFunc(checked[7])}
-								theme_value={0}
 							/>
 							<br />
 							<CheckBox_
 								title={checked[8].type}
 								value={checked[8].checked}
 								handleCheck={checkFunc(checked[8])}
-								theme_value={0}
 							/>
 						</ColDiv>
 					</RowDiv>
