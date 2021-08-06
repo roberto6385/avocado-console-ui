@@ -2,9 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
-import styled from 'styled-components';
-
-import {HideScroll} from '../../../styles/function';
+import {_Nav} from '../../../styles/components/navigationBar';
 import FavoriteServer from './FavoriteServer';
 import FavoriteFolder from './FavoriteFolder';
 import {
@@ -12,17 +10,6 @@ import {
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {searchTreeStart} from '../functions';
-
-export const _Nav = styled.div`
-	display: block;
-	min-height: 0;
-	flex: 1 1 0;
-	overflow-y: scroll;
-	width: 100%;
-	height: 100%;
-	z-index: 999;
-	${HideScroll}
-`;
 
 const FavoriteList = ({search}) => {
 	const dispatch = useDispatch();

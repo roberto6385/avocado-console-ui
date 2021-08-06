@@ -1,5 +1,6 @@
 //Navigation bar styles
 import styled from 'styled-components';
+import {HideScroll} from '../function';
 
 export const NavigationItemTitle = styled.div`
 	flex: 1;
@@ -29,4 +30,15 @@ export const NavigationItem = styled.div`
 					.backgroundColor
 			: props.theme.pages.webTerminal.main.navigation.items.normalStyle
 					.backgroundColor};
+`;
+
+export const _Nav = styled.div`
+	display: block;
+	min-height: 0;
+	flex: 1 1 0;
+	overflow-y: scroll;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	${HideScroll}
 `;

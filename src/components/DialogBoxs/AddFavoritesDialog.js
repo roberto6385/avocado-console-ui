@@ -41,8 +41,7 @@ const ListContainer = styled.div`
 		${(props) =>
 			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 	background: ${(props) =>
-		props.theme.basic.pages.dialogBoxs.normalStyle.subBlock
-			.backgroundColor};
+		props.theme.basic.pages.dialogBoxs.normalStyle.backgroundColor};
 `;
 
 const _ModalFooter = styled(ModalFooter)`
