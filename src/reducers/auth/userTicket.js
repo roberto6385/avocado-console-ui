@@ -1,22 +1,24 @@
 import produce from 'immer';
 // action types
-export const GET_USER_TICKET_REQUEST = 'userTicket/GET_USER_TICKET_REQUEST';
-export const GET_USER_TICKET_SUCCESS = 'userTicket/GET_USER_TICKET_SUCCESS';
-export const GET_USER_TICKET_FAILURE = 'userTicket/GET_USER_TICKET_FAILURE';
+export const GET_USER_TICKET_REQUEST = 'GET_USER_TICKET_REQUEST';
+export const GET_USER_TICKET_SUCCESS = 'GET_USER_TICKET_SUCCESS';
+export const GET_USER_TICKET_FAILURE = 'GET_USER_TICKET_FAILURE';
 
-export const REFRESH_USER_TICKET_REQUEST =
-	'userTicket/REFRESH_USER_TICKET_REQUEST';
-export const REFRESH_USER_TICKET_SUCCESS =
-	'userTicket/REFRESH_USER_TICKET_SUCCESS';
-export const REFRESH_USER_TICKET_FAILURE =
-	'userTicket/GET_REFRESH_TICKET_FAILURE';
+export const REFRESH_USER_TICKET_REQUEST = 'REFRESH_USER_TICKET_REQUEST';
+export const REFRESH_USER_TICKET_SUCCESS = 'REFRESH_USER_TICKET_SUCCESS';
+export const REFRESH_USER_TICKET_FAILURE = 'GET_REFRESH_TICKET_FAILURE';
 
-export const REVOKE_USER_TICKET_REQUEST =
-	'userTicket/REVOKE_USER_TICKET_REQUEST';
-export const REVOKE_USER_TICKET_SUCCESS =
-	'userTicket/REVOKE_USER_TICKET_SUCCESS';
-export const REVOKE_USER_TICKET_FAILURE =
-	'userTicket/GET_REVOKE_TICKET_FAILURE';
+export const REVOKE_USER_TICKET_REQUEST = 'REVOKE_USER_TICKET_REQUEST';
+export const REVOKE_USER_TICKET_SUCCESS = 'REVOKE_USER_TICKET_SUCCESS';
+export const REVOKE_USER_TICKET_FAILURE = 'GET_REVOKE_TICKET_FAILURE';
+
+export const VARIFY_USER_TICKET_REQUEST = 'VARIFY_USER_TICKET_REQUEST';
+export const VARIFY_USER_TICKET_SUCCESS = 'VARIFY_USER_TICKET_SUCCESS';
+export const VARIFY_USER_TICKET_FAILURE = 'VARIFY_USER_TICKET_FAILURE';
+
+export const FIND_VALID_USER_TICKET_REQUEST = 'FIND_VALID_USER_TICKET_REQUEST';
+export const FIND_VALID_USER_TICKET_SUCCESS = 'FIND_VALID_USER_TICKET_SUCCESS';
+export const FIND_VALID_USER_TICKET_FAILURE = 'FIND_VALID_USER_TICKET_FAILURE';
 
 //  actions
 export const getUserTicket = (params) => ({
@@ -72,6 +74,28 @@ const userTicket = (state = initialState, action) =>
 				draft.userInfo = null;
 				break;
 			case REVOKE_USER_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
+			case VARIFY_USER_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case VARIFY_USER_TICKET_SUCCESS:
+				draft.find = action.data;
+				draft.loading = false;
+				break;
+			case VARIFY_USER_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
+			case FIND_VALID_USER_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case FIND_VALID_USER_TICKET_SUCCESS:
+				draft.find = action.data;
+				draft.loading = false;
+				break;
+			case FIND_VALID_USER_TICKET_FAILURE:
 				draft.loading = false;
 				break;
 

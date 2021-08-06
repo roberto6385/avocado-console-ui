@@ -12,7 +12,7 @@ import {
 import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
-import {OPEN_ALERT_POPUP} from '../../../reducers/dialogbox';
+import {OPEN_CONFIRM_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import FavoriteServer from './FavoriteServer';
 import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
@@ -87,7 +87,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				// 마우스 클릭으로 포커스를 변경하면 중복검사를 실행하는 문제있음
 				if (renameValue !== data.name) {
 					dispatch({
-						type: OPEN_ALERT_POPUP,
+						type: OPEN_CONFIRM_DIALOG_BOX,
 						data: 'folder_name_duplicate',
 					});
 				} else {

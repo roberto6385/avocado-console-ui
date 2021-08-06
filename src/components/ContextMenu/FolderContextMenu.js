@@ -6,8 +6,8 @@ import {useTranslation} from 'react-i18next';
 
 import {
 	OPEN_ADD_SERVER_DIALOG_BOX,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/dialogbox';
+	OPEN_DELETE_DIALOG_BOX,
+} from '../../reducers/dialogBoxs';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
 const FolderContextMenu = ({data}) => {
@@ -31,7 +31,7 @@ const FolderContextMenu = ({data}) => {
 					break;
 				case 'delete':
 					dispatch({
-						type: OPEN_WARNING_ALERT_POPUP,
+						type: OPEN_DELETE_DIALOG_BOX,
 						data: {key: 'delete_server_folder'},
 					});
 					break;

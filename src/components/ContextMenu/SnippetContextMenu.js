@@ -20,7 +20,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 
 	const onClickOpenSnippets = useCallback(() => {
 		setOpen(true);
-	}, [setOpen]);
+	}, []);
 
 	const menuEvent = useCallback(
 		(v) => () => {

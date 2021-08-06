@@ -10,7 +10,7 @@ import {
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_CONFIRM_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
@@ -26,7 +26,6 @@ import {TextArea} from '../../styles/components/textArea';
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
 	height: 520px;
-	z-index: 5;
 `;
 
 const _Form = styled(Form)`
@@ -148,9 +147,12 @@ const SnippetsManager = ({open, setOpen}) => {
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
-			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_blank'});
+			dispatch({type: OPEN_CONFIRM_DIALOG_BOX, data: 'snippets_blank'});
 		} else if (new Set(name).size !== name.length) {
-			dispatch({type: OPEN_ALERT_POPUP, data: 'snippets_name_duplicate'});
+			dispatch({
+				type: OPEN_CONFIRM_DIALOG_BOX,
+				data: 'snippets_name_duplicate',
+			});
 		} else {
 			const deleteSnippets = snippets.filter(
 				(x) => !tempSnippets.map((x) => x.id).includes(x.id),

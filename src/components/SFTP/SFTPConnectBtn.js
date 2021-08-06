@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {sftpIconConvert} from '../../icons/icons';
 import {connectionAction} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
@@ -35,7 +35,7 @@ const SFTPConnectBtn = ({data}) => {
 				}),
 			);
 		} else {
-			dispatch({type: OPEN_ALERT_POPUP, data: 'lost_server'});
+			dispatch({type: OPEN_WARNING_DIALOG_BOX, data: 'lost_server'});
 		}
 	}, [server, data, identity, userTicket, dispatch]);
 

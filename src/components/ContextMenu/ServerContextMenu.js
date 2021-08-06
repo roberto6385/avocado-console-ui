@@ -7,8 +7,8 @@ import {useTranslation} from 'react-i18next';
 import {connectionAction} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_DIALOG_BOX,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/dialogbox';
+	OPEN_DELETE_DIALOG_BOX,
+} from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
@@ -91,7 +91,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 					break;
 				case 'delete':
 					dispatch({
-						type: OPEN_WARNING_ALERT_POPUP,
+						type: OPEN_DELETE_DIALOG_BOX,
 						data: {key: 'delete_server_folder'},
 					});
 					break;

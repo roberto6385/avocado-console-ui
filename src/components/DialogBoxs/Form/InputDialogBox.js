@@ -1,20 +1,23 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_INPUT_POPUP} from '../../reducers/dialogbox';
-import useInput from '../../hooks/useInput';
-import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
+import {CLOSE_INPUT_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import useInput from '../../../hooks/useInput';
+import {commandMkdirAction, commandRenameAction} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
-import {closeIcon} from '../../icons/icons';
-import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {IconButton} from '../../styles/components/icon';
+import {closeIcon} from '../../../icons/icons';
+import {
+	NormalButton,
+	TransparentButton,
+} from '../../../styles/components/button';
+import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import {Input} from '../../styles/components/input';
-import {Form} from '../../styles/components/form';
+} from '../../../styles/components/disalogBox';
+import {Input} from '../../../styles/components/input';
+import {Form} from '../../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -24,7 +27,7 @@ const _Form = styled(Form)`
 	padding-bottom: 29px;
 `;
 
-const InputPopup = () => {
+const InputDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('inputPopup');
 
@@ -33,13 +36,16 @@ const InputPopup = () => {
 		path: sftp_pathState,
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {input_popup} = useSelector((state) => state.popup, shallowEqual);
+	const {input_dialog_box} = useSelector(
+		(state) => state.dialogBoxs,
+		shallowEqual,
+	);
 
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
 	const inputRef = useRef(null);
 
-	const uuid = input_popup.uuid;
+	const uuid = input_dialog_box.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
@@ -54,7 +60,7 @@ const InputPopup = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch({type: CLOSE_INPUT_POPUP});
+		dispatch({type: CLOSE_INPUT_DIALOG_BOX});
 	}, []);
 
 	const submitFunction = useCallback(
@@ -62,7 +68,7 @@ const InputPopup = () => {
 			e.preventDefault();
 			if (formValue === '') return;
 
-			switch (input_popup.key) {
+			switch (input_dialog_box.key) {
 				case 'sftp_rename_file_folder': {
 					dispatch(
 						commandRenameAction({
@@ -103,7 +109,7 @@ const InputPopup = () => {
 			onClickCloseModal();
 		},
 		[
-			input_popup,
+			input_dialog_box,
 			onClickCloseModal,
 			dispatch,
 			socket,
@@ -117,8 +123,8 @@ const InputPopup = () => {
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
-			if (input_popup.open) {
-				if (input_popup.key === 'sftp_rename_file_folder') {
+			if (input_dialog_box.open) {
+				if (input_dialog_box.key === 'sftp_rename_file_folder') {
 					setFormValue(prevFormValue);
 				} else {
 					await setFormValue('');
@@ -128,7 +134,7 @@ const InputPopup = () => {
 			}
 		};
 		fillInForm();
-	}, [inputRef, input_popup, prevFormValue, setFormValue]);
+	}, [inputRef, input_dialog_box, prevFormValue, setFormValue]);
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {
@@ -138,13 +144,13 @@ const InputPopup = () => {
 
 	return (
 		<_PopupModal
-			isOpen={input_popup.open}
+			isOpen={input_dialog_box.open}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
 			<ModalHeader>
-				<div>{HeaderMessage[input_popup.key]}</div>
+				<div>{HeaderMessage[input_dialog_box.key]}</div>
 				<IconButton
 					itype={'font'}
 					size={'sm'}
@@ -160,7 +166,7 @@ const InputPopup = () => {
 					ref={inputRef}
 					value={formValue}
 					onChange={onChangeFormValue}
-					placeholder={Placeholder[input_popup.key]}
+					placeholder={Placeholder[input_dialog_box.key]}
 				/>
 			</_Form>
 
@@ -176,4 +182,4 @@ const InputPopup = () => {
 	);
 };
 
-export default InputPopup;
+export default InputDialogBox;

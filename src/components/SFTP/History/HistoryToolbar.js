@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/dialogbox';
+import {OPEN_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
@@ -125,7 +125,7 @@ const HistoryToolbar = ({uuid}) => {
 			// TODO 전체삭제 처리가 필요하다면 이곳에서 구현
 		} else {
 			dispatch({
-				type: OPEN_WARNING_ALERT_POPUP,
+				type: OPEN_DELETE_DIALOG_BOX,
 				data: {key: 'sftp_delete_history', uuid: uuid},
 			});
 		}

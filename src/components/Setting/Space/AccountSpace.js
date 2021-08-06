@@ -6,9 +6,9 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
-import ChangePasswordDialogBox from '../../DialogBoxs/ChangePasswordDialogBox';
+import ChangePasswordDialogBox from '../../DialogBoxs/Form/ChangePasswordDialogBox';
 import {DisabledButton, NormalButton} from '../../../styles/components/button';
-import ChangeUserNameDialogBox from '../../DialogBoxs/ChangeUserNameDialogBox';
+import ChangeUserNameDialogBox from '../../DialogBoxs/Form/ChangeUserNameDialogBox';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,

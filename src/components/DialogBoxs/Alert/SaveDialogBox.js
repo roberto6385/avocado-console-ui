@@ -3,12 +3,15 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	CLOSE_ADD_FAVORITES_DIALOG_BOX,
-	CLOSE_SAVE_POPUP,
-} from '../../reducers/dialogbox';
+	CLOSE_SAVE_DIALOG_BOX,
+} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 
-import {alertFillIcon, closeIcon} from '../../icons/icons';
-import {NormalButton, TransparentButton} from '../../styles/components/button';
+import {alertFillIcon, closeIcon} from '../../../icons/icons';
+import {
+	NormalButton,
+	TransparentButton,
+} from '../../../styles/components/button';
 
 import {
 	ADD_HISTORY,
@@ -16,30 +19,30 @@ import {
 	CLOSE_EDITOR,
 	createNewWebsocket,
 	SAVE_TEXT,
-} from '../../reducers/sftp';
+} from '../../../reducers/sftp';
 import {
 	LOCAL_SAVE_FAVORITES,
 	SAVE_FAVORITES,
 	UNDO_FAVORITES,
-} from '../../reducers/common';
-import {Icon, IconButton} from '../../styles/components/icon';
+} from '../../../reducers/common';
+import {Icon, IconButton} from '../../../styles/components/icon';
 import {
+	AlertModal,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
 	ModalMessage,
 	PopupModal,
-} from '../../styles/components/disalogBox';
+} from '../../../styles/components/disalogBox';
 
-const _PopupModal = styled(PopupModal)`
-	width: 290px;
-`;
-
-const SavePopup = () => {
+const SaveDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('savePopup');
 
-	const {save_popup} = useSelector((state) => state.popup, shallowEqual);
+	const {save_dialog_box} = useSelector(
+		(state) => state.dialogBoxs,
+		shallowEqual,
+	);
 	const {
 		path: sftp_pathState,
 		etc: sftp_etcState,
@@ -59,22 +62,22 @@ const SavePopup = () => {
 	};
 
 	const closeModal = useCallback(() => {
-		switch (save_popup.key) {
+		switch (save_dialog_box.key) {
 			case 'sftp_edit_save': {
-				dispatch({type: CLOSE_SAVE_POPUP});
+				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
 				break;
 			}
 			case 'sftp_edit_close': {
-				const uuid = save_popup.uuid;
+				const uuid = save_dialog_box.uuid;
 				const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
-				dispatch({type: CLOSE_SAVE_POPUP});
+				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
 				dispatch({
 					type: CLOSE_EDITOR,
-					payload: {uuid: save_popup.uuid},
+					payload: {uuid: save_dialog_box.uuid},
 				});
 				dispatch({
 					type: CHANGE_MODE,
-					payload: {uuid: save_popup.uuid, mode: prevMode},
+					payload: {uuid: save_dialog_box.uuid, mode: prevMode},
 				});
 
 				break;
@@ -82,19 +85,19 @@ const SavePopup = () => {
 			case 'favorites_save': {
 				dispatch({type: UNDO_FAVORITES});
 				dispatch({type: LOCAL_SAVE_FAVORITES});
-				dispatch({type: CLOSE_SAVE_POPUP});
+				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
 				dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 
 				// 초기화
 				break;
 			}
 		}
-	}, [dispatch, save_popup, sftp_etcState]);
+	}, [dispatch, save_dialog_box, sftp_etcState]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (save_popup.key === 'favorites_save') {
+			if (save_dialog_box.key === 'favorites_save') {
 				dispatch({type: SAVE_FAVORITES});
 				dispatch({type: LOCAL_SAVE_FAVORITES});
 
@@ -103,7 +106,7 @@ const SavePopup = () => {
 				return;
 			}
 
-			const uuid = save_popup.uuid;
+			const uuid = save_dialog_box.uuid;
 			const corTab = tab.find((it) => it.uuid === uuid);
 			const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
@@ -123,7 +126,7 @@ const SavePopup = () => {
 				type: 'text/plain',
 			});
 
-			switch (save_popup.key) {
+			switch (save_dialog_box.key) {
 				case 'sftp_edit_save': {
 					dispatch({
 						type: SAVE_TEXT,
@@ -191,11 +194,11 @@ const SavePopup = () => {
 					});
 					dispatch({
 						type: CLOSE_EDITOR,
-						payload: {uuid: save_popup.uuid},
+						payload: {uuid: save_dialog_box.uuid},
 					});
 					dispatch({
 						type: CHANGE_MODE,
-						payload: {uuid: save_popup.uuid, mode: prevMode},
+						payload: {uuid: save_dialog_box.uuid, mode: prevMode},
 					});
 					break;
 				}
@@ -206,7 +209,7 @@ const SavePopup = () => {
 			closeModal();
 		},
 		[
-			save_popup,
+			save_dialog_box,
 			tab,
 			sftp_etcState,
 			sftp_pathState,
@@ -221,8 +224,8 @@ const SavePopup = () => {
 	);
 
 	return (
-		<_PopupModal
-			isOpen={save_popup.open}
+		<AlertModal
+			isOpen={save_dialog_box.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -243,7 +246,7 @@ const SavePopup = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{alertFillIcon}
 				</Icon>
-				<AlertText>{SaveMessage[save_popup.key]}</AlertText>
+				<AlertText>{SaveMessage[save_dialog_box.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
@@ -254,8 +257,8 @@ const SavePopup = () => {
 					{t('save')}
 				</NormalButton>
 			</ModalFooter>
-		</_PopupModal>
+		</AlertModal>
 	);
 };
 
-export default SavePopup;
+export default SaveDialogBox;

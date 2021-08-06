@@ -32,7 +32,6 @@ export const Icon = styled.div`
 			? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
 			: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle.font
 					.color)};
-};
 
 	span {
 		//if icon is span, font-size does not apply
@@ -64,6 +63,7 @@ export const Icon = styled.div`
 				? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
 				: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle
 						.font.color)};
+
 		width: ${(props) =>
 			props?.size
 				? props.size === 'sm'

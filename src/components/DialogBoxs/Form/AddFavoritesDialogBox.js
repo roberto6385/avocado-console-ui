@@ -7,22 +7,25 @@ import {
 	ADD_FAVORITES_FOLDER,
 	LOCAL_SAVE_FAVORITES,
 	SAVE_FAVORITES,
-} from '../../reducers/common';
-import useInput from '../../hooks/useInput';
+} from '../../../reducers/common';
+import useInput from '../../../hooks/useInput';
 import {
 	CLOSE_ADD_FAVORITES_DIALOG_BOX,
-	OPEN_SAVE_POPUP,
-} from '../../reducers/dialogbox';
-import {closeIcon} from '../../icons/icons';
-import {NormalButton, TransparentButton} from '../../styles/components/button';
-import FavoriteTempList from '../Nav/Favorites/FavoriteTempList';
-import {IconButton} from '../../styles/components/icon';
+	OPEN_SAVE_DIALOG_BOX,
+} from '../../../reducers/dialogBoxs';
+import {closeIcon} from '../../../icons/icons';
+import {
+	NormalButton,
+	TransparentButton,
+} from '../../../styles/components/button';
+import FavoriteTempList from '../../Nav/Favorites/FavoriteTempList';
+import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import {Form} from '../../styles/components/form';
+} from '../../../styles/components/disalogBox';
+import {Form} from '../../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -57,7 +60,7 @@ const AddFavoritesDialogBox = () => {
 		shallowEqual,
 	);
 	const {add_favorites_dialog_box} = useSelector(
-		(state) => state.popup,
+		(state) => state.dialogBoxs,
 		shallowEqual,
 	);
 
@@ -66,7 +69,7 @@ const AddFavoritesDialogBox = () => {
 	const closeModal = useCallback(() => {
 		if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
 			dispatch({
-				type: OPEN_SAVE_POPUP,
+				type: OPEN_SAVE_DIALOG_BOX,
 				data: {key: 'favorites_save'},
 			});
 		} else {

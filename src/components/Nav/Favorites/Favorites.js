@@ -7,7 +7,7 @@ import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import FavoriteList from './FavoriteList';
 import {useDispatch} from 'react-redux';
-import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogbox';
+import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;

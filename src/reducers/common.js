@@ -262,8 +262,8 @@ export const LOCAL_SAVE_FAVORITES = 'common/LOCAL_SAVE_FAVORITES';
 export const UNDO_FAVORITES = 'common/UNDO_FAVORITES';
 export const INIT_FAVORITES = 'common/INIT_FAVORITES';
 
-export const GET_NOTICE = 'common/GET_NOTICE';
-export const ADD_NOTICE = 'common/ADD_NOTICE';
+export const GET_NOTIFICATION = 'common/GET_NOTIFICATION';
+export const ADD_NOTIFICATION = 'common/ADD_NOTIFICATION';
 
 const fillTabs = (tab, max_display_tab, current_tab) => {
 	if (tab.length === 0) {
@@ -941,7 +941,7 @@ const reducer = (state = initialState, action) => {
 				draft.rightSideKey = action.payload;
 				break;
 
-			case ADD_NOTICE:
+			case ADD_NOTIFICATION:
 				if (draft.notification.length > 30) draft.notification.shift();
 				draft.notification.push({
 					id: draft.notification_index++,

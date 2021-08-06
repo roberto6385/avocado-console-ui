@@ -1,21 +1,24 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_STAT_FORM_POPUP} from '../../reducers/dialogbox';
+import {CLOSE_FILE_STATUS_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 
-import {commandChmodAction, commandStatAction} from '../../reducers/sftp';
+import {commandChmodAction, commandStatAction} from '../../../reducers/sftp';
 import styled from 'styled-components';
 
-import {closeIcon} from '../../icons/icons';
-import {IconButton} from '../../styles/components/icon';
-import CheckBox_ from '../RecycleComponents/CheckBox_';
+import {closeIcon} from '../../../icons/icons';
+import {IconButton} from '../../../styles/components/icon';
+import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import {Form} from '../../styles/components/form';
-import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {Input} from '../../styles/components/input';
+} from '../../../styles/components/disalogBox';
+import {Form} from '../../../styles/components/form';
+import {
+	NormalButton,
+	TransparentButton,
+} from '../../../styles/components/button';
+import {Input} from '../../../styles/components/input';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -40,7 +43,7 @@ const KeySpan = styled.span`
 	font-size: 18px;
 `;
 
-const FileStateDialogBox = () => {
+const FileStatusDialogBox = () => {
 	const dispatch = useDispatch();
 
 	const valueArray = [
@@ -70,14 +73,17 @@ const FileStateDialogBox = () => {
 		high: sftp_highState,
 		stat,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {stat_form_popup} = useSelector((state) => state.popup, shallowEqual);
+	const {file_status_dialog_box} = useSelector(
+		(state) => state.dialogBoxs,
+		shallowEqual,
+	);
 
-	const uuid = stat_form_popup.uuid;
+	const uuid = file_status_dialog_box.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_STAT_FORM_POPUP});
+		dispatch({type: CLOSE_FILE_STATUS_DIALOG_BOX});
 		setOwner(null);
 		setGroup(null);
 		setPublic(null);
@@ -204,7 +210,7 @@ const FileStateDialogBox = () => {
 	);
 
 	useEffect(() => {
-		if (stat_form_popup.open) {
+		if (file_status_dialog_box.open) {
 			dispatch(
 				commandStatAction({
 					stat_path: path,
@@ -213,7 +219,7 @@ const FileStateDialogBox = () => {
 				}),
 			);
 		}
-	}, [dispatch, highlight, path, socket, stat_form_popup.open]);
+	}, [dispatch, highlight, path, socket, file_status_dialog_box.open]);
 
 	useEffect(() => {
 		console.log(stat);
@@ -267,13 +273,13 @@ const FileStateDialogBox = () => {
 	return (
 		checked.length !== 0 && (
 			<_PopupModal
-				isOpen={stat_form_popup.open}
+				isOpen={file_status_dialog_box.open}
 				onRequestClose={closeModal}
 				ariaHideApp={false}
 				shouldCloseOnOverlayClick={false}
 			>
 				<ModalHeader>
-					{/*<div>{HeaderMessage[stat_form_popup.key]}</div>*/}
+					{/*<div>{HeaderMessage[file_status_dialog_box.key]}</div>*/}
 					<div>권한</div>
 					<IconButton
 						btype={'font'}
@@ -383,4 +389,4 @@ const FileStateDialogBox = () => {
 	);
 };
 
-export default FileStateDialogBox;
+export default FileStatusDialogBox;

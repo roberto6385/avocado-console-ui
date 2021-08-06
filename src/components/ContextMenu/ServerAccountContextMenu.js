@@ -3,8 +3,8 @@ import {animation, Item} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/dialogbox';
+	OPEN_DELETE_DIALOG_BOX,
+} from '../../reducers/dialogBoxs';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
 const ServerAccountContextMenu = () => {
@@ -19,7 +19,7 @@ const ServerAccountContextMenu = () => {
 
 	const deleteAccount = useCallback(() => {
 		dispatch({
-			type: OPEN_WARNING_ALERT_POPUP,
+			type: OPEN_DELETE_DIALOG_BOX,
 			data: {
 				key: 'delete_account',
 			},

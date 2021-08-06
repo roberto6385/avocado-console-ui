@@ -3,38 +3,38 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/dialogbox';
+import {CLOSE_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
 	LOCAL_SAVE_FAVORITES,
-} from '../../reducers/common';
+} from '../../../reducers/common';
 
-import {cancelFillIcon, closeIcon} from '../../icons/icons';
+import {cancelFillIcon, closeIcon} from '../../../icons/icons';
 
-import {TransparentButton, WarningButton} from '../../styles/components/button';
+import {
+	TransparentButton,
+	WarningButton,
+} from '../../../styles/components/button';
 import {
 	createNewWebsocket,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	PUSH_INIT_DELETE_WORK_LIST,
 	REMOVE_HISTORY,
-} from '../../reducers/sftp';
-import {Icon, IconButton} from '../../styles/components/icon';
+} from '../../../reducers/sftp';
+import {Icon, IconButton} from '../../../styles/components/icon';
 import {
+	AlertModal,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
 	ModalMessage,
 	PopupModal,
-} from '../../styles/components/disalogBox';
+} from '../../../styles/components/disalogBox';
 
-const _PopupModal = styled(PopupModal)`
-	width: 290px;
-`;
-
-const WarningAlertPopup = () => {
+const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('warningAlertPopup');
 
@@ -47,8 +47,8 @@ const WarningAlertPopup = () => {
 		accountCheckList,
 	} = useSelector((state) => state.common, shallowEqual);
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {warning_alert_popup} = useSelector(
-		(state) => state.popup,
+	const {delete_dialog_box} = useSelector(
+		(state) => state.dialogBoxs,
 		shallowEqual,
 	);
 	const {
@@ -66,33 +66,33 @@ const WarningAlertPopup = () => {
 	};
 
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_WARNING_ALERT_POPUP});
+		dispatch({type: CLOSE_DELETE_DIALOG_BOX});
 	}, []);
 
 	const cancelFunction = useCallback(() => {
-		warning_alert_popup.key === 'sftp_delete_file_folder' &&
+		delete_dialog_box.key === 'sftp_delete_file_folder' &&
 			dispatch({
 				type: INIT_DELETE_WORK_LIST,
-				payload: {uuid: warning_alert_popup.uuid},
+				payload: {uuid: delete_dialog_box.uuid},
 			});
 		closeModal();
-	}, [closeModal, dispatch, warning_alert_popup]);
+	}, [closeModal, dispatch, delete_dialog_box]);
 
 	const submitFunction = useCallback(
 		async (e) => {
 			e.preventDefault();
 
-			switch (warning_alert_popup.key) {
+			switch (delete_dialog_box.key) {
 				case 'sftp_delete_file_folder': {
-					const uuid = warning_alert_popup.uuid;
+					const uuid = delete_dialog_box.uuid;
 					const {removeSocket, incinerator} = sftp_deleteState.find(
-						(it) => it.uuid === warning_alert_popup.uuid,
+						(it) => it.uuid === delete_dialog_box.uuid,
 					);
 					const {highlight} = sftp_highState.find(
-						(it) => it.uuid === warning_alert_popup.uuid,
+						(it) => it.uuid === delete_dialog_box.uuid,
 					);
 					const {path} = sftp_pathState.find(
-						(it) => it.uuid === warning_alert_popup.uuid,
+						(it) => it.uuid === delete_dialog_box.uuid,
 					);
 
 					dispatch({
@@ -128,7 +128,7 @@ const WarningAlertPopup = () => {
 
 				case 'sftp_delete_history': {
 					const {history_highlight} = sftp_historyState.find(
-						(it) => it.uuid === warning_alert_popup.uuid,
+						(it) => it.uuid === delete_dialog_box.uuid,
 					);
 					history_highlight.forEach((item) => {
 						console.log(item);
@@ -140,7 +140,7 @@ const WarningAlertPopup = () => {
 							dispatch({
 								type: REMOVE_HISTORY,
 								payload: {
-									uuid: warning_alert_popup.uuid,
+									uuid: delete_dialog_box.uuid,
 									history: item,
 								},
 							});
@@ -148,7 +148,7 @@ const WarningAlertPopup = () => {
 					});
 					dispatch({
 						type: INITIAL_HISTORY_HI,
-						payload: {uuid: warning_alert_popup.uuid},
+						payload: {uuid: delete_dialog_box.uuid},
 					});
 					break;
 				}
@@ -190,8 +190,8 @@ const WarningAlertPopup = () => {
 			closeModal();
 		},
 		[
-			warning_alert_popup.uuid,
-			warning_alert_popup.key,
+			delete_dialog_box.uuid,
+			delete_dialog_box.key,
 			closeModal,
 			clicked_server,
 			dispatch,
@@ -206,8 +206,8 @@ const WarningAlertPopup = () => {
 	);
 
 	return (
-		<_PopupModal
-			isOpen={warning_alert_popup.open}
+		<AlertModal
+			isOpen={delete_dialog_box.open}
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -228,7 +228,7 @@ const WarningAlertPopup = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{AlertMessage[warning_alert_popup.key]}</AlertText>
+				<AlertText>{AlertMessage[delete_dialog_box.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
@@ -239,8 +239,8 @@ const WarningAlertPopup = () => {
 					{t('delete')}
 				</WarningButton>
 			</ModalFooter>
-		</_PopupModal>
+		</AlertModal>
 	);
 };
 
-export default WarningAlertPopup;
+export default DeleteDialogBox;

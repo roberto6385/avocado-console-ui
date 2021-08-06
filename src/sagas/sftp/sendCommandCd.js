@@ -20,7 +20,7 @@ import {
 import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {cdResponse} from '../../ws/sftp/cd_response';
 import {pathFunction} from '../../components/SFTP/functions';
 
@@ -96,7 +96,7 @@ function* sendCommand(action) {
 						pass = true;
 						yield put({type: CD_FAILURE});
 						yield put({
-							type: OPEN_ALERT_POPUP,
+							type: OPEN_WARNING_DIALOG_BOX,
 							data: 'wrong_path',
 						});
 						break;
@@ -111,7 +111,7 @@ function* sendCommand(action) {
 		closeChannel(channel);
 		yield put({type: CD_FAILURE});
 		yield put({
-			type: OPEN_ALERT_POPUP,
+			type: OPEN_WARNING_DIALOG_BOX,
 			data: 'wrong_path',
 		});
 	}

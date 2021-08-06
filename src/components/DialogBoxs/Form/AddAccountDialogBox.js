@@ -1,25 +1,25 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import useInput from '../../hooks/useInput';
-import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/dialogbox';
-import {ACCOUT_CONTROL_ID} from '../../reducers/common';
+import useInput from '../../../hooks/useInput';
+import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../../reducers/dialogBoxs';
+import {ACCOUT_CONTROL_ID} from '../../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import ComboBox_ from '../RecycleComponents/ComboBox_';
-import {closeIcon} from '../../icons/icons';
+import ComboBox_ from '../../RecycleComponents/ComboBox_';
+import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
 	TransparentButton,
 	NormalBorderButton,
-} from '../../styles/components/button';
-import {IconButton} from '../../styles/components/icon';
+} from '../../../styles/components/button';
+import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+} from '../../../styles/components/disalogBox';
+import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -87,7 +87,7 @@ const AddAccountDialogBox = () => {
 		shallowEqual,
 	);
 	const {account_form_popup} = useSelector(
-		(state) => state.popup,
+		(state) => state.dialogBoxs,
 		shallowEqual,
 	);
 

@@ -27,7 +27,7 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {READY_STATE} from '../../reducers/ssh';
 
 function* sendConnection(action) {
@@ -105,7 +105,7 @@ function* sendConnection(action) {
 							//invalid server
 							if (res.result.includes('connection')) {
 								yield put({
-									type: OPEN_ALERT_POPUP,
+									type: OPEN_WARNING_DIALOG_BOX,
 									data: 'invalid_server',
 								});
 							}
@@ -212,7 +212,7 @@ function* sendReConnection(action) {
 						//invalid server
 						if (res.result.includes('connection')) {
 							yield put({
-								type: OPEN_ALERT_POPUP,
+								type: OPEN_WARNING_DIALOG_BOX,
 								data: 'invalid_server',
 							});
 						}

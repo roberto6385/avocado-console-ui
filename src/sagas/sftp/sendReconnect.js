@@ -21,7 +21,7 @@ import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {reconnectResponse} from '../../ws/sftp/reconnect_response';
 
 function* sendCommand(action) {
@@ -98,7 +98,7 @@ function* sendCommand(action) {
 
 					case ERROR:
 						yield put({
-							type: OPEN_ALERT_POPUP,
+							type: OPEN_WARNING_DIALOG_BOX,
 							data: 'invalid_server',
 						});
 						yield put({type: RECONNECTION_FAILURE, data: res.err});
@@ -113,7 +113,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({
-			type: OPEN_ALERT_POPUP,
+			type: OPEN_WARNING_DIALOG_BOX,
 			data: 'invalid_server',
 		});
 		yield put({type: RECONNECTION_FAILURE, data: err});

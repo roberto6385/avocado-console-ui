@@ -22,7 +22,7 @@ import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {OPEN_TAB} from '../../reducers/common';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {connectResponse} from '../../ws/sftp/connect_response';
 
 function* sendCommand(action) {
@@ -93,7 +93,7 @@ function* sendCommand(action) {
 					case ERROR:
 						if (socket.readyState === 1) {
 							yield put({
-								type: OPEN_ALERT_POPUP,
+								type: OPEN_WARNING_DIALOG_BOX,
 								data: 'invalid_server',
 							});
 						}
@@ -114,7 +114,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({
-			type: OPEN_ALERT_POPUP,
+			type: OPEN_WARNING_DIALOG_BOX,
 			data: 'invalid_server',
 		});
 		yield put({type: CONNECTION_FAILURE, data: err});

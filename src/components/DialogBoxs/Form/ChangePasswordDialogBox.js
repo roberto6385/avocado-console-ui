@@ -3,20 +3,23 @@ import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import useInput from '../../hooks/useInput';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import useInput from '../../../hooks/useInput';
+import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {closeIcon} from '../../icons/icons';
-import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {putModify} from '../../reducers/auth/modify';
-import {IconButton} from '../../styles/components/icon';
+import {closeIcon} from '../../../icons/icons';
+import {
+	NormalButton,
+	TransparentButton,
+} from '../../../styles/components/button';
+import {putModify} from '../../../reducers/auth/modify';
+import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import {Input} from '../../styles/components/input';
-import {Form} from '../../styles/components/form';
+} from '../../../styles/components/disalogBox';
+import {Input} from '../../../styles/components/input';
+import {Form} from '../../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;

@@ -17,22 +17,23 @@ import {
 	Password,
 	Redirect,
 } from './pages';
-import AlertPopup from './components/Popup/AlertPopup';
-import AddServerDialogBox from './components/DialogBoxs/AddServerDialogBox';
-import WarningAlertPopup from './components/Popup/WarningAlertPopup';
-import InputPopup from './components/Popup/InputPopup';
-import SavePopup from './components/Popup/SavePopup';
-import AddFavoritesDialogBox from './components/DialogBoxs/AddFavoritesDialogBox';
+import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
+import AddServerDialogBox from './components/DialogBoxs/Form/AddServerDialogBox';
+import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
+import InputDialogBox from './components/DialogBoxs/Form/InputDialogBox';
+import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
+import AddFavoritesDialogBox from './components/DialogBoxs/Form/AddFavoritesDialogBox';
 import {
 	REFRESH_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import Toast_ from './components/RecycleComponents/Toast_';
-import FileStateDialogBox from './components/DialogBoxs/FileStateDialogBox';
+import FileStatusDialogBox from './components/DialogBoxs/Form/FileStatusDialogBox';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
 import {properties} from './json/properties';
+import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -108,11 +109,12 @@ const App = () => {
 				</Switch>
 				<AddServerDialogBox />
 				<AddFavoritesDialogBox />
-				<FileStateDialogBox />
-				<AlertPopup />
-				<WarningAlertPopup />
-				<InputPopup />
-				<SavePopup />
+				<FileStatusDialogBox />
+				<ConfirmDialogBox />
+				<WarningDialogBox />
+				<SaveDialogBox />
+				<DeleteDialogBox />
+				<InputDialogBox />
 				<Toast_ />
 			</ThemeProvider>
 		</BrowserRouter>

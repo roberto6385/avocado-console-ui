@@ -7,7 +7,7 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 import {subscribe} from '../channel';
 
@@ -53,7 +53,7 @@ function* sendCommand(action) {
 				case ERROR:
 					if (socket.readyState === 1) {
 						yield put({
-							type: OPEN_ALERT_POPUP,
+							type: OPEN_WARNING_DIALOG_BOX,
 							data: 'invalid_server',
 						});
 					}
@@ -72,7 +72,7 @@ function* sendCommand(action) {
 	} catch (err) {
 		console.log(err);
 		yield put({
-			type: OPEN_ALERT_POPUP,
+			type: OPEN_WARNING_DIALOG_BOX,
 			data: 'invalid_server',
 		});
 		yield put({type: CREATE_NEW_WEBSOCKET_FAILURE, data: err});

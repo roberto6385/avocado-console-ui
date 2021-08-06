@@ -74,7 +74,6 @@ const Folder = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
 				selected={clicked_server === data.key ? 1 : 0}
-				// selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon

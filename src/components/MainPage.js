@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {OPEN_ADD_SERVER_DIALOG_BOX} from '../reducers/dialogbox';
+import {OPEN_ADD_SERVER_DIALOG_BOX} from '../reducers/dialogBoxs';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from './LoadingSpinner';

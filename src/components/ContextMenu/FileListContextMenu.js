@@ -7,10 +7,10 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, createNewWebsocket} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {
-	OPEN_INPUT_POPUP,
-	OPEN_STAT_FORM_POPUP,
-	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/dialogbox';
+	OPEN_INPUT_DIALOG_BOX,
+	OPEN_FILE_STATUS_DIALOG_BOX,
+	OPEN_DELETE_DIALOG_BOX,
+} from '../../reducers/dialogBoxs';
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -153,13 +153,13 @@ const FileListContextMenu = ({uuid}) => {
 					break;
 				case 'new_folder':
 					dispatch({
-						type: OPEN_INPUT_POPUP,
+						type: OPEN_INPUT_DIALOG_BOX,
 						data: {key: 'sftp_new_folder', uuid: uuid},
 					});
 					break;
 				case 'rename_work':
 					dispatch({
-						type: OPEN_INPUT_POPUP,
+						type: OPEN_INPUT_DIALOG_BOX,
 						data: {
 							key: 'sftp_rename_file_folder',
 							uuid: uuid,
@@ -168,7 +168,7 @@ const FileListContextMenu = ({uuid}) => {
 					break;
 				case 'delete_work':
 					dispatch({
-						type: OPEN_WARNING_ALERT_POPUP,
+						type: OPEN_DELETE_DIALOG_BOX,
 						data: {
 							key: 'sftp_delete_file_folder',
 							uuid: uuid,
@@ -178,7 +178,7 @@ const FileListContextMenu = ({uuid}) => {
 
 				case 'attr_work':
 					dispatch({
-						type: OPEN_STAT_FORM_POPUP,
+						type: OPEN_FILE_STATUS_DIALOG_BOX,
 						payload: {
 							uuid: uuid,
 							key: 'sftp_stat',

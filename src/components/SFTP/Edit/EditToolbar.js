@@ -2,7 +2,10 @@ import React, {useCallback, useMemo} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
-import {OPEN_ALERT_POPUP, OPEN_SAVE_POPUP} from '../../../reducers/dialogbox';
+import {
+	OPEN_CONFIRM_DIALOG_BOX,
+	OPEN_SAVE_DIALOG_BOX,
+} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 import {
 	fileDownloadIcon,
@@ -76,13 +79,13 @@ const EditToolbar = ({uuid}) => {
 		if (text === editText) {
 			// 변경 내용이 없습니다.
 			dispatch({
-				type: OPEN_ALERT_POPUP,
+				type: OPEN_CONFIRM_DIALOG_BOX,
 				data: 'no_changes',
 			});
 		} else {
 			// 저장하시겠습니까?
 			dispatch({
-				type: OPEN_SAVE_POPUP,
+				type: OPEN_SAVE_DIALOG_BOX,
 				data: {key: 'sftp_edit_save', uuid},
 			});
 		}
@@ -91,7 +94,7 @@ const EditToolbar = ({uuid}) => {
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
 			dispatch({
-				type: OPEN_SAVE_POPUP,
+				type: OPEN_SAVE_DIALOG_BOX,
 				data: {key: 'sftp_edit_close', uuid},
 			});
 		} else {

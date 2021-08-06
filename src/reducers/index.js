@@ -4,15 +4,12 @@ import storageSession from 'redux-persist/lib/storage/session';
 import storage from 'redux-persist/lib/storage';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
 
-import user from './user';
 import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
-import popup from './dialogbox';
+import dialogBoxs from './dialogBoxs';
 import clientTicket from './auth/clientTicket';
 import modify from './auth/modify';
-import verify from './auth/verify';
-import find from './auth/find';
 import create from './auth/create';
 import deleteAccount from './auth/delete';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
@@ -43,16 +40,13 @@ const sshLocalPersistConfig = {
 };
 
 const appReducer = combineReducers({
-	user,
 	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
-	popup,
+	dialogBoxs,
 	clientTicket,
 	userTicket,
 	modify,
-	verify,
-	find,
 	create,
 	deleteAccount,
 });

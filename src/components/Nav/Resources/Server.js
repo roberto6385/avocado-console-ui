@@ -1,14 +1,12 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
-import useInput from '../../../hooks/useInput';
 import {
 	BOOKMARKING,
-	CHANGE_SERVER_FOLDER_NAME,
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
@@ -191,7 +189,7 @@ const Server = ({data, indent}) => {
 						onClick={handleBookmark(
 							startSearchTree(favorites, data),
 						)}
-						color={
+						itype={
 							startSearchTree(favorites, data)
 								? 'selected'
 								: undefined

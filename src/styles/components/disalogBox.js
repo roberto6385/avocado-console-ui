@@ -21,6 +21,12 @@ export const PopupModal = styled(Modal)`
 	background: ${(props) =>
 		props.theme.basic.pages.dialogBoxs.normalStyle.backgroundColor};
 `;
+
+export const AlertModal = styled(PopupModal)`
+	width: 288px;
+	z-index: 12;
+`;
+
 export const ModalHeader = styled.div`
 	display: flex;
 	align-items: center;

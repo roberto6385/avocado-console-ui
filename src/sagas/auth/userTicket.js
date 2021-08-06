@@ -10,6 +10,12 @@ import {
 	REVOKE_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_FAILURE,
 	REVOKE_USER_TICKET_SUCCESS,
+	FIND_VALID_USER_TICKET_SUCCESS,
+	FIND_VALID_USER_TICKET_FAILURE,
+	FIND_VALID_USER_TICKET_REQUEST,
+	VARIFY_USER_TICKET_REQUEST,
+	VARIFY_USER_TICKET_SUCCESS,
+	VARIFY_USER_TICKET_FAILURE,
 } from '../../reducers/auth/userTicket';
 import base64 from 'base-64';
 
@@ -118,6 +124,54 @@ function* revokeUserTicket(action) {
 	}
 }
 
+function findValidUserTicketApi(params) {
+	return axios.get(
+		`/oauth2/v1/token?offset=${params.offset}&limit=${params.limit}`,
+		{
+			data: null,
+			headers: {
+				Authorization: params.Authorization,
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			baseURL:
+				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
+}
+function* findValidUserTicket(action) {
+	try {
+		const res = yield call(findValidUserTicketApi, action.params);
+		yield put({type: FIND_VALID_USER_TICKET_SUCCESS, data: res.data});
+	} catch (err) {
+		yield put({
+			type: FIND_VALID_USER_TICKET_FAILURE,
+			data: err.response.data,
+		});
+	}
+}
+
+function getVerifyUserTicketApi(params) {
+	return axios.post('/oauth2/v1/verify', null, {
+		headers: {
+			Authorization: params.Authorization,
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		baseURL:
+			'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+	});
+}
+function* getVerifyUserTicket(action) {
+	try {
+		const res = yield call(getVerifyUserTicketApi, action.params);
+		yield put({type: VARIFY_USER_TICKET_SUCCESS, data: res.data});
+	} catch (err) {
+		yield put({
+			type: VARIFY_USER_TICKET_FAILURE,
+			data: err.response.data,
+		});
+	}
+}
+
 function* watchGetUserTicket() {
 	yield takeLatest(GET_USER_TICKET_REQUEST, getUserTicket);
 }
@@ -126,14 +180,24 @@ function* watchRefreshUserTicket() {
 	yield takeLatest(REFRESH_USER_TICKET_REQUEST, refreshUserTicket);
 }
 
-function* watchGetRevoke() {
+function* watchGetRevokeUserTicket() {
 	yield takeLatest(REVOKE_USER_TICKET_REQUEST, revokeUserTicket);
+}
+
+function* watchFindValidUserTicket() {
+	yield takeLatest(FIND_VALID_USER_TICKET_REQUEST, findValidUserTicket);
+}
+
+function* watchVerifyUserTicket() {
+	yield takeLatest(VARIFY_USER_TICKET_REQUEST, getVerifyUserTicket);
 }
 
 export default function* userTicketSaga() {
 	yield all([
 		fork(watchGetUserTicket),
 		fork(watchRefreshUserTicket),
-		fork(watchGetRevoke),
+		fork(watchGetRevokeUserTicket),
+		fork(watchFindValidUserTicket),
+		fork(watchVerifyUserTicket),
 	]);
 }

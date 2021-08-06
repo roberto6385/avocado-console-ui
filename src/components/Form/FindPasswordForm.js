@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
+import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
@@ -61,7 +61,7 @@ const FindPasswordForm = () => {
 			e.preventDefault();
 
 			dispatch({
-				type: OPEN_ALERT_POPUP,
+				type: OPEN_WARNING_DIALOG_BOX,
 				data: 'developing',
 			});
 
@@ -85,7 +85,7 @@ const FindPasswordForm = () => {
 			e.preventDefault();
 
 			dispatch({
-				type: OPEN_ALERT_POPUP,
+				type: OPEN_WARNING_DIALOG_BOX,
 				data: 'developing',
 			});
 
@@ -99,7 +99,7 @@ const FindPasswordForm = () => {
 			e.preventDefault();
 
 			dispatch({
-				type: OPEN_ALERT_POPUP,
+				type: OPEN_WARNING_DIALOG_BOX,
 				data: 'developing',
 			});
 

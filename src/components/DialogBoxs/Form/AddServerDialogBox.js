@@ -8,30 +8,31 @@ import {
 	CHANGE_PROTOCOL,
 	EDIT_SERVER,
 	SAVE_SERVER,
-} from '../../reducers/common';
-import useInput from '../../hooks/useInput';
-import {GetMessage} from '../../ws/ssht_ws_logic';
-import {ssht_ws_request} from '../../ws/ssht_ws_request';
+} from '../../../reducers/common';
+import useInput from '../../../hooks/useInput';
+import {GetMessage} from '../../../ws/ssht_ws_logic';
+import {ssht_ws_request} from '../../../ws/ssht_ws_request';
 import {
 	CLOSE_ADD_SERVER_DIALOG_BOX,
-	OPEN_ALERT_POPUP,
-} from '../../reducers/dialogbox';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import ComboBox_ from '../RecycleComponents/ComboBox_';
-import {closeIcon} from '../../icons/icons';
+	OPEN_CONFIRM_DIALOG_BOX,
+	OPEN_WARNING_DIALOG_BOX,
+} from '../../../reducers/dialogBoxs';
+import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
+import ComboBox_ from '../../RecycleComponents/ComboBox_';
+import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
 	TransparentButton,
 	NormalBorderButton,
-} from '../../styles/components/button';
-import {IconButton} from '../../styles/components/icon';
+} from '../../../styles/components/button';
+import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
 	PopupModal,
-} from '../../styles/components/disalogBox';
-import {Input} from '../../styles/components/input';
-import {Form} from '../../styles/components/form';
+} from '../../../styles/components/disalogBox';
+import {Input} from '../../../styles/components/input';
+import {Form} from '../../../styles/components/form';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -108,7 +109,7 @@ const AddServerDialogBox = () => {
 	);
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 	const {add_server_dialog_box} = useSelector(
-		(state) => state.popup,
+		(state) => state.dialogBoxs,
 		shallowEqual,
 	);
 	// username, password는 이곳에서 가져와야 함.
@@ -150,18 +151,21 @@ const AddServerDialogBox = () => {
 			if (add_server_dialog_box.type === 'add') {
 				if (!duplicationTest(server, name, host, port, protocol)) {
 					dispatch({
-						type: OPEN_ALERT_POPUP,
+						type: OPEN_CONFIRM_DIALOG_BOX,
 						data: 'server_duplicate',
 					});
 				} else if (!isValidHostname(host)) {
-					dispatch({type: OPEN_ALERT_POPUP, data: 'invalid_server'});
+					dispatch({
+						type: OPEN_WARNING_DIALOG_BOX,
+						data: 'invalid_server',
+					});
 				} else {
 					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
 					ws.binaryType = 'arraybuffer';
 
 					ws.onerror = () => {
 						dispatch({
-							type: OPEN_ALERT_POPUP,
+							type: OPEN_WARNING_DIALOG_BOX,
 							data: 'invalid_server',
 						});
 					};
