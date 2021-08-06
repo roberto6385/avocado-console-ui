@@ -66,7 +66,7 @@ function* createUser(action) {
 		});
 	} catch (err) {
 		console.log(err);
-		yield put({type: CREATE_USER_FAILURE, data: err});
+		yield put({type: CREATE_USER_FAILURE, payload: err});
 	}
 }
 

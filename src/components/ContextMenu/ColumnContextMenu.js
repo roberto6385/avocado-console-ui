@@ -11,7 +11,7 @@ const ColumnContextMenu = () => {
 		(cols) => () => {
 			dispatch({
 				type: CHANGE_NUMBER_OF_COLUMNS,
-				data: {cols: cols},
+				payload: {cols: cols},
 			});
 		},
 		[],

@@ -86,7 +86,7 @@ const MenuButtons = ({toggle, setToggle}) => {
 
 	const openNotificationMenu = useCallback(() => {
 		// setShownotificationMenu(true);
-		dispatch({type: OPEN_WARNING_DIALOG_BOX, data: 'developing'});
+		dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'developing'});
 	}, []);
 
 	const openColumnMenu = useCallback(

@@ -115,7 +115,7 @@ const AddAccountDialogBox = () => {
 					// 		identity,
 					// 		username,
 					// 		type: 'password',
-					// 		key: currentResourceListKey,
+					// 		key: current_resource_key,
 					// 	},
 					// });
 				}

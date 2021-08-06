@@ -59,7 +59,7 @@ function* sendCommand(action) {
 
 				switch (res.type) {
 					case RECONNECTION_SUCCESS:
-						yield put({type: CLOSE_TAB, data: payload.prevUuid});
+						yield put({type: CLOSE_TAB, payload: payload.prevUuid});
 
 						yield put({
 							type: RECONNECTION_SUCCESS,
@@ -72,7 +72,7 @@ function* sendCommand(action) {
 
 						yield put({
 							type: OPEN_TAB,
-							data: {
+							payload: {
 								type: 'SFTP',
 								uuid: uuid,
 								server: {
@@ -99,9 +99,12 @@ function* sendCommand(action) {
 					case ERROR:
 						yield put({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'invalid_server',
+							payload: 'invalid_server',
 						});
-						yield put({type: RECONNECTION_FAILURE, data: res.err});
+						yield put({
+							type: RECONNECTION_FAILURE,
+							payload: res.err,
+						});
 
 						break;
 
@@ -114,9 +117,9 @@ function* sendCommand(action) {
 		console.log(err);
 		yield put({
 			type: OPEN_WARNING_DIALOG_BOX,
-			data: 'invalid_server',
+			payload: 'invalid_server',
 		});
-		yield put({type: RECONNECTION_FAILURE, data: err});
+		yield put({type: RECONNECTION_FAILURE, payload: err});
 	}
 }
 

@@ -78,7 +78,7 @@ const Server = ({data, indent}) => {
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
-					data: {
+					payload: {
 						token: userTicket.access_token,
 						...correspondedServer,
 						user: correspondedIdentity.user,
@@ -103,9 +103,9 @@ const Server = ({data, indent}) => {
 		},
 		() => {
 			if (clicked_server === data.key) {
-				dispatch({type: SET_CLICKED_SERVER, data: null});
+				dispatch({type: SET_CLICKED_SERVER, payload: null});
 			} else {
-				dispatch({type: SET_CLICKED_SERVER, data: data.key});
+				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			}
 		},
 		[
@@ -127,7 +127,7 @@ const Server = ({data, indent}) => {
 		(e) => {
 			e.preventDefault();
 			console.log('contextMenuOpen item');
-			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			show(e);
 		},
 		[data, dispatch, show],
@@ -135,7 +135,7 @@ const Server = ({data, indent}) => {
 
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
-		dispatch({type: SET_CLICKED_SERVER, data: data.key});
+		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data, dispatch]);
 
 	const nextPutItem = useCallback(
@@ -143,14 +143,14 @@ const Server = ({data, indent}) => {
 			e.stopPropagation();
 
 			data.type === 'folder' &&
-				dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: data}});
+				dispatch({type: SORT_SERVER_AND_FOLDER, payload: {next: data}});
 		},
 		[data, dispatch],
 	);
 
 	const handleBookmark = useCallback(
 		(there) => () => {
-			dispatch({type: BOOKMARKING, data: data, there});
+			dispatch({type: BOOKMARKING, payload: data, there});
 			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch],

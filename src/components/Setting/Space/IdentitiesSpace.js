@@ -14,7 +14,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
-import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
+import IconSearchInput from '../../RecycleComponents/IconSearchInput';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -144,7 +144,7 @@ function StartSearchTree(root, key) {
 
 const IdentitiesSpace = () => {
 	const {t} = useTranslation('identitiesSpace');
-	const {identity, server, currentResourceListKey, nav} = useSelector(
+	const {identity, server, current_resource_key, nav} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -176,7 +176,7 @@ const IdentitiesSpace = () => {
 		(item) => (e) => {
 			// 	if (!e.target.checked) return;
 			// 	const correspondedIdentity = identity.find(
-			// 		(v) => v.key === currentResourceListKey && v.checked,
+			// 		(v) => v.key === current_resource_key && v.checked,
 			// 	);
 			//
 			// 	dispatch({
@@ -194,7 +194,7 @@ const IdentitiesSpace = () => {
 		(item) => (e) => {
 			if (item.checked) return;
 			const correspondedIdentity = identity.find(
-				(v) => v.key === currentResourceListKey && v.checked,
+				(v) => v.key === current_resource_key && v.checked,
 			);
 
 			dispatch({
@@ -205,7 +205,7 @@ const IdentitiesSpace = () => {
 				},
 			});
 		},
-		[identity, dispatch, currentResourceListKey],
+		[identity, dispatch, current_resource_key],
 	);
 
 	useEffect(() => {
@@ -228,11 +228,12 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_Search>
-							<IconTextBox_
+							<IconSearchInput
 								icon={searchIcon}
 								onChange={onChangeResourceSearch}
 								value={resourceSearch}
 								place={t('search')}
+								size={'12px'}
 							/>
 						</_Search>
 					</_LiHeader>
@@ -257,9 +258,7 @@ const IdentitiesSpace = () => {
 								<_ResourceLi
 									key={item.id}
 									onClick={selectResourceList(item)}
-									selected={
-										item.key === currentResourceListKey
-									}
+									selected={item.key === current_resource_key}
 								>
 									<_ResourceName>
 										{StartSearchTree(nav, item.key)}
@@ -288,17 +287,18 @@ const IdentitiesSpace = () => {
 										.filter(
 											(item) =>
 												item.key ===
-												currentResourceListKey,
+												current_resource_key,
 										).length
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
 						<_Search>
-							<IconTextBox_
+							<IconSearchInput
 								icon={searchIcon}
 								onChange={onChangeIdentitySearch}
 								value={identitySearch}
 								place={t('search')}
+								size={'12px'}
 							/>
 						</_Search>
 					</_LiHeader>
@@ -314,7 +314,7 @@ const IdentitiesSpace = () => {
 						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
 					</_Li>
 					{identity.map((item) => {
-						if (item.key !== currentResourceListKey) return;
+						if (item.key !== current_resource_key) return;
 						if (
 							item.user
 								.toLowerCase()
@@ -331,7 +331,7 @@ const IdentitiesSpace = () => {
 									selected={item.checked}
 									onClick={onClickCheck(item)}
 								>
-									<_Name>{item.identityName}</_Name>
+									<_Name>{item.identity_name}</_Name>
 									<_UserNameType>{item.user}</_UserNameType>
 									<_UserNameType>
 										{item.type === 'Password'

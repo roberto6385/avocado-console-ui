@@ -11,7 +11,7 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
-import {pathFunction} from '../../components/SFTP/functions';
+import {createPathList} from '../../components/SFTP/functions';
 import {
 	commandLsAction,
 	commandPwdAction,
@@ -74,12 +74,12 @@ function* sendCommand(action) {
 						payload: {uuid: payload.uuid},
 					});
 					console.log(res.path);
-					ls_pathList = pathFunction({path: res.path});
+					ls_pathList = createPathList({path: res.path});
 					console.log(ls_pathList);
 				} else {
 					console.log(payload.pwd_path);
-					const prevList = pathFunction({path: payload.pwd_path});
-					const nextList = pathFunction({path: res.path});
+					const prevList = createPathList({path: payload.pwd_path});
+					const nextList = createPathList({path: res.path});
 
 					prev_filter = prevList.filter((v) => !nextList.includes(v));
 					next_filter = nextList.filter((v) => !prevList.includes(v));

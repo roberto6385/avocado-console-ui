@@ -51,7 +51,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
-			data: {
+			payload: {
 				token: userTicket.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
@@ -83,7 +83,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 		}
 		dispatch({
 			type: ADD_FAVORITES_FOLDER,
-			data: {name: folderName, key: 'favorites'},
+			payload: {name: folderName, key: 'favorites'},
 		});
 	}, [dispatch, favorites, isValidFolderName, t]);
 
@@ -97,7 +97,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 					openSFTP();
 					break;
 				case 'delete_bookmark':
-					dispatch({type: BOOKMARKING, data: data, there: true});
+					dispatch({type: BOOKMARKING, payload: data, there: true});
 					dispatch({type: LOCAL_SAVE_FAVORITES});
 					break;
 				case 'new_folder':

@@ -32,7 +32,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalMessage,
-	PopupModal,
 } from '../../../styles/components/disalogBox';
 
 const SaveDialogBox = () => {

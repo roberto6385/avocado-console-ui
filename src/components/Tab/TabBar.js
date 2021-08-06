@@ -81,7 +81,7 @@ const TabBar = ({toggle, setToggle}) => {
 
 	const onClickChangeVisibleTab = useCallback(
 		(uuid) => () => {
-			dispatch({type: CHANGE_VISIBLE_TAB, data: uuid});
+			dispatch({type: CHANGE_VISIBLE_TAB, payload: uuid});
 		},
 		[],
 	);
@@ -92,7 +92,7 @@ const TabBar = ({toggle, setToggle}) => {
 			if (data.type === 'SSH') {
 				dispatch({
 					type: SSH_SEND_DISCONNECTION_REQUEST,
-					data: {
+					payload: {
 						uuid: data.uuid,
 						ws: ssh.find((v) => v.uuid === data.uuid).ws,
 					},
@@ -127,7 +127,7 @@ const TabBar = ({toggle, setToggle}) => {
 
 			dispatch({
 				type: SORT_TAB,
-				data: {
+				payload: {
 					oldOrder: oldOlder,
 					newOrder: newOlder,
 					newTab: draggedItem,

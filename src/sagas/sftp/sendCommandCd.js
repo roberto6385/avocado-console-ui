@@ -22,7 +22,7 @@ import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import {pathFunction} from '../../components/SFTP/functions';
+import {createPathList} from '../../components/SFTP/functions';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -77,7 +77,9 @@ function* sendCommand(action) {
 							payload: {
 								uuid: payload.uuid,
 								path: payload.cd_path,
-								pathList: pathFunction({path: payload.cd_path}),
+								pathList: createPathList({
+									path: payload.cd_path,
+								}),
 							},
 						});
 						pass = true;
@@ -97,7 +99,7 @@ function* sendCommand(action) {
 						yield put({type: CD_FAILURE});
 						yield put({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'wrong_path',
+							payload: 'wrong_path',
 						});
 						break;
 					default:
@@ -112,7 +114,7 @@ function* sendCommand(action) {
 		yield put({type: CD_FAILURE});
 		yield put({
 			type: OPEN_WARNING_DIALOG_BOX,
-			data: 'wrong_path',
+			payload: 'wrong_path',
 		});
 	}
 }

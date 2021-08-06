@@ -57,7 +57,7 @@ function* putModify(action) {
 		});
 	} catch (err) {
 		console.log(err);
-		yield put({type: PUT_MODIFY_FAILURE, data: err});
+		yield put({type: PUT_MODIFY_FAILURE, payload: err});
 	}
 }
 

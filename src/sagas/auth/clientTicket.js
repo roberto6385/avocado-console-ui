@@ -26,9 +26,12 @@ function getClientTicketApi(params) {
 function* getClientTicket(action) {
 	try {
 		const res = yield call(getClientTicketApi, action.params);
-		yield put({type: GET_CLIENT_TICKET_SUCCESS, data: res.data});
+		yield put({type: GET_CLIENT_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
-		yield put({type: GET_CLIENT_TICKET_FAILURE, data: err.response.data});
+		yield put({
+			type: GET_CLIENT_TICKET_FAILURE,
+			payload: err.response.data,
+		});
 	}
 }
 

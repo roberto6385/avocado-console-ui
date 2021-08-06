@@ -15,7 +15,7 @@ const SFTPConnectBtn = ({data}) => {
 		shallowEqual,
 	);
 
-	const connection = useCallback(() => {
+	const connectSftp = useCallback(() => {
 		const correspondedServer = server.find((x) => x.id === data.id);
 		const correspondedIdentity = identity.find(
 			(it) => it.key === data.key && it.checked === true,
@@ -35,11 +35,11 @@ const SFTPConnectBtn = ({data}) => {
 				}),
 			);
 		} else {
-			dispatch({type: OPEN_WARNING_DIALOG_BOX, data: 'lost_server'});
+			dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'lost_server'});
 		}
 	}, [server, data, identity, userTicket, dispatch]);
 
-	return <HoverButton onClick={connection}>{sftpIconConvert}</HoverButton>;
+	return <HoverButton onClick={connectSftp}>{sftpIconConvert}</HoverButton>;
 };
 
 SFTPConnectBtn.propTypes = {

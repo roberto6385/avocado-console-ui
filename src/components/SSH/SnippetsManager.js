@@ -147,11 +147,14 @@ const SnippetsManager = ({open, setOpen}) => {
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
-			dispatch({type: OPEN_CONFIRM_DIALOG_BOX, data: 'snippets_blank'});
+			dispatch({
+				type: OPEN_CONFIRM_DIALOG_BOX,
+				payload: 'snippets_blank',
+			});
 		} else if (new Set(name).size !== name.length) {
 			dispatch({
 				type: OPEN_CONFIRM_DIALOG_BOX,
-				data: 'snippets_name_duplicate',
+				payload: 'snippets_name_duplicate',
 			});
 		} else {
 			const deleteSnippets = snippets.filter(
@@ -176,14 +179,14 @@ const SnippetsManager = ({open, setOpen}) => {
 			for (let i = 0; i < deleteSnippets.length; i++) {
 				dispatch({
 					type: SSH_DELETE_SNIPPET_REQUEST,
-					data: deleteSnippets[i].id,
+					payload: deleteSnippets[i].id,
 				});
 			}
 
 			for (let i = 0; i < editSnippets.length; i++) {
 				dispatch({
 					type: SSH_CHANGE_SNIPPET_REQUEST,
-					data: {
+					payload: {
 						id: editSnippets[i].id,
 						name: editSnippets[i].name,
 						content: editSnippets[i].content,
@@ -194,7 +197,7 @@ const SnippetsManager = ({open, setOpen}) => {
 			for (let i = 0; i < addSnippets.length; i++) {
 				dispatch({
 					type: SSH_ADD_SNIPPET_REQUEST,
-					data: {
+					payload: {
 						name: addSnippets[i].name,
 						content: addSnippets[i].content,
 					},

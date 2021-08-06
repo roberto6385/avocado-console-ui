@@ -10,7 +10,7 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {HideScroll, PreventDragCopy} from '../../../styles/function';
-import {HoverButton, Icon} from '../../../styles/components/icon';
+import {HoverButton} from '../../../styles/components/icon';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 
 const _Container = styled.div`

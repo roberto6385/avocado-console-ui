@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../../styles/components/icon';
 import PropTypes from 'prop-types';
+import {SearchInput} from '../../styles/components/input';
+import {searchIcon} from '../../icons/icons';
 
-const InputWithIconContainer = styled.div`
+const Container = styled.div`
 	display: flex;
 	align-items: center;
 	width: ${(props) => props.width || '100%'};
@@ -17,54 +19,37 @@ const InputWithIconContainer = styled.div`
 	border-color: ${(props) =>
 		props.theme.basic.pages.textBoxs.normalStyle.border.color};
 `;
-const InputWithIcon = styled.input`
-	width: 100%;
-	padding: 6px 4px;
-	border: 1px solid;
-	border-color: ${(props) =>
-		props.theme.basic.pages.textBoxs.searchStyle.border.color};
-	border-radius: 4px;
-	font-size: 14px;
-	background: transparent;
-	color: ${(props) =>
-		props.theme.basic.pages.textBoxs.searchStyle.font.color};
+
+const SearchInput_ = styled(SearchInput)`
+	height: 28px;
+	font-size: ${(props) => props.size || '14px'};
+	padding: 0px 4px;
 `;
 
-const Icon_ = styled(Icon)`
-	margin: 0px;
-`;
-
-const IconTextBox_ = ({
-	icon,
-	value,
-	size = '',
-	onChange,
-	place = '',
-	height,
-}) => {
+const IconSearchInput = ({value, onChange, place = '', size, height}) => {
 	return (
-		<InputWithIconContainer height={height}>
-			<Icon_ size={size} margin_right={'6px'}>
-				{icon}
-			</Icon_>
-			<InputWithIcon
+		<Container height={height}>
+			<Icon size={'sm'} margin_right={'0px'}>
+				{searchIcon}
+			</Icon>
+			<SearchInput_
+				size={size}
 				onChange={onChange}
 				value={value}
 				type='text'
 				placeholder={place}
 			/>
-		</InputWithIconContainer>
+		</Container>
 	);
 };
 
-IconTextBox_.propTypes = {
-	icon: PropTypes.element.isRequired,
+IconSearchInput.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	onChange: PropTypes.func.isRequired,
 	place: PropTypes.string,
-	size: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
+	size: PropTypes.string,
 };
 
-export default IconTextBox_;
+export default IconSearchInput;

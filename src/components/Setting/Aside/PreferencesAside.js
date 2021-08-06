@@ -79,13 +79,13 @@ const PreferencesAside = () => {
 	useEffect(() => {
 		dispatch({
 			type: SSH_CHANGE_AUTO_COMPLETION_MODE,
-			data: textCompletion,
+			payload: textCompletion,
 		});
 	}, [textCompletion, dispatch]);
 
 	useEffect(() => {
 		if (font !== terminalFont)
-			dispatch({type: SSH_SET_FONT_REQUEST, data: terminalFont});
+			dispatch({type: SSH_SET_FONT_REQUEST, payload: terminalFont});
 	}, [font, terminalFont, dispatch]);
 
 	useEffect(() => {

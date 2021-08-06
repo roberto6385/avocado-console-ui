@@ -172,7 +172,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		(v) => () => {
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
-				data: {
+				payload: {
 					uuid: uuid,
 					ws: ws,
 					input: v.substring(currentCommand.length),
@@ -180,7 +180,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			});
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
-				data: {
+				payload: {
 					uuid: uuid,
 					ws: ws,
 					input: '\r',
@@ -250,7 +250,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				//Enter
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
-					data: {
+					payload: {
 						uuid: uuid,
 						ws: ws,
 						input: historyList[selectedHistory].substring(
@@ -260,7 +260,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				});
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
-					data: {
+					payload: {
 						uuid: uuid,
 						ws: ws,
 						input: '\r',
@@ -269,7 +269,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			} else {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
-					data: {
+					payload: {
 						uuid: uuid,
 						ws: ws,
 						input: data,
@@ -304,7 +304,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			fitAddon.fit();
 			dispatch({
 				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
-				data: {
+				payload: {
 					ws: ws,
 					uuid: uuid,
 					data: {

@@ -152,12 +152,12 @@ const AddServerDialogBox = () => {
 				if (!duplicationTest(server, name, host, port, protocol)) {
 					dispatch({
 						type: OPEN_CONFIRM_DIALOG_BOX,
-						data: 'server_duplicate',
+						payload: 'server_duplicate',
 					});
 				} else if (!isValidHostname(host)) {
 					dispatch({
 						type: OPEN_WARNING_DIALOG_BOX,
-						data: 'invalid_server',
+						payload: 'invalid_server',
 					});
 				} else {
 					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
@@ -166,7 +166,7 @@ const AddServerDialogBox = () => {
 					ws.onerror = () => {
 						dispatch({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'invalid_server',
+							payload: 'invalid_server',
 						});
 					};
 
@@ -204,12 +204,12 @@ const AddServerDialogBox = () => {
 							if (add_server_dialog_box.type === 'add')
 								dispatch({
 									type: SAVE_SERVER,
-									data: newData,
+									payload: newData,
 								});
 							else if (add_server_dialog_box.type === 'edit')
 								dispatch({
 									type: EDIT_SERVER,
-									data: {
+									payload: {
 										id: add_server_dialog_box.id,
 										data: newData,
 									},
@@ -228,7 +228,7 @@ const AddServerDialogBox = () => {
 					(v) => v.key === clicked_server,
 				);
 				const selectedIdentity = correspondedIdentityList.find(
-					(v) => v.identityName === account,
+					(v) => v.identity_name === account,
 				);
 
 				if (
@@ -300,7 +300,7 @@ const AddServerDialogBox = () => {
 				setProtocol(data.protocol);
 				setHost(data.host);
 				setPort(data.port);
-				setAccount(correspondedIdentity.identityName);
+				setAccount(correspondedIdentity.identity_name);
 				setAuthentication(correspondedIdentity.type);
 				setPassword(correspondedIdentity.password);
 				// setIdentityList(
@@ -334,9 +334,9 @@ const AddServerDialogBox = () => {
 		);
 		const newArray = correspondedIdentityList.map((item) => {
 			return {
-				value: item.identityName,
+				value: item.identity_name,
 				info: item,
-				label: item.identityName,
+				label: item.identity_name,
 			};
 		});
 		add_server_dialog_box.type === 'edit' && setIdentityList(newArray);
@@ -347,7 +347,7 @@ const AddServerDialogBox = () => {
 			(v) => v.key === clicked_server,
 		);
 		const selectedIdentity = correspondedIdentityList.find(
-			(v) => v.identityName === account,
+			(v) => v.identity_name === account,
 		);
 
 		if (selectedIdentity) {

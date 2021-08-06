@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_DELETE_DIALOG_BOX,
@@ -13,14 +13,14 @@ const ServerAccountContextMenu = () => {
 	const editAccount = useCallback(() => {
 		dispatch({
 			type: OPEN_ADD_ACCOUT_FORM_POPUP,
-			data: {type: 'add'},
+			payload: {type: 'add'},
 		});
 	}, [dispatch]);
 
 	const deleteAccount = useCallback(() => {
 		dispatch({
 			type: OPEN_DELETE_DIALOG_BOX,
-			data: {
+			payload: {
 				key: 'delete_account',
 			},
 		});

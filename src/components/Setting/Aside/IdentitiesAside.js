@@ -102,7 +102,7 @@ const IdentitiesAside = () => {
 						return (
 							<_Li key={item.id}>
 								<_AccountContainer>
-									{item.identityName}
+									{item.identity_name}
 								</_AccountContainer>
 								<_AuthenticationContainer>
 									{item.type}

@@ -54,12 +54,12 @@ function* sendCommand(action) {
 					if (socket.readyState === 1) {
 						yield put({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'invalid_server',
+							payload: 'invalid_server',
 						});
 					}
 					yield put({
 						type: CREATE_NEW_WEBSOCKET_FAILURE,
-						data: res.err,
+						payload: res.err,
 					});
 
 					break;
@@ -73,9 +73,9 @@ function* sendCommand(action) {
 		console.log(err);
 		yield put({
 			type: OPEN_WARNING_DIALOG_BOX,
-			data: 'invalid_server',
+			payload: 'invalid_server',
 		});
-		yield put({type: CREATE_NEW_WEBSOCKET_FAILURE, data: err});
+		yield put({type: CREATE_NEW_WEBSOCKET_FAILURE, payload: err});
 	}
 }
 

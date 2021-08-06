@@ -11,7 +11,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
+	const {side_key} = useSelector((state) => state.common, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -22,14 +22,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			if (toggle && rightSideKey === key) {
+			if (toggle && side_key === key) {
 				setToggle(false);
 			} else {
 				dispatch({type: RIGHT_SIDE_KEY, payload: key});
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey, setToggle, toggle],
+		[dispatch, side_key, setToggle, toggle],
 	);
 
 	return (

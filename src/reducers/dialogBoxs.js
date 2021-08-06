@@ -43,14 +43,14 @@ const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
 			case OPEN_CONFIRM_DIALOG_BOX:
-				draft.confirm_dialog_box = {open: true, key: action.data};
+				draft.confirm_dialog_box = {open: true, key: action.payload};
 				break;
 			case CLOSE_CONFIRM_DIALOG_BOX:
 				draft.confirm_dialog_box = {open: false};
 				break;
 
 			case OPEN_WARNING_DIALOG_BOX:
-				draft.warning_dialog_box = {open: true, key: action.data};
+				draft.warning_dialog_box = {open: true, key: action.payload};
 				break;
 			case CLOSE_WARNING_DIALOG_BOX:
 				draft.warning_dialog_box = {open: false};
@@ -59,11 +59,11 @@ const reducer = (state = initialState, action) => {
 			case OPEN_DELETE_DIALOG_BOX: {
 				draft.delete_dialog_box = {
 					open: true,
-					key: action.data.key,
+					key: action.payload.key,
 				};
 
-				if (action.data.uuid)
-					draft.delete_dialog_box.uuid = action.data.uuid;
+				if (action.payload.uuid)
+					draft.delete_dialog_box.uuid = action.payload.uuid;
 				break;
 			}
 			case CLOSE_DELETE_DIALOG_BOX:
@@ -71,18 +71,18 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case OPEN_INPUT_DIALOG_BOX:
-				draft.input_dialog_box = {open: true, key: action.data.key};
-				if (action.data.uuid)
-					draft.input_dialog_box.uuid = action.data.uuid;
+				draft.input_dialog_box = {open: true, key: action.payload.key};
+				if (action.payload.uuid)
+					draft.input_dialog_box.uuid = action.payload.uuid;
 				break;
 			case CLOSE_INPUT_DIALOG_BOX:
 				draft.input_dialog_box = {open: false};
 				break;
 
 			case OPEN_SAVE_DIALOG_BOX:
-				draft.save_dialog_box = {open: true, key: action.data.key};
-				if (action.data.uuid)
-					draft.save_dialog_box.uuid = action.data.uuid;
+				draft.save_dialog_box = {open: true, key: action.payload.key};
+				if (action.payload.uuid)
+					draft.save_dialog_box.uuid = action.payload.uuid;
 				break;
 			case CLOSE_SAVE_DIALOG_BOX:
 				draft.save_dialog_box = {open: false};
@@ -91,10 +91,10 @@ const reducer = (state = initialState, action) => {
 			case OPEN_ADD_SERVER_DIALOG_BOX: {
 				draft.add_server_dialog_box = {
 					open: true,
-					type: action.data.type,
+					type: action.payload.type,
 				};
-				if (action.data.type === 'edit')
-					draft.add_server_dialog_box.id = action.data.id;
+				if (action.payload.type === 'edit')
+					draft.add_server_dialog_box.id = action.payload.id;
 				break;
 			}
 			case CLOSE_ADD_SERVER_DIALOG_BOX:
@@ -114,10 +114,10 @@ const reducer = (state = initialState, action) => {
 			case OPEN_ADD_ACCOUT_FORM_POPUP: {
 				draft.account_form_popup = {
 					open: true,
-					key: action.data.key,
+					key: action.payload.key,
 				};
-				if (action.data.uuid)
-					draft.account_form_popup.uuid = action.data.uuid;
+				if (action.payload.uuid)
+					draft.account_form_popup.uuid = action.payload.uuid;
 				break;
 			}
 			case CLOSE_ADD_ACCOUT_FORM_POPUP:

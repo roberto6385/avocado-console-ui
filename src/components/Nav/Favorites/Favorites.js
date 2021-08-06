@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 
-import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
+import IconSearchInput from '../../RecycleComponents/IconSearchInput';
 import {plusIcon, searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
@@ -61,7 +61,7 @@ const Favorites = () => {
 		<div>
 			<_FormContainer>
 				<_Form onSubmit={(e) => e.preventDefault()}>
-					<IconTextBox_
+					<IconSearchInput
 						icon={searchIcon}
 						onChange={onChangeSearch}
 						value={search}

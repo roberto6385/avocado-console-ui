@@ -62,7 +62,7 @@ const FindPasswordForm = () => {
 
 			dispatch({
 				type: OPEN_WARNING_DIALOG_BOX,
-				data: 'developing',
+				payload: 'developing',
 			});
 
 			//TODO: Change Password Action
@@ -86,7 +86,7 @@ const FindPasswordForm = () => {
 
 			dispatch({
 				type: OPEN_WARNING_DIALOG_BOX,
-				data: 'developing',
+				payload: 'developing',
 			});
 
 			console.log('some action!');
@@ -100,7 +100,7 @@ const FindPasswordForm = () => {
 
 			dispatch({
 				type: OPEN_WARNING_DIALOG_BOX,
-				data: 'developing',
+				payload: 'developing',
 			});
 
 			console.log('some action!');

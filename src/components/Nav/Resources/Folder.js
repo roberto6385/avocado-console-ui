@@ -26,9 +26,9 @@ const Folder = ({open, data, indent}) => {
 
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
-			dispatch({type: SET_CLICKED_SERVER, data: null});
+			dispatch({type: SET_CLICKED_SERVER, payload: null});
 		} else {
-			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 		}
 	}, [clicked_server, data.key, dispatch]);
 
@@ -37,7 +37,7 @@ const Folder = ({open, data, indent}) => {
 	}, [openTab]);
 
 	const prevPutItem = useCallback(() => {
-		dispatch({type: SET_CLICKED_SERVER, data: data.key});
+		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data.key, dispatch]);
 
 	const nextPutItem = useCallback(
@@ -47,7 +47,7 @@ const Folder = ({open, data, indent}) => {
 			data.type === 'folder' &&
 				dispatch({
 					type: SORT_SERVER_AND_FOLDER,
-					data: {next: data, indent: parseInt(indent)},
+					payload: {next: data, indent: parseInt(indent)},
 				});
 		},
 		[data, dispatch, indent],
@@ -62,7 +62,10 @@ const Folder = ({open, data, indent}) => {
 			setOpenTab(true);
 		}
 		if (data === createdFolderInfo) {
-			dispatch({type: SET_CLICKED_SERVER, data: createdFolderInfo.key});
+			dispatch({
+				type: SET_CLICKED_SERVER,
+				payload: createdFolderInfo.key,
+			});
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);
 

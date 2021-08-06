@@ -67,7 +67,7 @@ const reducer = (state = initialState, action) => {
 		switch (action.type) {
 			case READY_STATE: {
 				const index = draft.ssh.findIndex(
-					(v) => v.uuid === action.data.uuid,
+					(v) => v.uuid === action.payload.uuid,
 				);
 				if (index === -1) return;
 				draft.ssh[index].ready = 3;
@@ -80,10 +80,10 @@ const reducer = (state = initialState, action) => {
 
 			case SSH_SEND_RECONNECTION_SUCCESS: {
 				const index = draft.ssh.findIndex(
-					(v) => v.uuid === action.data.prevUuid,
+					(v) => v.uuid === action.payload.prevUuid,
 				);
-				draft.ssh[index].uuid = action.data.uuid;
-				draft.ssh[index].ws = action.data.ws;
+				draft.ssh[index].uuid = action.payload.uuid;
+				draft.ssh[index].ws = action.payload.ws;
 				draft.ssh[index].ready = 1;
 				draft.loading = false;
 
@@ -97,7 +97,7 @@ const reducer = (state = initialState, action) => {
 			case SSH_SEND_CONNECTION_SUCCESS:
 				draft.loading = false;
 				draft.ssh.push({
-					...action.data,
+					...action.payload,
 					terminal: new Terminal({
 						cursorBlink: true,
 						minimumContrastRatio: 7,
@@ -119,7 +119,7 @@ const reducer = (state = initialState, action) => {
 
 			case SSH_SEND_DISCONNECTION_SUCCESS:
 				draft.loading = false;
-				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.data);
+				draft.ssh = draft.ssh.filter((v) => v.uuid !== action.payload);
 				if (draft.ssh.length === 0 && draft.search_mode)
 					draft.search_mode = false;
 				break;
@@ -128,15 +128,15 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SEND_COMMAND_REQUEST: {
-				if (action.data.key === 'close') return;
+				if (action.payload.key === 'close') return;
 				const index = draft.ssh.findIndex(
-					(v) => v.uuid === action.data.uuid,
+					(v) => v.uuid === action.payload.uuid,
 				);
 
 				const current_line = draft.ssh[index].current_line || '';
 
-				if (action.data.input.charCodeAt(0) < 31) {
-					if (action.data.input.charCodeAt(0) === 13) {
+				if (action.payload.input.charCodeAt(0) < 31) {
+					if (action.payload.input.charCodeAt(0) === 13) {
 						//input: Enter
 						if (current_line !== '') {
 							if (current_line !== '') {
@@ -152,18 +152,18 @@ const reducer = (state = initialState, action) => {
 						}
 						draft.ssh[index].current_line = '';
 					}
-					if (action.data.input.charCodeAt(0) === 9) {
+					if (action.payload.input.charCodeAt(0) === 9) {
 						//input: Tab
 						draft.tab = true;
 					}
 				} else {
-					if (action.data.input.charCodeAt(0) === 127)
+					if (action.payload.input.charCodeAt(0) === 127)
 						//input: BackSpace
 						draft.ssh[index].current_line = current_line.slice(
 							0,
 							-1,
 						);
-					else draft.ssh[index].current_line += action.data.input;
+					else draft.ssh[index].current_line += action.payload.input;
 				}
 				break;
 			}
@@ -171,18 +171,18 @@ const reducer = (state = initialState, action) => {
 			case SSH_SEND_COMMAND_SUCCESS:
 				{
 					const sshTerm = draft.ssh.find(
-						(v) => v.uuid === action.data.uuid,
+						(v) => v.uuid === action.payload.uuid,
 					).terminal;
-					const result = action.data.result;
+					const result = action.payload.result;
 					sshTerm.write(result);
-					if (action.data.focus) sshTerm.focus();
+					if (action.payload.focus) sshTerm.focus();
 
 					if (draft.tab === true) {
 						draft.tab = false;
 						if (result.charCodeAt(0) > 30)
 							draft.ssh[
 								draft.ssh.findIndex(
-									(v) => v.uuid === action.data.uuid,
+									(v) => v.uuid === action.payload.uuid,
 								)
 							].current_line += result;
 					}
@@ -202,7 +202,7 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case SSH_SET_FONT_REQUEST:
-				draft.font = action.data;
+				draft.font = action.payload;
 				break;
 
 			case SSH_INCREASE_FONT_SIZE:
@@ -220,32 +220,32 @@ const reducer = (state = initialState, action) => {
 			case SSH_ADD_SNIPPET_REQUEST:
 				draft.snippets.push({
 					id: draft.snippents_index,
-					name: action.data.name,
-					content: action.data.content,
+					name: action.payload.name,
+					content: action.payload.content,
 				});
 				draft.snippents_index++;
 				break;
 
 			case SSH_DELETE_SNIPPET_REQUEST:
 				draft.snippets = draft.snippets.filter(
-					(x) => x.id !== action.data,
+					(x) => x.id !== action.payload,
 				);
 				break;
 
 			case SSH_CHANGE_SNIPPET_REQUEST:
 				draft.snippets = draft.snippets.map((x) => {
-					if (x.id !== action.data.id) return x;
+					if (x.id !== action.payload.id) return x;
 					else
 						return {
 							...x,
-							name: action.data.name,
-							content: action.data.content,
+							name: action.payload.name,
+							content: action.payload.content,
 						};
 				});
 				break;
 
 			case SSH_CHANGE_AUTO_COMPLETION_MODE:
-				draft.auto_completion_mode = action.data;
+				draft.auto_completion_mode = action.payload;
 				break;
 
 			default:
