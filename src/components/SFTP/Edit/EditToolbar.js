@@ -29,7 +29,7 @@ const _ButtonContainer = styled.div`
 	align-items: center;
 `;
 
-const EditNav = ({uuid}) => {
+const EditToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 
 	const {
@@ -121,8 +121,8 @@ const EditNav = ({uuid}) => {
 	);
 };
 
-EditNav.propTypes = {
+EditToolbar.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default EditNav;
+export default EditToolbar;

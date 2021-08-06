@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import FileList from '../FileList/FileList';
+import FileList from '../File/FileList';
 import * as PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';

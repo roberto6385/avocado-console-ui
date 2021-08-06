@@ -27,7 +27,7 @@ const ButtonContainer = styled.div`
 	align-items: center;
 `;
 
-const HistoryNav = ({uuid}) => {
+const HistoryToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
 	const {
@@ -150,8 +150,8 @@ const HistoryNav = ({uuid}) => {
 	);
 };
 
-HistoryNav.propTypes = {
+HistoryToolbar.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default HistoryNav;
+export default HistoryToolbar;

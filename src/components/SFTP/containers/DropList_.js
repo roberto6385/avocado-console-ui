@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import DropList from '../FileList/DropList';
+import DropList from '../File/DropList';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
 import {

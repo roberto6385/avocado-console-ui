@@ -1,6 +1,6 @@
 import {Icon, HoverButton} from '../../styles/components/icon';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
-import RightCornerIcons from './RightCornerIcons';
+import MenuButtons from './MenuButtons';
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -182,7 +182,7 @@ const TabBar = ({toggle, setToggle}) => {
 					);
 				})}
 			</_Tabs>
-			<RightCornerIcons toggle={toggle} setToggle={setToggle} />
+			<MenuButtons toggle={toggle} setToggle={setToggle} />
 		</_Container>
 	);
 };

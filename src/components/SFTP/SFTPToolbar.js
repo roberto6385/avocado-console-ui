@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import HistoryNav from './History/HistoryNav';
-import FileListNav from './FileList/FileListNav';
+import HistoryToolbar from './History/HistoryToolbar';
+import FileToolbar from './File/FileToolbar';
 
 const _Container = styled.div`
 	display: flex;
@@ -15,17 +15,17 @@ const _Container = styled.div`
 		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
-const SFTPNav = ({uuid}) => {
+const SFTPToolbar = ({uuid}) => {
 	return (
 		<_Container>
-			<FileListNav uuid={uuid} />
-			<HistoryNav uuid={uuid} />
+			<FileToolbar uuid={uuid} />
+			<HistoryToolbar uuid={uuid} />
 		</_Container>
 	);
 };
 
-SFTPNav.propTypes = {
+SFTPToolbar.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default SFTPNav;
+export default SFTPToolbar;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
 import styled from 'styled-components';
-import SFTPNav from './SFTPNav';
+import SFTPToolbar from './SFTPToolbar';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
@@ -81,7 +81,7 @@ const SFTP = ({uuid, mode}) => {
 	) : (
 		<_Container>
 			<SFTPNavContainer className={!toggle && 'close-nav-header'}>
-				<SFTPNav uuid={uuid} />
+				<SFTPToolbar uuid={uuid} />
 				{(nav.length === 1 || cols === 1) &&
 					(toggle ? (
 						<_ToggleButton

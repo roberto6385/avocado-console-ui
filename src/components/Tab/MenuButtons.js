@@ -24,7 +24,7 @@ const _Container = styled.div`
 	height: 100%;
 `;
 
-const RightCornerIcons = ({toggle, setToggle}) => {
+const MenuButtons = ({toggle, setToggle}) => {
 	const {tab} = useSelector((state) => state.common, shallowEqual);
 	const MenuPosition = useRef();
 	const accountRef = useRef();
@@ -128,9 +128,9 @@ const RightCornerIcons = ({toggle, setToggle}) => {
 	);
 };
 
-RightCornerIcons.propTypes = {
+MenuButtons.propTypes = {
 	setToggle: PropTypes.func.isRequired,
 	toggle: PropTypes.bool.isRequired,
 };
 
-export default RightCornerIcons;
+export default MenuButtons;

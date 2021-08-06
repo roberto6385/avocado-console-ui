@@ -33,7 +33,7 @@ const _Form = styled.form`
 	flex: 1;
 `;
 
-const FileListNav = ({uuid}) => {
+const FileToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 	const {
@@ -192,8 +192,8 @@ const FileListNav = ({uuid}) => {
 	);
 };
 
-FileListNav.propTypes = {
+FileToolbar.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default FileListNav;
+export default FileToolbar;

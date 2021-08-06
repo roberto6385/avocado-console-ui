@@ -10,11 +10,6 @@ import ComboBox_ from '../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../icons/icons';
 
 import {
-	borderColor,
-	fontColor,
-	greyNormalButtonBackgroundColor,
-} from '../../styles/color';
-import {
 	NormalButton,
 	TransparentButton,
 	NormalBorderButton,

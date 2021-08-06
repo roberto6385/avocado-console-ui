@@ -7,7 +7,7 @@ import {sftpIconConvert} from '../../icons/icons';
 import {connectionAction} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
 
-const SFTPConvertButton = ({data}) => {
+const SFTPConnectBtn = ({data}) => {
 	const dispatch = useDispatch();
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 	const {server, identity} = useSelector(
@@ -42,8 +42,8 @@ const SFTPConvertButton = ({data}) => {
 	return <HoverButton onClick={connection}>{sftpIconConvert}</HoverButton>;
 };
 
-SFTPConvertButton.propTypes = {
+SFTPConnectBtn.propTypes = {
 	data: PropTypes.object.isRequired,
 };
 
-export default SFTPConvertButton;
+export default SFTPConnectBtn;

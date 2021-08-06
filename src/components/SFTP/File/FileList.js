@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'react-contexify/dist/ReactContexify.css';
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
-import TableHead from './FileListTableHead';
+import TableHead from './TableHeader';
 import {dataFormater, formatByteSizeString} from '../functions';
 import {
 	editIcon,

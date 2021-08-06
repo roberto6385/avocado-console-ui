@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 
-import SFTPConvertButton from '../SFTP/SFTPConvertButton';
+import SFTPConnectBtn from '../SFTP/SFTPConnectBtn';
 import SnippetsManager from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
@@ -115,7 +115,7 @@ const SSHContainer = ({uuid, server}) => {
 					>
 						{snippetIcon}
 					</HoverButton>
-					<SFTPConvertButton data={server} />
+					<SFTPConnectBtn data={server} />
 					<HoverButton onClick={onCLickFullScreen}>
 						{fullScreenIcon}
 					</HoverButton>

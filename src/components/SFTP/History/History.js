@@ -15,13 +15,6 @@ import {
 	playCircleIcon,
 	removeCircleIcon,
 } from '../../../icons/icons';
-import {
-	historyDeleteColor,
-	historyDownloadColor,
-	historyEditColor,
-	historyPauseColor,
-	historyUploadColor,
-} from '../../../styles/color';
 
 import {PreventDragCopy} from '../../../styles/function';
 import {NormalButton} from '../../../styles/components/button';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditNav from './EditNav';
+import EditToolbar from './EditToolbar';
 import EditContents from './EditContents';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ const _Container = styled.div`
 const Edit = ({uuid}) => {
 	return (
 		<_Container>
-			<EditNav uuid={uuid} />
+			<EditToolbar uuid={uuid} />
 			<EditContents uuid={uuid} />
 		</_Container>
 	);
