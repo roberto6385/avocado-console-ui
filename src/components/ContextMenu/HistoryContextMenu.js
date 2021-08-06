@@ -7,7 +7,7 @@ const _Menu = styled(Menu)`
 	font-size: '14px';
 `;
 
-const HistoryContextMenu = ({uuid, highlight, setHighlight}) => {
+const HistoryContextMenu = ({setHighlight}) => {
 	const contextDeleteHistory = useCallback(() => {
 		// for (let value of highlight) {
 		// 	dispatch({type: SFTP_DELETE_HISTORY, data: {id: value.id}});

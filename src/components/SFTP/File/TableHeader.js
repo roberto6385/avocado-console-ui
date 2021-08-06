@@ -53,7 +53,7 @@ const TableHead = ({uuid}) => {
 	);
 	const corEtc = sftp_etcState.find((v) => v.uuid === uuid);
 	const {sortKeyword} = corEtc;
-	const Sorting = useCallback(
+	const onSortList = useCallback(
 		(e) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 
@@ -109,7 +109,7 @@ const TableHead = ({uuid}) => {
 							id={`fileListTableHead_${item.key}`}
 							active={sortKeyword === item.key}
 							textAlign={item.key === 'size' && 'right'}
-							onClick={Sorting}
+							onClick={onSortList}
 							min={item.min}
 							flex={item.flex}
 						>

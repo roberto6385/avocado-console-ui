@@ -1,6 +1,6 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
-import {pathFunction} from '../../components/SFTP/functions';
+import {createPathList} from '../../components/SFTP/functions';
 
 export function pwdResponse({data}) {
 	try {
@@ -23,7 +23,7 @@ export function pwdResponse({data}) {
 						const pwd = command.getPwd();
 						console.log('command : pwd', pwd);
 
-						let pathList = pathFunction({path: pwd.getPath()});
+						let pathList = createPathList({path: pwd.getPath()});
 
 						return {
 							type: PWD_SUCCESS,

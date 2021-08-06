@@ -112,7 +112,7 @@ export const dataFormater = ({modify, keyword, language}) => {
 	}
 };
 
-export const pathFunction = ({path}) => {
+export const createPathList = ({path}) => {
 	let pathList = ['/'];
 	let tempPathList = path.split('/');
 	tempPathList.reduce(function (accumulator, currentValue) {

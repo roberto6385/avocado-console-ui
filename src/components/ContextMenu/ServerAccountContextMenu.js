@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {animation, Item} from 'react-contexify';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_DELETE_DIALOG_BOX,

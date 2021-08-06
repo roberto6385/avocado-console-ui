@@ -15,8 +15,6 @@ const FolderContextMenu = ({data}) => {
 	const {t} = useTranslation('contextMenu');
 
 	const FolderContextMenuMessage = {
-		// new_server: t('newServer'),
-		// rename: 'Rename',
 		delete: t('delete'),
 	};
 

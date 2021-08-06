@@ -57,7 +57,7 @@ const FileToolbar = ({uuid}) => {
 
 	const [currentPath, setCurrentPath] = useState('');
 
-	const goHome = useCallback(
+	const movedHome = useCallback(
 		(e, nextPath = '/root') => {
 			const pathInput = document.getElementById('fileListNavInput');
 			console.log(nextPath);
@@ -75,7 +75,7 @@ const FileToolbar = ({uuid}) => {
 		[dispatch, path, socket, uuid],
 	);
 
-	const goBack = useCallback(
+	const movedBack = useCallback(
 		(e) => {
 			if (path !== '/') {
 				console.log(path);
@@ -83,17 +83,19 @@ const FileToolbar = ({uuid}) => {
 				tempPath.pop();
 				console.log(tempPath);
 				let nextPath = tempPath.join('/').trim();
-				goHome(e, nextPath === '' ? '/' : nextPath);
+				movedHome(e, nextPath === '' ? '/' : nextPath);
 			}
 		},
-		[goHome, path],
+		[movedHome, path],
 	);
 	const searchPath = useCallback(
 		(e) => {
 			e.preventDefault();
-			currentPath !== '' ? goHome(e, currentPath) : setCurrentPath(path);
+			currentPath !== ''
+				? movedHome(e, currentPath)
+				: setCurrentPath(path);
 		},
-		[currentPath, goHome, path],
+		[currentPath, movedHome, path],
 	);
 
 	const handleChange = useCallback((e) => {
@@ -113,7 +115,7 @@ const FileToolbar = ({uuid}) => {
 		[path],
 	);
 
-	const dropdownList = useCallback(() => {
+	const viewDropList = useCallback(() => {
 		mode !== 'drop' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -125,7 +127,7 @@ const FileToolbar = ({uuid}) => {
 			});
 	}, [dispatch, mode, uuid]);
 
-	const basicList = useCallback(() => {
+	const viewList = useCallback(() => {
 		mode !== 'list' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -153,20 +155,20 @@ const FileToolbar = ({uuid}) => {
 
 	return (
 		<_Container>
-			<HoverButton margin={'13px 5px 13px 16px'} onClick={goBack}>
+			<HoverButton margin={'13px 5px 13px 16px'} onClick={movedBack}>
 				{arrowUpwordIcon}
 			</HoverButton>
 			<SftpMainIcon
 				type={mode === 'list' ? 'main' : undefined}
 				margin={'13px 5px'}
-				onClick={basicList}
+				onClick={viewList}
 			>
 				{viewListIcon}
 			</SftpMainIcon>
 			<SftpMainIcon
 				type={mode === 'drop' ? 'main' : undefined}
 				margin={'13px 16px 13px 5px'}
-				onClick={dropdownList}
+				onClick={viewDropList}
 			>
 				{viewColumnIcon}
 			</SftpMainIcon>
@@ -185,7 +187,7 @@ const FileToolbar = ({uuid}) => {
 			<HoverButton margin={'13px 5px 13px 16px'} onClick={refresh}>
 				{refreshIcon}
 			</HoverButton>
-			<HoverButton margin={'13px 16px 13px 5px'} onClick={goHome}>
+			<HoverButton margin={'13px 16px 13px 5px'} onClick={movedHome}>
 				{homeIcon}
 			</HoverButton>
 		</_Container>
