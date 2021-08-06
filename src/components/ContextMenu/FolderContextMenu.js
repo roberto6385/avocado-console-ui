@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {
@@ -24,13 +24,13 @@ const FolderContextMenu = ({data}) => {
 				case 'new_server':
 					dispatch({
 						type: OPEN_ADD_SERVER_DIALOG_BOX,
-						data: {type: 'add'},
+						payload: {type: 'add'},
 					});
 					break;
 				case 'delete':
 					dispatch({
 						type: OPEN_DELETE_DIALOG_BOX,
-						data: {key: 'delete_server_folder'},
+						payload: {key: 'delete_server_folder'},
 					});
 					break;
 				default:

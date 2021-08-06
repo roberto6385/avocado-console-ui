@@ -62,7 +62,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
-			data: {
+			payload: {
 				token: userTicket.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
@@ -92,13 +92,13 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 				case 'delete':
 					dispatch({
 						type: OPEN_DELETE_DIALOG_BOX,
-						data: {key: 'delete_server_folder'},
+						payload: {key: 'delete_server_folder'},
 					});
 					break;
 				case 'properties':
 					dispatch({
 						type: OPEN_ADD_SERVER_DIALOG_BOX,
-						data: {type: 'edit', id: data.id},
+						payload: {type: 'edit', id: data.id},
 					});
 					break;
 				default:

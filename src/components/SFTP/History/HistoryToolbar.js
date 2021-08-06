@@ -126,7 +126,7 @@ const HistoryToolbar = ({uuid}) => {
 		} else {
 			dispatch({
 				type: OPEN_DELETE_DIALOG_BOX,
-				data: {key: 'sftp_delete_history', uuid: uuid},
+				payload: {key: 'sftp_delete_history', uuid: uuid},
 			});
 		}
 	}, [history_highlight, uuid, dispatch]);

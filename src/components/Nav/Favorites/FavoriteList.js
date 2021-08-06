@@ -20,7 +20,7 @@ const FavoriteList = ({search}) => {
 		console.log('drop favorites list');
 		dispatch({
 			type: SORT_FAVORITES_SERVER_AND_FOLDER,
-			data: {next: 'toEdge'},
+			payload: {next: 'toEdge'},
 		});
 		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [dispatch]);

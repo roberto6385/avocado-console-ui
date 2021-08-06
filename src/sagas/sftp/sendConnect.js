@@ -69,7 +69,7 @@ function* sendCommand(action) {
 
 						yield put({
 							type: OPEN_TAB,
-							data: {
+							payload: {
 								type: 'SFTP',
 								uuid: uuid,
 								server: {
@@ -94,10 +94,10 @@ function* sendCommand(action) {
 						if (socket.readyState === 1) {
 							yield put({
 								type: OPEN_WARNING_DIALOG_BOX,
-								data: 'invalid_server',
+								payload: 'invalid_server',
 							});
 						}
-						yield put({type: CONNECTION_FAILURE, data: res.err});
+						yield put({type: CONNECTION_FAILURE, payload: res.err});
 
 						yield put(
 							disconnectAction({
@@ -115,9 +115,9 @@ function* sendCommand(action) {
 		console.log(err);
 		yield put({
 			type: OPEN_WARNING_DIALOG_BOX,
-			data: 'invalid_server',
+			payload: 'invalid_server',
 		});
-		yield put({type: CONNECTION_FAILURE, data: err});
+		yield put({type: CONNECTION_FAILURE, payload: err});
 	}
 }
 

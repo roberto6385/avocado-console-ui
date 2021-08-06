@@ -154,13 +154,13 @@ const FileListContextMenu = ({uuid}) => {
 				case 'new_folder':
 					dispatch({
 						type: OPEN_INPUT_DIALOG_BOX,
-						data: {key: 'sftp_new_folder', uuid: uuid},
+						payload: {key: 'sftp_new_folder', uuid: uuid},
 					});
 					break;
 				case 'rename_work':
 					dispatch({
 						type: OPEN_INPUT_DIALOG_BOX,
-						data: {
+						payload: {
 							key: 'sftp_rename_file_folder',
 							uuid: uuid,
 						},
@@ -169,7 +169,7 @@ const FileListContextMenu = ({uuid}) => {
 				case 'delete_work':
 					dispatch({
 						type: OPEN_DELETE_DIALOG_BOX,
-						data: {
+						payload: {
 							key: 'sftp_delete_file_folder',
 							uuid: uuid,
 						},

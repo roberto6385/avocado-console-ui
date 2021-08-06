@@ -31,7 +31,7 @@ function* deleteAccount(action) {
 		});
 	} catch (err) {
 		console.log(err);
-		yield put({type: DELETE_ACCOUNT_FAILURE, data: err});
+		yield put({type: DELETE_ACCOUNT_FAILURE, payload: err});
 	}
 }
 

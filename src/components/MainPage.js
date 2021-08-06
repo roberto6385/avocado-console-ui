@@ -44,7 +44,7 @@ const MainPage = () => {
 	);
 
 	const onClickOpenAddServerDialog = useCallback(() => {
-		dispatch({type: OPEN_ADD_SERVER_DIALOG_BOX, data: {type: 'add'}});
+		dispatch({type: OPEN_ADD_SERVER_DIALOG_BOX, payload: {type: 'add'}});
 	}, [dispatch]);
 
 	return (

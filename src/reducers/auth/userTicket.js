@@ -58,7 +58,10 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case REFRESH_USER_TICKET_SUCCESS:
-				draft.userTicket = Object.assign(draft.userTicket, action.data);
+				draft.userTicket = Object.assign(
+					draft.userTicket,
+					action.payload,
+				);
 				draft.loading = false;
 				break;
 			case REFRESH_USER_TICKET_FAILURE:
@@ -81,7 +84,7 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case VARIFY_USER_TICKET_SUCCESS:
-				draft.find = action.data;
+				draft.find = action.payload;
 				draft.loading = false;
 				break;
 			case VARIFY_USER_TICKET_FAILURE:
@@ -92,7 +95,7 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case FIND_VALID_USER_TICKET_SUCCESS:
-				draft.find = action.data;
+				draft.find = action.payload;
 				draft.loading = false;
 				break;
 			case FIND_VALID_USER_TICKET_FAILURE:

@@ -152,12 +152,12 @@ const AddServerDialogBox = () => {
 				if (!duplicationTest(server, name, host, port, protocol)) {
 					dispatch({
 						type: OPEN_CONFIRM_DIALOG_BOX,
-						data: 'server_duplicate',
+						payload: 'server_duplicate',
 					});
 				} else if (!isValidHostname(host)) {
 					dispatch({
 						type: OPEN_WARNING_DIALOG_BOX,
-						data: 'invalid_server',
+						payload: 'invalid_server',
 					});
 				} else {
 					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
@@ -166,7 +166,7 @@ const AddServerDialogBox = () => {
 					ws.onerror = () => {
 						dispatch({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'invalid_server',
+							payload: 'invalid_server',
 						});
 					};
 
@@ -204,12 +204,12 @@ const AddServerDialogBox = () => {
 							if (add_server_dialog_box.type === 'add')
 								dispatch({
 									type: SAVE_SERVER,
-									data: newData,
+									payload: newData,
 								});
 							else if (add_server_dialog_box.type === 'edit')
 								dispatch({
 									type: EDIT_SERVER,
-									data: {
+									payload: {
 										id: add_server_dialog_box.id,
 										data: newData,
 									},

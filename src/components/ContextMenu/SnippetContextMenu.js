@@ -27,7 +27,7 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 			ws &&
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
-					data: {
+					payload: {
 						uuid: current_tab,
 						ws: ws,
 						input: v.content,

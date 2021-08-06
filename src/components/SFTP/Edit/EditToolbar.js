@@ -21,6 +21,8 @@ const _Container = styled.div`
 	justify-content: space-between;
 	padding: 0px 10px 0px 16px;
 	border-bottom: 1px solid;
+	border-color: ${(props) =>
+		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 	height: 50px;
 `;
 
@@ -80,13 +82,13 @@ const EditToolbar = ({uuid}) => {
 			// 변경 내용이 없습니다.
 			dispatch({
 				type: OPEN_CONFIRM_DIALOG_BOX,
-				data: 'no_changes',
+				payload: 'no_changes',
 			});
 		} else {
 			// 저장하시겠습니까?
 			dispatch({
 				type: OPEN_SAVE_DIALOG_BOX,
-				data: {key: 'sftp_edit_save', uuid},
+				payload: {key: 'sftp_edit_save', uuid},
 			});
 		}
 	}, [text, editText, dispatch, uuid]);
@@ -95,7 +97,7 @@ const EditToolbar = ({uuid}) => {
 		if (text !== editText) {
 			dispatch({
 				type: OPEN_SAVE_DIALOG_BOX,
-				data: {key: 'sftp_edit_close', uuid},
+				payload: {key: 'sftp_edit_close', uuid},
 			});
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});

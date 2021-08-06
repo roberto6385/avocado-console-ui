@@ -14,7 +14,7 @@ const ServerFolderList = ({search}) => {
 	const [filteredNavList, setFilteredNavList] = useState(nav);
 
 	const dropNavList = useCallback(() => {
-		dispatch({type: SORT_SERVER_AND_FOLDER, data: {next: 'toEdge'}});
+		dispatch({type: SORT_SERVER_AND_FOLDER, payload: {next: 'toEdge'}});
 	}, []);
 
 	useEffect(() => {

@@ -99,7 +99,7 @@ function* sendCommand(action) {
 						yield put({type: CD_FAILURE});
 						yield put({
 							type: OPEN_WARNING_DIALOG_BOX,
-							data: 'wrong_path',
+							payload: 'wrong_path',
 						});
 						break;
 					default:
@@ -114,7 +114,7 @@ function* sendCommand(action) {
 		yield put({type: CD_FAILURE});
 		yield put({
 			type: OPEN_WARNING_DIALOG_BOX,
-			data: 'wrong_path',
+			payload: 'wrong_path',
 		});
 	}
 }

@@ -39,9 +39,9 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 	const onCLickFolder = useCallback(() => {
 		if (clicked_server === data.key) {
-			dispatch({type: SET_CLICKED_SERVER, data: null});
+			dispatch({type: SET_CLICKED_SERVER, payload: null});
 		} else {
-			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 		}
 	}, [clicked_server, data.key, dispatch]);
 
@@ -56,7 +56,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 	const contextMenuOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch({type: SET_CLICKED_SERVER, data: data.key});
+			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			show(e);
 		},
 		[data.key, dispatch, show],
@@ -72,11 +72,11 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 			if (isValidFolderName(temp_favorites, renameValue.trim())) {
 				dispatch({
 					type: CHANGE_FAVORITES_FOLDER_NAME,
-					data: {key: data.key, name: renameValue.trim(), temp},
+					payload: {key: data.key, name: renameValue.trim(), temp},
 				});
 
 				setOpenRename(false);
-				dispatch({type: SET_CLICKED_SERVER, data: null});
+				dispatch({type: SET_CLICKED_SERVER, payload: null});
 			} else {
 				console.log(renameValue);
 				// 현재 중복이름으로 변경 후 esc가 아닌
@@ -84,11 +84,11 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				if (renameValue !== data.name) {
 					dispatch({
 						type: OPEN_CONFIRM_DIALOG_BOX,
-						data: 'folder_name_duplicate',
+						payload: 'folder_name_duplicate',
 					});
 				} else {
 					setOpenRename(false);
-					dispatch({type: SET_CLICKED_SERVER, data: null});
+					dispatch({type: SET_CLICKED_SERVER, payload: null});
 				}
 			}
 
@@ -101,7 +101,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 		(e) => {
 			if (e.keyCode === 27) {
 				setOpenRename(false);
-				dispatch({type: SET_CLICKED_SERVER, data: null});
+				dispatch({type: SET_CLICKED_SERVER, payload: null});
 			} else if (e.keyCode === 13) {
 				handleSubmit(e);
 			}
@@ -111,7 +111,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
-		dispatch({type: SET_CLICKED_SERVER, data: data.key});
+		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data.key, dispatch]);
 
 	const nextPutItem = useCallback(
@@ -123,7 +123,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 			data.type === 'folder' &&
 				dispatch({
 					type: SORT_FAVORITES_SERVER_AND_FOLDER,
-					data: {next: data, indent: parseInt(indent)},
+					payload: {next: data, indent: parseInt(indent)},
 				});
 			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
@@ -133,7 +133,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 	const handleBlur = useCallback(() => {
 		setOpenRename(false);
 		renameRef.current = null;
-		dispatch({type: SET_CLICKED_SERVER, data: null});
+		dispatch({type: SET_CLICKED_SERVER, payload: null});
 	}, [dispatch]);
 
 	const handleDragOver = useCallback((e) => {
@@ -161,7 +161,10 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 			setOpenTab(true);
 		}
 		if (data === createdFolderInfo) {
-			dispatch({type: SET_CLICKED_SERVER, data: createdFolderInfo.key});
+			dispatch({
+				type: SET_CLICKED_SERVER,
+				payload: createdFolderInfo.key,
+			});
 			setOpenRename(true);
 		}
 	}, [clicked_server, createdFolderInfo, data, dispatch]);

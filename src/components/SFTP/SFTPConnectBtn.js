@@ -35,7 +35,7 @@ const SFTPConnectBtn = ({data}) => {
 				}),
 			);
 		} else {
-			dispatch({type: OPEN_WARNING_DIALOG_BOX, data: 'lost_server'});
+			dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'lost_server'});
 		}
 	}, [server, data, identity, userTicket, dispatch]);
 

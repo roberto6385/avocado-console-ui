@@ -72,7 +72,7 @@ function* getUserTicket(action) {
 			},
 		});
 	} catch (err) {
-		yield put({type: GET_USER_TICKET_FAILURE, data: err});
+		yield put({type: GET_USER_TICKET_FAILURE, payload: err});
 	}
 }
 
@@ -97,9 +97,12 @@ function* refreshUserTicket(action) {
 	try {
 		const res = yield call(refreshUserTicketApi, action.params);
 		console.log(res);
-		yield put({type: REFRESH_USER_TICKET_SUCCESS, data: res.data});
+		yield put({type: REFRESH_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
-		yield put({type: REFRESH_USER_TICKET_FAILURE, data: err.response.data});
+		yield put({
+			type: REFRESH_USER_TICKET_FAILURE,
+			payload: err.response.data,
+		});
 	}
 }
 
@@ -141,11 +144,11 @@ function findValidUserTicketApi(params) {
 function* findValidUserTicket(action) {
 	try {
 		const res = yield call(findValidUserTicketApi, action.params);
-		yield put({type: FIND_VALID_USER_TICKET_SUCCESS, data: res.data});
+		yield put({type: FIND_VALID_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
 		yield put({
 			type: FIND_VALID_USER_TICKET_FAILURE,
-			data: err.response.data,
+			payload: err.response.data,
 		});
 	}
 }
@@ -163,11 +166,11 @@ function getVerifyUserTicketApi(params) {
 function* getVerifyUserTicket(action) {
 	try {
 		const res = yield call(getVerifyUserTicketApi, action.params);
-		yield put({type: VARIFY_USER_TICKET_SUCCESS, data: res.data});
+		yield put({type: VARIFY_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
 		yield put({
 			type: VARIFY_USER_TICKET_FAILURE,
-			data: err.response.data,
+			payload: err.response.data,
 		});
 	}
 }

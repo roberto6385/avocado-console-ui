@@ -70,7 +70,7 @@ const AddFavoritesDialogBox = () => {
 		if (JSON.stringify(temp_favorites) !== JSON.stringify(favorites)) {
 			dispatch({
 				type: OPEN_SAVE_DIALOG_BOX,
-				data: {key: 'favorites_save'},
+				payload: {key: 'favorites_save'},
 			});
 		} else {
 			dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
@@ -112,7 +112,7 @@ const AddFavoritesDialogBox = () => {
 		}
 		dispatch({
 			type: ADD_FAVORITES_FOLDER,
-			data: {name: folderName, key: 'temp_favorites'},
+			payload: {name: folderName, key: 'temp_favorites'},
 		});
 	}, [dispatch, temp_favorites, isValidFolderName, t]);
 

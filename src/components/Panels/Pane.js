@@ -88,7 +88,7 @@ const Pane = ({uuid, type, server}) => {
 
 	const onClickChangeCurrentTab = useCallback(() => {
 		if (current_tab !== uuid)
-			dispatch({type: CHANGE_CURRENT_TAB, data: uuid});
+			dispatch({type: CHANGE_CURRENT_TAB, payload: uuid});
 	}, [current_tab, dispatch, uuid]);
 
 	const onClickDelete = useCallback(
@@ -97,7 +97,7 @@ const Pane = ({uuid, type, server}) => {
 			if (type === 'SSH') {
 				dispatch({
 					type: SSH_SEND_DISCONNECTION_REQUEST,
-					data: {
+					payload: {
 						uuid: uuid,
 						ws: ssh.find((v) => v.uuid === uuid).ws,
 					},
@@ -128,7 +128,7 @@ const Pane = ({uuid, type, server}) => {
 		if (type === 'SSH') {
 			dispatch({
 				type: SSH_SEND_RECONNECTION_REQUEST,
-				data: {
+				payload: {
 					token: userTicket.access_token,
 					...correspondedServer,
 					user: correspondedIdentity.user,

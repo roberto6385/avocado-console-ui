@@ -26,7 +26,7 @@ const clientTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case GET_CLIENT_TICKET_SUCCESS:
-				draft.clientTicket = action.data;
+				draft.clientTicket = action.payload;
 				draft.loading = false;
 				break;
 			case GET_CLIENT_TICKET_FAILURE:

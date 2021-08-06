@@ -421,7 +421,7 @@ const reducer = (state = initialState, action) => {
 					type: 'folder',
 					id: draft.folder_index,
 					key: 'f_' + draft.folder_index.toString(),
-					name: action.data,
+					name: action.payload,
 					contain: [],
 				};
 
@@ -438,14 +438,14 @@ const reducer = (state = initialState, action) => {
 					type: 'folder',
 					id: draft.favorites_folder_index,
 					key: 'f_' + draft.favorites_folder_index.toString(),
-					name: action.data.name,
+					name: action.payload.name,
 					contain: [],
 				};
 
 				draft.favorites_key =
 					'f_' + draft.favorites_folder_index.toString();
 
-				if (action.data.key === 'favorites') {
+				if (action.payload.key === 'favorites') {
 					addDataOnNode(draft.favorites, draft.clicked_server, data);
 
 					localStorage.setItem(
@@ -474,17 +474,18 @@ const reducer = (state = initialState, action) => {
 				// 이동시킬 위치의 부모
 				let nextParent = startSearchingParentTree(
 					draft.nav,
-					action.data.next.key,
+					action.payload.next.key,
 				);
 				// 이동시킬 위치
 				const node = startSearchingTree(
 					draft.nav,
-					action.data.next.key,
+					action.payload.next.key,
 				);
 
 				if (
 					prev === node ||
-					(prevParent === draft.nav && action.data.next === 'toEdge')
+					(prevParent === draft.nav &&
+						action.payload.next === 'toEdge')
 				)
 					return;
 
@@ -498,10 +499,13 @@ const reducer = (state = initialState, action) => {
 					);
 				}
 
-				if (action.data.next !== 'toEdge' && i !== action.data.indent)
+				if (
+					action.payload.next !== 'toEdge' &&
+					i !== action.payload.indent
+				)
 					return;
 
-				if (action.data.next === 'toEdge') {
+				if (action.payload.next === 'toEdge') {
 					console.log('밖으로');
 					// let i = 1;
 					// while (nextParent !== draft.nav) {
@@ -511,7 +515,7 @@ const reducer = (state = initialState, action) => {
 					// 	);
 					// 	i = i + 1;
 					// }
-					// if (action.data.indent !== i) {
+					// if (action.payload.indent !== i) {
 					// 	return;
 					// }
 
@@ -564,18 +568,18 @@ const reducer = (state = initialState, action) => {
 				// 이동시킬 위치의 부모
 				let nextParent = startSearchingParentTree(
 					draft.favorites,
-					action.data.next.key,
+					action.payload.next.key,
 				);
 				// 이동시킬 위치
 				const node = startSearchingTree(
 					draft.favorites,
-					action.data.next.key,
+					action.payload.next.key,
 				);
 
 				if (
 					prev === node ||
 					(prevParent === draft.favorites &&
-						action.data.next === 'toEdge')
+						action.payload.next === 'toEdge')
 				)
 					return;
 
@@ -589,10 +593,13 @@ const reducer = (state = initialState, action) => {
 					);
 				}
 
-				if (action.data.next !== 'toEdge' && i !== action.data.indent)
+				if (
+					action.payload.next !== 'toEdge' &&
+					i !== action.payload.indent
+				)
 					return;
 
-				if (action.data.next === 'toEdge') {
+				if (action.payload.next === 'toEdge') {
 					draft.favorites.push(prev);
 
 					// 부모에서 이동시킨 데이터 삭제
@@ -620,9 +627,9 @@ const reducer = (state = initialState, action) => {
 
 			case BOOKMARKING: {
 				if (action.there) {
-					searchFavoritesStart(draft.favorites, action.data);
+					searchFavoritesStart(draft.favorites, action.payload);
 				} else {
-					draft.favorites.push(action.data);
+					draft.favorites.push(action.payload);
 				}
 
 				draft.temp_favorites = draft.favorites;
@@ -652,27 +659,27 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case CHANGE_SERVER_FOLDER_NAME: {
-				console.log(action.data);
-				if (action.data.key[0] === 's') {
+				console.log(action.payload);
+				if (action.payload.key[0] === 's') {
 					const keyIndex = draft.server.findIndex(
-						(v) => v.key === action.data.key,
+						(v) => v.key === action.payload.key,
 					);
 					const newServer = {
 						...state.server[keyIndex],
-						name: action.data.name,
+						name: action.payload.name,
 					};
 
 					draft.server.splice(keyIndex, 1, newServer);
 				}
 
-				startSearchingTree(draft.nav, action.data.key).name =
-					action.data.name;
+				startSearchingTree(draft.nav, action.payload.key).name =
+					action.payload.name;
 
 				draft.tab = draft.tab.map((v) => {
-					if (v.server.key === action.data.key)
+					if (v.server.key === action.payload.key)
 						return {
 							...v,
-							server: {...v.server, name: action.data.name},
+							server: {...v.server, name: action.payload.name},
 						};
 					else return v;
 				});
@@ -680,25 +687,27 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_FAVORITES_FOLDER_NAME: {
-				if (action.data.temp) {
+				if (action.payload.temp) {
 					startSearchingTree(
 						draft.temp_favorites,
-						action.data.key,
-					).name = action.data.name;
+						action.payload.key,
+					).name = action.payload.name;
 				} else {
 					startSearchingTree(
 						draft.temp_favorites,
-						action.data.key,
-					).name = action.data.name;
-					startSearchingTree(draft.favorites, action.data.key).name =
-						action.data.name;
+						action.payload.key,
+					).name = action.payload.name;
+					startSearchingTree(
+						draft.favorites,
+						action.payload.key,
+					).name = action.payload.name;
 				}
 
 				// draft.tab = draft.tab.map((v) => {
-				// 	if (v.server.key === action.data.key)
+				// 	if (v.server.key === action.payload.key)
 				// 		return {
 				// 			...v,
-				// 			server: {...v.server, name: action.data.name},
+				// 			server: {...v.server, name: action.payload.name},
 				// 		};
 				// 	else return v;
 				// });
@@ -707,11 +716,11 @@ const reducer = (state = initialState, action) => {
 
 			case EDIT_SERVER: {
 				const index = state.server.findIndex(
-					(v) => v.id === action.data.id,
+					(v) => v.id === action.payload.id,
 				);
 				const newServer = {
 					...state.server[index],
-					...action.data.data,
+					...action.payload.data,
 				};
 
 				draft.server.splice(index, 1, newServer);
@@ -721,7 +730,10 @@ const reducer = (state = initialState, action) => {
 
 				draft.tab = draft.tab.map((v) => {
 					if (v.server.key === newServer.key)
-						return {...v, server: {...v.server, name: action.data}};
+						return {
+							...v,
+							server: {...v.server, name: action.payload},
+						};
 					else return v;
 				});
 				break;
@@ -737,16 +749,16 @@ const reducer = (state = initialState, action) => {
 					type: 'server',
 					id: draft.server_index,
 					key: 's_' + draft.server_index.toString(),
-					name: action.data.name,
+					name: action.payload.name,
 				};
 
 				const identity = {
 					id: draft.identity_index,
 					identity_name: 'Temp Identity Name',
-					user: action.data.user,
-					password: action.data.password,
+					user: action.payload.user,
+					password: action.payload.password,
 					checked: true,
-					type: action.data.auth,
+					type: action.payload.auth,
 					key: 's_' + draft.server_index.toString(),
 				};
 
@@ -756,7 +768,7 @@ const reducer = (state = initialState, action) => {
 				draft.server.push({
 					id: draft.server_index,
 					key: 's_' + draft.server_index.toString(),
-					...action.data,
+					...action.payload,
 				});
 				draft.server_index++;
 				draft.identity_index++;
@@ -784,12 +796,12 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case SET_CLICKED_SERVER:
-				draft.clicked_server = action.data;
-				if (action.data === null) draft.favorites_key = null;
+				draft.clicked_server = action.payload;
+				if (action.payload === null) draft.favorites_key = null;
 				break;
 
 			case CHANGE_SIDEBAR_DISPLAY:
-				draft.minimize = action.data;
+				draft.minimize = action.payload;
 				break;
 
 			case CHANGE_PROTOCOL:
@@ -859,23 +871,23 @@ const reducer = (state = initialState, action) => {
 			case OPEN_TAB: {
 				//fill in new tab info
 				const new_tab = {
-					uuid: action.data.uuid,
-					type: action.data.type,
+					uuid: action.payload.uuid,
+					type: action.payload.type,
 					display: true,
-					server: action.data.server,
+					server: action.payload.server,
 				};
 				//save new tab info
-				if (action.data.prevUuid) {
-					if (action.data.prevIndex > draft.tab.length) {
+				if (action.payload.prevUuid) {
+					if (action.payload.prevIndex > draft.tab.length) {
 						draft.tab.push(new_tab);
 					} else {
-						draft.tab.splice(action.data.prevIndex, 0, new_tab);
+						draft.tab.splice(action.payload.prevIndex, 0, new_tab);
 					}
 				} else {
 					draft.tab.push(new_tab);
 				}
 				//set current tab
-				draft.current_tab = action.data.uuid;
+				draft.current_tab = action.payload.uuid;
 				draft.current_tab = fillTabs(
 					draft.tab,
 					draft.cols === 1 ? 1 : draft.cols * 3,
@@ -885,13 +897,17 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case SORT_TAB: {
-				draft.tab.splice(action.data.oldOrder, 1);
-				draft.tab.splice(action.data.newOrder, 0, action.data.newTab);
+				draft.tab.splice(action.payload.oldOrder, 1);
+				draft.tab.splice(
+					action.payload.newOrder,
+					0,
+					action.payload.newTab,
+				);
 				break;
 			}
 
 			case CLOSE_TAB: {
-				draft.tab = draft.tab.filter((v) => v.uuid !== action.data);
+				draft.tab = draft.tab.filter((v) => v.uuid !== action.payload);
 				//set current tab
 				draft.current_tab = fillTabs(
 					draft.tab,
@@ -904,13 +920,13 @@ const reducer = (state = initialState, action) => {
 			case CHANGE_VISIBLE_TAB: {
 				if (
 					draft.tab.length > 0 &&
-					draft.tab.findIndex((v) => v.uuid === action.data) !== -1
+					draft.tab.findIndex((v) => v.uuid === action.payload) !== -1
 				) {
 					draft.tab[
-						draft.tab.findIndex((v) => v.uuid === action.data)
+						draft.tab.findIndex((v) => v.uuid === action.payload)
 					].display = true;
 
-					draft.current_tab = action.data;
+					draft.current_tab = action.payload;
 					draft.current_tab = fillTabs(
 						draft.tab,
 						draft.cols === 1 ? 1 : draft.cols * 3,
@@ -924,17 +940,17 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case CHANGE_NUMBER_OF_COLUMNS: {
-				draft.cols = action.data.cols;
+				draft.cols = action.payload.cols;
 
 				draft.current_tab = fillTabs(
 					draft.tab,
-					action.data.cols === 1 ? 1 : draft.cols * 3,
+					action.payload.cols === 1 ? 1 : draft.cols * 3,
 					draft.current_tab,
 				);
 				break;
 			}
 			case CHANGE_CURRENT_TAB:
-				draft.current_tab = action.data;
+				draft.current_tab = action.payload;
 				break;
 
 			case RIGHT_SIDE_KEY:
@@ -945,7 +961,7 @@ const reducer = (state = initialState, action) => {
 				if (draft.notification.length > 30) draft.notification.shift();
 				draft.notification.push({
 					id: draft.notification_index++,
-					message: action.data,
+					message: action.payload,
 					date: Date.now(),
 					confirm: false,
 				});
