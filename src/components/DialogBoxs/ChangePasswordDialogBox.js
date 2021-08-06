@@ -23,7 +23,7 @@ const _PopupModal = styled(PopupModal)`
 	width: 404px;
 `;
 
-const ChangePasswordDialog = ({open, setOpen}) => {
+const ChangePasswordDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
@@ -161,9 +161,9 @@ const ChangePasswordDialog = ({open, setOpen}) => {
 	);
 };
 
-ChangePasswordDialog.propTypes = {
+ChangePasswordDialogBox.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default ChangePasswordDialog;
+export default ChangePasswordDialogBox;

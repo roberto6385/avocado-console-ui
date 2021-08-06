@@ -21,10 +21,11 @@ import {
 	searchIcon,
 } from '../../icons/icons';
 import {HoverButton, Icon} from '../../styles/components/icon';
-
-const terminalColor = {light: '#f8f9fa', dark: '#182530'};
-const terminalFontColor = {light: '#212121', dark: 'rgba(255,255,255,0.87)'};
-const terminalSelectionColor = {light: '#182530', dark: '#f8f9fa'};
+import {
+	terminalColor,
+	terminalFontColor,
+	terminalSelectionColor,
+} from '../../styles/color';
 
 const _Container = styled.div`
 	height: 100%;

@@ -3,7 +3,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/popup';
+import {CLOSE_WARNING_ALERT_POPUP} from '../../reducers/dialogbox';
 import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,

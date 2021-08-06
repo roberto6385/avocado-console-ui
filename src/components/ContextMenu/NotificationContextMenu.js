@@ -3,8 +3,6 @@ import {shallowEqual, useSelector} from 'react-redux';
 import styled, {keyframes} from 'styled-components';
 import PropTypes from 'prop-types';
 
-import {borderColor, fontColor, sshSearch} from '../../styles/color';
-
 const slideIn = keyframes`
   	from {
     	opacity: 0;
@@ -36,8 +34,8 @@ const _Nav = styled.div`
 	animation: ${(props) => (props.show ? slideIn : slideOut)} 0.3s linear;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 4px;
-	background: ${(props) => sshSearch[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
+	background: ${(props) =>
+		props.theme.basic.pages.contextMenus.normalStyle.backgroundColor};
 	z-index: 7;
 `;
 
@@ -46,7 +44,9 @@ const _Item = styled.li`
 	display: flex;
 	flex-direction: column;
 	height: 100px;
-	border-bottom: 1px solid ${(props) => borderColor[props.theme_value]};
+	border-bottom: 1px solid
+		${(props) =>
+			props.theme.basic.pages.contextMenus.normalStyle.border.color};
 `;
 
 const _Message = styled.div`

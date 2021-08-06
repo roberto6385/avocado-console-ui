@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
+import styled from 'styled-components';
+
 import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
 import {plusIcon, searchIcon} from '../../../icons/icons';
-import ServerFolderList from '../Resources/ServerFolderList';
-import styled from 'styled-components';
 import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import FavoriteList from './FavoriteList';
-import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../../reducers/popup';
 import {useDispatch} from 'react-redux';
+import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogbox';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -54,7 +54,7 @@ const Favorites = () => {
 
 	const [search, onChangeSearch] = useInput('');
 	const newFavorites = useCallback(() => {
-		dispatch({type: OPEN_ADD_FAVORITES_FORM_POPUP});
+		dispatch({type: OPEN_ADD_FAVORITES_DIALOG_BOX});
 	}, [dispatch]);
 
 	return (

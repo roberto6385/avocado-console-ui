@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
@@ -7,7 +7,6 @@ import {
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
-import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {Icon, IconButton} from '../../../styles/components/icon';

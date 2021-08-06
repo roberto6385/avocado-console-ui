@@ -27,7 +27,7 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {READY_STATE} from '../../reducers/ssh';
 
 function* sendConnection(action) {

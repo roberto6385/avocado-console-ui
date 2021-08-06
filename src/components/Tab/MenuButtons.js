@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import AccountContextMenu from '../ContextMenu/AccountContextMenu';
 import NotificationContextMenu from '../ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
 import {HoverButton} from '../../styles/components/icon';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,7 +26,9 @@ const _Container = styled.div`
 `;
 
 const MenuButtons = ({toggle, setToggle}) => {
+	const dispatch = useDispatch();
 	const {tab} = useSelector((state) => state.common, shallowEqual);
+
 	const MenuPosition = useRef();
 	const accountRef = useRef();
 	const settingRef = useRef();
@@ -82,7 +85,8 @@ const MenuButtons = ({toggle, setToggle}) => {
 	);
 
 	const openNotificationMenu = useCallback(() => {
-		setShownotificationMenu(true);
+		// setShownotificationMenu(true);
+		dispatch({type: OPEN_ALERT_POPUP, data: 'developing'});
 	}, []);
 
 	const openColumnMenu = useCallback(

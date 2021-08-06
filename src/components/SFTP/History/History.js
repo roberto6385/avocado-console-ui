@@ -127,7 +127,7 @@ const _HistorySizeText = styled.span`
 	line-height: 1.67;
 `;
 
-const HistoryButton = styled(HoverButton)`
+const HistoryButton = styled(Icon)`
 	color: ${(props) =>
 		(props.type === 'pause' &&
 			props.theme.pages.webTerminal.main.panels.sftp.history.icons.pause
@@ -244,6 +244,7 @@ const History = ({
 											: item.todo === 'rm' &&
 											  removeCircleIcon}
 									</HistoryButton>
+
 									<HistoryText
 										className={'history_contents'}
 										flex={1}

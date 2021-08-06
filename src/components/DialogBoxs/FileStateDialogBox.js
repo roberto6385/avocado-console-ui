@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_STAT_FORM_POPUP} from '../../reducers/popup';
+import {CLOSE_STAT_FORM_POPUP} from '../../reducers/dialogbox';
 
 import {commandChmodAction, commandStatAction} from '../../reducers/sftp';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ const KeySpan = styled.span`
 	font-size: 18px;
 `;
 
-const FileStateDialog = () => {
+const FileStateDialogBox = () => {
 	const dispatch = useDispatch();
 
 	const valueArray = [
@@ -383,4 +383,4 @@ const FileStateDialog = () => {
 	);
 };
 
-export default FileStateDialog;
+export default FileStateDialogBox;

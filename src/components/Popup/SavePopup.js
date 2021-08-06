@@ -2,9 +2,9 @@ import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
-	CLOSE_ADD_FAVORITES_FORM_POPUP,
+	CLOSE_ADD_FAVORITES_DIALOG_BOX,
 	CLOSE_SAVE_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../icons/icons';
@@ -83,7 +83,7 @@ const SavePopup = () => {
 				dispatch({type: UNDO_FAVORITES});
 				dispatch({type: LOCAL_SAVE_FAVORITES});
 				dispatch({type: CLOSE_SAVE_POPUP});
-				dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
+				dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 
 				// 초기화
 				break;

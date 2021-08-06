@@ -20,7 +20,7 @@ import {
 import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {cdResponse} from '../../ws/sftp/cd_response';
 import {pathFunction} from '../../components/SFTP/functions';
 

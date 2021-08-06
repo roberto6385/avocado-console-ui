@@ -83,6 +83,7 @@ export const properties = {
 						terminal: {
 							font: {color: '#212121'},
 							backgroundColor: '#f8f9fa',
+							selection: {color: '#182530'},
 						},
 						searchBox: {
 							backgroundColor: '#ffffff',

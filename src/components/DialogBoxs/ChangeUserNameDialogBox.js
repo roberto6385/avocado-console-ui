@@ -8,7 +8,6 @@ import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
 import {IconButton} from '../../styles/components/icon';
 import {
@@ -24,7 +23,7 @@ const _PopupModal = styled(PopupModal)`
 	width: 404px;
 `;
 
-const ChangeUserNameDialog = ({open, setOpen}) => {
+const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
@@ -111,9 +110,9 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 	);
 };
 
-ChangeUserNameDialog.propTypes = {
+ChangeUserNameDialogBox.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default ChangeUserNameDialog;
+export default ChangeUserNameDialogBox;

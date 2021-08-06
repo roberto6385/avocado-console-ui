@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
@@ -22,6 +22,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
+import {passwordIconColor} from '../../styles/color';
 
 const Item_Container = styled.div`
 	display: flex;
@@ -34,7 +35,7 @@ const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
 `;
 
-const _SecondaryGreenButton = styled(NormalBorderButton)`
+const _NormalBorderButton = styled(NormalBorderButton)`
 	height: 40px;
 	border-radius: 4px;
 	width: 120px;
@@ -42,7 +43,7 @@ const _SecondaryGreenButton = styled(NormalBorderButton)`
 	margin-left: 16px;
 `;
 
-const PasswordForm = () => {
+const FindPasswordForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('passwordForm');
 
@@ -170,9 +171,9 @@ const PasswordForm = () => {
 
 			<Item_Container>
 				<span>{t('auth')}</span>
-				<_SecondaryGreenButton onClick={sendAuth}>
+				<_NormalBorderButton onClick={sendAuth}>
 					{t('send')}
-				</_SecondaryGreenButton>
+				</_NormalBorderButton>
 			</Item_Container>
 
 			<Item_Container>
@@ -184,9 +185,9 @@ const PasswordForm = () => {
 						placeholder={t('authInput')}
 					/>
 				</TextBoxField_>
-				<_SecondaryGreenButton onClick={checkAuth}>
+				<_NormalBorderButton onClick={checkAuth}>
 					{t('check')}
-				</_SecondaryGreenButton>
+				</_NormalBorderButton>
 			</Item_Container>
 
 			<TextBoxField_ marginBottom={'18px'}>
@@ -201,7 +202,7 @@ const PasswordForm = () => {
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
-						color={'#757575'}
+						color={passwordIconColor}
 						onClick={typeChange}
 					>
 						{hidePassword
@@ -231,4 +232,4 @@ const PasswordForm = () => {
 	);
 };
 
-export default PasswordForm;
+export default FindPasswordForm;

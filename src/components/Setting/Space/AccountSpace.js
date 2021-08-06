@@ -6,9 +6,9 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import Radio_ from '../../RecycleComponents/Radio_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
-import ChangePasswordDialog from '../../DialogBoxs/ChangePasswordDialog';
+import ChangePasswordDialogBox from '../../DialogBoxs/ChangePasswordDialogBox';
 import {DisabledButton, NormalButton} from '../../../styles/components/button';
-import ChangeUserNameDialog from '../../DialogBoxs/ChangeUserNameDialog';
+import ChangeUserNameDialogBox from '../../DialogBoxs/ChangeUserNameDialogBox';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
@@ -143,8 +143,8 @@ const AccountSpace = () => {
 					disabled={mfaType === 'not_use'}
 				/>
 			</SettingContentsContainer>
-			<ChangePasswordDialog open={open} setOpen={setOpen} />
-			<ChangeUserNameDialog open={nameOpen} setOpen={setNameOpen} />
+			<ChangePasswordDialogBox open={open} setOpen={setOpen} />
+			<ChangeUserNameDialogBox open={nameOpen} setOpen={setNameOpen} />
 		</SettingMainContainer>
 	);
 };

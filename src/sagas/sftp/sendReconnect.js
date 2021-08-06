@@ -21,7 +21,7 @@ import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {reconnectResponse} from '../../ws/sftp/reconnect_response';
 
 function* sendCommand(action) {

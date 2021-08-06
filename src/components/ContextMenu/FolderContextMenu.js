@@ -5,9 +5,9 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {
-	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_ADD_SERVER_DIALOG_BOX,
 	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
 const FolderContextMenu = ({data}) => {
@@ -25,7 +25,7 @@ const FolderContextMenu = ({data}) => {
 			switch (e) {
 				case 'new_server':
 					dispatch({
-						type: OPEN_ADD_SERVER_FORM_POPUP,
+						type: OPEN_ADD_SERVER_DIALOG_BOX,
 						data: {type: 'add'},
 					});
 					break;

@@ -10,7 +10,7 @@ import {
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';

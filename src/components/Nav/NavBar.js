@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-
 import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
+
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
@@ -136,7 +136,7 @@ const NavBar = ({toggle, setToggle}) => {
 	//TODO: ADD SERVER
 	// const onClickAddServer = useCallback(() => {
 	// 	dispatch({
-	// 		type: OPEN_ADD_SERVER_FORM_POPUP,
+	// 		type: OPEN_ADD_SERVER_DIALOG_BOX,
 	// 		data: {type: 'add'},
 	// 	});
 	// }, [dispatch]);

@@ -18,7 +18,8 @@ export const Icon = styled.div`
 				: props.size
 			: '24px'};
 	color: ${(props) =>
-		props?.color || props?.itype === 'confirm'
+		props?.color ||
+		(props?.itype === 'confirm'
 			? props.theme.basic.pages.icons.dynamicIcons.normal.confirmStyle
 					.font.color
 			: props?.itype === 'warning'
@@ -30,7 +31,7 @@ export const Icon = styled.div`
 			: props?.itype === 'selected'
 			? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
 			: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle.font
-					.color};
+					.color)};
 };
 
 	span {
@@ -49,7 +50,8 @@ export const Icon = styled.div`
 
 	svg {
 		fill: ${(props) =>
-			props?.color || props?.itype === 'confirm'
+			props?.color ||
+			(props?.itype === 'confirm'
 				? props.theme.basic.pages.icons.dynamicIcons.normal.confirmStyle
 						.font.color
 				: props?.itype === 'warning'
@@ -61,7 +63,7 @@ export const Icon = styled.div`
 				: props?.itype === 'selected'
 				? props.theme.basic.pages.icons.dynamicIcons.selected.font.color
 				: props.theme.basic.pages.icons.dynamicIcons.normal.normalStyle
-						.font.color};
+						.font.color)};
 		width: ${(props) =>
 			props?.size
 				? props.size === 'sm'
