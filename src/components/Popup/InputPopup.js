@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_INPUT_POPUP} from '../../reducers/popup';
+import {CLOSE_INPUT_POPUP} from '../../reducers/dialogbox';
 import useInput from '../../hooks/useInput';
 import {commandMkdirAction, commandRenameAction} from '../../reducers/sftp';
 import styled from 'styled-components';

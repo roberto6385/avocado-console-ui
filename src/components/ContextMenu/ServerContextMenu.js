@@ -6,9 +6,9 @@ import {useTranslation} from 'react-i18next';
 
 import {connectionAction} from '../../reducers/sftp';
 import {
-	OPEN_ADD_SERVER_FORM_POPUP,
+	OPEN_ADD_SERVER_DIALOG_BOX,
 	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
@@ -102,7 +102,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					break;
 				case 'properties':
 					dispatch({
-						type: OPEN_ADD_SERVER_FORM_POPUP,
+						type: OPEN_ADD_SERVER_DIALOG_BOX,
 						data: {type: 'edit', id: data.id},
 					});
 					break;

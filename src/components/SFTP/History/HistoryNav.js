@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/popup';
+import {OPEN_WARNING_ALERT_POPUP} from '../../../reducers/dialogbox';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';

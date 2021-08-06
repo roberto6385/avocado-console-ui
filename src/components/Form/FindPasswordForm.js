@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
@@ -22,6 +22,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
+import {passwordIconColor} from '../../styles/color';
 
 const Item_Container = styled.div`
 	display: flex;
@@ -201,7 +202,7 @@ const FindPasswordForm = () => {
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
-						color={'#757575'}
+						color={passwordIconColor}
 						onClick={typeChange}
 					>
 						{hidePassword

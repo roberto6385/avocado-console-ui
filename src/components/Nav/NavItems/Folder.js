@@ -12,7 +12,7 @@ import {
 import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
-import {OPEN_ALERT_POPUP} from '../../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../../reducers/dialogbox';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationItemTitle,

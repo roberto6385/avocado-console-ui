@@ -10,9 +10,9 @@ import {
 } from '../../reducers/common';
 import useInput from '../../hooks/useInput';
 import {
-	CLOSE_ADD_FAVORITES_FORM_POPUP,
+	CLOSE_ADD_FAVORITES_DIALOG_BOX,
 	OPEN_SAVE_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 import {closeIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
@@ -49,7 +49,7 @@ const _ModalFooter = styled(ModalFooter)`
 	justify-content: space-between;
 `;
 
-const AddFavoritesDialog = () => {
+const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
@@ -57,7 +57,7 @@ const AddFavoritesDialog = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {add_favorites_form_popup} = useSelector(
+	const {add_favorites_dialog_box} = useSelector(
 		(state) => state.popup,
 		shallowEqual,
 	);
@@ -71,7 +71,7 @@ const AddFavoritesDialog = () => {
 				data: {key: 'favorites_save'},
 			});
 		} else {
-			dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
+			dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 		}
 	}, [favorites, tempFavorites]);
 
@@ -82,7 +82,7 @@ const AddFavoritesDialog = () => {
 				dispatch({type: SAVE_FAVORITES});
 				dispatch({type: LOCAL_SAVE_FAVORITES});
 			}
-			// dispatch({type: CLOSE_ADD_FAVORITES_FORM_POPUP});
+			// dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 		},
 		[dispatch, favorites, tempFavorites],
 	);
@@ -115,14 +115,14 @@ const AddFavoritesDialog = () => {
 	}, [dispatch, tempFavorites, isValidFolderName, t]);
 
 	useEffect(() => {
-		if (add_favorites_form_popup.open) {
+		if (add_favorites_dialog_box.open) {
 			console.log('open');
 		}
-	}, [add_favorites_form_popup]);
+	}, [add_favorites_dialog_box]);
 
 	return (
 		<_PopupModal
-			isOpen={add_favorites_form_popup.open}
+			isOpen={add_favorites_dialog_box.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -161,4 +161,4 @@ const AddFavoritesDialog = () => {
 	);
 };
 
-export default AddFavoritesDialog;
+export default AddFavoritesDialogBox;

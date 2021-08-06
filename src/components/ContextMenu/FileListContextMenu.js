@@ -10,7 +10,7 @@ import {
 	OPEN_INPUT_POPUP,
 	OPEN_STAT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();

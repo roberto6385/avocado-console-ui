@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {OPEN_ADD_SERVER_FORM_POPUP} from '../reducers/popup';
+import {OPEN_ADD_SERVER_DIALOG_BOX} from '../reducers/dialogbox';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from './LoadingSpinner';
@@ -44,7 +44,7 @@ const MainPage = () => {
 	);
 
 	const onClickOpenAddServerDialog = useCallback(() => {
-		dispatch({type: OPEN_ADD_SERVER_FORM_POPUP, data: {type: 'add'}});
+		dispatch({type: OPEN_ADD_SERVER_DIALOG_BOX, data: {type: 'add'}});
 	}, [dispatch]);
 
 	return (

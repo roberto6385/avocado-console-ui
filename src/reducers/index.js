@@ -8,7 +8,7 @@ import user from './user';
 import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
-import popup from './popup';
+import popup from './dialogbox';
 import clientTicket from './auth/clientTicket';
 import modify from './auth/modify';
 import verify from './auth/verify';

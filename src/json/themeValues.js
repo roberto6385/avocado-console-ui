@@ -84,6 +84,7 @@ export const themeValues = {
 							terminal: {
 								font: {color: '#212121'},
 								backgroundColor: '#f8f9fa',
+								selection: {color: '#182530'},
 							},
 							searchBox: {
 								backgroundColor: '#ffffff',
@@ -619,6 +620,7 @@ export const themeValues = {
 									color: 'rgba(255,255,255,0.87)',
 								},
 								backgroundColor: '#182530',
+								selection: {color: '#f8f9fa'},
 							},
 							searchBox: {
 								backgroundColor: '#253545',

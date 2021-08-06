@@ -7,7 +7,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import ServerFolderList from './NavItems/ServerFolderList';
 import FavoriteList from './NavItems/FavoriteList';
 import useInput from '../../hooks/useInput';
-import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
+import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../reducers/dialogbox';
 import {
 	avocadoLogo,
 	burgerMenuIcon,
@@ -183,13 +183,13 @@ const NavBar = ({toggle, setToggle}) => {
 	//TODO: ADD SERVER
 	// const onClickAddServer = useCallback(() => {
 	// 	dispatch({
-	// 		type: OPEN_ADD_SERVER_FORM_POPUP,
+	// 		type: OPEN_ADD_SERVER_DIALOG_BOX,
 	// 		data: {type: 'add'},
 	// 	});
 	// }, [dispatch]);
 
 	const newFavorites = useCallback(() => {
-		dispatch({type: OPEN_ADD_FAVORITES_FORM_POPUP});
+		dispatch({type: OPEN_ADD_FAVORITES_DIALOG_BOX});
 	}, [dispatch]);
 
 	const onClickOpenTggle = useCallback(() => {

@@ -23,7 +23,7 @@ const _PopupModal = styled(PopupModal)`
 	width: 404px;
 `;
 
-const ChangeUserNameDialog = ({open, setOpen}) => {
+const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
@@ -110,9 +110,9 @@ const ChangeUserNameDialog = ({open, setOpen}) => {
 	);
 };
 
-ChangeUserNameDialog.propTypes = {
+ChangeUserNameDialogBox.propTypes = {
 	open: PropTypes.bool.isRequired,
 	setOpen: PropTypes.func.isRequired,
 };
 
-export default ChangeUserNameDialog;
+export default ChangeUserNameDialogBox;

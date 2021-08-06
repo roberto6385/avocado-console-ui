@@ -5,8 +5,8 @@ export const initialState = {
 	warning_alert_popup: {open: false},
 	input_popup: {open: false},
 	save_popup: {open: false},
-	add_server_form_popup: {open: false},
-	add_favorites_form_popup: {open: false},
+	add_server_dialog_box: {open: false},
+	add_favorites_dialog_box: {open: false},
 	account_form_popup: {open: false},
 	stat_form_popup: {open: false},
 };
@@ -23,11 +23,11 @@ export const CLOSE_INPUT_POPUP = 'CLOSE_INPUT_POPUP';
 export const OPEN_SAVE_POPUP = 'OPEN_SAVE_POPUP';
 export const CLOSE_SAVE_POPUP = 'CLOSE_SAVE_POPUP';
 
-export const OPEN_ADD_SERVER_FORM_POPUP = 'OPEN_ADD_SERVER_FORM_POPUP';
-export const CLOSE_ADD_SERVER_FORM_POPUP = 'CLOSE_ADD_SERVER_FORM_POPUP';
+export const OPEN_ADD_SERVER_DIALOG_BOX = 'OPEN_ADD_SERVER_DIALOG_BOX';
+export const CLOSE_ADD_SERVER_DIALOG_BOX = 'CLOSE_ADD_SERVER_DIALOG_BOX';
 
-export const OPEN_ADD_FAVORITES_FORM_POPUP = 'OPEN_ADD_FAVORITES_FORM_POPUP';
-export const CLOSE_ADD_FAVORITES_FORM_POPUP = 'CLOSE_ADD_FAVORITES_FORM_POPUP';
+export const OPEN_ADD_FAVORITES_DIALOG_BOX = 'OPEN_ADD_FAVORITES_DIALOG_BOX';
+export const CLOSE_ADD_FAVORITES_DIALOG_BOX = 'CLOSE_ADD_FAVORITES_DIALOG_BOX';
 
 export const OPEN_ADD_ACCOUT_FORM_POPUP = 'OPEN_ADD_ACCOUT_FORM_POPUP';
 export const CLOSE_ADD_ACCOUT_FORM_POPUP = 'CLOSE_ADD_ACCOUT_FORM_POPUP';
@@ -77,27 +77,27 @@ const reducer = (state = initialState, action) => {
 				draft.save_popup = {open: false};
 				break;
 
-			case OPEN_ADD_SERVER_FORM_POPUP: {
-				draft.add_server_form_popup = {
+			case OPEN_ADD_SERVER_DIALOG_BOX: {
+				draft.add_server_dialog_box = {
 					open: true,
 					type: action.data.type,
 				};
 				if (action.data.type === 'edit')
-					draft.add_server_form_popup.id = action.data.id;
+					draft.add_server_dialog_box.id = action.data.id;
 				break;
 			}
-			case CLOSE_ADD_SERVER_FORM_POPUP:
-				draft.add_server_form_popup = {open: false};
+			case CLOSE_ADD_SERVER_DIALOG_BOX:
+				draft.add_server_dialog_box = {open: false};
 				break;
 
-			case OPEN_ADD_FAVORITES_FORM_POPUP: {
-				draft.add_favorites_form_popup = {
+			case OPEN_ADD_FAVORITES_DIALOG_BOX: {
+				draft.add_favorites_dialog_box = {
 					open: true,
 				};
 				break;
 			}
-			case CLOSE_ADD_FAVORITES_FORM_POPUP:
-				draft.add_favorites_form_popup = {open: false};
+			case CLOSE_ADD_FAVORITES_DIALOG_BOX:
+				draft.add_favorites_dialog_box = {open: false};
 				break;
 
 			case OPEN_ADD_ACCOUT_FORM_POPUP: {

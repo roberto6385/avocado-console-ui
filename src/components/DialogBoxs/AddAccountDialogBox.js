@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import useInput from '../../hooks/useInput';
-import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/popup';
+import {CLOSE_ADD_ACCOUT_FORM_POPUP} from '../../reducers/dialogbox';
 import {ACCOUT_CONTROL_ID} from '../../reducers/common';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -78,7 +78,7 @@ const _Form = styled.form`
 	margin: 18px 8px 12px 8px;
 `;
 
-const AddAccountDialog = () => {
+const AddAccountDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addAccountForm');
 
@@ -296,4 +296,4 @@ const AddAccountDialog = () => {
 	);
 };
 
-export default AddAccountDialog;
+export default AddAccountDialogBox;

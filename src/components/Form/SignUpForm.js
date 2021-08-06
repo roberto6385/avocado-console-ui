@@ -22,6 +22,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
+import {passwordIconColor} from '../../styles/color';
 
 const _PrimaryGreenButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -175,7 +176,7 @@ const SignUpForm = () => {
 					<IconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
-						color={'#757575'}
+						color={passwordIconColor}
 						onClick={typeChange}
 					>
 						{visible

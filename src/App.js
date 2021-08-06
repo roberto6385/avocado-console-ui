@@ -18,17 +18,17 @@ import {
 	Redirect,
 } from './pages';
 import AlertPopup from './components/Popup/AlertPopup';
-import AddServerDialog from './components/DialogBoxs/AddServerDialog';
+import AddServerDialogBox from './components/DialogBoxs/AddServerDialogBox';
 import WarningAlertPopup from './components/Popup/WarningAlertPopup';
 import InputPopup from './components/Popup/InputPopup';
 import SavePopup from './components/Popup/SavePopup';
-import AddFavoritesDialog from './components/DialogBoxs/AddFavoritesDialog';
+import AddFavoritesDialogBox from './components/DialogBoxs/AddFavoritesDialogBox';
 import {
 	REFRESH_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import Toast_ from './components/RecycleComponents/Toast_';
-import FileStateDialog from './components/DialogBoxs/FileStateDialog';
+import FileStateDialogBox from './components/DialogBoxs/FileStateDialogBox';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
@@ -106,9 +106,9 @@ const App = () => {
 					</ThemeProvider>
 					<Route component={NotFound} />
 				</Switch>
-				<AddServerDialog />
-				<AddFavoritesDialog />
-				<FileStateDialog />
+				<AddServerDialogBox />
+				<AddFavoritesDialogBox />
+				<FileStateDialogBox />
 				<AlertPopup />
 				<WarningAlertPopup />
 				<InputPopup />

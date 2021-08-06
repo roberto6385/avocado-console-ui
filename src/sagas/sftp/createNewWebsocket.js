@@ -7,7 +7,7 @@ import {
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {OPEN_ALERT_POPUP} from '../../reducers/popup';
+import {OPEN_ALERT_POPUP} from '../../reducers/dialogbox';
 import {createNewSocketResponse} from '../../ws/sftp/create_new_socket';
 import {subscribe} from '../channel';
 

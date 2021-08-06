@@ -26,6 +26,7 @@ import {
 	UserTitle,
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
+import {passwordIconColor} from '../../styles/color';
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -203,7 +204,7 @@ const SignInForm = () => {
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
-						color={'#757575'}
+						color={passwordIconColor}
 						onClick={typeChange}
 					>
 						{hidePassword

@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
 	OPEN_ADD_ACCOUT_FORM_POPUP,
 	OPEN_WARNING_ALERT_POPUP,
-} from '../../reducers/popup';
+} from '../../reducers/dialogbox';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
 const ServerAccountContextMenu = () => {

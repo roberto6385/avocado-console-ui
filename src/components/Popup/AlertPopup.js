@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CLOSE_ALERT_POPUP} from '../../reducers/popup';
+import {CLOSE_ALERT_POPUP} from '../../reducers/dialogbox';
 import {alertFillIcon, cancelFillIcon, closeIcon} from '../../icons/icons';
 import {
 	NormalButton,
