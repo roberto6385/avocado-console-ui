@@ -3,7 +3,6 @@ import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
-import {Nav} from 'react-bootstrap';
 
 import {HideScroll} from '../../../styles/function';
 import FavoriteServer from './FavoriteServer';
@@ -13,7 +12,7 @@ import {
 	SORT_FAVORITES_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 
-export const _Nav = styled(Nav)`
+export const _Nav = styled.div`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;

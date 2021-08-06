@@ -8,9 +8,12 @@ import styled from 'styled-components';
 import {closeIcon} from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
-import {ModalFooter, PopupModal} from '../../styles/components/disalogBox';
+import {
+	ModalFooter,
+	ModalHeader,
+	PopupModal,
+} from '../../styles/components/disalogBox';
 import {Form} from '../../styles/components/form';
-import ModalHeader from 'react-bootstrap/ModalHeader';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {Input} from '../../styles/components/input';
 

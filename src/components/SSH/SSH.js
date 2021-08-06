@@ -3,7 +3,6 @@ import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {ListGroup} from 'react-bootstrap';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -68,8 +67,10 @@ const _SearchContainer = styled.div`
 	z-index: 5;
 `;
 
-const _ListGroup = styled(ListGroup)`
+const _ListGroup = styled.ul`
 	position: absolute;
+	display: flex;
+	flex-direction: column;
 	left: ${(props) => props.left};
 	top: ${(props) => props.top};
 	bottom: ${(props) => props.bottom};
@@ -86,7 +87,7 @@ const _ListGroup = styled(ListGroup)`
 			.backgroundColor};
 `;
 
-const _ListGroupItem = styled(ListGroup.Item)`
+const _ListGroupItem = styled.li`
 	padding: 6px 5.8px;
 	border: none;
 	overflow: auto;

@@ -3,14 +3,14 @@ import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import styled from 'styled-components';
-import {Nav} from 'react-bootstrap';
 
 import Folder from './Folder';
 import Server from './Server';
 import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
 import {HideScroll} from '../../../styles/function';
+import {searchTreeStart} from '../functions';
 
-export const _Nav = styled(Nav)`
+export const _Nav = styled.div`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;
@@ -20,45 +20,6 @@ export const _Nav = styled(Nav)`
 	z-index: 3;
 	${HideScroll}
 `;
-
-function searchTreeNode(node, name) {
-	if (node.type === 'server' || !node.contain.length) {
-		if (
-			node.name
-				.toLowerCase()
-				.replace(/ /g, '')
-				.includes(name.toLowerCase().replace(/ /g, ''))
-		)
-			return node;
-		else return null;
-	}
-
-	let tempContain = [];
-	for (let x of node.contain) {
-		let result = searchTreeNode(x, name);
-		if (result) tempContain.push(result);
-	}
-	const val = {...node, contain: tempContain};
-
-	if (
-		!tempContain.length &&
-		!node.name
-			.toLowerCase()
-			.replace(/ /g, '')
-			.includes(name.toLowerCase().replace(/ /g, ''))
-	)
-		return null;
-	return val;
-}
-
-function startSearchTree(root, name) {
-	let tempRoot = [];
-	for (let x of root) {
-		const result = searchTreeNode(x, name);
-		if (result) tempRoot.push(result);
-	}
-	return tempRoot;
-}
 
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
@@ -78,7 +39,7 @@ const ServerFolderList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setFilteredNavList(startSearchTree(nav, search));
+		setFilteredNavList(searchTreeStart(nav, search));
 	}, [nav, search]);
 
 	return (

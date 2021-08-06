@@ -4,7 +4,6 @@ import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import useInput from '../../hooks/useInput';
 import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
