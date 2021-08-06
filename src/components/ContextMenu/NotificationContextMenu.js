@@ -3,7 +3,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import styled, {keyframes} from 'styled-components';
 import PropTypes from 'prop-types';
 
-import {borderColor, fontColor, sshSearch} from '../../styles/color';
+import {borderColor, sshSearch} from '../../styles/color';
 
 const slideIn = keyframes`
   	from {
@@ -37,7 +37,6 @@ const _Nav = styled.div`
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 4px;
 	background: ${(props) => sshSearch[props.theme_value]};
-	color: ${(props) => fontColor[props.theme_value]};
 	z-index: 7;
 `;
 

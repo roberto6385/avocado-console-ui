@@ -173,7 +173,7 @@ const History = ({
 										(v) => v.HISTORY_ID === item.HISTORY_ID,
 									)}
 								>
-									<HoverButton
+									<Icon
 										onClick={onPauseAndStart(item)}
 										size='20px'
 										margin={'10px'}
@@ -213,7 +213,7 @@ const History = ({
 											? buildCircleIcon
 											: item.todo === 'rm' &&
 											  removeCircleIcon}
-									</HoverButton>
+									</Icon>
 									<HistoryText
 										className={'history_contents'}
 										flex={1}

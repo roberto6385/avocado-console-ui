@@ -98,10 +98,10 @@ export const NormalBorderButton = styled(TransparentButton)`
 		border: solid 1px
 			${(props) =>
 				props.theme.basic.pages.buttons.borderStyle.normalStyle.hover
-					.backgroundColor};
+					.border.color};
 		background: ${(props) =>
-			props.theme.basic.pages.buttons.borderStyle.normalStyle.hover.border
-				.color};
+			props.theme.basic.pages.buttons.borderStyle.normalStyle.hover
+				.backgroundColor};
 	}
 	&:active {
 		color: ${(props) =>
@@ -110,10 +110,10 @@ export const NormalBorderButton = styled(TransparentButton)`
 		border: solid 1px
 			${(props) =>
 				props.theme.basic.pages.buttons.borderStyle.normalStyle.active
-					.backgroundColor};
+					.border.color};
 		background: ${(props) =>
 			props.theme.basic.pages.buttons.borderStyle.normalStyle.active
-				.border.color};
+				.backgroundColor};
 	}
 `;
 
@@ -132,10 +132,10 @@ export const WarningBorderButton = styled(TransparentButton)`
 		border: solid 1px
 			${(props) =>
 				props.theme.basic.pages.buttons.borderStyle.warningStyle.hover
-					.backgroundColor};
+					.border.color};
 		background: ${(props) =>
 			props.theme.basic.pages.buttons.borderStyle.warningStyle.hover
-				.border.color};
+				.backgroundColor};
 	}
 	&:active {
 		color: ${(props) =>
@@ -144,10 +144,10 @@ export const WarningBorderButton = styled(TransparentButton)`
 		border: solid 1px
 			${(props) =>
 				props.theme.basic.pages.buttons.borderStyle.warningStyle.active
-					.backgroundColor};
+					.border.color};
 		background: ${(props) =>
 			props.theme.basic.pages.buttons.borderStyle.warningStyle.active
-				.border.color};
+				.backgroundColor};
 	}
 `;
 

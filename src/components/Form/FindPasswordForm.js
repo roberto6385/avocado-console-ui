@@ -34,7 +34,7 @@ const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
 `;
 
-const _SecondaryGreenButton = styled(NormalBorderButton)`
+const _NormalBorderButton = styled(NormalBorderButton)`
 	height: 40px;
 	border-radius: 4px;
 	width: 120px;
@@ -42,7 +42,7 @@ const _SecondaryGreenButton = styled(NormalBorderButton)`
 	margin-left: 16px;
 `;
 
-const PasswordForm = () => {
+const FindPasswordForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('passwordForm');
 
@@ -170,9 +170,9 @@ const PasswordForm = () => {
 
 			<Item_Container>
 				<span>{t('auth')}</span>
-				<_SecondaryGreenButton onClick={sendAuth}>
+				<_NormalBorderButton onClick={sendAuth}>
 					{t('send')}
-				</_SecondaryGreenButton>
+				</_NormalBorderButton>
 			</Item_Container>
 
 			<Item_Container>
@@ -184,9 +184,9 @@ const PasswordForm = () => {
 						placeholder={t('authInput')}
 					/>
 				</TextBoxField_>
-				<_SecondaryGreenButton onClick={checkAuth}>
+				<_NormalBorderButton onClick={checkAuth}>
 					{t('check')}
-				</_SecondaryGreenButton>
+				</_NormalBorderButton>
 			</Item_Container>
 
 			<TextBoxField_ marginBottom={'18px'}>
@@ -231,4 +231,4 @@ const PasswordForm = () => {
 	);
 };
 
-export default PasswordForm;
+export default FindPasswordForm;

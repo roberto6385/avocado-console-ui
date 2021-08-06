@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {shallowEqual, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import PasswordForm from '../components/Form/PasswordForm';
+import FindPasswordForm from '../components/Form/FindPasswordForm';
 import SigninLayout from '../components/Layouts/SigninLayout';
 
 const Password = () => {
@@ -16,7 +16,7 @@ const Password = () => {
 
 	return (
 		<SigninLayout>
-			<PasswordForm />
+			<FindPasswordForm />
 		</SigninLayout>
 	);
 };

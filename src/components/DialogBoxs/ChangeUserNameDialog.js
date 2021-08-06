@@ -8,7 +8,6 @@ import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
-import {fontColor} from '../../styles/color';
 import {putModify} from '../../reducers/auth/modify';
 import {IconButton} from '../../styles/components/icon';
 import {

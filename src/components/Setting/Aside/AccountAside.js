@@ -5,7 +5,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
-import {settingInput} from '../../../styles/color';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
 
@@ -13,10 +12,6 @@ const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
 	height: 100%;
 	z-index: 5; // terminal보다 높아야 함.
-`;
-
-const _Input = styled(Input)`
-	background: ${(props) => settingInput[props.theme_value]};
 `;
 
 const _NormalButton = styled(NormalButton)`
@@ -62,21 +57,21 @@ const AccountAside = () => {
 	return (
 		<_Container>
 			<TextBoxField_ title={t('account')}>
-				<_Input
+				<Input
 					value={account.account}
 					placeholder={t('accountPlace')}
 					readOnly
 				/>
 			</TextBoxField_>
 			<TextBoxField_ title={t('name')}>
-				<_Input
+				<Input
 					value={account.name}
 					placeholder={t('namePlace')}
 					readOnly
 				/>
 			</TextBoxField_>
 			<TextBoxField_ title={t('email')}>
-				<_Input
+				<Input
 					value={account.email}
 					placeholder={t('emailPlace')}
 					readOnly
