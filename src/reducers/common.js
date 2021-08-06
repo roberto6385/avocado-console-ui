@@ -10,12 +10,12 @@ export const initialState = {
 	favorites_folder_index: 0,
 	folder_index: 2,
 	account: {account: '', name: '', email: ''},
-	rightSideKey: '',
+	side_key: '',
 	theme: 'light',
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 	favorites: [],
-	favoritesRenameKey: null,
-	tempFavorites: [],
+	favorites_key: null,
+	temp_favorites: [],
 	nav: [
 		{
 			type: 'folder',
@@ -117,12 +117,12 @@ export const initialState = {
 		},
 	],
 	// resource identity key
-	currentResourceListKey: null,
+	current_resource_key: null,
 	identity_index: 10,
 	identity: [
 		{
 			id: 0,
-			identityName: 'root',
+			identity_name: 'root',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
@@ -131,7 +131,7 @@ export const initialState = {
 		},
 		{
 			id: 1,
-			identityName: 'root',
+			identity_name: 'root',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
@@ -140,7 +140,7 @@ export const initialState = {
 		},
 		{
 			id: 2,
-			identityName: 'home',
+			identity_name: 'home',
 			user: 'home',
 			password: 'Netand141)',
 			checked: false,
@@ -149,7 +149,7 @@ export const initialState = {
 		},
 		{
 			id: 3,
-			identityName: 'root',
+			identity_name: 'root',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
@@ -158,7 +158,7 @@ export const initialState = {
 		},
 		{
 			id: 4,
-			identityName: 'root',
+			identity_name: 'root',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
@@ -167,7 +167,7 @@ export const initialState = {
 		},
 		{
 			id: 5,
-			identityName: 'user',
+			identity_name: 'user',
 			user: 'user',
 			password: 'Netand141)',
 			checked: false,
@@ -176,7 +176,7 @@ export const initialState = {
 		},
 		{
 			id: 6,
-			identityName: 'main',
+			identity_name: 'main',
 			user: 'main',
 			password: 'Netand141)',
 			checked: false,
@@ -185,7 +185,7 @@ export const initialState = {
 		},
 		{
 			id: 7,
-			identityName: 'home',
+			identity_name: 'home',
 			user: 'home',
 			password: 'Netand141)',
 			checked: false,
@@ -194,7 +194,7 @@ export const initialState = {
 		},
 		{
 			id: 8,
-			identityName: 'root',
+			identity_name: 'root',
 			user: 'root',
 			password: 'Netand141)',
 			checked: true,
@@ -442,7 +442,7 @@ const reducer = (state = initialState, action) => {
 					contain: [],
 				};
 
-				draft.favoritesRenameKey =
+				draft.favorites_key =
 					'f_' + draft.favorites_folder_index.toString();
 
 				if (action.data.key === 'favorites') {
@@ -453,7 +453,7 @@ const reducer = (state = initialState, action) => {
 						JSON.stringify(draft.favorites),
 					);
 				}
-				addDataOnNode(draft.tempFavorites, draft.clicked_server, data);
+				addDataOnNode(draft.temp_favorites, draft.clicked_server, data);
 
 				draft.favorites_folder_index++;
 				break;
@@ -541,12 +541,12 @@ const reducer = (state = initialState, action) => {
 			}
 
 			case SAVE_FAVORITES: {
-				draft.favorites = draft.tempFavorites;
+				draft.favorites = draft.temp_favorites;
 
 				break;
 			}
 			case UNDO_FAVORITES: {
-				draft.tempFavorites = draft.favorites;
+				draft.temp_favorites = draft.favorites;
 				break;
 			}
 			case SORT_FAVORITES_SERVER_AND_FOLDER: {
@@ -613,7 +613,7 @@ const reducer = (state = initialState, action) => {
 					}
 				}
 
-				draft.tempFavorites = draft.favorites;
+				draft.temp_favorites = draft.favorites;
 
 				break;
 			}
@@ -625,7 +625,7 @@ const reducer = (state = initialState, action) => {
 					draft.favorites.push(action.data);
 				}
 
-				draft.tempFavorites = draft.favorites;
+				draft.temp_favorites = draft.favorites;
 
 				break;
 			}
@@ -633,7 +633,7 @@ const reducer = (state = initialState, action) => {
 			case INIT_FAVORITES:
 				draft.favorites =
 					JSON.parse(localStorage.getItem('favorites')) || [];
-				draft.tempFavorites =
+				draft.temp_favorites =
 					JSON.parse(localStorage.getItem('favorites')) || [];
 				draft.favorites_folder_index = JSON.parse(
 					localStorage.getItem('favorites_folder_index') || 0,
@@ -682,12 +682,12 @@ const reducer = (state = initialState, action) => {
 			case CHANGE_FAVORITES_FOLDER_NAME: {
 				if (action.data.temp) {
 					startSearchingTree(
-						draft.tempFavorites,
+						draft.temp_favorites,
 						action.data.key,
 					).name = action.data.name;
 				} else {
 					startSearchingTree(
-						draft.tempFavorites,
+						draft.temp_favorites,
 						action.data.key,
 					).name = action.data.name;
 					startSearchingTree(draft.favorites, action.data.key).name =
@@ -742,7 +742,7 @@ const reducer = (state = initialState, action) => {
 
 				const identity = {
 					id: draft.identity_index,
-					identityName: 'Temp Identity Name',
+					identity_name: 'Temp Identity Name',
 					user: action.data.user,
 					password: action.data.password,
 					checked: true,
@@ -778,14 +778,14 @@ const reducer = (state = initialState, action) => {
 					);
 
 				startDeleteingTree(draft.favorites, draft.clicked_server);
-				draft.tempFavorites = draft.favorites;
+				draft.temp_favorites = draft.favorites;
 
 				break;
 			}
 
 			case SET_CLICKED_SERVER:
 				draft.clicked_server = action.data;
-				if (action.data === null) draft.favoritesRenameKey = null;
+				if (action.data === null) draft.favorites_key = null;
 				break;
 
 			case CHANGE_SIDEBAR_DISPLAY:
@@ -841,7 +841,7 @@ const reducer = (state = initialState, action) => {
 			// 	break;
 
 			case CHANGE_CURRENT_RESOURCE_KEY:
-				draft.currentResourceListKey = action.payload.key;
+				draft.current_resource_key = action.payload.key;
 				break;
 
 			// case ACCOUT_CHECKLIST:
@@ -938,7 +938,7 @@ const reducer = (state = initialState, action) => {
 				break;
 
 			case RIGHT_SIDE_KEY:
-				draft.rightSideKey = action.payload;
+				draft.side_key = action.payload;
 				break;
 
 			case ADD_NOTIFICATION:

@@ -30,12 +30,8 @@ const Input_ = styled(Input)`
 
 const FavoriteFolder = ({open, data, indent, temp}) => {
 	const dispatch = useDispatch();
-	const {
-		clicked_server,
-		createdFolderInfo,
-		tempFavorites,
-		favoritesRenameKey,
-	} = useSelector((state) => state.common, shallowEqual);
+	const {clicked_server, createdFolderInfo, temp_favorites, favorites_key} =
+		useSelector((state) => state.common, shallowEqual);
 	const renameRef = useRef(null);
 	const [openTab, setOpenTab] = useState(false);
 	const [openRename, setOpenRename] = useState(false);
@@ -73,7 +69,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 			if (renameValue === '') return;
 
 			console.log(data.name);
-			if (isValidFolderName(tempFavorites, renameValue.trim())) {
+			if (isValidFolderName(temp_favorites, renameValue.trim())) {
 				dispatch({
 					type: CHANGE_FAVORITES_FOLDER_NAME,
 					data: {key: data.key, name: renameValue.trim(), temp},
@@ -98,7 +94,7 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
-		[renameValue, data.name, data.key, tempFavorites, dispatch, temp],
+		[renameValue, data.name, data.key, temp_favorites, dispatch, temp],
 	);
 
 	const handleKeyDown = useCallback(
@@ -172,10 +168,10 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 	useEffect(() => {
 		renameRef.current?.focus();
-		if (data.key === favoritesRenameKey) {
+		if (data.key === favorites_key) {
 			setOpenRename(true);
 		}
-	}, [data, favoritesRenameKey]);
+	}, [data, favorites_key]);
 
 	return (
 		<React.Fragment>

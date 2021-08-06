@@ -29,7 +29,7 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('asideContainer');
-	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
+	const {side_key} = useSelector((state) => state.common, shallowEqual);
 
 	const closeAside = useCallback(() => {
 		setToggle(false);
@@ -38,16 +38,16 @@ const AsideContainer = ({toggle, setToggle}) => {
 	return (
 		<_Container className={toggle ? 'aside' : 'aside close'}>
 			<_SettingTitle>
-				{rightSideKey === 'Account' && t('account')}
-				{rightSideKey === 'Preferences' && t('preferences')}
-				{rightSideKey === 'Identities' && t('identities')}
+				{side_key === 'Account' && t('account')}
+				{side_key === 'Preferences' && t('preferences')}
+				{side_key === 'Identities' && t('identities')}
 				<IconButton itype={'font'} margin={'0px'} onClick={closeAside}>
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>
-			{rightSideKey === 'Account' && <AccountAside />}
-			{rightSideKey === 'Preferences' && <PreferencesAside />}
-			{rightSideKey === 'Identities' && <IdentitiesAside />}
+			{side_key === 'Account' && <AccountAside />}
+			{side_key === 'Preferences' && <PreferencesAside />}
+			{side_key === 'Identities' && <IdentitiesAside />}
 		</_Container>
 	);
 };

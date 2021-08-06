@@ -228,7 +228,7 @@ const AddServerDialogBox = () => {
 					(v) => v.key === clicked_server,
 				);
 				const selectedIdentity = correspondedIdentityList.find(
-					(v) => v.identityName === account,
+					(v) => v.identity_name === account,
 				);
 
 				if (
@@ -300,7 +300,7 @@ const AddServerDialogBox = () => {
 				setProtocol(data.protocol);
 				setHost(data.host);
 				setPort(data.port);
-				setAccount(correspondedIdentity.identityName);
+				setAccount(correspondedIdentity.identity_name);
 				setAuthentication(correspondedIdentity.type);
 				setPassword(correspondedIdentity.password);
 				// setIdentityList(
@@ -334,9 +334,9 @@ const AddServerDialogBox = () => {
 		);
 		const newArray = correspondedIdentityList.map((item) => {
 			return {
-				value: item.identityName,
+				value: item.identity_name,
 				info: item,
-				label: item.identityName,
+				label: item.identity_name,
 			};
 		});
 		add_server_dialog_box.type === 'edit' && setIdentityList(newArray);
@@ -347,7 +347,7 @@ const AddServerDialogBox = () => {
 			(v) => v.key === clicked_server,
 		);
 		const selectedIdentity = correspondedIdentityList.find(
-			(v) => v.identityName === account,
+			(v) => v.identity_name === account,
 		);
 
 		if (selectedIdentity) {

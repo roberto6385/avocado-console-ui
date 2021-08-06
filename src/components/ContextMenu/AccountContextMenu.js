@@ -13,22 +13,22 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 
-	const {rightSideKey} = useSelector((state) => state.common, shallowEqual);
+	const {side_key} = useSelector((state) => state.common, shallowEqual);
 	const userTicket = useSelector((state) => state.userTicket.userTicket);
 
 	const openSideMenu = useCallback(
 		(key) => () => {
 			console.log(toggle);
 			console.log(key);
-			console.log(rightSideKey);
-			if (toggle && rightSideKey === key) {
+			console.log(side_key);
+			if (toggle && side_key === key) {
 				setToggle(false);
 			} else {
 				dispatch({type: RIGHT_SIDE_KEY, payload: key});
 				setToggle(true);
 			}
 		},
-		[dispatch, rightSideKey, setToggle, toggle],
+		[dispatch, side_key, setToggle, toggle],
 	);
 
 	const logout = useCallback(() => {

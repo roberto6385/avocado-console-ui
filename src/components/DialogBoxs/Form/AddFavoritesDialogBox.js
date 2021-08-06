@@ -55,7 +55,7 @@ const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
-	const {tempFavorites, favorites} = useSelector(
+	const {temp_favorites, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -67,7 +67,7 @@ const AddFavoritesDialogBox = () => {
 	const [search, onChangeSearch] = useInput('');
 
 	const closeModal = useCallback(() => {
-		if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
+		if (JSON.stringify(temp_favorites) !== JSON.stringify(favorites)) {
 			dispatch({
 				type: OPEN_SAVE_DIALOG_BOX,
 				data: {key: 'favorites_save'},
@@ -75,18 +75,18 @@ const AddFavoritesDialogBox = () => {
 		} else {
 			dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 		}
-	}, [favorites, tempFavorites]);
+	}, [favorites, temp_favorites]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
+			if (JSON.stringify(temp_favorites) !== JSON.stringify(favorites)) {
 				dispatch({type: SAVE_FAVORITES});
 				dispatch({type: LOCAL_SAVE_FAVORITES});
 			}
 			// dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 		},
-		[dispatch, favorites, tempFavorites],
+		[dispatch, favorites, temp_favorites],
 	);
 
 	const isValidFolderName = useCallback((folderArray, name) => {
@@ -106,15 +106,15 @@ const AddFavoritesDialogBox = () => {
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
 		let i = 0;
-		while (!isValidFolderName(tempFavorites, folderName)) {
+		while (!isValidFolderName(temp_favorites, folderName)) {
 			folderName = `${t('newFolder')} ${i}`;
 			i++;
 		}
 		dispatch({
 			type: ADD_FAVORITES_FOLDER,
-			data: {name: folderName, key: 'tempFavorites'},
+			data: {name: folderName, key: 'temp_favorites'},
 		});
-	}, [dispatch, tempFavorites, isValidFolderName, t]);
+	}, [dispatch, temp_favorites, isValidFolderName, t]);
 
 	useEffect(() => {
 		if (add_favorites_dialog_box.open) {

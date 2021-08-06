@@ -51,8 +51,8 @@ function searchTreeStart(root, name) {
 
 const FavoriteTempList = ({search}) => {
 	const dispatch = useDispatch();
-	const {tempFavorites} = useSelector((state) => state.common, shallowEqual);
-	const [filteredFavorite, setfilteredFavorite] = useState(tempFavorites);
+	const {temp_favorites} = useSelector((state) => state.common, shallowEqual);
+	const [filteredFavorite, setfilteredFavorite] = useState(temp_favorites);
 
 	const dropNavList = useCallback(() => {
 		//TODO favorites temp list drag and drop
@@ -74,8 +74,8 @@ const FavoriteTempList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorite(searchTreeStart(tempFavorites, search));
-	}, [tempFavorites, search]);
+		setfilteredFavorite(searchTreeStart(temp_favorites, search));
+	}, [temp_favorites, search]);
 
 	const handleDragOver = useCallback((e) => {
 		e.stopPropagation();
