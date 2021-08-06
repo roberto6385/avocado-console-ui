@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import 'react-contexify/dist/ReactContexify.css';
 import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
 import TableHead from './FileListTableHead';
-import {formatByteSizeString, dataFormater} from '../functions';
+import {dataFormater, formatByteSizeString} from '../functions';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -13,7 +13,8 @@ import {
 import styled from 'styled-components';
 
 import {HideScroll, PreventDragCopy} from '../../../styles/function';
-import {HoverButton, Icon} from '../../../styles/components/icon';
+import {HoverButton} from '../../../styles/components/icon';
+import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 
 const _Table = styled.table`
 	display: flex;
@@ -102,15 +103,18 @@ const FileList = ({
 									}
 								>
 									<_Th min={'150px'} flex={1}>
-										{item.type === 'directory' ? (
-											<Icon margin_right={'8px'}>
-												{folderOpenIcon}
-											</Icon>
-										) : (
-											<Icon margin_right={'8px'}>
-												{fileIcon}
-											</Icon>
-										)}
+										<SftpMainIcon
+											type={
+												item.type === 'directory'
+													? 'main'
+													: undefined
+											}
+											margin_right={'8px'}
+										>
+											{item.type === 'directory'
+												? folderOpenIcon
+												: fileIcon}
+										</SftpMainIcon>
 
 										<span className='filelist_contents'>
 											{item.name}

@@ -134,6 +134,44 @@ const _HistorySizeText = styled.span`
 	line-height: 1.67;
 `;
 
+const HistoryButton = styled(HoverButton)`
+	color: ${(props) =>
+		(props.type === 'pause' &&
+			props.theme.pages.webTerminal.main.panels.sftp.history.icons.pause
+				.font.color) ||
+		(props.type === 'upload' &&
+			props.theme.pages.webTerminal.main.panels.sftp.history.icons.upload
+				.font.color) ||
+		(props.type === 'read' &&
+			props.theme.pages.webTerminal.main.panels.sftp.history.icons
+				.download.font.color) ||
+		(props.type === 'edit' &&
+			props.theme.pages.webTerminal.main.panels.sftp.history.icons.edit
+				.font.color) ||
+		(props.type === 'delete' &&
+			props.theme.pages.webTerminal.main.panels.sftp.history.icons.delete
+				.font.color)};
+
+	svg {
+		fill: ${(props) =>
+			(props.type === 'pause' &&
+				props.theme.pages.webTerminal.main.panels.sftp.history.icons
+					.pause.font.color) ||
+			(props.type === 'upload' &&
+				props.theme.pages.webTerminal.main.panels.sftp.history.icons
+					.upload.font.color) ||
+			(props.type === 'read' &&
+				props.theme.pages.webTerminal.main.panels.sftp.history.icons
+					.download.font.color) ||
+			(props.type === 'edit' &&
+				props.theme.pages.webTerminal.main.panels.sftp.history.icons
+					.edit.font.color) ||
+			(props.type === 'delete' &&
+				props.theme.pages.webTerminal.main.panels.sftp.history.icons
+					.delete.font.color)};
+	}
+`;
+
 const History = ({
 	onUploadWithDrop,
 	onUploadWithClick,
@@ -173,21 +211,20 @@ const History = ({
 										(v) => v.HISTORY_ID === item.HISTORY_ID,
 									)}
 								>
-									<HoverButton
+									<HistoryButton
 										onClick={onPauseAndStart(item)}
 										size='20px'
 										margin={'10px'}
-										color={
+										type={
 											item.progress !== 100
-												? historyPauseColor
+												? 'pause'
 												: item.todo === 'write'
-												? historyUploadColor
+												? 'upload'
 												: item.todo === 'read'
-												? historyDownloadColor
+												? 'read'
 												: item.todo === 'edit'
-												? historyEditColor
-												: item.todo === 'rm' &&
-												  historyDeleteColor
+												? 'edit'
+												: item.todo === 'rm' && 'delete'
 										}
 									>
 										{item.progress !== 100
@@ -213,7 +250,7 @@ const History = ({
 											? buildCircleIcon
 											: item.todo === 'rm' &&
 											  removeCircleIcon}
-									</HoverButton>
+									</HistoryButton>
 									<HistoryText
 										className={'history_contents'}
 										flex={1}

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -18,6 +18,7 @@ import {
 } from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
 import {SearchInput} from '../../../styles/components/input';
+import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -34,6 +35,7 @@ const _Form = styled.form`
 
 const FileListNav = ({uuid}) => {
 	const dispatch = useDispatch();
+	const inputRef = useRef(null);
 	const {
 		path: sftp_pathState,
 		socket: sftp_socketState,
@@ -154,15 +156,25 @@ const FileListNav = ({uuid}) => {
 			<HoverButton margin={'13px 5px 13px 16px'} onClick={goBack}>
 				{arrowUpwordIcon}
 			</HoverButton>
-			<HoverButton margin={'13px 5px'} onClick={basicList}>
+			<SftpMainIcon
+				type={mode === 'list' ? 'main' : undefined}
+				margin={'13px 5px'}
+				onClick={basicList}
+			>
 				{viewListIcon}
-			</HoverButton>
-			<HoverButton margin={'13px 16px 13px 5px'} onClick={dropdownList}>
+			</SftpMainIcon>
+			<SftpMainIcon
+				type={mode === 'drop' ? 'main' : undefined}
+				margin={'13px 16px 13px 5px'}
+				onClick={dropdownList}
+			>
 				{viewColumnIcon}
-			</HoverButton>
+			</SftpMainIcon>
 			<_Form onSubmit={searchPath} autoComplete='off'>
 				<SearchInput
+					ref={inputRef}
 					id='fileListNavInput'
+					onClick={() => inputRef.current?.select()}
 					type='text'
 					value={currentPath}
 					onChange={handleChange}

@@ -11,6 +11,7 @@ import {
 } from '../../../icons/icons';
 import {HideScroll, PreventDragCopy} from '../../../styles/function';
 import {HoverButton, Icon} from '../../../styles/components/icon';
+import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 
 const _Container = styled.div`
 	display: flex;
@@ -59,6 +60,7 @@ const _Ul = styled.ul`
 `;
 
 const _Li = styled.li`
+	cursor: pointer;
 	background: ${(props) =>
 		(props.type === 'current' &&
 			props.theme.pages.webTerminal.main.panels.sftp.files
@@ -118,12 +120,14 @@ const DropList = ({
 													it?.name === item.name &&
 													path ===
 														pathList[listindex],
-											) > -1 &&
-												'current') ||
+											) > -1
+												? 'current'
+												: undefined) ||
 											(pathList[listindex + 1]
 												?.split('/')
-												.pop() === item.name &&
-												'prev')
+												.pop() === item.name
+												? 'prev'
+												: undefined)
 										}
 										key={index}
 										onContextMenu={onContextMenu({
@@ -139,15 +143,18 @@ const DropList = ({
 										<_FirstItemContainer
 											className={'filelist_contents'}
 										>
-											{item.type === 'directory' ? (
-												<Icon margin_right={'8px'}>
-													{folderOpenIcon}
-												</Icon>
-											) : (
-												<Icon margin_right={'8px'}>
-													{fileIcon}
-												</Icon>
-											)}
+											<SftpMainIcon
+												type={
+													item.type === 'directory'
+														? 'main'
+														: undefined
+												}
+												margin_right={'8px'}
+											>
+												{item.type === 'directory'
+													? folderOpenIcon
+													: fileIcon}
+											</SftpMainIcon>
 
 											<div
 												className={'filelist_contents'}

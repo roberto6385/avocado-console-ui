@@ -128,6 +128,9 @@ export const themeValues = {
 								selectedBackgroundColor: '#f8f9fa',
 								prevPathBackgroundColor:
 									'rgba(228, 243, 244, 0.7)',
+								main: {
+									font: {color: '#4ca6a8'},
+								},
 							},
 
 							history: {
@@ -665,6 +668,9 @@ export const themeValues = {
 							files: {
 								selectedBackgroundColor: 'rgba(0, 0, 0, 0.12)',
 								prevPathBackgroundColor: '#1f323c',
+								main: {
+									font: {color: '#44c8c0'},
+								},
 							},
 
 							history: {
