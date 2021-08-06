@@ -1,5 +1,5 @@
 import React from 'react';
-import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
+import IconSearchInput from '../../RecycleComponents/IconSearchInput';
 import {searchIcon} from '../../../icons/icons';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -26,8 +26,7 @@ const Resources = () => {
 		<div>
 			<_FormContainer>
 				<_Form onSubmit={(e) => e.preventDefault()}>
-					<IconTextBox_
-						icon={searchIcon}
+					<IconSearchInput
 						onChange={onChangeSearch}
 						value={search}
 						place={t('search')}

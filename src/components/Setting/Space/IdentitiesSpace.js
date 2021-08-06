@@ -14,7 +14,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
-import IconTextBox_ from '../../RecycleComponents/IconTextBox_';
+import IconSearchInput from '../../RecycleComponents/IconSearchInput';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -228,11 +228,12 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_Search>
-							<IconTextBox_
+							<IconSearchInput
 								icon={searchIcon}
 								onChange={onChangeResourceSearch}
 								value={resourceSearch}
 								place={t('search')}
+								size={'12px'}
 							/>
 						</_Search>
 					</_LiHeader>
@@ -292,11 +293,12 @@ const IdentitiesSpace = () => {
 							</_Span>
 						</_Name>
 						<_Search>
-							<IconTextBox_
+							<IconSearchInput
 								icon={searchIcon}
 								onChange={onChangeIdentitySearch}
 								value={identitySearch}
 								place={t('search')}
+								size={'12px'}
 							/>
 						</_Search>
 					</_LiHeader>
