@@ -15,7 +15,7 @@ import {
 } from '../../reducers/popup';
 import {closeIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
-import FavoriteTempList from '../Nav/NavItems/FavoriteTempList';
+import FavoriteTempList from '../Nav/Favorites/FavoriteTempList';
 import {IconButton} from '../../styles/components/icon';
 import {
 	ModalFooter,

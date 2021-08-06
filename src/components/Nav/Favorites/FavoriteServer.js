@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import useInput from '../../../hooks/useInput';
 import {
 	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
@@ -27,9 +26,6 @@ const FavoriteServer = ({data, indent, temp}) => {
 		shallowEqual,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const [openRename, setOpenRename] = useState(false);
-	const renameRef = useRef(null);
-	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 	const correspondedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
@@ -99,10 +95,6 @@ const FavoriteServer = ({data, indent, temp}) => {
 		[data, dispatch, show],
 	);
 
-	const EscapeKey = useCallback((e) => {
-		if (e.keyCode === 27) setOpenRename(false);
-	}, []);
-
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
@@ -129,18 +121,6 @@ const FavoriteServer = ({data, indent, temp}) => {
 		e.preventDefault();
 	}, []);
 
-	//when re-name form is open, fill in pre-value and focus and select it
-	useEffect(() => {
-		const fillInForm = async () => {
-			if (openRename) {
-				await setRenameValue(data.name);
-				await renameRef.current.focus();
-				await renameRef.current.select();
-			}
-		};
-		fillInForm();
-	}, [openRename, renameRef, data, setRenameValue]);
-
 	return (
 		<React.Fragment>
 			<NavigationItem
@@ -156,7 +136,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={clicked_server === data.key && 'selected'}
+					itype={clicked_server === data.key ? 'selected' : undefined}
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
@@ -168,7 +148,6 @@ const FavoriteServer = ({data, indent, temp}) => {
 				<FavoritesContextMenu
 					correspondedIdentity={correspondedIdentity}
 					data={data}
-					setOpenRename={setOpenRename}
 				/>
 			)}
 		</React.Fragment>

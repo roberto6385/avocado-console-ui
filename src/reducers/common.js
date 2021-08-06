@@ -815,6 +815,7 @@ const reducer = (state = initialState, action) => {
 
 			case CHANGE_NAVTAB:
 				draft.current_nav_tab = action.payload;
+				draft.clicked_server = null;
 				break;
 
 			// case SAVE_ACCOUT:

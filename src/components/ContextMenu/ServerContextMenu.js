@@ -12,7 +12,7 @@ import {
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
-const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
+const ServerContextMenu = ({correspondedIdentity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
@@ -25,15 +25,11 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 	const Ssh2ServerContextMenuMessage = {
 		connect: t('connectSsh'),
 		open_sftp: t('connectSftp'),
-		// rename: 'Rename',
-		// delete: 'Delete',
 		properties: t('properties'),
 	};
 
 	const SftpServerContextMenuMessage = {
 		open_sftp: t('connectSftp'),
-		// rename: 'Rename',
-		// delete: 'Delete',
 		properties: t('properties'),
 	};
 
@@ -92,7 +88,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					openSFTP();
 					break;
 				case 'rename':
-					setOpenRename(true);
 					break;
 				case 'delete':
 					dispatch({
@@ -110,7 +105,7 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 					return;
 			}
 		},
-		[data.id, dispatch, openSFTP, openSSH, setOpenRename],
+		[data.id, dispatch, openSFTP, openSSH],
 	);
 
 	return (
@@ -133,7 +128,6 @@ const ServerContextMenu = ({correspondedIdentity, data, setOpenRename}) => {
 ServerContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	correspondedIdentity: PropTypes.object.isRequired,
-	setOpenRename: PropTypes.func.isRequired,
 };
 
 export default ServerContextMenu;

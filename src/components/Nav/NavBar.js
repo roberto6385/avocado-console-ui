@@ -4,21 +4,14 @@ import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import ServerFolderList from './NavItems/ServerFolderList';
-import FavoriteList from './NavItems/FavoriteList';
 import useInput from '../../hooks/useInput';
-import {OPEN_ADD_FAVORITES_FORM_POPUP} from '../../reducers/popup';
-import {
-	avocadoLogo,
-	burgerMenuIcon,
-	plusIcon,
-	searchIcon,
-} from '../../icons/icons';
+import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
-import IconTextBox_ from '../RecycleComponents/IconTextBox_';
+import Resources from './Resources/Resources';
+import Favorites from './Favorites/Favorites';
 
 const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
 
@@ -56,44 +49,6 @@ const _FolerServerTab = styled.div`
 	height: 50px;
 	border-bottom: 1px solid
 		${(props) => props.theme.pages.webTerminal.main.navigation.border.color};
-`;
-
-const _FormContainer = styled.div`
-	padding: 10px 12px;
-	display: flex;
-`;
-const _Form = styled.form`
-	display: flex;
-	flex: 1;
-	align-items: center;
-	border-radius: 4px;
-`;
-
-const _AddButton = styled.button`
-	width: 36px;
-	height: 36px;
-	margin-left: 8px;
-	border: 1px solid;
-	border-radius: 4px;
-	color: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton.font.color};
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton.border.color};
-	background: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton
-			.backgroundColor};
-
-	&:hover {
-		color: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover.font
-				.color};
-		border-color: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover.border
-				.color};
-		background: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover
-				.backgroundColor};
-	}
 `;
 
 const _OpenButton = styled.div`
@@ -162,7 +117,6 @@ const NavBar = ({toggle, setToggle}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const [search, onChangeSearch] = useInput('');
 
 	const tabs = [
 		{title: t('resource'), key: 0},
@@ -187,10 +141,6 @@ const NavBar = ({toggle, setToggle}) => {
 	// 		data: {type: 'add'},
 	// 	});
 	// }, [dispatch]);
-
-	const newFavorites = useCallback(() => {
-		dispatch({type: OPEN_ADD_FAVORITES_FORM_POPUP});
-	}, [dispatch]);
 
 	const onClickOpenTggle = useCallback(() => {
 		setToggle(!toggle);
@@ -225,41 +175,9 @@ const NavBar = ({toggle, setToggle}) => {
 				})}
 			</_FolerServerTab>
 			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
-				<>
-					<_FormContainer>
-						<_Form onSubmit={(e) => e.preventDefault()}>
-							<IconTextBox_
-								icon={searchIcon}
-								onChange={onChangeSearch}
-								value={search}
-								place={t('search')}
-								height={'36px'}
-							/>
-						</_Form>
-						{/*<_AddButton onClick={onClickAddServer} >*/}
-						{/*	{plusIcon}*/}
-						{/*</_AddButton>*/}
-					</_FormContainer>
-					<ServerFolderList search={search} />
-				</>
+				<Resources />
 			) : (
-				<>
-					<_FormContainer>
-						<_Form onSubmit={(e) => e.preventDefault()}>
-							<IconTextBox_
-								icon={searchIcon}
-								onChange={onChangeSearch}
-								value={search}
-								place={t('search')}
-								height={'36px'}
-							/>
-						</_Form>
-						<_AddButton onClick={newFavorites}>
-							{plusIcon}
-						</_AddButton>
-					</_FormContainer>
-					<FavoriteList search={search} />
-				</>
+				<Favorites />
 			)}
 
 			<_OpenButton

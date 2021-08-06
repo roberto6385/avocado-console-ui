@@ -68,9 +68,6 @@ const Server = ({data, indent}) => {
 		shallowEqual,
 	);
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const [openRename, setOpenRename] = useState(false);
-	const renameRef = useRef(null);
-	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 	const correspondedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
@@ -138,24 +135,6 @@ const Server = ({data, indent}) => {
 		[data, dispatch, show],
 	);
 
-	const handleSubmit = useCallback(
-		(e) => {
-			e.preventDefault();
-
-			if (renameValue !== data.name)
-				dispatch({
-					type: CHANGE_SERVER_FOLDER_NAME,
-					data: {key: data.key, name: renameValue},
-				});
-			setOpenRename(false);
-		},
-		[data, dispatch, renameValue],
-	);
-
-	const EscapeKey = useCallback((e) => {
-		if (e.keyCode === 27) setOpenRename(false);
-	}, []);
-
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, data: data.key});
@@ -178,18 +157,6 @@ const Server = ({data, indent}) => {
 		},
 		[data, dispatch],
 	);
-
-	//when re-name form is open, fill in pre-value and focus and select it
-	useEffect(() => {
-		const fillInForm = async () => {
-			if (openRename) {
-				await setRenameValue(data.name);
-				await renameRef.current.focus();
-				await renameRef.current.select();
-			}
-		};
-		fillInForm();
-	}, [openRename, renameRef, data, setRenameValue]);
 
 	return (
 		<React.Fragment>
@@ -224,7 +191,11 @@ const Server = ({data, indent}) => {
 						onClick={handleBookmark(
 							startSearchTree(favorites, data),
 						)}
-						color={startSearchTree(favorites, data) && 'selected'}
+						color={
+							startSearchTree(favorites, data)
+								? 'selected'
+								: undefined
+						}
 					>
 						{bookmarkIcon}
 					</IconButton>
@@ -233,7 +204,6 @@ const Server = ({data, indent}) => {
 			<ServerContextMenu
 				correspondedIdentity={correspondedIdentity}
 				data={data}
-				setOpenRename={setOpenRename}
 			/>
 		</React.Fragment>
 	);

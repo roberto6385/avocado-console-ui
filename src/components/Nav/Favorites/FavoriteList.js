@@ -94,7 +94,7 @@ const FavoriteList = ({search}) => {
 			{filteredFavorite.map((data) =>
 				data.type === 'folder' ? (
 					<FavoriteFolder
-						key={data.key + data.name}
+						key={data.key}
 						open={search !== ''}
 						data={data}
 						indent={1}
@@ -102,7 +102,7 @@ const FavoriteList = ({search}) => {
 					/>
 				) : (
 					<FavoriteServer
-						key={data.key + data.name}
+						key={data.key}
 						data={data}
 						indent={1}
 						temp={false}
