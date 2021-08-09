@@ -27,7 +27,7 @@ const _WarningButton = styled(WarningButton)`
 `;
 
 const AccountAside = () => {
-	const {t} = useTranslation('accountAside');
+	const {t} = useTranslation('accountSpace');
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const {userInfo, userTicket} = useSelector(
@@ -77,14 +77,14 @@ const AccountAside = () => {
 					readOnly
 				/>
 			</TextBoxField_>
-			<TextBoxField_ title={t('auth')}>
+			<TextBoxField_ title={t('title.auth')}>
 				<_NormalButton onClick={changePath('/account')}>
-					{t('changeAuth')}
+					{t('detailView')}
 				</_NormalButton>
 			</TextBoxField_>
 			<TextBoxField_>
 				<_WarningButton onClick={handleDelete}>
-					계정 삭제
+					{t('deleteAccount')}
 				</_WarningButton>
 			</TextBoxField_>
 		</_Container>

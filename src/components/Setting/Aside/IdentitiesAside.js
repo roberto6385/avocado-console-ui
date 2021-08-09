@@ -47,7 +47,7 @@ const _PrimaryGreenButton = styled(NormalButton)`
 const IdentitiesAside = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {t} = useTranslation('identitiesAside');
+	const {t} = useTranslation('identitiesSpace');
 
 	const {identity, current_tab, tab} = useSelector(
 		(state) => state.common,
@@ -91,11 +91,13 @@ const IdentitiesAside = () => {
 		<_Container>
 			<ul>
 				<_Li>
-					<_AccountContainer>{t('account')}</_AccountContainer>
+					<_AccountContainer>{t('aside.account')}</_AccountContainer>
 					<_AuthenticationContainer>
-						{t('auth')}
+						{t('aside.auth')}
 					</_AuthenticationContainer>
-					<_CheckboxContainer>{t('default')}</_CheckboxContainer>
+					<_CheckboxContainer>
+						{t('aside.default')}
+					</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {
 					if (item.key === currentKey) {
@@ -120,7 +122,7 @@ const IdentitiesAside = () => {
 				})}
 			</ul>
 			<_PrimaryGreenButton onClick={changePath('/identities')}>
-				{t('editMore')}
+				{t('aside.editMore')}
 			</_PrimaryGreenButton>
 		</_Container>
 	);

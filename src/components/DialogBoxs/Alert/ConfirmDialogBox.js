@@ -18,7 +18,7 @@ import {
 } from '../../../styles/components/disalogBox';
 
 const ConfirmDialogBox = () => {
-	const {t} = useTranslation('alertPopup');
+	const {t} = useTranslation('confirmDialogBox');
 	const dispatch = useDispatch();
 
 	const {confirm_dialog_box} = useSelector(

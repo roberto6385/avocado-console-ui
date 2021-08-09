@@ -15,6 +15,9 @@ export default {
 	idPassword: '아이디/ 비밀번호',
 	alternative: '대체 인증',
 
+	detailView: '상세보기',
+	deleteAccount: '계정 삭제',
+
 	changePassword: '비밀번호 변경',
 
 	google: '구글',

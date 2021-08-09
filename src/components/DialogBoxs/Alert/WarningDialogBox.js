@@ -18,7 +18,7 @@ import {
 } from '../../../styles/components/disalogBox';
 
 const WarningDialogBox = () => {
-	const {t} = useTranslation('alertPopup');
+	const {t} = useTranslation('warningDialogBox');
 	const dispatch = useDispatch();
 
 	const {warning_dialog_box} = useSelector(

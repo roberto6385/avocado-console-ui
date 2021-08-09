@@ -15,6 +15,9 @@ export default {
 	idPassword: 'ID / Password',
 	alternative: 'Alternative AuthN',
 
+	detailView: 'Detail View',
+	deleteAccount: 'Delete Account',
+
 	changePassword: 'Change Password',
 
 	google: 'Google',

@@ -28,7 +28,7 @@ const _SettingTitle = styled(SettingTitle)`
 `;
 
 const AsideContainer = ({toggle, setToggle}) => {
-	const {t} = useTranslation('asideContainer');
+	const {t} = useTranslation('settingNav');
 	const {side_key} = useSelector((state) => state.common, shallowEqual);
 
 	const closeAside = useCallback(() => {

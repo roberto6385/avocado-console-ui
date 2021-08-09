@@ -4,6 +4,13 @@ export default {
 	resource: 'Resource List',
 	account: '[ Cloud Server ] Account List',
 
+	aside: {
+		account: 'Account',
+		auth: 'Auth',
+		editMore: 'Edit more account settings',
+		default: 'Default',
+	},
+
 	cases: 'cases',
 	search: 'Search',
 	default: 'Default Account',

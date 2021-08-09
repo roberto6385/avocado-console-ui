@@ -3,6 +3,12 @@ export default {
 	title: '계정 정보',
 	resource: '자원 목록',
 	account: '[ Cloud Server ] 계정 목록',
+	aside: {
+		account: '접속 계정',
+		auth: '인증 구분',
+		editMore: '계정 설정 페이지로 이동',
+		default: '기본 계정 여부',
+	},
 
 	cases: '건',
 	search: '검색',

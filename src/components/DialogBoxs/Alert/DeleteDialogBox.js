@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import {CLOSE_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
