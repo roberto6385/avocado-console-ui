@@ -18,7 +18,7 @@ import {
 	WarningButton,
 } from '../../../styles/components/button';
 import {
-	createNewWebsocket,
+	CREATE_NEW_WEBSOCKET_REQUEST,
 	INIT_DELETE_WORK_LIST,
 	INITIAL_HISTORY_HI,
 	PUSH_INIT_DELETE_WORK_LIST,
@@ -31,7 +31,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalMessage,
-	PopupModal,
 } from '../../../styles/components/disalogBox';
 
 const DeleteDialogBox = () => {
@@ -110,8 +109,9 @@ const DeleteDialogBox = () => {
 					);
 
 					if (!removeSocket && incinerator.length === 0) {
-						dispatch(
-							createNewWebsocket({
+						dispatch({
+							type: CREATE_NEW_WEBSOCKET_REQUEST,
+							payload: {
 								token: userTicket.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
@@ -119,8 +119,8 @@ const DeleteDialogBox = () => {
 								password: correspondedIdentity.password,
 								todo: 'remove',
 								uuid: uuid,
-							}),
-						);
+							},
+						});
 					}
 
 					break;

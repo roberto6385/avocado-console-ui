@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
-import {disconnectAction} from '../../reducers/sftp';
 import PropTypes from 'prop-types';
+import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 
 const _Container = styled.div`
 	display: flex;
@@ -98,14 +98,15 @@ const TabBar = ({toggle, setToggle}) => {
 					},
 				});
 			} else if (data.type === 'SFTP') {
-				dispatch(
-					disconnectAction({
+				dispatch({
+					type: DISCONNECTION_REQUEST,
+					payload: {
 						uuid: data.uuid,
 						socket: sftp_socketState.find(
 							(v) => v.uuid === data.uuid,
 						).socket,
-					}),
-				);
+					},
+				});
 			}
 		},
 		[ssh, sftp_socketState],

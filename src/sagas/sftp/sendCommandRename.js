@@ -9,8 +9,8 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	ERROR,
+	PWD_REQUEST,
 	READY_STATE,
 	RENAME_FAILURE,
 	RENAME_REQUEST,
@@ -55,13 +55,14 @@ function* sendCommand(action) {
 							type: RENAME_SUCCESS,
 							payload: {uuid: payload.uuid},
 						});
-						yield put(
-							commandPwdAction({
+						yield put({
+							type: PWD_REQUEST,
+							payload: {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-							}),
-						);
+							},
+						});
 						break;
 
 					case ERROR:

@@ -17,7 +17,7 @@ import {
 	ADD_HISTORY,
 	CHANGE_MODE,
 	CLOSE_EDITOR,
-	createNewWebsocket,
+	CREATE_NEW_WEBSOCKET_REQUEST,
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
 import {
@@ -145,8 +145,9 @@ const SaveDialogBox = () => {
 						},
 					});
 					if (!writeSocket && writeList.length === 0) {
-						dispatch(
-							createNewWebsocket({
+						dispatch({
+							type: CREATE_NEW_WEBSOCKET_REQUEST,
+							payload: {
 								token: userTicket.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
@@ -154,8 +155,8 @@ const SaveDialogBox = () => {
 								password: correspondedIdentity.password,
 								todo: 'write',
 								uuid: uuid,
-							}),
-						);
+							},
+						});
 					}
 
 					break;
@@ -175,8 +176,9 @@ const SaveDialogBox = () => {
 						},
 					});
 					if (!writeSocket && writeList.length === 0) {
-						dispatch(
-							createNewWebsocket({
+						dispatch({
+							type: CREATE_NEW_WEBSOCKET_REQUEST,
+							payload: {
 								token: userTicket.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
@@ -184,8 +186,8 @@ const SaveDialogBox = () => {
 								password: correspondedIdentity.password,
 								todo: 'write',
 								uuid: uuid,
-							}),
-						);
+							},
+						});
 					}
 					dispatch({
 						type: SAVE_TEXT,

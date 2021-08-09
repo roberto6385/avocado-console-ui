@@ -15,7 +15,6 @@ import {
 	LS_FAILURE_DELETE,
 	LS_REQUEST_DELETE,
 	LS_SUCCESS_DELETE,
-	searchDeleteListAction,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
@@ -77,14 +76,15 @@ function* sendCommand(action) {
 									console.log(
 										`${payload.delete_path}/${item.file.name}`,
 									);
-									yield put(
-										searchDeleteListAction({
+									yield put({
+										type: LS_REQUEST_DELETE,
+										payload: {
 											socket: payload.socket,
 											uuid: payload.uuid,
 											delete_path: `${payload.delete_path}/${item.file.name}`,
 											key: payload.key,
-										}),
-									);
+										},
+									});
 								} else {
 									console.log(item.file);
 								}

@@ -11,7 +11,7 @@ import {
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
-import {connectionAction} from '../../../reducers/sftp';
+import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
@@ -48,8 +48,9 @@ const FavoriteServer = ({data, indent, temp}) => {
 					},
 				});
 			} else if (correspondedServer.protocol === 'SFTP') {
-				dispatch(
-					connectionAction({
+				dispatch({
+					type: CONNECTION_REQUEST,
+					payload: {
 						token: userTicket.access_token, // connection info
 						host: correspondedServer.host,
 						port: correspondedServer.port,
@@ -59,8 +60,8 @@ const FavoriteServer = ({data, indent, temp}) => {
 						name: correspondedServer.name, // create tab info
 						key: correspondedServer.key,
 						id: correspondedServer.id,
-					}),
-				);
+					},
+				});
 			}
 		},
 		() => {

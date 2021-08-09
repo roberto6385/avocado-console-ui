@@ -18,7 +18,7 @@ import {
 	linuxServerIcon,
 } from '../../../icons/icons';
 import styled from 'styled-components';
-import {connectionAction} from '../../../reducers/sftp';
+import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	NavigationItem,
@@ -86,8 +86,9 @@ const Server = ({data, indent}) => {
 					},
 				});
 			} else if (correspondedServer.protocol === 'SFTP') {
-				dispatch(
-					connectionAction({
+				dispatch({
+					type: CONNECTION_REQUEST,
+					payload: {
 						token: userTicket.access_token, // connection info
 						host: correspondedServer.host,
 						port: correspondedServer.port,
@@ -97,8 +98,8 @@ const Server = ({data, indent}) => {
 						name: correspondedServer.name, // create tab info
 						key: correspondedServer.key,
 						id: correspondedServer.id,
-					}),
-				);
+					},
+				});
 			}
 		},
 		() => {

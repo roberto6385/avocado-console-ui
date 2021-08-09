@@ -12,7 +12,7 @@ import {
 } from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import {WarningButton} from '../../styles/components/button';
-import {disconnectAction, reconnectionAction} from '../../reducers/sftp';
+import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
 
@@ -103,13 +103,14 @@ const Pane = ({uuid, type, server}) => {
 					},
 				});
 			} else if (type === 'SFTP') {
-				dispatch(
-					disconnectAction({
+				dispatch({
+					type: DISCONNECTION_REQUEST,
+					payload: {
 						uuid,
 						socket: sftp_socketState.find((v) => v.uuid === uuid)
 							.socket,
-					}),
-				);
+					},
+				});
 			}
 		},
 		[sftp_socketState, type, uuid, dispatch, ssh],
@@ -141,8 +142,9 @@ const Pane = ({uuid, type, server}) => {
 		} else {
 			const {path} = sftp_pathState.find((v) => v.uuid === uuid);
 
-			dispatch(
-				reconnectionAction({
+			dispatch({
+				type: RECONNECTION_REQUEST,
+				payload: {
 					token: userTicket.access_token, // connection info
 					host: correspondedServer.host,
 					port: correspondedServer.port,
@@ -156,17 +158,16 @@ const Pane = ({uuid, type, server}) => {
 					prevUuid: uuid,
 					prevIndex: index,
 					prevPath: path,
-				}),
-			);
+				},
+			});
 		}
 	}, [
 		commonServer,
 		dispatch,
 		identity,
 		server,
-		sftp_history,
 		sftp_pathState,
-		ssh,
+		tab,
 		type,
 		userTicket,
 		uuid,

@@ -7,8 +7,8 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
-	commandCdAction,
-	createNewWebsocket,
+	CD_REQUEST,
+	CREATE_NEW_WEBSOCKET_REQUEST,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
@@ -86,8 +86,9 @@ const FileList_ = ({uuid}) => {
 			if (pathList.length !== fileList.length) return;
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch(
-					commandCdAction({
+				dispatch({
+					type: CD_REQUEST,
+					payload: {
 						socket: socket,
 						uuid: uuid,
 						path: path,
@@ -95,8 +96,8 @@ const FileList_ = ({uuid}) => {
 							path === '/'
 								? path + item.name
 								: path + '/' + item.name,
-					}),
-				);
+					},
+				});
 				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
@@ -121,8 +122,9 @@ const FileList_ = ({uuid}) => {
 					},
 				});
 				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						paylaod: {
 							token: userTicket.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
@@ -130,8 +132,8 @@ const FileList_ = ({uuid}) => {
 							password: correspondedIdentity.password,
 							todo: 'read',
 							uuid: uuid,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},
@@ -167,8 +169,9 @@ const FileList_ = ({uuid}) => {
 				});
 
 				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
 							token: userTicket.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
@@ -176,8 +179,8 @@ const FileList_ = ({uuid}) => {
 							password: correspondedIdentity.password,
 							todo: 'read',
 							uuid: uuid,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},

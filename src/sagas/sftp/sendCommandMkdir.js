@@ -9,11 +9,11 @@ import {
 	delay,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	ERROR,
 	MKDIR_FAILURE,
 	MKDIR_REQUEST,
 	MKDIR_SUCCESS,
+	PWD_REQUEST,
 	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
@@ -58,13 +58,14 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put(
-							commandPwdAction({
+						yield put({
+							type: PWD_REQUEST,
+							payload: {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-							}),
-						);
+							},
+						});
 						break;
 
 					case ERROR:

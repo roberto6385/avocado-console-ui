@@ -13,8 +13,8 @@ import {
 	RECONNECTION_REQUEST,
 	RECONNECTION_SUCCESS,
 	ERROR,
-	commandCdAction,
 	READY_STATE,
+	CD_REQUEST,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
 
@@ -85,14 +85,15 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put(
-							commandCdAction({
+						yield put({
+							type: CD_REQUEST,
+							paylaod: {
 								socket: socket,
 								uuid: uuid,
 								path: payload.prevPath,
 								cd_path: payload.prevPath,
-							}),
-						);
+							},
+						});
 
 						break;
 

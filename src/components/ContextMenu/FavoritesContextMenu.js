@@ -4,7 +4,7 @@ import {animation, Item} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {connectionAction} from '../../reducers/sftp';
+import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
 	ADD_FAVORITES_FOLDER,
@@ -31,8 +31,9 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		dispatch(
-			connectionAction({
+		dispatch({
+			type: CONNECTION_REQUEST,
+			payload: {
 				token: userTicket.access_token, // connection info
 				host: correspondedServer.host,
 				port: correspondedServer.port,
@@ -42,8 +43,8 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
-			}),
-		);
+			},
+		});
 	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
 
 	const openSSH = useCallback(() => {

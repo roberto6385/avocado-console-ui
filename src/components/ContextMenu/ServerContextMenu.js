@@ -4,7 +4,7 @@ import {animation, Item} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {connectionAction} from '../../reducers/sftp';
+import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {
 	OPEN_ADD_SERVER_DIALOG_BOX,
 	OPEN_DELETE_DIALOG_BOX,
@@ -35,8 +35,9 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 
 	const openSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
-		dispatch(
-			connectionAction({
+		dispatch({
+			type: CONNECTION_REQUEST,
+			payload: {
 				token: userTicket.access_token, // connection info
 				host: correspondedServer.host,
 				port: correspondedServer.port,
@@ -46,8 +47,8 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
-			}),
-		);
+			},
+		});
 	}, [
 		server,
 		dispatch,

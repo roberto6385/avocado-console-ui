@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
-	commandReadAction,
-	commandRmAction,
-	commandWriteAction,
 	DELETE_PASS,
 	DELETE_WORK_LIST,
 	DELETE_WORK_TRANSPORTER,
 	INITIAL_HISTORY_HI,
 	INITIALIZING_HIGHLIGHT,
+	LS_REQUEST_DELETE,
 	READ_PASS,
-	removeNewWebsocket,
-	searchDeleteListAction,
+	READ_REQUEST,
+	REMOVE_NEW_WEBSOCKET_REQUEST,
+	RM_REQUEST,
 	WRITE_PASS,
+	WRITE_REQUEST,
 } from '../../../reducers/sftp';
 import SFTP from '../SFTP';
 
@@ -110,8 +110,9 @@ const SFTP_ = ({uuid}) => {
 		if (readList.length !== 0 && readSocket !== null) {
 			if (!downPass) return;
 			const value = readList.slice().shift();
-			dispatch(
-				commandReadAction({
+			dispatch({
+				type: READ_REQUEST,
+				payload: {
 					socket: socket,
 					read_socket: readSocket,
 					uuid: uuid,
@@ -120,18 +121,19 @@ const SFTP_ = ({uuid}) => {
 					mode: mode,
 					todo: value.todo,
 					offset: value?.offset,
-				}),
-			);
+				},
+			});
 			dispatch({type: READ_PASS, payload: {uuid}});
 		}
 		if (readList.length === 0 && readSocket !== null) {
-			dispatch(
-				removeNewWebsocket({
+			dispatch({
+				type: REMOVE_NEW_WEBSOCKET_REQUEST,
+				payload: {
 					socket: readSocket,
 					todo: 'read',
 					uuid: uuid,
-				}),
-			);
+				},
+			});
 		}
 	}, [downPass, dispatch, mode, readList, readSocket, socket, uuid]);
 
@@ -140,8 +142,9 @@ const SFTP_ = ({uuid}) => {
 			if (!upPass) return;
 			const value = writeList.slice().shift();
 			console.log(value);
-			dispatch(
-				commandWriteAction({
+			dispatch({
+				type: WRITE_REQUEST,
+				payload: {
 					socket: socket,
 					write_socket: writeSocket,
 					uuid: uuid,
@@ -149,18 +152,19 @@ const SFTP_ = ({uuid}) => {
 					file: value.file,
 					todo: value.todo,
 					offset: value?.offset,
-				}),
-			);
+				},
+			});
 			dispatch({type: WRITE_PASS, payload: {uuid}});
 		}
 		if (writeList.length === 0 && writeSocket !== null) {
-			dispatch(
-				removeNewWebsocket({
+			dispatch({
+				type: REMOVE_NEW_WEBSOCKET_REQUEST,
+				payload: {
 					socket: writeSocket,
 					todo: 'write',
 					uuid: uuid,
-				}),
-			);
+				},
+			});
 		}
 	}, [upPass, writeList, writeSocket, socket, uuid, dispatch]);
 
@@ -188,8 +192,9 @@ const SFTP_ = ({uuid}) => {
 			const percent =
 				((totalLength - Remaining.length) / totalLength) * 100;
 			if (value.file.name !== '..' || value.file.name !== '.') {
-				dispatch(
-					commandRmAction({
+				dispatch({
+					type: RM_REQUEST,
+					payload: {
 						socket: socket,
 						remove_socket: removeSocket,
 						uuid: uuid,
@@ -202,8 +207,8 @@ const SFTP_ = ({uuid}) => {
 							value.file.type === 'file'
 								? 'CommandByRm'
 								: 'CommandByRmdir',
-					}),
-				);
+					},
+				});
 				dispatch({type: DELETE_PASS, payload: {uuid}});
 			}
 		}
@@ -274,14 +279,15 @@ const SFTP_ = ({uuid}) => {
 							initPath === '/'
 								? `${initPath}${item.file.name}`
 								: `${initPath}/${item.file.name}`;
-						dispatch(
-							searchDeleteListAction({
+						dispatch({
+							type: LS_REQUEST_DELETE,
+							payload: {
 								socket: removeSocket,
 								uuid: uuid,
 								delete_path: delete_path,
 								key,
-							}),
-						);
+							},
+						});
 					}
 				}
 			}

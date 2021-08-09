@@ -12,9 +12,8 @@ import {
 	CD_FAILURE,
 	CD_REQUEST,
 	CD_SUCCESS,
-	commandCdAction,
-	commandPwdAction,
 	ERROR,
+	PWD_REQUEST,
 	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
@@ -51,14 +50,15 @@ function* sendCommand(action) {
 				closeChannel(channel);
 				console.log('cd end');
 				if (!pass) {
-					yield put(
-						commandCdAction({
+					yield put({
+						type: CD_REQUEST,
+						payload: {
 							socket: payload.socket,
 							uuid: payload.uuid,
 							path: payload.path,
 							cd_path: payload.cd_path,
-						}),
-					);
+						},
+					});
 				}
 
 				if (payload.socket.readyState !== 1) {
@@ -84,13 +84,14 @@ function* sendCommand(action) {
 						});
 						pass = true;
 
-						yield put(
-							commandPwdAction({
+						yield put({
+							type: PWD_REQUEST,
+							payload: {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: payload.path,
-							}),
-						);
+							},
+						});
 
 						break;
 					case ERROR:

@@ -6,7 +6,10 @@ import {OPEN_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
-import {ADD_HISTORY, createNewWebsocket} from '../../../reducers/sftp';
+import {
+	ADD_HISTORY,
+	CREATE_NEW_WEBSOCKET_REQUEST,
+} from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
 
 const _Container = styled.div`
@@ -95,8 +98,9 @@ const HistoryToolbar = ({uuid}) => {
 				});
 			}
 			if (!writeSocket && writeList.length === 0) {
-				dispatch(
-					createNewWebsocket({
+				dispatch({
+					type: CREATE_NEW_WEBSOCKET_REQUEST,
+					payload: {
 						token: userTicket.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
@@ -104,8 +108,8 @@ const HistoryToolbar = ({uuid}) => {
 						password: correspondedIdentity.password,
 						todo: 'write',
 						uuid: uuid,
-					}),
-				);
+					},
+				});
 			}
 		};
 		document.body.removeChild(uploadInput);

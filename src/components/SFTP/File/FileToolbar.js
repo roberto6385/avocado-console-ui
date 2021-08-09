@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {
-	CHANGE_MODE,
-	commandCdAction,
-	commandPwdAction,
-} from '../../../reducers/sftp';
+import {CD_REQUEST, CHANGE_MODE, PWD_REQUEST} from '../../../reducers/sftp';
 
 import {
 	arrowUpwordIcon,
@@ -62,14 +58,15 @@ const FileToolbar = ({uuid}) => {
 			const pathInput = document.getElementById('fileListNavInput');
 			console.log(nextPath);
 			nextPath !== undefined &&
-				dispatch(
-					commandCdAction({
+				dispatch({
+					type: CD_REQUEST,
+					payload: {
 						socket: socket,
 						uuid: uuid,
 						path: path,
 						cd_path: nextPath,
-					}),
-				) &&
+					},
+				}) &&
 				pathInput.blur();
 		},
 		[dispatch, path, socket, uuid],
@@ -140,13 +137,14 @@ const FileToolbar = ({uuid}) => {
 	}, [dispatch, mode, uuid]);
 
 	const refresh = useCallback(() => {
-		dispatch(
-			commandPwdAction({
+		dispatch({
+			type: PWD_REQUEST,
+			payload: {
 				socket: socket,
 				uuid: uuid,
 				pwd_path: null,
-			}),
-		);
+			},
+		});
 	}, [dispatch, socket, uuid]);
 
 	useEffect(() => {

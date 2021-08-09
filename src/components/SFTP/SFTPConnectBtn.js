@@ -4,7 +4,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {sftpIconConvert} from '../../icons/icons';
-import {connectionAction} from '../../reducers/sftp';
+import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
 
 const SFTPConnectBtn = ({data}) => {
@@ -21,8 +21,9 @@ const SFTPConnectBtn = ({data}) => {
 			(it) => it.key === data.key && it.checked === true,
 		);
 		if (server.includes(correspondedServer)) {
-			dispatch(
-				connectionAction({
+			dispatch({
+				type: CONNECTION_REQUEST,
+				payload: {
 					token: userTicket.access_token, // connection info
 					host: correspondedServer.host,
 					port: correspondedServer.port,
@@ -32,8 +33,8 @@ const SFTPConnectBtn = ({data}) => {
 					name: correspondedServer.name, // create tab info
 					key: correspondedServer.key,
 					id: correspondedServer.id,
-				}),
-			);
+				},
+			});
 		} else {
 			dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'lost_server'});
 		}

@@ -9,7 +9,6 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
-	commandLsAction,
 	ERROR,
 	LS_FAILURE,
 	LS_REQUEST,
@@ -43,13 +42,14 @@ function* sendCommand(action) {
 				closeChannel(channel);
 				console.log('ls end');
 				if (!pass) {
-					yield put(
-						commandLsAction({
+					yield put({
+						type: LS_REQUEST,
+						payload: {
 							socket: payload.socket,
 							uuid: payload.uuid,
 							ls_path: payload.ls_path,
-						}),
-					);
+						},
+					});
 				}
 				if (payload.socket.readyState !== 1) {
 					yield put({

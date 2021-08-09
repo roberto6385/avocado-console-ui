@@ -9,10 +9,10 @@ import {
 	takeLatest,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	FIND_HISTORY,
 	INITIALIZING_HIGHLIGHT,
-	removeNewWebsocket,
+	PWD_REQUEST,
+	REMOVE_NEW_WEBSOCKET_REQUEST,
 	RM_FAILURE,
 	RM_REQUEST,
 	RM_SUCCESS,
@@ -51,13 +51,14 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				yield put(
-					removeNewWebsocket({
+				yield put({
+					type: REMOVE_NEW_WEBSOCKET_REQUEST,
+					payload: {
 						socket: payload.remove_socket,
 						todo: 'rm',
 						uuid: payload,
-					}),
-				);
+					},
+				});
 				yield put({
 					type: INITIALIZING_HIGHLIGHT,
 					payload: {uuid: payload.uuid},
@@ -67,13 +68,14 @@ function* sendCommand(action) {
 					type: SHIFT_SOCKETS,
 					payload: {uuid: payload.uuid, todo: 'remove'},
 				});
-				yield put(
-					commandPwdAction({
+				yield put({
+					type: PWD_REQUEST,
+					paylod: {
 						socket: payload.socket,
 						uuid: payload.uuid,
 						pwd_path: null,
-					}),
-				);
+					},
+				});
 			} else {
 				// const data = yield take(channel);
 				const res = yield call(rmResponse, {data});

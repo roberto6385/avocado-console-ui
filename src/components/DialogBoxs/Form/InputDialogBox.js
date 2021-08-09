@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_INPUT_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import useInput from '../../../hooks/useInput';
-import {commandMkdirAction, commandRenameAction} from '../../../reducers/sftp';
+import {MKDIR_REQUEST, RENAME_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../../icons/icons';
@@ -74,8 +74,9 @@ const InputDialogBox = () => {
 
 			switch (input_dialog_box.key) {
 				case 'sftp_rename_file_folder': {
-					dispatch(
-						commandRenameAction({
+					dispatch({
+						type: RENAME_REQUEST,
+						payload: {
 							socket: socket,
 							uuid: uuid,
 							prev_path:
@@ -87,14 +88,15 @@ const InputDialogBox = () => {
 									? `${path}${formValue}`
 									: `${path}/${formValue}`,
 							path: path,
-						}),
-					);
+						},
+					});
 					break;
 				}
 
 				case 'sftp_new_folder': {
-					dispatch(
-						commandMkdirAction({
+					dispatch({
+						type: MKDIR_REQUEST,
+						payload: {
 							socket: socket,
 							path: path,
 							uuid: uuid,
@@ -102,8 +104,8 @@ const InputDialogBox = () => {
 								path === '/'
 									? `${path}${formValue}`
 									: `${path}/${formValue}`,
-						}),
-					);
+						},
+					});
 					break;
 				}
 

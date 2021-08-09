@@ -7,8 +7,8 @@ import {
 	ADD_HIGHLIGHT,
 	ADD_HISTORY,
 	ADD_ONE_HIGHLIGHT,
-	commandCdAction,
-	createNewWebsocket,
+	CD_REQUEST,
+	CREATE_NEW_WEBSOCKET_REQUEST,
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 	REMOVE_TEMP_HIGHLIGHT,
@@ -123,14 +123,15 @@ const DropList_ = ({uuid}) => {
 				console.log(item, listindex, itemIndex);
 				if (e.shiftKey) {
 					if (path !== pathList[listindex]) {
-						dispatch(
-							commandCdAction({
+						dispatch({
+							type: CD_REQUEST,
+							payload: {
 								socket: socket,
 								path: path,
 								uuid: uuid,
 								cd_path: pathList[listindex],
-							}),
-						);
+							},
+						});
 						dispatch({
 							type: ADD_ONE_HIGHLIGHT,
 							payload: {uuid, item: {...item, path}},
@@ -161,14 +162,15 @@ const DropList_ = ({uuid}) => {
 							tempFile !== null &&
 							tempFile.path === pathList[listindex]
 						) {
-							dispatch(
-								commandCdAction({
+							dispatch({
+								type: CD_REQUEST,
+								payload: {
 									socket: socket,
 									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
-								}),
-							);
+								},
+							});
 							dispatch({
 								type: ADD_HIGHLIGHT,
 								payload: {uuid, item: {...item, path}},
@@ -185,27 +187,29 @@ const DropList_ = ({uuid}) => {
 						}
 
 						if (item.type === 'file') {
-							dispatch(
-								commandCdAction({
+							dispatch({
+								type: CD_REQUEST,
+								payload: {
 									socket: socket,
 									path: path,
 									uuid: uuid,
 									cd_path: pathList[listindex],
-								}),
-							);
+								},
+							});
 							dispatch({
 								type: ADD_ONE_HIGHLIGHT,
 								payload: {uuid, item: {...item, path}},
 							});
 						} else {
-							dispatch(
-								commandCdAction({
+							dispatch({
+								type: CD_REQUEST,
+								payload: {
 									socket: socket,
 									path: path,
 									uuid: uuid,
 									cd_path: `${pathList[listindex]}/${item.name}`,
-								}),
-							);
+								},
+							});
 							dispatch({
 								type: TEMP_HIGHLIGHT,
 								payload: {
@@ -236,14 +240,15 @@ const DropList_ = ({uuid}) => {
 								: `${pathList[listindex]}/${item.name}`
 							: pathList[listindex];
 					if (path !== finalPath) {
-						dispatch(
-							commandCdAction({
+						dispatch({
+							type: CD_REQUEST,
+							payload: {
 								socket: socket,
 								path: path,
 								uuid: uuid,
 								cd_path: finalPath,
-							}),
-						);
+							},
+						});
 					}
 					item.type === 'file' &&
 						dispatch({
@@ -284,8 +289,9 @@ const DropList_ = ({uuid}) => {
 					},
 				});
 				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
 							token: userTicket.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
@@ -293,8 +299,8 @@ const DropList_ = ({uuid}) => {
 							password: correspondedIdentity.password,
 							todo: 'read',
 							uuid: uuid,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},
@@ -330,8 +336,9 @@ const DropList_ = ({uuid}) => {
 					},
 				});
 				if (!readSocket && readList.length === 0) {
-					dispatch(
-						createNewWebsocket({
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
 							token: userTicket.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
@@ -339,8 +346,8 @@ const DropList_ = ({uuid}) => {
 							password: correspondedIdentity.password,
 							todo: 'read',
 							uuid: uuid,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},
@@ -365,14 +372,15 @@ const DropList_ = ({uuid}) => {
 				e.stopPropagation();
 
 				if (path !== clickedPath) {
-					dispatch(
-						commandCdAction({
+					dispatch({
+						type: CD_REQUEST,
+						payload: {
 							socket: socket,
 							path: path,
 							uuid: uuid,
 							cd_path: clickedPath,
-						}),
-					);
+						},
+					});
 				}
 
 				highlight.length < 2 &&

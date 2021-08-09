@@ -4,14 +4,14 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY,
 	ADD_HISTORY_HI,
-	commandPwdAction,
-	createNewWebsocket,
+	CREATE_NEW_WEBSOCKET_REQUEST,
 	INITIAL_HISTORY_HI,
 	PUSH_PAUSE_READ_LIST,
 	PUSH_PAUSE_WRITE_LIST,
+	PWD_REQUEST,
 	REMOVE_HISTORY,
+	REMOVE_NEW_WEBSOCKET_REQUEST,
 	REMOVE_READ_WRITE_LIST,
-	removeNewWebsocket,
 } from '../../../reducers/sftp';
 import * as PropTypes from 'prop-types';
 
@@ -90,8 +90,9 @@ const History_ = ({uuid}) => {
 				});
 			}
 			if (!writeSocket && writeList.length === 0) {
-				dispatch(
-					createNewWebsocket({
+				dispatch({
+					type: CREATE_NEW_WEBSOCKET_REQUEST,
+					payload: {
 						token: userTicket.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
@@ -99,8 +100,8 @@ const History_ = ({uuid}) => {
 						password: correspondedIdentity.password,
 						todo: 'write',
 						uuid: uuid,
-					}),
-				);
+					},
+				});
 			}
 		};
 		document.body.removeChild(uploadInput);
@@ -132,8 +133,9 @@ const History_ = ({uuid}) => {
 				console.log(value);
 			}
 			if (!writeSocket && writeList.length === 0) {
-				dispatch(
-					createNewWebsocket({
+				dispatch({
+					type: CREATE_NEW_WEBSOCKET_REQUEST,
+					payload: {
 						token: userTicket.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
@@ -141,8 +143,8 @@ const History_ = ({uuid}) => {
 						password: correspondedIdentity.password,
 						todo: 'write',
 						uuid: uuid,
-					}),
-				);
+					},
+				});
 			}
 		},
 		[
@@ -267,17 +269,19 @@ const History_ = ({uuid}) => {
 				) {
 					if (history.todo === 'write') {
 						if (history.path === path) {
-							dispatch(
-								commandPwdAction({
+							dispatch({
+								type: PWD_REQUEST,
+								payload: {
 									socket: sftp_socket,
 									uuid: uuid,
 									pwd_path: path,
-								}),
-							);
+								},
+							});
 						}
 					}
-					dispatch(
-						removeNewWebsocket({
+					dispatch({
+						type: REMOVE_NEW_WEBSOCKET_REQUEST,
+						payload: {
 							socket:
 								history.todo === 'write'
 									? writeSocket
@@ -287,8 +291,8 @@ const History_ = ({uuid}) => {
 							key: history.key,
 							path: history.path,
 							file: history.file,
-						}),
-					);
+						},
+					});
 				} else {
 					let item = pause
 						.slice()
@@ -322,8 +326,9 @@ const History_ = ({uuid}) => {
 						},
 					});
 
-					dispatch(
-						createNewWebsocket({
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
 							token: userTicket.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
@@ -332,8 +337,8 @@ const History_ = ({uuid}) => {
 							todo: history.todo,
 							uuid: uuid,
 							key: history.key,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},

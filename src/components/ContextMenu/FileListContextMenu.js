@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {ADD_HISTORY, createNewWebsocket} from '../../reducers/sftp';
+import {ADD_HISTORY, CREATE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {
 	OPEN_INPUT_DIALOG_BOX,
@@ -72,8 +72,9 @@ const FileListContextMenu = ({uuid}) => {
 			});
 		}
 		if (!readSocket && readList.length === 0) {
-			dispatch(
-				createNewWebsocket({
+			dispatch({
+				type: CREATE_NEW_WEBSOCKET_REQUEST,
+				payload: {
 					token: userTicket.access_token, // connection info
 					host: corServer.host,
 					port: corServer.port,
@@ -81,8 +82,8 @@ const FileListContextMenu = ({uuid}) => {
 					password: correspondedIdentity.password,
 					todo: 'read',
 					uuid: uuid,
-				}),
-			);
+				},
+			});
 		}
 	}, [
 		readList,
@@ -113,8 +114,9 @@ const FileListContextMenu = ({uuid}) => {
 			});
 		}
 		if (!readSocket && readList.length === 0) {
-			dispatch(
-				createNewWebsocket({
+			dispatch({
+				type: CREATE_NEW_WEBSOCKET_REQUEST,
+				payload: {
 					token: userTicket.access_token, // connection info
 					host: corServer.host,
 					port: corServer.port,
@@ -122,8 +124,8 @@ const FileListContextMenu = ({uuid}) => {
 					password: correspondedIdentity.password,
 					todo: 'read',
 					uuid: uuid,
-				}),
-			);
+				},
+			});
 		}
 	}, [
 		readList,

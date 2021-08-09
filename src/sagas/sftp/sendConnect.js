@@ -9,12 +9,12 @@ import {
 	throttle,
 } from 'redux-saga/effects';
 import {
-	commandPwdAction,
 	CONNECTION_FAILURE,
 	CONNECTION_REQUEST,
 	CONNECTION_SUCCESS,
-	disconnectAction,
+	DISCONNECTION_REQUEST,
 	ERROR,
+	PWD_REQUEST,
 	READY_STATE,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
@@ -80,13 +80,14 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put(
-							commandPwdAction({
+						yield put({
+							type: PWD_REQUEST,
+							payload: {
 								socket: socket,
 								uuid: uuid,
 								pwd_path: null,
-							}),
-						);
+							},
+						});
 
 						break;
 
@@ -99,11 +100,12 @@ function* sendCommand(action) {
 						}
 						yield put({type: CONNECTION_FAILURE, payload: res.err});
 
-						yield put(
-							disconnectAction({
+						yield put({
+							type: DISCONNECTION_REQUEST,
+							payload: {
 								socket: socket,
-							}),
-						);
+							},
+						});
 						break;
 
 					default:

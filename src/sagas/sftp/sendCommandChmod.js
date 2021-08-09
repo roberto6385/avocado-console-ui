@@ -12,8 +12,8 @@ import {
 	CHMOD_FAILURE,
 	CHMOD_REQUEST,
 	CHMOD_SUCCESS,
-	commandPwdAction,
 	ERROR,
+	PWD_REQUEST,
 	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
@@ -66,13 +66,14 @@ function* sendCommand(action) {
 								data: res,
 							},
 						});
-						yield put(
-							commandPwdAction({
+						yield put({
+							type: PWD_REQUEST,
+							payload: {
 								socket: payload.socket,
 								uuid: payload.uuid,
 								pwd_path: null,
-							}),
-						);
+							},
+						});
 
 						break;
 					case ERROR:

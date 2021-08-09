@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {CLOSE_FILE_STATUS_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 
-import {commandChmodAction, commandStatAction} from '../../../reducers/sftp';
+import {CHMOD_REQUEST, STAT_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
 
 import {closeIcon} from '../../../icons/icons';
@@ -84,14 +84,15 @@ const FileStatusDialogBox = () => {
 			// console.log(t + octToSymbol({own, grp, pub}));
 			const prev = type + own + grp + pub;
 			const per = parseInt(prev, 8);
-			dispatch(
-				commandChmodAction({
+			dispatch({
+				type: CHMOD_REQUEST,
+				payload: {
 					permissions: per,
 					path: stat.path,
 					socket: socket,
 					uuid: uuid,
-				}),
-			);
+				},
+			});
 			closeModal();
 		},
 		[closeModal, dispatch, grp, own, pub, socket, stat, type, uuid],
@@ -198,13 +199,14 @@ const FileStatusDialogBox = () => {
 
 	useEffect(() => {
 		if (file_status_dialog_box.open) {
-			dispatch(
-				commandStatAction({
+			dispatch({
+				type: STAT_REQUEST,
+				payload: {
 					stat_path: path,
 					file: highlight[0],
 					socket: socket,
-				}),
-			);
+				},
+			});
 		}
 	}, [dispatch, highlight, path, socket, file_status_dialog_box.open]);
 

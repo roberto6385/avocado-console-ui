@@ -10,8 +10,8 @@ import {
 } from 'redux-saga/effects';
 import {
 	ADD_PAUSED_LIST,
-	commandPwdAction,
 	FIND_HISTORY,
+	PWD_REQUEST,
 	REMOVE_PAUSED_LIST,
 	SHIFT_SOCKETS,
 	SHIFT_WRITE_LIST,
@@ -58,13 +58,14 @@ function* sendCommand(action) {
 			});
 			if (timeout) {
 				closeChannel(channel);
-				yield put(
-					commandPwdAction({
+				yield put({
+					type: PWD_REQUEST,
+					payload: {
 						socket: payload.socket,
 						uuid: payload.uuid,
 						pwd_path: null,
-					}),
-				);
+					},
+				});
 				if (lastSum !== 0) {
 					yield put({
 						type: SHIFT_SOCKETS,

@@ -13,9 +13,8 @@ import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
 import {createPathList} from '../../components/SFTP/functions';
 import {
-	commandLsAction,
-	commandPwdAction,
 	INIT_FILELIST,
+	LS_REQUEST,
 	LS_SUCCESS,
 	PWD_FAILURE,
 	PWD_REQUEST,
@@ -44,13 +43,14 @@ function* sendCommand(action) {
 				closeChannel(channel);
 				console.log('pwd end');
 				if (!pass) {
-					yield put(
-						commandPwdAction({
+					yield put({
+						type: PWD_REQUEST,
+						payload: {
 							socket: payload.socket,
 							uuid: payload.uuid,
 							pwd_path: payload.pwd_path,
-						}),
-					);
+						},
+					});
 				}
 				if (payload.socket.readyState !== 1) {
 					yield put({
@@ -127,13 +127,14 @@ function* sendCommand(action) {
 						pass = true;
 						// 내가 필요한 경로만큼만 요청!
 						for (let value of ls_pathList) {
-							yield put(
-								commandLsAction({
+							yield put({
+								type: LS_REQUEST,
+								payload: {
 									socket: payload.socket,
 									uuid: payload.uuid,
 									ls_path: value,
-								}),
-							);
+								},
+							});
 							yield take(LS_SUCCESS);
 						}
 						break;
