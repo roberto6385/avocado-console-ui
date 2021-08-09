@@ -425,7 +425,6 @@ export const themeValues = {
 				},
 				panels: {
 					normalStyle: {
-						font: {color: '#212121'},
 						backgroundColor: '#ffffff',
 						border: {color: '#e3e5e5'},
 					},
@@ -1012,7 +1011,6 @@ export const themeValues = {
 				},
 				panels: {
 					normalStyle: {
-						font: {color: ''},
 						backgroundColor: '',
 						border: {color: ''},
 					},

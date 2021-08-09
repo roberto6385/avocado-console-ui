@@ -419,7 +419,6 @@ export const properties = {
 			},
 			panels: {
 				normalStyle: {
-					font: {color: '#212121'},
 					backgroundColor: '#ffffff',
 					border: {color: '#e3e5e5'},
 				},
