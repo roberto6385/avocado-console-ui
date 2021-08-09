@@ -14,4 +14,6 @@ export default {
 	rename: 'Rename',
 	delete: 'Delete',
 	attr: 'Attribute',
+	chgrp: 'Change Group',
+	chown: 'Change Owner',
 };

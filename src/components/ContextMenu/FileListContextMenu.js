@@ -20,7 +20,6 @@ const FileListContextMenu = ({uuid}) => {
 		path: sftp_pathState,
 		high: sftp_highState,
 		download: sftp_downloadState,
-		socket: sftp_socketState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {server, tab, identity} = useSelector(
 		(state) => state.common,
@@ -30,10 +29,6 @@ const FileListContextMenu = ({uuid}) => {
 	const {highlight} = useMemo(
 		() => sftp_highState.find((it) => it.uuid === uuid),
 		[sftp_highState, uuid],
-	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
@@ -160,36 +155,41 @@ const FileListContextMenu = ({uuid}) => {
 				case 'rename_work':
 					dispatch({
 						type: OPEN_INPUT_DIALOG_BOX,
-						payload: {
-							key: 'sftp_rename_file_folder',
-							uuid: uuid,
-						},
+						payload: {key: 'sftp_rename_file_folder', uuid: uuid},
 					});
 					break;
 				case 'delete_work':
 					dispatch({
 						type: OPEN_DELETE_DIALOG_BOX,
-						payload: {
-							key: 'sftp_delete_file_folder',
-							uuid: uuid,
-						},
+						payload: {key: 'sftp_delete_file_folder', uuid: uuid},
 					});
 					break;
 
 				case 'attr_work':
 					dispatch({
 						type: OPEN_FILE_STATUS_DIALOG_BOX,
-						payload: {
-							uuid: uuid,
-							key: 'sftp_stat',
-						},
+						payload: {key: 'sftp_stat', uuid: uuid},
+					});
+					break;
+
+				case 'chgrp_work':
+					dispatch({
+						type: OPEN_INPUT_DIALOG_BOX,
+						payload: {key: 'sftp_chgrp', uuid: uuid},
+					});
+					break;
+
+				case 'chown_work':
+					dispatch({
+						type: OPEN_INPUT_DIALOG_BOX,
+						payload: {key: 'sftp_chown', uuid: uuid},
 					});
 					break;
 				default:
 					return;
 			}
 		},
-		[contextDownload, contextEdit, dispatch, uuid, path, highlight, socket],
+		[contextDownload, contextEdit, dispatch, uuid],
 	);
 	return (
 		<ContextMenu id={uuid + 'fileList'} animation={animation.slide}>
@@ -231,12 +231,29 @@ const FileListContextMenu = ({uuid}) => {
 			>
 				{t('delete')}
 			</Item>
+			<Separator />
 			<Item
 				disabled={highlight.length !== 1}
 				id='attr_work'
 				onClick={handleItemClick}
 			>
 				{t('attr')}
+			</Item>
+
+			<Item
+				disabled={highlight.length !== 1}
+				id='chgrp_work'
+				onClick={handleItemClick}
+			>
+				{t('chgrp')}
+			</Item>
+
+			<Item
+				disabled={highlight.length !== 1}
+				id='chown_work'
+				onClick={handleItemClick}
+			>
+				{t('chown')}
 			</Item>
 		</ContextMenu>
 	);

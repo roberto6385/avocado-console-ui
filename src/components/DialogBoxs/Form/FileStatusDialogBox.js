@@ -19,6 +19,7 @@ import {
 	TransparentButton,
 } from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
+import {useTranslation} from 'react-i18next';
 
 const _PopupModal = styled(PopupModal)`
 	width: 404px;
@@ -45,21 +46,7 @@ const KeySpan = styled.span`
 
 const FileStatusDialogBox = () => {
 	const dispatch = useDispatch();
-
-	const valueArray = [
-		{
-			key: 'Read',
-			value: 4,
-		},
-		{
-			key: 'Write',
-			value: 2,
-		},
-		{
-			key: 'Execute',
-			value: 1,
-		},
-	];
+	const {t} = useTranslation('fileStatusDialogBox');
 
 	const [permission, setPermission] = useState(0);
 	const [own, setOwner] = useState(null);
@@ -250,15 +237,15 @@ const FileStatusDialogBox = () => {
 			});
 			console.log(value);
 			const checkList = [
-				{key: 'own', type: 'Read', value: '4', checked: false},
-				{key: 'own', type: 'Write', value: '2', checked: false},
-				{key: 'own', type: 'Execute', value: '1', checked: false},
-				{key: 'grp', type: 'Read', value: '4', checked: false},
-				{key: 'grp', type: 'Write', value: '2', checked: false},
-				{key: 'grp', type: 'Execute', value: '1', checked: false},
-				{key: 'pub', type: 'Read', value: '4', checked: false},
-				{key: 'pub', type: 'Write', value: '2', checked: false},
-				{key: 'pub', type: 'Execute', value: '1', checked: false},
+				{key: 'own', type: t('read'), value: '4', checked: false},
+				{key: 'own', type: t('write'), value: '2', checked: false},
+				{key: 'own', type: t('execute'), value: '1', checked: false},
+				{key: 'grp', type: t('read'), value: '4', checked: false},
+				{key: 'grp', type: t('write'), value: '2', checked: false},
+				{key: 'grp', type: t('execute'), value: '1', checked: false},
+				{key: 'pub', type: t('read'), value: '4', checked: false},
+				{key: 'pub', type: t('write'), value: '2', checked: false},
+				{key: 'pub', type: t('execute'), value: '1', checked: false},
 			];
 
 			value.split('').map((v, i) => {
@@ -268,7 +255,7 @@ const FileStatusDialogBox = () => {
 			});
 			setChecked(checkList);
 		}
-	}, [grp, own, pub]);
+	}, [grp, own, pub, t]);
 
 	return (
 		checked.length !== 0 && (
@@ -280,7 +267,7 @@ const FileStatusDialogBox = () => {
 			>
 				<ModalHeader>
 					{/*<div>{HeaderMessage[file_status_dialog_box.key]}</div>*/}
-					<div>권한</div>
+					<div>{t('title')}</div>
 					<IconButton
 						btype={'font'}
 						size={'sm'}
@@ -294,7 +281,7 @@ const FileStatusDialogBox = () => {
 				<_Form onSubmit={submitFunction}>
 					<RowDiv>
 						<ColDiv>
-							<KeySpan>Owner</KeySpan>
+							<KeySpan>{t('owner')}</KeySpan>
 							<br />
 
 							<CheckBox_
@@ -317,7 +304,7 @@ const FileStatusDialogBox = () => {
 							/>
 						</ColDiv>
 						<ColDiv>
-							<KeySpan>Group</KeySpan>
+							<KeySpan>{t('group')}</KeySpan>
 							<br />
 
 							<CheckBox_
@@ -339,7 +326,7 @@ const FileStatusDialogBox = () => {
 							/>
 						</ColDiv>
 						<ColDiv>
-							<KeySpan>Public</KeySpan>
+							<KeySpan>{t('public')}</KeySpan>
 							<br />
 
 							<CheckBox_
@@ -371,9 +358,11 @@ const FileStatusDialogBox = () => {
 
 				<ModalFooter>
 					<TransparentButton onClick={closeModal}>
-						취소
+						{t('cancel')}
 					</TransparentButton>
-					<NormalButton onClick={submitFunction}>저장</NormalButton>
+					<NormalButton onClick={submitFunction}>
+						{t('save')}
+					</NormalButton>
 				</ModalFooter>
 			</_PopupModal>
 		)

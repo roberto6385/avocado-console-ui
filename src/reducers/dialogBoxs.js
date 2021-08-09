@@ -10,6 +10,8 @@ export const initialState = {
 	add_favorites_dialog_box: {open: false},
 	account_form_popup: {open: false},
 	file_status_dialog_box: {open: false},
+	chgrp_dialog_box: {open: false},
+	chown_dialog_box: {open: false},
 };
 
 export const OPEN_CONFIRM_DIALOG_BOX = 'OPEN_CONFIRM_DIALOG_BOX';

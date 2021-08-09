@@ -13,5 +13,7 @@ export default {
 	newFolder: '새 폴더',
 	rename: '이름 변경',
 	delete: '삭제',
-	attr:'속성'
+	attr: '속성',
+	chgrp: '그룹 변경',
+	chown: '소유자 변경',
 };
