@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import useInput from '../../../hooks/useInput';
 import ServerFolderList from './ServerFolderList';
+import AddServerDialogBox from '../../DialogBoxs/Form/AddServerDialogBox';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -38,6 +39,7 @@ const Resources = () => {
 				{/*</_AddButton>*/}
 			</_FormContainer>
 			<ServerFolderList search={search} />
+			<AddServerDialogBox />
 		</div>
 	);
 };

@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import FavoriteList from './FavoriteList';
 import {useDispatch} from 'react-redux';
 import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import AddFavoritesDialogBox from '../../DialogBoxs/Form/AddFavoritesDialogBox';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -72,6 +73,7 @@ const Favorites = () => {
 				<_AddButton onClick={newFavorites}>{plusIcon}</_AddButton>
 			</_FormContainer>
 			<FavoriteList search={search} />
+			<AddFavoritesDialogBox />
 		</div>
 	);
 };

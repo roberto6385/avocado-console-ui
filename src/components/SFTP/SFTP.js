@@ -12,6 +12,7 @@ import FileList_ from './containers/FileList_';
 import DropList_ from './containers/DropList_';
 import History_ from './containers/History_';
 import {shallowEqual, useSelector} from 'react-redux';
+import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -105,6 +106,7 @@ const SFTP = ({uuid, mode}) => {
 				)}
 				<History_ uuid={uuid} />
 			</_SFTP>
+			<FileStatusDialogBox />
 		</_Container>
 	);
 };

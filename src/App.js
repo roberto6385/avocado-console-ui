@@ -107,9 +107,6 @@ const App = () => {
 					</ThemeProvider>
 					<Route component={NotFound} />
 				</Switch>
-				<AddServerDialogBox />
-				<AddFavoritesDialogBox />
-				<FileStatusDialogBox />
 				<ConfirmDialogBox />
 				<WarningDialogBox />
 				<SaveDialogBox />
