@@ -53,10 +53,14 @@ const InputDialogBox = () => {
 	const HeaderMessage = {
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),
+		sftp_chgrp: t('chgrpHeader'),
+		sftp_chown: t('chownHeader'),
 	};
 	const Placeholder = {
 		sftp_rename_file_folder: t('renamePlace'),
 		sftp_new_folder: t('newFolderPlace'),
+		sftp_chgrp: t('chgrpPlace'),
+		sftp_chown: t('chownPlace'),
 	};
 
 	const onClickCloseModal = useCallback(() => {
@@ -103,6 +107,15 @@ const InputDialogBox = () => {
 					break;
 				}
 
+				case 'sftp_chgrp': {
+					console.log(formValue);
+					break;
+				}
+				case 'sftp_chown': {
+					console.log(formValue);
+					break;
+				}
+
 				default:
 					break;
 			}
@@ -124,7 +137,11 @@ const InputDialogBox = () => {
 	useEffect(() => {
 		const fillInForm = async () => {
 			if (input_dialog_box.open) {
-				if (input_dialog_box.key === 'sftp_rename_file_folder') {
+				if (
+					input_dialog_box.key === 'sftp_rename_file_folder' ||
+					input_dialog_box.key === 'sftp_chgrp' ||
+					input_dialog_box.key === 'sftp_chown'
+				) {
 					setFormValue(prevFormValue);
 				} else {
 					await setFormValue('');
@@ -138,9 +155,17 @@ const InputDialogBox = () => {
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {
-			setPrevFormValue(highlight[0].name);
+			if (input_dialog_box.key === 'sftp_rename_file_folder') {
+				setPrevFormValue(highlight[0].name);
+			}
+			if (input_dialog_box.key === 'sftp_chgrp') {
+				setPrevFormValue(highlight[0].group);
+			}
+			if (input_dialog_box.key === 'sftp_chown') {
+				setPrevFormValue(highlight[0].owner);
+			}
 		}
-	}, [highlight]);
+	}, [highlight, input_dialog_box]);
 
 	return (
 		<_PopupModal
