@@ -3,7 +3,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 
 import {useHistory} from 'react-router-dom';
 import SignUpForm from '../components/Form/SignUpForm';
-import SigninLayout from '../components/Layouts/SigninLayout';
+import SignInLayout from '../components/Layouts/SignInLayout';
 
 const SignUp = () => {
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
@@ -14,9 +14,9 @@ const SignUp = () => {
 	}, [history, userTicket]);
 
 	return (
-		<SigninLayout>
+		<SignInLayout>
 			<SignUpForm />
-		</SigninLayout>
+		</SignInLayout>
 	);
 };
 

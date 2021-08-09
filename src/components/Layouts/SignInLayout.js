@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import background from '../../images/loginBackground/login_bg_design_1.jpg';
 import {avocadoLogo} from '../../icons/icons';
+import {useTranslation} from 'react-i18next';
 
 const _Container = styled.div`
 	background-image: url(${background});
@@ -67,28 +68,27 @@ const Logo = styled.div`
 	}
 `;
 
-const SigninLayout = ({children}) => {
+const SignInLayout = ({children}) => {
+	const {t} = useTranslation('signInLayout');
+
 	return (
 		<_Container>
 			<_HeaderContainer>
 				<Logo>
 					{avocadoLogo}
 					<_Span>
-						<_SpanText /> ex.slogan of avocado solution
+						<_SpanText /> {t('slogan')}
 					</_Span>
 				</Logo>
-				<_Description>
-					Manage your servers from your browser with a professional
-					and feature rich terminal and remote desktop client
-				</_Description>
+				<_Description>{t('description')}</_Description>
 			</_HeaderContainer>
 			{children}
-			<_Footer>Copyright NETAND Co.,Ltd. All rights reserved.</_Footer>
+			<_Footer>{t('copyright')}</_Footer>
 		</_Container>
 	);
 };
 
-SigninLayout.propTypes = {
+SignInLayout.propTypes = {
 	children: PropTypes.node.isRequired,
 };
-export default SigninLayout;
+export default SignInLayout;

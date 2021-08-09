@@ -3,7 +3,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import FindPasswordForm from '../components/Form/FindPasswordForm';
-import SigninLayout from '../components/Layouts/SigninLayout';
+import SignInLayout from '../components/Layouts/SignInLayout';
 
 const Password = () => {
 	const history = useHistory();
@@ -15,9 +15,9 @@ const Password = () => {
 	}, [history, userTicket]);
 
 	return (
-		<SigninLayout>
+		<SignInLayout>
 			<FindPasswordForm />
-		</SigninLayout>
+		</SignInLayout>
 	);
 };
 

@@ -22,8 +22,10 @@ export {default as addFavoritesForm} from './DialogBoxs/Form/AddFavoritesDialogB
 export {default as fileStatusDialogBox} from './DialogBoxs/Form/FileStatusDialogBox';
 export {default as changePasswordForm} from './DialogBoxs/Form/ChangePasswordDialogBox';
 export {default as changeNameForm} from './DialogBoxs/Form/ChangeUserNameDialogBox';
-export {default as rightCornerIcons} from './RightCornerIcons';
+export {default as rightCornerIcons} from './ContextMenu/SettingContextMenu';
 export {default as contextMenu} from './ContextMenu';
 export {default as snippets} from './Snippets';
 
 export {default as SSH} from './SSH/SSH';
+
+export {default as signInLayout} from './Layouts/SignInLayout';
