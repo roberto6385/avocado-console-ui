@@ -9,9 +9,7 @@ import ssh from './ssh';
 import sftp from './sftp';
 import dialogBoxs from './dialogBoxs';
 import clientTicket from './auth/clientTicket';
-import modify from './auth/modify';
-import create from './auth/create';
-import deleteAccount from './auth/delete';
+import user from './auth/user';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 
 //userTicket.accesstoken => 저장가능
@@ -46,9 +44,7 @@ const appReducer = combineReducers({
 	dialogBoxs,
 	clientTicket,
 	userTicket,
-	modify,
-	create,
-	deleteAccount,
+	user,
 });
 
 const rootReducer = (state, action) => {

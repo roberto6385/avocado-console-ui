@@ -11,7 +11,6 @@ import {
 	NormalButton,
 	TransparentButton,
 } from '../../../styles/components/button';
-import {putModify} from '../../../reducers/auth/modify';
 import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
@@ -20,6 +19,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
+import {putModifyUserAccout} from '../../../reducers/auth/user';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -73,7 +73,7 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 				passwordRef.current?.focus();
 			} else {
 				dispatch(
-					putModify({
+					putModifyUserAccout({
 						userUid: userInfo.userUid,
 						name: userInfo.name,
 						password: password,

@@ -12,7 +12,7 @@ import {
 } from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
 import {useHistory} from 'react-router-dom';
-import {postCreateUser} from '../../reducers/auth/create';
+import {postCreateUserAccout} from '../../reducers/auth/user';
 import {
 	UserForm,
 	UserInput,
@@ -71,7 +71,7 @@ const SignUpForm = () => {
 				} else {
 					console.log('check');
 					dispatch(
-						postCreateUser({
+						postCreateUserAccout({
 							id,
 							name,
 							email,

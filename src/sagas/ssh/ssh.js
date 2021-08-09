@@ -431,7 +431,7 @@ function* watchSendWindowChange() {
 	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
 }
 
-export default function* sshtSage() {
+export default function* sshSage() {
 	yield all([
 		fork(watchSendConnection),
 		fork(watchSendDisconnection),

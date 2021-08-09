@@ -47,7 +47,7 @@ const AccountAside = () => {
 		console.log('현재 계정삭제 주석처리');
 		//TODO : 주석 해제시 계정삭제 가능.
 		// dispatch(
-		// 	postDeleteAccount({
+		// 	postDeleteUserAccount({
 		// 		userUid: userInfo.userUid,
 		// 		token: userTicket.access_token,
 		// 	}),
