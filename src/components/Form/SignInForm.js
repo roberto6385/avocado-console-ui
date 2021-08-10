@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import {getUserTicket} from '../../reducers/auth/userTicket';
+import {GET_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import appleButton from '../../images/alternativeAuth/apple_btn.png';
@@ -105,12 +105,13 @@ const SignInForm = () => {
 
 				setUser('');
 				setPassword('');
-				dispatch(
-					getUserTicket({
+				dispatch({
+					type: GET_USER_TICKET_REQUEST,
+					payload: {
 						username: user,
 						password: password,
-					}),
-				);
+					},
+				});
 			}
 		},
 		[user, password, rememberMe, setUser, setPassword, dispatch],

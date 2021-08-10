@@ -19,14 +19,16 @@ import {
 	VARIFY_USER_TICKET_REQUEST,
 	VARIFY_USER_TICKET_SUCCESS,
 	VARIFY_USER_TICKET_FAILURE,
+	ALTERNATIVE_TICKET_REQUEST,
+	ALTERNATIVE_TICKET_FAILURE,
+	ALTERNATIVE_TICKET_SUCCESS,
 } from '../../reducers/auth/userTicket';
-import base64 from 'base-64';
+import {encodeData} from '../../api/constants';
 
 const querystring = require('query-string');
 
 function getClientTicketApi() {
 	// web, 123456789 auth part확립되면 params로
-	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 	return axios.post(
 		'/oauth2/v1/token',
 		querystring.stringify({grant_type: 'client_credentials'}),
@@ -55,7 +57,6 @@ function* getClientTicket(action) {
 }
 
 function getUserTicketApi(payload) {
-	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 	console.log('Basic ' + encodeData);
 	return axios.post(
 		'/oauth2/v1/token',
@@ -121,6 +122,28 @@ function* refreshUserTicket(action) {
 	}
 }
 
+function verifyUserTicketApi(payload) {
+	return axios.post('/oauth2/v1/verify', null, {
+		headers: {
+			Authorization: payload.Authorization,
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		baseURL:
+			'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+	});
+}
+function* verifyUserTicket(action) {
+	try {
+		const res = yield call(verifyUserTicketApi, action.payload);
+		yield put({type: VARIFY_USER_TICKET_SUCCESS, payload: res.data});
+	} catch (err) {
+		yield put({
+			type: VARIFY_USER_TICKET_FAILURE,
+			payload: err.response.data,
+		});
+	}
+}
+
 function revokeUserTicketApi(payload) {
 	return axios.post('/oauth2/v1/revoke', null, {
 		headers: {
@@ -168,25 +191,25 @@ function* findValidUserTicket(action) {
 	}
 }
 
-function getVerifyUserTicketApi(payload) {
-	return axios.post('/oauth2/v1/verify', null, {
-		headers: {
-			Authorization: payload.Authorization,
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
-		baseURL:
-			'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
-	});
+function alternativeUserTicketApi(payload) {
+	// ex
+	// return axios.post('/oauth2/v1/verify', null, {
+	// 	headers: {
+	// 		Authorization: payload.Authorization,
+	// 		'Content-Type': 'application/x-www-form-urlencoded',
+	// 	},
+	// 	baseURL:
+	// 		'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+	// });
 }
-function* getVerifyUserTicket(action) {
+
+function* alternativeUserTicket(action) {
 	try {
-		const res = yield call(getVerifyUserTicketApi, action.payload);
-		yield put({type: VARIFY_USER_TICKET_SUCCESS, payload: res.data});
+		const res = yield call(alternativeUserTicketApi, action.payload);
+		console.log(res);
+		yield put({type: ALTERNATIVE_TICKET_SUCCESS});
 	} catch (err) {
-		yield put({
-			type: VARIFY_USER_TICKET_FAILURE,
-			payload: err.response.data,
-		});
+		yield put({type: ALTERNATIVE_TICKET_FAILURE});
 	}
 }
 
@@ -202,7 +225,11 @@ function* watchRefreshUserTicket() {
 	yield takeLatest(REFRESH_USER_TICKET_REQUEST, refreshUserTicket);
 }
 
-function* watchGetRevokeUserTicket() {
+function* watchVerifyUserTicket() {
+	yield takeLatest(VARIFY_USER_TICKET_REQUEST, verifyUserTicket);
+}
+
+function* watchRevokeUserTicket() {
 	yield takeLatest(REVOKE_USER_TICKET_REQUEST, revokeUserTicket);
 }
 
@@ -210,8 +237,8 @@ function* watchFindValidUserTicket() {
 	yield takeLatest(FIND_VALID_USER_TICKET_REQUEST, findValidUserTicket);
 }
 
-function* watchVerifyUserTicket() {
-	yield takeLatest(VARIFY_USER_TICKET_REQUEST, getVerifyUserTicket);
+function* watchAlternativeUserTicket() {
+	yield takeLatest(ALTERNATIVE_TICKET_REQUEST, alternativeUserTicket);
 }
 
 export default function* userTicketSaga() {
@@ -219,8 +246,9 @@ export default function* userTicketSaga() {
 		fork(watchGetUserTicket),
 		fork(watchGetClientTicket),
 		fork(watchRefreshUserTicket),
-		fork(watchGetRevokeUserTicket),
-		fork(watchFindValidUserTicket),
 		fork(watchVerifyUserTicket),
+		fork(watchRevokeUserTicket),
+		fork(watchFindValidUserTicket),
+		fork(watchAlternativeUserTicket),
 	]);
 }

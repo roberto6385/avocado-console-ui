@@ -1,39 +1,39 @@
 import produce from 'immer';
-// action types
-export const GET_USER_TICKET_REQUEST = 'GET_USER_TICKET_REQUEST';
-export const GET_USER_TICKET_SUCCESS = 'GET_USER_TICKET_SUCCESS';
-export const GET_USER_TICKET_FAILURE = 'GET_USER_TICKET_FAILURE';
 
+//Authorization Client 인증
 export const GET_CLIENT_TICKET_REQUEST = 'GET_CLIENT_TICKET_REQUEST';
 export const GET_CLIENT_TICKET_SUCCESS = 'GET_CLIENT_TICKET_SUCCESS';
 export const GET_CLIENT_TICKET_FAILURE = 'GET_CLIENT_TICKET_FAILURE';
 
+//Authorization User 인증
+export const GET_USER_TICKET_REQUEST = 'GET_USER_TICKET_REQUEST';
+export const GET_USER_TICKET_SUCCESS = 'GET_USER_TICKET_SUCCESS';
+export const GET_USER_TICKET_FAILURE = 'GET_USER_TICKET_FAILURE';
+
+//Authorization Refresh Token
 export const REFRESH_USER_TICKET_REQUEST = 'REFRESH_USER_TICKET_REQUEST';
 export const REFRESH_USER_TICKET_SUCCESS = 'REFRESH_USER_TICKET_SUCCESS';
 export const REFRESH_USER_TICKET_FAILURE = 'REFRESH_USER_TICKET_FAILURE';
 
+//Authorization Revoke
 export const REVOKE_USER_TICKET_REQUEST = 'REVOKE_USER_TICKET_REQUEST';
 export const REVOKE_USER_TICKET_SUCCESS = 'REVOKE_USER_TICKET_SUCCESS';
 export const REVOKE_USER_TICKET_FAILURE = 'REVOKE_USER_TICKET_FAILURE';
 
+//Authorization Verify
 export const VARIFY_USER_TICKET_REQUEST = 'VARIFY_USER_TICKET_REQUEST';
 export const VARIFY_USER_TICKET_SUCCESS = 'VARIFY_USER_TICKET_SUCCESS';
 export const VARIFY_USER_TICKET_FAILURE = 'VARIFY_USER_TICKET_FAILURE';
 
+//Authorization Find
 export const FIND_VALID_USER_TICKET_REQUEST = 'FIND_VALID_USER_TICKET_REQUEST';
 export const FIND_VALID_USER_TICKET_SUCCESS = 'FIND_VALID_USER_TICKET_SUCCESS';
 export const FIND_VALID_USER_TICKET_FAILURE = 'FIND_VALID_USER_TICKET_FAILURE';
 
-//  actions
-export const getUserTicket = (payload) => ({
-	type: GET_USER_TICKET_REQUEST,
-	payload,
-});
-
-export const revokeUserTicket = (payload) => ({
-	type: REVOKE_USER_TICKET_REQUEST,
-	payload,
-});
+//Authorization Alternative
+export const ALTERNATIVE_TICKET_REQUEST = 'ALTERNATIVE_TICKET_REQUEST';
+export const ALTERNATIVE_TICKET_SUCCESS = 'ALTERNATIVE_TICKET_SUCCESS';
+export const ALTERNATIVE_TICKET_FAILURE = 'ALTERNATIVE_TICKET_FAILURE';
 
 // initial State
 const initialState = {
@@ -82,6 +82,16 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = false;
 				break;
 
+			case VARIFY_USER_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case VARIFY_USER_TICKET_SUCCESS:
+				draft.loading = false;
+				break;
+			case VARIFY_USER_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
 			case REVOKE_USER_TICKET_REQUEST:
 				draft.loading = true;
 				break;
@@ -93,25 +103,23 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = false;
 				break;
 
-			case VARIFY_USER_TICKET_REQUEST:
-				draft.loading = true;
-				break;
-			case VARIFY_USER_TICKET_SUCCESS:
-				draft.find = action.payload;
-				draft.loading = false;
-				break;
-			case VARIFY_USER_TICKET_FAILURE:
-				draft.loading = false;
-				break;
-
 			case FIND_VALID_USER_TICKET_REQUEST:
 				draft.loading = true;
 				break;
 			case FIND_VALID_USER_TICKET_SUCCESS:
-				draft.find = action.payload;
 				draft.loading = false;
 				break;
 			case FIND_VALID_USER_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
+			case ALTERNATIVE_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case ALTERNATIVE_TICKET_SUCCESS:
+				draft.loading = false;
+				break;
+			case ALTERNATIVE_TICKET_FAILURE:
 				draft.loading = false;
 				break;
 

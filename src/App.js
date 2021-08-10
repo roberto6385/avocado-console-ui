@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useIdleTimer} from 'react-idle-timer';
-import base64 from 'base-64';
 
 import {
 	NotFound,
@@ -18,22 +17,20 @@ import {
 	Redirect,
 } from './pages';
 import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
-import AddServerDialogBox from './components/DialogBoxs/Form/AddServerDialogBox';
 import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
 import InputDialogBox from './components/DialogBoxs/Form/InputDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
-import AddFavoritesDialogBox from './components/DialogBoxs/Form/AddFavoritesDialogBox';
 import {
 	REFRESH_USER_TICKET_REQUEST,
 	REVOKE_USER_TICKET_SUCCESS,
 } from './reducers/auth/userTicket';
 import Toast_ from './components/RecycleComponents/Toast_';
-import FileStatusDialogBox from './components/DialogBoxs/Form/FileStatusDialogBox';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
 import {properties} from './json/properties';
 import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
+import {encodeData} from './api/constants';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -61,8 +58,6 @@ const App = () => {
 				Date.now() - userTicket.expires_in * 1000 + 10 * 60 * 1000 >
 				Date.parse(userTicket.create_date)
 			) {
-				const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-
 				dispatch({
 					type: REFRESH_USER_TICKET_REQUEST,
 					payload: {

@@ -3,11 +3,11 @@ const querystring = require('query-string');
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import base64 from 'base-64';
 import {GET_USER_TICKET_SUCCESS} from '../reducers/auth/userTicket';
 import background from '../images/loginBackground/login_bg_design_2.png';
 import styled from 'styled-components';
 import LoadingSpinner from '../components/LoadingSpinner';
+import {encodeData} from '../api/constants';
 
 const _Container = styled.div`
 	width: 100%;
@@ -42,7 +42,6 @@ const Redirect = () => {
 	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
 
 	useEffect(() => {
-		const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 		return axios
 			.post(
 				'/oauth2/v1/token',

@@ -6,8 +6,8 @@ import {useTranslation} from 'react-i18next';
 import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
-import {revokeUserTicket} from '../../reducers/auth/userTicket';
 import {DropDownMenu} from '../../styles/components/contextMenu';
+import {REVOKE_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
@@ -32,11 +32,12 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	);
 
 	const logout = useCallback(() => {
-		dispatch(
-			revokeUserTicket({
+		dispatch({
+			type: REVOKE_USER_TICKET_REQUEST,
+			payload: {
 				Authorization: 'Bearer ' + userTicket.access_token,
-			}),
-		);
+			},
+		});
 	}, [dispatch, userTicket]);
 
 	return (
