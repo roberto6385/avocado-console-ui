@@ -19,7 +19,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
-import {putModifyUserAccout} from '../../../reducers/auth/user';
+import {MODIFY_USER_ACCOUT_REQUEST} from '../../../reducers/auth/user';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -72,14 +72,15 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 				setConfrimPassword('');
 				passwordRef.current?.focus();
 			} else {
-				dispatch(
-					putModifyUserAccout({
+				dispatch({
+					type: MODIFY_USER_ACCOUT_REQUEST,
+					payload: {
 						userUid: userInfo.userUid,
 						name: userInfo.name,
 						password: password,
 						access_token: userTicket.access_token,
-					}),
-				);
+					},
+				});
 				closeModal();
 			}
 		},

@@ -21,22 +21,22 @@ import {
 	FIND_USER_BY_ID_SUCCESS,
 } from '../../reducers/auth/user';
 
-async function createUserAccountApi(params) {
-	console.log(params);
+async function createUserAccountApi(payload) {
+	console.log(payload);
 	return await axios.post(
 		`/open/api/v1/users`,
 		{
-			id: params.id,
+			id: payload.id,
 			companyId: 'netand',
-			name: params.name,
-			password: params.password,
-			email: params.email,
+			name: payload.name,
+			password: payload.password,
+			email: payload.email,
 			telephone: '02-1234-1234',
 			mobile: '010-1234-1234',
 		},
 		{
 			headers: {
-				Authorization: `Bearer ${params.token}`,
+				Authorization: `Bearer ${payload.token}`,
 				'Content-Type': 'application/json',
 			},
 			baseURL:
@@ -45,30 +45,15 @@ async function createUserAccountApi(params) {
 	);
 }
 
-function createUserTokenApi() {
-	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
-	return axios.post(
-		'/oauth2/v1/token',
-		querystring.stringify({grant_type: 'client_credentials'}),
-		{
-			headers: {
-				Authorization: 'Basic ' + encodeData,
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
-		},
-	);
-}
-
 function* createUserAccount(action) {
+	console.log(action);
 	try {
-		const res = yield call(createUserTokenApi, action.params);
-		console.log(res);
-		console.log(action.params);
+		// const res = yield call(createUserTokenApi, action.payload);
+		// console.log(res);
+		console.log(action.payload);
 		const user = yield call(createUserAccountApi, {
-			...action.params,
-			token: res.data.access_token,
+			...action.payload,
+			// token: res.data.access_token,
 		});
 
 		console.log(user);
@@ -83,17 +68,17 @@ function* createUserAccount(action) {
 	}
 }
 
-async function modifyUserAccountApi(params) {
-	console.log(params);
+async function modifyUserAccountApi(payload) {
+	console.log(payload);
 	return await axios.put(
-		`/open/api/v1/users/${params.userUid}`,
+		`/open/api/v1/users/${payload.userUid}`,
 		{
-			name: params.name,
-			password: params.password,
+			name: payload.name,
+			password: payload.password,
 		},
 		{
 			headers: {
-				Authorization: `Bearer ${params.access_token}`,
+				Authorization: `Bearer ${payload.access_token}`,
 				'Content-Type': 'application/json',
 			},
 			baseURL:
@@ -104,7 +89,7 @@ async function modifyUserAccountApi(params) {
 
 function* modifyUserAccount(action) {
 	try {
-		const res = yield call(modifyUserAccountApi, action.params);
+		const res = yield call(modifyUserAccountApi, action.payload);
 		console.log(res);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
@@ -116,11 +101,11 @@ function* modifyUserAccount(action) {
 	}
 }
 
-async function deleteTokenApi(params) {
-	console.log(params);
-	return await axios.delete(`/open/api/v1/users/${params.userUid}`, {
+async function deleteTokenApi(payload) {
+	console.log(payload);
+	return await axios.delete(`/open/api/v1/users/${payload.userUid}`, {
 		headers: {
-			Authorization: `Bearer ${params.token}`,
+			Authorization: `Bearer ${payload.token}`,
 			'Content-Type': 'application/json',
 		},
 		baseURL:
@@ -129,7 +114,7 @@ async function deleteTokenApi(params) {
 }
 function* deleteUserAccount(action) {
 	try {
-		const res = yield call(deleteTokenApi, action.params);
+		const res = yield call(deleteTokenApi, action.payload);
 		console.log(res);
 		yield put({
 			type: DELETE_USER_ACCOUNT_SUCCESS,
@@ -143,11 +128,11 @@ function* deleteUserAccount(action) {
 	}
 }
 
-function findUserByIdApi(params) {
-	console.log(params);
-	return axios.get(`/open/api/v1/users/id/${params.id}@netand.co.kr`, {
+function findUserByIdApi(payload) {
+	console.log(payload);
+	return axios.get(`/open/api/v1/users/id/${payload.id}@netand.co.kr`, {
 		headers: {
-			Authorization: `Bearer ${params.access_token}`,
+			Authorization: `Bearer ${payload.access_token}`,
 			'Content-Type': 'application/json',
 		},
 		baseURL:

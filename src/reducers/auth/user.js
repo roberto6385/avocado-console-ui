@@ -21,22 +21,6 @@ export const FIND_USER_BY_UID_REQUEST = 'FIND_USER_BY_UID_REQUEST';
 export const FIND_USER_BY_UID_SUCCESS = 'FIND_USER_BY_UID_SUCCESS';
 export const FIND_USER_BY_UID_FAILURE = 'FIND_USER_BY_UID_FAILURE';
 
-//  actions
-export const putModifyUserAccout = (params) => ({
-	type: MODIFY_USER_ACCOUT_REQUEST,
-	params,
-});
-
-export const postDeleteUserAccount = (params) => ({
-	type: DELETE_USER_ACCOUNT_REQUEST,
-	params,
-});
-
-export const postCreateUserAccout = (params) => ({
-	type: CREATE_USER_ACCOUNT_REQUEST,
-	params,
-});
-
 // initial State
 const initialState = {
 	userInfo: null, //revoke success, get user success

@@ -65,7 +65,7 @@ const App = () => {
 
 				dispatch({
 					type: REFRESH_USER_TICKET_REQUEST,
-					params: {
+					payload: {
 						refresh_token: userTicket.refresh_token,
 						Authorization: 'Basic ' + encodeData,
 					},

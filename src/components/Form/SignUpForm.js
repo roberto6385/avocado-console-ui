@@ -12,7 +12,7 @@ import {
 } from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
 import {useHistory} from 'react-router-dom';
-import {postCreateUserAccout} from '../../reducers/auth/user';
+import {CREATE_USER_ACCOUNT_REQUEST} from '../../reducers/auth/user';
 import {
 	UserForm,
 	UserInput,
@@ -70,14 +70,15 @@ const SignUpForm = () => {
 					console.log('비밀번호가 서로 다릅니다.');
 				} else {
 					console.log('check');
-					dispatch(
-						postCreateUserAccout({
+					dispatch({
+						type: CREATE_USER_ACCOUNT_REQUEST,
+						payload: {
 							id,
 							name,
 							email,
 							password,
-						}),
-					);
+						},
+					});
 				}
 			}
 		},

@@ -25,14 +25,14 @@ export const FIND_VALID_USER_TICKET_SUCCESS = 'FIND_VALID_USER_TICKET_SUCCESS';
 export const FIND_VALID_USER_TICKET_FAILURE = 'FIND_VALID_USER_TICKET_FAILURE';
 
 //  actions
-export const getUserTicket = (params) => ({
+export const getUserTicket = (payload) => ({
 	type: GET_USER_TICKET_REQUEST,
-	params,
+	payload,
 });
 
-export const revokeUserTicket = (params) => ({
+export const revokeUserTicket = (payload) => ({
 	type: REVOKE_USER_TICKET_REQUEST,
-	params,
+	payload,
 });
 
 // initial State

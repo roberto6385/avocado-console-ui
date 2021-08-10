@@ -8,7 +8,6 @@ import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
 import dialogBoxs from './dialogBoxs';
-import clientTicket from './auth/clientTicket';
 import user from './auth/user';
 import userTicket, {REVOKE_USER_TICKET_SUCCESS} from './auth/userTicket';
 
@@ -42,7 +41,6 @@ const appReducer = combineReducers({
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	dialogBoxs,
-	clientTicket,
 	userTicket,
 	user,
 });

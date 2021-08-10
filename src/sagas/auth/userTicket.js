@@ -24,16 +24,47 @@ import base64 from 'base-64';
 
 const querystring = require('query-string');
 
-function getUserTicketApi(params) {
+function getClientTicketApi() {
+	// web, 123456789 auth part확립되면 params로
+	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
+	return axios.post(
+		'/oauth2/v1/token',
+		querystring.stringify({grant_type: 'client_credentials'}),
+		{
+			headers: {
+				Authorization: 'Basic ' + encodeData,
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			baseURL:
+				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
+}
+function* getClientTicket(action) {
+	try {
+		const res = yield call(getClientTicketApi, action.payload);
+		console.log(res);
+
+		yield put({
+			type: GET_CLIENT_TICKET_SUCCESS,
+			payload: res.data,
+		});
+	} catch (err) {
+		yield put({type: GET_CLIENT_TICKET_FAILURE, payload: err});
+	}
+}
+
+function getUserTicketApi(payload) {
 	const encodeData = base64.encode(`${'web'}:${'123456789'}`);
 	console.log('Basic ' + encodeData);
 	return axios.post(
 		'/oauth2/v1/token',
 
 		querystring.stringify({
-			grant_type: 'password',
-			username: params.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
-			password: params.password,
+			//
+			grant_type: 'password', // user인증
+			username: payload.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
+			password: payload.password,
 		}),
 		{
 			headers: {
@@ -45,38 +76,11 @@ function getUserTicketApi(params) {
 		},
 	);
 }
-function getUserInfoApi(params) {
-	return axios.get(`/open/api/v1/users/id/${params.user_id}@netand.co.kr`, {
-		headers: {
-			Authorization: `Bearer ${params.access_token}`,
-			'Content-Type': 'application/json',
-		},
-		baseURL:
-			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
-	});
-}
-function* getClientTicket(action) {
-	try {
-		const res = yield call(getUserTicketApi, action.params);
-		console.log(res);
-		const user = yield call(getUserInfoApi, res.data);
-		console.log(user);
-
-		yield put({
-			type: GET_USER_TICKET_SUCCESS,
-			payload: res.data,
-		});
-	} catch (err) {
-		yield put({type: GET_USER_TICKET_FAILURE, payload: err});
-	}
-}
 
 function* getUserTicket(action) {
 	try {
-		const res = yield call(getUserTicketApi, action.params);
+		const res = yield call(getUserTicketApi, action.payload);
 		console.log(res);
-		const user = yield call(getUserInfoApi, res.data);
-		console.log(user);
 
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
@@ -87,16 +91,16 @@ function* getUserTicket(action) {
 	}
 }
 
-function refreshUserTicketApi(params) {
+function refreshUserTicketApi(payload) {
 	return axios.post(
 		'/oauth2/v1/token',
 		querystring.stringify({
 			grant_type: 'refresh_token',
-			refresh_token: params.refresh_token,
+			refresh_token: payload.refresh_token,
 		}),
 		{
 			headers: {
-				Authorization: params.Authorization,
+				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			baseURL:
@@ -106,7 +110,7 @@ function refreshUserTicketApi(params) {
 }
 function* refreshUserTicket(action) {
 	try {
-		const res = yield call(refreshUserTicketApi, action.params);
+		const res = yield call(refreshUserTicketApi, action.payload);
 		console.log(res);
 		yield put({type: REFRESH_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
@@ -117,10 +121,10 @@ function* refreshUserTicket(action) {
 	}
 }
 
-function revokeUserTicketApi(params) {
+function revokeUserTicketApi(payload) {
 	return axios.post('/oauth2/v1/revoke', null, {
 		headers: {
-			Authorization: params.Authorization,
+			Authorization: payload.Authorization,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 		baseURL:
@@ -129,7 +133,7 @@ function revokeUserTicketApi(params) {
 }
 function* revokeUserTicket(action) {
 	try {
-		yield call(revokeUserTicketApi, action.params);
+		yield call(revokeUserTicketApi, action.payload);
 		yield put({type: REVOKE_USER_TICKET_SUCCESS});
 	} catch (err) {
 		//TODO: error 일떄 logout 어떻게 처리해야 하는가?
@@ -138,13 +142,13 @@ function* revokeUserTicket(action) {
 	}
 }
 
-function findValidUserTicketApi(params) {
+function findValidUserTicketApi(payload) {
 	return axios.get(
-		`/oauth2/v1/token?offset=${params.offset}&limit=${params.limit}`,
+		`/oauth2/v1/token?offset=${payload.offset}&limit=${payload.limit}`,
 		{
 			data: null,
 			headers: {
-				Authorization: params.Authorization,
+				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			baseURL:
@@ -154,7 +158,7 @@ function findValidUserTicketApi(params) {
 }
 function* findValidUserTicket(action) {
 	try {
-		const res = yield call(findValidUserTicketApi, action.params);
+		const res = yield call(findValidUserTicketApi, action.payload);
 		yield put({type: FIND_VALID_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
 		yield put({
@@ -164,10 +168,10 @@ function* findValidUserTicket(action) {
 	}
 }
 
-function getVerifyUserTicketApi(params) {
+function getVerifyUserTicketApi(payload) {
 	return axios.post('/oauth2/v1/verify', null, {
 		headers: {
-			Authorization: params.Authorization,
+			Authorization: payload.Authorization,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 		baseURL:
@@ -176,7 +180,7 @@ function getVerifyUserTicketApi(params) {
 }
 function* getVerifyUserTicket(action) {
 	try {
-		const res = yield call(getVerifyUserTicketApi, action.params);
+		const res = yield call(getVerifyUserTicketApi, action.payload);
 		yield put({type: VARIFY_USER_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
 		yield put({
