@@ -110,10 +110,7 @@ const Redirect = () => {
 										console.log(authN);
 										dispatch({
 											type: GET_USER_TICKET_SUCCESS,
-											payload: {
-												data: authN.data,
-												user: user.data,
-											},
+											payload: authN.data,
 										});
 
 										localStorage.setItem(

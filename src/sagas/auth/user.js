@@ -16,6 +16,9 @@ import {
 	CREATE_USER_ACCOUNT_FAILURE,
 	CREATE_USER_ACCOUNT_REQUEST,
 	CREATE_USER_ACCOUNT_SUCCESS,
+	FIND_USER_BY_ID_REQUEST,
+	FIND_USER_BY_ID_FAILURE,
+	FIND_USER_BY_ID_SUCCESS,
 } from '../../reducers/auth/user';
 
 async function createUserAccountApi(params) {
@@ -98,33 +101,14 @@ async function modifyUserAccountApi(params) {
 		},
 	);
 }
-function getUserInfoApi(params) {
-	console.log(params);
-	return axios.get(`/open/api/v1/users/${params.userUid}`, {
-		headers: {
-			Authorization: `Bearer ${params.access_token}`,
-			'Content-Type': 'application/json',
-		},
-		baseURL:
-			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
-	});
-}
+
 function* modifyUserAccount(action) {
 	try {
 		const res = yield call(modifyUserAccountApi, action.params);
 		console.log(res);
-		const user = yield call(getUserInfoApi, action.params);
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
-			payload: {
-				data: res.data,
-				user: {
-					id: user.data.id,
-					email: user.data.email,
-					name: user.data.name,
-					userUid: user.data.userUid,
-				},
-			},
+			payload: res.data,
 		});
 	} catch (err) {
 		console.log(err);
@@ -159,6 +143,29 @@ function* deleteUserAccount(action) {
 	}
 }
 
+function findUserByIdApi(params) {
+	console.log(params);
+	return axios.get(`/open/api/v1/users/id/${params.id}@netand.co.kr`, {
+		headers: {
+			Authorization: `Bearer ${params.access_token}`,
+			'Content-Type': 'application/json',
+		},
+		baseURL:
+			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+	});
+}
+
+function* findUserById(action) {
+	console.log(action);
+	try {
+		const res = yield call(findUserByIdApi, action.payload);
+		console.log(res);
+		yield put({type: FIND_USER_BY_ID_SUCCESS, payload: res.data});
+	} catch (err) {
+		yield put({type: FIND_USER_BY_ID_FAILURE, payload: err});
+	}
+}
+
 function* watchCreateUserAccount() {
 	yield takeLatest(CREATE_USER_ACCOUNT_REQUEST, createUserAccount);
 }
@@ -171,10 +178,15 @@ function* watchDeleteUserAccount() {
 	yield takeLatest(DELETE_USER_ACCOUNT_REQUEST, deleteUserAccount);
 }
 
+function* watchFindUserById() {
+	yield takeLatest(FIND_USER_BY_ID_REQUEST, findUserById);
+}
+
 export default function* userSaga() {
 	yield all([
 		fork(watchCreateUserAccount),
 		fork(watchModifyUserAccount),
 		fork(watchDeleteUserAccount),
+		fork(watchFindUserById),
 	]);
 }

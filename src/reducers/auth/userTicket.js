@@ -4,13 +4,17 @@ export const GET_USER_TICKET_REQUEST = 'GET_USER_TICKET_REQUEST';
 export const GET_USER_TICKET_SUCCESS = 'GET_USER_TICKET_SUCCESS';
 export const GET_USER_TICKET_FAILURE = 'GET_USER_TICKET_FAILURE';
 
+export const GET_CLIENT_TICKET_REQUEST = 'GET_CLIENT_TICKET_REQUEST';
+export const GET_CLIENT_TICKET_SUCCESS = 'GET_CLIENT_TICKET_SUCCESS';
+export const GET_CLIENT_TICKET_FAILURE = 'GET_CLIENT_TICKET_FAILURE';
+
 export const REFRESH_USER_TICKET_REQUEST = 'REFRESH_USER_TICKET_REQUEST';
 export const REFRESH_USER_TICKET_SUCCESS = 'REFRESH_USER_TICKET_SUCCESS';
-export const REFRESH_USER_TICKET_FAILURE = 'GET_REFRESH_TICKET_FAILURE';
+export const REFRESH_USER_TICKET_FAILURE = 'REFRESH_USER_TICKET_FAILURE';
 
 export const REVOKE_USER_TICKET_REQUEST = 'REVOKE_USER_TICKET_REQUEST';
 export const REVOKE_USER_TICKET_SUCCESS = 'REVOKE_USER_TICKET_SUCCESS';
-export const REVOKE_USER_TICKET_FAILURE = 'GET_REVOKE_TICKET_FAILURE';
+export const REVOKE_USER_TICKET_FAILURE = 'REVOKE_USER_TICKET_FAILURE';
 
 export const VARIFY_USER_TICKET_REQUEST = 'VARIFY_USER_TICKET_REQUEST';
 export const VARIFY_USER_TICKET_SUCCESS = 'VARIFY_USER_TICKET_SUCCESS';
@@ -33,8 +37,8 @@ export const revokeUserTicket = (params) => ({
 
 // initial State
 const initialState = {
+	clientTicket: null,
 	userTicket: null,
-	userInfo: null,
 	loading: false,
 };
 
@@ -42,12 +46,22 @@ const initialState = {
 const userTicket = (state = initialState, action) =>
 	produce(state, (draft) => {
 		switch (action.type) {
+			case GET_CLIENT_TICKET_REQUEST:
+				draft.loading = true;
+				break;
+			case GET_CLIENT_TICKET_SUCCESS:
+				// draft.clientTicket = action.payload.data;
+				draft.loading = false;
+				break;
+			case GET_CLIENT_TICKET_FAILURE:
+				draft.loading = false;
+				break;
+
 			case GET_USER_TICKET_REQUEST:
 				draft.loading = true;
 				break;
 			case GET_USER_TICKET_SUCCESS:
-				draft.userTicket = action.payload.data;
-				draft.userInfo = action.payload.user;
+				draft.userTicket = action.payload;
 				draft.loading = false;
 				break;
 			case GET_USER_TICKET_FAILURE:
@@ -74,7 +88,6 @@ const userTicket = (state = initialState, action) =>
 			case REVOKE_USER_TICKET_SUCCESS:
 				draft.loading = false;
 				draft.userTicket = null;
-				draft.userInfo = null;
 				break;
 			case REVOKE_USER_TICKET_FAILURE:
 				draft.loading = false;

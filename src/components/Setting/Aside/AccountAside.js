@@ -34,7 +34,7 @@ const AccountAside = () => {
 		(state) => state.userTicket,
 		shallowEqual,
 	);
-	const {account} = useSelector((state) => state.common, shallowEqual);
+	const {account} = useSelector((state) => state?.common, shallowEqual);
 
 	const changePath = useCallback(
 		(path) => () => {

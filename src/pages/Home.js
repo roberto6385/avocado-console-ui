@@ -5,6 +5,7 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {INIT_FAVORITES, SAVE_ACCOUT} from '../reducers/common';
+import {FIND_USER_BY_ID_REQUEST} from '../reducers/auth/user';
 
 const _Container = styled.div`
 	display: flex;
@@ -18,38 +19,43 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const {userTicket, userInfo} = useSelector(
-		(state) => state.userTicket,
-		shallowEqual,
-	);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {user} = useSelector((state) => state.user, shallowEqual);
 
 	useEffect(() => {
-		if (!userTicket) {
+		if (userTicket) {
+			console.log(userTicket);
+			dispatch({
+				type: FIND_USER_BY_ID_REQUEST,
+				payload: {
+					access_token: userTicket.access_token,
+					id: userTicket.user_id,
+				},
+			});
+		} else {
 			history.push('/signin');
 			location.reload();
 		}
-	}, [history, userTicket]);
+	}, [dispatch, history, userTicket]);
 
 	useEffect(() => {
 		dispatch({type: INIT_FAVORITES});
 	}, []);
 
 	useEffect(() => {
-		if (userInfo) {
-			const email = userInfo.email;
-			const index = email.indexOf('@');
-			const id = email.substring(0, index);
+		if (user) {
+			console.log(user);
 
 			dispatch({
 				type: SAVE_ACCOUT,
 				payload: {
-					account: userInfo.id === id ? userInfo.id : id,
-					name: userInfo.name,
-					email: userInfo.email,
+					account: user.id,
+					name: user.name,
+					email: user.email,
 				},
 			});
 		}
-	}, [dispatch, userInfo]);
+	}, [dispatch, user]);
 
 	return (
 		<_Container>

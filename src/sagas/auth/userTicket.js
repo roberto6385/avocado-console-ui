@@ -1,6 +1,9 @@
 import {all, fork, put, call, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
 import {
+	GET_CLIENT_TICKET_REQUEST,
+	GET_CLIENT_TICKET_FAILURE,
+	GET_CLIENT_TICKET_SUCCESS,
 	GET_USER_TICKET_REQUEST,
 	GET_USER_TICKET_FAILURE,
 	GET_USER_TICKET_SUCCESS,
@@ -52,6 +55,22 @@ function getUserInfoApi(params) {
 			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
 	});
 }
+function* getClientTicket(action) {
+	try {
+		const res = yield call(getUserTicketApi, action.params);
+		console.log(res);
+		const user = yield call(getUserInfoApi, res.data);
+		console.log(user);
+
+		yield put({
+			type: GET_USER_TICKET_SUCCESS,
+			payload: res.data,
+		});
+	} catch (err) {
+		yield put({type: GET_USER_TICKET_FAILURE, payload: err});
+	}
+}
+
 function* getUserTicket(action) {
 	try {
 		const res = yield call(getUserTicketApi, action.params);
@@ -61,15 +80,7 @@ function* getUserTicket(action) {
 
 		yield put({
 			type: GET_USER_TICKET_SUCCESS,
-			payload: {
-				data: res.data,
-				user: {
-					id: user.data.id,
-					email: user.data.email,
-					name: user.data.name,
-					userUid: user.data.userUid,
-				},
-			},
+			payload: res.data,
 		});
 	} catch (err) {
 		yield put({type: GET_USER_TICKET_FAILURE, payload: err});
@@ -175,6 +186,10 @@ function* getVerifyUserTicket(action) {
 	}
 }
 
+function* watchGetClientTicket() {
+	yield takeLatest(GET_CLIENT_TICKET_REQUEST, getClientTicket);
+}
+
 function* watchGetUserTicket() {
 	yield takeLatest(GET_USER_TICKET_REQUEST, getUserTicket);
 }
@@ -198,6 +213,7 @@ function* watchVerifyUserTicket() {
 export default function* userTicketSaga() {
 	yield all([
 		fork(watchGetUserTicket),
+		fork(watchGetClientTicket),
 		fork(watchRefreshUserTicket),
 		fork(watchGetRevokeUserTicket),
 		fork(watchFindValidUserTicket),
