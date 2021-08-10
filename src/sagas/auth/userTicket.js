@@ -22,8 +22,19 @@ import {
 	ALTERNATIVE_TICKET_REQUEST,
 	ALTERNATIVE_TICKET_FAILURE,
 	ALTERNATIVE_TICKET_SUCCESS,
+	AUTH_WITH_GOOGLE_REQUEST,
+	AUTH_WITH_GOOGLE_SUCCESS,
+	AUTH_WITH_GOOGLE_FAILURE,
 } from '../../reducers/auth/userTicket';
-import {encodeData} from '../../api/constants';
+import {
+	ENCODE_DATA,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+	GRANT_TYPE_AUTH_CODE,
+	GRANT_TYPE_CLIENT,
+	GRANT_TYPE_PASSWORD,
+	GRANT_TYPE_REFRESH,
+} from '../../api/constants';
 
 const querystring = require('query-string');
 
@@ -31,10 +42,10 @@ function getClientTicketApi() {
 	// web, 123456789 auth part확립되면 params로
 	return axios.post(
 		'/oauth2/v1/token',
-		querystring.stringify({grant_type: 'client_credentials'}),
+		querystring.stringify({grant_type: GRANT_TYPE_CLIENT}),
 		{
 			headers: {
-				Authorization: 'Basic ' + encodeData,
+				Authorization: 'Basic ' + ENCODE_DATA,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			baseURL:
@@ -46,7 +57,6 @@ function* getClientTicket(action) {
 	try {
 		const res = yield call(getClientTicketApi, action.payload);
 		console.log(res);
-
 		yield put({
 			type: GET_CLIENT_TICKET_SUCCESS,
 			payload: res.data,
@@ -57,19 +67,19 @@ function* getClientTicket(action) {
 }
 
 function getUserTicketApi(payload) {
-	console.log('Basic ' + encodeData);
+	console.log('Basic ' + ENCODE_DATA);
 	return axios.post(
 		'/oauth2/v1/token',
 
 		querystring.stringify({
 			//
-			grant_type: 'password', // user인증
+			grant_type: GRANT_TYPE_PASSWORD, // user인증
 			username: payload.username, // client username 은 web이고 query parameter는 user 라서 직접입력함.
 			password: payload.password,
 		}),
 		{
 			headers: {
-				Authorization: 'Basic ' + encodeData,
+				Authorization: 'Basic ' + ENCODE_DATA,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			baseURL:
@@ -96,7 +106,7 @@ function refreshUserTicketApi(payload) {
 	return axios.post(
 		'/oauth2/v1/token',
 		querystring.stringify({
-			grant_type: 'refresh_token',
+			grant_type: GRANT_TYPE_REFRESH,
 			refresh_token: payload.refresh_token,
 		}),
 		{
@@ -213,6 +223,64 @@ function* alternativeUserTicket(action) {
 	}
 }
 
+const getParameter = (name) => {
+	const list = location.search.substring(1).split('&');
+	for (let i = 0; i < list.length; i++) {
+		const data = list[i].split('=');
+		if (data.length === 2) {
+			if (data[0] === name) {
+				return data[1];
+			}
+		}
+	}
+	return null;
+};
+
+function authWithGoogleApi() {
+	return axios.post(
+		'https://accounts.google.com/o/oauth2/token',
+		querystring.stringify({
+			code: decodeURIComponent(getParameter('code')),
+			grant_type: GRANT_TYPE_AUTH_CODE,
+			redirect_uri:
+				window.location.protocol +
+				'//' +
+				window.location.host +
+				'/Redirect',
+			client_id: GOOGLE_CLIENT_ID,
+			client_secret: GOOGLE_CLIENT_SECRET,
+		}),
+		{
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+		},
+	);
+}
+
+function getUserInfoWithGoogleApi(token) {
+	return axios.get(
+		`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${token}`,
+	);
+}
+
+function* authWithGoogle(action) {
+	try {
+		const res = yield call(authWithGoogleApi, action.payload);
+		console.log(res);
+		const user = yield call(
+			getUserInfoWithGoogleApi,
+			res.data.access_token,
+		);
+		yield put({
+			type: AUTH_WITH_GOOGLE_SUCCESS,
+			payload: {...res.data, email: user.data.email},
+		});
+	} catch (err) {
+		yield put({type: AUTH_WITH_GOOGLE_FAILURE});
+	}
+}
+
 function* watchGetClientTicket() {
 	yield takeLatest(GET_CLIENT_TICKET_REQUEST, getClientTicket);
 }
@@ -241,6 +309,10 @@ function* watchAlternativeUserTicket() {
 	yield takeLatest(ALTERNATIVE_TICKET_REQUEST, alternativeUserTicket);
 }
 
+function* watchAlternativeAuthWithGoogle() {
+	yield takeLatest(AUTH_WITH_GOOGLE_REQUEST, authWithGoogle);
+}
+
 export default function* userTicketSaga() {
 	yield all([
 		fork(watchGetUserTicket),
@@ -250,5 +322,6 @@ export default function* userTicketSaga() {
 		fork(watchRevokeUserTicket),
 		fork(watchFindValidUserTicket),
 		fork(watchAlternativeUserTicket),
+		fork(watchAlternativeAuthWithGoogle),
 	]);
 }

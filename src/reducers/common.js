@@ -69,6 +69,7 @@ export const initialState = {
 			],
 		},
 	],
+	// TODO : id, name, icon 제거
 	server: [
 		{
 			id: 0,

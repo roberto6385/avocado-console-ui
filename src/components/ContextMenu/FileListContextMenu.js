@@ -15,7 +15,7 @@ import {
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-
+	//TODO : sftp_pathState 언더바, 케멀 통일
 	const {
 		path: sftp_pathState,
 		high: sftp_highState,

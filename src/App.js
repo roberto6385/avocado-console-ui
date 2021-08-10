@@ -30,7 +30,7 @@ import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
 import {properties} from './json/properties';
 import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
-import {encodeData} from './api/constants';
+import {ENCODE_DATA} from './api/constants';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -62,7 +62,7 @@ const App = () => {
 					type: REFRESH_USER_TICKET_REQUEST,
 					payload: {
 						refresh_token: userTicket.refresh_token,
-						Authorization: 'Basic ' + encodeData,
+						Authorization: 'Basic ' + ENCODE_DATA,
 					},
 				});
 			}
