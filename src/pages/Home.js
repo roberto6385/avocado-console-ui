@@ -5,7 +5,7 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {SAVE_ACCOUT} from '../reducers/common';
-import {FIND_USER_BY_ID_REQUEST} from '../reducers/auth/user';
+import {userAction} from '../reducers/auth/user';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,13 +25,12 @@ const Home = () => {
 	useEffect(() => {
 		if (userTicket) {
 			console.log(userTicket);
-			dispatch({
-				type: FIND_USER_BY_ID_REQUEST,
-				payload: {
+			dispatch(
+				userAction.findByIdRequest({
 					access_token: userTicket.access_token,
 					id: userTicket.user_id,
-				},
-			});
+				}),
+			);
 		} else {
 			history.push('/signin');
 			location.reload();

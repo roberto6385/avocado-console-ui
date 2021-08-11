@@ -4,7 +4,7 @@ import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
 import dialogBoxs from './dialogBoxs';
-import user from './auth/user';
+import {USER, userReducer} from './auth/user';
 import userTicket from './auth/userTicket';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	dialogBoxs,
 	userTicket,
-	user,
+	[USER]: userReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

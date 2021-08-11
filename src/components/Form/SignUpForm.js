@@ -11,7 +11,7 @@ import {
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
-import {CREATE_USER_ACCOUNT_REQUEST} from '../../reducers/auth/user';
+import {userAction} from '../../reducers/auth/user';
 import {
 	UserForm,
 	UserInput,
@@ -66,15 +66,9 @@ const SignUpForm = () => {
 				} else if (password !== passwordConfirm) {
 					console.log('비밀번호가 서로 다릅니다.');
 				} else {
-					dispatch({
-						type: CREATE_USER_ACCOUNT_REQUEST,
-						payload: {
-							id,
-							name,
-							email,
-							password,
-						},
-					});
+					dispatch(
+						userAction.createRequest({id, name, email, password}),
+					);
 				}
 			}
 		},

@@ -1,23 +1,8 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
+import {userAction} from '../../reducers/auth/user';
 
-import {
-	GET_USER_TICKET_SUCCESS,
-	REVOKE_USER_TICKET_SUCCESS,
-} from '../../reducers/auth/userTicket';
-import {
-	DELETE_USER_ACCOUNT_FAILURE,
-	DELETE_USER_ACCOUNT_REQUEST,
-	DELETE_USER_ACCOUNT_SUCCESS,
-	MODIFY_USER_ACCOUT_FAILURE,
-	MODIFY_USER_ACCOUT_REQUEST,
-	CREATE_USER_ACCOUNT_FAILURE,
-	CREATE_USER_ACCOUNT_REQUEST,
-	CREATE_USER_ACCOUNT_SUCCESS,
-	FIND_USER_BY_ID_REQUEST,
-	FIND_USER_BY_ID_FAILURE,
-	FIND_USER_BY_ID_SUCCESS,
-} from '../../reducers/auth/user';
+import {REVOKE_USER_TICKET_SUCCESS} from '../../reducers/auth/userTicket';
 import {getClientTicketApi} from './userTicket';
 import {config} from '../../api/config';
 
@@ -53,13 +38,10 @@ function* createUserAccount(action) {
 			token: client.data.access_token,
 		});
 		console.log(user);
-		yield put({
-			type: CREATE_USER_ACCOUNT_SUCCESS,
-			payload: user,
-		});
+		yield put(userAction.createSuccess(user));
 	} catch (err) {
 		console.log(err);
-		yield put({type: CREATE_USER_ACCOUNT_FAILURE, payload: err});
+		yield put(userAction.createFailure(err));
 	}
 }
 
@@ -85,13 +67,10 @@ function* modifyUserAccount(action) {
 	try {
 		const res = yield call(modifyUserAccountApi, action.payload);
 		console.log(res);
-		yield put({
-			type: GET_USER_TICKET_SUCCESS,
-			payload: res.data,
-		});
+		yield put(userAction.modifySuccess(res.data));
 	} catch (err) {
 		console.log(err);
-		yield put({type: MODIFY_USER_ACCOUT_FAILURE, payload: err});
+		yield put(userAction.modifyFailure(err));
 	}
 }
 
@@ -109,11 +88,11 @@ function* deleteUserAccount(action) {
 	try {
 		const res = yield call(deleteTokenApi, action.payload);
 		console.log(res);
-		yield put({type: DELETE_USER_ACCOUNT_SUCCESS});
+		yield put(userAction.deleteSuccess(res.data));
 		yield put({type: REVOKE_USER_TICKET_SUCCESS});
 	} catch (err) {
 		console.log(err);
-		yield put({type: DELETE_USER_ACCOUNT_FAILURE, payload: err});
+		yield put(userAction.deleteFailure(err));
 	}
 }
 
@@ -133,26 +112,26 @@ function* findUserById(action) {
 	try {
 		const res = yield call(findUserByIdApi, action.payload);
 		console.log(res);
-		yield put({type: FIND_USER_BY_ID_SUCCESS, payload: res.data});
+		yield put(userAction.findByIdSuccess(res.data));
 	} catch (err) {
-		yield put({type: FIND_USER_BY_ID_FAILURE, payload: err});
+		yield put(userAction.findByIdFailure(err));
 	}
 }
 
 function* watchCreateUserAccount() {
-	yield takeLatest(CREATE_USER_ACCOUNT_REQUEST, createUserAccount);
+	yield takeLatest(userAction.createRequest, createUserAccount);
 }
 
 function* watchModifyUserAccount() {
-	yield takeLatest(MODIFY_USER_ACCOUT_REQUEST, modifyUserAccount);
+	yield takeLatest(userAction.modifyRequest, modifyUserAccount);
 }
 
 function* watchDeleteUserAccount() {
-	yield takeLatest(DELETE_USER_ACCOUNT_REQUEST, deleteUserAccount);
+	yield takeLatest(userAction.deleteRequest, deleteUserAccount);
 }
 
 function* watchFindUserById() {
-	yield takeLatest(FIND_USER_BY_ID_REQUEST, findUserById);
+	yield takeLatest(userAction.findByIdRequest, findUserById);
 }
 
 export default function* userSaga() {

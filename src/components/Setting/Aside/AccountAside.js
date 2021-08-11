@@ -7,7 +7,6 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
-import {DELETE_USER_ACCOUNT_REQUEST} from '../../../reducers/auth/user';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;

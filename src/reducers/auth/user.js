@@ -1,84 +1,58 @@
-import produce from 'immer';
+// import produce from 'immer';
+import {createSlice} from '@reduxjs/toolkit';
 
-// action types
-export const CREATE_USER_ACCOUNT_REQUEST = 'CREATE_USER_ACCOUNT_REQUEST';
-export const CREATE_USER_ACCOUNT_SUCCESS = 'CREATE_USER_ACCOUNT_SUCCESS';
-export const CREATE_USER_ACCOUNT_FAILURE = 'CREATE_USER_ACCOUNT_FAILURE';
+const slice = createSlice({
+	name: 'user',
+	initialState: {
+		user: null,
+		loading: false,
+		error: null,
+	},
+	reducers: {
+		createRequest: (state) => {
+			state.loading = true;
+		},
+		createSuccess: (state) => {
+			state.loading = false;
+		},
+		createFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+		modifyRequest: (state) => {
+			state.loading = true;
+		},
+		modifySuccess: (state) => {
+			state.loading = false;
+		},
+		modifyFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+		deleteRequest: (state) => {
+			state.loading = true;
+		},
+		deleteSuccess: (state) => {
+			state.loading = false;
+		},
+		deleteFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+		findByIdRequest: (state) => {
+			state.loading = true;
+		},
+		findByIdSuccess: (state, action) => {
+			state.loading = false;
+			state.user = action.payload;
+		},
+		findByIdFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+	},
+});
 
-export const MODIFY_USER_ACCOUT_REQUEST = 'MODIFY_USER_ACCOUT_REQUEST';
-export const MODIFY_USER_ACCOUT_SUCCESS = 'MODIFY_USER_ACCOUT_SUCCESS';
-export const MODIFY_USER_ACCOUT_FAILURE = 'MODIFY_USER_ACCOUT_FAILURE';
-
-export const DELETE_USER_ACCOUNT_REQUEST = 'DELETE_USER_ACCOUNT_REQUEST';
-export const DELETE_USER_ACCOUNT_SUCCESS = 'DELETE_USER_ACCOUNT_SUCCESS';
-export const DELETE_USER_ACCOUNT_FAILURE = 'DELETE_USER_ACCOUNT_FAILURE';
-
-export const FIND_USER_BY_ID_REQUEST = 'FIND_USER_BY_ID_REQUEST';
-export const FIND_USER_BY_ID_SUCCESS = 'FIND_USER_BY_ID_SUCCESS';
-export const FIND_USER_BY_ID_FAILURE = 'FIND_USER_BY_ID_FAILURE';
-
-export const FIND_USER_BY_UID_REQUEST = 'FIND_USER_BY_UID_REQUEST';
-export const FIND_USER_BY_UID_SUCCESS = 'FIND_USER_BY_UID_SUCCESS';
-export const FIND_USER_BY_UID_FAILURE = 'FIND_USER_BY_UID_FAILURE';
-
-export const FIND_ALL_USER_REQUEST = 'FIND_ALL_USER_REQUEST';
-export const FIND_ALL_USER_SUCCESS = 'FIND_ALL_USER_SUCCESS';
-export const FIND_ALL_USER_FAILURE = 'FIND_ALL_USER_FAILURE';
-
-// initial State
-const initialState = {
-	user: null, //revoke success, get user success
-	loading: false,
-};
-
-// reducer
-const user = (state = initialState, action) =>
-	produce(state, (draft) => {
-		switch (action.type) {
-			case CREATE_USER_ACCOUNT_REQUEST:
-				draft.loading = true;
-				break;
-			case CREATE_USER_ACCOUNT_SUCCESS:
-				draft.loading = false;
-				break;
-			case CREATE_USER_ACCOUNT_FAILURE:
-				draft.loading = false;
-				break;
-
-			case DELETE_USER_ACCOUNT_REQUEST:
-				draft.loading = true;
-				break;
-			case DELETE_USER_ACCOUNT_SUCCESS:
-				draft.loading = false;
-				break;
-			case DELETE_USER_ACCOUNT_FAILURE:
-				draft.loading = false;
-				break;
-
-			case MODIFY_USER_ACCOUT_REQUEST:
-				draft.loading = true;
-				break;
-			case MODIFY_USER_ACCOUT_SUCCESS:
-				draft.loading = false;
-				break;
-			case MODIFY_USER_ACCOUT_FAILURE:
-				draft.loading = false;
-				break;
-
-			case FIND_USER_BY_ID_REQUEST:
-				draft.loading = true;
-				break;
-			case FIND_USER_BY_ID_SUCCESS:
-				draft.user = action.payload;
-				draft.loading = false;
-				break;
-			case FIND_USER_BY_ID_FAILURE:
-				draft.loading = false;
-				break;
-
-			default:
-				return state;
-		}
-	});
-
-export default user;
+export const USER = slice.name;
+export const userReducer = slice.reducer;
+export const userAction = slice.actions;
