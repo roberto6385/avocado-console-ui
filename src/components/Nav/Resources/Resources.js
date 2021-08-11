@@ -19,12 +19,16 @@ const _Form = styled.form`
 	border-radius: 4px;
 `;
 
+const Container = styled.div`
+	height: 100%;
+`;
+
 const Resources = () => {
 	const {t} = useTranslation('nav');
 	const [search, onChangeSearch] = useInput('');
 
 	return (
-		<div>
+		<Container>
 			<_FormContainer>
 				<_Form onSubmit={(e) => e.preventDefault()}>
 					<IconSearchInput
@@ -40,7 +44,7 @@ const Resources = () => {
 			</_FormContainer>
 			<ServerFolderList search={search} />
 			<AddServerDialogBox />
-		</div>
+		</Container>
 	);
 };
 

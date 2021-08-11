@@ -49,6 +49,10 @@ const _AddButton = styled.button`
 	}
 `;
 
+const Container = styled.div`
+	height: 100%;
+`;
+
 const Favorites = () => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
@@ -59,7 +63,7 @@ const Favorites = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
+		<Container>
 			<_FormContainer>
 				<_Form onSubmit={(e) => e.preventDefault()}>
 					<IconSearchInput
@@ -74,7 +78,7 @@ const Favorites = () => {
 			</_FormContainer>
 			<FavoriteList search={search} />
 			<AddFavoritesDialogBox />
-		</div>
+		</Container>
 	);
 };
 
