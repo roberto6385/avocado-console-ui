@@ -23,7 +23,7 @@ export const FIND_USER_BY_UID_FAILURE = 'FIND_USER_BY_UID_FAILURE';
 
 // initial State
 const initialState = {
-	userInfo: null, //revoke success, get user success
+	user: null, //revoke success, get user success
 	loading: false,
 };
 
@@ -35,7 +35,6 @@ const user = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case CREATE_USER_ACCOUNT_SUCCESS:
-				draft.user = action.payload;
 				draft.loading = false;
 				break;
 			case CREATE_USER_ACCOUNT_FAILURE:
@@ -66,8 +65,8 @@ const user = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case FIND_USER_BY_ID_SUCCESS:
-				draft.loading = false;
 				draft.user = action.payload;
+				draft.loading = false;
 				break;
 			case FIND_USER_BY_ID_FAILURE:
 				draft.loading = false;

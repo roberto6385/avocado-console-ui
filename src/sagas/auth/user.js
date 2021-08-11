@@ -1,6 +1,4 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
-import base64 from 'base-64';
-import querystring from 'query-string';
 import axios from 'axios';
 
 import {
@@ -20,6 +18,7 @@ import {
 	FIND_USER_BY_ID_FAILURE,
 	FIND_USER_BY_ID_SUCCESS,
 } from '../../reducers/auth/user';
+import {getClientTicketApi} from './userTicket';
 
 async function createUserAccountApi(payload) {
 	console.log(payload);
@@ -46,21 +45,16 @@ async function createUserAccountApi(payload) {
 }
 
 function* createUserAccount(action) {
-	console.log(action);
 	try {
-		// const res = yield call(createUserTokenApi, action.payload);
-		// console.log(res);
 		console.log(action.payload);
+		const client = yield call(getClientTicketApi);
 		const user = yield call(createUserAccountApi, {
 			...action.payload,
-			// token: res.data.access_token,
+			token: client.data.access_token,
 		});
-
 		console.log(user);
-		console.log('회원가입이 완료되었습니다.');
 		yield put({
 			type: CREATE_USER_ACCOUNT_SUCCESS,
-			payload: user,
 		});
 	} catch (err) {
 		console.log(err);
@@ -116,12 +110,8 @@ function* deleteUserAccount(action) {
 	try {
 		const res = yield call(deleteTokenApi, action.payload);
 		console.log(res);
-		yield put({
-			type: DELETE_USER_ACCOUNT_SUCCESS,
-		});
-		yield put({
-			type: REVOKE_USER_TICKET_SUCCESS,
-		});
+		yield put({type: DELETE_USER_ACCOUNT_SUCCESS});
+		yield put({type: REVOKE_USER_TICKET_SUCCESS});
 	} catch (err) {
 		console.log(err);
 		yield put({type: DELETE_USER_ACCOUNT_FAILURE, payload: err});

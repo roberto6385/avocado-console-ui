@@ -123,6 +123,7 @@ const userTicket = (state = initialState, action) =>
 				draft.loading = true;
 				break;
 			case ALTERNATIVE_TICKET_SUCCESS:
+				draft.userTicket = action.payload;
 				draft.loading = false;
 				break;
 			case ALTERNATIVE_TICKET_FAILURE:

@@ -39,10 +39,6 @@ const Home = () => {
 	}, [dispatch, history, userTicket]);
 
 	useEffect(() => {
-		dispatch({type: INIT_FAVORITES});
-	}, []);
-
-	useEffect(() => {
 		if (user) {
 			console.log(user);
 

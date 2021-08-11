@@ -23,6 +23,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
+import {GET_CLIENT_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 
 const _PrimaryGreenButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -33,8 +34,10 @@ const SignUpForm = () => {
 	const {t} = useTranslation('signUpForm');
 	const history = useHistory();
 
-	const {user} = useSelector((state) => state.create, shallowEqual);
-	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+	const {loading, clientTicket} = useSelector(
+		(state) => state.userTicket,
+		shallowEqual,
+	);
 
 	const [id, onChangeId, setId] = useInput('apple');
 	const [name, onChangeName, setName] = useInput('사과');
@@ -69,7 +72,6 @@ const SignUpForm = () => {
 				} else if (password !== passwordConfirm) {
 					console.log('비밀번호가 서로 다릅니다.');
 				} else {
-					console.log('check');
 					dispatch({
 						type: CREATE_USER_ACCOUNT_REQUEST,
 						payload: {
@@ -128,9 +130,9 @@ const SignUpForm = () => {
 		idRef.current?.focus();
 	}, [idRef]);
 
-	useEffect(() => {
-		if (user) history.push('/');
-	}, [history, user]);
+	// useEffect(() => {
+	// 	if (user) history.push('/');
+	// }, [history, user]);
 
 	return !loading ? (
 		<UserForm onSubmit={onSubmitForm}>

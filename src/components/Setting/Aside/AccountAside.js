@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
+import {DELETE_USER_ACCOUNT_REQUEST} from '../../../reducers/auth/user';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
@@ -30,10 +31,8 @@ const AccountAside = () => {
 	const {t} = useTranslation('accountSpace');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const {userInfo, userTicket} = useSelector(
-		(state) => state.userTicket,
-		shallowEqual,
-	);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {user} = useSelector((state) => state.user, shallowEqual);
 	const {account} = useSelector((state) => state?.common, shallowEqual);
 
 	const changePath = useCallback(
@@ -44,15 +43,14 @@ const AccountAside = () => {
 	);
 
 	const handleDelete = useCallback(() => {
-		console.log('현재 계정삭제 주석처리');
-		//TODO : 주석 해제시 계정삭제 가능.
-		// dispatch(
-		// 	postDeleteUserAccount({
-		// 		userUid: userInfo.userUid,
-		// 		token: userTicket.access_token,
-		// 	}),
-		// );
-	}, [dispatch, userInfo, userTicket]);
+		dispatch({
+			type: DELETE_USER_ACCOUNT_REQUEST,
+			payload: {
+				userUid: user.userUid,
+				token: userTicket.access_token,
+			},
+		});
+	}, [dispatch, user, userTicket]);
 
 	return (
 		<_Container>

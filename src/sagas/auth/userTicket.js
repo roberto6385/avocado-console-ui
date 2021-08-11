@@ -38,8 +38,7 @@ import {
 
 const querystring = require('query-string');
 
-function getClientTicketApi() {
-	// web, 123456789 auth part확립되면 params로
+export function getClientTicketApi() {
 	return axios.post(
 		'/oauth2/v1/token',
 		querystring.stringify({grant_type: GRANT_TYPE_CLIENT}),
@@ -53,9 +52,9 @@ function getClientTicketApi() {
 		},
 	);
 }
-function* getClientTicket(action) {
+function* getClientTicket() {
 	try {
-		const res = yield call(getClientTicketApi, action.payload);
+		const res = yield call(getClientTicketApi);
 		console.log(res);
 		yield put({
 			type: GET_CLIENT_TICKET_SUCCESS,
@@ -202,24 +201,30 @@ function* findValidUserTicket(action) {
 }
 
 function alternativeUserTicketApi(payload) {
-	// ex
-	// return axios.post('/oauth2/v1/verify', null, {
-	// 	headers: {
-	// 		Authorization: payload.Authorization,
-	// 		'Content-Type': 'application/x-www-form-urlencoded',
-	// 	},
-	// 	baseURL:
-	// 		'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
-	// });
+	return axios.post(
+		'/oauth2/v1/alternative/verify',
+		querystring.stringify({
+			username: payload.email,
+		}),
+		{
+			headers: {
+				Authorization: `Bearer ${payload.auth}`,
+				AlternativeAuthN: `google ${payload.alternativeAuth}`,
+				'Content-Type': `application/x-www-form-urlencoded`,
+			},
+			baseURL:
+				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		},
+	);
 }
 
 function* alternativeUserTicket(action) {
 	try {
 		const res = yield call(alternativeUserTicketApi, action.payload);
 		console.log(res);
-		yield put({type: ALTERNATIVE_TICKET_SUCCESS});
+		yield put({type: ALTERNATIVE_TICKET_SUCCESS, payload: res.data});
 	} catch (err) {
-		yield put({type: ALTERNATIVE_TICKET_FAILURE});
+		yield put({type: ALTERNATIVE_TICKET_FAILURE, payload: err});
 	}
 }
 
@@ -305,6 +310,7 @@ function* watchFindValidUserTicket() {
 	yield takeLatest(FIND_VALID_USER_TICKET_REQUEST, findValidUserTicket);
 }
 
+// 클라이언트 인증 + 대체인증의 responese로 최종 체크하는 함수
 function* watchAlternativeUserTicket() {
 	yield takeLatest(ALTERNATIVE_TICKET_REQUEST, alternativeUserTicket);
 }

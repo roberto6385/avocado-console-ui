@@ -30,10 +30,8 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
-	const {userInfo, userTicket} = useSelector(
-		(state) => state.userTicket,
-		shallowEqual,
-	);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {user} = useSelector((state) => state.user, shallowEqual);
 
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
@@ -75,8 +73,8 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 				dispatch({
 					type: MODIFY_USER_ACCOUT_REQUEST,
 					payload: {
-						userUid: userInfo.userUid,
-						name: userInfo.name,
+						userUid: user.userUid,
+						name: user.name,
 						password: password,
 						access_token: userTicket.access_token,
 					},
@@ -88,13 +86,13 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 			password,
 			currentPassword,
 			confirmPassword,
-			closeModal,
 			setCurrentPassword,
 			setPassword,
 			setConfrimPassword,
 			dispatch,
-			userInfo,
+			user,
 			userTicket,
+			closeModal,
 		],
 	);
 

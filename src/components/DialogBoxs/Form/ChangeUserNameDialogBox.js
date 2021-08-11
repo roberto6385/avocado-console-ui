@@ -30,10 +30,8 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
-	const {userInfo, userTicket} = useSelector(
-		(state) => state.userTicket,
-		shallowEqual,
-	);
+	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {user} = useSelector((state) => state.user, shallowEqual);
 
 	const nameRef = useRef(null);
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
@@ -45,13 +43,12 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log(userInfo);
 
 			if (currentName !== '') {
 				dispatch({
 					type: MODIFY_USER_ACCOUT_REQUEST,
 					payload: {
-						userUid: userInfo.userUid,
+						userUid: user.userUid,
 						name: currentName,
 						password: localStorage.getItem('password'),
 						access_token: userTicket.access_token,
@@ -61,7 +58,7 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 
 			closeModal();
 		},
-		[userTicket, userInfo, currentName, closeModal, dispatch],
+		[userTicket, currentName, closeModal, dispatch],
 	);
 
 	useEffect(() => {
