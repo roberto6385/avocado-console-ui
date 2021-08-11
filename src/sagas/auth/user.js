@@ -55,6 +55,7 @@ function* createUserAccount(action) {
 		console.log(user);
 		yield put({
 			type: CREATE_USER_ACCOUNT_SUCCESS,
+			payload: user,
 		});
 	} catch (err) {
 		console.log(err);

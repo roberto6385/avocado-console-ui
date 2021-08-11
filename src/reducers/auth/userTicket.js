@@ -25,7 +25,7 @@ export const VARIFY_USER_TICKET_REQUEST = 'VARIFY_USER_TICKET_REQUEST';
 export const VARIFY_USER_TICKET_SUCCESS = 'VARIFY_USER_TICKET_SUCCESS';
 export const VARIFY_USER_TICKET_FAILURE = 'VARIFY_USER_TICKET_FAILURE';
 
-//Authorization Find
+//Authorization Find (payload에 offset, limit 전달)
 export const FIND_VALID_USER_TICKET_REQUEST = 'FIND_VALID_USER_TICKET_REQUEST';
 export const FIND_VALID_USER_TICKET_SUCCESS = 'FIND_VALID_USER_TICKET_SUCCESS';
 export const FIND_VALID_USER_TICKET_FAILURE = 'FIND_VALID_USER_TICKET_FAILURE';
@@ -124,6 +124,7 @@ const userTicket = (state = initialState, action) =>
 				break;
 			case ALTERNATIVE_TICKET_SUCCESS:
 				draft.userTicket = action.payload;
+				draft.clientTicket = null;
 				draft.loading = false;
 				break;
 			case ALTERNATIVE_TICKET_FAILURE:

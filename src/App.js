@@ -69,6 +69,7 @@ const App = () => {
 		}
 	}, [userTicket]);
 
+	//TODO VARIFY_USER_TICKET_REQUEST로 토큰유효성 테스트 해야함.
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
 		timeout: userTicket?.expires_in * 1000,
 		// onIdle: handleOnIdle,

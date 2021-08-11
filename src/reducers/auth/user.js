@@ -21,6 +21,10 @@ export const FIND_USER_BY_UID_REQUEST = 'FIND_USER_BY_UID_REQUEST';
 export const FIND_USER_BY_UID_SUCCESS = 'FIND_USER_BY_UID_SUCCESS';
 export const FIND_USER_BY_UID_FAILURE = 'FIND_USER_BY_UID_FAILURE';
 
+export const FIND_ALL_USER_REQUEST = 'FIND_ALL_USER_REQUEST';
+export const FIND_ALL_USER_SUCCESS = 'FIND_ALL_USER_SUCCESS';
+export const FIND_ALL_USER_FAILURE = 'FIND_ALL_USER_FAILURE';
+
 // initial State
 const initialState = {
 	user: null, //revoke success, get user success

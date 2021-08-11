@@ -11,7 +11,6 @@ import {
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
-import {useHistory} from 'react-router-dom';
 import {CREATE_USER_ACCOUNT_REQUEST} from '../../reducers/auth/user';
 import {
 	UserForm,
@@ -23,7 +22,6 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
-import {GET_CLIENT_TICKET_REQUEST} from '../../reducers/auth/userTicket';
 
 const _PrimaryGreenButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -32,16 +30,12 @@ const _PrimaryGreenButton = styled(UserSubmitButton)`
 const SignUpForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('signUpForm');
-	const history = useHistory();
 
-	const {loading, clientTicket} = useSelector(
-		(state) => state.userTicket,
-		shallowEqual,
-	);
+	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
 
-	const [id, onChangeId, setId] = useInput('apple');
-	const [name, onChangeName, setName] = useInput('사과');
-	const [email, onChangeEmail, setEmail] = useInput('apple@netand.co.kr');
+	const [id, onChangeId, setId] = useInput('test');
+	const [name, onChangeName, setName] = useInput('테스트');
+	const [email, onChangeEmail, setEmail] = useInput('hello@netand.co.kr');
 	const [password, onChangePassword, setPassword] = useInput('123456789');
 	const [passwordConfirm, onChangePasswordConfirm, setPasswordConfirm] =
 		useInput('123456789');
@@ -130,10 +124,6 @@ const SignUpForm = () => {
 		idRef.current?.focus();
 	}, [idRef]);
 
-	// useEffect(() => {
-	// 	if (user) history.push('/');
-	// }, [history, user]);
-
 	return !loading ? (
 		<UserForm onSubmit={onSubmitForm}>
 			<UserTitle>{t('title')}</UserTitle>
@@ -172,7 +162,6 @@ const SignUpForm = () => {
 						onBlur={focusout('password')}
 						type={visible ? 'password' : 'text'}
 						value={password}
-						color={password === '' ? '#e5e5e5' : 'black'}
 						onChange={onChangePassword}
 						placeholder={t('password')}
 					/>
@@ -195,7 +184,6 @@ const SignUpForm = () => {
 						onBlur={focusout('confirm')}
 						type={visible ? 'password' : 'text'}
 						value={passwordConfirm}
-						color={passwordConfirm === '' ? '#e5e5e5' : 'black'}
 						onChange={onChangePasswordConfirm}
 						placeholder={t('confirmPassword')}
 					/>

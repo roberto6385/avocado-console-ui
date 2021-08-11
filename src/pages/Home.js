@@ -4,7 +4,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
-import {INIT_FAVORITES, SAVE_ACCOUT} from '../reducers/common';
+import {SAVE_ACCOUT} from '../reducers/common';
 import {FIND_USER_BY_ID_REQUEST} from '../reducers/auth/user';
 
 const _Container = styled.div`

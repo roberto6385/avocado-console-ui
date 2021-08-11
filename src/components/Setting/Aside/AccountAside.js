@@ -42,15 +42,20 @@ const AccountAside = () => {
 		[history],
 	);
 
-	const handleDelete = useCallback(() => {
-		dispatch({
-			type: DELETE_USER_ACCOUNT_REQUEST,
-			payload: {
-				userUid: user.userUid,
-				token: userTicket.access_token,
-			},
-		});
-	}, [dispatch, user, userTicket]);
+	const handleDelete = useCallback(
+		(e) => {
+			console.log('prevent deletion');
+			//todo
+			// dispatch({
+			// 	type: DELETE_USER_ACCOUNT_REQUEST,
+			// 	payload: {
+			// 		userUid: user.userUid,
+			// 		token: userTicket.access_token,
+			// 	},
+			// });
+		},
+		[dispatch, user, userTicket],
+	);
 
 	return (
 		<_Container>
