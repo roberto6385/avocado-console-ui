@@ -19,6 +19,7 @@ import {
 	FIND_USER_BY_ID_SUCCESS,
 } from '../../reducers/auth/user';
 import {getClientTicketApi} from './userTicket';
+import {config} from '../../api/config';
 
 async function createUserAccountApi(payload) {
 	console.log(payload);
@@ -38,8 +39,7 @@ async function createUserAccountApi(payload) {
 				Authorization: `Bearer ${payload.token}`,
 				'Content-Type': 'application/json',
 			},
-			baseURL:
-				'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.api,
 		},
 	);
 }
@@ -76,8 +76,7 @@ async function modifyUserAccountApi(payload) {
 				Authorization: `Bearer ${payload.access_token}`,
 				'Content-Type': 'application/json',
 			},
-			baseURL:
-				'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.api,
 		},
 	);
 }
@@ -103,8 +102,7 @@ async function deleteTokenApi(payload) {
 			Authorization: `Bearer ${payload.token}`,
 			'Content-Type': 'application/json',
 		},
-		baseURL:
-			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+		baseURL: config.api,
 	});
 }
 function* deleteUserAccount(action) {
@@ -126,8 +124,7 @@ function findUserByIdApi(payload) {
 			Authorization: `Bearer ${payload.access_token}`,
 			'Content-Type': 'application/json',
 		},
-		baseURL:
-			'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
+		baseURL: config.api,
 	});
 }
 

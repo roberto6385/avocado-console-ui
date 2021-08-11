@@ -35,6 +35,7 @@ import {
 	GRANT_TYPE_PASSWORD,
 	GRANT_TYPE_REFRESH,
 } from '../../api/constants';
+import {config} from '../../api/config';
 
 const querystring = require('query-string');
 
@@ -47,8 +48,7 @@ export function getClientTicketApi() {
 				Authorization: 'Basic ' + ENCODE_DATA,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.auth,
 		},
 	);
 }
@@ -81,8 +81,7 @@ function getUserTicketApi(payload) {
 				Authorization: 'Basic ' + ENCODE_DATA,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.auth,
 		},
 	);
 }
@@ -113,8 +112,7 @@ function refreshUserTicketApi(payload) {
 				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.auth,
 		},
 	);
 }
@@ -137,8 +135,7 @@ function verifyUserTicketApi(payload) {
 			Authorization: payload.Authorization,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-		baseURL:
-			'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		baseURL: config.auth,
 	});
 }
 function* verifyUserTicket(action) {
@@ -159,8 +156,7 @@ function revokeUserTicketApi(payload) {
 			Authorization: payload.Authorization,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-		baseURL:
-			'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+		baseURL: config.auth,
 	});
 }
 function* revokeUserTicket(action) {
@@ -183,8 +179,7 @@ function findValidUserTicketApi(payload) {
 				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.auth,
 		},
 	);
 }
@@ -212,8 +207,7 @@ function alternativeUserTicketApi(payload) {
 				AlternativeAuthN: `google ${payload.alternativeAuth}`,
 				'Content-Type': `application/x-www-form-urlencoded`,
 			},
-			baseURL:
-				'http://ec2-3-36-116-0.ap-northeast-2.compute.amazonaws.com:10200',
+			baseURL: config.auth,
 		},
 	);
 }
