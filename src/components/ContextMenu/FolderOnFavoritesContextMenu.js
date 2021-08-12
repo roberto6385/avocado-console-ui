@@ -4,13 +4,11 @@ import {animation, Item} from 'react-contexify';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {
-	OPEN_ADD_SERVER_DIALOG_BOX,
-	OPEN_DELETE_DIALOG_BOX,
-} from '../../reducers/dialogBoxs';
+import {OPEN_DELETE_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {ContextMenu} from '../../styles/components/contextMenu';
+import {DELETE_TEMP_FOLDER_ON_FAVORITES} from '../../reducers/common';
 
-const FolderContextMenu = ({data}) => {
+const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 
@@ -21,17 +19,18 @@ const FolderContextMenu = ({data}) => {
 	const handleItemClick = useCallback(
 		(e) => () => {
 			switch (e) {
-				case 'new_server':
-					dispatch({
-						type: OPEN_ADD_SERVER_DIALOG_BOX,
-						payload: {type: 'add'},
-					});
-					break;
 				case 'delete':
-					dispatch({
-						type: OPEN_DELETE_DIALOG_BOX,
-						payload: {key: 'delete_server_folder'},
-					});
+					if (onDialog) {
+						dispatch({
+							type: DELETE_TEMP_FOLDER_ON_FAVORITES,
+							payload: data.key,
+						});
+					} else {
+						dispatch({
+							type: OPEN_DELETE_DIALOG_BOX,
+							payload: {key: 'delete_server_folder'},
+						});
+					}
 					break;
 				default:
 					return;
@@ -51,8 +50,9 @@ const FolderContextMenu = ({data}) => {
 	);
 };
 
-FolderContextMenu.propTypes = {
+FolderOnFavoritesContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
+	onDialog: PropTypes.bool,
 };
 
-export default FolderContextMenu;
+export default FolderOnFavoritesContextMenu;

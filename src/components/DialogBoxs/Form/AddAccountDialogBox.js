@@ -17,11 +17,11 @@ import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	width: 598px;
 `;
 

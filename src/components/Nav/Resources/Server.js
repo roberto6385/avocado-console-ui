@@ -6,8 +6,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
 import {
-	BOOKMARKING,
-	LOCAL_SAVE_FAVORITES,
+	ADD_FAVORITE_SERVER,
+	DELETE_FAVORITE_SERVER,
 	SET_CLICKED_SERVER,
 	SORT_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
@@ -39,22 +39,20 @@ export const ServerItem = styled(NavigationItem)`
 	}
 `;
 
-function searchTree(v, data) {
-	if (v.type === 'server' || !v.contain.length) {
-		return JSON.stringify(v) === JSON.stringify(data);
-	}
-
-	for (let x of v.contain) {
-		let result = searchTree(x, data);
-		if (result) return result;
+function searchNode(node, key) {
+	if (node.key === key) {
+		return true;
+	} else if (node.contain && node.contain.length > 0) {
+		for (let x of node.contain) {
+			searchNode(x, key);
+		}
 	}
 	return false;
 }
 
-function startSearchTree(root, data) {
+function isFavoriteServer(root, key) {
 	for (let x of root) {
-		const result = searchTree(x, data);
-		if (result) return result;
+		if (searchNode(x, key)) return true;
 	}
 	return false;
 }
@@ -124,10 +122,9 @@ const Server = ({data, indent}) => {
 		id: data.key + 'server',
 	});
 
-	const contextMenuOpen = useCallback(
+	const openServerContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('contextMenuOpen item');
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			show(e);
 		},
@@ -149,13 +146,15 @@ const Server = ({data, indent}) => {
 		[data, dispatch],
 	);
 
-	const handleBookmark = useCallback(
-		(there) => () => {
-			dispatch({type: BOOKMARKING, payload: data, there});
-			dispatch({type: LOCAL_SAVE_FAVORITES});
-		},
-		[data, dispatch],
-	);
+	const onClickFavoriteIcon = useCallback(() => {
+		console.log(isFavoriteServer(favorites, data.key));
+
+		if (isFavoriteServer(favorites, data.key)) {
+			dispatch({type: DELETE_FAVORITE_SERVER, payload: data.key});
+		} else {
+			dispatch({type: ADD_FAVORITE_SERVER, payload: data.key});
+		}
+	}, [data, favorites]);
 
 	return (
 		<React.Fragment>
@@ -164,7 +163,7 @@ const Server = ({data, indent}) => {
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDrop={nextPutItem}
-				onContextMenu={contextMenuOpen}
+				onContextMenu={openServerContextMenu}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -181,17 +180,15 @@ const Server = ({data, indent}) => {
 					{data.name}
 					<IconButton
 						className={
-							startSearchTree(favorites, data)
+							isFavoriteServer(favorites, data.key)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
 						size={'sm'}
 						margin_right={'0px'}
-						onClick={handleBookmark(
-							startSearchTree(favorites, data),
-						)}
+						onClick={onClickFavoriteIcon}
 						itype={
-							startSearchTree(favorites, data)
+							isFavoriteServer(favorites, data.key)
 								? 'selected'
 								: undefined
 						}

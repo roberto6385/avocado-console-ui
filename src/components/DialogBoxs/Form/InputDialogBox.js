@@ -14,12 +14,12 @@ import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	width: 404px;
 `;
 

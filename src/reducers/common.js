@@ -1,4 +1,11 @@
 import produce from 'immer';
+import {
+	addDataOnNode,
+	fillTabs,
+	startDeleteingTree,
+	startSearchingNode,
+	startSearchingParentNode,
+} from '../utils/redux';
 
 export const initialState = {
 	current_tab: null,
@@ -7,15 +14,21 @@ export const initialState = {
 	cols: 1,
 	minimize: false,
 	server_index: 4,
-	favorites_folder_index: 0,
 	folder_index: 2,
 	account: {account: '', name: '', email: ''},
 	side_key: '',
 	theme: 'light',
 	lang: 'ko-KR', // language ko-KR - korean, en-US - english
+
 	favorites: [],
-	favorites_key: null,
-	temp_favorites: [],
+	favorites_folder_index: 0,
+	favoriteFolderRenamingKey: null,
+
+	tempFavorites: [],
+	selectedFavoriteItemOnDialogBox: null,
+	tempFavoriteFolderIndex: null,
+	tempFavoriteFolderRenamingKey: null,
+
 	nav: [
 		{
 			type: 'folder',
@@ -203,31 +216,10 @@ export const initialState = {
 		},
 	],
 	tab: [],
-	notification_index: 3,
-	notification: [
-		{
-			id: 0,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: true,
-		},
-		{
-			id: 1,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
-		{
-			id: 2,
-			message: 'sftp connection',
-			date: 'Mon Jul 23 2021 18:06:00 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
-	],
 };
 
 export const ADD_FOLDER = 'ADD_FOLDER';
-export const SAVE_SERVER = 'SAVE_SERVER';
+export const ADD_SERVER = 'ADD_SERVER';
 export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
 export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
@@ -252,166 +244,29 @@ export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
 export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
-export const BOOKMARKING = 'common/BOOKMARKING';
-export const ADD_FAVORITES_FOLDER = 'ADD_FAVORITES_FOLDER';
-export const CHANGE_FAVORITES_FOLDER_NAME = 'CHANGE_FAVORITES_FOLDER_NAME';
-export const SORT_FAVORITES_SERVER_AND_FOLDER =
-	'SORT_FAVORITES_SERVER_AND_FOLDER';
-export const SAVE_FAVORITES = 'common/SAVE_FAVORITES';
-export const LOCAL_SAVE_FAVORITES = 'common/LOCAL_SAVE_FAVORITES';
-export const UNDO_FAVORITES = 'common/UNDO_FAVORITES';
-export const INIT_FAVORITES = 'common/INIT_FAVORITES';
 
-export const GET_NOTIFICATION = 'common/GET_NOTIFICATION';
-export const ADD_NOTIFICATION = 'common/ADD_NOTIFICATION';
+export const ADD_FAVORITE_SERVER = 'ADD_FAVORITE_SERVER';
+export const DELETE_FAVORITE_SERVER = 'DELETE_FAVORITE_SERVER';
 
-const fillTabs = (tab, max_display_tab, current_tab) => {
-	if (tab.length === 0) {
-		current_tab = null;
-	} else {
-		let visible_tab_length = tab.filter((x) => x.display).length;
+export const ADD_FOLDER_ON_FAVORITES = 'ADD_FOLDER_ON_FAVORITES';
+export const CHANGE_FOLDER_NAME_ON_FAVORITES =
+	'CHANGE_FOLDER_NAME_ON_FAVORITES';
+export const CHANGE_FAVORITE_FOLDER_RENMAING_KEY =
+	'CHANGE_FAVORITE_FOLDER_RENMAING_KEY';
+export const SORT_FAVORITE_RESOURCES = 'SORT_FAVORITE_RESOURCES';
 
-		for (let i = 0; i < tab.length; i++) {
-			if (visible_tab_length === max_display_tab) break;
-			else if (visible_tab_length > max_display_tab) {
-				if (tab[i].display && tab[i].uuid !== current_tab) {
-					tab[i].display = false;
-					visible_tab_length--;
-				}
-			} else if (visible_tab_length < max_display_tab) {
-				if (!tab[i].display) {
-					tab[i].display = true;
-					visible_tab_length++;
-				}
-			}
-		}
-
-		if (tab.find((v) => v.uuid === current_tab && v.display) === undefined)
-			current_tab = tab.find((x) => x.display).uuid;
-	}
-	return current_tab;
-};
-
-function searchTreeNode(node, key) {
-	if (node.key === key) {
-		return node;
-	} else if (node.contain && node.contain.length > 0) {
-		let result = null;
-		for (let i = 0; !result && i < node.contain.length; i++) {
-			result = searchTreeNode(node.contain[i], key);
-		}
-		return result;
-	}
-	return null;
-}
-
-function startSearchingTree(root, key) {
-	for (let x of root) {
-		let result = searchTreeNode(x, key);
-		if (result !== null) return result;
-	}
-	return root;
-}
-
-function searchParentTreeNode(parent, node, key) {
-	if (node.key === key) {
-		return parent;
-	} else if (node.contain && node.contain.length > 0) {
-		let result = null;
-		for (let i = 0; !result && i < node.contain.length; i++) {
-			result = searchParentTreeNode(node, node.contain[i], key);
-		}
-		return result;
-	}
-	return null;
-}
-
-function startSearchingParentTree(root, key) {
-	for (let x of root) {
-		let result = searchParentTreeNode(root, x, key);
-		if (result !== null) return result;
-	}
-	return root;
-}
-
-function deleteTreeNode(parent, node, key) {
-	if (node.key === key) {
-		let index = parent.contain.findIndex((v) => v.key === key);
-		parent.contain.splice(index, 1);
-	} else if (node.contain && node.contain.length > 0) {
-		for (let i = 0; i < node.contain.length; i++)
-			deleteTreeNode(node, node.contain[i], key);
-	}
-}
-
-function startDeleteingTree(root, key) {
-	for (let i = 0; i < root.length; i++) {
-		if (root[i].key === key) {
-			root.splice(i, 1);
-		} else deleteTreeNode(root, root[i], key);
-	}
-}
-
-function deleteServerUnderTree(node, server) {
-	for (let i = 0; i < node.contain.length; i++) {
-		if (node.contain[i].key[0] === 's')
-			server.splice(
-				server.findIndex((v) => v.id === node.contain[i].id),
-				1,
-			);
-		else deleteServerUnderTree(node.contain[i], server);
-	}
-}
-
-function addDataOnNode(nav, clicked_server, data) {
-	let node = null;
-	if (!clicked_server) node = nav;
-	else if (clicked_server[0] === 's')
-		node = startSearchingParentTree(nav, clicked_server);
-	else node = startSearchingTree(nav, clicked_server);
-
-	if (node.contain) node.contain.push(data);
-	else node.push(data);
-}
-
-const isValidFolderName = (folderArray, name) => {
-	let pass = true;
-
-	for (let i of folderArray) {
-		if (i.type === 'folder') {
-			if (i.name === name) return false;
-			else if (i.contain.length > 0) {
-				// eslint-disable-next-line no-unused-vars
-				pass = pass && isValidFolderName(i.contain, name);
-			}
-		}
-	}
-	return pass;
-};
-
-function searchFavorites(root, v, data) {
-	if (v.type === 'server') {
-		if (JSON.stringify(v) === JSON.stringify(data)) {
-			console.log(v);
-			return root.splice(
-				root.findIndex(
-					(v) => JSON.stringify(v) === JSON.stringify(data),
-				),
-				1,
-			);
-		}
-	} else if (v.contain.length > 0) {
-		for (let x of v.contain) {
-			searchFavorites(v.contain, x, data);
-		}
-	}
-}
-
-function searchFavoritesStart(root, data) {
-	for (let x of root) {
-		searchFavorites(root, x, data);
-	}
-}
+export const INIT_TEMP_FAVORITES = 'INIT_TEMP_FAVORITES';
+export const SET_TEMP_FAVORITES = 'SET_TEMP_FAVORITES';
+export const CHANGE_SELEECTED_TEMP_FAVORITE = 'CHANGE_SELEECTED_TEMP_FAVORITE';
+export const ADD_TEMP_FOLDER_ON_FAVORITES = 'ADD_TEMP_FOLDER_ON_FAVORITES';
+export const CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES =
+	'CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES';
+export const DELETE_TEMP_FOLDER_ON_FAVORITES =
+	'DELETE_TEMP_FOLDER_ON_FAVORITES';
+export const SAVE_CHANGES_ON_FAVORITES = 'SAVE_CHANGES_ON_FAVORITES';
+export const CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY =
+	'CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY';
+export const SORT_TEMP_FAVORITE_RESOURCES = 'SORT_TEMP_FAVORITE_RESOURCES';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -425,15 +280,13 @@ const reducer = (state = initialState, action) => {
 					contain: [],
 				};
 
-				draft.createdFolderInfo = data;
-
 				addDataOnNode(draft.nav, draft.clicked_server, data);
 
 				draft.folder_index++;
 				break;
 			}
 
-			case ADD_FAVORITES_FOLDER: {
+			case ADD_FOLDER_ON_FAVORITES: {
 				const data = {
 					type: 'folder',
 					id: draft.favorites_folder_index,
@@ -442,42 +295,33 @@ const reducer = (state = initialState, action) => {
 					contain: [],
 				};
 
-				draft.favorites_key =
-					'f_' + draft.favorites_folder_index.toString();
-
-				if (action.payload.key === 'favorites') {
+				if (action.payload.key === 'favorites')
 					addDataOnNode(draft.favorites, draft.clicked_server, data);
 
-					localStorage.setItem(
-						'favorites',
-						JSON.stringify(draft.favorites),
-					);
-				}
-				addDataOnNode(draft.temp_favorites, draft.clicked_server, data);
-
+				draft.favoriteFolderRenamingKey = data.key;
 				draft.favorites_folder_index++;
 				break;
 			}
 
 			case SORT_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
-				const prevParent = startSearchingParentTree(
+				const prevParent = startSearchingParentNode(
 					draft.nav,
 					draft.clicked_server,
 				);
 				// 이동할 데이터
-				const prev = startSearchingTree(
+				const prev = startSearchingNode(
 					draft.nav,
 					draft.clicked_server,
 				);
 
 				// 이동시킬 위치의 부모
-				let nextParent = startSearchingParentTree(
+				let nextParent = startSearchingParentNode(
 					draft.nav,
 					action.payload.next.key,
 				);
 				// 이동시킬 위치
-				const node = startSearchingTree(
+				const node = startSearchingNode(
 					draft.nav,
 					action.payload.next.key,
 				);
@@ -493,7 +337,7 @@ const reducer = (state = initialState, action) => {
 				while (nextParent !== draft.nav) {
 					if (nextParent === prev) break;
 					i = i + 1;
-					nextParent = startSearchingParentTree(
+					nextParent = startSearchingParentNode(
 						draft.nav,
 						nextParent.key,
 					);
@@ -509,7 +353,7 @@ const reducer = (state = initialState, action) => {
 					console.log('밖으로');
 					// let i = 1;
 					// while (nextParent !== draft.nav) {
-					// 	nextParent = searchParentTreeNode(
+					// 	nextParent = searchParentNode(
 					// 		draft.nav,
 					// 		nextParent.key,
 					// 	);
@@ -544,34 +388,31 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case SAVE_FAVORITES: {
-				draft.favorites = draft.temp_favorites;
+			case SAVE_CHANGES_ON_FAVORITES: {
+				draft.favorites = draft.tempFavorites;
+				draft.favorites_folder_index = draft.tempFavoriteFolderIndex;
+				break;
+			}
 
-				break;
-			}
-			case UNDO_FAVORITES: {
-				draft.temp_favorites = draft.favorites;
-				break;
-			}
-			case SORT_FAVORITES_SERVER_AND_FOLDER: {
+			case SORT_FAVORITE_RESOURCES: {
 				// 이동할 데이터의 부모
-				const prevParent = startSearchingParentTree(
+				const prevParent = startSearchingParentNode(
 					draft.favorites,
 					draft.clicked_server,
 				);
 				// 이동할 데이터
-				const prev = startSearchingTree(
+				const prev = startSearchingNode(
 					draft.favorites,
 					draft.clicked_server,
 				);
 
 				// 이동시킬 위치의 부모
-				let nextParent = startSearchingParentTree(
+				let nextParent = startSearchingParentNode(
 					draft.favorites,
 					action.payload.next.key,
 				);
 				// 이동시킬 위치
-				const node = startSearchingTree(
+				const node = startSearchingNode(
 					draft.favorites,
 					action.payload.next.key,
 				);
@@ -587,7 +428,7 @@ const reducer = (state = initialState, action) => {
 				while (nextParent !== draft.favorites) {
 					if (nextParent === prev) break;
 					i = i + 1;
-					nextParent = startSearchingParentTree(
+					nextParent = startSearchingParentNode(
 						draft.favorites,
 						nextParent.key,
 					);
@@ -625,37 +466,23 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case BOOKMARKING: {
-				if (action.there) {
-					searchFavoritesStart(draft.favorites, action.payload);
-				} else {
-					draft.favorites.push(action.payload);
-				}
+			case ADD_FAVORITE_SERVER: {
+				const index = draft.server.findIndex(
+					(x) => x.key === action.payload,
+				);
 
-				draft.temp_favorites = draft.favorites;
-
+				draft.favorites.push({
+					type: 'server',
+					id: draft.server[index].id,
+					key: draft.server[index].key,
+					name: draft.server[index].name,
+					icon: draft.server[index].icon,
+				});
 				break;
 			}
 
-			case INIT_FAVORITES:
-				draft.favorites =
-					JSON.parse(localStorage.getItem('favorites')) || [];
-				draft.temp_favorites =
-					JSON.parse(localStorage.getItem('favorites')) || [];
-				draft.favorites_folder_index = JSON.parse(
-					localStorage.getItem('favorites_folder_index') || 0,
-				);
-				break;
-
-			case LOCAL_SAVE_FAVORITES:
-				localStorage.setItem(
-					'favorites',
-					JSON.stringify(draft.favorites),
-				);
-				localStorage.setItem(
-					'favorites_folder_index',
-					JSON.stringify(draft.favorites_folder_index),
-				);
+			case DELETE_FAVORITE_SERVER:
+				startDeleteingTree(draft.favorites, action.payload);
 				break;
 
 			case CHANGE_SERVER_FOLDER_NAME: {
@@ -672,7 +499,7 @@ const reducer = (state = initialState, action) => {
 					draft.server.splice(keyIndex, 1, newServer);
 				}
 
-				startSearchingTree(draft.nav, action.payload.key).name =
+				startSearchingNode(draft.nav, action.payload.key).name =
 					action.payload.name;
 
 				draft.tab = draft.tab.map((v) => {
@@ -686,31 +513,11 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case CHANGE_FAVORITES_FOLDER_NAME: {
-				if (action.payload.temp) {
-					startSearchingTree(
-						draft.temp_favorites,
-						action.payload.key,
-					).name = action.payload.name;
-				} else {
-					startSearchingTree(
-						draft.temp_favorites,
-						action.payload.key,
-					).name = action.payload.name;
-					startSearchingTree(
-						draft.favorites,
-						action.payload.key,
-					).name = action.payload.name;
-				}
+			case CHANGE_FOLDER_NAME_ON_FAVORITES: {
+				startSearchingNode(draft.favorites, action.payload.key).name =
+					action.payload.name;
 
-				// draft.tab = draft.tab.map((v) => {
-				// 	if (v.server.key === action.payload.key)
-				// 		return {
-				// 			...v,
-				// 			server: {...v.server, name: action.payload.name},
-				// 		};
-				// 	else return v;
-				// });
+				draft.favoriteFolderRenamingKey = null;
 				break;
 			}
 
@@ -725,7 +532,7 @@ const reducer = (state = initialState, action) => {
 
 				draft.server.splice(index, 1, newServer);
 
-				startSearchingTree(draft.nav, newServer.key).name =
+				startSearchingNode(draft.nav, newServer.key).name =
 					newServer.name;
 
 				draft.tab = draft.tab.map((v) => {
@@ -744,7 +551,7 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case SAVE_SERVER: {
+			case ADD_SERVER: {
 				const data = {
 					type: 'server',
 					id: draft.server_index,
@@ -775,29 +582,19 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 			case DELETE_SERVER_FOLDER: {
-				console.log(draft.clicked_server);
-				if (draft.clicked_server[0] === 's')
+				if (draft.clicked_server[0] === 's') {
 					draft.server = draft.server.filter(
 						(v) => v.key !== draft.clicked_server,
 					);
-				else
-					deleteServerUnderTree(
-						startSearchingTree(
-							draft.favorites,
-							draft.clicked_server,
-						),
-						draft.favorites,
-					);
+				}
 
+				startDeleteingTree(draft.server, draft.clicked_server);
 				startDeleteingTree(draft.favorites, draft.clicked_server);
-				draft.temp_favorites = draft.favorites;
-
 				break;
 			}
 
 			case SET_CLICKED_SERVER:
 				draft.clicked_server = action.payload;
-				if (action.payload === null) draft.favorites_key = null;
 				break;
 
 			case CHANGE_SIDEBAR_DISPLAY:
@@ -829,17 +626,6 @@ const reducer = (state = initialState, action) => {
 				draft.current_nav_tab = action.payload;
 				draft.clicked_server = null;
 				break;
-
-			// case SAVE_ACCOUT:
-			// 	draft.account.push({
-			// 		id: draft.identity_index,
-			// 		name: action.payload.identity,
-			// 		username: action.payload.username,
-			// 		type: action.payload.type,
-			// 		key: action.payload.key,
-			// 	});
-			// 	draft.identity_index++;
-			// 	break;
 
 			// case DELETE_ACCOUT:
 			// 	draft.account = draft.account
@@ -957,14 +743,75 @@ const reducer = (state = initialState, action) => {
 				draft.side_key = action.payload;
 				break;
 
-			case ADD_NOTIFICATION:
-				if (draft.notification.length > 30) draft.notification.shift();
-				draft.notification.push({
-					id: draft.notification_index++,
-					message: action.payload,
-					date: Date.now(),
-					confirm: false,
-				});
+			case CHANGE_SELEECTED_TEMP_FAVORITE:
+				draft.selectedFavoriteItemOnDialogBox = action.payload;
+				break;
+
+			case ADD_TEMP_FOLDER_ON_FAVORITES: {
+				const data = {
+					type: 'folder',
+					id: draft.tempFavoriteFolderIndex,
+					key: 'f_' + draft.tempFavoriteFolderIndex.toString(),
+					name: action.payload.name,
+					contain: [],
+				};
+
+				addDataOnNode(
+					draft.tempFavorites,
+					draft.selectedFavoriteItemOnDialogBox,
+					data,
+				);
+
+				draft.tempFavoriteFolderRenamingKey = data.key;
+				draft.tempFavoriteFolderIndex++;
+				break;
+			}
+
+			case SET_TEMP_FAVORITES:
+				draft.tempFavoriteFolderIndex = null;
+				draft.tempFavorites = null;
+				draft.tempFavoriteFolderRenamingKey = null;
+				draft.selectedFavoriteItemOnDialogBox = null;
+				break;
+
+			case INIT_TEMP_FAVORITES:
+				draft.tempFavoriteFolderIndex = draft.favorites_folder_index;
+				draft.tempFavorites = draft.favorites;
+				break;
+
+			case CHANGE_FAVORITE_FOLDER_RENMAING_KEY:
+				if (action.payload) {
+					draft.favoriteFolderRenamingKey = action.payload;
+					draft.clicked_server = action.payload;
+				} else {
+					draft.favoriteFolderRenamingKey = null;
+					draft.clicked_server = null;
+				}
+				break;
+
+			case CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY:
+				if (action.payload) {
+					draft.tempFavoriteFolderRenamingKey = action.payload;
+					draft.selectedFavoriteItemOnDialogBox = action.payload;
+				} else {
+					draft.tempFavoriteFolderRenamingKey = null;
+					draft.selectedFavoriteItemOnDialogBox = null;
+				}
+				break;
+
+			case CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES:
+				{
+					startSearchingNode(
+						draft.tempFavorites,
+						action.payload.key,
+					).name = action.payload.name;
+
+					draft.tempFavoriteFolderRenamingKey = null;
+				}
+				break;
+
+			case DELETE_TEMP_FOLDER_ON_FAVORITES:
+				startDeleteingTree(draft.tempFavorites, action.payload);
 				break;
 
 			default:
@@ -974,3 +821,38 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
+
+//사용되지 않는 기능들
+/** Notification
+ notification_index: 3,
+ notification: [
+ {
+			id: 0,
+			message: 'ssh connection',
+			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			confirm: true,
+		},
+ {
+			id: 1,
+			message: 'ssh connection',
+			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
+			confirm: false,
+		},
+ {
+			id: 2,
+			message: 'sftp connection',
+			date: 'Mon Jul 23 2021 18:06:00 GMT+0900 (일본 표준시)',
+			confirm: false,
+		},
+ ],
+
+ case ADD_NOTIFICATION:
+	if (draft.notification.length > 30) draft.notification.shift();
+draft.notification.push({
+	id: draft.notification_index++,
+	message: action.payload,
+	date: Date.now(),
+	confirm: false,
+});
+break;
+**/

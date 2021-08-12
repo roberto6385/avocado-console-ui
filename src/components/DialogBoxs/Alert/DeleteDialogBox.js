@@ -7,7 +7,6 @@ import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,
 	DELETE_SERVER_FOLDER,
-	LOCAL_SAVE_FAVORITES,
 } from '../../../reducers/common';
 
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
@@ -25,7 +24,7 @@ import {
 } from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	AlertModal,
+	AlertDialogBox,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
@@ -156,7 +155,6 @@ const DeleteDialogBox = () => {
 					console.log(clicked_server);
 					if (clicked_server) {
 						dispatch({type: DELETE_SERVER_FOLDER});
-						dispatch({type: LOCAL_SAVE_FAVORITES});
 					}
 					break;
 
@@ -205,7 +203,7 @@ const DeleteDialogBox = () => {
 	);
 
 	return (
-		<AlertModal
+		<AlertDialogBox
 			isOpen={delete_dialog_box.open}
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
@@ -238,7 +236,7 @@ const DeleteDialogBox = () => {
 					{t('delete')}
 				</WarningButton>
 			</ModalFooter>
-		</AlertModal>
+		</AlertDialogBox>
 	);
 };
 

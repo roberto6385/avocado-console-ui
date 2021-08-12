@@ -26,7 +26,7 @@ const Resources = () => {
 	return (
 		<div>
 			<_FormContainer>
-				<_Form onSubmit={(e) => e.preventDefault()}>
+				<_Form>
 					<IconSearchInput
 						onChange={onChangeSearch}
 						value={search}
@@ -34,9 +34,6 @@ const Resources = () => {
 						height={'36px'}
 					/>
 				</_Form>
-				{/*<_AddButton onClick={onClickAddServer} >*/}
-				{/*	{plusIcon}*/}
-				{/*</_AddButton>*/}
 			</_FormContainer>
 			<ServerFolderList search={search} />
 			<AddServerDialogBox />

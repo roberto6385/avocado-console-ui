@@ -11,7 +11,7 @@ import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
 import {
@@ -21,7 +21,7 @@ import {
 import {Input} from '../../../styles/components/input';
 import {useTranslation} from 'react-i18next';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	width: 404px;
 `;
 

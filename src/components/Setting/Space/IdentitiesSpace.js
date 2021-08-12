@@ -121,22 +121,22 @@ const _LiHeader = styled(_Li)`
 	font-size: 14px;
 `;
 
-function searchTreeNode(node, key) {
+function searchNextResourceNode(node, key) {
 	if (node.type === 'server' || !node.contain.length) {
 		if (node.key === key) return node.name;
 		else return false;
 	}
 
 	for (let x of node.contain) {
-		let result = searchTreeNode(x, key);
+		let result = searchNextResourceNode(x, key);
 		if (result) return node.name + ' > ' + result;
 	}
 	return '';
 }
 
-function StartSearchTree(root, key) {
+function createResourceRath(root, key) {
 	for (let x of root) {
-		const result = searchTreeNode(x, key);
+		const result = searchNextResourceNode(x, key);
 		if (result) return result;
 	}
 	return false;
@@ -175,14 +175,14 @@ const IdentitiesSpace = () => {
 	const handleCheck = useCallback(
 		(item) => (e) => {
 			// 	if (!e.target.checked) return;
-			// 	const correspondedIdentity = identity.find(
+			// 	const identity = identity.find(
 			// 		(v) => v.key === current_resource_key && v.checked,
 			// 	);
 			//
 			// 	dispatch({
 			// 		type: CHANGE_IDENTITY_CHECKED,
 			// 		payload: {
-			// 			prev: correspondedIdentity,
+			// 			prev: identity,
 			// 			next: item,
 			// 		},
 			// 	});
@@ -261,7 +261,7 @@ const IdentitiesSpace = () => {
 									selected={item.key === current_resource_key}
 								>
 									<_ResourceName>
-										{StartSearchTree(nav, item.key)}
+										{createResourceRath(nav, item.key)}
 									</_ResourceName>
 									<_AddressName>{item.host}</_AddressName>
 									<_ProtocolPortName>

@@ -7,7 +7,7 @@ import {
 	CHANGE_IDENTITY_CHECKED,
 	CHANGE_PROTOCOL,
 	EDIT_SERVER,
-	SAVE_SERVER,
+	ADD_SERVER,
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import {GetMessage} from '../../../ws/ssht_ws_logic';
@@ -29,12 +29,12 @@ import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 598px;
 `;
@@ -203,7 +203,7 @@ const AddServerDialogBox = () => {
 							};
 							if (add_server_dialog_box.type === 'add')
 								dispatch({
-									type: SAVE_SERVER,
+									type: ADD_SERVER,
 									payload: newData,
 								});
 							else if (add_server_dialog_box.type === 'edit')

@@ -15,13 +15,13 @@ import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
 import {putModifyUserAccout} from '../../../reducers/auth/user';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 404px;
 `;

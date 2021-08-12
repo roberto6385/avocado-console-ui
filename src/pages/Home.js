@@ -31,10 +31,6 @@ const Home = () => {
 	}, [history, userTicket]);
 
 	useEffect(() => {
-		dispatch({type: INIT_FAVORITES});
-	}, []);
-
-	useEffect(() => {
 		if (userInfo) {
 			const email = userInfo.email;
 			const index = email.indexOf('@');

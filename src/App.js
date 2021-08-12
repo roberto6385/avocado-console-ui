@@ -99,7 +99,7 @@ const App = () => {
 					<Route path='/account' component={Account} />
 					<Route path='/preferences' component={Preferences} />
 					<Route path='/identities' component={Identities} />
-					<ThemeProvider theme={properties}>
+					<ThemeProvider theme={themeValues['light']}>
 						<Route path='/signin' component={SignIn} />
 						<Route path='/signup' component={SignUp} />
 						<Route path='/password' component={Password} />

@@ -86,6 +86,7 @@ const reducer = (state = initialState, action) => {
 				if (action.payload.uuid)
 					draft.save_dialog_box.uuid = action.payload.uuid;
 				break;
+
 			case CLOSE_SAVE_DIALOG_BOX:
 				draft.save_dialog_box = {open: false};
 				break;

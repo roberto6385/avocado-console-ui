@@ -7,13 +7,26 @@ import {useTranslation} from 'react-i18next';
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {
-	ADD_FAVORITES_FOLDER,
-	BOOKMARKING,
-	LOCAL_SAVE_FAVORITES,
+	ADD_FOLDER_ON_FAVORITES,
+	DELETE_FAVORITE_SERVER,
 } from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
-const FavoritesContextMenu = ({correspondedIdentity, data}) => {
+const isValidFolderName = (folderArray, name) => {
+	let pass = true;
+
+	for (let i of folderArray) {
+		if (i.type === 'folder') {
+			if (i.name === name) return false;
+			else if (i.contain.length > 0) {
+				pass = pass && isValidFolderName(i.contain, name);
+			}
+		}
+	}
+	return pass;
+};
+
+const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 	const {server, favorites} = useSelector(
@@ -37,15 +50,15 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 				token: userTicket.access_token, // connection info
 				host: correspondedServer.host,
 				port: correspondedServer.port,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
+				user: identity.user,
+				password: identity.password,
 
 				name: correspondedServer.name, // create tab info
 				key: correspondedServer.key,
 				id: correspondedServer.id,
 			},
 		});
-	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
+	}, [server, dispatch, userTicket, identity, data.key]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
@@ -55,25 +68,11 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 			payload: {
 				token: userTicket.access_token,
 				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
+				user: identity.user,
+				password: identity.password,
 			},
 		});
-	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
-
-	const isValidFolderName = useCallback((folderArray, name) => {
-		let pass = true;
-
-		for (let i of folderArray) {
-			if (i.type === 'folder') {
-				if (i.name === name) return false;
-				else if (i.contain.length > 0) {
-					pass = pass && isValidFolderName(i.contain, name);
-				}
-			}
-		}
-		return pass;
-	}, []);
+	}, [server, dispatch, userTicket, identity, data.key]);
 
 	const newFolder = useCallback(() => {
 		let folderName = t('newFolder');
@@ -83,10 +82,10 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 			i++;
 		}
 		dispatch({
-			type: ADD_FAVORITES_FOLDER,
+			type: ADD_FOLDER_ON_FAVORITES,
 			payload: {name: folderName, key: 'favorites'},
 		});
-	}, [dispatch, favorites, isValidFolderName, t]);
+	}, [dispatch, favorites, t]);
 
 	const handleItemClick = useCallback(
 		(v) => () => {
@@ -98,8 +97,10 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 					openSFTP();
 					break;
 				case 'delete_bookmark':
-					dispatch({type: BOOKMARKING, payload: data, there: true});
-					dispatch({type: LOCAL_SAVE_FAVORITES});
+					dispatch({
+						type: DELETE_FAVORITE_SERVER,
+						payload: data.key,
+					});
 					break;
 				case 'new_folder':
 					newFolder();
@@ -124,7 +125,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 
 FavoritesContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	correspondedIdentity: PropTypes.object.isRequired,
+	identity: PropTypes.object.isRequired,
 };
 
 export default FavoritesContextMenu;

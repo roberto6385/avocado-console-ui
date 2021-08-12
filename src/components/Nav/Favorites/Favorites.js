@@ -5,7 +5,7 @@ import IconSearchInput from '../../RecycleComponents/IconSearchInput';
 import {plusIcon, searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
-import FavoriteList from './FavoriteList';
+import FavoriteItemsTree from './FavoriteItemsTree';
 import {useDispatch} from 'react-redux';
 import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import AddFavoritesDialogBox from '../../DialogBoxs/Form/AddFavoritesDialogBox';
@@ -72,7 +72,7 @@ const Favorites = () => {
 				</_Form>
 				<_AddButton onClick={newFavorites}>{plusIcon}</_AddButton>
 			</_FormContainer>
-			<FavoriteList search={search} />
+			<FavoriteItemsTree search={search} />
 			<AddFavoritesDialogBox />
 		</div>
 	);
