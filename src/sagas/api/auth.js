@@ -59,6 +59,7 @@ function userAuthApi(payload) {
 }
 
 function* userAuth(action) {
+	console.log(action);
 	try {
 		const res = yield call(userAuthApi, action.payload);
 		console.log(res);
