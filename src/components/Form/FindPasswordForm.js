@@ -60,7 +60,7 @@ const FindPasswordForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(dialogBoxAction.openWarning('developing'));
+			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
 			//TODO: Find and Change Password Action
 		},
 		[dispatch],
@@ -69,7 +69,7 @@ const FindPasswordForm = () => {
 	const sendAuth = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(dialogBoxAction.openWarning('developing'));
+			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
 			console.log('some action!');
 		},
 		[dispatch],
@@ -79,7 +79,7 @@ const FindPasswordForm = () => {
 		(e) => {
 			e.preventDefault();
 
-			dispatch(dialogBoxAction.openWarning('developing'));
+			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
 			console.log('some action!');
 		},
 		[dispatch],

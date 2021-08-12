@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
@@ -15,6 +15,7 @@ import {
 	SettingTitle,
 } from '../../../styles/components/settingPage';
 import {Input} from '../../../styles/components/input';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -38,9 +39,7 @@ const _Section = styled.section`
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
 	const {account} = useSelector((state) => state.common, shallowEqual);
-
-	const [open, setOpen] = useState(false);
-	const [nameOpen, setNameOpen] = useState(false);
+	const dispatch = useDispatch();
 	const [authType, setAuthType] = useState('first_option');
 	const [mfaType, setMfaType] = useState('use');
 	const [authValue, setAuthValue] = useState('google');
@@ -84,7 +83,11 @@ const AccountSpace = () => {
 						value={account.name}
 						placeholder={t('namePlace')}
 						readOnly
-						onClick={() => setNameOpen(true)}
+						onClick={() =>
+							dispatch(
+								dialogBoxAction.openForm({key: 'userName'}),
+							)
+						}
 					/>
 				</TextBoxField_>
 				<TextBoxField_ title={t('email')}>
@@ -107,7 +110,11 @@ const AccountSpace = () => {
 					/>
 					{authType === 'first_option' ? (
 						<_PrimaryGreenButton
-							onClick={() => setOpen(true)}
+							onClick={() =>
+								dispatch(
+									dialogBoxAction.openForm({key: 'password'}),
+								)
+							}
 							// disabled
 						>
 							{t('changePassword')}
@@ -143,8 +150,8 @@ const AccountSpace = () => {
 					disabled={mfaType === 'not_use'}
 				/>
 			</SettingContentsContainer>
-			<ChangePasswordDialogBox open={open} setOpen={setOpen} />
-			<ChangeUserNameDialogBox open={nameOpen} setOpen={setNameOpen} />
+			<ChangePasswordDialogBox />
+			<ChangeUserNameDialogBox />
 		</SettingMainContainer>
 	);
 };

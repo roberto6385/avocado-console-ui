@@ -5,8 +5,9 @@ import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {DropDownMenu} from '../../styles/components/contextMenu';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
-const SnippetContextMenu = ({uuid, setOpen}) => {
+const SnippetContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
@@ -19,8 +20,8 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 	);
 
 	const onClickOpenSnippets = useCallback(() => {
-		setOpen(true);
-	}, []);
+		dispatch(dialogBoxAction.openForm({key: 'snippet'}));
+	}, [dispatch]);
 
 	const menuEvent = useCallback(
 		(v) => () => {
@@ -56,7 +57,6 @@ const SnippetContextMenu = ({uuid, setOpen}) => {
 };
 
 SnippetContextMenu.propTypes = {
-	setOpen: PropTypes.func.isRequired,
 	uuid: PropTypes.string.isRequired,
 };
 

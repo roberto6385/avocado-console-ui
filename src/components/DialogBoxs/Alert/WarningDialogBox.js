@@ -15,16 +15,13 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
-import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const WarningDialogBox = () => {
 	const {t} = useTranslation('warningDialogBox');
 	const dispatch = useDispatch();
 
-	const {warning_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const AlertMessage = {
 		invalid_server: t('invalidServer'),
@@ -34,12 +31,12 @@ const WarningDialogBox = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch(dialogBoxAction.closeWarning());
+		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
 	return (
 		<AlertDialogBox
-			isOpen={warning_dialog_box.open}
+			isOpen={alert.open}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -60,7 +57,7 @@ const WarningDialogBox = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{AlertMessage[warning_dialog_box.key]}</AlertText>
+				<AlertText>{AlertMessage[alert.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>

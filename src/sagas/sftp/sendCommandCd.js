@@ -98,7 +98,9 @@ function* sendCommand(action) {
 						console.log(res.err);
 						pass = true;
 						yield put({type: CD_FAILURE});
-						yield put(dialogBoxAction.openWarning('wrong_path'));
+						yield put(
+							dialogBoxAction.openAlert({key: 'wrong_path'}),
+						);
 						break;
 					default:
 						console.log(res);
@@ -110,7 +112,7 @@ function* sendCommand(action) {
 		console.log(err);
 		closeChannel(channel);
 		yield put({type: CD_FAILURE});
-		yield put(dialogBoxAction.openWarning('wrong_path'));
+		yield put(dialogBoxAction.openAlert({key: 'wrong_path'}));
 	}
 }
 

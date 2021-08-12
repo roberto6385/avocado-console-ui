@@ -21,11 +21,6 @@ const ConfirmDialogBox = () => {
 	const {t} = useTranslation('confirmDialogBox');
 	const dispatch = useDispatch();
 
-	const {confirm_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
-
 	const AlertMessage = {
 		invalid_server: t('invalidServer'),
 		lost_server: t('lostServer'),
@@ -39,12 +34,12 @@ const ConfirmDialogBox = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch(dialogBoxAction.closeServer());
+		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
 	return (
 		<AlertDialogBox
-			isOpen={confirm_dialog_box.open}
+			isOpen={confirm.open}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -66,7 +61,7 @@ const ConfirmDialogBox = () => {
 					{alertFillIcon}
 				</Icon>
 
-				<AlertText>{AlertMessage[confirm_dialog_box.key]}</AlertText>
+				<AlertText>{AlertMessage[confirm.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>

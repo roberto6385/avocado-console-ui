@@ -1,6 +1,10 @@
 module.exports = {
 	// parser : JavaScript transpiler 및 ES 언어 features 을 조정할 수 있습니다.
 	parser: 'babel-eslint', // bable-eslint : ESLint가 Babel에 의해 변환 된 소스 코드에서 실행될 수 있도록하는 파서입니다.
+	parserOptions: {
+		jsx: true,
+		ecmaVersion: 2020,
+	},
 	env: {
 		browser: true, // ex) document, setInterval, clearInterval
 		node: true,

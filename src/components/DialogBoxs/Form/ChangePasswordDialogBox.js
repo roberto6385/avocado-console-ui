@@ -24,18 +24,20 @@ import {
 	userResourceAction,
 } from '../../../reducers/api/userResource';
 import {AUTH} from '../../../reducers/api/auth';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 404px;
 `;
 
-const ChangePasswordDialogBox = ({open, setOpen}) => {
+const ChangePasswordDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
@@ -48,8 +50,8 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 	const confirmRef = useRef(null);
 
 	const closeModal = useCallback(() => {
-		setOpen(false);
-	}, [setOpen]);
+		dispatch(dialogBoxAction.closeForm());
+	}, [dispatch]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -100,16 +102,16 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 	);
 
 	useEffect(() => {
-		if (open) {
+		if (form.open && form.key === 'password') {
 			setCurrentPassword('');
 			setPassword('');
 			setConfrimPassword('');
 		}
-	}, [open, setConfrimPassword, setCurrentPassword, setPassword]);
+	}, [form, setConfrimPassword, setCurrentPassword, setPassword]);
 
 	return (
 		<_PopupModal
-			isOpen={open}
+			isOpen={form.open && form.key === 'password'}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -164,11 +166,6 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 			</ModalFooter>
 		</_PopupModal>
 	);
-};
-
-ChangePasswordDialogBox.propTypes = {
-	open: PropTypes.bool.isRequired,
-	setOpen: PropTypes.func.isRequired,
 };
 
 export default ChangePasswordDialogBox;

@@ -6,11 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, CREATE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
-import {
-	OPEN_INPUT_DIALOG_BOX,
-	OPEN_FILE_STATUS_DIALOG_BOX,
-	OPEN_DELETE_DIALOG_BOX,
-} from '../../reducers/dialogBoxs';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {AUTH} from '../../reducers/api/auth';
 
 const FileListContextMenu = ({uuid}) => {
@@ -150,43 +146,55 @@ const FileListContextMenu = ({uuid}) => {
 					contextEdit(event);
 					break;
 				case 'new_folder':
-					dispatch({
-						type: OPEN_INPUT_DIALOG_BOX,
-						payload: {key: 'sftp_new_folder', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openForm({
+							key: 'sftp_new_folder',
+							uuid: uuid,
+						}),
+					);
 					break;
 				case 'rename_work':
-					dispatch({
-						type: OPEN_INPUT_DIALOG_BOX,
-						payload: {key: 'sftp_rename_file_folder', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openForm({
+							key: 'sftp_rename_file_folder',
+							uuid: uuid,
+						}),
+					);
 					break;
 				case 'delete_work':
-					dispatch({
-						type: OPEN_DELETE_DIALOG_BOX,
-						payload: {key: 'sftp_delete_file_folder', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openAlert({
+							key: 'sftp_delete_file_folder',
+							uuid: uuid,
+						}),
+					);
 					break;
 
 				case 'attr_work':
-					dispatch({
-						type: OPEN_FILE_STATUS_DIALOG_BOX,
-						payload: {key: 'sftp_stat', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openForm({
+							key: 'sftp_stat',
+							uuid: uuid,
+						}),
+					);
 					break;
 
 				case 'chgrp_work':
-					dispatch({
-						type: OPEN_INPUT_DIALOG_BOX,
-						payload: {key: 'sftp_chgrp', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openForm({
+							key: 'sftp_chgrp',
+							uuid: uuid,
+						}),
+					);
 					break;
 
 				case 'chown_work':
-					dispatch({
-						type: OPEN_INPUT_DIALOG_BOX,
-						payload: {key: 'sftp_chown', uuid: uuid},
-					});
+					dispatch(
+						dialogBoxAction.openForm({
+							key: 'sftp_chown',
+							uuid: uuid,
+						}),
+					);
 					break;
 				default:
 					return;

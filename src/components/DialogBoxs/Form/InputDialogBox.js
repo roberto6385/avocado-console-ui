@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_INPUT_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 import useInput from '../../../hooks/useInput';
 import {MKDIR_REQUEST, RENAME_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
@@ -36,16 +36,13 @@ const InputDialogBox = () => {
 		path: sftp_pathState,
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {input_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
 	const inputRef = useRef(null);
 
-	const uuid = input_dialog_box.uuid;
+	const uuid = form.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
@@ -64,15 +61,15 @@ const InputDialogBox = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch({type: CLOSE_INPUT_DIALOG_BOX});
-	}, []);
+		dispatch(dialogBoxAction.closeForm());
+	}, [dispatch]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
 			if (formValue === '') return;
 
-			switch (input_dialog_box.key) {
+			switch (form.key) {
 				case 'sftp_rename_file_folder': {
 					dispatch({
 						type: RENAME_REQUEST,
@@ -124,7 +121,7 @@ const InputDialogBox = () => {
 			onClickCloseModal();
 		},
 		[
-			input_dialog_box,
+			form,
 			onClickCloseModal,
 			dispatch,
 			socket,
@@ -138,11 +135,11 @@ const InputDialogBox = () => {
 	//when form is open, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
-			if (input_dialog_box.open) {
+			if (form.open) {
 				if (
-					input_dialog_box.key === 'sftp_rename_file_folder' ||
-					input_dialog_box.key === 'sftp_chgrp' ||
-					input_dialog_box.key === 'sftp_chown'
+					form.key === 'sftp_rename_file_folder' ||
+					form.key === 'sftp_chgrp' ||
+					form.key === 'sftp_chown'
 				) {
 					setFormValue(prevFormValue);
 				} else {
@@ -153,31 +150,37 @@ const InputDialogBox = () => {
 			}
 		};
 		fillInForm();
-	}, [inputRef, input_dialog_box, prevFormValue, setFormValue]);
+	}, [inputRef, form, prevFormValue, setFormValue]);
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {
-			if (input_dialog_box.key === 'sftp_rename_file_folder') {
+			if (form.key === 'sftp_rename_file_folder') {
 				setPrevFormValue(highlight[0].name);
 			}
-			if (input_dialog_box.key === 'sftp_chgrp') {
+			if (form.key === 'sftp_chgrp') {
 				setPrevFormValue(highlight[0].group);
 			}
-			if (input_dialog_box.key === 'sftp_chown') {
+			if (form.key === 'sftp_chown') {
 				setPrevFormValue(highlight[0].owner);
 			}
 		}
-	}, [highlight, input_dialog_box]);
+	}, [highlight, form]);
 
+	const keyArray = [
+		'sftp_rename_file_folder',
+		'sftp_chgrp',
+		'sftp_chown',
+		'sftp_new_folder',
+	];
 	return (
 		<_PopupModal
-			isOpen={input_dialog_box.open}
+			isOpen={form.open && keyArray.includes(form.key)}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
 			<ModalHeader>
-				<div>{HeaderMessage[input_dialog_box.key]}</div>
+				<div>{HeaderMessage[form.key]}</div>
 				<IconButton
 					itype={'font'}
 					size={'sm'}
@@ -193,7 +196,7 @@ const InputDialogBox = () => {
 					ref={inputRef}
 					value={formValue}
 					onChange={onChangeFormValue}
-					placeholder={Placeholder[input_dialog_box.key]}
+					placeholder={Placeholder[form.key]}
 				/>
 			</_Form>
 

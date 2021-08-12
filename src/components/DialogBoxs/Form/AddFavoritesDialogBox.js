@@ -10,10 +10,7 @@ import {
 	SET_TEMP_FAVORITES,
 } from '../../../reducers/common';
 
-import {
-	CLOSE_ADD_FAVORITES_DIALOG_BOX,
-	OPEN_WARNING_DIALOG_BOX,
-} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
@@ -92,13 +89,10 @@ const AddFavoritesDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {add_favorites_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const onClickCloseFavoritesDialogBox = useCallback(async () => {
-		await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+		await dispatch(dialogBoxAction.closeForm());
 		await dispatch({type: SET_TEMP_FAVORITES});
 	}, [dispatch, favorites, tempFavorites]);
 
@@ -107,17 +101,18 @@ const AddFavoritesDialogBox = () => {
 			e.preventDefault();
 			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
 				if (isFolderNameDuplicated(tempFavorites)) {
-					await dispatch({
-						type: OPEN_WARNING_DIALOG_BOX,
-						payload: 'folder_names_on_favorites_duplicated',
-					});
+					await dispatch(
+						dialogBoxAction.openAlert({
+							key: 'folder_names_on_favorites_duplicated',
+						}),
+					);
 				} else {
 					await dispatch({type: SAVE_CHANGES_ON_FAVORITES});
-					await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+					await dispatch(dialogBoxAction.closeForm());
 					await dispatch({type: SET_TEMP_FAVORITES});
 				}
 			} else {
-				await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+				await dispatch(dialogBoxAction.closeForm());
 				await dispatch({type: SET_TEMP_FAVORITES});
 			}
 		},
@@ -132,14 +127,14 @@ const AddFavoritesDialogBox = () => {
 	}, [dispatch, t]);
 
 	useEffect(() => {
-		if (add_favorites_dialog_box.open) {
+		if (form.open) {
 			dispatch({type: INIT_TEMP_FAVORITES});
 		}
-	}, [add_favorites_dialog_box, dispatch]);
+	}, [form, dispatch]);
 
 	return (
 		<_DialogBox
-			isOpen={add_favorites_dialog_box.open}
+			isOpen={form.open && form.key === 'favorites'}
 			onRequestClose={onClickCloseFavoritesDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

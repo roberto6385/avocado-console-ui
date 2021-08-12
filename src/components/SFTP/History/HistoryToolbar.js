@@ -2,7 +2,6 @@ import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {OPEN_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
@@ -12,6 +11,7 @@ import {
 } from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
 import {AUTH} from '../../../reducers/api/auth';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -129,10 +129,12 @@ const HistoryToolbar = ({uuid}) => {
 		if (history_highlight.length === 0) {
 			// TODO 전체삭제 처리가 필요하다면 이곳에서 구현
 		} else {
-			dispatch({
-				type: OPEN_DELETE_DIALOG_BOX,
-				payload: {key: 'sftp_delete_history', uuid: uuid},
-			});
+			dispatch(
+				dialogBoxAction.openAlert({
+					key: 'sftp_delete_history',
+					uuid: uuid,
+				}),
+			);
 		}
 	}, [history_highlight, uuid, dispatch]);
 

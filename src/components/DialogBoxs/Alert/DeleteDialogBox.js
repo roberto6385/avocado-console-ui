@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {CLOSE_DELETE_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,
@@ -45,10 +45,7 @@ const DeleteDialogBox = () => {
 		accountCheckList,
 	} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {delete_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 	const {
 		history: sftp_historyState,
 		delete: sftp_deleteState,
@@ -64,33 +61,33 @@ const DeleteDialogBox = () => {
 	};
 
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_DELETE_DIALOG_BOX});
-	}, []);
+		dispatch(dialogBoxAction.closeAlert());
+	}, [dispatch]);
 
 	const cancelFunction = useCallback(() => {
-		delete_dialog_box.key === 'sftp_delete_file_folder' &&
+		alert.key === 'sftp_delete_file_folder' &&
 			dispatch({
 				type: INIT_DELETE_WORK_LIST,
-				payload: {uuid: delete_dialog_box.uuid},
+				payload: {uuid: alert.uuid},
 			});
 		closeModal();
-	}, [closeModal, dispatch, delete_dialog_box]);
+	}, [closeModal, dispatch, alert]);
 
 	const submitFunction = useCallback(
 		async (e) => {
 			e.preventDefault();
 
-			switch (delete_dialog_box.key) {
+			switch (alert.key) {
 				case 'sftp_delete_file_folder': {
-					const uuid = delete_dialog_box.uuid;
+					const uuid = alert.uuid;
 					const {removeSocket, incinerator} = sftp_deleteState.find(
-						(it) => it.uuid === delete_dialog_box.uuid,
+						(it) => it.uuid === alert.uuid,
 					);
 					const {highlight} = sftp_highState.find(
-						(it) => it.uuid === delete_dialog_box.uuid,
+						(it) => it.uuid === alert.uuid,
 					);
 					const {path} = sftp_pathState.find(
-						(it) => it.uuid === delete_dialog_box.uuid,
+						(it) => it.uuid === alert.uuid,
 					);
 
 					dispatch({
@@ -127,7 +124,7 @@ const DeleteDialogBox = () => {
 
 				case 'sftp_delete_history': {
 					const {history_highlight} = sftp_historyState.find(
-						(it) => it.uuid === delete_dialog_box.uuid,
+						(it) => it.uuid === alert.uuid,
 					);
 					history_highlight.forEach((item) => {
 						console.log(item);
@@ -139,7 +136,7 @@ const DeleteDialogBox = () => {
 							dispatch({
 								type: REMOVE_HISTORY,
 								payload: {
-									uuid: delete_dialog_box.uuid,
+									uuid: alert.uuid,
 									history: item,
 								},
 							});
@@ -147,7 +144,7 @@ const DeleteDialogBox = () => {
 					});
 					dispatch({
 						type: INITIAL_HISTORY_HI,
-						payload: {uuid: delete_dialog_box.uuid},
+						payload: {uuid: alert.uuid},
 					});
 					break;
 				}
@@ -188,10 +185,12 @@ const DeleteDialogBox = () => {
 			closeModal();
 		},
 		[
-			delete_dialog_box.uuid,
-			delete_dialog_box.key,
+			alert,
 			closeModal,
 			clicked_server,
+			sftp_deleteState,
+			sftp_highState,
+			sftp_pathState,
 			dispatch,
 			tab,
 			server,
@@ -205,7 +204,7 @@ const DeleteDialogBox = () => {
 
 	return (
 		<AlertDialogBox
-			isOpen={delete_dialog_box.open}
+			isOpen={alert.open}
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -226,7 +225,7 @@ const DeleteDialogBox = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{AlertMessage[delete_dialog_box.key]}</AlertText>
+				<AlertText>{AlertMessage[alert.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>

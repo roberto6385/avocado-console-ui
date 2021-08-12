@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CLOSE_FILE_STATUS_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 import {CHMOD_REQUEST, STAT_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
@@ -60,17 +60,14 @@ const FileStatusDialogBox = () => {
 		high: sftp_highState,
 		stat,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {file_status_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
-	const uuid = file_status_dialog_box.uuid;
+	const uuid = form.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 	const closeModal = useCallback(() => {
-		dispatch({type: CLOSE_FILE_STATUS_DIALOG_BOX});
+		dispatch(dialogBoxAction.closeForm());
 		setOwner(null);
 		setGroup(null);
 		setPublic(null);
@@ -198,7 +195,7 @@ const FileStatusDialogBox = () => {
 	);
 
 	useEffect(() => {
-		if (file_status_dialog_box.open) {
+		if (form.open) {
 			dispatch({
 				type: STAT_REQUEST,
 				payload: {
@@ -208,7 +205,7 @@ const FileStatusDialogBox = () => {
 				},
 			});
 		}
-	}, [dispatch, highlight, path, socket, file_status_dialog_box.open]);
+	}, [dispatch, highlight, path, socket, form]);
 
 	useEffect(() => {
 		console.log(stat);
@@ -262,7 +259,7 @@ const FileStatusDialogBox = () => {
 	return (
 		checked.length !== 0 && (
 			<_PopupModal
-				isOpen={file_status_dialog_box.open}
+				isOpen={form.open && form.key === 'sftp_stat'}
 				onRequestClose={closeModal}
 				ariaHideApp={false}
 				shouldCloseOnOverlayClick={false}

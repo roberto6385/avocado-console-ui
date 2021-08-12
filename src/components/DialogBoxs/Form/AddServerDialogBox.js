@@ -6,16 +6,9 @@ import styled from 'styled-components';
 import {
 	CHANGE_IDENTITY_CHECKED,
 	CHANGE_PROTOCOL,
-	EDIT_SERVER,
-	ADD_SERVER,
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
-import {GetMessage} from '../../../ws/ssht_ws_logic';
-import {ssht_ws_request} from '../../../ws/ssht_ws_request';
-import {
-	CLOSE_SERVER_DIALOG_BOX,
-	dialogBoxAction,
-} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../../icons/icons';
@@ -32,7 +25,6 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
-import {AUTH} from '../../../reducers/api/auth';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
@@ -78,28 +70,6 @@ const _SecondItem = styled.div`
 	margin-left: 16px;
 `;
 
-const isValidHostname = (host) => {
-	if (
-		/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-			host,
-		)
-	)
-		return true;
-	return false;
-};
-
-const duplicationTest = (server, name, host, port, protocol) => {
-	const nameArray = server.filter((v) => name === v.name);
-	//name 제외
-	if (nameArray.length > 0) return false;
-	//host, port, protocol
-	const hostArray = server.filter((v) => host === v.host);
-	for (let i of hostArray) {
-		if (i.port === port && i.protocol === protocol) return false;
-	}
-	return true;
-};
-
 const AddServerDialogBox = () => {
 	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
@@ -107,11 +77,7 @@ const AddServerDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {add_server_dialog_box} = useSelector(
-		(state) => state.dialogBoxs,
-		shallowEqual,
-	);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 	// username, password는 이곳에서 가져와야 함.
 	const correspondedIdentity = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),
@@ -141,124 +107,44 @@ const AddServerDialogBox = () => {
 	];
 
 	const onClickCloseDialog = useCallback(() => {
-		dispatch({type: CLOSE_SERVER_DIALOG_BOX});
+		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
-			if (add_server_dialog_box.type === 'add') {
-				if (!duplicationTest(server, name, host, port, protocol)) {
-					dispatch(dialogBoxAction.openServer('server_duplicate'));
-				} else if (!isValidHostname(host)) {
-					dispatch(dialogBoxAction.openWarning('invalid_server'));
-				} else {
-					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
-					ws.binaryType = 'arraybuffer';
+			const correspondedIdentityList = identity.filter(
+				(v) => v.key === clicked_server,
+			);
+			const selectedIdentity = correspondedIdentityList.find(
+				(v) => v.identity_name === account,
+			);
 
-					ws.onerror = () => {
-						dispatch(dialogBoxAction.openWarning('invalid_server'));
-					};
-
-					ws.onopen = () => {
-						ssht_ws_request({
-							keyword: 'SendConnect',
-							ws: ws,
-							data: {
-								token: userData,
-								host: host,
-								user: username,
-								password: password,
-								port: port,
-							},
-						});
-					};
-
-					ws.onmessage = (evt) => {
-						const message = GetMessage(evt.data);
-						console.log(message);
-						if (message.type === 'CONNECT') {
-							ssht_ws_request({
-								keyword: 'SendDisconnect',
-								ws: ws,
-							});
-							const newData = {
-								name: name,
-								host: host,
-								user: username,
-								protocol: protocol,
-								password: password,
-								port: port,
-								auth: authentication,
-							};
-							if (add_server_dialog_box.type === 'add')
-								dispatch({
-									type: ADD_SERVER,
-									payload: newData,
-								});
-							else if (add_server_dialog_box.type === 'edit')
-								dispatch({
-									type: EDIT_SERVER,
-									payload: {
-										id: add_server_dialog_box.id,
-										data: newData,
-									},
-								});
-						} else if (message.type === 'DISCONNECT') {
-							dispatch({type: CLOSE_SERVER_DIALOG_BOX});
-						} else
-							console.log(
-								'V AddServerDialogBox onmessage: ',
-								message,
-							);
-					};
-				}
-			} else if (add_server_dialog_box.type === 'edit') {
-				const correspondedIdentityList = identity.filter(
-					(v) => v.key === clicked_server,
-				);
-				const selectedIdentity = correspondedIdentityList.find(
-					(v) => v.identity_name === account,
-				);
-
-				if (
-					correspondedIdentity !== selectedIdentity &&
-					account !== ''
-				) {
-					dispatch({
-						type: CHANGE_IDENTITY_CHECKED,
-						payload: {
-							prev: correspondedIdentity,
-							next: selectedIdentity,
-						},
-					});
-				}
-
-				clicked_server &&
-					dispatch({
-						type: CHANGE_PROTOCOL,
-						payload: {
-							protocol,
-							key: clicked_server,
-						},
-					});
-
-				onClickCloseDialog();
+			if (correspondedIdentity !== selectedIdentity && account !== '') {
+				dispatch({
+					type: CHANGE_IDENTITY_CHECKED,
+					payload: {
+						prev: correspondedIdentity,
+						next: selectedIdentity,
+					},
+				});
 			}
+
+			clicked_server &&
+				dispatch({
+					type: CHANGE_PROTOCOL,
+					payload: {
+						protocol,
+						key: clicked_server,
+					},
+				});
+
+			onClickCloseDialog();
 		},
 		[
-			add_server_dialog_box,
-			server,
-			name,
-			host,
-			port,
 			protocol,
 			dispatch,
-			userData,
-			username,
-			password,
-			authentication,
 			identity,
 			correspondedIdentity,
 			account,
@@ -268,44 +154,29 @@ const AddServerDialogBox = () => {
 	);
 
 	useEffect(() => {
-		if (add_server_dialog_box.open) {
+		if (form.open && form.key === 'server') {
 			//add new server
-			if (add_server_dialog_box.type === 'add') {
-				setName('');
-				setProtocol('SSH2');
-				setHost('');
-				setPort(0);
-				setAccount('');
-				setIdentityList([]);
-				setAuthentication('Password');
-				setPassword('');
-				setKeyFile('');
-				setUsername('');
-				setNote('');
-				//edit exist server
-			} else if (add_server_dialog_box.type === 'edit') {
-				const data = server.find(
-					(v) => v.id === add_server_dialog_box.id,
-				);
-				setName(data.name);
-				setProtocol(data.protocol);
-				setHost(data.host);
-				setPort(data.port);
-				setAccount(correspondedIdentity.identity_name);
-				setAuthentication(correspondedIdentity.type);
-				setPassword(correspondedIdentity.password);
-				// setIdentityList(
-				// 	identity.slice().filter((v) => v.key === clicked_server),
-				// );
-				setKeyFile('');
-				setUsername(correspondedIdentity.user);
-				setNote('');
-			}
+			console.log(server);
+			const data = server.find((v) => v.id === form.id);
+			console.log(data);
+
+			setName(data.name);
+			setProtocol(data.protocol);
+			setHost(data.host);
+			setPort(data.port);
+			setAccount(correspondedIdentity.identity_name);
+			setAuthentication(correspondedIdentity.type);
+			setPassword(correspondedIdentity.password);
+			// setIdentityList(
+			// 	identity.slice().filter((v) => v.key === clicked_server),
+			// );
+			setKeyFile('');
+			setUsername(correspondedIdentity.user);
+			setNote('');
 		}
 	}, [
-		add_server_dialog_box,
-		correspondedIdentity,
 		server,
+		correspondedIdentity,
 		setAccount,
 		setAuthentication,
 		setHost,
@@ -317,6 +188,7 @@ const AddServerDialogBox = () => {
 		setPort,
 		setProtocol,
 		setUsername,
+		form,
 	]);
 
 	useEffect(() => {
@@ -330,8 +202,8 @@ const AddServerDialogBox = () => {
 				label: item.identity_name,
 			};
 		});
-		add_server_dialog_box.type === 'edit' && setIdentityList(newArray);
-	}, [clicked_server, add_server_dialog_box, identity, setIdentityList]);
+		setIdentityList(newArray);
+	}, [clicked_server, server, identity, setIdentityList]);
 
 	useEffect(() => {
 		const correspondedIdentityList = identity.filter(
@@ -357,7 +229,7 @@ const AddServerDialogBox = () => {
 
 	return (
 		<_PopupModal
-			isOpen={add_server_dialog_box.open}
+			isOpen={form.open && form.key === 'server'}
 			onRequestClose={onClickCloseDialog}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

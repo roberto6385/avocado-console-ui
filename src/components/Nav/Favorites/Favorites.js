@@ -7,8 +7,8 @@ import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import FavoriteItemsTree from './FavoriteItemsTree';
 import {useDispatch} from 'react-redux';
-import {OPEN_ADD_FAVORITES_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import AddFavoritesDialogBox from '../../DialogBoxs/Form/AddFavoritesDialogBox';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -59,7 +59,7 @@ const Favorites = () => {
 
 	const [search, onChangeSearch] = useInput('');
 	const newFavorites = useCallback(() => {
-		dispatch({type: OPEN_ADD_FAVORITES_DIALOG_BOX});
+		dispatch(dialogBoxAction.openForm({key: 'favorites'}));
 	}, [dispatch]);
 
 	return (

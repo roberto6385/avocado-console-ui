@@ -5,10 +5,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
-import {
-	OPEN_SERVER_DIALOG_BOX,
-	OPEN_DELETE_DIALOG_BOX,
-} from '../../reducers/dialogBoxs';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {AUTH} from '../../reducers/api/auth';
@@ -92,16 +89,16 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 				case 'rename':
 					break;
 				case 'delete':
-					dispatch({
-						type: OPEN_DELETE_DIALOG_BOX,
-						payload: {key: 'delete_server_folder'},
-					});
+					dispatch(
+						dialogBoxAction.openAlert({
+							key: 'delete_server_folder',
+						}),
+					);
 					break;
 				case 'properties':
-					dispatch({
-						type: OPEN_SERVER_DIALOG_BOX,
-						payload: {id: data.id},
-					});
+					dispatch(
+						dialogBoxAction.openForm({id: data.id, key: 'server'}),
+					);
 					break;
 				default:
 					return;

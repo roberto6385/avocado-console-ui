@@ -71,7 +71,6 @@ const SSHContainer = ({uuid, server}) => {
 		shallowEqual,
 	);
 	const snippetRef = useRef();
-	const [isSnippetsManagerOpen, setIsSnippetsManagerOpend] = useState(false);
 	const [isToolbarUnfold, setIsToolbarUnfold] = useState(true);
 	const {show} = useContextMenu({
 		id: uuid + 'snippet',
@@ -136,14 +135,8 @@ const SSHContainer = ({uuid, server}) => {
 					))}
 			</_HeaderContainer>
 			<SSH uuid={uuid} isToolbarUnfold={isToolbarUnfold} />
-			<SnippetsManager
-				open={isSnippetsManagerOpen}
-				setOpen={setIsSnippetsManagerOpend}
-			/>
-			<SnippetContextMenu
-				uuid={uuid}
-				setOpen={setIsSnippetsManagerOpend}
-			/>
+			<SnippetsManager />
+			<SnippetContextMenu uuid={uuid} />
 		</_Container>
 	);
 };

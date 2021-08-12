@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -24,25 +23,27 @@ import {
 	userResourceAction,
 } from '../../../reducers/api/userResource';
 import {AUTH} from '../../../reducers/api/auth';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 404px;
 `;
 
-const ChangeUserNameDialogBox = ({open, setOpen}) => {
+const ChangeUserNameDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const nameRef = useRef(null);
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
 
 	const closeModal = useCallback(() => {
-		setOpen(false);
-	}, [setOpen]);
+		dispatch(dialogBoxAction.closeForm());
+	}, [dispatch]);
 
 	const onSubmitForm = useCallback(
 		(e) => {
@@ -76,7 +77,7 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 
 	return (
 		<_PopupModal
-			isOpen={open}
+			isOpen={form.open && form.key === 'userName'}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -112,11 +113,6 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 			</ModalFooter>
 		</_PopupModal>
 	);
-};
-
-ChangeUserNameDialogBox.propTypes = {
-	open: PropTypes.bool.isRequired,
-	setOpen: PropTypes.func.isRequired,
 };
 
 export default ChangeUserNameDialogBox;

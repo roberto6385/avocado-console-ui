@@ -105,9 +105,9 @@ function* sendConnection(action) {
 							//invalid server
 							if (res.result.includes('connection')) {
 								yield put(
-									dialogBoxAction.openWarning(
-										'invalid_server',
-									),
+									dialogBoxAction.openAlert({
+										key: 'invalid_server',
+									}),
 								);
 							}
 							//token expire
@@ -213,7 +213,9 @@ function* sendReConnection(action) {
 						//invalid server
 						if (res.result.includes('connection')) {
 							yield put(
-								dialogBoxAction.openWarning('invalid_server'),
+								dialogBoxAction.openAlert({
+									key: 'invalid_server',
+								}),
 							);
 						}
 						//token expire

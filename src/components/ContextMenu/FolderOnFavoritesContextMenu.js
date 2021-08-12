@@ -4,9 +4,9 @@ import {animation, Item} from 'react-contexify';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {OPEN_DELETE_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {DELETE_TEMP_FOLDER_ON_FAVORITES} from '../../reducers/common';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
@@ -26,10 +26,11 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 							payload: data.key,
 						});
 					} else {
-						dispatch({
-							type: OPEN_DELETE_DIALOG_BOX,
-							payload: {key: 'delete_server_folder'},
-						});
+						dispatch(
+							dialogBoxAction.openAlert({
+								key: 'delete_server_folder',
+							}),
+						);
 					}
 					break;
 				default:

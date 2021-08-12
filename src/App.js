@@ -25,7 +25,6 @@ import Toast_ from './components/RecycleComponents/Toast_';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
-import {properties} from './json/properties';
 import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
 import {ENCODE_DATA} from './api/constants';
 

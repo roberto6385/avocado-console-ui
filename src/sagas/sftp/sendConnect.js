@@ -94,7 +94,9 @@ function* sendCommand(action) {
 					case ERROR:
 						if (socket.readyState === 1) {
 							yield put(
-								dialogBoxAction.openWarning('invalid_server'),
+								dialogBoxAction.openAlert({
+									key: 'invalid_server',
+								}),
 							);
 						}
 						yield put({type: CONNECTION_FAILURE, payload: res.err});
@@ -114,7 +116,7 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put(dialogBoxAction.openWarning('invalid_server'));
+		yield put(dialogBoxAction.openAlert({key: 'invalid_server'}));
 		yield put({type: CONNECTION_FAILURE, payload: err});
 	}
 }

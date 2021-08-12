@@ -1,6 +1,5 @@
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -21,7 +20,7 @@ import {
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
 import {TextArea} from '../../styles/components/textArea';
-import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const _PopupModal = styled(DialogBox)`
 	width: 598px;
@@ -86,10 +85,11 @@ const _ListContainer = styled.div`
 	overflow: scroll;
 `;
 
-const SnippetsManager = ({open, setOpen}) => {
+const SnippetsManager = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
+	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 	const {snippets, snippents_index} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -135,8 +135,8 @@ const SnippetsManager = ({open, setOpen}) => {
 		setContent('');
 		setTempSnippets(snippets);
 		setIndex(snippents_index);
-		setOpen(false);
-	}, [snippets, snippents_index]);
+		dispatch(dialogBoxAction.closeForm());
+	}, [dispatch, snippets, snippents_index]);
 
 	const onClickSubmit = useCallback(() => {
 		const name = tempSnippets.map((v) => {
@@ -147,9 +147,11 @@ const SnippetsManager = ({open, setOpen}) => {
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
-			dispatch(dialogBoxAction.openServer('snippets_blank'));
+			dispatch(dialogBoxAction.openForm({key: 'snippets_blank'}));
 		} else if (new Set(name).size !== name.length) {
-			dispatch(dialogBoxAction.openServer('snippets_name_duplicate'));
+			dispatch(
+				dialogBoxAction.openForm({key: 'snippets_name_duplicate'}),
+			);
 		} else {
 			const deleteSnippets = snippets.filter(
 				(x) => !tempSnippets.map((x) => x.id).includes(x.id),
@@ -197,10 +199,9 @@ const SnippetsManager = ({open, setOpen}) => {
 					},
 				});
 			}
-
-			setOpen(false);
+			dispatch(dialogBoxAction.closeForm());
 		}
-	}, [snippets, tempSnippets, index]);
+	}, [dispatch, snippets, tempSnippets, index]);
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
@@ -250,7 +251,7 @@ const SnippetsManager = ({open, setOpen}) => {
 	}, [selectedSnippet, tempSnippets]);
 
 	useEffect(() => {
-		if (open) {
+		if (form.open && form.key === 'snippet') {
 			if (snippets.length !== 0) {
 				setSelectedSnippet(snippets[0].id);
 				setName(snippets[0].name);
@@ -263,11 +264,11 @@ const SnippetsManager = ({open, setOpen}) => {
 			setIndex(snippents_index);
 			setTempSnippets(snippets);
 		}
-	}, [open, snippets, snippents_index, nameInputRef]);
+	}, [form, snippets, snippents_index, nameInputRef]);
 
 	return (
 		<_PopupModal
-			isOpen={open}
+			isOpen={form.open && form.key === 'snippet'}
 			onRequestClose={onClickCancel}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -342,11 +343,6 @@ const SnippetsManager = ({open, setOpen}) => {
 			</ModalFooter>
 		</_PopupModal>
 	);
-};
-
-SnippetsManager.propTypes = {
-	open: PropTypes.bool.isRequired,
-	setOpen: PropTypes.func.isRequired,
 };
 
 export default SnippetsManager;

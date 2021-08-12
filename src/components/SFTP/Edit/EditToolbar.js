@@ -2,10 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
-import {
-	dialogBoxAction,
-	OPEN_SAVE_DIALOG_BOX,
-} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
 import {
 	fileDownloadIcon,
@@ -80,22 +77,16 @@ const EditToolbar = ({uuid}) => {
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {
 			// 변경 내용이 없습니다.
-			dispatch(dialogBoxAction.openServer('no_changes'));
+			dispatch(dialogBoxAction.openForm({key: 'no_changes'}));
 		} else {
 			// 저장하시겠습니까?
-			dispatch({
-				type: OPEN_SAVE_DIALOG_BOX,
-				payload: {key: 'sftp_edit_save', uuid},
-			});
+			dispatch(dialogBoxAction.openAlert({key: 'sftp_edit_save', uuid}));
 		}
 	}, [text, editText, dispatch, uuid]);
 
 	const closeEditMode = useCallback(() => {
 		if (text !== editText) {
-			dispatch({
-				type: OPEN_SAVE_DIALOG_BOX,
-				payload: {key: 'sftp_edit_close', uuid},
-			});
+			dispatch(dialogBoxAction.openAlert({key: 'sftp_edit_close', uuid}));
 		} else {
 			dispatch({type: CLOSE_EDITOR, payload: {uuid}});
 			dispatch({
