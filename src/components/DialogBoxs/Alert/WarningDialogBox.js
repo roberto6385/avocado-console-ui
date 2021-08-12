@@ -34,9 +34,16 @@ const WarningDialogBox = () => {
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
+	const keyArray = [
+		'invalid_server',
+		'developing',
+		'wrong_path',
+		'folder_names_on_favorites_duplicated',
+	];
+
 	return (
 		<AlertDialogBox
-			isOpen={alert.open}
+			isOpen={alert.open && keyArray.includes(alert.key)}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

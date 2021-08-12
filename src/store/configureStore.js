@@ -8,12 +8,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
 	reducer: rootReducer,
 	devTools: process.env.NODE_ENV !== 'production',
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-			},
-		}).concat(sagaMiddleware),
+	middleware: [sagaMiddleware],
 });
 
 sagaMiddleware.run(rootSaga);

@@ -214,9 +214,11 @@ const SaveDialogBox = () => {
 		],
 	);
 
+	const keyArray = ['sftp_edit_save', 'sftp_edit_close', 'save_favorites'];
+
 	return (
 		<AlertDialogBox
-			isOpen={alert.open}
+			isOpen={alert.open && keyArray.includes(alert.key)}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

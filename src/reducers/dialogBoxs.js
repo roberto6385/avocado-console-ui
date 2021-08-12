@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-// todo alert, dialogForm 구분해서 2case state만 생성해도 될거같아요~
 const slice = createSlice({
 	name: 'dialogBox',
 	initialState: {
@@ -14,7 +13,7 @@ const slice = createSlice({
 			if (action.payload.id) state.alert.id = action.payload.id;
 		},
 		closeAlert: (state) => {
-			state.confirm = {open: false};
+			state.alert = {open: false};
 		},
 		openForm: (state, action) => {
 			state.form = {open: true, key: action.payload.key};

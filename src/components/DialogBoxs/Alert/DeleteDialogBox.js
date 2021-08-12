@@ -60,6 +60,13 @@ const DeleteDialogBox = () => {
 		delete_account: t('deleteAccount'),
 	};
 
+	const keyArray = [
+		'sftp_delete_file_folder',
+		'sftp_delete_history',
+		'delete_server_folder',
+		'delete_account',
+	];
+
 	const closeModal = useCallback(() => {
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
@@ -204,7 +211,7 @@ const DeleteDialogBox = () => {
 
 	return (
 		<AlertDialogBox
-			isOpen={alert.open}
+			isOpen={alert.open && keyArray.includes(alert.key)}
 			onRequestClose={cancelFunction}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

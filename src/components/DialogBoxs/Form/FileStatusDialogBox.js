@@ -195,7 +195,7 @@ const FileStatusDialogBox = () => {
 	);
 
 	useEffect(() => {
-		if (form.open) {
+		if (form.open && form.key === 'sftp_stat') {
 			dispatch({
 				type: STAT_REQUEST,
 				payload: {

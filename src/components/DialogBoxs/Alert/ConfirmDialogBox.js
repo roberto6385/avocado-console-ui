@@ -15,11 +15,12 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
-import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const ConfirmDialogBox = () => {
 	const {t} = useTranslation('confirmDialogBox');
 	const dispatch = useDispatch();
+	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const AlertMessage = {
 		invalid_server: t('invalidServer'),
@@ -33,13 +34,25 @@ const ConfirmDialogBox = () => {
 		wrong_path: t('wrongPath'),
 	};
 
+	const keyArray = [
+		'invalid_server',
+		'lost_server',
+		'snippets_name_duplicate',
+		'snippets_blank',
+		'server_duplicate',
+		'folder_name_duplicate',
+		'no_changes',
+		'developing',
+		'wrong_path',
+	];
+
 	const onClickCloseModal = useCallback(() => {
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
 	return (
 		<AlertDialogBox
-			isOpen={confirm.open}
+			isOpen={alert.open && keyArray.includes(alert.key)}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}

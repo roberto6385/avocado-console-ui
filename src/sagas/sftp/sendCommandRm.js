@@ -52,6 +52,15 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 				yield put({
+					type: PWD_REQUEST,
+					paylod: {
+						socket: payload.socket,
+						uuid: payload.uuid,
+						pwd_path: null,
+					},
+				});
+
+				yield put({
 					type: REMOVE_NEW_WEBSOCKET_REQUEST,
 					payload: {
 						socket: payload.remove_socket,
@@ -67,14 +76,6 @@ function* sendCommand(action) {
 				yield put({
 					type: SHIFT_SOCKETS,
 					payload: {uuid: payload.uuid, todo: 'remove'},
-				});
-				yield put({
-					type: PWD_REQUEST,
-					paylod: {
-						socket: payload.socket,
-						uuid: payload.uuid,
-						pwd_path: null,
-					},
 				});
 			} else {
 				// const data = yield take(channel);

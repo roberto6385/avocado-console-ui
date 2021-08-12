@@ -127,7 +127,7 @@ const AddFavoritesDialogBox = () => {
 	}, [dispatch, t]);
 
 	useEffect(() => {
-		if (form.open) {
+		if (form.open && form.key === 'favorites') {
 			dispatch({type: INIT_TEMP_FAVORITES});
 		}
 	}, [form, dispatch]);

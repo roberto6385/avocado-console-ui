@@ -47,6 +47,13 @@ const InputDialogBox = () => {
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 
+	const keyArray = [
+		'sftp_rename_file_folder',
+		'sftp_chgrp',
+		'sftp_chown',
+		'sftp_new_folder',
+	];
+
 	const HeaderMessage = {
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),
@@ -166,12 +173,6 @@ const InputDialogBox = () => {
 		}
 	}, [highlight, form]);
 
-	const keyArray = [
-		'sftp_rename_file_folder',
-		'sftp_chgrp',
-		'sftp_chown',
-		'sftp_new_folder',
-	];
 	return (
 		<_PopupModal
 			isOpen={form.open && keyArray.includes(form.key)}
