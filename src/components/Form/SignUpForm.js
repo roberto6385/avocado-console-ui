@@ -11,7 +11,7 @@ import {
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
-import {userAction} from '../../reducers/auth/user';
+import {userResourceAction} from '../../reducers/api/userResource';
 import {
 	UserForm,
 	UserInput,
@@ -22,6 +22,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
+import {AUTH} from '../../reducers/api/auth';
 
 const _PrimaryGreenButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -31,7 +32,7 @@ const SignUpForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('signUpForm');
 
-	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const [id, onChangeId, setId] = useInput('test');
 	const [name, onChangeName, setName] = useInput('테스트');
@@ -67,7 +68,12 @@ const SignUpForm = () => {
 					console.log('비밀번호가 서로 다릅니다.');
 				} else {
 					dispatch(
-						userAction.createRequest({id, name, email, password}),
+						userResourceAction.createRequest({
+							id,
+							name,
+							email,
+							password,
+						}),
 					);
 				}
 			}

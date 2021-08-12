@@ -7,14 +7,14 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {DropDownMenu} from '../../styles/components/contextMenu';
-import {REVOKE_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
+import {AUTH, authAction} from '../../reducers/api/auth';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 
 	const {side_key} = useSelector((state) => state.common, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const openSideMenu = useCallback(
 		(key) => () => {
@@ -32,13 +32,12 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 	);
 
 	const logout = useCallback(() => {
-		dispatch({
-			type: REVOKE_USER_TICKET_REQUEST,
-			payload: {
-				Authorization: 'Bearer ' + userTicket.access_token,
-			},
-		});
-	}, [dispatch, userTicket]);
+		dispatch(
+			authAction.revokeRequest({
+				Authorization: 'Bearer ' + userData.access_token,
+			}),
+		);
+	}, [dispatch, userData]);
 
 	return (
 		<DropDownMenu id={'account'} animation={animation.slide}>

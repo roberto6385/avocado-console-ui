@@ -5,7 +5,8 @@ import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {SAVE_ACCOUT} from '../reducers/common';
-import {userAction} from '../reducers/auth/user';
+import {USER_RESOURCE, userResourceAction} from '../reducers/api/userResource';
+import {AUTH} from '../reducers/api/auth';
 
 const _Container = styled.div`
 	display: flex;
@@ -19,38 +20,38 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {user} = useSelector((state) => state.user, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
 
 	useEffect(() => {
-		if (userTicket) {
-			console.log(userTicket);
+		if (userData) {
+			console.log(userData);
 			dispatch(
-				userAction.findByIdRequest({
-					access_token: userTicket.access_token,
-					id: userTicket.user_id,
+				userResourceAction.findByIdRequest({
+					access_token: userData.access_token,
+					id: userData.user_id,
 				}),
 			);
 		} else {
 			history.push('/signin');
 			location.reload();
 		}
-	}, [dispatch, history, userTicket]);
+	}, [dispatch, history, userData]);
 
 	useEffect(() => {
-		if (user) {
-			console.log(user);
+		if (data) {
+			console.log(data);
 
 			dispatch({
 				type: SAVE_ACCOUT,
 				payload: {
-					account: user.id,
-					name: user.name,
-					email: user.email,
+					account: data.id,
+					name: data.name,
+					email: data.email,
 				},
 			});
 		}
-	}, [dispatch, user]);
+	}, [dispatch, data]);
 
 	return (
 		<_Container>

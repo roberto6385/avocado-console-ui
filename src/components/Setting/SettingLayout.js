@@ -7,6 +7,7 @@ import Footer from '../Footer';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {SAVE_ACCOUT} from '../../reducers/common';
 import {avocadoLogo} from '../../icons/icons';
+import {USER_RESOURCE} from '../../reducers/api/userResource';
 
 const _Container = styled.div`
 	display: flex;
@@ -41,24 +42,24 @@ const _Header = styled.div`
 
 const SettingAppLayout = ({children}) => {
 	const dispatch = useDispatch();
-	const {userInfo} = useSelector((state) => state.userTicket, shallowEqual);
+	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
 
 	useEffect(() => {
-		if (userInfo) {
-			const email = userInfo.email;
+		if (data) {
+			const email = data.email;
 			const index = email.indexOf('@');
 			const id = email.substring(0, index);
 
 			dispatch({
 				type: SAVE_ACCOUT,
 				payload: {
-					account: userInfo.id === id ? userInfo.id : id,
-					name: userInfo.name,
-					email: userInfo.email,
+					account: data.id === id ? data.id : id,
+					name: data.name,
+					email: data.email,
 				},
 			});
 		}
-	}, [dispatch, userInfo]);
+	}, [dispatch, data]);
 
 	return (
 		<_Container>

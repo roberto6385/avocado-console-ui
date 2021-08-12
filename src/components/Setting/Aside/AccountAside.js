@@ -7,6 +7,8 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
+import {USER_RESOURCE} from '../../../reducers/api/userResource';
+import {AUTH} from '../../../reducers/api/auth';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
@@ -30,8 +32,11 @@ const AccountAside = () => {
 	const {t} = useTranslation('accountSpace');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {user} = useSelector((state) => state.user, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {data: userResourceData} = useSelector(
+		(state) => state[USER_RESOURCE],
+		shallowEqual,
+	);
 	const {account} = useSelector((state) => state?.common, shallowEqual);
 
 	const changePath = useCallback(
@@ -48,12 +53,12 @@ const AccountAside = () => {
 			// dispatch({
 			// 	type: DELETE_USER_ACCOUNT_REQUEST,
 			// 	payload: {
-			// 		userUid: user.userUid,
-			// 		token: userTicket.access_token,
+			// 		userUid: userResourceData.userUid,
+			// 		token: userData.access_token,
 			// 	},
 			// });
 		},
-		[dispatch, user, userTicket],
+		[dispatch, userResourceData, userData],
 	);
 
 	return (

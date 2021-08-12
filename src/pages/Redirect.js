@@ -1,11 +1,7 @@
 import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {
-	ALTERNATIVE_TICKET_REQUEST,
-	AUTH_WITH_GOOGLE_REQUEST,
-	GET_CLIENT_TICKET_REQUEST,
-} from '../reducers/auth/userTicket';
+import {AUTH, authAction} from '../reducers/api/auth';
 import background from '../images/loginBackground/login_bg_design_2.png';
 import styled from 'styled-components';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -27,32 +23,31 @@ const Redirect = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const {userTicket, clientTicket, alternative} = useSelector(
-		(state) => state.userTicket,
+	const {userData, clientData, alternativeData} = useSelector(
+		(state) => state[AUTH],
 		shallowEqual,
 	);
 
 	useEffect(() => {
-		if (clientTicket && alternative) {
-			dispatch({
-				type: ALTERNATIVE_TICKET_REQUEST,
-				payload: {
-					auth: clientTicket.access_token,
-					alternativeAuth: alternative.access_token,
-					email: alternative.email,
-				},
-			});
+		if (clientData && alternativeData) {
+			dispatch(
+				authAction.alternativeRequest({
+					auth: clientData.access_token,
+					alternativeAuth: alternativeData.access_token,
+					email: alternativeData.email,
+				}),
+			);
 		}
-	}, [clientTicket, alternative, dispatch]);
+	}, [clientData, alternativeData, dispatch]);
 
 	useEffect(() => {
-		dispatch({type: GET_CLIENT_TICKET_REQUEST});
-		dispatch({type: AUTH_WITH_GOOGLE_REQUEST});
+		dispatch(authAction.clientRequest());
+		dispatch(authAction.googleRequest());
 	}, [dispatch, history]);
 
 	useEffect(() => {
-		if (userTicket) history.push('/');
-	}, [history, userTicket]);
+		if (userData) history.push('/');
+	}, [history, userData]);
 
 	return (
 		<_Container>

@@ -1,12 +1,10 @@
 import {all, call, fork, put, takeLatest} from 'redux-saga/effects';
 import axios from 'axios';
-import {userAction} from '../../reducers/auth/user';
-
-import {REVOKE_USER_TICKET_SUCCESS} from '../../reducers/auth/userTicket';
-import {getClientTicketApi} from './userTicket';
+import {userResourceAction} from '../../reducers/api/userResource';
+import {clientAuthApi} from './auth';
 import {config} from '../../api/config';
 
-async function createUserAccountApi(payload) {
+async function createUserApi(payload) {
 	console.log(payload);
 	return await axios.post(
 		`/open/api/v1/users`,
@@ -29,23 +27,23 @@ async function createUserAccountApi(payload) {
 	);
 }
 
-function* createUserAccount(action) {
+function* createUser(action) {
 	try {
 		console.log(action.payload);
-		const client = yield call(getClientTicketApi);
-		const user = yield call(createUserAccountApi, {
+		const client = yield call(clientAuthApi);
+		const user = yield call(createUserApi, {
 			...action.payload,
 			token: client.data.access_token,
 		});
 		console.log(user);
-		yield put(userAction.createSuccess(user));
+		yield put(userResourceAction.createSuccess(user));
 	} catch (err) {
 		console.log(err);
-		yield put(userAction.createFailure(err));
+		yield put(userResourceAction.createFailure(err));
 	}
 }
 
-async function modifyUserAccountApi(payload) {
+async function modifyUserApi(payload) {
 	console.log(payload);
 	return await axios.put(
 		`/open/api/v1/users/${payload.userUid}`,
@@ -63,18 +61,18 @@ async function modifyUserAccountApi(payload) {
 	);
 }
 
-function* modifyUserAccount(action) {
+function* modifyUser(action) {
 	try {
-		const res = yield call(modifyUserAccountApi, action.payload);
+		const res = yield call(modifyUserApi, action.payload);
 		console.log(res);
-		yield put(userAction.modifySuccess(res.data));
+		yield put(userResourceAction.modifySuccess(res.data));
 	} catch (err) {
 		console.log(err);
-		yield put(userAction.modifyFailure(err));
+		yield put(userResourceAction.modifyFailure(err));
 	}
 }
 
-async function deleteTokenApi(payload) {
+async function deleteUserApi(payload) {
 	console.log(payload);
 	return await axios.delete(`/open/api/v1/users/${payload.userUid}`, {
 		headers: {
@@ -84,15 +82,15 @@ async function deleteTokenApi(payload) {
 		baseURL: config.api,
 	});
 }
-function* deleteUserAccount(action) {
+function* deleteUser(action) {
 	try {
-		const res = yield call(deleteTokenApi, action.payload);
+		const res = yield call(deleteUserApi, action.payload);
 		console.log(res);
-		yield put(userAction.deleteSuccess(res.data));
-		yield put({type: REVOKE_USER_TICKET_SUCCESS});
+		yield put(userResourceAction.deleteSuccess(res.data));
+		//todo external action => revoke
 	} catch (err) {
 		console.log(err);
-		yield put(userAction.deleteFailure(err));
+		yield put(userResourceAction.deleteFailure(err));
 	}
 }
 
@@ -112,33 +110,33 @@ function* findUserById(action) {
 	try {
 		const res = yield call(findUserByIdApi, action.payload);
 		console.log(res);
-		yield put(userAction.findByIdSuccess(res.data));
+		yield put(userResourceAction.findByIdSuccess(res.data));
 	} catch (err) {
-		yield put(userAction.findByIdFailure(err));
+		yield put(userResourceAction.findByIdFailure(err));
 	}
 }
 
-function* watchCreateUserAccount() {
-	yield takeLatest(userAction.createRequest, createUserAccount);
+function* watchCreateUser() {
+	yield takeLatest(userResourceAction.createRequest, createUser);
 }
 
-function* watchModifyUserAccount() {
-	yield takeLatest(userAction.modifyRequest, modifyUserAccount);
+function* watchModifyUser() {
+	yield takeLatest(userResourceAction.modifyRequest, modifyUser);
 }
 
-function* watchDeleteUserAccount() {
-	yield takeLatest(userAction.deleteRequest, deleteUserAccount);
+function* watchDeleteUser() {
+	yield takeLatest(userResourceAction.deleteRequest, deleteUser);
 }
 
 function* watchFindUserById() {
-	yield takeLatest(userAction.findByIdRequest, findUserById);
+	yield takeLatest(userResourceAction.findByIdRequest, findUserById);
 }
 
-export default function* userSaga() {
+export default function* userResourceSaga() {
 	yield all([
-		fork(watchCreateUserAccount),
-		fork(watchModifyUserAccount),
-		fork(watchDeleteUserAccount),
+		fork(watchCreateUser),
+		fork(watchModifyUser),
+		fork(watchDeleteUser),
 		fork(watchFindUserById),
 	]);
 }

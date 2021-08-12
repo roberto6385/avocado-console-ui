@@ -15,6 +15,7 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
+import {AUTH} from '../../../reducers/api/auth';
 
 const DropList_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const DropList_ = ({uuid}) => {
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],
@@ -292,7 +293,7 @@ const DropList_ = ({uuid}) => {
 					dispatch({
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
-							token: userTicket.access_token, // connection info
+							token: userData.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
 							user: correspondedIdentity.user,
@@ -310,7 +311,7 @@ const DropList_ = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket,
+			userData,
 			corServer.host,
 			corServer.port,
 			correspondedIdentity.user,
@@ -339,7 +340,7 @@ const DropList_ = ({uuid}) => {
 					dispatch({
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
-							token: userTicket.access_token, // connection info
+							token: userData.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
 							user: correspondedIdentity.user,
@@ -357,7 +358,7 @@ const DropList_ = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket,
+			userData,
 			corServer.host,
 			corServer.port,
 			correspondedIdentity.user,

@@ -5,7 +5,6 @@ import {
 	CLOSE_ADD_FAVORITES_DIALOG_BOX,
 	CLOSE_SAVE_DIALOG_BOX,
 } from '../../../reducers/dialogBoxs';
-import styled from 'styled-components';
 
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
@@ -33,6 +32,7 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
+import {AUTH} from '../../../reducers/api/auth';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const SaveDialogBox = () => {
 		edit: sftp_editState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -148,7 +148,7 @@ const SaveDialogBox = () => {
 						dispatch({
 							type: CREATE_NEW_WEBSOCKET_REQUEST,
 							payload: {
-								token: userTicket.access_token, // connection info
+								token: userData.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
 								user: correspondedIdentity.user,
@@ -179,7 +179,7 @@ const SaveDialogBox = () => {
 						dispatch({
 							type: CREATE_NEW_WEBSOCKET_REQUEST,
 							payload: {
-								token: userTicket.access_token, // connection info
+								token: userData.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
 								user: correspondedIdentity.user,
@@ -220,7 +220,7 @@ const SaveDialogBox = () => {
 			server,
 			closeModal,
 			dispatch,
-			userTicket,
+			userData,
 		],
 	);
 

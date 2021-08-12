@@ -11,12 +11,13 @@ import {
 } from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
+import {AUTH} from '../../reducers/api/auth';
 
 const ServerContextMenu = ({correspondedIdentity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],
@@ -38,7 +39,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
-				token: userTicket.access_token, // connection info
+				token: userData.access_token, // connection info
 				host: correspondedServer.host,
 				port: correspondedServer.port,
 				user: correspondedIdentity.user,
@@ -52,7 +53,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 	}, [
 		server,
 		dispatch,
-		userTicket,
+		userData,
 		correspondedIdentity.user,
 		correspondedIdentity.password,
 		data.key,
@@ -64,7 +65,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
-				token: userTicket.access_token,
+				token: userData.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
 				password: correspondedIdentity.password,
@@ -73,7 +74,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 	}, [
 		server,
 		dispatch,
-		userTicket,
+		userData,
 		correspondedIdentity.user,
 		correspondedIdentity.password,
 		data.key,

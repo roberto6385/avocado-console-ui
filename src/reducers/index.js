@@ -4,21 +4,19 @@ import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
 import dialogBoxs from './dialogBoxs';
-import {USER, userReducer} from './auth/user';
-import userTicket from './auth/userTicket';
+import {USER_RESOURCE, userResourceReducer} from './api/userResource';
+import {AUTH, authReducer} from './api/auth';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
 
-export const userTicketFilter = createWhitelistFilter('userTicket', [
-	'userTicket',
-]);
+export const authFilter = createWhitelistFilter(AUTH, [AUTH]);
 
 const persistConfig = {
 	key: 'root',
 	storage: storageSession,
-	whitelist: ['userTicket'],
-	transforms: [userTicketFilter],
+	whitelist: [AUTH],
+	transforms: [authFilter],
 };
 
 const commonLocalPersistConfig = {
@@ -38,8 +36,8 @@ const rootReducer = combineReducers({
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	dialogBoxs,
-	userTicket,
-	[USER]: userReducer,
+	[AUTH]: authReducer,
+	[USER_RESOURCE]: userResourceReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

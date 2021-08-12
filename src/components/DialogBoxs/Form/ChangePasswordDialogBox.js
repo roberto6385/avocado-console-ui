@@ -19,7 +19,11 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
-import {userAction} from '../../../reducers/auth/user';
+import {
+	USER_RESOURCE,
+	userResourceAction,
+} from '../../../reducers/api/userResource';
+import {AUTH} from '../../../reducers/api/auth';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -30,8 +34,11 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changePasswordForm');
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {user} = useSelector((state) => state.user, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {data: userResourceData} = useSelector(
+		(state) => state[USER_RESOURCE],
+		shallowEqual,
+	);
 
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
@@ -71,11 +78,11 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 				passwordRef.current?.focus();
 			} else {
 				dispatch(
-					userAction.modifyRequest({
-						userUid: user.userUid,
-						name: user.name,
+					userResourceAction.modifyRequest({
+						userUid: userResourceData.userUid,
+						name: userResourceData.name,
 						password: password,
-						access_token: userTicket.access_token,
+						access_token: userData.access_token,
 					}),
 				);
 				closeModal();
@@ -89,8 +96,8 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 			setPassword,
 			setConfrimPassword,
 			dispatch,
-			user,
-			userTicket,
+			userResourceData,
+			userData,
 			closeModal,
 		],
 	);

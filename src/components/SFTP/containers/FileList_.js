@@ -13,6 +13,7 @@ import {
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
+import {AUTH} from '../../../reducers/api/auth';
 
 const FileList_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const FileList_ = ({uuid}) => {
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
@@ -125,7 +126,7 @@ const FileList_ = ({uuid}) => {
 					dispatch({
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						paylaod: {
-							token: userTicket.access_token, // connection info
+							token: userData.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
 							user: correspondedIdentity.user,
@@ -143,7 +144,7 @@ const FileList_ = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket,
+			userData,
 			corServer,
 			correspondedIdentity,
 		],
@@ -172,7 +173,7 @@ const FileList_ = ({uuid}) => {
 					dispatch({
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
-							token: userTicket.access_token, // connection info
+							token: userData.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
 							user: correspondedIdentity.user,
@@ -190,7 +191,7 @@ const FileList_ = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket,
+			userData,
 			corServer,
 			correspondedIdentity,
 		],

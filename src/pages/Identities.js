@@ -4,18 +4,19 @@ import {useHistory} from 'react-router-dom';
 
 import SettingAppLayout from '../components/Setting/SettingLayout';
 import IdentitiesSpace from '../components/Setting/Space/IdentitiesSpace';
+import {AUTH} from '../reducers/api/auth';
 
 const Identities = () => {
 	const history = useHistory();
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	useEffect(() => {
-		if (!userTicket) {
+		if (!userData) {
 			history.push('/signin');
 			location.reload();
 		}
-	}, [history, userTicket]);
+	}, [history, userData]);
 
 	return (
 		<SettingAppLayout>

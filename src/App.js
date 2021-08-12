@@ -20,10 +20,7 @@ import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
 import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
 import InputDialogBox from './components/DialogBoxs/Form/InputDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
-import {
-	REFRESH_USER_TICKET_REQUEST,
-	REVOKE_USER_TICKET_SUCCESS,
-} from './reducers/auth/userTicket';
+import {AUTH, authAction} from './reducers/api/auth';
 import Toast_ from './components/RecycleComponents/Toast_';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
@@ -35,7 +32,7 @@ import {ENCODE_DATA} from './api/constants';
 const App = () => {
 	const dispatch = useDispatch();
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	// const handleOnIdle = useCallback(() => {
@@ -45,33 +42,32 @@ const App = () => {
 
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
-		if (userTicket) {
-			dispatch({type: REVOKE_USER_TICKET_SUCCESS});
+		if (userData) {
+			dispatch(authAction.revokeRequest());
 		}
-	}, [userTicket]);
+	}, [dispatch, userData]);
 
 	const handleOnAction = useCallback(() => {
 		// sessionStorage.setItem('lastTouchTime', Date.now());
-		if (userTicket) {
+		if (userData) {
 			//from 10 min before expire token
 			if (
-				Date.now() - userTicket.expires_in * 1000 + 10 * 60 * 1000 >
-				Date.parse(userTicket.create_date)
+				Date.now() - userData.expires_in * 1000 + 10 * 60 * 1000 >
+				Date.parse(userData.create_date)
 			) {
-				dispatch({
-					type: REFRESH_USER_TICKET_REQUEST,
-					payload: {
-						refresh_token: userTicket.refresh_token,
+				dispatch(
+					authAction.refreshRequest({
+						refresh_token: userData.refresh_token,
 						Authorization: 'Basic ' + ENCODE_DATA,
-					},
-				});
+					}),
+				);
 			}
 		}
-	}, [userTicket]);
+	}, [dispatch, userData]);
 
 	//TODO VARIFY_USER_TICKET_REQUEST로 토큰유효성 테스트 해야함.
 	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
-		timeout: userTicket?.expires_in * 1000,
+		timeout: userData?.expires_in * 1000,
 		// onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
@@ -79,12 +75,12 @@ const App = () => {
 	});
 
 	useEffect(() => {
-		if (userTicket) start();
+		if (userData) start();
 		else {
 			reset();
 			pause();
 		}
-	}, [userTicket]);
+	}, [userData]);
 
 	return (
 		<BrowserRouter>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import {GET_USER_TICKET_REQUEST} from '../../reducers/auth/userTicket';
+import {AUTH, authAction} from '../../reducers/api/auth';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import appleButton from '../../images/alternativeAuth/apple_btn.png';
@@ -27,6 +27,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
+import {GOOGLE_LOCATION} from '../../api/constants';
 
 const _UserForm = styled(UserForm)`
 	height: 650px;
@@ -81,7 +82,7 @@ const SignInForm = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('signInForm');
 
-	const {loading} = useSelector((state) => state.userTicket, shallowEqual);
+	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
@@ -105,13 +106,12 @@ const SignInForm = () => {
 
 				setUser('');
 				setPassword('');
-				dispatch({
-					type: GET_USER_TICKET_REQUEST,
-					payload: {
+				dispatch(
+					authAction.userRequest({
 						username: user,
 						password: password,
-					},
-				});
+					}),
+				);
 			}
 		},
 		[user, password, rememberMe, setUser, setPassword, dispatch],
@@ -145,12 +145,7 @@ const SignInForm = () => {
 				break;
 			case 'googleButton':
 				console.log('google');
-				location.href =
-					'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=819744979674-dastdmj1j5k8coluu2vofclsi3kvo90h.apps.googleusercontent.com&redirect_uri=' +
-					window.location.protocol +
-					'//' +
-					window.location.host +
-					'/Redirect&scope=email%20profile&state=myState&access_type=offline&prompt=consent';
+				location.href = GOOGLE_LOCATION;
 				break;
 			case 'appleButton':
 				break;

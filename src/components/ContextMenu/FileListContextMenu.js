@@ -11,6 +11,7 @@ import {
 	OPEN_FILE_STATUS_DIALOG_BOX,
 	OPEN_DELETE_DIALOG_BOX,
 } from '../../reducers/dialogBoxs';
+import {AUTH} from '../../reducers/api/auth';
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const FileListContextMenu = ({uuid}) => {
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],
@@ -75,7 +76,7 @@ const FileListContextMenu = ({uuid}) => {
 			dispatch({
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
-					token: userTicket.access_token, // connection info
+					token: userData.access_token, // connection info
 					host: corServer.host,
 					port: corServer.port,
 					user: correspondedIdentity.user,
@@ -92,7 +93,7 @@ const FileListContextMenu = ({uuid}) => {
 		uuid,
 		highlight,
 		path,
-		userTicket,
+		userData,
 		corServer,
 		correspondedIdentity,
 	]);
@@ -117,7 +118,7 @@ const FileListContextMenu = ({uuid}) => {
 			dispatch({
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
-					token: userTicket.access_token, // connection info
+					token: userData.access_token, // connection info
 					host: corServer.host,
 					port: corServer.port,
 					user: correspondedIdentity.user,
@@ -134,7 +135,7 @@ const FileListContextMenu = ({uuid}) => {
 		dispatch,
 		uuid,
 		path,
-		userTicket,
+		userData,
 		corServer,
 		correspondedIdentity,
 	]);

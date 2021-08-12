@@ -31,6 +31,7 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
+import {AUTH} from '../../../reducers/api/auth';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const DeleteDialogBox = () => {
 		accountListControlId,
 		accountCheckList,
 	} = useSelector((state) => state.common, shallowEqual);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {delete_dialog_box} = useSelector(
 		(state) => state.dialogBoxs,
 		shallowEqual,
@@ -111,7 +112,7 @@ const DeleteDialogBox = () => {
 						dispatch({
 							type: CREATE_NEW_WEBSOCKET_REQUEST,
 							payload: {
-								token: userTicket.access_token, // connection info
+								token: userData.access_token, // connection info
 								host: corServer.host,
 								port: corServer.port,
 								user: correspondedIdentity.user,
@@ -197,7 +198,7 @@ const DeleteDialogBox = () => {
 			tab,
 			server,
 			identity,
-			userTicket,
+			userData,
 			sftp_historyState,
 			accountListControlId,
 			accountCheckList,

@@ -12,6 +12,7 @@ import {
 	LOCAL_SAVE_FAVORITES,
 } from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
+import {AUTH} from '../../reducers/api/auth';
 
 const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 	const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const menu = {
 		connect: t('connectSsh'),
@@ -34,7 +35,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
-				token: userTicket.access_token, // connection info
+				token: userData.access_token, // connection info
 				host: correspondedServer.host,
 				port: correspondedServer.port,
 				user: correspondedIdentity.user,
@@ -45,7 +46,7 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 				id: correspondedServer.id,
 			},
 		});
-	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
+	}, [server, dispatch, userData, correspondedIdentity, data.key]);
 
 	const openSSH = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
@@ -53,13 +54,13 @@ const FavoritesContextMenu = ({correspondedIdentity, data}) => {
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
-				token: userTicket.access_token,
+				token: userData.access_token,
 				...correspondedServer,
 				user: correspondedIdentity.user,
 				password: correspondedIdentity.password,
 			},
 		});
-	}, [server, dispatch, userTicket, correspondedIdentity, data.key]);
+	}, [server, dispatch, userData, correspondedIdentity, data.key]);
 
 	const isValidFolderName = useCallback((folderArray, name) => {
 		let pass = true;

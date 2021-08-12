@@ -18,6 +18,7 @@ import {
 	NavigationItem,
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
+import {AUTH} from '../../../reducers/api/auth';
 
 const FavoriteServer = ({data, indent, temp}) => {
 	const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const correspondedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
@@ -41,7 +42,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
-						token: userTicket.access_token,
+						token: userData.access_token,
 						...correspondedServer,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
@@ -51,7 +52,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
-						token: userTicket.access_token, // connection info
+						token: userData.access_token, // connection info
 						host: correspondedServer.host,
 						port: correspondedServer.port,
 						user: correspondedIdentity.user,
@@ -74,7 +75,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 		[
 			clicked_server,
 			data,
-			userTicket,
+			userData,
 			server,
 			identity,
 			dispatch,

@@ -33,6 +33,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
+import {AUTH} from '../../../reducers/api/auth';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -107,7 +108,7 @@ const AddServerDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {add_server_dialog_box} = useSelector(
 		(state) => state.dialogBoxs,
 		shallowEqual,
@@ -175,7 +176,7 @@ const AddServerDialogBox = () => {
 							keyword: 'SendConnect',
 							ws: ws,
 							data: {
-								token: userTicket,
+								token: userData,
 								host: host,
 								user: username,
 								password: password,
@@ -264,7 +265,7 @@ const AddServerDialogBox = () => {
 			port,
 			protocol,
 			dispatch,
-			userTicket,
+			userData,
 			username,
 			password,
 			authentication,

@@ -24,6 +24,7 @@ import {
 	NavigationItem,
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
+import {AUTH} from '../../../reducers/api/auth';
 
 export const ServerItem = styled(NavigationItem)`
 	.bookmark_button {
@@ -65,7 +66,7 @@ const Server = ({data, indent}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const correspondedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
@@ -79,7 +80,7 @@ const Server = ({data, indent}) => {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
-						token: userTicket.access_token,
+						token: userData.access_token,
 						...correspondedServer,
 						user: correspondedIdentity.user,
 						password: correspondedIdentity.password,
@@ -89,7 +90,7 @@ const Server = ({data, indent}) => {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
-						token: userTicket.access_token, // connection info
+						token: userData.access_token, // connection info
 						host: correspondedServer.host,
 						port: correspondedServer.port,
 						user: correspondedIdentity.user,
@@ -112,7 +113,7 @@ const Server = ({data, indent}) => {
 		[
 			clicked_server,
 			data,
-			userTicket,
+			userData,
 			server,
 			identity,
 			dispatch,

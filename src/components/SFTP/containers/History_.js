@@ -14,11 +14,12 @@ import {
 	REMOVE_READ_WRITE_LIST,
 } from '../../../reducers/sftp';
 import * as PropTypes from 'prop-types';
+import {AUTH} from '../../../reducers/api/auth';
 
 const History_ = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [prevOffset, setPrevOffset] = useState(null);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {
 		path: sftp_pathState,
 		history: sftp_historyState,
@@ -93,7 +94,7 @@ const History_ = ({uuid}) => {
 				dispatch({
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
-						token: userTicket.access_token, // connection info
+						token: userData.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
 						user: correspondedIdentity.user,
@@ -111,7 +112,7 @@ const History_ = ({uuid}) => {
 		writeSocket,
 		writeList,
 		path,
-		userTicket,
+		userData,
 		corServer,
 		correspondedIdentity,
 	]);
@@ -136,7 +137,7 @@ const History_ = ({uuid}) => {
 				dispatch({
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
-						token: userTicket.access_token, // connection info
+						token: userData.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
 						user: correspondedIdentity.user,
@@ -153,7 +154,7 @@ const History_ = ({uuid}) => {
 			dispatch,
 			uuid,
 			path,
-			userTicket,
+			userData,
 			corServer,
 			correspondedIdentity,
 		],
@@ -329,7 +330,7 @@ const History_ = ({uuid}) => {
 					dispatch({
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
-							token: userTicket.access_token, // connection info
+							token: userData.access_token, // connection info
 							host: corServer.host,
 							port: corServer.port,
 							user: correspondedIdentity.user,
@@ -351,7 +352,7 @@ const History_ = ({uuid}) => {
 			sftp_socket,
 			pause,
 			prevOffset,
-			userTicket,
+			userData,
 			corServer,
 			correspondedIdentity,
 		],

@@ -6,10 +6,11 @@ import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {sftpIconConvert} from '../../icons/icons';
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
+import {AUTH} from '../../reducers/api/auth';
 
 const SFTPConnectBtn = ({data}) => {
 	const dispatch = useDispatch();
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -24,7 +25,7 @@ const SFTPConnectBtn = ({data}) => {
 			dispatch({
 				type: CONNECTION_REQUEST,
 				payload: {
-					token: userTicket.access_token, // connection info
+					token: userData.access_token, // connection info
 					host: correspondedServer.host,
 					port: correspondedServer.port,
 					user: correspondedIdentity.user,
@@ -38,7 +39,7 @@ const SFTPConnectBtn = ({data}) => {
 		} else {
 			dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'lost_server'});
 		}
-	}, [server, data, identity, userTicket, dispatch]);
+	}, [server, data, identity, userData, dispatch]);
 
 	return <HoverButton onClick={connectSftp}>{sftpIconConvert}</HoverButton>;
 };

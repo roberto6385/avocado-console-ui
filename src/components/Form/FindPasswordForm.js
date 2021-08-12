@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
@@ -23,6 +23,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
+import {AUTH} from '../../reducers/api/auth';
 
 const Item_Container = styled.div`
 	display: flex;
@@ -47,7 +48,7 @@ const FindPasswordForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('passwordForm');
 
-	const {loading} = useSelector((state) => state.userTicket);
+	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');
@@ -66,16 +67,6 @@ const FindPasswordForm = () => {
 			});
 
 			//TODO: Change Password Action
-
-			// 	const encodeData = base64.encode(`${user}:${password}`);
-			// 	dispatch({type: SAVE_ENCODE_DATA, data: encodeData});
-			// 	dispatch(
-			// 		getUserTicket({
-			// 			Authorization: 'Basic ' + encodeData,
-			// 			username: user,
-			// 			password: password,
-			// 		}),
-			// 	);
 		},
 		[dispatch],
 	);

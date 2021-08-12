@@ -11,6 +11,7 @@ import {
 	CREATE_NEW_WEBSOCKET_REQUEST,
 } from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
+import {AUTH} from '../../../reducers/api/auth';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -38,7 +39,7 @@ const HistoryToolbar = ({uuid}) => {
 		path: sftp_pathState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const userTicket = useSelector((state) => state.userTicket.userTicket);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
@@ -101,7 +102,7 @@ const HistoryToolbar = ({uuid}) => {
 				dispatch({
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
-						token: userTicket.access_token, // connection info
+						token: userData.access_token, // connection info
 						host: corServer.host,
 						port: corServer.port,
 						user: correspondedIdentity.user,
@@ -119,7 +120,7 @@ const HistoryToolbar = ({uuid}) => {
 		dispatch,
 		uuid,
 		path,
-		userTicket,
+		userData,
 		corServer,
 		correspondedIdentity,
 	]);

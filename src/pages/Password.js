@@ -4,15 +4,16 @@ import {useHistory} from 'react-router-dom';
 
 import FindPasswordForm from '../components/Form/FindPasswordForm';
 import SignInLayout from '../components/Layouts/SignInLayout';
+import {AUTH} from '../reducers/api/auth';
 
 const Password = () => {
 	const history = useHistory();
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	useEffect(() => {
-		if (userTicket) history.push('/');
-	}, [history, userTicket]);
+		if (userData) history.push('/');
+	}, [history, userData]);
 
 	return (
 		<SignInLayout>

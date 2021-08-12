@@ -19,7 +19,11 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
-import {userAction} from '../../../reducers/auth/user';
+import {
+	USER_RESOURCE,
+	userResourceAction,
+} from '../../../reducers/api/userResource';
+import {AUTH} from '../../../reducers/api/auth';
 
 const _PopupModal = styled(PopupModal)`
 	z-index: 5;
@@ -30,8 +34,11 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
-	const {user} = useSelector((state) => state.user, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {data: userResourceData} = useSelector(
+		(state) => state[USER_RESOURCE],
+		shallowEqual,
+	);
 
 	const nameRef = useRef(null);
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
@@ -46,18 +53,18 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 
 			if (currentName !== '') {
 				dispatch(
-					userAction.modifyRequest({
-						userUid: user.userUid,
+					userResourceAction.modifyRequest({
+						userUid: userResourceData.userUid,
 						name: currentName,
 						password: localStorage.getItem('password'),
-						access_token: userTicket.access_token,
+						access_token: userData.access_token,
 					}),
 				);
 			}
 
 			closeModal();
 		},
-		[userTicket, currentName, closeModal, dispatch],
+		[currentName, closeModal, dispatch, userResourceData, userData],
 	);
 
 	useEffect(() => {

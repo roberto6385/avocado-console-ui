@@ -2,9 +2,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const slice = createSlice({
-	name: 'user',
+	name: 'userResource',
 	initialState: {
-		user: null,
+		data: null,
 		loading: false,
 		error: null,
 	},
@@ -44,7 +44,7 @@ const slice = createSlice({
 		},
 		findByIdSuccess: (state, action) => {
 			state.loading = false;
-			state.user = action.payload;
+			state.data = action.payload;
 		},
 		findByIdFailure: (state, action) => {
 			state.loading = false;
@@ -53,6 +53,6 @@ const slice = createSlice({
 	},
 });
 
-export const USER = slice.name;
-export const userReducer = slice.reducer;
-export const userAction = slice.actions;
+export const USER_RESOURCE = slice.name;
+export const userResourceReducer = slice.reducer;
+export const userResourceAction = slice.actions;

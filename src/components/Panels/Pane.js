@@ -15,6 +15,7 @@ import {WarningButton} from '../../styles/components/button';
 import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
+import {AUTH} from '../../reducers/api/auth';
 
 const _Container = styled.div`
 	height: 100%;
@@ -77,14 +78,13 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server: commonServer,
 	} = useSelector((state) => state.common, shallowEqual);
-	const {userTicket} = useSelector((state) => state.userTicket, shallowEqual);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
-	const {
-		socket: sftp_socketState,
-		path: sftp_pathState,
-		history: sftp_history,
-	} = useSelector((state) => state.sftp, shallowEqual);
+	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
+		(state) => state.sftp,
+		shallowEqual,
+	);
 
 	const onClickChangeCurrentTab = useCallback(() => {
 		if (current_tab !== uuid)
@@ -130,7 +130,7 @@ const Pane = ({uuid, type, server}) => {
 			dispatch({
 				type: SSH_SEND_RECONNECTION_REQUEST,
 				payload: {
-					token: userTicket.access_token,
+					token: userData.access_token,
 					...correspondedServer,
 					user: correspondedIdentity.user,
 					password: correspondedIdentity.password,
@@ -145,7 +145,7 @@ const Pane = ({uuid, type, server}) => {
 			dispatch({
 				type: RECONNECTION_REQUEST,
 				payload: {
-					token: userTicket.access_token, // connection info
+					token: userData.access_token, // connection info
 					host: correspondedServer.host,
 					port: correspondedServer.port,
 					user: correspondedIdentity.user,
@@ -169,7 +169,7 @@ const Pane = ({uuid, type, server}) => {
 		sftp_pathState,
 		tab,
 		type,
-		userTicket,
+		userData,
 		uuid,
 	]);
 
