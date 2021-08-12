@@ -33,10 +33,7 @@ const AccountAside = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data: userResourceData} = useSelector(
-		(state) => state[USER_RESOURCE],
-		shallowEqual,
-	);
+	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
 	const {account} = useSelector((state) => state?.common, shallowEqual);
 
 	const changePath = useCallback(
@@ -53,12 +50,12 @@ const AccountAside = () => {
 			// dispatch({
 			// 	type: DELETE_USER_ACCOUNT_REQUEST,
 			// 	payload: {
-			// 		userUid: userResourceData.userUid,
+			// 		userUid: data.userUid,
 			// 		token: userData.access_token,
 			// 	},
 			// });
 		},
-		[dispatch, userResourceData, userData],
+		[dispatch, data, userData],
 	);
 
 	return (

@@ -35,10 +35,7 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 	const {t} = useTranslation('changePasswordForm');
 
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data: userResourceData} = useSelector(
-		(state) => state[USER_RESOURCE],
-		shallowEqual,
-	);
+	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
 
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
@@ -79,8 +76,8 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 			} else {
 				dispatch(
 					userResourceAction.modifyRequest({
-						userUid: userResourceData.userUid,
-						name: userResourceData.name,
+						userUid: data.userUid,
+						name: data.name,
 						password: password,
 						access_token: userData.access_token,
 					}),
@@ -96,7 +93,7 @@ const ChangePasswordDialogBox = ({open, setOpen}) => {
 			setPassword,
 			setConfrimPassword,
 			dispatch,
-			userResourceData,
+			data,
 			userData,
 			closeModal,
 		],

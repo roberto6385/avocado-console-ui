@@ -35,10 +35,7 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 	const {t} = useTranslation('changeNameForm');
 
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data: userResourceData} = useSelector(
-		(state) => state[USER_RESOURCE],
-		shallowEqual,
-	);
+	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
 
 	const nameRef = useRef(null);
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
@@ -54,7 +51,7 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 			if (currentName !== '') {
 				dispatch(
 					userResourceAction.modifyRequest({
-						userUid: userResourceData.userUid,
+						userUid: data.userUid,
 						name: currentName,
 						password: localStorage.getItem('password'),
 						access_token: userData.access_token,
@@ -64,7 +61,7 @@ const ChangeUserNameDialogBox = ({open, setOpen}) => {
 
 			closeModal();
 		},
-		[currentName, closeModal, dispatch, userResourceData, userData],
+		[currentName, closeModal, dispatch, data, userData],
 	);
 
 	useEffect(() => {
