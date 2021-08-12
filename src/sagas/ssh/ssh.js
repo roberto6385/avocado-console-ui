@@ -27,8 +27,8 @@ import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {READY_STATE} from '../../reducers/ssh';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -104,10 +104,11 @@ function* sendConnection(action) {
 
 							//invalid server
 							if (res.result.includes('connection')) {
-								yield put({
-									type: OPEN_WARNING_DIALOG_BOX,
-									payload: 'invalid_server',
-								});
+								yield put(
+									dialogBoxAction.openWarning(
+										'invalid_server',
+									),
+								);
 							}
 							//token expire
 							if (res.result.includes('token')) {
@@ -211,10 +212,9 @@ function* sendReConnection(action) {
 						});
 						//invalid server
 						if (res.result.includes('connection')) {
-							yield put({
-								type: OPEN_WARNING_DIALOG_BOX,
-								payload: 'invalid_server',
-							});
+							yield put(
+								dialogBoxAction.openWarning('invalid_server'),
+							);
 						}
 						//token expire
 						if (res.result.includes('token')) {

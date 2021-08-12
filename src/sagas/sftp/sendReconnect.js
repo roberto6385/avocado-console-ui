@@ -21,8 +21,8 @@ import {closeChannel, subscribe} from '../channel';
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
 import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
-import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {reconnectResponse} from '../../ws/sftp/reconnect_response';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -98,10 +98,9 @@ function* sendCommand(action) {
 						break;
 
 					case ERROR:
-						yield put({
-							type: OPEN_WARNING_DIALOG_BOX,
-							payload: 'invalid_server',
-						});
+						yield put(
+							dialogBoxAction.openWarning('invalid_server'),
+						);
 						yield put({
 							type: RECONNECTION_FAILURE,
 							payload: res.err,
@@ -116,10 +115,7 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put({
-			type: OPEN_WARNING_DIALOG_BOX,
-			payload: 'invalid_server',
-		});
+		yield put(dialogBoxAction.openWarning('invalid_server'));
 		yield put({type: RECONNECTION_FAILURE, payload: err});
 	}
 }

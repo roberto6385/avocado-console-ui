@@ -3,7 +3,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ADD_HISTORY, CHANGE_MODE, CLOSE_EDITOR} from '../../../reducers/sftp';
 import {
-	OPEN_CONFIRM_DIALOG_BOX,
+	dialogBoxAction,
 	OPEN_SAVE_DIALOG_BOX,
 } from '../../../reducers/dialogBoxs';
 import styled from 'styled-components';
@@ -80,10 +80,7 @@ const EditToolbar = ({uuid}) => {
 	const editedFileSave = useCallback(() => {
 		if (text === editText) {
 			// 변경 내용이 없습니다.
-			dispatch({
-				type: OPEN_CONFIRM_DIALOG_BOX,
-				payload: 'no_changes',
-			});
+			dispatch(dialogBoxAction.openServer('no_changes'));
 		} else {
 			// 저장하시겠습니까?
 			dispatch({

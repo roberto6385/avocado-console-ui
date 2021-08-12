@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {CLOSE_CONFIRM_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
@@ -16,6 +15,7 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const ConfirmDialogBox = () => {
 	const {t} = useTranslation('confirmDialogBox');
@@ -39,8 +39,8 @@ const ConfirmDialogBox = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch({type: CLOSE_CONFIRM_DIALOG_BOX});
-	}, []);
+		dispatch(dialogBoxAction.closeServer());
+	}, [dispatch]);
 
 	return (
 		<AlertModal

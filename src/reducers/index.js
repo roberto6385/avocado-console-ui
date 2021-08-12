@@ -3,7 +3,7 @@ import {combineReducers} from '@reduxjs/toolkit';
 import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
-import dialogBoxs from './dialogBoxs';
+import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
 import {USER_RESOURCE, userResourceReducer} from './api/userResource';
 import {AUTH, authReducer} from './api/auth';
 import storage from 'redux-persist/lib/storage';
@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
 	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
-	dialogBoxs,
+	[DIALOG_BOX]: dialogBoxReducer,
 	[AUTH]: authReducer,
 	[USER_RESOURCE]: userResourceReducer,
 });

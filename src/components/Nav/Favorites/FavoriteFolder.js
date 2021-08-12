@@ -12,7 +12,7 @@ import {
 import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
-import {OPEN_CONFIRM_DIALOG_BOX} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import FavoriteServer from './FavoriteServer';
 import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
@@ -82,10 +82,9 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				// 현재 중복이름으로 변경 후 esc가 아닌
 				// 마우스 클릭으로 포커스를 변경하면 중복검사를 실행하는 문제있음
 				if (renameValue !== data.name) {
-					dispatch({
-						type: OPEN_CONFIRM_DIALOG_BOX,
-						payload: 'folder_name_duplicate',
-					});
+					dispatch(
+						dialogBoxAction.openServer('folder_name_duplicate'),
+					);
 				} else {
 					setOpenRename(false);
 					dispatch({type: SET_CLICKED_SERVER, payload: null});

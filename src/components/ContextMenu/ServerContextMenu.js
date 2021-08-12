@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {
-	OPEN_ADD_SERVER_DIALOG_BOX,
+	OPEN_SERVER_DIALOG_BOX,
 	OPEN_DELETE_DIALOG_BOX,
 } from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
@@ -99,8 +99,8 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 					break;
 				case 'properties':
 					dispatch({
-						type: OPEN_ADD_SERVER_DIALOG_BOX,
-						payload: {type: 'edit', id: data.id},
+						type: OPEN_SERVER_DIALOG_BOX,
+						payload: {id: data.id},
 					});
 					break;
 				default:

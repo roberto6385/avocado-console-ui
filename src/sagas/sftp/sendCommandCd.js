@@ -19,9 +19,9 @@ import {
 import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
-import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {cdResponse} from '../../ws/sftp/cd_response';
 import {createPathList} from '../../components/SFTP/functions';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -98,10 +98,7 @@ function* sendCommand(action) {
 						console.log(res.err);
 						pass = true;
 						yield put({type: CD_FAILURE});
-						yield put({
-							type: OPEN_WARNING_DIALOG_BOX,
-							payload: 'wrong_path',
-						});
+						yield put(dialogBoxAction.openWarning('wrong_path'));
 						break;
 					default:
 						console.log(res);
@@ -113,10 +110,7 @@ function* sendCommand(action) {
 		console.log(err);
 		closeChannel(channel);
 		yield put({type: CD_FAILURE});
-		yield put({
-			type: OPEN_WARNING_DIALOG_BOX,
-			payload: 'wrong_path',
-		});
+		yield put(dialogBoxAction.openWarning('wrong_path'));
 	}
 }
 

@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {CLOSE_WARNING_DIALOG_BOX} from '../../../reducers/dialogBoxs';
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
 import {
 	TransparentButton,
@@ -16,6 +15,7 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
+import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const WarningDialogBox = () => {
 	const {t} = useTranslation('warningDialogBox');
@@ -33,8 +33,8 @@ const WarningDialogBox = () => {
 	};
 
 	const onClickCloseModal = useCallback(() => {
-		dispatch({type: CLOSE_WARNING_DIALOG_BOX});
-	}, []);
+		dispatch(dialogBoxAction.closeWarning());
+	}, [dispatch]);
 
 	return (
 		<AlertModal

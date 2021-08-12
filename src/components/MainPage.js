@@ -1,7 +1,6 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {OPEN_ADD_SERVER_DIALOG_BOX} from '../reducers/dialogBoxs';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from './LoadingSpinner';
@@ -42,10 +41,6 @@ const MainPage = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
-
-	const onClickOpenAddServerDialog = useCallback(() => {
-		dispatch({type: OPEN_ADD_SERVER_DIALOG_BOX, payload: {type: 'add'}});
-	}, [dispatch]);
 
 	return (
 		<_Container>

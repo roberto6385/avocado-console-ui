@@ -4,10 +4,7 @@ import {animation, Item} from 'react-contexify';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {
-	OPEN_ADD_SERVER_DIALOG_BOX,
-	OPEN_DELETE_DIALOG_BOX,
-} from '../../reducers/dialogBoxs';
+import {OPEN_DELETE_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {ContextMenu} from '../../styles/components/contextMenu';
 
 const FolderContextMenu = ({data}) => {
@@ -21,12 +18,6 @@ const FolderContextMenu = ({data}) => {
 	const handleItemClick = useCallback(
 		(e) => () => {
 			switch (e) {
-				case 'new_server':
-					dispatch({
-						type: OPEN_ADD_SERVER_DIALOG_BOX,
-						payload: {type: 'add'},
-					});
-					break;
 				case 'delete':
 					dispatch({
 						type: OPEN_DELETE_DIALOG_BOX,

@@ -13,9 +13,8 @@ import useInput from '../../../hooks/useInput';
 import {GetMessage} from '../../../ws/ssht_ws_logic';
 import {ssht_ws_request} from '../../../ws/ssht_ws_request';
 import {
-	CLOSE_ADD_SERVER_DIALOG_BOX,
-	OPEN_CONFIRM_DIALOG_BOX,
-	OPEN_WARNING_DIALOG_BOX,
+	CLOSE_SERVER_DIALOG_BOX,
+	dialogBoxAction,
 } from '../../../reducers/dialogBoxs';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
@@ -142,7 +141,7 @@ const AddServerDialogBox = () => {
 	];
 
 	const onClickCloseDialog = useCallback(() => {
-		dispatch({type: CLOSE_ADD_SERVER_DIALOG_BOX});
+		dispatch({type: CLOSE_SERVER_DIALOG_BOX});
 	}, [dispatch]);
 
 	const onSubmitForm = useCallback(
@@ -151,24 +150,15 @@ const AddServerDialogBox = () => {
 
 			if (add_server_dialog_box.type === 'add') {
 				if (!duplicationTest(server, name, host, port, protocol)) {
-					dispatch({
-						type: OPEN_CONFIRM_DIALOG_BOX,
-						payload: 'server_duplicate',
-					});
+					dispatch(dialogBoxAction.openServer('server_duplicate'));
 				} else if (!isValidHostname(host)) {
-					dispatch({
-						type: OPEN_WARNING_DIALOG_BOX,
-						payload: 'invalid_server',
-					});
+					dispatch(dialogBoxAction.openWarning('invalid_server'));
 				} else {
 					const ws = new WebSocket(`ws://${host}:8081/ws/ssh`);
 					ws.binaryType = 'arraybuffer';
 
 					ws.onerror = () => {
-						dispatch({
-							type: OPEN_WARNING_DIALOG_BOX,
-							payload: 'invalid_server',
-						});
+						dispatch(dialogBoxAction.openWarning('invalid_server'));
 					};
 
 					ws.onopen = () => {
@@ -216,7 +206,7 @@ const AddServerDialogBox = () => {
 									},
 								});
 						} else if (message.type === 'DISCONNECT') {
-							dispatch({type: CLOSE_ADD_SERVER_DIALOG_BOX});
+							dispatch({type: CLOSE_SERVER_DIALOG_BOX});
 						} else
 							console.log(
 								'V AddServerDialogBox onmessage: ',

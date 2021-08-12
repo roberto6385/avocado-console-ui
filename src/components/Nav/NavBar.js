@@ -94,20 +94,6 @@ const _TabItem = styled.div`
 	width: 100%;
 `;
 
-const isValidFolderName = (folderArray, name) => {
-	let pass = true;
-
-	for (let i of folderArray) {
-		if (i.type === 'folder') {
-			if (i.name === name) return false;
-			else if (i.contain.length > 0) {
-				pass = pass && isValidFolderName(i.contain, name);
-			}
-		}
-	}
-	return pass;
-};
-
 const NavBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
@@ -121,25 +107,6 @@ const NavBar = ({toggle, setToggle}) => {
 		{title: t('resource'), key: 0},
 		{title: t('bookmark'), key: 1},
 	];
-
-	//TODO: ADD FOLDER
-	// const onClickAddFolder = useCallback(() => {
-	// 	let folderName = t('newFolder');
-	// 	let i = 0;
-	// 	while (!isValidFolderName(nav, folderName)) {
-	// 		folderName = `${t('newFolder')} ${i}`;
-	// 		i++;
-	// 	}
-	// 	dispatch({type: ADD_FOLDER, data: folderName});
-	// }, [dispatch, nav, t]);
-
-	//TODO: ADD SERVER
-	// const onClickAddServer = useCallback(() => {
-	// 	dispatch({
-	// 		type: OPEN_ADD_SERVER_DIALOG_BOX,
-	// 		data: {type: 'add'},
-	// 	});
-	// }, [dispatch]);
 
 	const onClickOpenTggle = useCallback(() => {
 		setToggle(!toggle);

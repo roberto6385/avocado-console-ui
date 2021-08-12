@@ -16,7 +16,7 @@ import AccountContextMenu from '../ContextMenu/AccountContextMenu';
 import NotificationContextMenu from '../ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
 import {HoverButton} from '../../styles/components/icon';
-import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const _Container = styled.div`
 	display: flex;
@@ -86,8 +86,8 @@ const MenuButtons = ({toggle, setToggle}) => {
 
 	const openNotificationMenu = useCallback(() => {
 		// setShownotificationMenu(true);
-		dispatch({type: OPEN_WARNING_DIALOG_BOX, payload: 'developing'});
-	}, []);
+		dispatch(dialogBoxAction.openWarning('developing'));
+	}, [dispatch]);
 
 	const openColumnMenu = useCallback(
 		(e) => {

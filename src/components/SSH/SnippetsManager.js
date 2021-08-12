@@ -10,7 +10,6 @@ import {
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_CONFIRM_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
@@ -22,6 +21,7 @@ import {
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
 import {TextArea} from '../../styles/components/textArea';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const _PopupModal = styled(PopupModal)`
 	width: 598px;
@@ -147,15 +147,9 @@ const SnippetsManager = ({open, setOpen}) => {
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
-			dispatch({
-				type: OPEN_CONFIRM_DIALOG_BOX,
-				payload: 'snippets_blank',
-			});
+			dispatch(dialogBoxAction.openServer('snippets_blank'));
 		} else if (new Set(name).size !== name.length) {
-			dispatch({
-				type: OPEN_CONFIRM_DIALOG_BOX,
-				payload: 'snippets_name_duplicate',
-			});
+			dispatch(dialogBoxAction.openServer('snippets_name_duplicate'));
 		} else {
 			const deleteSnippets = snippets.filter(
 				(x) => !tempSnippets.map((x) => x.id).includes(x.id),

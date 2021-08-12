@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
-import {OPEN_WARNING_DIALOG_BOX} from '../../reducers/dialogBoxs';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
@@ -24,6 +23,7 @@ import {
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
 import {AUTH} from '../../reducers/api/auth';
+import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const Item_Container = styled.div`
 	display: flex;
@@ -60,13 +60,8 @@ const FindPasswordForm = () => {
 	const onSubmitForm = useCallback(
 		(e) => {
 			e.preventDefault();
-
-			dispatch({
-				type: OPEN_WARNING_DIALOG_BOX,
-				payload: 'developing',
-			});
-
-			//TODO: Change Password Action
+			dispatch(dialogBoxAction.openWarning('developing'));
+			//TODO: Find and Change Password Action
 		},
 		[dispatch],
 	);
@@ -74,12 +69,7 @@ const FindPasswordForm = () => {
 	const sendAuth = useCallback(
 		(e) => {
 			e.preventDefault();
-
-			dispatch({
-				type: OPEN_WARNING_DIALOG_BOX,
-				payload: 'developing',
-			});
-
+			dispatch(dialogBoxAction.openWarning('developing'));
 			console.log('some action!');
 		},
 		[dispatch],
@@ -89,11 +79,7 @@ const FindPasswordForm = () => {
 		(e) => {
 			e.preventDefault();
 
-			dispatch({
-				type: OPEN_WARNING_DIALOG_BOX,
-				payload: 'developing',
-			});
-
+			dispatch(dialogBoxAction.openWarning('developing'));
 			console.log('some action!');
 		},
 		[dispatch],
