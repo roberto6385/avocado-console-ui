@@ -16,14 +16,14 @@ import {HoverButton, IconButton} from '../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../styles/components/disalogBox';
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
 import {TextArea} from '../../styles/components/textArea';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	width: 598px;
 	height: 520px;
 `;

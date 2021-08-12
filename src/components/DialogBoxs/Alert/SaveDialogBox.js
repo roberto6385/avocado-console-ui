@@ -8,8 +8,8 @@ import {
 
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
-	NormalButton,
 	TransparentButton,
+	WarningButton,
 } from '../../../styles/components/button';
 
 import {
@@ -19,20 +19,21 @@ import {
 	CREATE_NEW_WEBSOCKET_REQUEST,
 	SAVE_TEXT,
 } from '../../../reducers/sftp';
-import {
-	LOCAL_SAVE_FAVORITES,
-	SAVE_FAVORITES,
-	UNDO_FAVORITES,
-} from '../../../reducers/common';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	AlertModal,
+	AlertDialogBox,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
+
 import {AUTH} from '../../../reducers/api/auth';
+
+import {
+	SAVE_CHANGES_ON_FAVORITES,
+	SET_TEMP_FAVORITES,
+} from '../../../reducers/common';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
@@ -57,19 +58,19 @@ const SaveDialogBox = () => {
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
-		favorites_save: t('favoritesSave'),
+		save_favorites: t('favoritesSave'),
 	};
 
-	const closeModal = useCallback(() => {
+	const closeModal = useCallback(async () => {
+		dispatch({type: CLOSE_SAVE_DIALOG_BOX});
+
 		switch (save_dialog_box.key) {
 			case 'sftp_edit_save': {
-				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
 				break;
 			}
 			case 'sftp_edit_close': {
 				const uuid = save_dialog_box.uuid;
 				const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
-				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
 				dispatch({
 					type: CLOSE_EDITOR,
 					payload: {uuid: save_dialog_box.uuid},
@@ -81,27 +82,22 @@ const SaveDialogBox = () => {
 
 				break;
 			}
-			case 'favorites_save': {
-				dispatch({type: UNDO_FAVORITES});
-				dispatch({type: LOCAL_SAVE_FAVORITES});
-				dispatch({type: CLOSE_SAVE_DIALOG_BOX});
-				dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
-
-				// 초기화
+			case 'save_favorites': {
+				await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+				await dispatch({type: SET_TEMP_FAVORITES});
 				break;
 			}
+			default:
+				break;
 		}
 	}, [dispatch, save_dialog_box, sftp_etcState]);
 
 	const submitFunction = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (save_dialog_box.key === 'favorites_save') {
-				dispatch({type: SAVE_FAVORITES});
-				dispatch({type: LOCAL_SAVE_FAVORITES});
-
+			if (save_dialog_box.key === 'save_favorites') {
+				dispatch({type: SAVE_CHANGES_ON_FAVORITES});
 				closeModal();
-
 				return;
 			}
 
@@ -225,7 +221,7 @@ const SaveDialogBox = () => {
 	);
 
 	return (
-		<AlertModal
+		<AlertDialogBox
 			isOpen={save_dialog_box.open}
 			onRequestClose={closeModal}
 			ariaHideApp={false}
@@ -254,11 +250,11 @@ const SaveDialogBox = () => {
 				<TransparentButton onClick={closeModal}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={submitFunction}>
+				<WarningButton onClick={submitFunction}>
 					{t('save')}
-				</NormalButton>
+				</WarningButton>
 			</ModalFooter>
-		</AlertModal>
+		</AlertDialogBox>
 	);
 };
 

@@ -9,7 +9,7 @@ import {
 } from '../../../styles/components/button';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	AlertModal,
+	AlertDialogBox,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
@@ -43,7 +43,7 @@ const ConfirmDialogBox = () => {
 	}, [dispatch]);
 
 	return (
-		<AlertModal
+		<AlertDialogBox
 			isOpen={confirm_dialog_box.open}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
@@ -78,7 +78,7 @@ const ConfirmDialogBox = () => {
 					{t('ok')}
 				</NormalButton>
 			</ModalFooter>
-		</AlertModal>
+		</AlertDialogBox>
 	);
 };
 

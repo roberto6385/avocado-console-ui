@@ -9,7 +9,7 @@ import {
 } from '../../../styles/components/button';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	AlertModal,
+	AlertDialogBox,
 	AlertText,
 	ModalFooter,
 	ModalHeader,
@@ -30,6 +30,7 @@ const WarningDialogBox = () => {
 		invalid_server: t('invalidServer'),
 		developing: t('developing'),
 		wrong_path: t('wrongPath'),
+		folder_names_on_favorites_duplicated: '폴더 이름 중복(TESt)',
 	};
 
 	const onClickCloseModal = useCallback(() => {
@@ -37,7 +38,7 @@ const WarningDialogBox = () => {
 	}, [dispatch]);
 
 	return (
-		<AlertModal
+		<AlertDialogBox
 			isOpen={warning_dialog_box.open}
 			onRequestClose={onClickCloseModal}
 			ariaHideApp={false}
@@ -70,7 +71,7 @@ const WarningDialogBox = () => {
 					{t('ok')}
 				</WarningButton>
 			</ModalFooter>
-		</AlertModal>
+		</AlertDialogBox>
 	);
 };
 

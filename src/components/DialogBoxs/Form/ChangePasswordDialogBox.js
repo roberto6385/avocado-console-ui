@@ -15,7 +15,7 @@ import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
@@ -25,7 +25,7 @@ import {
 } from '../../../reducers/api/userResource';
 import {AUTH} from '../../../reducers/api/auth';
 
-const _PopupModal = styled(PopupModal)`
+const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 404px;
 `;

@@ -13,7 +13,6 @@ import {
 import SettingContextMenu from '../ContextMenu/SettingContextMenu';
 import ColumnContextMenu from '../ContextMenu/ColumnContextMenu';
 import AccountContextMenu from '../ContextMenu/AccountContextMenu';
-import NotificationContextMenu from '../ContextMenu/NotificationContextMenu';
 import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
 import {HoverButton} from '../../styles/components/icon';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
@@ -118,15 +117,15 @@ const MenuButtons = ({toggle, setToggle}) => {
 			)}
 			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
-			<NotificationContextMenu
-				show={shownotificationMenu}
-				location={{
-					left: notificationRef.current?.getBoundingClientRect().left,
-					top: notificationRef.current?.getBoundingClientRect()
-						.bottom,
-				}}
-				notificationMunuRef={notificationMunuRef}
-			/>
+			{/*<NotificationContextMenu*/}
+			{/*	show={shownotificationMenu}*/}
+			{/*	location={{*/}
+			{/*		left: notificationRef.current?.getBoundingClientRect().left,*/}
+			{/*		top: notificationRef.current?.getBoundingClientRect()*/}
+			{/*			.bottom,*/}
+			{/*	}}*/}
+			{/*	notificationMunuRef={notificationMunuRef}*/}
+			{/*/>*/}
 			<ColumnContextMenu />
 		</_Container>
 	);

@@ -22,7 +22,7 @@ const persistConfig = {
 const commonLocalPersistConfig = {
 	key: 'commonLocal',
 	storage: storage,
-	whitelist: ['theme'],
+	whitelist: ['theme', 'favorites', 'favorites_folder_index'],
 };
 
 const sshLocalPersistConfig = {

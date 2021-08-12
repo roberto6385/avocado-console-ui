@@ -5,9 +5,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import {
-	LOCAL_SAVE_FAVORITES,
 	SET_CLICKED_SERVER,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
+	SORT_FAVORITE_RESOURCES,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
@@ -20,47 +19,46 @@ import {
 } from '../../../styles/components/navigationBar';
 import {AUTH} from '../../../reducers/api/auth';
 
-const FavoriteServer = ({data, indent, temp}) => {
+const FavoriteServer = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const correspondedIdentity = useMemo(
+
+	const searchedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
 	);
 
-	const onHybridClick = useDoubleClick(
+	const onClickServerItem = useDoubleClick(
 		() => {
-			if (temp) return;
+			const searchedServer = server.find((i) => i.id === data.id);
 
-			const correspondedServer = server.find((i) => i.id === data.id);
-
-			if (correspondedServer.protocol === 'SSH2') {
+			if (searchedServer.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token,
-						...correspondedServer,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						...searchedIdentity,
+						user: searchedIdentity.user,
+						password: searchedIdentity.password,
 					},
 				});
-			} else if (correspondedServer.protocol === 'SFTP') {
+			} else if (searchedServer.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: correspondedServer.host,
-						port: correspondedServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
-
-						name: correspondedServer.name, // create tab info
-						key: correspondedServer.key,
-						id: correspondedServer.id,
+						host: searchedServer.host,
+						port: searchedServer.port,
+						user: searchedIdentity.user,
+						password: searchedIdentity.password,
+						name: searchedServer.name, // create tab info
+						key: searchedServer.key,
+						id: searchedServer.id,
 					},
 				});
 			}
@@ -79,7 +77,7 @@ const FavoriteServer = ({data, indent, temp}) => {
 			server,
 			identity,
 			dispatch,
-			correspondedIdentity,
+			searchedIdentity,
 		],
 	);
 
@@ -87,10 +85,10 @@ const FavoriteServer = ({data, indent, temp}) => {
 		id: data.key + 'server',
 	});
 
-	const contextMenuOpen = useCallback(
+	const OpenFavoriteServerContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('contextMenuOpen item');
+			console.log('OpenServerContextMenu item');
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			show(e);
 		},
@@ -110,10 +108,9 @@ const FavoriteServer = ({data, indent, temp}) => {
 
 			data.type === 'folder' &&
 				dispatch({
-					type: SORT_FAVORITES_SERVER_AND_FOLDER,
+					type: SORT_FAVORITE_RESOURCES,
 					payload: {next: data},
 				});
-			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch],
 	);
@@ -126,12 +123,12 @@ const FavoriteServer = ({data, indent, temp}) => {
 	return (
 		<React.Fragment>
 			<NavigationItem
-				onClick={onHybridClick}
+				onClick={onClickServerItem}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
-				onContextMenu={contextMenuOpen}
+				onContextMenu={OpenFavoriteServerContextMenu}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -146,19 +143,14 @@ const FavoriteServer = ({data, indent, temp}) => {
 
 				<NavigationItemTitle>{data.name}</NavigationItemTitle>
 			</NavigationItem>
-			{!temp && (
-				<FavoritesContextMenu
-					correspondedIdentity={correspondedIdentity}
-					data={data}
-				/>
-			)}
+
+			<FavoritesContextMenu identity={searchedIdentity} data={data} />
 		</React.Fragment>
 	);
 };
 
 FavoriteServer.propTypes = {
 	data: PropTypes.object.isRequired,
-	temp: PropTypes.bool.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 

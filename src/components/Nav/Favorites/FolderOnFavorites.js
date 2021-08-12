@@ -4,17 +4,16 @@ import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {
-	CHANGE_FAVORITES_FOLDER_NAME,
-	LOCAL_SAVE_FAVORITES,
+	CHANGE_FOLDER_NAME_ON_FAVORITES,
 	SET_CLICKED_SERVER,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
+	CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
+	SORT_FAVORITE_RESOURCES,
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
-import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import FavoriteServer from './FavoriteServer';
-import FolderContextMenu from '../../ContextMenu/FolderContextMenu';
+import FolderOnFavoritesContextMenu from '../../ContextMenu/FolderOnFavoritesContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import styled from 'styled-components';
 import {
@@ -22,38 +21,46 @@ import {
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
 import {Input} from '../../../styles/components/input';
-import {isValidFolderName} from '../functions';
-
+import {useDoubleClick} from '../../../hooks/useDoubleClick';
 const Input_ = styled(Input)`
 	height: 24px;
 `;
 
-const FavoriteFolder = ({open, data, indent, temp}) => {
+const FolderOnFavorites = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, createdFolderInfo, temp_favorites, favorites_key} =
-		useSelector((state) => state.common, shallowEqual);
+	const {clicked_server, favoriteFolderRenamingKey} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const renameRef = useRef(null);
-	const [openTab, setOpenTab] = useState(false);
-	const [openRename, setOpenRename] = useState(false);
+	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
+	const [isRenaming, setIsRenaming] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	const onCLickFolder = useCallback(() => {
-		if (clicked_server === data.key) {
-			dispatch({type: SET_CLICKED_SERVER, payload: null});
-		} else {
+	const onClickFolderItem = useDoubleClick(
+		() => {
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
-		}
-	}, [clicked_server, data.key, dispatch]);
+			setIsRenaming(true);
+		},
+		() => {
+			if (clicked_server === data.key) {
+				dispatch({type: SET_CLICKED_SERVER, payload: null});
+			} else {
+				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			}
+		},
+		[data],
+	);
 
-	const onClickOpen = useCallback(() => {
-		setOpenTab(!openTab);
-	}, [openTab]);
+	const onClickFoldOrUnfoldFolder = useCallback(() => {
+		setIsFolderUnfolded(!isFolderUnfolded);
+	}, [isFolderUnfolded]);
 
 	const {show} = useContextMenu({
 		id: data.key + 'folder',
 	});
 
-	const contextMenuOpen = useCallback(
+	const openFolderOnFavoritesContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
@@ -62,50 +69,33 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 		[data.key, dispatch, show],
 	);
 
-	const handleSubmit = useCallback(
-		(e) => {
-			e.preventDefault();
-
-			if (renameValue === '') return;
-
-			console.log(data.name);
-			if (isValidFolderName(temp_favorites, renameValue.trim())) {
-				dispatch({
-					type: CHANGE_FAVORITES_FOLDER_NAME,
-					payload: {key: data.key, name: renameValue.trim(), temp},
-				});
-
-				setOpenRename(false);
-				dispatch({type: SET_CLICKED_SERVER, payload: null});
-			} else {
-				console.log(renameValue);
-				// 현재 중복이름으로 변경 후 esc가 아닌
-				// 마우스 클릭으로 포커스를 변경하면 중복검사를 실행하는 문제있음
-				if (renameValue !== data.name) {
-					dispatch(
-						dialogBoxAction.openServer('folder_name_duplicate'),
-					);
-				} else {
-					setOpenRename(false);
-					dispatch({type: SET_CLICKED_SERVER, payload: null});
-				}
-			}
-
-			dispatch({type: LOCAL_SAVE_FAVORITES});
-		},
-		[renameValue, data.name, data.key, temp_favorites, dispatch, temp],
-	);
-
-	const handleKeyDown = useCallback(
+	const onKeyDownChangeFolderName = useCallback(
 		(e) => {
 			if (e.keyCode === 27) {
-				setOpenRename(false);
-				dispatch({type: SET_CLICKED_SERVER, payload: null});
+				// ESC
+				setIsRenaming(false);
+				dispatch({
+					type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
+				});
 			} else if (e.keyCode === 13) {
-				handleSubmit(e);
+				//Enter
+				e.preventDefault();
+
+				if (renameValue !== '') {
+					//TODO: CHECK VALID VALUE
+					dispatch({
+						type: CHANGE_FOLDER_NAME_ON_FAVORITES,
+						payload: {key: data.key, name: renameValue},
+					});
+				} else {
+					dispatch({
+						type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
+					});
+				}
+				setIsRenaming(false);
 			}
 		},
-		[dispatch, handleSubmit],
+		[dispatch, renameValue, data],
 	);
 
 	const prevPutItem = useCallback(() => {
@@ -121,66 +111,50 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 
 			data.type === 'folder' &&
 				dispatch({
-					type: SORT_FAVORITES_SERVER_AND_FOLDER,
+					type: SORT_FAVORITE_RESOURCES,
 					payload: {next: data, indent: parseInt(indent)},
 				});
-			dispatch({type: LOCAL_SAVE_FAVORITES});
 		},
 		[data, dispatch, indent],
 	);
-
-	const handleBlur = useCallback(() => {
-		setOpenRename(false);
-		renameRef.current = null;
-		dispatch({type: SET_CLICKED_SERVER, payload: null});
-	}, [dispatch]);
 
 	const handleDragOver = useCallback((e) => {
 		e.stopPropagation();
 		e.preventDefault();
 	}, []);
-	//when re-name form is open, fill in pre-value and focus and select it
+
+	const onBlurFolerNameTextBox = useCallback(() => {
+		setIsRenaming(false);
+		renameRef.current = null;
+		dispatch({type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY});
+	}, []);
+	//fill rename text box value
 	useEffect(() => {
 		const fillInForm = async () => {
-			if (openRename) {
+			if (isRenaming) {
 				await setRenameValue(data.name);
 				await renameRef.current?.focus();
 				await renameRef.current?.select();
 			}
 		};
 		fillInForm();
-	}, [openRename, renameRef, data, setRenameValue]);
+	}, [isRenaming, renameRef, data, setRenameValue]);
+	//this folder name has to be renamined
+	useEffect(() => {
+		if (data.key === favoriteFolderRenamingKey) {
+			setIsRenaming(true);
+		}
+	}, [favoriteFolderRenamingKey, data]);
 
 	useEffect(() => {
-		setOpenTab(open);
+		setIsFolderUnfolded(open);
 	}, [open]);
-
-	useEffect(() => {
-		if (data.key === clicked_server) {
-			setOpenTab(true);
-		}
-		if (data === createdFolderInfo) {
-			dispatch({
-				type: SET_CLICKED_SERVER,
-				payload: createdFolderInfo.key,
-			});
-			setOpenRename(true);
-		}
-	}, [clicked_server, createdFolderInfo, data, dispatch]);
-
-	useEffect(() => {
-		renameRef.current?.focus();
-		if (data.key === favorites_key) {
-			setOpenRename(true);
-		}
-	}, [data, favorites_key]);
 
 	return (
 		<React.Fragment>
 			<NavigationItem
-				onClick={onCLickFolder}
-				onDoubleClick={() => setOpenRename(true)}
-				onContextMenu={contextMenuOpen}
+				onClick={onClickFolderItem}
+				onContextMenu={openFolderOnFavoritesContextMenu}
 				draggable='true'
 				onDragStart={prevPutItem}
 				onDragOver={handleDragOver}
@@ -197,14 +171,14 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				</Icon>
 
 				<NavigationItemTitle>
-					{openRename ? (
+					{isRenaming ? (
 						<Input_
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
-							onKeyDown={handleKeyDown}
-							onBlur={handleBlur}
+							onKeyDown={onKeyDownChangeFolderName}
+							onBlur={onBlurFolerNameTextBox}
 						/>
 					) : (
 						data.name
@@ -213,45 +187,42 @@ const FavoriteFolder = ({open, data, indent, temp}) => {
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					onClick={onClickOpen}
+					onClick={onClickFoldOrUnfoldFolder}
 				>
-					{openTab ? arrowDownIcon : arrowRightIcon}
+					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</NavigationItem>
 			{data.contain.length !== 0 && (
-				<Collapse_ open={openTab}>
+				<Collapse_ open={isFolderUnfolded}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<FavoriteFolder
+								<FolderOnFavorites
 									key={i.key}
 									open={open}
 									data={i}
 									indent={indent + 1}
-									temp={temp}
 								/>
 							) : (
 								<FavoriteServer
 									key={i.key}
 									data={i}
 									indent={indent + 1}
-									temp={temp}
 								/>
 							),
 						)}
 					</React.Fragment>
 				</Collapse_>
 			)}
-			{!temp && <FolderContextMenu data={data} />}
+			<FolderOnFavoritesContextMenu data={data} />
 		</React.Fragment>
 	);
 };
 
-FavoriteFolder.propTypes = {
+FolderOnFavorites.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
-	temp: PropTypes.bool.isRequired,
 };
 
-export default FavoriteFolder;
+export default FolderOnFavorites;

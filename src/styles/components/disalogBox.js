@@ -2,7 +2,8 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
 
-export const PopupModal = styled(Modal)`
+export const DialogBox = styled(Modal)`
+	z-index: 10;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -17,14 +18,13 @@ export const PopupModal = styled(Modal)`
 		${(props) =>
 			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 	font-size: 14px;
-	z-index: 10;
 	background: ${(props) =>
 		props.theme.basic.pages.dialogBoxs.normalStyle.backgroundColor};
 `;
 
-export const AlertModal = styled(PopupModal)`
+export const AlertDialogBox = styled(DialogBox)`
 	width: 288px;
-	z-index: 12;
+	z-index: 15;
 `;
 
 export const ModalHeader = styled.div`

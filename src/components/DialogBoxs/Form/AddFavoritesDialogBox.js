@@ -4,31 +4,32 @@ import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
 import {
-	ADD_FAVORITES_FOLDER,
-	LOCAL_SAVE_FAVORITES,
-	SAVE_FAVORITES,
+	ADD_TEMP_FOLDER_ON_FAVORITES,
+	INIT_TEMP_FAVORITES,
+	SAVE_CHANGES_ON_FAVORITES,
+	SET_TEMP_FAVORITES,
 } from '../../../reducers/common';
-import useInput from '../../../hooks/useInput';
+
 import {
 	CLOSE_ADD_FAVORITES_DIALOG_BOX,
-	OPEN_SAVE_DIALOG_BOX,
+	OPEN_WARNING_DIALOG_BOX,
 } from '../../../reducers/dialogBoxs';
 import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
 	TransparentButton,
 } from '../../../styles/components/button';
-import FavoriteTempList from '../../Nav/Favorites/FavoriteTempList';
+
 import {IconButton} from '../../../styles/components/icon';
 import {
 	ModalFooter,
 	ModalHeader,
-	PopupModal,
+	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
+import FavoriteItemsTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemsTreeOnDialogBox';
 
-const _PopupModal = styled(PopupModal)`
-	z-index: 5;
+const _DialogBox = styled(DialogBox)`
 	width: 460px;
 `;
 
@@ -51,11 +52,43 @@ const _ModalFooter = styled(ModalFooter)`
 	justify-content: space-between;
 `;
 
+function searchNextNode(node) {
+	let names = [];
+
+	if (node.type === 'folder') {
+		names.push(node.name);
+		for (let x of node.contain) {
+			let result = searchNextNode(x);
+			names = names.concat(result);
+		}
+	}
+	return names;
+}
+
+export function filterFolderNames(data) {
+	let names = [];
+	for (let x of data) {
+		const result = searchNextNode(x);
+		names = names.concat(result);
+	}
+	return names;
+}
+
+const isFolderNameDuplicated = (data) => {
+	const names = filterFolderNames(data);
+	console.log(names);
+
+	if (names.filter((v, i) => names.indexOf(v) !== i).length === 0) {
+		return false;
+	}
+	return true;
+};
+
 const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
-	const {temp_favorites, favorites} = useSelector(
+	const {tempFavorites, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
@@ -64,68 +97,50 @@ const AddFavoritesDialogBox = () => {
 		shallowEqual,
 	);
 
-	const [search, onChangeSearch] = useInput('');
+	const onClickCloseFavoritesDialogBox = useCallback(async () => {
+		await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+		await dispatch({type: SET_TEMP_FAVORITES});
+	}, [dispatch, favorites, tempFavorites]);
 
-	const closeModal = useCallback(() => {
-		if (JSON.stringify(temp_favorites) !== JSON.stringify(favorites)) {
-			dispatch({
-				type: OPEN_SAVE_DIALOG_BOX,
-				payload: {key: 'favorites_save'},
-			});
-		} else {
-			dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
-		}
-	}, [favorites, temp_favorites]);
-
-	const onSubmitForm = useCallback(
-		(e) => {
+	const onSubmitSaveChangesOnFavorites = useCallback(
+		async (e) => {
 			e.preventDefault();
-			if (JSON.stringify(temp_favorites) !== JSON.stringify(favorites)) {
-				dispatch({type: SAVE_FAVORITES});
-				dispatch({type: LOCAL_SAVE_FAVORITES});
+			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
+				if (isFolderNameDuplicated(tempFavorites)) {
+					await dispatch({
+						type: OPEN_WARNING_DIALOG_BOX,
+						payload: 'folder_names_on_favorites_duplicated',
+					});
+				} else {
+					await dispatch({type: SAVE_CHANGES_ON_FAVORITES});
+					await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+					await dispatch({type: SET_TEMP_FAVORITES});
+				}
+			} else {
+				await dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
+				await dispatch({type: SET_TEMP_FAVORITES});
 			}
-			// dispatch({type: CLOSE_ADD_FAVORITES_DIALOG_BOX});
 		},
-		[dispatch, favorites, temp_favorites],
+		[dispatch, favorites, tempFavorites],
 	);
 
-	const isValidFolderName = useCallback((folderArray, name) => {
-		let pass = true;
-
-		for (let i of folderArray) {
-			if (i.type === 'folder') {
-				if (i.name === name) return false;
-				else if (i.contain.length > 0) {
-					pass = pass && isValidFolderName(i.contain, name);
-				}
-			}
-		}
-		return pass;
-	}, []);
-
-	const newFolder = useCallback(() => {
-		let folderName = t('newFolder');
-		let i = 0;
-		while (!isValidFolderName(temp_favorites, folderName)) {
-			folderName = `${t('newFolder')} ${i}`;
-			i++;
-		}
+	const onClickAddFolderOnFavorites = useCallback(() => {
 		dispatch({
-			type: ADD_FAVORITES_FOLDER,
-			payload: {name: folderName, key: 'temp_favorites'},
+			type: ADD_TEMP_FOLDER_ON_FAVORITES,
+			payload: {name: t('newFolder')},
 		});
-	}, [dispatch, temp_favorites, isValidFolderName, t]);
+	}, [dispatch, t]);
 
 	useEffect(() => {
 		if (add_favorites_dialog_box.open) {
-			console.log('open');
+			dispatch({type: INIT_TEMP_FAVORITES});
 		}
-	}, [add_favorites_dialog_box]);
+	}, [add_favorites_dialog_box, dispatch]);
 
 	return (
-		<_PopupModal
+		<_DialogBox
 			isOpen={add_favorites_dialog_box.open}
-			onRequestClose={closeModal}
+			onRequestClose={onClickCloseFavoritesDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -133,7 +148,7 @@ const AddFavoritesDialogBox = () => {
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
-					onClick={closeModal}
+					onClick={onClickCloseFavoritesDialogBox}
 					size={'20px'}
 					margin={'0px'}
 				>
@@ -141,25 +156,25 @@ const AddFavoritesDialogBox = () => {
 				</IconButton>
 			</ModalHeader>
 
-			<_Form onSubmit={onSubmitForm}>
+			<_Form onSubmit={onSubmitSaveChangesOnFavorites}>
 				<ListContainer>
-					<FavoriteTempList search={search} />
+					<FavoriteItemsTreeOnDialogBox />
 				</ListContainer>
 			</_Form>
 			<_ModalFooter>
-				<TransparentButton onClick={newFolder}>
+				<TransparentButton onClick={onClickAddFolderOnFavorites}>
 					{t('newFolder')}
 				</TransparentButton>
 				<div>
-					<TransparentButton onClick={closeModal}>
+					<TransparentButton onClick={onClickCloseFavoritesDialogBox}>
 						{t('cancel')}
 					</TransparentButton>
-					<NormalButton onClick={onSubmitForm}>
+					<NormalButton onClick={onSubmitSaveChangesOnFavorites}>
 						{t('save')}
 					</NormalButton>
 				</div>
 			</_ModalFooter>
-		</_PopupModal>
+		</_DialogBox>
 	);
 };
 

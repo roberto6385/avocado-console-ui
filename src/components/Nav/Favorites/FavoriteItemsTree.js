@@ -4,25 +4,21 @@ import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import {_Nav} from '../../../styles/components/navigationBar';
 import FavoriteServer from './FavoriteServer';
-import FavoriteFolder from './FavoriteFolder';
-import {
-	LOCAL_SAVE_FAVORITES,
-	SORT_FAVORITES_SERVER_AND_FOLDER,
-} from '../../../reducers/common';
-import {searchTreeStart} from '../functions';
+import FolderOnFavorites from './FolderOnFavorites';
+import {SORT_FAVORITE_RESOURCES} from '../../../reducers/common';
+import {startSearchingTree} from '../../../utils/searchTree';
 
-const FavoriteList = ({search}) => {
+const FavoriteItemsTree = ({search}) => {
 	const dispatch = useDispatch();
 	const {favorites} = useSelector((state) => state.common, shallowEqual);
-	const [filteredFavorite, setfilteredFavorite] = useState(favorites);
+	const [filteredFavorites, setfilteredFavorites] = useState(favorites);
 
 	const dropNavList = useCallback(() => {
 		console.log('drop favorites list');
 		dispatch({
-			type: SORT_FAVORITES_SERVER_AND_FOLDER,
+			type: SORT_FAVORITE_RESOURCES,
 			payload: {next: 'toEdge'},
 		});
-		dispatch({type: LOCAL_SAVE_FAVORITES});
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -34,14 +30,14 @@ const FavoriteList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorite(searchTreeStart(favorites, search));
+		setfilteredFavorites(startSearchingTree(favorites, search));
 	}, [favorites, search]);
 
 	return (
 		<_Nav onDrop={dropNavList} id='sortableServerNav'>
-			{filteredFavorite.map((data) =>
+			{filteredFavorites.map((data) =>
 				data.type === 'folder' ? (
-					<FavoriteFolder
+					<FolderOnFavorites
 						key={data.key}
 						open={search !== ''}
 						data={data}
@@ -61,9 +57,9 @@ const FavoriteList = ({search}) => {
 	);
 };
 
-FavoriteList.propTypes = {
+FavoriteItemsTree.propTypes = {
 	search: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 
-export default FavoriteList;
+export default FavoriteItemsTree;

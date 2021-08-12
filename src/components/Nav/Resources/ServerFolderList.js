@@ -5,8 +5,8 @@ import Sortable from 'sortablejs';
 import Folder from './Folder';
 import Server from './Server';
 import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
-import {searchTreeStart} from '../functions';
 import {_Nav} from '../../../styles/components/navigationBar';
+import {startSearchingTree} from '../../../utils/searchTree';
 
 const ServerFolderList = ({search}) => {
 	const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const ServerFolderList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setFilteredNavList(searchTreeStart(nav, search));
+		setFilteredNavList(startSearchingTree(nav, search));
 	}, [nav, search]);
 
 	return (
