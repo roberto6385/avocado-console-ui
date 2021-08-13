@@ -67,6 +67,7 @@ const slice = createSlice({
 			);
 		},
 		selectTab: (state, action) => {
+			//TODO: prevent filter if not necessary
 			state.selectedTab = action.payload;
 			if (
 				state.terminalTabs.length > 0 &&
