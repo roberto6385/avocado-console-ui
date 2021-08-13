@@ -27,7 +27,7 @@ const _Form = styled(Form)`
 	padding-bottom: 29px;
 `;
 
-const InputDialogBox = () => {
+const TextBoxDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('inputPopup');
 
@@ -37,44 +37,37 @@ const InputDialogBox = () => {
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
-
-	const [formValue, onChangeFormValue, setFormValue] = useInput('');
+	//TODO: 꼭 prevFormValue 값이 필요한가?
+	const [textBoxVal, onChangeTextBoxVal, setTextBoxVal] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
-	const inputRef = useRef(null);
+	const textBoxRef = useRef(null);
 
 	const uuid = form.uuid;
 	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 
-	const keyArray = [
-		'sftp_rename_file_folder',
-		'sftp_chgrp',
-		'sftp_chown',
-		'sftp_new_folder',
-	];
-
-	const HeaderMessage = {
+	const headerMessages = {
 		sftp_rename_file_folder: t('renameHeader'),
 		sftp_new_folder: t('newFolderHeader'),
 		sftp_chgrp: t('chgrpHeader'),
 		sftp_chown: t('chownHeader'),
 	};
-	const Placeholder = {
+	const placeholders = {
 		sftp_rename_file_folder: t('renamePlace'),
 		sftp_new_folder: t('newFolderPlace'),
 		sftp_chgrp: t('chgrpPlace'),
 		sftp_chown: t('chownPlace'),
 	};
 
-	const onClickCloseModal = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch]);
 
-	const submitFunction = useCallback(
+	const handleOnSubmitTextBoxEvents = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (formValue === '') return;
+			if (textBoxVal === '') return;
 
 			switch (form.key) {
 				case 'sftp_rename_file_folder': {
@@ -89,8 +82,8 @@ const InputDialogBox = () => {
 									: `${path}/${prevFormValue}`,
 							next_path:
 								path === '/'
-									? `${path}${formValue}`
-									: `${path}/${formValue}`,
+									? `${path}${textBoxVal}`
+									: `${path}/${textBoxVal}`,
 							path: path,
 						},
 					});
@@ -106,36 +99,36 @@ const InputDialogBox = () => {
 							uuid: uuid,
 							mkdir_path:
 								path === '/'
-									? `${path}${formValue}`
-									: `${path}/${formValue}`,
+									? `${path}${textBoxVal}`
+									: `${path}/${textBoxVal}`,
 						},
 					});
 					break;
 				}
 
 				case 'sftp_chgrp': {
-					console.log(formValue);
+					//TODO: create sftp chgtp event
 					break;
 				}
 				case 'sftp_chown': {
-					console.log(formValue);
+					//TODO: create sftp chown event
 					break;
 				}
 
 				default:
 					break;
 			}
-			onClickCloseModal();
+			onClickCloseDialogBox();
 		},
 		[
 			form,
-			onClickCloseModal,
+			onClickCloseDialogBox,
 			dispatch,
 			socket,
 			uuid,
 			path,
 			prevFormValue,
-			formValue,
+			textBoxVal,
 		],
 	);
 
@@ -148,16 +141,16 @@ const InputDialogBox = () => {
 					form.key === 'sftp_chgrp' ||
 					form.key === 'sftp_chown'
 				) {
-					setFormValue(prevFormValue);
+					setTextBoxVal(prevFormValue);
 				} else {
-					await setFormValue('');
+					await setTextBoxVal('');
 				}
-				await inputRef.current?.select();
-				await inputRef.current?.focus();
+				await textBoxRef.current?.select();
+				await textBoxRef.current?.focus();
 			}
 		};
 		fillInForm();
-	}, [inputRef, form, prevFormValue, setFormValue]);
+	}, [textBoxRef, form, prevFormValue, setTextBoxVal]);
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {
@@ -175,37 +168,41 @@ const InputDialogBox = () => {
 
 	return (
 		<_PopupModal
-			isOpen={form.open && keyArray.includes(form.key)}
-			onRequestClose={onClickCloseModal}
+			isOpen={
+				form.open &&
+				Object.prototype.hasOwnProperty.call(headerMessages, form.key)
+			}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
 			<ModalHeader>
-				<div>{HeaderMessage[form.key]}</div>
+				<div>{headerMessages[form.key]}</div>
 				<IconButton
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={onClickCloseModal}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
 			</ModalHeader>
 
-			<_Form onSubmit={submitFunction}>
+			<_Form onSubmit={handleOnSubmitTextBoxEvents}>
 				<Input
-					ref={inputRef}
-					value={formValue}
-					onChange={onChangeFormValue}
-					placeholder={Placeholder[form.key]}
+					ref={textBoxRef}
+					value={textBoxVal}
+					onChange={onChangeTextBoxVal}
+					placeholder={placeholders[form.key]}
+					required
 				/>
 			</_Form>
 
 			<ModalFooter>
-				<TransparentButton onClick={onClickCloseModal}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={submitFunction}>
+				<NormalButton onClick={handleOnSubmitTextBoxEvents}>
 					{t('save')}
 				</NormalButton>
 			</ModalFooter>
@@ -213,4 +210,4 @@ const InputDialogBox = () => {
 	);
 };
 
-export default InputDialogBox;
+export default TextBoxDialogBox;

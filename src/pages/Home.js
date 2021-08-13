@@ -25,7 +25,6 @@ const Home = () => {
 
 	useEffect(() => {
 		if (userData) {
-			console.log(userData);
 			dispatch(
 				userResourceAction.findByIdRequest({
 					access_token: userData.access_token,
@@ -40,8 +39,6 @@ const Home = () => {
 
 	useEffect(() => {
 		if (data) {
-			console.log(data);
-
 			dispatch({
 				type: SAVE_ACCOUT,
 				payload: {

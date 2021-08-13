@@ -9,7 +9,7 @@ import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {AUTH} from '../../reducers/api/auth';
 
-const FileListContextMenu = ({uuid}) => {
+const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 	//TODO : sftp_pathState 언더바, 케멀 통일
@@ -22,6 +22,7 @@ const FileListContextMenu = ({uuid}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
 	const {highlight} = useMemo(
 		() => sftp_highState.find((it) => it.uuid === uuid),
@@ -35,25 +36,27 @@ const FileListContextMenu = ({uuid}) => {
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
-	const corTab = useMemo(
+
+	const searchedTerminalTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
+	const searchedServer = useMemo(
+		() => server.find((it) => it.key === searchedTerminalTab.server.key),
+		[searchedTerminalTab.server.key, server],
 	);
 
-	const correspondedIdentity = useMemo(
+	const searchedIdentity = useMemo(
 		() =>
 			identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
+				(it) =>
+					it.key === searchedTerminalTab.server.key &&
+					it.checked === true,
 			),
-		[identity, corTab],
+		[identity, searchedTerminalTab],
 	);
 
-	const contextDownload = useCallback(async () => {
+	const onClickDownloadContext = useCallback(async () => {
 		for await (let value of highlight) {
 			dispatch({
 				type: ADD_HISTORY,
@@ -73,10 +76,10 @@ const FileListContextMenu = ({uuid}) => {
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: corServer.host,
-					port: corServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+					host: searchedServer.host,
+					port: searchedServer.port,
+					user: searchedIdentity.user,
+					password: searchedIdentity.password,
 					todo: 'read',
 					uuid: uuid,
 				},
@@ -90,11 +93,11 @@ const FileListContextMenu = ({uuid}) => {
 		highlight,
 		path,
 		userData,
-		corServer,
-		correspondedIdentity,
+		searchedServer,
+		searchedIdentity,
 	]);
 
-	const contextEdit = useCallback(() => {
+	const onClickEditContext = useCallback(() => {
 		for (let value of highlight) {
 			dispatch({
 				type: ADD_HISTORY,
@@ -115,10 +118,10 @@ const FileListContextMenu = ({uuid}) => {
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: corServer.host,
-					port: corServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+					host: searchedServer.host,
+					port: searchedServer.port,
+					user: searchedIdentity.user,
+					password: searchedIdentity.password,
 					todo: 'read',
 					uuid: uuid,
 				},
@@ -132,18 +135,18 @@ const FileListContextMenu = ({uuid}) => {
 		uuid,
 		path,
 		userData,
-		corServer,
-		correspondedIdentity,
+		searchedServer,
+		searchedIdentity,
 	]);
 
-	const handleItemClick = useCallback(
+	const handleOnClickEvents = useCallback(
 		async ({event}) => {
 			switch (event.currentTarget.id) {
 				case 'download':
-					await contextDownload();
+					await onClickDownloadContext();
 					break;
 				case 'edit':
-					contextEdit(event);
+					onClickEditContext(event);
 					break;
 				case 'new_folder':
 					dispatch(
@@ -200,14 +203,14 @@ const FileListContextMenu = ({uuid}) => {
 					return;
 			}
 		},
-		[contextDownload, contextEdit, dispatch, uuid],
+		[onClickDownloadContext, onClickEditContext, dispatch, uuid],
 	);
 	return (
 		<ContextMenu id={uuid + 'fileList'} animation={animation.slide}>
 			<Item
 				disabled={highlight.length === 0}
 				id='download'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('download')}
 			</Item>
@@ -218,19 +221,19 @@ const FileListContextMenu = ({uuid}) => {
 					highlight.slice().find((item) => item.type === 'directory')
 				}
 				id='edit'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('edit')}
 			</Item>
 			<Separator />
 
-			<Item id='new_folder' onClick={handleItemClick}>
+			<Item id='new_folder' onClick={handleOnClickEvents}>
 				{t('newFolder')}
 			</Item>
 			<Item
 				disabled={highlight.length === 0 || highlight.length !== 1}
 				id='rename_work'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('rename')}
 			</Item>
@@ -238,7 +241,7 @@ const FileListContextMenu = ({uuid}) => {
 			<Item
 				disabled={highlight.length === 0}
 				id='delete_work'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('delete')}
 			</Item>
@@ -246,7 +249,7 @@ const FileListContextMenu = ({uuid}) => {
 			<Item
 				disabled={highlight.length !== 1}
 				id='attr_work'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('attr')}
 			</Item>
@@ -254,7 +257,7 @@ const FileListContextMenu = ({uuid}) => {
 			<Item
 				disabled={highlight.length !== 1}
 				id='chgrp_work'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('chgrp')}
 			</Item>
@@ -262,7 +265,7 @@ const FileListContextMenu = ({uuid}) => {
 			<Item
 				disabled={highlight.length !== 1}
 				id='chown_work'
-				onClick={handleItemClick}
+				onClick={handleOnClickEvents}
 			>
 				{t('chown')}
 			</Item>
@@ -270,8 +273,8 @@ const FileListContextMenu = ({uuid}) => {
 	);
 };
 
-FileListContextMenu.propTypes = {
+SFTPFileListContextMenu.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default FileListContextMenu;
+export default SFTPFileListContextMenu;

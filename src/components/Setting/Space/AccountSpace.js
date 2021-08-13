@@ -8,7 +8,6 @@ import Radio_ from '../../RecycleComponents/Radio_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import ChangePasswordDialogBox from '../../DialogBoxs/Form/ChangePasswordDialogBox';
 import {DisabledButton, NormalButton} from '../../../styles/components/button';
-import ChangeUserNameDialogBox from '../../DialogBoxs/Form/ChangeUserNameDialogBox';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
@@ -151,7 +150,6 @@ const AccountSpace = () => {
 				/>
 			</SettingContentsContainer>
 			<ChangePasswordDialogBox />
-			<ChangeUserNameDialogBox />
 		</SettingMainContainer>
 	);
 };

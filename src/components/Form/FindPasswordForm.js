@@ -54,83 +54,59 @@ const FindPasswordForm = () => {
 	const [email, onChangeEmail] = useInput('');
 	const [password, onChangePassword] = useInput('');
 	const [confirmPassword, onChangeConfirmPassword] = useInput('');
-	const [hidePassword, setHidePassword] = useState(true);
+	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
 	const idRef = useRef(null);
 
-	const onSubmitForm = useCallback(
+	const onSubmitFindPasswordForm = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-			//TODO: Find and Change Password Action
+			//TODO: Change Password Action
 		},
 		[dispatch],
 	);
 
-	const sendAuth = useCallback(
+	const onClickSendVerificationCode = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-			console.log('some action!');
+			//TODO: Send Verification Code Action
 		},
 		[dispatch],
 	);
 
-	const checkAuth = useCallback(
+	const onClickConfirmVerificationCode = useCallback(
 		(e) => {
 			e.preventDefault();
-
 			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-			console.log('some action!');
+			//TODO: Confirm Verification Code Action
 		},
 		[dispatch],
 	);
 
-	const typeChange = useCallback(
+	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
 			e.preventDefault();
-			setHidePassword(!hidePassword);
+			setIsPasswordHidden(!isPasswordHidden);
 		},
-		[hidePassword],
+		[isPasswordHidden],
 	);
 
-	const focusin = useCallback(
-		(keyword) => () => {
-			if (keyword === 'password') {
-				const passwordContainer =
-					document.getElementById('password_container');
-				passwordContainer.classList.add('focus');
-			} else {
-				const passwordContainer = document.getElementById(
-					'confirmPassword_container',
-				);
-				passwordContainer.classList.add('focus');
-			}
-		},
-		[],
-	);
+	const onFocusPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.add('focus');
+	}, []);
 
-	const focusout = useCallback(
-		(keyword) => () => {
-			if (keyword === 'password') {
-				const passwordContainer =
-					document.getElementById('password_container');
-				passwordContainer.classList.remove('focus');
-			} else {
-				const passwordContainer = document.getElementById(
-					'confirmPassword_container',
-				);
-				passwordContainer.classList.remove('focus');
-			}
-		},
-		[],
-	);
+	const onBlurPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.remove('focus');
+	}, []);
 
 	useEffect(() => {
 		idRef.current?.focus();
-	}, []);
+	}, [idRef]);
 
 	return !loading ? (
-		<UserForm onSubmit={onSubmitForm}>
+		<UserForm onSubmit={onSubmitFindPasswordForm}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('remember')}
@@ -148,7 +124,7 @@ const FindPasswordForm = () => {
 
 			<Item_Container>
 				<span>{t('auth')}</span>
-				<_NormalBorderButton onClick={sendAuth}>
+				<_NormalBorderButton onClick={onClickSendVerificationCode}>
 					{t('send')}
 				</_NormalBorderButton>
 			</Item_Container>
@@ -160,46 +136,48 @@ const FindPasswordForm = () => {
 						value={email}
 						onChange={onChangeEmail}
 						placeholder={t('authInput')}
+						required
 					/>
 				</TextBoxField_>
-				<_NormalBorderButton onClick={checkAuth}>
+				<_NormalBorderButton onClick={onClickConfirmVerificationCode}>
 					{t('check')}
 				</_NormalBorderButton>
 			</Item_Container>
 
 			<TextBoxField_ marginBottom={'18px'}>
-				<UserPasswordContainer id={'password_container'}>
+				<UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
-						onFocus={focusin('password')}
-						onBlur={focusout('password')}
-						type={hidePassword ? 'password' : 'text'}
+						onFocus={onFocusPasswordTextBox}
+						onBlur={onBlurPasswordTextBox}
+						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('password')}
+						required
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
 						color={passwordIconColor}
-						onClick={typeChange}
+						onClick={onClickChangePasswordVisibility}
 					>
-						{hidePassword
+						{isPasswordHidden
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
 			</TextBoxField_>
-			<TextBoxField_ marginBottom={'18px'}>
-				<UserPasswordContainer id={'confirmPassword_container'}>
-					<UserPasswordInput
-						onFocus={focusin('confirm')}
-						onBlur={focusout('confirm')}
-						type={hidePassword ? 'password' : 'text'}
+
+			<Item_Container>
+				<TextBoxField_ flex={1} marginBottom={'0px'}>
+					<UserInput
+						type={isPasswordHidden ? 'password' : 'text'}
 						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('confirmPassword')}
+						required
 					/>
-				</UserPasswordContainer>
-			</TextBoxField_>
+				</TextBoxField_>
+			</Item_Container>
 			<_UserSubmitButton type='submit'>
 				{t('changePassword')}
 			</_UserSubmitButton>

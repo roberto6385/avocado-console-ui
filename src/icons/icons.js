@@ -265,7 +265,7 @@ export const burgerMenuIcon = <span className='material-icons'>menu</span>;
 export const newFolderIcon = (
 	<span className='material-icons'>create_new_folder</span>
 );
-// nav and footer search icon
+// nav and footer searchVal icon
 export const searchIcon = <span className='material-icons'>search</span>;
 
 export const arrowDropUpIcon = (

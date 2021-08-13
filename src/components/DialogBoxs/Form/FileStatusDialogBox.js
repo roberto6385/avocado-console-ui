@@ -63,10 +63,13 @@ const FileStatusDialogBox = () => {
 	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
 	const uuid = form.uuid;
-	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
+	const searchedWebSocket = sftp_socketState.find(
+		(it) => it.uuid === uuid,
+	)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
-	const closeModal = useCallback(() => {
+
+	const onCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeForm());
 		setOwner(null);
 		setGroup(null);
@@ -86,13 +89,23 @@ const FileStatusDialogBox = () => {
 				payload: {
 					permissions: per,
 					path: stat.path,
-					socket: socket,
+					socket: searchedWebSocket,
 					uuid: uuid,
 				},
 			});
-			closeModal();
+			onCloseDialogBox();
 		},
-		[closeModal, dispatch, grp, own, pub, socket, stat, type, uuid],
+		[
+			onCloseDialogBox,
+			dispatch,
+			grp,
+			own,
+			pub,
+			searchedWebSocket,
+			stat,
+			type,
+			uuid,
+		],
 	);
 
 	const checkFunc = useCallback(
@@ -201,11 +214,11 @@ const FileStatusDialogBox = () => {
 				payload: {
 					stat_path: path,
 					file: highlight[0],
-					socket: socket,
+					socket: searchedWebSocket,
 				},
 			});
 		}
-	}, [dispatch, highlight, path, socket, form]);
+	}, [dispatch, highlight, path, searchedWebSocket, form]);
 
 	useEffect(() => {
 		console.log(stat);
@@ -234,7 +247,7 @@ const FileStatusDialogBox = () => {
 				}
 				value += caseValue;
 			});
-			console.log(value);
+
 			const checkList = [
 				{key: 'own', type: t('read'), value: '4', checked: false},
 				{key: 'own', type: t('write'), value: '2', checked: false},
@@ -260,7 +273,7 @@ const FileStatusDialogBox = () => {
 		checked.length !== 0 && (
 			<_PopupModal
 				isOpen={form.open && form.key === 'sftp_stat'}
-				onRequestClose={closeModal}
+				onRequestClose={onCloseDialogBox}
 				ariaHideApp={false}
 				shouldCloseOnOverlayClick={false}
 			>
@@ -271,7 +284,7 @@ const FileStatusDialogBox = () => {
 						btype={'font'}
 						size={'sm'}
 						margin={'0px'}
-						onClick={closeModal}
+						onClick={onCloseDialogBox}
 					>
 						{closeIcon}
 					</IconButton>
@@ -356,7 +369,7 @@ const FileStatusDialogBox = () => {
 				</_Form>
 
 				<ModalFooter>
-					<TransparentButton onClick={closeModal}>
+					<TransparentButton onClick={onCloseDialogBox}>
 						{t('cancel')}
 					</TransparentButton>
 					<NormalButton onClick={submitFunction}>

@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import * as PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
@@ -41,78 +40,69 @@ const ChangePasswordDialogBox = () => {
 
 	const [currentPassword, onChangeCurrentPassword, setCurrentPassword] =
 		useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
+	const [newPassword, onChangeNewPassword, setNewPassword] = useInput('');
 	const [confirmPassword, onChangeConfirmPassword, setConfrimPassword] =
 		useInput('');
 
-	const currentRef = useRef(null);
-	const passwordRef = useRef(null);
-	const confirmRef = useRef(null);
+	const currentPasswordRef = useRef(null);
+	const newPasswordRef = useRef(null);
 
-	const closeModal = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch]);
 
-	const onSubmitForm = useCallback(
+	const onSubmitChangePasswordForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
-			if (
-				password === '' ||
-				currentPassword === '' ||
-				confirmPassword === ''
-			) {
-				console.log('입력하지 않은 값이 있습니다.');
-				currentPassword === '' && currentRef.current?.focus();
-				password === '' && passwordRef.current?.focus();
-				confirmPassword === '' && confirmRef.current?.focus();
-			} else if (currentPassword !== localStorage.getItem('password')) {
-				console.log('현재 비밀번호 값이 올바르지 않습니다.');
+			if (currentPassword !== localStorage.getItem('password')) {
+				//TODO: check password match through auth server (not localStorage)
+				//TODO: Show currentPassword does not match Message
 				setCurrentPassword('');
-				currentRef.current?.focus();
-			} else if (password !== confirmPassword) {
-				console.log('입력한 두 비밀번호가 일치하지 않습니다');
-				setPassword('');
+				currentPasswordRef.current?.focus();
+			} else if (newPassword !== confirmPassword) {
+				//TODO: Show password !== confirmPassword Message
+				setNewPassword('');
 				setConfrimPassword('');
-				passwordRef.current?.focus();
+				newPasswordRef.current?.focus();
 			} else {
 				dispatch(
 					userResourceAction.modifyRequest({
 						userUid: data.userUid,
 						name: data.name,
-						password: password,
+						password: newPassword,
 						access_token: userData.access_token,
 					}),
 				);
-				closeModal();
+				onClickCloseDialogBox();
 			}
 		},
 		[
-			password,
+			newPassword,
 			currentPassword,
 			confirmPassword,
 			setCurrentPassword,
-			setPassword,
+			setNewPassword,
 			setConfrimPassword,
 			dispatch,
 			data,
 			userData,
-			closeModal,
+			onClickCloseDialogBox,
 		],
 	);
 
 	useEffect(() => {
 		if (form.open && form.key === 'password') {
 			setCurrentPassword('');
-			setPassword('');
+			setNewPassword('');
 			setConfrimPassword('');
 		}
-	}, [form, setConfrimPassword, setCurrentPassword, setPassword]);
+	}, [form, setConfrimPassword, setCurrentPassword, setNewPassword]);
 
 	return (
 		<_PopupModal
 			isOpen={form.open && form.key === 'password'}
-			onRequestClose={closeModal}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -122,47 +112,51 @@ const ChangePasswordDialogBox = () => {
 					btype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={closeModal}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
 			</ModalHeader>
-			<Form onSubmit={onSubmitForm}>
+			<Form onSubmit={onSubmitChangePasswordForm}>
 				<TextBoxField_ title={t('current')}>
 					<Input
-						ref={currentRef}
+						ref={currentPasswordRef}
 						type='password'
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
 						placeholder={t('place.current')}
+						required
 					/>
 				</TextBoxField_>
 
 				<TextBoxField_ title={t('new')}>
 					<Input
-						ref={passwordRef}
+						ref={newPasswordRef}
 						type='password'
-						value={password}
-						onChange={onChangePassword}
+						value={newPassword}
+						onChange={onChangeNewPassword}
 						placeholder={t('place.new')}
+						required
 					/>
 				</TextBoxField_>
 				<TextBoxField_ title={t('confirm')}>
 					<Input
-						ref={confirmRef}
 						type='password'
 						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('place.confirm')}
+						required
 					/>
 				</TextBoxField_>
 			</Form>
 
 			<ModalFooter>
-				<TransparentButton onClick={closeModal}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>
+				<NormalButton onClick={onSubmitChangePasswordForm}>
+					{t('save')}
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

@@ -21,7 +21,6 @@ export {default as addAccountDialogBox} from './DialogBoxs/Form/AddAccountDialog
 export {default as addFavoritesForm} from './DialogBoxs/Form/AddFavoritesDialogBox';
 export {default as fileStatusDialogBox} from './DialogBoxs/Form/FileStatusDialogBox';
 export {default as changePasswordForm} from './DialogBoxs/Form/ChangePasswordDialogBox';
-export {default as changeNameForm} from './DialogBoxs/Form/ChangeUserNameDialogBox';
 export {default as rightCornerIcons} from './ContextMenu/SettingContextMenu';
 export {default as contextMenu} from './ContextMenu';
 export {default as snippets} from './Snippets';

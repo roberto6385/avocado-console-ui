@@ -23,28 +23,24 @@ const WarningDialogBox = () => {
 
 	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
-	const AlertMessage = {
+	const alertMessages = {
 		invalid_server: t('invalidServer'),
 		developing: t('developing'),
 		wrong_path: t('wrongPath'),
 		folder_names_on_favorites_duplicated: '폴더 이름 중복(TESt)',
 	};
 
-	const onClickCloseModal = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
-	const keyArray = [
-		'invalid_server',
-		'developing',
-		'wrong_path',
-		'folder_names_on_favorites_duplicated',
-	];
-
 	return (
 		<AlertDialogBox
-			isOpen={alert.open && keyArray.includes(alert.key)}
-			onRequestClose={onClickCloseModal}
+			isOpen={
+				alert.open &&
+				Object.prototype.hasOwnProperty.call(alertMessages, alert.key)
+			}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -54,7 +50,7 @@ const WarningDialogBox = () => {
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={onClickCloseModal}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
@@ -64,14 +60,14 @@ const WarningDialogBox = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{AlertMessage[alert.key]}</AlertText>
+				<AlertText>{alertMessages[alert.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
-				<TransparentButton onClick={onClickCloseModal}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<WarningButton onClick={onClickCloseModal}>
+				<WarningButton onClick={onClickCloseDialogBox}>
 					{t('ok')}
 				</WarningButton>
 			</ModalFooter>

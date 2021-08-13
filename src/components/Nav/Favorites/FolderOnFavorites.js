@@ -82,7 +82,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 				e.preventDefault();
 
 				if (renameValue !== '') {
-					//TODO: CHECK VALID VALUE
+					//TODO: check valid folder name value
 					dispatch({
 						type: CHANGE_FOLDER_NAME_ON_FAVORITES,
 						payload: {key: data.key, name: renameValue},

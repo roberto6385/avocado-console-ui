@@ -10,81 +10,81 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {AUTH} from '../../reducers/api/auth';
 
-const ServerContextMenu = ({correspondedIdentity, data}) => {
+const ServerContextMenu = ({identity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const correspondedServer = useMemo(
+	const searchedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],
 	);
 
-	const Ssh2ServerContextMenuMessage = {
+	const SSHContextMenuList = {
 		connect: t('connectSsh'),
 		open_sftp: t('connectSftp'),
 		properties: t('properties'),
 	};
 
-	const SftpServerContextMenuMessage = {
+	const SFTPContextMenuList = {
 		open_sftp: t('connectSftp'),
 		properties: t('properties'),
 	};
 
-	const openSFTP = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
+	const onClickOpenSFTP = useCallback(() => {
+		const searchedServer = server.find((i) => i.key === data.key);
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token, // connection info
-				host: correspondedServer.host,
-				port: correspondedServer.port,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
+				host: searchedServer.host,
+				port: searchedServer.port,
+				user: identity.user,
+				password: identity.password,
 
-				name: correspondedServer.name, // create tab info
-				key: correspondedServer.key,
-				id: correspondedServer.id,
+				name: searchedServer.name, // create tab info
+				key: searchedServer.key,
+				id: searchedServer.id,
 			},
 		});
 	}, [
 		server,
 		dispatch,
 		userData,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
+		identity.user,
+		identity.password,
 		data.key,
 	]);
 
-	const openSSH = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
+	const onClickOpenSSH = useCallback(() => {
+		const searchedServer = server.find((i) => i.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token,
-				...correspondedServer,
-				user: correspondedIdentity.user,
-				password: correspondedIdentity.password,
+				...searchedServer,
+				user: identity.user,
+				password: identity.password,
 			},
 		});
 	}, [
 		server,
 		dispatch,
 		userData,
-		correspondedIdentity.user,
-		correspondedIdentity.password,
+		identity.user,
+		identity.password,
 		data.key,
 	]);
 
-	const handleItemClick = useCallback(
+	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
 				case 'connect':
-					openSSH();
+					onClickOpenSSH();
 					break;
 				case 'open_sftp':
-					openSFTP();
+					onClickOpenSFTP();
 					break;
 				case 'rename':
 					break;
@@ -104,20 +104,20 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 					return;
 			}
 		},
-		[data.id, dispatch, openSFTP, openSSH],
+		[data.id, dispatch, onClickOpenSFTP, onClickOpenSSH],
 	);
 
 	return (
 		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
-			{correspondedServer?.protocol === 'SSH2'
-				? Object.keys(Ssh2ServerContextMenuMessage).map((v) => (
-						<Item onClick={handleItemClick(v)} key={v}>
-							{Ssh2ServerContextMenuMessage[v]}
+			{searchedServer?.protocol === 'SSH2'
+				? Object.keys(SSHContextMenuList).map((v) => (
+						<Item onClick={handleOnClickEvents(v)} key={v}>
+							{SSHContextMenuList[v]}
 						</Item>
 				  ))
-				: Object.keys(SftpServerContextMenuMessage).map((v) => (
-						<Item onClick={handleItemClick(v)} key={v}>
-							{SftpServerContextMenuMessage[v]}
+				: Object.keys(SFTPContextMenuList).map((v) => (
+						<Item onClick={handleOnClickEvents(v)} key={v}>
+							{SFTPContextMenuList[v]}
 						</Item>
 				  ))}
 		</ContextMenu>
@@ -126,7 +126,7 @@ const ServerContextMenu = ({correspondedIdentity, data}) => {
 
 ServerContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
-	correspondedIdentity: PropTypes.object.isRequired,
+	identity: PropTypes.object.isRequired,
 };
 
 export default ServerContextMenu;

@@ -20,7 +20,7 @@ const _Footer = styled.footer`
 	padding: 0 16px;
 `;
 
-const _RightContainer = styled.div`
+const _RightSideContainer = styled.div`
 	display: flex;
 	align-items: center;
 `;
@@ -41,9 +41,11 @@ const Footer = () => {
 		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
 	}, [font_size]);
 
-	const onClickOpenSshSearchBar = useCallback(() => {
-		const current = tab.slice().find((v) => v.uuid === current_tab);
-		if (current_tab !== null && current.type === 'SSH')
+	const onClickOpenSSHSearchBar = useCallback(() => {
+		if (
+			current_tab !== null &&
+			tab.slice().find((v) => v.uuid === current_tab).type === 'SSH'
+		)
 			dispatch({type: SSH_SET_SEARCH_MODE});
 	}, [current_tab, tab]);
 
@@ -51,7 +53,7 @@ const Footer = () => {
 		<_Footer>
 			<span>Avocado v1.0</span>
 			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
-				<_RightContainer>
+				<_RightSideContainer>
 					<HoverButton
 						margin_right={'10px'}
 						size={'micro'}
@@ -69,7 +71,7 @@ const Footer = () => {
 					<HoverButton
 						margin_right={'10px'}
 						size={'micro'}
-						onClick={onClickOpenSshSearchBar}
+						onClick={onClickOpenSSHSearchBar}
 					>
 						{searchIcon}
 					</HoverButton>
@@ -81,7 +83,7 @@ const Footer = () => {
 								tab.find((i) => i.uuid === current_tab)?.server
 									.id,
 						)?.host}
-				</_RightContainer>
+				</_RightSideContainer>
 			)}
 		</_Footer>
 	);

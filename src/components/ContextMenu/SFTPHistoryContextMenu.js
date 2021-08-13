@@ -7,40 +7,35 @@ const _Menu = styled(Menu)`
 	font-size: '14px';
 `;
 
-const HistoryContextMenu = ({setHighlight}) => {
-	const contextDeleteHistory = useCallback(() => {
-		// for (let value of highlight) {
-		// 	dispatch({type: SFTP_DELETE_HISTORY, data: {id: value.id}});
-		// }
+const SFTPHistoryContextMenu = ({setHighlight}) => {
+	const onClickDeleteSFTPHistory = useCallback(() => {
 		setHighlight([]);
 	}, [setHighlight]);
 
-	const handleItemClick = useCallback(
-		(id) => () => {
-			switch (id) {
-				case 'Delete':
-					contextDeleteHistory();
+	const handleOnClickEvents = useCallback(
+		(key) => () => {
+			switch (key) {
+				case 'delete':
+					onClickDeleteSFTPHistory();
 					break;
 				default:
 					return;
 			}
 		},
-		[contextDeleteHistory],
+		[onClickDeleteSFTPHistory],
 	);
 
 	return (
 		<_Menu id={'history'} animation={animation.slide}>
-			<Item id='Delete' onClick={handleItemClick('Delete')}>
-				Delete
-			</Item>
+			<Item onClick={handleOnClickEvents('delete')}>Delete</Item>
 		</_Menu>
 	);
 };
 
-HistoryContextMenu.propTypes = {
+SFTPHistoryContextMenu.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	highlight: PropTypes.array.isRequired,
 	setHighlight: PropTypes.func.isRequired,
 };
 
-export default HistoryContextMenu;
+export default SFTPHistoryContextMenu;

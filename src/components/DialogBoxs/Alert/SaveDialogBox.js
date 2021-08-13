@@ -49,13 +49,13 @@ const SaveDialogBox = () => {
 		shallowEqual,
 	);
 
-	const SaveMessage = {
+	const alertMessages = {
 		sftp_edit_save: t('editSave'),
 		sftp_edit_close: t('editClose'),
 		save_favorites: t('favoritesSave'),
 	};
 
-	const closeModal = useCallback(async () => {
+	const onClickCloseDialogBox = useCallback(async () => {
 		dispatch(dialogBoxAction.closeAlert());
 
 		switch (alert.key) {
@@ -86,118 +86,130 @@ const SaveDialogBox = () => {
 		}
 	}, [dispatch, sftp_etcState]);
 
-	const submitFunction = useCallback(
+	const handleOnClickSFTPSaveEvents = useCallback(() => {
+		const uuid = alert.uuid;
+		const searchedTerminalTab = tab.find((it) => it.uuid === uuid);
+		const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
+		const {path} = sftp_pathState.find((it) => it.uuid === uuid);
+		const {editText, editFile} = sftp_editState.find(
+			(it) => it.uuid === uuid,
+		);
+		const {writeSocket, writeList} = sftp_uploadState.find(
+			(it) => it.uuid === uuid,
+		);
+
+		const searchedIdentity = identity.find(
+			(it) =>
+				it.key === searchedTerminalTab.server.key &&
+				it.checked === true,
+		);
+
+		const searchedServer = server.find(
+			(it) => it.key === searchedTerminalTab.server.key,
+		);
+		const changedFile = new File([editText], editFile.name, {
+			type: 'text/plain',
+		});
+
+		switch (alert.key) {
+			case 'sftp_edit_save': {
+				dispatch({
+					type: SAVE_TEXT,
+					payload: {uuid, text: editText},
+				});
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: changedFile.name,
+						size: changedFile.size,
+						todo: 'edit',
+						progress: 0,
+						path: path,
+						file: changedFile,
+						key: 'write',
+					},
+				});
+				if (!writeSocket && writeList.length === 0) {
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
+							token: userData.access_token, // connection info
+							host: searchedServer.host,
+							port: searchedServer.port,
+							user: searchedIdentity.user,
+							password: searchedIdentity.password,
+							todo: 'write',
+							uuid: uuid,
+						},
+					});
+				}
+
+				break;
+			}
+			case 'sftp_edit_close': {
+				dispatch({
+					type: ADD_HISTORY,
+					payload: {
+						uuid: uuid,
+						name: changedFile.name,
+						size: changedFile.size,
+						todo: 'edit',
+						progress: 0,
+						path: path,
+						file: changedFile,
+						key: 'write',
+					},
+				});
+				if (!writeSocket && writeList.length === 0) {
+					dispatch({
+						type: CREATE_NEW_WEBSOCKET_REQUEST,
+						payload: {
+							token: userData.access_token, // connection info
+							host: searchedServer.host,
+							port: searchedServer.port,
+							user: searchedIdentity.user,
+							password: searchedIdentity.password,
+							todo: 'write',
+							uuid: uuid,
+						},
+					});
+				}
+				dispatch({
+					type: SAVE_TEXT,
+					payload: {uuid, text: editText},
+				});
+				dispatch({
+					type: CLOSE_EDITOR,
+					payload: {uuid: alert.uuid},
+				});
+				dispatch({
+					type: CHANGE_MODE,
+					payload: {uuid: alert.uuid, mode: prevMode},
+				});
+				break;
+			}
+			default:
+				break;
+		}
+	}, []);
+
+	const handleOnClickSaveEvents = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (alert.key === 'save_favorites') {
-				dispatch({type: SAVE_CHANGES_ON_FAVORITES});
-				closeModal();
-				return;
-			}
-
-			const uuid = alert.uuid;
-			const corTab = tab.find((it) => it.uuid === uuid);
-			const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
-			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
-			const {editText, editFile} = sftp_editState.find(
-				(it) => it.uuid === uuid,
-			);
-			const {writeSocket, writeList} = sftp_uploadState.find(
-				(it) => it.uuid === uuid,
-			);
-
-			const correspondedIdentity = identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
-			);
-
-			const corServer = server.find((it) => it.key === corTab.server.key);
-			const uploadFile = new File([editText], editFile.name, {
-				type: 'text/plain',
-			});
 
 			switch (alert.key) {
-				case 'sftp_edit_save': {
-					dispatch({
-						type: SAVE_TEXT,
-						payload: {uuid, text: editText},
-					});
-					dispatch({
-						type: ADD_HISTORY,
-						payload: {
-							uuid: uuid,
-							name: uploadFile.name,
-							size: uploadFile.size,
-							todo: 'edit',
-							progress: 0,
-							path: path,
-							file: uploadFile,
-							key: 'write',
-						},
-					});
-					if (!writeSocket && writeList.length === 0) {
-						dispatch({
-							type: CREATE_NEW_WEBSOCKET_REQUEST,
-							payload: {
-								token: userData.access_token, // connection info
-								host: corServer.host,
-								port: corServer.port,
-								user: correspondedIdentity.user,
-								password: correspondedIdentity.password,
-								todo: 'write',
-								uuid: uuid,
-							},
-						});
-					}
-
+				case 'sftp_edit_save':
+				case 'sftp_edit_close':
+					handleOnClickSFTPSaveEvents();
 					break;
-				}
-				case 'sftp_edit_close': {
-					dispatch({
-						type: ADD_HISTORY,
-						payload: {
-							uuid: uuid,
-							name: uploadFile.name,
-							size: uploadFile.size,
-							todo: 'edit',
-							progress: 0,
-							path: path,
-							file: uploadFile,
-							key: 'write',
-						},
-					});
-					if (!writeSocket && writeList.length === 0) {
-						dispatch({
-							type: CREATE_NEW_WEBSOCKET_REQUEST,
-							payload: {
-								token: userData.access_token, // connection info
-								host: corServer.host,
-								port: corServer.port,
-								user: correspondedIdentity.user,
-								password: correspondedIdentity.password,
-								todo: 'write',
-								uuid: uuid,
-							},
-						});
-					}
-					dispatch({
-						type: SAVE_TEXT,
-						payload: {uuid, text: editText},
-					});
-					dispatch({
-						type: CLOSE_EDITOR,
-						payload: {uuid: alert.uuid},
-					});
-					dispatch({
-						type: CHANGE_MODE,
-						payload: {uuid: alert.uuid, mode: prevMode},
-					});
+				case 'save_favorites':
+					dispatch({type: SAVE_CHANGES_ON_FAVORITES});
 					break;
-				}
-
 				default:
 					break;
 			}
-			closeModal();
+			onClickCloseDialogBox();
 		},
 		[
 			alert,
@@ -208,18 +220,19 @@ const SaveDialogBox = () => {
 			sftp_uploadState,
 			identity,
 			server,
-			closeModal,
+			onClickCloseDialogBox,
 			dispatch,
 			userData,
 		],
 	);
 
-	const keyArray = ['sftp_edit_save', 'sftp_edit_close', 'save_favorites'];
-
 	return (
 		<AlertDialogBox
-			isOpen={alert.open && keyArray.includes(alert.key)}
-			onRequestClose={closeModal}
+			isOpen={
+				alert.open &&
+				Object.prototype.hasOwnProperty.call(alertMessages, alert.key)
+			}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -229,7 +242,7 @@ const SaveDialogBox = () => {
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={closeModal}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
@@ -239,14 +252,14 @@ const SaveDialogBox = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{alertFillIcon}
 				</Icon>
-				<AlertText>{SaveMessage[alert.key]}</AlertText>
+				<AlertText>{alertMessages[alert.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
-				<TransparentButton onClick={closeModal}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<WarningButton onClick={submitFunction}>
+				<WarningButton onClick={handleOnClickSaveEvents}>
 					{t('save')}
 				</WarningButton>
 			</ModalFooter>

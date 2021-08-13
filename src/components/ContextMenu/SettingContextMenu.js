@@ -13,14 +13,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const history = useHistory();
 	const {side_key} = useSelector((state) => state.common, shallowEqual);
 
-	const changePath = useCallback(
+	const onClickRedirectToAccountPage = useCallback(
 		(path) => () => {
 			history.push(path);
 		},
 		[history],
 	);
 
-	const openSideMenu = useCallback(
+	const onClickOpenAside = useCallback(
 		(key) => () => {
 			if (toggle && side_key === key) {
 				setToggle(false);
@@ -34,14 +34,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 
 	return (
 		<DropDownMenu id={'setting'} animation={animation.slide}>
-			<Item id='EditSetting' onClick={changePath('/account')}>
+			<Item onClick={onClickRedirectToAccountPage('/account')}>
 				{t('editSetting')}
 			</Item>
 			<Separator />
-			<Item id='Preferences' onClick={openSideMenu('Preferences')}>
+			<Item onClick={onClickOpenAside('Preferences')}>
 				{t('preferences')}
 			</Item>
-			<Item id='Identities' onClick={openSideMenu('Identities')}>
+			<Item onClick={onClickOpenAside('Identities')}>
 				{t('identities')}
 			</Item>
 		</DropDownMenu>

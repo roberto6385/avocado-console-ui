@@ -131,7 +131,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		() => ssh.find((v) => v.uuid === uuid).current_line,
 		[ssh, uuid],
 	);
-	const [search, onChangeSearch, setSearch] = useInput('');
+	const [searchVal, onChangeSearchVal, setSearchVal] = useInput('');
 	const historyList = useMemo(
 		() =>
 			currentCommand === ''
@@ -149,13 +149,15 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		() => ssh.find((v) => v.uuid === uuid).terminal,
 		[ssh, uuid],
 	);
-	const {current: ws} = useRef(ssh.find((v) => v.uuid === uuid).ws);
+	const {current: searchedWebSocket} = useRef(
+		ssh.find((v) => v.uuid === uuid).ws,
+	);
 	const {current: fitAddon} = useRef(new FitAddon());
 	const {current: searchAddon} = useRef(new SearchAddon());
 	//do not work with {current}
-	const searchRef = useRef(null);
+	const searchTextBoxRef = useRef(null);
 	const {
-		ref: sshContainerRef,
+		ref: sshTermContainerRef,
 		width: width,
 		height: height,
 	} = useDebouncedResizeObserver(3000);
@@ -163,18 +165,18 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 
 	const onKeyPressEnter = useCallback(
 		(e) => {
-			if (e.key === 'Enter') searchAddon.findPrevious(search);
+			if (e.key === 'Enter') searchAddon.findPrevious(searchVal);
 		},
-		[search, searchAddon],
+		[searchVal, searchAddon],
 	);
 
-	const onClickCommandHistory = useCallback(
+	const onClickCommandHistoryItem = useCallback(
 		(v) => () => {
 			dispatch({
 				type: SSH_SEND_COMMAND_REQUEST,
 				payload: {
 					uuid: uuid,
-					ws: ws,
+					ws: searchedWebSocket,
 					input: v.substring(currentCommand.length),
 				},
 			});
@@ -182,25 +184,25 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				type: SSH_SEND_COMMAND_REQUEST,
 				payload: {
 					uuid: uuid,
-					ws: ws,
+					ws: searchedWebSocket,
 					input: '\r',
 				},
 			});
 		},
-		[currentCommand.length, dispatch, uuid, ws],
+		[currentCommand.length, dispatch, uuid, searchedWebSocket],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
 		if (current_tab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
 	}, [current_tab]);
 
-	const onClickUpArrow = useCallback(() => {
-		searchAddon.findPrevious(search);
-	}, [search, searchAddon]);
+	const onClickSearchPreviousVal = useCallback(() => {
+		searchAddon.findPrevious(searchVal);
+	}, [searchVal, searchAddon]);
 
-	const onClickDownrrow = useCallback(() => {
-		searchAddon.findNext(search);
-	}, [search, searchAddon]);
+	const onClickSearchNextVal = useCallback(() => {
+		searchAddon.findNext(searchVal);
+	}, [searchVal, searchAddon]);
 	//terminal setting
 	useEffect(() => {
 		while (document.getElementById('terminal_' + uuid).hasChildNodes()) {
@@ -219,7 +221,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			setIsComponentMounted(false);
 		};
 	}, [fitAddon, searchAddon, sshTerm, uuid]);
-	//terminal get input data
+	//process command on terminal
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
 			if (
@@ -252,7 +254,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
 						uuid: uuid,
-						ws: ws,
+						ws: searchedWebSocket,
 						input: historyList[selectedHistory].substring(
 							currentCommand.length,
 						),
@@ -262,7 +264,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
 						uuid: uuid,
-						ws: ws,
+						ws: searchedWebSocket,
 						input: '\r',
 					},
 				});
@@ -271,7 +273,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
 						uuid: uuid,
-						ws: ws,
+						ws: searchedWebSocket,
 						input: data,
 					},
 				});
@@ -285,7 +287,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		};
 	}, [
 		uuid,
-		ws,
+		searchedWebSocket,
 		sshTerm,
 		auto_completion_mode,
 		selectedHistory,
@@ -305,7 +307,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			dispatch({
 				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
 				payload: {
-					ws: ws,
+					ws: searchedWebSocket,
 					uuid: uuid,
 					data: {
 						cols: sshTerm.cols,
@@ -316,27 +318,42 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				},
 			});
 		}
-	}, [ws, uuid, sshTerm, width, height, isComponentMounted, fitAddon]);
+	}, [
+		searchedWebSocket,
+		uuid,
+		sshTerm,
+		width,
+		height,
+		isComponentMounted,
+		fitAddon,
+	]);
 	//click search button
 	useEffect(() => {
 		if (current_tab === uuid && search_mode) {
 			document.getElementById('ssh_search_' + uuid).style.display =
 				'flex';
-			searchRef.current.focus();
+			searchTextBoxRef.current.focus();
 		} else {
 			document.getElementById('ssh_search_' + uuid).style.display =
 				'none';
-			setSearch('');
+			setSearchVal('');
 			searchAddon.findPrevious('');
 		}
-	}, [current_tab, uuid, search_mode, searchRef, setSearch, searchAddon]);
-	//search a word on the terminal
+	}, [
+		current_tab,
+		uuid,
+		search_mode,
+		searchTextBoxRef,
+		setSearchVal,
+		searchAddon,
+	]);
+	//search val
 	useEffect(() => {
 		if (current_tab === uuid) {
 			searchAddon.findPrevious('');
-			searchAddon.findPrevious(search);
+			searchAddon.findPrevious(searchVal);
 		}
-	}, [current_tab, uuid, search, searchAddon]);
+	}, [current_tab, uuid, searchVal, searchAddon]);
 	//set History List
 	useEffect(() => {
 		if (auto_completion_mode && currentCommand.length > 1) {
@@ -348,7 +365,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		currentCommand,
 		ignoreAutoCompletionMode,
 	]);
-	//change font
+	//change font family
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font);
 		fitAddon.fit();
@@ -372,7 +389,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	return (
 		<_Container
 			id={`terminal_container_${uuid}`}
-			ref={sshContainerRef}
+			ref={sshTermContainerRef}
 			className={!isToolbarUnfold && 'close-nav-terminal'}
 		>
 			<_Terminal id={`terminal_${uuid}`} />
@@ -466,7 +483,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				{historyList.map((v, i) => (
 					<_ListGroupItem
 						selected={i === selectedHistory ? 1 : 0}
-						onClick={onClickCommandHistory(v)}
+						onClick={onClickCommandHistoryItem(v)}
 						key={i}
 					>
 						{v}
@@ -478,24 +495,32 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			</_ListGroup>
 
 			<_SearchContainer id={`ssh_search_${uuid}`}>
-				<Icon size={'xs'} margin_right={'5px'} onClick={onClickUpArrow}>
+				<Icon
+					size={'xs'}
+					margin_right={'5px'}
+					onClick={onClickSearchPreviousVal}
+				>
 					{searchIcon}
 				</Icon>
 				<_SearchInput
 					onKeyPress={onKeyPressEnter}
-					onChange={onChangeSearch}
-					value={search}
+					onChange={onChangeSearchVal}
+					value={searchVal}
 					placeholder={t('search')}
 					type='text'
-					ref={searchRef}
+					ref={searchTextBoxRef}
 				/>
-				<HoverButton size={'sm'} margin='8px' onClick={onClickUpArrow}>
+				<HoverButton
+					size={'sm'}
+					margin='8px'
+					onClick={onClickSearchPreviousVal}
+				>
 					{arrowDropUpIcon}
 				</HoverButton>
 				<HoverButton
 					size={'sm'}
 					margin_right='8px'
-					onClick={onClickDownrrow}
+					onClick={onClickSearchNextVal}
 				>
 					{arrowDropDownIcon}
 				</HoverButton>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import FileListContextMenu from '../../ContextMenu/FileListContextMenu';
+import SFTPFileListContextMenu from '../../ContextMenu/SFTPFileListContextMenu';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -207,7 +207,7 @@ const DropList = ({
 					</_Ul>
 				);
 			})}
-			<FileListContextMenu uuid={uuid} />
+			<SFTPFileListContextMenu uuid={uuid} />
 		</_Container>
 	);
 };

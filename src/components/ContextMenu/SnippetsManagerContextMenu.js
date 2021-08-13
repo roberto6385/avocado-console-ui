@@ -7,47 +7,50 @@ import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {DropDownMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
-const SnippetContextMenu = ({uuid}) => {
+const SnippetsManagerContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
 	const {current_tab} = useSelector((state) => state.common, shallowEqual);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 
-	const ws = useMemo(
+	const searchedWebSocket = useMemo(
 		() => ssh.find((v) => v.uuid === current_tab)?.ws,
 		[ssh, current_tab],
 	);
 
-	const onClickOpenSnippets = useCallback(() => {
+	const onClickOpenSnippetsManegerDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.openForm({key: 'snippet'}));
 	}, [dispatch]);
 
-	const menuEvent = useCallback(
+	const handleOnClickEvents = useCallback(
 		(v) => () => {
-			ws &&
+			searchedWebSocket &&
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
 						uuid: current_tab,
-						ws: ws,
+						ws: searchedWebSocket,
 						input: v.content,
 						focus: true,
 					},
 				});
 		},
-		[current_tab, ws],
+		[current_tab, dispatch, searchedWebSocket],
 	);
 
 	return (
 		<DropDownMenu id={uuid + 'snippet'} animation={animation.slide}>
-			<Item id='open_snippet' onClick={onClickOpenSnippets}>
+			<Item onClick={onClickOpenSnippetsManegerDialogBox}>
 				{t('editSnippets')}
 			</Item>
 			<Separator />
-			{snippets.map((v, i) => {
+			{snippets.map((v) => {
 				return (
-					<Item key={i} id={v.name} onClick={menuEvent(v)}>
+					<Item
+						key={'snippets-manager-context-menu-' + v.name}
+						onClick={handleOnClickEvents(v)}
+					>
 						{v.name}
 					</Item>
 				);
@@ -56,8 +59,8 @@ const SnippetContextMenu = ({uuid}) => {
 	);
 };
 
-SnippetContextMenu.propTypes = {
+SnippetsManagerContextMenu.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default SnippetContextMenu;
+export default SnippetsManagerContextMenu;

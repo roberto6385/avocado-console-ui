@@ -79,7 +79,7 @@ const AddServerDialogBox = () => {
 	);
 	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 	// username, password는 이곳에서 가져와야 함.
-	const correspondedIdentity = useMemo(
+	const searchedIdentity = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),
 		[identity, clicked_server],
 	);
@@ -97,20 +97,20 @@ const AddServerDialogBox = () => {
 	const [note, onChangeNote, setNote] = useInput('');
 	const [identityList, onChangeIdentityList, setIdentityList] = useInput([]);
 
-	const protocol_options = [
+	const protocolOptions = [
 		{value: 'SSH2', label: 'SSH2'},
 		{value: 'SFTP', label: 'SFTP'},
 	];
-	const authentication_options = [
+	const authenticationOptions = [
 		{value: 'Password', label: t('password')},
 		{value: 'KeyFile', label: t('keyFile')},
 	];
 
-	const onClickCloseDialog = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch]);
 
-	const onSubmitForm = useCallback(
+	const onSubmitAddServerForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
@@ -121,11 +121,11 @@ const AddServerDialogBox = () => {
 				(v) => v.identity_name === account,
 			);
 
-			if (correspondedIdentity !== selectedIdentity && account !== '') {
+			if (searchedIdentity !== selectedIdentity && account !== '') {
 				dispatch({
 					type: CHANGE_IDENTITY_CHECKED,
 					payload: {
-						prev: correspondedIdentity,
+						prev: searchedIdentity,
 						next: selectedIdentity,
 					},
 				});
@@ -140,43 +140,37 @@ const AddServerDialogBox = () => {
 					},
 				});
 
-			onClickCloseDialog();
+			onClickCloseDialogBox();
 		},
 		[
 			protocol,
 			dispatch,
 			identity,
-			correspondedIdentity,
+			searchedIdentity,
 			account,
 			clicked_server,
-			onClickCloseDialog,
+			onClickCloseDialogBox,
 		],
 	);
 
 	useEffect(() => {
 		if (form.open && form.key === 'server') {
-			//add new server
-			console.log(server);
 			const data = server.find((v) => v.id === form.id);
-			console.log(data);
 
 			setName(data.name);
 			setProtocol(data.protocol);
 			setHost(data.host);
 			setPort(data.port);
-			setAccount(correspondedIdentity.identity_name);
-			setAuthentication(correspondedIdentity.type);
-			setPassword(correspondedIdentity.password);
-			// setIdentityList(
-			// 	identity.slice().filter((v) => v.key === clicked_server),
-			// );
+			setAccount(searchedIdentity.identity_name);
+			setAuthentication(searchedIdentity.type);
+			setPassword(searchedIdentity.password);
 			setKeyFile('');
-			setUsername(correspondedIdentity.user);
+			setUsername(searchedIdentity.user);
 			setNote('');
 		}
 	}, [
 		server,
-		correspondedIdentity,
+		searchedIdentity,
 		setAccount,
 		setAuthentication,
 		setHost,
@@ -192,10 +186,10 @@ const AddServerDialogBox = () => {
 	]);
 
 	useEffect(() => {
-		const correspondedIdentityList = identity.filter(
+		const filteredIdentities = identity.filter(
 			(v) => v.key === clicked_server,
 		);
-		const newArray = correspondedIdentityList.map((item) => {
+		const newArray = filteredIdentities.map((item) => {
 			return {
 				value: item.identity_name,
 				info: item,
@@ -206,10 +200,10 @@ const AddServerDialogBox = () => {
 	}, [clicked_server, server, identity, setIdentityList]);
 
 	useEffect(() => {
-		const correspondedIdentityList = identity.filter(
+		const filteredIdentities = identity.filter(
 			(v) => v.key === clicked_server,
 		);
-		const selectedIdentity = correspondedIdentityList.find(
+		const selectedIdentity = filteredIdentities.find(
 			(v) => v.identity_name === account,
 		);
 
@@ -230,7 +224,7 @@ const AddServerDialogBox = () => {
 	return (
 		<_PopupModal
 			isOpen={form.open && form.key === 'server'}
-			onRequestClose={onClickCloseDialog}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 			className={'hello'}
@@ -238,7 +232,7 @@ const AddServerDialogBox = () => {
 			<ModalHeader>
 				<div>{t('addServer')}</div>
 				<IconButton
-					onClick={onClickCloseDialog}
+					onClick={onClickCloseDialogBox}
 					btype={'font'}
 					size={'20px'}
 					margin={'0px'}
@@ -247,7 +241,7 @@ const AddServerDialogBox = () => {
 				</IconButton>
 			</ModalHeader>
 
-			<Form onSubmit={onSubmitForm}>
+			<Form onSubmit={onSubmitAddServerForm}>
 				<_ItemContainer>
 					<_InputFiled title={t('name')} flex={1}>
 						<Input
@@ -262,7 +256,7 @@ const AddServerDialogBox = () => {
 						<ComboBox_
 							width={'178px'}
 							title={t('protocol')}
-							options={protocol_options}
+							options={protocolOptions}
 							value={protocol}
 							setValue={setProtocol}
 						/>
@@ -304,7 +298,7 @@ const AddServerDialogBox = () => {
 						<ComboBox_
 							width={'178px'}
 							title={t('auth')}
-							options={authentication_options}
+							options={authenticationOptions}
 							value={authentication}
 							setValue={setAuthentication}
 							disabled={true}
@@ -316,7 +310,6 @@ const AddServerDialogBox = () => {
 						<Input
 							type='text'
 							value={username}
-							// onChange={onChangeUsername}
 							readOnly
 							placeholder={t('place.userName')}
 						/>
@@ -393,10 +386,12 @@ const AddServerDialogBox = () => {
 				</_ItemContainer>
 			</Form>
 			<ModalFooter>
-				<TransparentButton onClick={onClickCloseDialog}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={onSubmitForm}>{t('save')}</NormalButton>
+				<NormalButton onClick={onSubmitAddServerForm}>
+					{t('save')}
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

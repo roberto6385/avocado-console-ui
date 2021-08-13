@@ -8,7 +8,7 @@ const _Img = styled.img`
 	height: ${(props) => props?.size}px;
 `;
 
-const Container = styled.div`
+const _Container = styled.div`
 	z-index: 999;
 	position: absolute;
 	top: 50%;
@@ -18,10 +18,10 @@ const Container = styled.div`
 
 const LoadingSpinner = ({size = 30}) => {
 	return (
-		<Container>
+		<_Container>
 			<p style={{color: 'transparent'}}>loading</p>
 			<_Img size={size} src={Loading} alt='' />
-		</Container>
+		</_Container>
 	);
 };
 LoadingSpinner.propTypes = {

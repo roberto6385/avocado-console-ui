@@ -22,7 +22,7 @@ const ConfirmDialogBox = () => {
 	const dispatch = useDispatch();
 	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
-	const AlertMessage = {
+	const alertMessages = {
 		invalid_server: t('invalidServer'),
 		lost_server: t('lostServer'),
 		snippets_name_duplicate: t('snippetsNameDuplicate'),
@@ -34,26 +34,17 @@ const ConfirmDialogBox = () => {
 		wrong_path: t('wrongPath'),
 	};
 
-	const keyArray = [
-		'invalid_server',
-		'lost_server',
-		'snippets_name_duplicate',
-		'snippets_blank',
-		'server_duplicate',
-		'folder_name_duplicate',
-		'no_changes',
-		'developing',
-		'wrong_path',
-	];
-
-	const onClickCloseModal = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch]);
 
 	return (
 		<AlertDialogBox
-			isOpen={alert.open && keyArray.includes(alert.key)}
-			onRequestClose={onClickCloseModal}
+			isOpen={
+				alert.open &&
+				Object.prototype.hasOwnProperty.call(alertMessages, alert.key)
+			}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -63,7 +54,7 @@ const ConfirmDialogBox = () => {
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={onClickCloseModal}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
@@ -74,15 +65,15 @@ const ConfirmDialogBox = () => {
 					{alertFillIcon}
 				</Icon>
 
-				<AlertText>{AlertMessage[confirm.key]}</AlertText>
+				<AlertText>{alertMessages[confirm.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
-				<TransparentButton onClick={onClickCloseModal}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 
-				<NormalButton onClick={onClickCloseModal}>
+				<NormalButton onClick={onClickCloseDialogBox}>
 					{t('ok')}
 				</NormalButton>
 			</ModalFooter>

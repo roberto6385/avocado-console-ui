@@ -12,11 +12,11 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 
-	const FolderContextMenuMessage = {
+	const contextMenuList = {
 		delete: t('delete'),
 	};
 
-	const handleItemClick = useCallback(
+	const handleOnClickEvents = useCallback(
 		(e) => () => {
 			switch (e) {
 				case 'delete':
@@ -42,9 +42,9 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 
 	return (
 		<ContextMenu id={data.key + 'folder'} animation={animation.slide}>
-			{Object.keys(FolderContextMenuMessage).map((v) => (
-				<Item onClick={handleItemClick(v)} key={v}>
-					{FolderContextMenuMessage[v]}
+			{Object.keys(contextMenuList).map((v) => (
+				<Item onClick={handleOnClickEvents(v)} key={v}>
+					{contextMenuList[v]}
 				</Item>
 			))}
 		</ContextMenu>

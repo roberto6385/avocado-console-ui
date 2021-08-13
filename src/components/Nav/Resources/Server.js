@@ -198,10 +198,7 @@ const Server = ({data, indent}) => {
 					</IconButton>
 				</NavigationItemTitle>
 			</ServerItem>
-			<ServerContextMenu
-				correspondedIdentity={correspondedIdentity}
-				data={data}
-			/>
+			<ServerContextMenu identity={correspondedIdentity} data={data} />
 		</React.Fragment>
 	);
 };

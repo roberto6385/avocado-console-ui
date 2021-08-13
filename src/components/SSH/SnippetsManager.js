@@ -84,7 +84,7 @@ const _ListContainer = styled.div`
 	flex-direction: row;
 	overflow: scroll;
 `;
-
+//TODO: snippet manager can be edited without temp index
 const SnippetsManager = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
@@ -100,7 +100,8 @@ const SnippetsManager = () => {
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [selectedSnippet, setSelectedSnippet] = useState(null);
-	const nameInputRef = useRef(null);
+
+	const nameTextBoxRef = useRef(null);
 
 	const onChangeName = useCallback(
 		(e) => {
@@ -138,25 +139,28 @@ const SnippetsManager = () => {
 		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch, snippets, snippents_index]);
 
-	const onClickSubmit = useCallback(() => {
-		const name = tempSnippets.map((v) => {
+	const onClickSaveChangesOnSnippets = useCallback(() => {
+		const snippetNameList = tempSnippets.map((v) => {
 			return v.name;
 		});
-
+		//snippets have blank val
 		if (
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
 			dispatch(dialogBoxAction.openForm({key: 'snippets_blank'}));
-		} else if (new Set(name).size !== name.length) {
+			//snippets have duplicated val
+		} else if (new Set(snippetNameList).size !== snippetNameList.length) {
 			dispatch(
 				dialogBoxAction.openForm({key: 'snippets_name_duplicate'}),
 			);
+			//save snippet changes
 		} else {
+			//deleted snippets
 			const deleteSnippets = snippets.filter(
 				(x) => !tempSnippets.map((x) => x.id).includes(x.id),
 			);
-
+			//edited snippets
 			const editSnippets = tempSnippets
 				.filter((x) => snippets.map((x) => x.id).includes(x.id))
 				.filter(
@@ -165,37 +169,35 @@ const SnippetsManager = () => {
 							.filter((x2) => snippets.includes(x2))
 							.includes(x),
 				);
-
+			//added snippets
 			const addSnippets = tempSnippets.filter(
 				(x) => !snippets.map((x) => x.id).includes(x.id),
 			);
-
-			console.log(deleteSnippets, editSnippets, addSnippets);
-
-			for (let i = 0; i < deleteSnippets.length; i++) {
+			//req delete snippets
+			for (let x of deleteSnippets) {
 				dispatch({
 					type: SSH_DELETE_SNIPPET_REQUEST,
-					payload: deleteSnippets[i].id,
+					payload: x.id,
 				});
 			}
-
-			for (let i = 0; i < editSnippets.length; i++) {
+			//req edit snippets
+			for (let x of editSnippets) {
 				dispatch({
 					type: SSH_CHANGE_SNIPPET_REQUEST,
 					payload: {
-						id: editSnippets[i].id,
-						name: editSnippets[i].name,
-						content: editSnippets[i].content,
+						id: x.id,
+						name: x.name,
+						content: x.content,
 					},
 				});
 			}
-
-			for (let i = 0; i < addSnippets.length; i++) {
+			//req add snippets
+			for (let x of addSnippets) {
 				dispatch({
 					type: SSH_ADD_SNIPPET_REQUEST,
 					payload: {
-						name: addSnippets[i].name,
-						content: addSnippets[i].content,
+						name: x.name,
+						content: x.content,
 					},
 				});
 			}
@@ -208,9 +210,9 @@ const SnippetsManager = () => {
 			setName(tempSnippets.find((v) => v.id === id).name);
 			setContent(tempSnippets.find((v) => v.id === id).content);
 			setSelectedSnippet(id);
-			nameInputRef.current?.focus();
+			nameTextBoxRef.current?.focus();
 		},
-		[tempSnippets, nameInputRef],
+		[tempSnippets, nameTextBoxRef],
 	);
 
 	const onClickAddSnippet = useCallback(() => {
@@ -226,7 +228,7 @@ const SnippetsManager = () => {
 		setContent('');
 		setSelectedSnippet(index);
 		setIndex(index + 1);
-		nameInputRef.current?.focus();
+		nameTextBoxRef.current?.focus();
 	}, [tempSnippets, index]);
 
 	const onClickRemoveSnippet = useCallback(() => {
@@ -246,7 +248,7 @@ const SnippetsManager = () => {
 			}
 
 			setTempSnippets(newSnippets);
-			nameInputRef.current?.focus();
+			nameTextBoxRef.current?.focus();
 		}
 	}, [selectedSnippet, tempSnippets]);
 
@@ -264,7 +266,7 @@ const SnippetsManager = () => {
 			setIndex(snippents_index);
 			setTempSnippets(snippets);
 		}
-	}, [form, snippets, snippents_index, nameInputRef]);
+	}, [form, snippets, snippents_index, nameTextBoxRef]);
 
 	return (
 		<_PopupModal
@@ -318,7 +320,7 @@ const SnippetsManager = () => {
 					<TextBoxField_ title={t('name')}>
 						<Input
 							autoFocus={true}
-							ref={nameInputRef}
+							ref={nameTextBoxRef}
 							value={name}
 							onChange={onChangeName}
 							type='text'
@@ -339,7 +341,9 @@ const SnippetsManager = () => {
 				<TransparentButton onClick={onClickCancel}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={onClickSubmit}>{t('save')}</NormalButton>
+				<NormalButton onClick={onClickSaveChangesOnSnippets}>
+					{t('save')}
+				</NormalButton>
 			</ModalFooter>
 		</_PopupModal>
 	);

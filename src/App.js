@@ -18,7 +18,7 @@ import {
 } from './pages';
 import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
 import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
-import InputDialogBox from './components/DialogBoxs/Form/InputDialogBox';
+import TextBoxDialogBox from './components/DialogBoxs/Form/TextBoxDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
 import {AUTH, authAction} from './reducers/api/auth';
 import Toast_ from './components/RecycleComponents/Toast_';
@@ -34,11 +34,6 @@ const App = () => {
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 
-	// const handleOnIdle = useCallback(() => {
-	// 	// console.log('stop');
-	// 	// sessionStorage.setItem('lastTouchTime', getLastActiveTime());
-	// }, []);
-
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userData) {
@@ -47,7 +42,6 @@ const App = () => {
 	}, [dispatch, userData]);
 
 	const handleOnAction = useCallback(() => {
-		// sessionStorage.setItem('lastTouchTime', Date.now());
 		if (userData) {
 			//from 10 min before expire token
 			if (
@@ -64,8 +58,8 @@ const App = () => {
 		}
 	}, [dispatch, userData]);
 
-	//TODO VARIFY_USER_TICKET_REQUEST로 토큰유효성 테스트 해야함.
-	const {start, pause, reset, getLastActiveTime} = useIdleTimer({
+	//TODO: VARIFY_USER_TICKET_REQUEST로 토큰유효성 테스트 해야함.
+	const {start, pause, reset} = useIdleTimer({
 		timeout: userData?.expires_in * 1000,
 		// onIdle: handleOnIdle,
 		onActive: handleOnActive,
@@ -102,7 +96,7 @@ const App = () => {
 				<WarningDialogBox />
 				<SaveDialogBox />
 				<DeleteDialogBox />
-				<InputDialogBox />
+				<TextBoxDialogBox />
 				<Toast_ />
 			</ThemeProvider>
 		</BrowserRouter>

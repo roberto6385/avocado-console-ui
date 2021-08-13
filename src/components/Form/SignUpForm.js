@@ -24,7 +24,7 @@ import {
 import {passwordIconColor} from '../../styles/color';
 import {AUTH} from '../../reducers/api/auth';
 
-const _PrimaryGreenButton = styled(UserSubmitButton)`
+const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
 `;
 
@@ -34,98 +34,58 @@ const SignUpForm = () => {
 
 	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
 
-	const [id, onChangeId, setId] = useInput('test');
-	const [name, onChangeName, setName] = useInput('테스트');
-	const [email, onChangeEmail, setEmail] = useInput('hello@netand.co.kr');
-	const [password, onChangePassword, setPassword] = useInput('123456789');
-	const [passwordConfirm, onChangePasswordConfirm, setPasswordConfirm] =
-		useInput('123456789');
-	const [visible, setVisible] = useState(true);
+	const [id, onChangeId, setId] = useInput('');
+	const [name, onChangeName, setName] = useInput('');
+	const [email, onChangeEmail, setEmail] = useInput('');
+	const [password, onChangePassword, setPassword] = useInput('');
+	const [confirmPassword, onChangeConfirmPassword, setConfirmPassword] =
+		useInput('');
+	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
 	const idRef = useRef(null);
 
-	function isEmail(asValue) {
-		const pattern =
-			/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		return pattern.test(asValue);
-	}
-
-	const onSubmitForm = useCallback(
+	const onSubmitSignUpForm = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log(id, name, email, password, passwordConfirm);
-			if (
-				id === '' ||
-				name === '' ||
-				email === '' ||
-				password === '' ||
-				passwordConfirm === ''
-			) {
-				console.log('입력하지 않은 값이 있습니다.');
+
+			if (password !== confirmPassword) {
+				//TODO: Show password !== confirmPassword Message
 			} else {
-				if (!isEmail(email)) {
-					console.log('올바른 이메일 형식이 아닙니다.');
-				} else if (password !== passwordConfirm) {
-					console.log('비밀번호가 서로 다릅니다.');
-				} else {
-					dispatch(
-						userResourceAction.createRequest({
-							id,
-							name,
-							email,
-							password,
-						}),
-					);
-				}
+				dispatch(
+					userResourceAction.createRequest({
+						id,
+						name,
+						email,
+						password,
+					}),
+				);
 			}
 		},
-		[dispatch, email, id, name, password, passwordConfirm],
+		[dispatch, email, id, name, password, confirmPassword],
 	);
 
-	const typeChange = useCallback(
+	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
 			e.preventDefault();
-			setVisible(!visible);
+			setIsPasswordHidden(!isPasswordHidden);
 		},
-		[visible],
+		[isPasswordHidden],
 	);
 
-	const focusin = useCallback(
-		(keyword) => () => {
-			if (keyword === 'password') {
-				const passwordContainer =
-					document.getElementById('password_container');
-				passwordContainer.classList.add('focus');
-			} else {
-				const passwordContainer = document.getElementById(
-					'passwordConfirm_container',
-				);
-				passwordContainer.classList.add('focus');
-			}
-		},
-		[],
-	);
-	const focusout = useCallback(
-		(keyword) => () => {
-			if (keyword === 'password') {
-				const passwordContainer =
-					document.getElementById('password_container');
-				passwordContainer.classList.remove('focus');
-			} else {
-				const passwordContainer = document.getElementById(
-					'passwordConfirm_container',
-				);
-				passwordContainer.classList.remove('focus');
-			}
-		},
-		[],
-	);
+	const onFocusPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.add('focus');
+	}, []);
+
+	const onBlurPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.remove('focus');
+	}, []);
 
 	useEffect(() => {
 		idRef.current?.focus();
 	}, [idRef]);
 
 	return !loading ? (
-		<UserForm onSubmit={onSubmitForm}>
+		<UserForm onSubmit={onSubmitSignUpForm}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
@@ -137,6 +97,7 @@ const SignUpForm = () => {
 					value={id}
 					onChange={onChangeId}
 					placeholder={t('id')}
+					required
 				/>
 			</TextBoxField_>
 
@@ -145,53 +106,54 @@ const SignUpForm = () => {
 					value={name}
 					onChange={onChangeName}
 					placeholder={t('name')}
+					required
 				/>
 			</TextBoxField_>
 
 			<TextBoxField_ marginBottom={'18px'}>
 				<UserInput
 					value={email}
+					type={'email'}
 					onChange={onChangeEmail}
 					placeholder={t('email')}
+					required
 				/>
 			</TextBoxField_>
 			<TextBoxField_ marginBottom={'18px'}>
-				<UserPasswordContainer id={'password_container'}>
+				<UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
-						onFocus={focusin('password')}
-						onBlur={focusout('password')}
-						type={visible ? 'password' : 'text'}
+						onFocus={onFocusPasswordTextBox}
+						onBlur={onBlurPasswordTextBox}
+						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('password')}
+						required
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
 						type='button'
 						color={passwordIconColor}
-						onClick={typeChange}
+						onClick={onClickChangePasswordVisibility}
 					>
-						{visible
+						{isPasswordHidden
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
 			</TextBoxField_>
-			<TextBoxField_ marginBottom={'18px'}>
-				<UserPasswordContainer id={'passwordConfirm_container'}>
-					<UserPasswordInput
-						onFocus={focusin('confirm')}
-						onBlur={focusout('confirm')}
-						type={visible ? 'password' : 'text'}
-						value={passwordConfirm}
-						onChange={onChangePasswordConfirm}
-						placeholder={t('confirmPassword')}
-					/>
-				</UserPasswordContainer>
+
+			<TextBoxField_ flex={1} marginBottom={'18px'}>
+				<UserInput
+					type={isPasswordHidden ? 'password' : 'text'}
+					value={confirmPassword}
+					onChange={onChangeConfirmPassword}
+					placeholder={t('confirmPassword')}
+					required
+				/>
 			</TextBoxField_>
-			<_PrimaryGreenButton type='submit'>
-				{t('signUp')}
-			</_PrimaryGreenButton>
+
+			<_UserSubmitButton type='submit'>{t('signUp')}</_UserSubmitButton>
 		</UserForm>
 	) : (
 		<LoadingSpinner />

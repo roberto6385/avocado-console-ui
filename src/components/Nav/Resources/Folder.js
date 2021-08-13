@@ -17,14 +17,11 @@ import {
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, createdFolderInfo} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {clicked_server} = useSelector((state) => state.common, shallowEqual);
 
-	const [openTab, setOpenTab] = useState(false);
+	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 
-	const onCLickFolder = useCallback(() => {
+	const onClickFolderItem = useCallback(() => {
 		if (clicked_server === data.key) {
 			dispatch({type: SET_CLICKED_SERVER, payload: null});
 		} else {
@@ -32,15 +29,15 @@ const Folder = ({open, data, indent}) => {
 		}
 	}, [clicked_server, data.key, dispatch]);
 
-	const onClickOpenFolder = useCallback(() => {
-		setOpenTab(!openTab);
-	}, [openTab]);
+	const onClickFoldOrUnfoldFolder = useCallback(() => {
+		setIsFolderUnfolded(!isFolderUnfolded);
+	}, [isFolderUnfolded]);
 
-	const prevPutItem = useCallback(() => {
+	const onDragStartFolder = useCallback(() => {
 		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data.key, dispatch]);
 
-	const nextPutItem = useCallback(
+	const onDropFolder = useCallback(
 		(e) => {
 			e.stopPropagation();
 
@@ -54,29 +51,17 @@ const Folder = ({open, data, indent}) => {
 	);
 
 	useEffect(() => {
-		setOpenTab(open);
+		setIsFolderUnfolded(open);
 	}, [open]);
-
-	useEffect(() => {
-		if (data.key === clicked_server) {
-			setOpenTab(true);
-		}
-		if (data === createdFolderInfo) {
-			dispatch({
-				type: SET_CLICKED_SERVER,
-				payload: createdFolderInfo.key,
-			});
-		}
-	}, [clicked_server, createdFolderInfo, data, dispatch]);
 
 	return (
 		<React.Fragment>
 			<NavigationItem
-				onClick={onCLickFolder}
+				onClick={onClickFolderItem}
 				draggable='true'
-				onDragStart={prevPutItem}
-				onDrop={nextPutItem}
-				selected={clicked_server === data.key ? 1 : 0}
+				onDragStart={onDragStartFolder}
+				onDrop={onDropFolder}
+				selected={clicked_server === data.key ? true : false}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
@@ -91,13 +76,13 @@ const Folder = ({open, data, indent}) => {
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					onClick={onClickOpenFolder}
+					onClick={onClickFoldOrUnfoldFolder}
 				>
-					{openTab ? arrowDownIcon : arrowRightIcon}
+					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</NavigationItem>
 			{data.contain.length !== 0 && (
-				<Collapse_ open={openTab}>
+				<Collapse_ open={isFolderUnfolded}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (

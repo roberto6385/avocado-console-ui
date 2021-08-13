@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -30,7 +30,6 @@ const _Text = styled.div`
 `;
 
 const MainPage = () => {
-	const dispatch = useDispatch();
 	const {t} = useTranslation('mainPage');
 
 	const {loading: sshLoading} = useSelector(
@@ -50,10 +49,6 @@ const MainPage = () => {
 				) : (
 					<_Text>{t('title')}</_Text>
 				)}
-				{/*<_Text color={fontColor[theme]}>{t('paragraph')}</_Text>*/}
-				{/*<PrimaryButton onClick={onClickOpenAddServerDialog}>*/}
-				{/*	{t('addServer')}*/}
-				{/*</PrimaryButton>*/}
 			</_Contents>
 		</_Container>
 	);

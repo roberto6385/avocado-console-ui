@@ -36,14 +36,14 @@ const FavoritesContextMenu = ({identity, data}) => {
 	);
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
-	const menu = {
+	const contextMenuList = {
 		connect: t('connectSsh'),
 		open_sftp: t('connectSftp'),
 		delete_bookmark: t('deleteBookmark'),
 		new_folder: t('newFolder'),
 	};
 
-	const openSFTP = useCallback(() => {
+	const onClickOpenSFTP = useCallback(() => {
 		const correspondedServer = server.find((i) => i.key === data.key);
 		dispatch({
 			type: CONNECTION_REQUEST,
@@ -60,21 +60,21 @@ const FavoritesContextMenu = ({identity, data}) => {
 		});
 	}, [server, dispatch, userData, identity, data.key]);
 
-	const openSSH = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
+	const onClickOpenSSH = useCallback(() => {
+		const searchedServer = server.find((i) => i.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token,
-				...correspondedServer,
+				...searchedServer,
 				user: identity.user,
 				password: identity.password,
 			},
 		});
 	}, [server, dispatch, userData, identity, data.key]);
 
-	const newFolder = useCallback(() => {
+	const onClickAddFolder = useCallback(() => {
 		let folderName = t('newFolder');
 		let i = 0;
 		while (!isValidFolderName(favorites, folderName)) {
@@ -87,14 +87,14 @@ const FavoritesContextMenu = ({identity, data}) => {
 		});
 	}, [dispatch, favorites, t]);
 
-	const handleItemClick = useCallback(
+	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
 				case 'connect':
-					openSSH();
+					onClickOpenSSH();
 					break;
 				case 'open_sftp':
-					openSFTP();
+					onClickOpenSFTP();
 					break;
 				case 'delete_bookmark':
 					dispatch({
@@ -103,20 +103,20 @@ const FavoritesContextMenu = ({identity, data}) => {
 					});
 					break;
 				case 'new_folder':
-					newFolder();
+					onClickAddFolder();
 					break;
 				default:
 					return;
 			}
 		},
-		[data, dispatch, openSFTP, openSSH],
+		[data, dispatch, onClickOpenSFTP, onClickOpenSSH, onClickAddFolder],
 	);
 
 	return (
 		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
-			{Object.keys(menu).map((v) => (
-				<Item onClick={handleItemClick(v)} key={v}>
-					{menu[v]}
+			{Object.keys(contextMenuList).map((v) => (
+				<Item key={v} onClick={handleOnClickEvents(v)}>
+					{contextMenuList[v]}
 				</Item>
 			))}
 		</ContextMenu>

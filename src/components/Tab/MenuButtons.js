@@ -11,9 +11,8 @@ import {
 	windowIcon,
 } from '../../icons/icons';
 import SettingContextMenu from '../ContextMenu/SettingContextMenu';
-import ColumnContextMenu from '../ContextMenu/ColumnContextMenu';
-import AccountContextMenu from '../ContextMenu/AccountContextMenu';
-import {useDetectOutsideClick} from '../../hooks/useDetectOutsideClick';
+import SplitTerminalViewContextMenu from '../ContextMenu/SplitTerminalViewContextMenu';
+import UserAccountContextMenu from '../ContextMenu/UserAccountContextMenu';
 import {HoverButton} from '../../styles/components/icon';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
@@ -29,11 +28,10 @@ const MenuButtons = ({toggle, setToggle}) => {
 	const {tab} = useSelector((state) => state.common, shallowEqual);
 
 	const MenuPosition = useRef();
-	const accountRef = useRef();
-	const settingRef = useRef();
-	const notificationRef = useRef();
-	const notificationMunuRef = useRef();
-	const columnRef = useRef();
+	const accountIconRef = useRef();
+	const settingIconRef = useRef();
+	const notificationIconRef = useRef();
+	const terminalRef = useRef();
 
 	const {show: showAccountMenu} = useContextMenu({
 		id: 'account',
@@ -44,23 +42,21 @@ const MenuButtons = ({toggle, setToggle}) => {
 	const {show: showColumnMenu} = useContextMenu({
 		id: 'column',
 	});
-	const [shownotificationMenu, setShownotificationMenu] =
-		useDetectOutsideClick(notificationMunuRef, false);
 
 	const getAccountMenuPosition = useCallback(() => {
-		const {right, bottom} = accountRef.current?.getBoundingClientRect();
+		const {right, bottom} = accountIconRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
 	const getSettingMenuPosition = useCallback(() => {
-		const {right, bottom} = settingRef.current?.getBoundingClientRect();
+		const {right, bottom} = settingIconRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
 	}, [MenuPosition]);
 
 	const getColumnMenuPosition = useCallback(() => {
-		const {right, bottom} = columnRef.current?.getBoundingClientRect();
+		const {right, bottom} = terminalRef.current?.getBoundingClientRect();
 		MenuPosition.current = {x: right - 130, y: bottom};
 		return MenuPosition.current;
 	}, [MenuPosition]);
@@ -84,7 +80,6 @@ const MenuButtons = ({toggle, setToggle}) => {
 	);
 
 	const openNotificationMenu = useCallback(() => {
-		// setShownotificationMenu(true);
 		dispatch(dialogBoxAction.openAlert({key: 'developing'}));
 	}, [dispatch]);
 
@@ -99,34 +94,28 @@ const MenuButtons = ({toggle, setToggle}) => {
 
 	return (
 		<_Container>
-			<HoverButton ref={accountRef} onClick={openAccountMenu}>
+			<HoverButton ref={accountIconRef} onClick={openAccountMenu}>
 				{accountIcon}
 			</HoverButton>
-			<HoverButton ref={settingRef} onClick={openSettingMenu}>
+			<HoverButton ref={settingIconRef} onClick={openSettingMenu}>
 				{settingIcon}
 			</HoverButton>
 
-			<HoverButton ref={notificationRef} onClick={openNotificationMenu}>
+			<HoverButton
+				ref={notificationIconRef}
+				onClick={openNotificationMenu}
+			>
 				{notificationIcon}
 			</HoverButton>
 
 			{tab.length !== 0 && (
-				<HoverButton ref={columnRef} onClick={openColumnMenu}>
+				<HoverButton ref={terminalRef} onClick={openColumnMenu}>
 					{windowIcon}
 				</HoverButton>
 			)}
-			<AccountContextMenu toggle={toggle} setToggle={setToggle} />
+			<UserAccountContextMenu toggle={toggle} setToggle={setToggle} />
 			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
-			{/*<NotificationContextMenu*/}
-			{/*	show={shownotificationMenu}*/}
-			{/*	location={{*/}
-			{/*		left: notificationRef.current?.getBoundingClientRect().left,*/}
-			{/*		top: notificationRef.current?.getBoundingClientRect()*/}
-			{/*			.bottom,*/}
-			{/*	}}*/}
-			{/*	notificationMunuRef={notificationMunuRef}*/}
-			{/*/>*/}
-			<ColumnContextMenu />
+			<SplitTerminalViewContextMenu />
 		</_Container>
 	);
 };

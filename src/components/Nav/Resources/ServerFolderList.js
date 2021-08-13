@@ -8,12 +8,12 @@ import {SORT_SERVER_AND_FOLDER} from '../../../reducers/common';
 import {_Nav} from '../../../styles/components/navigationBar';
 import {startSearchingTree} from '../../../utils/searchTree';
 
-const ServerFolderList = ({search}) => {
+const ServerFolderList = ({searchVal}) => {
 	const dispatch = useDispatch();
 	const {nav} = useSelector((state) => state.common, shallowEqual);
 	const [filteredNavList, setFilteredNavList] = useState(nav);
 
-	const dropNavList = useCallback(() => {
+	const onDropResources = useCallback(() => {
 		dispatch({type: SORT_SERVER_AND_FOLDER, payload: {next: 'toEdge'}});
 	}, []);
 
@@ -26,16 +26,16 @@ const ServerFolderList = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setFilteredNavList(startSearchingTree(nav, search));
-	}, [nav, search]);
+		setFilteredNavList(startSearchingTree(nav, searchVal));
+	}, [nav, searchVal]);
 
 	return (
-		<_Nav onDrop={dropNavList} id='sortableServerNav'>
+		<_Nav onDrop={onDropResources} id='sortableServerNav'>
 			{filteredNavList.map((data) =>
 				data.type === 'folder' ? (
 					<Folder
 						key={data.key}
-						open={search !== ''}
+						open={searchVal !== ''}
 						data={data}
 						indent={1}
 					/>
@@ -48,7 +48,7 @@ const ServerFolderList = ({search}) => {
 };
 
 ServerFolderList.propTypes = {
-	search: PropTypes.string.isRequired,
+	searchVal: PropTypes.string.isRequired,
 	setSearch: PropTypes.func,
 };
 

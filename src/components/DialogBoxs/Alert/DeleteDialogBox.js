@@ -53,34 +53,23 @@ const DeleteDialogBox = () => {
 		path: sftp_pathState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const AlertMessage = {
+	const alertMessages = {
 		sftp_delete_file_folder: t('deleteFileFolder'),
 		sftp_delete_history: t('deleteHistory'),
 		delete_server_folder: t('deleteServerFolder'),
 		delete_account: t('deleteAccount'),
 	};
 
-	const keyArray = [
-		'sftp_delete_file_folder',
-		'sftp_delete_history',
-		'delete_server_folder',
-		'delete_account',
-	];
-
-	const closeModal = useCallback(() => {
-		dispatch(dialogBoxAction.closeAlert());
-	}, [dispatch]);
-
-	const cancelFunction = useCallback(() => {
+	const onClickCloseDialogBox = useCallback(() => {
 		alert.key === 'sftp_delete_file_folder' &&
 			dispatch({
 				type: INIT_DELETE_WORK_LIST,
 				payload: {uuid: alert.uuid},
 			});
-		closeModal();
-	}, [closeModal, dispatch, alert]);
+		dispatch(dialogBoxAction.closeAlert());
+	}, [dispatch, alert]);
 
-	const submitFunction = useCallback(
+	const handleOnClickDeleteEvents = useCallback(
 		async (e) => {
 			e.preventDefault();
 
@@ -88,13 +77,13 @@ const DeleteDialogBox = () => {
 				case 'sftp_delete_file_folder': {
 					const uuid = alert.uuid;
 					const {removeSocket, incinerator} = sftp_deleteState.find(
-						(it) => it.uuid === alert.uuid,
+						(it) => it.uuid === uuid,
 					);
 					const {highlight} = sftp_highState.find(
-						(it) => it.uuid === alert.uuid,
+						(it) => it.uuid === uuid,
 					);
 					const {path} = sftp_pathState.find(
-						(it) => it.uuid === alert.uuid,
+						(it) => it.uuid === uuid,
 					);
 
 					dispatch({
@@ -102,13 +91,16 @@ const DeleteDialogBox = () => {
 						payload: {uuid, list: highlight, path},
 					});
 
-					const corTab = tab.find((it) => it.uuid === uuid);
-					const corServer = server.find(
-						(it) => it.key === corTab.server.key,
+					const searchedTerminalTab = tab.find(
+						(it) => it.uuid === uuid,
 					);
-					const correspondedIdentity = identity.find(
+					const searchedServer = server.find(
+						(it) => it.key === searchedTerminalTab.server.key,
+					);
+					const searchedIdentity = identity.find(
 						(it) =>
-							it.key === corTab.server.key && it.checked === true,
+							it.key === searchedTerminalTab.server.key &&
+							it.checked === true,
 					);
 
 					if (!removeSocket && incinerator.length === 0) {
@@ -116,10 +108,10 @@ const DeleteDialogBox = () => {
 							type: CREATE_NEW_WEBSOCKET_REQUEST,
 							payload: {
 								token: userData.access_token, // connection info
-								host: corServer.host,
-								port: corServer.port,
-								user: correspondedIdentity.user,
-								password: correspondedIdentity.password,
+								host: searchedServer.host,
+								port: searchedServer.port,
+								user: searchedIdentity.user,
+								password: searchedIdentity.password,
 								todo: 'remove',
 								uuid: uuid,
 							},
@@ -134,7 +126,6 @@ const DeleteDialogBox = () => {
 						(it) => it.uuid === alert.uuid,
 					);
 					history_highlight.forEach((item) => {
-						console.log(item);
 						if (
 							item.progress === 0 ||
 							item.progress === 100 ||
@@ -157,7 +148,6 @@ const DeleteDialogBox = () => {
 				}
 
 				case 'delete_server_folder':
-					console.log(clicked_server);
 					if (clicked_server) {
 						dispatch({type: DELETE_SERVER_FOLDER});
 					}
@@ -189,11 +179,10 @@ const DeleteDialogBox = () => {
 				default:
 					break;
 			}
-			closeModal();
+			dispatch(dialogBoxAction.closeAlert());
 		},
 		[
 			alert,
-			closeModal,
 			clicked_server,
 			sftp_deleteState,
 			sftp_highState,
@@ -211,8 +200,11 @@ const DeleteDialogBox = () => {
 
 	return (
 		<AlertDialogBox
-			isOpen={alert.open && keyArray.includes(alert.key)}
-			onRequestClose={cancelFunction}
+			isOpen={
+				alert.open &&
+				Object.prototype.hasOwnProperty.call(alertMessages, alert.key)
+			}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -222,7 +214,7 @@ const DeleteDialogBox = () => {
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={cancelFunction}
+					onClick={onClickCloseDialogBox}
 				>
 					{closeIcon}
 				</IconButton>
@@ -232,14 +224,14 @@ const DeleteDialogBox = () => {
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{AlertMessage[alert.key]}</AlertText>
+				<AlertText>{alertMessages[alert.key]}</AlertText>
 			</ModalMessage>
 
 			<ModalFooter>
-				<TransparentButton onClick={cancelFunction}>
+				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<WarningButton onClick={submitFunction}>
+				<WarningButton onClick={handleOnClickDeleteEvents}>
 					{t('delete')}
 				</WarningButton>
 			</ModalFooter>

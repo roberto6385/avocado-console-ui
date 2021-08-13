@@ -41,7 +41,7 @@ const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 34px 0 30px 0;
 `;
 
-const _CheckboxAnchorContainer = styled.div`
+const _CheckBoxContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -54,24 +54,24 @@ const _CheckboxAnchorContainer = styled.div`
 	}
 `;
 
-const _Or = styled.div`
+const _DividingLine = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 `;
 
-const _Hr = styled.hr`
+const _DividingLineMessage = styled.hr`
 	width: 158px;
 `;
 
-const _OAuthContainer = styled.div`
+const _AlternativeAuthContainer = styled.div`
 	margin: 8px 0px;
 	display: flex;
 	justify-content: space-between;
 `;
 
-const _OAuthButton = styled.button`
+const _AlternativeAuthButton = styled.button`
 	background: transparent;
 	border: none;
 	width: fit-content;
@@ -86,74 +86,70 @@ const SignInForm = () => {
 
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
-	const [hidePassword, setHidePassword] = useState(true);
+	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 	const [rememberMe, setRememberMe] = useState(false);
 	const userRef = useRef(null);
-	const passwordRef = useRef(null);
 
-	const onSubmitForm = useCallback(
+	const onSubmitSignInForm = useCallback(
 		(e) => {
 			e.preventDefault();
 
-			if (user === '') {
-				userRef.current?.focus();
-			} else if (password === '') {
-				passwordRef.current?.focus();
-			} else {
-				localStorage.setItem('rememberMe', rememberMe);
-				localStorage.setItem('user', user);
-				localStorage.setItem('password', password);
+			localStorage.setItem('rememberMe', rememberMe);
+			localStorage.setItem('user', user);
+			localStorage.setItem('password', password);
 
-				setUser('');
-				setPassword('');
-				dispatch(
-					authAction.userRequest({
-						username: user,
-						password: password,
-					}),
-				);
-			}
+			setUser('');
+			setPassword('');
+
+			dispatch(
+				authAction.userRequest({
+					username: user,
+					password: password,
+				}),
+			);
 		},
 		[user, password, rememberMe, setUser, setPassword, dispatch],
 	);
 
-	const typeChange = useCallback(
+	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
 			e.preventDefault();
-			setHidePassword(!hidePassword);
+			setIsPasswordHidden(!isPasswordHidden);
 		},
-		[hidePassword],
+		[isPasswordHidden],
 	);
 
-	const focusin = useCallback(() => {
-		const passwordContainer = document.getElementById('password_container');
-		passwordContainer.classList.add('focus');
+	const onFocusPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.add('focus');
 	}, []);
 
-	const focusout = useCallback(() => {
-		const passwordContainer = document.getElementById('password_container');
-		passwordContainer.classList.remove('focus');
+	const onBlurPasswordTextBox = useCallback(() => {
+		document.getElementById('password-text-box').classList.remove('focus');
 	}, []);
 
-	const oauthFunction = useCallback((e) => {
-		e.preventDefault();
+	const onClickAlternativeAuth = useCallback(
+		(key) => (e) => {
+			e.preventDefault();
 
-		switch (e.currentTarget.name) {
-			case 'naverButton':
-				break;
-			case 'kakaoButton':
-				break;
-			case 'googleButton':
-				console.log('google');
-				location.href = GOOGLE_LOCATION;
-				break;
-			case 'appleButton':
-				break;
-			default:
-				break;
-		}
-		//TODO: Google auth
-	}, []);
+			switch (key) {
+				case 'naver':
+					//TODO: Naver Alternative Authentication
+					break;
+				case 'kakao':
+					//TODO: Kakao Alternative Authentication
+					break;
+				case 'google':
+					location.href = GOOGLE_LOCATION;
+					break;
+				case 'apple':
+					//TODO: Apple Alternative Authentication
+					break;
+				default:
+					break;
+			}
+		},
+		[],
+	);
 
 	const onClickRememberMe = useCallback((e) => {
 		setRememberMe(e.target.checked);
@@ -169,11 +165,12 @@ const SignInForm = () => {
 	}, [setPassword, setUser]);
 
 	useEffect(() => {
+		//TODO: set language according to user locaion
 		i18n.changeLanguage('ko-KR');
 	}, [i18n]);
 
 	return !loading ? (
-		<_UserForm onSubmit={onSubmitForm}>
+		<_UserForm onSubmit={onSubmitSignInForm}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
@@ -185,60 +182,69 @@ const SignInForm = () => {
 					value={user}
 					onChange={onChangeUser}
 					placeholder={t('id')}
+					required
 				/>
 			</TextBoxField_>
 			<TextBoxField_ marginBottom={'18px'}>
-				<_UserPasswordContainer id={'password_container'}>
+				<_UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
-						ref={passwordRef}
-						onFocus={focusin}
-						onBlur={focusout}
-						type={hidePassword ? 'password' : 'text'}
+						onFocus={onFocusPasswordTextBox}
+						onBlur={onBlurPasswordTextBox}
+						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
 						onChange={onChangePassword}
 						placeholder={t('password')}
+						required
 					/>
 					<IconButton
 						margin={'0px 0px 0px 12px'}
 						color={passwordIconColor}
-						onClick={typeChange}
+						onClick={onClickChangePasswordVisibility}
 					>
-						{hidePassword
+						{isPasswordHidden
 							? passwordVisibilityIcon
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</_UserPasswordContainer>
 			</TextBoxField_>
-			<_CheckboxAnchorContainer>
+			<_CheckBoxContainer>
 				<CheckBox_
 					title={t('remember')}
 					value={rememberMe}
 					handleCheck={onClickRememberMe}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
-			</_CheckboxAnchorContainer>
-			<_UserSubmitButton type='submit' onClick={onSubmitForm}>
+			</_CheckBoxContainer>
+			<_UserSubmitButton type='submit' onClick={onSubmitSignInForm}>
 				{t('signIn')}
 			</_UserSubmitButton>
-			<_Or>
-				<_Hr /> {t('or')} <_Hr />
-			</_Or>
-			<_OAuthContainer>
-				<_OAuthButton name={'kakaoButton'} onClick={oauthFunction}>
+			<_DividingLine>
+				<_DividingLineMessage /> {t('or')} <_DividingLineMessage />
+			</_DividingLine>
+			<_AlternativeAuthContainer>
+				<_AlternativeAuthButton
+					onClick={onClickAlternativeAuth('kakao')}
+				>
 					<img src={kakaoButton} alt='kakaoButton' />
-				</_OAuthButton>
-				<_OAuthButton name={'naverButton'} onClick={oauthFunction}>
+				</_AlternativeAuthButton>
+				<_AlternativeAuthButton
+					onClick={onClickAlternativeAuth('naver')}
+				>
 					<img src={naverButton} alt='naverButton' />
-				</_OAuthButton>
-			</_OAuthContainer>
-			<_OAuthContainer>
-				<_OAuthButton name={'googleButton'} onClick={oauthFunction}>
+				</_AlternativeAuthButton>
+			</_AlternativeAuthContainer>
+			<_AlternativeAuthContainer>
+				<_AlternativeAuthButton
+					onClick={onClickAlternativeAuth('google')}
+				>
 					<img src={googleButton} alt='googleButton' />
-				</_OAuthButton>
-				<_OAuthButton name={'appleButton'} onClick={oauthFunction}>
+				</_AlternativeAuthButton>
+				<_AlternativeAuthButton
+					onClick={onClickAlternativeAuth('apple')}
+				>
 					<img src={appleButton} alt='appleButton' />
-				</_OAuthButton>
-			</_OAuthContainer>
+				</_AlternativeAuthButton>
+			</_AlternativeAuthContainer>
 		</_UserForm>
 	) : (
 		<LoadingSpinner />

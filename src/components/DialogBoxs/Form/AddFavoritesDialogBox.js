@@ -91,7 +91,7 @@ const AddFavoritesDialogBox = () => {
 	);
 	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
 
-	const onClickCloseFavoritesDialogBox = useCallback(async () => {
+	const onClickCloseDialogBox = useCallback(async () => {
 		await dispatch(dialogBoxAction.closeForm());
 		await dispatch({type: SET_TEMP_FAVORITES});
 	}, [dispatch, favorites, tempFavorites]);
@@ -135,7 +135,7 @@ const AddFavoritesDialogBox = () => {
 	return (
 		<_DialogBox
 			isOpen={form.open && form.key === 'favorites'}
-			onRequestClose={onClickCloseFavoritesDialogBox}
+			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -143,7 +143,7 @@ const AddFavoritesDialogBox = () => {
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
-					onClick={onClickCloseFavoritesDialogBox}
+					onClick={onClickCloseDialogBox}
 					size={'20px'}
 					margin={'0px'}
 				>
@@ -161,7 +161,7 @@ const AddFavoritesDialogBox = () => {
 					{t('newFolder')}
 				</TransparentButton>
 				<div>
-					<TransparentButton onClick={onClickCloseFavoritesDialogBox}>
+					<TransparentButton onClick={onClickCloseDialogBox}>
 						{t('cancel')}
 					</TransparentButton>
 					<NormalButton onClick={onSubmitSaveChangesOnFavorites}>

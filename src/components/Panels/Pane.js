@@ -71,7 +71,7 @@ const _ReconectBlock = styled.div`
 
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
-	const [ready, setReady] = useState(1);
+
 	const {
 		tab,
 		current_tab,
@@ -79,21 +79,23 @@ const Pane = ({uuid, type, server}) => {
 		server: commonServer,
 	} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
 	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
 	);
+	//TODO: if possible to use ws.readyState, delete readyState
+	const [readyState, setReadyState] = useState(1);
 
 	const onClickChangeCurrentTab = useCallback(() => {
 		if (current_tab !== uuid)
 			dispatch({type: CHANGE_CURRENT_TAB, payload: uuid});
 	}, [current_tab, dispatch, uuid]);
 
-	const onClickDelete = useCallback(
+	const onClickCloseTab = useCallback(
 		(e) => {
 			e.stopPropagation();
+
 			if (type === 'SSH') {
 				dispatch({
 					type: SSH_SEND_DISCONNECTION_REQUEST,
@@ -116,27 +118,24 @@ const Pane = ({uuid, type, server}) => {
 		[sftp_socketState, type, uuid, dispatch, ssh],
 	);
 
-	const onReconnect = useCallback(() => {
-		const correspondedServer = commonServer.find(
-			(i) => i.key === server.key,
-		);
-		const correspondedIdentity = identity.find(
+	const onClickReconnectToServer = useCallback(() => {
+		const searchedServer = commonServer.find((i) => i.key === server.key);
+		const searchedIdentity = identity.find(
 			(it) => it.key === server.key && it.checked === true,
 		);
-
-		const index = tab.findIndex((v) => v.uuid === uuid);
+		const searchedTabIndex = tab.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
 			dispatch({
 				type: SSH_SEND_RECONNECTION_REQUEST,
 				payload: {
 					token: userData.access_token,
-					...correspondedServer,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+					...searchedServer,
+					user: searchedIdentity.user,
+					password: searchedIdentity.password,
 
 					prevUuid: uuid,
-					prevIndex: index,
+					prevIndex: searchedTabIndex,
 				},
 			});
 		} else {
@@ -146,17 +145,17 @@ const Pane = ({uuid, type, server}) => {
 				type: RECONNECTION_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: correspondedServer.host,
-					port: correspondedServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+					host: searchedServer.host,
+					port: searchedServer.port,
+					user: searchedIdentity.user,
+					password: searchedIdentity.password,
 
-					name: correspondedServer.name, // create tab info
-					key: correspondedServer.key,
-					id: correspondedServer.id,
+					name: searchedServer.name, // create tab info
+					key: searchedServer.key,
+					id: searchedServer.id,
 
 					prevUuid: uuid,
-					prevIndex: index,
+					prevIndex: searchedTabIndex,
 					prevPath: path,
 				},
 			});
@@ -176,18 +175,18 @@ const Pane = ({uuid, type, server}) => {
 	useEffect(() => {
 		if (type === 'SSH') {
 			const {ready} = ssh.find((v) => v.uuid === uuid);
-			setReady(ready);
+			setReadyState(ready);
 		} else {
 			const {ready} = sftp_socketState.find((v) => v.uuid === uuid);
-			setReady(ready);
+			setReadyState(ready);
 		}
 	}, [sftp_socketState, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>
-			{ready === 3 && (
+			{readyState === 3 && (
 				<_ReconectBlock>
-					<WarningButton onClick={onReconnect}>
+					<WarningButton onClick={onClickReconnectToServer}>
 						Reconnect
 					</WarningButton>
 				</_ReconectBlock>
@@ -218,7 +217,7 @@ const Pane = ({uuid, type, server}) => {
 					<HoverButton
 						size={'micro'}
 						margin='0px'
-						onClick={onClickDelete}
+						onClick={onClickCloseTab}
 					>
 						{closeIcon}
 					</HoverButton>

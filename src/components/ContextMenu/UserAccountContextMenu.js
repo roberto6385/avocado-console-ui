@@ -9,18 +9,15 @@ import PropTypes from 'prop-types';
 import {DropDownMenu} from '../../styles/components/contextMenu';
 import {AUTH, authAction} from '../../reducers/api/auth';
 
-const AccountContextMenu = ({toggle, setToggle}) => {
+const UserAccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 
 	const {side_key} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
 
-	const openSideMenu = useCallback(
+	const onClickOpenAside = useCallback(
 		(key) => () => {
-			console.log(toggle);
-			console.log(key);
-			console.log(side_key);
 			if (toggle && side_key === key) {
 				setToggle(false);
 			} else {
@@ -31,7 +28,7 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 		[dispatch, side_key, setToggle, toggle],
 	);
 
-	const logout = useCallback(() => {
+	const onClickLogout = useCallback(() => {
 		dispatch(
 			authAction.revokeRequest({
 				Authorization: 'Bearer ' + userData.access_token,
@@ -41,20 +38,16 @@ const AccountContextMenu = ({toggle, setToggle}) => {
 
 	return (
 		<DropDownMenu id={'account'} animation={animation.slide}>
-			<Item id='UserInfo' onClick={openSideMenu('Account')}>
-				{t('account')}
-			</Item>
+			<Item onClick={onClickOpenAside('Account')}>{t('account')}</Item>
 			<Separator />
-			<Item id='Logout' onClick={logout}>
-				{t('logout')}
-			</Item>
+			<Item onClick={onClickLogout}>{t('logout')}</Item>
 		</DropDownMenu>
 	);
 };
 
-AccountContextMenu.propTypes = {
+UserAccountContextMenu.propTypes = {
 	toggle: PropTypes.bool.isRequired,
 	setToggle: PropTypes.func.isRequired,
 };
 
-export default AccountContextMenu;
+export default UserAccountContextMenu;

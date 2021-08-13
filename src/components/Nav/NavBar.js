@@ -7,12 +7,12 @@ import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 
 import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
-import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
-import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
+import drkFoldingButton from '../../images/navFoldingButton/drk_floating_btn.png';
+import lghtFoldingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import Resources from './Resources/Resources';
 import Favorites from './Favorites/Favorites';
 
-const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
+const foldingButtons = {light: lghtFoldingButton, dark: drkFoldingButton};
 
 const _Aside = styled.aside`
 	display: flex;
@@ -28,7 +28,7 @@ const _Aside = styled.aside`
 	z-index;
 `;
 
-const Logo = styled.div`
+const _Logo = styled.div`
 	svg {
 		fill: ${(props) => props.theme.pages.webTerminal.main.font.color};
 	}
@@ -41,7 +41,7 @@ const _Header = styled.div`
 	padding: 18px 16px 19px;
 `;
 
-const _FolerServerTab = styled.div`
+const _NavTabContianer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -50,7 +50,7 @@ const _FolerServerTab = styled.div`
 		${(props) => props.theme.pages.webTerminal.main.navigation.border.color};
 `;
 
-const _OpenButton = styled.div`
+const _OpenNavButton = styled.div`
 	outline: none;
 	line-height: 0px;
 	cursor: pointer;
@@ -61,7 +61,7 @@ const _OpenButton = styled.div`
 	display: ${(props) => props?.display};
 `;
 
-const _Tab = styled.div`
+const _NavTabs = styled.div`
 	display: flex;
 	flex-warp: nowrap;
 	align-items: center;
@@ -70,7 +70,7 @@ const _Tab = styled.div`
 	width: 127px;
 `;
 
-const _TabItem = styled.div`
+const _NavTabItem = styled.div`
 	display: flex;
 	cursor: pointer;
 	justify-content: center;
@@ -102,17 +102,17 @@ const NavBar = ({toggle, setToggle}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-
-	const tabs = [
+	//TODO: !!important: change key value to resource, bookmark
+	const navTabs = [
 		{title: t('resource'), key: 0},
 		{title: t('bookmark'), key: 1},
 	];
 
-	const onClickOpenTggle = useCallback(() => {
+	const onClickOpenOrCloseNav = useCallback(() => {
 		setToggle(!toggle);
 	}, [setToggle, toggle]);
 
-	const handleCurrentKey = useCallback(
+	const onClickChangeNavTab = useCallback(
 		(key) => () => {
 			dispatch({type: CHANGE_NAVTAB, payload: key});
 		},
@@ -122,36 +122,42 @@ const NavBar = ({toggle, setToggle}) => {
 	return (
 		<_Aside className={toggle ? 'nav' : 'nav close'}>
 			<_Header>
-				<HoverButton margin_right={'6px'} onClick={onClickOpenTggle}>
+				<HoverButton
+					margin_right={'6px'}
+					onClick={onClickOpenOrCloseNav}
+				>
 					{burgerMenuIcon}
 				</HoverButton>
-				<Logo>{avocadoLogo}</Logo>
+				<_Logo>{avocadoLogo}</_Logo>
 			</_Header>
-			<_FolerServerTab>
-				{tabs.map((v) => {
+			<_NavTabContianer>
+				{navTabs.map((v) => {
 					return (
-						<_Tab key={v.key} onClick={handleCurrentKey(v.key)}>
-							<_TabItem
+						<_NavTabs
+							key={v.key}
+							onClick={onClickChangeNavTab(v.key)}
+						>
+							<_NavTabItem
 								selected={current_nav_tab === v.key ? 1 : 0}
 							>
 								{v.title}
-							</_TabItem>
-						</_Tab>
+							</_NavTabItem>
+						</_NavTabs>
 					);
 				})}
-			</_FolerServerTab>
+			</_NavTabContianer>
 			{current_nav_tab === 0 ? ( // 0:자원 1:즐겨찾기
 				<Resources />
 			) : (
 				<Favorites />
 			)}
 
-			<_OpenButton
-				onClick={() => setToggle(!toggle)}
+			<_OpenNavButton
+				onClick={onClickOpenOrCloseNav}
 				display={toggle ? 'none' : 'inline-block'}
 			>
-				<img src={floatings[theme]} alt='floating button' />
-			</_OpenButton>
+				<img src={foldingButtons[theme]} alt='nav folding button' />
+			</_OpenNavButton>
 		</_Aside>
 	);
 };

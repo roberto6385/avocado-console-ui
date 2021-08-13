@@ -25,21 +25,21 @@ const Container = styled.div`
 
 const Resources = () => {
 	const {t} = useTranslation('nav');
-	const [search, onChangeSearch] = useInput('');
+	const [searchVal, onChangeSearchVal] = useInput('');
 
 	return (
 		<Container>
 			<_FormContainer>
 				<_Form>
 					<IconSearchInput
-						onChange={onChangeSearch}
-						value={search}
+						onChange={onChangeSearchVal}
+						value={searchVal}
 						place={t('search')}
 						height={'36px'}
 					/>
 				</_Form>
 			</_FormContainer>
-			<ServerFolderList search={search} />
+			<ServerFolderList searchVal={searchVal} />
 			<AddServerDialogBox />
 		</Container>
 	);

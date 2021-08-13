@@ -92,26 +92,28 @@ const WorkSpace = () => {
 		shallowEqual,
 	);
 
-	const [asideToggle, setAsideToggle] = useState(false);
-	const [navToggle, setNavToggle] = useState(true);
+	const [isNavOpened, setIsNavOpened] = useState(true);
+	const [isAsideOpened, setIsAsideOpened] = useState(false);
 
 	return (
 		<_Container>
-			<NavBar toggle={navToggle} setToggle={setNavToggle} />
+			<NavBar toggle={isNavOpened} setToggle={setIsNavOpened} />
 			<_MainContainer
-				className={navToggle ? 'mainContainer' : 'mainContainer close'}
+				className={
+					isNavOpened ? 'mainContainer' : 'mainContainer close'
+				}
 			>
-				<TabBar toggle={asideToggle} setToggle={setAsideToggle} />
+				<TabBar toggle={isAsideOpened} setToggle={setIsAsideOpened} />
 				<_MainSpace>
 					<_WorkSpaceContainer
-						className={asideToggle ? 'work' : 'work close'}
+						className={isAsideOpened ? 'work' : 'work close'}
 						opacity={sshLoading || sftpLoading ? 0.7 : undefined}
 					>
 						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
 					<AsideContainer
-						toggle={asideToggle}
-						setToggle={setAsideToggle}
+						toggle={isAsideOpened}
+						setToggle={setIsAsideOpened}
 					/>
 				</_MainSpace>
 			</_MainContainer>
