@@ -36,7 +36,7 @@ const slice = createSlice({
 			);
 		},
 		deleteTab: (state, action) => {
-			state.tabs.filter((v) => v.uuid !== action.payload);
+			state.tabs = state.tabs.filter((v) => v.uuid !== action.payload);
 			state.selectedTab = fillTabs(
 				state.tabs,
 				state.cols === 1 ? 1 : state.cols * 3,
