@@ -10,7 +10,7 @@ import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.pn
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import Resources from './Resources/Resources';
 import Favorites from './Favorites/Favorites';
-import {CHANGE_NAVTAB} from '../../reducers/tabBar';
+import {CHANGE_NAVTAB} from '../../reducers/common';
 import {settingSelector} from '../../reducers/setting';
 
 const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};

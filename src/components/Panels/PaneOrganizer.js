@@ -16,6 +16,7 @@ const _Container = styled.div`
 `;
 
 const PaneOrganizer = ({tab}) => {
+	console.log(tab);
 	return (
 		<_Container>
 			{tab.length === 1 && (

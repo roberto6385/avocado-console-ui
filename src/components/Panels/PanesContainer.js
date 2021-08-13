@@ -32,6 +32,8 @@ const PanesContainer = () => {
 		[tabs],
 	);
 
+	console.log(visibleTabs);
+
 	return (
 		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}

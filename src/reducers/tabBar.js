@@ -40,7 +40,7 @@ const slice = createSlice({
 			state.selectedTab = fillTabs(
 				state.tabs,
 				state.cols === 1 ? 1 : state.cols * 3,
-				action.payload,
+				state.selectedTab,
 			);
 		},
 		sortTab: (state, action) => {
@@ -67,7 +67,7 @@ const slice = createSlice({
 			state.selectedTab = fillTabs(
 				state.tabs,
 				state.cols === 1 ? 1 : state.cols * 3,
-				action.payload,
+				state.selectedTab,
 			);
 		},
 	},
