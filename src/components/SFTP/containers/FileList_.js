@@ -24,7 +24,7 @@ const FileList_ = ({uuid}) => {
 		shallowEqual,
 	);
 
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const {language} = useSelector(settingSelector.all);
 	const {
@@ -39,8 +39,8 @@ const FileList_ = ({uuid}) => {
 	const {userData} = useSelector(authSelector.all);
 
 	const corTab = useMemo(
-		() => tabs.find((it) => it.uuid === uuid),
-		[tabs, uuid],
+		() => terminalTabs.find((it) => it.uuid === uuid),
+		[terminalTabs, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),

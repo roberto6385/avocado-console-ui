@@ -30,7 +30,7 @@ const Footer = () => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
 
-	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
+	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {font_size} = useSelector((state) => state.ssh, shallowEqual);
 
 	const onClickIncreaseFontSize = useCallback(() => {
@@ -44,16 +44,18 @@ const Footer = () => {
 	const onClickOpenSSHSearchBar = useCallback(() => {
 		if (
 			selectedTab !== null &&
-			tabs.slice().find((v) => v.uuid === selectedTab).type === 'SSH'
+			terminalTabs.slice().find((v) => v.uuid === selectedTab).type ===
+				'SSH'
 		)
 			dispatch({type: SSH_SET_SEARCH_MODE});
-	}, [selectedTab, tabs]);
+	}, [selectedTab, terminalTabs]);
 
 	return (
 		<_Footer>
 			<span>Avocado v1.0</span>
 
-			{tabs.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
+			{terminalTabs.filter((v) => v.display && v.type === 'SSH')
+				.length !== 0 && (
 				<_RightSideContainer>
 					<HoverButton
 						margin_right={'10px'}
@@ -81,8 +83,8 @@ const Footer = () => {
 						server.find(
 							(v) =>
 								v.id ===
-								tabs.find((i) => i.uuid === selectedTab)?.server
-									.id,
+								terminalTabs.find((i) => i.uuid === selectedTab)
+									?.server.id,
 						)?.host}
 				</_RightSideContainer>
 			)}

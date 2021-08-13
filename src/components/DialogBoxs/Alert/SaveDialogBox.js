@@ -49,7 +49,7 @@ const SaveDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const alertMessages = {
 		sftp_edit_save: t('editSave'),
@@ -90,7 +90,7 @@ const SaveDialogBox = () => {
 
 	const handleOnClickSFTPSaveEvents = useCallback(() => {
 		const uuid = alert.uuid;
-		const searchedTerminalTab = tabs.find((it) => it.uuid === uuid);
+		const searchedTerminalTab = terminalTabs.find((it) => it.uuid === uuid);
 		const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 		const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 		const {editText, editFile} = sftp_editState.find(
@@ -215,7 +215,7 @@ const SaveDialogBox = () => {
 		},
 		[
 			alert,
-			tabs,
+			terminalTabs,
 			sftp_etcState,
 			sftp_pathState,
 			sftp_editState,

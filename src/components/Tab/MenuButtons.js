@@ -26,7 +26,7 @@ const _Container = styled.div`
 
 const MenuButtons = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const MenuPosition = useRef();
 	const accountIconRef = useRef();
@@ -109,7 +109,7 @@ const MenuButtons = ({toggle, setToggle}) => {
 				{notificationIcon}
 			</HoverButton>
 
-			{tabs.length !== 0 && (
+			{terminalTabs.length !== 0 && (
 				<HoverButton ref={terminalRef} onClick={openColumnMenu}>
 					{windowIcon}
 				</HoverButton>

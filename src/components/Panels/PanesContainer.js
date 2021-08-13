@@ -18,7 +18,7 @@ export const _Container = styled.div`
 `;
 
 const PanesContainer = () => {
-	const {tabs, cols} = useSelector(tabBarSelector.all);
+	const {terminalTabs, cols} = useSelector(tabBarSelector.all);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -28,11 +28,9 @@ const PanesContainer = () => {
 		shallowEqual,
 	);
 	const visibleTabs = useMemo(
-		() => tabs.filter((v) => v.display === true),
-		[tabs],
+		() => terminalTabs.filter((v) => v.display === true),
+		[terminalTabs],
 	);
-
-	console.log(visibleTabs);
 
 	return (
 		<_Container>

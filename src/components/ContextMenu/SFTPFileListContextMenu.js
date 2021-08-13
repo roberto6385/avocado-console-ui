@@ -23,7 +23,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const {highlight} = useMemo(
 		() => sftp_highState.find((it) => it.uuid === uuid),
@@ -38,8 +38,8 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		[sftp_downloadState, uuid],
 	);
 	const searchedTerminalTab = useMemo(
-		() => tabs.find((it) => it.uuid === uuid),
-		[tabs, uuid],
+		() => terminalTabs.find((it) => it.uuid === uuid),
+		[terminalTabs, uuid],
 	);
 	const {userData} = useSelector(authSelector.all);
 	const searchedServer = useMemo(

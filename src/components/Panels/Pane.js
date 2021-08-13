@@ -72,7 +72,7 @@ const _ReconectBlock = styled.div`
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 
-	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
+	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {identity, server: commonServer} = useSelector(
 		(state) => state.common,
@@ -123,7 +123,7 @@ const Pane = ({uuid, type, server}) => {
 			(it) => it.key === server.key && it.checked === true,
 		);
 
-		const searchedTabIndex = tabs.findIndex((v) => v.uuid === uuid);
+		const searchedTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
 			dispatch({
@@ -166,7 +166,7 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server,
 		sftp_pathState,
-		tabs,
+		terminalTabs,
 		type,
 		userData,
 		uuid,
@@ -191,7 +191,7 @@ const Pane = ({uuid, type, server}) => {
 					</WarningButton>
 				</_ReconectBlock>
 			)}
-			{tabs.filter((v) => v.display === true).length > 1 && (
+			{terminalTabs.filter((v) => v.display === true).length > 1 && (
 				<_Header selected={selectedTab === uuid}>
 					<_HeaderText>
 						{type === 'SSH' && (

@@ -83,7 +83,7 @@ const _WorkSpaceContainer = styled.div`
 `;
 
 const WorkSpace = () => {
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -110,7 +110,11 @@ const WorkSpace = () => {
 						className={isAsideOpened ? 'work' : 'work close'}
 						opacity={sshLoading || sftpLoading ? 0.7 : undefined}
 					>
-						{tabs.length !== 0 ? <PanesContainer /> : <MainPage />}
+						{terminalTabs.length !== 0 ? (
+							<PanesContainer />
+						) : (
+							<MainPage />
+						)}
 					</_WorkSpaceContainer>
 					<AsideContainer
 						toggle={isAsideOpened}

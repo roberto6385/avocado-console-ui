@@ -51,11 +51,11 @@ const IdentitiesAside = () => {
 	const {t} = useTranslation('identitiesSpace');
 
 	const {identity} = useSelector((state) => state.common, shallowEqual);
-	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
+	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
 	const currentKey = useMemo(
-		() => tabs.find((v) => v.uuid === selectedTab)?.server.key,
-		[tabs, selectedTab],
+		() => terminalTabs.find((v) => v.uuid === selectedTab)?.server.key,
+		[terminalTabs, selectedTab],
 	);
 
 	const changePath = useCallback(

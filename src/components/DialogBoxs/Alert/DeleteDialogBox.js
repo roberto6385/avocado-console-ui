@@ -37,7 +37,7 @@ const DeleteDialogBox = () => {
 		shallowEqual,
 	);
 
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
@@ -85,7 +85,7 @@ const DeleteDialogBox = () => {
 						payload: {uuid, list: highlight, path},
 					});
 
-					const searchedTerminalTab = tabs.find(
+					const searchedTerminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
 					const searchedServer = server.find(
@@ -159,7 +159,7 @@ const DeleteDialogBox = () => {
 			sftp_highState,
 			sftp_pathState,
 			dispatch,
-			tabs,
+			terminalTabs,
 			server,
 			identity,
 			userData,

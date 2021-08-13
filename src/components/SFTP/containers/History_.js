@@ -32,10 +32,10 @@ const History_ = ({uuid}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {tabs} = useSelector(tabBarSelector.all);
+	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const corTab = useMemo(
-		() => tabs.find((it) => it.uuid === uuid),
-		[tabs, uuid],
+		() => terminalTabs.find((it) => it.uuid === uuid),
+		[terminalTabs, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),

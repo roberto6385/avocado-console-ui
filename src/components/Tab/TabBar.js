@@ -67,7 +67,7 @@ const _ServerTitle = styled.div`
 const TabBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {theme} = useSelector(settingSelector.all);
-	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
+	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector((state) => state.ssh, shallowEqual);
 	const {socket: sftp_socketState} = useSelector(
 		(state) => state.sftp,
@@ -112,17 +112,17 @@ const TabBar = ({toggle, setToggle}) => {
 
 	const prevPutItem = useCallback(
 		(item) => () => {
-			setOldOlder(tabs.findIndex((it) => it === item));
+			setOldOlder(terminalTabs.findIndex((it) => it === item));
 			setDraggedItem(item);
 		},
-		[tabs],
+		[terminalTabs],
 	);
 
 	const nextPutItem = useCallback(
 		(item) => (e) => {
 			e.preventDefault();
 			if (item === undefined) return;
-			const newOlder = tabs.findIndex((it) => it === item);
+			const newOlder = terminalTabs.findIndex((it) => it === item);
 
 			dispatch(
 				tabBarAction.sortTab({
@@ -132,13 +132,13 @@ const TabBar = ({toggle, setToggle}) => {
 				}),
 			);
 		},
-		[tabs, dispatch, oldOlder, draggedItem],
+		[terminalTabs, dispatch, oldOlder, draggedItem],
 	);
 
 	return (
 		<_Container theme_value={theme}>
 			<_Tabs>
-				{tabs.map((data) => {
+				{terminalTabs.map((data) => {
 					return (
 						<_Tab
 							key={data.uuid}
