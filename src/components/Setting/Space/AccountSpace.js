@@ -16,6 +16,7 @@ import {
 } from '../../../styles/components/settingPage';
 import {Input} from '../../../styles/components/input';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {userResourceSelector} from '../../../reducers/api/userResource';
 
 const _Input = styled(Input)`
 	width: 500px;
@@ -38,7 +39,7 @@ const _Section = styled.section`
 
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
-	const {account} = useSelector((state) => state.common, shallowEqual);
+	const {data} = useSelector(userResourceSelector.all);
 	const dispatch = useDispatch();
 	const [authType, setAuthType] = useState('first_option');
 	const [mfaType, setMfaType] = useState('use');
@@ -73,14 +74,14 @@ const AccountSpace = () => {
 			<SettingContentsContainer>
 				<TextBoxField_ title={t('account')}>
 					<_Input
-						value={account.account}
+						value={data.id}
 						placeholder={t('accountPlace')}
 						readOnly
 					/>
 				</TextBoxField_>
 				<TextBoxField_ title={t('name')}>
 					<_Input
-						value={account.name}
+						value={data.name}
 						placeholder={t('namePlace')}
 						readOnly
 						onClick={() =>
@@ -92,7 +93,7 @@ const AccountSpace = () => {
 				</TextBoxField_>
 				<TextBoxField_ title={t('email')}>
 					<_Input
-						value={account.email}
+						value={data.email}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>

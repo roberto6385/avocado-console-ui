@@ -18,6 +18,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
+import {userResourceSelector} from '../../../reducers/api/userResource';
 
 const _PopupModal = styled(DialogBox)`
 	width: 404px;
@@ -147,6 +148,7 @@ const InputDialogBox = () => {
 					form.key === 'sftp_rename_file_folder' ||
 					form.key === 'sftp_chgrp' ||
 					form.key === 'sftp_chown'
+					// form.key === 'userName'
 				) {
 					setFormValue(prevFormValue);
 				} else {

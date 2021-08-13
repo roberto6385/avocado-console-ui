@@ -39,7 +39,7 @@ const ChangeUserNameDialogBox = () => {
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const nameRef = useRef(null);
-	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
+	const [currentName, onChangeCurrentName, setCurrentName] = useInput('');
 
 	const closeModal = useCallback(() => {
 		dispatch(dialogBoxAction.closeForm());
@@ -69,11 +69,11 @@ const ChangeUserNameDialogBox = () => {
 		currentName === '' && nameRef.current?.focus();
 	}, [currentName]);
 
-	useEffect(() => {
-		if (open) {
-			setCurrentName('');
-		}
-	}, [open, setCurrentName]);
+	// useEffect(() => {
+	// 	if (form.open && form.key === 'userName') {
+	// 		setCurrentName(data.name);
+	// 	}
+	// }, [data, form, setCurrentName]);
 
 	return (
 		<_PopupModal

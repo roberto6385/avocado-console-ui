@@ -4,11 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
-import {SAVE_ACCOUT} from '../reducers/common';
-import {
-	userResourceAction,
-	userResourceSelector,
-} from '../reducers/api/userResource';
+import {userResourceAction} from '../reducers/api/userResource';
 import {authSelector} from '../reducers/api/auth';
 
 const _Container = styled.div`
@@ -24,7 +20,6 @@ const Home = () => {
 	const history = useHistory();
 
 	const {userData} = useSelector(authSelector.all);
-	const {data} = useSelector(userResourceSelector.all);
 
 	useEffect(() => {
 		if (userData) {
@@ -40,21 +35,6 @@ const Home = () => {
 			location.reload();
 		}
 	}, [dispatch, history, userData]);
-
-	useEffect(() => {
-		if (data) {
-			console.log(data);
-
-			dispatch({
-				type: SAVE_ACCOUT,
-				payload: {
-					account: data.id,
-					name: data.name,
-					email: data.email,
-				},
-			});
-		}
-	}, [dispatch, data]);
 
 	return (
 		<_Container>

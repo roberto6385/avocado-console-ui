@@ -13,13 +13,13 @@ import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
 } from '../../../reducers/ssh';
-import {CHANGE_GENERAL_THEME, CHANGE_LANGUAGE} from '../../../reducers/common';
 import {useTranslation} from 'react-i18next';
 import {
 	SettingContentsContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
+import {settingAction, settingSelector} from '../../../reducers/setting';
 
 const _CheckBoxContanier = styled.div`
 	margin-bottom: 16px;
@@ -45,10 +45,10 @@ const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('preferencesAside');
 	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
-	const {theme, lang} = useSelector((state) => state.common, shallowEqual);
+	const {theme, language} = useSelector(settingSelector.all);
 	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
-	const [language, setLanguage] = useState(lang);
-	const [generalTheme, setGeneralTheme] = useState(theme);
+	const [Language, setLanguage] = useState(language);
+	const [Theme, setTheme] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
 	const [terminalFont, setTerminalFont] = useState(font);
@@ -75,13 +75,13 @@ const PreferencesSpace = () => {
 	}, [font, terminalFont, dispatch]);
 
 	useEffect(() => {
-		dispatch({type: CHANGE_GENERAL_THEME, payload: {theme: generalTheme}});
-	}, [generalTheme, dispatch]);
+		dispatch(settingAction.setTheme(Theme));
+	}, [Theme, dispatch]);
 
 	useEffect(() => {
-		dispatch({type: CHANGE_LANGUAGE, payload: {language: language}});
-		i18n.changeLanguage(lang);
-	}, [language, dispatch, i18n, lang]);
+		dispatch(settingAction.setLanguage(Language));
+		i18n.changeLanguage(Language);
+	}, [Language, dispatch, i18n]);
 
 	return (
 		<SettingMainContainer>
@@ -91,15 +91,15 @@ const PreferencesSpace = () => {
 					width={'500px'}
 					title={t('lang')}
 					options={languageOptions}
-					value={language}
+					value={Language}
 					setValue={setLanguage}
 				/>
 				<ComboBox_
 					width={'500px'}
 					title={t('uiTheme')}
 					options={background_theme}
-					value={generalTheme}
-					setValue={setGeneralTheme}
+					value={Theme}
+					setValue={setTheme}
 				/>
 			</SettingContentsContainer>
 

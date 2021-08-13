@@ -3,11 +3,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
-import {
-	ACCOUT_CONTROL_ID,
-	DELETE_ACCOUT,
-	DELETE_SERVER_FOLDER,
-} from '../../../reducers/common';
+import {DELETE_SERVER_FOLDER} from '../../../reducers/common';
 
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
 
@@ -36,14 +32,10 @@ const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('warningAlertPopup');
 
-	const {
-		server,
-		tab,
-		identity,
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-	} = useSelector((state) => state.common, shallowEqual);
+	const {server, tab, identity, clicked_server} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
@@ -164,25 +156,6 @@ const DeleteDialogBox = () => {
 					break;
 
 				case 'delete_account': {
-					if (accountListControlId && accountCheckList.length === 0) {
-						dispatch({
-							type: DELETE_ACCOUT,
-							payload: {id: accountListControlId},
-						});
-
-						dispatch({
-							type: ACCOUT_CONTROL_ID,
-							payload: {id: null},
-						});
-					} else {
-						accountCheckList.forEach((id) => {
-							dispatch({
-								type: DELETE_ACCOUT,
-								payload: {id},
-							});
-						});
-					}
-
 					break;
 				}
 
@@ -204,8 +177,6 @@ const DeleteDialogBox = () => {
 			identity,
 			userData,
 			sftp_historyState,
-			accountListControlId,
-			accountCheckList,
 		],
 	);
 

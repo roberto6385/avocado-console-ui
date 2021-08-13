@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {Menu} from 'react-contexify';
 
 export const ContextMenu = styled(Menu)`
-	z-index: 5;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 	background: ${(props) =>
 		props.theme.basic.pages.contextMenus.normalStyle.backgroundColor};

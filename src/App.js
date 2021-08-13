@@ -27,12 +27,13 @@ import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
 import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
 import {ENCODE_DATA} from './api/constants';
+import {settingSelector} from './reducers/setting';
 
 const App = () => {
 	const dispatch = useDispatch();
 
 	const {userData} = useSelector(authSelector.all);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
+	const {theme} = useSelector(settingSelector.all);
 
 	// const handleOnIdle = useCallback(() => {
 	// 	// console.log('stop');
@@ -79,7 +80,7 @@ const App = () => {
 			reset();
 			pause();
 		}
-	}, [userData]);
+	}, [pause, reset, start, userData]);
 
 	return (
 		<BrowserRouter>

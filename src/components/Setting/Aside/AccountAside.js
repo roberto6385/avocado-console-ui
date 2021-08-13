@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
@@ -34,7 +34,8 @@ const AccountAside = () => {
 	const dispatch = useDispatch();
 	const {userData} = useSelector(authSelector.all);
 	const {data} = useSelector(userResourceSelector.all);
-	const {account} = useSelector((state) => state?.common, shallowEqual);
+
+	console.log(data);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -46,14 +47,13 @@ const AccountAside = () => {
 	const handleDelete = useCallback(
 		(e) => {
 			console.log('prevent deletion');
-			//todo
-			// dispatch({
-			// 	type: DELETE_USER_ACCOUNT_REQUEST,
-			// 	payload: {
+			// todo
+			// dispatch(
+			// 	userResourceAction.deleteRequest({
 			// 		userUid: data.userUid,
 			// 		token: userData.access_token,
-			// 	},
-			// });
+			// 	}),
+			// );
 		},
 		[dispatch, data, userData],
 	);
@@ -62,21 +62,21 @@ const AccountAside = () => {
 		<_Container>
 			<TextBoxField_ title={t('account')}>
 				<Input
-					value={account.account}
+					value={data.id}
 					placeholder={t('accountPlace')}
 					readOnly
 				/>
 			</TextBoxField_>
 			<TextBoxField_ title={t('name')}>
 				<Input
-					value={account.name}
+					value={data.name}
 					placeholder={t('namePlace')}
 					readOnly
 				/>
 			</TextBoxField_>
 			<TextBoxField_ title={t('email')}>
 				<Input
-					value={account.email}
+					value={data.email}
 					placeholder={t('emailPlace')}
 					readOnly
 				/>

@@ -1,5 +1,6 @@
 // import produce from 'immer';
 import {createSelector, createSlice} from '@reduxjs/toolkit';
+import {authAction} from './auth';
 
 const slice = createSlice({
 	name: 'userResource',
@@ -51,14 +52,19 @@ const slice = createSlice({
 			state.error = action.payload;
 		},
 	},
+	extraReducers: {
+		[authAction.revokeSuccess]: (state) => {
+			state.data = null;
+		},
+	},
 });
 
 const selectAllState = createSelector(
 	(state) => state.data,
 	(state) => state.error,
 	(state) => state.loading,
-	(userData, error, loading) => {
-		return {userData, error, loading};
+	(data, error, loading) => {
+		return {data, error, loading};
 	},
 );
 

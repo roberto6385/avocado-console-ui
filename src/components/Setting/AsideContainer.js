@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import AccountAside from './Aside/AccountAside';
 import {closeIcon} from '../../icons/icons';
 import {IconButton} from '../../styles/components/icon';
 import {SettingTitle} from '../../styles/components/settingPage';
+import {settingSelector} from '../../reducers/setting';
 
 const _Container = styled.div`
 	height: 100%;
@@ -29,25 +30,29 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('settingNav');
-	const {side_key} = useSelector((state) => state.common, shallowEqual);
+	const {menu} = useSelector(settingSelector.all);
 
 	const closeAside = useCallback(() => {
 		setToggle(false);
 	}, [setToggle]);
 
+	const settingTitle = {
+		Account: t('account'),
+		Preferences: t('preferences'),
+		Identities: t('identities'),
+	};
+
 	return (
 		<_Container className={toggle ? 'aside' : 'aside close'}>
 			<_SettingTitle>
-				{side_key === 'Account' && t('account')}
-				{side_key === 'Preferences' && t('preferences')}
-				{side_key === 'Identities' && t('identities')}
+				{settingTitle[menu]}
 				<IconButton itype={'font'} margin={'0px'} onClick={closeAside}>
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>
-			{side_key === 'Account' && <AccountAside />}
-			{side_key === 'Preferences' && <PreferencesAside />}
-			{side_key === 'Identities' && <IdentitiesAside />}
+			{menu === 'Account' && <AccountAside />}
+			{menu === 'Preferences' && <PreferencesAside />}
+			{menu === 'Identities' && <IdentitiesAside />}
 		</_Container>
 	);
 };

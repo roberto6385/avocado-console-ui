@@ -1,17 +1,17 @@
 import React, {useCallback} from 'react';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
-import {RIGHT_SIDE_KEY} from '../../reducers/common';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {DropDownMenu} from '../../styles/components/contextMenu';
+import {settingAction, settingSelector} from '../../reducers/setting';
 
 const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {side_key} = useSelector((state) => state.common, shallowEqual);
+	const {menu} = useSelector(settingSelector.all);
 
 	const changePath = useCallback(
 		(path) => () => {
@@ -22,14 +22,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 
 	const openSideMenu = useCallback(
 		(key) => () => {
-			if (toggle && side_key === key) {
+			if (toggle && menu === key) {
 				setToggle(false);
 			} else {
-				dispatch({type: RIGHT_SIDE_KEY, payload: key});
+				dispatch(settingAction.setMenu(key));
 				setToggle(true);
 			}
 		},
-		[dispatch, side_key, setToggle, toggle],
+		[dispatch, menu, setToggle, toggle],
 	);
 
 	return (

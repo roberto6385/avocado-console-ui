@@ -1,13 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import SettingNav from './SettingNav';
 import Footer from '../Footer';
-import {useDispatch, useSelector} from 'react-redux';
-import {SAVE_ACCOUT} from '../../reducers/common';
 import {avocadoLogo} from '../../icons/icons';
-import {userResourceSelector} from '../../reducers/api/userResource';
 
 const _Container = styled.div`
 	display: flex;
@@ -41,26 +38,6 @@ const _Header = styled.div`
 `;
 
 const SettingAppLayout = ({children}) => {
-	const dispatch = useDispatch();
-	const {data} = useSelector(userResourceSelector.all);
-
-	useEffect(() => {
-		if (data) {
-			const email = data.email;
-			const index = email.indexOf('@');
-			const id = email.substring(0, index);
-
-			dispatch({
-				type: SAVE_ACCOUT,
-				payload: {
-					account: data.id === id ? data.id : id,
-					name: data.name,
-					email: data.email,
-				},
-			});
-		}
-	}, [dispatch, data]);
-
 	return (
 		<_Container>
 			<_Header>

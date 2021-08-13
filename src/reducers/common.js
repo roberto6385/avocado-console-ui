@@ -1,4 +1,16 @@
 import produce from 'immer';
+
+//TODO:
+// delete _
+// clicked_server => selected
+// minimize => is hide sidebar
+// server => remote resources
+// folder => remote resource groups
+// account => user
+// side_key => selected side bar key
+// nav=> remote resources tree
+// identity => accounts
+// tab => terminal tabs
 import {
 	addDataOnNode,
 	fillTabs,
@@ -11,14 +23,8 @@ export const initialState = {
 	current_tab: null,
 	current_nav_tab: 0, // nav에서 자원, 즐겨찾기
 	clicked_server: null,
-	cols: 1,
-	minimize: false,
 	server_index: 4,
 	folder_index: 2,
-	account: {account: '', name: '', email: ''},
-	side_key: '',
-	theme: 'light',
-	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 
 	favorites: [],
 	favorites_folder_index: 0,
@@ -28,7 +34,6 @@ export const initialState = {
 	selectedFavoriteItemOnDialogBox: null,
 	tempFavoriteFolderIndex: null,
 	tempFavoriteFolderRenamingKey: null,
-
 	nav: [
 		{
 			type: 'folder',
@@ -231,18 +236,11 @@ export const CLOSE_TAB = 'CLOSE_TAB';
 export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
 export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
 export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
-export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
 export const EDIT_SERVER = 'EDIT_SERVER';
 
-export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
-export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
-export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
-export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
-export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
-export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
 
 export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 
@@ -267,7 +265,6 @@ export const DELETE_TEMP_FOLDER_ON_FAVORITES =
 export const SAVE_CHANGES_ON_FAVORITES = 'SAVE_CHANGES_ON_FAVORITES';
 export const CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY =
 	'CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY';
-export const SORT_TEMP_FAVORITE_RESOURCES = 'SORT_TEMP_FAVORITE_RESOURCES';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -547,11 +544,6 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case SAVE_ACCOUT: {
-				draft.account = action.payload;
-				break;
-			}
-
 			case ADD_SERVER: {
 				const data = {
 					type: 'server',
@@ -598,10 +590,6 @@ const reducer = (state = initialState, action) => {
 				draft.clicked_server = action.payload;
 				break;
 
-			case CHANGE_SIDEBAR_DISPLAY:
-				draft.minimize = action.payload;
-				break;
-
 			case CHANGE_PROTOCOL:
 				draft.server.find(
 					(v) => v.key === action.payload.key,
@@ -628,31 +616,8 @@ const reducer = (state = initialState, action) => {
 				draft.clicked_server = null;
 				break;
 
-			// case DELETE_ACCOUT:
-			// 	draft.account = draft.account
-			// 		.slice()
-			// 		.filter((it) => it.id !== action.payload.id);
-			//
-			// 	break;
-
-			// case ACCOUT_CONTROL_ID:
-			// 	draft.accountListControlId = action.payload.id;
-			// 	break;
-
 			case CHANGE_CURRENT_RESOURCE_KEY:
 				draft.current_resource_key = action.payload.key;
-				break;
-
-			// case ACCOUT_CHECKLIST:
-			// 	draft.accountCheckList = action.payload.check;
-			// 	break;
-
-			case CHANGE_GENERAL_THEME:
-				draft.theme = action.payload.theme;
-				break;
-
-			case CHANGE_LANGUAGE:
-				draft.lang = action.payload.language;
 				break;
 
 			case OPEN_TAB: {
@@ -740,10 +705,6 @@ const reducer = (state = initialState, action) => {
 				draft.current_tab = action.payload;
 				break;
 
-			case RIGHT_SIDE_KEY:
-				draft.side_key = action.payload;
-				break;
-
 			case CHANGE_SELEECTED_TEMP_FAVORITE:
 				draft.selectedFavoriteItemOnDialogBox = action.payload;
 				break;
@@ -822,38 +783,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-//사용되지 않는 기능들
-/** Notification
- notification_index: 3,
- notification: [
- {
-			id: 0,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: true,
-		},
- {
-			id: 1,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
- {
-			id: 2,
-			message: 'sftp connection',
-			date: 'Mon Jul 23 2021 18:06:00 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
- ],
-
- case ADD_NOTIFICATION:
-	if (draft.notification.length > 30) draft.notification.shift();
-draft.notification.push({
-	id: draft.notification_index++,
-	message: action.payload,
-	date: Date.now(),
-	confirm: false,
-});
-break;
-**/
