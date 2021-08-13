@@ -15,6 +15,7 @@ import SplitTerminalViewContextMenu from '../ContextMenu/SplitTerminalViewContex
 import UserAccountContextMenu from '../ContextMenu/UserAccountContextMenu';
 import {HoverButton} from '../../styles/components/icon';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 const _Container = styled.div`
 	display: flex;
@@ -25,7 +26,7 @@ const _Container = styled.div`
 
 const MenuButtons = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
-	const {tab} = useSelector((state) => state.common, shallowEqual);
+	const {tabs} = useSelector(tabBarSelector.all);
 
 	const MenuPosition = useRef();
 	const accountIconRef = useRef();
@@ -108,7 +109,7 @@ const MenuButtons = ({toggle, setToggle}) => {
 				{notificationIcon}
 			</HoverButton>
 
-			{tab.length !== 0 && (
+			{tabs.length !== 0 && (
 				<HoverButton ref={terminalRef} onClick={openColumnMenu}>
 					{windowIcon}
 				</HoverButton>

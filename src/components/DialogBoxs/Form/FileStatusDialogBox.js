@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 import {CHMOD_REQUEST, STAT_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
@@ -9,9 +9,9 @@ import {closeIcon} from '../../../icons/icons';
 import {IconButton} from '../../../styles/components/icon';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
 import {
@@ -60,7 +60,7 @@ const FileStatusDialogBox = () => {
 		high: sftp_highState,
 		stat,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {form} = useSelector(dialogBoxSelector.all);
 
 	const uuid = form.uuid;
 	const searchedWebSocket = sftp_socketState.find(

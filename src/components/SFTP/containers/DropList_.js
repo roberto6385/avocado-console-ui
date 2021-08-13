@@ -15,21 +15,23 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const DropList_ = ({uuid}) => {
 	const dispatch = useDispatch();
 
-	const {tab, server, identity} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {tabs} = useSelector(tabBarSelector.all);
 
 	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+		() => tabs.find((it) => it.uuid === uuid),
+		[tabs, uuid],
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],

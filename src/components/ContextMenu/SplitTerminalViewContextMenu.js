@@ -1,20 +1,17 @@
 import React, {useCallback} from 'react';
 import {animation, Item} from 'react-contexify';
-import {CHANGE_NUMBER_OF_COLUMNS} from '../../reducers/common';
 import {useDispatch} from 'react-redux';
 import {DropDownMenu} from '../../styles/components/contextMenu';
+import {tabBarAction} from '../../reducers/tabBar';
 
 const SplitTerminalViewContextMenu = () => {
 	const dispatch = useDispatch();
 
 	const onClickChangeTerminalView = useCallback(
 		(cols) => () => {
-			dispatch({
-				type: CHANGE_NUMBER_OF_COLUMNS,
-				payload: {cols: cols},
-			});
+			dispatch(tabBarAction.setColumn(cols));
 		},
-		[],
+		[dispatch],
 	);
 
 	return (

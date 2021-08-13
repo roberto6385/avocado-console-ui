@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createSelector} from '@reduxjs/toolkit';
 
 const slice = createSlice({
 	name: 'auth',
@@ -91,6 +91,20 @@ const slice = createSlice({
 		},
 	},
 });
+
+const selectAllState = createSelector(
+	(state) => state.userData,
+	(state) => state.clientData,
+	(state) => state.alternativeData,
+	(state) => state.loading,
+	(userData, clientData, alternativeData, loading) => {
+		return {userData, clientData, alternativeData, loading};
+	},
+);
+
+export const authSelector = {
+	all: (state) => selectAllState(state[AUTH]),
+};
 
 export const AUTH = slice.name;
 export const authReducer = slice.reducer;

@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {NormalButton} from '../../../styles/components/button';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const _Container = styled.div`
 	height: 100%;
@@ -49,14 +50,12 @@ const IdentitiesAside = () => {
 	const history = useHistory();
 	const {t} = useTranslation('identitiesSpace');
 
-	const {identity, current_tab, tab} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {identity} = useSelector((state) => state.common, shallowEqual);
+	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
 
 	const currentKey = useMemo(
-		() => tab.find((v) => v.uuid === current_tab)?.server.key,
-		[tab, current_tab],
+		() => tabs.find((v) => v.uuid === selectedTab)?.server.key,
+		[tabs, selectedTab],
 	);
 
 	const changePath = useCallback(

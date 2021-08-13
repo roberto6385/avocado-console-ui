@@ -24,7 +24,7 @@ import {
 	NavigationItem,
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 export const ServerItem = styled(NavigationItem)`
 	.bookmark_button {
@@ -64,7 +64,7 @@ const Server = ({data, indent}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const correspondedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],

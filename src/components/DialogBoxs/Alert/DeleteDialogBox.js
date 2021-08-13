@@ -2,12 +2,7 @@ import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
-import {
-	ACCOUT_CONTROL_ID,
-	DELETE_ACCOUT,
-	DELETE_SERVER_FOLDER,
-} from '../../../reducers/common';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
 
@@ -30,22 +25,21 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('warningAlertPopup');
 
-	const {
-		server,
-		tab,
-		identity,
-		clicked_server,
-		accountListControlId,
-		accountCheckList,
-	} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {server, identity, clicked_server} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+
+	const {tabs} = useSelector(tabBarSelector.all);
+	const {userData} = useSelector(authSelector.all);
+	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
 		history: sftp_historyState,
 		delete: sftp_deleteState,
@@ -91,7 +85,7 @@ const DeleteDialogBox = () => {
 						payload: {uuid, list: highlight, path},
 					});
 
-					const searchedTerminalTab = tab.find(
+					const searchedTerminalTab = tabs.find(
 						(it) => it.uuid === uuid,
 					);
 					const searchedServer = server.find(
@@ -148,31 +142,8 @@ const DeleteDialogBox = () => {
 				}
 
 				case 'delete_server_folder':
-					if (clicked_server) {
-						dispatch({type: DELETE_SERVER_FOLDER});
-					}
 					break;
-
 				case 'delete_account': {
-					if (accountListControlId && accountCheckList.length === 0) {
-						dispatch({
-							type: DELETE_ACCOUT,
-							payload: {id: accountListControlId},
-						});
-
-						dispatch({
-							type: ACCOUT_CONTROL_ID,
-							payload: {id: null},
-						});
-					} else {
-						accountCheckList.forEach((id) => {
-							dispatch({
-								type: DELETE_ACCOUT,
-								payload: {id},
-							});
-						});
-					}
-
 					break;
 				}
 
@@ -188,13 +159,11 @@ const DeleteDialogBox = () => {
 			sftp_highState,
 			sftp_pathState,
 			dispatch,
-			tab,
+			tabs,
 			server,
 			identity,
 			userData,
 			sftp_historyState,
-			accountListControlId,
-			accountCheckList,
 		],
 	);
 

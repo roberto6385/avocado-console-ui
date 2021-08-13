@@ -10,7 +10,7 @@ import {
 	SET_TEMP_FAVORITES,
 } from '../../../reducers/common';
 
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
@@ -19,9 +19,9 @@ import {
 
 import {IconButton} from '../../../styles/components/icon';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
 import FavoriteItemsTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemsTreeOnDialogBox';
@@ -89,7 +89,7 @@ const AddFavoritesDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {form} = useSelector(dialogBoxSelector.all);
 
 	const onClickCloseDialogBox = useCallback(async () => {
 		await dispatch(dialogBoxAction.closeForm());

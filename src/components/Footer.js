@@ -2,13 +2,14 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {
-	SSH_SET_SEARCH_MODE,
 	SSH_DECREASE_FONT_SIZE,
 	SSH_INCREASE_FONT_SIZE,
+	SSH_SET_SEARCH_MODE,
 } from '../reducers/ssh';
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 
 import {HoverButton} from '../styles/components/icon';
+import {tabBarSelector} from '../reducers/tabBar';
 
 const _Footer = styled.footer`
 	height: 26px;
@@ -27,10 +28,9 @@ const _RightSideContainer = styled.div`
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {server, tab, current_tab} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {server} = useSelector((state) => state.common, shallowEqual);
+
+	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {font_size} = useSelector((state) => state.ssh, shallowEqual);
 
 	const onClickIncreaseFontSize = useCallback(() => {
@@ -43,16 +43,17 @@ const Footer = () => {
 
 	const onClickOpenSSHSearchBar = useCallback(() => {
 		if (
-			current_tab !== null &&
-			tab.slice().find((v) => v.uuid === current_tab).type === 'SSH'
+			selectedTab !== null &&
+			tabs.slice().find((v) => v.uuid === selectedTab).type === 'SSH'
 		)
 			dispatch({type: SSH_SET_SEARCH_MODE});
-	}, [current_tab, tab]);
+	}, [selectedTab, tabs]);
 
 	return (
 		<_Footer>
 			<span>Avocado v1.0</span>
-			{tab.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
+
+			{tabs.filter((v) => v.display && v.type === 'SSH').length !== 0 && (
 				<_RightSideContainer>
 					<HoverButton
 						margin_right={'10px'}
@@ -76,11 +77,11 @@ const Footer = () => {
 						{searchIcon}
 					</HoverButton>
 
-					{current_tab &&
+					{selectedTab &&
 						server.find(
 							(v) =>
 								v.id ===
-								tab.find((i) => i.uuid === current_tab)?.server
+								tabs.find((i) => i.uuid === selectedTab)?.server
 									.id,
 						)?.host}
 				</_RightSideContainer>

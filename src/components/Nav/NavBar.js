@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 
-import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
 import drkFoldingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFoldingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import Resources from './Resources/Resources';
 import Favorites from './Favorites/Favorites';
+import {CHANGE_NAVTAB} from '../../reducers/common';
+import {settingSelector} from '../../reducers/setting';
 
 const foldingButtons = {light: lghtFoldingButton, dark: drkFoldingButton};
 
@@ -98,10 +99,12 @@ const NavBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
 
-	const {theme, current_nav_tab} = useSelector(
+	const {current_nav_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {theme} = useSelector(settingSelector.all);
+
 	//TODO: !!important: change key value to resource, bookmark
 	const navTabs = [
 		{title: t('resource'), key: 0},

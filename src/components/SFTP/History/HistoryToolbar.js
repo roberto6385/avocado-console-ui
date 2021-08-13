@@ -10,8 +10,9 @@ import {
 	CREATE_NEW_WEBSOCKET_REQUEST,
 } from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -39,14 +40,15 @@ const HistoryToolbar = ({uuid}) => {
 		path: sftp_pathState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {tab, server, identity} = useSelector(
+	const {userData} = useSelector(authSelector.all);
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {tabs} = useSelector(tabBarSelector.all);
 	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+		() => tabs.find((it) => it.uuid === uuid),
+		[tabs, uuid],
 	);
 
 	const corServer = useMemo(

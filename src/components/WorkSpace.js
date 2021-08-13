@@ -7,6 +7,7 @@ import PanesContainer from './Panels/PanesContainer';
 import AsideContainer from './Setting/AsideContainer';
 import TabBar from './Tab/TabBar';
 import NavBar from './Nav/NavBar';
+import {tabBarSelector} from '../reducers/tabBar';
 
 const _Container = styled.div`
 	display: flex;
@@ -82,7 +83,7 @@ const _WorkSpaceContainer = styled.div`
 `;
 
 const WorkSpace = () => {
-	const {tab} = useSelector((state) => state.common, shallowEqual);
+	const {tabs} = useSelector(tabBarSelector.all);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -109,7 +110,7 @@ const WorkSpace = () => {
 						className={isAsideOpened ? 'work' : 'work close'}
 						opacity={sshLoading || sftpLoading ? 0.7 : undefined}
 					>
-						{tab.length !== 0 ? <PanesContainer /> : <MainPage />}
+						{tabs.length !== 0 ? <PanesContainer /> : <MainPage />}
 					</_WorkSpaceContainer>
 					<AsideContainer
 						toggle={isAsideOpened}

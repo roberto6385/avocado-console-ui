@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
@@ -25,29 +25,31 @@ import {
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
 
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 import {
 	SAVE_CHANGES_ON_FAVORITES,
 	SET_TEMP_FAVORITES,
 } from '../../../reducers/common';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('savePopup');
 
-	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
 		path: sftp_pathState,
 		etc: sftp_etcState,
 		edit: sftp_editState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {tab, server, identity} = useSelector(
+	const {userData} = useSelector(authSelector.all);
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {tabs} = useSelector(tabBarSelector.all);
 
 	const alertMessages = {
 		sftp_edit_save: t('editSave'),
@@ -88,7 +90,7 @@ const SaveDialogBox = () => {
 
 	const handleOnClickSFTPSaveEvents = useCallback(() => {
 		const uuid = alert.uuid;
-		const searchedTerminalTab = tab.find((it) => it.uuid === uuid);
+		const searchedTerminalTab = tabs.find((it) => it.uuid === uuid);
 		const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 		const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 		const {editText, editFile} = sftp_editState.find(
@@ -213,7 +215,7 @@ const SaveDialogBox = () => {
 		},
 		[
 			alert,
-			tab,
+			tabs,
 			sftp_etcState,
 			sftp_pathState,
 			sftp_editState,

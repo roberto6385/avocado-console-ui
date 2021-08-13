@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import WorkSpace from '../components/WorkSpace';
 import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
-import {SAVE_ACCOUT} from '../reducers/common';
-import {USER_RESOURCE, userResourceAction} from '../reducers/api/userResource';
-import {AUTH} from '../reducers/api/auth';
+import {userResourceAction} from '../reducers/api/userResource';
+import {authSelector} from '../reducers/api/auth';
 
 const _Container = styled.div`
 	display: flex;
@@ -20,8 +19,7 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {
 		if (userData) {
@@ -36,19 +34,6 @@ const Home = () => {
 			location.reload();
 		}
 	}, [dispatch, history, userData]);
-
-	useEffect(() => {
-		if (data) {
-			dispatch({
-				type: SAVE_ACCOUT,
-				payload: {
-					account: data.id,
-					name: data.name,
-					email: data.email,
-				},
-			});
-		}
-	}, [dispatch, data]);
 
 	return (
 		<_Container>

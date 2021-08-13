@@ -1,31 +1,29 @@
 import React, {useCallback} from 'react';
 import {animation, Item, Separator} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-
-import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {DropDownMenu} from '../../styles/components/contextMenu';
-import {AUTH, authAction} from '../../reducers/api/auth';
+import {authAction, authSelector} from '../../reducers/api/auth';
+import {settingAction, settingSelector} from '../../reducers/setting';
 
 const UserAccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
-
-	const {side_key} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {menu} = useSelector(settingSelector.all);
+	const {userData} = useSelector(authSelector.all);
 
 	const onClickOpenAside = useCallback(
 		(key) => () => {
-			if (toggle && side_key === key) {
+			if (toggle && menu === key) {
 				setToggle(false);
 			} else {
-				dispatch({type: RIGHT_SIDE_KEY, payload: key});
+				dispatch(settingAction.setMenu(key));
 				setToggle(true);
 			}
 		},
-		[dispatch, side_key, setToggle, toggle],
+		[dispatch, menu, setToggle, toggle],
 	);
 
 	const onClickLogout = useCallback(() => {

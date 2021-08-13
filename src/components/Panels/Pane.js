@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTP_ from '../SFTP/containers/SFTP_';
 import {
@@ -15,7 +14,8 @@ import {WarningButton} from '../../styles/components/button';
 import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
+import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 
 const _Container = styled.div`
 	height: 100%;
@@ -72,13 +72,13 @@ const _ReconectBlock = styled.div`
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 
-	const {
-		tab,
-		current_tab,
-		identity,
-		server: commonServer,
-	} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
+	const {userData} = useSelector(authSelector.all);
+	const {identity, server: commonServer} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
 	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
 		(state) => state.sftp,
@@ -88,9 +88,8 @@ const Pane = ({uuid, type, server}) => {
 	const [readyState, setReadyState] = useState(1);
 
 	const onClickChangeCurrentTab = useCallback(() => {
-		if (current_tab !== uuid)
-			dispatch({type: CHANGE_CURRENT_TAB, payload: uuid});
-	}, [current_tab, dispatch, uuid]);
+		if (selectedTab !== uuid) dispatch(tabBarAction.selectTab(uuid));
+	}, [selectedTab, dispatch, uuid]);
 
 	const onClickCloseTab = useCallback(
 		(e) => {
@@ -123,7 +122,8 @@ const Pane = ({uuid, type, server}) => {
 		const searchedIdentity = identity.find(
 			(it) => it.key === server.key && it.checked === true,
 		);
-		const searchedTabIndex = tab.findIndex((v) => v.uuid === uuid);
+
+		const searchedTabIndex = tabs.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
 			dispatch({
@@ -166,7 +166,7 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server,
 		sftp_pathState,
-		tab,
+		tabs,
 		type,
 		userData,
 		uuid,
@@ -191,8 +191,8 @@ const Pane = ({uuid, type, server}) => {
 					</WarningButton>
 				</_ReconectBlock>
 			)}
-			{tab.filter((v) => v.display === true).length > 1 && (
-				<_Header selected={current_tab === uuid ? true : false}>
+			{tabs.filter((v) => v.display === true).length > 1 && (
+				<_Header selected={selectedTab === uuid}>
 					<_HeaderText>
 						{type === 'SSH' && (
 							<Icon

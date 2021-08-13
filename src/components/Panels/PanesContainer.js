@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import '../../styles/resize.css';
 import PaneOrganizer from './PaneOrganizer';
 import LoadingSpinner from '../LoadingSpinner';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -17,7 +18,7 @@ export const _Container = styled.div`
 `;
 
 const PanesContainer = () => {
-	const {tab, cols} = useSelector((state) => state.common, shallowEqual);
+	const {tabs, cols} = useSelector(tabBarSelector.all);
 	const {loading: sshLoading} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,
@@ -27,9 +28,11 @@ const PanesContainer = () => {
 		shallowEqual,
 	);
 	const visibleTabs = useMemo(
-		() => tab.filter((v) => v.display === true),
-		[tab],
+		() => tabs.filter((v) => v.display === true),
+		[tabs],
 	);
+
+	console.log(visibleTabs);
 
 	return (
 		<_Container>
@@ -46,7 +49,9 @@ const PanesContainer = () => {
 				<SplitPane split='horizontal' defaultSize={'66%'}>
 					<SplitPane split='horizontal' defaultSize={'50%'}>
 						<PaneOrganizer tab={visibleTabs.slice(0, cols)} />
-						<PaneOrganizer tab={visibleTabs.slice(cols, cols * 2)} />
+						<PaneOrganizer
+							tab={visibleTabs.slice(cols, cols * 2)}
+						/>
 					</SplitPane>
 					<PaneOrganizer tab={visibleTabs.slice(cols * 2)} />
 				</SplitPane>

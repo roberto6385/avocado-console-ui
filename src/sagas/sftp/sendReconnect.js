@@ -20,9 +20,9 @@ import {closeChannel, subscribe} from '../channel';
 
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {reconnectResponse} from '../../ws/sftp/reconnect_response';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {tabBarAction} from '../../reducers/tabBar';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -59,7 +59,7 @@ function* sendCommand(action) {
 
 				switch (res.type) {
 					case RECONNECTION_SUCCESS:
-						yield put({type: CLOSE_TAB, payload: payload.prevUuid});
+						yield put(tabBarAction.deleteTab(payload.prevUuid));
 
 						yield put({
 							type: RECONNECTION_SUCCESS,
@@ -70,9 +70,8 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put({
-							type: OPEN_TAB,
-							payload: {
+						yield put(
+							tabBarAction.addTab({
 								type: 'SFTP',
 								uuid: uuid,
 								server: {
@@ -82,8 +81,8 @@ function* sendCommand(action) {
 								},
 								prevUuid: payload.prevUuid,
 								prevIndex: payload.prevIndex,
-							},
-						});
+							}),
+						);
 
 						yield put({
 							type: CD_REQUEST,

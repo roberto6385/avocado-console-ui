@@ -22,7 +22,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 
 const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -32,7 +32,7 @@ const SignUpForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('signUpForm');
 
-	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
+	const {loading} = useSelector(authSelector.all);
 
 	const [id, onChangeId, setId] = useInput('');
 	const [name, onChangeName, setName] = useInput('');

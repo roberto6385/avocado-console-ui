@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import FindPasswordForm from '../components/Form/FindPasswordForm';
 import SignInLayout from '../components/Layouts/SignInLayout';
-import {AUTH} from '../reducers/api/auth';
+import {AUTH, authSelector} from '../reducers/api/auth';
 
 const Password = () => {
 	const history = useHistory();
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {
 		if (userData) history.push('/');

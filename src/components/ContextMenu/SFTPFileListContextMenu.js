@@ -7,7 +7,8 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, CREATE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -18,11 +19,11 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		high: sftp_highState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {server, tab, identity} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {tabs} = useSelector(tabBarSelector.all);
 
 	const {highlight} = useMemo(
 		() => sftp_highState.find((it) => it.uuid === uuid),
@@ -36,11 +37,11 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		() => sftp_downloadState.find((it) => it.uuid === uuid),
 		[sftp_downloadState, uuid],
 	);
-
 	const searchedTerminalTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+		() => tabs.find((it) => it.uuid === uuid),
+		[tabs, uuid],
 	);
+	const {userData} = useSelector(authSelector.all);
 	const searchedServer = useMemo(
 		() => server.find((it) => it.key === searchedTerminalTab.server.key),
 		[searchedTerminalTab.server.key, server],

@@ -1,25 +1,29 @@
 import produce from 'immer';
+
+//TODO:
+// delete _
+// clicked_server => selected
+// minimize => is hide sidebar
+// server => remote resources
+// folder => remote resource groups
+// account => user
+// side_key => selected side bar key
+// nav=> remote resources tree
+// identity => accounts
+// tab => terminal tabs
 import {
 	addDataOnNode,
-	fillTabs,
 	startDeleteingTree,
 	startSearchingNode,
 	startSearchingParentNode,
 } from '../utils/redux';
 
 export const initialState = {
-	current_tab: null,
-	current_nav_tab: 0, // nav에서 자원, 즐겨찾기
 	clicked_server: null,
-	cols: 1,
-	minimize: false,
 	server_index: 4,
 	folder_index: 2,
-	account: {account: '', name: '', email: ''},
-	side_key: '',
-	theme: 'light',
-	lang: 'ko-KR', // language ko-KR - korean, en-US - english
 
+	current_nav_tab: 0,
 	favorites: [],
 	favorites_folder_index: 0,
 	favoriteFolderRenamingKey: null,
@@ -28,7 +32,6 @@ export const initialState = {
 	selectedFavoriteItemOnDialogBox: null,
 	tempFavoriteFolderIndex: null,
 	tempFavoriteFolderRenamingKey: null,
-
 	nav: [
 		{
 			type: 'folder',
@@ -216,35 +219,16 @@ export const initialState = {
 			key: 's_4',
 		},
 	],
-	tab: [],
 };
 
 export const ADD_FOLDER = 'ADD_FOLDER';
-export const ADD_SERVER = 'ADD_SERVER';
 export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
-export const CHANGE_SERVER_FOLDER_NAME = 'CHANGE_SERVER_FOLDER_NAME';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
-export const OPEN_TAB = 'OPEN_TAB';
-export const SORT_TAB = 'SORT_TAB';
 export const SORT_SERVER_AND_FOLDER = 'SORT_SERVER_AND_FOLDER';
-export const CLOSE_TAB = 'CLOSE_TAB';
-export const CHANGE_VISIBLE_TAB = 'CHANGE_VISIBLE_TAB';
-export const CHANGE_NUMBER_OF_COLUMNS = 'CHANGE_NUMBER_OF_COLUMNS';
-export const CHANGE_CURRENT_TAB = 'CHANGE_CURRENT_TAB';
-export const CHANGE_SIDEBAR_DISPLAY = 'CHANGE_SIDEBAR_DISPLAY';
-export const EDIT_SERVER = 'EDIT_SERVER';
 
-export const RIGHT_SIDE_KEY = 'common/RIGHT_SIDE_KEY';
-export const DELETE_ACCOUT = 'common/DELETE_ACCOUT';
-export const ACCOUT_CONTROL_ID = 'common/ACCOUT_CONTROL_ID';
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
-export const CHANGE_GENERAL_THEME = 'common/CHANGE_GENERAL_THEME';
-export const CHANGE_LANGUAGE = 'common/CHANGE_LANGUAGE';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
 export const CHANGE_PROTOCOL = 'common/CHANGE_PROTOCOL';
-export const SAVE_ACCOUT = 'common/SAVE_ACCOUT';
-
-export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 
 export const ADD_FAVORITE_SERVER = 'ADD_FAVORITE_SERVER';
 export const DELETE_FAVORITE_SERVER = 'DELETE_FAVORITE_SERVER';
@@ -255,6 +239,7 @@ export const CHANGE_FOLDER_NAME_ON_FAVORITES =
 export const CHANGE_FAVORITE_FOLDER_RENMAING_KEY =
 	'CHANGE_FAVORITE_FOLDER_RENMAING_KEY';
 export const SORT_FAVORITE_RESOURCES = 'SORT_FAVORITE_RESOURCES';
+export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 
 export const INIT_TEMP_FAVORITES = 'INIT_TEMP_FAVORITES';
 export const SET_TEMP_FAVORITES = 'SET_TEMP_FAVORITES';
@@ -267,7 +252,6 @@ export const DELETE_TEMP_FOLDER_ON_FAVORITES =
 export const SAVE_CHANGES_ON_FAVORITES = 'SAVE_CHANGES_ON_FAVORITES';
 export const CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY =
 	'CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY';
-export const SORT_TEMP_FAVORITE_RESOURCES = 'SORT_TEMP_FAVORITE_RESOURCES';
 
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
@@ -395,6 +379,11 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
+			case CHANGE_NAVTAB:
+				draft.current_nav_tab = action.payload;
+				draft.clicked_server = null;
+				break;
+
 			case SORT_FAVORITE_RESOURCES: {
 				// 이동할 데이터의 부모
 				const prevParent = startSearchingParentNode(
@@ -486,34 +475,6 @@ const reducer = (state = initialState, action) => {
 				startDeleteingTree(draft.favorites, action.payload);
 				break;
 
-			case CHANGE_SERVER_FOLDER_NAME: {
-				console.log(action.payload);
-				if (action.payload.key[0] === 's') {
-					const keyIndex = draft.server.findIndex(
-						(v) => v.key === action.payload.key,
-					);
-					const newServer = {
-						...state.server[keyIndex],
-						name: action.payload.name,
-					};
-
-					draft.server.splice(keyIndex, 1, newServer);
-				}
-
-				startSearchingNode(draft.nav, action.payload.key).name =
-					action.payload.name;
-
-				draft.tab = draft.tab.map((v) => {
-					if (v.server.key === action.payload.key)
-						return {
-							...v,
-							server: {...v.server, name: action.payload.name},
-						};
-					else return v;
-				});
-				break;
-			}
-
 			case CHANGE_FOLDER_NAME_ON_FAVORITES: {
 				startSearchingNode(draft.favorites, action.payload.key).name =
 					action.payload.name;
@@ -522,66 +483,6 @@ const reducer = (state = initialState, action) => {
 				break;
 			}
 
-			case EDIT_SERVER: {
-				const index = state.server.findIndex(
-					(v) => v.id === action.payload.id,
-				);
-				const newServer = {
-					...state.server[index],
-					...action.payload.data,
-				};
-
-				draft.server.splice(index, 1, newServer);
-
-				startSearchingNode(draft.nav, newServer.key).name =
-					newServer.name;
-
-				draft.tab = draft.tab.map((v) => {
-					if (v.server.key === newServer.key)
-						return {
-							...v,
-							server: {...v.server, name: action.payload},
-						};
-					else return v;
-				});
-				break;
-			}
-
-			case SAVE_ACCOUT: {
-				draft.account = action.payload;
-				break;
-			}
-
-			case ADD_SERVER: {
-				const data = {
-					type: 'server',
-					id: draft.server_index,
-					key: 's_' + draft.server_index.toString(),
-					name: action.payload.name,
-				};
-
-				const identity = {
-					id: draft.identity_index,
-					identity_name: 'Temp Identity Name',
-					user: action.payload.user,
-					password: action.payload.password,
-					checked: true,
-					type: action.payload.auth,
-					key: 's_' + draft.server_index.toString(),
-				};
-
-				addDataOnNode(draft.nav, draft.clicked_server, data);
-
-				draft.identity.push(identity);
-				draft.server.push({
-					id: draft.server_index,
-					key: 's_' + draft.server_index.toString(),
-					...action.payload,
-				});
-				draft.server_index++;
-				draft.identity_index++;
-				break;
-			}
 			case DELETE_SERVER_FOLDER: {
 				if (draft.clicked_server[0] === 's') {
 					draft.server = draft.server.filter(
@@ -596,10 +497,6 @@ const reducer = (state = initialState, action) => {
 
 			case SET_CLICKED_SERVER:
 				draft.clicked_server = action.payload;
-				break;
-
-			case CHANGE_SIDEBAR_DISPLAY:
-				draft.minimize = action.payload;
 				break;
 
 			case CHANGE_PROTOCOL:
@@ -623,125 +520,8 @@ const reducer = (state = initialState, action) => {
 
 				break;
 
-			case CHANGE_NAVTAB:
-				draft.current_nav_tab = action.payload;
-				draft.clicked_server = null;
-				break;
-
-			// case DELETE_ACCOUT:
-			// 	draft.account = draft.account
-			// 		.slice()
-			// 		.filter((it) => it.id !== action.payload.id);
-			//
-			// 	break;
-
-			// case ACCOUT_CONTROL_ID:
-			// 	draft.accountListControlId = action.payload.id;
-			// 	break;
-
 			case CHANGE_CURRENT_RESOURCE_KEY:
 				draft.current_resource_key = action.payload.key;
-				break;
-
-			// case ACCOUT_CHECKLIST:
-			// 	draft.accountCheckList = action.payload.check;
-			// 	break;
-
-			case CHANGE_GENERAL_THEME:
-				draft.theme = action.payload.theme;
-				break;
-
-			case CHANGE_LANGUAGE:
-				draft.lang = action.payload.language;
-				break;
-
-			case OPEN_TAB: {
-				//fill in new tab info
-				const new_tab = {
-					uuid: action.payload.uuid,
-					type: action.payload.type,
-					display: true,
-					server: action.payload.server,
-				};
-				//save new tab info
-				if (action.payload.prevUuid) {
-					if (action.payload.prevIndex > draft.tab.length) {
-						draft.tab.push(new_tab);
-					} else {
-						draft.tab.splice(action.payload.prevIndex, 0, new_tab);
-					}
-				} else {
-					draft.tab.push(new_tab);
-				}
-				//set current tab
-				draft.current_tab = action.payload.uuid;
-				draft.current_tab = fillTabs(
-					draft.tab,
-					draft.cols === 1 ? 1 : draft.cols * 3,
-					draft.current_tab,
-				);
-				break;
-			}
-
-			case SORT_TAB: {
-				draft.tab.splice(action.payload.oldOrder, 1);
-				draft.tab.splice(
-					action.payload.newOrder,
-					0,
-					action.payload.newTab,
-				);
-				break;
-			}
-
-			case CLOSE_TAB: {
-				draft.tab = draft.tab.filter((v) => v.uuid !== action.payload);
-				//set current tab
-				draft.current_tab = fillTabs(
-					draft.tab,
-					draft.cols === 1 ? 1 : draft.cols * 3,
-					draft.current_tab,
-				);
-				break;
-			}
-
-			case CHANGE_VISIBLE_TAB: {
-				if (
-					draft.tab.length > 0 &&
-					draft.tab.findIndex((v) => v.uuid === action.payload) !== -1
-				) {
-					draft.tab[
-						draft.tab.findIndex((v) => v.uuid === action.payload)
-					].display = true;
-
-					draft.current_tab = action.payload;
-					draft.current_tab = fillTabs(
-						draft.tab,
-						draft.cols === 1 ? 1 : draft.cols * 3,
-						draft.current_tab,
-					);
-				} else {
-					draft.current_tab = null;
-				}
-
-				break;
-			}
-
-			case CHANGE_NUMBER_OF_COLUMNS: {
-				draft.cols = action.payload.cols;
-
-				draft.current_tab = fillTabs(
-					draft.tab,
-					action.payload.cols === 1 ? 1 : draft.cols * 3,
-					draft.current_tab,
-				);
-				break;
-			}
-			case CHANGE_CURRENT_TAB:
-				draft.current_tab = action.payload;
-				break;
-
-			case RIGHT_SIDE_KEY:
-				draft.side_key = action.payload;
 				break;
 
 			case CHANGE_SELEECTED_TEMP_FAVORITE:
@@ -822,38 +602,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-//사용되지 않는 기능들
-/** Notification
- notification_index: 3,
- notification: [
- {
-			id: 0,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: true,
-		},
- {
-			id: 1,
-			message: 'ssh connection',
-			date: 'Mon Jul 19 2021 17:10:23 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
- {
-			id: 2,
-			message: 'sftp connection',
-			date: 'Mon Jul 23 2021 18:06:00 GMT+0900 (일본 표준시)',
-			confirm: false,
-		},
- ],
-
- case ADD_NOTIFICATION:
-	if (draft.notification.length > 30) draft.notification.shift();
-draft.notification.push({
-	id: draft.notification_index++,
-	message: action.payload,
-	date: Date.now(),
-	confirm: false,
-});
-break;
-**/

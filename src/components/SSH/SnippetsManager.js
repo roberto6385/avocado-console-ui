@@ -13,14 +13,14 @@ import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../styles/components/disalogBox';
 import {Input} from '../../styles/components/input';
 import {Form} from '../../styles/components/form';
 import {TextArea} from '../../styles/components/textArea';
-import {DIALOG_BOX, dialogBoxAction} from '../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../reducers/dialogBoxs';
 
 const _PopupModal = styled(DialogBox)`
 	width: 598px;
@@ -89,7 +89,7 @@ const SnippetsManager = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {form} = useSelector(dialogBoxSelector.all);
 	const {snippets, snippents_index} = useSelector(
 		(state) => state.ssh,
 		shallowEqual,

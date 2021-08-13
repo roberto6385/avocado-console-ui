@@ -14,6 +14,8 @@ import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
 import {HoverButton} from '../../styles/components/icon';
+import {settingSelector} from '../../reducers/setting';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -66,10 +68,9 @@ const _ToolbarFoldUnfoldButton = styled.img`
 `;
 
 const SSHContainer = ({uuid, server}) => {
-	const {theme, cols, nav} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {nav} = useSelector((state) => state.common, shallowEqual);
+	const {cols} = useSelector(tabBarSelector.all);
+	const {theme} = useSelector(settingSelector.all);
 	const snippetRef = useRef();
 	const [isToolbarUnfold, setIsToolbarUnfold] = useState(true);
 	const {show} = useContextMenu({

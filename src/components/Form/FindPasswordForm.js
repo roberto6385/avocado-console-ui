@@ -22,7 +22,7 @@ import {
 	UserTitleSpan,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const Item_Container = styled.div`
@@ -48,7 +48,7 @@ const FindPasswordForm = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('passwordForm');
 
-	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
+	const {loading} = useSelector(authSelector.all);
 
 	const [id, onChangeId] = useInput('');
 	const [email, onChangeEmail] = useInput('');

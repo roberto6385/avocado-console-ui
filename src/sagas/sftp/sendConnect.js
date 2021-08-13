@@ -21,9 +21,9 @@ import {closeChannel, subscribe} from '../channel';
 
 import messageSender from './messageSender';
 import {createWebsocket} from './socket';
-import {OPEN_TAB} from '../../reducers/common';
 import {connectResponse} from '../../ws/sftp/connect_response';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {tabBarAction} from '../../reducers/tabBar';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -67,9 +67,8 @@ function* sendCommand(action) {
 							},
 						});
 
-						yield put({
-							type: OPEN_TAB,
-							payload: {
+						yield put(
+							tabBarAction.addTab({
 								type: 'SFTP',
 								uuid: uuid,
 								server: {
@@ -77,8 +76,8 @@ function* sendCommand(action) {
 									name: payload.name,
 									key: payload.key,
 								},
-							},
-						});
+							}),
+						);
 
 						yield put({
 							type: PWD_REQUEST,

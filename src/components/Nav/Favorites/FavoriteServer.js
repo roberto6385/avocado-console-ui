@@ -17,7 +17,7 @@ import {
 	NavigationItem,
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 const FavoriteServer = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const FavoriteServer = ({data, indent}) => {
 		shallowEqual,
 	);
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const searchedIdentity = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),

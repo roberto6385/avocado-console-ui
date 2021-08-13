@@ -13,15 +13,20 @@ import {
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
+import {settingSelector} from '../../../reducers/setting';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const FileList_ = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {lang, server, tab, identity} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 
+	const {tabs} = useSelector(tabBarSelector.all);
+
+	const {language} = useSelector(settingSelector.all);
 	const {
 		path: sftp_pathState,
 		file: sftp_fileState,
@@ -31,11 +36,11 @@ const FileList_ = ({uuid}) => {
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+		() => tabs.find((it) => it.uuid === uuid),
+		[tabs, uuid],
 	);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
@@ -313,7 +318,7 @@ const FileList_ = ({uuid}) => {
 			uuid={uuid}
 			highlight={highlight}
 			path={path}
-			lang={lang}
+			lang={language}
 			list={currentFileList}
 			onContextMenu={handleContextMenu}
 			onClick={selectFile}

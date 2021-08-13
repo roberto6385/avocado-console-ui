@@ -17,10 +17,11 @@ import {
 	WRITE_REQUEST,
 } from '../../../reducers/sftp';
 import SFTP from '../SFTP';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const SFTP_ = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {current_tab} = useSelector((state) => state.common, shallowEqual);
+	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
@@ -60,7 +61,7 @@ const SFTP_ = ({uuid}) => {
 	const body = document.getElementById('root');
 	const focusOut = useCallback(
 		function (evt) {
-			if (!uuid || current_tab !== uuid) return;
+			if (!uuid || selectedTab !== uuid) return;
 			if (highlight.length === 0 && history_highlight.length === 0) {
 				return;
 			}
@@ -95,7 +96,7 @@ const SFTP_ = ({uuid}) => {
 				dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 			}
 		},
-		[current_tab, dispatch, highlight, history_highlight, uuid],
+		[selectedTab, dispatch, highlight, history_highlight, uuid],
 	);
 
 	useEffect(() => {

@@ -6,9 +6,9 @@ import {
 	ERROR,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
-import {CLOSE_TAB} from '../../reducers/common';
 import {closeChannel, subscribe} from '../channel';
 import {disconnectResponse} from '../../ws/sftp/disconnect_response';
+import {tabBarAction} from '../../reducers/tabBar';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -16,7 +16,7 @@ function* sendCommand(action) {
 
 	try {
 		if (payload.socket.readyState === 3 && payload.uuid !== undefined) {
-			yield put({type: CLOSE_TAB, payload: payload.uuid});
+			yield put(tabBarAction.deleteTab(payload.uuid));
 			return;
 		}
 		yield call(messageSender, {
@@ -30,7 +30,7 @@ function* sendCommand(action) {
 			switch (res.type) {
 				case DISCONNECTION_SUCCESS:
 					if (payload.uuid !== undefined) {
-						yield put({type: CLOSE_TAB, payload: payload.uuid});
+						yield put(tabBarAction.deleteTab(payload.uuid));
 
 						yield put({
 							type: DISCONNECTION_SUCCESS,
@@ -48,7 +48,7 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		closeChannel(channel);
-		yield put({type: CLOSE_TAB, payload: payload.uuid});
+		yield put(tabBarAction.deleteTab(payload.uuid));
 		yield put({type: DISCONNECTION_FAILURE});
 		console.log(err);
 	}

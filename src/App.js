@@ -20,19 +20,20 @@ import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
 import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
 import TextBoxDialogBox from './components/DialogBoxs/Form/TextBoxDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
-import {AUTH, authAction} from './reducers/api/auth';
+import {authAction, authSelector} from './reducers/api/auth';
 import Toast_ from './components/RecycleComponents/Toast_';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
 import WarningDialogBox from './components/DialogBoxs/Alert/WarningDialogBox';
 import {ENCODE_DATA} from './api/constants';
+import {settingSelector} from './reducers/setting';
 
 const App = () => {
 	const dispatch = useDispatch();
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {theme} = useSelector((state) => state.common, shallowEqual);
+	const {userData} = useSelector(authSelector.all);
+	const {theme} = useSelector(settingSelector.all);
 
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
@@ -73,7 +74,7 @@ const App = () => {
 			reset();
 			pause();
 		}
-	}, [userData]);
+	}, [pause, reset, start, userData]);
 
 	return (
 		<BrowserRouter>
