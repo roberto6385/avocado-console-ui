@@ -1,13 +1,14 @@
-import {Icon, HoverButton} from '../../styles/components/icon';
+import {HoverButton, Icon} from '../../styles/components/icon';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import MenuButtons from './MenuButtons';
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {CHANGE_VISIBLE_TAB, SORT_TAB} from '../../reducers/common';
 import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
 import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
+import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
+import {settingSelector} from '../../reducers/setting';
 
 const _Container = styled.div`
 	display: flex;
@@ -65,11 +66,8 @@ const _ServerTitle = styled.div`
 
 const TabBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
-
-	const {tab, current_tab, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {theme} = useSelector(settingSelector.all);
+	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector((state) => state.ssh, shallowEqual);
 	const {socket: sftp_socketState} = useSelector(
 		(state) => state.sftp,
@@ -81,9 +79,9 @@ const TabBar = ({toggle, setToggle}) => {
 
 	const onClickChangeVisibleTab = useCallback(
 		(uuid) => () => {
-			dispatch({type: CHANGE_VISIBLE_TAB, payload: uuid});
+			dispatch(tabBarAction.selectTab(uuid));
 		},
-		[],
+		[dispatch],
 	);
 
 	const onClickCloseTab = useCallback(
@@ -114,34 +112,33 @@ const TabBar = ({toggle, setToggle}) => {
 
 	const prevPutItem = useCallback(
 		(item) => () => {
-			setOldOlder(tab.findIndex((it) => it === item));
+			setOldOlder(tabs.findIndex((it) => it === item));
 			setDraggedItem(item);
 		},
-		[tab],
+		[tabs],
 	);
 
 	const nextPutItem = useCallback(
 		(item) => (e) => {
 			e.preventDefault();
 			if (item === undefined) return;
-			const newOlder = tab.findIndex((it) => it === item);
+			const newOlder = tabs.findIndex((it) => it === item);
 
-			dispatch({
-				type: SORT_TAB,
-				payload: {
+			dispatch(
+				tabBarAction.sortTab({
 					oldOrder: oldOlder,
 					newOrder: newOlder,
 					newTab: draggedItem,
-				},
-			});
+				}),
+			);
 		},
-		[tab, dispatch, oldOlder, draggedItem],
+		[tabs, dispatch, oldOlder, draggedItem],
 	);
 
 	return (
 		<_Container theme_value={theme}>
 			<_Tabs>
-				{tab.map((data) => {
+				{tabs.map((data) => {
 					return (
 						<_Tab
 							key={data.uuid}
@@ -152,13 +149,13 @@ const TabBar = ({toggle, setToggle}) => {
 							<_TabItem
 								draggable='true'
 								onDragStart={prevPutItem(data)}
-								clicked={current_tab === data.uuid ? 1 : 0}
+								clicked={selectedTab === data.uuid ? 1 : 0}
 							>
 								<Icon
 									margin_right={'6px'}
 									size={'xs'}
 									itype={
-										current_tab === data.uuid
+										selectedTab === data.uuid
 											? 'selected'
 											: 'font'
 									}

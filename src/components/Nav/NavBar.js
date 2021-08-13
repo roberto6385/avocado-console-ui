@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 
-import {CHANGE_NAVTAB} from '../../reducers/common';
 import {HoverButton} from '../../styles/components/icon';
 import drkFloatingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFloatingButton from '../../images/navFoldingButton/lght_floating_btn.png';
 import Resources from './Resources/Resources';
 import Favorites from './Favorites/Favorites';
+import {CHANGE_NAVTAB} from '../../reducers/tabBar';
+import {settingSelector} from '../../reducers/setting';
 
 const floatings = {light: lghtFloatingButton, dark: drkFloatingButton};
 
@@ -98,10 +99,12 @@ const NavBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
 
-	const {theme, current_nav_tab} = useSelector(
+	const {current_nav_tab} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+
+	const {theme} = useSelector(settingSelector.all);
 
 	const tabs = [
 		{title: t('resource'), key: 0},

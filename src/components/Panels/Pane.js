@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {CHANGE_CURRENT_TAB} from '../../reducers/common';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTP_ from '../SFTP/containers/SFTP_';
 import {
@@ -15,7 +14,8 @@ import {WarningButton} from '../../styles/components/button';
 import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
-import {AUTH, authSelector} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
+import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 
 const _Container = styled.div`
 	height: 100%;
@@ -72,12 +72,11 @@ const _ReconectBlock = styled.div`
 const Pane = ({uuid, type, server}) => {
 	const dispatch = useDispatch();
 	const [ready, setReady] = useState(1);
-	const {
-		tab,
-		current_tab,
-		identity,
-		server: commonServer,
-	} = useSelector((state) => state.common, shallowEqual);
+	const {identity, server: commonServer} = useSelector(
+		(state) => state.common,
+		shallowEqual,
+	);
+	const {tabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
@@ -87,9 +86,8 @@ const Pane = ({uuid, type, server}) => {
 	);
 
 	const onClickChangeCurrentTab = useCallback(() => {
-		if (current_tab !== uuid)
-			dispatch({type: CHANGE_CURRENT_TAB, payload: uuid});
-	}, [current_tab, dispatch, uuid]);
+		if (selectedTab !== uuid) dispatch(tabBarAction.selectTab(uuid));
+	}, [selectedTab, dispatch, uuid]);
 
 	const onClickDelete = useCallback(
 		(e) => {
@@ -124,7 +122,7 @@ const Pane = ({uuid, type, server}) => {
 			(it) => it.key === server.key && it.checked === true,
 		);
 
-		const index = tab.findIndex((v) => v.uuid === uuid);
+		const index = tabs.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
 			dispatch({
@@ -167,7 +165,7 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server,
 		sftp_pathState,
-		tab,
+		tabs,
 		type,
 		userData,
 		uuid,
@@ -192,8 +190,8 @@ const Pane = ({uuid, type, server}) => {
 					</WarningButton>
 				</_ReconectBlock>
 			)}
-			{tab.filter((v) => v.display === true).length > 1 && (
-				<_Header selected={current_tab === uuid ? true : false}>
+			{tabs.filter((v) => v.display === true).length > 1 && (
+				<_Header selected={selectedTab === uuid}>
 					<_HeaderText>
 						{type === 'SSH' && (
 							<Icon

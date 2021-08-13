@@ -7,6 +7,7 @@ import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
 import {USER_RESOURCE, userResourceReducer} from './api/userResource';
 import {AUTH, authReducer} from './api/auth';
 import {SETTING, settingReducer} from './setting';
+import {TAB_BAR, tabBarReducer} from './tabBar';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
 	[DIALOG_BOX]: dialogBoxReducer,
 	[AUTH]: authReducer,
 	[USER_RESOURCE]: userResourceReducer,
+	[TAB_BAR]: tabBarReducer,
 	[SETTING]: persistReducer(settingPersistConfig, settingReducer),
 });
 

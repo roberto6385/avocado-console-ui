@@ -15,6 +15,7 @@ import {
 } from '../../../reducers/sftp';
 import * as PropTypes from 'prop-types';
 import {authSelector} from '../../../reducers/api/auth';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const History_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -27,13 +28,14 @@ const History_ = ({uuid}) => {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {server, tab, identity} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {tabs} = useSelector(tabBarSelector.all);
 	const corTab = useMemo(
-		() => tab.find((it) => it.uuid === uuid),
-		[tab, uuid],
+		() => tabs.find((it) => it.uuid === uuid),
+		[tabs, uuid],
 	);
 	const {path} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),

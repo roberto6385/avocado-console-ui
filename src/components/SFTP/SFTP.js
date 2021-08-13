@@ -13,6 +13,8 @@ import DropList_ from './containers/DropList_';
 import History_ from './containers/History_';
 import {shallowEqual, useSelector} from 'react-redux';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
+import {settingSelector} from '../../reducers/setting';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -62,10 +64,10 @@ const _ToggleButton = styled.img`
 
 const SFTP = ({uuid, mode}) => {
 	const [toggle, setToggle] = useState(true);
-	const {theme, cols, nav} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {nav} = useSelector((state) => state.common, shallowEqual);
+
+	const {cols} = useSelector(tabBarSelector.all);
+	const {theme} = useSelector(settingSelector.all);
 
 	const onClickFold = useCallback(() => {
 		setToggle(false);

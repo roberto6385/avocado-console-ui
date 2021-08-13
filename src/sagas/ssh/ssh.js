@@ -22,13 +22,13 @@ import {
 	SSH_SEND_RECONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_SUCCESS,
 } from '../../reducers/ssh';
-import {CLOSE_TAB, OPEN_TAB} from '../../reducers/common';
 import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
 import {READY_STATE} from '../../reducers/ssh';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {tabBarAction} from '../../reducers/tabBar';
 
 function* sendConnection(action) {
 	let uuid = null;
@@ -73,9 +73,8 @@ function* sendConnection(action) {
 										ws: ws,
 									},
 								});
-								yield put({
-									type: OPEN_TAB,
-									payload: {
+								yield put(
+									tabBarAction.addTab({
 										uuid: uuid,
 										type: 'SSH',
 										server: {
@@ -83,8 +82,8 @@ function* sendConnection(action) {
 											name: action.payload.name,
 											key: action.payload.key,
 										},
-									},
-								});
+									}),
+								);
 							}
 							yield put({
 								type: SSH_SEND_COMMAND_SUCCESS,
@@ -96,7 +95,7 @@ function* sendConnection(action) {
 							break;
 
 						case 'ERROR':
-							yield put({type: CLOSE_TAB, payload: uuid});
+							yield put(tabBarAction.deleteTab(uuid));
 							yield put({
 								type: SSH_SEND_DISCONNECTION_SUCCESS,
 								payload: uuid,
@@ -124,7 +123,7 @@ function* sendConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put({type: CLOSE_TAB, payload: uuid});
+		yield put(tabBarAction.deleteTab(uuid));
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
 			payload: uuid,
@@ -166,11 +165,10 @@ function* sendReConnection(action) {
 						if (pass === true) {
 							console.log(uuid);
 							pass = false;
+							yield put(
+								tabBarAction.deleteTab(action.payload.prevUuid),
+							);
 
-							yield put({
-								type: CLOSE_TAB,
-								payload: action.payload.prevUuid,
-							});
 							yield put({
 								type: SSH_SEND_RECONNECTION_SUCCESS,
 								payload: {
@@ -179,9 +177,8 @@ function* sendReConnection(action) {
 									ws: ws,
 								},
 							});
-							yield put({
-								type: OPEN_TAB,
-								payload: {
+							yield put(
+								tabBarAction.addTab({
 									uuid: uuid,
 									type: 'SSH',
 									server: {
@@ -191,8 +188,8 @@ function* sendReConnection(action) {
 									},
 									prevUuid: action.payload.prevUuid,
 									prevIndex: action.payload.prevIndex,
-								},
-							});
+								}),
+							);
 						}
 						yield put({
 							type: SSH_SEND_COMMAND_SUCCESS,
@@ -205,7 +202,7 @@ function* sendReConnection(action) {
 						break;
 
 					case 'ERROR':
-						yield put({type: CLOSE_TAB, payload: uuid});
+						yield put(tabBarAction.deleteTab(uuid));
 						yield put({
 							type: SSH_SEND_DISCONNECTION_SUCCESS,
 							payload: uuid,
@@ -231,7 +228,7 @@ function* sendReConnection(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put({type: CLOSE_TAB, payload: uuid});
+		yield put(tabBarAction.deleteTab(uuid));
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
 			payload: uuid,
@@ -244,7 +241,7 @@ function* sendDisconnection(action) {
 
 	try {
 		if (action.payload.ws.readyState !== 1) {
-			yield put({type: CLOSE_TAB, payload: action.payload.uuid});
+			yield put(tabBarAction.deleteTab(action.payload.uuid));
 			yield put({
 				type: SSH_SEND_DISCONNECTION_SUCCESS,
 				payload: action.payload.uuid,
@@ -262,7 +259,7 @@ function* sendDisconnection(action) {
 			const res = yield call(GetMessage, data);
 			switch (res.type) {
 				case 'DISCONNECT':
-					yield put({type: CLOSE_TAB, payload: action.payload.uuid});
+					yield put(tabBarAction.deleteTab(action.payload.uuid));
 					yield put({
 						type: SSH_SEND_DISCONNECTION_SUCCESS,
 						payload: action.payload.uuid,
@@ -270,7 +267,7 @@ function* sendDisconnection(action) {
 					break;
 
 				case 'ERROR':
-					yield put({type: CLOSE_TAB, payload: action.payload.uuid});
+					yield put(tabBarAction.deleteTab(action.payload.uuid));
 					yield put({
 						type: SSH_SEND_DISCONNECTION_SUCCESS,
 						payload: action.payload.uuid,
@@ -284,7 +281,7 @@ function* sendDisconnection(action) {
 	} catch (err) {
 		console.log(err);
 		closeChannel(channel);
-		yield put({type: CLOSE_TAB, payload: action.payload.uuid});
+		yield put(tabBarAction.deleteTab(action.payload.uuid));
 		yield put({
 			type: SSH_SEND_DISCONNECTION_SUCCESS,
 			payload: action.payload.uuid,

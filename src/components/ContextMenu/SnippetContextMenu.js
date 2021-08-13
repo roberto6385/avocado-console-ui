@@ -6,17 +6,17 @@ import PropTypes from 'prop-types';
 import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {DropDownMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 const SnippetContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
-
-	const {current_tab} = useSelector((state) => state.common, shallowEqual);
+	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 
 	const ws = useMemo(
-		() => ssh.find((v) => v.uuid === current_tab)?.ws,
-		[ssh, current_tab],
+		() => ssh.find((v) => v.uuid === selectedTab)?.ws,
+		[ssh, selectedTab],
 	);
 
 	const onClickOpenSnippets = useCallback(() => {
@@ -29,14 +29,14 @@ const SnippetContextMenu = ({uuid}) => {
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
-						uuid: current_tab,
+						uuid: selectedTab,
 						ws: ws,
 						input: v.content,
 						focus: true,
 					},
 				});
 		},
-		[current_tab, ws],
+		[dispatch, selectedTab, ws],
 	);
 
 	return (

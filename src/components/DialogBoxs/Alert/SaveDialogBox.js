@@ -31,6 +31,7 @@ import {
 	SAVE_CHANGES_ON_FAVORITES,
 	SET_TEMP_FAVORITES,
 } from '../../../reducers/common';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
@@ -44,10 +45,11 @@ const SaveDialogBox = () => {
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
-	const {tab, server, identity} = useSelector(
+	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+	const {tabs} = useSelector(tabBarSelector.all);
 
 	const SaveMessage = {
 		sftp_edit_save: t('editSave'),
@@ -96,7 +98,7 @@ const SaveDialogBox = () => {
 			}
 
 			const uuid = alert.uuid;
-			const corTab = tab.find((it) => it.uuid === uuid);
+			const corTab = tabs.find((it) => it.uuid === uuid);
 			const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
 			const {path} = sftp_pathState.find((it) => it.uuid === uuid);
 			const {editText, editFile} = sftp_editState.find(
@@ -201,7 +203,7 @@ const SaveDialogBox = () => {
 		},
 		[
 			alert,
-			tab,
+			tabs,
 			sftp_etcState,
 			sftp_pathState,
 			sftp_editState,

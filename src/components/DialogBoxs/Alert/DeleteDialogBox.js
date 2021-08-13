@@ -3,7 +3,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
-import {DELETE_SERVER_FOLDER} from '../../../reducers/common';
 
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
 
@@ -27,15 +26,18 @@ import {
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
 import {authSelector} from '../../../reducers/api/auth';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('warningAlertPopup');
 
-	const {server, tab, identity, clicked_server} = useSelector(
+	const {server, identity, clicked_server} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
+
+	const {tabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
@@ -94,7 +96,7 @@ const DeleteDialogBox = () => {
 						payload: {uuid, list: highlight, path},
 					});
 
-					const corTab = tab.find((it) => it.uuid === uuid);
+					const corTab = tabs.find((it) => it.uuid === uuid);
 					const corServer = server.find(
 						(it) => it.key === corTab.server.key,
 					);
@@ -149,12 +151,7 @@ const DeleteDialogBox = () => {
 				}
 
 				case 'delete_server_folder':
-					console.log(clicked_server);
-					if (clicked_server) {
-						dispatch({type: DELETE_SERVER_FOLDER});
-					}
 					break;
-
 				case 'delete_account': {
 					break;
 				}
@@ -172,7 +169,7 @@ const DeleteDialogBox = () => {
 			sftp_highState,
 			sftp_pathState,
 			dispatch,
-			tab,
+			tabs,
 			server,
 			identity,
 			userData,

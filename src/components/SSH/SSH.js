@@ -26,6 +26,8 @@ import {
 	terminalFontColor,
 	terminalSelectionColor,
 } from '../../styles/color';
+import {tabBarSelector} from '../../reducers/tabBar';
+import {settingSelector} from '../../reducers/setting';
 
 const _Container = styled.div`
 	height: 100%;
@@ -114,10 +116,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('SSH');
 
-	const {current_tab, theme} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {selectedTab} = useSelector(tabBarSelector.all);
+	const {theme} = useSelector(settingSelector.all);
 	const {
 		font,
 		font_size,
@@ -191,8 +191,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
-		if (current_tab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
-	}, [current_tab]);
+		if (selectedTab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
+	}, [selectedTab]);
 
 	const onClickUpArrow = useCallback(() => {
 		searchAddon.findPrevious(search);
@@ -296,8 +296,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	]);
 	//current tab terminal is focused
 	useEffect(() => {
-		if (current_tab === uuid) sshTerm.focus();
-	}, [current_tab, uuid, sshTerm]);
+		if (selectedTab === uuid) sshTerm.focus();
+	}, [selectedTab, uuid, sshTerm]);
 	//window size change
 	useEffect(() => {
 		if (width > 0 && height > 0 && uuid && isComponentMounted) {
@@ -319,7 +319,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	}, [ws, uuid, sshTerm, width, height, isComponentMounted, fitAddon]);
 	//click search button
 	useEffect(() => {
-		if (current_tab === uuid && search_mode) {
+		if (selectedTab === uuid && search_mode) {
 			document.getElementById('ssh_search_' + uuid).style.display =
 				'flex';
 			searchRef.current.focus();
@@ -329,14 +329,14 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			setSearch('');
 			searchAddon.findPrevious('');
 		}
-	}, [current_tab, uuid, search_mode, searchRef, setSearch, searchAddon]);
+	}, [selectedTab, uuid, search_mode, searchRef, setSearch, searchAddon]);
 	//search a word on the terminal
 	useEffect(() => {
-		if (current_tab === uuid) {
+		if (selectedTab === uuid) {
 			searchAddon.findPrevious('');
 			searchAddon.findPrevious(search);
 		}
-	}, [current_tab, uuid, search, searchAddon]);
+	}, [selectedTab, uuid, search, searchAddon]);
 	//set History List
 	useEffect(() => {
 		if (auto_completion_mode && currentCommand.length > 1) {
@@ -455,7 +455,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				}
 				display={
 					currentCommand.length > 1 &&
-					current_tab === uuid &&
+					selectedTab === uuid &&
 					auto_completion_mode &&
 					!ignoreAutoCompletionMode &&
 					historyList.length > 0
