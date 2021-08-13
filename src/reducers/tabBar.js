@@ -67,14 +67,26 @@ const slice = createSlice({
 			);
 		},
 		selectTab: (state, action) => {
-			state.terminalTabs[
-				state.terminalTabs.findIndex((v) => v.uuid === action.payload)
-			].display = true;
-			state.selectedTab = fillTabs(
-				state.terminalTabs,
-				state.cols === 1 ? 1 : state.cols * 3,
-				state.selectedTab,
-			);
+			state.selectedTab = action.payload;
+			if (
+				state.terminalTabs.length > 0 &&
+				state.terminalTabs.findIndex(
+					(v) => v.uuid === action.payload,
+				) !== -1
+			) {
+				state.terminalTabs[
+					state.terminalTabs.findIndex(
+						(v) => v.uuid === action.payload,
+					)
+				].display = true;
+				state.selectedTab = fillTabs(
+					state.terminalTabs,
+					state.cols === 1 ? 1 : state.cols * 3,
+					state.selectedTab,
+				);
+			} else {
+				state.selectedTab = null;
+			}
 		},
 	},
 });
