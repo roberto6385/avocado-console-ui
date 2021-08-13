@@ -11,7 +11,7 @@ import {
 	DELETE_FAVORITE_SERVER,
 } from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 
 const isValidFolderName = (folderArray, name) => {
 	let pass = true;
@@ -34,7 +34,7 @@ const FavoritesContextMenu = ({identity, data}) => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const menu = {
 		connect: t('connectSsh'),

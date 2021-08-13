@@ -20,7 +20,7 @@ import ConfirmDialogBox from './components/DialogBoxs/Alert/ConfirmDialogBox';
 import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
 import InputDialogBox from './components/DialogBoxs/Form/InputDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
-import {AUTH, authAction} from './reducers/api/auth';
+import {authAction, authSelector} from './reducers/api/auth';
 import Toast_ from './components/RecycleComponents/Toast_';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
@@ -31,7 +31,7 @@ import {ENCODE_DATA} from './api/constants';
 const App = () => {
 	const dispatch = useDispatch();
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const {theme} = useSelector((state) => state.common, shallowEqual);
 
 	// const handleOnIdle = useCallback(() => {

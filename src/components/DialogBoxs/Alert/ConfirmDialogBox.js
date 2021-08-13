@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
@@ -15,12 +15,12 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 const ConfirmDialogBox = () => {
 	const {t} = useTranslation('confirmDialogBox');
 	const dispatch = useDispatch();
-	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {alert} = useSelector(dialogBoxSelector.all);
 
 	const AlertMessage = {
 		invalid_server: t('invalidServer'),

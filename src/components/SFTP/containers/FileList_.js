@@ -13,7 +13,7 @@ import {
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 const FileList_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const FileList_ = ({uuid}) => {
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const corTab = useMemo(
 		() => tab.find((it) => it.uuid === uuid),

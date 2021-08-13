@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 import SettingNav from './SettingNav';
 import Footer from '../Footer';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {SAVE_ACCOUT} from '../../reducers/common';
 import {avocadoLogo} from '../../icons/icons';
-import {USER_RESOURCE} from '../../reducers/api/userResource';
+import {userResourceSelector} from '../../reducers/api/userResource';
 
 const _Container = styled.div`
 	display: flex;
@@ -42,7 +42,7 @@ const _Header = styled.div`
 
 const SettingAppLayout = ({children}) => {
 	const dispatch = useDispatch();
-	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
+	const {data} = useSelector(userResourceSelector.all);
 
 	useEffect(() => {
 		if (data) {

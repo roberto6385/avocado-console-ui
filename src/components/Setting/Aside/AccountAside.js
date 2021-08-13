@@ -7,8 +7,8 @@ import {useTranslation} from 'react-i18next';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import {NormalButton, WarningButton} from '../../../styles/components/button';
 import {Input} from '../../../styles/components/input';
-import {USER_RESOURCE} from '../../../reducers/api/userResource';
-import {AUTH} from '../../../reducers/api/auth';
+import {userResourceSelector} from '../../../reducers/api/userResource';
+import {authSelector} from '../../../reducers/api/auth';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
@@ -32,8 +32,8 @@ const AccountAside = () => {
 	const {t} = useTranslation('accountSpace');
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
+	const {data} = useSelector(userResourceSelector.all);
 	const {account} = useSelector((state) => state?.common, shallowEqual);
 
 	const changePath = useCallback(

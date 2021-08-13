@@ -4,10 +4,10 @@ import {shallowEqual, useSelector} from 'react-redux';
 import SignInForm from '../components/Form/SignInForm';
 import {useHistory} from 'react-router-dom';
 import SignInLayout from '../components/Layouts/SignInLayout';
-import {AUTH} from '../reducers/api/auth';
+import {authSelector} from '../reducers/api/auth';
 
 const SignIn = () => {
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const history = useHistory();
 
 	useEffect(() => {

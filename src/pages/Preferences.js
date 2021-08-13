@@ -4,12 +4,12 @@ import {useHistory} from 'react-router-dom';
 
 import SettingAppLayout from '../components/Setting/SettingLayout';
 import PreferencesSpace from '../components/Setting/Space/PreferencesSpace';
-import {AUTH} from '../reducers/api/auth';
+import {authSelector} from '../reducers/api/auth';
 
 const Preferences = () => {
 	const history = useHistory();
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {
 		if (!userData) {

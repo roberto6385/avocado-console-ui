@@ -1,5 +1,5 @@
 // import produce from 'immer';
-import {createSlice} from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
 
 const slice = createSlice({
 	name: 'userResource',
@@ -52,6 +52,19 @@ const slice = createSlice({
 		},
 	},
 });
+
+const selectAllState = createSelector(
+	(state) => state.data,
+	(state) => state.error,
+	(state) => state.loading,
+	(userData, error, loading) => {
+		return {userData, error, loading};
+	},
+);
+
+export const userResourceSelector = {
+	all: (state) => selectAllState(state[USER_RESOURCE]),
+};
 
 export const USER_RESOURCE = slice.name;
 export const userResourceReducer = slice.reducer;

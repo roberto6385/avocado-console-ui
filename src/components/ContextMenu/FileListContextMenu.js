@@ -7,7 +7,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {ADD_HISTORY, CREATE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 
 const FileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const FileListContextMenu = ({uuid}) => {
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],

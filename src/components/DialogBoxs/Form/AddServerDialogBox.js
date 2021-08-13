@@ -8,20 +8,20 @@ import {
 	CHANGE_PROTOCOL,
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../../icons/icons';
 import {
+	NormalBorderButton,
 	NormalButton,
 	TransparentButton,
-	NormalBorderButton,
 } from '../../../styles/components/button';
 import {IconButton} from '../../../styles/components/icon';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
@@ -77,7 +77,7 @@ const AddServerDialogBox = () => {
 		(state) => state.common,
 		shallowEqual,
 	);
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {form} = useSelector(dialogBoxSelector.all);
 	// username, password는 이곳에서 가져와야 함.
 	const correspondedIdentity = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),

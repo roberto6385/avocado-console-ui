@@ -14,12 +14,12 @@ import {
 	REMOVE_READ_WRITE_LIST,
 } from '../../../reducers/sftp';
 import * as PropTypes from 'prop-types';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 const History_ = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [prevOffset, setPrevOffset] = useState(null);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const {
 		path: sftp_pathState,
 		history: sftp_historyState,

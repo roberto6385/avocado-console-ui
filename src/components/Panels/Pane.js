@@ -15,7 +15,7 @@ import {WarningButton} from '../../styles/components/button';
 import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
-import {AUTH} from '../../reducers/api/auth';
+import {AUTH, authSelector} from '../../reducers/api/auth';
 
 const _Container = styled.div`
 	height: 100%;
@@ -78,7 +78,7 @@ const Pane = ({uuid, type, server}) => {
 		identity,
 		server: commonServer,
 	} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
 	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(

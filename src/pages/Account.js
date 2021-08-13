@@ -4,10 +4,10 @@ import {useHistory} from 'react-router-dom';
 
 import AccountSpace from '../components/Setting/Space/AccountSpace';
 import SettingAppLayout from '../components/Setting/SettingLayout';
-import {AUTH} from '../reducers/api/auth';
+import {authSelector} from '../reducers/api/auth';
 
 const Account = () => {
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const history = useHistory();
 
 	useEffect(() => {

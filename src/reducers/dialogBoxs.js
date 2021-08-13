@@ -1,4 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
+import {USER_RESOURCE} from './api/userResource';
 
 const slice = createSlice({
 	name: 'dialogBox',
@@ -25,6 +26,18 @@ const slice = createSlice({
 		},
 	},
 });
+
+const selectAllState = createSelector(
+	(state) => state.alert,
+	(state) => state.form,
+	(alert, form) => {
+		return {alert, form};
+	},
+);
+
+export const dialogBoxSelector = {
+	all: (state) => selectAllState(state[DIALOG_BOX]),
+};
 
 export const DIALOG_BOX = slice.name;
 export const dialogBoxReducer = slice.reducer;

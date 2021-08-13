@@ -7,14 +7,14 @@ import {RIGHT_SIDE_KEY} from '../../reducers/common';
 
 import PropTypes from 'prop-types';
 import {DropDownMenu} from '../../styles/components/contextMenu';
-import {AUTH, authAction} from '../../reducers/api/auth';
+import {authAction, authSelector} from '../../reducers/api/auth';
 
 const AccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 
 	const {side_key} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 
 	const openSideMenu = useCallback(
 		(key) => () => {

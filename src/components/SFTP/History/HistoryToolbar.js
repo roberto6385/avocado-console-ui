@@ -10,7 +10,7 @@ import {
 	CREATE_NEW_WEBSOCKET_REQUEST,
 } from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 
 const _Container = styled.div`
@@ -39,7 +39,7 @@ const HistoryToolbar = ({uuid}) => {
 		path: sftp_pathState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

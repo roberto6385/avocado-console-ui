@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import useInput from '../../../hooks/useInput';
 import {MKDIR_REQUEST, RENAME_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
@@ -12,9 +12,9 @@ import {
 } from '../../../styles/components/button';
 import {IconButton} from '../../../styles/components/icon';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
@@ -36,7 +36,7 @@ const InputDialogBox = () => {
 		path: sftp_pathState,
 		high: sftp_highState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {form} = useSelector(dialogBoxSelector.all);
 
 	const [formValue, onChangeFormValue, setFormValue] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');

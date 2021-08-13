@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import {AUTH, authAction} from '../../reducers/api/auth';
+import {authAction, authSelector} from '../../reducers/api/auth';
 import TextBoxField_ from '../RecycleComponents/TextBoxField_';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import appleButton from '../../images/alternativeAuth/apple_btn.png';
@@ -82,7 +82,7 @@ const SignInForm = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('signInForm');
 
-	const {loading} = useSelector((state) => state[AUTH], shallowEqual);
+	const {loading} = useSelector(authSelector.all);
 
 	const [user, onChangeUser, setUser] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');

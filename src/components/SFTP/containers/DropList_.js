@@ -15,7 +15,7 @@ import {
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
 import {sortFunction} from '../functions';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 const DropList_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const DropList_ = ({uuid}) => {
 		() => tab.find((it) => it.uuid === uuid),
 		[tab, uuid],
 	);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const corServer = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],

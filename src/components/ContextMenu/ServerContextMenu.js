@@ -8,13 +8,13 @@ import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 
 const ServerContextMenu = ({correspondedIdentity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const correspondedServer = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],

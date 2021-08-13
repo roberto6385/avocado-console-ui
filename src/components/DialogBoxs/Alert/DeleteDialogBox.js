@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import {
 	ACCOUT_CONTROL_ID,
 	DELETE_ACCOUT,
@@ -30,7 +30,7 @@ import {
 	ModalHeader,
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const DeleteDialogBox = () => {
 		accountListControlId,
 		accountCheckList,
 	} = useSelector((state) => state.common, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
+	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
 		history: sftp_historyState,
 		delete: sftp_deleteState,

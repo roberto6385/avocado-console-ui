@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 import {alertFillIcon, closeIcon} from '../../../icons/icons';
 import {
@@ -25,7 +25,7 @@ import {
 	ModalMessage,
 } from '../../../styles/components/disalogBox';
 
-import {AUTH} from '../../../reducers/api/auth';
+import {authSelector} from '../../../reducers/api/auth';
 
 import {
 	SAVE_CHANGES_ON_FAVORITES,
@@ -36,14 +36,14 @@ const SaveDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('savePopup');
 
-	const {alert} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
 		path: sftp_pathState,
 		etc: sftp_etcState,
 		edit: sftp_editState,
 		upload: sftp_uploadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const {tab, server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

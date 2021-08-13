@@ -5,12 +5,12 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {sftpIconConvert} from '../../icons/icons';
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
-import {AUTH} from '../../reducers/api/auth';
+import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
 const SFTPConnectBtn = ({data}) => {
 	const dispatch = useDispatch();
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
 	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,

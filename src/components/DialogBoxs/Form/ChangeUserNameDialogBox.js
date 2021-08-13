@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 
 import useInput from '../../../hooks/useInput';
 import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../../icons/icons';
 import {
 	NormalButton,
@@ -12,18 +12,18 @@ import {
 } from '../../../styles/components/button';
 import {IconButton} from '../../../styles/components/icon';
 import {
+	DialogBox,
 	ModalFooter,
 	ModalHeader,
-	DialogBox,
 } from '../../../styles/components/disalogBox';
 import {Input} from '../../../styles/components/input';
 import {Form} from '../../../styles/components/form';
 import {
-	USER_RESOURCE,
 	userResourceAction,
+	userResourceSelector,
 } from '../../../reducers/api/userResource';
-import {AUTH} from '../../../reducers/api/auth';
-import {DIALOG_BOX, dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {authSelector} from '../../../reducers/api/auth';
+import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
@@ -34,9 +34,9 @@ const ChangeUserNameDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeNameForm');
 
-	const {userData} = useSelector((state) => state[AUTH], shallowEqual);
-	const {data} = useSelector((state) => state[USER_RESOURCE], shallowEqual);
-	const {form} = useSelector((state) => state[DIALOG_BOX], shallowEqual);
+	const {userData} = useSelector(authSelector.all);
+	const {data} = useSelector(userResourceSelector.all);
+	const {form} = useSelector(dialogBoxSelector.all);
 
 	const nameRef = useRef(null);
 	const [currentName, onChangeCurrentName, setCurrentName] = useInput(null);
