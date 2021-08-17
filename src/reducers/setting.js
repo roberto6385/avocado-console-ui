@@ -6,6 +6,7 @@ const slice = createSlice({
 		theme: 'light', // light, dark
 		language: 'ko-KR', // language ko-KR - korean, en-US - english
 		menu: null, // current setting menu item
+		navigation: 0, //current_nav_tab
 	},
 	reducers: {
 		setTheme: (state, action) => {
@@ -24,11 +25,13 @@ const selectAllState = createSelector(
 	(state) => state.theme,
 	(state) => state.language,
 	(state) => state.menu,
-	(theme, language, menu) => {
+	(state) => state.navigation,
+	(theme, language, menu, navigation) => {
 		return {
 			theme,
 			language,
 			menu,
+			navigation,
 		};
 	},
 );

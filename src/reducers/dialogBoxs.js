@@ -1,5 +1,4 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
-import {USER_RESOURCE} from './api/userResource';
 
 const slice = createSlice({
 	name: 'dialogBox',

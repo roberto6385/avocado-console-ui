@@ -30,7 +30,7 @@ export const initialState = {
 
 	tempFavorites: [],
 	selectedFavoriteItemOnDialogBox: null,
-	tempFavoriteFolderIndex: null,
+	tempFavoriteFolderIndex: 0,
 	tempFavoriteFolderRenamingKey: null,
 	nav: [
 		{
@@ -135,7 +135,6 @@ export const initialState = {
 	],
 	// resource identity key
 	current_resource_key: null,
-	identity_index: 10,
 	identity: [
 		{
 			id: 0,
@@ -256,37 +255,37 @@ export const CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY =
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {
-			case ADD_FOLDER: {
-				const data = {
-					type: 'folder',
-					id: draft.folder_index,
-					key: 'f_' + draft.folder_index.toString(),
-					name: action.payload,
-					contain: [],
-				};
+			// case ADD_FOLDER: {
+			// 	const data = {
+			// 		type: 'folder',
+			// 		id: draft.folder_index,
+			// 		key: 'f_' + draft.folder_index.toString(),
+			// 		name: action.payload,
+			// 		contain: [],
+			// 	};
+			//
+			// 	addDataOnNode(draft.nav, draft.clicked_server, data);
+			//
+			// 	draft.folder_index++;
+			// 	break;
+			// }
 
-				addDataOnNode(draft.nav, draft.clicked_server, data);
-
-				draft.folder_index++;
-				break;
-			}
-
-			case ADD_FOLDER_ON_FAVORITES: {
-				const data = {
-					type: 'folder',
-					id: draft.favorites_folder_index,
-					key: 'f_' + draft.favorites_folder_index.toString(),
-					name: action.payload.name,
-					contain: [],
-				};
-
-				if (action.payload.key === 'favorites')
-					addDataOnNode(draft.favorites, draft.clicked_server, data);
-
-				draft.favoriteFolderRenamingKey = data.key;
-				draft.favorites_folder_index++;
-				break;
-			}
+			// case ADD_FOLDER_ON_FAVORITES: {
+			// 	const data = {
+			// 		type: 'folder',
+			// 		id: draft.favorites_folder_index,
+			// 		key: 'f_' + draft.favorites_folder_index.toString(),
+			// 		name: action.payload.name,
+			// 		contain: [],
+			// 	};
+			//
+			// 	if (action.payload.key === 'favorites')
+			// 		addDataOnNode(draft.favorites, draft.clicked_server, data);
+			//
+			// 	draft.favoriteFolderRenamingKey = data.key;
+			// 	draft.favorites_folder_index++;
+			// 	break;
+			// }
 
 			case SORT_SERVER_AND_FOLDER: {
 				// 이동할 데이터의 부모
@@ -335,20 +334,6 @@ const reducer = (state = initialState, action) => {
 					return;
 
 				if (action.payload.next === 'toEdge') {
-					console.log('밖으로');
-					// let i = 1;
-					// while (nextParent !== draft.nav) {
-					// 	nextParent = searchParentNode(
-					// 		draft.nav,
-					// 		nextParent.key,
-					// 	);
-					// 	i = i + 1;
-					// }
-					// if (action.payload.indent !== i) {
-					// 	return;
-					// }
-
-					// 가장자리로 보내는지 아닌지 체크
 					// 가장 상위 위치에 데이터 추가
 					draft.nav.push(prev);
 
@@ -591,9 +576,9 @@ const reducer = (state = initialState, action) => {
 				}
 				break;
 
-			case DELETE_TEMP_FOLDER_ON_FAVORITES:
-				startDeleteingTree(draft.tempFavorites, action.payload);
-				break;
+			// case DELETE_TEMP_FOLDER_ON_FAVORITES:
+			// 	startDeleteingTree(draft.tempFavorites, action.payload);
+			// 	break;
 
 			default:
 				break;

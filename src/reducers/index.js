@@ -8,6 +8,8 @@ import {USER_RESOURCE, userResourceReducer} from './api/userResource';
 import {AUTH, authReducer} from './api/auth';
 import {SETTING, settingReducer} from './setting';
 import {TAB_BAR, tabBarReducer} from './tabBar';
+import {REMOTE_RESOURCE, remoteResourceReducer} from './remoteResource';
+import {FAVORITES, favoritesReducer} from './favorites';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
@@ -51,6 +53,8 @@ const rootReducer = combineReducers({
 	[USER_RESOURCE]: userResourceReducer,
 	[TAB_BAR]: tabBarReducer,
 	[SETTING]: persistReducer(settingPersistConfig, settingReducer),
+	[REMOTE_RESOURCE]: remoteResourceReducer,
+	[FAVORITES]: favoritesReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
