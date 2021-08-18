@@ -11,7 +11,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {menu} = useSelector(settingSelector.all);
+	const {aside} = useSelector(settingSelector.all);
 
 	const onClickRedirectToAccountPage = useCallback(
 		(path) => () => {
@@ -22,14 +22,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 
 	const onClickOpenAside = useCallback(
 		(key) => () => {
-			if (toggle && menu === key) {
+			if (toggle && aside === key) {
 				setToggle(false);
 			} else {
-				dispatch(settingAction.setMenu(key));
+				dispatch(settingAction.setAside(key));
 				setToggle(true);
 			}
 		},
-		[dispatch, menu, setToggle, toggle],
+		[dispatch, aside, setToggle, toggle],
 	);
 
 	return (

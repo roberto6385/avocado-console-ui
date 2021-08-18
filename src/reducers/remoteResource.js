@@ -1,10 +1,11 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
+import {settingAction} from './setting';
 
 const slice = createSlice({
 	name: 'remoteResources',
 	initialState: {
 		selectedResource: null, //clicked_server
-		selectedResourceKey: null, //current_resource_key
+		selectedServer: null, //current_resource_key
 		// TODO : selectedResource로 Identities Resource Key까지 같이 사용 가능할거같아요. (우선은 기존대로 생성)
 		//nav
 		resourceTree: [
@@ -183,7 +184,14 @@ const slice = createSlice({
 		resourceGroupIndex: 2, //folder_index
 	},
 
-	reducers: {},
+	reducers: {
+		// TODO : Rbd => 드래그 앤 드롭 정렬 라이브러리 적용예정
+	},
+	extraReducers: {
+		[settingAction.setNav]: (state) => {
+			state.selectedResource = null;
+		},
+	},
 });
 
 const selectAllState = createSelector(

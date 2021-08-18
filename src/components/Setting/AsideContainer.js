@@ -30,7 +30,7 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('settingNav');
-	const {menu} = useSelector(settingSelector.all);
+	const {aside} = useSelector(settingSelector.all);
 
 	const closeAside = useCallback(() => {
 		setToggle(false);
@@ -45,14 +45,14 @@ const AsideContainer = ({toggle, setToggle}) => {
 	return (
 		<_Container className={toggle ? 'aside' : 'aside close'}>
 			<_SettingTitle>
-				{settingTitle[menu]}
+				{settingTitle[aside]}
 				<IconButton itype={'font'} margin={'0px'} onClick={closeAside}>
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>
-			{menu === 'Account' && <AccountAside />}
-			{menu === 'Preferences' && <PreferencesAside />}
-			{menu === 'Identities' && <IdentitiesAside />}
+			{aside === 'Account' && <AccountAside />}
+			{aside === 'Preferences' && <PreferencesAside />}
+			{aside === 'Identities' && <IdentitiesAside />}
 		</_Container>
 	);
 };

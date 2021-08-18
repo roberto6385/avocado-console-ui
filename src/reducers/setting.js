@@ -5,7 +5,7 @@ const slice = createSlice({
 	initialState: {
 		theme: 'light', // light, dark
 		language: 'ko-KR', // language ko-KR - korean, en-US - english
-		menu: null, // current setting menu item
+		aside: null, // current setting menu item
 		navigation: 0, //current_nav_tab
 	},
 	reducers: {
@@ -15,8 +15,11 @@ const slice = createSlice({
 		setLanguage: (state, action) => {
 			state.language = action.payload;
 		},
-		setMenu: (state, action) => {
-			state.menu = action.payload;
+		setAside: (state, action) => {
+			state.aside = action.payload;
+		},
+		setNav: (state, action) => {
+			state.navigation = action.payload;
 		},
 	},
 });
@@ -24,13 +27,13 @@ const slice = createSlice({
 const selectAllState = createSelector(
 	(state) => state.theme,
 	(state) => state.language,
-	(state) => state.menu,
+	(state) => state.aside,
 	(state) => state.navigation,
-	(theme, language, menu, navigation) => {
+	(theme, language, aside, navigation) => {
 		return {
 			theme,
 			language,
-			menu,
+			aside,
 			navigation,
 		};
 	},

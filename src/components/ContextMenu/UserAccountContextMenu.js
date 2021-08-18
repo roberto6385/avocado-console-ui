@@ -11,19 +11,19 @@ import {settingAction, settingSelector} from '../../reducers/setting';
 const UserAccountContextMenu = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
-	const {menu} = useSelector(settingSelector.all);
+	const {aside} = useSelector(settingSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
 	const onClickOpenAside = useCallback(
 		(key) => () => {
-			if (toggle && menu === key) {
+			if (toggle && aside === key) {
 				setToggle(false);
 			} else {
-				dispatch(settingAction.setMenu(key));
+				dispatch(settingAction.setAside(key));
 				setToggle(true);
 			}
 		},
-		[dispatch, menu, setToggle, toggle],
+		[dispatch, aside, setToggle, toggle],
 	);
 
 	const onClickLogout = useCallback(() => {

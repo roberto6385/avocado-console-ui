@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import Server from './Server';
-import {
-	SET_CLICKED_SERVER,
-	SORT_SERVER_AND_FOLDER,
-} from '../../../reducers/common';
+import {SET_CLICKED_SERVER} from '../../../reducers/common';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {Icon, IconButton} from '../../../styles/components/icon';
@@ -33,23 +30,6 @@ const Folder = ({open, data, indent}) => {
 		setIsFolderUnfolded(!isFolderUnfolded);
 	}, [isFolderUnfolded]);
 
-	const onDragStartFolder = useCallback(() => {
-		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
-	}, [data.key, dispatch]);
-
-	const onDropFolder = useCallback(
-		(e) => {
-			e.stopPropagation();
-
-			data.type === 'folder' &&
-				dispatch({
-					type: SORT_SERVER_AND_FOLDER,
-					payload: {next: data, indent: parseInt(indent)},
-				});
-		},
-		[data, dispatch, indent],
-	);
-
 	useEffect(() => {
 		setIsFolderUnfolded(open);
 	}, [open]);
@@ -58,10 +38,7 @@ const Folder = ({open, data, indent}) => {
 		<React.Fragment>
 			<NavigationItem
 				onClick={onClickFolderItem}
-				draggable='true'
-				onDragStart={onDragStartFolder}
-				onDrop={onDropFolder}
-				selected={clicked_server === data.key ? true : false}
+				selected={clicked_server === data.key}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon

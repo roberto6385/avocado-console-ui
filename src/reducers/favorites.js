@@ -1,5 +1,11 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
-import {addDataOnNode, startDeleteingTree} from '../utils/redux';
+import {
+	addDataOnNode,
+	startDeleteingTree,
+	startSearchingNode,
+	startSearchingParentNode,
+} from '../utils/redux';
+import {settingAction} from './setting';
 
 const slice = createSlice({
 	name: 'favorites',
@@ -36,10 +42,87 @@ const slice = createSlice({
 			state.favoriteGroupRenamingKey = data.key;
 			state.favoriteGroupIndex++;
 		},
-		//DELETE_TEMP_FOLDER_ON_FAVORITES
 		// TODO : favoriteTree의 control이 dialog box 내에서만 가능하다는 전제
+		//DELETE_TEMP_FOLDER_ON_FAVORITES
 		deleteGroup: (state, action) => {
 			startDeleteingTree(state.favoriteTreeOnDialogBox, action.payload);
+		},
+		//SAVE_CHANGES_ON_FAVORITES
+		setFavorites: (state) => {
+			state.favoriteTree = state.favoriteTreeOnDialogBox;
+			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
+		},
+		//SORT_FAVORITE_RESOURCES
+		sortFavorites: (state, action) => {
+			// 이동할 데이터의 부모
+			const prevParent = startSearchingParentNode(
+				state.favoriteTree,
+				state.selectedFavorite,
+			);
+			// 이동할 데이터
+			const prev = startSearchingNode(
+				state.favoriteTree,
+				state.selectedFavorite,
+			);
+
+			// 이동시킬 위치의 부모
+			let nextParent = startSearchingParentNode(
+				state.favoriteTree,
+				action.payload.next.key,
+			);
+			// 이동시킬 위치
+			const node = startSearchingNode(
+				state.favoriteTree,
+				action.payload.next.key,
+			);
+
+			if (
+				prev === node ||
+				(prevParent === state.favoriteTree &&
+					action.payload.next === 'toEdge')
+			)
+				return;
+
+			let i = 1;
+			while (nextParent !== state.favoriteTree) {
+				if (nextParent === prev) break;
+				i = i + 1;
+				nextParent = startSearchingParentNode(
+					state.favoriteTree,
+					nextParent.key,
+				);
+			}
+
+			if (action.payload.next !== 'toEdge' && i !== action.payload.indent)
+				return;
+
+			if (action.payload.next === 'toEdge') {
+				state.favoriteTree.push(prev);
+
+				// 부모에서 이동시킨 데이터 삭제
+				const index = prevParent.contain.indexOf(prev);
+				prevParent.contain.splice(index, 1);
+			} else {
+				// 이동시킬 위치에 삭제한 데이터 추가
+				if (node.contain) node.contain.push(prev);
+				else node.push(prev);
+
+				// 부모에서 이동시킨 데이터 삭제
+				if (state.favoriteTree.includes(prev)) {
+					const index = state.favoriteTree.indexOf(prev);
+					state.favoriteTree.splice(index, 1);
+				} else {
+					const index = prevParent.contain.indexOf(prev);
+					prevParent.contain.splice(index, 1);
+				}
+			}
+
+			state.favoriteTreeOnDialogBox = state.favoriteTree;
+		},
+	},
+	extraReducers: {
+		[settingAction.setNav]: (state) => {
+			state.selectedFavorite = null;
 		},
 	},
 });

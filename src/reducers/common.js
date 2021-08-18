@@ -15,7 +15,6 @@ import {
 	addDataOnNode,
 	startDeleteingTree,
 	startSearchingNode,
-	startSearchingParentNode,
 } from '../utils/redux';
 
 export const initialState = {
@@ -223,7 +222,6 @@ export const initialState = {
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const DELETE_SERVER_FOLDER = 'DELETE_SERVER_FOLDER';
 export const SET_CLICKED_SERVER = 'SET_CLICKED_SERVER';
-export const SORT_SERVER_AND_FOLDER = 'SORT_SERVER_AND_FOLDER';
 
 export const CHANGE_CURRENT_RESOURCE_KEY = 'common/CHANGE_CURRENT_RESOURCE_KEY';
 export const CHANGE_IDENTITY_CHECKED = 'common/CHANGE_IDENTITY_CHECKED';
@@ -238,7 +236,6 @@ export const CHANGE_FOLDER_NAME_ON_FAVORITES =
 export const CHANGE_FAVORITE_FOLDER_RENMAING_KEY =
 	'CHANGE_FAVORITE_FOLDER_RENMAING_KEY';
 export const SORT_FAVORITE_RESOURCES = 'SORT_FAVORITE_RESOURCES';
-export const CHANGE_NAVTAB = 'common/CHANGE_NAVTAB';
 
 export const INIT_TEMP_FAVORITES = 'INIT_TEMP_FAVORITES';
 export const SET_TEMP_FAVORITES = 'SET_TEMP_FAVORITES';
@@ -287,159 +284,159 @@ const reducer = (state = initialState, action) => {
 			// 	break;
 			// }
 
-			case SORT_SERVER_AND_FOLDER: {
-				// 이동할 데이터의 부모
-				const prevParent = startSearchingParentNode(
-					draft.nav,
-					draft.clicked_server,
-				);
-				// 이동할 데이터
-				const prev = startSearchingNode(
-					draft.nav,
-					draft.clicked_server,
-				);
+			// case SORT_SERVER_AND_FOLDER: {
+			// 	// 이동할 데이터의 부모
+			// 	const prevParent = startSearchingParentNode(
+			// 		draft.nav,
+			// 		draft.clicked_server,
+			// 	);
+			// 	// 이동할 데이터
+			// 	const prev = startSearchingNode(
+			// 		draft.nav,
+			// 		draft.clicked_server,
+			// 	);
+			//
+			// 	// 이동시킬 위치의 부모
+			// 	let nextParent = startSearchingParentNode(
+			// 		draft.nav,
+			// 		action.payload.next.key,
+			// 	);
+			// 	// 이동시킬 위치
+			// 	const node = startSearchingNode(
+			// 		draft.nav,
+			// 		action.payload.next.key,
+			// 	);
+			//
+			// 	if (
+			// 		prev === node ||
+			// 		(prevParent === draft.nav &&
+			// 			action.payload.next === 'toEdge')
+			// 	)
+			// 		return;
+			//
+			// 	let i = 1;
+			// 	while (nextParent !== draft.nav) {
+			// 		if (nextParent === prev) break;
+			// 		i = i + 1;
+			// 		nextParent = startSearchingParentNode(
+			// 			draft.nav,
+			// 			nextParent.key,
+			// 		);
+			// 	}
+			//
+			// 	if (
+			// 		action.payload.next !== 'toEdge' &&
+			// 		i !== action.payload.indent
+			// 	)
+			// 		return;
+			//
+			// 	if (action.payload.next === 'toEdge') {
+			// 		// 가장 상위 위치에 데이터 추가
+			// 		draft.nav.push(prev);
+			//
+			// 		// 부모에서 이동시킨 데이터 삭제
+			// 		const index = prevParent.contain.indexOf(prev);
+			// 		prevParent.contain.splice(index, 1);
+			// 	} else {
+			// 		// 이동시킬 위치에 삭제한 데이터 추가
+			// 		if (node.contain) node.contain.push(prev);
+			// 		else node.push(prev);
+			//
+			// 		// 부모에서 이동시킨 데이터 삭제
+			// 		if (draft.nav.includes(prev)) {
+			// 			const index = draft.nav.indexOf(prev);
+			// 			draft.nav.splice(index, 1);
+			// 		} else {
+			// 			const index = prevParent.contain.indexOf(prev);
+			// 			prevParent.contain.splice(index, 1);
+			// 		}
+			// 	}
+			//
+			// 	break;
+			// }
 
-				// 이동시킬 위치의 부모
-				let nextParent = startSearchingParentNode(
-					draft.nav,
-					action.payload.next.key,
-				);
-				// 이동시킬 위치
-				const node = startSearchingNode(
-					draft.nav,
-					action.payload.next.key,
-				);
+			// case SAVE_CHANGES_ON_FAVORITES: {
+			// 	draft.favorites = draft.tempFavorites;
+			// 	draft.favorites_folder_index = draft.tempFavoriteFolderIndex;
+			// 	break;
+			// }
 
-				if (
-					prev === node ||
-					(prevParent === draft.nav &&
-						action.payload.next === 'toEdge')
-				)
-					return;
+			// case CHANGE_NAVTAB:
+			// 	draft.current_nav_tab = action.payload;
+			// 	draft.clicked_server = null;
+			// 	break;
 
-				let i = 1;
-				while (nextParent !== draft.nav) {
-					if (nextParent === prev) break;
-					i = i + 1;
-					nextParent = startSearchingParentNode(
-						draft.nav,
-						nextParent.key,
-					);
-				}
-
-				if (
-					action.payload.next !== 'toEdge' &&
-					i !== action.payload.indent
-				)
-					return;
-
-				if (action.payload.next === 'toEdge') {
-					// 가장 상위 위치에 데이터 추가
-					draft.nav.push(prev);
-
-					// 부모에서 이동시킨 데이터 삭제
-					const index = prevParent.contain.indexOf(prev);
-					prevParent.contain.splice(index, 1);
-				} else {
-					// 이동시킬 위치에 삭제한 데이터 추가
-					if (node.contain) node.contain.push(prev);
-					else node.push(prev);
-
-					// 부모에서 이동시킨 데이터 삭제
-					if (draft.nav.includes(prev)) {
-						const index = draft.nav.indexOf(prev);
-						draft.nav.splice(index, 1);
-					} else {
-						const index = prevParent.contain.indexOf(prev);
-						prevParent.contain.splice(index, 1);
-					}
-				}
-
-				break;
-			}
-
-			case SAVE_CHANGES_ON_FAVORITES: {
-				draft.favorites = draft.tempFavorites;
-				draft.favorites_folder_index = draft.tempFavoriteFolderIndex;
-				break;
-			}
-
-			case CHANGE_NAVTAB:
-				draft.current_nav_tab = action.payload;
-				draft.clicked_server = null;
-				break;
-
-			case SORT_FAVORITE_RESOURCES: {
-				// 이동할 데이터의 부모
-				const prevParent = startSearchingParentNode(
-					draft.favorites,
-					draft.clicked_server,
-				);
-				// 이동할 데이터
-				const prev = startSearchingNode(
-					draft.favorites,
-					draft.clicked_server,
-				);
-
-				// 이동시킬 위치의 부모
-				let nextParent = startSearchingParentNode(
-					draft.favorites,
-					action.payload.next.key,
-				);
-				// 이동시킬 위치
-				const node = startSearchingNode(
-					draft.favorites,
-					action.payload.next.key,
-				);
-
-				if (
-					prev === node ||
-					(prevParent === draft.favorites &&
-						action.payload.next === 'toEdge')
-				)
-					return;
-
-				let i = 1;
-				while (nextParent !== draft.favorites) {
-					if (nextParent === prev) break;
-					i = i + 1;
-					nextParent = startSearchingParentNode(
-						draft.favorites,
-						nextParent.key,
-					);
-				}
-
-				if (
-					action.payload.next !== 'toEdge' &&
-					i !== action.payload.indent
-				)
-					return;
-
-				if (action.payload.next === 'toEdge') {
-					draft.favorites.push(prev);
-
-					// 부모에서 이동시킨 데이터 삭제
-					const index = prevParent.contain.indexOf(prev);
-					prevParent.contain.splice(index, 1);
-				} else {
-					// 이동시킬 위치에 삭제한 데이터 추가
-					if (node.contain) node.contain.push(prev);
-					else node.push(prev);
-
-					// 부모에서 이동시킨 데이터 삭제
-					if (draft.favorites.includes(prev)) {
-						const index = draft.favorites.indexOf(prev);
-						draft.favorites.splice(index, 1);
-					} else {
-						const index = prevParent.contain.indexOf(prev);
-						prevParent.contain.splice(index, 1);
-					}
-				}
-
-				draft.temp_favorites = draft.favorites;
-
-				break;
-			}
+			// case SORT_FAVORITE_RESOURCES: {
+			// 	// 이동할 데이터의 부모
+			// 	const prevParent = startSearchingParentNode(
+			// 		draft.favorites,
+			// 		draft.clicked_server,
+			// 	);
+			// 	// 이동할 데이터
+			// 	const prev = startSearchingNode(
+			// 		draft.favorites,
+			// 		draft.clicked_server,
+			// 	);
+			//
+			// 	// 이동시킬 위치의 부모
+			// 	let nextParent = startSearchingParentNode(
+			// 		draft.favorites,
+			// 		action.payload.next.key,
+			// 	);
+			// 	// 이동시킬 위치
+			// 	const node = startSearchingNode(
+			// 		draft.favorites,
+			// 		action.payload.next.key,
+			// 	);
+			//
+			// 	if (
+			// 		prev === node ||
+			// 		(prevParent === draft.favorites &&
+			// 			action.payload.next === 'toEdge')
+			// 	)
+			// 		return;
+			//
+			// 	let i = 1;
+			// 	while (nextParent !== draft.favorites) {
+			// 		if (nextParent === prev) break;
+			// 		i = i + 1;
+			// 		nextParent = startSearchingParentNode(
+			// 			draft.favorites,
+			// 			nextParent.key,
+			// 		);
+			// 	}
+			//
+			// 	if (
+			// 		action.payload.next !== 'toEdge' &&
+			// 		i !== action.payload.indent
+			// 	)
+			// 		return;
+			//
+			// 	if (action.payload.next === 'toEdge') {
+			// 		draft.favorites.push(prev);
+			//
+			// 		// 부모에서 이동시킨 데이터 삭제
+			// 		const index = prevParent.contain.indexOf(prev);
+			// 		prevParent.contain.splice(index, 1);
+			// 	} else {
+			// 		// 이동시킬 위치에 삭제한 데이터 추가
+			// 		if (node.contain) node.contain.push(prev);
+			// 		else node.push(prev);
+			//
+			// 		// 부모에서 이동시킨 데이터 삭제
+			// 		if (draft.favorites.includes(prev)) {
+			// 			const index = draft.favorites.indexOf(prev);
+			// 			draft.favorites.splice(index, 1);
+			// 		} else {
+			// 			const index = prevParent.contain.indexOf(prev);
+			// 			prevParent.contain.splice(index, 1);
+			// 		}
+			// 	}
+			//
+			// 	draft.temp_favorites = draft.favorites;
+			//
+			// 	break;
+			// }
 
 			case ADD_FAVORITE_SERVER: {
 				const index = draft.server.findIndex(

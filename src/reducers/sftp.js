@@ -120,17 +120,17 @@ export const read_chunkSize = 1024 * 56; // 56
 // initial State
 const initialState = {
 	loading: false,
-	socket: [],
-	path: [],
-	upload: [],
-	download: [],
-	delete: [],
-	file: [],
-	history: [],
-	edit: [],
-	etc: [],
-	high: [],
-	stat: null,
+	sockets: [],
+	paths: [],
+	uploads: [],
+	downloads: [],
+	deletes: [],
+	files: [],
+	historys: [],
+	edits: [],
+	etcs: [],
+	highlights: [],
+	status: null,
 };
 
 // etc function
@@ -141,22 +141,25 @@ const ObjFinder = (target, uuid) => {
 const sftp = (state = initialState, action) =>
 	produce(state, (draft) => {
 		// new list
-		const socket_target = ObjFinder(draft.socket, action.payload?.uuid);
-		const path_target = ObjFinder(draft.path, action.payload?.uuid);
-		const file_target = ObjFinder(draft.file, action.payload?.uuid);
-		const history_target = ObjFinder(draft.history, action.payload?.uuid);
-		const etc_target = ObjFinder(draft.etc, action.payload?.uuid);
-		const edit_target = ObjFinder(draft.edit, action.payload?.uuid);
-		const high_target = ObjFinder(draft.high, action.payload?.uuid);
+		const socket_target = ObjFinder(draft.sockets, action.payload?.uuid);
+		const path_target = ObjFinder(draft.paths, action.payload?.uuid);
+		const file_target = ObjFinder(draft.files, action.payload?.uuid);
+		const history_target = ObjFinder(draft.historys, action.payload?.uuid);
+		const etc_target = ObjFinder(draft.etcs, action.payload?.uuid);
+		const edit_target = ObjFinder(draft.edits, action.payload?.uuid);
+		const high_target = ObjFinder(draft.highlights, action.payload?.uuid);
 
-		const upload_target = ObjFinder(draft.upload, action.payload?.uuid);
-		const download_target = ObjFinder(draft.download, action.payload?.uuid);
-		const delete_target = ObjFinder(draft.delete, action.payload?.uuid);
+		const upload_target = ObjFinder(draft.uploads, action.payload?.uuid);
+		const download_target = ObjFinder(
+			draft.downloads,
+			action.payload?.uuid,
+		);
+		const delete_target = ObjFinder(draft.deletes, action.payload?.uuid);
 
-		const history_plain = ObjFinder(state.history, action.payload?.uuid);
-		const upload_plain = ObjFinder(state.upload, action.payload?.uuid);
-		const download_plain = ObjFinder(state.download, action.payload?.uuid);
-		const delete_plain = ObjFinder(state.delete, action.payload?.uuid);
+		const history_plain = ObjFinder(state.historys, action.payload?.uuid);
+		const upload_plain = ObjFinder(state.uploads, action.payload?.uuid);
+		const download_plain = ObjFinder(state.downloads, action.payload?.uuid);
+		const delete_plain = ObjFinder(state.deletes, action.payload?.uuid);
 
 		switch (action.type) {
 			// 연결
@@ -189,45 +192,45 @@ const sftp = (state = initialState, action) =>
 			case CONNECTION_SUCCESS:
 				draft.loading = false;
 
-				draft.socket.push({
+				draft.sockets.push({
 					uuid: action.payload.uuid,
 					socket: action.payload.socket,
 					status: 'connect success',
 					ready: 1,
 				});
-				draft.path.push({
+				draft.paths.push({
 					uuid: action.payload.uuid,
 					path: '',
 					pathList: [],
 				});
-				draft.file.push({
+				draft.files.push({
 					uuid: action.payload.uuid,
 					fileList: [],
 					tempFile: null,
 				});
-				draft.high.push({
+				draft.highlights.push({
 					uuid: action.payload.uuid,
 					highlight: [],
 				});
-				draft.history.push({
+				draft.historys.push({
 					uuid: action.payload.uuid,
 					history: [],
 					history_highlight: [],
 					pause: [],
 				});
-				draft.upload.push({
+				draft.uploads.push({
 					uuid: action.payload.uuid,
 					writeSocket: null, // 경로, file 저장
 					writeList: [], // 경로, file 저장
 					pass: true,
 				});
-				draft.download.push({
+				draft.downloads.push({
 					uuid: action.payload.uuid,
 					readSocket: null, // 경로, file 저장
 					readList: [], // 경로, file 저장
 					pass: true,
 				});
-				draft.delete.push({
+				draft.deletes.push({
 					uuid: action.payload.uuid,
 					removeSocket: null,
 					removeList: [],
@@ -237,13 +240,13 @@ const sftp = (state = initialState, action) =>
 					pass: true,
 					total: [],
 				});
-				draft.edit.push({
+				draft.edits.push({
 					uuid: action.payload.uuid,
 					text: '',
 					editText: '',
 					editFile: {},
 				});
-				draft.etc.push({
+				draft.etcs.push({
 					uuid: action.payload.uuid,
 					sortKeyword: 'name',
 					toggle: true,
@@ -267,34 +270,34 @@ const sftp = (state = initialState, action) =>
 				break;
 			case DISCONNECTION_SUCCESS:
 				// draft.loading = false;
-				draft.socket = state.socket.filter(
+				draft.sockets = state.sockets.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.path = state.path.filter(
+				draft.paths = state.paths.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.upload = state.upload.filter(
+				draft.uploads = state.uploads.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.download = state.download.filter(
+				draft.downloads = state.downloads.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.delete = state.delete.filter(
+				draft.deletes = state.deletes.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.file = state.file.filter(
+				draft.files = state.files.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.history = state.history.filter(
+				draft.historys = state.historys.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.edit = state.edit.filter(
+				draft.edits = state.edits.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.etc = state.etc.filter(
+				draft.etcs = state.etcs.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
-				draft.high = state.high.filter(
+				draft.highlights = state.highlights.filter(
 					(it) => it.uuid !== action.payload.uuid,
 				);
 				break;
@@ -388,7 +391,7 @@ const sftp = (state = initialState, action) =>
 			//--//
 
 			case READY_STATE: {
-				const index = draft.socket.findIndex(
+				const index = draft.sockets.findIndex(
 					(v) => v.uuid === action.payload.uuid,
 				);
 				if (index === -1) return;
@@ -668,10 +671,10 @@ const sftp = (state = initialState, action) =>
 				break;
 
 			case STAT_REQUEST:
-				draft.stat = null;
+				draft.status = null;
 				break;
 			case STAT_SUCCESS:
-				draft.stat = {
+				draft.status = {
 					data: action.payload.data,
 					path: action.payload.path,
 				};

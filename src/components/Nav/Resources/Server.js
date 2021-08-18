@@ -9,7 +9,6 @@ import {
 	ADD_FAVORITE_SERVER,
 	DELETE_FAVORITE_SERVER,
 	SET_CLICKED_SERVER,
-	SORT_SERVER_AND_FOLDER,
 } from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
@@ -132,21 +131,6 @@ const Server = ({data, indent}) => {
 		[data, dispatch, show],
 	);
 
-	const prevPutItem = useCallback(() => {
-		console.log('prev put item');
-		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
-	}, [data, dispatch]);
-
-	const nextPutItem = useCallback(
-		(e) => {
-			e.stopPropagation();
-
-			data.type === 'folder' &&
-				dispatch({type: SORT_SERVER_AND_FOLDER, payload: {next: data}});
-		},
-		[data, dispatch],
-	);
-
 	const onClickFavoriteIcon = useCallback(() => {
 		console.log(isFavoriteServer(favorites, data.key));
 
@@ -161,9 +145,6 @@ const Server = ({data, indent}) => {
 		<React.Fragment>
 			<ServerItem
 				onClick={onHybridClick}
-				draggable='true'
-				onDragStart={prevPutItem}
-				onDrop={nextPutItem}
 				onContextMenu={openServerContextMenu}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
