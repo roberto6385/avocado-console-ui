@@ -18,14 +18,14 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 		'open-preferences-aside': t('preferences'),
 		'open-identities-aside': t('identities'),
 	};
-	//TODO: 왜 안될까??
+
 	const onClickOpenAside = useCallback(
-		(v) => () => {
+		(v) => {
+			console.log(v);
 			if (toggle && aside === v) {
 				setToggle(false);
 			} else {
 				dispatch(settingAction.setAside(v));
-
 				setToggle(true);
 			}
 		},
@@ -35,28 +35,16 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
-				case 'redirect-to-settingpage':
+				case 'redirect-to-setting-page':
 					history.push('/account');
 					break;
 
 				case 'open-preferences-aside':
-					// onClickOpenAside('Preferences');
-					if (toggle && aside === 'Preferences') {
-						setToggle(false);
-					} else {
-						dispatch(settingAction.setMenu('Preferences'));
-						setToggle(true);
-					}
+					onClickOpenAside('Preferences');
 					break;
 
 				case 'open-identities-aside':
-					// onClickOpenAside('Identities');
-					if (toggle && aside === 'Identities') {
-						setToggle(false);
-					} else {
-						dispatch(settingAction.setMenu('Identities'));
-						setToggle(true);
-					}
+					onClickOpenAside('Identities');
 					break;
 
 				default:
