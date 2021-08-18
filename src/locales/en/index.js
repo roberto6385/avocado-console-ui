@@ -21,9 +21,18 @@ export {default as addAccountDialogBox} from './DialogBoxs/Form/AddAccountDialog
 export {default as fileStatusDialogBox} from './DialogBoxs/Form/FileStatusDialogBox';
 export {default as addFavoritesForm} from './DialogBoxs/Form/AddFavoritesDialogBox';
 export {default as changePasswordForm} from './DialogBoxs/Form/ChangePasswordDialogBox';
+export {default as changeNameForm} from './DialogBoxs/Form/ChangeUserNameDialogBox';
 
-export {default as rightCornerIcons} from './ContextMenu/SettingContextMenu';
-export {default as contextMenu} from './ContextMenu';
+export {default as accountContextMenu} from './ContextMenu/AccountContextMenu';
+export {default as favoritesContextMenu} from './ContextMenu/FavoritesContextMenu';
+export {default as fileListContextMenu} from './ContextMenu/FileListContextMenu';
+export {default as folderContextMenu} from './ContextMenu/FolderContextMenu';
+export {default as serverContextMenu} from './ContextMenu/ServerContextMenu';
+export {default as settingContextMenu} from './ContextMenu/SettingContextMenu';
+export {default as snippetContextMenu} from './ContextMenu/SnippetContextMenu';
+
 export {default as snippets} from './Snippets';
 
 export {default as SSH} from './SSH/SSH';
+
+export {default as SignInLayout} from './Layouts/SignInLayout';

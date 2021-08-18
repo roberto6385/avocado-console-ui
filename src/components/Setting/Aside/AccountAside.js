@@ -1,14 +1,13 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField from '../../RecycleComponents/TextBoxField';
-import {NormalButton, WarningButton} from '../../../styles/components/button';
+import {NormalButton} from '../../../styles/components/button';
 import {TextBox} from '../../../styles/components/textBox';
 import {userResourceSelector} from '../../../reducers/api/userResource';
-import {authSelector} from '../../../reducers/api/auth';
 
 const _Container = styled.div`
 	padding: 15px 16px 15px 17px;
