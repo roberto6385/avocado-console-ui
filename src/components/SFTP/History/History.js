@@ -58,7 +58,7 @@ const _Li = styled.li`
 	display: flex;
 	align-items: center;
 	background: ${(props) =>
-		props.clicked
+		props.selected
 			? props.theme.pages.webTerminal.main.panels.sftp.history.items
 					.selectedStyle.backgroundColor
 			: props.theme.pages.webTerminal.main.panels.sftp.history.items
@@ -200,7 +200,7 @@ const History = ({
 									key={item.HISTORY_ID}
 									onClick={onSelect(item, index)}
 									borderWidth={`${item.progress}%`}
-									clicked={highlight.find(
+									selected={highlight.find(
 										(v) => v.HISTORY_ID === item.HISTORY_ID,
 									)}
 								>

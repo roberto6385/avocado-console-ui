@@ -24,21 +24,21 @@ const _Container = styled.div`
 		resize: none;
 	}
 `;
-const EditContents = ({uuid}) => {
+const EditContent = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {edit: sftp_editState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
-	const {editText} = useMemo(
-		() => sftp_editState.find((it) => it.uuid === uuid),
-		[sftp_editState, uuid],
+	const {edit: sftpEdit} = useSelector((state) => state.sftp, shallowEqual);
+
+	const searchedFileContent = useMemo(
+		() => sftpEdit.find((it) => it.uuid === uuid).editText,
+		[sftpEdit, uuid],
 	);
 
-	const writeText = useCallback(
+	const onChangeFileContent = useCallback(
 		(e) => {
-			const {value} = e.target;
-			dispatch({type: SAVE_EDITTEXT, payload: {uuid, editText: value}});
+			dispatch({
+				type: SAVE_EDITTEXT,
+				payload: {uuid, editText: e.target.value},
+			});
 		},
 		[dispatch, uuid],
 	);
@@ -46,18 +46,17 @@ const EditContents = ({uuid}) => {
 	return (
 		<_Container>
 			<textarea
-				// wrap={JSON.parse(checked) ? 'soft' : 'off'}
 				rows='50'
 				cols='40'
-				value={editText}
-				onChange={writeText}
+				value={searchedFileContent}
+				onChange={onChangeFileContent}
 			/>
 		</_Container>
 	);
 };
 
-EditContents.propTypes = {
+EditContent.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default EditContents;
+export default EditContent;

@@ -103,7 +103,8 @@ const Pane = ({uuid, type, server}) => {
 						ws: ssh.find((v) => v.uuid === uuid).ws,
 					},
 				});
-			} else if (type === 'SFTP') {
+			}
+			if (type === 'SFTP') {
 				dispatch({
 					type: DISCONNECTION_REQUEST,
 					payload: {
@@ -118,45 +119,43 @@ const Pane = ({uuid, type, server}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const searchedServer = commonServer.find((i) => i.key === server.key);
-		const searchedIdentity = identity.find(
+		const resource = commonServer.find((i) => i.key === server.key);
+		const account = identity.find(
 			(it) => it.key === server.key && it.checked === true,
 		);
 
-		const searchedTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
+		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
 			dispatch({
 				type: SSH_SEND_RECONNECTION_REQUEST,
 				payload: {
 					token: userData.access_token,
-					...searchedServer,
-					user: searchedIdentity.user,
-					password: searchedIdentity.password,
+					...resource,
+					user: account.user,
+					password: account.password,
 
 					prevUuid: uuid,
-					prevIndex: searchedTabIndex,
+					prevIndex: terminalTabIndex,
 				},
 			});
 		} else {
-			const {path} = sftp_pathState.find((v) => v.uuid === uuid);
-
 			dispatch({
 				type: RECONNECTION_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: searchedServer.host,
-					port: searchedServer.port,
-					user: searchedIdentity.user,
-					password: searchedIdentity.password,
+					host: resource.host,
+					port: resource.port,
+					user: account.user,
+					password: account.password,
 
-					name: searchedServer.name, // create tab info
-					key: searchedServer.key,
-					id: searchedServer.id,
+					name: resource.name, // create tab info
+					key: resource.key,
+					id: resource.id,
 
 					prevUuid: uuid,
-					prevIndex: searchedTabIndex,
-					prevPath: path,
+					prevIndex: terminalTabIndex,
+					prevPath: sftp_pathState.find((v) => v.uuid === uuid).path,
 				},
 			});
 		}
@@ -174,11 +173,9 @@ const Pane = ({uuid, type, server}) => {
 
 	useEffect(() => {
 		if (type === 'SSH') {
-			const {ready} = ssh.find((v) => v.uuid === uuid);
-			setReadyState(ready);
+			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		} else {
-			const {ready} = sftp_socketState.find((v) => v.uuid === uuid);
-			setReadyState(ready);
+			setReadyState(sftp_socketState.find((v) => v.uuid === uuid).ready);
 		}
 	}, [sftp_socketState, ssh, type, uuid]);
 

@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import TextBoxField from '../RecycleComponents/TextBoxField';
 import LoadingSpinner from '../LoadingSpinner';
 import {
 	passwordVisibilityIcon,
@@ -44,7 +44,7 @@ const SignUpForm = () => {
 
 	const idRef = useRef(null);
 
-	const onSubmitSignUpForm = useCallback(
+	const onSubmitSignUp = useCallback(
 		(e) => {
 			e.preventDefault();
 
@@ -85,13 +85,13 @@ const SignUpForm = () => {
 	}, [idRef]);
 
 	return !loading ? (
-		<UserForm onSubmit={onSubmitSignUpForm}>
+		<UserForm onSubmit={onSubmitSignUp}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('account')} <a href={'/signin'}> {t('signIn')} </a>
 			</UserTitleSpan>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserInput
 					ref={idRef}
 					value={id}
@@ -99,18 +99,18 @@ const SignUpForm = () => {
 					placeholder={t('id')}
 					required
 				/>
-			</TextBoxField_>
+			</TextBoxField>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserInput
 					value={name}
 					onChange={onChangeName}
 					placeholder={t('name')}
 					required
 				/>
-			</TextBoxField_>
+			</TextBoxField>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserInput
 					value={email}
 					type={'email'}
@@ -118,8 +118,8 @@ const SignUpForm = () => {
 					placeholder={t('email')}
 					required
 				/>
-			</TextBoxField_>
-			<TextBoxField_ marginBottom={'18px'}>
+			</TextBoxField>
+			<TextBoxField marginBottom={'18px'}>
 				<UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
 						onFocus={onFocusPasswordTextBox}
@@ -141,9 +141,9 @@ const SignUpForm = () => {
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
-			</TextBoxField_>
+			</TextBoxField>
 
-			<TextBoxField_ flex={1} marginBottom={'18px'}>
+			<TextBoxField flex={1} marginBottom={'18px'}>
 				<UserInput
 					type={isPasswordHidden ? 'password' : 'text'}
 					value={confirmPassword}
@@ -151,7 +151,7 @@ const SignUpForm = () => {
 					placeholder={t('confirmPassword')}
 					required
 				/>
-			</TextBoxField_>
+			</TextBoxField>
 
 			<_UserSubmitButton type='submit'>{t('signUp')}</_UserSubmitButton>
 		</UserForm>

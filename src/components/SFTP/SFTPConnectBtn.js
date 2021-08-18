@@ -16,32 +16,37 @@ const SFTPConnectBtn = ({data}) => {
 		shallowEqual,
 	);
 
-	const connectSftp = useCallback(() => {
-		const correspondedServer = server.find((x) => x.id === data.id);
-		const correspondedIdentity = identity.find(
+	const onClickConnectSftp = useCallback(() => {
+		const resource = server.find((x) => x.id === data.id);
+		const account = identity.find(
 			(it) => it.key === data.key && it.checked === true,
 		);
-		if (server.includes(correspondedServer)) {
+
+		if (server.includes(resource)) {
 			dispatch({
 				type: CONNECTION_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: correspondedServer.host,
-					port: correspondedServer.port,
-					user: correspondedIdentity.user,
-					password: correspondedIdentity.password,
+					host: resource.host,
+					port: resource.port,
+					user: account.user,
+					password: account.password,
 
-					name: correspondedServer.name, // create tab info
-					key: correspondedServer.key,
-					id: correspondedServer.id,
+					name: resource.name, // create tab info
+					key: resource.key,
+					id: resource.id,
 				},
 			});
 		} else {
-			dispatch(dialogBoxAction.openAlert({key: 'lost_server'}));
+			dispatch(dialogBoxAction.openAlert({key: 'lost-server'}));
 		}
 	}, [server, data, identity, userData, dispatch]);
 
-	return <HoverButton onClick={connectSftp}>{sftpIconConvert}</HoverButton>;
+	return (
+		<HoverButton onClick={onClickConnectSftp}>
+			{sftpIconConvert}
+		</HoverButton>
+	);
 };
 
 SFTPConnectBtn.propTypes = {

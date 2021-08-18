@@ -99,7 +99,7 @@ function* sendCommand(action) {
 						pass = true;
 						yield put({type: CD_FAILURE});
 						yield put(
-							dialogBoxAction.openAlert({key: 'wrong_path'}),
+							dialogBoxAction.openAlert({key: 'sftp-wrong-path'}),
 						);
 						break;
 					default:
@@ -112,7 +112,7 @@ function* sendCommand(action) {
 		console.log(err);
 		closeChannel(channel);
 		yield put({type: CD_FAILURE});
-		yield put(dialogBoxAction.openAlert({key: 'wrong_path'}));
+		yield put(dialogBoxAction.openAlert({key: 'sftp-wrong-path'}));
 	}
 }
 

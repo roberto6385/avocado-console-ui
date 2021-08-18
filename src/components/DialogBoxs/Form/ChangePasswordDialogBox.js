@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../../hooks/useInput';
-import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
+import TextBoxField from '../../RecycleComponents/TextBoxField';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeIcon} from '../../../icons/icons';
 import {
@@ -16,7 +16,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '../../../styles/components/disalogBox';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
 import {
 	userResourceAction,
@@ -51,7 +51,7 @@ const ChangePasswordDialogBox = () => {
 		dispatch(dialogBoxAction.closeForm());
 	}, [dispatch]);
 
-	const onSubmitChangePasswordForm = useCallback(
+	const onSubmitChangePassword = useCallback(
 		(e) => {
 			e.preventDefault();
 
@@ -117,9 +117,9 @@ const ChangePasswordDialogBox = () => {
 					{closeIcon}
 				</IconButton>
 			</ModalHeader>
-			<Form onSubmit={onSubmitChangePasswordForm}>
-				<TextBoxField_ title={t('current')}>
-					<Input
+			<Form onSubmit={onSubmitChangePassword}>
+				<TextBoxField title={t('current')}>
+					<TextBox
 						ref={currentPasswordRef}
 						type='password'
 						value={currentPassword}
@@ -127,10 +127,10 @@ const ChangePasswordDialogBox = () => {
 						placeholder={t('place.current')}
 						required
 					/>
-				</TextBoxField_>
+				</TextBoxField>
 
-				<TextBoxField_ title={t('new')}>
-					<Input
+				<TextBoxField title={t('new')}>
+					<TextBox
 						ref={newPasswordRef}
 						type='password'
 						value={newPassword}
@@ -138,23 +138,23 @@ const ChangePasswordDialogBox = () => {
 						placeholder={t('place.new')}
 						required
 					/>
-				</TextBoxField_>
-				<TextBoxField_ title={t('confirm')}>
-					<Input
+				</TextBoxField>
+				<TextBoxField title={t('confirm')}>
+					<TextBox
 						type='password'
 						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
 						placeholder={t('place.confirm')}
 						required
 					/>
-				</TextBoxField_>
+				</TextBoxField>
 			</Form>
 
 			<ModalFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
-				<NormalButton onClick={onSubmitChangePasswordForm}>
+				<NormalButton onClick={onSubmitChangePassword}>
 					{t('save')}
 				</NormalButton>
 			</ModalFooter>

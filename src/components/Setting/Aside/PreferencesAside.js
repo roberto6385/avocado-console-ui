@@ -35,15 +35,15 @@ const _ContentsContainer = styled.div`
 	padding: 15px 0px;
 `;
 
-const terminal_theme = [
+const terminalThemeOptions = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
 ];
-const editor_theme = [
+const editorThemeOptions = [
 	{value: 0, label: 'theme0'},
 	{value: 1, label: 'theme1'},
 ];
-const font_theme = [
+const sshFontOptions = [
 	{value: ROBOTO, label: 'Roboto'},
 	{value: ROBOTO_MONO, label: 'Roboto Mono'},
 	{value: ROBOTO_SLAP, label: 'Roboto Slap'},
@@ -60,14 +60,15 @@ const PreferencesAside = () => {
 		shallowEqual,
 	);
 
-	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
-	const [Theme, setTheme] = useState(theme);
-	const [Language, setLanguage] = useState(language);
+	const [isAutocompleteTurnedOn, setIsAutocompleteTurnedOn] =
+		useState(auto_completion_mode);
+	const [themeCopy, setThemeCopy] = useState(theme);
+	const [languageCopy, setLanguageCopy] = useState(language);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
-	const [terminalFont, setTerminalFont] = useState(font);
+	const [sshFont, setSshFont] = useState(font);
 
-	const background_theme = [
+	const themeOptions = [
 		{value: 'light', label: t('light')},
 		{value: 'dark', label: t('dark')},
 	];
@@ -77,25 +78,28 @@ const PreferencesAside = () => {
 	];
 
 	useEffect(() => {
-		dispatch({
-			type: SSH_CHANGE_AUTO_COMPLETION_MODE,
-			payload: textCompletion,
-		});
-	}, [textCompletion, dispatch]);
+		if (auto_completion_mode !== isAutocompleteTurnedOn)
+			dispatch({
+				type: SSH_CHANGE_AUTO_COMPLETION_MODE,
+				payload: isAutocompleteTurnedOn,
+			});
+	}, [auto_completion_mode, isAutocompleteTurnedOn, dispatch]);
 
 	useEffect(() => {
-		if (font !== terminalFont)
-			dispatch({type: SSH_SET_FONT_REQUEST, payload: terminalFont});
-	}, [font, terminalFont, dispatch]);
+		if (font !== sshFont)
+			dispatch({type: SSH_SET_FONT_REQUEST, payload: sshFont});
+	}, [font, sshFont, dispatch]);
 
 	useEffect(() => {
-		dispatch(settingAction.setTheme(Theme));
-	}, [Theme, dispatch]);
+		dispatch(settingAction.setTheme(themeCopy));
+	}, [themeCopy, dispatch]);
 
 	useEffect(() => {
-		dispatch(settingAction.setLanguage(Language));
-		i18n.changeLanguage(Language);
-	}, [Language, dispatch, i18n]);
+		if (language !== languageCopy) {
+			dispatch(settingAction.setLanguage(languageCopy));
+			i18n.changeLanguage(languageCopy);
+		}
+	}, [languageCopy, dispatch, i18n]);
 
 	return (
 		<_Container>
@@ -105,15 +109,15 @@ const PreferencesAside = () => {
 					width={'266px'}
 					title={t('lang')}
 					options={languageOptions}
-					value={Language}
-					setValue={setLanguage}
+					value={languageCopy}
+					setValue={setLanguageCopy}
 				/>
 				<ComboBox_
 					width={'266px'}
 					title={t('uiTheme')}
-					options={background_theme}
-					value={Theme}
-					setValue={setTheme}
+					options={themeOptions}
+					value={themeCopy}
+					setValue={setThemeCopy}
 				/>
 			</_ContentsContainer>
 
@@ -122,22 +126,24 @@ const PreferencesAside = () => {
 				<ComboBox_
 					width={'266px'}
 					title={t('uiTheme')}
-					options={terminal_theme}
+					options={terminalThemeOptions}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
 				<ComboBox_
 					width={'266px'}
 					title={t('font')}
-					options={font_theme}
-					value={terminalFont}
-					setValue={setTerminalFont}
+					options={sshFontOptions}
+					value={sshFont}
+					setValue={setSshFont}
 				/>
 
 				<CheckBox_
 					title={t('textCompletion')}
-					value={textCompletion}
-					handleCheck={(e) => setTextCompletion(e.target.checked)}
+					value={isAutocompleteTurnedOn}
+					handleCheck={(e) =>
+						setIsAutocompleteTurnedOn(e.target.checked)
+					}
 				/>
 			</_ContentsContainer>
 
@@ -145,7 +151,7 @@ const PreferencesAside = () => {
 			<_ContentsContainer>
 				<ComboBox_
 					title={t('editorTheme')}
-					options={editor_theme}
+					options={editorThemeOptions}
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>

@@ -8,7 +8,6 @@ import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
 import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
-import {settingSelector} from '../../reducers/setting';
 
 const _Container = styled.div`
 	display: flex;
@@ -66,89 +65,88 @@ const _ServerTitle = styled.div`
 
 const TabBar = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
-	const {theme} = useSelector(settingSelector.all);
+
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector((state) => state.ssh, shallowEqual);
-	const {socket: sftp_socketState} = useSelector(
+	const {socket: sftpSockets} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
 	);
 
-	const [oldOlder, setOldOlder] = useState(0);
-	const [draggedItem, setDraggedItem] = useState({});
+	const [draggedTabIndex, setDraggedTabIndex] = useState(0);
+	const [draggedTab, setDraggedTab] = useState({});
 
 	const onClickChangeVisibleTab = useCallback(
-		(uuid) => () => {
-			dispatch(tabBarAction.selectTab(uuid));
+		(v) => () => {
+			dispatch(tabBarAction.selectTab(v));
 		},
 		[dispatch],
 	);
 
-	const onClickCloseTab = useCallback(
-		(data) => (e) => {
+	const onClickCloseTerminalTab = useCallback(
+		(item) => (e) => {
 			e.stopPropagation();
-			if (data.type === 'SSH') {
+
+			if (item.type === 'SSH') {
 				dispatch({
 					type: SSH_SEND_DISCONNECTION_REQUEST,
 					payload: {
-						uuid: data.uuid,
-						ws: ssh.find((v) => v.uuid === data.uuid).ws,
+						uuid: item.uuid,
+						ws: ssh.find((v) => v.uuid === item.uuid).ws,
 					},
 				});
-			} else if (data.type === 'SFTP') {
+			} else if (item.type === 'SFTP') {
 				dispatch({
 					type: DISCONNECTION_REQUEST,
 					payload: {
-						uuid: data.uuid,
-						socket: sftp_socketState.find(
-							(v) => v.uuid === data.uuid,
-						).socket,
+						uuid: item.uuid,
+						socket: sftpSockets.find((v) => v.uuid === item.uuid)
+							.socket,
 					},
 				});
 			}
 		},
-		[ssh, sftp_socketState],
+		[ssh, sftpSockets],
 	);
 
-	const prevPutItem = useCallback(
+	const onDragStartTab = useCallback(
 		(item) => () => {
-			setOldOlder(terminalTabs.findIndex((it) => it === item));
-			setDraggedItem(item);
+			setDraggedTabIndex(terminalTabs.findIndex((v) => v === item));
+			setDraggedTab(item);
 		},
 		[terminalTabs],
 	);
 
-	const nextPutItem = useCallback(
+	const onDropTab = useCallback(
 		(item) => (e) => {
 			e.preventDefault();
 			if (item === undefined) return;
-			const newOlder = terminalTabs.findIndex((it) => it === item);
 
 			dispatch(
 				tabBarAction.sortTab({
-					oldOrder: oldOlder,
-					newOrder: newOlder,
-					newTab: draggedItem,
+					oldOrder: draggedTabIndex,
+					newOrder: terminalTabs.findIndex((v) => v === item),
+					newTab: draggedTab,
 				}),
 			);
 		},
-		[terminalTabs, dispatch, oldOlder, draggedItem],
+		[terminalTabs, dispatch, draggedTabIndex, draggedTab],
 	);
 
 	return (
-		<_Container theme_value={theme}>
+		<_Container>
 			<_Tabs>
 				{terminalTabs.map((data) => {
 					return (
 						<_Tab
 							key={data.uuid}
 							onDragOver={(e) => e.preventDefault()}
-							onDrop={nextPutItem(data)}
+							onDrop={onDropTab(data)}
 							onClick={onClickChangeVisibleTab(data.uuid)}
 						>
 							<_TabItem
 								draggable='true'
-								onDragStart={prevPutItem(data)}
+								onDragStart={onDragStartTab(data)}
 								clicked={selectedTab === data.uuid ? 1 : 0}
 							>
 								<Icon
@@ -171,7 +169,7 @@ const TabBar = ({toggle, setToggle}) => {
 								<HoverButton
 									size={'xs'}
 									margin={'0px 0px 0px 6px'}
-									onClick={onClickCloseTab(data)}
+									onClick={onClickCloseTerminalTab(data)}
 								>
 									{closeIcon}
 								</HoverButton>

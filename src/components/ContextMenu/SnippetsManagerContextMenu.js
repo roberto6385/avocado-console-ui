@@ -14,7 +14,7 @@ const SnippetsManagerContextMenu = ({uuid}) => {
 	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 
-	const searchedWebSocket = useMemo(
+	const ws = useMemo(
 		() => ssh.find((v) => v.uuid === selectedTab)?.ws,
 		[ssh, selectedTab],
 	);
@@ -25,12 +25,12 @@ const SnippetsManagerContextMenu = ({uuid}) => {
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
-			searchedWebSocket &&
+			ws &&
 				dispatch({
 					type: SSH_SEND_COMMAND_REQUEST,
 					payload: {
 						uuid: selectedTab,
-						ws: searchedWebSocket,
+						ws: ws,
 
 						input: v.content,
 						focus: true,
@@ -38,7 +38,7 @@ const SnippetsManagerContextMenu = ({uuid}) => {
 				});
 		},
 
-		[selectedTab, dispatch, searchedWebSocket],
+		[selectedTab, dispatch, ws],
 	);
 
 	return (

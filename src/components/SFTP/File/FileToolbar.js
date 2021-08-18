@@ -13,7 +13,7 @@ import {
 	viewListIcon,
 } from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
-import {SearchInput} from '../../../styles/components/input';
+import {SearchTextBox} from '../../../styles/components/textBox';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 
 const _Container = styled.div`
@@ -171,7 +171,7 @@ const FileToolbar = ({uuid}) => {
 				{viewColumnIcon}
 			</SftpMainIcon>
 			<_Form onSubmit={searchPath} autoComplete='off'>
-				<SearchInput
+				<SearchTextBox
 					ref={inputRef}
 					id='fileListNavInput'
 					onClick={() => inputRef.current?.select()}

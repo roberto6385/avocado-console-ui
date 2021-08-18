@@ -1,17 +1,17 @@
 import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const _Container = styled.div`
 	outline: none;
 	overflow: scroll;
 	flex: 1;
 `;
-// eslint-disable-next-line react/prop-types
-const Dropzone = ({children, onDrop, accept}) => {
+
+const Dropzone = ({children, onDrop}) => {
 	const {getRootProps} = useDropzone({
 		onDrop,
-		accept,
 	});
 
 	return (
@@ -19,6 +19,11 @@ const Dropzone = ({children, onDrop, accept}) => {
 			{children}
 		</_Container>
 	);
+};
+
+Dropzone.propTypes = {
+	children: PropTypes.element,
+	onDrop: PropTypes.func,
 };
 
 export default Dropzone;

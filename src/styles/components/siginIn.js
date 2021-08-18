@@ -1,7 +1,7 @@
 //Login, signin, change password pages styles
 import styled from 'styled-components';
 import {NormalButton} from './button';
-import {Input} from './input';
+import {TextBox} from './textBox';
 
 export const UserForm = styled.form`
 	color: black;
@@ -28,12 +28,12 @@ export const UserTitleSpan = styled.div`
 		text-decoration: underline;
 	}
 `;
-export const UserInput = styled(Input)`
+export const UserInput = styled(TextBox)`
 	flex: 1;
 	height: 40px;
 	padding: 12px 10px;
 `;
-export const UserPasswordInput = styled(Input)`
+export const UserPasswordInput = styled(TextBox)`
 	flex: 1;
 	padding: 0px;
 	height: auto;

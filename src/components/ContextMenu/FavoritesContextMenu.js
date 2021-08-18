@@ -12,20 +12,7 @@ import {
 } from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
-
-const isValidFolderName = (folderArray, name) => {
-	let pass = true;
-
-	for (let i of folderArray) {
-		if (i.type === 'folder') {
-			if (i.name === name) return false;
-			else if (i.contain.length > 0) {
-				pass = pass && isValidFolderName(i.contain, name);
-			}
-		}
-	}
-	return pass;
-};
+import {isValidFolderName} from '../../utils/checkValidName';
 
 const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
@@ -37,37 +24,38 @@ const FavoritesContextMenu = ({identity, data}) => {
 	const {userData} = useSelector(authSelector.all);
 
 	const contextMenuList = {
-		connect: t('connectSsh'),
-		open_sftp: t('connectSftp'),
-		delete_bookmark: t('deleteBookmark'),
-		new_folder: t('newFolder'),
+		'connect-ssh': t('connectSsh'),
+		'connect-sftp': t('connectSftp'),
+		'delete-favorite': t('deleteBookmark'),
+		'add-folder': t('newFolder'),
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const correspondedServer = server.find((i) => i.key === data.key);
+		const resource = server.find((v) => v.key === data.key);
+
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token, // connection info
-				host: correspondedServer.host,
-				port: correspondedServer.port,
+				host: resource.host,
+				port: resource.port,
 				user: identity.user,
 				password: identity.password,
-				name: correspondedServer.name, // create tab info
-				key: correspondedServer.key,
-				id: correspondedServer.id,
+				name: resource.name, // create tab info
+				key: resource.key,
+				id: resource.id,
 			},
 		});
 	}, [server, dispatch, userData, identity, data.key]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const searchedServer = server.find((i) => i.key === data.key);
+		const resource = server.find((v) => v.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token,
-				...searchedServer,
+				...resource,
 				user: identity.user,
 				password: identity.password,
 			},
@@ -76,6 +64,7 @@ const FavoritesContextMenu = ({identity, data}) => {
 
 	const onClickAddFolder = useCallback(() => {
 		let folderName = t('newFolder');
+		//TODO: check name duplication
 		let i = 0;
 		while (!isValidFolderName(favorites, folderName)) {
 			folderName = `${t('newFolder')} ${i}`;
@@ -90,33 +79,33 @@ const FavoritesContextMenu = ({identity, data}) => {
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
-				case 'connect':
+				case 'connect-ssh':
 					onClickOpenSSH();
 					break;
-				case 'open_sftp':
+				case 'connect-sftp':
 					onClickOpenSFTP();
 					break;
-				case 'delete_bookmark':
+				case 'delete-favorite':
 					dispatch({
 						type: DELETE_FAVORITE_SERVER,
 						payload: data.key,
 					});
 					break;
-				case 'new_folder':
+				case 'add-folder':
 					onClickAddFolder();
 					break;
 				default:
 					return;
 			}
 		},
-		[data, dispatch, onClickOpenSFTP, onClickOpenSSH, onClickAddFolder],
+		[data.key, dispatch, onClickOpenSFTP, onClickOpenSSH, onClickAddFolder],
 	);
 
 	return (
 		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
-			{Object.keys(contextMenuList).map((v) => (
-				<Item key={v} onClick={handleOnClickEvents(v)}>
-					{contextMenuList[v]}
+			{Object.entries(contextMenuList).map(([key, value]) => (
+				<Item key={key} onClick={handleOnClickEvents(key)}>
+					{value}
 				</Item>
 			))}
 		</ContextMenu>

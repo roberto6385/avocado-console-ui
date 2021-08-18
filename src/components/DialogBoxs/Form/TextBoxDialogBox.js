@@ -16,7 +16,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '../../../styles/components/disalogBox';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
 import {userResourceSelector} from '../../../reducers/api/userResource';
 
@@ -192,7 +192,7 @@ const TextBoxDialogBox = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={handleOnSubmitTextBoxEvents}>
-				<Input
+				<TextBox
 					ref={textBoxRef}
 					value={textBoxVal}
 					onChange={onChangeTextBoxVal}

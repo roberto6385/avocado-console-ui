@@ -44,7 +44,7 @@ const _SFTP = styled.div`
 	overflow: hidden;
 `;
 
-const SFTPNavContainer = styled.div`
+const _ToolBarContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	transition: transform 0.5s;
@@ -53,7 +53,7 @@ const SFTPNavContainer = styled.div`
 	z-index: 5;
 `;
 
-const _ToggleButton = styled.img`
+const _ToolbarFoldUnfoldButton = styled.img`
 	width: 54px;
 	height: 18px;
 	margin-left: auto;
@@ -63,18 +63,18 @@ const _ToggleButton = styled.img`
 `;
 
 const SFTP = ({uuid, mode}) => {
-	const [toggle, setToggle] = useState(true);
 	const {nav} = useSelector((state) => state.common, shallowEqual);
-
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
 
-	const onClickFold = useCallback(() => {
-		setToggle(false);
+	const [setIsToolbarUnfold, setSetIsToolbarUnfold] = useState(true);
+
+	const onClickFoldToolbar = useCallback(() => {
+		setSetIsToolbarUnfold(false);
 	}, []);
 
-	const onClickUnfold = useCallback(() => {
-		setToggle(true);
+	const onClickUnfoldToolbar = useCallback(() => {
+		setSetIsToolbarUnfold(true);
 	}, []);
 
 	return mode === 'edit' ? (
@@ -83,24 +83,26 @@ const SFTP = ({uuid, mode}) => {
 		</_Container>
 	) : (
 		<_Container>
-			<SFTPNavContainer className={!toggle && 'close-nav-header'}>
+			<_ToolBarContainer
+				className={!setIsToolbarUnfold && 'close-nav-header'}
+			>
 				<SFTPToolbar uuid={uuid} />
 				{(nav.length === 1 || cols === 1) &&
-					(toggle ? (
-						<_ToggleButton
+					(setIsToolbarUnfold ? (
+						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}
 							alt='toolbar fold button'
-							onClick={onClickFold}
+							onClick={onClickFoldToolbar}
 						/>
 					) : (
-						<_ToggleButton
+						<_ToolbarFoldUnfoldButton
 							src={toolbarUnfold[theme]}
 							alt='toolbar fold button'
-							onClick={onClickUnfold}
+							onClick={onClickUnfoldToolbar}
 						/>
 					))}
-			</SFTPNavContainer>
-			<_SFTP className={!toggle && 'close-nav-sftp'}>
+			</_ToolBarContainer>
+			<_SFTP className={!setIsToolbarUnfold && 'close-nav-sftp'}>
 				{mode === 'list' ? (
 					<FileList_ uuid={uuid} />
 				) : (

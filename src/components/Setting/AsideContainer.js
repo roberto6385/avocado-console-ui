@@ -32,7 +32,7 @@ const AsideContainer = ({toggle, setToggle}) => {
 	const {t} = useTranslation('settingNav');
 	const {menu} = useSelector(settingSelector.all);
 
-	const closeAside = useCallback(() => {
+	const onClickCloseAside = useCallback(() => {
 		setToggle(false);
 	}, [setToggle]);
 
@@ -46,7 +46,11 @@ const AsideContainer = ({toggle, setToggle}) => {
 		<_Container className={toggle ? 'aside' : 'aside close'}>
 			<_SettingTitle>
 				{settingTitle[menu]}
-				<IconButton itype={'font'} margin={'0px'} onClick={closeAside}>
+				<IconButton
+					itype={'font'}
+					margin={'0px'}
+					onClick={onClickCloseAside}
+				>
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>

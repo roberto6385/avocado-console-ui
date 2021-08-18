@@ -18,10 +18,10 @@ import {
 	NormalButton,
 	TransparentButton,
 } from '../../../styles/components/button';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {useTranslation} from 'react-i18next';
 
-const _PopupModal = styled(DialogBox)`
+const _DialogBox = styled(DialogBox)`
 	width: 404px;
 `;
 
@@ -29,13 +29,13 @@ const _Form = styled(Form)`
 	padding-bottom: 29px;
 `;
 
-const RowDiv = styled.div`
+const _Row = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 16px;
 `;
 
-const ColDiv = styled.div`
+const _Col = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
@@ -271,7 +271,7 @@ const FileStatusDialogBox = () => {
 
 	return (
 		checked.length !== 0 && (
-			<_PopupModal
+			<_DialogBox
 				isOpen={form.open && form.key === 'sftp_stat'}
 				onRequestClose={onCloseDialogBox}
 				ariaHideApp={false}
@@ -291,8 +291,8 @@ const FileStatusDialogBox = () => {
 				</ModalHeader>
 
 				<_Form onSubmit={submitFunction}>
-					<RowDiv>
-						<ColDiv>
+					<_Row>
+						<_Col>
 							<KeySpan>{t('owner')}</KeySpan>
 							<br />
 
@@ -314,8 +314,8 @@ const FileStatusDialogBox = () => {
 								value={checked[2].checked}
 								handleCheck={checkFunc(checked[2])}
 							/>
-						</ColDiv>
-						<ColDiv>
+						</_Col>
+						<_Col>
 							<KeySpan>{t('group')}</KeySpan>
 							<br />
 
@@ -336,8 +336,8 @@ const FileStatusDialogBox = () => {
 								value={checked[5].checked}
 								handleCheck={checkFunc(checked[5])}
 							/>
-						</ColDiv>
-						<ColDiv>
+						</_Col>
+						<_Col>
 							<KeySpan>{t('public')}</KeySpan>
 							<br />
 
@@ -358,9 +358,9 @@ const FileStatusDialogBox = () => {
 								value={checked[8].checked}
 								handleCheck={checkFunc(checked[8])}
 							/>
-						</ColDiv>
-					</RowDiv>
-					<Input
+						</_Col>
+					</_Row>
+					<TextBox
 						type='text'
 						value={permission}
 						onChange={handleInputValue}
@@ -376,7 +376,7 @@ const FileStatusDialogBox = () => {
 						{t('save')}
 					</NormalButton>
 				</ModalFooter>
-			</_PopupModal>
+			</_DialogBox>
 		)
 	);
 };

@@ -11,6 +11,7 @@ import {
 	settingIcon,
 } from '../../icons/icons';
 import {Icon, IconButton} from '../../styles/components/icon';
+
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -66,20 +67,20 @@ const SettingNav = ({match}) => {
 	const history = useHistory();
 	const {t} = useTranslation('settingNav');
 
-	const changePath = useCallback(
-		(path) => () => {
-			history.push(path);
+	const onClickRedirectPage = useCallback(
+		(v) => () => {
+			history.push(v);
 		},
 		[history],
 	);
 
 	return (
 		<_Container>
-			<_BackContainer onClick={changePath('/')}>
+			<_BackContainer onClick={onClickRedirectPage('/')}>
 				<IconButton
 					itype={'font'}
 					margin={'0px'}
-					onClick={changePath('/')}
+					onClick={onClickRedirectPage('/')}
 				>
 					{chevronLeftIcon}
 				</IconButton>
@@ -88,7 +89,7 @@ const SettingNav = ({match}) => {
 
 			<_Ul>
 				<_Li
-					onClick={changePath('/account')}
+					onClick={onClickRedirectPage('/account')}
 					selected={match.path === '/account'}
 				>
 					<Icon
@@ -101,7 +102,7 @@ const SettingNav = ({match}) => {
 					<_Header>{t('account')}</_Header>
 				</_Li>
 				<_Li
-					onClick={changePath('/preferences')}
+					onClick={onClickRedirectPage('/preferences')}
 					selected={match.path === '/preferences'}
 				>
 					<Icon
@@ -114,7 +115,7 @@ const SettingNav = ({match}) => {
 					<_Header>{t('preferences')}</_Header>
 				</_Li>
 				<_Li
-					onClick={changePath('/identities')}
+					onClick={onClickRedirectPage('/identities')}
 					selected={match.path === '/identities'}
 				>
 					<Icon

@@ -20,9 +20,9 @@ import {
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-const Input_ = styled(Input)`
+const Input_ = styled(TextBox)`
 	height: 24px;
 `;
 

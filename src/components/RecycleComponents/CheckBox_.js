@@ -68,7 +68,7 @@ const CheckBox_ = ({
 CheckBox_.propTypes = {
 	title: PropTypes.string,
 	value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
-	handleCheck: PropTypes.func.isRequired,
+	handleCheck: PropTypes.func,
 	indeterminate: PropTypes.bool,
 	disabled: PropTypes.bool,
 };

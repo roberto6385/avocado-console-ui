@@ -13,13 +13,13 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	const {t} = useTranslation('contextMenu');
 
 	const contextMenuList = {
-		delete: t('delete'),
+		'delete-folder': t('delete'),
 	};
 
 	const handleOnClickEvents = useCallback(
 		(e) => () => {
 			switch (e) {
-				case 'delete':
+				case 'delete-folder':
 					if (onDialog) {
 						dispatch({
 							type: DELETE_TEMP_FOLDER_ON_FAVORITES,
@@ -28,7 +28,7 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 					} else {
 						dispatch(
 							dialogBoxAction.openAlert({
-								key: 'delete_server_folder',
+								key: 'delete-resource',
 							}),
 						);
 					}
@@ -42,9 +42,9 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 
 	return (
 		<ContextMenu id={data.key + 'folder'} animation={animation.slide}>
-			{Object.keys(contextMenuList).map((v) => (
-				<Item onClick={handleOnClickEvents(v)} key={v}>
-					{contextMenuList[v]}
+			{Object.entries(contextMenuList).map(([key, value]) => (
+				<Item onClick={handleOnClickEvents(key)} key={key}>
+					{value}
 				</Item>
 			))}
 		</ContextMenu>

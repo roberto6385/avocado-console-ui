@@ -23,15 +23,10 @@ const ConfirmDialogBox = () => {
 	const {alert} = useSelector(dialogBoxSelector.all);
 
 	const alertMessages = {
-		invalid_server: t('invalidServer'),
-		lost_server: t('lostServer'),
-		snippets_name_duplicate: t('snippetsNameDuplicate'),
-		snippets_blank: t('snippetsBlank'),
-		server_duplicate: t('serverDuplicate'),
-		folder_name_duplicate: t('folderNameDuplicate'),
-		no_changes: t('noChange'),
-		developing: t('developing'),
-		wrong_path: t('wrongPath'),
+		'duplicate-snippet-name': t('snippetsNameDuplicate'),
+		'blank-snippets': t('snippetsBlank'),
+		'sftp-no-changes': t('noChange'),
+		'duplicate-folder-name-on-favorites': '폴더 이름 중복(TESt)',
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {

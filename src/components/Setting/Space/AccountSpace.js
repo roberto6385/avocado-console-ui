@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
+import TextBoxField from '../../RecycleComponents/TextBoxField';
 import Radio_ from '../../RecycleComponents/Radio_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import ChangePasswordDialogBox from '../../DialogBoxs/Form/ChangePasswordDialogBox';
@@ -13,19 +13,19 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {userResourceSelector} from '../../../reducers/api/userResource';
 
-const _Input = styled(Input)`
+const _TextBox = styled(TextBox)`
 	width: 500px;
 `;
 
-const _PrimaryGreenButton = styled(NormalButton)`
+const _NormalButton = styled(NormalButton)`
 	margin-top: 7px;
 	width: 160px;
 `;
-const _PrimaryDisabledButton = styled(DisabledButton)`
+const _DisabledButton = styled(DisabledButton)`
 	margin-top: 7px;
 	width: 160px;
 `;
@@ -38,48 +38,50 @@ const _Section = styled.section`
 
 const AccountSpace = () => {
 	const {t} = useTranslation('accountSpace');
-	const {data} = useSelector(userResourceSelector.all);
 	const dispatch = useDispatch();
-	const [authType, setAuthType] = useState('first_option');
-	const [mfaType, setMfaType] = useState('use');
-	const [authValue, setAuthValue] = useState('google');
-	const [mfaValue, setMfaValue] = useState('otp');
+
+	const {data} = useSelector(userResourceSelector.all);
+
+	const [authType, setAuthType] = useState('id-password');
+	const [alternativeAuth, setAlternativeAuth] = useState('google');
+	const [isMFAUsed, setIsMFAUsed] = useState('mfa-used');
+	const [MFA, setMFA] = useState('otp');
 
 	const {current: authOptions} = useRef([
-		{value: 'first_option', label: t('idPassword')},
-		{value: 'second_option', label: t('alternative')},
+		{value: 'id-password', label: t('idPassword')},
+		{value: 'alternative', label: t('alternative')},
 	]);
-	const {current: mfaOptions} = useRef([
-		{value: 'use', label: t('use')},
-		{value: 'not_use', label: t('notUse')},
-	]);
-	const {current: AlternativeAuthOptions} = useRef([
+	const {current: alternativeAuthOptions} = useRef([
 		{value: 'google', label: t('google')},
 		{value: 'kakao', label: t('kakao')},
 		{value: 'naver', label: t('naver')},
 	]);
 
+	const {current: useMFAOptions} = useRef([
+		{value: 'mfa-used', label: t('use')},
+		{value: 'mfa-not-used', label: t('notUse')},
+	]);
 	const {current: MFAOptions} = useRef([
 		{value: 'otp', label: t('otp')},
 		{value: 'mail', label: t('mail')},
 		{value: 'sms', label: t('sms')},
-		{value: 'finger_print', label: t('fingerPrint')},
-		{value: 'face_id', label: t('faceId')},
+		{value: 'finger-print', label: t('fingerPrint')},
+		{value: 'face-id', label: t('faceId')},
 	]);
 
 	return (
 		<SettingMainContainer>
 			<SettingTitle>{t('title.account')}</SettingTitle>
 			<SettingContentsContainer>
-				<TextBoxField_ title={t('account')}>
-					<_Input
+				<TextBoxField title={t('account')}>
+					<_TextBox
 						value={data.id}
 						placeholder={t('accountPlace')}
 						readOnly
 					/>
-				</TextBoxField_>
-				<TextBoxField_ title={t('name')}>
-					<_Input
+				</TextBoxField>
+				<TextBoxField title={t('name')}>
+					<_TextBox
 						value={data.name}
 						placeholder={t('namePlace')}
 						readOnly
@@ -89,14 +91,14 @@ const AccountSpace = () => {
 							)
 						}
 					/>
-				</TextBoxField_>
-				<TextBoxField_ title={t('email')}>
-					<_Input
+				</TextBoxField>
+				<TextBoxField title={t('email')}>
+					<_TextBox
 						value={data.email}
 						placeholder={t('emailPlace')}
 						readOnly
 					/>
-				</TextBoxField_>
+				</TextBoxField>
 			</SettingContentsContainer>
 			<SettingTitle>{t('title.auth')}</SettingTitle>
 			<SettingContentsContainer>
@@ -108,8 +110,8 @@ const AccountSpace = () => {
 						setValue={setAuthType}
 						width={'500px'}
 					/>
-					{authType === 'first_option' ? (
-						<_PrimaryGreenButton
+					{authType === 'id-password' ? (
+						<_NormalButton
 							onClick={() =>
 								dispatch(
 									dialogBoxAction.openForm({key: 'password'}),
@@ -118,36 +120,36 @@ const AccountSpace = () => {
 							// disabled
 						>
 							{t('changePassword')}
-						</_PrimaryGreenButton>
+						</_NormalButton>
 					) : (
-						<_PrimaryDisabledButton disabled>
+						<_DisabledButton disabled>
 							{t('changePassword')}
-						</_PrimaryDisabledButton>
+						</_DisabledButton>
 					)}
 				</_Section>
 
 				<Radio_
 					radioName={'AlternativeAuth'}
-					options={AlternativeAuthOptions}
-					value={authValue}
-					setValue={setAuthValue}
-					disabled={authType === 'first_option'}
+					options={alternativeAuthOptions}
+					value={alternativeAuth}
+					setValue={setAlternativeAuth}
+					disabled={authType === 'id-password'}
 				/>
 			</SettingContentsContainer>
 			<SettingContentsContainer>
 				<ComboBox_
 					title={t('mfa')}
-					options={mfaOptions}
-					value={mfaType}
-					setValue={setMfaType}
+					options={useMFAOptions}
+					value={isMFAUsed}
+					setValue={setIsMFAUsed}
 					width={'500px'}
 				/>
 				<Radio_
 					radioName={'MFA'}
 					options={MFAOptions}
-					value={mfaValue}
-					setValue={setMfaValue}
-					disabled={mfaType === 'not_use'}
+					value={MFA}
+					setValue={setMFA}
+					disabled={isMFAUsed === 'mfa-not-used'}
 				/>
 			</SettingContentsContainer>
 			<ChangePasswordDialogBox />

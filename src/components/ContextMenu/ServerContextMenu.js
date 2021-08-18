@@ -15,36 +15,36 @@ const ServerContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
-	const searchedServer = useMemo(
+	const resource = useMemo(
 		() => server.find((i) => i.key === data.key),
 		[server, data],
 	);
 
 	const SSHContextMenuList = {
-		connect: t('connectSsh'),
-		open_sftp: t('connectSftp'),
-		properties: t('properties'),
+		'connect-ssh': t('connectSsh'),
+		'connect-sftp': t('connectSftp'),
+		'get-properties': t('properties'),
 	};
 
 	const SFTPContextMenuList = {
-		open_sftp: t('connectSftp'),
-		properties: t('properties'),
+		'connect-sftp': t('connectSftp'),
+		'get-properties': t('properties'),
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const searchedServer = server.find((i) => i.key === data.key);
+		const resource = server.find((i) => i.key === data.key);
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token, // connection info
-				host: searchedServer.host,
-				port: searchedServer.port,
+				host: resource.host,
+				port: resource.port,
 				user: identity.user,
 				password: identity.password,
 
-				name: searchedServer.name, // create tab info
-				key: searchedServer.key,
-				id: searchedServer.id,
+				name: resource.name, // create tab info
+				key: resource.key,
+				id: resource.id,
 			},
 		});
 	}, [
@@ -57,13 +57,13 @@ const ServerContextMenu = ({identity, data}) => {
 	]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const searchedServer = server.find((i) => i.key === data.key);
+		const resource = server.find((i) => i.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
 			payload: {
 				token: userData.access_token,
-				...searchedServer,
+				...resource,
 				user: identity.user,
 				password: identity.password,
 			},
@@ -80,22 +80,13 @@ const ServerContextMenu = ({identity, data}) => {
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
-				case 'connect':
+				case 'connect-ssh':
 					onClickOpenSSH();
 					break;
-				case 'open_sftp':
+				case 'connect-sftp':
 					onClickOpenSFTP();
 					break;
-				case 'rename':
-					break;
-				case 'delete':
-					dispatch(
-						dialogBoxAction.openAlert({
-							key: 'delete_server_folder',
-						}),
-					);
-					break;
-				case 'properties':
+				case 'get-properties':
 					dispatch(
 						dialogBoxAction.openForm({id: data.id, key: 'server'}),
 					);
@@ -109,15 +100,15 @@ const ServerContextMenu = ({identity, data}) => {
 
 	return (
 		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
-			{searchedServer?.protocol === 'SSH2'
-				? Object.keys(SSHContextMenuList).map((v) => (
-						<Item onClick={handleOnClickEvents(v)} key={v}>
-							{SSHContextMenuList[v]}
+			{resource?.protocol === 'SSH2'
+				? Object.entries(SSHContextMenuList).map(([key, value]) => (
+						<Item onClick={handleOnClickEvents(key)} key={key}>
+							{value}
 						</Item>
 				  ))
-				: Object.keys(SFTPContextMenuList).map((v) => (
-						<Item onClick={handleOnClickEvents(v)} key={v}>
-							{SFTPContextMenuList[v]}
+				: Object.entries(SFTPContextMenuList).map(([key, value]) => (
+						<Item onClick={handleOnClickEvents(key)} key={key}>
+							{value}
 						</Item>
 				  ))}
 		</ContextMenu>

@@ -8,7 +8,7 @@ import {
 } from '../../../styles/components/font';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
@@ -25,16 +25,16 @@ const _CheckBoxContanier = styled.div`
 	margin-bottom: 16px;
 `;
 
-const terminal_theme = [
+const terminalThemeOptions = [
 	{value: 0, label: 'Theme - 1'},
 	{value: 1, label: 'Theme - 2'},
 ];
-const editor_theme = [
+const editorThemeOptions = [
 	{value: 0, label: 'Theme - 1'},
 	{value: 1, label: 'Theme - 2'},
 ];
 
-const font_theme = [
+const terminalFontOptions = [
 	{value: ROBOTO, label: 'Roboto'},
 	{value: ROBOTO_MONO, label: 'Roboto Mono'},
 	{value: MONTSERRAT, label: 'Montserrat'},
@@ -44,16 +44,19 @@ const font_theme = [
 const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('preferencesAside');
+
 	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
 	const {theme, language} = useSelector(settingSelector.all);
-	const [textCompletion, setTextCompletion] = useState(auto_completion_mode);
-	const [Language, setLanguage] = useState(language);
-	const [Theme, setTheme] = useState(theme);
+
+	const [isAutocompleteTurnedOn, setIsAutocompleteTurnedOn] =
+		useState(auto_completion_mode);
+	const [languageCopy, setLanguageCopy] = useState(language);
+	const [themeCopy, setThemeCopy] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
-	const [terminalFont, setTerminalFont] = useState(font);
+	const [sshFont, setSshFont] = useState(font);
 
-	const background_theme = [
+	const themeOptions = [
 		{value: 'light', label: t('light')},
 		{value: 'dark', label: t('dark')},
 	];
@@ -63,25 +66,28 @@ const PreferencesSpace = () => {
 	];
 
 	useEffect(() => {
-		dispatch({
-			type: SSH_CHANGE_AUTO_COMPLETION_MODE,
-			payload: textCompletion,
-		});
-	}, [textCompletion, dispatch]);
+		if (auto_completion_mode !== isAutocompleteTurnedOn)
+			dispatch({
+				type: SSH_CHANGE_AUTO_COMPLETION_MODE,
+				payload: isAutocompleteTurnedOn,
+			});
+	}, [auto_completion_mode, isAutocompleteTurnedOn, dispatch]);
 
 	useEffect(() => {
-		if (font !== terminalFont)
-			dispatch({type: SSH_SET_FONT_REQUEST, payload: terminalFont});
-	}, [font, terminalFont, dispatch]);
+		if (font !== sshFont)
+			dispatch({type: SSH_SET_FONT_REQUEST, payload: sshFont});
+	}, [font, sshFont, dispatch]);
 
 	useEffect(() => {
-		dispatch(settingAction.setTheme(Theme));
-	}, [Theme, dispatch]);
+		dispatch(settingAction.setTheme(themeCopy));
+	}, [themeCopy, dispatch]);
 
 	useEffect(() => {
-		dispatch(settingAction.setLanguage(Language));
-		i18n.changeLanguage(Language);
-	}, [Language, dispatch, i18n]);
+		if (language !== languageCopy) {
+			dispatch(settingAction.setLanguage(languageCopy));
+			i18n.changeLanguage(languageCopy);
+		}
+	}, [language, languageCopy, dispatch, i18n]);
 
 	return (
 		<SettingMainContainer>
@@ -91,15 +97,15 @@ const PreferencesSpace = () => {
 					width={'500px'}
 					title={t('lang')}
 					options={languageOptions}
-					value={Language}
-					setValue={setLanguage}
+					value={languageCopy}
+					setValue={setLanguageCopy}
 				/>
 				<ComboBox_
 					width={'500px'}
 					title={t('uiTheme')}
-					options={background_theme}
-					value={Theme}
-					setValue={setTheme}
+					options={themeOptions}
+					value={themeCopy}
+					setValue={setThemeCopy}
 				/>
 			</SettingContentsContainer>
 
@@ -108,22 +114,24 @@ const PreferencesSpace = () => {
 				<ComboBox_
 					width={'500px'}
 					title={t('uiTheme')}
-					options={terminal_theme}
+					options={terminalThemeOptions}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
 				<ComboBox_
 					width={'500px'}
 					title={t('font')}
-					options={font_theme}
-					value={terminalFont}
-					setValue={setTerminalFont}
+					options={terminalFontOptions}
+					value={sshFont}
+					setValue={setSshFont}
 				/>
 				<_CheckBoxContanier>
 					<CheckBox_
 						title={t('textCompletion')}
-						value={textCompletion}
-						handleCheck={(e) => setTextCompletion(e.target.checked)}
+						value={isAutocompleteTurnedOn}
+						handleCheck={(e) =>
+							setIsAutocompleteTurnedOn(e.target.checked)
+						}
 					/>
 				</_CheckBoxContanier>
 				{/*<CheckBox_*/}
@@ -138,7 +146,7 @@ const PreferencesSpace = () => {
 				<ComboBox_
 					width={'500px'}
 					title={t('editorTheme')}
-					options={editor_theme}
+					options={editorThemeOptions}
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>

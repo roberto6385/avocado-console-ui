@@ -26,11 +26,6 @@ import {
 } from '../../../styles/components/disalogBox';
 
 import {authSelector} from '../../../reducers/api/auth';
-
-import {
-	SAVE_CHANGES_ON_FAVORITES,
-	SET_TEMP_FAVORITES,
-} from '../../../reducers/common';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
 const SaveDialogBox = () => {
@@ -39,10 +34,10 @@ const SaveDialogBox = () => {
 
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
-		path: sftp_pathState,
-		etc: sftp_etcState,
-		edit: sftp_editState,
-		upload: sftp_uploadState,
+		path: sftpPath,
+		etc: sftpEtc,
+		edit: sftpEdit,
+		upload: sftpUpload,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
 	const {server, identity} = useSelector(
@@ -52,21 +47,17 @@ const SaveDialogBox = () => {
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const alertMessages = {
-		sftp_edit_save: t('editSave'),
-		sftp_edit_close: t('editClose'),
-		save_favorites: t('favoritesSave'),
+		'sftp-save-changes': t('editSave'),
+		'sftp-cancel-changes': t('editClose'),
 	};
 
-	const onClickCloseDialogBox = useCallback(async () => {
+	const onClickCloseDialogBox = useCallback(() => {
 		dispatch(dialogBoxAction.closeAlert());
 
 		switch (alert.key) {
-			case 'sftp_edit_save': {
-				break;
-			}
-			case 'sftp_edit_close': {
+			case 'sftp-cancel-changes': {
 				const uuid = alert.uuid;
-				const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
+				const {prevMode} = sftpEtc.find((it) => it.uuid === uuid);
 				dispatch({
 					type: CLOSE_EDITOR,
 					payload: {uuid: alert.uuid},
@@ -78,43 +69,32 @@ const SaveDialogBox = () => {
 
 				break;
 			}
-			case 'save_favorites': {
-				await dispatch(dialogBoxAction.closeForm());
-				await dispatch({type: SET_TEMP_FAVORITES});
-				break;
-			}
+
 			default:
 				break;
 		}
-	}, [dispatch, sftp_etcState]);
+	}, [alert, dispatch, sftpEtc]);
 
 	const handleOnClickSFTPSaveEvents = useCallback(() => {
 		const uuid = alert.uuid;
-		const searchedTerminalTab = terminalTabs.find((it) => it.uuid === uuid);
-		const {prevMode} = sftp_etcState.find((it) => it.uuid === uuid);
-		const {path} = sftp_pathState.find((it) => it.uuid === uuid);
-		const {editText, editFile} = sftp_editState.find(
-			(it) => it.uuid === uuid,
-		);
-		const {writeSocket, writeList} = sftp_uploadState.find(
+		const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+		const prevMode = sftpEtc.find((it) => it.uuid === uuid).prevMode;
+		const path = path.find((it) => it.uuid === uuid).path;
+		const {editText, editFile} = sftpEdit.find((it) => it.uuid === uuid);
+		const {writeSocket, writeList} = sftpUpload.find(
 			(it) => it.uuid === uuid,
 		);
 
-		const searchedIdentity = identity.find(
-			(it) =>
-				it.key === searchedTerminalTab.server.key &&
-				it.checked === true,
+		const account = identity.find(
+			(it) => it.key === terminalTab.server.key && it.checked === true,
 		);
-
-		const searchedServer = server.find(
-			(it) => it.key === searchedTerminalTab.server.key,
-		);
+		const resource = server.find((it) => it.key === terminalTab.server.key);
 		const changedFile = new File([editText], editFile.name, {
 			type: 'text/plain',
 		});
 
 		switch (alert.key) {
-			case 'sftp_edit_save': {
+			case 'sftp-save-changes': {
 				dispatch({
 					type: SAVE_TEXT,
 					payload: {uuid, text: editText},
@@ -137,10 +117,10 @@ const SaveDialogBox = () => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: searchedServer.host,
-							port: searchedServer.port,
-							user: searchedIdentity.user,
-							password: searchedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'write',
 							uuid: uuid,
 						},
@@ -149,7 +129,7 @@ const SaveDialogBox = () => {
 
 				break;
 			}
-			case 'sftp_edit_close': {
+			case 'sftp-cancel-changes': {
 				dispatch({
 					type: ADD_HISTORY,
 					payload: {
@@ -168,10 +148,10 @@ const SaveDialogBox = () => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: searchedServer.host,
-							port: searchedServer.port,
-							user: searchedIdentity.user,
-							password: searchedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'write',
 							uuid: uuid,
 						},
@@ -194,38 +174,35 @@ const SaveDialogBox = () => {
 			default:
 				break;
 		}
-	}, []);
+	}, [
+		alert,
+		dispatch,
+		identity,
+		server,
+		sftpEdit,
+		sftpEtc,
+		sftpPath,
+		sftpUpload,
+		terminalTabs,
+		userData,
+	]);
 
 	const handleOnClickSaveEvents = useCallback(
 		(e) => {
 			e.preventDefault();
 
 			switch (alert.key) {
-				case 'sftp_edit_save':
-				case 'sftp_edit_close':
+				case 'sftp-save-changes':
+				case 'sftp-cancel-changes':
 					handleOnClickSFTPSaveEvents();
 					break;
-				case 'save_favorites':
-					dispatch({type: SAVE_CHANGES_ON_FAVORITES});
-					break;
+
 				default:
 					break;
 			}
 			onClickCloseDialogBox();
 		},
-		[
-			alert,
-			terminalTabs,
-			sftp_etcState,
-			sftp_pathState,
-			sftp_editState,
-			sftp_uploadState,
-			identity,
-			server,
-			onClickCloseDialogBox,
-			dispatch,
-			userData,
-		],
+		[alert.key, onClickCloseDialogBox, handleOnClickSFTPSaveEvents],
 	);
 
 	return (

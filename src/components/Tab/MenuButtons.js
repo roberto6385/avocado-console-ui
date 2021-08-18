@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useContextMenu} from 'react-contexify';
 import PropTypes from 'prop-types';
@@ -28,89 +28,94 @@ const MenuButtons = ({toggle, setToggle}) => {
 	const dispatch = useDispatch();
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
-	const MenuPosition = useRef();
-	const accountIconRef = useRef();
+	const userAccountIconRef = useRef();
 	const settingIconRef = useRef();
 	const notificationIconRef = useRef();
-	const terminalRef = useRef();
+	const splitTerminalViewIconRef = useRef();
 
-	const {show: showAccountMenu} = useContextMenu({
-		id: 'account',
+	const {show: showUserAccountMenu} = useContextMenu({
+		id: 'user-account-context-menu',
 	});
 	const {show: showSettingMenu} = useContextMenu({
-		id: 'setting',
+		id: 'setting-context-menu',
 	});
-	const {show: showColumnMenu} = useContextMenu({
-		id: 'column',
+	const {show: showSplitTerminalViewMenu} = useContextMenu({
+		id: 'split-terminal-view-context-menu',
 	});
 
-	const getAccountMenuPosition = useCallback(() => {
-		const {right, bottom} = accountIconRef.current?.getBoundingClientRect();
-		MenuPosition.current = {x: right - 130, y: bottom};
-		return MenuPosition.current;
-	}, [MenuPosition]);
+	const onClickOpenContextMenu = useCallback(
+		(v) => (e) => {
+			switch (v) {
+				case 'user-account': {
+					const {right, bottom} =
+						userAccountIconRef.current?.getBoundingClientRect();
 
-	const getSettingMenuPosition = useCallback(() => {
-		const {right, bottom} = settingIconRef.current?.getBoundingClientRect();
-		MenuPosition.current = {x: right - 130, y: bottom};
-		return MenuPosition.current;
-	}, [MenuPosition]);
+					showUserAccountMenu(e, {
+						position: {x: right - 130, y: bottom},
+					});
+					break;
+				}
 
-	const getColumnMenuPosition = useCallback(() => {
-		const {right, bottom} = terminalRef.current?.getBoundingClientRect();
-		MenuPosition.current = {x: right - 130, y: bottom};
-		return MenuPosition.current;
-	}, [MenuPosition]);
+				case 'setting': {
+					const {right, bottom} =
+						settingIconRef.current?.getBoundingClientRect();
 
-	const openAccountMenu = useCallback(
-		(e) => {
-			showAccountMenu(e, {
-				position: getAccountMenuPosition(),
-			});
+					showSettingMenu(e, {
+						position: {x: right - 130, y: bottom},
+					});
+					break;
+				}
+
+				case 'notification':
+					dispatch(dialogBoxAction.openAlert({key: 'developing'}));
+					break;
+
+				case 'split-terminal-view': {
+					const {right, bottom} =
+						splitTerminalViewIconRef.current?.getBoundingClientRect();
+
+					showSplitTerminalViewMenu(e, {
+						position: {x: right - 130, y: bottom},
+					});
+					break;
+				}
+				default:
+					return;
+			}
 		},
-		[getAccountMenuPosition, showAccountMenu],
-	);
-
-	const openSettingMenu = useCallback(
-		(e) => {
-			showSettingMenu(e, {
-				position: getSettingMenuPosition(),
-			});
-		},
-		[getSettingMenuPosition, showSettingMenu],
-	);
-
-	const openNotificationMenu = useCallback(() => {
-		dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-	}, [dispatch]);
-
-	const openColumnMenu = useCallback(
-		(e) => {
-			showColumnMenu(e, {
-				position: getColumnMenuPosition(),
-			});
-		},
-		[getColumnMenuPosition, showColumnMenu],
+		[
+			dispatch,
+			showSettingMenu,
+			showSplitTerminalViewMenu,
+			showUserAccountMenu,
+		],
 	);
 
 	return (
 		<_Container>
-			<HoverButton ref={accountIconRef} onClick={openAccountMenu}>
+			<HoverButton
+				ref={userAccountIconRef}
+				onClick={onClickOpenContextMenu('user-account')}
+			>
 				{accountIcon}
 			</HoverButton>
-			<HoverButton ref={settingIconRef} onClick={openSettingMenu}>
+			<HoverButton
+				ref={settingIconRef}
+				onClick={onClickOpenContextMenu('setting')}
+			>
 				{settingIcon}
 			</HoverButton>
-
 			<HoverButton
 				ref={notificationIconRef}
-				onClick={openNotificationMenu}
+				onClick={onClickOpenContextMenu('notification')}
 			>
 				{notificationIcon}
 			</HoverButton>
-
 			{terminalTabs.length !== 0 && (
-				<HoverButton ref={terminalRef} onClick={openColumnMenu}>
+				<HoverButton
+					ref={splitTerminalViewIconRef}
+					onClick={onClickOpenContextMenu('split-terminal-view')}
+				>
 					{windowIcon}
 				</HoverButton>
 			)}

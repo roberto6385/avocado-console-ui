@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -27,7 +27,7 @@ const _Container = styled.div`
 		props.theme.pages.webTerminal.main.panels.sftp.border.color};
 `;
 
-const ButtonContainer = styled.div`
+const _ButtonContainer = styled.div`
 	display: flex;
 	align-items: center;
 `;
@@ -35,10 +35,11 @@ const ButtonContainer = styled.div`
 const HistoryToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyNav');
+
 	const {
-		history: sftp_historyState,
-		path: sftp_pathState,
-		upload: sftp_uploadState,
+		history: sftpHistory,
+		path: sftpPath,
+		upload: sftpUpload,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
 	const {server, identity} = useSelector(
@@ -46,37 +47,8 @@ const HistoryToolbar = ({uuid}) => {
 		shallowEqual,
 	);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const corTab = useMemo(
-		() => terminalTabs.find((it) => it.uuid === uuid),
-		[terminalTabs, uuid],
-	);
 
-	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
-	);
-	const {history_highlight} = useMemo(
-		() => sftp_historyState.find((it) => it.uuid === uuid),
-		[sftp_historyState, uuid],
-	);
-	const correspondedIdentity = useMemo(
-		() =>
-			identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
-			),
-		[identity, corTab],
-	);
-
-	const {path} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {writeSocket, writeList} = useMemo(
-		() => sftp_uploadState.find((it) => it.uuid === uuid),
-		[sftp_uploadState, uuid],
-	);
-
-	const upload = useCallback(async () => {
+	const onClickUploadFile = useCallback(async () => {
 		const uploadInput = document.createElement('input');
 		document.body.appendChild(uploadInput);
 		uploadInput.setAttribute('type', 'file');
@@ -95,20 +67,38 @@ const HistoryToolbar = ({uuid}) => {
 						size: value.size,
 						todo: 'write',
 						progress: 0,
-						path: path,
+						path: sftpPath.find((it) => it.uuid === uuid),
 						file: value,
 					},
 				});
 			}
-			if (!writeSocket && writeList.length === 0) {
+
+			const {
+				writeSocket: searchedWriteSocket,
+				writeList: searchedWriteList,
+			} = sftpUpload.find((it) => it.uuid === uuid);
+
+			if (!searchedWriteSocket && searchedWriteList.length === 0) {
+				const terminalTab = () =>
+					terminalTabs.find((it) => it.uuid === uuid);
+
+				const resource = server.find(
+					(it) => it.key === terminalTab.server.key,
+				);
+				const account = identity.find(
+					(it) =>
+						it.key === terminalTab.server.key &&
+						it.checked === true,
+				);
+
 				dispatch({
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
 						todo: 'write',
 						uuid: uuid,
 					},
@@ -117,44 +107,44 @@ const HistoryToolbar = ({uuid}) => {
 		};
 		document.body.removeChild(uploadInput);
 	}, [
-		writeList,
-		writeSocket,
+		sftpUpload,
 		dispatch,
 		uuid,
-		path,
-		userData,
-		corServer,
-		correspondedIdentity,
+		sftpPath,
+		server,
+		identity,
+		userData.access_token,
+		terminalTabs,
 	]);
 
-	const historyDelete = useCallback(() => {
-		if (history_highlight.length === 0) {
-			// TODO 전체삭제 처리가 필요하다면 이곳에서 구현
+	const onClickDeleteHistory = useCallback(() => {
+		if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {
+			// TODO: 전체삭제 처리가 필요하다면 이곳에서 구현
 		} else {
 			dispatch(
 				dialogBoxAction.openAlert({
-					key: 'sftp_delete_history',
+					key: 'sftp-delete-history',
 					uuid: uuid,
 				}),
 			);
 		}
-	}, [history_highlight, uuid, dispatch]);
+	}, [sftpHistory, uuid, dispatch]);
 
 	return (
 		<_Container>
 			<div>{t('title')}</div>
-			<ButtonContainer>
-				<HoverButton margin={'10px'} onClick={upload}>
+			<_ButtonContainer>
+				<HoverButton margin={'10px'} onClick={onClickUploadFile}>
 					{fileUploadIcon}
 				</HoverButton>
 				<HoverButton
 					margin={'0px'}
 					className={'history_contents'}
-					onClick={historyDelete}
+					onClick={onClickDeleteHistory}
 				>
 					{deleteIcon}
 				</HoverButton>
-			</ButtonContainer>
+			</_ButtonContainer>
 		</_Container>
 	);
 };

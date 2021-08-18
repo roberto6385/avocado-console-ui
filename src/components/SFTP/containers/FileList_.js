@@ -38,21 +38,21 @@ const FileList_ = ({uuid}) => {
 
 	const {userData} = useSelector(authSelector.all);
 
-	const corTab = useMemo(
+	const searchedTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
 	);
-	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
+	const resource = useMemo(
+		() => server.find((it) => it.key === searchedTab.server.key),
+		[searchedTab.server.key, server],
 	);
-
-	const correspondedIdentity = useMemo(
+	const account = useMemo(
 		() =>
 			identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
+				(it) =>
+					it.key === searchedTab.server.key && it.checked === true,
 			),
-		[identity, corTab],
+		[identity, searchedTab],
 	);
 
 	const {sortKeyword, toggle} = useMemo(
@@ -132,10 +132,10 @@ const FileList_ = ({uuid}) => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						paylaod: {
 							token: userData.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'read',
 							uuid: uuid,
 						},
@@ -150,8 +150,8 @@ const FileList_ = ({uuid}) => {
 			uuid,
 			path,
 			userData,
-			corServer,
-			correspondedIdentity,
+			resource,
+			account,
 		],
 	);
 
@@ -179,10 +179,10 @@ const FileList_ = ({uuid}) => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'read',
 							uuid: uuid,
 						},
@@ -197,8 +197,8 @@ const FileList_ = ({uuid}) => {
 			uuid,
 			path,
 			userData,
-			corServer,
-			correspondedIdentity,
+			resource,
+			account,
 		],
 	);
 
@@ -247,7 +247,7 @@ const FileList_ = ({uuid}) => {
 		[dispatch, path, uuid],
 	);
 
-	const selectFile = useCallback(
+	const onClickSelectFile = useCallback(
 		({item, index}) =>
 			(e) => {
 				if (item.name === '..') return;
@@ -321,7 +321,7 @@ const FileList_ = ({uuid}) => {
 			lang={language}
 			list={currentFileList}
 			onContextMenu={handleContextMenu}
-			onClick={selectFile}
+			onClick={onClickSelectFile}
 			onDownload={handleDownload}
 			onEdit={handleEdit}
 			onDoubleClick={handleChangeDirectory}

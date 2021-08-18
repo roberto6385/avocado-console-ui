@@ -105,7 +105,7 @@ function* sendConnection(action) {
 							if (res.result.includes('connection')) {
 								yield put(
 									dialogBoxAction.openAlert({
-										key: 'invalid_server',
+										key: 'invalid-server',
 									}),
 								);
 							}
@@ -211,7 +211,7 @@ function* sendReConnection(action) {
 						if (res.result.includes('connection')) {
 							yield put(
 								dialogBoxAction.openAlert({
-									key: 'invalid_server',
+									key: 'invalid-server',
 								}),
 							);
 						}

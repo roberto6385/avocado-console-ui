@@ -14,7 +14,7 @@ import {
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
-import IconSearchInput from '../../RecycleComponents/IconSearchInput';
+import IconSearchTextBox from '../../RecycleComponents/IconSearchTextBox';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -72,7 +72,6 @@ const _ResourceLi = styled(_Li)`
 `;
 
 const _Name = styled.div`
-	// max-width: 298px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -102,14 +101,14 @@ const _UserNameType = styled(_Name)`
 	min-width: 100px;
 	flex: 5;
 `;
-const _CheckBoxIdentity = styled(_UserNameType)`
+const _IdentityCheckBox = styled(_UserNameType)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 6px;
 `;
 
-const _Search = styled.form`
+const _SearchTextBox = styled.form`
 	font-size: 12px;
 	display: flex;
 	align-items: center;
@@ -143,65 +142,40 @@ function createResourceRath(root, key) {
 }
 
 const IdentitiesSpace = () => {
+	const dispatch = useDispatch();
+
 	const {t} = useTranslation('identitiesSpace');
 	const {identity, server, current_resource_key, nav} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
-	const dispatch = useDispatch();
-	const [resourceSearch, onChangeResourceSearch, setResourceSearch] =
-		useInput('');
-	const [identitySearch, onChangeIdentitySearch, setIdentitySearch] =
-		useInput('');
 
-	// const onClickVisibleAddAccountForm = useCallback(() => {
-	// 	dispatch({type: ACCOUT_CONTROL_ID, payload: {id: null}});
-	// 	dispatch({
-	// 		type: OPEN_ADD_ACCOUT_FORM_POPUP,
-	// 		data: {type: 'add'},
-	// 	});
-	// }, []);
+	const [resourceSearchVal, onChangeResourceSearchVal] = useInput('');
+	const [identitySearchVal, onChangeIdentitySearchVal] = useInput('');
 
-	const selectResourceList = useCallback(
-		(item) => (e) => {
+	const onClickSelectResource = useCallback(
+		(v) => () => {
 			dispatch({
 				type: CHANGE_CURRENT_RESOURCE_KEY,
-				payload: {key: item.key},
+				payload: {key: v.key},
 			});
 		},
 		[dispatch],
 	);
 
-	const handleCheck = useCallback(
-		(item) => (e) => {
-			// 	if (!e.target.checked) return;
-			// 	const identity = identity.find(
-			// 		(v) => v.key === current_resource_key && v.checked,
-			// 	);
-			//
-			// 	dispatch({
-			// 		type: CHANGE_IDENTITY_CHECKED,
-			// 		payload: {
-			// 			prev: identity,
-			// 			next: item,
-			// 		},
-			// 	});
-		},
-		[],
-	);
+	const onClickChangeDefaultIdentity = useCallback(
+		(v) => () => {
+			if (v.checked) return;
 
-	const onClickCheck = useCallback(
-		(item) => (e) => {
-			if (item.checked) return;
-			const correspondedIdentity = identity.find(
+			const account = identity.find(
 				(v) => v.key === current_resource_key && v.checked,
 			);
 
 			dispatch({
 				type: CHANGE_IDENTITY_CHECKED,
 				payload: {
-					prev: correspondedIdentity,
-					next: item,
+					prev: account,
+					next: v,
 				},
 			});
 		},
@@ -227,15 +201,15 @@ const IdentitiesSpace = () => {
 								: ${server.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
-						<_Search>
-							<IconSearchInput
+						<_SearchTextBox>
+							<IconSearchTextBox
 								icon={searchIcon}
-								onChange={onChangeResourceSearch}
-								value={resourceSearch}
+								onChange={onChangeResourceSearchVal}
+								value={resourceSearchVal}
 								place={t('search')}
 								size={'12px'}
 							/>
-						</_Search>
+						</_SearchTextBox>
 					</_LiHeader>
 					<_Li className={'weight_bold'}>
 						<_ResourceName>{t('resourceName')}</_ResourceName>
@@ -249,7 +223,7 @@ const IdentitiesSpace = () => {
 								.toLowerCase()
 								.replace(/ /g, '')
 								.includes(
-									resourceSearch
+									resourceSearchVal
 										.toLowerCase()
 										.replace(/ /g, ''),
 								)
@@ -257,7 +231,7 @@ const IdentitiesSpace = () => {
 							return (
 								<_ResourceLi
 									key={item.id}
-									onClick={selectResourceList(item)}
+									onClick={onClickSelectResource(item)}
 									selected={item.key === current_resource_key}
 								>
 									<_ResourceName>
@@ -270,7 +244,6 @@ const IdentitiesSpace = () => {
 									<_ProtocolPortName>
 										{item.port}
 									</_ProtocolPortName>
-									{/*<_ProtocolPortName>Note</_ProtocolPortName>*/}
 								</_ResourceLi>
 							);
 					})}
@@ -292,26 +265,21 @@ const IdentitiesSpace = () => {
 								}${t('cases')}`}
 							</_Span>
 						</_Name>
-						<_Search>
-							<IconSearchInput
+						<_SearchTextBox>
+							<IconSearchTextBox
 								icon={searchIcon}
-								onChange={onChangeIdentitySearch}
-								value={identitySearch}
+								onChange={onChangeIdentitySearchVal}
+								value={identitySearchVal}
 								place={t('search')}
 								size={'12px'}
 							/>
-						</_Search>
+						</_SearchTextBox>
 					</_LiHeader>
-					<_Li
-						className={'weight_bold'}
-						// onContextMenu={contextMenuOpen(-1)}
-					>
-						{/*<Checkbox index={-1} onChange={checkManager(-1)} />*/}
+					<_Li className={'weight_bold'}>
 						<_Name>{t('accountName')}</_Name>
 						<_UserNameType>{t('userName')}</_UserNameType>
 						<_UserNameType>{t('type')}</_UserNameType>
-						<_CheckBoxIdentity>{t('default')}</_CheckBoxIdentity>
-						{/*<_ButtonContainer>Edit</_ButtonContainer>*/}
+						<_IdentityCheckBox>{t('default')}</_IdentityCheckBox>
 					</_Li>
 					{identity.map((item) => {
 						if (item.key !== current_resource_key) return;
@@ -320,7 +288,7 @@ const IdentitiesSpace = () => {
 								.toLowerCase()
 								.replace(/ /g, '')
 								.includes(
-									identitySearch
+									identitySearchVal
 										.toLowerCase()
 										.replace(/ /g, ''),
 								)
@@ -329,7 +297,7 @@ const IdentitiesSpace = () => {
 								<_Li
 									key={item.id}
 									selected={item.checked}
-									onClick={onClickCheck(item)}
+									onClick={onClickChangeDefaultIdentity(item)}
 								>
 									<_Name>{item.identity_name}</_Name>
 									<_UserNameType>{item.user}</_UserNameType>
@@ -338,12 +306,9 @@ const IdentitiesSpace = () => {
 											? t('password')
 											: t('keyFile')}
 									</_UserNameType>
-									<_CheckBoxIdentity>
-										<CheckBox_
-											value={item.checked}
-											handleCheck={handleCheck(item)}
-										/>
-									</_CheckBoxIdentity>
+									<_IdentityCheckBox>
+										<CheckBox_ value={item.checked} />
+									</_IdentityCheckBox>
 								</_Li>
 							);
 					})}

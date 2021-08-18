@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import TextBoxField from '../RecycleComponents/TextBoxField';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
@@ -25,7 +25,7 @@ import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 
-const Item_Container = styled.div`
+const _ItemContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -58,7 +58,7 @@ const FindPasswordForm = () => {
 
 	const idRef = useRef(null);
 
-	const onSubmitFindPasswordForm = useCallback(
+	const onSubmitFindPassword = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
@@ -106,31 +106,31 @@ const FindPasswordForm = () => {
 	}, [idRef]);
 
 	return !loading ? (
-		<UserForm onSubmit={onSubmitFindPasswordForm}>
+		<UserForm onSubmit={onSubmitFindPassword}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('remember')}
 				<a href={'/signin'}> {t('signIn')} </a>
 			</UserTitleSpan>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserInput
 					ref={idRef}
 					value={id}
 					onChange={onChangeId}
 					placeholder={t('id')}
 				/>
-			</TextBoxField_>
+			</TextBoxField>
 
-			<Item_Container>
+			<_ItemContainer>
 				<span>{t('auth')}</span>
 				<_NormalBorderButton onClick={onClickSendVerificationCode}>
 					{t('send')}
 				</_NormalBorderButton>
-			</Item_Container>
+			</_ItemContainer>
 
-			<Item_Container>
-				<TextBoxField_ flex={1} marginBottom={'0px'}>
+			<_ItemContainer>
+				<TextBoxField flex={1} marginBottom={'0px'}>
 					<UserInput
 						type='email'
 						value={email}
@@ -138,13 +138,13 @@ const FindPasswordForm = () => {
 						placeholder={t('authInput')}
 						required
 					/>
-				</TextBoxField_>
+				</TextBoxField>
 				<_NormalBorderButton onClick={onClickConfirmVerificationCode}>
 					{t('check')}
 				</_NormalBorderButton>
-			</Item_Container>
+			</_ItemContainer>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
 						onFocus={onFocusPasswordTextBox}
@@ -165,10 +165,10 @@ const FindPasswordForm = () => {
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</UserPasswordContainer>
-			</TextBoxField_>
+			</TextBoxField>
 
-			<Item_Container>
-				<TextBoxField_ flex={1} marginBottom={'0px'}>
+			<_ItemContainer>
+				<TextBoxField flex={1} marginBottom={'0px'}>
 					<UserInput
 						type={isPasswordHidden ? 'password' : 'text'}
 						value={confirmPassword}
@@ -176,8 +176,8 @@ const FindPasswordForm = () => {
 						placeholder={t('confirmPassword')}
 						required
 					/>
-				</TextBoxField_>
-			</Item_Container>
+				</TextBoxField>
+			</_ItemContainer>
 			<_UserSubmitButton type='submit'>
 				{t('changePassword')}
 			</_UserSubmitButton>

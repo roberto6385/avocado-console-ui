@@ -13,7 +13,7 @@ const _Container = styled.div`
 		props.theme.pages.webTerminal.main.backgroundColor};
 `;
 
-const _Contents = styled.div`
+const _Content = styled.div`
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -23,7 +23,7 @@ const _Contents = styled.div`
 	min-width: 600px;
 `;
 
-const _Text = styled.div`
+const _Title = styled.div`
 	font-size: 18px;
 	font-weight: 500;
 	color: ${(props) => props.theme.pages.webTerminal.main.font.color};
@@ -43,13 +43,13 @@ const MainPage = () => {
 
 	return (
 		<_Container>
-			<_Contents>
+			<_Content>
 				{sshLoading || sftpLoading ? (
 					<LoadingSpinner />
 				) : (
-					<_Text>{t('title')}</_Text>
+					<_Title>{t('title')}</_Title>
 				)}
-			</_Contents>
+			</_Content>
 		</_Container>
 	);
 };
