@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 import {useHistory} from 'react-router-dom';
-import SignUpForm from '../components/Form/SignUpForm';
+import SignUpForm from '../components/Forms/SignUpForm';
 import SignInLayout from '../components/Layouts/SignInLayout';
 import {authSelector} from '../reducers/api/auth';
 

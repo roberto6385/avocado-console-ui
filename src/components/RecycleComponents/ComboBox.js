@@ -112,25 +112,17 @@ const _Selection = styled(Select)`
 	}
 `;
 
-const ComboBox_ = ({
-	title,
-	options,
-	value,
-	setValue,
-	width,
-	flex,
-	disabled,
-}) => {
-	const selectedItemRef = useRef(null);
-	const selectedValue = useMemo(
+const ComboBox = ({title, options, value, setValue, width, flex, disabled}) => {
+	const selectedOptionRef = useRef(null);
+	const selectedOption = useMemo(
 		() => options.find((op) => op.value === value),
 		[options, value],
 	);
 
-	const onChnageSelectedItem = useCallback(
+	const onChangeSelectOption = useCallback(
 		(e) => {
 			setValue(e.value);
-			selectedItemRef.current?.blur();
+			selectedOptionRef.current?.blur();
 		},
 		[setValue],
 	);
@@ -139,12 +131,15 @@ const ComboBox_ = ({
 		<_Container flex={flex}>
 			<_Title>{title}</_Title>
 			<_Selection
-				ref={selectedItemRef}
+				ref={selectedOptionRef}
 				classNamePrefix='Select'
 				isSearchable={false}
 				options={options}
-				value={{value: selectedValue.value, label: selectedValue.label}}
-				onChange={onChnageSelectedItem}
+				value={{
+					value: selectedOption.value,
+					label: selectedOption.label,
+				}}
+				onChange={onChangeSelectOption}
 				isDisabled={disabled}
 				width={width}
 			/>
@@ -152,7 +147,7 @@ const ComboBox_ = ({
 	);
 };
 
-ComboBox_.propTypes = {
+ComboBox.propTypes = {
 	title: PropTypes.string.isRequired,
 	options: PropTypes.array.isRequired,
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -166,4 +161,4 @@ ComboBox_.propTypes = {
 	popup: PropTypes.bool,
 };
 
-export default ComboBox_;
+export default ComboBox;

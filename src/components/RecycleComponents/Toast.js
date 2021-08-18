@@ -3,7 +3,7 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 
-const ToastContainer_ = styled(ToastContainer)`
+const _Container = styled(ToastContainer)`
 	/** Used to define container behavior: width, position: fixed etc... **/
 	.Toastify__toast-container {
 	}
@@ -68,9 +68,9 @@ const ToastContainer_ = styled(ToastContainer)`
 	}
 `;
 
-const Toast_ = () => {
+const Toast = () => {
 	return (
-		<ToastContainer_
+		<_Container
 			position='bottom-right'
 			hideProgressBar={false}
 			newestOnTop={false}
@@ -83,4 +83,4 @@ const Toast_ = () => {
 	);
 };
 
-export default Toast_;
+export default Toast;

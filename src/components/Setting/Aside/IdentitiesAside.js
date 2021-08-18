@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {NormalButton} from '../../../styles/components/button';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
@@ -53,7 +53,7 @@ const IdentitiesAside = () => {
 	const {identity} = useSelector((state) => state.common, shallowEqual);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
-	const searchedServerKey = useMemo(
+	const resourceKey = useMemo(
 		() => terminalTabs.find((v) => v.uuid === selectedTab)?.server.key,
 		[terminalTabs, selectedTab],
 	);
@@ -67,7 +67,7 @@ const IdentitiesAside = () => {
 			if (!e.target.checked) return;
 
 			const account = identity.find(
-				(v) => v.key === searchedServerKey && v.checked,
+				(v) => v.key === resourceKey && v.checked,
 			);
 
 			dispatch({
@@ -78,7 +78,7 @@ const IdentitiesAside = () => {
 				},
 			});
 		},
-		[identity, searchedServerKey, dispatch],
+		[identity, resourceKey, dispatch],
 	);
 
 	return (
@@ -94,7 +94,7 @@ const IdentitiesAside = () => {
 					</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {
-					if (item.key === searchedServerKey) {
+					if (item.key === resourceKey) {
 						return (
 							<_Li key={item.id}>
 								<_AccountContainer>
@@ -105,9 +105,9 @@ const IdentitiesAside = () => {
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
-									<CheckBox_
+									<CheckBox
 										value={item.checked}
-										handleCheck={onClickChangeIdentity(
+										onChangeCheck={onClickChangeIdentity(
 											item,
 										)}
 									/>

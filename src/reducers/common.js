@@ -248,7 +248,6 @@ export const DELETE_TEMP_FOLDER_ON_FAVORITES =
 export const SAVE_CHANGES_ON_FAVORITES = 'SAVE_CHANGES_ON_FAVORITES';
 export const CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY =
 	'CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY';
-
 const reducer = (state = initialState, action) => {
 	return produce(state, (draft) => {
 		switch (action.type) {

@@ -4,12 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import TextBoxField from '../../RecycleComponents/TextBoxField';
-import Radio_ from '../../RecycleComponents/Radio_';
-import ComboBox_ from '../../RecycleComponents/ComboBox_';
+import Radio from '../../RecycleComponents/Radio';
+import ComboBox from '../../RecycleComponents/ComboBox';
 import ChangePasswordDialogBox from '../../DialogBoxs/Form/ChangePasswordDialogBox';
 import {DisabledButton, NormalButton} from '../../../styles/components/button';
 import {
-	SettingContentsContainer,
+	SettingContentContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
@@ -72,7 +72,7 @@ const AccountSpace = () => {
 	return (
 		<SettingMainContainer>
 			<SettingTitle>{t('title.account')}</SettingTitle>
-			<SettingContentsContainer>
+			<SettingContentContainer>
 				<TextBoxField title={t('account')}>
 					<_TextBox
 						value={data.id}
@@ -99,11 +99,11 @@ const AccountSpace = () => {
 						readOnly
 					/>
 				</TextBoxField>
-			</SettingContentsContainer>
+			</SettingContentContainer>
 			<SettingTitle>{t('title.auth')}</SettingTitle>
-			<SettingContentsContainer>
+			<SettingContentContainer>
 				<_Section>
-					<ComboBox_
+					<ComboBox
 						title={t('auth')}
 						options={authOptions}
 						value={authType}
@@ -128,30 +128,28 @@ const AccountSpace = () => {
 					)}
 				</_Section>
 
-				<Radio_
-					radioName={'AlternativeAuth'}
+				<Radio
 					options={alternativeAuthOptions}
 					value={alternativeAuth}
 					setValue={setAlternativeAuth}
 					disabled={authType === 'id-password'}
 				/>
-			</SettingContentsContainer>
-			<SettingContentsContainer>
-				<ComboBox_
+			</SettingContentContainer>
+			<SettingContentContainer>
+				<ComboBox
 					title={t('mfa')}
 					options={useMFAOptions}
 					value={isMFAUsed}
 					setValue={setIsMFAUsed}
 					width={'500px'}
 				/>
-				<Radio_
-					radioName={'MFA'}
+				<Radio
 					options={MFAOptions}
 					value={MFA}
 					setValue={setMFA}
 					disabled={isMFAUsed === 'mfa-not-used'}
 				/>
-			</SettingContentsContainer>
+			</SettingContentContainer>
 			<ChangePasswordDialogBox />
 		</SettingMainContainer>
 	);

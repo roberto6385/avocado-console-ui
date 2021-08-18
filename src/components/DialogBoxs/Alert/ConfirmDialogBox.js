@@ -10,10 +10,10 @@ import {
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	AlertDialogBox,
-	AlertText,
-	ModalFooter,
-	ModalHeader,
-	ModalMessage,
+	AlertDialogBoxText,
+	DialogBoxFooter,
+	DialogBoxHeader,
+	DialogBoxMessage,
 } from '../../../styles/components/disalogBox';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
@@ -43,7 +43,7 @@ const ConfirmDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('alert')}</div>
 				<IconButton
 					itype={'font'}
@@ -53,17 +53,19 @@ const ConfirmDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
-			<ModalMessage>
+			<DialogBoxMessage>
 				<Icon margin_right='6px' itype={'confirm'}>
 					{alertFillIcon}
 				</Icon>
 
-				<AlertText>{alertMessages[confirm.key]}</AlertText>
-			</ModalMessage>
+				<AlertDialogBoxText>
+					{alertMessages[confirm.key]}
+				</AlertDialogBoxText>
+			</DialogBoxMessage>
 
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
@@ -71,7 +73,7 @@ const ConfirmDialogBox = () => {
 				<NormalButton onClick={onClickCloseDialogBox}>
 					{t('ok')}
 				</NormalButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</AlertDialogBox>
 	);
 };

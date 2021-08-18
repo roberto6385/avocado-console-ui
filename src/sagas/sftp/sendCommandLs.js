@@ -16,9 +16,9 @@ import {
 	READY_STATE,
 } from '../../reducers/sftp';
 import {closeChannel, subscribe} from '../channel';
-import {sortFunction} from '../../components/SFTP/functions';
 import {lsResponse} from '../../ws/sftp/ls_response';
 import messageSender from './messageSender';
+import {sortList} from '../../utils/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -66,7 +66,7 @@ function* sendCommand(action) {
 							type: LS_SUCCESS,
 							payload: {
 								uuid: payload.uuid,
-								fileList: sortFunction({
+								fileList: sortList({
 									fileList:
 										payload.ls_path === '/'
 											? res.list.filter(

@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import {HideScroll} from '../function';
 
-export const NavigationItemTitle = styled.div`
+export const ResourceItemTitle = styled.div`
 	flex: 1;
 	display: flex;
 	justify-content: space-between;
@@ -10,7 +10,7 @@ export const NavigationItemTitle = styled.div`
 	font-size: 14px;
 `;
 
-export const NavigationItem = styled.div`
+export const ResourceItem = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -32,7 +32,7 @@ export const NavigationItem = styled.div`
 					.backgroundColor};
 `;
 
-export const _Nav = styled.div`
+export const ResourceTree = styled.div`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;

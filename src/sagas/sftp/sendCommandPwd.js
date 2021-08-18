@@ -11,7 +11,6 @@ import {
 import messageSender from './messageSender';
 import {closeChannel, subscribe} from '../channel';
 import {pwdResponse} from '../../ws/sftp/pwd_response';
-import {createPathList} from '../../components/SFTP/functions';
 import {
 	INIT_FILELIST,
 	LS_REQUEST,
@@ -21,6 +20,7 @@ import {
 	PWD_SUCCESS,
 	READY_STATE,
 } from '../../reducers/sftp';
+import {createPathList} from '../../utils/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;

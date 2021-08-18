@@ -14,11 +14,11 @@ import {
 	REMOVE_TEMP_HIGHLIGHT,
 	TEMP_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {sortFunction} from '../functions';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {sortList} from '../../../utils/sftp';
 
-const DropList_ = ({uuid}) => {
+const DropListContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 
 	const {server, identity} = useSelector(
@@ -80,10 +80,10 @@ const DropList_ = ({uuid}) => {
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
-		id: uuid + 'fileList',
+		id: uuid + '-file-list-context-menu',
 	});
 
-	const compareItem = useCallback(
+	const compareFiles = useCallback(
 		(list, first, second) => {
 			if (first === -1) {
 				dispatch({
@@ -120,10 +120,9 @@ const DropList_ = ({uuid}) => {
 		[dispatch, path, uuid],
 	);
 
-	const selectFile = useCallback(
+	const onClickSelectFile = useCallback(
 		({item, listindex, itemIndex}) =>
 			(e) => {
-				console.log(item, listindex, itemIndex);
 				if (e.shiftKey) {
 					if (path !== pathList[listindex]) {
 						dispatch({
@@ -156,7 +155,7 @@ const DropList_ = ({uuid}) => {
 							const firstIndex = corList.findIndex(
 								(it) => it?.name === highlight[0].name,
 							);
-							compareItem(corList, firstIndex, itemIndex);
+							compareFiles(corList, firstIndex, itemIndex);
 						}
 					}
 				} else if (e.metaKey) {
@@ -269,12 +268,12 @@ const DropList_ = ({uuid}) => {
 			uuid,
 			highlight,
 			currentFileList,
-			compareItem,
+			compareFiles,
 			tempFile,
 		],
 	);
 
-	const handleEdit = useCallback(
+	const onClickEditFile = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
@@ -321,7 +320,7 @@ const DropList_ = ({uuid}) => {
 		],
 	);
 
-	const handleDownload = useCallback(
+	const onClickDownloadFile = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
@@ -368,7 +367,7 @@ const DropList_ = ({uuid}) => {
 		],
 	);
 
-	const handleContextMenu = useCallback(
+	const openFileListContextMenu = useCallback(
 		({item, clickedPath}) =>
 			(e) => {
 				e.preventDefault();
@@ -386,13 +385,16 @@ const DropList_ = ({uuid}) => {
 					});
 				}
 
-				highlight.length < 2 &&
+				if (
+					highlight.length < 2 &&
 					item !== undefined &&
-					clickedPath !== undefined &&
+					clickedPath !== undefined
+				) {
 					dispatch({
 						type: ADD_ONE_HIGHLIGHT,
 						payload: {uuid, item: {...item, path}},
 					});
+				}
 				show(e);
 			},
 		[path, highlight, dispatch, uuid, show, socket],
@@ -407,7 +409,7 @@ const DropList_ = ({uuid}) => {
 			let nextList = [];
 			fileList.forEach((v) => {
 				nextList.push(
-					sortFunction({
+					sortList({
 						fileList: v,
 						keyword: sortKeyword,
 						toggle: currentKey === sortKeyword ? toggle : true,
@@ -424,17 +426,17 @@ const DropList_ = ({uuid}) => {
 			uuid={uuid}
 			list={currentFileList}
 			pathList={pathList}
-			onContextMenu={handleContextMenu}
 			highlight={highlight}
 			path={path}
-			onClick={selectFile}
-			onDownload={handleDownload}
-			onEdit={handleEdit}
+			onContextMenu={openFileListContextMenu}
+			onClick={onClickSelectFile}
+			onEdit={onClickEditFile}
+			onDownload={onClickDownloadFile}
 		/>
 	);
 };
 
-DropList_.propTypes = {
+DropListContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
-export default DropList_;
+export default DropListContainer;

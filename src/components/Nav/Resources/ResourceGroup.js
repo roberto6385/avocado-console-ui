@@ -2,23 +2,23 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import Server from './Server';
+import Resource from './Resource';
 import {SET_CLICKED_SERVER} from '../../../reducers/common';
-import Collapse_ from '../../RecycleComponents/Collapse_';
+import CollapseContainer from '../../RecycleComponents/CollapseContainer';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationItemTitle,
-	NavigationItem,
+	ResourceItemTitle,
+	ResourceItem,
 } from '../../../styles/components/navigationBar';
 
-const Folder = ({open, data, indent}) => {
+const ResourceGroup = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server} = useSelector((state) => state.common, shallowEqual);
 
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 
-	const onClickFolderItem = useCallback(() => {
+	const onClickResourceGroup = useCallback(() => {
 		if (clicked_server === data.key) {
 			dispatch({type: SET_CLICKED_SERVER, payload: null});
 		} else {
@@ -26,7 +26,7 @@ const Folder = ({open, data, indent}) => {
 		}
 	}, [clicked_server, data.key, dispatch]);
 
-	const onClickFoldOrUnfoldFolder = useCallback(() => {
+	const onClickFoldOrUnfoldResourceGroup = useCallback(() => {
 		setIsFolderUnfolded(!isFolderUnfolded);
 	}, [isFolderUnfolded]);
 
@@ -36,8 +36,8 @@ const Folder = ({open, data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItem
-				onClick={onClickFolderItem}
+			<ResourceItem
+				onClick={onClickResourceGroup}
 				selected={clicked_server === data.key}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -49,28 +49,28 @@ const Folder = ({open, data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationItemTitle>{data.name}</NavigationItemTitle>
+				<ResourceItemTitle>{data.name}</ResourceItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					onClick={onClickFoldOrUnfoldFolder}
+					onClick={onClickFoldOrUnfoldResourceGroup}
 				>
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
-			</NavigationItem>
+			</ResourceItem>
 			{data.contain.length !== 0 && (
-				<Collapse_ open={isFolderUnfolded}>
+				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<Folder
+								<ResourceGroup
 									key={i.key}
 									open={open}
 									data={i}
 									indent={indent + 1}
 								/>
 							) : (
-								<Server
+								<Resource
 									key={i.key}
 									data={i}
 									indent={indent + 1}
@@ -78,16 +78,16 @@ const Folder = ({open, data, indent}) => {
 							),
 						)}
 					</React.Fragment>
-				</Collapse_>
+				</CollapseContainer>
 			)}
 		</React.Fragment>
 	);
 };
 
-Folder.propTypes = {
+ResourceGroup.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default Folder;
+export default ResourceGroup;

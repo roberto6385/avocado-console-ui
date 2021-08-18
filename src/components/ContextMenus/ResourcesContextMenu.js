@@ -10,7 +10,7 @@ import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
 
-const ServerContextMenu = ({identity, data}) => {
+const ResourcesContextMenu = ({identity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
 	const {server} = useSelector((state) => state.common, shallowEqual);
@@ -99,7 +99,10 @@ const ServerContextMenu = ({identity, data}) => {
 	);
 
 	return (
-		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
+		<ContextMenu
+			id={data.key + '-resources-context-menu'}
+			animation={animation.slide}
+		>
 			{resource?.protocol === 'SSH2'
 				? Object.entries(SSHContextMenuList).map(([key, value]) => (
 						<Item onClick={handleOnClickEvents(key)} key={key}>
@@ -115,9 +118,9 @@ const ServerContextMenu = ({identity, data}) => {
 	);
 };
 
-ServerContextMenu.propTypes = {
+ResourcesContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	identity: PropTypes.object.isRequired,
 };
 
-export default ServerContextMenu;
+export default ResourcesContextMenu;

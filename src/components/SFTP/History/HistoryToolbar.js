@@ -73,12 +73,11 @@ const HistoryToolbar = ({uuid}) => {
 				});
 			}
 
-			const {
-				writeSocket: searchedWriteSocket,
-				writeList: searchedWriteList,
-			} = sftpUpload.find((it) => it.uuid === uuid);
+			const {writeSocket, writeList} = sftpUpload.find(
+				(it) => it.uuid === uuid,
+			);
 
-			if (!searchedWriteSocket && searchedWriteList.length === 0) {
+			if (!writeSocket && writeList.length === 0) {
 				const terminalTab = () =>
 					terminalTabs.find((it) => it.uuid === uuid);
 
@@ -139,7 +138,7 @@ const HistoryToolbar = ({uuid}) => {
 				</HoverButton>
 				<HoverButton
 					margin={'0px'}
-					className={'history_contents'}
+					className={'history-content'}
 					onClick={onClickDeleteHistory}
 				>
 					{deleteIcon}

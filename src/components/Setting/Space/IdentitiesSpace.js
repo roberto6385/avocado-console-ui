@@ -8,15 +8,15 @@ import {
 } from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {
-	SettingContentsContainer,
+	SettingContentContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
-import IconSearchTextBox from '../../RecycleComponents/IconSearchTextBox';
+import SearchIconTextBox from '../../RecycleComponents/SearchIconTextBox';
 
-const _SettingContentsContainer = styled(SettingContentsContainer)`
+const _SettingContentContainer = styled(SettingContentContainer)`
 	display: flex;
 	flex: 1;
 `;
@@ -192,7 +192,7 @@ const IdentitiesSpace = () => {
 	return (
 		<SettingMainContainer>
 			<SettingTitle>{t('title')}</SettingTitle>
-			<_SettingContentsContainer>
+			<_SettingContentContainer>
 				<_ResourceListUl>
 					<_LiHeader className={'weight_bold'}>
 						<_ResourceName>
@@ -202,11 +202,11 @@ const IdentitiesSpace = () => {
 								`}</_Span>
 						</_ResourceName>
 						<_SearchTextBox>
-							<IconSearchTextBox
+							<SearchIconTextBox
 								icon={searchIcon}
 								onChange={onChangeResourceSearchVal}
 								value={resourceSearchVal}
-								place={t('search')}
+								placeholder={t('search')}
 								size={'12px'}
 							/>
 						</_SearchTextBox>
@@ -266,11 +266,11 @@ const IdentitiesSpace = () => {
 							</_Span>
 						</_Name>
 						<_SearchTextBox>
-							<IconSearchTextBox
+							<SearchIconTextBox
 								icon={searchIcon}
 								onChange={onChangeIdentitySearchVal}
 								value={identitySearchVal}
-								place={t('search')}
+								placeholder={t('search')}
 								size={'12px'}
 							/>
 						</_SearchTextBox>
@@ -307,13 +307,13 @@ const IdentitiesSpace = () => {
 											: t('keyFile')}
 									</_UserNameType>
 									<_IdentityCheckBox>
-										<CheckBox_ value={item.checked} />
+										<CheckBox value={item.checked} />
 									</_IdentityCheckBox>
 								</_Li>
 							);
 					})}
 				</_Ul>
-			</_SettingContentsContainer>
+			</_SettingContentContainer>
 		</SettingMainContainer>
 	);
 };

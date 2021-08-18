@@ -8,9 +8,9 @@ import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
 import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfold@2x.png';
-import FileList_ from './containers/FileList_';
-import DropList_ from './containers/DropList_';
-import History_ from './containers/History_';
+import FileListContianer from './Containers/FileListContianer';
+import DropListContainer from './Containers/DropListContainer';
+import HistoryContianer from './Containers/HistoryContianer';
 import {shallowEqual, useSelector} from 'react-redux';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
 import {settingSelector} from '../../reducers/setting';
@@ -67,14 +67,14 @@ const SFTP = ({uuid, mode}) => {
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
 
-	const [setIsToolbarUnfold, setSetIsToolbarUnfold] = useState(true);
+	const [isToolbarUnfolded, setIsToolbarUnfolded] = useState(true);
 
 	const onClickFoldToolbar = useCallback(() => {
-		setSetIsToolbarUnfold(false);
+		setIsToolbarUnfolded(false);
 	}, []);
 
 	const onClickUnfoldToolbar = useCallback(() => {
-		setSetIsToolbarUnfold(true);
+		setIsToolbarUnfolded(true);
 	}, []);
 
 	return mode === 'edit' ? (
@@ -84,11 +84,11 @@ const SFTP = ({uuid, mode}) => {
 	) : (
 		<_Container>
 			<_ToolBarContainer
-				className={!setIsToolbarUnfold && 'close-nav-header'}
+				className={!isToolbarUnfolded && 'close-nav-header'}
 			>
 				<SFTPToolbar uuid={uuid} />
 				{(nav.length === 1 || cols === 1) &&
-					(setIsToolbarUnfold ? (
+					(isToolbarUnfolded ? (
 						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}
 							alt='toolbar fold button'
@@ -102,13 +102,13 @@ const SFTP = ({uuid, mode}) => {
 						/>
 					))}
 			</_ToolBarContainer>
-			<_SFTP className={!setIsToolbarUnfold && 'close-nav-sftp'}>
+			<_SFTP className={!isToolbarUnfolded && 'close-nav-sftp'}>
 				{mode === 'list' ? (
-					<FileList_ uuid={uuid} />
+					<FileListContianer uuid={uuid} />
 				) : (
-					<DropList_ uuid={uuid} />
+					<DropListContainer uuid={uuid} />
 				)}
-				<History_ uuid={uuid} />
+				<HistoryContianer uuid={uuid} />
 			</_SFTP>
 			<FileStatusDialogBox />
 		</_Container>

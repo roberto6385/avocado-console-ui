@@ -12,12 +12,12 @@ import {
 	INITIALIZING_HIGHLIGHT,
 	REMOVE_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {sortFunction} from '../functions';
 import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {sortList} from '../../../utils/sftp';
 
-const FileList_ = ({uuid}) => {
+const FileListContianer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {server, identity} = useSelector(
 		(state) => state.common,
@@ -25,7 +25,6 @@ const FileList_ = ({uuid}) => {
 	);
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-
 	const {language} = useSelector(settingSelector.all);
 	const {
 		path: sftp_pathState,
@@ -35,24 +34,23 @@ const FileList_ = ({uuid}) => {
 		socket: sftp_socketState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-
 	const {userData} = useSelector(authSelector.all);
 
-	const searchedTab = useMemo(
+	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
 	);
 	const resource = useMemo(
-		() => server.find((it) => it.key === searchedTab.server.key),
-		[searchedTab.server.key, server],
+		() => server.find((it) => it.key === terminalTab.server.key),
+		[terminalTab.server.key, server],
 	);
 	const account = useMemo(
 		() =>
 			identity.find(
 				(it) =>
-					it.key === searchedTab.server.key && it.checked === true,
+					it.key === terminalTab.server.key && it.checked === true,
 			),
-		[identity, searchedTab],
+		[identity, terminalTab],
 	);
 
 	const {sortKeyword, toggle} = useMemo(
@@ -63,7 +61,6 @@ const FileList_ = ({uuid}) => {
 		() => sftp_socketState.find((it) => it.uuid === uuid),
 		[sftp_socketState, uuid],
 	);
-
 	const {path, pathList} = useMemo(
 		() => sftp_pathState.find((it) => it.uuid === uuid),
 		[sftp_pathState, uuid],
@@ -81,13 +78,13 @@ const FileList_ = ({uuid}) => {
 		[sftp_downloadState, uuid],
 	);
 	const {show} = useContextMenu({
-		id: uuid + 'fileList',
+		id: uuid + '-file-list-context-menu',
 	});
 
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 
-	const handleChangeDirectory = useCallback(
+	const onClickChangePath = useCallback(
 		(item) => () => {
 			if (pathList.length !== fileList.length) return;
 			if (item.type === 'directory') {
@@ -110,7 +107,7 @@ const FileList_ = ({uuid}) => {
 		[dispatch, fileList.length, path, pathList.length, socket, uuid],
 	);
 
-	const handleDownload = useCallback(
+	const onClickDownloadFile = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
@@ -155,7 +152,7 @@ const FileList_ = ({uuid}) => {
 		],
 	);
 
-	const handleEdit = useCallback(
+	const onClickEditFile = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
 			console.log(item);
@@ -202,7 +199,7 @@ const FileList_ = ({uuid}) => {
 		],
 	);
 
-	const handleContextMenu = useCallback(
+	const openFileListContextMenu = useCallback(
 		(item = '') =>
 			(e) => {
 				e.preventDefault();
@@ -224,7 +221,7 @@ const FileList_ = ({uuid}) => {
 		[dispatch, highlight, uuid, path, show],
 	);
 
-	const compareItem = useCallback(
+	const compareFiles = useCallback(
 		(list, first, second) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 
@@ -277,7 +274,7 @@ const FileList_ = ({uuid}) => {
 						const firstIndex = currentFileList.findIndex(
 							(it) => it.name === highlight[0].name,
 						);
-						compareItem(currentFileList, firstIndex, index);
+						compareFiles(currentFileList, firstIndex, index);
 					}
 				} else {
 					!highlight
@@ -293,7 +290,7 @@ const FileList_ = ({uuid}) => {
 						});
 				}
 			},
-		[highlight, dispatch, uuid, path, currentFileList, compareItem],
+		[highlight, dispatch, uuid, path, currentFileList, compareFiles],
 	);
 
 	useEffect(() => {
@@ -303,7 +300,7 @@ const FileList_ = ({uuid}) => {
 			fileList.length !== 0
 		) {
 			let nextList = fileList[fileList.length - 1];
-			const sortedList = sortFunction({
+			const sortedList = sortList({
 				fileList: nextList,
 				keyword: sortKeyword,
 				toggle: currentKey === sortKeyword ? toggle : true,
@@ -320,17 +317,17 @@ const FileList_ = ({uuid}) => {
 			path={path}
 			lang={language}
 			list={currentFileList}
-			onContextMenu={handleContextMenu}
+			onContextMenu={openFileListContextMenu}
 			onClick={onClickSelectFile}
-			onDownload={handleDownload}
-			onEdit={handleEdit}
-			onDoubleClick={handleChangeDirectory}
+			onDownload={onClickDownloadFile}
+			onEdit={onClickEditFile}
+			onDoubleClick={onClickChangePath}
 		/>
 	);
 };
 
-FileList_.propTypes = {
+FileListContianer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default FileList_;
+export default FileListContianer;

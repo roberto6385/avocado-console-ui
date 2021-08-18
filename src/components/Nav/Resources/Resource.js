@@ -4,7 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
+import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
 import {
 	ADD_FAVORITE_SERVER,
 	DELETE_FAVORITE_SERVER,
@@ -20,12 +20,12 @@ import styled from 'styled-components';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationItem,
-	NavigationItemTitle,
+	ResourceItem,
+	ResourceItemTitle,
 } from '../../../styles/components/navigationBar';
 import {authSelector} from '../../../reducers/api/auth';
 
-export const ServerItem = styled(NavigationItem)`
+export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
 		display: none;
 	}
@@ -57,45 +57,49 @@ function isFavoriteServer(root, key) {
 	return false;
 }
 
-const Server = ({data, indent}) => {
+const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, identity, favorites} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const {userData} = useSelector(authSelector.all);
-	const correspondedIdentity = useMemo(
+	const account = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
 	);
 
-	const onHybridClick = useDoubleClick(
-		() => {
-			const correspondedServer = server.find((i) => i.id === data.id);
+	const {show} = useContextMenu({
+		id: data.key + '-resources-context-menu',
+	});
 
-			if (correspondedServer.protocol === 'SSH2') {
+	const onClickResource = useDoubleClick(
+		() => {
+			const resource = server.find((i) => i.id === data.id);
+
+			if (resource.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token,
-						...correspondedServer,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						...resource,
+						user: account.user,
+						password: account.password,
 					},
 				});
-			} else if (correspondedServer.protocol === 'SFTP') {
+			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: correspondedServer.host,
-						port: correspondedServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
 
-						name: correspondedServer.name, // create tab info
-						key: correspondedServer.key,
-						id: correspondedServer.id,
+						name: resource.name, // create tab info
+						key: resource.key,
+						id: resource.id,
 					},
 				});
 			}
@@ -107,22 +111,10 @@ const Server = ({data, indent}) => {
 				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			}
 		},
-		[
-			clicked_server,
-			data,
-			userData,
-			server,
-			identity,
-			dispatch,
-			correspondedIdentity,
-		],
+		[clicked_server, data, userData, server, identity, dispatch],
 	);
 
-	const {show} = useContextMenu({
-		id: data.key + 'server',
-	});
-
-	const openServerContextMenu = useCallback(
+	const openResourceContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
@@ -144,8 +136,8 @@ const Server = ({data, indent}) => {
 	return (
 		<React.Fragment>
 			<ServerItem
-				onClick={onHybridClick}
-				onContextMenu={openServerContextMenu}
+				onClick={onClickResource}
+				onContextMenu={openResourceContextMenu}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -158,7 +150,7 @@ const Server = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle>
+				<ResourceItemTitle>
 					{data.name}
 					<IconButton
 						className={
@@ -177,16 +169,16 @@ const Server = ({data, indent}) => {
 					>
 						{bookmarkIcon}
 					</IconButton>
-				</NavigationItemTitle>
+				</ResourceItemTitle>
 			</ServerItem>
-			<ServerContextMenu identity={correspondedIdentity} data={data} />
+			<ResourcesContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };
 
-Server.propTypes = {
+Resource.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default Server;
+export default Resource;

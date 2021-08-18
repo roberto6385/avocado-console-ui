@@ -20,11 +20,11 @@ import {
 import {IconButton} from '../../../styles/components/icon';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
-import FavoriteItemsTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemsTreeOnDialogBox';
+import FavoriteItemTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemTreeOnDialogBox';
 
 const _DialogBox = styled(DialogBox)`
 	width: 460px;
@@ -40,7 +40,7 @@ const _Form = styled(Form)`
 		props.theme.basic.pages.dialogBoxs.normalStyle.backgroundColor};
 `;
 
-const _ModalFooter = styled(ModalFooter)`
+const _ModalFooter = styled(DialogBoxFooter)`
 	justify-content: space-between;
 `;
 
@@ -94,7 +94,7 @@ const AddFavoritesDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
@@ -104,10 +104,10 @@ const AddFavoritesDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
 			<_Form onSubmit={onSubmitSaveChangesOnFavorites}>
-				<FavoriteItemsTreeOnDialogBox />
+				<FavoriteItemTreeOnDialogBox />
 			</_Form>
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>

@@ -14,11 +14,7 @@ const Dropzone = ({children, onDrop}) => {
 		onDrop,
 	});
 
-	return (
-		<_Container className={'hello'} {...getRootProps()}>
-			{children}
-		</_Container>
-	);
+	return <_Container {...getRootProps()}>{children}</_Container>;
 };
 
 Dropzone.propTypes = {

@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 import useInput from '../../hooks/useInput';
 import {authAction, authSelector} from '../../reducers/api/auth';
 import TextBoxField from '../RecycleComponents/TextBoxField';
-import CheckBox_ from '../RecycleComponents/CheckBox_';
+import CheckBox from '../RecycleComponents/CheckBox';
 import appleButton from '../../images/alternativeAuth/apple_btn.png';
 import googleButton from '../../images/alternativeAuth/google_btn.png';
 import naverButton from '../../images/alternativeAuth/naver_btn.png';
@@ -208,10 +208,10 @@ const SignInForm = () => {
 				</_UserPasswordContainer>
 			</TextBoxField>
 			<_CheckBoxContainer>
-				<CheckBox_
+				<CheckBox
 					title={t('remember')}
 					value={rememberMe}
-					handleCheck={onClickRememberMe}
+					onChangeCheck={onClickRememberMe}
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckBoxContainer>

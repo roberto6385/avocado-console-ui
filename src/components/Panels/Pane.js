@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import SSHContainer from '../SSH/SSHContainer';
-import SFTP_ from '../SFTP/containers/SFTP_';
+import SFTPContainer from '../SFTP/Containers/SFTPContainer';
 import {
 	SSH_SEND_DISCONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_REQUEST,
@@ -221,7 +221,7 @@ const Pane = ({uuid, type, server}) => {
 				</_Header>
 			)}
 			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}
-			{type === 'SFTP' && <SFTP_ uuid={uuid} />}
+			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);
 };

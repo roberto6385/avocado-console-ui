@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from '../Dropzone';
 import {useTranslation} from 'react-i18next';
-import {formatByteSizeString} from '../functions';
 import styled from 'styled-components';
 
 import {
@@ -19,6 +18,7 @@ import {
 import {PreventDragCopy} from '../../../styles/function';
 import {NormalButton} from '../../../styles/components/button';
 import {HoverButton, Icon} from '../../../styles/components/icon';
+import {fileByteSizeFormater} from '../../../utils/sftp';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -166,11 +166,11 @@ const HistoryButton = styled(Icon)`
 `;
 
 const History = ({
-	onUploadWithDrop,
-	onUploadWithClick,
+	onDropUpload,
+	onClickUpload,
 	onSelect,
 	highlight,
-	onPauseAndStart,
+	onChangeProgress,
 	onRemove,
 	writeSocket,
 	readSocket,
@@ -180,11 +180,11 @@ const History = ({
 
 	return (
 		<_Container>
-			<Dropzone onDrop={(files) => onUploadWithDrop(files)}>
+			<Dropzone onDrop={(files) => onDropUpload(files)}>
 				{history.length === 0 ? (
 					<DropSpaceDiv>
 						<_DescriptionText>{t('paragraph')}</_DescriptionText>
-						<DropSpace_Button onClick={onUploadWithClick}>
+						<DropSpace_Button onClick={onClickUpload}>
 							<Icon size='sm' margin_right={'8px'}>
 								{fileUploadIcon}
 							</Icon>
@@ -196,7 +196,7 @@ const History = ({
 						{history.map((item, index) => {
 							return (
 								<_Li
-									className={'history_contents'}
+									className={'history-content'}
 									key={item.HISTORY_ID}
 									onClick={onSelect(item, index)}
 									borderWidth={`${item.progress}%`}
@@ -205,7 +205,7 @@ const History = ({
 									)}
 								>
 									<HistoryButton
-										onClick={onPauseAndStart(item)}
+										onClick={onChangeProgress(item)}
 										size='20px'
 										margin={'10px'}
 										type={
@@ -246,22 +246,22 @@ const History = ({
 									</HistoryButton>
 
 									<HistoryText
-										className={'history_contents'}
+										className={'history-content'}
 										flex={1}
 										progress={item.progress === 100}
 									>
 										{item.name}
 									</HistoryText>
 									<_HistorySizeText
-										className={'history_contents'}
+										className={'history-content'}
 									>
-										{formatByteSizeString(item.size)}
+										{fileByteSizeFormater(item.size)}
 									</_HistorySizeText>
 									<HoverButton
 										size={'sm'}
 										margin={'10px'}
 										onClick={onRemove(item)}
-										className={'history_contents'}
+										className={'history-content'}
 									>
 										{deleteIcon}
 									</HoverButton>
@@ -281,11 +281,11 @@ const History = ({
 	);
 };
 History.propTypes = {
-	onUploadWithDrop: PropTypes.func.isRequired,
-	onUploadWithClick: PropTypes.func.isRequired,
+	onDropUpload: PropTypes.func.isRequired,
+	onClickUpload: PropTypes.func.isRequired,
 	onSelect: PropTypes.func.isRequired,
 	highlight: PropTypes.array.isRequired,
-	onPauseAndStart: PropTypes.func.isRequired,
+	onChangeProgress: PropTypes.func.isRequired,
 	onRemove: PropTypes.func.isRequired,
 	history: PropTypes.array.isRequired,
 	writeSocket: PropTypes.object,

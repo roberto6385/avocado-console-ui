@@ -9,7 +9,7 @@ import {
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
-import ComboBox_ from '../../RecycleComponents/ComboBox_';
+import ComboBox from '../../RecycleComponents/ComboBox';
 import {closeIcon} from '../../../icons/icons';
 import {
 	NormalBorderButton,
@@ -19,8 +19,8 @@ import {
 import {IconButton} from '../../../styles/components/icon';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 
 import {Form} from '../../../styles/components/form';
@@ -115,19 +115,16 @@ const AddServerDialogBox = () => {
 		(e) => {
 			e.preventDefault();
 
-			const correspondedIdentityList = identity.filter(
-				(v) => v.key === clicked_server,
-			);
-			const selectedIdentity = correspondedIdentityList.find(
-				(v) => v.identity_name === id,
-			);
+			const selectedAccount = identity
+				.filter((v) => v.key === clicked_server)
+				.find((v) => v.identity_name === id);
 
-			if (account !== selectedIdentity && id !== '') {
+			if (account !== selectedAccount && id !== '') {
 				dispatch({
 					type: CHANGE_IDENTITY_CHECKED,
 					payload: {
 						prev: account,
-						next: selectedIdentity,
+						next: selectedAccount,
 					},
 				});
 			}
@@ -225,9 +222,8 @@ const AddServerDialogBox = () => {
 			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
-			className={'hello'}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('addServer')}</div>
 				<IconButton
 					onClick={onClickCloseDialogBox}
@@ -237,7 +233,7 @@ const AddServerDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
 			<Form onSubmit={onSubmitAddServerForm}>
 				<_ItemContainer>
@@ -247,11 +243,11 @@ const AddServerDialogBox = () => {
 							value={name}
 							// onChange={onChangeName}
 							readOnly
-							placeholder={t('place.name')}
+							placeholder={t('placeholder.name')}
 						/>
 					</_TextBoxField>
 					<_SecondItem>
-						<ComboBox_
+						<ComboBox
 							width={'178px'}
 							title={t('protocol')}
 							options={protocolOptions}
@@ -267,7 +263,7 @@ const AddServerDialogBox = () => {
 							value={host}
 							// onChange={onChangeHost}
 							readOnly
-							placeholder={t('place.address')}
+							placeholder={t('placeholder.address')}
 						/>
 					</_TextBoxField>
 					<_SecondItem>
@@ -278,14 +274,14 @@ const AddServerDialogBox = () => {
 								value={port}
 								// onChange={onChangePort}
 								readOnly
-								placeholder={t('place.port')}
+								placeholder={t('placeholder.port')}
 							/>
 						</TextBoxField>
 					</_SecondItem>
 				</_ItemContainer>
 
 				<_ItemContainer>
-					<ComboBox_
+					<ComboBox
 						title={t('identity')}
 						flex={1}
 						options={ids}
@@ -293,7 +289,7 @@ const AddServerDialogBox = () => {
 						setValue={setId}
 					/>
 					<_SecondItem>
-						<ComboBox_
+						<ComboBox
 							width={'178px'}
 							title={t('auth')}
 							options={authenticationOptions}
@@ -309,7 +305,7 @@ const AddServerDialogBox = () => {
 							type='text'
 							value={username}
 							readOnly
-							placeholder={t('place.userName')}
+							placeholder={t('placeholder.userName')}
 						/>
 					</TextBoxField>
 				</_ItemContainer>
@@ -321,7 +317,7 @@ const AddServerDialogBox = () => {
 								value={password}
 								// onChange={onChangePassword}
 								readOnly
-								placeholder={t('place.password')}
+								placeholder={t('placeholder.password')}
 							/>
 						</TextBoxField>
 					</_ItemContainer>
@@ -362,7 +358,7 @@ const AddServerDialogBox = () => {
 									value={password}
 									// onChange={onChangePassword}
 									readOnly
-									placeholder={t('place.password')}
+									placeholder={t('placeholder.password')}
 								/>
 							</TextBoxField>
 						</_ItemContainer>
@@ -374,19 +370,19 @@ const AddServerDialogBox = () => {
 							type='text'
 							value={note}
 							readOnly
-							placeholder={t('place.note')}
+							placeholder={t('placeholder.note')}
 						/>
 					</TextBoxField>
 				</_ItemContainer>
 			</Form>
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={onSubmitAddServerForm}>
 					{t('save')}
 				</NormalButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</_PopupModal>
 	);
 };

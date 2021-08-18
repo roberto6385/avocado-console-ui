@@ -27,7 +27,7 @@ export const AlertDialogBox = styled(DialogBox)`
 	z-index: 15;
 `;
 
-export const ModalHeader = styled.div`
+export const DialogBoxHeader = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -38,13 +38,13 @@ export const ModalHeader = styled.div`
 			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 	font-weight: 500;
 `;
-export const ModalMessage = styled.div`
+export const DialogBoxMessage = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 24px 16px;
 `;
-export const ModalFooter = styled.div`
+export const DialogBoxFooter = styled.div`
 	display: flex;
 	ailgn-items: center;
 	justify-content: flex-end;
@@ -54,7 +54,7 @@ export const ModalFooter = styled.div`
 		${(props) =>
 			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 `;
-export const AlertText = styled.div`
+export const AlertDialogBoxText = styled.div`
 	width: 226px;
 	margin-left: 8px;
 `;

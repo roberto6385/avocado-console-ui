@@ -1,6 +1,6 @@
 export default {
 	mode: 'en',
-	addServer: 'Add Server',
+	addServer: 'Add Resource',
 	name: 'Name',
 	protocol: 'Protocol',
 	address: 'Address',
@@ -15,7 +15,7 @@ export default {
 	keyFilePassword: 'Key File Password',
 	note: 'Note',
 	place: {
-		name: 'Server Name',
+		name: 'Resource Name',
 		address: 'Host or IP',
 		port: 'Port',
 		auth: 'Authentication',

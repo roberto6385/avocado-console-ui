@@ -17,7 +17,7 @@ import * as PropTypes from 'prop-types';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
-const History_ = ({uuid}) => {
+const HistoryContianer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const [prevOffset, setPrevOffset] = useState(null);
 	const {userData} = useSelector(authSelector.all);
@@ -49,11 +49,11 @@ const History_ = ({uuid}) => {
 		() => sftp_historyState.find((it) => it.uuid === uuid),
 		[sftp_historyState, uuid],
 	);
-	const corServer = useMemo(
+	const resource = useMemo(
 		() => server.find((it) => it.key === corTab.server.key),
 		[corTab.server.key, server],
 	);
-	const correspondedIdentity = useMemo(
+	const account = useMemo(
 		() =>
 			identity.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
@@ -69,7 +69,7 @@ const History_ = ({uuid}) => {
 		[sftp_downloadState, uuid],
 	);
 
-	const handleUploadWithClick = useCallback(async () => {
+	const onClickUploadHistory = useCallback(async () => {
 		const uploadInput = document.createElement('input');
 		document.body.appendChild(uploadInput);
 		uploadInput.setAttribute('type', 'file');
@@ -97,10 +97,10 @@ const History_ = ({uuid}) => {
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
 						todo: 'write',
 						uuid: uuid,
 					},
@@ -115,10 +115,10 @@ const History_ = ({uuid}) => {
 		writeList,
 		path,
 		userData,
-		corServer,
-		correspondedIdentity,
+		resource,
+		account,
 	]);
-	const handleUploadWithDrop = useCallback(
+	const onDropUploadHistory = useCallback(
 		async (files) => {
 			for await (let value of files) {
 				dispatch({
@@ -140,10 +140,10 @@ const History_ = ({uuid}) => {
 					type: CREATE_NEW_WEBSOCKET_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: corServer.host,
-						port: corServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
 						todo: 'write',
 						uuid: uuid,
 					},
@@ -157,13 +157,12 @@ const History_ = ({uuid}) => {
 			uuid,
 			path,
 			userData,
-			corServer,
-			correspondedIdentity,
+			resource,
+			account,
 		],
 	);
-	const compareItem = useCallback(
+	const compareHistories = useCallback(
 		(first, second) => {
-			console.log(first, second);
 			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
 
 			let list = [];
@@ -187,31 +186,31 @@ const History_ = ({uuid}) => {
 		[dispatch, history, uuid],
 	);
 
-	const selectItem = useCallback(
+	const onClickSelectHistory = useCallback(
 		(selectValue, index) => (e) => {
 			e.stopPropagation();
-			const prev_history = history.slice();
-			const prev_history_hi = history_highlight.slice();
+			const prevHistory = history.slice();
+			const prevHistoryHighlight = history_highlight.slice();
 			if (e.metaKey) {
-				if (prev_history_hi.find((item) => item === selectValue)) {
+				if (prevHistoryHighlight.find((item) => item === selectValue)) {
 					dispatch({
 						type: ADD_HISTORY_HI,
 						payload: {
 							uuid,
-							history: prev_history_hi.filter(
+							history: prevHistoryHighlight.filter(
 								(item) => item !== selectValue,
 							),
 						},
 					});
 				} else {
-					prev_history_hi.push(selectValue);
+					prevHistoryHighlight.push(selectValue);
 					dispatch({
 						type: ADD_HISTORY_HI,
-						payload: {uuid, history: prev_history_hi},
+						payload: {uuid, history: prevHistoryHighlight},
 					});
 				}
 			} else if (e.shiftKey) {
-				if (prev_history_hi.length === 0) {
+				if (prevHistoryHighlight.length === 0) {
 					dispatch({
 						type: ADD_HISTORY_HI,
 						payload: {
@@ -220,9 +219,9 @@ const History_ = ({uuid}) => {
 						},
 					});
 				} else {
-					compareItem(
-						prev_history.findIndex(
-							(item) => item === prev_history_hi[0],
+					compareHistories(
+						prevHistory.findIndex(
+							(item) => item === prevHistoryHighlight[0],
 						),
 						index,
 					);
@@ -237,11 +236,11 @@ const History_ = ({uuid}) => {
 				});
 			}
 		},
-		[compareItem, dispatch, history, history_highlight, uuid],
+		[compareHistories, dispatch, history, history_highlight, uuid],
 	);
 
 	//TODO progress가 0인 히스토리 삭제 시 작업삭제
-	const handleRemoveHistory = useCallback(
+	const onClickDeleteHistory = useCallback(
 		(history) => () => {
 			if (history.progress === 0) {
 				console.log(history);
@@ -261,9 +260,8 @@ const History_ = ({uuid}) => {
 		[dispatch, uuid],
 	);
 
-	const handlePauseAndStart = useCallback(
+	const onClickChangeProgress = useCallback(
 		(history) => () => {
-			console.log(history);
 			if (history.progress !== 100 && history.progress !== 0) {
 				if (
 					(history.todo === 'read' && readSocket) ||
@@ -306,9 +304,6 @@ const History_ = ({uuid}) => {
 								v.todo === history.todo,
 						);
 
-					console.log(item);
-					console.log(prevOffset);
-
 					if (!item || item.offset === prevOffset) return;
 					setPrevOffset(item.offset);
 
@@ -333,10 +328,10 @@ const History_ = ({uuid}) => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: history.todo,
 							uuid: uuid,
 							key: history.key,
@@ -355,28 +350,28 @@ const History_ = ({uuid}) => {
 			pause,
 			prevOffset,
 			userData,
-			corServer,
-			correspondedIdentity,
+			resource,
+			account,
 		],
 	);
 
 	return (
 		<History
-			onUploadWithDrop={handleUploadWithDrop}
-			onUploadWithClick={handleUploadWithClick}
-			onSelect={selectItem}
+			history={history}
 			highlight={history_highlight}
-			onPauseAndStart={handlePauseAndStart}
-			onRemove={handleRemoveHistory}
 			writeSocket={writeSocket}
 			readSocket={readSocket}
-			history={history}
+			onDropUpload={onDropUploadHistory}
+			onClickUpload={onClickUploadHistory}
+			onSelect={onClickSelectHistory}
+			onChangeProgress={onClickChangeProgress}
+			onRemove={onClickDeleteHistory}
 		/>
 	);
 };
 
-History_.propTypes = {
+HistoryContianer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default History_;
+export default HistoryContianer;

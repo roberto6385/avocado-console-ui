@@ -28,10 +28,10 @@ const InputContainer = styled.div`
 	}
 `;
 
-const CheckBox_ = ({
+const CheckBox = ({
 	title = '',
 	value,
-	handleCheck,
+	onChangeCheck,
 	indeterminate = false, // 체크박스 하위 항목중 일부 체크 시
 	disabled = false,
 }) => {
@@ -42,7 +42,7 @@ const CheckBox_ = ({
 		>
 			<input
 				type='checkbox'
-				onChange={handleCheck}
+				onChange={onChangeCheck}
 				checked={value}
 				disabled={disabled}
 			/>
@@ -65,12 +65,12 @@ const CheckBox_ = ({
 	);
 };
 
-CheckBox_.propTypes = {
+CheckBox.propTypes = {
 	title: PropTypes.string,
 	value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]).isRequired,
-	handleCheck: PropTypes.func,
+	onChangeCheck: PropTypes.func,
 	indeterminate: PropTypes.bool,
 	disabled: PropTypes.bool,
 };
 
-export default CheckBox_;
+export default CheckBox;

@@ -15,6 +15,7 @@ import {
 import {HoverButton} from '../../../styles/components/icon';
 import {SearchTextBox} from '../../../styles/components/textBox';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
+import useInput from '../../../hooks/useInput';
 
 const _Container = styled.div`
 	display: flex;
@@ -51,12 +52,11 @@ const FileToolbar = ({uuid}) => {
 		[sftp_etcState, uuid],
 	);
 
-	const [currentPath, setCurrentPath] = useState('');
+	const [currentPath, onChangeCurrentPath, setCurrentPath] = useInput('');
 
-	const movedHome = useCallback(
+	const onClickMoveToRootPath = useCallback(
 		(e, nextPath = '/root') => {
-			const pathInput = document.getElementById('fileListNavInput');
-			console.log(nextPath);
+			const pathInput = document.getElementById('file-list-nav-input');
 			nextPath !== undefined &&
 				dispatch({
 					type: CD_REQUEST,
@@ -72,7 +72,7 @@ const FileToolbar = ({uuid}) => {
 		[dispatch, path, socket, uuid],
 	);
 
-	const movedBack = useCallback(
+	const onClickMovetoParentRath = useCallback(
 		(e) => {
 			if (path !== '/') {
 				console.log(path);
@@ -80,29 +80,28 @@ const FileToolbar = ({uuid}) => {
 				tempPath.pop();
 				console.log(tempPath);
 				let nextPath = tempPath.join('/').trim();
-				movedHome(e, nextPath === '' ? '/' : nextPath);
+				onClickMoveToRootPath(e, nextPath === '' ? '/' : nextPath);
 			}
 		},
-		[movedHome, path],
+		[onClickMoveToRootPath, path],
 	);
-	const searchPath = useCallback(
+	const onSubmitChangePath = useCallback(
 		(e) => {
 			e.preventDefault();
 			currentPath !== ''
-				? movedHome(e, currentPath)
+				? onClickMoveToRootPath(e, currentPath)
 				: setCurrentPath(path);
 		},
-		[currentPath, movedHome, path],
+		[currentPath, onClickMoveToRootPath, path],
 	);
 
-	const handleChange = useCallback((e) => {
-		const {value} = e.target;
-		setCurrentPath(value);
-	}, []);
+	const onBlurChangePath = useCallback(() => {
+		setCurrentPath(path);
+	}, [path]);
 
-	const EscapeKey = useCallback(
+	const onKeyDownChangePath = useCallback(
 		(e) => {
-			const pathInput = document.getElementById('fileListNavInput');
+			const pathInput = document.getElementById('file-list-nav-input');
 
 			if (e.keyCode === 27) {
 				setCurrentPath(path);
@@ -112,7 +111,7 @@ const FileToolbar = ({uuid}) => {
 		[path],
 	);
 
-	const viewDropList = useCallback(() => {
+	const onClickChangeToDropListStyle = useCallback(() => {
 		mode !== 'drop' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -124,7 +123,7 @@ const FileToolbar = ({uuid}) => {
 			});
 	}, [dispatch, mode, uuid]);
 
-	const viewList = useCallback(() => {
+	const onClickChangeToFileListStyle = useCallback(() => {
 		mode !== 'list' &&
 			dispatch({
 				type: CHANGE_MODE,
@@ -136,7 +135,7 @@ const FileToolbar = ({uuid}) => {
 			});
 	}, [dispatch, mode, uuid]);
 
-	const refresh = useCallback(() => {
+	const onClickRefreshList = useCallback(() => {
 		dispatch({
 			type: PWD_REQUEST,
 			payload: {
@@ -153,39 +152,48 @@ const FileToolbar = ({uuid}) => {
 
 	return (
 		<_Container>
-			<HoverButton margin={'13px 5px 13px 16px'} onClick={movedBack}>
+			<HoverButton
+				margin={'13px 5px 13px 16px'}
+				onClick={onClickMovetoParentRath}
+			>
 				{arrowUpwordIcon}
 			</HoverButton>
 			<SftpMainIcon
 				type={mode === 'list' ? 'main' : undefined}
 				margin={'13px 5px'}
-				onClick={viewList}
+				onClick={onClickChangeToFileListStyle}
 			>
 				{viewListIcon}
 			</SftpMainIcon>
 			<SftpMainIcon
 				type={mode === 'drop' ? 'main' : undefined}
 				margin={'13px 16px 13px 5px'}
-				onClick={viewDropList}
+				onClick={onClickChangeToDropListStyle}
 			>
 				{viewColumnIcon}
 			</SftpMainIcon>
-			<_Form onSubmit={searchPath} autoComplete='off'>
+			<_Form onSubmit={onSubmitChangePath} autoComplete='off'>
 				<SearchTextBox
 					ref={inputRef}
-					id='fileListNavInput'
+					id='file-list-nav-input'
 					onClick={() => inputRef.current?.select()}
 					type='text'
 					value={currentPath}
-					onChange={handleChange}
-					onKeyDown={EscapeKey}
-					onBlur={() => setCurrentPath(path)}
+					onChange={onChangeCurrentPath}
+					onKeyDown={onKeyDownChangePath}
+					onBlur={onBlurChangePath}
 				/>
 			</_Form>
-			<HoverButton margin={'13px 5px 13px 16px'} onClick={refresh}>
+			<HoverButton
+				margin={'13px 5px 13px 16px'}
+				onClick={onClickRefreshList}
+			>
 				{refreshIcon}
 			</HoverButton>
-			<HoverButton margin={'13px 16px 13px 5px'} onClick={movedHome}>
+			<HoverButton
+				margin={'13px 16px 13px 5px'}
+				onClick={onClickMoveToRootPath}
+			>
 				{homeIcon}
 			</HoverButton>
 		</_Container>

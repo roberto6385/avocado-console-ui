@@ -12,15 +12,11 @@ import {
 } from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
-import {isValidFolderName} from '../../utils/checkValidName';
 
 const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-	const {server, favorites} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {server} = useSelector((state) => state.common, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
 
 	const contextMenuList = {
@@ -63,18 +59,11 @@ const FavoritesContextMenu = ({identity, data}) => {
 	}, [server, dispatch, userData, identity, data.key]);
 
 	const onClickAddFolder = useCallback(() => {
-		let folderName = t('newFolder');
-		//TODO: check name duplication
-		let i = 0;
-		while (!isValidFolderName(favorites, folderName)) {
-			folderName = `${t('newFolder')} ${i}`;
-			i++;
-		}
 		dispatch({
 			type: ADD_FOLDER_ON_FAVORITES,
-			payload: {name: folderName, key: 'favorites'},
+			payload: {name: t('newFolder'), key: 'favorites'},
 		});
-	}, [dispatch, favorites, t]);
+	}, [dispatch, t]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
@@ -102,7 +91,10 @@ const FavoritesContextMenu = ({identity, data}) => {
 	);
 
 	return (
-		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
+		<ContextMenu
+			id={data.key + '-favorites-context-menu'}
+			animation={animation.slide}
+		>
 			{Object.entries(contextMenuList).map(([key, value]) => (
 				<Item key={key} onClick={handleOnClickEvents(key)}>
 					{value}

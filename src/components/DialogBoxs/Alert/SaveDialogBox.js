@@ -19,10 +19,10 @@ import {
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	AlertDialogBox,
-	AlertText,
-	ModalFooter,
-	ModalHeader,
-	ModalMessage,
+	AlertDialogBoxText,
+	DialogBoxFooter,
+	DialogBoxHeader,
+	DialogBoxMessage,
 } from '../../../styles/components/disalogBox';
 
 import {authSelector} from '../../../reducers/api/auth';
@@ -215,7 +215,7 @@ const SaveDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('alert')}</div>
 				<IconButton
 					itype={'font'}
@@ -225,23 +225,25 @@ const SaveDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
-			<ModalMessage>
+			<DialogBoxMessage>
 				<Icon margin_right='6px' itype={'warning'}>
 					{alertFillIcon}
 				</Icon>
-				<AlertText>{alertMessages[alert.key]}</AlertText>
-			</ModalMessage>
+				<AlertDialogBoxText>
+					{alertMessages[alert.key]}
+				</AlertDialogBoxText>
+			</DialogBoxMessage>
 
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 				<WarningButton onClick={handleOnClickSaveEvents}>
 					{t('save')}
 				</WarningButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</AlertDialogBox>
 	);
 };

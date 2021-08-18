@@ -28,13 +28,9 @@ const _SettingTitle = styled(SettingTitle)`
 	justify-content: space-between;
 `;
 
-const AsideContainer = ({toggle, setToggle}) => {
+const AsideContainer = ({isOpened, setIsOpened}) => {
 	const {t} = useTranslation('settingNav');
 	const {aside} = useSelector(settingSelector.all);
-
-	const onClickCloseAside = useCallback(() => {
-		setToggle(false);
-	}, [setToggle]);
 
 	const settingTitle = {
 		Account: t('account'),
@@ -42,8 +38,12 @@ const AsideContainer = ({toggle, setToggle}) => {
 		Identities: t('identities'),
 	};
 
+	const onClickCloseAside = useCallback(() => {
+		setIsOpened(false);
+	}, [setIsOpened]);
+
 	return (
-		<_Container className={toggle ? 'aside' : 'aside close'}>
+		<_Container className={isOpened ? 'aside' : 'aside close'}>
 			<_SettingTitle>
 				{settingTitle[aside]}
 				<IconButton
@@ -54,16 +54,16 @@ const AsideContainer = ({toggle, setToggle}) => {
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>
-			{aside === 'Account' && <AccountAside />}
-			{aside === 'Preferences' && <PreferencesAside />}
-			{aside === 'Identities' && <IdentitiesAside />}
+			{aside === 'account' && <AccountAside />}
+			{aside === 'preferences' && <PreferencesAside />}
+			{aside === 'identities' && <IdentitiesAside />}
 		</_Container>
 	);
 };
 
 AsideContainer.propTypes = {
-	toggle: PropTypes.bool.isRequired,
-	setToggle: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
+	setIsOpened: PropTypes.func.isRequired,
 };
 
 export default AsideContainer;

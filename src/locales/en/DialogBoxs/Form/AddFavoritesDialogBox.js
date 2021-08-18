@@ -2,7 +2,7 @@ export default {
 	mode: 'en',
 	title: 'Add Bookmark',
 
-	newFolder: 'New Folder',
+	newFolder: 'New ResourceGroup',
 	cancel: 'Cancel',
 	save: 'Save',
 };

@@ -7,11 +7,11 @@ import styled from 'styled-components';
 
 import {closeIcon} from '../../../icons/icons';
 import {IconButton} from '../../../styles/components/icon';
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
 import {
@@ -63,9 +63,7 @@ const FileStatusDialogBox = () => {
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const uuid = form.uuid;
-	const searchedWebSocket = sftp_socketState.find(
-		(it) => it.uuid === uuid,
-	)?.socket;
+	const ws = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
 	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
 	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
 
@@ -89,23 +87,13 @@ const FileStatusDialogBox = () => {
 				payload: {
 					permissions: per,
 					path: stat.path,
-					socket: searchedWebSocket,
+					socket: ws,
 					uuid: uuid,
 				},
 			});
 			onCloseDialogBox();
 		},
-		[
-			onCloseDialogBox,
-			dispatch,
-			grp,
-			own,
-			pub,
-			searchedWebSocket,
-			stat,
-			type,
-			uuid,
-		],
+		[onCloseDialogBox, dispatch, grp, own, pub, ws, stat, type, uuid],
 	);
 
 	const checkFunc = useCallback(
@@ -214,11 +202,11 @@ const FileStatusDialogBox = () => {
 				payload: {
 					stat_path: path,
 					file: highlight[0],
-					socket: searchedWebSocket,
+					socket: ws,
 				},
 			});
 		}
-	}, [dispatch, highlight, path, searchedWebSocket, form]);
+	}, [dispatch, highlight, path, ws, form]);
 
 	useEffect(() => {
 		console.log(stat);
@@ -277,7 +265,7 @@ const FileStatusDialogBox = () => {
 				ariaHideApp={false}
 				shouldCloseOnOverlayClick={false}
 			>
-				<ModalHeader>
+				<DialogBoxHeader>
 					{/*<div>{HeaderMessage[file_status_dialog_box.key]}</div>*/}
 					<div>{t('title')}</div>
 					<IconButton
@@ -288,7 +276,7 @@ const FileStatusDialogBox = () => {
 					>
 						{closeIcon}
 					</IconButton>
-				</ModalHeader>
+				</DialogBoxHeader>
 
 				<_Form onSubmit={submitFunction}>
 					<_Row>
@@ -296,67 +284,67 @@ const FileStatusDialogBox = () => {
 							<KeySpan>{t('owner')}</KeySpan>
 							<br />
 
-							<CheckBox_
+							<CheckBox
 								title={checked[0].type}
 								value={checked[0].checked}
-								handleCheck={checkFunc(checked[0])}
+								onChangeCheck={checkFunc(checked[0])}
 							/>
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[1].type}
 								value={checked[1].checked}
-								handleCheck={checkFunc(checked[1])}
+								onChangeCheck={checkFunc(checked[1])}
 							/>
 
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[2].type}
 								value={checked[2].checked}
-								handleCheck={checkFunc(checked[2])}
+								onChangeCheck={checkFunc(checked[2])}
 							/>
 						</_Col>
 						<_Col>
 							<KeySpan>{t('group')}</KeySpan>
 							<br />
 
-							<CheckBox_
+							<CheckBox
 								title={checked[3].type}
 								value={checked[3].checked}
-								handleCheck={checkFunc(checked[3])}
+								onChangeCheck={checkFunc(checked[3])}
 							/>
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[4].type}
 								value={checked[4].checked}
-								handleCheck={checkFunc(checked[4])}
+								onChangeCheck={checkFunc(checked[4])}
 							/>
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[5].type}
 								value={checked[5].checked}
-								handleCheck={checkFunc(checked[5])}
+								onChangeCheck={checkFunc(checked[5])}
 							/>
 						</_Col>
 						<_Col>
 							<KeySpan>{t('public')}</KeySpan>
 							<br />
 
-							<CheckBox_
+							<CheckBox
 								title={checked[6].type}
 								value={checked[6].checked}
-								handleCheck={checkFunc(checked[6])}
+								onChangeCheck={checkFunc(checked[6])}
 							/>
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[7].type}
 								value={checked[7].checked}
-								handleCheck={checkFunc(checked[7])}
+								onChangeCheck={checkFunc(checked[7])}
 							/>
 							<br />
-							<CheckBox_
+							<CheckBox
 								title={checked[8].type}
 								value={checked[8].checked}
-								handleCheck={checkFunc(checked[8])}
+								onChangeCheck={checkFunc(checked[8])}
 							/>
 						</_Col>
 					</_Row>
@@ -368,14 +356,14 @@ const FileStatusDialogBox = () => {
 					/>
 				</_Form>
 
-				<ModalFooter>
+				<DialogBoxFooter>
 					<TransparentButton onClick={onCloseDialogBox}>
 						{t('cancel')}
 					</TransparentButton>
 					<NormalButton onClick={submitFunction}>
 						{t('save')}
 					</NormalButton>
-				</ModalFooter>
+				</DialogBoxFooter>
 			</_DialogBox>
 		)
 	);

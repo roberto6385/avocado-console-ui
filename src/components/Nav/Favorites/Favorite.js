@@ -11,15 +11,15 @@ import {
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
-import FavoritesContextMenu from '../../ContextMenu/FavoritesContextMenu';
+import FavoritesContextMenu from '../../ContextMenus/FavoritesContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
-	NavigationItem,
-	NavigationItemTitle,
+	ResourceItem,
+	ResourceItemTitle,
 } from '../../../styles/components/navigationBar';
 import {authSelector} from '../../../reducers/api/auth';
 
-const FavoriteServer = ({data, indent}) => {
+const Favorite = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, server, identity} = useSelector(
 		(state) => state.common,
@@ -33,7 +33,7 @@ const FavoriteServer = ({data, indent}) => {
 		[identity, data],
 	);
 
-	const onClickServerItem = useDoubleClick(
+	const onClickFavorite = useDoubleClick(
 		() => {
 			const resource = server.find((i) => i.id === data.id);
 
@@ -74,25 +74,24 @@ const FavoriteServer = ({data, indent}) => {
 	);
 
 	const {show} = useContextMenu({
-		id: data.key + 'server',
+		id: data.key + '-favorites-context-menu',
 	});
 
-	const OpenFavoriteServerContextMenu = useCallback(
+	const openFavoriteContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			console.log('OpenServerContextMenu item');
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			show(e);
 		},
 		[data, dispatch, show],
 	);
 
-	const prevPutItem = useCallback(() => {
+	const onDragStartFavorite = useCallback(() => {
 		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data, dispatch]);
 
-	const nextPutItem = useCallback(
+	const onDropFavorite = useCallback(
 		(e) => {
 			console.log('favorites server next put item');
 
@@ -107,20 +106,14 @@ const FavoriteServer = ({data, indent}) => {
 		[data, dispatch],
 	);
 
-	const handleDragOver = useCallback((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}, []);
-
 	return (
 		<React.Fragment>
-			<NavigationItem
-				onClick={onClickServerItem}
+			<ResourceItem
+				onClick={onClickFavorite}
 				draggable='true'
-				onDragStart={prevPutItem}
-				onDragOver={handleDragOver}
-				onDrop={nextPutItem}
-				onContextMenu={OpenFavoriteServerContextMenu}
+				onDragStart={onDragStartFavorite}
+				onDrop={onDropFavorite}
+				onContextMenu={openFavoriteContextMenu}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -133,17 +126,17 @@ const FavoriteServer = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle>{data.name}</NavigationItemTitle>
-			</NavigationItem>
+				<ResourceItemTitle>{data.name}</ResourceItemTitle>
+			</ResourceItem>
 
 			<FavoritesContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };
 
-FavoriteServer.propTypes = {
+Favorite.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FavoriteServer;
+export default Favorite;

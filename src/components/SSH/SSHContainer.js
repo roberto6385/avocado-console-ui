@@ -8,7 +8,7 @@ import SFTPConnectBtn from '../SFTP/SFTPConnectBtn';
 import SnippetsManager from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
-import SnippetsManagerContextMenu from '../ContextMenu/SnippetsManagerContextMenu';
+import SnippetsManagerContextMenu from '../ContextMenus/SnippetsManagerContextMenu';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
@@ -72,9 +72,9 @@ const SSHContainer = ({uuid, server}) => {
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
 	const snippetRef = useRef();
-	const [isToolbarUnfold, setIsToolbarUnfold] = useState(true);
+	const [isToolbarUnfolded, setIsToolbarUnfolded] = useState(true);
 	const {show} = useContextMenu({
-		id: uuid + 'snippet',
+		id: uuid + '-snippets-context-menu',
 	});
 
 	function getSettingMenuPosition() {
@@ -90,22 +90,22 @@ const SSHContainer = ({uuid, server}) => {
 
 	const onCLickFullScreen = useCallback(() => {
 		document
-			.getElementById('terminal_container_' + uuid)
+			.getElementById('terminal-container-' + uuid)
 			.requestFullscreen();
 	}, [uuid]);
 
 	const onClickFoldToolbar = useCallback(() => {
-		setIsToolbarUnfold(false);
+		setIsToolbarUnfolded(false);
 	}, []);
 
 	const onClickUnfoldToolbar = useCallback(() => {
-		setIsToolbarUnfold(true);
+		setIsToolbarUnfolded(true);
 	}, []);
 
 	return (
 		<_Container>
 			<_HeaderContainer
-				className={!isToolbarUnfold && 'close-nav-header'}
+				className={!isToolbarUnfolded && 'close-nav-header'}
 			>
 				<_Header>
 					<HoverButton
@@ -121,7 +121,7 @@ const SSHContainer = ({uuid, server}) => {
 					</HoverButton>
 				</_Header>
 				{(nav.length === 1 || cols === 1) &&
-					(isToolbarUnfold ? (
+					(isToolbarUnfolded ? (
 						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}
 							alt='toolbar fold button'
@@ -135,7 +135,7 @@ const SSHContainer = ({uuid, server}) => {
 						/>
 					))}
 			</_HeaderContainer>
-			<SSH uuid={uuid} isToolbarUnfold={isToolbarUnfold} />
+			<SSH uuid={uuid} isToolbarUnfold={isToolbarUnfolded} />
 			<SnippetsManager />
 			<SnippetsManagerContextMenu uuid={uuid} />
 		</_Container>

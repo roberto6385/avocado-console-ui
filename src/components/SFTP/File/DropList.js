@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import SFTPFileListContextMenu from '../../ContextMenu/SFTPFileListContextMenu';
+import SFTPFileListContextMenu from '../../ContextMenus/SFTPFileListContextMenu';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -84,10 +84,10 @@ const DropList = ({
 	uuid,
 	list,
 	pathList,
-	onClick,
-	onContextMenu,
 	highlight,
 	path,
+	onContextMenu,
+	onClick,
 	onEdit,
 	onDownload,
 }) => {
@@ -113,7 +113,7 @@ const DropList = ({
 							return (
 								item.name !== '.' && (
 									<_Li
-										className={'filelist_contents'}
+										className={'filelist-content'}
 										type={
 											(highlight.findIndex(
 												(it) =>
@@ -141,7 +141,7 @@ const DropList = ({
 										})}
 									>
 										<_FirstItemContainer
-											className={'filelist_contents'}
+											className={'filelist-content'}
 										>
 											<SftpMainIcon
 												type={
@@ -156,9 +156,7 @@ const DropList = ({
 													: fileIcon}
 											</SftpMainIcon>
 
-											<div
-												className={'filelist_contents'}
-											>
+											<div className={'filelist-content'}>
 												{item.name}
 											</div>
 										</_FirstItemContainer>
@@ -166,7 +164,7 @@ const DropList = ({
 											<>
 												<_ItemContainer
 													className={
-														'filelist_contents'
+														'filelist-content'
 													}
 												>
 													{item.permission}

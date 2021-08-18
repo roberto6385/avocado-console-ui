@@ -10,15 +10,15 @@ import {
 	SORT_FAVORITE_RESOURCES,
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
-import Collapse_ from '../../RecycleComponents/Collapse_';
+import CollapseContainer from '../../RecycleComponents/CollapseContainer';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
-import FavoriteServer from './FavoriteServer';
-import FolderOnFavoritesContextMenu from '../../ContextMenu/FolderOnFavoritesContextMenu';
+import Favorite from './Favorite';
+import FavoriteGroupContextMenu from '../../ContextMenus/FavoriteGroupContextMenu';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import styled from 'styled-components';
 import {
-	NavigationItemTitle,
-	NavigationItem,
+	ResourceItemTitle,
+	ResourceItem,
 } from '../../../styles/components/navigationBar';
 import {TextBox} from '../../../styles/components/textBox';
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
@@ -26,7 +26,7 @@ const Input_ = styled(TextBox)`
 	height: 24px;
 `;
 
-const FolderOnFavorites = ({open, data, indent}) => {
+const FavoriteGroup = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const {clicked_server, favoriteFolderRenamingKey} = useSelector(
 		(state) => state.common,
@@ -37,7 +37,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 	const [isRenaming, setIsRenaming] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	const onClickFolderItem = useDoubleClick(
+	const onClickFolder = useDoubleClick(
 		() => {
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			setIsRenaming(true);
@@ -57,10 +57,10 @@ const FolderOnFavorites = ({open, data, indent}) => {
 	}, [isFolderUnfolded]);
 
 	const {show} = useContextMenu({
-		id: data.key + 'folder',
+		id: data.key + '-favorite-group-context-menu',
 	});
 
-	const openFolderOnFavoritesContextMenu = useCallback(
+	const openFavoriteGroupContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
@@ -98,12 +98,12 @@ const FolderOnFavorites = ({open, data, indent}) => {
 		[dispatch, renameValue, data],
 	);
 
-	const prevPutItem = useCallback(() => {
+	const onDragStartFolder = useCallback(() => {
 		console.log('prev put item');
 		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 	}, [data.key, dispatch]);
 
-	const nextPutItem = useCallback(
+	const onDropFolder = useCallback(
 		(e) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -118,7 +118,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 		[data, dispatch, indent],
 	);
 
-	const handleDragOver = useCallback((e) => {
+	const onDragOverFolder = useCallback((e) => {
 		e.stopPropagation();
 		e.preventDefault();
 	}, []);
@@ -128,6 +128,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 		renameRef.current = null;
 		dispatch({type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY});
 	}, []);
+
 	//fill rename text box value
 	useEffect(() => {
 		const fillInForm = async () => {
@@ -152,13 +153,13 @@ const FolderOnFavorites = ({open, data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItem
-				onClick={onClickFolderItem}
-				onContextMenu={openFolderOnFavoritesContextMenu}
+			<ResourceItem
+				onClick={onClickFolder}
+				onContextMenu={openFavoriteGroupContextMenu}
 				draggable='true'
-				onDragStart={prevPutItem}
-				onDragOver={handleDragOver}
-				onDrop={nextPutItem}
+				onDragStart={onDragStartFolder}
+				onDragOver={onDragOverFolder}
+				onDrop={onDropFolder}
 				selected={clicked_server === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -170,7 +171,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationItemTitle>
+				<ResourceItemTitle>
 					{isRenaming ? (
 						<Input_
 							ref={renameRef}
@@ -183,7 +184,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 					) : (
 						data.name
 					)}
-				</NavigationItemTitle>
+				</ResourceItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -191,20 +192,20 @@ const FolderOnFavorites = ({open, data, indent}) => {
 				>
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
-			</NavigationItem>
+			</ResourceItem>
 			{data.contain.length !== 0 && (
-				<Collapse_ open={isFolderUnfolded}>
+				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<FolderOnFavorites
+								<FavoriteGroup
 									key={i.key}
 									open={open}
 									data={i}
 									indent={indent + 1}
 								/>
 							) : (
-								<FavoriteServer
+								<Favorite
 									key={i.key}
 									data={i}
 									indent={indent + 1}
@@ -212,17 +213,17 @@ const FolderOnFavorites = ({open, data, indent}) => {
 							),
 						)}
 					</React.Fragment>
-				</Collapse_>
+				</CollapseContainer>
 			)}
-			<FolderOnFavoritesContextMenu data={data} />
+			<FavoriteGroupContextMenu data={data} />
 		</React.Fragment>
 	);
 };
 
-FolderOnFavorites.propTypes = {
+FavoriteGroup.propTypes = {
 	open: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FolderOnFavorites;
+export default FavoriteGroup;

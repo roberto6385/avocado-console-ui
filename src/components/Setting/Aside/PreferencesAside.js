@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ComboBox_ from '../../RecycleComponents/ComboBox_';
+import ComboBox from '../../RecycleComponents/ComboBox';
 import styled from 'styled-components';
 import {
 	MONTSERRAT,
@@ -8,7 +8,7 @@ import {
 	ROBOTO_SLAP,
 } from '../../../styles/components/font';
 import {useTranslation} from 'react-i18next';
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
 	SSH_SET_FONT_REQUEST,
@@ -31,7 +31,7 @@ const _Title = styled.div`
 		${(props) => props.theme.pages.webTerminal.main.aside.border.color};
 `;
 
-const _ContentsContainer = styled.div`
+const _ContentContainer = styled.div`
 	padding: 15px 0px;
 `;
 
@@ -104,33 +104,33 @@ const PreferencesAside = () => {
 	return (
 		<_Container>
 			<_Title>{t('general')}</_Title>
-			<_ContentsContainer>
-				<ComboBox_
+			<_ContentContainer>
+				<ComboBox
 					width={'266px'}
 					title={t('lang')}
 					options={languageOptions}
 					value={languageCopy}
 					setValue={setLanguageCopy}
 				/>
-				<ComboBox_
+				<ComboBox
 					width={'266px'}
 					title={t('uiTheme')}
 					options={themeOptions}
 					value={themeCopy}
 					setValue={setThemeCopy}
 				/>
-			</_ContentsContainer>
+			</_ContentContainer>
 
 			<_Title>{t('terminal')}</_Title>
-			<_ContentsContainer>
-				<ComboBox_
+			<_ContentContainer>
+				<ComboBox
 					width={'266px'}
 					title={t('uiTheme')}
 					options={terminalThemeOptions}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
-				<ComboBox_
+				<ComboBox
 					width={'266px'}
 					title={t('font')}
 					options={sshFontOptions}
@@ -138,24 +138,24 @@ const PreferencesAside = () => {
 					setValue={setSshFont}
 				/>
 
-				<CheckBox_
+				<CheckBox
 					title={t('textCompletion')}
 					value={isAutocompleteTurnedOn}
-					handleCheck={(e) =>
+					onChangeCheck={(e) =>
 						setIsAutocompleteTurnedOn(e.target.checked)
 					}
 				/>
-			</_ContentsContainer>
+			</_ContentContainer>
 
 			<_Title>{t('sftp')}</_Title>
-			<_ContentsContainer>
-				<ComboBox_
+			<_ContentContainer>
+				<ComboBox
 					title={t('editorTheme')}
 					options={editorThemeOptions}
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>
-			</_ContentsContainer>
+			</_ContentContainer>
 		</_Container>
 	);
 };

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import FindPasswordForm from '../components/Form/FindPasswordForm';
+import FindPasswordForm from '../components/Forms/FindPasswordForm';
 import SignInLayout from '../components/Layouts/SignInLayout';
 import {AUTH, authSelector} from '../reducers/api/auth';
 

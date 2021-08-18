@@ -8,8 +8,8 @@ import {avocadoLogo, burgerMenuIcon} from '../../icons/icons';
 import {HoverButton} from '../../styles/components/icon';
 import drkFoldingButton from '../../images/navFoldingButton/drk_floating_btn.png';
 import lghtFoldingButton from '../../images/navFoldingButton/lght_floating_btn.png';
-import Resources from './Resources/Resources';
-import Favorites from './Favorites/Favorites';
+import ResourceContainer from './Resources/ResourceContainer';
+import FavoriteContainer from './Favorites/FavoriteContainer';
 import {settingAction, settingSelector} from '../../reducers/setting';
 
 const foldingButtons = {light: lghtFoldingButton, dark: drkFoldingButton};
@@ -94,7 +94,7 @@ const _NavTabItem = styled.div`
 	width: 100%;
 `;
 
-const NavBar = ({toggle, setToggle}) => {
+const NavBar = ({isOpened, setIsOpened}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
 
@@ -107,8 +107,8 @@ const NavBar = ({toggle, setToggle}) => {
 	];
 
 	const onClickOpenOrCloseNav = useCallback(() => {
-		setToggle(!toggle);
-	}, [setToggle, toggle]);
+		setIsOpened(!isOpened);
+	}, [setIsOpened, isOpened]);
 
 	const onClickChangeNavTab = useCallback(
 		(key) => () => {
@@ -118,7 +118,7 @@ const NavBar = ({toggle, setToggle}) => {
 	);
 
 	return (
-		<_Aside className={toggle ? 'nav' : 'nav close'}>
+		<_Aside className={isOpened ? 'nav' : 'nav close'}>
 			<_Header>
 				<HoverButton
 					margin_right={'6px'}
@@ -145,14 +145,14 @@ const NavBar = ({toggle, setToggle}) => {
 				})}
 			</_NavTabContianer>
 			{navigation === 0 ? ( // 0:자원 1:즐겨찾기
-				<Resources />
+				<ResourceContainer />
 			) : (
-				<Favorites />
+				<FavoriteContainer />
 			)}
 
 			<_OpenNavButton
 				onClick={onClickOpenOrCloseNav}
-				display={toggle ? 'none' : 'inline-block'}
+				display={isOpened ? 'none' : 'inline-block'}
 			>
 				<img src={foldingButtons[theme]} alt='nav folding button' />
 			</_OpenNavButton>
@@ -161,8 +161,8 @@ const NavBar = ({toggle, setToggle}) => {
 };
 
 NavBar.propTypes = {
-	toggle: PropTypes.bool.isRequired,
-	setToggle: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
+	setIsOpened: PropTypes.func.isRequired,
 };
 
 export default NavBar;
