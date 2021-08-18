@@ -64,6 +64,25 @@ const SignUpForm = () => {
 		[dispatch, email, id, name, password, confirmPassword],
 	);
 
+	/*****************************************************/
+	//  roberto - siginForm_update
+	//
+	/*****************************************************/
+
+	const doesPasswordMatch = useCallback(() => {
+		return password === confirmPassword;
+	});
+
+	const renderFeedbackMessage = useCallback(() => {
+		if (confirmPassword) {
+			if (!doesPasswordMatch()) {
+				return <div>패스워드가 일치하지 않습니다</div>;
+			}
+		}
+	});
+
+	/*****************************************************/
+
 	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
 			e.preventDefault();
