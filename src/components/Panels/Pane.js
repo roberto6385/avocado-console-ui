@@ -16,6 +16,7 @@ import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const _Container = styled.div`
 	height: 100%;
@@ -74,10 +75,8 @@ const Pane = ({uuid, type, server}) => {
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
-	const {identity, server: commonServer} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
 	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
@@ -119,8 +118,8 @@ const Pane = ({uuid, type, server}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const resource = commonServer.find((i) => i.key === server.key);
-		const account = identity.find(
+		const resource = resources.find((i) => i.key === server.key);
+		const account = accounts.find(
 			(it) => it.key === server.key && it.checked === true,
 		);
 
@@ -160,9 +159,9 @@ const Pane = ({uuid, type, server}) => {
 			});
 		}
 	}, [
-		commonServer,
+		resources,
 		dispatch,
-		identity,
+		accounts,
 		server,
 		sftp_pathState,
 		terminalTabs,

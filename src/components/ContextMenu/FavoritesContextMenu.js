@@ -6,21 +6,17 @@ import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
-import {
-	ADD_FOLDER_ON_FAVORITES,
-	DELETE_FAVORITE_SERVER,
-} from '../../reducers/common';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
 import {isValidFolderName} from '../../utils/checkValidName';
+import {favoritesAction, favoritesSelector} from '../../reducers/favorites';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-	const {server, favorites} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {favoriteTree} = useSelector(favoritesSelector.all);
+	const {resources} = useSelector(remoteResourceSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
 	const contextMenuList = {
@@ -31,7 +27,7 @@ const FavoritesContextMenu = ({identity, data}) => {
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = server.find((v) => v.key === data.key);
+		const resource = resources.find((v) => v.key === data.key);
 
 		dispatch({
 			type: CONNECTION_REQUEST,
@@ -46,10 +42,10 @@ const FavoritesContextMenu = ({identity, data}) => {
 				id: resource.id,
 			},
 		});
-	}, [server, dispatch, userData, identity, data.key]);
+	}, [resources, dispatch, userData, identity, data.key]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = server.find((v) => v.key === data.key);
+		const resource = resources.find((v) => v.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
@@ -60,21 +56,20 @@ const FavoritesContextMenu = ({identity, data}) => {
 				password: identity.password,
 			},
 		});
-	}, [server, dispatch, userData, identity, data.key]);
+	}, [resources, dispatch, userData, identity, data.key]);
 
 	const onClickAddFolder = useCallback(() => {
 		let folderName = t('newFolder');
 		//TODO: check name duplication
 		let i = 0;
-		while (!isValidFolderName(favorites, folderName)) {
+		while (!isValidFolderName(favoriteTree, folderName)) {
 			folderName = `${t('newFolder')} ${i}`;
 			i++;
 		}
-		dispatch({
-			type: ADD_FOLDER_ON_FAVORITES,
-			payload: {name: folderName, key: 'favorites'},
-		});
-	}, [dispatch, favorites, t]);
+		dispatch(
+			favoritesAction.addGroup({name: folderName, key: 'favorites'}),
+		);
+	}, [dispatch, favoriteTree, t]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
@@ -86,10 +81,7 @@ const FavoritesContextMenu = ({identity, data}) => {
 					onClickOpenSFTP();
 					break;
 				case 'delete-favorite':
-					dispatch({
-						type: DELETE_FAVORITE_SERVER,
-						payload: data.key,
-					});
+					dispatch(favoritesAction.deleteFavorite(data.key));
 					break;
 				case 'add-folder':
 					onClickAddFolder();

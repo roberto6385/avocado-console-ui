@@ -6,6 +6,7 @@ export default {
 	deleteHistory: '선택한 히스토리를 삭제하시겠습니까?',
 	deleteServerFolder: '선택한 서버 및 폴더를 삭제하시겠습니까?',
 	deleteAccount: '선택한 계정을 삭제하시겠습니까? ',
+	deleteFavoriteGroup: '즐겨찾기 폴더를 삭제하시겠습니까?',
 
 	cancel: '취소',
 	delete: '삭제',

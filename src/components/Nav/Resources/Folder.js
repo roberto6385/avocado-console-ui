@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import Server from './Server';
-import {SET_CLICKED_SERVER} from '../../../reducers/common';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
 import {Icon, IconButton} from '../../../styles/components/icon';
@@ -11,20 +10,24 @@ import {
 	NavigationItemTitle,
 	NavigationItem,
 } from '../../../styles/components/navigationBar';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
 
 const Folder = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server} = useSelector((state) => state.common, shallowEqual);
+	const {selectedResource} = useSelector(remoteResourceSelector.all);
 
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 
 	const onClickFolderItem = useCallback(() => {
-		if (clicked_server === data.key) {
-			dispatch({type: SET_CLICKED_SERVER, payload: null});
+		if (selectedResource === data.key) {
+			dispatch(remoteResourceAction.setSelectedResource(null));
 		} else {
-			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			dispatch(remoteResourceAction.setSelectedResource(data.key));
 		}
-	}, [clicked_server, data.key, dispatch]);
+	}, [selectedResource, data.key, dispatch]);
 
 	const onClickFoldOrUnfoldFolder = useCallback(() => {
 		setIsFolderUnfolded(!isFolderUnfolded);
@@ -38,13 +41,15 @@ const Folder = ({open, data, indent}) => {
 		<React.Fragment>
 			<NavigationItem
 				onClick={onClickFolderItem}
-				selected={clicked_server === data.key}
+				selected={selectedResource === data.key}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
-					itype={clicked_server === data.key ? 'selected' : undefined}
+					itype={
+						selectedResource === data.key ? 'selected' : undefined
+					}
 				>
 					{folderIcon}
 				</Icon>

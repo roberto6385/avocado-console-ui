@@ -17,14 +17,13 @@ import Collapse_ from '../../../RecycleComponents/Collapse_';
 import useInput from '../../../../hooks/useInput';
 import {TextBox} from '../../../../styles/components/textBox';
 import {Icon, IconButton} from '../../../../styles/components/icon';
-import {
-	CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES,
-	CHANGE_SELEECTED_TEMP_FAVORITE,
-	CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY,
-} from '../../../../reducers/common';
 import {useDoubleClick} from '../../../../hooks/useDoubleClick';
 import FolderOnFavoritesContextMenu from '../../../ContextMenu/FolderOnFavoritesContextMenu';
 import {useContextMenu} from 'react-contexify';
+import {
+	favoritesAction,
+	favoritesSelector,
+} from '../../../../reducers/favorites';
 
 const Input_ = styled(TextBox)`
 	height: 24px;
@@ -32,8 +31,8 @@ const Input_ = styled(TextBox)`
 
 const FolderOnFavoritesDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {selectedFavoriteItemOnDialogBox, tempFavoriteFolderRenamingKey} =
-		useSelector((state) => state.common, shallowEqual);
+	const {selectedFavoriteItemOnDialogBox, tempFavoriteGroupRenamingKey} =
+		useSelector(favoritesSelector.all);
 	const nameRef = useRef(null);
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [isRenaming, setIsRenaming] = useState(false);
@@ -41,17 +40,16 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 
 	const onClickFolderItemOnFavorites = useDoubleClick(
 		() => {
-			dispatch({type: CHANGE_SELEECTED_TEMP_FAVORITE, payload: data.key});
+			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
 			setIsRenaming(true);
 		},
 		() => {
 			if (selectedFavoriteItemOnDialogBox === data.key) {
-				dispatch({type: CHANGE_SELEECTED_TEMP_FAVORITE, payload: null});
+				dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(null));
 			} else {
-				dispatch({
-					type: CHANGE_SELEECTED_TEMP_FAVORITE,
-					payload: data.key,
-				});
+				dispatch(
+					favoritesAction.setSelectedFavoriteOnDialogBox(data.key),
+				);
 			}
 		},
 		[data, selectedFavoriteItemOnDialogBox],
@@ -66,21 +64,23 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 			if (e.keyCode === 27) {
 				// ESC
 				setIsRenaming(false);
-				dispatch({
-					type: CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY,
-				});
+				dispatch(
+					favoritesAction.changeTempFavoriteGroupRenameKey(null),
+				);
 			} else if (e.keyCode === 13) {
 				//Enter
 				e.preventDefault();
 				if (renameValue !== '') {
-					dispatch({
-						type: CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES,
-						payload: {key: data.key, name: renameValue},
-					});
+					dispatch(
+						favoritesAction.changeTempGroupNameOnFavorites({
+							key: data.key,
+							name: renameValue,
+						}),
+					);
 				} else {
-					dispatch({
-						type: CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY,
-					});
+					dispatch(
+						favoritesAction.changeTempFavoriteGroupRenameKey(null),
+					);
 				}
 				setIsRenaming(false);
 			}
@@ -95,7 +95,7 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 	const openFolderOnFavoritesContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch({type: CHANGE_SELEECTED_TEMP_FAVORITE, payload: data.key});
+			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
 			show(e);
 		},
 		[data, dispatch, show],
@@ -104,15 +104,15 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 	const onBlurFolerNameTextBox = useCallback(() => {
 		setIsRenaming(false);
 		nameRef.current = null;
-		dispatch({type: CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY});
+		dispatch(favoritesAction.changeTempFavoriteGroupRenameKey(null));
 	}, [dispatch]);
 
 	//this folder name has to be renamined
 	useEffect(() => {
-		if (data.key === tempFavoriteFolderRenamingKey) {
+		if (data.key === tempFavoriteGroupRenamingKey) {
 			setIsRenaming(true);
 		}
-	}, [tempFavoriteFolderRenamingKey, data]);
+	}, [tempFavoriteGroupRenamingKey, data]);
 	//fill rename text box value
 	useEffect(() => {
 		const fillInForm = async () => {

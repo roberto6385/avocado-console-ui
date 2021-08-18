@@ -6,7 +6,7 @@ const slice = createSlice({
 		theme: 'light', // light, dark
 		language: 'ko-KR', // language ko-KR - korean, en-US - english
 		aside: null, // current setting menu item
-		navigation: 0, //current_nav_tab
+		navigation: 'resources', //current_nav_tab
 	},
 	reducers: {
 		setTheme: (state, action) => {

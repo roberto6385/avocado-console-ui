@@ -9,6 +9,7 @@ import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarSelector} from '../../reducers/tabBar';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -18,10 +19,8 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		high: sftpHigh,
 		download: sftpDowload,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
@@ -30,16 +29,16 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		[terminalTabs, uuid],
 	);
 	const resource = useMemo(
-		() => server.find((it) => it.key === terminalTab.server.key),
-		[terminalTab.server.key, server],
+		() => resources.find((it) => it.key === terminalTab.server.key),
+		[terminalTab.server.key, resources],
 	);
 	const account = useMemo(
 		() =>
-			identity.find(
+			accounts.find(
 				(it) =>
 					it.key === terminalTab.server.key && it.checked === true,
 			),
-		[identity, terminalTab],
+		[accounts, terminalTab],
 	);
 	const {readSocket, readList} = useMemo(
 		() => sftpDowload.find((it) => it.uuid === uuid),

@@ -1,6 +1,5 @@
 import {persistReducer} from 'redux-persist';
 import {combineReducers} from '@reduxjs/toolkit';
-import common from './common';
 import ssh from './ssh';
 import sftp from './sftp';
 import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
@@ -13,7 +12,6 @@ import {FAVORITES, favoritesReducer} from './favorites';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
-import configureStore from '../store/configureStore';
 export const authFilter = createWhitelistFilter(AUTH, ['userData']);
 export const userResourceFilter = createWhitelistFilter(USER_RESOURCE, [
 	'data',
@@ -26,8 +24,8 @@ const persistConfig = {
 	transforms: [authFilter, userResourceFilter],
 };
 
-const commonLocalPersistConfig = {
-	key: 'commonLocal',
+const favoritePersistConfig = {
+	key: 'favorite',
 	storage: storage,
 	whitelist: ['favorites', 'favorites_folder_index'],
 };
@@ -44,7 +42,6 @@ const sshLocalPersistConfig = {
 	whitelist: ['ssh_history', 'snippets', 'snippents_index'],
 };
 const appReducer = combineReducers({
-	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
 	[DIALOG_BOX]: dialogBoxReducer,
@@ -53,7 +50,7 @@ const appReducer = combineReducers({
 	[TAB_BAR]: tabBarReducer,
 	[SETTING]: persistReducer(settingPersistConfig, settingReducer),
 	[REMOTE_RESOURCE]: remoteResourceReducer,
-	[FAVORITES]: favoritesReducer,
+	[FAVORITES]: persistReducer(favoritePersistConfig, favoritesReducer),
 });
 
 const rootReducer = (state, action) => {

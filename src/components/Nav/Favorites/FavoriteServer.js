@@ -4,10 +4,6 @@ import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import {
-	SET_CLICKED_SERVER,
-	SORT_FAVORITE_RESOURCES,
-} from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
@@ -18,24 +14,28 @@ import {
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
 import {authSelector} from '../../../reducers/api/auth';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
+import {favoritesAction} from '../../../reducers/favorites';
 
 const FavoriteServer = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+	const {selectedResource, resources, accounts} = useSelector(
+		remoteResourceSelector.all,
 	);
 
 	const {userData} = useSelector(authSelector.all);
 
 	const account = useMemo(
-		() => identity.find((it) => it.key === data.key && it.checked === true),
-		[identity, data],
+		() => accounts.find((it) => it.key === data.key && it.checked === true),
+		[accounts, data],
 	);
 
 	const onClickServerItem = useDoubleClick(
 		() => {
-			const resource = server.find((i) => i.id === data.id);
+			const resource = resources.find((i) => i.id === data.id);
 
 			if (resource.protocol === 'SSH2') {
 				dispatch({
@@ -64,13 +64,21 @@ const FavoriteServer = ({data, indent}) => {
 			}
 		},
 		() => {
-			if (clicked_server === data.key) {
-				dispatch({type: SET_CLICKED_SERVER, payload: null});
+			if (selectedResource === data.key) {
+				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+				dispatch(remoteResourceAction.setSelectedResource(data.key));
 			}
 		},
-		[clicked_server, data, userData, server, identity, dispatch, account],
+		[
+			selectedResource,
+			data,
+			userData,
+			resources,
+			accounts,
+			dispatch,
+			account,
+		],
 	);
 
 	const {show} = useContextMenu({
@@ -81,7 +89,7 @@ const FavoriteServer = ({data, indent}) => {
 		(e) => {
 			e.preventDefault();
 			console.log('OpenServerContextMenu item');
-			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			dispatch(remoteResourceAction.setSelectedResource(data.key));
 			show(e);
 		},
 		[data, dispatch, show],
@@ -89,7 +97,7 @@ const FavoriteServer = ({data, indent}) => {
 
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
-		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+		dispatch(remoteResourceAction.setSelectedResource(data.key));
 	}, [data, dispatch]);
 
 	const nextPutItem = useCallback(
@@ -99,10 +107,7 @@ const FavoriteServer = ({data, indent}) => {
 			e.stopPropagation();
 
 			data.type === 'folder' &&
-				dispatch({
-					type: SORT_FAVORITE_RESOURCES,
-					payload: {next: data},
-				});
+				dispatch(favoritesAction.sortFavorites({next: data}));
 		},
 		[data, dispatch],
 	);
@@ -121,13 +126,15 @@ const FavoriteServer = ({data, indent}) => {
 				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
 				onContextMenu={OpenFavoriteServerContextMenu}
-				selected={clicked_server === data.key ? 1 : 0}
+				selected={selectedResource === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={clicked_server === data.key ? 'selected' : undefined}
+					itype={
+						selectedResource === data.key ? 'selected' : undefined
+					}
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}

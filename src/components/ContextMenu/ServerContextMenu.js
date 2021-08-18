@@ -9,15 +9,16 @@ import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const ServerContextMenu = ({identity, data}) => {
 	const {t} = useTranslation('contextMenu');
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common, shallowEqual);
+	const {resources} = useSelector(remoteResourceSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const resource = useMemo(
-		() => server.find((i) => i.key === data.key),
-		[server, data],
+		() => resources.find((i) => i.key === data.key),
+		[resources, data],
 	);
 
 	const SSHContextMenuList = {
@@ -32,7 +33,7 @@ const ServerContextMenu = ({identity, data}) => {
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = server.find((i) => i.key === data.key);
+		const resource = resources.find((i) => i.key === data.key);
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
@@ -48,7 +49,7 @@ const ServerContextMenu = ({identity, data}) => {
 			},
 		});
 	}, [
-		server,
+		resources,
 		dispatch,
 		userData,
 		identity.user,
@@ -57,7 +58,7 @@ const ServerContextMenu = ({identity, data}) => {
 	]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = server.find((i) => i.key === data.key);
+		const resource = resources.find((i) => i.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
@@ -69,7 +70,7 @@ const ServerContextMenu = ({identity, data}) => {
 			},
 		});
 	}, [
-		server,
+		resources,
 		dispatch,
 		userData,
 		identity.user,

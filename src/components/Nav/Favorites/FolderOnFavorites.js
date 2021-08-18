@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import {
-	CHANGE_FOLDER_NAME_ON_FAVORITES,
-	SET_CLICKED_SERVER,
-	CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
-	SORT_FAVORITE_RESOURCES,
-} from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import Collapse_ from '../../RecycleComponents/Collapse_';
 import {arrowDownIcon, arrowRightIcon, folderIcon} from '../../../icons/icons';
@@ -22,16 +16,20 @@ import {
 } from '../../../styles/components/navigationBar';
 import {TextBox} from '../../../styles/components/textBox';
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
+import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
 const Input_ = styled(TextBox)`
 	height: 24px;
 `;
 
 const FolderOnFavorites = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, favoriteFolderRenamingKey} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {selectedResource} = useSelector(remoteResourceSelector.all);
+	const {favoriteGroupRenamingKey} = useSelector(favoritesSelector.all);
+
 	const renameRef = useRef(null);
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [isRenaming, setIsRenaming] = useState(false);
@@ -39,14 +37,14 @@ const FolderOnFavorites = ({open, data, indent}) => {
 
 	const onClickFolderItem = useDoubleClick(
 		() => {
-			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			dispatch(remoteResourceAction.setSelectedResource(data.key));
 			setIsRenaming(true);
 		},
 		() => {
-			if (clicked_server === data.key) {
-				dispatch({type: SET_CLICKED_SERVER, payload: null});
+			if (selectedResource === data.key) {
+				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+				dispatch(remoteResourceAction.setSelectedResource(data.key));
 			}
 		},
 		[data],
@@ -63,7 +61,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 	const openFolderOnFavoritesContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			dispatch(remoteResourceAction.setSelectedResource(data.key));
 			show(e);
 		},
 		[data.key, dispatch, show],
@@ -74,23 +72,23 @@ const FolderOnFavorites = ({open, data, indent}) => {
 			if (e.keyCode === 27) {
 				// ESC
 				setIsRenaming(false);
-				dispatch({
-					type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
-				});
+				dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 			} else if (e.keyCode === 13) {
 				//Enter
 				e.preventDefault();
 
 				if (renameValue !== '') {
 					//TODO: check valid folder name value
-					dispatch({
-						type: CHANGE_FOLDER_NAME_ON_FAVORITES,
-						payload: {key: data.key, name: renameValue},
-					});
+					dispatch(
+						favoritesAction.changeFavoriteGroupName({
+							key: data.key,
+							name: renameValue,
+						}),
+					);
 				} else {
-					dispatch({
-						type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY,
-					});
+					dispatch(
+						favoritesAction.changeFavoriteGroupRenameKey(null),
+					);
 				}
 				setIsRenaming(false);
 			}
@@ -100,7 +98,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 
 	const prevPutItem = useCallback(() => {
 		console.log('prev put item');
-		dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+		dispatch(remoteResourceAction.setSelectedResource(data.key));
 	}, [data.key, dispatch]);
 
 	const nextPutItem = useCallback(
@@ -110,10 +108,12 @@ const FolderOnFavorites = ({open, data, indent}) => {
 			console.log('favorite folder next put item');
 
 			data.type === 'folder' &&
-				dispatch({
-					type: SORT_FAVORITE_RESOURCES,
-					payload: {next: data, indent: parseInt(indent)},
-				});
+				dispatch(
+					favoritesAction.sortFavorites({
+						next: data,
+						indent: parseInt(indent),
+					}),
+				);
 		},
 		[data, dispatch, indent],
 	);
@@ -126,7 +126,7 @@ const FolderOnFavorites = ({open, data, indent}) => {
 	const onBlurFolerNameTextBox = useCallback(() => {
 		setIsRenaming(false);
 		renameRef.current = null;
-		dispatch({type: CHANGE_FAVORITE_FOLDER_RENMAING_KEY});
+		dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 	}, []);
 	//fill rename text box value
 	useEffect(() => {
@@ -141,10 +141,10 @@ const FolderOnFavorites = ({open, data, indent}) => {
 	}, [isRenaming, renameRef, data, setRenameValue]);
 	//this folder name has to be renamined
 	useEffect(() => {
-		if (data.key === favoriteFolderRenamingKey) {
+		if (data.key === favoriteGroupRenamingKey) {
 			setIsRenaming(true);
 		}
-	}, [favoriteFolderRenamingKey, data]);
+	}, [favoriteGroupRenamingKey, data]);
 
 	useEffect(() => {
 		setIsFolderUnfolded(open);
@@ -159,13 +159,15 @@ const FolderOnFavorites = ({open, data, indent}) => {
 				onDragStart={prevPutItem}
 				onDragOver={handleDragOver}
 				onDrop={nextPutItem}
-				selected={clicked_server === data.key ? 1 : 0}
+				selected={selectedResource === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
-					itype={clicked_server === data.key ? 'selected' : undefined}
+					itype={
+						selectedResource === data.key ? 'selected' : undefined
+					}
 				>
 					{folderIcon}
 				</Icon>

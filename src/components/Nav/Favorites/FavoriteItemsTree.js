@@ -5,20 +5,17 @@ import Sortable from 'sortablejs';
 import {_Nav} from '../../../styles/components/navigationBar';
 import FavoriteServer from './FavoriteServer';
 import FolderOnFavorites from './FolderOnFavorites';
-import {SORT_FAVORITE_RESOURCES} from '../../../reducers/common';
 import {startSearchingTree} from '../../../utils/searchTree';
+import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
 
 const FavoriteItemsTree = ({search}) => {
 	const dispatch = useDispatch();
-	const {favorites} = useSelector((state) => state.common, shallowEqual);
-	const [filteredFavorites, setfilteredFavorites] = useState(favorites);
+	const {favoriteTree} = useSelector(favoritesSelector.all);
+	const [filteredFavorites, setfilteredFavorites] = useState(favoriteTree);
 
 	const dropNavList = useCallback(() => {
 		console.log('drop favorites list');
-		dispatch({
-			type: SORT_FAVORITE_RESOURCES,
-			payload: {next: 'toEdge'},
-		});
+		dispatch(favoritesAction.sortFavorites({next: 'toEdge'}));
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -30,8 +27,8 @@ const FavoriteItemsTree = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setfilteredFavorites(startSearchingTree(favorites, search));
-	}, [favorites, search]);
+		setfilteredFavorites(startSearchingTree(favoriteTree, search));
+	}, [favoriteTree, search]);
 
 	return (
 		<_Nav onDrop={dropNavList} id='sortableServerNav'>

@@ -10,6 +10,7 @@ import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 
 import {HoverButton} from '../styles/components/icon';
 import {tabBarSelector} from '../reducers/tabBar';
+import {remoteResourceSelector} from '../reducers/remoteResource';
 
 const _Footer = styled.footer`
 	height: 26px;
@@ -28,7 +29,7 @@ const _RightSideContainer = styled.div`
 
 const Footer = () => {
 	const dispatch = useDispatch();
-	const {server} = useSelector((state) => state.common, shallowEqual);
+	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {font_size} = useSelector((state) => state.ssh, shallowEqual);
@@ -80,7 +81,7 @@ const Footer = () => {
 					</HoverButton>
 
 					{selectedTab &&
-						server.find(
+						resources.find(
 							(v) =>
 								v.id ===
 								terminalTabs.find((i) => i.uuid === selectedTab)

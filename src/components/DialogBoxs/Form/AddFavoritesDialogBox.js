@@ -3,13 +3,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import {
-	ADD_TEMP_FOLDER_ON_FAVORITES,
-	INIT_TEMP_FAVORITES,
-	SAVE_CHANGES_ON_FAVORITES,
-	SET_TEMP_FAVORITES,
-} from '../../../reducers/common';
-
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import {closeIcon} from '../../../icons/icons';
 import {
@@ -25,6 +18,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
 import FavoriteItemsTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemsTreeOnDialogBox';
+import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
 
 const _DialogBox = styled(DialogBox)`
 	width: 460px;
@@ -48,42 +42,43 @@ const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
-	const {tempFavorites, favorites} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+	const {favoriteTreeOnDialogBox, favoriteTree} = useSelector(
+		favoritesSelector.all,
 	);
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const onClickCloseDialogBox = useCallback(async () => {
 		await dispatch(dialogBoxAction.closeForm());
-		await dispatch({type: SET_TEMP_FAVORITES});
-	}, [dispatch, favorites, tempFavorites]);
+		dispatch(favoritesAction.setTempFavorite());
+	}, [dispatch, favoriteTree, favoriteTreeOnDialogBox]);
 
 	const onSubmitSaveChangesOnFavorites = useCallback(
 		async (e) => {
 			e.preventDefault();
-			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
-				await dispatch({type: SAVE_CHANGES_ON_FAVORITES});
+			if (
+				JSON.stringify(favoriteTreeOnDialogBox) !==
+				JSON.stringify(favoriteTree)
+			) {
+				await dispatch(favoritesAction.setFavorite());
 				await dispatch(dialogBoxAction.closeForm());
-				await dispatch({type: SET_TEMP_FAVORITES});
+				dispatch(favoritesAction.setTempFavorite());
 			} else {
 				await dispatch(dialogBoxAction.closeForm());
-				await dispatch({type: SET_TEMP_FAVORITES});
+				dispatch(favoritesAction.setTempFavorite());
 			}
 		},
-		[dispatch, favorites, tempFavorites],
+		[dispatch, favoriteTree, favoriteTreeOnDialogBox],
 	);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
-		dispatch({
-			type: ADD_TEMP_FOLDER_ON_FAVORITES,
-			payload: {name: t('newFolder')},
-		});
+		dispatch(
+			favoritesAction.addFavoriteOnDialogBox({name: t('newFolder')}),
+		);
 	}, [dispatch, t]);
 
 	useEffect(() => {
 		if (form.open && form.key === 'favorites') {
-			dispatch({type: INIT_TEMP_FAVORITES});
+			dispatch(favoritesAction.initTempFavorite());
 		}
 	}, [form, dispatch]);
 

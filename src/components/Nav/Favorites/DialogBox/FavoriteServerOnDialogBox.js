@@ -8,20 +8,22 @@ import {
 	NavigationItemTitle,
 } from '../../../../styles/components/navigationBar';
 import {awsServerIcon, linuxServerIcon} from '../../../../icons/icons';
-import {CHANGE_SELEECTED_TEMP_FAVORITE} from '../../../../reducers/common';
+import {
+	favoritesAction,
+	favoritesSelector,
+} from '../../../../reducers/favorites';
 
 const FavoriteServerOnDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {selectedFavoriteItemOnDialogBox} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+		favoritesSelector.all,
 	);
 
 	const onClickFavoriteServerItem = useCallback(() => {
 		if (selectedFavoriteItemOnDialogBox === data.key) {
-			dispatch({type: CHANGE_SELEECTED_TEMP_FAVORITE, payload: null});
+			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(null));
 		} else {
-			dispatch({type: CHANGE_SELEECTED_TEMP_FAVORITE, payload: data.key});
+			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
 		}
 	});
 

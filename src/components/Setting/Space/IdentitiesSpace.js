@@ -2,10 +2,6 @@ import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {
-	CHANGE_CURRENT_RESOURCE_KEY,
-	CHANGE_IDENTITY_CHECKED,
-} from '../../../reducers/common';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
@@ -15,6 +11,10 @@ import {
 	SettingTitle,
 } from '../../../styles/components/settingPage';
 import IconSearchTextBox from '../../RecycleComponents/IconSearchTextBox';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
 
 const _SettingContentsContainer = styled(SettingContentsContainer)`
 	display: flex;
@@ -145,9 +145,9 @@ const IdentitiesSpace = () => {
 	const dispatch = useDispatch();
 
 	const {t} = useTranslation('identitiesSpace');
-	const {identity, server, current_resource_key, nav} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+
+	const {selectedResource, resources, accounts, resourceTree} = useSelector(
+		remoteResourceSelector.all,
 	);
 
 	const [resourceSearchVal, onChangeResourceSearchVal] = useInput('');
@@ -155,10 +155,7 @@ const IdentitiesSpace = () => {
 
 	const onClickSelectResource = useCallback(
 		(v) => () => {
-			dispatch({
-				type: CHANGE_CURRENT_RESOURCE_KEY,
-				payload: {key: v.key},
-			});
+			dispatch(remoteResourceAction.setSelectedResource(v.key));
 		},
 		[dispatch],
 	);
@@ -167,27 +164,22 @@ const IdentitiesSpace = () => {
 		(v) => () => {
 			if (v.checked) return;
 
-			const account = identity.find(
-				(v) => v.key === current_resource_key && v.checked,
+			const account = accounts.find(
+				(v) => v.key === selectedResource && v.checked,
 			);
-
-			dispatch({
-				type: CHANGE_IDENTITY_CHECKED,
-				payload: {
+			dispatch(
+				remoteResourceAction.setAccount({
 					prev: account,
 					next: v,
-				},
-			});
+				}),
+			);
 		},
-		[identity, dispatch, current_resource_key],
+		[accounts, dispatch, selectedResource],
 	);
 
 	useEffect(() => {
-		dispatch({
-			type: CHANGE_CURRENT_RESOURCE_KEY,
-			payload: {key: server[0].key},
-		});
-	}, [dispatch, server]);
+		dispatch(remoteResourceAction.setSelectedResource(resources[0].key));
+	}, [dispatch, resources]);
 
 	return (
 		<SettingMainContainer>
@@ -198,7 +190,7 @@ const IdentitiesSpace = () => {
 						<_ResourceName>
 							{t('resource')}
 							<_Span>{`
-								: ${server.length}${t('cases')}
+								: ${resources.length}${t('cases')}
 								`}</_Span>
 						</_ResourceName>
 						<_SearchTextBox>
@@ -217,7 +209,7 @@ const IdentitiesSpace = () => {
 						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
 						<_ProtocolPortName>{t('port')}</_ProtocolPortName>
 					</_Li>
-					{server.map((item) => {
+					{resources.map((item) => {
 						if (
 							item.name
 								.toLowerCase()
@@ -232,10 +224,13 @@ const IdentitiesSpace = () => {
 								<_ResourceLi
 									key={item.id}
 									onClick={onClickSelectResource(item)}
-									selected={item.key === current_resource_key}
+									selected={item.key === selectedResource}
 								>
 									<_ResourceName>
-										{createResourceRath(nav, item.key)}
+										{createResourceRath(
+											resourceTree,
+											item.key,
+										)}
 									</_ResourceName>
 									<_AddressName>{item.host}</_AddressName>
 									<_ProtocolPortName>
@@ -254,15 +249,9 @@ const IdentitiesSpace = () => {
 							{t('account')}
 							<_Span>
 								{` :
-								${
-									identity
-										.slice()
-										.filter(
-											(item) =>
-												item.key ===
-												current_resource_key,
-										).length
-								}${t('cases')}`}
+								${accounts.slice().filter((item) => item.key === selectedResource).length}${t(
+									'cases',
+								)}`}
 							</_Span>
 						</_Name>
 						<_SearchTextBox>
@@ -281,8 +270,8 @@ const IdentitiesSpace = () => {
 						<_UserNameType>{t('type')}</_UserNameType>
 						<_IdentityCheckBox>{t('default')}</_IdentityCheckBox>
 					</_Li>
-					{identity.map((item) => {
-						if (item.key !== current_resource_key) return;
+					{accounts.map((item) => {
+						if (item.key !== selectedResource) return;
 						if (
 							item.user
 								.toLowerCase()

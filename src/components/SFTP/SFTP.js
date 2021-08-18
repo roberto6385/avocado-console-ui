@@ -15,6 +15,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
 import {settingSelector} from '../../reducers/setting';
 import {tabBarSelector} from '../../reducers/tabBar';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -63,7 +64,7 @@ const _ToolbarFoldUnfoldButton = styled.img`
 `;
 
 const SFTP = ({uuid, mode}) => {
-	const {nav} = useSelector((state) => state.common, shallowEqual);
+	const {resourceTree} = useSelector(remoteResourceSelector.all);
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
 
@@ -87,7 +88,7 @@ const SFTP = ({uuid, mode}) => {
 				className={!setIsToolbarUnfold && 'close-nav-header'}
 			>
 				<SFTPToolbar uuid={uuid} />
-				{(nav.length === 1 || cols === 1) &&
+				{(resourceTree.length === 1 || cols === 1) &&
 					(setIsToolbarUnfold ? (
 						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}

@@ -5,10 +5,13 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
-import {CHANGE_IDENTITY_CHECKED} from '../../../reducers/common';
 import CheckBox_ from '../../RecycleComponents/CheckBox_';
 import {NormalButton} from '../../../styles/components/button';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
 
 const _Container = styled.div`
 	height: 100%;
@@ -50,7 +53,7 @@ const IdentitiesAside = () => {
 	const history = useHistory();
 	const {t} = useTranslation('identitiesSpace');
 
-	const {identity} = useSelector((state) => state.common, shallowEqual);
+	const {accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
 	const searchedServerKey = useMemo(
@@ -66,19 +69,17 @@ const IdentitiesAside = () => {
 		(v) => (e) => {
 			if (!e.target.checked) return;
 
-			const account = identity.find(
+			const account = accounts.find(
 				(v) => v.key === searchedServerKey && v.checked,
 			);
-
-			dispatch({
-				type: CHANGE_IDENTITY_CHECKED,
-				payload: {
+			dispatch(
+				remoteResourceAction.setAccount({
 					prev: account,
 					next: v,
-				},
-			});
+				}),
+			);
 		},
-		[identity, searchedServerKey, dispatch],
+		[accounts, searchedServerKey, dispatch],
 	);
 
 	return (
@@ -93,7 +94,7 @@ const IdentitiesAside = () => {
 						{t('aside.default')}
 					</_CheckboxContainer>
 				</_Li>
-				{identity.map((item) => {
+				{accounts.map((item) => {
 					if (item.key === searchedServerKey) {
 						return (
 							<_Li key={item.id}>

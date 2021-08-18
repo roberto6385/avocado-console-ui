@@ -102,8 +102,8 @@ const NavBar = ({toggle, setToggle}) => {
 
 	//TODO: !!important: change key value to resource, bookmark
 	const navTabs = [
-		{title: t('resource'), key: 0},
-		{title: t('bookmark'), key: 1},
+		{title: t('resource'), key: 'resources'},
+		{title: t('bookmark'), key: 'favorites'},
 	];
 
 	const onClickOpenOrCloseNav = useCallback(() => {
@@ -144,11 +144,7 @@ const NavBar = ({toggle, setToggle}) => {
 					);
 				})}
 			</_NavTabContianer>
-			{navigation === 0 ? ( // 0:자원 1:즐겨찾기
-				<Resources />
-			) : (
-				<Favorites />
-			)}
+			{navigation === 'resources' ? <Resources /> : <Favorites />}
 
 			<_OpenNavButton
 				onClick={onClickOpenOrCloseNav}

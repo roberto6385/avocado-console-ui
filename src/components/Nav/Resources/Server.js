@@ -5,11 +5,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
-import {
-	ADD_FAVORITE_SERVER,
-	DELETE_FAVORITE_SERVER,
-	SET_CLICKED_SERVER,
-} from '../../../reducers/common';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
 	awsServerIcon,
@@ -24,6 +19,11 @@ import {
 	NavigationItemTitle,
 } from '../../../styles/components/navigationBar';
 import {authSelector} from '../../../reducers/api/auth';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
+import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
 
 export const ServerItem = styled(NavigationItem)`
 	.bookmark_button {
@@ -59,19 +59,20 @@ function isFavoriteServer(root, key) {
 
 const Server = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {clicked_server, server, identity, favorites} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+	const {favoriteTree} = useSelector(favoritesSelector.all);
+
+	const {selectedResource, resources, accounts} = useSelector(
+		remoteResourceSelector.all,
 	);
 	const {userData} = useSelector(authSelector.all);
 	const correspondedIdentity = useMemo(
-		() => identity.find((it) => it.key === data.key && it.checked === true),
-		[identity, data],
+		() => accounts.find((it) => it.key === data.key && it.checked === true),
+		[accounts, data],
 	);
 
 	const onHybridClick = useDoubleClick(
 		() => {
-			const correspondedServer = server.find((i) => i.id === data.id);
+			const correspondedServer = resources.find((i) => i.id === data.id);
 
 			if (correspondedServer.protocol === 'SSH2') {
 				dispatch({
@@ -101,18 +102,18 @@ const Server = ({data, indent}) => {
 			}
 		},
 		() => {
-			if (clicked_server === data.key) {
-				dispatch({type: SET_CLICKED_SERVER, payload: null});
+			if (selectedResource === data.key) {
+				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+				dispatch(remoteResourceAction.setSelectedResource(data.key));
 			}
 		},
 		[
-			clicked_server,
+			selectedResource,
 			data,
 			userData,
-			server,
-			identity,
+			resources,
+			accounts,
 			dispatch,
 			correspondedIdentity,
 		],
@@ -125,34 +126,34 @@ const Server = ({data, indent}) => {
 	const openServerContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch({type: SET_CLICKED_SERVER, payload: data.key});
+			dispatch(remoteResourceAction.setSelectedResource(data.key));
 			show(e);
 		},
 		[data, dispatch, show],
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		console.log(isFavoriteServer(favorites, data.key));
+		console.log(isFavoriteServer(favoriteTree, data.key));
 
-		if (isFavoriteServer(favorites, data.key)) {
-			dispatch({type: DELETE_FAVORITE_SERVER, payload: data.key});
+		if (isFavoriteServer(favoriteTree, data.key)) {
+			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
-			dispatch({type: ADD_FAVORITE_SERVER, payload: data.key});
+			dispatch(favoritesAction.addFavorite(data.key));
 		}
-	}, [data, favorites]);
+	}, [data, favoriteTree]);
 
 	return (
 		<React.Fragment>
 			<ServerItem
 				onClick={onHybridClick}
 				onContextMenu={openServerContextMenu}
-				selected={clicked_server === data.key ? 1 : 0}
+				selected={selectedResource === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={clicked_server === data.key && 'selected'}
+					itype={selectedResource === data.key && 'selected'}
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}
@@ -162,7 +163,7 @@ const Server = ({data, indent}) => {
 					{data.name}
 					<IconButton
 						className={
-							isFavoriteServer(favorites, data.key)
+							isFavoriteServer(favoriteTree, data.key)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -170,7 +171,7 @@ const Server = ({data, indent}) => {
 						margin_right={'0px'}
 						onClick={onClickFavoriteIcon}
 						itype={
-							isFavoriteServer(favorites, data.key)
+							isFavoriteServer(favoriteTree, data.key)
 								? 'selected'
 								: undefined
 						}

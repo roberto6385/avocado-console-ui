@@ -5,7 +5,6 @@ const slice = createSlice({
 	name: 'remoteResources',
 	initialState: {
 		selectedResource: null, //clicked_server
-		selectedServer: null, //current_resource_key
 		// TODO : selectedResource로 Identities Resource Key까지 같이 사용 가능할거같아요. (우선은 기존대로 생성)
 		//nav
 		resourceTree: [
@@ -186,6 +185,29 @@ const slice = createSlice({
 
 	reducers: {
 		// TODO : Rbd => 드래그 앤 드롭 정렬 라이브러리 적용예정
+
+		//SET_CLICKED_SERVER //CHANGE_CURRENT_RESOURCE_KEY
+		setSelectedResource: (state, action) => {
+			state.selectedResource = action.payload;
+		},
+		//CHANGE_PROTOCOL
+		setProtocol: (state, action) => {
+			state.resources.find((v) => v.key === action.payload.key).protocol =
+				action.payload.protocol;
+		},
+		//CHANGE_IDENTITY_CHECKED
+		setAccount: (state, action) => {
+			state.accounts = [
+				...state.accounts.filter(
+					(v) =>
+						v !== action.payload.prev && v !== action.payload.next,
+				),
+				{...action.payload.prev, checked: false},
+				{...action.payload.next, checked: true},
+			].sort(function (a, b) {
+				return a['id'] - b['id'];
+			});
+		},
 	},
 	extraReducers: {
 		[settingAction.setNav]: (state) => {

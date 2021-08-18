@@ -13,6 +13,7 @@ import {HoverButton} from '../../../styles/components/icon';
 import {authSelector} from '../../../reducers/api/auth';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -42,10 +43,8 @@ const HistoryToolbar = ({uuid}) => {
 		upload: sftpUpload,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const onClickUploadFile = useCallback(async () => {
@@ -82,10 +81,10 @@ const HistoryToolbar = ({uuid}) => {
 				const terminalTab = () =>
 					terminalTabs.find((it) => it.uuid === uuid);
 
-				const resource = server.find(
+				const resource = resources.find(
 					(it) => it.key === terminalTab.server.key,
 				);
-				const account = identity.find(
+				const account = accounts.find(
 					(it) =>
 						it.key === terminalTab.server.key &&
 						it.checked === true,
@@ -111,8 +110,8 @@ const HistoryToolbar = ({uuid}) => {
 		dispatch,
 		uuid,
 		sftpPath,
-		server,
-		identity,
+		resources,
+		accounts,
 		userData.access_token,
 		terminalTabs,
 	]);

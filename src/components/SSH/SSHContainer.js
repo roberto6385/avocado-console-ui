@@ -16,6 +16,7 @@ import drkToolbarUnfoldButton from '../../images/toolbarButton/drk-toolbar-unfol
 import {HoverButton} from '../../styles/components/icon';
 import {settingSelector} from '../../reducers/setting';
 import {tabBarSelector} from '../../reducers/tabBar';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -68,7 +69,7 @@ const _ToolbarFoldUnfoldButton = styled.img`
 `;
 
 const SSHContainer = ({uuid, server}) => {
-	const {nav} = useSelector((state) => state.common, shallowEqual);
+	const {resourceTree} = useSelector(remoteResourceSelector.all);
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
 	const snippetRef = useRef();
@@ -120,7 +121,7 @@ const SSHContainer = ({uuid, server}) => {
 						{fullScreenIcon}
 					</HoverButton>
 				</_Header>
-				{(nav.length === 1 || cols === 1) &&
+				{(resourceTree.length === 1 || cols === 1) &&
 					(isToolbarUnfold ? (
 						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}

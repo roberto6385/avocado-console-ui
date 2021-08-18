@@ -27,6 +27,7 @@ import {
 
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
@@ -40,10 +41,8 @@ const SaveDialogBox = () => {
 		upload: sftpUpload,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {userData} = useSelector(authSelector.all);
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const alertMessages = {
@@ -85,10 +84,12 @@ const SaveDialogBox = () => {
 			(it) => it.uuid === uuid,
 		);
 
-		const account = identity.find(
+		const account = accounts.find(
 			(it) => it.key === terminalTab.server.key && it.checked === true,
 		);
-		const resource = server.find((it) => it.key === terminalTab.server.key);
+		const resource = resources.find(
+			(it) => it.key === terminalTab.server.key,
+		);
 		const changedFile = new File([editText], editFile.name, {
 			type: 'text/plain',
 		});
@@ -177,8 +178,8 @@ const SaveDialogBox = () => {
 	}, [
 		alert,
 		dispatch,
-		identity,
-		server,
+		accounts,
+		resources,
 		sftpEdit,
 		sftpEtc,
 		sftpPath,

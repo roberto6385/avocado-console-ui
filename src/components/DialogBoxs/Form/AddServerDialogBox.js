@@ -3,10 +3,6 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import {
-	CHANGE_IDENTITY_CHECKED,
-	CHANGE_PROTOCOL,
-} from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
@@ -26,6 +22,10 @@ import {
 import {Form} from '../../../styles/components/form';
 import {TextBox} from '../../../styles/components/textBox';
 import TextBoxField from '../../RecycleComponents/TextBoxField';
+import {
+	remoteResourceAction,
+	remoteResourceSelector,
+} from '../../../reducers/remoteResource';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
@@ -74,15 +74,14 @@ const _SecondItem = styled.div`
 const AddServerDialogBox = () => {
 	const {t} = useTranslation('addServerForm');
 	const dispatch = useDispatch();
-	const {server, clicked_server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+	const {selectedResource, resources, accounts} = useSelector(
+		remoteResourceSelector.all,
 	);
 	const {form} = useSelector(dialogBoxSelector.all);
 	// username, password는 이곳에서 가져와야 함.
 	const account = useMemo(
-		() => identity.find((v) => v.key === clicked_server && v.checked),
-		[identity, clicked_server],
+		() => accounts.find((v) => v.key === selectedResource && v.checked),
+		[accounts, selectedResource],
 	);
 
 	const [name, onChangeName, setName] = useInput('');
@@ -115,53 +114,51 @@ const AddServerDialogBox = () => {
 		(e) => {
 			e.preventDefault();
 
-			const correspondedIdentityList = identity.filter(
-				(v) => v.key === clicked_server,
+			const correspondedIdentityList = accounts.filter(
+				(v) => v.key === selectedResource,
 			);
 			const selectedIdentity = correspondedIdentityList.find(
 				(v) => v.identity_name === id,
 			);
 
 			if (account !== selectedIdentity && id !== '') {
-				dispatch({
-					type: CHANGE_IDENTITY_CHECKED,
-					payload: {
+				dispatch(
+					remoteResourceAction.setAccount({
 						prev: account,
 						next: selectedIdentity,
-					},
-				});
+					}),
+				);
 			}
 
-			clicked_server &&
-				dispatch({
-					type: CHANGE_PROTOCOL,
-					payload: {
+			selectedResource &&
+				dispatch(
+					remoteResourceAction.setProtocol({
 						protocol,
-						key: clicked_server,
-					},
-				});
+						key: selectedResource,
+					}),
+				);
 
 			onClickCloseDialogBox();
 		},
 		[
 			protocol,
 			dispatch,
-			identity,
+			accounts,
 			account,
 			id,
-			clicked_server,
+			selectedResource,
 			onClickCloseDialogBox,
 		],
 	);
 
 	useEffect(() => {
 		if (form.open && form.key === 'server') {
-			const data = server.find((v) => v.id === form.id);
+			const resource = resources.find((v) => v.id === form.id);
 
-			setName(data.name);
-			setProtocol(data.protocol);
-			setHost(data.host);
-			setPort(data.port);
+			setName(resource.name);
+			setProtocol(resource.protocol);
+			setHost(resource.host);
+			setPort(resource.port);
 			setId(account.identity_name);
 			setAuthentication(account.type);
 			setPassword(account.password);
@@ -170,7 +167,7 @@ const AddServerDialogBox = () => {
 			setNote('');
 		}
 	}, [
-		server,
+		resources,
 		account,
 		setId,
 		setAuthentication,
@@ -188,8 +185,8 @@ const AddServerDialogBox = () => {
 
 	useEffect(() => {
 		setIds(
-			identity
-				.filter((v) => v.key === clicked_server)
+			accounts
+				.filter((v) => v.key === selectedResource)
 				.map((item) => {
 					return {
 						value: item.identity_name,
@@ -198,11 +195,11 @@ const AddServerDialogBox = () => {
 					};
 				}),
 		);
-	}, [clicked_server, server, identity, setIds]);
+	}, [selectedResource, resources, accounts, setIds]);
 
 	useEffect(() => {
-		const selectedIdentity = identity
-			.filter((v) => v.key === clicked_server)
+		const selectedIdentity = accounts
+			.filter((v) => v.key === selectedResource)
 			.find((v) => v.identity_name === id);
 
 		if (selectedIdentity) {
@@ -212,8 +209,8 @@ const AddServerDialogBox = () => {
 		}
 	}, [
 		id,
-		identity,
-		clicked_server,
+		accounts,
+		selectedResource,
 		setUsername,
 		setPassword,
 		setAuthentication,

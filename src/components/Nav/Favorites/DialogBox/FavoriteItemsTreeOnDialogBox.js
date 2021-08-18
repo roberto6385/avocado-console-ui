@@ -1,16 +1,17 @@
 import React from 'react';
-import {useSelector, shallowEqual} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import FavoriteServerOnDialogBox from './FavoriteServerOnDialogBox';
 import FolderOnFavoritesDialogBox from './FolderOnFavoritesDialogBox';
 import {_Nav} from '../../../../styles/components/navigationBar';
+import {favoritesSelector} from '../../../../reducers/favorites';
 
 const FavoriteItemsTreeOnDialogBox = () => {
-	const {tempFavorites} = useSelector((state) => state.common, shallowEqual);
+	const {favoriteTreeOnDialogBox} = useSelector(favoritesSelector.all);
 
 	return (
 		<_Nav id='sortableFavoritesOnDialogBox'>
-			{tempFavorites.map((data) =>
+			{favoriteTreeOnDialogBox.map((data) =>
 				data.type === 'folder' ? (
 					<FolderOnFavoritesDialogBox
 						key={data.key}

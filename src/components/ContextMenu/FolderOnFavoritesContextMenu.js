@@ -5,8 +5,8 @@ import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {ContextMenu} from '../../styles/components/contextMenu';
-import {DELETE_TEMP_FOLDER_ON_FAVORITES} from '../../reducers/common';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {favoritesAction} from '../../reducers/favorites';
 
 const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
@@ -21,14 +21,12 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 			switch (e) {
 				case 'delete-folder':
 					if (onDialog) {
-						dispatch({
-							type: DELETE_TEMP_FOLDER_ON_FAVORITES,
-							payload: data.key,
-						});
+						dispatch(favoritesAction.deleteTempGroup(data.key));
 					} else {
 						dispatch(
 							dialogBoxAction.openAlert({
-								key: 'delete-resource',
+								key: 'delete-favorite-group',
+								id: data.key,
 							}),
 						);
 					}

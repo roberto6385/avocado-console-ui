@@ -7,6 +7,7 @@ export default {
 	deleteServerFolder:
 		'Are you sure you want to delete this server or folder?',
 	deleteAccount: 'Are you sure you want to delete this account?',
+	deleteFavoriteGroup: 'Are you sure you want to delete this folder?',
 
 	cancel: 'Cancel',
 	delete: 'Delete',

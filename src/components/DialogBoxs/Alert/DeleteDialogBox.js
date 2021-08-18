@@ -27,16 +27,16 @@ import {
 } from '../../../styles/components/disalogBox';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {favoritesAction} from '../../../reducers/favorites';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('warningAlertPopup');
 
-	const {server, identity, clicked_server} = useSelector(
-		(state) => state.common,
-		shallowEqual,
+	const {selectedResource, resources, accounts} = useSelector(
+		remoteResourceSelector.all,
 	);
-
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
@@ -50,6 +50,7 @@ const DeleteDialogBox = () => {
 	const alertMessages = {
 		'sftp-delete-data': t('deleteFileFolder'),
 		'sftp-delete-history': t('deleteHistory'),
+		'delete-favorite-group': t('deleteFavoriteGroup'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {
@@ -89,10 +90,10 @@ const DeleteDialogBox = () => {
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
-					const resource = server.find(
+					const resource = resources.find(
 						(it) => it.key === terminalTab.server.key,
 					);
-					const account = identity.find(
+					const account = accounts.find(
 						(it) =>
 							it.key === terminalTab.server.key &&
 							it.checked === true,
@@ -141,6 +142,13 @@ const DeleteDialogBox = () => {
 					});
 					break;
 				}
+				case 'delete-favorite-group': {
+					// todo : alert.id값으로 넘어온 데이터는 forder의 key값입니다
+					// todo : FolderOnFavoritesContextMenu에서 prop전달
+					dispatch(favoritesAction.deleteGroup(alert.id));
+
+					break;
+				}
 
 				default:
 					break;
@@ -149,14 +157,14 @@ const DeleteDialogBox = () => {
 		},
 		[
 			alert,
-			clicked_server,
+			selectedResource,
 			sftpDelete,
 			sftpHigh,
 			sftpPath,
 			dispatch,
 			terminalTabs,
-			server,
-			identity,
+			resources,
+			accounts,
 			userData,
 			sftpHistory,
 		],

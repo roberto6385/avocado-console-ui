@@ -13,16 +13,11 @@ const slice = createSlice({
 		favoriteTree: [], //favorites
 		selectedFavorite: null,
 		favoriteTreeOnDialogBox: [], //tempFavorites
-		// TODO : 저번에 말씀하신대로 favoriteTree 에서 slice 해서 사용하면 되는데 dialog box 리스트를 사용하는 이유가 있나요?
 		favoriteGroupRenamingKey: null, //favoriteFolderRenamingKey
-		// TODO : dialog box 내에서만 이름 변경이 가능하다면 key값을 사용하지 않아도 될거같아요(?)
 		tempFavoriteGroupRenamingKey: null, //tempFavoriteFolderRenamingKey
-		// TODO : temp, normal 구분하는 이유?
 		selectedFavoriteItemOnDialogBox: null,
-		// TODO : selectedFavoriteItemOnDialogBox 이게 key 값으로 사용?
 		favoriteGroupIndex: 0, //favorites_folder_index
 		tempFavoriteGroupIndex: 0, //tempFavoriteFolderIndex
-		// TODO : 기존 값 null 이였는데 현재 0으로 수정 => null 값이 맞나요?
 	},
 
 	reducers: {
@@ -43,12 +38,15 @@ const slice = createSlice({
 			state.favoriteGroupIndex++;
 		},
 		// TODO : favoriteTree의 control이 dialog box 내에서만 가능하다는 전제
-		//DELETE_TEMP_FOLDER_ON_FAVORITES
 		deleteGroup: (state, action) => {
+			startDeleteingTree(state.favoriteTree, action.payload);
+		},
+		//DELETE_TEMP_FOLDER_ON_FAVORITES
+		deleteTempGroup: (state, action) => {
 			startDeleteingTree(state.favoriteTreeOnDialogBox, action.payload);
 		},
 		//SAVE_CHANGES_ON_FAVORITES
-		setFavorites: (state) => {
+		setFavorite: (state) => {
 			state.favoriteTree = state.favoriteTreeOnDialogBox;
 			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
 		},
@@ -118,6 +116,78 @@ const slice = createSlice({
 			}
 
 			state.favoriteTreeOnDialogBox = state.favoriteTree;
+		},
+
+		//ADD_FAVORITE_SERVER
+		addFavorite: (state, action) => {
+			//todo resourceTree에서 key 값으로 탐색 후 해당 서버의 정보를
+			// payload에 담아서 favoriteTree에 넣어야 함
+			state.favoriteTree.push(action.payload);
+		},
+		//DELETE_FAVORITE_SERVER
+		deleteFavorite: (state, action) => {
+			startDeleteingTree(state.favoriteTree, action.payload);
+		},
+		//CHANGE_FOLDER_NAME_ON_FAVORITES
+		changeFavoriteGroupName: (state, action) => {
+			startSearchingNode(state.favoriteTree, action.payload.key).name =
+				action.payload.name;
+			state.favoriteGroupRenamingKey = null;
+		},
+		//CHANGE_SELEECTED_TEMP_FAVORITE
+		setSelectedFavoriteOnDialogBox: (state, action) => {
+			state.selectedFavoriteItemOnDialogBox = action.payload;
+		},
+		//ADD_TEMP_FOLDER_ON_FAVORITES
+		addFavoriteOnDialogBox: (state, action) => {
+			const data = {
+				type: 'folder',
+				id: state.tempFavoriteGroupIndex,
+				key: `f_${state.tempFavoriteGroupIndex}`,
+				name: action.payload.name,
+				contain: [],
+			};
+
+			addDataOnNode(
+				state.favoriteTreeOnDialogBox,
+				state.selectedFavoriteItemOnDialogBox,
+				data,
+			);
+
+			state.tempFavoriteGroupRenamingKey = data.key;
+			state.tempFavoriteGroupIndex++;
+		},
+
+		//SET_TEMP_FAVORITES
+		setTempFavorite: (state) => {
+			state.tempFavoriteGroupIndex = null;
+			state.favoriteTreeOnDialogBox = null;
+			state.tempFavoriteGroupRenamingKey = null;
+			state.selectedFavoriteItemOnDialogBox = null;
+		},
+
+		//INIT_TEMP_FAVORITES
+		initTempFavorite: (state) => {
+			state.tempFavoriteGroupIndex = state.favoriteGroupIndex;
+			state.favoriteTreeOnDialogBox = state.favoriteTree;
+		},
+		//CHANGE_FAVORITE_FOLDER_RENMAING_KEY
+		changeFavoriteGroupRenameKey: (state, action) => {
+			state.favoriteGroupRenamingKey = action.payload;
+			// draft.selectedResource = action.payload;
+		},
+		//CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY
+		changeTempFavoriteGroupRenameKey: (state, action) => {
+			state.tempFavoriteGroupRenamingKey = action.payload;
+			state.selectedFavoriteItemOnDialogBox = action.payload;
+		},
+		//CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES
+		changeTempGroupNameOnFavorites: (state, action) => {
+			startSearchingNode(
+				state.favoriteTreeOnDialogBox,
+				action.payload.key,
+			).name = action.payload.name;
+			state.tempFavoriteGroupRenamingKey = null;
 		},
 	},
 	extraReducers: {

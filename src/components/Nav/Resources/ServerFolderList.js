@@ -5,14 +5,15 @@ import Folder from './Folder';
 import Server from './Server';
 import {_Nav} from '../../../styles/components/navigationBar';
 import {startSearchingTree} from '../../../utils/searchTree';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const ServerFolderList = ({searchVal}) => {
-	const {nav} = useSelector((state) => state.common, shallowEqual);
-	const [filteredNavList, setFilteredNavList] = useState(nav);
+	const {resourceTree} = useSelector(remoteResourceSelector.all);
+	const [filteredNavList, setFilteredNavList] = useState(resourceTree);
 
 	useEffect(() => {
-		setFilteredNavList(startSearchingTree(nav, searchVal));
-	}, [nav, searchVal]);
+		setFilteredNavList(startSearchingTree(resourceTree, searchVal));
+	}, [resourceTree, searchVal]);
 
 	return (
 		<_Nav>

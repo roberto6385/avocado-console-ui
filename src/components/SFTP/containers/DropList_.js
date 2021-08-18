@@ -17,14 +17,12 @@ import {
 import {sortFunction} from '../functions';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const DropList_ = ({uuid}) => {
 	const dispatch = useDispatch();
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {
@@ -41,16 +39,16 @@ const DropList_ = ({uuid}) => {
 		[terminalTabs, uuid],
 	);
 	const resource = useMemo(
-		() => server.find((it) => it.key === terminalTab.server.key),
-		[terminalTab.server.key, server],
+		() => resources.find((it) => it.key === terminalTab.server.key),
+		[terminalTab.server.key, resources],
 	);
 	const account = useMemo(
 		() =>
-			identity.find(
+			accounts.find(
 				(it) =>
 					it.key === terminalTab.server.key && it.checked === true,
 			),
-		[identity, terminalTab],
+		[accounts, terminalTab],
 	);
 	const {path, pathList} = useMemo(
 		() => sftpPath.find((it) => it.uuid === uuid),

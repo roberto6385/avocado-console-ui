@@ -16,6 +16,7 @@ import {
 import * as PropTypes from 'prop-types';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const History_ = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -28,10 +29,8 @@ const History_ = ({uuid}) => {
 		upload: sftp_uploadState,
 		download: sftp_downloadState,
 	} = useSelector((state) => state.sftp, shallowEqual);
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const corTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
@@ -50,15 +49,15 @@ const History_ = ({uuid}) => {
 		[sftp_historyState, uuid],
 	);
 	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
+		() => resources.find((it) => it.key === corTab.server.key),
+		[corTab.server.key, resources],
 	);
 	const correspondedIdentity = useMemo(
 		() =>
-			identity.find(
+			accounts.find(
 				(it) => it.key === corTab.server.key && it.checked === true,
 			),
-		[identity, corTab],
+		[accounts, corTab],
 	);
 	const {writeSocket, writeList} = useMemo(
 		() => sftp_uploadState.find((it) => it.uuid === uuid),

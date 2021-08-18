@@ -7,22 +7,20 @@ import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const SFTPConnectBtn = ({data}) => {
 	const dispatch = useDispatch();
 	const {userData} = useSelector(authSelector.all);
-	const {server, identity} = useSelector(
-		(state) => state.common,
-		shallowEqual,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const onClickConnectSftp = useCallback(() => {
-		const resource = server.find((x) => x.id === data.id);
-		const account = identity.find(
+		const resource = resources.find((x) => x.id === data.id);
+		const account = accounts.find(
 			(it) => it.key === data.key && it.checked === true,
 		);
 
-		if (server.includes(resource)) {
+		if (resources.includes(resource)) {
 			dispatch({
 				type: CONNECTION_REQUEST,
 				payload: {
@@ -40,7 +38,7 @@ const SFTPConnectBtn = ({data}) => {
 		} else {
 			dispatch(dialogBoxAction.openAlert({key: 'lost-server'}));
 		}
-	}, [server, data, identity, userData, dispatch]);
+	}, [resources, data, accounts, userData, dispatch]);
 
 	return (
 		<HoverButton onClick={onClickConnectSftp}>
