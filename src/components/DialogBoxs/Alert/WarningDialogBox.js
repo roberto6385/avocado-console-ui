@@ -10,10 +10,10 @@ import {
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	AlertDialogBox,
-	AlertText,
-	ModalFooter,
-	ModalHeader,
-	ModalMessage,
+	AlertDialogBoxText,
+	DialogBoxFooter,
+	DialogBoxHeader,
+	DialogBoxMessage,
 } from '../../../styles/components/disalogBox';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 
@@ -44,7 +44,7 @@ const WarningDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('alert')}</div>
 				<IconButton
 					itype={'font'}
@@ -54,23 +54,25 @@ const WarningDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
-			<ModalMessage>
+			<DialogBoxMessage>
 				<Icon margin_right='6px' itype={'warning'}>
 					{cancelFillIcon}
 				</Icon>
-				<AlertText>{alertMessages[alert.key]}</AlertText>
-			</ModalMessage>
+				<AlertDialogBoxText>
+					{alertMessages[alert.key]}
+				</AlertDialogBoxText>
+			</DialogBoxMessage>
 
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 				<WarningButton onClick={onClickCloseDialogBox}>
 					{t('ok')}
 				</WarningButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</AlertDialogBox>
 	);
 };

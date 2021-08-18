@@ -98,13 +98,16 @@ const WorkSpace = () => {
 
 	return (
 		<_Container>
-			<NavBar toggle={isNavOpened} setToggle={setIsNavOpened} />
+			<NavBar isOpened={isNavOpened} setIsOpened={setIsNavOpened} />
 			<_MainContainer
 				className={
 					isNavOpened ? 'mainContainer' : 'mainContainer close'
 				}
 			>
-				<TabBar toggle={isAsideOpened} setToggle={setIsAsideOpened} />
+				<TabBar
+					isOpned={isAsideOpened}
+					setisOpened={setIsAsideOpened}
+				/>
 				<_MainSpace>
 					<_WorkSpaceContainer
 						className={isAsideOpened ? 'work' : 'work close'}
@@ -117,8 +120,8 @@ const WorkSpace = () => {
 						)}
 					</_WorkSpaceContainer>
 					<AsideContainer
-						toggle={isAsideOpened}
-						setToggle={setIsAsideOpened}
+						isOpened={isAsideOpened}
+						setIsOpened={setIsAsideOpened}
 					/>
 				</_MainSpace>
 			</_MainContainer>

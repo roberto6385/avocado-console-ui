@@ -1,15 +1,17 @@
-export function formatByteSizeString(bytes, decimals = 0) {
+export function fileByteSizeFormater(bytes, decimals = 0) {
 	if (bytes === 0) {
 		return '0 byte';
 	}
 	const k = 1000;
-	const dm = decimals;
 	const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
-	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+
+	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} ${
+		sizes[i]
+	}`;
 }
 
-export function sortFunction({fileList, keyword = 'name', toggle = true}) {
+export function sortList({fileList, keyword = 'name', toggle = true}) {
 	const nextList = fileList.slice().sort((a, b) => {
 		if (keyword === 'name') {
 			if (toggle) {
@@ -34,11 +36,11 @@ export function sortFunction({fileList, keyword = 'name', toggle = true}) {
 			}
 		}
 		if (keyword === 'modified') {
-			const lastA = dataFormater({
+			const lastA = sftpDateFormater({
 				modify: a.lastModified,
 				keyword: 'sort',
 			});
-			const lastB = dataFormater({
+			const lastB = sftpDateFormater({
 				modify: b.lastModified,
 				keyword: 'sort',
 			});
@@ -72,9 +74,8 @@ export function sortFunction({fileList, keyword = 'name', toggle = true}) {
 	return nextList;
 }
 
-export const dataFormater = ({modify, keyword, language}) => {
-	const formatValue = modify.split(' ');
-	const monthObj = {
+export const sftpDateFormater = ({modify, keyword, language}) => {
+	const months = {
 		Jan: '01',
 		Feb: '02',
 		Mar: '03',
@@ -88,15 +89,16 @@ export const dataFormater = ({modify, keyword, language}) => {
 		Nov: '11',
 		Dec: '12',
 	};
-
 	const am = language === 'ko-KR' ? '오전' : 'AM';
 	const pm = language === 'ko-KR' ? '오후' : 'PM';
 
+	const formatValue = modify.split(' ');
 	let splitTime = formatValue[3].split(':');
+
 	if (parseInt(splitTime[0]) > 12)
 		splitTime.splice(0, 1, parseInt(splitTime[0]) - 12);
 	if (keyword === 'format') {
-		return `${formatValue[5]}.${monthObj[formatValue[1]]}.${formatValue[2]}
+		return `${formatValue[5]}.${months[formatValue[1]]}.${formatValue[2]}
 		${
 			typeof splitTime[0] === 'string'
 				? `${am} ${splitTime.join(':')}`
@@ -105,13 +107,12 @@ export const dataFormater = ({modify, keyword, language}) => {
 	} else {
 		return parseInt(
 			formatValue[5] +
-				monthObj[formatValue[1]] +
+				months[formatValue[1]] +
 				formatValue[2] +
 				formatValue[3].replaceAll(':', ''),
 		);
 	}
 };
-
 export const createPathList = ({path}) => {
 	let pathList = ['/'];
 	let tempPathList = path.split('/');
@@ -120,40 +121,4 @@ export const createPathList = ({path}) => {
 		return accumulator + '/' + currentValue;
 	});
 	return pathList;
-};
-
-const caseCheck = (item) => {
-	const k = parseInt(item).toString(2);
-	let caseValue = k;
-	if (k.length === 1) {
-		caseValue = '00' + k;
-	} else if (k.length === 2) {
-		caseValue = '0' + k;
-	}
-
-	switch (caseValue) {
-		case '000':
-			return '---';
-		case '001':
-			return '--x';
-		case '010':
-			return '-w-';
-		case '011':
-			return '-wx';
-		case '100':
-			return 'r--';
-		case '101':
-			return 'r-x';
-		case '110':
-			return 'rw-';
-		case '111':
-			return 'rwx';
-	}
-};
-
-export const octToSymbol = ({own, grp, pub}) => {
-	const a = caseCheck(own);
-	const b = caseCheck(grp);
-	const c = caseCheck(pub);
-	return a + b + c;
 };

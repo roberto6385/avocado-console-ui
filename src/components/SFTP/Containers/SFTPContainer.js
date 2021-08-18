@@ -19,29 +19,29 @@ import {
 import SFTP from '../SFTP';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
-const SFTP_ = ({uuid}) => {
+const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {
-		upload: sftp_uploadState,
-		download: sftp_downloadState,
-		delete: sftp_deleteState,
-		high: sftp_highState,
-		socket: sftp_socketState,
-		etc: sftp_etcState,
-		history: sftp_historyState,
+		upload: sftpUpload,
+		download: sftpDownload,
+		delete: sftpDelete,
+		high: sftpHigh,
+		socket: sftpSocket,
+		etc: sftpEtc,
+		history: sftpHistory,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const {
 		writeList,
 		writeSocket,
-		pass: upPass,
-	} = sftp_uploadState.find((it) => it.uuid === uuid);
+		pass: uploadPass,
+	} = sftpUpload.find((it) => it.uuid === uuid);
 	const {
 		readList,
 		readSocket,
-		pass: downPass,
-	} = sftp_downloadState.find((it) => it.uuid === uuid);
+		pass: downloadPass,
+	} = sftpDownload.find((it) => it.uuid === uuid);
 	const {
 		incinerator,
 		removeSocket,
@@ -49,45 +49,43 @@ const SFTP_ = ({uuid}) => {
 		initPath,
 		total,
 		pass: deletePass,
-	} = sftp_deleteState.find((it) => it.uuid === uuid);
+	} = sftpDelete.find((it) => it.uuid === uuid);
 
-	const {highlight} = sftp_highState.find((it) => it.uuid === uuid);
-	const {socket} = sftp_socketState.find((it) => it.uuid === uuid);
-	const {mode} = sftp_etcState.find((it) => it.uuid === uuid);
-	const {history_highlight, history} = sftp_historyState.find(
+	const {highlight} = sftpHigh.find((it) => it.uuid === uuid);
+	const {socket} = sftpSocket.find((it) => it.uuid === uuid);
+	const {mode} = sftpEtc.find((it) => it.uuid === uuid);
+	const {history_highlight, history} = sftpHistory.find(
 		(it) => it.uuid === uuid,
 	);
 
-	const body = document.getElementById('root');
-	const focusOut = useCallback(
-		function (evt) {
+	const onClickFocusOut = useCallback(
+		(e) => {
 			if (!uuid || selectedTab !== uuid) return;
 			if (highlight.length === 0 && history_highlight.length === 0) {
 				return;
 			}
-			const root = evt.target;
-
-			// if (highlight.length !== 0 || history_highlight.length !== 0) {
-			const th = Array.from(evt.currentTarget.querySelectorAll('th'));
-			const path = Array.from(evt.currentTarget.querySelectorAll('path'));
-			const filelist_contents = Array.from(
-				evt.currentTarget.querySelectorAll('.filelist_contents'),
+			const root = e.target;
+			const th = Array.from(e.currentTarget.querySelectorAll('th'));
+			const path = Array.from(e.currentTarget.querySelectorAll('path'));
+			const filelistContent = Array.from(
+				e.currentTarget.querySelectorAll('.filelist-content'),
 			);
 
-			const history_contents = Array.from(
-				evt.currentTarget.querySelectorAll('.history_contents'),
+			const historyContent = Array.from(
+				e.currentTarget.querySelectorAll('.history-content'),
 			);
-			const context = Array.from(
-				evt.currentTarget.querySelectorAll(
+			const content = Array.from(
+				e.currentTarget.querySelectorAll(
 					'.react-contexify__item__content',
 				),
 			);
+
 			if (
 				!th.includes(root) &&
 				!path.includes(root) &&
-				!filelist_contents.includes(root) &&
-				!history_contents.includes(root) &&
-				!context.includes(root)
+				!filelistContent.includes(root) &&
+				!historyContent.includes(root) &&
+				!content.includes(root)
 			) {
 				dispatch({
 					type: INITIALIZING_HIGHLIGHT,
@@ -100,16 +98,20 @@ const SFTP_ = ({uuid}) => {
 	);
 
 	useEffect(() => {
-		body.addEventListener('click', focusOut);
+		document
+			.getElementById('root')
+			.addEventListener('click', onClickFocusOut);
 
 		return function cleanUp() {
-			body.removeEventListener('click', focusOut);
+			document
+				.getElementById('root')
+				.removeEventListener('click', onClickFocusOut);
 		};
-	}, [body, focusOut]);
+	}, [onClickFocusOut]);
 
 	useEffect(() => {
 		if (readList.length !== 0 && readSocket !== null) {
-			if (!downPass) return;
+			if (!downloadPass) return;
 			const value = readList.slice().shift();
 			dispatch({
 				type: READ_REQUEST,
@@ -136,13 +138,12 @@ const SFTP_ = ({uuid}) => {
 				},
 			});
 		}
-	}, [downPass, dispatch, mode, readList, readSocket, socket, uuid]);
+	}, [downloadPass, dispatch, mode, readList, readSocket, socket, uuid]);
 
 	useEffect(() => {
 		if (writeList.length !== 0 && writeSocket !== null) {
-			if (!upPass) return;
+			if (!uploadPass) return;
 			const value = writeList.slice().shift();
-			console.log(value);
 			dispatch({
 				type: WRITE_REQUEST,
 				payload: {
@@ -167,7 +168,7 @@ const SFTP_ = ({uuid}) => {
 				},
 			});
 		}
-	}, [upPass, writeList, writeSocket, socket, uuid, dispatch]);
+	}, [uploadPass, writeList, writeSocket, socket, uuid, dispatch]);
 
 	useEffect(() => {
 		if (incinerator.length !== 0 && removeSocket !== null) {
@@ -180,18 +181,13 @@ const SFTP_ = ({uuid}) => {
 			const keyValue = value.path
 				.replace(deleteHistory.path, '')
 				.split('/')[1];
-			const key = keyValue ? keyValue : value.file.name;
-			console.log(key);
 			const totalLength = total.slice().shift().length;
-			console.log(totalLength);
-			const Remaining = incinerator.filter(
+			const remaining = incinerator.filter(
 				(v) =>
 					v.path.replace(deleteHistory.path, '').split('/')[1] ===
 					deleteHistory.name,
 			);
 
-			const percent =
-				((totalLength - Remaining.length) / totalLength) * 100;
 			if (value.file.name !== '..' || value.file.name !== '.') {
 				dispatch({
 					type: RM_REQUEST,
@@ -202,8 +198,10 @@ const SFTP_ = ({uuid}) => {
 						file: value.file,
 						rm_path: value.path,
 						todo: 'rm',
-						percent: percent,
-						key: key,
+						percent:
+							((totalLength - remaining.length) / totalLength) *
+							100,
+						key: keyValue ? keyValue : value.file.name,
 						keyword:
 							value.file.type === 'file'
 								? 'CommandByRm'
@@ -231,10 +229,6 @@ const SFTP_ = ({uuid}) => {
 				if (value.name !== '.' && value.name !== '..') {
 					array.push({file: value, path: initPath});
 					const item = {file: value, path: initPath};
-					const key =
-						item.path === '/'
-							? item.path + item.file.name
-							: item.path + '/' + item.file.name;
 					dispatch({
 						type: ADD_HISTORY,
 						payload: {
@@ -252,7 +246,10 @@ const SFTP_ = ({uuid}) => {
 						payload: {
 							uuid: uuid,
 							item,
-							key,
+							key:
+								item.path === '/'
+									? item.path + item.file.name
+									: item.path + '/' + item.file.name,
 						},
 					});
 				}
@@ -271,22 +268,19 @@ const SFTP_ = ({uuid}) => {
 			} else {
 				for (let item of array.slice()) {
 					if (item.file.type === 'directory') {
-						console.log(item);
-						const key =
-							item.path === '/'
-								? item.path + item.file.name
-								: item.path + '/' + item.file.name;
-						const delete_path =
-							initPath === '/'
-								? `${initPath}${item.file.name}`
-								: `${initPath}/${item.file.name}`;
 						dispatch({
 							type: LS_REQUEST_DELETE,
 							payload: {
 								socket: removeSocket,
 								uuid: uuid,
-								delete_path: delete_path,
-								key,
+								delete_path:
+									initPath === '/'
+										? `${initPath}${item.file.name}`
+										: `${initPath}/${item.file.name}`,
+								key:
+									item.path === '/'
+										? item.path + item.file.name
+										: item.path + '/' + item.file.name,
 							},
 						});
 					}
@@ -298,8 +292,8 @@ const SFTP_ = ({uuid}) => {
 	return <SFTP uuid={uuid} mode={mode} />;
 };
 
-SFTP_.propTypes = {
+SFTPContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default SFTP_;
+export default SFTPContainer;

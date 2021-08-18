@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import ServerContextMenu from '../../ContextMenu/ServerContextMenu';
+import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
 	awsServerIcon,
@@ -15,8 +15,8 @@ import styled from 'styled-components';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
-	NavigationItem,
-	NavigationItemTitle,
+	ResourceItem,
+	ResourceItemTitle,
 } from '../../../styles/components/navigationBar';
 import {authSelector} from '../../../reducers/api/auth';
 import {
@@ -25,7 +25,7 @@ import {
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
 
-export const ServerItem = styled(NavigationItem)`
+export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
 		display: none;
 	}
@@ -57,7 +57,7 @@ function isFavoriteServer(root, key) {
 	return false;
 }
 
-const Server = ({data, indent}) => {
+const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
@@ -65,38 +65,43 @@ const Server = ({data, indent}) => {
 		remoteResourceSelector.all,
 	);
 	const {userData} = useSelector(authSelector.all);
-	const correspondedIdentity = useMemo(
+
+	const account = useMemo(
 		() => accounts.find((it) => it.key === data.key && it.checked === true),
 		[accounts, data],
 	);
 
-	const onHybridClick = useDoubleClick(
-		() => {
-			const correspondedServer = resources.find((i) => i.id === data.id);
+	const {show} = useContextMenu({
+		id: data.key + '-resources-context-menu',
+	});
 
-			if (correspondedServer.protocol === 'SSH2') {
+	const onClickResource = useDoubleClick(
+		() => {
+			const resource = resources.find((i) => i.id === data.id);
+
+			if (resource.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token,
-						...correspondedServer,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						...resource,
+						user: account.user,
+						password: account.password,
 					},
 				});
-			} else if (correspondedServer.protocol === 'SFTP') {
+			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: correspondedServer.host,
-						port: correspondedServer.port,
-						user: correspondedIdentity.user,
-						password: correspondedIdentity.password,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
 
-						name: correspondedServer.name, // create tab info
-						key: correspondedServer.key,
-						id: correspondedServer.id,
+						name: resource.name, // create tab info
+						key: resource.key,
+						id: resource.id,
 					},
 				});
 			}
@@ -108,22 +113,11 @@ const Server = ({data, indent}) => {
 				dispatch(remoteResourceAction.setSelectedResource(data.key));
 			}
 		},
-		[
-			selectedResource,
-			data,
-			userData,
-			resources,
-			accounts,
-			dispatch,
-			correspondedIdentity,
-		],
+
+		[selectedResource, data, userData, resources, accounts, dispatch],
 	);
 
-	const {show} = useContextMenu({
-		id: data.key + 'server',
-	});
-
-	const openServerContextMenu = useCallback(
+	const openResourceContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch(remoteResourceAction.setSelectedResource(data.key));
@@ -140,13 +134,13 @@ const Server = ({data, indent}) => {
 		} else {
 			dispatch(favoritesAction.addFavorite(data.key));
 		}
-	}, [data, favoriteTree]);
+	}, [data.key, dispatch, favoriteTree]);
 
 	return (
 		<React.Fragment>
 			<ServerItem
-				onClick={onHybridClick}
-				onContextMenu={openServerContextMenu}
+				onClick={onClickResource}
+				onContextMenu={openResourceContextMenu}
 				selected={selectedResource === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -159,7 +153,7 @@ const Server = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle>
+				<ResourceItemTitle>
 					{data.name}
 					<IconButton
 						className={
@@ -178,16 +172,16 @@ const Server = ({data, indent}) => {
 					>
 						{bookmarkIcon}
 					</IconButton>
-				</NavigationItemTitle>
+				</ResourceItemTitle>
 			</ServerItem>
-			<ServerContextMenu identity={correspondedIdentity} data={data} />
+			<ResourcesContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };
 
-Server.propTypes = {
+Resource.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default Server;
+export default Resource;

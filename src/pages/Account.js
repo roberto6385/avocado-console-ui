@@ -1,13 +1,16 @@
 import React, {useEffect} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import AccountSpace from '../components/Setting/Space/AccountSpace';
 import SettingAppLayout from '../components/Setting/SettingLayout';
 import {authSelector} from '../reducers/api/auth';
+import i18n from 'i18next';
+import {settingSelector} from '../reducers/setting';
 
 const Account = () => {
 	const {userData} = useSelector(authSelector.all);
+	const {language} = useSelector(settingSelector.all);
 	const history = useHistory();
 
 	useEffect(() => {
@@ -15,7 +18,11 @@ const Account = () => {
 			history.push('/signin');
 			location.reload();
 		}
-	}, [history, userData]);
+	}, [history, language, userData]);
+
+	useEffect(() => {
+		i18n.changeLanguage(language);
+	}, [i18n, language]);
 
 	return (
 		<SettingAppLayout>

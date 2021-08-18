@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {Icon} from '../../../../styles/components/icon';
 import {
-	NavigationItem,
-	NavigationItemTitle,
+	ResourceItem,
+	ResourceItemTitle,
 } from '../../../../styles/components/navigationBar';
 import {awsServerIcon, linuxServerIcon} from '../../../../icons/icons';
 import {
@@ -13,13 +13,13 @@ import {
 	favoritesSelector,
 } from '../../../../reducers/favorites';
 
-const FavoriteServerOnDialogBox = ({data, indent}) => {
+const FavoriteOnDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {selectedFavoriteItemOnDialogBox} = useSelector(
 		favoritesSelector.all,
 	);
 
-	const onClickFavoriteServerItem = useCallback(() => {
+	const onClickFavorite = useCallback(() => {
 		if (selectedFavoriteItemOnDialogBox === data.key) {
 			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(null));
 		} else {
@@ -29,10 +29,10 @@ const FavoriteServerOnDialogBox = ({data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItem
+			<ResourceItem
 				selected={selectedFavoriteItemOnDialogBox === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
-				onClick={onClickFavoriteServerItem}
+				onClick={onClickFavorite}
 			>
 				<Icon
 					size={'sm'}
@@ -47,15 +47,15 @@ const FavoriteServerOnDialogBox = ({data, indent}) => {
 					{data.icon === 'aws' && awsServerIcon}
 				</Icon>
 
-				<NavigationItemTitle>{data.name}</NavigationItemTitle>
-			</NavigationItem>
+				<ResourceItemTitle>{data.name}</ResourceItemTitle>
+			</ResourceItem>
 		</React.Fragment>
 	);
 };
 
-FavoriteServerOnDialogBox.propTypes = {
+FavoriteOnDialogBox.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FavoriteServerOnDialogBox;
+export default FavoriteOnDialogBox;

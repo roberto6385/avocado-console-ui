@@ -209,7 +209,10 @@ const SFTPFileListContextMenu = ({uuid}) => {
 	);
 
 	return (
-		<ContextMenu id={uuid + 'fileList'} animation={animation.slide}>
+		<ContextMenu
+			id={uuid + '-file-list-context-menu'}
+			animation={animation.slide}
+		>
 			<Item
 				disabled={highlight.length === 0}
 				onClick={handleOnClickEvents('download-data')}

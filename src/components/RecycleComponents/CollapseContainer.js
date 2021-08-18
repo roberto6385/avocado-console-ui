@@ -9,17 +9,17 @@ const _Container = styled.div`
 	}
 `;
 
-const Collapse_ = ({children, open}) => {
+const CollapseContainer = ({children, isOpened}) => {
 	return (
 		<_Container>
-			<Collapse isOpened={open}>{children}</Collapse>
+			<Collapse isOpened={isOpened}>{children}</Collapse>
 		</_Container>
 	);
 };
 
-Collapse_.propTypes = {
+CollapseContainer.propTypes = {
 	children: PropTypes.element,
-	open: PropTypes.bool,
+	isOpened: PropTypes.bool,
 };
 
-export default Collapse_;
+export default CollapseContainer;

@@ -1,6 +1,6 @@
 import SFTP from '../../dist/sftp_pb';
 import {ERROR, PWD_SUCCESS} from '../../reducers/sftp';
-import {createPathList} from '../../components/SFTP/functions';
+import {createPathList} from '../../utils/sftp';
 
 export function pwdResponse({data}) {
 	try {

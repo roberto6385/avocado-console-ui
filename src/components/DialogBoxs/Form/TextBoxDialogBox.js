@@ -13,8 +13,8 @@ import {
 import {IconButton} from '../../../styles/components/icon';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
@@ -133,7 +133,7 @@ const TextBoxDialogBox = () => {
 		],
 	);
 
-	//when form is open, fill in pre-value and focus and select it
+	//when form is isOpened, fill in pre-value and focus and select it
 	useEffect(() => {
 		const fillInForm = async () => {
 			if (form.open) {
@@ -178,7 +178,7 @@ const TextBoxDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{headerMessages[form.key]}</div>
 				<IconButton
 					itype={'font'}
@@ -188,7 +188,7 @@ const TextBoxDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 
 			<_Form onSubmit={handleOnSubmitTextBoxEvents}>
 				<TextBox
@@ -200,14 +200,14 @@ const TextBoxDialogBox = () => {
 				/>
 			</_Form>
 
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={handleOnSubmitTextBoxEvents}>
 					{t('save')}
 				</NormalButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</_PopupModal>
 	);
 };

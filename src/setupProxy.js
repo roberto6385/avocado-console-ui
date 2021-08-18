@@ -8,7 +8,7 @@ module.exports = (app) => {
 		}),
 	);
 	app.use(
-		createProxyMiddleware('/open', {
+		createProxyMiddleware('/isOpened', {
 			target: 'http://ec2-3-34-138-163.ap-northeast-2.compute.amazonaws.com:10200',
 			changeOrigin: true,
 		}),

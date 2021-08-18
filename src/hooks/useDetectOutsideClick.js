@@ -11,7 +11,7 @@ export const useDetectOutsideClick = (el, initialState) => {
 			}
 		};
 
-		// If the item is active (ie open) then listen for clicks outside
+		// If the item is active (ie isOpened) then listen for clicks outside
 		if (isActive) {
 			document.addEventListener('mousedown', onClick);
 			document.addEventListener('touchstart', onClick);

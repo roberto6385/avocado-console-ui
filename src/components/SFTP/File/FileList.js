@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'react-contexify/dist/ReactContexify.css';
-import SFTPFileListContextMenu from '../../ContextMenu/SFTPFileListContextMenu';
+import SFTPFileListContextMenu from '../../ContextMenus/SFTPFileListContextMenu';
 import TableHeader from './TableHeader';
-import {dataFormater, formatByteSizeString} from '../functions';
 import {
 	editIcon,
 	fileDownloadIcon,
@@ -15,6 +14,7 @@ import styled from 'styled-components';
 import {HideScroll, PreventDragCopy} from '../../../styles/function';
 import {HoverButton} from '../../../styles/components/icon';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
+import {sftpDateFormater, fileByteSizeFormater} from '../../../utils/sftp';
 
 const _Table = styled.table`
 	display: flex;
@@ -81,7 +81,7 @@ const FileList = ({
 }) => {
 	return (
 		<React.Fragment>
-			<_Table onContextMenu={onContextMenu()}>
+			<_Table onContextMenu={onContextMenu}>
 				<TableHeader uuid={uuid} />
 				<_Tbody>
 					{list.map((item, index) => {
@@ -98,8 +98,8 @@ const FileList = ({
 												JSON.stringify(v) ===
 												JSON.stringify({...item, path}),
 										)
-											? 'filelist_contents active'
-											: 'filelist_contents'
+											? 'filelist-content active'
+											: 'filelist-content'
 									}
 								>
 									<_Th min={'150px'} flex={1}>
@@ -116,17 +116,17 @@ const FileList = ({
 												: fileIcon}
 										</SftpMainIcon>
 
-										<span className='filelist_contents'>
+										<span className='filelist-content'>
 											{item.name}
 										</span>
 									</_Th>
 									<_Th min={'135px'} justify='flex-end'>
 										{item.name !== '..' &&
-											formatByteSizeString(item.size)}
+											fileByteSizeFormater(item.size)}
 									</_Th>
 									<_Th min={'212px'}>
 										{item.name !== '..' &&
-											dataFormater({
+											sftpDateFormater({
 												modify: item.lastModified,
 												keyword: 'format',
 												language: lang,

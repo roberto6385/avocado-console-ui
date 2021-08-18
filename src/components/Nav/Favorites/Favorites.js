@@ -1,85 +1,56 @@
-import React, {useCallback} from 'react';
-import styled from 'styled-components';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import PropTypes from 'prop-types';
+import Sortable from 'sortablejs';
+import {ResourceTree} from '../../../styles/components/navigationBar';
+import Favorite from './Favorite';
+import FavoriteGroup from './FavoriteGroup';
+import {startSearchingTree} from '../../../utils/searchTree';
+import {favoritesSelector} from '../../../reducers/favorites';
 
-import IconSearchTextBox from '../../RecycleComponents/IconSearchTextBox';
-import {plusIcon, searchIcon} from '../../../icons/icons';
-import useInput from '../../../hooks/useInput';
-import {useTranslation} from 'react-i18next';
-import FavoriteItemsTree from './FavoriteItemsTree';
-import {useDispatch} from 'react-redux';
-import AddFavoritesDialogBox from '../../DialogBoxs/Form/AddFavoritesDialogBox';
-import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+const Favorites = ({search}) => {
+	const {favoriteTree} = useSelector(favoritesSelector.all);
+	const [searchedFavorites, setsearchedFavorites] = useState(favoriteTree);
 
-const _FormContainer = styled.div`
-	padding: 10px 12px;
-	display: flex;
-`;
+	useEffect(() => {
+		const sortableFavorites = document.getElementById('sortable-favorites');
+		sortableFavorites !== null &&
+			Sortable.create(sortableFavorites, {
+				sort: false,
+			});
+	}, []);
 
-const _Form = styled.form`
-	display: flex;
-	flex: 1;
-	align-items: center;
-	border-radius: 4px;
-`;
-
-const _AddButton = styled.button`
-	width: 36px;
-	height: 36px;
-	margin-left: 8px;
-	border: 1px solid;
-	border-radius: 4px;
-	color: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton.font.color};
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton.border.color};
-	background: ${(props) =>
-		props.theme.pages.webTerminal.main.navigation.addButton
-			.backgroundColor};
-
-	&:hover {
-		color: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover.font
-				.color};
-		border-color: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover.border
-				.color};
-		background: ${(props) =>
-			props.theme.pages.webTerminal.main.navigation.addButton.hover
-				.backgroundColor};
-	}
-`;
-
-const Container = styled.div`
-	height: 100%;
-`;
-
-const Favorites = () => {
-	const {t} = useTranslation('nav');
-	const dispatch = useDispatch();
-
-	const [search, onChangeSearch] = useInput('');
-	const newFavorites = useCallback(() => {
-		dispatch(dialogBoxAction.openForm({key: 'favorites'}));
-	}, [dispatch]);
+	useEffect(() => {
+		setsearchedFavorites(startSearchingTree(favoriteTree, search));
+	}, [favoriteTree, search]);
 
 	return (
-		<Container>
-			<_FormContainer>
-				<_Form onSubmit={(e) => e.preventDefault()}>
-					<IconSearchTextBox
-						icon={searchIcon}
-						onChange={onChangeSearch}
-						value={search}
-						place={t('search')}
-						height={'36px'}
+		<ResourceTree id='sortable-favorites'>
+			{searchedFavorites.map((data) =>
+				data.type === 'folder' ? (
+					<FavoriteGroup
+						key={data.key}
+						open={search !== ''}
+						data={data}
+						indent={1}
+						temp={false}
 					/>
-				</_Form>
-				<_AddButton onClick={newFavorites}>{plusIcon}</_AddButton>
-			</_FormContainer>
-			<FavoriteItemsTree search={search} />
-			<AddFavoritesDialogBox />
-		</Container>
+				) : (
+					<Favorite
+						key={data.key}
+						data={data}
+						indent={1}
+						temp={false}
+					/>
+				),
+			)}
+		</ResourceTree>
 	);
+};
+
+Favorites.propTypes = {
+	search: PropTypes.string.isRequired,
+	setSearch: PropTypes.func,
 };
 
 export default Favorites;

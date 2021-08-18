@@ -13,8 +13,8 @@ import {
 import {IconButton} from '../../../styles/components/icon';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
@@ -106,7 +106,7 @@ const ChangePasswordDialogBox = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('title')}</div>
 				<IconButton
 					btype={'font'}
@@ -116,7 +116,7 @@ const ChangePasswordDialogBox = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
+			</DialogBoxHeader>
 			<Form onSubmit={onSubmitChangePassword}>
 				<TextBoxField title={t('current')}>
 					<TextBox
@@ -124,7 +124,7 @@ const ChangePasswordDialogBox = () => {
 						type='password'
 						value={currentPassword}
 						onChange={onChangeCurrentPassword}
-						placeholder={t('place.current')}
+						placeholder={t('placeholder.current')}
 						required
 					/>
 				</TextBoxField>
@@ -135,7 +135,7 @@ const ChangePasswordDialogBox = () => {
 						type='password'
 						value={newPassword}
 						onChange={onChangeNewPassword}
-						placeholder={t('place.new')}
+						placeholder={t('placeholder.new')}
 						required
 					/>
 				</TextBoxField>
@@ -144,20 +144,20 @@ const ChangePasswordDialogBox = () => {
 						type='password'
 						value={confirmPassword}
 						onChange={onChangeConfirmPassword}
-						placeholder={t('place.confirm')}
+						placeholder={t('placeholder.confirm')}
 						required
 					/>
 				</TextBoxField>
 			</Form>
 
-			<ModalFooter>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCloseDialogBox}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={onSubmitChangePassword}>
 					{t('save')}
 				</NormalButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</_PopupModal>
 	);
 };

@@ -1,8 +1,8 @@
 export default {
 	mode: 'en',
-	newServer: 'New Server',
+	newServer: 'New Resource',
 	search: 'Search',
-	newFolder: 'New Folder',
+	newFolder: 'New ResourceGroup',
 
 	resource: 'Resource',
 	bookmark: 'Bookmark',

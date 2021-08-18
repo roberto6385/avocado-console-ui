@@ -8,7 +8,7 @@ export const fileIcon = (
 		viewBox='0 0 24 24'
 		width='24px'
 		fill='none'
-		className={'filelist_contents'}
+		className={'filelist-content'}
 	>
 		<path d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z' />
 	</svg>
@@ -199,7 +199,7 @@ export const awsServerIcon = (
 );
 
 export const folderOpenIcon = (
-	<span className='material-icons filelist_contents'>folder_open</span>
+	<span className='material-icons filelist-content'>folder_open</span>
 );
 
 export const folderIcon = <span className='material-icons'>folder</span>;
@@ -253,7 +253,7 @@ export const deleteIcon = (
 		width='24'
 		height='24'
 		viewBox='0 0 24 24'
-		className={'history_contents'}
+		className={'history-content'}
 	>
 		<path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zM18 4h-2.5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1z' />
 	</svg>

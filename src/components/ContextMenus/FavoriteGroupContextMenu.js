@@ -8,7 +8,7 @@ import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {favoritesAction} from '../../reducers/favorites';
 
-const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
+const FavoriteGroupContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 
@@ -35,11 +35,14 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 					return;
 			}
 		},
-		[dispatch],
+		[data.key, dispatch, onDialog],
 	);
 
 	return (
-		<ContextMenu id={data.key + 'folder'} animation={animation.slide}>
+		<ContextMenu
+			id={data.key + '-favorite-group-context-menu'}
+			animation={animation.slide}
+		>
 			{Object.entries(contextMenuList).map(([key, value]) => (
 				<Item onClick={handleOnClickEvents(key)} key={key}>
 					{value}
@@ -49,9 +52,9 @@ const FolderOnFavoritesContextMenu = ({data, onDialog}) => {
 	);
 };
 
-FolderOnFavoritesContextMenu.propTypes = {
+FavoriteGroupContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	onDialog: PropTypes.bool,
 };
 
-export default FolderOnFavoritesContextMenu;
+export default FavoriteGroupContextMenu;

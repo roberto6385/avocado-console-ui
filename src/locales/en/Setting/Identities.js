@@ -2,7 +2,7 @@ export default {
 	mode: 'en',
 	title: 'Identities',
 	resource: 'Resource List',
-	account: '[ Cloud Server ] Account List',
+	account: '[ Cloud Resource ] Account List',
 
 	aside: {
 		account: 'Account',

@@ -8,7 +8,7 @@ const _Container = styled.div`
 	opacity: ${(props) => (props.opacity === 'true' ? 0.24 : 1)};
 `;
 
-const InputContainer = styled.div`
+const _Option = styled.div`
 	svg {
 		fill: ${(props) =>
 			props.type === 'on'
@@ -18,10 +18,10 @@ const InputContainer = styled.div`
 	}
 `;
 
-const Radio_ = ({radioName, options, value, setValue, disabled}) => {
+const Radio = ({options, value, setValue, disabled}) => {
 	return (
 		<div>
-			{options.map((op, index) => {
+			{options.map((v, index) => {
 				return (
 					<_Container
 						opacity={disabled.toString()}
@@ -30,21 +30,20 @@ const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 					>
 						<input
 							type='radio'
-							name={radioName}
-							value={op.value}
+							value={v.value}
 							disabled={disabled}
 							onChange={(e) => setValue(e.target.value)}
-							checked={value === op.value}
+							checked={value === v.value}
 						/>
 
-						<InputContainer type={'on'} className='state p-on'>
+						<_Option type={'on'} className='state p-on'>
 							{radioIcon}
-							<label>{op.label}</label>
-						</InputContainer>
-						<InputContainer type={'off'} className='state p-off'>
+							<label>{v.label}</label>
+						</_Option>
+						<_Option type={'off'} className='state p-off'>
 							{unCheckedRadioIcon}
-							<label>{op.label}</label>
-						</InputContainer>
+							<label>{v.label}</label>
+						</_Option>
 					</_Container>
 				);
 			})}
@@ -52,12 +51,11 @@ const Radio_ = ({radioName, options, value, setValue, disabled}) => {
 	);
 };
 
-Radio_.propTypes = {
+Radio.propTypes = {
 	options: PropTypes.array.isRequired,
-	radioName: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
 	setValue: PropTypes.func.isRequired,
 	disabled: PropTypes.bool.isRequired,
 };
 
-export default Radio_;
+export default Radio;

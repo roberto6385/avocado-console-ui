@@ -42,7 +42,10 @@ const SnippetsManagerContextMenu = ({uuid}) => {
 	);
 
 	return (
-		<DropDownMenu id={uuid + 'snippet'} animation={animation.slide}>
+		<DropDownMenu
+			id={uuid + '-snippets-context-menu'}
+			animation={animation.slide}
+		>
 			<Item onClick={onClickOpenSnippetsManegerDialogBox}>
 				{t('editSnippets')}
 			</Item>

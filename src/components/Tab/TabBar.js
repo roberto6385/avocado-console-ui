@@ -58,12 +58,12 @@ const _Tab = styled.div`
 	justify-content: space-between;
 `;
 
-const _ServerTitle = styled.div`
+const _ResourceTitle = styled.div`
 	flex: 1;
 	overflow: hidden;
 `;
 
-const TabBar = ({toggle, setToggle}) => {
+const TabBar = ({isOpned, setisOpened}) => {
 	const dispatch = useDispatch();
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
@@ -161,11 +161,11 @@ const TabBar = ({toggle, setToggle}) => {
 									{data.type === 'SSH' && sshIcon}
 									{data.type === 'SFTP' && sftpIcon}
 								</Icon>
-								<_ServerTitle
+								<_ResourceTitle
 									onClick={onClickChangeVisibleTab(data.uuid)}
 								>
 									{data.server.name}
-								</_ServerTitle>
+								</_ResourceTitle>
 								<HoverButton
 									size={'xs'}
 									margin={'0px 0px 0px 6px'}
@@ -178,14 +178,14 @@ const TabBar = ({toggle, setToggle}) => {
 					);
 				})}
 			</_Tabs>
-			<MenuButtons toggle={toggle} setToggle={setToggle} />
+			<MenuButtons isOpened={isOpned} setisOpened={setisOpened} />
 		</_Container>
 	);
 };
 
 TabBar.propTypes = {
-	toggle: PropTypes.bool.isRequired,
-	setToggle: PropTypes.func.isRequired,
+	isOpned: PropTypes.bool.isRequired,
+	setisOpened: PropTypes.func.isRequired,
 };
 
 export default TabBar;

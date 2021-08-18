@@ -48,34 +48,40 @@ const TableHeader = ({uuid}) => {
 	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
 	const {etc: sftpEtc} = useSelector((state) => state.sftp, shallowEqual);
-	const searchedEtc = sftpEtc.find((v) => v.uuid === uuid);
-	const {sortKeyword} = searchedEtc;
+	const {sortKeyword} = sftpEtc.find((v) => v.uuid === uuid);
+
+	const tableHeaders = [
+		{title: t('name'), key: 'name', min: '142px', flex: 1},
+		{title: t('size'), key: 'size', min: '135px'},
+		{title: t('modified'), key: 'modified', min: '212px'},
+		{title: t('permission'), key: 'permission', min: '105px'},
+		{title: '', key: '', min: '63px'},
+	];
+
 	const onSortList = useCallback(
 		(e) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 
-			const {id} = e.target;
-
-			switch (id) {
-				case 'fileListTableHead_name':
+			switch (e.target) {
+				case 'file-list-table-header-name':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'name'},
 					});
 					break;
-				case 'fileListTableHead_size':
+				case 'file-list-table-header-size':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'size'},
 					});
 					break;
-				case 'fileListTableHead_modified':
+				case 'file-list-table-header-modified':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'modified'},
 					});
 					break;
-				case 'fileListTableHead_permission':
+				case 'file-list-table-header-permission':
 					dispatch({
 						type: CHANGE_SORT_KEYWORD,
 						payload: {uuid, keyword: 'permission'},
@@ -88,14 +94,6 @@ const TableHeader = ({uuid}) => {
 		[dispatch, uuid],
 	);
 
-	const tableHeaders = [
-		{title: t('name'), key: 'name', min: '142px', flex: 1},
-		{title: t('size'), key: 'size', min: '135px'},
-		{title: t('modified'), key: 'modified', min: '212px'},
-		{title: t('permission'), key: 'permission', min: '105px'},
-		{title: '', key: '', min: '63px'},
-	];
-
 	return (
 		<_Thead>
 			<_Tr>
@@ -103,7 +101,7 @@ const TableHeader = ({uuid}) => {
 					return (
 						<_Th
 							key={item.key}
-							id={`fileListTableHead_${item.key}`}
+							id={`file-list-table-header-${item.key}`}
 							active={sortKeyword === item.key}
 							textAlign={item.key === 'size' && 'right'}
 							onClick={onSortList}

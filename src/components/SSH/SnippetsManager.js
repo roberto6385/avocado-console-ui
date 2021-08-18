@@ -14,8 +14,8 @@ import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
 import {
 	DialogBox,
-	ModalFooter,
-	ModalHeader,
+	DialogBoxFooter,
+	DialogBoxHeader,
 } from '../../styles/components/disalogBox';
 import {TextBox} from '../../styles/components/textBox';
 import {Form} from '../../styles/components/form';
@@ -38,7 +38,7 @@ const _Header = styled.div`
 	vertical-align: middle;
 `;
 
-const _Ul = styled.ul`
+const _SnippetList = styled.ul`
 	width: 193px;
 	height: 416px;
 	border-right: 1px solid
@@ -50,7 +50,7 @@ const _Ul = styled.ul`
 	overflow: scroll;
 `;
 
-const _Li = styled.li`
+const _Snippet = styled.li`
 	width: 192px;
 	height: 40px;
 	letter-spacing: 0.14px;
@@ -74,12 +74,12 @@ const _Li = styled.li`
 						.list.normalStyle.border.color};
 `;
 
-const _HeaderLi = styled(_Li)`
+const _HeaderContainer = styled(_Snippet)`
 	padding: 2px 16px;
 	border: none;
 `;
 
-const _ListContainer = styled.div`
+const _Content = styled.div`
 	display: flex;
 	flex-direction: row;
 	overflow: scroll;
@@ -273,7 +273,7 @@ const SnippetsManager = () => {
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
-			<ModalHeader>
+			<DialogBoxHeader>
 				<div>{t('snippetsManager')}</div>
 				<IconButton
 					itype={'font'}
@@ -283,10 +283,10 @@ const SnippetsManager = () => {
 				>
 					{closeIcon}
 				</IconButton>
-			</ModalHeader>
-			<_ListContainer>
-				<_Ul>
-					<_HeaderLi>
+			</DialogBoxHeader>
+			<_Content>
+				<_SnippetList>
+					<_HeaderContainer>
 						<_Header>{t('snippetList')}</_Header>
 						<HoverButton
 							size={'sm'}
@@ -302,18 +302,18 @@ const SnippetsManager = () => {
 						>
 							{deleteIcon}
 						</HoverButton>
-					</_HeaderLi>
+					</_HeaderContainer>
 
 					{tempSnippets.map((v) => (
-						<_Li
+						<_Snippet
 							key={v.id}
 							onClick={onClickSnippet(v.id)}
 							selected={selectedSnippet === v.id ? 1 : 0}
 						>
 							{v.name === '' ? t('new') : v.name}
-						</_Li>
+						</_Snippet>
 					))}
-				</_Ul>
+				</_SnippetList>
 				<_Form>
 					<TextBoxField title={t('name')}>
 						<TextBox
@@ -322,7 +322,7 @@ const SnippetsManager = () => {
 							value={name}
 							onChange={onChangeName}
 							type='text'
-							placeholder={t('place.name')}
+							placeholder={t('placeholder.name')}
 						/>
 					</TextBoxField>
 					<TextBoxField title={t('content')}>
@@ -330,19 +330,19 @@ const SnippetsManager = () => {
 							value={content}
 							onChange={onChangeContent}
 							type='text'
-							placeholder={t('place.content')}
+							placeholder={t('placeholder.content')}
 						/>
 					</TextBoxField>
 				</_Form>
-			</_ListContainer>
-			<ModalFooter>
+			</_Content>
+			<DialogBoxFooter>
 				<TransparentButton onClick={onClickCancelChanges}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={onClickSaveChangesOnSnippets}>
 					{t('save')}
 				</NormalButton>
-			</ModalFooter>
+			</DialogBoxFooter>
 		</_PopupModal>
 	);
 };

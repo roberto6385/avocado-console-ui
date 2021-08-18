@@ -1,10 +1,10 @@
 export default {
 	mode: 'en',
 
-	renameHeader: 'Rename Folder',
+	renameHeader: 'Rename ResourceGroup',
 	renamePlace: 'Enter file or folder name ',
 
-	newFolderHeader: 'Create New Folder',
+	newFolderHeader: 'Create New ResourceGroup',
 	newFolderPlace: 'Enter folder name',
 
 	chgrpHeader: 'Change Group',

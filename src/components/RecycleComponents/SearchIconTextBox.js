@@ -8,11 +8,10 @@ import {searchIcon} from '../../icons/icons';
 const _Container = styled.div`
 	display: flex;
 	align-items: center;
-	width: ${(props) => props.width || '100%'};
+	width: '100%';
 	height: ${(props) => props.height || '30px'};
 	padding: 12px 10px;
 	border-radius: 4px;
-
 	background: ${(props) =>
 		props.theme.basic.pages.textBoxs.searchStyle.backgroundColor};
 	border: 1px solid;
@@ -26,7 +25,13 @@ const _SearchTextBox = styled(SearchTextBox)`
 	padding: 0px 4px;
 `;
 
-const IconSearchTextBox = ({value, onChange, place = '', size, height}) => {
+const SearchIconTextBox = ({
+	value,
+	onChange,
+	placeholder = '',
+	size,
+	height,
+}) => {
 	return (
 		<_Container height={height}>
 			<Icon size={'sm'} margin_right={'0px'}>
@@ -37,19 +42,19 @@ const IconSearchTextBox = ({value, onChange, place = '', size, height}) => {
 				onChange={onChange}
 				value={value}
 				type='text'
-				placeholder={place}
+				placeholder={placeholder}
 			/>
 		</_Container>
 	);
 };
 
-IconSearchTextBox.propTypes = {
+SearchIconTextBox.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	onChange: PropTypes.func.isRequired,
-	place: PropTypes.string,
+	placeholder: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
 	size: PropTypes.string,
 };
 
-export default IconSearchTextBox;
+export default SearchIconTextBox;

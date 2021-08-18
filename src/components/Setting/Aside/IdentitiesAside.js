@@ -1,11 +1,10 @@
 import React, {useCallback, useMemo} from 'react';
 import styled from 'styled-components';
 
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {NormalButton} from '../../../styles/components/button';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {
@@ -56,7 +55,7 @@ const IdentitiesAside = () => {
 	const {accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
-	const searchedServerKey = useMemo(
+	const resourceKey = useMemo(
 		() => terminalTabs.find((v) => v.uuid === selectedTab)?.server.key,
 		[terminalTabs, selectedTab],
 	);
@@ -70,7 +69,7 @@ const IdentitiesAside = () => {
 			if (!e.target.checked) return;
 
 			const account = accounts.find(
-				(v) => v.key === searchedServerKey && v.checked,
+				(v) => v.key === resourceKey && v.checked,
 			);
 			dispatch(
 				remoteResourceAction.setAccount({
@@ -79,7 +78,8 @@ const IdentitiesAside = () => {
 				}),
 			);
 		},
-		[accounts, searchedServerKey, dispatch],
+
+		[accounts, resourceKey, dispatch],
 	);
 
 	return (
@@ -94,8 +94,9 @@ const IdentitiesAside = () => {
 						{t('aside.default')}
 					</_CheckboxContainer>
 				</_Li>
+
 				{accounts.map((item) => {
-					if (item.key === searchedServerKey) {
+					if (item.key === resourceKey) {
 						return (
 							<_Li key={item.id}>
 								<_AccountContainer>
@@ -106,9 +107,9 @@ const IdentitiesAside = () => {
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
-									<CheckBox_
+									<CheckBox
 										value={item.checked}
-										handleCheck={onClickChangeIdentity(
+										onChangeCheck={onClickChangeIdentity(
 											item,
 										)}
 									/>

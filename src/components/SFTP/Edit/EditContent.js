@@ -28,7 +28,7 @@ const EditContent = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {edit: sftpEdit} = useSelector((state) => state.sftp, shallowEqual);
 
-	const searchedFileContent = useMemo(
+	const fileContent = useMemo(
 		() => sftpEdit.find((it) => it.uuid === uuid).editText,
 		[sftpEdit, uuid],
 	);
@@ -48,7 +48,7 @@ const EditContent = ({uuid}) => {
 			<textarea
 				rows='50'
 				cols='40'
-				value={searchedFileContent}
+				value={fileContent}
 				onChange={onChangeFileContent}
 			/>
 		</_Container>

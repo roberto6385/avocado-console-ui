@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import FavoriteServerOnDialogBox from './FavoriteServerOnDialogBox';
+import FavoriteOnDialogBox from './FavoriteOnDialogBox';
 import {
-	NavigationItem,
-	NavigationItemTitle,
+	ResourceItem,
+	ResourceItemTitle,
 } from '../../../../styles/components/navigationBar';
 import {
 	arrowDownIcon,
 	arrowRightIcon,
 	folderIcon,
 } from '../../../../icons/icons';
-import Collapse_ from '../../../RecycleComponents/Collapse_';
+import CollapseContainer from '../../../RecycleComponents/CollapseContainer';
 import useInput from '../../../../hooks/useInput';
 import {TextBox} from '../../../../styles/components/textBox';
 import {Icon, IconButton} from '../../../../styles/components/icon';
 import {useDoubleClick} from '../../../../hooks/useDoubleClick';
-import FolderOnFavoritesContextMenu from '../../../ContextMenu/FolderOnFavoritesContextMenu';
+import FavoriteGroupContextMenu from '../../../ContextMenus/FavoriteGroupContextMenu';
 import {useContextMenu} from 'react-contexify';
 import {
 	favoritesAction,
@@ -29,7 +29,7 @@ const Input_ = styled(TextBox)`
 	height: 24px;
 `;
 
-const FolderOnFavoritesDialogBox = ({data, indent}) => {
+const FavoriteGroupDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {selectedFavoriteItemOnDialogBox, tempFavoriteGroupRenamingKey} =
 		useSelector(favoritesSelector.all);
@@ -38,7 +38,7 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 	const [isRenaming, setIsRenaming] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	const onClickFolderItemOnFavorites = useDoubleClick(
+	const onClickFavoriteGroup = useDoubleClick(
 		() => {
 			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
 			setIsRenaming(true);
@@ -89,10 +89,10 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 	);
 
 	const {show} = useContextMenu({
-		id: data.key + 'folder',
+		id: data.key + '-favorite-group-context-menu',
 	});
 
-	const openFolderOnFavoritesContextMenu = useCallback(
+	const openFavoriteGroupContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
 			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
@@ -127,11 +127,11 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 
 	return (
 		<React.Fragment>
-			<NavigationItem
+			<ResourceItem
 				selected={selectedFavoriteItemOnDialogBox === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
-				onClick={onClickFolderItemOnFavorites}
-				onContextMenu={openFolderOnFavoritesContextMenu}
+				onClick={onClickFavoriteGroup}
+				onContextMenu={openFavoriteGroupContextMenu}
 			>
 				<Icon
 					margin_right={'12px'}
@@ -145,7 +145,7 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 					{folderIcon}
 				</Icon>
 
-				<NavigationItemTitle>
+				<ResourceItemTitle>
 					{isRenaming ? (
 						<Input_
 							ref={nameRef}
@@ -158,7 +158,7 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 					) : (
 						data.name
 					)}
-				</NavigationItemTitle>
+				</ResourceItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -166,19 +166,19 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 				>
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
-			</NavigationItem>
+			</ResourceItem>
 			{data.contain.length !== 0 && (
-				<Collapse_ open={isFolderUnfolded}>
+				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
 						{data.contain.map((i) =>
 							i.type === 'folder' ? (
-								<FolderOnFavoritesDialogBox
+								<FavoriteGroupDialogBox
 									key={i.key}
 									data={i}
 									indent={indent + 1}
 								/>
 							) : (
-								<FavoriteServerOnDialogBox
+								<FavoriteOnDialogBox
 									key={i.key}
 									data={i}
 									indent={indent + 1}
@@ -186,16 +186,16 @@ const FolderOnFavoritesDialogBox = ({data, indent}) => {
 							),
 						)}
 					</React.Fragment>
-				</Collapse_>
+				</CollapseContainer>
 			)}
-			<FolderOnFavoritesContextMenu data={data} onDialog={true} />
+			<FavoriteGroupContextMenu data={data} onDialog={true} />
 		</React.Fragment>
 	);
 };
 
-FolderOnFavoritesDialogBox.propTypes = {
+FavoriteGroupDialogBox.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FolderOnFavoritesDialogBox;
+export default FavoriteGroupDialogBox;

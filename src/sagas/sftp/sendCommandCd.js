@@ -20,8 +20,8 @@ import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
 import {cdResponse} from '../../ws/sftp/cd_response';
-import {createPathList} from '../../components/SFTP/functions';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {createPathList} from '../../utils/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;

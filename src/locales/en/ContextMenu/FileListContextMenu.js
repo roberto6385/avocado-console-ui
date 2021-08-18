@@ -8,5 +8,5 @@ export default {
 	chown: 'Change Owner',
 
 	delete: 'Delete',
-	newFolder: 'New Folder',
+	newFolder: 'New ResourceGroup',
 };

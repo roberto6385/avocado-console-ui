@@ -8,7 +8,7 @@ import {DropDownMenu} from '../../styles/components/contextMenu';
 import {authAction, authSelector} from '../../reducers/api/auth';
 import {settingAction, settingSelector} from '../../reducers/setting';
 
-const UserAccountContextMenu = ({toggle, setToggle}) => {
+const UserAccountContextMenu = ({isOpened, setIsOpened}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('rightCornerIcons');
 	const {aside} = useSelector(settingSelector.all);
@@ -16,14 +16,14 @@ const UserAccountContextMenu = ({toggle, setToggle}) => {
 
 	const onClickOpenAside = useCallback(
 		(key) => () => {
-			if (toggle && aside === key) {
-				setToggle(false);
+			if (isOpened && aside === key) {
+				setIsOpened(false);
 			} else {
 				dispatch(settingAction.setAside(key));
-				setToggle(true);
+				setIsOpened(true);
 			}
 		},
-		[dispatch, aside, setToggle, toggle],
+		[dispatch, aside, setIsOpened, isOpened],
 	);
 
 	const onClickLogout = useCallback(() => {
@@ -39,7 +39,7 @@ const UserAccountContextMenu = ({toggle, setToggle}) => {
 			id={'user-account-context-menu'}
 			animation={animation.slide}
 		>
-			<Item onClick={onClickOpenAside('Account')}>{t('account')}</Item>
+			<Item onClick={onClickOpenAside('account')}>{t('account')}</Item>
 			<Separator />
 			<Item onClick={onClickLogout}>{t('logout')}</Item>
 		</DropDownMenu>
@@ -47,8 +47,8 @@ const UserAccountContextMenu = ({toggle, setToggle}) => {
 };
 
 UserAccountContextMenu.propTypes = {
-	toggle: PropTypes.bool.isRequired,
-	setToggle: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
+	setIsOpened: PropTypes.func.isRequired,
 };
 
 export default UserAccountContextMenu;

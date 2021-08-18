@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {DropDownMenu} from '../../styles/components/contextMenu';
 import {settingAction, settingSelector} from '../../reducers/setting';
-//TODO: toggle, setToggle 안넘겨도 될꺼 같은데??
-const SettingContextMenu = ({toggle, setToggle}) => {
+//TODO: isOpened, setIsOpened 안넘겨도 될꺼 같은데??
+const SettingContextMenu = ({isOpened, setisOpened}) => {
 	const {t} = useTranslation('rightCornerIcons');
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -18,45 +18,34 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 		'open-preferences-aside': t('preferences'),
 		'open-identities-aside': t('identities'),
 	};
-	//TODO: 왜 안될까??
+
 	const onClickOpenAside = useCallback(
-		(v) => () => {
-			if (toggle && aside === v) {
-				setToggle(false);
+		(v) => {
+			console.log(v);
+			if (isOpened && aside === v) {
+				setisOpened(false);
 			} else {
 				dispatch(settingAction.setAside(v));
-
-				setToggle(true);
+				setisOpened(true);
 			}
 		},
-		[dispatch, aside, setToggle, toggle],
+		[dispatch, aside, setisOpened, isOpened],
 	);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			switch (v) {
-				case 'redirect-to-settingpage':
+				case 'redirect-to-setting-page':
 					history.push('/account');
 					break;
 
 				case 'open-preferences-aside':
-					// onClickOpenAside('Preferences');
-					if (toggle && aside === 'Preferences') {
-						setToggle(false);
-					} else {
-						dispatch(settingAction.setAside('Preferences'));
-						setToggle(true);
-					}
+					onClickOpenAside('preferences');
 					break;
 
 				case 'open-identities-aside':
-					// onClickOpenAside('Identities');
-					if (toggle && aside === 'Identities') {
-						setToggle(false);
-					} else {
-						dispatch(settingAction.setAside('Identities'));
-						setToggle(true);
-					}
+					onClickOpenAside('identities');
+
 					break;
 
 				default:
@@ -78,8 +67,8 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 };
 
 SettingContextMenu.propTypes = {
-	toggle: PropTypes.bool.isRequired,
-	setToggle: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
+	setisOpened: PropTypes.func.isRequired,
 };
 
 export default SettingContextMenu;

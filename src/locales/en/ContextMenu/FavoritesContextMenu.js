@@ -4,5 +4,5 @@ export default {
 
 	connectSsh: 'Connect to SSH',
 	connectSftp: 'Connect to SFTP',
-	newFolder: 'New Folder',
+	newFolder: 'New ResourceGroup',
 };

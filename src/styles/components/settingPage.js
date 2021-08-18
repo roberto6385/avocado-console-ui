@@ -23,6 +23,6 @@ export const SettingTitle = styled.div`
 	line-height: 1.31;
 	font-size: 16px;
 `;
-export const SettingContentsContainer = styled.div`
+export const SettingContentContainer = styled.div`
 	padding: 16px 0px;
 `;

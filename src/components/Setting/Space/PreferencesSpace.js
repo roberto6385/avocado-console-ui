@@ -6,8 +6,8 @@ import {
 	ROBOTO_MONO,
 	ROBOTO_SLAP,
 } from '../../../styles/components/font';
-import ComboBox_ from '../../RecycleComponents/ComboBox_';
-import CheckBox_ from '../../RecycleComponents/CheckBox_';
+import ComboBox from '../../RecycleComponents/ComboBox';
+import CheckBox from '../../RecycleComponents/CheckBox';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	SSH_CHANGE_AUTO_COMPLETION_MODE,
@@ -15,7 +15,7 @@ import {
 } from '../../../reducers/ssh';
 import {useTranslation} from 'react-i18next';
 import {
-	SettingContentsContainer,
+	SettingContentContainer,
 	SettingMainContainer,
 	SettingTitle,
 } from '../../../styles/components/settingPage';
@@ -92,33 +92,33 @@ const PreferencesSpace = () => {
 	return (
 		<SettingMainContainer>
 			<SettingTitle>{t('general')}</SettingTitle>
-			<SettingContentsContainer>
-				<ComboBox_
+			<SettingContentContainer>
+				<ComboBox
 					width={'500px'}
 					title={t('lang')}
 					options={languageOptions}
 					value={languageCopy}
 					setValue={setLanguageCopy}
 				/>
-				<ComboBox_
+				<ComboBox
 					width={'500px'}
 					title={t('uiTheme')}
 					options={themeOptions}
 					value={themeCopy}
 					setValue={setThemeCopy}
 				/>
-			</SettingContentsContainer>
+			</SettingContentContainer>
 
 			<SettingTitle>{t('terminal')}</SettingTitle>
-			<SettingContentsContainer>
-				<ComboBox_
+			<SettingContentContainer>
+				<ComboBox
 					width={'500px'}
 					title={t('uiTheme')}
 					options={terminalThemeOptions}
 					value={terminalTheme}
 					setValue={setTerminalTheme}
 				/>
-				<ComboBox_
+				<ComboBox
 					width={'500px'}
 					title={t('font')}
 					options={terminalFontOptions}
@@ -126,31 +126,31 @@ const PreferencesSpace = () => {
 					setValue={setSshFont}
 				/>
 				<_CheckBoxContanier>
-					<CheckBox_
+					<CheckBox
 						title={t('textCompletion')}
 						value={isAutocompleteTurnedOn}
-						handleCheck={(e) =>
+						onChangeCheck={(e) =>
 							setIsAutocompleteTurnedOn(e.target.checked)
 						}
 					/>
 				</_CheckBoxContanier>
-				{/*<CheckBox_*/}
+				{/*<CheckBox*/}
 				{/*	title={'Copy text on selection'}*/}
 				{/*	value={copyText}*/}
 				{/*	setValue={setCopyText}*/}
 				{/*/>*/}
-			</SettingContentsContainer>
+			</SettingContentContainer>
 
 			<SettingTitle>{t('sftp')}</SettingTitle>
-			<SettingContentsContainer>
-				<ComboBox_
+			<SettingContentContainer>
+				<ComboBox
 					width={'500px'}
 					title={t('editorTheme')}
 					options={editorThemeOptions}
 					value={editorTheme}
 					setValue={setEditorTheme}
 				/>
-			</SettingContentsContainer>
+			</SettingContentContainer>
 		</SettingMainContainer>
 	);
 };

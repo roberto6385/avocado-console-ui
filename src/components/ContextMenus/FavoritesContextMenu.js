@@ -1,39 +1,35 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
-import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
+import {favoritesAction, favoritesSelector} from '../../reducers/favorites';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 
-const ServerContextMenu = ({identity, data}) => {
-	const {t} = useTranslation('contextMenu');
+const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
-	const {resources} = useSelector(remoteResourceSelector.all);
-	const {userData} = useSelector(authSelector.all);
-	const resource = useMemo(
-		() => resources.find((i) => i.key === data.key),
-		[resources, data],
-	);
+	const {t} = useTranslation('contextMenu');
 
-	const SSHContextMenuList = {
+	const {favoriteTree} = useSelector(favoritesSelector.all);
+	const {resources} = useSelector(remoteResourceSelector.all);
+
+	const {userData} = useSelector(authSelector.all);
+
+	const contextMenuList = {
 		'connect-ssh': t('connectSsh'),
 		'connect-sftp': t('connectSftp'),
-		'get-properties': t('properties'),
-	};
-
-	const SFTPContextMenuList = {
-		'connect-sftp': t('connectSftp'),
-		'get-properties': t('properties'),
+		'delete-favorite': t('deleteBookmark'),
+		'add-folder': t('newFolder'),
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = resources.find((i) => i.key === data.key);
+		const resource = resources.find((v) => v.key === data.key);
+
 		dispatch({
 			type: CONNECTION_REQUEST,
 			payload: {
@@ -42,23 +38,15 @@ const ServerContextMenu = ({identity, data}) => {
 				port: resource.port,
 				user: identity.user,
 				password: identity.password,
-
 				name: resource.name, // create tab info
 				key: resource.key,
 				id: resource.id,
 			},
 		});
-	}, [
-		resources,
-		dispatch,
-		userData,
-		identity.user,
-		identity.password,
-		data.key,
-	]);
+	}, [resources, dispatch, userData, identity, data.key]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = resources.find((i) => i.key === data.key);
+		const resource = resources.find((v) => v.key === data.key);
 
 		dispatch({
 			type: SSH_SEND_CONNECTION_REQUEST,
@@ -69,14 +57,13 @@ const ServerContextMenu = ({identity, data}) => {
 				password: identity.password,
 			},
 		});
-	}, [
-		resources,
-		dispatch,
-		userData,
-		identity.user,
-		identity.password,
-		data.key,
-	]);
+	}, [resources, dispatch, userData, identity, data.key]);
+
+	const onClickAddFolder = useCallback(() => {
+		dispatch(
+			favoritesAction.addGroup({name: t('newFolder'), key: 'favorites'}),
+		);
+	}, [dispatch, favoriteTree, t]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
@@ -87,38 +74,36 @@ const ServerContextMenu = ({identity, data}) => {
 				case 'connect-sftp':
 					onClickOpenSFTP();
 					break;
-				case 'get-properties':
-					dispatch(
-						dialogBoxAction.openForm({id: data.id, key: 'server'}),
-					);
+				case 'delete-favorite':
+					dispatch(favoritesAction.deleteFavorite(data.key));
+					break;
+				case 'add-folder':
+					onClickAddFolder();
 					break;
 				default:
 					return;
 			}
 		},
-		[data.id, dispatch, onClickOpenSFTP, onClickOpenSSH],
+		[data.key, dispatch, onClickOpenSFTP, onClickOpenSSH, onClickAddFolder],
 	);
 
 	return (
-		<ContextMenu id={data.key + 'server'} animation={animation.slide}>
-			{resource?.protocol === 'SSH2'
-				? Object.entries(SSHContextMenuList).map(([key, value]) => (
-						<Item onClick={handleOnClickEvents(key)} key={key}>
-							{value}
-						</Item>
-				  ))
-				: Object.entries(SFTPContextMenuList).map(([key, value]) => (
-						<Item onClick={handleOnClickEvents(key)} key={key}>
-							{value}
-						</Item>
-				  ))}
+		<ContextMenu
+			id={data.key + '-favorites-context-menu'}
+			animation={animation.slide}
+		>
+			{Object.entries(contextMenuList).map(([key, value]) => (
+				<Item key={key} onClick={handleOnClickEvents(key)}>
+					{value}
+				</Item>
+			))}
 		</ContextMenu>
 	);
 };
 
-ServerContextMenu.propTypes = {
+FavoritesContextMenu.propTypes = {
 	data: PropTypes.object.isRequired,
 	identity: PropTypes.object.isRequired,
 };
 
-export default ServerContextMenu;
+export default FavoritesContextMenu;

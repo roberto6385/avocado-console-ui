@@ -21,7 +21,7 @@ import DeleteDialogBox from './components/DialogBoxs/Alert/DeleteDialogBox';
 import TextBoxDialogBox from './components/DialogBoxs/Form/TextBoxDialogBox';
 import SaveDialogBox from './components/DialogBoxs/Alert/SaveDialogBox';
 import {authAction, authSelector} from './reducers/api/auth';
-import Toast_ from './components/RecycleComponents/Toast_';
+import Toast from './components/RecycleComponents/Toast';
 import GlobalStyle from './styles/global/GlobalStyle';
 import {ThemeProvider} from 'styled-components';
 import {themeValues} from './json/themeValues';
@@ -98,7 +98,7 @@ const App = () => {
 				<SaveDialogBox />
 				<DeleteDialogBox />
 				<TextBoxDialogBox />
-				<Toast_ />
+				<Toast />
 			</ThemeProvider>
 		</BrowserRouter>
 	);

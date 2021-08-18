@@ -10,9 +10,9 @@ import {
 	settingIcon,
 	windowIcon,
 } from '../../icons/icons';
-import SettingContextMenu from '../ContextMenu/SettingContextMenu';
-import SplitTerminalViewContextMenu from '../ContextMenu/SplitTerminalViewContextMenu';
-import UserAccountContextMenu from '../ContextMenu/UserAccountContextMenu';
+import SettingContextMenu from '../ContextMenus/SettingContextMenu';
+import SplitTerminalViewContextMenu from '../ContextMenus/SplitTerminalViewContextMenu';
+import UserAccountContextMenu from '../ContextMenus/UserAccountContextMenu';
 import {HoverButton} from '../../styles/components/icon';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../reducers/tabBar';
@@ -24,7 +24,7 @@ const _Container = styled.div`
 	height: 100%;
 `;
 
-const MenuButtons = ({toggle, setToggle}) => {
+const MenuButtons = ({isOpened, setisOpened}) => {
 	const dispatch = useDispatch();
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
@@ -119,16 +119,19 @@ const MenuButtons = ({toggle, setToggle}) => {
 					{windowIcon}
 				</HoverButton>
 			)}
-			<UserAccountContextMenu toggle={toggle} setToggle={setToggle} />
-			<SettingContextMenu toggle={toggle} setToggle={setToggle} />
+			<UserAccountContextMenu
+				isOpened={isOpened}
+				setIsOpened={setisOpened}
+			/>
+			<SettingContextMenu isOpened={isOpened} setisOpened={setisOpened} />
 			<SplitTerminalViewContextMenu />
 		</_Container>
 	);
 };
 
 MenuButtons.propTypes = {
-	setToggle: PropTypes.func.isRequired,
-	toggle: PropTypes.bool.isRequired,
+	setisOpened: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
 };
 
 export default MenuButtons;
