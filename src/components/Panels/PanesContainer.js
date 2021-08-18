@@ -27,7 +27,7 @@ const PanesContainer = () => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
-	const visibleTabs = useMemo(
+	const visibleTerminalTabs = useMemo(
 		() => terminalTabs.filter((v) => v.display === true),
 		[terminalTabs],
 	);
@@ -36,22 +36,24 @@ const PanesContainer = () => {
 		<_Container>
 			{(sshLoading || sftpLoading) && <LoadingSpinner />}
 
-			{visibleTabs.length <= cols ? (
-				<PaneOrganizer tab={visibleTabs} />
-			) : visibleTabs.length <= cols * 2 ? (
+			{visibleTerminalTabs.length <= cols ? (
+				<PaneOrganizer tab={visibleTerminalTabs} />
+			) : visibleTerminalTabs.length <= cols * 2 ? (
 				<SplitPane split='horizontal' defaultSize={'50%'}>
-					<PaneOrganizer tab={visibleTabs.slice(0, cols)} />
-					<PaneOrganizer tab={visibleTabs.slice(cols)} />
+					<PaneOrganizer tab={visibleTerminalTabs.slice(0, cols)} />
+					<PaneOrganizer tab={visibleTerminalTabs.slice(cols)} />
 				</SplitPane>
 			) : (
 				<SplitPane split='horizontal' defaultSize={'66%'}>
 					<SplitPane split='horizontal' defaultSize={'50%'}>
-						<PaneOrganizer tab={visibleTabs.slice(0, cols)} />
 						<PaneOrganizer
-							tab={visibleTabs.slice(cols, cols * 2)}
+							tab={visibleTerminalTabs.slice(0, cols)}
+						/>
+						<PaneOrganizer
+							tab={visibleTerminalTabs.slice(cols, cols * 2)}
 						/>
 					</SplitPane>
-					<PaneOrganizer tab={visibleTabs.slice(cols * 2)} />
+					<PaneOrganizer tab={visibleTerminalTabs.slice(cols * 2)} />
 				</SplitPane>
 			)}
 		</_Container>

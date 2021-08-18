@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const TextBox = styled.input`
 	width: 100%;
 	height: 34px;
 	padding: 6px 10px;
@@ -19,7 +19,7 @@ export const Input = styled.input`
 	}
 `;
 // resource, bookmark, sftp, identities page
-export const SearchInput = styled.input`
+export const SearchTextBox = styled.input`
 	width: 100%;
 	height: 34px;
 	padding: 6px 10px;

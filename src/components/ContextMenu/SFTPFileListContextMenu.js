@@ -13,51 +13,48 @@ import {tabBarSelector} from '../../reducers/tabBar';
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
-	//TODO : sftp_pathState 언더바, 케멀 통일
 	const {
-		path: sftp_pathState,
-		high: sftp_highState,
-		download: sftp_downloadState,
+		path: sftpPath,
+		high: sftpHigh,
+		download: sftpDowload,
 	} = useSelector((state) => state.sftp, shallowEqual);
 	const {server, identity} = useSelector(
 		(state) => state.common,
 		shallowEqual,
 	);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
+	const {userData} = useSelector(authSelector.all);
 
-	const {highlight} = useMemo(
-		() => sftp_highState.find((it) => it.uuid === uuid),
-		[sftp_highState, uuid],
-	);
-	const {path} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {readSocket, readList} = useMemo(
-		() => sftp_downloadState.find((it) => it.uuid === uuid),
-		[sftp_downloadState, uuid],
-	);
-	const searchedTerminalTab = useMemo(
+	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
 	);
-	const {userData} = useSelector(authSelector.all);
-	const searchedServer = useMemo(
-		() => server.find((it) => it.key === searchedTerminalTab.server.key),
-		[searchedTerminalTab.server.key, server],
+	const resource = useMemo(
+		() => server.find((it) => it.key === terminalTab.server.key),
+		[terminalTab.server.key, server],
 	);
-
-	const searchedIdentity = useMemo(
+	const account = useMemo(
 		() =>
 			identity.find(
 				(it) =>
-					it.key === searchedTerminalTab.server.key &&
-					it.checked === true,
+					it.key === terminalTab.server.key && it.checked === true,
 			),
-		[identity, searchedTerminalTab],
+		[identity, terminalTab],
+	);
+	const {readSocket, readList} = useMemo(
+		() => sftpDowload.find((it) => it.uuid === uuid),
+		[sftpDowload, uuid],
+	);
+	const {highlight} = useMemo(
+		() => sftpHigh.find((it) => it.uuid === uuid),
+		[sftpHigh, uuid],
+	);
+	const {path} = useMemo(
+		() => sftpPath.find((it) => it.uuid === uuid),
+		[path, uuid],
 	);
 
-	const onClickDownloadContext = useCallback(async () => {
+	const onClickDownloadData = useCallback(async () => {
 		for await (let value of highlight) {
 			dispatch({
 				type: ADD_HISTORY,
@@ -77,10 +74,10 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: searchedServer.host,
-					port: searchedServer.port,
-					user: searchedIdentity.user,
-					password: searchedIdentity.password,
+					host: resource.host,
+					port: resource.port,
+					user: account.user,
+					password: account.password,
 					todo: 'read',
 					uuid: uuid,
 				},
@@ -94,11 +91,11 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		highlight,
 		path,
 		userData,
-		searchedServer,
-		searchedIdentity,
+		resource,
+		account,
 	]);
 
-	const onClickEditContext = useCallback(() => {
+	const onClickEditData = useCallback(() => {
 		for (let value of highlight) {
 			dispatch({
 				type: ADD_HISTORY,
@@ -119,10 +116,10 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				type: CREATE_NEW_WEBSOCKET_REQUEST,
 				payload: {
 					token: userData.access_token, // connection info
-					host: searchedServer.host,
-					port: searchedServer.port,
-					user: searchedIdentity.user,
-					password: searchedIdentity.password,
+					host: resource.host,
+					port: resource.port,
+					user: account.user,
+					password: account.password,
 					todo: 'read',
 					uuid: uuid,
 				},
@@ -136,20 +133,22 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		uuid,
 		path,
 		userData,
-		searchedServer,
-		searchedIdentity,
+		resource,
+		account,
 	]);
 
 	const handleOnClickEvents = useCallback(
-		async ({event}) => {
-			switch (event.currentTarget.id) {
-				case 'download':
-					await onClickDownloadContext();
+		(v) => async () => {
+			switch (v) {
+				case 'download-data':
+					await onClickDownloadData();
 					break;
-				case 'edit':
-					onClickEditContext(event);
+
+				case 'edit-data':
+					onClickEditData();
 					break;
-				case 'new_folder':
+
+				case 'add-folder':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp_new_folder',
@@ -157,7 +156,8 @@ const SFTPFileListContextMenu = ({uuid}) => {
 						}),
 					);
 					break;
-				case 'rename_work':
+
+				case 'rename-data':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp_rename_file_folder',
@@ -165,16 +165,17 @@ const SFTPFileListContextMenu = ({uuid}) => {
 						}),
 					);
 					break;
-				case 'delete_work':
+
+				case 'delete-data':
 					dispatch(
 						dialogBoxAction.openAlert({
-							key: 'sftp_delete_file_folder',
+							key: 'sftp-delete-data',
 							uuid: uuid,
 						}),
 					);
 					break;
 
-				case 'attr_work':
+				case 'get-attributes':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp_stat',
@@ -183,7 +184,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					);
 					break;
 
-				case 'chgrp_work':
+				case 'change-group':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp_chgrp',
@@ -192,7 +193,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					);
 					break;
 
-				case 'chown_work':
+				case 'change-ownership':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp_chown',
@@ -200,18 +201,19 @@ const SFTPFileListContextMenu = ({uuid}) => {
 						}),
 					);
 					break;
+
 				default:
 					return;
 			}
 		},
-		[onClickDownloadContext, onClickEditContext, dispatch, uuid],
+		[onClickDownloadData, onClickEditData, dispatch, uuid],
 	);
+
 	return (
 		<ContextMenu id={uuid + 'fileList'} animation={animation.slide}>
 			<Item
 				disabled={highlight.length === 0}
-				id='download'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('download-data')}
 			>
 				{t('download')}
 			</Item>
@@ -221,52 +223,46 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					highlight.length !== 1 ||
 					highlight.slice().find((item) => item.type === 'directory')
 				}
-				id='edit'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('edit-data')}
 			>
 				{t('edit')}
 			</Item>
 			<Separator />
 
-			<Item id='new_folder' onClick={handleOnClickEvents}>
+			<Item onClick={handleOnClickEvents('add-folder')}>
 				{t('newFolder')}
 			</Item>
 			<Item
 				disabled={highlight.length === 0 || highlight.length !== 1}
-				id='rename_work'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('rename-data')}
 			>
 				{t('rename')}
 			</Item>
 			<Separator />
 			<Item
 				disabled={highlight.length === 0}
-				id='delete_work'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('delete-data')}
 			>
 				{t('delete')}
 			</Item>
 			<Separator />
 			<Item
 				disabled={highlight.length !== 1}
-				id='attr_work'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('get-attributes')}
 			>
 				{t('attr')}
 			</Item>
 
 			<Item
 				disabled={highlight.length !== 1}
-				id='chgrp_work'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('change-group')}
 			>
 				{t('chgrp')}
 			</Item>
 
 			<Item
 				disabled={highlight.length !== 1}
-				id='chown_work'
-				onClick={handleOnClickEvents}
+				onClick={handleOnClickEvents('change-ownership')}
 			>
 				{t('chown')}
 			</Item>

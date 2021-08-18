@@ -1,5 +1,5 @@
 import React from 'react';
-import IconSearchInput from '../../RecycleComponents/IconSearchInput';
+import IconSearchTextBox from '../../RecycleComponents/IconSearchTextBox';
 import {searchIcon} from '../../../icons/icons';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
@@ -31,7 +31,7 @@ const Resources = () => {
 		<Container>
 			<_FormContainer>
 				<_Form>
-					<IconSearchInput
+					<IconSearchTextBox
 						onChange={onChangeSearchVal}
 						value={searchVal}
 						place={t('search')}

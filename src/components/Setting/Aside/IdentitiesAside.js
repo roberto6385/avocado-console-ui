@@ -53,37 +53,32 @@ const IdentitiesAside = () => {
 	const {identity} = useSelector((state) => state.common, shallowEqual);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
-	const currentKey = useMemo(
+	const searchedServerKey = useMemo(
 		() => terminalTabs.find((v) => v.uuid === selectedTab)?.server.key,
 		[terminalTabs, selectedTab],
 	);
 
-	const changePath = useCallback(
-		(path) => () => {
-			history.push(path);
-		},
-		[history],
-	);
+	const onClickRedirectToIdentitiesPage = useCallback(() => {
+		history.push('/identities');
+	}, [history]);
 
-	const handleCheck = useCallback(
-		(item) => (e) => {
-			console.log(e.target.checked);
-			console.log(item);
+	const onClickChangeIdentity = useCallback(
+		(v) => (e) => {
 			if (!e.target.checked) return;
 
-			const correspondedIdentity = identity.find(
-				(v) => v.key === currentKey && v.checked,
+			const account = identity.find(
+				(v) => v.key === searchedServerKey && v.checked,
 			);
 
 			dispatch({
 				type: CHANGE_IDENTITY_CHECKED,
 				payload: {
-					prev: correspondedIdentity,
-					next: item,
+					prev: account,
+					next: v,
 				},
 			});
 		},
-		[identity, currentKey, dispatch],
+		[identity, searchedServerKey, dispatch],
 	);
 
 	return (
@@ -99,7 +94,7 @@ const IdentitiesAside = () => {
 					</_CheckboxContainer>
 				</_Li>
 				{identity.map((item) => {
-					if (item.key === currentKey) {
+					if (item.key === searchedServerKey) {
 						return (
 							<_Li key={item.id}>
 								<_AccountContainer>
@@ -112,7 +107,9 @@ const IdentitiesAside = () => {
 								<_CheckboxContainer>
 									<CheckBox_
 										value={item.checked}
-										handleCheck={handleCheck(item)}
+										handleCheck={onClickChangeIdentity(
+											item,
+										)}
 									/>
 								</_CheckboxContainer>
 							</_Li>
@@ -120,7 +117,7 @@ const IdentitiesAside = () => {
 					}
 				})}
 			</ul>
-			<_PrimaryGreenButton onClick={changePath('/identities')}>
+			<_PrimaryGreenButton onClick={onClickRedirectToIdentitiesPage}>
 				{t('aside.editMore')}
 			</_PrimaryGreenButton>
 		</_Container>

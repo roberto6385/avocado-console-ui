@@ -24,10 +24,10 @@ const WarningDialogBox = () => {
 	const {alert} = useSelector(dialogBoxSelector.all);
 
 	const alertMessages = {
-		invalid_server: t('invalidServer'),
+		'lost-server': t('lostServer'),
+		'invalid-server': t('invalidServer'),
 		developing: t('developing'),
-		wrong_path: t('wrongPath'),
-		folder_names_on_favorites_duplicated: '폴더 이름 중복(TESt)',
+		'sftp-wrong-path': t('wrongPath'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {

@@ -15,7 +15,7 @@ import {
 } from '../../../../icons/icons';
 import Collapse_ from '../../../RecycleComponents/Collapse_';
 import useInput from '../../../../hooks/useInput';
-import {Input} from '../../../../styles/components/input';
+import {TextBox} from '../../../../styles/components/textBox';
 import {Icon, IconButton} from '../../../../styles/components/icon';
 import {
 	CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES,
@@ -26,7 +26,7 @@ import {useDoubleClick} from '../../../../hooks/useDoubleClick';
 import FolderOnFavoritesContextMenu from '../../../ContextMenu/FolderOnFavoritesContextMenu';
 import {useContextMenu} from 'react-contexify';
 
-const Input_ = styled(Input)`
+const Input_ = styled(TextBox)`
 	height: 24px;
 `;
 

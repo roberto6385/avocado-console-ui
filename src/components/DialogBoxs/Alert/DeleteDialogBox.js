@@ -41,25 +41,30 @@ const DeleteDialogBox = () => {
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
-		history: sftp_historyState,
-		delete: sftp_deleteState,
-		high: sftp_highState,
-		path: sftp_pathState,
+		history: sftpHistory,
+		delete: sftpDelete,
+		high: sftpHigh,
+		path: sftpPath,
 	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const alertMessages = {
-		sftp_delete_file_folder: t('deleteFileFolder'),
-		sftp_delete_history: t('deleteHistory'),
-		delete_server_folder: t('deleteServerFolder'),
-		delete_account: t('deleteAccount'),
+		'sftp-delete-data': t('deleteFileFolder'),
+		'sftp-delete-history': t('deleteHistory'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {
-		alert.key === 'sftp_delete_file_folder' &&
-			dispatch({
-				type: INIT_DELETE_WORK_LIST,
-				payload: {uuid: alert.uuid},
-			});
+		switch (alert.key) {
+			case 'sftp-delete-data': {
+				dispatch({
+					type: INIT_DELETE_WORK_LIST,
+					payload: {uuid: alert.uuid},
+				});
+				break;
+			}
+			default:
+				break;
+		}
+
 		dispatch(dialogBoxAction.closeAlert());
 	}, [dispatch, alert]);
 
@@ -68,32 +73,28 @@ const DeleteDialogBox = () => {
 			e.preventDefault();
 
 			switch (alert.key) {
-				case 'sftp_delete_file_folder': {
+				case 'sftp-delete-data': {
 					const uuid = alert.uuid;
-					const {removeSocket, incinerator} = sftp_deleteState.find(
+					const {removeSocket, incinerator} = sftpDelete.find(
 						(it) => it.uuid === uuid,
 					);
-					const {highlight} = sftp_highState.find(
-						(it) => it.uuid === uuid,
-					);
-					const {path} = sftp_pathState.find(
-						(it) => it.uuid === uuid,
-					);
+					const {highlight} = sftpHigh.find((it) => it.uuid === uuid);
+					const {path} = sftpPath.find((it) => it.uuid === uuid);
 
 					dispatch({
 						type: PUSH_INIT_DELETE_WORK_LIST,
 						payload: {uuid, list: highlight, path},
 					});
 
-					const searchedTerminalTab = terminalTabs.find(
+					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
-					const searchedServer = server.find(
-						(it) => it.key === searchedTerminalTab.server.key,
+					const resource = server.find(
+						(it) => it.key === terminalTab.server.key,
 					);
-					const searchedIdentity = identity.find(
+					const account = identity.find(
 						(it) =>
-							it.key === searchedTerminalTab.server.key &&
+							it.key === terminalTab.server.key &&
 							it.checked === true,
 					);
 
@@ -102,10 +103,10 @@ const DeleteDialogBox = () => {
 							type: CREATE_NEW_WEBSOCKET_REQUEST,
 							payload: {
 								token: userData.access_token, // connection info
-								host: searchedServer.host,
-								port: searchedServer.port,
-								user: searchedIdentity.user,
-								password: searchedIdentity.password,
+								host: resource.host,
+								port: resource.port,
+								user: account.user,
+								password: account.password,
 								todo: 'remove',
 								uuid: uuid,
 							},
@@ -115,8 +116,8 @@ const DeleteDialogBox = () => {
 					break;
 				}
 
-				case 'sftp_delete_history': {
-					const {history_highlight} = sftp_historyState.find(
+				case 'sftp-delete-history': {
+					const {history_highlight} = sftpHistory.find(
 						(it) => it.uuid === alert.uuid,
 					);
 					history_highlight.forEach((item) => {
@@ -141,12 +142,6 @@ const DeleteDialogBox = () => {
 					break;
 				}
 
-				case 'delete_server_folder':
-					break;
-				case 'delete_account': {
-					break;
-				}
-
 				default:
 					break;
 			}
@@ -155,15 +150,15 @@ const DeleteDialogBox = () => {
 		[
 			alert,
 			clicked_server,
-			sftp_deleteState,
-			sftp_highState,
-			sftp_pathState,
+			sftpDelete,
+			sftpHigh,
+			sftpPath,
 			dispatch,
 			terminalTabs,
 			server,
 			identity,
 			userData,
-			sftp_historyState,
+			sftpHistory,
 		],
 	);
 

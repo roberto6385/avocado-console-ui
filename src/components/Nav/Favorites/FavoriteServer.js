@@ -28,37 +28,37 @@ const FavoriteServer = ({data, indent}) => {
 
 	const {userData} = useSelector(authSelector.all);
 
-	const searchedIdentity = useMemo(
+	const account = useMemo(
 		() => identity.find((it) => it.key === data.key && it.checked === true),
 		[identity, data],
 	);
 
 	const onClickServerItem = useDoubleClick(
 		() => {
-			const searchedServer = server.find((i) => i.id === data.id);
+			const resource = server.find((i) => i.id === data.id);
 
-			if (searchedServer.protocol === 'SSH2') {
+			if (resource.protocol === 'SSH2') {
 				dispatch({
 					type: SSH_SEND_CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token,
-						...searchedIdentity,
-						user: searchedIdentity.user,
-						password: searchedIdentity.password,
+						...account,
+						user: account.user,
+						password: account.password,
 					},
 				});
-			} else if (searchedServer.protocol === 'SFTP') {
+			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
 						token: userData.access_token, // connection info
-						host: searchedServer.host,
-						port: searchedServer.port,
-						user: searchedIdentity.user,
-						password: searchedIdentity.password,
-						name: searchedServer.name, // create tab info
-						key: searchedServer.key,
-						id: searchedServer.id,
+						host: resource.host,
+						port: resource.port,
+						user: account.user,
+						password: account.password,
+						name: resource.name, // create tab info
+						key: resource.key,
+						id: resource.id,
 					},
 				});
 			}
@@ -70,15 +70,7 @@ const FavoriteServer = ({data, indent}) => {
 				dispatch({type: SET_CLICKED_SERVER, payload: data.key});
 			}
 		},
-		[
-			clicked_server,
-			data,
-			userData,
-			server,
-			identity,
-			dispatch,
-			searchedIdentity,
-		],
+		[clicked_server, data, userData, server, identity, dispatch, account],
 	);
 
 	const {show} = useContextMenu({
@@ -144,7 +136,7 @@ const FavoriteServer = ({data, indent}) => {
 				<NavigationItemTitle>{data.name}</NavigationItemTitle>
 			</NavigationItem>
 
-			<FavoritesContextMenu identity={searchedIdentity} data={data} />
+			<FavoritesContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };

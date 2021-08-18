@@ -44,15 +44,12 @@ const _Thead = styled.thead`
 	min-width: 778px;
 `;
 
-const TableHead = ({uuid}) => {
+const TableHeader = ({uuid}) => {
 	const {t} = useTranslation('fileListContents');
 	const dispatch = useDispatch();
-	const {etc: sftp_etcState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
-	const corEtc = sftp_etcState.find((v) => v.uuid === uuid);
-	const {sortKeyword} = corEtc;
+	const {etc: sftpEtc} = useSelector((state) => state.sftp, shallowEqual);
+	const searchedEtc = sftpEtc.find((v) => v.uuid === uuid);
+	const {sortKeyword} = searchedEtc;
 	const onSortList = useCallback(
 		(e) => {
 			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
@@ -122,8 +119,8 @@ const TableHead = ({uuid}) => {
 	);
 };
 
-TableHead.propTypes = {
+TableHeader.propTypes = {
 	uuid: PropTypes.string.isRequired,
 };
 
-export default TableHead;
+export default TableHeader;

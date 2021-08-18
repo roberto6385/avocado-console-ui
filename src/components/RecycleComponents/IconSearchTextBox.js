@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../../styles/components/icon';
 import PropTypes from 'prop-types';
-import {SearchInput} from '../../styles/components/input';
+import {SearchTextBox} from '../../styles/components/textBox';
 import {searchIcon} from '../../icons/icons';
 
-const Container = styled.div`
+const _Container = styled.div`
 	display: flex;
 	align-items: center;
 	width: ${(props) => props.width || '100%'};
@@ -20,30 +20,30 @@ const Container = styled.div`
 		props.theme.basic.pages.textBoxs.normalStyle.border.color};
 `;
 
-const SearchInput_ = styled(SearchInput)`
+const _SearchTextBox = styled(SearchTextBox)`
 	height: 28px;
 	font-size: ${(props) => props.size || '14px'};
 	padding: 0px 4px;
 `;
 
-const IconSearchInput = ({value, onChange, place = '', size, height}) => {
+const IconSearchTextBox = ({value, onChange, place = '', size, height}) => {
 	return (
-		<Container height={height}>
+		<_Container height={height}>
 			<Icon size={'sm'} margin_right={'0px'}>
 				{searchIcon}
 			</Icon>
-			<SearchInput_
+			<_SearchTextBox
 				size={size}
 				onChange={onChange}
 				value={value}
 				type='text'
 				placeholder={place}
 			/>
-		</Container>
+		</_Container>
 	);
 };
 
-IconSearchInput.propTypes = {
+IconSearchTextBox.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	onChange: PropTypes.func.isRequired,
 	place: PropTypes.string,
@@ -52,4 +52,4 @@ IconSearchInput.propTypes = {
 	size: PropTypes.string,
 };
 
-export default IconSearchInput;
+export default IconSearchTextBox;

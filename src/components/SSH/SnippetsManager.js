@@ -8,7 +8,7 @@ import {
 	SSH_CHANGE_SNIPPET_REQUEST,
 	SSH_DELETE_SNIPPET_REQUEST,
 } from '../../reducers/ssh';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import TextBoxField from '../RecycleComponents/TextBoxField';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
 import {HoverButton, IconButton} from '../../styles/components/icon';
@@ -17,7 +17,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '../../styles/components/disalogBox';
-import {Input} from '../../styles/components/input';
+import {TextBox} from '../../styles/components/textBox';
 import {Form} from '../../styles/components/form';
 import {TextArea} from '../../styles/components/textArea';
 import {dialogBoxAction, dialogBoxSelector} from '../../reducers/dialogBoxs';
@@ -131,7 +131,7 @@ const SnippetsManager = () => {
 		[selectedSnippet, tempSnippets],
 	);
 
-	const onClickCancel = useCallback(() => {
+	const onClickCancelChanges = useCallback(() => {
 		setName('');
 		setContent('');
 		setTempSnippets(snippets);
@@ -148,12 +148,10 @@ const SnippetsManager = () => {
 			tempSnippets.filter((v) => v.name === '' || v.content === '')
 				.length > 0
 		) {
-			dispatch(dialogBoxAction.openForm({key: 'snippets_blank'}));
+			dispatch(dialogBoxAction.openForm({key: 'blank-snippets'}));
 			//snippets have duplicated val
 		} else if (new Set(snippetNameList).size !== snippetNameList.length) {
-			dispatch(
-				dialogBoxAction.openForm({key: 'snippets_name_duplicate'}),
-			);
+			dispatch(dialogBoxAction.openForm({key: 'duplicate-snippet-name'}));
 			//save snippet changes
 		} else {
 			//deleted snippets
@@ -271,7 +269,7 @@ const SnippetsManager = () => {
 	return (
 		<_PopupModal
 			isOpen={form.open && form.key === 'snippet'}
-			onRequestClose={onClickCancel}
+			onRequestClose={onClickCancelChanges}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
 		>
@@ -281,7 +279,7 @@ const SnippetsManager = () => {
 					itype={'font'}
 					size={'sm'}
 					margin={'0px'}
-					onClick={onClickCancel}
+					onClick={onClickCancelChanges}
 				>
 					{closeIcon}
 				</IconButton>
@@ -317,8 +315,8 @@ const SnippetsManager = () => {
 					))}
 				</_Ul>
 				<_Form>
-					<TextBoxField_ title={t('name')}>
-						<Input
+					<TextBoxField title={t('name')}>
+						<TextBox
 							autoFocus={true}
 							ref={nameTextBoxRef}
 							value={name}
@@ -326,19 +324,19 @@ const SnippetsManager = () => {
 							type='text'
 							placeholder={t('place.name')}
 						/>
-					</TextBoxField_>
-					<TextBoxField_ title={t('content')}>
+					</TextBoxField>
+					<TextBoxField title={t('content')}>
 						<TextArea
 							value={content}
 							onChange={onChangeContent}
 							type='text'
 							placeholder={t('place.content')}
 						/>
-					</TextBoxField_>
+					</TextBoxField>
 				</_Form>
 			</_ListContainer>
 			<ModalFooter>
-				<TransparentButton onClick={onClickCancel}>
+				<TransparentButton onClick={onClickCancelChanges}>
 					{t('cancel')}
 				</TransparentButton>
 				<NormalButton onClick={onClickSaveChangesOnSnippets}>

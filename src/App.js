@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useIdleTimer} from 'react-idle-timer';
 
 import {

@@ -19,8 +19,6 @@ const InputContainer = styled.div`
 `;
 
 const Radio_ = ({radioName, options, value, setValue, disabled}) => {
-	// const {current: height} = useRef(`${(options.length * 2 - 1) * 16}px`);
-
 	return (
 		<div>
 			{options.map((op, index) => {

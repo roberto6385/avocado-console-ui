@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
 import {authAction, authSelector} from '../../reducers/api/auth';
-import TextBoxField_ from '../RecycleComponents/TextBoxField_';
+import TextBoxField from '../RecycleComponents/TextBoxField';
 import CheckBox_ from '../RecycleComponents/CheckBox_';
 import appleButton from '../../images/alternativeAuth/apple_btn.png';
 import googleButton from '../../images/alternativeAuth/google_btn.png';
@@ -90,7 +90,7 @@ const SignInForm = () => {
 	const [rememberMe, setRememberMe] = useState(false);
 	const userRef = useRef(null);
 
-	const onSubmitSignInForm = useCallback(
+	const onSubmitSignIn = useCallback(
 		(e) => {
 			e.preventDefault();
 
@@ -170,13 +170,13 @@ const SignInForm = () => {
 	}, [i18n]);
 
 	return !loading ? (
-		<_UserForm onSubmit={onSubmitSignInForm}>
+		<_UserForm onSubmit={onSubmitSignIn}>
 			<UserTitle>{t('title')}</UserTitle>
 			<UserTitleSpan>
 				{t('account')} <a href={'/signup'}> {t('signUp')} </a>
 			</UserTitleSpan>
 
-			<TextBoxField_ marginBottom={'18px'}>
+			<TextBoxField marginBottom={'18px'}>
 				<UserInput
 					ref={userRef}
 					value={user}
@@ -184,8 +184,8 @@ const SignInForm = () => {
 					placeholder={t('id')}
 					required
 				/>
-			</TextBoxField_>
-			<TextBoxField_ marginBottom={'18px'}>
+			</TextBoxField>
+			<TextBoxField marginBottom={'18px'}>
 				<_UserPasswordContainer id={'password-text-box'}>
 					<UserPasswordInput
 						onFocus={onFocusPasswordTextBox}
@@ -206,7 +206,7 @@ const SignInForm = () => {
 							: passwordVisibilityOffIcon}
 					</IconButton>
 				</_UserPasswordContainer>
-			</TextBoxField_>
+			</TextBoxField>
 			<_CheckBoxContainer>
 				<CheckBox_
 					title={t('remember')}
@@ -215,7 +215,7 @@ const SignInForm = () => {
 				/>
 				<a href={'/password'}>{t('forget')}</a>
 			</_CheckBoxContainer>
-			<_UserSubmitButton type='submit' onClick={onSubmitSignInForm}>
+			<_UserSubmitButton type='submit' onClick={onSubmitSignIn}>
 				{t('signIn')}
 			</_UserSubmitButton>
 			<_DividingLine>

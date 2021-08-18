@@ -11,7 +11,9 @@ const SignUp = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		if (userData) history.push('/');
+		if (userData) {
+			history.push('/');
+		}
 	}, [history, userData]);
 
 	return (

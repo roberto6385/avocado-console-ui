@@ -94,7 +94,7 @@ function* sendCommand(action) {
 						if (socket.readyState === 1) {
 							yield put(
 								dialogBoxAction.openAlert({
-									key: 'invalid_server',
+									key: 'invalid-server',
 								}),
 							);
 						}
@@ -115,7 +115,7 @@ function* sendCommand(action) {
 		}
 	} catch (err) {
 		console.log(err);
-		yield put(dialogBoxAction.openAlert({key: 'invalid_server'}));
+		yield put(dialogBoxAction.openAlert({key: 'invalid-server'}));
 		yield put({type: CONNECTION_FAILURE, payload: err});
 	}
 }

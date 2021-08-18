@@ -26,57 +26,57 @@ const DropList_ = ({uuid}) => {
 		shallowEqual,
 	);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
+	const {userData} = useSelector(authSelector.all);
+	const {
+		path: sftpPath,
+		file: sftpFile,
+		high: sftpHigh,
+		socket: sftpSocket,
+		etc: sftpEtc,
+		download: sftpDownload,
+	} = useSelector((state) => state.sftp, shallowEqual);
 
-	const corTab = useMemo(
+	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
 	);
-	const {userData} = useSelector(authSelector.all);
-	const corServer = useMemo(
-		() => server.find((it) => it.key === corTab.server.key),
-		[corTab.server.key, server],
+	const resource = useMemo(
+		() => server.find((it) => it.key === terminalTab.server.key),
+		[terminalTab.server.key, server],
 	);
-
-	const {
-		path: sftp_pathState,
-		file: sftp_fileState,
-		high: sftp_highState,
-		socket: sftp_socketState,
-		etc: sftp_etcState,
-		download: sftp_downloadState,
-	} = useSelector((state) => state.sftp, shallowEqual);
-	const {path, pathList} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {readSocket, readList} = useMemo(
-		() => sftp_downloadState.find((it) => it.uuid === uuid),
-		[sftp_downloadState, uuid],
-	);
-	const {fileList, tempFile} = useMemo(
-		() => sftp_fileState.find((it) => it.uuid === uuid),
-		[sftp_fileState, uuid],
-	);
-	const {highlight} = useMemo(
-		() => sftp_highState.find((it) => it.uuid === uuid),
-		[sftp_highState, uuid],
-	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
-	);
-	const {sortKeyword, toggle} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
-
-	const correspondedIdentity = useMemo(
+	const account = useMemo(
 		() =>
 			identity.find(
-				(it) => it.key === corTab.server.key && it.checked === true,
+				(it) =>
+					it.key === terminalTab.server.key && it.checked === true,
 			),
-		[identity, corTab],
+		[identity, terminalTab],
 	);
+	const {path, pathList} = useMemo(
+		() => sftpPath.find((it) => it.uuid === uuid),
+		[sftpPath, uuid],
+	);
+	const {readSocket, readList} = useMemo(
+		() => sftpDownload.find((it) => it.uuid === uuid),
+		[sftpDownload, uuid],
+	);
+	const {fileList, tempFile} = useMemo(
+		() => sftpFile.find((it) => it.uuid === uuid),
+		[sftpFile, uuid],
+	);
+	const {highlight} = useMemo(
+		() => sftpHigh.find((it) => it.uuid === uuid),
+		[sftpHigh, uuid],
+	);
+	const {socket} = useMemo(
+		() => sftpSocket.find((it) => it.uuid === uuid),
+		[sftpSocket, uuid],
+	);
+	const {sortKeyword, toggle} = useMemo(
+		() => sftpEtc.find((it) => it.uuid === uuid),
+		[sftpEtc, uuid],
+	);
+
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sortKeyword);
 	const {show} = useContextMenu({
@@ -296,10 +296,10 @@ const DropList_ = ({uuid}) => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'read',
 							uuid: uuid,
 						},
@@ -314,10 +314,10 @@ const DropList_ = ({uuid}) => {
 			uuid,
 			path,
 			userData,
-			corServer.host,
-			corServer.port,
-			correspondedIdentity.user,
-			correspondedIdentity.password,
+			resource.host,
+			resource.port,
+			account.user,
+			account.password,
 		],
 	);
 
@@ -343,10 +343,10 @@ const DropList_ = ({uuid}) => {
 						type: CREATE_NEW_WEBSOCKET_REQUEST,
 						payload: {
 							token: userData.access_token, // connection info
-							host: corServer.host,
-							port: corServer.port,
-							user: correspondedIdentity.user,
-							password: correspondedIdentity.password,
+							host: resource.host,
+							port: resource.port,
+							user: account.user,
+							password: account.password,
 							todo: 'read',
 							uuid: uuid,
 						},
@@ -361,10 +361,10 @@ const DropList_ = ({uuid}) => {
 			uuid,
 			path,
 			userData,
-			corServer.host,
-			corServer.port,
-			correspondedIdentity.user,
-			correspondedIdentity.password,
+			resource.host,
+			resource.port,
+			account.user,
+			account.password,
 		],
 	);
 

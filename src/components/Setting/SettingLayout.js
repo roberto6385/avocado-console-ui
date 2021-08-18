@@ -13,13 +13,13 @@ const _Container = styled.div`
 	font-family: 'Roboto', sans-serif;
 `;
 
-const Logo = styled.div`
+const _Logo = styled.div`
 	svg {
 		fill: ${(props) => props.theme.pages.webTerminal.main.font.color};
 	}
 `;
 
-const _ContentsContainer = styled.div`
+const _Content = styled.div`
 	display: flex;
 	overflow: hidden;
 	flex: 1;
@@ -41,12 +41,12 @@ const SettingAppLayout = ({children}) => {
 	return (
 		<_Container>
 			<_Header>
-				<Logo>{avocadoLogo}</Logo>
+				<_Logo>{avocadoLogo}</_Logo>
 			</_Header>
-			<_ContentsContainer>
+			<_Content>
 				<SettingNav />
 				{children}
-			</_ContentsContainer>
+			</_Content>
 			<Footer />
 		</_Container>
 	);

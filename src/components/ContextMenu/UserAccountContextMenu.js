@@ -35,7 +35,10 @@ const UserAccountContextMenu = ({toggle, setToggle}) => {
 	}, [dispatch, userData]);
 
 	return (
-		<DropDownMenu id={'account'} animation={animation.slide}>
+		<DropDownMenu
+			id={'user-account-context-menu'}
+			animation={animation.slide}
+		>
 			<Item onClick={onClickOpenAside('Account')}>{t('account')}</Item>
 			<Separator />
 			<Item onClick={onClickLogout}>{t('logout')}</Item>

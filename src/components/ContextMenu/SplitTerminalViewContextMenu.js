@@ -15,7 +15,10 @@ const SplitTerminalViewContextMenu = () => {
 	);
 
 	return (
-		<DropDownMenu id={'column'} animation={animation.slide}>
+		<DropDownMenu
+			id={'split-terminal-view-context-menu'}
+			animation={animation.slide}
+		>
 			<Item onClick={onClickChangeTerminalView(1)}>No Columns</Item>
 			<Item onClick={onClickChangeTerminalView(2)}>2 Columns</Item>
 			<Item onClick={onClickChangeTerminalView(3)}>3 Columns</Item>

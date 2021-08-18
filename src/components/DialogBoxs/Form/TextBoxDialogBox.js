@@ -16,9 +16,8 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '../../../styles/components/disalogBox';
-import {Input} from '../../../styles/components/input';
+import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
-import {userResourceSelector} from '../../../reducers/api/userResource';
 
 const _PopupModal = styled(DialogBox)`
 	width: 404px;
@@ -45,9 +44,9 @@ const TextBoxDialogBox = () => {
 	const textBoxRef = useRef(null);
 
 	const uuid = form.uuid;
-	const socket = sftp_socketState.find((it) => it.uuid === uuid)?.socket;
-	const path = sftp_pathState.find((it) => it.uuid === uuid)?.path;
-	const highlight = sftp_highState.find((it) => it.uuid === uuid)?.highlight;
+	const socket = sftp_socketState?.find((it) => it.uuid === uuid)?.socket;
+	const path = sftp_pathState?.find((it) => it.uuid === uuid)?.path;
+	const highlight = sftp_highState?.find((it) => it.uuid === uuid)?.highlight;
 
 	const headerMessages = {
 		sftp_rename_file_folder: t('renameHeader'),
@@ -192,7 +191,7 @@ const TextBoxDialogBox = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={handleOnSubmitTextBoxEvents}>
-				<Input
+				<TextBox
 					ref={textBoxRef}
 					value={textBoxVal}
 					onChange={onChangeTextBoxVal}

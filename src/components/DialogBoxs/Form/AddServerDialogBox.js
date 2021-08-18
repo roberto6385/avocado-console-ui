@@ -9,7 +9,6 @@ import {
 } from '../../../reducers/common';
 import useInput from '../../../hooks/useInput';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
-import TextBoxField_ from '../../RecycleComponents/TextBoxField_';
 import ComboBox_ from '../../RecycleComponents/ComboBox_';
 import {closeIcon} from '../../../icons/icons';
 import {
@@ -23,19 +22,21 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '../../../styles/components/disalogBox';
-import {Input} from '../../../styles/components/input';
+
 import {Form} from '../../../styles/components/form';
+import {TextBox} from '../../../styles/components/textBox';
+import TextBoxField from '../../RecycleComponents/TextBoxField';
 
 const _PopupModal = styled(DialogBox)`
 	z-index: 5;
 	width: 598px;
 `;
 
-const _Input = styled(Input)`
+const _TextBox = styled(TextBox)`
 	width: 178px;
 `;
 
-const _SecondaryGreenButton = styled(NormalBorderButton)`
+const _NormalBorderButton = styled(NormalBorderButton)`
 	margin: 10px 8px 0px 8px;
 `;
 
@@ -46,7 +47,7 @@ const _FileInput = styled.input`
 			props.theme.basic.pages.dialogBoxs.normalStyle.border.color};
 `;
 
-const _InputFiled = styled(TextBoxField_)`
+const _TextBoxField = styled(TextBoxField)`
 	margin-right: 16px;
 `;
 
@@ -79,7 +80,7 @@ const AddServerDialogBox = () => {
 	);
 	const {form} = useSelector(dialogBoxSelector.all);
 	// username, password는 이곳에서 가져와야 함.
-	const searchedIdentity = useMemo(
+	const account = useMemo(
 		() => identity.find((v) => v.key === clicked_server && v.checked),
 		[identity, clicked_server],
 	);
@@ -88,14 +89,14 @@ const AddServerDialogBox = () => {
 	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
 	const [host, onChangeHost, setHost] = useInput('');
 	const [port, onChangePort, setPort] = useInput(22);
-	const [account, onChangeIdentity, setAccount] = useInput('');
+	const [id, onChangeId, setId] = useInput('');
 	const [authentication, onChangeAuthentication, setAuthentication] =
 		useInput('Password');
 	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
 	const [username, onChangeUsername, setUsername] = useInput('');
 	const [password, onChangePassword, setPassword] = useInput('');
 	const [note, onChangeNote, setNote] = useInput('');
-	const [identityList, onChangeIdentityList, setIdentityList] = useInput([]);
+	const [ids, onChangeIds, setIds] = useInput([]);
 
 	const protocolOptions = [
 		{value: 'SSH2', label: 'SSH2'},
@@ -118,14 +119,14 @@ const AddServerDialogBox = () => {
 				(v) => v.key === clicked_server,
 			);
 			const selectedIdentity = correspondedIdentityList.find(
-				(v) => v.identity_name === account,
+				(v) => v.identity_name === id,
 			);
 
-			if (searchedIdentity !== selectedIdentity && account !== '') {
+			if (account !== selectedIdentity && id !== '') {
 				dispatch({
 					type: CHANGE_IDENTITY_CHECKED,
 					payload: {
-						prev: searchedIdentity,
+						prev: account,
 						next: selectedIdentity,
 					},
 				});
@@ -146,8 +147,8 @@ const AddServerDialogBox = () => {
 			protocol,
 			dispatch,
 			identity,
-			searchedIdentity,
 			account,
+			id,
 			clicked_server,
 			onClickCloseDialogBox,
 		],
@@ -161,20 +162,20 @@ const AddServerDialogBox = () => {
 			setProtocol(data.protocol);
 			setHost(data.host);
 			setPort(data.port);
-			setAccount(searchedIdentity.identity_name);
-			setAuthentication(searchedIdentity.type);
-			setPassword(searchedIdentity.password);
+			setId(account.identity_name);
+			setAuthentication(account.type);
+			setPassword(account.password);
 			setKeyFile('');
-			setUsername(searchedIdentity.user);
+			setUsername(account.user);
 			setNote('');
 		}
 	}, [
 		server,
-		searchedIdentity,
-		setAccount,
+		account,
+		setId,
 		setAuthentication,
 		setHost,
-		setIdentityList,
+		setIds,
 		setKeyFile,
 		setName,
 		setNote,
@@ -186,26 +187,23 @@ const AddServerDialogBox = () => {
 	]);
 
 	useEffect(() => {
-		const filteredIdentities = identity.filter(
-			(v) => v.key === clicked_server,
+		setIds(
+			identity
+				.filter((v) => v.key === clicked_server)
+				.map((item) => {
+					return {
+						value: item.identity_name,
+						info: item,
+						label: item.identity_name,
+					};
+				}),
 		);
-		const newArray = filteredIdentities.map((item) => {
-			return {
-				value: item.identity_name,
-				info: item,
-				label: item.identity_name,
-			};
-		});
-		setIdentityList(newArray);
-	}, [clicked_server, server, identity, setIdentityList]);
+	}, [clicked_server, server, identity, setIds]);
 
 	useEffect(() => {
-		const filteredIdentities = identity.filter(
-			(v) => v.key === clicked_server,
-		);
-		const selectedIdentity = filteredIdentities.find(
-			(v) => v.identity_name === account,
-		);
+		const selectedIdentity = identity
+			.filter((v) => v.key === clicked_server)
+			.find((v) => v.identity_name === id);
 
 		if (selectedIdentity) {
 			setUsername(selectedIdentity.user);
@@ -213,7 +211,7 @@ const AddServerDialogBox = () => {
 			setAuthentication(selectedIdentity.type);
 		}
 	}, [
-		account,
+		id,
 		identity,
 		clicked_server,
 		setUsername,
@@ -243,15 +241,15 @@ const AddServerDialogBox = () => {
 
 			<Form onSubmit={onSubmitAddServerForm}>
 				<_ItemContainer>
-					<_InputFiled title={t('name')} flex={1}>
-						<Input
+					<_TextBoxField title={t('name')} flex={1}>
+						<TextBox
 							type='text'
 							value={name}
 							// onChange={onChangeName}
 							readOnly
 							placeholder={t('place.name')}
 						/>
-					</_InputFiled>
+					</_TextBoxField>
 					<_SecondItem>
 						<ComboBox_
 							width={'178px'}
@@ -263,18 +261,18 @@ const AddServerDialogBox = () => {
 					</_SecondItem>
 				</_ItemContainer>
 				<_ItemContainer>
-					<_InputFiled title={t('address')} flex={1}>
-						<Input
+					<_TextBoxField title={t('address')} flex={1}>
+						<TextBox
 							type='text'
 							value={host}
 							// onChange={onChangeHost}
 							readOnly
 							placeholder={t('place.address')}
 						/>
-					</_InputFiled>
+					</_TextBoxField>
 					<_SecondItem>
-						<TextBoxField_ title={t('port')}>
-							<_Input
+						<TextBoxField title={t('port')}>
+							<_TextBox
 								width={'178px'}
 								type='number'
 								value={port}
@@ -282,7 +280,7 @@ const AddServerDialogBox = () => {
 								readOnly
 								placeholder={t('place.port')}
 							/>
-						</TextBoxField_>
+						</TextBoxField>
 					</_SecondItem>
 				</_ItemContainer>
 
@@ -290,9 +288,9 @@ const AddServerDialogBox = () => {
 					<ComboBox_
 						title={t('identity')}
 						flex={1}
-						options={identityList}
-						value={account}
-						setValue={setAccount}
+						options={ids}
+						value={id}
+						setValue={setId}
 					/>
 					<_SecondItem>
 						<ComboBox_
@@ -306,31 +304,31 @@ const AddServerDialogBox = () => {
 					</_SecondItem>
 				</_ItemContainer>
 				<_ItemContainer>
-					<TextBoxField_ title={t('userName')} flex={1}>
-						<Input
+					<TextBoxField title={t('userName')} flex={1}>
+						<TextBox
 							type='text'
 							value={username}
 							readOnly
 							placeholder={t('place.userName')}
 						/>
-					</TextBoxField_>
+					</TextBoxField>
 				</_ItemContainer>
 				{authentication === 'Password' ? (
 					<_ItemContainer>
-						<TextBoxField_ title={t('password')} flex={1}>
-							<Input
+						<TextBoxField title={t('password')} flex={1}>
+							<TextBox
 								type='password'
 								value={password}
 								// onChange={onChangePassword}
 								readOnly
 								placeholder={t('place.password')}
 							/>
-						</TextBoxField_>
+						</TextBoxField>
 					</_ItemContainer>
 				) : (
 					<React.Fragment>
 						<_ItemContainer>
-							<TextBoxField_ title={t('private')} flex={1}>
+							<TextBoxField title={t('private')} flex={1}>
 								<_Label htmlFor={'add_server_form_type_file'}>
 									{keyFile}
 									<_FileInput
@@ -342,8 +340,8 @@ const AddServerDialogBox = () => {
 										placeholder={t('keyFile')}
 									/>
 								</_Label>
-							</TextBoxField_>
-							<_SecondaryGreenButton
+							</TextBoxField>
+							<_NormalBorderButton
 								onClick={(e) => {
 									e.preventDefault();
 									document
@@ -354,35 +352,31 @@ const AddServerDialogBox = () => {
 								}}
 							>
 								{t('browse')}
-							</_SecondaryGreenButton>
+							</_NormalBorderButton>
 						</_ItemContainer>
 
 						<_ItemContainer>
-							<TextBoxField_
-								title={t('keyFilePassword')}
-								flex={1}
-							>
-								<Input
+							<TextBoxField title={t('keyFilePassword')} flex={1}>
+								<TextBox
 									type='password'
 									value={password}
 									// onChange={onChangePassword}
 									readOnly
 									placeholder={t('place.password')}
 								/>
-							</TextBoxField_>
+							</TextBoxField>
 						</_ItemContainer>
 					</React.Fragment>
 				)}
 				<_ItemContainer>
-					<TextBoxField_ title={t('note')} flex={1}>
-						<Input
+					<TextBoxField title={t('note')} flex={1}>
+						<TextBox
 							type='text'
 							value={note}
-							// onChange={onChangeNote}
 							readOnly
 							placeholder={t('place.note')}
 						/>
-					</TextBoxField_>
+					</TextBoxField>
 				</_ItemContainer>
 			</Form>
 			<ModalFooter>

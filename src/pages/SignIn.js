@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import SignInForm from '../components/Form/SignInForm';
 import {useHistory} from 'react-router-dom';

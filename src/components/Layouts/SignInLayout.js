@@ -59,7 +59,7 @@ const _SpanText = styled.div`
 	background-image: linear-gradient(to top, #30b3b6, #62d2a3);
 `;
 
-const Logo = styled.div`
+const _Logo = styled.div`
 	width: 270px;
 	svg {
 		fill: white;
@@ -74,12 +74,12 @@ const SignInLayout = ({children}) => {
 	return (
 		<_Container>
 			<_HeaderContainer>
-				<Logo>
+				<_Logo>
 					{avocadoLogo}
 					<_Span>
 						<_SpanText /> {t('slogan')}
 					</_Span>
-				</Logo>
+				</_Logo>
 				<_Description>{t('description')}</_Description>
 			</_HeaderContainer>
 			{children}

@@ -32,11 +32,6 @@ const _DialogBox = styled(DialogBox)`
 
 const _Form = styled(Form)`
 	height: 397px;
-`;
-
-const ListContainer = styled.div`
-	width: 100%;
-	height: 100%;
 	border-radius: 4px;
 	border: 1px solid
 		${(props) =>
@@ -48,38 +43,6 @@ const ListContainer = styled.div`
 const _ModalFooter = styled(ModalFooter)`
 	justify-content: space-between;
 `;
-
-function searchNextNode(node) {
-	let names = [];
-
-	if (node.type === 'folder') {
-		names.push(node.name);
-		for (let x of node.contain) {
-			let result = searchNextNode(x);
-			names = names.concat(result);
-		}
-	}
-	return names;
-}
-
-export function filterFolderNames(data) {
-	let names = [];
-	for (let x of data) {
-		const result = searchNextNode(x);
-		names = names.concat(result);
-	}
-	return names;
-}
-
-const isFolderNameDuplicated = (data) => {
-	const names = filterFolderNames(data);
-	console.log(names);
-
-	if (names.filter((v, i) => names.indexOf(v) !== i).length === 0) {
-		return false;
-	}
-	return true;
-};
 
 const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
@@ -100,17 +63,9 @@ const AddFavoritesDialogBox = () => {
 		async (e) => {
 			e.preventDefault();
 			if (JSON.stringify(tempFavorites) !== JSON.stringify(favorites)) {
-				if (isFolderNameDuplicated(tempFavorites)) {
-					await dispatch(
-						dialogBoxAction.openAlert({
-							key: 'folder_names_on_favorites_duplicated',
-						}),
-					);
-				} else {
-					await dispatch({type: SAVE_CHANGES_ON_FAVORITES});
-					await dispatch(dialogBoxAction.closeForm());
-					await dispatch({type: SET_TEMP_FAVORITES});
-				}
+				await dispatch({type: SAVE_CHANGES_ON_FAVORITES});
+				await dispatch(dialogBoxAction.closeForm());
+				await dispatch({type: SET_TEMP_FAVORITES});
 			} else {
 				await dispatch(dialogBoxAction.closeForm());
 				await dispatch({type: SET_TEMP_FAVORITES});
@@ -152,9 +107,7 @@ const AddFavoritesDialogBox = () => {
 			</ModalHeader>
 
 			<_Form onSubmit={onSubmitSaveChangesOnFavorites}>
-				<ListContainer>
-					<FavoriteItemsTreeOnDialogBox />
-				</ListContainer>
+				<FavoriteItemsTreeOnDialogBox />
 			</_Form>
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>

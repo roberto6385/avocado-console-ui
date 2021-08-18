@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'react-contexify/dist/ReactContexify.css';
 import SFTPFileListContextMenu from '../../ContextMenu/SFTPFileListContextMenu';
-import TableHead from './TableHeader';
+import TableHeader from './TableHeader';
 import {dataFormater, formatByteSizeString} from '../functions';
 import {
 	editIcon,
@@ -82,7 +82,7 @@ const FileList = ({
 	return (
 		<React.Fragment>
 			<_Table onContextMenu={onContextMenu()}>
-				<TableHead uuid={uuid} />
+				<TableHeader uuid={uuid} />
 				<_Tbody>
 					{list.map((item, index) => {
 						if (item.name !== '.') {

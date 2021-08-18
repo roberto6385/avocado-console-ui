@@ -14,7 +14,7 @@ const _Container = styled.div`
 	flex: ${(props) => props.flex};
 `;
 
-const StyledSelect = styled(Select)`
+const _Selection = styled(Select)`
 	.Select__control {
 		transition: initial;
 		width: ${(props) => props.width};
@@ -121,16 +121,16 @@ const ComboBox_ = ({
 	flex,
 	disabled,
 }) => {
-	const selectRef = useRef(null);
-	const val = useMemo(
+	const selectedItemRef = useRef(null);
+	const selectedValue = useMemo(
 		() => options.find((op) => op.value === value),
 		[options, value],
 	);
 
-	const handleChange = useCallback(
+	const onChnageSelectedItem = useCallback(
 		(e) => {
 			setValue(e.value);
-			selectRef.current?.blur();
+			selectedItemRef.current?.blur();
 		},
 		[setValue],
 	);
@@ -138,13 +138,13 @@ const ComboBox_ = ({
 	return (
 		<_Container flex={flex}>
 			<_Title>{title}</_Title>
-			<StyledSelect
-				ref={selectRef}
+			<_Selection
+				ref={selectedItemRef}
 				classNamePrefix='Select'
 				isSearchable={false}
 				options={options}
-				value={{value: val.value, label: val.label}}
-				onChange={handleChange}
+				value={{value: selectedValue.value, label: selectedValue.label}}
+				onChange={onChnageSelectedItem}
 				isDisabled={disabled}
 				width={width}
 			/>
