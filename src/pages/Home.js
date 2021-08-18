@@ -6,7 +6,6 @@ import Footer from '../components/Footer';
 import {useHistory} from 'react-router-dom';
 import {userResourceAction} from '../reducers/api/userResource';
 import {authSelector} from '../reducers/api/auth';
-
 const _Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -18,7 +17,6 @@ const _Container = styled.div`
 const Home = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-
 	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {

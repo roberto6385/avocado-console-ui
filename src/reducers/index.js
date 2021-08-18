@@ -5,7 +5,7 @@ import ssh from './ssh';
 import sftp from './sftp';
 import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
 import {USER_RESOURCE, userResourceReducer} from './api/userResource';
-import {AUTH, authReducer} from './api/auth';
+import {AUTH, authAction, authReducer} from './api/auth';
 import {SETTING, settingReducer} from './setting';
 import {TAB_BAR, tabBarReducer} from './tabBar';
 import {REMOTE_RESOURCE, remoteResourceReducer} from './remoteResource';
@@ -13,7 +13,7 @@ import {FAVORITES, favoritesReducer} from './favorites';
 import storage from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 import {createWhitelistFilter} from 'redux-persist-transform-filter';
-
+import configureStore from '../store/configureStore';
 export const authFilter = createWhitelistFilter(AUTH, ['userData']);
 export const userResourceFilter = createWhitelistFilter(USER_RESOURCE, [
 	'data',
@@ -43,8 +43,7 @@ const sshLocalPersistConfig = {
 	storage: storage,
 	whitelist: ['ssh_history', 'snippets', 'snippents_index'],
 };
-
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
 	common: persistReducer(commonLocalPersistConfig, common),
 	sftp,
 	ssh: persistReducer(sshLocalPersistConfig, ssh),
@@ -57,4 +56,10 @@ const rootReducer = combineReducers({
 	[FAVORITES]: favoritesReducer,
 });
 
+const rootReducer = (state, action) => {
+	if (action.type === authAction.revokeSuccess().type) {
+		return appReducer(undefined, action);
+	}
+	return appReducer(state, action);
+};
 export default persistReducer(persistConfig, rootReducer);

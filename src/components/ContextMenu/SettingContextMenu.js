@@ -44,7 +44,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 					if (toggle && aside === 'Preferences') {
 						setToggle(false);
 					} else {
-						dispatch(settingAction.setMenu('Preferences'));
+						dispatch(settingAction.setAside('Preferences'));
 						setToggle(true);
 					}
 					break;
@@ -54,7 +54,7 @@ const SettingContextMenu = ({toggle, setToggle}) => {
 					if (toggle && aside === 'Identities') {
 						setToggle(false);
 					} else {
-						dispatch(settingAction.setMenu('Identities'));
+						dispatch(settingAction.setAside('Identities'));
 						setToggle(true);
 					}
 					break;
