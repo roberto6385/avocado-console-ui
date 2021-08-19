@@ -77,7 +77,7 @@ const Resource = ({data, indent}) => {
 
 	const onClickResource = useDoubleClick(
 		() => {
-			const resource = resources.find((i) => i.id === data.id);
+			const resource = resources.find((i) => i.key === data.key);
 
 			if (resource.protocol === 'SSH2') {
 				dispatch({
@@ -130,7 +130,7 @@ const Resource = ({data, indent}) => {
 		if (isFavoriteServer(favoriteTree, data.key)) {
 			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
-			dispatch(favoritesAction.addFavorite(data.key));
+			dispatch(favoritesAction.addFavorite({key: data.key}));
 		}
 	}, [data.key, dispatch, favoriteTree]);
 
