@@ -7,6 +7,7 @@ import useInput from '../../hooks/useInput';
 import TextBoxField from '../RecycleComponents/TextBoxField';
 import LoadingSpinner from '../LoadingSpinner';
 import {
+	cancelFillIcon,
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
@@ -16,13 +17,16 @@ import {
 	UserForm,
 	UserInput,
 	UserPasswordContainer,
+	UserPasswordFeedbackMessage,
 	UserPasswordInput,
 	UserSubmitButton,
 	UserTitle,
 	UserTitleSpan,
+	UserPasswordConfirmWarning,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
+//import {usePatchesInScope} from 'immer/dist/core/scope';
 
 const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -41,15 +45,22 @@ const SignUpForm = () => {
 	const [confirmPassword, onChangeConfirmPassword, setConfirmPassword] =
 		useInput('');
 	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-
+	/*****************************************************/
+	//  roberto - siginForm_update
+	//
+	/*****************************************************/
+	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
+	/*****************************************************/
 	const idRef = useRef(null);
 
 	const onSubmitSignUp = useCallback(
 		(e) => {
 			e.preventDefault();
-
-			if (password !== confirmPassword) {
-				//TODO: Show password !== confirmPassword Message
+			// if (password !== confirmPassword) {
+			//TODO: Show password !== confirmPassword Message
+			if (!doesPasswordMatch()) {
+				renderFeedbackMessage();
+				confirmPasswordWarning();
 			} else {
 				dispatch(
 					userResourceAction.createRequest({
@@ -63,6 +74,32 @@ const SignUpForm = () => {
 		},
 		[dispatch, email, id, name, password, confirmPassword],
 	);
+
+	/*****************************************************/
+	//  roberto - siginForm_update
+	//
+	/*****************************************************/
+
+	const doesPasswordMatch = useCallback(() => {
+		return password === confirmPassword;
+	});
+
+	const renderFeedbackMessage = useCallback(() => {
+		if (confirmPassword) {
+			if (!doesPasswordMatch()) {
+				setConfirmPasswordMessage(t('confirmPasswordMessage'));
+			}
+		}
+	});
+
+	const confirmPasswordWarning = useCallback(() => {
+		if (confirmPassword) {
+			if (confirmPasswordMessage != '')
+				return doesPasswordMatch() ? false : 'warning';
+		}
+	});
+
+	/*****************************************************/
 
 	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
@@ -126,7 +163,7 @@ const SignUpForm = () => {
 						onBlur={onBlurPasswordTextBox}
 						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
-						onChange={onChangePassword}
+						onChange={(e) => setPassword(e.target.value)}
 						placeholder={t('password')}
 						required
 					/>
@@ -144,15 +181,34 @@ const SignUpForm = () => {
 			</TextBoxField>
 
 			<TextBoxField flex={1} marginBottom={'18px'}>
-				<UserInput
-					type={isPasswordHidden ? 'password' : 'text'}
-					value={confirmPassword}
-					onChange={onChangeConfirmPassword}
-					placeholder={t('confirmPassword')}
-					required
-				/>
+				<UserPasswordConfirmWarning>
+					<UserPasswordContainer
+						className={`${confirmPasswordWarning()}`}
+					>
+						<UserPasswordInput
+							type={isPasswordHidden ? 'password' : 'text'}
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							placeholder={t('confirmPassword')}
+							required
+						/>
+						{confirmPasswordWarning() ? (
+							<IconButton
+								margin={'0px 0px 0px 12px'}
+								itype={'warning'}
+							>
+								{cancelFillIcon}
+							</IconButton>
+						) : (
+							''
+						)}
+					</UserPasswordContainer>
+				</UserPasswordConfirmWarning>
 			</TextBoxField>
 
+			<UserPasswordFeedbackMessage>
+				{confirmPasswordWarning() ? confirmPasswordMessage : ''}
+			</UserPasswordFeedbackMessage>
 			<_UserSubmitButton type='submit'>{t('signUp')}</_UserSubmitButton>
 		</UserForm>
 	) : (

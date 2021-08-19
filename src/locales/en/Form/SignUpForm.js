@@ -9,6 +9,7 @@ export default {
 	email: 'Email',
 	password: 'Password',
 	confirmPassword: 'Confirm Password',
-
 	signUp: 'Sign Up',
+
+	confirmPasswordMessage: 'Passwords do not match',
 };

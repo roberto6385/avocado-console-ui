@@ -10,4 +10,6 @@ export default {
 	password: '비밀번호',
 	confirmPassword: '비밀번호 확인',
 	signUp: '회원가입',
+
+	confirmPasswordMessage: '비밀번호가 일치하지 않습니다',
 };
