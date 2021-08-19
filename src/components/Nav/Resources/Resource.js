@@ -24,6 +24,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
+import {startSearchingTree} from '../../../utils/searchTree';
+import {startSearchingNode} from '../../../utils/redux';
 
 export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
@@ -61,7 +63,7 @@ const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	const {selectedResource, resources, accounts} = useSelector(
+	const {selectedResource, resources, resourceTree, accounts} = useSelector(
 		remoteResourceSelector.all,
 	);
 	const {userData} = useSelector(authSelector.all);
@@ -132,7 +134,11 @@ const Resource = ({data, indent}) => {
 		if (isFavoriteServer(favoriteTree, data.key)) {
 			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
-			dispatch(favoritesAction.addFavorite(data.key));
+			dispatch(
+				favoritesAction.addFavorite(
+					startSearchingNode(resourceTree, data.key),
+				),
+			);
 		}
 	}, [data.key, dispatch, favoriteTree]);
 

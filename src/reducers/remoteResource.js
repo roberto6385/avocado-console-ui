@@ -65,30 +65,35 @@ const slice = createSlice({
 		// server //todo resourceTree에서 정보를 들고있는게 좋을까 고민
 		resources: [
 			{
+				name: 'Open API',
 				key: 's_0',
 				host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
 			},
 			{
+				name: 'IAM',
 				key: 's_1',
 				host: 'ip-172-31-8-134.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
 			},
 			{
+				name: 'Authorization',
 				key: 's_2',
 				host: 'ip-172-31-5-58.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
 			},
 			{
+				name: 'Bastion',
 				key: 's_3',
 				host: 'ip-172-31-1-65.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
 			},
 			{
+				name: 'kt pilot',
 				key: 's_4',
 				host: '211.253.10.9',
 				protocol: 'SSH2',

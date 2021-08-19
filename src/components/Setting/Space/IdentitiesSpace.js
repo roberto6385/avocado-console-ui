@@ -222,7 +222,7 @@ const IdentitiesSpace = () => {
 						)
 							return (
 								<_ResourceLi
-									key={item.id}
+									key={item.key}
 									onClick={onClickSelectResource(item)}
 									selected={item.key === selectedResource}
 								>
