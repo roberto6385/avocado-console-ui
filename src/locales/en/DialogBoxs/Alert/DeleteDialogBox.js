@@ -1,14 +1,9 @@
 export default {
 	mode: 'en',
 	alert: 'Alert',
-
-	deleteFileFolder: 'Are you sure you want to delete this file or folder?',
-	deleteHistory: 'Are you sure you want to clear history?',
-	deleteServerFolder:
-		'Are you sure you want to delete this server or folder?',
-	deleteAccount: 'Are you sure you want to delete this account?',
-	deleteFavoriteGroup: 'Are you sure you want to delete this folder?',
-
 	cancel: 'Cancel',
 	delete: 'Delete',
+	sftpDeleteFile: 'Are you sure you want to delete this file or folder?',
+	sftpDeleteHistory: 'Are you sure you want to delete this history?',
+	deleteFavoriteGroup: 'Are you sure you want to delete this folder?',
 };

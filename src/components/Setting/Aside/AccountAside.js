@@ -22,7 +22,7 @@ const _NormalButton = styled(NormalButton)`
 `;
 
 const AccountAside = () => {
-	const {t} = useTranslation('accountSpace');
+	const {t} = useTranslation('account');
 	const history = useHistory();
 
 	const {data} = useSelector(userResourceSelector.all);
@@ -36,21 +36,21 @@ const AccountAside = () => {
 			<TextBoxField title={t('account')}>
 				<TextBox
 					value={data.id}
-					placeholder={t('accountPlace')}
+					placeholder={t('placeholder.account')}
 					readOnly
 				/>
 			</TextBoxField>
 			<TextBoxField title={t('name')}>
 				<TextBox
 					value={data.name}
-					placeholder={t('namePlace')}
+					placeholder={t('placeholder.name')}
 					readOnly
 				/>
 			</TextBoxField>
 			<TextBoxField title={t('email')}>
 				<TextBox
 					value={data.email}
-					placeholder={t('emailPlace')}
+					placeholder={t('placeholder.email')}
 					readOnly
 				/>
 			</TextBoxField>

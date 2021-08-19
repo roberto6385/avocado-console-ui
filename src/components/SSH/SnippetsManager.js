@@ -83,7 +83,7 @@ const _Content = styled.div`
 //TODO: snippet manager can be edited without temp index
 const SnippetsManager = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('snippets');
+	const {t} = useTranslation('snippetsManager');
 
 	const {form} = useSelector(dialogBoxSelector.all);
 	const {snippets, snippetIndex} = useSelector(sshSelector.all);

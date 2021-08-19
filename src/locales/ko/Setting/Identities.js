@@ -19,7 +19,6 @@ export default {
 	address: '주소',
 	protocol: '프로토콜',
 	port: '포트',
-	// note: 'Note',
 
 	userName: '접속 계정',
 	type: '인증 타입',

@@ -45,7 +45,7 @@ const _Thead = styled.thead`
 `;
 
 const TableHeader = ({uuid}) => {
-	const {t} = useTranslation('fileListContents');
+	const {t} = useTranslation('fileListContent');
 	const dispatch = useDispatch();
 	const {etc: sftpEtc} = useSelector((state) => state.sftp, shallowEqual);
 	const {sortKeyword} = sftpEtc.find((v) => v.uuid === uuid);

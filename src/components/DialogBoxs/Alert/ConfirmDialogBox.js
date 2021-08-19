@@ -23,10 +23,9 @@ const ConfirmDialogBox = () => {
 	const {alert} = useSelector(dialogBoxSelector.all);
 
 	const alertMessages = {
-		'duplicate-snippet-name': t('snippetsNameDuplicate'),
-		'blank-snippets': t('snippetsBlank'),
-		'sftp-no-changes': t('noChange'),
-		'duplicate-folder-name-on-favorites': '폴더 이름 중복(TESt)',
+		'duplicate-snippet-name': t('duplicateSnippetName'),
+		'blank-snippets': t('blankSnippets'),
+		'sftp-no-changes': t('sftpNoChanges'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {

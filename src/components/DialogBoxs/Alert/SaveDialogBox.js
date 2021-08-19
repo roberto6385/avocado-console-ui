@@ -31,7 +31,7 @@ import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const SaveDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('savePopup');
+	const {t} = useTranslation('saveDialogBox');
 
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {
@@ -46,8 +46,8 @@ const SaveDialogBox = () => {
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const alertMessages = {
-		'sftp-save-changes': t('editSave'),
-		'sftp-cancel-changes': t('editClose'),
+		'sftp-save-changes': t('sftpSaveChanges'),
+		'sftp-cancel-changes': t('sftpCancelChanges'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {

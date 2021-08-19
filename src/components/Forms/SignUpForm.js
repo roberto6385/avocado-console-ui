@@ -63,7 +63,7 @@ const SignUpForm = () => {
 				confirmPasswordWarning();
 			} else {
 				dispatch(
-					userResourceAction.createRequest({
+					userResourceAction.createUserRequest({
 						id,
 						name,
 						email,

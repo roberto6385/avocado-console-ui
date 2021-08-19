@@ -110,7 +110,7 @@ const _AutoCompletionListFooter = styled(_ListGroupItem)`
 
 const SSH = ({uuid, isToolbarUnfold}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('SSH');
+	const {t} = useTranslation('ssh');
 
 	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
@@ -469,7 +469,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 					</_ListGroupItem>
 				))}
 				<_AutoCompletionListFooter>
-					{t('autoCompletionFooter')}
+					{t('autoCompleteFooter')}
 				</_AutoCompletionListFooter>
 			</_ListGroup>
 

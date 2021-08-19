@@ -49,7 +49,7 @@ const slice = createSlice({
 				state.selectedTab,
 			);
 		},
-		sortTab: (state, action) => {
+		sortTabs: (state, action) => {
 			// todo react-beautiful-dnd 라이브러리로 전환하는게 좋을듯합니다.
 			state.terminalTabs.splice(action.payload.oldOrder, 1);
 			state.terminalTabs.splice(

@@ -38,7 +38,7 @@ const App = () => {
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userData) {
-			dispatch(authAction.revokeRequest());
+			dispatch(authAction.revokeTokenRequest());
 		}
 	}, [dispatch, userData]);
 
@@ -50,7 +50,7 @@ const App = () => {
 				Date.parse(userData.create_date)
 			) {
 				dispatch(
-					authAction.refreshRequest({
+					authAction.refreshTokenRequest({
 						refresh_token: userData.refresh_token,
 						Authorization: 'Basic ' + ENCODE_DATA,
 					}),

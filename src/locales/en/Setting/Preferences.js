@@ -1,16 +1,18 @@
 export default {
 	mode: 'en',
-	general: 'General',
-	terminal: 'Terminal',
-	sftp: 'SFTP',
+
+	title: {general: 'General', terminal: 'Terminal', sftp: 'SFTP'},
+
+	lang: 'Language',
 	ko: 'Korean',
 	en: 'English',
-	lang: 'Language',
+
+	uiTheme: 'UI Theme',
 	light: 'Light Mode',
 	dark: 'Dark Mode',
 
-	uiTheme: 'UI Theme',
 	font: 'Terminal Font',
-	textCompletion: 'Text Completion (intelliSense)',
+	autoComplete: 'Text Completion (intelliSense)',
+
 	editorTheme: 'Editor Theme',
 };

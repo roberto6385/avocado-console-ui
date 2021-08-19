@@ -31,8 +31,9 @@ const Input_ = styled(TextBox)`
 
 const FavoriteGroupDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {selectedFavoriteItemOnDialogBox, tempFavoriteGroupRenamingKey} =
-		useSelector(favoritesSelector.all);
+	const {tempSelectedFavorite, tempFavoriteGroupRenamingKey} = useSelector(
+		favoritesSelector.all,
+	);
 	const nameRef = useRef(null);
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [isRenaming, setIsRenaming] = useState(false);
@@ -40,19 +41,17 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 
 	const onClickFavoriteGroup = useDoubleClick(
 		() => {
-			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
+			dispatch(favoritesAction.setTempSelectedFavorite(data.key));
 			setIsRenaming(true);
 		},
 		() => {
-			if (selectedFavoriteItemOnDialogBox === data.key) {
-				dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(null));
+			if (tempSelectedFavorite === data.key) {
+				dispatch(favoritesAction.setTempSelectedFavorite(null));
 			} else {
-				dispatch(
-					favoritesAction.setSelectedFavoriteOnDialogBox(data.key),
-				);
+				dispatch(favoritesAction.setTempSelectedFavorite(data.key));
 			}
 		},
-		[data, selectedFavoriteItemOnDialogBox],
+		[data, tempSelectedFavorite],
 	);
 
 	const onClickFoldOrUnfoldFolder = useCallback(() => {
@@ -72,7 +71,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 				e.preventDefault();
 				if (renameValue !== '') {
 					dispatch(
-						favoritesAction.changeTempGroupNameOnFavorites({
+						favoritesAction.changeTempFavoriteGroupName({
 							key: data.key,
 							name: renameValue,
 						}),
@@ -95,7 +94,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 	const openFavoriteGroupContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
+			dispatch(favoritesAction.setTempSelectedFavorite(data.key));
 			show(e);
 		},
 		[data, dispatch, show],
@@ -128,7 +127,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 	return (
 		<React.Fragment>
 			<ResourceItem
-				selected={selectedFavoriteItemOnDialogBox === data.key ? 1 : 0}
+				selected={tempSelectedFavorite === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 				onClick={onClickFavoriteGroup}
 				onContextMenu={openFavoriteGroupContextMenu}
@@ -137,7 +136,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 					margin_right={'12px'}
 					size={'sm'}
 					itype={
-						selectedFavoriteItemOnDialogBox === data.key
+						tempSelectedFavorite === data.key
 							? 'selected'
 							: undefined
 					}

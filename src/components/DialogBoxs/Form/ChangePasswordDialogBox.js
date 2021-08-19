@@ -32,7 +32,7 @@ const _PopupModal = styled(DialogBox)`
 
 const ChangePasswordDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('changePasswordForm');
+	const {t} = useTranslation('changePasswordDialogBox');
 
 	const {userData} = useSelector(authSelector.all);
 	const {data} = useSelector(userResourceSelector.all);
@@ -67,7 +67,7 @@ const ChangePasswordDialogBox = () => {
 				newPasswordRef.current?.focus();
 			} else {
 				dispatch(
-					userResourceAction.modifyRequest({
+					userResourceAction.modifyUserRequest({
 						userUid: data.userUid,
 						name: data.name,
 						password: newPassword,

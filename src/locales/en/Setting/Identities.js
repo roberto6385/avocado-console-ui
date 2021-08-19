@@ -7,8 +7,8 @@ export default {
 	aside: {
 		account: 'Account',
 		auth: 'Auth',
-		editMore: 'Edit more account settings',
 		default: 'Default',
+		editMore: 'Edit more account settings',
 	},
 
 	cases: 'cases',
@@ -20,7 +20,6 @@ export default {
 	address: 'Address',
 	protocol: 'Protocol',
 	port: 'Port',
-	// note: 'Note',
 
 	userName: 'User Name',
 	type: 'Type',

@@ -98,12 +98,12 @@ const NavBar = ({isOpened, setIsOpened}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('nav');
 
-	const {theme, navigation} = useSelector(settingSelector.all);
+	const {theme, navigationKey} = useSelector(settingSelector.all);
 
 	//TODO: !!important: change key value to resource, bookmark
 	const navTabs = [
-		{title: t('resource'), key: 'resources'},
-		{title: t('bookmark'), key: 'favorites'},
+		{title: t('resources'), key: 'resources'},
+		{title: t('favorites'), key: 'favorites'},
 	];
 
 	const onClickOpenOrCloseNav = useCallback(() => {
@@ -112,7 +112,7 @@ const NavBar = ({isOpened, setIsOpened}) => {
 
 	const onClickChangeNavTab = useCallback(
 		(key) => () => {
-			dispatch(settingAction.setNav(key));
+			dispatch(settingAction.setNavKey(key));
 		},
 		[dispatch],
 	);
@@ -136,7 +136,7 @@ const NavBar = ({isOpened, setIsOpened}) => {
 							onClick={onClickChangeNavTab(v.key)}
 						>
 							<_NavTabItem
-								selected={navigation === v.key ? 1 : 0}
+								selected={navigationKey === v.key ? 1 : 0}
 							>
 								{v.title}
 							</_NavTabItem>
@@ -145,7 +145,7 @@ const NavBar = ({isOpened, setIsOpened}) => {
 				})}
 			</_NavTabContianer>
 
-			{navigation === 'resources' ? (
+			{navigationKey === 'resources' ? (
 				<ResourceContainer />
 			) : (
 				<FavoriteContainer />

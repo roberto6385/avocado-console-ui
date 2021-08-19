@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import SSHContainer from '../SSH/SSHContainer';
-
 import {sshAction, sshSelector} from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import {WarningButton} from '../../styles/components/button';
@@ -14,6 +12,7 @@ import {HoverButton, Icon} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/Containers/SFTPContainer';
 
 const _Container = styled.div`

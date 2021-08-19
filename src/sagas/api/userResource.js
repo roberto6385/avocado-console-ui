@@ -36,10 +36,10 @@ function* createUser(action) {
 			token: client.data.access_token,
 		});
 		console.log(user);
-		yield put(userResourceAction.createSuccess(user));
+		yield put(userResourceAction.createUserSuccess(user));
 	} catch (err) {
 		console.log(err);
-		yield put(userResourceAction.createFailure(err));
+		yield put(userResourceAction.createUserFailure(err));
 	}
 }
 
@@ -65,10 +65,10 @@ function* modifyUser(action) {
 	try {
 		const res = yield call(modifyUserApi, action.payload);
 		console.log(res);
-		yield put(userResourceAction.modifySuccess(res.data));
+		yield put(userResourceAction.modifyUserSuccess(res.data));
 	} catch (err) {
 		console.log(err);
-		yield put(userResourceAction.modifyFailure(err));
+		yield put(userResourceAction.modifyUserFailure(err));
 	}
 }
 
@@ -86,11 +86,11 @@ function* deleteUser(action) {
 	try {
 		const res = yield call(deleteUserApi, action.payload);
 		console.log(res);
-		yield put(userResourceAction.deleteSuccess(res.data));
+		yield put(userResourceAction.deleteUserSuccess(res.data));
 		//todo external action => revoke
 	} catch (err) {
 		console.log(err);
-		yield put(userResourceAction.deleteFailure(err));
+		yield put(userResourceAction.deleteUserFailure(err));
 	}
 }
 
@@ -110,26 +110,26 @@ function* findUserById(action) {
 	try {
 		const res = yield call(findUserByIdApi, action.payload);
 		console.log(res);
-		yield put(userResourceAction.findByIdSuccess(res.data));
+		yield put(userResourceAction.findUserByIdSuccess(res.data));
 	} catch (err) {
-		yield put(userResourceAction.findByIdFailure(err));
+		yield put(userResourceAction.findUserByIdFailure(err));
 	}
 }
 
 function* watchCreateUser() {
-	yield takeLatest(userResourceAction.createRequest, createUser);
+	yield takeLatest(userResourceAction.createUserRequest, createUser);
 }
 
 function* watchModifyUser() {
-	yield takeLatest(userResourceAction.modifyRequest, modifyUser);
+	yield takeLatest(userResourceAction.modifyUserRequest, modifyUser);
 }
 
 function* watchDeleteUser() {
-	yield takeLatest(userResourceAction.deleteRequest, deleteUser);
+	yield takeLatest(userResourceAction.deleteUserRequest, deleteUser);
 }
 
 function* watchFindUserById() {
-	yield takeLatest(userResourceAction.findByIdRequest, findUserById);
+	yield takeLatest(userResourceAction.findUserByIdRequest, findUserById);
 }
 
 export default function* userResourceSaga() {

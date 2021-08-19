@@ -49,7 +49,7 @@ const sshFontOptions = [
 
 const PreferencesAside = () => {
 	const dispatch = useDispatch();
-	const {t, i18n} = useTranslation('preferencesAside');
+	const {t, i18n} = useTranslation('preferences');
 
 	const {theme, language} = useSelector(settingSelector.all);
 	const {font, autoCompleteMode} = useSelector(sshSelector.all);
@@ -86,14 +86,15 @@ const PreferencesAside = () => {
 
 	useEffect(() => {
 		if (language !== languageCopy) {
-			dispatch(settingAction.setLanguage(languageCopy));
-			i18n.changeLanguage(languageCopy);
+			i18n.changeLanguage(languageCopy).then(() =>
+				dispatch(settingAction.setLanguage(languageCopy)),
+			);
 		}
-	}, [language, languageCopy, dispatch, i18n]);
+	}, [languageCopy, dispatch, i18n, language]);
 
 	return (
 		<_Container>
-			<_Title>{t('general')}</_Title>
+			<_Title>{t('title.general')}</_Title>
 			<_ContentContainer>
 				<ComboBox
 					width={'266px'}
@@ -111,7 +112,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentContainer>
 
-			<_Title>{t('terminal')}</_Title>
+			<_Title>{t('title.terminal')}</_Title>
 			<_ContentContainer>
 				<ComboBox
 					width={'266px'}
@@ -129,7 +130,7 @@ const PreferencesAside = () => {
 				/>
 
 				<CheckBox
-					title={t('textCompletion')}
+					title={t('autoComplete')}
 					value={isAutocompleteTurnedOn}
 					onChangeCheck={(e) =>
 						setIsAutocompleteTurnedOn(e.target.checked)
@@ -137,7 +138,7 @@ const PreferencesAside = () => {
 				/>
 			</_ContentContainer>
 
-			<_Title>{t('sftp')}</_Title>
+			<_Title>{t('titile.sftp')}</_Title>
 			<_ContentContainer>
 				<ComboBox
 					title={t('editorTheme')}

@@ -10,50 +10,50 @@ const slice = createSlice({
 		error: null,
 	},
 	reducers: {
-		createRequest: (state) => {
+		createUserRequest: (state) => {
 			state.loading = true;
 		},
-		createSuccess: (state) => {
+		createUserSuccess: (state) => {
 			state.loading = false;
 		},
-		createFailure: (state, action) => {
+		createUserFailure: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
 		},
-		modifyRequest: (state) => {
+		modifyUserRequest: (state) => {
 			state.loading = true;
 		},
-		modifySuccess: (state) => {
+		modifyUserSuccess: (state) => {
 			state.loading = false;
 		},
-		modifyFailure: (state, action) => {
+		modifyUserFailure: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
 		},
-		deleteRequest: (state) => {
+		deleteUserRequest: (state) => {
 			state.loading = true;
 		},
-		deleteSuccess: (state) => {
+		deleteUserSuccess: (state) => {
 			state.loading = false;
 		},
-		deleteFailure: (state, action) => {
+		deleteUserFailure: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
 		},
-		findByIdRequest: (state) => {
+		findUserByIdRequest: (state) => {
 			state.loading = true;
 		},
-		findByIdSuccess: (state, action) => {
+		findUserByIdSuccess: (state, action) => {
 			state.loading = false;
 			state.data = action.payload;
 		},
-		findByIdFailure: (state, action) => {
+		findUserByIdFailure: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
 		},
 	},
 	extraReducers: {
-		[authAction.revokeSuccess]: (state) => {
+		[authAction.revokeTokenSuccess]: (state) => {
 			state.data = null;
 		},
 	},

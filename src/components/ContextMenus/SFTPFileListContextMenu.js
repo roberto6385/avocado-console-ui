@@ -13,7 +13,7 @@ import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('contextMenu');
+	const {t} = useTranslation('sftpFileListContextMenu');
 	const {
 		path: sftpPath,
 		high: sftpHigh,
@@ -150,7 +150,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				case 'add-folder':
 					dispatch(
 						dialogBoxAction.openForm({
-							key: 'sftp_new_folder',
+							key: 'sftp-new-folder',
 							uuid: uuid,
 						}),
 					);
@@ -159,7 +159,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				case 'rename-data':
 					dispatch(
 						dialogBoxAction.openForm({
-							key: 'sftp_rename_file_folder',
+							key: 'sftp-rename-file-folder',
 							uuid: uuid,
 						}),
 					);
@@ -168,7 +168,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				case 'delete-data':
 					dispatch(
 						dialogBoxAction.openAlert({
-							key: 'sftp-delete-data',
+							key: 'sftp-delete-file',
 							uuid: uuid,
 						}),
 					);
@@ -186,7 +186,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				case 'change-group':
 					dispatch(
 						dialogBoxAction.openForm({
-							key: 'sftp_chgrp',
+							key: 'sftp-change-group',
 							uuid: uuid,
 						}),
 					);
@@ -195,7 +195,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				case 'change-ownership':
 					dispatch(
 						dialogBoxAction.openForm({
-							key: 'sftp_chown',
+							key: 'sftp-chnage-owner',
 							uuid: uuid,
 						}),
 					);
@@ -232,7 +232,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 			<Separator />
 
 			<Item onClick={handleOnClickEvents('add-folder')}>
-				{t('newFolder')}
+				{t('addFolder')}
 			</Item>
 			<Item
 				disabled={highlight.length === 0 || highlight.length !== 1}
@@ -252,21 +252,21 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('get-attributes')}
 			>
-				{t('attr')}
+				{t('attributes')}
 			</Item>
 
 			<Item
 				disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('change-group')}
 			>
-				{t('chgrp')}
+				{t('changeGroup')}
 			</Item>
 
 			<Item
 				disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('change-ownership')}
 			>
-				{t('chown')}
+				{t('changeOwner')}
 			</Item>
 		</ContextMenu>
 	);

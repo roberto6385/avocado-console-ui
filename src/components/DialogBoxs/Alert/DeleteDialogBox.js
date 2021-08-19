@@ -32,7 +32,7 @@ import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('warningAlertPopup');
+	const {t} = useTranslation('deleteDialogBox');
 
 	const {selectedResource, resources, accounts} = useSelector(
 		remoteResourceSelector.all,
@@ -48,14 +48,14 @@ const DeleteDialogBox = () => {
 	} = useSelector((state) => state.sftp, shallowEqual);
 
 	const alertMessages = {
-		'sftp-delete-data': t('deleteFileFolder'),
-		'sftp-delete-history': t('deleteHistory'),
+		'sftp-delete-file': t('sftpDeleteFile'),
+		'sftp-delete-history': t('sftpDeleteHistory'),
 		'delete-favorite-group': t('deleteFavoriteGroup'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {
 		switch (alert.key) {
-			case 'sftp-delete-data': {
+			case 'sftp-delete-file': {
 				dispatch({
 					type: INIT_DELETE_WORK_LIST,
 					payload: {uuid: alert.uuid},
@@ -74,7 +74,7 @@ const DeleteDialogBox = () => {
 			e.preventDefault();
 
 			switch (alert.key) {
-				case 'sftp-delete-data': {
+				case 'sftp-delete-file': {
 					const uuid = alert.uuid;
 					const {removeSocket, incinerator} = sftpDelete.find(
 						(it) => it.uuid === uuid,
@@ -145,7 +145,7 @@ const DeleteDialogBox = () => {
 				case 'delete-favorite-group': {
 					// todo : alert.id값으로 넘어온 데이터는 forder의 key값입니다
 					// todo : FolderOnFavoritesContextMenu에서 prop전달
-					dispatch(favoritesAction.deleteGroup(alert.id));
+					dispatch(favoritesAction.deleteFavoriteGroup(alert.id));
 
 					break;
 				}

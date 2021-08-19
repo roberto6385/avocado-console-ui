@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
-import FavoritesContextMenu from '../../ContextMenus/FavoritesContextMenu';
+import FavoriteContextMenu from '../../ContextMenus/FavoriteContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
 	ResourceItem,
@@ -137,7 +137,7 @@ const Favorite = ({data, indent}) => {
 				<ResourceItemTitle>{data.name}</ResourceItemTitle>
 			</ResourceItem>
 
-			<FavoritesContextMenu identity={account} data={data} />
+			<FavoriteContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };

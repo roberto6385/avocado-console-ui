@@ -1,6 +1,6 @@
 export default {
 	mode: 'en',
-	title: 'Attribute',
+	title: 'Attributes',
 
 	owner: 'Owner',
 	group: 'Group',

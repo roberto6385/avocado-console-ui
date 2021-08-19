@@ -10,10 +10,10 @@ import {favoritesAction} from '../../reducers/favorites';
 
 const FavoriteGroupContextMenu = ({data, onDialog}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('contextMenu');
+	const {t} = useTranslation('favoriteGroupContextMenu');
 
 	const contextMenuList = {
-		'delete-folder': t('delete'),
+		'delete-folder': t('deleteFolder'),
 	};
 
 	const handleOnClickEvents = useCallback(
@@ -21,7 +21,9 @@ const FavoriteGroupContextMenu = ({data, onDialog}) => {
 			switch (e) {
 				case 'delete-folder':
 					if (onDialog) {
-						dispatch(favoritesAction.deleteTempGroup(data.key));
+						dispatch(
+							favoritesAction.deleteTempFavoriteGroup(data.key),
+						);
 					} else {
 						dispatch(
 							dialogBoxAction.openAlert({

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
@@ -144,7 +144,7 @@ function createResourceRath(root, key) {
 const IdentitiesSpace = () => {
 	const dispatch = useDispatch();
 
-	const {t} = useTranslation('identitiesSpace');
+	const {t} = useTranslation('identities');
 
 	const {selectedResource, resources, accounts, resourceTree} = useSelector(
 		remoteResourceSelector.all,

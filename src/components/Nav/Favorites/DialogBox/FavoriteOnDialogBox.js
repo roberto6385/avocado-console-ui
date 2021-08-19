@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Icon} from '../../../../styles/components/icon';
 import {
 	ResourceItem,
@@ -15,22 +15,20 @@ import {
 
 const FavoriteOnDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {selectedFavoriteItemOnDialogBox} = useSelector(
-		favoritesSelector.all,
-	);
+	const {tempSelectedFavorite} = useSelector(favoritesSelector.all);
 
 	const onClickFavorite = useCallback(() => {
-		if (selectedFavoriteItemOnDialogBox === data.key) {
-			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(null));
+		if (tempSelectedFavorite === data.key) {
+			dispatch(favoritesAction.setTempSelectedFavorite(null));
 		} else {
-			dispatch(favoritesAction.setSelectedFavoriteOnDialogBox(data.key));
+			dispatch(favoritesAction.setTempSelectedFavorite(data.key));
 		}
 	});
 
 	return (
 		<React.Fragment>
 			<ResourceItem
-				selected={selectedFavoriteItemOnDialogBox === data.key ? 1 : 0}
+				selected={tempSelectedFavorite === data.key ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 				onClick={onClickFavorite}
 			>
@@ -38,7 +36,7 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 					size={'sm'}
 					margin_right={'12px'}
 					itype={
-						selectedFavoriteItemOnDialogBox === data.key
+						tempSelectedFavorite === data.key
 							? 'selected'
 							: undefined
 					}

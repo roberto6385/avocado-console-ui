@@ -37,7 +37,7 @@ const _Section = styled.section`
 `;
 
 const AccountSpace = () => {
-	const {t} = useTranslation('accountSpace');
+	const {t} = useTranslation('account');
 	const dispatch = useDispatch();
 
 	const {data} = useSelector(userResourceSelector.all);
@@ -58,8 +58,8 @@ const AccountSpace = () => {
 	]);
 
 	const {current: useMFAOptions} = useRef([
-		{value: 'mfa-used', label: t('use')},
-		{value: 'mfa-not-used', label: t('notUse')},
+		{value: 'mfa-used', label: t('mfaUse')},
+		{value: 'mfa-not-used', label: t('mfaNotUse')},
 	]);
 	const {current: MFAOptions} = useRef([
 		{value: 'otp', label: t('otp')},
@@ -76,14 +76,14 @@ const AccountSpace = () => {
 				<TextBoxField title={t('account')}>
 					<_TextBox
 						value={data.id}
-						placeholder={t('accountPlace')}
+						placeholder={t('placeHolder.account')}
 						readOnly
 					/>
 				</TextBoxField>
 				<TextBoxField title={t('name')}>
 					<_TextBox
 						value={data.name}
-						placeholder={t('namePlace')}
+						placeholder={t('placeholder.name')}
 						readOnly
 						onClick={() =>
 							dispatch(
@@ -95,7 +95,7 @@ const AccountSpace = () => {
 				<TextBoxField title={t('email')}>
 					<_TextBox
 						value={data.email}
-						placeholder={t('emailPlace')}
+						placeholder={t('placeholder.email')}
 						readOnly
 					/>
 				</TextBoxField>

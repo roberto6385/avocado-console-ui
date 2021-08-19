@@ -4,7 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
+import ResourceContextMenu from '../../ContextMenus/ResourceContextMenu';
 import {
 	awsServerIcon,
 	bookmarkIcon,
@@ -78,7 +78,7 @@ const Resource = ({data, indent}) => {
 
 	const onClickResource = useDoubleClick(
 		() => {
-			const resource = resources.find((i) => i.id === data.id);
+			const resource = resources.find((i) => i.key === data.key);
 
 			if (resource.protocol === 'SSH2') {
 				dispatch(
@@ -127,16 +127,10 @@ const Resource = ({data, indent}) => {
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		console.log(isFavoriteServer(favoriteTree, data.key));
-
 		if (isFavoriteServer(favoriteTree, data.key)) {
 			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
-			dispatch(
-				favoritesAction.addFavorite(
-					startSearchingNode(resourceTree, data.key),
-				),
-			);
+			dispatch(favoritesAction.addFavorite({key: data.key}));
 		}
 	}, [data.key, dispatch, favoriteTree, resourceTree]);
 
@@ -178,7 +172,7 @@ const Resource = ({data, indent}) => {
 					</IconButton>
 				</ResourceItemTitle>
 			</ServerItem>
-			<ResourcesContextMenu identity={account} data={data} />
+			<ResourceContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };

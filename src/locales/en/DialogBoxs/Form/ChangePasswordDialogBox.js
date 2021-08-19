@@ -3,11 +3,11 @@ export default {
 	title: 'Change Password',
 	current: 'Current Password',
 	new: 'New Password',
-	confirm: 'Confirm new Password',
-	place: {
-		current: 'Type in Current Password',
-		new: 'Type in new Password',
-		confirm: 'Type in new Password',
+	confirm: 'Confirm New Password',
+	placeholder: {
+		current: 'Enter current password',
+		new: 'Enter new password',
+		confirm: 'Confirm new password',
 	},
 	cancel: 'Cancel',
 	save: 'Save',

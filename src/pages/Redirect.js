@@ -31,7 +31,7 @@ const Redirect = () => {
 	useEffect(() => {
 		if (clientData && alternativeData) {
 			dispatch(
-				authAction.alternativeRequest({
+				authAction.getAlternativeAuthRequest({
 					auth: clientData.access_token,
 					alternativeAuth: alternativeData.access_token,
 					email: alternativeData.email,
@@ -41,8 +41,8 @@ const Redirect = () => {
 	}, [clientData, alternativeData, dispatch]);
 
 	useEffect(() => {
-		dispatch(authAction.clientRequest());
-		dispatch(authAction.googleRequest());
+		dispatch(authAction.getClientAuthRequest());
+		dispatch(authAction.getGoogleAuthRequest());
 	}, [dispatch, history]);
 
 	useEffect(() => {

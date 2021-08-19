@@ -176,7 +176,7 @@ const History = ({
 	readSocket,
 	history,
 }) => {
-	const {t} = useTranslation('historyContents');
+	const {t} = useTranslation('history');
 
 	return (
 		<_Container>

@@ -46,7 +46,7 @@ const _NormalBorderButton = styled(NormalBorderButton)`
 
 const FindPasswordForm = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('passwordForm');
+	const {t} = useTranslation('findPasswordForm');
 
 	const {loading} = useSelector(authSelector.all);
 
