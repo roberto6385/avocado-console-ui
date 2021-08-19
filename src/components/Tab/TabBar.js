@@ -123,7 +123,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 			if (item === undefined) return;
 
 			dispatch(
-				tabBarAction.sortTab({
+				tabBarAction.sortTabs({
 					oldOrder: draggedTabIndex,
 					newOrder: terminalTabs.findIndex((v) => v === item),
 					newTab: draggedTab,

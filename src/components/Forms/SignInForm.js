@@ -102,7 +102,7 @@ const SignInForm = () => {
 			setPassword('');
 
 			dispatch(
-				authAction.userRequest({
+				authAction.getUserAuthRequest({
 					username: user,
 					password: password,
 				}),

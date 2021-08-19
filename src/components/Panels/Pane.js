@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
-import SSHContainer from '../SSH/SSHContainer';
-import SFTPContainer from '../SFTP/containers/SFTPContainer';
-
 import {
 	SSH_SEND_DISCONNECTION_REQUEST,
 	SSH_SEND_RECONNECTION_REQUEST,
@@ -18,6 +15,8 @@ import {HoverButton, Icon} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import SSHContainer from '../SSH/SSHContainer';
+import SFTPContainer from '../SFTP/Containers/SFTPContainer';
 
 const _Container = styled.div`
 	height: 100%;

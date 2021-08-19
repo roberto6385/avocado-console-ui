@@ -32,7 +32,7 @@ import {remoteResourceSelector} from '../../../reducers/remoteResource';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('warningAlertPopup');
+	const {t} = useTranslation('deletePopup');
 
 	const {selectedResource, resources, accounts} = useSelector(
 		remoteResourceSelector.all,
@@ -145,7 +145,7 @@ const DeleteDialogBox = () => {
 				case 'delete-favorite-group': {
 					// todo : alert.id값으로 넘어온 데이터는 forder의 key값입니다
 					// todo : FolderOnFavoritesContextMenu에서 prop전달
-					dispatch(favoritesAction.deleteGroup(alert.id));
+					dispatch(favoritesAction.deleteFavoriteGroup(alert.id));
 
 					break;
 				}

@@ -67,7 +67,7 @@ const ChangePasswordDialogBox = () => {
 				newPasswordRef.current?.focus();
 			} else {
 				dispatch(
-					userResourceAction.modifyRequest({
+					userResourceAction.modifyUserRequest({
 						userUid: data.userUid,
 						name: data.name,
 						password: newPassword,

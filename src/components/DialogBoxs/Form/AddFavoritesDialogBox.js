@@ -42,24 +42,22 @@ const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('addFavoritesForm');
 
-	const {favoriteTreeOnDialogBox, favoriteTree} = useSelector(
-		favoritesSelector.all,
-	);
+	const {tempFavoriteTree, favoriteTree} = useSelector(favoritesSelector.all);
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const onClickCloseDialogBox = useCallback(async () => {
 		await dispatch(dialogBoxAction.closeForm());
 		dispatch(favoritesAction.setTempFavorite());
-	}, [dispatch, favoriteTree, favoriteTreeOnDialogBox]);
+	}, [dispatch, favoriteTree, tempFavoriteTree]);
 
 	const onSubmitSaveChangesOnFavorites = useCallback(
 		async (e) => {
 			e.preventDefault();
 			if (
-				JSON.stringify(favoriteTreeOnDialogBox) !==
+				JSON.stringify(tempFavoriteTree) !==
 				JSON.stringify(favoriteTree)
 			) {
-				await dispatch(favoritesAction.setFavorite());
+				await dispatch(favoritesAction.updateFavorites());
 				await dispatch(dialogBoxAction.closeForm());
 				dispatch(favoritesAction.setTempFavorite());
 			} else {
@@ -67,13 +65,11 @@ const AddFavoritesDialogBox = () => {
 				dispatch(favoritesAction.setTempFavorite());
 			}
 		},
-		[dispatch, favoriteTree, favoriteTreeOnDialogBox],
+		[dispatch, favoriteTree, tempFavoriteTree],
 	);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
-		dispatch(
-			favoritesAction.addFavoriteOnDialogBox({name: t('newFolder')}),
-		);
+		dispatch(favoritesAction.addTempFavorite({name: t('newFolder')}));
 	}, [dispatch, t]);
 
 	useEffect(() => {

@@ -12,9 +12,9 @@ import {useSelector} from 'react-redux';
 import {settingSelector} from '../../reducers/setting';
 import {tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
-import FileListContianer from './containers/FileListContianer';
-import DropListContainer from './containers/DropListContainer';
-import HistoryContianer from './containers/HistoryContianer';
+import FileListContianer from './Containers/FileListContianer';
+import DropListContainer from './Containers/DropListContainer';
+import HistoryContianer from './Containers/HistoryContianer';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};

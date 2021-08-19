@@ -52,7 +52,7 @@ const SignUpForm = () => {
 				//TODO: Show password !== confirmPassword Message
 			} else {
 				dispatch(
-					userResourceAction.createRequest({
+					userResourceAction.createUserRequest({
 						id,
 						name,
 						email,

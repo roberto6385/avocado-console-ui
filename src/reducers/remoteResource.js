@@ -185,8 +185,7 @@ const slice = createSlice({
 
 	reducers: {
 		// TODO : Rbd => 드래그 앤 드롭 정렬 라이브러리 적용예정
-
-		//SET_CLICKED_SERVER //CHANGE_CURRENT_RESOURCE_KEY
+		//SET_CLICKED_SERVER
 		setSelectedResource: (state, action) => {
 			state.selectedResource = action.payload;
 		},
@@ -210,7 +209,7 @@ const slice = createSlice({
 		},
 	},
 	extraReducers: {
-		[settingAction.setNav]: (state) => {
+		[settingAction.setNavKey]: (state) => {
 			state.selectedResource = null;
 		},
 	},

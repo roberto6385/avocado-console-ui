@@ -27,11 +27,11 @@ export function clientAuthApi() {
 		},
 	);
 }
-function* clientAuth() {
+function* getClientAuth() {
 	try {
 		const res = yield call(clientAuthApi);
 		console.log(res);
-		yield put(authAction.clientSuccess(res.data));
+		yield put(authAction.getClientAuthSuccess(res.data));
 	} catch (err) {
 		yield put(authAction.clientFailuer(err));
 	}
@@ -58,15 +58,15 @@ function userAuthApi(payload) {
 	);
 }
 
-function* userAuth(action) {
+function* getUserAuth(action) {
 	console.log(action);
 	try {
 		const res = yield call(userAuthApi, action.payload);
 		console.log(res);
 
-		yield put(authAction.userSuccess(res.data));
+		yield put(authAction.getUserAuthSuccess(res.data));
 	} catch (err) {
-		yield put(authAction.userFailure(err));
+		yield put(authAction.getUserAuthFailure(err));
 	}
 }
 
@@ -86,13 +86,13 @@ function refreshAuthApi(payload) {
 		},
 	);
 }
-function* refreshAuth(action) {
+function* refreshToken(action) {
 	try {
 		const res = yield call(refreshAuthApi, action.payload);
 		console.log(res);
-		yield put(authAction.refreshSuccess(res.data));
+		yield put(authAction.refreshTokenSuccess(res.data));
 	} catch (err) {
-		yield put(authAction.refreshFailure(err));
+		yield put(authAction.refreshTokenFailure(err));
 	}
 }
 
@@ -105,12 +105,12 @@ function verifyAuthApi(payload) {
 		baseURL: config.auth,
 	});
 }
-function* verifyAuth(action) {
+function* verifyToken(action) {
 	try {
 		const res = yield call(verifyAuthApi, action.payload);
-		yield put(authAction.verifySuccess(res.data));
+		yield put(authAction.verifyTokenSuccess(res.data));
 	} catch (err) {
-		yield put(authAction.verifyFailure(err));
+		yield put(authAction.verifyTokenFailure(err));
 	}
 }
 
@@ -123,13 +123,13 @@ function revokeAuthApi(payload) {
 		baseURL: config.auth,
 	});
 }
-function* revokeAuth(action) {
+function* revokeToken(action) {
 	try {
 		yield call(revokeAuthApi, action.payload);
-		yield put(authAction.revokeSuccess());
+		yield put(authAction.revokeTokenSuccess());
 	} catch (err) {
 		//TODO: error 일떄 logout 어떻게 처리해야 하는가?
-		yield put(authAction.revokeFailure);
+		yield put(authAction.revokeTokenFailure);
 	}
 }
 
@@ -146,12 +146,12 @@ function findAuthApi(payload) {
 		},
 	);
 }
-function* findAuth(action) {
+function* findToken(action) {
 	try {
 		const res = yield call(findAuthApi, action.payload);
-		yield put(authAction.findSuccess(res.data));
+		yield put(authAction.findTokenSuccess(res.data));
 	} catch (err) {
-		yield put(authAction.findFailure(err));
+		yield put(authAction.findTokenFailure(err));
 	}
 }
 
@@ -172,13 +172,13 @@ function alternativeAuthApi(payload) {
 	);
 }
 
-function* alternativeAuth(action) {
+function* getAlternativeAuth(action) {
 	try {
 		const res = yield call(alternativeAuthApi, action.payload);
 		console.log(res);
-		yield put(authAction.alternativeSuccess(res.data));
+		yield put(authAction.getAlternativeAuthSuccess(res.data));
 	} catch (err) {
-		yield put(authAction.alternativeFailure(err));
+		yield put(authAction.getAlternativeAuthFailure(err));
 	}
 }
 
@@ -223,61 +223,64 @@ function getGoogleUserApi(token) {
 	);
 }
 
-function* googleAuth(action) {
+function* getGoogleAuth(action) {
 	try {
 		const res = yield call(googleAuthApi, action.payload);
 		console.log(res);
 		const user = yield call(getGoogleUserApi, res.data.access_token);
 		yield put(
-			authAction.googleSuccess({...res.data, email: user.data.email}),
+			authAction.getGoogleAuthSuccess({
+				...res.data,
+				email: user.data.email,
+			}),
 		);
 	} catch (err) {
-		yield put(authAction.googleFailure(err));
+		yield put(authAction.getGoogleAuthFailure(err));
 	}
 }
 
-function* watchClient() {
-	yield takeLatest(authAction.clientRequest, clientAuth);
+function* watchGetClientAuth() {
+	yield takeLatest(authAction.getClientAuthRequest, getClientAuth);
 }
 
-function* watchUser() {
-	yield takeLatest(authAction.userRequest, userAuth);
+function* watchGetUserAuth() {
+	yield takeLatest(authAction.getUserAuthRequest, getUserAuth);
 }
 
-function* watchRefresh() {
-	yield takeLatest(authAction.refreshRequest, refreshAuth);
+function* watchRefreshToken() {
+	yield takeLatest(authAction.refreshTokenRequest, refreshToken);
 }
 
-function* watchVerify() {
-	yield takeLatest(authAction.verifyRequest, verifyAuth);
+function* watchVerifyToken() {
+	yield takeLatest(authAction.verifyTokenRequest, verifyToken);
 }
 
-function* watchRevoke() {
-	yield takeLatest(authAction.revokeRequest, revokeAuth);
+function* watchRevokeToken() {
+	yield takeLatest(authAction.revokeTokenRequest, revokeToken);
 }
 
-function* watchFind() {
-	yield takeLatest(authAction.findRequest, findAuth);
+function* watchFindToken() {
+	yield takeLatest(authAction.findTokenRequest, findToken);
 }
 
 // 클라이언트 인증 + 대체인증의 responese로 최종 체크하는 함수
-function* watchAlternative() {
-	yield takeLatest(authAction.alternativeRequest, alternativeAuth);
+function* watchGetAlternativeAuth() {
+	yield takeLatest(authAction.getAlternativeAuthRequest, getAlternativeAuth);
 }
 
-function* watchGoogle() {
-	yield takeLatest(authAction.googleRequest, googleAuth);
+function* watchGetGoogleAuth() {
+	yield takeLatest(authAction.getGoogleAuthRequest, getGoogleAuth);
 }
 
 export default function* authSaga() {
 	yield all([
-		fork(watchClient),
-		fork(watchUser),
-		fork(watchRefresh),
-		fork(watchVerify),
-		fork(watchRevoke),
-		fork(watchFind),
-		fork(watchAlternative),
-		fork(watchGoogle),
+		fork(watchGetClientAuth),
+		fork(watchGetUserAuth),
+		fork(watchRefreshToken),
+		fork(watchVerifyToken),
+		fork(watchRevokeToken),
+		fork(watchFindToken),
+		fork(watchGetAlternativeAuth),
+		fork(watchGetGoogleAuth),
 	]);
 }

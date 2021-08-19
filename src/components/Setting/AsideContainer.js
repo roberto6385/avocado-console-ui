@@ -30,7 +30,7 @@ const _SettingTitle = styled(SettingTitle)`
 
 const AsideContainer = ({isOpened, setIsOpened}) => {
 	const {t} = useTranslation('settingNav');
-	const {aside} = useSelector(settingSelector.all);
+	const {asideKey} = useSelector(settingSelector.all);
 
 	const settingTitle = {
 		Account: t('account'),
@@ -45,7 +45,7 @@ const AsideContainer = ({isOpened, setIsOpened}) => {
 	return (
 		<_Container className={isOpened ? 'aside' : 'aside close'}>
 			<_SettingTitle>
-				{settingTitle[aside]}
+				{settingTitle[asideKey]}
 				<IconButton
 					itype={'font'}
 					margin={'0px'}
@@ -54,9 +54,9 @@ const AsideContainer = ({isOpened, setIsOpened}) => {
 					{closeIcon}
 				</IconButton>
 			</_SettingTitle>
-			{aside === 'account' && <AccountAside />}
-			{aside === 'preferences' && <PreferencesAside />}
-			{aside === 'identities' && <IdentitiesAside />}
+			{asideKey === 'account' && <AccountAside />}
+			{asideKey === 'preferences' && <PreferencesAside />}
+			{asideKey === 'identities' && <IdentitiesAside />}
 		</_Container>
 	);
 };

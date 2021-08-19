@@ -8,10 +8,10 @@ import {DropDownMenu} from '../../styles/components/contextMenu';
 import {settingAction, settingSelector} from '../../reducers/setting';
 //TODO: isOpened, setIsOpened 안넘겨도 될꺼 같은데??
 const SettingContextMenu = ({isOpened, setisOpened}) => {
-	const {t} = useTranslation('rightCornerIcons');
+	const {t} = useTranslation('serverContextMenu');
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {aside} = useSelector(settingSelector.all);
+	const {asideKey} = useSelector(settingSelector.all);
 
 	const contextMenuList = {
 		'redirect-to-setting-page': t('editSetting'),
@@ -22,14 +22,14 @@ const SettingContextMenu = ({isOpened, setisOpened}) => {
 	const onClickOpenAside = useCallback(
 		(v) => {
 			console.log(v);
-			if (isOpened && aside === v) {
+			if (isOpened && asideKey === v) {
 				setisOpened(false);
 			} else {
-				dispatch(settingAction.setAside(v));
+				dispatch(settingAction.setAsideKey(v));
 				setisOpened(true);
 			}
 		},
-		[dispatch, aside, setisOpened, isOpened],
+		[dispatch, asideKey, setisOpened, isOpened],
 	);
 
 	const handleOnClickEvents = useCallback(

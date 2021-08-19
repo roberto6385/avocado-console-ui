@@ -54,7 +54,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-	if (action.type === authAction.revokeSuccess().type) {
+	if (action.type === authAction.revokeTokenSuccess().type) {
 		return appReducer(undefined, action);
 	}
 	return appReducer(state, action);

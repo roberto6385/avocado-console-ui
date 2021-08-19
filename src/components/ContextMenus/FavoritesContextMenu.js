@@ -13,7 +13,7 @@ import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('contextMenu');
+	const {t} = useTranslation('favoritesContextMenu');
 
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 	const {resources} = useSelector(remoteResourceSelector.all);
@@ -61,7 +61,10 @@ const FavoritesContextMenu = ({identity, data}) => {
 
 	const onClickAddFolder = useCallback(() => {
 		dispatch(
-			favoritesAction.addGroup({name: t('newFolder'), key: 'favorites'}),
+			favoritesAction.addFavoriteGroup({
+				name: t('newFolder'),
+				key: 'favorites',
+			}),
 		);
 	}, [dispatch, favoriteTree, t]);
 

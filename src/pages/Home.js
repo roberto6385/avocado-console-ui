@@ -29,7 +29,7 @@ const Home = () => {
 	useEffect(() => {
 		if (userData) {
 			dispatch(
-				userResourceAction.findByIdRequest({
+				userResourceAction.findUserByIdRequest({
 					access_token: userData.access_token,
 					id: userData.user_id,
 				}),

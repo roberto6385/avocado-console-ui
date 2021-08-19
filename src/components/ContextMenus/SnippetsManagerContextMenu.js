@@ -10,7 +10,7 @@ import {tabBarSelector} from '../../reducers/tabBar';
 
 const SnippetsManagerContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('snippets');
+	const {t} = useTranslation('snippetContextMenu');
 	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
 

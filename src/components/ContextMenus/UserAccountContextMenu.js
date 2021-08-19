@@ -10,25 +10,25 @@ import {settingAction, settingSelector} from '../../reducers/setting';
 
 const UserAccountContextMenu = ({isOpened, setIsOpened}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('rightCornerIcons');
-	const {aside} = useSelector(settingSelector.all);
+	const {t} = useTranslation('userAccountContextMenu');
+	const {asideKey} = useSelector(settingSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
 	const onClickOpenAside = useCallback(
 		(key) => () => {
-			if (isOpened && aside === key) {
+			if (isOpened && asideKey === key) {
 				setIsOpened(false);
 			} else {
-				dispatch(settingAction.setAside(key));
+				dispatch(settingAction.setAsideKey(key));
 				setIsOpened(true);
 			}
 		},
-		[dispatch, aside, setIsOpened, isOpened],
+		[dispatch, asideKey, setIsOpened, isOpened],
 	);
 
 	const onClickLogout = useCallback(() => {
 		dispatch(
-			authAction.revokeRequest({
+			authAction.revokeTokenRequest({
 				Authorization: 'Bearer ' + userData.access_token,
 			}),
 		);

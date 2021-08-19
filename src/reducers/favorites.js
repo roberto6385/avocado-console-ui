@@ -12,17 +12,17 @@ const slice = createSlice({
 	initialState: {
 		favoriteTree: [], //favorites
 		selectedFavorite: null,
-		favoriteTreeOnDialogBox: [], //tempFavorites
 		favoriteGroupRenamingKey: null, //favoriteFolderRenamingKey
-		tempFavoriteGroupRenamingKey: null, //tempFavoriteFolderRenamingKey
-		selectedFavoriteItemOnDialogBox: null,
 		favoriteGroupIndex: 0, //favorites_folder_index
+		tempFavoriteTree: [], //tempFavorites
+		tempSelectedFavorite: null,
+		tempFavoriteGroupRenamingKey: null, //tempFavoriteFolderRenamingKey
 		tempFavoriteGroupIndex: 0, //tempFavoriteFolderIndex
 	},
 
 	reducers: {
 		//ADD_FOLDER_ON_FAVORITES
-		addGroup: (state, action) => {
+		addFavoriteGroup: (state, action) => {
 			const data = {
 				type: 'folder',
 				id: state.favoriteGroupIndex,
@@ -37,17 +37,17 @@ const slice = createSlice({
 			state.favoriteGroupRenamingKey = data.key;
 			state.favoriteGroupIndex++;
 		},
-		// TODO : favoriteTree의 control이 dialog box 내에서만 가능하다는 전제
-		deleteGroup: (state, action) => {
+
+		deleteFavoriteGroup: (state, action) => {
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
 		//DELETE_TEMP_FOLDER_ON_FAVORITES
-		deleteTempGroup: (state, action) => {
-			startDeleteingTree(state.favoriteTreeOnDialogBox, action.payload);
+		deleteTempFavoriteGroup: (state, action) => {
+			startDeleteingTree(state.tempFavoriteTree, action.payload);
 		},
 		//SAVE_CHANGES_ON_FAVORITES
-		setFavorite: (state) => {
-			state.favoriteTree = state.favoriteTreeOnDialogBox;
+		updateFavorites: (state) => {
+			state.favoriteTree = state.tempFavoriteTree;
 			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
 		},
 		//SORT_FAVORITE_RESOURCES
@@ -115,12 +115,12 @@ const slice = createSlice({
 				}
 			}
 
-			state.favoriteTreeOnDialogBox = state.favoriteTree;
+			state.tempFavoriteTree = state.favoriteTree;
 		},
 
 		//ADD_FAVORITE_SERVER
 		addFavorite: (state, action) => {
-			//todo resourceTree에서 key 값으로 탐색 후 해당 서버의 정보를
+			//TODO: resourceTree에서 key 값으로 탐색 후 해당 서버의 정보를
 			// payload에 담아서 favoriteTree에 넣어야 함
 			state.favoriteTree.push(action.payload);
 		},
@@ -135,11 +135,11 @@ const slice = createSlice({
 			state.favoriteGroupRenamingKey = null;
 		},
 		//CHANGE_SELEECTED_TEMP_FAVORITE
-		setSelectedFavoriteOnDialogBox: (state, action) => {
-			state.selectedFavoriteItemOnDialogBox = action.payload;
+		setTempSelectedFavorite: (state, action) => {
+			state.tempSelectedFavorite = action.payload;
 		},
 		//ADD_TEMP_FOLDER_ON_FAVORITES
-		addFavoriteOnDialogBox: (state, action) => {
+		addTempFavorite: (state, action) => {
 			const data = {
 				type: 'folder',
 				id: state.tempFavoriteGroupIndex,
@@ -149,8 +149,8 @@ const slice = createSlice({
 			};
 
 			addDataOnNode(
-				state.favoriteTreeOnDialogBox,
-				state.selectedFavoriteItemOnDialogBox,
+				state.tempFavoriteTree,
+				state.tempSelectedFavorite,
 				data,
 			);
 
@@ -161,15 +161,15 @@ const slice = createSlice({
 		//SET_TEMP_FAVORITES
 		setTempFavorite: (state) => {
 			state.tempFavoriteGroupIndex = null;
-			state.favoriteTreeOnDialogBox = null;
+			state.tempFavoriteTree = null;
 			state.tempFavoriteGroupRenamingKey = null;
-			state.selectedFavoriteItemOnDialogBox = null;
+			state.tempSelectedFavorite = null;
 		},
 
 		//INIT_TEMP_FAVORITES
 		initTempFavorite: (state) => {
 			state.tempFavoriteGroupIndex = state.favoriteGroupIndex;
-			state.favoriteTreeOnDialogBox = state.favoriteTree;
+			state.tempFavoriteTree = state.favoriteTree;
 		},
 		//CHANGE_FAVORITE_FOLDER_RENMAING_KEY
 		changeFavoriteGroupRenameKey: (state, action) => {
@@ -179,19 +179,19 @@ const slice = createSlice({
 		//CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY
 		changeTempFavoriteGroupRenameKey: (state, action) => {
 			state.tempFavoriteGroupRenamingKey = action.payload;
-			state.selectedFavoriteItemOnDialogBox = action.payload;
+			state.tempSelectedFavorite = action.payload;
 		},
 		//CHANGE_TEMP_FOLDER_NAME_ON_FAVORITES
-		changeTempGroupNameOnFavorites: (state, action) => {
+		changeTempFavoriteGroupName: (state, action) => {
 			startSearchingNode(
-				state.favoriteTreeOnDialogBox,
+				state.tempFavoriteTree,
 				action.payload.key,
 			).name = action.payload.name;
 			state.tempFavoriteGroupRenamingKey = null;
 		},
 	},
 	extraReducers: {
-		[settingAction.setNav]: (state) => {
+		[settingAction.setNavKey]: (state) => {
 			state.selectedFavorite = null;
 		},
 	},
@@ -199,23 +199,23 @@ const slice = createSlice({
 
 const selectAllState = createSelector(
 	(state) => state.favoriteTree,
-	(state) => state.favoriteTreeOnDialogBox,
+	(state) => state.tempFavoriteTree,
 	(state) => state.favoriteGroupRenamingKey,
 	(state) => state.tempFavoriteGroupRenamingKey,
-	(state) => state.selectedFavoriteItemOnDialogBox,
+	(state) => state.tempSelectedFavorite,
 	(
 		favoriteTree,
-		favoriteTreeOnDialogBox,
+		tempFavoriteTree,
 		favoriteGroupRenamingKey,
 		tempFavoriteGroupRenamingKey,
-		selectedFavoriteItemOnDialogBox,
+		tempSelectedFavorite,
 	) => {
 		return {
 			favoriteTree,
-			favoriteTreeOnDialogBox,
+			tempFavoriteTree,
 			favoriteGroupRenamingKey,
 			tempFavoriteGroupRenamingKey,
-			selectedFavoriteItemOnDialogBox,
+			tempSelectedFavorite,
 		};
 	},
 );

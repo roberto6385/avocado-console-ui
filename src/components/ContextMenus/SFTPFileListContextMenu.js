@@ -13,7 +13,7 @@ import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('contextMenu');
+	const {t} = useTranslation('sftpFileListContextMenu');
 	const {
 		path: sftpPath,
 		high: sftpHigh,

@@ -9,84 +9,84 @@ const slice = createSlice({
 		alternativeData: null,
 	},
 	reducers: {
-		clientRequest: (state) => {
+		getClientAuthRequest: (state) => {
 			state.loading = true;
 		},
-		clientSuccess: (state, action) => {
+		getClientAuthSuccess: (state, action) => {
 			state.clientData = action.payload;
 			state.loading = false;
 		},
-		clientFailure: (state) => {
+		getClientAuthFailure: (state) => {
 			state.loading = false;
 		},
-		userRequest: (state) => {
+		getUserAuthRequest: (state) => {
 			state.loading = true;
 		},
-		userSuccess: (state, action) => {
+		getUserAuthSuccess: (state, action) => {
 			state.userData = action.payload;
 			state.loading = false;
 		},
-		userFailure: (state) => {
+		getUserAuthFailure: (state) => {
 			state.loading = false;
 		},
-		refreshRequest: (state) => {
+		refreshTokenRequest: (state) => {
 			state.loading = true;
 		},
-		refreshSuccess: (state, action) => {
+		refreshTokenSuccess: (state, action) => {
 			state.userData = Object.assign(state.userData, action.payload);
 			state.loading = false;
 		},
-		refreshFailure: (state) => {
+		refreshTokenFailure: (state) => {
 			state.loading = false;
 		},
-		verifyRequest: (state) => {
+		verifyTokenRequest: (state) => {
 			state.loading = true;
 		},
-		verifySuccess: (state) => {
+		verifyTokenSuccess: (state) => {
 			state.loading = false;
 		},
-		verifyFailure: (state) => {
+		verifyTokenFailure: (state) => {
 			state.loading = false;
 		},
-		revokeRequest: (state) => {
+		revokeTokenRequest: (state) => {
 			state.loading = true;
 		},
-		revokeSuccess: (state) => {
+		revokeTokenSuccess: (state) => {
 			state.userData = null;
 			state.clientData = null;
 			state.loading = false;
 		},
-		revokeFailure: (state) => {
+		revokeTokenFailure: (state) => {
 			state.loading = false;
 		},
-		findRequest: (state) => {
+		findTokenRequest: (state) => {
 			state.loading = true;
 		},
-		findSuccess: (state) => {
+		findTokenSuccess: (state) => {
 			state.loading = false;
 		},
-		findFailure: (state) => {
+		findTokenFailure: (state) => {
 			state.loading = false;
 		},
-		alternativeRequest: (state) => {
+		getAlternativeAuthRequest: (state) => {
 			state.loading = true;
 		},
-		alternativeSuccess: (state, action) => {
+		getAlternativeAuthSuccess: (state, action) => {
 			state.userData = action.payload;
 			state.clientData = null;
 			state.loading = false;
 		},
-		alternativeFailure: (state) => {
+		getAlternativeAuthFailure: (state) => {
 			state.loading = false;
 		},
-		googleRequest: (state) => {
+		getGoogleAuthRequest: (state) => {
 			state.loading = true;
 		},
-		googleSuccess: (state, action) => {
+		getGoogleAuthSuccess: (state, action) => {
 			state.alternativeData = action.payload;
 			state.loading = false;
 		},
-		googleFailure: (state) => {
+		getGoogleAuthFailure: (state) => {
 			state.loading = false;
 		},
 	},
