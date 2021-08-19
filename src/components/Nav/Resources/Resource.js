@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
 	awsServerIcon,
 	bookmarkIcon,
@@ -24,8 +23,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-import {startSearchingTree} from '../../../utils/searchTree';
 import {startSearchingNode} from '../../../utils/redux';
+import {sshAction} from '../../../reducers/ssh';
 
 export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
@@ -82,15 +81,14 @@ const Resource = ({data, indent}) => {
 			const resource = resources.find((i) => i.id === data.id);
 
 			if (resource.protocol === 'SSH2') {
-				dispatch({
-					type: SSH_SEND_CONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.connectRequest({
 						token: userData.access_token,
 						...resource,
 						user: account.user,
 						password: account.password,
-					},
-				});
+					}),
+				);
 			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
@@ -140,7 +138,7 @@ const Resource = ({data, indent}) => {
 				),
 			);
 		}
-	}, [data.key, dispatch, favoriteTree]);
+	}, [data.key, dispatch, favoriteTree, resourceTree]);
 
 	return (
 		<React.Fragment>

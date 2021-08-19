@@ -1,4 +1,3 @@
-import produce from 'immer';
 import {Terminal} from 'xterm';
 import {ROBOTO_MONO} from '../styles/components/font';
 import {createSelector, createSlice} from '@reduxjs/toolkit';
@@ -19,47 +18,6 @@ import {createSelector, createSlice} from '@reduxjs/toolkit';
 // 	loading: false,
 // };
 //
-export const SSH_CHANGE_AUTO_COMPLETION_MODE =
-	'SSH_CHANGE_AUTO_COMPLETION_MODE';
-export const SSH_INCREASE_FONT_SIZE = 'SSH_INCREASE_FONT_SIZE';
-export const SSH_DECREASE_FONT_SIZE = 'SSH_DECREASE_FONT_SIZE';
-export const SSH_SET_SEARCH_MODE = 'SSH_SET_SEARCH_MODE';
-
-export const SSH_SET_FONT_REQUEST = 'SSH_SET_FONT_REQUEST';
-export const SSH_SET_FONT_SUCCESS = 'SSH_SET_FONT_SUCCESS';
-export const SSH_SET_FONT_FAILURE = 'SSH_SET_FONT_FAILURE';
-
-export const SSH_SEND_RECONNECTION_REQUEST = 'SSH_SEND_RECONNECTION_REQUEST';
-export const SSH_SEND_RECONNECTION_SUCCESS = 'SSH_SEND_RECONNECTION_SUCCESS';
-export const SSH_SEND_RECONNECTION_FAILURE = 'SSH_SEND_RECONNECTION_FAILURE';
-
-export const SSH_SEND_CONNECTION_REQUEST = 'SSH_SEND_CONNECTION_REQUEST';
-export const SSH_SEND_CONNECTION_SUCCESS = 'SSH_SEND_CONNECTION_SUCCESS';
-export const SSH_SEND_CONNECTION_FAILURE = 'SSH_SEND_CONNECTION_FAILURE';
-
-export const SSH_SEND_DISCONNECTION_REQUEST = 'SSH_SEND_DISCONNECTION_REQUEST';
-export const SSH_SEND_DISCONNECTION_SUCCESS = 'SSH_SEND_DISCONNECTION_SUCCESS';
-export const SSH_SEND_DISCONNECTION_FAILURE = 'SSH_SEND_DISCONNECTION_FAILURE';
-
-export const SSH_SEND_COMMAND_REQUEST = 'SSH_SEND_COMMAND_REQUEST';
-export const SSH_SEND_COMMAND_SUCCESS = 'SSH_SEND_COMMAND_SUCCESS';
-export const SSH_SEND_COMMAND_FAILURE = 'SSH_SEND_COMMAND_FAILURE';
-
-export const SSH_SEND_WINDOW_CHANGE_REQUEST = 'SSH_SEND_WINDOW_CHANGE_REQUEST';
-export const SSH_SEND_WINDOW_CHANGE_SUCCESS = 'SSH_SEND_WINDOW_CHANGE_SUCCESS';
-export const SSH_SEND_WINDOW_CHANGE_FAILURE = 'SSH_SEND_WINDOW_CHANGE_FAILURE';
-
-export const SSH_ADD_SNIPPET_REQUEST = 'SSH_ADD_SNIPPET_REQUEST';
-export const SSH_ADD_SNIPPET_SUCCESS = 'SSH_ADD_SNIPPET_SUCCESS';
-export const SSH_ADD_SNIPPET_FAILURE = 'SSH_ADD_SNIPPET_FAILURE';
-
-export const SSH_DELETE_SNIPPET_REQUEST = 'SSH_DELETE_SNIPPET_REQUEST';
-export const SSH_DELETE_SNIPPET_SUCCESS = 'SSH_DELETE_SNIPPET_SUCCESS';
-export const SSH_DELETE_SNIPPET_FAILURE = 'SSH_DELETE_SNIPPET_FAILURE';
-
-export const SSH_CHANGE_SNIPPET_REQUEST = 'SSH_CHANGE_SNIPPET_REQUEST';
-export const SSH_CHANGE_SNIPPET_SUCCESS = 'SSH_CHANGE_SNIPPET_SUCCESS';
-export const SSH_CHANGE_SNIPPET_FAILURE = 'SSH_CHANGE_SNIPPET_FAILURE';
 
 export const READY_STATE = 'ssh/READY_STATE';
 
@@ -83,7 +41,6 @@ const slice = createSlice({
 		loading: false,
 	},
 	reducers: {
-		//READY_STATE
 		setReadyState: (state, action) => {
 			const index = state.ssh.findIndex(
 				(v) => v.uuid === action.payload.uuid,
@@ -91,11 +48,9 @@ const slice = createSlice({
 			if (index === -1) return;
 			state.ssh[index].ready = 3;
 		},
-		//SSH_SEND_RECONNECTION_REQUEST
 		reconnectRequest: (state) => {
 			state.loading = true;
 		},
-		//SSH_SEND_RECONNECTION_SUCCESS
 		reconnectSuccess: (state, action) => {
 			const index = state.ssh.findIndex(
 				(v) => v.uuid === action.payload.prevUuid,
@@ -105,11 +60,9 @@ const slice = createSlice({
 			state.ssh[index].ready = 1;
 			state.loading = false;
 		},
-		//SSH_SEND_CONNECTION_REQUEST
 		connectRequest: (state) => {
 			state.loading = true;
 		},
-		//SSH_SEND_CONNECTION_SUCCESS
 		connectSuccess: (state, action) => {
 			state.loading = false;
 			state.ssh.push({
@@ -124,23 +77,14 @@ const slice = createSlice({
 				ready: 1,
 			});
 		},
-		//SSH_SEND_CONNECTION_FAILURE
-		connectFailure: (state) => {
-			state.loading = false;
-		},
 
-		//SSH_SEND_DISCONNECTION_REQUEST
 		disconnectRequest: () => {},
-		//SSH_SEND_DISCONNECTION_SUCCESS
 		disconnectSuccess: (state, action) => {
 			state.loading = false;
 			state.ssh = state.ssh.filter((v) => v.uuid !== action.payload);
 			if (state.ssh.length === 0 && state.searchMode)
 				state.searchMode = false;
 		},
-		// SSH_SEND_DISCONNECTION_FAILURE
-		disconnectFailure: () => {},
-		//SSH_SEND_COMMAND_REQUEST
 		sendCommandRequest: (state, action) => {
 			if (action.payload.key === 'close') return;
 			const index = state.ssh.findIndex(
@@ -177,7 +121,6 @@ const slice = createSlice({
 				else state.ssh[index].current_line += action.payload.input;
 			}
 		},
-		//SSH_SEND_COMMAND_SUCCESS
 		sendCommandSuccess: (state, action) => {
 			const sshTerm = state.ssh.find(
 				(v) => v.uuid === action.payload.uuid,
@@ -196,33 +139,21 @@ const slice = createSlice({
 					].current_line += result;
 			}
 		},
-		//SSH_SEND_COMMAND_FAILURE
-		sendCommandFailure: () => {},
-		//SSH_SEND_WINDOW_CHANGE_REQUEST
 		windowChangeRequest: () => {},
-		//SSH_SEND_WINDOW_CHANGE_SUCCESS
-		windowChangeSuccess: () => {},
-		//SSH_SEND_WINDOW_CHANGE_FAILURE
-		windowChangeFailure: () => {},
 
-		//SSH_SET_FONT_REQUEST
 		setFont: (state, action) => {
 			state.font.size = action.payload;
 		},
-		//SSH_INCREASE_FONT_SIZE
 		increaseFont: (state) => {
 			state.font.size++;
 		},
-		//SSH_DECREASE_FONT_SIZE
 		decreaseFont: (state) => {
 			state.font.size--;
 		},
-		// SSH_SET_SEARCH_MODE
 		setSearchMode: (state) => {
 			state.searchMode = !state.searchMode;
 		},
 
-		// SSH_ADD_SNIPPET_REQUEST:
 		addSnippet: (state, action) => {
 			state.snippets.push({
 				id: state.snippetIndex,
@@ -231,13 +162,11 @@ const slice = createSlice({
 			});
 			state.snippetIndex++;
 		},
-		// SSH_DELETE_SNIPPET_REQUEST
 		deleteSnippet: (state, action) => {
 			state.snippets = state.snippets.filter(
 				(x) => x.id !== action.payload,
 			);
 		},
-		// SSH_CHANGE_SNIPPET_REQUEST
 		changeSnippet: (state, action) => {
 			state.snippets = state.snippets.map((x) => {
 				if (x.id !== action.payload.id) return x;
@@ -249,7 +178,6 @@ const slice = createSlice({
 					};
 			});
 		},
-		// SSH_CHANGE_AUTO_COMPLETION_MODE
 		setAutoCompleteMode: (state, action) => {
 			state.autoCompleteMode = action.payload;
 		},
@@ -264,6 +192,7 @@ const selectAllState = createSelector(
 	(state) => state.snippets,
 	(state) => state.tab,
 	(state) => state.loading,
+	(state) => state.snippetIndex,
 	(
 		font,
 		ssh,
@@ -273,6 +202,7 @@ const selectAllState = createSelector(
 		snippets,
 		tab,
 		loading,
+		snippetIndex,
 	) => {
 		return {
 			font,
@@ -283,6 +213,7 @@ const selectAllState = createSelector(
 			snippets,
 			tab,
 			loading,
+			snippetIndex,
 		};
 	},
 );

@@ -7,6 +7,7 @@ import '../../styles/resize.css';
 import PaneOrganizer from './PaneOrganizer';
 import LoadingSpinner from '../LoadingSpinner';
 import {tabBarSelector} from '../../reducers/tabBar';
+import {sshSelector} from '../../reducers/ssh';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -19,10 +20,7 @@ export const _Container = styled.div`
 
 const PanesContainer = () => {
 	const {terminalTabs, cols} = useSelector(tabBarSelector.all);
-	const {loading: sshLoading} = useSelector(
-		(state) => state.ssh,
-		shallowEqual,
-	);
+	const {loading: sshLoading} = useSelector(sshSelector.all);
 	const {loading: sftpLoading} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,

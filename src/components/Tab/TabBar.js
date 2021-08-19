@@ -4,10 +4,10 @@ import MenuButtons from './MenuButtons';
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {SSH_SEND_DISCONNECTION_REQUEST} from '../../reducers/ssh';
 import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
+import {sshAction, sshSelector} from '../../reducers/ssh';
 
 const _Container = styled.div`
 	display: flex;
@@ -67,7 +67,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 	const dispatch = useDispatch();
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
-	const {ssh} = useSelector((state) => state.ssh, shallowEqual);
+	const {ssh} = useSelector(sshSelector.all);
 	const {socket: sftpSockets} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
@@ -88,13 +88,12 @@ const TabBar = ({isOpned, setisOpened}) => {
 			e.stopPropagation();
 
 			if (item.type === 'SSH') {
-				dispatch({
-					type: SSH_SEND_DISCONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.disconnectRequest({
 						uuid: item.uuid,
 						ws: ssh.find((v) => v.uuid === item.uuid).ws,
-					},
-				});
+					}),
+				);
 			} else if (item.type === 'SFTP') {
 				dispatch({
 					type: DISCONNECTION_REQUEST,
@@ -106,7 +105,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 				});
 			}
 		},
-		[ssh, sftpSockets],
+		[ssh, sftpSockets, dispatch],
 	);
 
 	const onDragStartTab = useCallback(

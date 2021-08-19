@@ -1,11 +1,7 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {
-	SSH_DECREASE_FONT_SIZE,
-	SSH_INCREASE_FONT_SIZE,
-	SSH_SET_SEARCH_MODE,
-} from '../reducers/ssh';
+import {useDispatch, useSelector} from 'react-redux';
+import {sshAction, sshSelector} from '../reducers/ssh';
 import {searchIcon, zoomInIcon, zoomOutIcon} from '../icons/icons';
 
 import {HoverButton} from '../styles/components/icon';
@@ -32,15 +28,15 @@ const Footer = () => {
 	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
-	const {font_size} = useSelector((state) => state.ssh, shallowEqual);
+	const {font} = useSelector(sshSelector.all);
 
 	const onClickIncreaseFontSize = useCallback(() => {
-		if (font_size < 20) dispatch({type: SSH_INCREASE_FONT_SIZE});
-	}, [font_size]);
+		if (font.size < 20) dispatch(sshAction.increaseFont());
+	}, [dispatch, font]);
 
 	const onClickDeceaseFontSize = useCallback(() => {
-		if (font_size > 10) dispatch({type: SSH_DECREASE_FONT_SIZE});
-	}, [font_size]);
+		if (font.size > 10) dispatch(sshAction.decreaseFont());
+	}, [dispatch, font]);
 
 	const onClickOpenSSHSearchBar = useCallback(() => {
 		if (
@@ -48,8 +44,8 @@ const Footer = () => {
 			terminalTabs.slice().find((v) => v.uuid === selectedTab).type ===
 				'SSH'
 		)
-			dispatch({type: SSH_SET_SEARCH_MODE});
-	}, [selectedTab, terminalTabs]);
+			dispatch(sshAction.setSearchMode());
+	}, [selectedTab, terminalTabs, dispatch]);
 
 	return (
 		<_Footer>

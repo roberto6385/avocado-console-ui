@@ -9,10 +9,7 @@ import {
 import ComboBox from '../../RecycleComponents/ComboBox';
 import CheckBox from '../../RecycleComponents/CheckBox';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	SSH_CHANGE_AUTO_COMPLETION_MODE,
-	SSH_SET_FONT_REQUEST,
-} from '../../../reducers/ssh';
+import {sshAction, sshSelector} from '../../../reducers/ssh';
 import {useTranslation} from 'react-i18next';
 import {
 	SettingContentContainer,
@@ -45,16 +42,16 @@ const PreferencesSpace = () => {
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation('preferencesAside');
 
-	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
+	const {font, autoCompleteMode} = useSelector(sshSelector.all);
 	const {theme, language} = useSelector(settingSelector.all);
 
 	const [isAutocompleteTurnedOn, setIsAutocompleteTurnedOn] =
-		useState(auto_completion_mode);
+		useState(autoCompleteMode);
 	const [languageCopy, setLanguageCopy] = useState(language);
 	const [themeCopy, setThemeCopy] = useState(theme);
 	const [terminalTheme, setTerminalTheme] = useState(0);
 	const [editorTheme, setEditorTheme] = useState(0);
-	const [sshFont, setSshFont] = useState(font);
+	const [sshFont, setSshFont] = useState(font.family);
 
 	const themeOptions = [
 		{value: 'light', label: t('light')},
@@ -66,16 +63,12 @@ const PreferencesSpace = () => {
 	];
 
 	useEffect(() => {
-		if (auto_completion_mode !== isAutocompleteTurnedOn)
-			dispatch({
-				type: SSH_CHANGE_AUTO_COMPLETION_MODE,
-				payload: isAutocompleteTurnedOn,
-			});
-	}, [auto_completion_mode, isAutocompleteTurnedOn, dispatch]);
+		if (autoCompleteMode !== isAutocompleteTurnedOn)
+			dispatch(sshAction.setAutoCompleteMode(isAutocompleteTurnedOn));
+	}, [autoCompleteMode, isAutocompleteTurnedOn, dispatch]);
 
 	useEffect(() => {
-		if (font !== sshFont)
-			dispatch({type: SSH_SET_FONT_REQUEST, payload: sshFont});
+		if (font.family !== sshFont) dispatch(sshAction.setFont(sshFont));
 	}, [font, sshFont, dispatch]);
 
 	useEffect(() => {

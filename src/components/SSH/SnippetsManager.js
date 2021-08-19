@@ -1,13 +1,9 @@
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
-import {
-	SSH_ADD_SNIPPET_REQUEST,
-	SSH_CHANGE_SNIPPET_REQUEST,
-	SSH_DELETE_SNIPPET_REQUEST,
-} from '../../reducers/ssh';
+import {sshAction, sshSelector} from '../../reducers/ssh';
 import TextBoxField from '../RecycleComponents/TextBoxField';
 import {closeIcon, deleteIcon, plusIcon} from '../../icons/icons';
 import {NormalButton, TransparentButton} from '../../styles/components/button';
@@ -90,13 +86,10 @@ const SnippetsManager = () => {
 	const {t} = useTranslation('snippets');
 
 	const {form} = useSelector(dialogBoxSelector.all);
-	const {snippets, snippents_index} = useSelector(
-		(state) => state.ssh,
-		shallowEqual,
-	);
+	const {snippets, snippetIndex} = useSelector(sshSelector.all);
 
 	const [tempSnippets, setTempSnippets] = useState(snippets);
-	const [index, setIndex] = useState(snippents_index);
+	const [index, setIndex] = useState(snippetIndex);
 	const [name, setName] = useState('');
 	const [content, setContent] = useState('');
 	const [selectedSnippet, setSelectedSnippet] = useState(null);
@@ -135,9 +128,9 @@ const SnippetsManager = () => {
 		setName('');
 		setContent('');
 		setTempSnippets(snippets);
-		setIndex(snippents_index);
+		setIndex(snippetIndex);
 		dispatch(dialogBoxAction.closeForm());
-	}, [dispatch, snippets, snippents_index]);
+	}, [dispatch, snippets, snippetIndex]);
 
 	const onClickSaveChangesOnSnippets = useCallback(() => {
 		const snippetNameList = tempSnippets.map((v) => {
@@ -173,35 +166,30 @@ const SnippetsManager = () => {
 			);
 			//req delete snippets
 			for (let x of deleteSnippets) {
-				dispatch({
-					type: SSH_DELETE_SNIPPET_REQUEST,
-					payload: x.id,
-				});
+				dispatch(sshAction.deleteSnippet(x.id));
 			}
 			//req edit snippets
 			for (let x of editSnippets) {
-				dispatch({
-					type: SSH_CHANGE_SNIPPET_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.changeSnippet({
 						id: x.id,
 						name: x.name,
 						content: x.content,
-					},
-				});
+					}),
+				);
 			}
 			//req add snippets
 			for (let x of addSnippets) {
-				dispatch({
-					type: SSH_ADD_SNIPPET_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.addSnippet({
 						name: x.name,
 						content: x.content,
-					},
-				});
+					}),
+				);
 			}
 			dispatch(dialogBoxAction.closeForm());
 		}
-	}, [dispatch, snippets, tempSnippets, index]);
+	}, [dispatch, snippets, tempSnippets]);
 
 	const onClickSnippet = useCallback(
 		(id) => () => {
@@ -261,10 +249,10 @@ const SnippetsManager = () => {
 				setName('');
 				setContent('');
 			}
-			setIndex(snippents_index);
+			setIndex(snippetIndex);
 			setTempSnippets(snippets);
 		}
-	}, [form, snippets, snippents_index, nameTextBoxRef]);
+	}, [form, snippets, snippetIndex, nameTextBoxRef]);
 
 	return (
 		<_PopupModal
