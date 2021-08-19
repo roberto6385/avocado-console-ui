@@ -1,10 +1,9 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
 import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import FavoritesContextMenu from '../../ContextMenus/FavoritesContextMenu';
@@ -19,6 +18,7 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction} from '../../../reducers/favorites';
+import {sshAction} from '../../../reducers/ssh';
 
 const Favorite = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -38,15 +38,14 @@ const Favorite = ({data, indent}) => {
 			const resource = resources.find((i) => i.id === data.id);
 
 			if (resource.protocol === 'SSH2') {
-				dispatch({
-					type: SSH_SEND_CONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.connectRequest({
 						token: userData.access_token,
 						...account,
 						user: account.user,
 						password: account.password,
-					},
-				});
+					}),
+				);
 			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,

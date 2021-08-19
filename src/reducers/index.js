@@ -1,6 +1,6 @@
 import {persistReducer} from 'redux-persist';
 import {combineReducers} from '@reduxjs/toolkit';
-import ssh from './ssh';
+import {SSH, sshReducer} from './ssh';
 import sftp from './sftp';
 import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
 import {USER_RESOURCE, userResourceReducer} from './api/userResource';
@@ -43,7 +43,7 @@ const sshLocalPersistConfig = {
 };
 const appReducer = combineReducers({
 	sftp,
-	ssh: persistReducer(sshLocalPersistConfig, ssh),
+	[SSH]: persistReducer(sshLocalPersistConfig, sshReducer),
 	[DIALOG_BOX]: dialogBoxReducer,
 	[AUTH]: authReducer,
 	[USER_RESOURCE]: userResourceReducer,

@@ -2,16 +2,12 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FitAddon} from 'xterm-addon-fit';
 import {SearchAddon} from 'xterm-addon-search';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 
 import useInput from '../../hooks/useInput';
-import {
-	SSH_SEND_WINDOW_CHANGE_REQUEST,
-	SSH_SEND_COMMAND_REQUEST,
-	SSH_SET_SEARCH_MODE,
-} from '../../reducers/ssh';
+import {sshAction, sshSelector} from '../../reducers/ssh';
 
 import {useDebouncedResizeObserver} from '../../hooks/useDebouncedResizeObserver';
 import {
@@ -118,14 +114,9 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 
 	const {selectedTab} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
-	const {
-		font,
-		font_size,
-		search_mode,
-		ssh,
-		ssh_history,
-		auto_completion_mode,
-	} = useSelector((state) => state.ssh, shallowEqual);
+	const {font, searchMode, ssh, sshHistory, autoCompleteMode} = useSelector(
+		sshSelector.all,
+	);
 
 	const currentCommand = useMemo(
 		() => ssh.find((v) => v.uuid === uuid).current_line,
@@ -136,11 +127,11 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		() =>
 			currentCommand === ''
 				? []
-				: ssh_history
+				: sshHistory
 						.filter((v) => v.startsWith(currentCommand))
 						.slice(-5)
 						.reverse(),
-		[ssh_history, currentCommand],
+		[sshHistory, currentCommand],
 	);
 	const [selectedHistory, setSelectedHistory] = useState(0);
 	const [ignoreAutoCompleteMode, setIgnoreAutoCompleteMode] = useState(false);
@@ -169,28 +160,26 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 
 	const onClickRequestHistoryCommand = useCallback(
 		(v) => () => {
-			dispatch({
-				type: SSH_SEND_COMMAND_REQUEST,
-				payload: {
+			dispatch(
+				sshAction.sendCommandRequest({
 					uuid: uuid,
 					ws: ws,
 					input: v.substring(currentCommand.length),
-				},
-			});
-			dispatch({
-				type: SSH_SEND_COMMAND_REQUEST,
-				payload: {
+				}),
+			);
+			dispatch(
+				sshAction.sendCommandRequest({
 					uuid: uuid,
 					ws: ws,
 					input: '\r',
-				},
-			});
+				}),
+			);
 		},
 		[currentCommand.length, dispatch, uuid, ws],
 	);
 
 	const onClickOpenSearchBar = useCallback(() => {
-		if (selectedTab !== null) dispatch({type: SSH_SET_SEARCH_MODE});
+		if (selectedTab !== null) dispatch(sshAction.setSearchMode());
 	}, [dispatch, selectedTab]);
 
 	const onClickSearchPreviousVal = useCallback(() => {
@@ -222,7 +211,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	useEffect(() => {
 		const processInput = sshTerm.onData((data) => {
 			if (
-				auto_completion_mode &&
+				autoCompleteMode &&
 				currentCommand.length > 1 &&
 				data.charCodeAt(0) === 27
 			) {
@@ -241,39 +230,36 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				}
 			} else if (
 				currentCommand.length > 1 &&
-				auto_completion_mode &&
+				autoCompleteMode &&
 				!ignoreAutoCompleteMode &&
 				historyList.length > 0 &&
 				data.charCodeAt(0) === 13
 			) {
 				//Enter
-				dispatch({
-					type: SSH_SEND_COMMAND_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.sendCommandRequest({
 						uuid: uuid,
 						ws: ws,
 						input: historyList[selectedHistory].substring(
 							currentCommand.length,
 						),
-					},
-				});
-				dispatch({
-					type: SSH_SEND_COMMAND_REQUEST,
-					payload: {
+					}),
+				);
+				dispatch(
+					sshAction.sendCommandRequest({
 						uuid: uuid,
 						ws: ws,
 						input: '\r',
-					},
-				});
+					}),
+				);
 			} else {
-				dispatch({
-					type: SSH_SEND_COMMAND_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.sendCommandRequest({
 						uuid: uuid,
 						ws: ws,
 						input: data,
-					},
-				});
+					}),
+				);
 				if (data.charCodeAt(0) === 13 && ignoreAutoCompleteMode)
 					setIgnoreAutoCompleteMode(false);
 			}
@@ -286,7 +272,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		uuid,
 		ws,
 		sshTerm,
-		auto_completion_mode,
+		autoCompleteMode,
 		selectedHistory,
 		historyList,
 		ignoreAutoCompleteMode,
@@ -301,9 +287,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	useEffect(() => {
 		if (width > 0 && height > 0 && uuid && isComponentMounted) {
 			fitAddon.fit();
-			dispatch({
-				type: SSH_SEND_WINDOW_CHANGE_REQUEST,
-				payload: {
+			dispatch(
+				sshAction.windowChangeRequest({
 					ws: ws,
 					uuid: uuid,
 					data: {
@@ -312,8 +297,8 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 						width: width,
 						height: height,
 					},
-				},
-			});
+				}),
+			);
 		}
 	}, [
 		ws,
@@ -327,7 +312,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	]);
 	//click search button
 	useEffect(() => {
-		if (selectedTab === uuid && search_mode) {
+		if (selectedTab === uuid && searchMode) {
 			document.getElementById('ssh-search-' + uuid).style.display =
 				'flex';
 			searchTextBoxRef.current.focus();
@@ -340,7 +325,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	}, [
 		selectedTab,
 		uuid,
-		search_mode,
+		searchMode,
 		searchTextBoxRef,
 		setSearchVal,
 		searchAddon,
@@ -355,26 +340,21 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 
 	//set History List
 	useEffect(() => {
-		if (auto_completion_mode && currentCommand.length > 1) {
+		if (autoCompleteMode && currentCommand.length > 1) {
 			setSelectedHistory(0);
 		}
-	}, [
-		auto_completion_mode,
-		ssh_history,
-		currentCommand,
-		ignoreAutoCompleteMode,
-	]);
+	}, [autoCompleteMode, sshHistory, currentCommand, ignoreAutoCompleteMode]);
 	//change font family
 	useEffect(() => {
-		sshTerm.setOption('fontFamily', font);
+		sshTerm.setOption('fontFamily', font.family);
 		fitAddon.fit();
 	}, [sshTerm, fitAddon, font]);
 
 	//change font size
 	useEffect(() => {
-		sshTerm.setOption('fontSize', font_size);
+		sshTerm.setOption('fontSize', font.size);
 		fitAddon.fit();
-	}, [sshTerm, fitAddon, font_size]);
+	}, [sshTerm, fitAddon, font]);
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {
@@ -472,7 +452,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 				display={
 					currentCommand.length > 1 &&
 					selectedTab === uuid &&
-					auto_completion_mode &&
+					autoCompleteMode &&
 					!ignoreAutoCompleteMode &&
 					historyList.length > 0
 						? 'flex'

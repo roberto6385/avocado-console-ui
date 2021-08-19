@@ -4,6 +4,7 @@ import {shallowEqual, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from './LoadingSpinner';
+import {sshSelector} from '../reducers/ssh';
 
 const _Container = styled.div`
 	display: flex;
@@ -32,10 +33,7 @@ const _Title = styled.div`
 const MainPage = () => {
 	const {t} = useTranslation('mainPage');
 
-	const {loading: sshLoading} = useSelector(
-		(state) => state.ssh,
-		shallowEqual,
-	);
+	const {loading: sshLoading} = useSelector(sshSelector.all);
 	const {loading: sftpLoading} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,

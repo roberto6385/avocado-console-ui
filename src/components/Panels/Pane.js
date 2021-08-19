@@ -5,10 +5,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import SSHContainer from '../SSH/SSHContainer';
 
-import {
-	SSH_SEND_DISCONNECTION_REQUEST,
-	SSH_SEND_RECONNECTION_REQUEST,
-} from '../../reducers/ssh';
+import {sshAction, sshSelector} from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import {WarningButton} from '../../styles/components/button';
 import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
@@ -79,7 +76,7 @@ const Pane = ({uuid, type, server}) => {
 
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
-	const ssh = useSelector((state) => state.ssh.ssh, shallowEqual);
+	const {ssh} = useSelector(sshSelector.all);
 	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,
@@ -96,13 +93,12 @@ const Pane = ({uuid, type, server}) => {
 			e.stopPropagation();
 
 			if (type === 'SSH') {
-				dispatch({
-					type: SSH_SEND_DISCONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.disconnectRequest({
 						uuid: uuid,
 						ws: ssh.find((v) => v.uuid === uuid).ws,
-					},
-				});
+					}),
+				);
 			}
 			if (type === 'SFTP') {
 				dispatch({
@@ -127,9 +123,8 @@ const Pane = ({uuid, type, server}) => {
 		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
 
 		if (type === 'SSH') {
-			dispatch({
-				type: SSH_SEND_RECONNECTION_REQUEST,
-				payload: {
+			dispatch(
+				sshAction.reconnectRequest({
 					token: userData.access_token,
 					...resource,
 					user: account.user,
@@ -137,8 +132,8 @@ const Pane = ({uuid, type, server}) => {
 
 					prevUuid: uuid,
 					prevIndex: terminalTabIndex,
-				},
-			});
+				}),
+			);
 		} else {
 			dispatch({
 				type: RECONNECTION_REQUEST,

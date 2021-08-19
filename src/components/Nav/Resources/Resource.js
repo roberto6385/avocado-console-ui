@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
 	awsServerIcon,
 	bookmarkIcon,
@@ -24,6 +23,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
+import {startSearchingNode} from '../../../utils/redux';
+import {sshAction} from '../../../reducers/ssh';
 
 export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
@@ -61,7 +62,7 @@ const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	const {selectedResource, resources, accounts} = useSelector(
+	const {selectedResource, resources, resourceTree, accounts} = useSelector(
 		remoteResourceSelector.all,
 	);
 	const {userData} = useSelector(authSelector.all);
@@ -80,15 +81,14 @@ const Resource = ({data, indent}) => {
 			const resource = resources.find((i) => i.id === data.id);
 
 			if (resource.protocol === 'SSH2') {
-				dispatch({
-					type: SSH_SEND_CONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.connectRequest({
 						token: userData.access_token,
 						...resource,
 						user: account.user,
 						password: account.password,
-					},
-				});
+					}),
+				);
 			} else if (resource.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
@@ -132,9 +132,13 @@ const Resource = ({data, indent}) => {
 		if (isFavoriteServer(favoriteTree, data.key)) {
 			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
-			dispatch(favoritesAction.addFavorite(data.key));
+			dispatch(
+				favoritesAction.addFavorite(
+					startSearchingNode(resourceTree, data.key),
+				),
+			);
 		}
-	}, [data.key, dispatch, favoriteTree]);
+	}, [data.key, dispatch, favoriteTree, resourceTree]);
 
 	return (
 		<React.Fragment>

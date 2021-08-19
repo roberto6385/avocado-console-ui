@@ -1,15 +1,15 @@
 import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {sshAction} from '../../reducers/ssh';
 
 const ResourcesContextMenu = ({identity, data}) => {
 	const {t} = useTranslation('contextMenu');
@@ -60,15 +60,14 @@ const ResourcesContextMenu = ({identity, data}) => {
 	const onClickOpenSSH = useCallback(() => {
 		const resource = resources.find((i) => i.key === data.key);
 
-		dispatch({
-			type: SSH_SEND_CONNECTION_REQUEST,
-			payload: {
+		dispatch(
+			sshAction.connectRequest({
 				token: userData.access_token,
 				...resource,
 				user: identity.user,
 				password: identity.password,
-			},
-		});
+			}),
+		);
 	}, [
 		resources,
 		dispatch,

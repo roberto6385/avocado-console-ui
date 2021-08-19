@@ -1,18 +1,18 @@
 import React, {useCallback, useMemo} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {animation, Item, Separator} from 'react-contexify';
 import {useTranslation} from 'react-i18next';
 import PropTypes from 'prop-types';
-import {SSH_SEND_COMMAND_REQUEST} from '../../reducers/ssh';
 import {DropDownMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../reducers/tabBar';
+import {sshAction, sshSelector} from '../../reducers/ssh';
 
 const SnippetsManagerContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('snippets');
 	const {selectedTab} = useSelector(tabBarSelector.all);
-	const {ssh, snippets} = useSelector((state) => state.ssh, shallowEqual);
+	const {ssh, snippets} = useSelector(sshSelector.all);
 
 	const ws = useMemo(
 		() => ssh.find((v) => v.uuid === selectedTab)?.ws,
@@ -26,16 +26,15 @@ const SnippetsManagerContextMenu = ({uuid}) => {
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
 			ws &&
-				dispatch({
-					type: SSH_SEND_COMMAND_REQUEST,
-					payload: {
+				dispatch(
+					sshAction.sendCommandRequest({
 						uuid: selectedTab,
 						ws: ws,
 
 						input: v.content,
 						focus: true,
-					},
-				});
+					}),
+				);
 		},
 
 		[selectedTab, dispatch, ws],

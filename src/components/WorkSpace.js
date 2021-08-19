@@ -8,6 +8,7 @@ import AsideContainer from './Setting/AsideContainer';
 import TabBar from './Tab/TabBar';
 import NavBar from './Nav/NavBar';
 import {tabBarSelector} from '../reducers/tabBar';
+import {sshSelector} from '../reducers/ssh';
 
 const _Container = styled.div`
 	display: flex;
@@ -84,10 +85,7 @@ const _WorkSpaceContainer = styled.div`
 
 const WorkSpace = () => {
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const {loading: sshLoading} = useSelector(
-		(state) => state.ssh,
-		shallowEqual,
-	);
+	const {loading: sshLoading} = useSelector(sshSelector.all);
 	const {loading: sftpLoading} = useSelector(
 		(state) => state.sftp,
 		shallowEqual,

@@ -11,22 +11,11 @@ import {
 	takeEvery,
 } from 'redux-saga/effects';
 
-import {
-	SSH_SEND_CONNECTION_REQUEST,
-	SSH_SEND_CONNECTION_SUCCESS,
-	SSH_SEND_DISCONNECTION_REQUEST,
-	SSH_SEND_DISCONNECTION_SUCCESS,
-	SSH_SEND_COMMAND_REQUEST,
-	SSH_SEND_COMMAND_SUCCESS,
-	SSH_SEND_WINDOW_CHANGE_REQUEST,
-	SSH_SEND_RECONNECTION_REQUEST,
-	SSH_SEND_RECONNECTION_SUCCESS,
-} from '../../reducers/ssh';
+import {sshAction} from '../../reducers/ssh';
 import {initWebsocket} from './socket';
 import {ssht_ws_request} from '../../ws/ssht_ws_request';
 import {GetMessage} from '../../ws/ssht_ws_logic';
 import {closeChannel, subscribe} from '../channel';
-import {READY_STATE} from '../../reducers/ssh';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {tabBarAction} from '../../reducers/tabBar';
 
@@ -66,13 +55,12 @@ function* sendConnection(action) {
 						case 'COMMAND':
 							if (pass === true) {
 								pass = false;
-								yield put({
-									type: SSH_SEND_CONNECTION_SUCCESS,
-									payload: {
+								yield put(
+									sshAction.connectSuccess({
 										uuid: uuid,
 										ws: ws,
-									},
-								});
+									}),
+								);
 								yield put(
 									tabBarAction.addTab({
 										uuid: uuid,
@@ -85,21 +73,17 @@ function* sendConnection(action) {
 									}),
 								);
 							}
-							yield put({
-								type: SSH_SEND_COMMAND_SUCCESS,
-								payload: {
+							yield put(
+								sshAction.sendCommandSuccess({
 									uuid: uuid,
 									result: res.result,
-								},
-							});
+								}),
+							);
 							break;
 
 						case 'ERROR':
 							yield put(tabBarAction.deleteTab(uuid));
-							yield put({
-								type: SSH_SEND_DISCONNECTION_SUCCESS,
-								payload: uuid,
-							});
+							yield put(sshAction.disconnectSuccess(uuid));
 
 							//invalid server
 							if (res.result.includes('connection')) {
@@ -124,10 +108,7 @@ function* sendConnection(action) {
 	} catch (err) {
 		console.log(err);
 		yield put(tabBarAction.deleteTab(uuid));
-		yield put({
-			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			payload: uuid,
-		});
+		yield put(sshAction.disconnectSuccess(uuid));
 	}
 }
 function* sendReConnection(action) {
@@ -169,14 +150,13 @@ function* sendReConnection(action) {
 								tabBarAction.deleteTab(action.payload.prevUuid),
 							);
 
-							yield put({
-								type: SSH_SEND_RECONNECTION_SUCCESS,
-								payload: {
+							yield put(
+								sshAction.reconnectSuccess({
 									uuid: uuid,
 									prevUuid: action.payload.prevUuid,
 									ws: ws,
-								},
-							});
+								}),
+							);
 							yield put(
 								tabBarAction.addTab({
 									uuid: uuid,
@@ -191,22 +171,19 @@ function* sendReConnection(action) {
 								}),
 							);
 						}
-						yield put({
-							type: SSH_SEND_COMMAND_SUCCESS,
-							payload: {
+						yield put(
+							sshAction.sendCommandSuccess({
 								uuid: uuid,
 								result: res.result,
-							},
-						});
+							}),
+						);
 
 						break;
 
 					case 'ERROR':
 						yield put(tabBarAction.deleteTab(uuid));
-						yield put({
-							type: SSH_SEND_DISCONNECTION_SUCCESS,
-							payload: uuid,
-						});
+						yield put(sshAction.disconnectSuccess(uuid));
+
 						//invalid server
 						if (res.result.includes('connection')) {
 							yield put(
@@ -229,10 +206,7 @@ function* sendReConnection(action) {
 	} catch (err) {
 		console.log(err);
 		yield put(tabBarAction.deleteTab(uuid));
-		yield put({
-			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			payload: uuid,
-		});
+		yield put(sshAction.disconnectSuccess(uuid));
 	}
 }
 
@@ -242,10 +216,8 @@ function* sendDisconnection(action) {
 	try {
 		if (action.payload.ws.readyState !== 1) {
 			yield put(tabBarAction.deleteTab(action.payload.uuid));
-			yield put({
-				type: SSH_SEND_DISCONNECTION_SUCCESS,
-				payload: action.payload.uuid,
-			});
+			yield put(sshAction.disconnectSuccess(action.payload.uuid));
+
 			return;
 		}
 
@@ -260,18 +232,14 @@ function* sendDisconnection(action) {
 			switch (res.type) {
 				case 'DISCONNECT':
 					yield put(tabBarAction.deleteTab(action.payload.uuid));
-					yield put({
-						type: SSH_SEND_DISCONNECTION_SUCCESS,
-						payload: action.payload.uuid,
-					});
+					yield put(sshAction.disconnectSuccess(action.payload.uuid));
+
 					break;
 
 				case 'ERROR':
 					yield put(tabBarAction.deleteTab(action.payload.uuid));
-					yield put({
-						type: SSH_SEND_DISCONNECTION_SUCCESS,
-						payload: action.payload.uuid,
-					});
+					yield put(sshAction.disconnectSuccess(action.payload.uuid));
+
 					break;
 
 				default:
@@ -282,10 +250,7 @@ function* sendDisconnection(action) {
 		console.log(err);
 		closeChannel(channel);
 		yield put(tabBarAction.deleteTab(action.payload.uuid));
-		yield put({
-			type: SSH_SEND_DISCONNECTION_SUCCESS,
-			payload: action.payload.uuid,
-		});
+		yield put(sshAction.disconnectSuccess(action.payload.uuid));
 	}
 }
 
@@ -310,10 +275,11 @@ function* sendCommand(action) {
 					closeChannel(channel);
 					console.log(action.payload.ws.readyState);
 					if (action.payload.ws.readyState !== 1) {
-						yield put({
-							type: READY_STATE,
-							payload: {uuid: action.payload.uuid},
-						});
+						yield put(
+							sshAction.setReadyState({
+								uuid: action.payload.uuid,
+							}),
+						);
 					}
 				} else {
 					const res = yield call(GetMessage, result);
@@ -321,22 +287,20 @@ function* sendCommand(action) {
 					switch (res.type) {
 						case 'COMMAND':
 							if (action.payload.focus) {
-								yield put({
-									type: SSH_SEND_COMMAND_SUCCESS,
-									payload: {
+								yield put(
+									sshAction.sendCommandSuccess({
 										uuid: action.payload.uuid,
 										result: res.result,
 										focus: action.payload.focus,
-									},
-								});
+									}),
+								);
 							} else {
-								yield put({
-									type: SSH_SEND_COMMAND_SUCCESS,
-									payload: {
+								yield put(
+									sshAction.sendCommandSuccess({
 										uuid: action.payload.uuid,
 										result: res.result,
-									},
-								});
+									}),
+								);
 							}
 							break;
 
@@ -375,23 +339,23 @@ function* sendWindowChange(action) {
 				if (timeout) {
 					closeChannel(channel);
 					if (action.payload.ws.readyState !== 1) {
-						yield put({
-							type: READY_STATE,
-							payload: {uuid: action.payload.uuid},
-						});
+						yield put(
+							sshAction.setReadyState({
+								uuid: action.payload.uuid,
+							}),
+						);
 					}
 				} else {
 					const res = yield call(GetMessage, result);
 
 					switch (res.type) {
 						case 'COMMAND':
-							yield put({
-								type: SSH_SEND_COMMAND_SUCCESS,
-								payload: {
+							yield put(
+								sshAction.sendCommandSuccess({
 									uuid: action.payload.uuid,
 									result: res.result,
-								},
-							});
+								}),
+							);
 							console.log(res.result);
 							break;
 
@@ -411,23 +375,23 @@ function* sendWindowChange(action) {
 }
 
 function* watchSendConnection() {
-	yield throttle(1000, SSH_SEND_CONNECTION_REQUEST, sendConnection);
+	yield throttle(1000, sshAction.connectRequest, sendConnection);
 }
 
 function* watchSendReConnection() {
-	yield throttle(1000, SSH_SEND_RECONNECTION_REQUEST, sendReConnection);
+	yield throttle(1000, sshAction.reconnectRequest, sendReConnection);
 }
 
 function* watchSendDisconnection() {
-	yield takeLatest(SSH_SEND_DISCONNECTION_REQUEST, sendDisconnection);
+	yield takeLatest(sshAction.disconnectRequest, sendDisconnection);
 }
 
 function* watchSendCommand() {
-	yield takeLatest(SSH_SEND_COMMAND_REQUEST, sendCommand);
+	yield takeLatest(sshAction.sendCommandRequest, sendCommand);
 }
 
 function* watchSendWindowChange() {
-	yield takeEvery(SSH_SEND_WINDOW_CHANGE_REQUEST, sendWindowChange);
+	yield takeEvery(sshAction.windowChangeRequest, sendWindowChange);
 }
 
 export default function* sshSage() {

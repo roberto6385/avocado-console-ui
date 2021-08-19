@@ -5,17 +5,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {CONNECTION_REQUEST} from '../../reducers/sftp';
-import {SSH_SEND_CONNECTION_REQUEST} from '../../reducers/ssh';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
-import {favoritesAction, favoritesSelector} from '../../reducers/favorites';
+import {favoritesAction} from '../../reducers/favorites';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {sshAction} from '../../reducers/ssh';
 
 const FavoritesContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('contextMenu');
 
-	const {favoriteTree} = useSelector(favoritesSelector.all);
 	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const {userData} = useSelector(authSelector.all);
@@ -48,22 +47,21 @@ const FavoritesContextMenu = ({identity, data}) => {
 	const onClickOpenSSH = useCallback(() => {
 		const resource = resources.find((v) => v.key === data.key);
 
-		dispatch({
-			type: SSH_SEND_CONNECTION_REQUEST,
-			payload: {
+		dispatch(
+			sshAction.connectRequest({
 				token: userData.access_token,
 				...resource,
 				user: identity.user,
 				password: identity.password,
-			},
-		});
+			}),
+		);
 	}, [resources, dispatch, userData, identity, data.key]);
 
 	const onClickAddFolder = useCallback(() => {
 		dispatch(
 			favoritesAction.addGroup({name: t('newFolder'), key: 'favorites'}),
 		);
-	}, [dispatch, favoriteTree, t]);
+	}, [dispatch, t]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
