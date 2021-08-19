@@ -102,8 +102,8 @@ const NavBar = ({isOpened, setIsOpened}) => {
 
 	//TODO: !!important: change key value to resource, bookmark
 	const navTabs = [
-		{title: t('resource'), key: 'resources'},
-		{title: t('bookmark'), key: 'favorites'},
+		{title: t('resources'), key: 'resources'},
+		{title: t('favorites'), key: 'favorites'},
 	];
 
 	const onClickOpenOrCloseNav = useCallback(() => {

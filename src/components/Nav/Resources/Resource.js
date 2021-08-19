@@ -4,7 +4,7 @@ import {useContextMenu} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
-import ResourcesContextMenu from '../../ContextMenus/ResourcesContextMenu';
+import ResourceContextMenu from '../../ContextMenus/ResourceContextMenu';
 import {SSH_SEND_CONNECTION_REQUEST} from '../../../reducers/ssh';
 import {
 	awsServerIcon,
@@ -127,8 +127,6 @@ const Resource = ({data, indent}) => {
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		console.log(isFavoriteServer(favoriteTree, data.key));
-
 		if (isFavoriteServer(favoriteTree, data.key)) {
 			dispatch(favoritesAction.deleteFavorite(data.key));
 		} else {
@@ -174,7 +172,7 @@ const Resource = ({data, indent}) => {
 					</IconButton>
 				</ResourceItemTitle>
 			</ServerItem>
-			<ResourcesContextMenu identity={account} data={data} />
+			<ResourceContextMenu identity={account} data={data} />
 		</React.Fragment>
 	);
 };

@@ -35,7 +35,7 @@ const _ButtonContainer = styled.div`
 
 const HistoryToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('historyNav');
+	const {t} = useTranslation('historyToolbar');
 
 	const {
 		history: sftpHistory,

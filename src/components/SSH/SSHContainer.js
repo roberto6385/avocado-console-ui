@@ -8,7 +8,7 @@ import SFTPConnectBtn from '../SFTP/SFTPConnectBtn';
 import SnippetsManager from './SnippetsManager';
 import SSH from './SSH';
 import {fullScreenIcon, snippetIcon} from '../../icons/icons';
-import SnippetsManagerContextMenu from '../ContextMenus/SnippetsManagerContextMenu';
+import SnippetManagerContextMenu from '../ContextMenus/SnippetManagerContextMenu';
 import lghtFToolbarFoldButton from '../../images/toolbarButton/lght-toolbar-fold@2x.png';
 import drkToolbarFoldButton from '../../images/toolbarButton/drk-toolbar-fold@2x.png';
 import lghtToolbarUnfoldButton from '../../images/toolbarButton/lght-toolbar-unfold@2x.png';
@@ -139,7 +139,7 @@ const SSHContainer = ({uuid, server}) => {
 			</_HeaderContainer>
 			<SSH uuid={uuid} isToolbarUnfold={isToolbarUnfolded} />
 			<SnippetsManager />
-			<SnippetsManagerContextMenu uuid={uuid} />
+			<SnippetManagerContextMenu uuid={uuid} />
 		</_Container>
 	);
 };

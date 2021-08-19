@@ -50,7 +50,7 @@ const _PrimaryGreenButton = styled(NormalButton)`
 const IdentitiesAside = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const {t} = useTranslation('identitiesSpace');
+	const {t} = useTranslation('identities');
 
 	const {accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);

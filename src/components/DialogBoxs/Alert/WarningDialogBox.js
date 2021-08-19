@@ -27,7 +27,7 @@ const WarningDialogBox = () => {
 		'lost-server': t('lostServer'),
 		'invalid-server': t('invalidServer'),
 		developing: t('developing'),
-		'sftp-wrong-path': t('wrongPath'),
+		'sftp-wrong-path': t('sftpWrongPath'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {

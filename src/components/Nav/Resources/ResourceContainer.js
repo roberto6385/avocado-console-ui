@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import useInput from '../../../hooks/useInput';
 import Resources from './Resources';
-import AddServerDialogBox from '../../DialogBoxs/Form/AddServerDialogBox';
+import ResourceDialogBox from '../../DialogBoxs/Form/ResourceDialogBox';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -39,7 +39,7 @@ const ResourceContainer = () => {
 				</_Form>
 			</_FormContainer>
 			<Resources searchVal={searchVal} />
-			<AddServerDialogBox />
+			<ResourceDialogBox />
 		</Container>
 	);
 };

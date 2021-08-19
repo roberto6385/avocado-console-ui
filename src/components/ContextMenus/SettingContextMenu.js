@@ -8,7 +8,7 @@ import {DropDownMenu} from '../../styles/components/contextMenu';
 import {settingAction, settingSelector} from '../../reducers/setting';
 //TODO: isOpened, setIsOpened 안넘겨도 될꺼 같은데??
 const SettingContextMenu = ({isOpened, setisOpened}) => {
-	const {t} = useTranslation('serverContextMenu');
+	const {t} = useTranslation('settingContextMenu');
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const {asideKey} = useSelector(settingSelector.all);

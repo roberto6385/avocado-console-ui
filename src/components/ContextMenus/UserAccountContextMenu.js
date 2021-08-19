@@ -39,7 +39,9 @@ const UserAccountContextMenu = ({isOpened, setIsOpened}) => {
 			id={'user-account-context-menu'}
 			animation={animation.slide}
 		>
-			<Item onClick={onClickOpenAside('account')}>{t('account')}</Item>
+			<Item onClick={onClickOpenAside('account')}>
+				{t('accountInfo')}
+			</Item>
 			<Separator />
 			<Item onClick={onClickLogout}>{t('logout')}</Item>
 		</DropDownMenu>

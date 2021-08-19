@@ -5,19 +5,20 @@ export default {
 		auth: 'Authorization',
 	},
 	account: 'Account',
-	accountPlace: 'Account',
 	name: 'Full name',
-	namePlace: 'Name',
 	email: 'Email Address',
-	emailPlace: 'Email Address',
+
+	placeholder: {
+		account: 'Account',
+		name: 'Name',
+		email: 'Email Address',
+	},
 
 	auth: 'Default Authorization',
 	idPassword: 'ID / Password',
 	alternative: 'Alternative AuthN',
-
 	detailView: 'Detail View',
 	deleteAccount: 'Delete Account',
-
 	changePassword: 'Change Password',
 
 	google: 'Google',
@@ -25,8 +26,8 @@ export default {
 	naver: 'Naver',
 
 	mfa: 'MFA',
-	use: 'Enabled',
-	notUse: 'Disabled',
+	mfaUse: 'Enabled',
+	mfaNotUse: 'Disabled',
 
 	otp: 'OTP',
 	mail: 'Mail',

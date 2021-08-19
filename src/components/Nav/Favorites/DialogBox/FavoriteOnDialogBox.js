@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Icon} from '../../../../styles/components/icon';
 import {
 	ResourceItem,

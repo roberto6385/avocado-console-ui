@@ -29,7 +29,7 @@ const _Form = styled(Form)`
 
 const TextBoxDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('inputPopup');
+	const {t} = useTranslation('textBoxDialogBox');
 
 	const {
 		socket: sftp_socketState,
@@ -49,16 +49,16 @@ const TextBoxDialogBox = () => {
 	const highlight = sftp_highState?.find((it) => it.uuid === uuid)?.highlight;
 
 	const headerMessages = {
-		sftp_rename_file_folder: t('renameHeader'),
-		sftp_new_folder: t('newFolderHeader'),
-		sftp_chgrp: t('chgrpHeader'),
-		sftp_chown: t('chownHeader'),
+		'sftp-rename-file-folder': t('rename'),
+		'sftp-new-folder': t('newFolder'),
+		'sftp-change-group': t('changeGroup'),
+		'sftp-chnage-owner': t('changeOwner'),
 	};
 	const placeholders = {
-		sftp_rename_file_folder: t('renamePlace'),
-		sftp_new_folder: t('newFolderPlace'),
-		sftp_chgrp: t('chgrpPlace'),
-		sftp_chown: t('chownPlace'),
+		'sftp-rename-file-folder': t('placeholder.rename'),
+		'sftp-new-folder': t('placeholder.newFolder'),
+		'sftp-change-group': t('placeholder.changeGroup'),
+		'sftp-chnage-owner': t('placeholder.changeOwner'),
 	};
 
 	const onClickCloseDialogBox = useCallback(() => {
@@ -71,7 +71,7 @@ const TextBoxDialogBox = () => {
 			if (textBoxVal === '') return;
 
 			switch (form.key) {
-				case 'sftp_rename_file_folder': {
+				case 'sftp-rename-file-folder': {
 					dispatch({
 						type: RENAME_REQUEST,
 						payload: {
@@ -91,7 +91,7 @@ const TextBoxDialogBox = () => {
 					break;
 				}
 
-				case 'sftp_new_folder': {
+				case 'sftp-new-folder': {
 					dispatch({
 						type: MKDIR_REQUEST,
 						payload: {
@@ -107,11 +107,11 @@ const TextBoxDialogBox = () => {
 					break;
 				}
 
-				case 'sftp_chgrp': {
+				case 'sftp-change-group': {
 					//TODO: create sftp chgtp event
 					break;
 				}
-				case 'sftp_chown': {
+				case 'sftp-chnage-owner': {
 					//TODO: create sftp chown event
 					break;
 				}
@@ -138,9 +138,9 @@ const TextBoxDialogBox = () => {
 		const fillInForm = async () => {
 			if (form.open) {
 				if (
-					form.key === 'sftp_rename_file_folder' ||
-					form.key === 'sftp_chgrp' ||
-					form.key === 'sftp_chown'
+					form.key === 'sftp-rename-file-folder' ||
+					form.key === 'sftp-change-group' ||
+					form.key === 'sftp-chnage-owner'
 					// form.key === 'userName'
 				) {
 					setTextBoxVal(prevFormValue);
@@ -156,13 +156,13 @@ const TextBoxDialogBox = () => {
 
 	useEffect(() => {
 		if (highlight !== undefined && highlight.length === 1) {
-			if (form.key === 'sftp_rename_file_folder') {
+			if (form.key === 'sftp-rename-file-folder') {
 				setPrevFormValue(highlight[0].name);
 			}
-			if (form.key === 'sftp_chgrp') {
+			if (form.key === 'sftp-change-group') {
 				setPrevFormValue(highlight[0].group);
 			}
-			if (form.key === 'sftp_chown') {
+			if (form.key === 'sftp-chnage-owner') {
 				setPrevFormValue(highlight[0].owner);
 			}
 		}

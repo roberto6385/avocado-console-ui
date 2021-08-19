@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
@@ -92,12 +92,12 @@ const FileToolbar = ({uuid}) => {
 				? onClickMoveToRootPath(e, currentPath)
 				: setCurrentPath(path);
 		},
-		[currentPath, onClickMoveToRootPath, path],
+		[currentPath, onClickMoveToRootPath, path, setCurrentPath],
 	);
 
 	const onBlurChangePath = useCallback(() => {
 		setCurrentPath(path);
-	}, [path]);
+	}, [path, setCurrentPath]);
 
 	const onKeyDownChangePath = useCallback(
 		(e) => {
@@ -108,7 +108,7 @@ const FileToolbar = ({uuid}) => {
 				pathInput.blur();
 			}
 		},
-		[path],
+		[path, setCurrentPath],
 	);
 
 	const onClickChangeToDropListStyle = useCallback(() => {
@@ -148,7 +148,7 @@ const FileToolbar = ({uuid}) => {
 
 	useEffect(() => {
 		uuid && setCurrentPath(path);
-	}, [uuid, path]);
+	}, [uuid, path, setCurrentPath]);
 
 	return (
 		<_Container>

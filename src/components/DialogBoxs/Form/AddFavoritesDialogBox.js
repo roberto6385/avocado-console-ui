@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
@@ -40,7 +40,7 @@ const _ModalFooter = styled(DialogBoxFooter)`
 
 const AddFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('addFavoritesForm');
+	const {t} = useTranslation('addFavoritesDialogBox');
 
 	const {tempFavoriteTree, favoriteTree} = useSelector(favoritesSelector.all);
 	const {form} = useSelector(dialogBoxSelector.all);
@@ -69,7 +69,7 @@ const AddFavoritesDialogBox = () => {
 	);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
-		dispatch(favoritesAction.addTempFavorite({name: t('newFolder')}));
+		dispatch(favoritesAction.addTempFavorite({name: t('addFolder')}));
 	}, [dispatch, t]);
 
 	useEffect(() => {
@@ -102,7 +102,7 @@ const AddFavoritesDialogBox = () => {
 			</_Form>
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>
-					{t('newFolder')}
+					{t('addFolder')}
 				</TransparentButton>
 				<div>
 					<TransparentButton onClick={onClickCloseDialogBox}>

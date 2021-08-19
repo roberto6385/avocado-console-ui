@@ -43,7 +43,7 @@ const terminalFontOptions = [
 
 const PreferencesSpace = () => {
 	const dispatch = useDispatch();
-	const {t, i18n} = useTranslation('preferencesAside');
+	const {t, i18n} = useTranslation('preferences');
 
 	const {font, auto_completion_mode} = useSelector((state) => state.ssh);
 	const {theme, language} = useSelector(settingSelector.all);
@@ -91,7 +91,7 @@ const PreferencesSpace = () => {
 
 	return (
 		<SettingMainContainer>
-			<SettingTitle>{t('general')}</SettingTitle>
+			<SettingTitle>{t('title.general')}</SettingTitle>
 			<SettingContentContainer>
 				<ComboBox
 					width={'500px'}
@@ -109,7 +109,7 @@ const PreferencesSpace = () => {
 				/>
 			</SettingContentContainer>
 
-			<SettingTitle>{t('terminal')}</SettingTitle>
+			<SettingTitle>{t('title.terminal')}</SettingTitle>
 			<SettingContentContainer>
 				<ComboBox
 					width={'500px'}
@@ -127,21 +127,16 @@ const PreferencesSpace = () => {
 				/>
 				<_CheckBoxContanier>
 					<CheckBox
-						title={t('textCompletion')}
+						title={t('autoComplete')}
 						value={isAutocompleteTurnedOn}
 						onChangeCheck={(e) =>
 							setIsAutocompleteTurnedOn(e.target.checked)
 						}
 					/>
 				</_CheckBoxContanier>
-				{/*<CheckBox*/}
-				{/*	title={'Copy text on selection'}*/}
-				{/*	value={copyText}*/}
-				{/*	setValue={setCopyText}*/}
-				{/*/>*/}
 			</SettingContentContainer>
 
-			<SettingTitle>{t('sftp')}</SettingTitle>
+			<SettingTitle>{t('title.sftp')}</SettingTitle>
 			<SettingContentContainer>
 				<ComboBox
 					width={'500px'}

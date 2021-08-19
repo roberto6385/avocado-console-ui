@@ -209,11 +209,11 @@ const SignInForm = () => {
 			</TextBoxField>
 			<_CheckBoxContainer>
 				<CheckBox
-					title={t('remember')}
+					title={t('rememberMe')}
 					value={rememberMe}
 					onChangeCheck={onClickRememberMe}
 				/>
-				<a href={'/password'}>{t('forget')}</a>
+				<a href={'/password'}>{t('forgetPassword')}</a>
 			</_CheckBoxContainer>
 			<_UserSubmitButton type='submit' onClick={onSubmitSignIn}>
 				{t('signIn')}
