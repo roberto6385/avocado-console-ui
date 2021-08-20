@@ -545,6 +545,7 @@ const sftp = (state = initialState, action) =>
 					history_target.history_highlight = [];
 				break;
 
+			//todo ------------------------
 			case CREATE_NEW_WEBSOCKET_SUCCESS:
 				if (action.payload.todo === 'write')
 					upload_target.writeSocket = action.payload.socket;

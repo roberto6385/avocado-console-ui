@@ -1,7 +1,7 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
-export const write_chunkSize = 1024 * 4;
-export const read_chunkSize = 1024 * 56; // 56
+export const writeChunkSize = 1024 * 4; //write_chunkSize
+export const readChunkSize = 1024 * 56; // 56 //read_chunkSize
 let HID = 0;
 
 const slice = createSlice({
@@ -34,7 +34,7 @@ const slice = createSlice({
 				ready: 1, // 네이밍 수정하면 좋을 듯
 				mode: 'list', //bool로 할까 고민중
 				sort: {
-					keyword: 'name',
+					type: 'name',
 					asc: true,
 				},
 				path: null,
@@ -46,10 +46,14 @@ const slice = createSlice({
 				},
 				selected: {
 					// 구 하이라이트
-					file: [],
-					history: [],
+					files: [],
+					historys: [],
 				},
-				pause: {state: false, file: null, offset: null},
+				pause: {
+					state: false,
+					upload: {file: null, offset: null},
+					download: {file: null, offset: null},
+				},
 				upload: {
 					socket: null,
 					list: [],
@@ -180,7 +184,91 @@ const slice = createSlice({
 			console.log('에러 핸들링이 필요한데, 에러에 따라 처리는 나중에');
 		},
 
-		// TODO : ETC line ETC line ETC line ETC line ETC line
+		//STAT_REQUEST
+		commandStatus: (state, action) => {},
+		commandStatusDone: (state, action) => {},
+		commandStatusFail: (state, action) => {},
+
+		//RENAME_REQUEST
+		commandRename: (state, action) => {},
+		commandRenameDone: (state, action) => {},
+		commandRenameFail: (state, action) => {},
+
+		//RM_REQUEST
+		commandRm: (state, action) => {},
+		commandRmDone: (state, action) => {},
+		commandRmFail: (state, action) => {},
+
+		//RM_REQUEST
+		commandRmdir: (state, action) => {},
+		commandRmdirDone: (state, action) => {},
+		commandRmdirFail: (state, action) => {},
+
+		//MKDIR_REQUEST
+		commandMkdir: (state, action) => {},
+		commandMkdirDone: (state, action) => {},
+		commandMkdirFail: (state, action) => {},
+
+		//WRITE_REQUEST
+		commandWrite: (state, action) => {},
+		commandWriteDone: (state, action) => {},
+		commandWriteFail: (state, action) => {},
+
+		//READ_REQUEST
+		commandRead: (state, action) => {},
+		commandReadDone: (state, action) => {},
+		commandReadFail: (state, action) => {},
+
+		//CHMOD_REQUEST
+		commandChmod: (state, action) => {},
+		commandChmodDone: (state, action) => {},
+		commandChmodFail: (state, action) => {},
+
+		searchDirectory: (state, action) => {},
+		searchDirectoryDone: (state, action) => {},
+		searchDirectoryFail: (state, action) => {},
+
+		//CREATE_NEW_WEBSOCKET_REQUEST
+		createSocket: (state, action) => {},
+		createSocketDone: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			// key 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index][action.payload.key].socket =
+				action.payload.socket;
+		},
+		createSocketFail: (state, action) => {},
+
+		//REMOVE_NEW_WEBSOCKET_REQUEST
+		deleteSocket: (state, action) => {},
+		deleteSocketDone: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			// key 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index][action.payload.key].socket = null;
+		},
+		deleteSocketFail: (state, action) => {},
+
+		// TODO : ETC line ============================================
+
+		restart: (state, action) => {},
+		// upload, downoad, delete List 추가
+		addList: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			state.data[index][action.payload.type].list.unshift(
+				action.payload.value,
+			);
+		},
+		deleteList: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			state.data[index][action.payload.type].list.shift();
+		},
 
 		//READY_STATE
 		setReady: (state, action) => {
@@ -224,7 +312,7 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].sort.keyword = action.payload.keyword;
+			state.data[index].sort.type = action.payload.type;
 			state.data[index].sort.asc = !state.data[index].sort.asc;
 		},
 		//ADD_HIGHLIGHT, INITIALIZING_HIGHLIGHT, ADD_ONE_HIGHLIGHT, REMOVE_HIGHLIGHT
@@ -232,7 +320,15 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.file = action.payload.result;
+			state.data[index].selected.files = action.payload.result;
+		},
+		//PUSH_INIT_DELETE_WORK_LIST
+		getSelectedFile: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			state.data[index][action.payload.type].list =
+				state.data[index].selected.files;
 		},
 		// 	업로드, 다운로드 삭제가 하나의 pause controller를 공유하는게 좋을거 같다
 		//ADD_PAUSED_LIST ? EDIT_PAUSED_LIST, REMOVE_PAUSED_LIST
@@ -241,8 +337,10 @@ const slice = createSlice({
 				(v) => v.uuid === action.payload.uuid,
 			);
 			if (!state.data[index].pause.state) {
-				state.data[index].pause.file = action.payload.file;
-				state.data[index].pause.offset = action.payload.offset;
+				state.data[index].pause[action.payload.type].file =
+					action.payload.file;
+				state.data[index].pause[action.payload.type].offset =
+					action.payload.offset;
 			} else {
 				console.log(
 					'필요시 upload, download, delete에 따라서 file, offset 적용',
@@ -286,7 +384,7 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.history = action.payload.result;
+			state.data[index].selected.historys = action.payload.result;
 		},
 	},
 });
