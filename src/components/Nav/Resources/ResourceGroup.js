@@ -22,12 +22,12 @@ const ResourceGroup = ({open, data, indent}) => {
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 
 	const onClickResourceGroup = useCallback(() => {
-		if (selectedResource === data.key) {
+		if (selectedResource === data) {
 			dispatch(remoteResourceAction.setSelectedResource(null));
 		} else {
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
+			dispatch(remoteResourceAction.setSelectedResource(data));
 		}
-	}, [selectedResource, data.key, dispatch]);
+	}, [selectedResource, data, dispatch]);
 
 	const onClickFoldOrUnfoldResourceGroup = useCallback(() => {
 		setIsFolderUnfolded(!isFolderUnfolded);
@@ -41,15 +41,13 @@ const ResourceGroup = ({open, data, indent}) => {
 		<React.Fragment>
 			<ResourceItem
 				onClick={onClickResourceGroup}
-				selected={selectedResource === data.key}
+				selected={selectedResource === data}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
-					itype={
-						selectedResource === data.key ? 'selected' : undefined
-					}
+					itype={selectedResource === data ? 'selected' : undefined}
 				>
 					{folderIcon}
 				</Icon>
@@ -71,13 +69,13 @@ const ResourceGroup = ({open, data, indent}) => {
 								<ResourceGroup
 									key={i.key}
 									open={open}
-									data={i}
+									data={i.key}
 									indent={indent + 1}
 								/>
 							) : (
 								<Resource
 									key={i.key}
-									data={i}
+									data={i.key}
 									indent={indent + 1}
 								/>
 							),

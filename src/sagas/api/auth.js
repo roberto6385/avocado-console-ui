@@ -137,7 +137,7 @@ function findAuthApi(payload) {
 	return axios.get(
 		`/oauth2/v1/token?offset=${payload.offset}&limit=${payload.limit}`,
 		{
-			data: null,
+			key: null,
 			headers: {
 				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',

@@ -6,62 +6,51 @@ const slice = createSlice({
 	initialState: {
 		selectedResource: null, //clicked_server
 		// TODO : selectedResource로 Identities Resource Key까지 같이 사용 가능할거같아요. (우선은 기존대로 생성)
-		//nav
 		resourceTree: [
 			{
 				type: 'folder',
-				id: 0,
 				key: 'f_0',
-				name: 'aws servers',
 				contain: [
 					{
 						type: 'server',
-						id: 0,
 						key: 's_0',
-						name: 'Open API',
-						icon: 'aws',
 					},
 					{
 						type: 'server',
-						id: 1,
 						key: 's_1',
-						name: 'IAM',
-						icon: 'aws',
 					},
 					{
 						type: 'server',
-						id: 2,
 						key: 's_2',
-						name: 'Authorization',
-						icon: 'aws',
 					},
 					{
 						type: 'server',
-						id: 3,
 						key: 's_3',
-						name: 'Bastion',
-						icon: 'aws',
 					},
 				],
 			},
 			{
 				type: 'folder',
-				id: 1,
 				key: 'f_1',
-				name: 'kt servers',
 				contain: [
 					{
 						type: 'server',
-						id: 4,
 						key: 's_4',
-						name: 'kt pilot',
-						icon: 'linux',
 					},
 				],
 			},
 		],
 		// TODO : id, name, icon 제거
-
+		resourceGroups: [
+			{
+				key: 'f_0',
+				name: 'aws servers',
+			},
+			{
+				key: 'f_1',
+				name: 'kt servers',
+			},
+		],
 		// server //todo resourceTree에서 정보를 들고있는게 좋을까 고민
 		resources: [
 			{
@@ -70,6 +59,7 @@ const slice = createSlice({
 				host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
+				osType: 'aws',
 			},
 			{
 				name: 'IAM',
@@ -77,6 +67,7 @@ const slice = createSlice({
 				host: 'ip-172-31-8-134.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
+				osType: 'aws',
 			},
 			{
 				name: 'Authorization',
@@ -84,6 +75,7 @@ const slice = createSlice({
 				host: 'ip-172-31-5-58.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
+				osType: 'aws',
 			},
 			{
 				name: 'Bastion',
@@ -91,6 +83,7 @@ const slice = createSlice({
 				host: 'ip-172-31-1-65.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
+				osType: 'aws',
 			},
 			{
 				name: 'kt pilot',
@@ -98,6 +91,7 @@ const slice = createSlice({
 				host: '211.253.10.9',
 				protocol: 'SSH2',
 				port: 10022,
+				osType: 'linux',
 			},
 		],
 		accounts: [

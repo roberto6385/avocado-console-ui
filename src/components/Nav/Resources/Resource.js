@@ -23,8 +23,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-import {startSearchingNode} from '../../../utils/redux';
 import {sshAction} from '../../../reducers/ssh';
+import {getResourceOsType} from '../../../utils/resource';
 
 export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
@@ -62,18 +62,18 @@ const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	const {selectedResource, resources, resourceTree, accounts} = useSelector(
+	const {selectedResource, resources, accounts} = useSelector(
 		remoteResourceSelector.all,
 	);
 	const {userData} = useSelector(authSelector.all);
 
 	const account = useMemo(
-		() => accounts.find((it) => it.key === data.key && it.checked === true),
+		() => accounts.find((it) => it.key === data && it.checked === true),
 		[accounts, data],
 	);
 
 	const {show} = useContextMenu({
-		id: data.key + '-resources-context-menu',
+		id: data + '-resources-context-menu',
 	});
 
 	const onClickResource = useDoubleClick(
@@ -107,10 +107,10 @@ const Resource = ({data, indent}) => {
 			}
 		},
 		() => {
-			if (selectedResource === data.key) {
+			if (selectedResource === data) {
 				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch(remoteResourceAction.setSelectedResource(data.key));
+				dispatch(remoteResourceAction.setSelectedResource(data));
 			}
 		},
 
@@ -120,42 +120,44 @@ const Resource = ({data, indent}) => {
 	const openResourceContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
+			dispatch(remoteResourceAction.setSelectedResource(data));
 			show(e);
 		},
 		[data, dispatch, show],
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		if (isFavoriteServer(favoriteTree, data.key)) {
-			dispatch(favoritesAction.deleteFavorite(data.key));
+		if (isFavoriteServer(favoriteTree, data)) {
+			dispatch(favoritesAction.deleteFavorite(data));
 		} else {
-			dispatch(favoritesAction.addFavorite({key: data.key}));
+			dispatch(favoritesAction.addFavorite({key: data}));
 		}
-	}, [data.key, dispatch, favoriteTree, resourceTree]);
+	}, [data, dispatch, favoriteTree]);
 
 	return (
 		<React.Fragment>
 			<ServerItem
 				onClick={onClickResource}
 				onContextMenu={openResourceContextMenu}
-				selected={selectedResource === data.key ? 1 : 0}
+				selected={selectedResource === data ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={selectedResource === data.key && 'selected'}
+					itype={selectedResource === data && 'selected'}
 				>
-					{data.icon === 'linux' && linuxServerIcon}
-					{data.icon === 'aws' && awsServerIcon}
+					{getResourceOsType(resources, data) === 'linux' &&
+						linuxServerIcon}
+					{getResourceOsType(resources, data) === 'aws' &&
+						awsServerIcon}
 				</Icon>
 
 				<ResourceItemTitle>
 					{data.name}
 					<IconButton
 						className={
-							isFavoriteServer(favoriteTree, data.key)
+							isFavoriteServer(favoriteTree, data)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -163,7 +165,7 @@ const Resource = ({data, indent}) => {
 						margin_right={'0px'}
 						onClick={onClickFavoriteIcon}
 						itype={
-							isFavoriteServer(favoriteTree, data.key)
+							isFavoriteServer(favoriteTree, data)
 								? 'selected'
 								: undefined
 						}
@@ -178,7 +180,7 @@ const Resource = ({data, indent}) => {
 };
 
 Resource.propTypes = {
-	data: PropTypes.object.isRequired,
+	data: PropTypes.string.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 

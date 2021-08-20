@@ -22,7 +22,7 @@ const PaneOrganizer = ({tab}) => {
 				<Pane
 					uuid={tab[0].uuid}
 					type={tab[0].type}
-					server={tab[0].server}
+					resourceKey={tab[0].resourceKey}
 				/>
 			)}
 			{tab.length === 2 && (
@@ -30,12 +30,12 @@ const PaneOrganizer = ({tab}) => {
 					<Pane
 						uuid={tab[0].uuid}
 						type={tab[0].type}
-						server={tab[0].server}
+						resourceKey={tab[0].resourceKey}
 					/>
 					<Pane
 						uuid={tab[1].uuid}
 						type={tab[1].type}
-						server={tab[1].server}
+						resourceKey={tab[1].resourceKey}
 					/>
 				</SplitPane>
 			)}
@@ -45,18 +45,18 @@ const PaneOrganizer = ({tab}) => {
 						<Pane
 							uuid={tab[0].uuid}
 							type={tab[0].type}
-							server={tab[0].server}
+							resourceKey={tab[0].resourceKey}
 						/>
 						<Pane
 							uuid={tab[1].uuid}
 							type={tab[1].type}
-							server={tab[1].server}
+							resourceKey={tab[1].resourceKey}
 						/>
 					</SplitPane>
 					<Pane
 						uuid={tab[2].uuid}
 						type={tab[2].type}
-						server={tab[2].server}
+						resourceKey={tab[2].resourceKey}
 					/>
 				</SplitPane>
 			)}
@@ -67,24 +67,24 @@ const PaneOrganizer = ({tab}) => {
 							<Pane
 								uuid={tab[0].uuid}
 								type={tab[0].type}
-								server={tab[0].server}
+								resourceKey={tab[0].resourceKey}
 							/>
 							<Pane
 								uuid={tab[1].uuid}
 								type={tab[1].type}
-								server={tab[1].server}
+								resourceKey={tab[1].resourceKey}
 							/>
 						</SplitPane>
 						<Pane
 							uuid={tab[2].uuid}
 							type={tab[2].type}
-							server={tab[2].server}
+							resourceKey={tab[2].resourceKey}
 						/>
 					</SplitPane>
 					<Pane
 						uuid={tab[3].uuid}
 						type={tab[3].type}
-						server={tab[3].server}
+						resourceKey={tab[3].resourceKey}
 					/>
 				</SplitPane>
 			)}
@@ -96,30 +96,30 @@ const PaneOrganizer = ({tab}) => {
 								<Pane
 									uuid={tab[0].uuid}
 									type={tab[0].type}
-									server={tab[0].server}
+									resourceKey={tab[0].resourceKey}
 								/>
 								<Pane
 									uuid={tab[1].uuid}
 									type={tab[1].type}
-									server={tab[1].server}
+									resourceKey={tab[1].resourceKey}
 								/>
 							</SplitPane>
 							<Pane
 								uuid={tab[2].uuid}
 								type={tab[2].type}
-								server={tab[2].server}
+								resourceKey={tab[2].resourceKey}
 							/>
 						</SplitPane>
 						<Pane
 							uuid={tab[3].uuid}
 							type={tab[3].type}
-							server={tab[3].server}
+							resourceKey={tab[3].resourceKey}
 						/>
 					</SplitPane>
 					<Pane
 						uuid={tab[4].uuid}
 						type={tab[4].type}
-						server={tab[4].server}
+						resourceKey={tab[4].resourceKey}
 					/>
 				</SplitPane>
 			)}

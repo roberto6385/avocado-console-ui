@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {sshAction, sshSelector} from '../../reducers/ssh';
+import {getResourceName} from '../../utils/resource';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const _Container = styled.div`
 	display: flex;
@@ -72,6 +74,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 		(state) => state.sftp,
 		shallowEqual,
 	);
+	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const [draggedTabIndex, setDraggedTabIndex] = useState(0);
 	const [draggedTab, setDraggedTab] = useState({});
@@ -163,7 +166,10 @@ const TabBar = ({isOpned, setisOpened}) => {
 								<_ResourceTitle
 									onClick={onClickChangeVisibleTab(data.uuid)}
 								>
-									{data.server.name}
+									{getResourceName(
+										resources,
+										data.resourceKey,
+									)}
 								</_ResourceTitle>
 								<HoverButton
 									size={'xs'}

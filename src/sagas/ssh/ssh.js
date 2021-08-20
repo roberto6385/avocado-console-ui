@@ -65,11 +65,7 @@ function* sendConnection(action) {
 									tabBarAction.addTab({
 										uuid: uuid,
 										type: 'SSH',
-										server: {
-											id: action.payload.id,
-											name: action.payload.name,
-											key: action.payload.key,
-										},
+										resourceKey: action.payload.key,
 									}),
 								);
 							}
@@ -161,11 +157,7 @@ function* sendReConnection(action) {
 								tabBarAction.addTab({
 									uuid: uuid,
 									type: 'SSH',
-									server: {
-										id: action.payload.id,
-										name: action.payload.name,
-										key: action.payload.key,
-									},
+									resourceKey: action.payload.key,
 									prevUuid: action.payload.prevUuid,
 									prevIndex: action.payload.prevIndex,
 								}),

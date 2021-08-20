@@ -21,12 +21,12 @@ const Resources = ({searchVal}) => {
 				data.type === 'folder' ? (
 					<ResourceGroup
 						key={data.key}
+						data={data.key}
 						open={searchVal !== ''}
-						data={data}
 						indent={1}
 					/>
 				) : (
-					<Resource key={data.key} data={data} indent={1} />
+					<Resource key={data.key} data={data.key} indent={1} />
 				),
 			)}
 		</ResourceTree>

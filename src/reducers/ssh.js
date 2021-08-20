@@ -2,23 +2,6 @@ import {Terminal} from 'xterm';
 import {ROBOTO_MONO} from '../styles/components/font';
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
-// export const initialState = {
-// 	font: ROBOTO_MONO,
-// 	font_size: 14,
-// 	search_mode: false,
-// 	autoCompleteMode: true,
-// 	ssh: [],
-// 	ssh_history: [],
-// 	snippets: [
-// 		{id: 0, name: 'File List', content: 'ls'},
-// 		{id: 1, name: 'Current Path', content: 'pwd'},
-// 	],
-// 	snippetIndex: 2,
-// 	tab: false,
-// 	loading: false,
-// };
-//
-
 export const READY_STATE = 'ssh/READY_STATE';
 
 const slice = createSlice({

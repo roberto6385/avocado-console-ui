@@ -120,7 +120,7 @@ const slice = createSlice({
 
 		//ADD_FAVORITE_SERVER
 		addFavorite: (state, action) => {
-			//TODO: resourceTree에서 key 값으로 탐색 후 해당 서버의 정보를
+			//TODO: resourceTree에서 data 값으로 탐색 후 해당 서버의 정보를
 			// payload에 담아서 favoriteTree에 넣어야 함
 			state.favoriteTree.push(action.payload);
 		},

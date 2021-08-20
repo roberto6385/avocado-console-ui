@@ -77,12 +77,7 @@ const Footer = () => {
 					</HoverButton>
 
 					{selectedTab &&
-						resources.find(
-							(v) =>
-								v.id ===
-								terminalTabs.find((i) => i.uuid === selectedTab)
-									?.server.id,
-						)?.host}
+						resources.find((v) => v.key === selectedTab)?.host}
 				</_RightSideContainer>
 			)}
 		</_Footer>

@@ -14,6 +14,7 @@ import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/Containers/SFTPContainer';
+import {getResourceName} from '../../utils/resource';
 
 const _Container = styled.div`
 	height: 100%;
@@ -67,7 +68,7 @@ const _ReconectBlock = styled.div`
 	${PreventDragCopy}
 `;
 
-const Pane = ({uuid, type, server}) => {
+const Pane = ({uuid, type, resourceKey}) => {
 	const dispatch = useDispatch();
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
@@ -114,9 +115,9 @@ const Pane = ({uuid, type, server}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const resource = resources.find((i) => i.key === server.key);
+		const resource = resources.find((i) => i.key === resourceKey);
 		const account = accounts.find(
-			(it) => it.key === server.key && it.checked === true,
+			(it) => it.key === resourceKey && it.checked === true,
 		);
 
 		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
@@ -157,7 +158,7 @@ const Pane = ({uuid, type, server}) => {
 		resources,
 		dispatch,
 		accounts,
-		server,
+		resourceKey,
 		sftp_pathState,
 		terminalTabs,
 		type,
@@ -203,7 +204,7 @@ const Pane = ({uuid, type, server}) => {
 								{sftpIcon}
 							</Icon>
 						)}
-						{server.name}
+						{getResourceName(resources, resourceKey)}
 					</_HeaderText>
 					<HoverButton
 						size={'micro'}
@@ -214,7 +215,9 @@ const Pane = ({uuid, type, server}) => {
 					</HoverButton>
 				</_Header>
 			)}
-			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}
+			{type === 'SSH' && (
+				<SSHContainer uuid={uuid} resourceKey={resourceKey} />
+			)}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);
@@ -223,7 +226,7 @@ const Pane = ({uuid, type, server}) => {
 Pane.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
-	server: PropTypes.object.isRequired,
+	resourceKey: PropTypes.string.isRequired,
 };
 
 export default Pane;
