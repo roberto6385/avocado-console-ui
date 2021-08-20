@@ -8,6 +8,7 @@ import PaneOrganizer from './PaneOrganizer';
 import LoadingSpinner from '../LoadingSpinner';
 import {tabBarSelector} from '../../reducers/tabBar';
 import {sshSelector} from '../../reducers/ssh';
+import {sftpSelector} from '../../reducers/renewal';
 
 export const _Container = styled.div`
 	flex: 1;
@@ -21,10 +22,7 @@ export const _Container = styled.div`
 const PanesContainer = () => {
 	const {terminalTabs, cols} = useSelector(tabBarSelector.all);
 	const {loading: sshLoading} = useSelector(sshSelector.all);
-	const {loading: sftpLoading} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {loading: sftpLoading} = useSelector(sftpSelector.all);
 	const visibleTerminalTabs = useMemo(
 		() => terminalTabs.filter((v) => v.display === true),
 		[terminalTabs],

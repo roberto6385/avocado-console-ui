@@ -1,6 +1,5 @@
 import produce from 'immer';
 
-export const CONNECTION_REQUEST = 'sftp/CONNECTION_REQUEST';
 export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
 export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
 
@@ -163,9 +162,6 @@ const sftp = (state = initialState, action) =>
 
 		switch (action.type) {
 			// 연결
-			case CONNECTION_REQUEST:
-				draft.loading = true;
-				break;
 
 			case RECONNECTION_REQUEST:
 				draft.loading = true;
@@ -189,72 +185,6 @@ const sftp = (state = initialState, action) =>
 
 				break;
 
-			case CONNECTION_SUCCESS:
-				draft.loading = false;
-
-				draft.sockets.push({
-					uuid: action.payload.uuid,
-					socket: action.payload.socket,
-					status: 'connect success',
-					ready: 1,
-				});
-				draft.paths.push({
-					uuid: action.payload.uuid,
-					path: '',
-					pathList: [],
-				});
-				draft.files.push({
-					uuid: action.payload.uuid,
-					fileList: [],
-					tempFile: null,
-				});
-				draft.highlights.push({
-					uuid: action.payload.uuid,
-					highlight: [],
-				});
-				draft.historys.push({
-					uuid: action.payload.uuid,
-					history: [],
-					history_highlight: [],
-					pause: [],
-				});
-				draft.uploads.push({
-					uuid: action.payload.uuid,
-					writeSocket: null, // 경로, file 저장
-					writeList: [], // 경로, file 저장
-					pass: true,
-				});
-				draft.downloads.push({
-					uuid: action.payload.uuid,
-					readSocket: null, // 경로, file 저장
-					readList: [], // 경로, file 저장
-					pass: true,
-				});
-				draft.deletes.push({
-					uuid: action.payload.uuid,
-					removeSocket: null,
-					removeList: [],
-					incinerator: [],
-					initList: [],
-					initPath: '',
-					pass: true,
-					total: [],
-				});
-				draft.edits.push({
-					uuid: action.payload.uuid,
-					text: '',
-					editText: '',
-					editFile: {},
-				});
-				draft.etcs.push({
-					uuid: action.payload.uuid,
-					sortKeyword: 'name',
-					toggle: true,
-					mode: 'list',
-					prevMode: '',
-				});
-
-				break;
 			case CONNECTION_FAILURE:
 				draft.loading = false;
 				break;

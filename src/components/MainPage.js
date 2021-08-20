@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from './LoadingSpinner';
 import {sshSelector} from '../reducers/ssh';
+import {sftpSelector} from '../reducers/renewal';
 
 const _Container = styled.div`
 	display: flex;
@@ -34,10 +35,7 @@ const MainPage = () => {
 	const {t} = useTranslation('mainPage');
 
 	const {loading: sshLoading} = useSelector(sshSelector.all);
-	const {loading: sftpLoading} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {loading: sftpLoading} = useSelector(sftpSelector.all);
 
 	return (
 		<_Container>

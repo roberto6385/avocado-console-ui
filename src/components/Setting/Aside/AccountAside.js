@@ -35,21 +35,21 @@ const AccountAside = () => {
 		<_Container>
 			<TextBoxField title={t('account')}>
 				<TextBox
-					value={data.id}
+					value={data?.id}
 					placeholder={t('placeholder.account')}
 					readOnly
 				/>
 			</TextBoxField>
 			<TextBoxField title={t('name')}>
 				<TextBox
-					value={data.name}
+					value={data?.name}
 					placeholder={t('placeholder.name')}
 					readOnly
 				/>
 			</TextBoxField>
 			<TextBoxField title={t('email')}>
 				<TextBox
-					value={data.email}
+					value={data?.email}
 					placeholder={t('placeholder.email')}
 					readOnly
 				/>

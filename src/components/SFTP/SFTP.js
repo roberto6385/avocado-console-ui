@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
@@ -16,6 +16,7 @@ import FileListContianer from './Containers/FileListContianer';
 import DropListContainer from './Containers/DropListContainer';
 import HistoryContianer from './Containers/HistoryContianer';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
+import {sftpSelector} from '../../reducers/renewal';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -63,10 +64,11 @@ const _ToolbarFoldUnfoldButton = styled.img`
 	z-index: 5;
 `;
 
-const SFTP = ({uuid, mode}) => {
-	const {resourceTree} = useSelector(remoteResourceSelector.all);
-	const {cols} = useSelector(tabBarSelector.all);
+const SFTP = ({uuid}) => {
+	const {cols, terminalTabs} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
+	const {data} = useSelector(sftpSelector.all);
+	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
 	const [isToolbarUnfolded, setIsToolbarUnfolded] = useState(true);
 
@@ -78,7 +80,7 @@ const SFTP = ({uuid, mode}) => {
 		setIsToolbarUnfolded(true);
 	}, []);
 
-	return mode === 'edit' ? (
+	return sftp.edit.state ? (
 		<_Container>
 			<Edit uuid={uuid} />
 		</_Container>
@@ -89,7 +91,7 @@ const SFTP = ({uuid, mode}) => {
 			>
 				<SFTPToolbar uuid={uuid} />
 
-				{(resourceTree.length === 1 || cols === 1) &&
+				{(terminalTabs.length === 1 || cols === 1) &&
 					(isToolbarUnfolded ? (
 						<_ToolbarFoldUnfoldButton
 							src={toolbarFold[theme]}
@@ -105,21 +107,22 @@ const SFTP = ({uuid, mode}) => {
 					))}
 			</_ToolBarContainer>
 			<_SFTP className={!isToolbarUnfolded && 'close-nav-sftp'}>
-				{mode === 'list' ? (
-					<FileListContianer uuid={uuid} />
+				{sftp.mode === 'list' ? (
+					// <FileListContianer uuid={uuid} />
+					<div>list</div>
 				) : (
-					<DropListContainer uuid={uuid} />
+					<div>drop</div>
+					// <DropListContainer uuid={uuid} />
 				)}
-				<HistoryContianer uuid={uuid} />
+				{/*<HistoryContianer uuid={uuid} />*/}
 			</_SFTP>
-			<FileStatusDialogBox />
+			{/*<FileStatusDialogBox />*/}
 		</_Container>
 	);
 };
 
 SFTP.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	mode: PropTypes.string.isRequired,
 };
 
 export default SFTP;

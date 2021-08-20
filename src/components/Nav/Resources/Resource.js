@@ -11,7 +11,6 @@ import {
 	linuxServerIcon,
 } from '../../../icons/icons';
 import styled from 'styled-components';
-import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	ResourceItem,
@@ -23,8 +22,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-import {startSearchingNode} from '../../../utils/redux';
 import {sshAction} from '../../../reducers/ssh';
+import {sftpAction} from '../../../reducers/renewal';
 
 export const ServerItem = styled(ResourceItem)`
 	.bookmark_button {
@@ -90,9 +89,8 @@ const Resource = ({data, indent}) => {
 					}),
 				);
 			} else if (resource.protocol === 'SFTP') {
-				dispatch({
-					type: CONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sftpAction.create({
 						token: userData.access_token, // connection info
 						host: resource.host,
 						port: resource.port,
@@ -102,8 +100,8 @@ const Resource = ({data, indent}) => {
 						name: resource.name, // create tab info
 						key: resource.key,
 						id: resource.id,
-					},
-				});
+					}),
+				);
 			}
 		},
 		() => {

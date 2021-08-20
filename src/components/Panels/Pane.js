@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {sshAction, sshSelector} from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
@@ -14,6 +14,7 @@ import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/Containers/SFTPContainer';
+import {sftpSelector} from '../../reducers/renewal';
 
 const _Container = styled.div`
 	height: 100%;
@@ -76,9 +77,10 @@ const Pane = ({uuid, type, server}) => {
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const {ssh} = useSelector(sshSelector.all);
-	const {socket: sftp_socketState, path: sftp_pathState} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
+	const {data} = useSelector(sftpSelector.all);
+	const {socket, ready} = useMemo(
+		() => data.find((v) => v.uuid === uuid),
+		[data, uuid],
 	);
 	//TODO: if possible to use ws.readyState, delete readyState
 	const [readyState, setReadyState] = useState(1);
@@ -104,13 +106,12 @@ const Pane = ({uuid, type, server}) => {
 					type: DISCONNECTION_REQUEST,
 					payload: {
 						uuid,
-						socket: sftp_socketState.find((v) => v.uuid === uuid)
-							.socket,
+						socket,
 					},
 				});
 			}
 		},
-		[sftp_socketState, type, uuid, dispatch, ssh],
+		[type, dispatch, uuid, ssh, socket],
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
@@ -149,7 +150,6 @@ const Pane = ({uuid, type, server}) => {
 
 					prevUuid: uuid,
 					prevIndex: terminalTabIndex,
-					prevPath: sftp_pathState.find((v) => v.uuid === uuid).path,
 				},
 			});
 		}
@@ -158,7 +158,6 @@ const Pane = ({uuid, type, server}) => {
 		dispatch,
 		accounts,
 		server,
-		sftp_pathState,
 		terminalTabs,
 		type,
 		userData,
@@ -169,9 +168,9 @@ const Pane = ({uuid, type, server}) => {
 		if (type === 'SSH') {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		} else {
-			setReadyState(sftp_socketState.find((v) => v.uuid === uuid).ready);
+			setReadyState(ready);
 		}
-	}, [sftp_socketState, ssh, type, uuid]);
+	}, [ready, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>

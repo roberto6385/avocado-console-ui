@@ -1,29 +1,29 @@
 import SFTP from '../../dist/sftp_pb';
 import * as PropTypes from 'prop-types';
 
-const sendConnect = ({ws, data}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var connect = new SFTP.ConnectRequest();
-
-	console.log(data);
-
-	connect.setToken(data.token);
-	connect.setHost(data.host);
-	connect.setUser(data.user);
-	connect.setPassword(data.password);
-	connect.setPort(data.port);
-
-	// sftp 서버로 alive message 재전송 회수 ( 0 값이면 사용 안 함 )
-	connect.setKeepalivecount(0);
-	// sftp 서버로 alive message 전송 주기 ( 단위 ms : 1000ms -> 1sec)
-	connect.setKeepaliveinterval(60000);
-
-	request.setConnect(connect);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
+// const sendConnect = ({ws, data}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var connect = new SFTP.ConnectRequest();
+//
+// 	console.log(data);
+//
+// 	connect.setToken(data.token);
+// 	connect.setHost(data.host);
+// 	connect.setUser(data.user);
+// 	connect.setPassword(data.password);
+// 	connect.setPort(data.port);
+//
+// 	// sftp 서버로 alive message 재전송 회수 ( 0 값이면 사용 안 함 )
+// 	connect.setKeepalivecount(0);
+// 	// sftp 서버로 alive message 전송 주기 ( 단위 ms : 1000ms -> 1sec)
+// 	connect.setKeepaliveinterval(60000);
+//
+// 	request.setConnect(connect);
+// 	message.setRequest(request);
+//
+// 	ws.send(message.serializeBinary());
+// };
 
 const sendDisconnect = ({ws}) => {
 	var message = new SFTP.Message();
@@ -53,18 +53,18 @@ const sendCommandByCd = ({ws, path}) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByPwd = ({ws}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var pwd = new SFTP.PrintWorkingDirectoryRequest();
-
-	cmd.setPwd(pwd);
-	request.setCommand(cmd);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByPwd = ({ws}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var pwd = new SFTP.PrintWorkingDirectoryRequest();
+//
+// 	cmd.setPwd(pwd);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+//
+// 	ws.send(message.serializeBinary());
+// };
 
 const sendCommandByMkdir = ({ws, path}) => {
 	var message = new SFTP.Message();
@@ -138,18 +138,18 @@ const sendCommandByChmod = ({ws, path, permissions}) => {
 	ws.send(message.serializeBinary());
 };
 
-const sendCommandByLs = ({ws, path}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var ls = new SFTP.ListDirectoryRequest();
-	ls.setPath(path);
-
-	cmd.setLs(ls);
-	request.setCommand(cmd);
-	message.setRequest(request);
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByLs = ({ws, path}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var ls = new SFTP.ListDirectoryRequest();
+// 	ls.setPath(path);
+//
+// 	cmd.setLs(ls);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+// 	ws.send(message.serializeBinary());
+// };
 
 const sendCommandByRename = ({ws, path, newPath}) => {
 	var message = new SFTP.Message();
@@ -271,7 +271,7 @@ const messageSender = ({
 }) => {
 	switch (keyword) {
 		case 'Connection':
-			sendConnect({ws, data});
+			// sendConnect({ws, data});
 			break;
 
 		case 'Disconnection':
@@ -283,7 +283,7 @@ const messageSender = ({
 			break;
 
 		case 'CommandByPwd':
-			sendCommandByPwd({ws});
+			// sendCommandByPwd({ws});
 			break;
 
 		case 'CommandByMkdir':
@@ -306,7 +306,7 @@ const messageSender = ({
 			break;
 
 		case 'CommandByLs':
-			sendCommandByLs({ws, path});
+			// sendCommandByLs({ws, path});
 			break;
 
 		case 'CommandByRename':

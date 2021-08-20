@@ -1,5 +1,4 @@
 import SFTP from '../../dist/sftp_pb';
-import {CONNECTION_SUCCESS, ERROR} from '../../reducers/sftp';
 
 export function connectResponse({data}) {
 	try {
@@ -16,7 +15,7 @@ export function connectResponse({data}) {
 				) {
 					const connect = response.getConnect();
 					return {
-						type: CONNECTION_SUCCESS,
+						type: 'Done',
 						uuid: connect.getUuid(),
 					};
 				} else if (
@@ -31,7 +30,7 @@ export function connectResponse({data}) {
 						.substring(errorIndex + 1);
 					console.log(substring.trim());
 					return {
-						type: ERROR,
+						type: 'Error',
 						err: error.getMessage(),
 					};
 				}

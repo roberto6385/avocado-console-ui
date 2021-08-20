@@ -1,103 +1,130 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	race,
-	delay,
-	takeLatest,
-} from 'redux-saga/effects';
-import {
-	ERROR,
-	LS_FAILURE,
-	LS_REQUEST,
-	LS_SUCCESS,
-	READY_STATE,
-} from '../../reducers/sftp';
-import {closeChannel, subscribe} from '../channel';
-import {lsResponse} from '../../ws/sftp/ls_response';
-import messageSender from './messageSender';
-import {sortList} from '../../utils/sftp';
+import {call, put, take, takeLatest} from 'redux-saga/effects';
+import {subscribe} from '../channel';
+import SFTP from '../../dist/sftp_pb';
+import {sftpAction} from '../../reducers/renewal';
+
+function setApi(data) {
+	const message = new SFTP.Message();
+	const request = new SFTP.Request();
+	const cmd = new SFTP.CommandRequest();
+	const ls = new SFTP.ListDirectoryRequest();
+
+	ls.setPath(data.path);
+	cmd.setLs(ls);
+	request.setCommand(cmd);
+	message.setRequest(request);
+	data.socket.send(message.serializeBinary());
+}
+
+function getApi(data) {
+	if (data instanceof ArrayBuffer) {
+		const message = SFTP.Message.deserializeBinary(data);
+		if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
+			const response = message.getResponse();
+			console.log(response);
+			console.log('response status: ', response.getStatus());
+			console.log(
+				response.getResponseCase() ===
+					SFTP.Response.ResponseCase.COMMAND,
+			);
+			if (
+				response.getResponseCase() ===
+				SFTP.Response.ResponseCase.COMMAND
+			) {
+				const command = response.getCommand();
+				console.log(command.getCommandCase());
+				console.log(SFTP.CommandResponse.CommandCase.LS);
+				console.log(
+					command.getCommandCase() ===
+						SFTP.CommandResponse.CommandCase.LS,
+				);
+				if (
+					command.getCommandCase() ===
+					SFTP.CommandResponse.CommandCase.LS
+				) {
+					const ls = command.getLs();
+					// console.log('command : ls', ls);
+
+					const entryList = ls.getEntryList();
+					// console.log('entry ', entryList.length);
+
+					// const list = [];
+					const list = [];
+					for (let i = 0; i < entryList.length; i++) {
+						const entry = entryList[i];
+						// list.push(entry.getLongname());
+
+						// new pure list
+						const splitedValue = entry
+							.getLongname()
+							.replace(/\s{2,}/gi, ' ')
+							.split(' ');
+						// 나중에 longname에서 가져와야 할 정보나 값이 생기면
+						// splitedValue 에서 사용하기 바람.
+						// console.log(splitedValue);
+
+						list.push({
+							name: entry.getFilename(),
+							size: entry.getAttributes().getSize(),
+							type:
+								entry
+									.getAttributes()
+									.getPermissionsstring()
+									.charAt(0) === 'd'
+									? 'directory'
+									: 'file',
+							lastModified: entry
+								.getAttributes()
+								.getMtimestring(),
+							permission: entry
+								.getAttributes()
+								.getPermissionsstring(),
+							link: splitedValue[1],
+							owner: splitedValue[2],
+							group: splitedValue[3],
+						});
+					}
+					return {list: list};
+				}
+			} else if (
+				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
+			) {
+				const error = response.getError();
+				console.log(error.getMessage());
+				throw error.getMessage();
+			}
+		} else {
+			throw 'data is not protocol buffer.';
+		}
+	} else {
+		const message = JSON.parse(data);
+
+		console.log('data is not ArrayBuffer', message);
+
+		if (message['status'] === 'connected') {
+			console.log(message['uuid']);
+		}
+		console.log(message.result);
+	}
+}
 
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	let pass = false;
-
-	const channel = yield call(subscribe, payload.socket);
 
 	try {
-		yield call(messageSender, {
-			keyword: 'CommandByLs',
-			ws: payload.socket,
-			path: payload.ls_path,
-		});
-		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(1000),
-				data: take(channel),
-			});
-			if (timeout) {
-				closeChannel(channel);
-				console.log('ls end');
-				if (!pass) {
-					yield put({
-						type: LS_REQUEST,
-						payload: {
-							socket: payload.socket,
-							uuid: payload.uuid,
-							ls_path: payload.ls_path,
-						},
-					});
-				}
-				if (payload.socket.readyState !== 1) {
-					yield put({
-						type: READY_STATE,
-						payload: {uuid: payload.uuid},
-					});
-				}
-			} else {
-				const res = yield call(lsResponse, {data});
-				console.log(res);
-				switch (res.type) {
-					case LS_SUCCESS:
-						yield put({
-							type: LS_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								fileList: sortList({
-									fileList:
-										payload.ls_path === '/'
-											? res.list.filter(
-													(v) => v.name !== '..',
-											  )
-											: res.list,
-								}),
-							},
-						});
-						pass = true;
-						break;
-
-					case ERROR:
-						pass = true;
-
-						console.log(res.err);
-						break;
-				}
-			}
-		}
+		const channel = yield call(subscribe, payload.socket);
+		yield call(setApi, {socket: payload.socket, path: payload.path});
+		const data = yield take(channel);
+		const res = yield call(getApi, data);
+		console.log(res);
+		// yield put(sftpAction.commandLsDone({uuid: payload.uuid}));
 	} catch (err) {
 		console.log(err);
-		yield put({type: LS_FAILURE});
-		closeChannel(channel);
+		yield put(sftpAction.commandLsFail({uuid: payload.uuid}));
 	}
 }
 
-function* watchSendCommand() {
-	yield takeLatest(LS_REQUEST, sendCommand);
-}
-
-export default function* commandLsSaga() {
-	yield all([fork(watchSendCommand)]);
+export default function* watcher() {
+	yield takeLatest(sftpAction.commandLs, sendCommand);
 }

@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {useDoubleClick} from '../../../hooks/useDoubleClick';
 import {awsServerIcon, linuxServerIcon} from '../../../icons/icons';
-import {CONNECTION_REQUEST} from '../../../reducers/sftp';
 import FavoriteContextMenu from '../../ContextMenus/FavoriteContextMenu';
 import {Icon} from '../../../styles/components/icon';
 import {
@@ -19,6 +18,7 @@ import {
 } from '../../../reducers/remoteResource';
 import {favoritesAction} from '../../../reducers/favorites';
 import {sshAction} from '../../../reducers/ssh';
+import {sftpAction} from '../../../reducers/renewal';
 
 const Favorite = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -47,9 +47,8 @@ const Favorite = ({data, indent}) => {
 					}),
 				);
 			} else if (resource.protocol === 'SFTP') {
-				dispatch({
-					type: CONNECTION_REQUEST,
-					payload: {
+				dispatch(
+					sftpAction.connect({
 						token: userData.access_token, // connection info
 						host: resource.host,
 						port: resource.port,
@@ -57,9 +56,8 @@ const Favorite = ({data, indent}) => {
 						password: account.password,
 						name: resource.name, // create tab info
 						key: resource.key,
-						id: resource.id,
-					},
-				});
+					}),
+				);
 			}
 		},
 		() => {

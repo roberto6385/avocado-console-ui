@@ -16,6 +16,7 @@ import {HoverButton} from '../../../styles/components/icon';
 import {SearchTextBox} from '../../../styles/components/textBox';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 import useInput from '../../../hooks/useInput';
+import {sftpSelector} from '../../../reducers/renewal';
 
 const _Container = styled.div`
 	display: flex;
@@ -33,24 +34,13 @@ const _Form = styled.form`
 const FileToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
-	const {
-		path: sftp_pathState,
-		socket: sftp_socketState,
-		etc: sftp_etcState,
-	} = useSelector((state) => state.sftp, shallowEqual);
+	const {data} = useSelector(sftpSelector.all);
 
-	const {path} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
-	);
-	const {mode} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
+	const {
+		path = '',
+		socket,
+		mode,
+	} = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
 	const [currentPath, onChangeCurrentPath, setCurrentPath] = useInput('');
 

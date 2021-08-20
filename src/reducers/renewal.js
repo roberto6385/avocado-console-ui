@@ -389,8 +389,19 @@ const slice = createSlice({
 	},
 });
 
-const selectAllState = createSelector();
-export const remoteResourceSelector = {
+const selectAllState = createSelector(
+	(state) => state.data,
+	(state) => state.loading,
+	(state) => state.error,
+	(data, error, loading) => {
+		return {
+			data,
+			error,
+			loading,
+		};
+	},
+);
+export const sftpSelector = {
 	all: (state) => selectAllState(state[SFTP]),
 };
 export const SFTP = slice.name;

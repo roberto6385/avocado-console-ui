@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {sftpIconConvert} from '../../icons/icons';
-import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {HoverButton} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {sftpAction} from '../../reducers/renewal';
 
 const SFTPConnectBtn = ({data}) => {
 	const dispatch = useDispatch();
@@ -21,9 +21,8 @@ const SFTPConnectBtn = ({data}) => {
 		);
 
 		if (resources.includes(resource)) {
-			dispatch({
-				type: CONNECTION_REQUEST,
-				payload: {
+			dispatch(
+				sftpAction.connect({
 					token: userData.access_token, // connection info
 					host: resource.host,
 					port: resource.port,
@@ -32,9 +31,8 @@ const SFTPConnectBtn = ({data}) => {
 
 					name: resource.name, // create tab info
 					key: resource.key,
-					id: resource.id,
-				},
-			});
+				}),
+			);
 		} else {
 			dispatch(dialogBoxAction.openAlert({key: 'lost-server'}));
 		}

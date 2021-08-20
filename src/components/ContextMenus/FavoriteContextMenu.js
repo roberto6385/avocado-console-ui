@@ -4,12 +4,12 @@ import {animation, Item} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {CONNECTION_REQUEST} from '../../reducers/sftp';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {authSelector} from '../../reducers/api/auth';
 import {favoritesAction} from '../../reducers/favorites';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {sshAction} from '../../reducers/ssh';
+import {sftpAction} from '../../reducers/renewal';
 
 const FavoriteContextMenu = ({identity, data}) => {
 	const dispatch = useDispatch();
@@ -29,9 +29,8 @@ const FavoriteContextMenu = ({identity, data}) => {
 	const onClickOpenSFTP = useCallback(() => {
 		const resource = resources.find((v) => v.key === data.key);
 
-		dispatch({
-			type: CONNECTION_REQUEST,
-			payload: {
+		dispatch(
+			sftpAction.connect({
 				token: userData.access_token, // connection info
 				host: resource.host,
 				port: resource.port,
@@ -39,9 +38,8 @@ const FavoriteContextMenu = ({identity, data}) => {
 				password: identity.password,
 				name: resource.name, // create tab info
 				key: resource.key,
-				id: resource.id,
-			},
-		});
+			}),
+		);
 	}, [resources, dispatch, userData, identity, data.key]);
 
 	const onClickOpenSSH = useCallback(() => {

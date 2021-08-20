@@ -2,6 +2,7 @@ import {persistReducer} from 'redux-persist';
 import {combineReducers} from '@reduxjs/toolkit';
 import {SSH, sshReducer} from './ssh';
 import sftp from './sftp';
+import {SFTP, sftpReducer} from './renewal';
 import {DIALOG_BOX, dialogBoxReducer} from './dialogBoxs';
 import {USER_RESOURCE, userResourceReducer} from './api/userResource';
 import {AUTH, authAction, authReducer} from './api/auth';
@@ -42,8 +43,9 @@ const sshLocalPersistConfig = {
 	whitelist: ['ssh_history', 'snippets', 'snippents_index'],
 };
 const appReducer = combineReducers({
-	sftp,
+	sftp, // 제거할 예정
 	[SSH]: persistReducer(sshLocalPersistConfig, sshReducer),
+	[SFTP]: sftpReducer,
 	[DIALOG_BOX]: dialogBoxReducer,
 	[AUTH]: authReducer,
 	[USER_RESOURCE]: userResourceReducer,
