@@ -68,7 +68,7 @@ function* sendCommand(action) {
 		yield call(setApi, {path: payload.path, socket: payload.socket});
 		const data = yield take(channel);
 		yield call(getApi, data);
-		yield put(sftpAction.commandCdDone({uuid: payload.uuid}));
+		yield put(sftpAction.commandCdDone());
 		yield put(
 			sftpAction.commandPwd({socket: payload.socket, uuid: payload.uuid}),
 		);

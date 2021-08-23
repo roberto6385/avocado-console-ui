@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {sortingUtil} from '../../../utils/sftp';
-import {useSelector} from 'react-redux';
-import {sftpSelector} from '../../../reducers/renewal';
+import {compareFiles, sortingUtil} from '../../../utils/sftp';
+import {useDispatch, useSelector} from 'react-redux';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 import styled from 'styled-components';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 import {
@@ -12,9 +12,10 @@ import {
 	folderOpenIcon,
 } from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
-import {HideScroll} from '../../../styles/function';
+import {HideScroll, PreventDragCopy} from '../../../styles/function';
 
 const Ul = styled.ul`
+	${PreventDragCopy};
 	${HideScroll};
 	border-right: 1px solid;
 	border-color: ${(props) =>
@@ -25,10 +26,10 @@ const Ul = styled.ul`
 const Li = styled.li`
 	cursor: pointer;
 	background: ${(props) =>
-		(props.type === 'current' &&
+		(props.type === 'selected' &&
 			props.theme.pages.webTerminal.main.panels.sftp.files
 				.selectedBackgroundColor) ||
-		(props.type === 'prev' &&
+		(props.type === 'former' &&
 			props.theme.pages.webTerminal.main.panels.sftp.files
 				.prevPathBackgroundColor)};
 	border-bottom: 1px solid;
@@ -63,7 +64,9 @@ const ButtonContainer = styled(FlexContainer)`
 `;
 
 const DropListBlockContainer = ({uuid, blockPath}) => {
+	const dispatch = useDispatch();
 	const [sortedFiles, setSortedFiles] = useState([]);
+	const [prevPath, setPrevPath] = useState('');
 	const {data} = useSelector(sftpSelector.all);
 	const sftp = useMemo(
 		() => data.find((it) => it.uuid === uuid),
@@ -71,11 +74,159 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	);
 
 	const selectItem = useCallback(
-		(item) => () => {
-			console.log(blockPath);
-			console.log(item);
+		(item) => (e) => {
+			if (sftp.path === blockPath) {
+				if (item.type === 'directory') {
+					if (e.metaKey) {
+						if (sftp.selected.files.length === 0) {
+							dispatch(
+								sftpAction.commandCd({
+									socket: sftp.socket,
+									uuid: uuid,
+									path:
+										blockPath === '/'
+											? blockPath + item.name
+											: `${blockPath}/${item.name}`,
+								}),
+							);
+						} else {
+							let result = sftp.selected.files.slice();
+
+							if (result.find((v) => v.name === item.name)) {
+								result = result.filter(
+									(v) => v.name !== item.name,
+								);
+							} else {
+								result.push(item);
+							}
+							dispatch(
+								sftpAction.setSelectedFile({
+									uuid: uuid,
+									result: result,
+								}),
+							);
+						}
+					} else if (e.shiftKey) {
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: compareFiles(
+									sortedFiles,
+									item,
+									sftp.selected.files
+										? sftp.selected.files.slice().shift()
+										: sortedFiles[0],
+								),
+							}),
+						);
+					} else {
+						dispatch(
+							sftpAction.commandCd({
+								socket: sftp.socket,
+								uuid: uuid,
+								path:
+									blockPath === '/'
+										? blockPath + item.name
+										: `${blockPath}/${item.name}`,
+							}),
+						);
+					}
+				} else {
+					if (e.metaKey) {
+						let result = sftp.selected.files.slice();
+
+						if (result.find((v) => v.name === item.name)) {
+							result = result.filter((v) => v.name !== item.name);
+						} else {
+							result.push(item);
+						}
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: result,
+							}),
+						);
+					} else if (e.shiftKey) {
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: compareFiles(
+									sortedFiles,
+									item,
+									sftp.selected.files
+										? sftp.selected.files.slice().shift()
+										: sortedFiles[0],
+								),
+							}),
+						);
+					} else {
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: [item],
+							}),
+						);
+					}
+				}
+			} else {
+				const formerItem = sftp.files[blockPath].find(
+					(v) => v.name === prevPath,
+				);
+				if (e.metaKey) {
+					dispatch(
+						sftpAction.commandCd({
+							socket: sftp.socket,
+							uuid: uuid,
+							path: blockPath,
+						}),
+					);
+					dispatch(
+						sftpAction.setSelectedFile({
+							uuid: uuid,
+							result: [formerItem, item],
+						}),
+					);
+				} else if (e.shiftKey) {
+					dispatch(
+						sftpAction.commandCd({
+							socket: sftp.socket,
+							uuid: uuid,
+							path: blockPath,
+						}),
+					);
+					dispatch(
+						sftpAction.setSelectedFile({
+							uuid: uuid,
+							result: compareFiles(sortedFiles, item, formerItem),
+						}),
+					);
+				} else {
+					dispatch(
+						sftpAction.commandCd({
+							socket: sftp.socket,
+							uuid: uuid,
+							path:
+								item.type === 'file'
+									? blockPath
+									: blockPath === '/'
+									? blockPath + item.name
+									: `${blockPath}/${item.name}`,
+						}),
+					);
+				}
+			}
 		},
-		[blockPath],
+		[
+			blockPath,
+			dispatch,
+			prevPath,
+			sftp.files,
+			sftp.path,
+			sftp.selected.files,
+			sftp.socket,
+			sortedFiles,
+			uuid,
+		],
 	);
 
 	useEffect(() => {
@@ -88,12 +239,21 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 		);
 	}, [blockPath, sftp.files, sftp.sort.asc, sftp.sort.type]);
 
+	useEffect(() => {
+		const index = blockPath === '/' ? 1 : blockPath.split('/').length;
+		setPrevPath(sftp.path.split('/')[index]);
+	}, [blockPath, sftp.path]);
+
 	return (
 		<Ul>
 			{sortedFiles.map((v) => {
 				if (blockPath === '/' && v.name === '..') return;
 				return sftp.path !== blockPath ? (
-					<Li key={v.name} onClick={selectItem(v)}>
+					<Li
+						key={v.name}
+						type={v.name === prevPath ? 'former' : undefined}
+						onClick={selectItem(v)}
+					>
 						<SftpMainIcon
 							type={v.type === 'directory' ? 'main' : undefined}
 							margin_right={'8px'}
@@ -103,7 +263,15 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 						<span>{v.name}</span>
 					</Li>
 				) : (
-					<LastLi key={v.name}>
+					<LastLi
+						key={v.name}
+						type={
+							sftp.selected.files.find((x) => x.name === v.name)
+								? 'selected'
+								: undefined
+						}
+						onClick={selectItem(v)}
+					>
 						<FlexContainer>
 							<SftpMainIcon
 								type={

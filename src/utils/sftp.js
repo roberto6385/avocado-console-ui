@@ -1,3 +1,20 @@
+export const compareFiles = (total, select, criterion) => {
+	console.log(total);
+	console.log(select);
+	console.log(criterion);
+	let selectedIndex = total.findIndex((v) => v.name === select.name);
+	let lastIndex = total.findIndex((v) => v.name === criterion.name);
+	const array = [];
+	if (selectedIndex === lastIndex) return [select];
+	while (lastIndex !== selectedIndex) {
+		array.push(total[lastIndex]);
+		selectedIndex > lastIndex ? lastIndex++ : lastIndex--;
+	}
+	array.push(select);
+	console.log(array);
+	return array;
+};
+
 export function fileByteSizeFormater(bytes, decimals = 0) {
 	if (bytes === 0) {
 		return '0 byte';

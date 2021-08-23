@@ -110,14 +110,14 @@ const slice = createSlice({
 			console.log('에러 핸들링 : 정상적으로 종료되지 않았습니다.');
 		},
 		//CD_REQUEST
-		commandCd: (state, action) => {},
-		//CD_SUCCESS
-		commandCdDone: (state, action) => {
+		commandCd: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			state.data[index].selected.files = [];
 		},
+		//CD_SUCCESS
+		commandCdDone: (state, action) => {},
 		//CD_FAILURE
 		commandCdFail: (state, action) => {},
 		//PWD_REQUEST
@@ -305,7 +305,9 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.files = action.payload.result;
+			state.data[index].selected.files = action.payload.result
+				.slice()
+				.filter((v) => v.name !== '..');
 		},
 		//PUSH_INIT_DELETE_WORK_LIST
 		getSelectedFile: (state, action) => {

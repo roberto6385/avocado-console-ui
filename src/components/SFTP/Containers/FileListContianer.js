@@ -9,7 +9,7 @@ import {tabBarSelector} from '../../../reducers/tabBar';
 
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
-import {sortingUtil} from '../../../utils/sftp';
+import {compareFiles, sortingUtil} from '../../../utils/sftp';
 
 const FileListContianer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -162,23 +162,6 @@ const FileListContianer = ({uuid}) => {
 		[dispatch, sftp.selected.files, show, uuid],
 	);
 
-	const compareFiles = useCallback((total, select, criterion) => {
-		console.log(total);
-		console.log(select);
-		console.log(criterion);
-		let selectedIndex = total.findIndex((v) => v.name === select.name);
-		let lastIndex = total.findIndex((v) => v.name === criterion.name);
-		const array = [];
-		if (selectedIndex === lastIndex) return [select];
-		while (lastIndex !== selectedIndex) {
-			array.push(total[lastIndex]);
-			selectedIndex > lastIndex ? lastIndex++ : lastIndex--;
-		}
-		array.push(select);
-		console.log(array);
-		return array;
-	}, []);
-
 	const handleSelectFile = useCallback(
 		(item) => (e) => {
 			if (item.name === '..') return;
@@ -211,7 +194,7 @@ const FileListContianer = ({uuid}) => {
 				}),
 			);
 		},
-		[compareFiles, dispatch, sftp.selected.files, sortedFiles, uuid],
+		[dispatch, sftp.selected.files, sortedFiles, uuid],
 	);
 
 	useEffect(() => {
