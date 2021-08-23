@@ -108,12 +108,11 @@ const SFTP = ({uuid}) => {
 			</_ToolBarContainer>
 			<_SFTP className={!isToolbarUnfolded && 'close-nav-sftp'}>
 				{sftp.mode === 'list' ? (
-					// <FileListContianer uuid={uuid} />
-					<div>list</div>
+					<FileListContianer uuid={uuid} />
 				) : (
-					<div>drop</div>
-					// <DropListContainer uuid={uuid} />
+					<DropListContainer uuid={uuid} />
 				)}
+				<div>history</div>
 				{/*<HistoryContianer uuid={uuid} />*/}
 			</_SFTP>
 			{/*<FileStatusDialogBox />*/}

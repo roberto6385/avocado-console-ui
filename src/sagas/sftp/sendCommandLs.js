@@ -32,12 +32,6 @@ function getApi(data) {
 				SFTP.Response.ResponseCase.COMMAND
 			) {
 				const command = response.getCommand();
-				console.log(command.getCommandCase());
-				console.log(SFTP.CommandResponse.CommandCase.LS);
-				console.log(
-					command.getCommandCase() ===
-						SFTP.CommandResponse.CommandCase.LS,
-				);
 				if (
 					command.getCommandCase() ===
 					SFTP.CommandResponse.CommandCase.LS
@@ -85,6 +79,8 @@ function getApi(data) {
 						});
 					}
 					return {list: list};
+				} else {
+					throw 'getCommandCase is not LS';
 				}
 			} else if (
 				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
@@ -118,7 +114,13 @@ function* sendCommand(action) {
 		const data = yield take(channel);
 		const res = yield call(getApi, data);
 		console.log(res);
-		// yield put(sftpAction.commandLsDone({uuid: payload.uuid}));
+		yield put(
+			sftpAction.commandLsDone({
+				uuid: payload.uuid,
+				path: payload.path,
+				files: res.list,
+			}),
+		);
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.commandLsFail({uuid: payload.uuid}));

@@ -1,23 +1,15 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import FileList from '../File/FileList';
 import * as PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
-import {
-	ADD_HIGHLIGHT,
-	ADD_HISTORY,
-	ADD_ONE_HIGHLIGHT,
-	CD_REQUEST,
-	CREATE_NEW_WEBSOCKET_REQUEST,
-	INITIALIZING_HIGHLIGHT,
-	REMOVE_HIGHLIGHT,
-} from '../../../reducers/sftp';
+import {CD_REQUEST, INITIALIZING_HIGHLIGHT} from '../../../reducers/sftp';
 import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
-
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 import {sortList} from '../../../utils/sftp';
 
 const FileListContianer = ({uuid}) => {
@@ -26,14 +18,7 @@ const FileListContianer = ({uuid}) => {
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {language} = useSelector(settingSelector.all);
-	const {
-		path: sftp_pathState,
-		file: sftp_fileState,
-		high: sftp_highState,
-		etc: sftp_etcState,
-		socket: sftp_socketState,
-		download: sftp_downloadState,
-	} = useSelector((state) => state.sftp, shallowEqual);
+	const {data} = useSelector(sftpSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
 	const terminalTab = useMemo(
@@ -53,58 +38,39 @@ const FileListContianer = ({uuid}) => {
 		[accounts, terminalTab],
 	);
 
-	const {sortKeyword, toggle} = useMemo(
-		() => sftp_etcState.find((it) => it.uuid === uuid),
-		[sftp_etcState, uuid],
-	);
-	const {socket} = useMemo(
-		() => sftp_socketState.find((it) => it.uuid === uuid),
-		[sftp_socketState, uuid],
-	);
-	const {path, pathList} = useMemo(
-		() => sftp_pathState.find((it) => it.uuid === uuid),
-		[sftp_pathState, uuid],
-	);
-	const {fileList} = useMemo(
-		() => sftp_fileState.find((it) => it.uuid === uuid),
-		[sftp_fileState, uuid],
-	);
-	const {highlight} = useMemo(
-		() => sftp_highState.find((it) => it.uuid === uuid),
-		[sftp_highState, uuid],
-	);
-	const {readSocket, readList} = useMemo(
-		() => sftp_downloadState.find((it) => it.uuid === uuid),
-		[sftp_downloadState, uuid],
+	const sftp = useMemo(
+		() => data.find((it) => it.uuid === uuid),
+		[data, uuid],
 	);
 	const {show} = useContextMenu({
 		id: uuid + '-file-list-context-menu',
 	});
 
+	const [sortedFiles, setSortedFiles] = useState([]);
 	const [currentFileList, setCurrentFileList] = useState([]);
-	const [currentKey, setCurrentKey] = useState(sortKeyword);
+	const [currentKey, setCurrentKey] = useState(sftp.sort.type);
 
 	const onClickChangePath = useCallback(
 		(item) => () => {
-			if (pathList.length !== fileList.length) return;
 			if (item.type === 'directory') {
 				// 디렉토리 클릭시 해당 디렉토리로 이동
-				dispatch({
-					type: CD_REQUEST,
-					payload: {
-						socket: socket,
-						uuid: uuid,
-						path: path,
-						cd_path:
-							path === '/'
-								? path + item.name
-								: path + '/' + item.name,
-					},
-				});
-				dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+				// const path =
+				// 	sftp.path === '/'
+				// 		? sftp.path + item.name
+				// 		: sftp.path + '/' + item.name;
+				// dispatch({
+				// 	type: CD_REQUEST,
+				// 	payload: {
+				// 		socket: sftp.socket,
+				// 		uuid: uuid,
+				// 		path: sftp.path,
+				// 		cd_path: path,
+				// 	},
+				// });
+				// dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
 			}
 		},
-		[dispatch, fileList.length, path, pathList.length, socket, uuid],
+		[],
 	);
 
 	const onClickDownloadFile = useCallback(
@@ -112,44 +78,35 @@ const FileListContianer = ({uuid}) => {
 			e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: item.name,
-						size: item.size,
-						todo: 'read',
-						progress: 0,
-						path: path,
-						file: item,
-					},
-				});
-				if (!readSocket && readList.length === 0) {
-					dispatch({
-						type: CREATE_NEW_WEBSOCKET_REQUEST,
-						paylaod: {
-							token: userData.access_token, // connection info
-							host: resource.host,
-							port: resource.port,
-							user: account.user,
-							password: account.password,
-							todo: 'read',
-							uuid: uuid,
-						},
-					});
-				}
+				// dispatch({
+				// 	type: ADD_HISTORY,
+				// 	payload: {
+				// 		uuid: uuid,
+				// 		name: item.name,
+				// 		size: item.size,
+				// 		todo: 'read',
+				// 		progress: 0,
+				// 		path: path,
+				// 		file: item,
+				// 	},
+				// });
+				// if (!readSocket && readList.length === 0) {
+				// 	dispatch({
+				// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+				// 		paylaod: {
+				// 			token: userData.access_token, // connection info
+				// 			host: resource.host,
+				// 			port: resource.port,
+				// 			user: account.user,
+				// 			password: account.password,
+				// 			todo: 'read',
+				// 			uuid: uuid,
+				// 		},
+				// 	});
+				// }
 			}
 		},
-		[
-			readList,
-			readSocket,
-			dispatch,
-			uuid,
-			path,
-			userData,
-			resource,
-			account,
-		],
+		[],
 	);
 
 	const onClickEditFile = useCallback(
@@ -157,46 +114,36 @@ const FileListContianer = ({uuid}) => {
 			e.stopPropagation();
 			console.log(item);
 			if (item.name !== '..' && item.type !== 'directory') {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: item.name,
-						size: item.size,
-						todo: 'edit',
-						progress: 0,
-						path: path,
-						file: item,
-						key: 'read',
-					},
-				});
-
-				if (!readSocket && readList.length === 0) {
-					dispatch({
-						type: CREATE_NEW_WEBSOCKET_REQUEST,
-						payload: {
-							token: userData.access_token, // connection info
-							host: resource.host,
-							port: resource.port,
-							user: account.user,
-							password: account.password,
-							todo: 'read',
-							uuid: uuid,
-						},
-					});
-				}
+				// dispatch({
+				// 	type: ADD_HISTORY,
+				// 	payload: {
+				// 		uuid: uuid,
+				// 		name: item.name,
+				// 		size: item.size,
+				// 		todo: 'edit',
+				// 		progress: 0,
+				// 		path: path,
+				// 		file: item,
+				// 		key: 'read',
+				// 	},
+				// });
+				// if (!readSocket && readList.length === 0) {
+				// 	dispatch({
+				// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+				// 		payload: {
+				// 			token: userData.access_token, // connection info
+				// 			host: resource.host,
+				// 			port: resource.port,
+				// 			user: account.user,
+				// 			password: account.password,
+				// 			todo: 'read',
+				// 			uuid: uuid,
+				// 		},
+				// 	});
+				// }
 			}
 		},
-		[
-			readList,
-			readSocket,
-			dispatch,
-			uuid,
-			path,
-			userData,
-			resource,
-			account,
-		],
+		[],
 	);
 
 	const openFileListContextMenu = useCallback(
@@ -205,118 +152,93 @@ const FileListContianer = ({uuid}) => {
 				e.preventDefault();
 				if (item.name === '..' || item.name === '') return;
 				show(e);
-				!highlight
-					.slice()
-					.find(
-						(v) =>
-							JSON.stringify(v) ===
-							JSON.stringify({...item, path}),
-					) &&
-					item !== '' &&
-					dispatch({
-						type: ADD_ONE_HIGHLIGHT,
-						payload: {uuid, item: {...item, path}},
-					});
+				// !highlight
+				// 	.slice()
+				// 	.find(
+				// 		(v) =>
+				// 			JSON.stringify(v) ===
+				// 			JSON.stringify({...item, path}),
+				// 	) &&
+				// 	item !== '' &&
+				// 	dispatch({
+				// 		type: ADD_ONE_HIGHLIGHT,
+				// 		payload: {uuid, item: {...item, path}},
+				// 	});
 			},
-		[dispatch, highlight, uuid, path, show],
+		[show],
 	);
 
-	const compareFiles = useCallback(
-		(list, first, second) => {
-			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+	const compareFiles = useCallback((total, select, criterion) => {
+		console.log(select);
+		console.log(criterion);
+		let selectedIndex = total.findIndex((v) => v.name === select.name);
+		let lastIndex = total.findIndex((v) => v.name === criterion.name);
+		const array = [];
+		if (selectedIndex === lastIndex) return;
+		while (lastIndex !== selectedIndex) {
+			array.push(total[lastIndex]);
+			selectedIndex > lastIndex ? lastIndex++ : lastIndex--;
+		}
+		array.push(select);
+		console.log(array);
+		return array;
+	}, []);
 
-			if (first <= second) {
-				for (let i = first; i <= second; i++) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...list[i], path}},
-					});
+	console.log(sftp.selected.files.slice());
+	const onClickSelectFile = useCallback(
+		(item) => (e) => {
+			if (item.name === '..') return;
+
+			let result = sftp.selected.files.slice();
+			if (e.metaKey) {
+				if (result.find((v) => v.name === item.name)) {
+					result = result.filter((v) => v.name !== item.name);
+				} else {
+					result.push(item);
+				}
+			} else if (e.shiftKey) {
+				if (result.length === 0) {
+					const files = sortedFiles.filter(
+						(v) => v.name !== '..' && v.name !== '.',
+					);
+					console.log(files);
+					const index = files.findIndex((v) => v.name === item.name);
+					result = files.slice(0, index + 1);
+				} else {
+					result = compareFiles(sortedFiles, item, result[0]);
 				}
 			} else {
-				for (let i = first; i >= second; i--) {
-					dispatch({
-						type: ADD_HIGHLIGHT,
-						payload: {uuid, item: {...list[i], path}},
-					});
-				}
+				result = [item];
 			}
+			dispatch(
+				sftpAction.setSelectedFile({
+					uuid: uuid,
+					result: result,
+				}),
+			);
 		},
-		[dispatch, path, uuid],
-	);
-
-	const onClickSelectFile = useCallback(
-		({item, index}) =>
-			(e) => {
-				if (item.name === '..') return;
-				if (e.metaKey) {
-					!highlight
-						.slice()
-						.find(
-							(v) =>
-								JSON.stringify(v) ===
-								JSON.stringify({...item, path}),
-						)
-						? dispatch({
-								type: ADD_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  })
-						: dispatch({
-								type: REMOVE_HIGHLIGHT,
-								payload: {uuid, item: {...item, path}},
-						  });
-				} else if (e.shiftKey) {
-					if (highlight.length === 0) {
-						dispatch({
-							type: ADD_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-					} else {
-						const firstIndex = currentFileList.findIndex(
-							(it) => it.name === highlight[0].name,
-						);
-						compareFiles(currentFileList, firstIndex, index);
-					}
-				} else {
-					!highlight
-						.slice()
-						.find(
-							(v) =>
-								JSON.stringify(v) ===
-								JSON.stringify({...item, path}),
-						) &&
-						dispatch({
-							type: ADD_ONE_HIGHLIGHT,
-							payload: {uuid, item: {...item, path}},
-						});
-				}
-			},
-		[highlight, dispatch, uuid, path, currentFileList, compareFiles],
+		[compareFiles, dispatch, sftp.selected.files, sortedFiles, uuid],
 	);
 
 	useEffect(() => {
-		if (
-			fileList.length === pathList.length &&
-			pathList.length !== 0 &&
-			fileList.length !== 0
-		) {
-			let nextList = fileList[fileList.length - 1];
-			const sortedList = sortList({
-				fileList: nextList,
-				keyword: sortKeyword,
-				toggle: currentKey === sortKeyword ? toggle : true,
+		if (sftp.files[sftp.path]) {
+			const files = sortList({
+				fileList: sftp.files[sftp.path],
+				keyword: sftp.sort.type,
+				toggle: sftp.sort.asc,
 			});
-			setCurrentKey(sortKeyword);
-			setCurrentFileList(sortedList);
+			console.log(files);
+			setSortedFiles(files);
 		}
-	}, [fileList, pathList, sortKeyword, toggle, currentKey]);
+	}, [sftp.files, sftp.path, sftp.sort.asc, sftp.sort.type]);
 
 	return (
 		<FileList
 			uuid={uuid}
-			highlight={highlight}
-			path={path}
+			highlight={sftp.selected.files}
+			path={sftp.path}
 			lang={language}
-			list={currentFileList}
+			list={sortedFiles}
 			onContextMenu={openFileListContextMenu}
 			onClick={onClickSelectFile}
 			onDownload={onClickDownloadFile}

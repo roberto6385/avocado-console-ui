@@ -85,7 +85,14 @@ function* sendCommand(action) {
 			}),
 		);
 		for (let v of res.list) {
-			yield put(sftpAction.commandLs({socket: payload.socket, path: v}));
+			yield put(
+				sftpAction.commandLs({
+					socket: payload.socket,
+					path: v,
+					uuid: payload.uuid,
+				}),
+			);
+			yield take(sftpAction.commandLsDone);
 		}
 	} catch (err) {
 		console.log(err);

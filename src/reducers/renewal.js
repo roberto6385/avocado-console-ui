@@ -37,7 +37,7 @@ const slice = createSlice({
 					type: 'name',
 					asc: true,
 				},
-				path: null,
+				path: '',
 				files: {}, // 경로명(key) : [{파일들}] fileList
 				history: [],
 				edit: {
@@ -95,12 +95,7 @@ const slice = createSlice({
 			state.loading = false;
 		},
 		//DISCONNECTION_REQUEST
-		disconnect: (state, action) => {
-			const index = state.data.findIndex(
-				(v) => v.uuid === action.payload.uuid,
-			);
-			state.data[index].loading = true;
-		},
+		disconnect: (state, action) => {},
 		//DISCONNECTION_SUCCESS
 		disconnectDone: (state, action) => {
 			state.data = state.data.filter(

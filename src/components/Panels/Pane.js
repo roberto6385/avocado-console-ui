@@ -14,7 +14,7 @@ import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import SSHContainer from '../SSH/SSHContainer';
 import SFTPContainer from '../SFTP/Containers/SFTPContainer';
-import {sftpSelector} from '../../reducers/renewal';
+import {sftpAction, sftpSelector} from '../../reducers/renewal';
 
 const _Container = styled.div`
 	height: 100%;
@@ -78,10 +78,7 @@ const Pane = ({uuid, type, server}) => {
 
 	const {ssh} = useSelector(sshSelector.all);
 	const {data} = useSelector(sftpSelector.all);
-	const {socket, ready} = useMemo(
-		() => data.find((v) => v.uuid === uuid),
-		[data, uuid],
-	);
+
 	//TODO: if possible to use ws.readyState, delete readyState
 	const [readyState, setReadyState] = useState(1);
 
@@ -102,16 +99,17 @@ const Pane = ({uuid, type, server}) => {
 				);
 			}
 			if (type === 'SFTP') {
-				dispatch({
-					type: DISCONNECTION_REQUEST,
-					payload: {
-						uuid,
-						socket,
-					},
-				});
+				// const {socket} = data.find((v) => v.uuid === item.uuid);
+				const {socket} = data.find((v) => v.uuid === uuid);
+				dispatch(
+					sftpAction.disconnect({
+						uuid: uuid,
+						socket: socket,
+					}),
+				);
 			}
 		},
-		[type, dispatch, uuid, ssh, socket],
+		[type, dispatch, uuid, ssh, data],
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
@@ -168,9 +166,10 @@ const Pane = ({uuid, type, server}) => {
 		if (type === 'SSH') {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		} else {
+			const {ready} = data.find((v) => v.uuid === uuid);
 			setReadyState(ready);
 		}
-	}, [ready, ssh, type, uuid]);
+	}, [data, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>

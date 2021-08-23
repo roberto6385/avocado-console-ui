@@ -79,6 +79,7 @@ const FileList = ({
 	onEdit,
 	onDoubleClick,
 }) => {
+	console.log(list);
 	return (
 		<React.Fragment>
 			<_Table onContextMenu={onContextMenu}>
@@ -89,14 +90,14 @@ const FileList = ({
 							return (
 								<_Tr
 									onContextMenu={onContextMenu(item)}
-									onClick={onClick({item, index})}
+									onClick={onClick(item)}
 									onDoubleClick={onDoubleClick(item)}
 									key={index + uuid}
 									className={
 										highlight.find(
 											(v) =>
 												JSON.stringify(v) ===
-												JSON.stringify({...item, path}),
+												JSON.stringify(item),
 										)
 											? 'filelist-content active'
 											: 'filelist-content'
@@ -157,22 +158,22 @@ const FileList = ({
 					})}
 				</_Tbody>
 			</_Table>
-			<SFTPFileListContextMenu uuid={uuid} />
+			{/*<SFTPFileListContextMenu uuid={uuid} />*/}
 		</React.Fragment>
 	);
 };
 
 FileList.propTypes = {
-	uuid: PropTypes.string.isRequired,
-	path: PropTypes.string.isRequired,
-	highlight: PropTypes.array.isRequired,
-	lang: PropTypes.string.isRequired,
-	list: PropTypes.array.isRequired,
-	onContextMenu: PropTypes.func.isRequired,
-	onClick: PropTypes.func.isRequired,
-	onDownload: PropTypes.func.isRequired,
-	onEdit: PropTypes.func.isRequired,
-	onDoubleClick: PropTypes.func.isRequired,
+	uuid: PropTypes.string,
+	path: PropTypes.string,
+	highlight: PropTypes.array,
+	lang: PropTypes.string,
+	list: PropTypes.array,
+	onContextMenu: PropTypes.func,
+	onClick: PropTypes.func,
+	onDownload: PropTypes.func,
+	onEdit: PropTypes.func,
+	onDoubleClick: PropTypes.func,
 };
 
 export default FileList;

@@ -76,7 +76,6 @@ function* sendCommand(action) {
 		const data = yield take(channel);
 		const res = yield call(getApi, data);
 		yield put(sftpAction.connectDone({socket: socket, uuid: res.uuid}));
-		yield put(sftpAction.commandPwd({socket: socket, uuid: res.uuid}));
 		//todo  extraReducer로 탭 생성할지 할지 고민중
 		yield put(
 			tabBarAction.addTab({
@@ -85,6 +84,7 @@ function* sendCommand(action) {
 				server: {name: payload.name, key: payload.key},
 			}),
 		);
+		yield put(sftpAction.commandPwd({socket: socket, uuid: res.uuid}));
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.connectFail());

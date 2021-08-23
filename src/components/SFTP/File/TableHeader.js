@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import {
 	CHANGE_SORT_KEYWORD,
 	INITIALIZING_HIGHLIGHT,
 } from '../../../reducers/sftp';
+import {sftpSelector} from '../../../reducers/renewal';
 
 const _Tr = styled.tr`
 	top: 0px;
@@ -47,8 +48,8 @@ const _Thead = styled.thead`
 const TableHeader = ({uuid}) => {
 	const {t} = useTranslation('fileListContent');
 	const dispatch = useDispatch();
-	const {etc: sftpEtc} = useSelector((state) => state.sftp, shallowEqual);
-	const {sortKeyword} = sftpEtc.find((v) => v.uuid === uuid);
+	const {data} = useSelector(sftpSelector.all);
+	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
 	const tableHeaders = [
 		{title: t('name'), key: 'name', min: '142px', flex: 1},
@@ -102,7 +103,7 @@ const TableHeader = ({uuid}) => {
 						<_Th
 							key={item.key}
 							id={`file-list-table-header-${item.key}`}
-							active={sortKeyword === item.key}
+							active={sftp.sort.type === item.key}
 							textAlign={item.key === 'size' && 'right'}
 							onClick={onSortList}
 							min={item.min}

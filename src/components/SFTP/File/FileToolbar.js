@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {CD_REQUEST, CHANGE_MODE, PWD_REQUEST} from '../../../reducers/sftp';
 

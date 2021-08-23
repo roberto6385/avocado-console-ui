@@ -1,13 +1,14 @@
 import {HoverButton, Icon} from '../../styles/components/icon';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import MenuButtons from './MenuButtons';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useMemo} from 'react';
 import styled from 'styled-components';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {sshAction, sshSelector} from '../../reducers/ssh';
+import {sftpAction, sftpSelector} from '../../reducers/renewal';
 
 const _Container = styled.div`
 	display: flex;
@@ -68,10 +69,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector(sshSelector.all);
-	const {socket: sftpSockets} = useSelector(
-		(state) => state.sftp,
-		shallowEqual,
-	);
+	const {data} = useSelector(sftpSelector.all);
 
 	const [draggedTabIndex, setDraggedTabIndex] = useState(0);
 	const [draggedTab, setDraggedTab] = useState({});
@@ -95,17 +93,16 @@ const TabBar = ({isOpned, setisOpened}) => {
 					}),
 				);
 			} else if (item.type === 'SFTP') {
-				dispatch({
-					type: DISCONNECTION_REQUEST,
-					payload: {
+				const {socket} = data.find((v) => v.uuid === item.uuid);
+				dispatch(
+					sftpAction.disconnect({
 						uuid: item.uuid,
-						socket: sftpSockets.find((v) => v.uuid === item.uuid)
-							.socket,
-					},
-				});
+						socket: socket,
+					}),
+				);
 			}
 		},
-		[ssh, sftpSockets, dispatch],
+		[dispatch, ssh, data],
 	);
 
 	const onDragStartTab = useCallback(

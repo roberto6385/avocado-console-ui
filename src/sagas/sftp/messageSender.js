@@ -275,7 +275,7 @@ const messageSender = ({
 			break;
 
 		case 'Disconnection':
-			sendDisconnect({ws});
+			// sendDisconnect({ws});
 			break;
 
 		case 'CommandByCd':

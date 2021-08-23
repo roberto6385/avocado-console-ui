@@ -11,10 +11,10 @@ export function fileByteSizeFormater(bytes, decimals = 0) {
 	}`;
 }
 
-export function sortList({fileList, keyword = 'name', toggle = true}) {
+export function sortList({fileList, type = 'name', asc = true}) {
 	const nextList = fileList.slice().sort((a, b) => {
-		if (keyword === 'name') {
-			if (toggle) {
+		if (type === 'name') {
+			if (asc) {
 				return a.type < b.type
 					? -1
 					: a.type > b.type
@@ -28,14 +28,14 @@ export function sortList({fileList, keyword = 'name', toggle = true}) {
 				return a.name > b.name ? -1 : a.name < b.name ? 1 : 0;
 			}
 		}
-		if (keyword === 'size') {
-			if (toggle) {
+		if (type === 'size') {
+			if (asc) {
 				return a.size < b.size ? -1 : a.size > b.size ? 1 : 0;
 			} else {
 				return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
 			}
 		}
-		if (keyword === 'modified') {
+		if (type === 'modified') {
 			const lastA = sftpDateFormater({
 				modify: a.lastModified,
 				keyword: 'sort',
@@ -44,14 +44,14 @@ export function sortList({fileList, keyword = 'name', toggle = true}) {
 				modify: b.lastModified,
 				keyword: 'sort',
 			});
-			if (toggle) {
+			if (asc) {
 				return lastA < lastB ? -1 : lastA > lastB ? 1 : 0;
 			} else {
 				return lastA > lastB ? -1 : lastA < lastB ? 1 : 0;
 			}
 		}
-		if (keyword === 'permission') {
-			if (toggle) {
+		if (type === 'permission') {
+			if (asc) {
 				return a.permission < b.permission
 					? -1
 					: a.permission > b.permission
