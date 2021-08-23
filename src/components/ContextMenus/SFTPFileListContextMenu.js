@@ -10,16 +10,13 @@ import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {sftpSelector} from '../../reducers/renewal';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('sftpFileListContextMenu');
-	const {
-		path: sftpPath,
-		high: sftpHigh,
-		download: sftpDowload,
-	} = useSelector((state) => state.sftp, shallowEqual);
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+	const {data} = useSelector(sftpSelector.all);
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
@@ -40,101 +37,73 @@ const SFTPFileListContextMenu = ({uuid}) => {
 			),
 		[accounts, terminalTab],
 	);
-	const {readSocket, readList} = useMemo(
-		() => sftpDowload.find((it) => it.uuid === uuid),
-		[sftpDowload, uuid],
-	);
-	const {highlight} = useMemo(
-		() => sftpHigh.find((it) => it.uuid === uuid),
-		[sftpHigh, uuid],
-	);
-	const {path} = useMemo(
-		() => sftpPath.find((it) => it.uuid === uuid),
-		[path, uuid],
+	const sftp = useMemo(
+		() => data.find((it) => it.uuid === uuid),
+		[data, uuid],
 	);
 
 	const onClickDownloadData = useCallback(async () => {
-		for await (let value of highlight) {
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.name,
-					size: value.size,
-					todo: 'read',
-					progress: 0,
-					path: path,
-					file: value,
-				},
-			});
-		}
-		if (!readSocket && readList.length === 0) {
-			dispatch({
-				type: CREATE_NEW_WEBSOCKET_REQUEST,
-				payload: {
-					token: userData.access_token, // connection info
-					host: resource.host,
-					port: resource.port,
-					user: account.user,
-					password: account.password,
-					todo: 'read',
-					uuid: uuid,
-				},
-			});
-		}
-	}, [
-		readList,
-		readSocket,
-		dispatch,
-		uuid,
-		highlight,
-		path,
-		userData,
-		resource,
-		account,
-	]);
+		// for await (let value of highlight) {
+		// 	dispatch({
+		// 		type: ADD_HISTORY,
+		// 		payload: {
+		// 			uuid: uuid,
+		// 			name: value.name,
+		// 			size: value.size,
+		// 			todo: 'read',
+		// 			progress: 0,
+		// 			path: path,
+		// 			file: value,
+		// 		},
+		// 	});
+		// }
+		// if (!readSocket && readList.length === 0) {
+		// 	dispatch({
+		// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+		// 		payload: {
+		// 			token: userData.access_token, // connection info
+		// 			host: resource.host,
+		// 			port: resource.port,
+		// 			user: account.user,
+		// 			password: account.password,
+		// 			todo: 'read',
+		// 			uuid: uuid,
+		// 		},
+		// 	});
+		// }
+	}, []);
 
 	const onClickEditData = useCallback(() => {
-		for (let value of highlight) {
-			dispatch({
-				type: ADD_HISTORY,
-				payload: {
-					uuid: uuid,
-					name: value.name,
-					size: value.size,
-					todo: 'edit',
-					progress: 0,
-					path: path,
-					file: value,
-					key: 'read',
-				},
-			});
-		}
-		if (!readSocket && readList.length === 0) {
-			dispatch({
-				type: CREATE_NEW_WEBSOCKET_REQUEST,
-				payload: {
-					token: userData.access_token, // connection info
-					host: resource.host,
-					port: resource.port,
-					user: account.user,
-					password: account.password,
-					todo: 'read',
-					uuid: uuid,
-				},
-			});
-		}
-	}, [
-		readList,
-		readSocket,
-		highlight,
-		dispatch,
-		uuid,
-		path,
-		userData,
-		resource,
-		account,
-	]);
+		// for (let value of highlight) {
+		// 	dispatch({
+		// 		type: ADD_HISTORY,
+		// 		payload: {
+		// 			uuid: uuid,
+		// 			name: value.name,
+		// 			size: value.size,
+		// 			todo: 'edit',
+		// 			progress: 0,
+		// 			path: path,
+		// 			file: value,
+		// 			key: 'read',
+		// 		},
+		// 	});
+		// }
+		// if (!readSocket && readList.length === 0) {
+		// 	dispatch({
+		// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+		// 		payload: {
+		// 			token: userData.access_token, // connection info
+		// 			host: resource.host,
+		// 			port: resource.port,
+		// 			user: account.user,
+		// 			password: account.password,
+		// 			todo: 'read',
+		// 			uuid: uuid,
+		// 		},
+		// 	});
+		// }
+	}, []);
 
 	const handleOnClickEvents = useCallback(
 		(v) => async () => {
@@ -214,17 +183,17 @@ const SFTPFileListContextMenu = ({uuid}) => {
 			animation={animation.slide}
 		>
 			<Item
-				disabled={highlight.length === 0}
+				// disabled={highlight.length === 0}
 				onClick={handleOnClickEvents('download-data')}
 			>
 				{t('download')}
 			</Item>
 			<Item
-				disabled={
-					highlight.length === 0 ||
-					highlight.length !== 1 ||
-					highlight.slice().find((item) => item.type === 'directory')
-				}
+				// disabled={
+				// 	highlight.length === 0 ||
+				// 	highlight.length !== 1 ||
+				// 	highlight.slice().find((item) => item.type === 'directory')
+				// }
 				onClick={handleOnClickEvents('edit-data')}
 			>
 				{t('edit')}
@@ -235,35 +204,35 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				{t('addFolder')}
 			</Item>
 			<Item
-				disabled={highlight.length === 0 || highlight.length !== 1}
+				// disabled={highlight.length === 0 || highlight.length !== 1}
 				onClick={handleOnClickEvents('rename-data')}
 			>
 				{t('rename')}
 			</Item>
 			<Separator />
 			<Item
-				disabled={highlight.length === 0}
+				// disabled={highlight.length === 0}
 				onClick={handleOnClickEvents('delete-data')}
 			>
 				{t('delete')}
 			</Item>
 			<Separator />
 			<Item
-				disabled={highlight.length !== 1}
+				// disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('get-attributes')}
 			>
 				{t('attributes')}
 			</Item>
 
 			<Item
-				disabled={highlight.length !== 1}
+				// disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('change-group')}
 			>
 				{t('changeGroup')}
 			</Item>
 
 			<Item
-				disabled={highlight.length !== 1}
+				// disabled={highlight.length !== 1}
 				onClick={handleOnClickEvents('change-ownership')}
 			>
 				{t('changeOwner')}

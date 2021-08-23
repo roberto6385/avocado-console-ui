@@ -8,7 +8,7 @@ import {
 	CHANGE_SORT_KEYWORD,
 	INITIALIZING_HIGHLIGHT,
 } from '../../../reducers/sftp';
-import {sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const _Tr = styled.tr`
 	top: 0px;
@@ -24,6 +24,7 @@ const _Tr = styled.tr`
 `;
 
 const _Th = styled.th`
+	cursor: pointer;
 	margin-right: 16px;
 	min-width: ${(props) => props?.min};
 	flex: ${(props) => props.flex};
@@ -41,7 +42,7 @@ const _Th = styled.th`
 const _Thead = styled.thead`
 	position: sticky;
 	top: 0px;
-	z-index: 1;
+	z-index: 2;
 	min-width: 778px;
 `;
 
@@ -60,37 +61,8 @@ const TableHeader = ({uuid}) => {
 	];
 
 	const onSortList = useCallback(
-		(e) => {
-			dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
-
-			switch (e.target) {
-				case 'file-list-table-header-name':
-					dispatch({
-						type: CHANGE_SORT_KEYWORD,
-						payload: {uuid, keyword: 'name'},
-					});
-					break;
-				case 'file-list-table-header-size':
-					dispatch({
-						type: CHANGE_SORT_KEYWORD,
-						payload: {uuid, keyword: 'size'},
-					});
-					break;
-				case 'file-list-table-header-modified':
-					dispatch({
-						type: CHANGE_SORT_KEYWORD,
-						payload: {uuid, keyword: 'modified'},
-					});
-					break;
-				case 'file-list-table-header-permission':
-					dispatch({
-						type: CHANGE_SORT_KEYWORD,
-						payload: {uuid, keyword: 'permission'},
-					});
-					break;
-				default:
-					break;
-			}
+		(key) => () => {
+			dispatch(sftpAction.setSort({uuid, type: key}));
 		},
 		[dispatch, uuid],
 	);
@@ -102,10 +74,9 @@ const TableHeader = ({uuid}) => {
 					return (
 						<_Th
 							key={item.key}
-							id={`file-list-table-header-${item.key}`}
 							active={sftp.sort.type === item.key}
 							textAlign={item.key === 'size' && 'right'}
-							onClick={onSortList}
+							onClick={onSortList(item.key)}
 							min={item.min}
 							flex={item.flex}
 						>

@@ -83,9 +83,9 @@ const _Li = styled.li`
 const DropList = ({
 	uuid,
 	list,
-	pathList,
 	highlight,
 	path,
+	pathList,
 	onContextMenu,
 	onClick,
 	onEdit,
@@ -212,9 +212,9 @@ const DropList = ({
 
 DropList.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	pathList: PropTypes.array.isRequired,
 	onContextMenu: PropTypes.func.isRequired,
 	highlight: PropTypes.array.isRequired,
+	pathList: PropTypes.array.isRequired,
 	path: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 	onDownload: PropTypes.func.isRequired,

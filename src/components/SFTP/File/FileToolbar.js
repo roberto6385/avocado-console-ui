@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CD_REQUEST, CHANGE_MODE, PWD_REQUEST} from '../../../reducers/sftp';
-
 import {
 	arrowUpwordIcon,
 	homeIcon,
@@ -16,7 +14,7 @@ import {HoverButton} from '../../../styles/components/icon';
 import {SearchTextBox} from '../../../styles/components/textBox';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 import useInput from '../../../hooks/useInput';
-import {sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const _Container = styled.div`
 	display: flex;
@@ -48,18 +46,16 @@ const FileToolbar = ({uuid}) => {
 		(e, nextPath = '/root') => {
 			const pathInput = document.getElementById('file-list-nav-input');
 			nextPath !== undefined &&
-				dispatch({
-					type: CD_REQUEST,
-					payload: {
+				dispatch(
+					sftpAction.commandCd({
 						socket: socket,
 						uuid: uuid,
-						path: path,
-						cd_path: nextPath,
-					},
-				}) &&
+						path: nextPath,
+					}),
+				) &&
 				pathInput.blur();
 		},
-		[dispatch, path, socket, uuid],
+		[dispatch, socket, uuid],
 	);
 
 	const onClickMovetoParentRath = useCallback(
@@ -101,39 +97,26 @@ const FileToolbar = ({uuid}) => {
 		[path, setCurrentPath],
 	);
 
-	const onClickChangeToDropListStyle = useCallback(() => {
-		mode !== 'drop' &&
-			dispatch({
-				type: CHANGE_MODE,
-				payload: {
+	const onClickChangeMode = useCallback(
+		(type) => () => {
+			if (type === mode) return;
+			dispatch(
+				sftpAction.setMode({
 					uuid,
-					mode: 'drop',
-					currentMode: mode,
-				},
-			});
-	}, [dispatch, mode, uuid]);
-
-	const onClickChangeToFileListStyle = useCallback(() => {
-		mode !== 'list' &&
-			dispatch({
-				type: CHANGE_MODE,
-				payload: {
-					uuid,
-					mode: 'list',
-					currentMode: mode,
-				},
-			});
-	}, [dispatch, mode, uuid]);
+					mode: type,
+				}),
+			);
+		},
+		[dispatch, mode, uuid],
+	);
 
 	const onClickRefreshList = useCallback(() => {
-		dispatch({
-			type: PWD_REQUEST,
-			payload: {
+		dispatch(
+			sftpAction.commandPwd({
 				socket: socket,
 				uuid: uuid,
-				pwd_path: null,
-			},
-		});
+			}),
+		);
 	}, [dispatch, socket, uuid]);
 
 	useEffect(() => {
@@ -151,14 +134,14 @@ const FileToolbar = ({uuid}) => {
 			<SftpMainIcon
 				type={mode === 'list' ? 'main' : undefined}
 				margin={'13px 5px'}
-				onClick={onClickChangeToFileListStyle}
+				onClick={onClickChangeMode('list')}
 			>
 				{viewListIcon}
 			</SftpMainIcon>
 			<SftpMainIcon
 				type={mode === 'drop' ? 'main' : undefined}
 				margin={'13px 16px 13px 5px'}
-				onClick={onClickChangeToDropListStyle}
+				onClick={onClickChangeMode('drop')}
 			>
 				{viewColumnIcon}
 			</SftpMainIcon>

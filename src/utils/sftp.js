@@ -11,8 +11,8 @@ export function fileByteSizeFormater(bytes, decimals = 0) {
 	}`;
 }
 
-export function sortList({fileList, type = 'name', asc = true}) {
-	const nextList = fileList.slice().sort((a, b) => {
+export function sortingUtil({array, type = 'name', asc = true}) {
+	const nextList = array.slice().sort((a, b) => {
 		if (type === 'name') {
 			if (asc) {
 				return a.type < b.type

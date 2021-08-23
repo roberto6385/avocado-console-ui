@@ -181,113 +181,113 @@ const History = ({
 	return (
 		<_Container>
 			<Dropzone onDrop={(files) => onDropUpload(files)}>
-				{history.length === 0 ? (
-					<DropSpaceDiv>
-						<_DescriptionText>{t('paragraph')}</_DescriptionText>
-						<DropSpace_Button onClick={onClickUpload}>
-							<Icon size='sm' margin_right={'8px'}>
-								{fileUploadIcon}
-							</Icon>
-							<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
-						</DropSpace_Button>
-					</DropSpaceDiv>
-				) : (
-					<_Ul>
-						{history.map((item, index) => {
-							return (
-								<_Li
-									className={'history-content'}
-									key={item.HISTORY_ID}
-									onClick={onSelect(item, index)}
-									borderWidth={`${item.progress}%`}
-									selected={highlight.find(
-										(v) => v.HISTORY_ID === item.HISTORY_ID,
-									)}
-								>
-									<HistoryButton
-										onClick={onChangeProgress(item)}
-										size='20px'
-										margin={'10px'}
-										type={
-											item.progress !== 100
-												? 'pause'
-												: item.todo === 'write'
-												? 'upload'
-												: item.todo === 'read'
-												? 'read'
-												: item.todo === 'edit'
-												? 'edit'
-												: item.todo === 'rm' && 'delete'
-										}
-									>
-										{item.progress !== 100
-											? (item.todo === 'write' &&
-													item.progress !== 0 &&
-													!writeSocket) ||
-											  (item.todo === 'read' &&
-													item.progress !== 0 &&
-													!readSocket) ||
-											  (item.todo === 'edit' &&
-													item.progress !== 0 &&
-													((item.key === 'write' &&
-														!writeSocket) ||
-														(item.key === 'read' &&
-															!readSocket)))
-												? playCircleIcon
-												: pauseCircleIcon
-											: item.todo === 'write'
-											? arrowCircleUpIcon
-											: item.todo === 'read'
-											? arrowCircleDownIcon
-											: item.todo === 'edit'
-											? buildCircleIcon
-											: item.todo === 'rm' &&
-											  removeCircleIcon}
-									</HistoryButton>
+				{/*{history.length === 0 ? (*/}
+				{/*	<DropSpaceDiv>*/}
+				{/*		<_DescriptionText>{t('paragraph')}</_DescriptionText>*/}
+				{/*		<DropSpace_Button onClick={onClickUpload}>*/}
+				{/*			<Icon size='sm' margin_right={'8px'}>*/}
+				{/*				{fileUploadIcon}*/}
+				{/*			</Icon>*/}
+				{/*			<_BrowseButtonText>{t('browse')}</_BrowseButtonText>*/}
+				{/*		</DropSpace_Button>*/}
+				{/*	</DropSpaceDiv>*/}
+				{/*) : (*/}
+				{/*	<_Ul>*/}
+				{/*		{history.map((item, index) => {*/}
+				{/*			return (*/}
+				{/*				<_Li*/}
+				{/*					className={'history-content'}*/}
+				{/*					key={item.HISTORY_ID}*/}
+				{/*					onClick={onSelect(item, index)}*/}
+				{/*					borderWidth={`${item.progress}%`}*/}
+				{/*					selected={highlight.find(*/}
+				{/*						(v) => v.HISTORY_ID === item.HISTORY_ID,*/}
+				{/*					)}*/}
+				{/*				>*/}
+				{/*					<HistoryButton*/}
+				{/*						onClick={onChangeProgress(item)}*/}
+				{/*						size='20px'*/}
+				{/*						margin={'10px'}*/}
+				{/*						type={*/}
+				{/*							item.progress !== 100*/}
+				{/*								? 'pause'*/}
+				{/*								: item.todo === 'write'*/}
+				{/*								? 'upload'*/}
+				{/*								: item.todo === 'read'*/}
+				{/*								? 'read'*/}
+				{/*								: item.todo === 'edit'*/}
+				{/*								? 'edit'*/}
+				{/*								: item.todo === 'rm' && 'delete'*/}
+				{/*						}*/}
+				{/*					>*/}
+				{/*						{item.progress !== 100*/}
+				{/*							? (item.todo === 'write' &&*/}
+				{/*									item.progress !== 0 &&*/}
+				{/*									!writeSocket) ||*/}
+				{/*							  (item.todo === 'read' &&*/}
+				{/*									item.progress !== 0 &&*/}
+				{/*									!readSocket) ||*/}
+				{/*							  (item.todo === 'edit' &&*/}
+				{/*									item.progress !== 0 &&*/}
+				{/*									((item.key === 'write' &&*/}
+				{/*										!writeSocket) ||*/}
+				{/*										(item.key === 'read' &&*/}
+				{/*											!readSocket)))*/}
+				{/*								? playCircleIcon*/}
+				{/*								: pauseCircleIcon*/}
+				{/*							: item.todo === 'write'*/}
+				{/*							? arrowCircleUpIcon*/}
+				{/*							: item.todo === 'read'*/}
+				{/*							? arrowCircleDownIcon*/}
+				{/*							: item.todo === 'edit'*/}
+				{/*							? buildCircleIcon*/}
+				{/*							: item.todo === 'rm' &&*/}
+				{/*							  removeCircleIcon}*/}
+				{/*					</HistoryButton>*/}
 
-									<HistoryText
-										className={'history-content'}
-										flex={1}
-										progress={item.progress === 100}
-									>
-										{item.name}
-									</HistoryText>
-									<_HistorySizeText
-										className={'history-content'}
-									>
-										{fileByteSizeFormater(item.size)}
-									</_HistorySizeText>
-									<HoverButton
-										size={'sm'}
-										margin={'10px'}
-										onClick={onRemove(item)}
-										className={'history-content'}
-									>
-										{deleteIcon}
-									</HoverButton>
+				{/*					<HistoryText*/}
+				{/*						className={'history-content'}*/}
+				{/*						flex={1}*/}
+				{/*						progress={item.progress === 100}*/}
+				{/*					>*/}
+				{/*						{item.name}*/}
+				{/*					</HistoryText>*/}
+				{/*					<_HistorySizeText*/}
+				{/*						className={'history-content'}*/}
+				{/*					>*/}
+				{/*						{fileByteSizeFormater(item.size)}*/}
+				{/*					</_HistorySizeText>*/}
+				{/*					<HoverButton*/}
+				{/*						size={'sm'}*/}
+				{/*						margin={'10px'}*/}
+				{/*						onClick={onRemove(item)}*/}
+				{/*						className={'history-content'}*/}
+				{/*					>*/}
+				{/*						{deleteIcon}*/}
+				{/*					</HoverButton>*/}
 
-									{item.progress !== 100 && (
-										<Progress>
-											<Bar width={`${item.progress}%`} />
-										</Progress>
-									)}
-								</_Li>
-							);
-						})}
-					</_Ul>
-				)}
+				{/*					{item.progress !== 100 && (*/}
+				{/*						<Progress>*/}
+				{/*							<Bar width={`${item.progress}%`} />*/}
+				{/*						</Progress>*/}
+				{/*					)}*/}
+				{/*				</_Li>*/}
+				{/*			);*/}
+				{/*		})}*/}
+				{/*	</_Ul>*/}
+				{/*)}*/}
 			</Dropzone>
 		</_Container>
 	);
 };
 History.propTypes = {
-	onDropUpload: PropTypes.func.isRequired,
-	onClickUpload: PropTypes.func.isRequired,
-	onSelect: PropTypes.func.isRequired,
-	highlight: PropTypes.array.isRequired,
-	onChangeProgress: PropTypes.func.isRequired,
-	onRemove: PropTypes.func.isRequired,
-	history: PropTypes.array.isRequired,
+	onDropUpload: PropTypes.func,
+	onClickUpload: PropTypes.func,
+	onSelect: PropTypes.func,
+	highlight: PropTypes.array,
+	onChangeProgress: PropTypes.func,
+	onRemove: PropTypes.func,
+	history: PropTypes.array,
 	writeSocket: PropTypes.object,
 	readSocket: PropTypes.object,
 };

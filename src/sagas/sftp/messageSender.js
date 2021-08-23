@@ -25,33 +25,20 @@ import * as PropTypes from 'prop-types';
 // 	ws.send(message.serializeBinary());
 // };
 
-const sendDisconnect = ({ws}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var disconnect = new SFTP.DisconnectRequest();
-
-	request.setDisconnect(disconnect);
-	message.setRequest(request);
-
-	console.log(message);
-
-	ws.send(message.serializeBinary());
-};
-
-const sendCommandByCd = ({ws, path}) => {
-	console.log(ws, path);
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var cd = new SFTP.ChangeDirectoryRequest();
-	cd.setPath(path);
-
-	cmd.setCd(cd);
-	request.setCommand(cmd);
-	message.setRequest(request);
-	console.log(message.serializeBinary());
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByCd = ({ws, path}) => {
+// 	console.log(ws, path);
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var cd = new SFTP.ChangeDirectoryRequest();
+// 	cd.setPath(path);
+//
+// 	cmd.setCd(cd);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+// 	console.log(message.serializeBinary());
+// 	ws.send(message.serializeBinary());
+// };
 
 // const sendCommandByPwd = ({ws}) => {
 // 	var message = new SFTP.Message();
@@ -279,7 +266,7 @@ const messageSender = ({
 			break;
 
 		case 'CommandByCd':
-			sendCommandByCd({ws, path});
+			// sendCommandByCd({ws, path});
 			break;
 
 		case 'CommandByPwd':

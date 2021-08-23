@@ -56,27 +56,27 @@ function getApi(data) {
 						// 나중에 longname에서 가져와야 할 정보나 값이 생기면
 						// splitedValue 에서 사용하기 바람.
 						// console.log(splitedValue);
-
-						list.push({
-							name: entry.getFilename(),
-							size: entry.getAttributes().getSize(),
-							type:
-								entry
+						if (entry.getFilename() !== '.')
+							list.push({
+								name: entry.getFilename(),
+								size: entry.getAttributes().getSize(),
+								type:
+									entry
+										.getAttributes()
+										.getPermissionsstring()
+										.charAt(0) === 'd'
+										? 'directory'
+										: 'file',
+								lastModified: entry
 									.getAttributes()
-									.getPermissionsstring()
-									.charAt(0) === 'd'
-									? 'directory'
-									: 'file',
-							lastModified: entry
-								.getAttributes()
-								.getMtimestring(),
-							permission: entry
-								.getAttributes()
-								.getPermissionsstring(),
-							link: splitedValue[1],
-							owner: splitedValue[2],
-							group: splitedValue[3],
-						});
+									.getMtimestring(),
+								permission: entry
+									.getAttributes()
+									.getPermissionsstring(),
+								link: splitedValue[1],
+								owner: splitedValue[2],
+								group: splitedValue[3],
+							});
 					}
 					return {list: list};
 				} else {

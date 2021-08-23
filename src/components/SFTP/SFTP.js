@@ -17,6 +17,7 @@ import DropListContainer from './Containers/DropListContainer';
 import HistoryContianer from './Containers/HistoryContianer';
 import FileStatusDialogBox from '../DialogBoxs/Form/FileStatusDialogBox';
 import {sftpSelector} from '../../reducers/renewal';
+import DropListBlockContainer from './Containers/DropListBlockContainer';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -40,10 +41,10 @@ const _Container = styled.div`
 	}
 `;
 
-const _SFTP = styled.div`
+const ContentsContainer = styled.div`
 	display: flex;
 	flex: 1 1 0;
-	overflow: hidden;
+	overflow-x: scroll;
 `;
 
 const _ToolBarContainer = styled.div`
@@ -106,15 +107,16 @@ const SFTP = ({uuid}) => {
 						/>
 					))}
 			</_ToolBarContainer>
-			<_SFTP className={!isToolbarUnfolded && 'close-nav-sftp'}>
+			<ContentsContainer
+				className={!isToolbarUnfolded && 'close-nav-sftp'}
+			>
 				{sftp.mode === 'list' ? (
 					<FileListContianer uuid={uuid} />
 				) : (
 					<DropListContainer uuid={uuid} />
 				)}
-				<div>history</div>
-				{/*<HistoryContianer uuid={uuid} />*/}
-			</_SFTP>
+				<HistoryContianer uuid={uuid} />
+			</ContentsContainer>
 			{/*<FileStatusDialogBox />*/}
 		</_Container>
 	);

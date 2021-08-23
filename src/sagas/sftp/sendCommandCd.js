@@ -1,125 +1,84 @@
-import {
-	all,
-	call,
-	fork,
-	take,
-	put,
-	race,
-	delay,
-	takeLatest,
-} from 'redux-saga/effects';
-import {
-	CD_FAILURE,
-	CD_REQUEST,
-	CD_SUCCESS,
-	ERROR,
-	PWD_REQUEST,
-	READY_STATE,
-} from '../../reducers/sftp';
-import messageSender from './messageSender';
+import {call, put, take, throttle} from 'redux-saga/effects';
+import {sftpAction} from '../../reducers/renewal';
+import {subscribe} from '../channel';
+import SFTP from '../../dist/sftp_pb';
 
-import {closeChannel, subscribe} from '../channel';
-import {cdResponse} from '../../ws/sftp/cd_response';
-import {dialogBoxAction} from '../../reducers/dialogBoxs';
-import {createPathList} from '../../utils/sftp';
+function setApi(data) {
+	const message = new SFTP.Message();
+	const request = new SFTP.Request();
+	const cmd = new SFTP.CommandRequest();
+	const cd = new SFTP.ChangeDirectoryRequest();
+	cd.setPath(data.path);
 
-function* sendCommand(action) {
-	const {payload} = action;
+	cmd.setCd(cd);
+	request.setCommand(cmd);
+	message.setRequest(request);
+	console.log(message.serializeBinary());
+	data.socket.send(message.serializeBinary());
+}
+function getApi(data) {
+	if (data instanceof ArrayBuffer) {
+		const message = SFTP.Message.deserializeBinary(data);
+		if (message.getTypeCase() === SFTP.Message.TypeCase.RESPONSE) {
+			const response = message.getResponse();
+			console.log(response);
+			console.log('response status: ', response.getStatus());
 
-	console.log(payload.cd_path);
-	let pass = false;
-
-	const channel = yield call(subscribe, payload.socket);
-
-	try {
-		if (payload.socket.readyState === 3) {
-			console.log('closed');
-			return;
-		}
-		yield call(messageSender, {
-			keyword: 'CommandByCd',
-			ws: payload.socket,
-			path: payload.cd_path,
-		});
-		while (true) {
-			const {timeout, data} = yield race({
-				timeout: delay(1000),
-				data: take(channel),
-			});
-			if (timeout) {
-				closeChannel(channel);
-				console.log('cd end');
-				if (!pass) {
-					yield put({
-						type: CD_REQUEST,
-						payload: {
-							socket: payload.socket,
-							uuid: payload.uuid,
-							path: payload.path,
-							cd_path: payload.cd_path,
-						},
-					});
+			if (
+				response.getResponseCase() ===
+				SFTP.Response.ResponseCase.COMMAND
+			) {
+				const command = response.getCommand();
+				if (
+					command.getCommandCase() ===
+					SFTP.CommandResponse.CommandCase.CD
+				) {
+					const cd = command.getCd();
+					console.log('command : cd', cd);
+				} else {
+					throw 'getCommandCase is not CD';
 				}
-
-				if (payload.socket.readyState !== 1) {
-					yield put({
-						type: READY_STATE,
-						payload: {uuid: payload.uuid},
-					});
-				}
-			} else {
-				const res = yield call(cdResponse, {data});
-
-				switch (res.type) {
-					case CD_SUCCESS:
-						yield put({
-							type: CD_SUCCESS,
-							payload: {
-								uuid: payload.uuid,
-								path: payload.cd_path,
-								pathList: createPathList({
-									path: payload.cd_path,
-								}),
-							},
-						});
-						pass = true;
-
-						yield put({
-							type: PWD_REQUEST,
-							payload: {
-								socket: payload.socket,
-								uuid: payload.uuid,
-								pwd_path: payload.path,
-							},
-						});
-
-						break;
-					case ERROR:
-						console.log(res.err);
-						pass = true;
-						yield put({type: CD_FAILURE});
-						yield put(
-							dialogBoxAction.openAlert({key: 'sftp-wrong-path'}),
-						);
-						break;
-					default:
-						console.log(res);
-						break;
-				}
+			} else if (
+				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
+			) {
+				const error = response.getError();
+				console.log(error.getMessage());
+				throw error.getMessage();
 			}
+		} else {
+			throw 'data is not protocol buffer.';
 		}
-	} catch (err) {
-		console.log(err);
-		closeChannel(channel);
-		yield put({type: CD_FAILURE});
-		yield put(dialogBoxAction.openAlert({key: 'sftp-wrong-path'}));
+	} else {
+		const message = JSON.parse(data);
+
+		console.log('data is not ArrayBuffer', message);
+
+		if (message['status'] === 'connected') {
+			console.log(message['uuid']);
+		}
+		console.log(message.result);
 	}
 }
 
-function* watchSendCommand() {
-	yield takeLatest(CD_REQUEST, sendCommand);
+function* sendCommand(action) {
+	const {payload} = action;
+	console.log(payload);
+	try {
+		const channel = yield call(subscribe, payload.socket);
+		yield call(setApi, {path: payload.path, socket: payload.socket});
+		const data = yield take(channel);
+		yield call(getApi, data);
+		yield put(sftpAction.commandCdDone({uuid: payload.uuid}));
+		yield put(
+			sftpAction.commandPwd({socket: payload.socket, uuid: payload.uuid}),
+		);
+	} catch (err) {
+		console.log(err);
+		yield put(sftpAction.commandCdFail());
+		// yield put(dialogBoxAction.openAlert({key: 'sftp-wrong-path'}));
+	}
 }
 
-export default function* commandCdSaga() {
-	yield all([fork(watchSendCommand)]);
+export default function* watcher() {
+	yield throttle(1000, sftpAction.commandCd, sendCommand);
 }

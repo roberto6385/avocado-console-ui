@@ -71,94 +71,92 @@ const FileList = ({
 	uuid,
 	path,
 	highlight,
-	lang,
+	language,
 	list,
 	onContextMenu,
-	onClick,
+	onSelectFile,
 	onDownload,
 	onEdit,
-	onDoubleClick,
+	onChangePath,
 }) => {
-	console.log(list);
 	return (
 		<React.Fragment>
 			<_Table onContextMenu={onContextMenu}>
 				<TableHeader uuid={uuid} />
 				<_Tbody>
 					{list.map((item, index) => {
-						if (item.name !== '.') {
-							return (
-								<_Tr
-									onContextMenu={onContextMenu(item)}
-									onClick={onClick(item)}
-									onDoubleClick={onDoubleClick(item)}
-									key={index + uuid}
-									className={
-										highlight.find(
-											(v) =>
-												JSON.stringify(v) ===
-												JSON.stringify(item),
-										)
-											? 'filelist-content active'
-											: 'filelist-content'
-									}
-								>
-									<_Th min={'150px'} flex={1}>
-										<SftpMainIcon
-											type={
-												item.type === 'directory'
-													? 'main'
-													: undefined
-											}
-											margin_right={'8px'}
-										>
-											{item.type === 'directory'
-												? folderOpenIcon
-												: fileIcon}
-										</SftpMainIcon>
+						if (path === '/' && item.name === '..') return;
+						return (
+							<_Tr
+								onContextMenu={onContextMenu(item)}
+								onClick={onSelectFile(item)}
+								onDoubleClick={onChangePath(item)}
+								key={index + uuid}
+								className={
+									highlight.find(
+										(v) =>
+											JSON.stringify(v) ===
+											JSON.stringify(item),
+									)
+										? 'filelist-content active'
+										: 'filelist-content'
+								}
+							>
+								<_Th min={'150px'} flex={1}>
+									<SftpMainIcon
+										type={
+											item.type === 'directory'
+												? 'main'
+												: undefined
+										}
+										margin_right={'8px'}
+									>
+										{item.type === 'directory'
+											? folderOpenIcon
+											: fileIcon}
+									</SftpMainIcon>
 
-										<span className='filelist-content'>
-											{item.name}
-										</span>
-									</_Th>
-									<_Th min={'135px'} justify='flex-end'>
-										{item.name !== '..' &&
-											fileByteSizeFormater(item.size)}
-									</_Th>
-									<_Th min={'212px'}>
-										{item.name !== '..' &&
-											sftpDateFormater({
-												modify: item.lastModified,
-												keyword: 'format',
-												language: lang,
-											})}
-									</_Th>
-									<_Th min={'105px'}>{item.permission}</_Th>
-									<_Th min={'63px'} justify={'flex-end'}>
-										{item.type === 'file' && (
-											<HoverButton
-												margin_right={'12px'}
-												onClick={onEdit(item)}
-											>
-												{editIcon}
-											</HoverButton>
-										)}
-										{item.name !== '..' && (
-											<HoverButton
-												margin={'0px'}
-												onClick={onDownload(item)}
-											>
-												{fileDownloadIcon}
-											</HoverButton>
-										)}
-									</_Th>
-								</_Tr>
-							);
-						}
+									<span className='filelist-content'>
+										{item.name}
+									</span>
+								</_Th>
+								<_Th min={'135px'} justify='flex-end'>
+									{item.name !== '..' &&
+										fileByteSizeFormater(item.size)}
+								</_Th>
+								<_Th min={'212px'}>
+									{item.name !== '..' &&
+										sftpDateFormater({
+											modify: item.lastModified,
+											keyword: 'format',
+											language: language,
+										})}
+								</_Th>
+								<_Th min={'105px'}>{item.permission}</_Th>
+								<_Th min={'63px'} justify={'flex-end'}>
+									{item.type === 'file' && (
+										<HoverButton
+											margin_right={'8px'}
+											onClick={onEdit(item)}
+										>
+											{editIcon}
+										</HoverButton>
+									)}
+									{item.name !== '..' && (
+										<HoverButton
+											margin={'0px'}
+											onClick={onDownload(item)}
+										>
+											{fileDownloadIcon}
+										</HoverButton>
+									)}
+								</_Th>
+							</_Tr>
+						);
 					})}
 				</_Tbody>
 			</_Table>
-			{/*<SFTPFileListContextMenu uuid={uuid} />*/}
+			<SFTPFileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	);
 };
@@ -167,13 +165,13 @@ FileList.propTypes = {
 	uuid: PropTypes.string,
 	path: PropTypes.string,
 	highlight: PropTypes.array,
-	lang: PropTypes.string,
+	language: PropTypes.string,
 	list: PropTypes.array,
 	onContextMenu: PropTypes.func,
-	onClick: PropTypes.func,
+	onSelectFile: PropTypes.func,
 	onDownload: PropTypes.func,
 	onEdit: PropTypes.func,
-	onDoubleClick: PropTypes.func,
+	onChangePath: PropTypes.func,
 };
 
 export default FileList;

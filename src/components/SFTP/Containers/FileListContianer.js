@@ -3,14 +3,13 @@ import FileList from '../File/FileList';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
-import {CD_REQUEST, INITIALIZING_HIGHLIGHT} from '../../../reducers/sftp';
 import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
 
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
-import {sortList} from '../../../utils/sftp';
+import {sortingUtil} from '../../../utils/sftp';
 
 const FileListContianer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -50,27 +49,23 @@ const FileListContianer = ({uuid}) => {
 	const [currentFileList, setCurrentFileList] = useState([]);
 	const [currentKey, setCurrentKey] = useState(sftp.sort.type);
 
-	const onClickChangePath = useCallback(
+	const handleChangePath = useCallback(
 		(item) => () => {
 			if (item.type === 'directory') {
-				// 디렉토리 클릭시 해당 디렉토리로 이동
-				// const path =
-				// 	sftp.path === '/'
-				// 		? sftp.path + item.name
-				// 		: sftp.path + '/' + item.name;
-				// dispatch({
-				// 	type: CD_REQUEST,
-				// 	payload: {
-				// 		socket: sftp.socket,
-				// 		uuid: uuid,
-				// 		path: sftp.path,
-				// 		cd_path: path,
-				// 	},
-				// });
-				// dispatch({type: INITIALIZING_HIGHLIGHT, payload: {uuid}});
+				const path =
+					sftp.path === '/'
+						? sftp.path + item.name
+						: sftp.path + '/' + item.name;
+				dispatch(
+					sftpAction.commandCd({
+						socket: sftp.socket,
+						uuid: uuid,
+						path: path,
+					}),
+				);
 			}
 		},
-		[],
+		[dispatch, sftp.path, sftp.socket, uuid],
 	);
 
 	const onClickDownloadFile = useCallback(
@@ -169,12 +164,13 @@ const FileListContianer = ({uuid}) => {
 	);
 
 	const compareFiles = useCallback((total, select, criterion) => {
+		console.log(total);
 		console.log(select);
 		console.log(criterion);
 		let selectedIndex = total.findIndex((v) => v.name === select.name);
 		let lastIndex = total.findIndex((v) => v.name === criterion.name);
 		const array = [];
-		if (selectedIndex === lastIndex) return;
+		if (selectedIndex === lastIndex) return [select];
 		while (lastIndex !== selectedIndex) {
 			array.push(total[lastIndex]);
 			selectedIndex > lastIndex ? lastIndex++ : lastIndex--;
@@ -184,8 +180,7 @@ const FileListContianer = ({uuid}) => {
 		return array;
 	}, []);
 
-	console.log(sftp.selected.files.slice());
-	const onClickSelectFile = useCallback(
+	const handleSelectFile = useCallback(
 		(item) => (e) => {
 			if (item.name === '..') return;
 
@@ -222,13 +217,13 @@ const FileListContianer = ({uuid}) => {
 
 	useEffect(() => {
 		if (sftp.files[sftp.path]) {
-			const files = sortList({
-				fileList: sftp.files[sftp.path],
-				keyword: sftp.sort.type,
-				toggle: sftp.sort.asc,
-			});
-			console.log(files);
-			setSortedFiles(files);
+			setSortedFiles(
+				sortingUtil({
+					array: sftp.files[sftp.path],
+					type: sftp.sort.type,
+					asc: sftp.sort.asc,
+				}),
+			);
 		}
 	}, [sftp.files, sftp.path, sftp.sort.asc, sftp.sort.type]);
 
@@ -237,13 +232,13 @@ const FileListContianer = ({uuid}) => {
 			uuid={uuid}
 			highlight={sftp.selected.files}
 			path={sftp.path}
-			lang={language}
+			language={language}
 			list={sortedFiles}
 			onContextMenu={openFileListContextMenu}
-			onClick={onClickSelectFile}
+			onSelectFile={handleSelectFile}
 			onDownload={onClickDownloadFile}
 			onEdit={onClickEditFile}
-			onDoubleClick={onClickChangePath}
+			onChangePath={handleChangePath}
 		/>
 	);
 };

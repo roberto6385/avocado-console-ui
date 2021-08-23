@@ -110,30 +110,16 @@ const slice = createSlice({
 			console.log('에러 핸들링 : 정상적으로 종료되지 않았습니다.');
 		},
 		//CD_REQUEST
-		commandCd: (state, action) => {
-			const index = state.data.findIndex(
-				(v) => v.uuid === action.payload.uuid,
-			);
-			state.data[index].loading = true;
-		},
+		commandCd: (state, action) => {},
 		//CD_SUCCESS
 		commandCdDone: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			console.log(
-				'여기서 path 추가 안해도 pwd에서 추가함 다른 처리 생각...',
-			);
-			state.data[index].path = action.payload.path;
-			state.data[index].loading = false;
+			state.data[index].selected.files = [];
 		},
 		//CD_FAILURE
-		commandCdFail: (state, action) => {
-			const index = state.data.findIndex(
-				(v) => v.uuid === action.payload.uuid,
-			);
-			state.data[index].loading = false;
-		},
+		commandCdFail: (state, action) => {},
 		//PWD_REQUEST
 		commandPwd: (state, action) => {
 			const index = state.data.findIndex(
@@ -307,8 +293,12 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
+			if (state.data[index].sort.type === action.payload.type) {
+				state.data[index].sort.asc = !state.data[index].sort.asc;
+			} else {
+				state.data[index].sort.asc = true;
+			}
 			state.data[index].sort.type = action.payload.type;
-			state.data[index].sort.asc = !state.data[index].sort.asc;
 		},
 		//ADD_HIGHLIGHT, INITIALIZING_HIGHLIGHT, ADD_ONE_HIGHLIGHT, REMOVE_HIGHLIGHT
 		setSelectedFile: (state, action) => {
