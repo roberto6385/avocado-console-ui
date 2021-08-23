@@ -183,17 +183,16 @@ const SFTPFileListContextMenu = ({uuid}) => {
 			animation={animation.slide}
 		>
 			<Item
-				// disabled={highlight.length === 0}
+				disabled={sftp.selected.files.length === 0}
 				onClick={handleOnClickEvents('download-data')}
 			>
 				{t('download')}
 			</Item>
 			<Item
-				// disabled={
-				// 	highlight.length === 0 ||
-				// 	highlight.length !== 1 ||
-				// 	highlight.slice().find((item) => item.type === 'directory')
-				// }
+				disabled={
+					sftp.selected.files.length !== 1 ||
+					sftp.selected.files[0].type !== 'file'
+				}
 				onClick={handleOnClickEvents('edit-data')}
 			>
 				{t('edit')}
@@ -204,35 +203,35 @@ const SFTPFileListContextMenu = ({uuid}) => {
 				{t('addFolder')}
 			</Item>
 			<Item
-				// disabled={highlight.length === 0 || highlight.length !== 1}
+				disabled={sftp.selected.files.length !== 1}
 				onClick={handleOnClickEvents('rename-data')}
 			>
 				{t('rename')}
 			</Item>
 			<Separator />
 			<Item
-				// disabled={highlight.length === 0}
+				disabled={sftp.selected.files.length === 0}
 				onClick={handleOnClickEvents('delete-data')}
 			>
 				{t('delete')}
 			</Item>
 			<Separator />
 			<Item
-				// disabled={highlight.length !== 1}
+				disabled={sftp.selected.files.length !== 1}
 				onClick={handleOnClickEvents('get-attributes')}
 			>
 				{t('attributes')}
 			</Item>
 
 			<Item
-				// disabled={highlight.length !== 1}
+				disabled={sftp.selected.files.length !== 1}
 				onClick={handleOnClickEvents('change-group')}
 			>
 				{t('changeGroup')}
 			</Item>
 
 			<Item
-				// disabled={highlight.length !== 1}
+				disabled={sftp.selected.files.length !== 1}
 				onClick={handleOnClickEvents('change-ownership')}
 			>
 				{t('changeOwner')}

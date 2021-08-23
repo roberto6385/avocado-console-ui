@@ -78,6 +78,7 @@ const Pane = ({uuid, type, server}) => {
 
 	const {ssh} = useSelector(sshSelector.all);
 	const {data} = useSelector(sftpSelector.all);
+	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
 	//TODO: if possible to use ws.readyState, delete readyState
 	const [readyState, setReadyState] = useState(1);
@@ -99,17 +100,15 @@ const Pane = ({uuid, type, server}) => {
 				);
 			}
 			if (type === 'SFTP') {
-				// const {socket} = data.find((v) => v.uuid === item.uuid);
-				const {socket} = data.find((v) => v.uuid === uuid);
 				dispatch(
 					sftpAction.disconnect({
 						uuid: uuid,
-						socket: socket,
+						socket: sftp.socket,
 					}),
 				);
 			}
 		},
-		[type, dispatch, uuid, ssh, data],
+		[dispatch, sftp.socket, ssh, type, uuid],
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
@@ -166,10 +165,9 @@ const Pane = ({uuid, type, server}) => {
 		if (type === 'SSH') {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		} else {
-			const {ready} = data.find((v) => v.uuid === uuid);
-			setReadyState(ready);
+			setReadyState(sftp.ready);
 		}
-	}, [data, ssh, type, uuid]);
+	}, [sftp.ready, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>

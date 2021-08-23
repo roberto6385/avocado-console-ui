@@ -16,7 +16,7 @@ import {HoverButton} from '../../../styles/components/icon';
 import {SftpMainIcon} from '../../../styles/components/sftp/icons';
 import {sftpDateFormater, fileByteSizeFormater} from '../../../utils/sftp';
 
-const _Table = styled.table`
+const Table = styled.table`
 	display: flex;
 	position: relative;
 	flex: 1;
@@ -30,11 +30,10 @@ const _Table = styled.table`
 	${HideScroll};
 `;
 
-const _Tbody = styled.tbody`
+const Tbody = styled.tbody`
 	flex: 1;
 	width: 100%;
 	min-width: 778px;
-	position: absolute;
 	top: 48px;
 	.active {
 		background: ${(props) =>
@@ -43,7 +42,7 @@ const _Tbody = styled.tbody`
 	}
 `;
 
-const _Th = styled.th`
+const Th = styled.th`
 	margin-right: 16px;
 	display: flex;
 	align-items: center;
@@ -57,7 +56,7 @@ const _Th = styled.th`
 	text-overflow: ellipsis;
 `;
 
-const _Tr = styled.tr`
+const Tr = styled.tr`
 	padding-left: 16px;
 	display: flex;
 	height: 48px;
@@ -81,13 +80,13 @@ const FileList = ({
 }) => {
 	return (
 		<React.Fragment>
-			<_Table onContextMenu={onContextMenu}>
+			<Table>
 				<TableHeader uuid={uuid} />
-				<_Tbody>
+				<Tbody onContextMenu={onContextMenu()}>
 					{list.map((item, index) => {
 						if (path === '/' && item.name === '..') return;
 						return (
-							<_Tr
+							<Tr
 								onContextMenu={onContextMenu(item)}
 								onClick={onSelectFile(item)}
 								onDoubleClick={onChangePath(item)}
@@ -102,7 +101,7 @@ const FileList = ({
 										: 'filelist-content'
 								}
 							>
-								<_Th min={'150px'} flex={1}>
+								<Th min={'150px'} flex={1}>
 									<SftpMainIcon
 										type={
 											item.type === 'directory'
@@ -119,21 +118,21 @@ const FileList = ({
 									<span className='filelist-content'>
 										{item.name}
 									</span>
-								</_Th>
-								<_Th min={'135px'} justify='flex-end'>
+								</Th>
+								<Th min={'135px'} justify='flex-end'>
 									{item.name !== '..' &&
 										fileByteSizeFormater(item.size)}
-								</_Th>
-								<_Th min={'212px'}>
+								</Th>
+								<Th min={'212px'}>
 									{item.name !== '..' &&
 										sftpDateFormater({
 											modify: item.lastModified,
 											keyword: 'format',
 											language: language,
 										})}
-								</_Th>
-								<_Th min={'105px'}>{item.permission}</_Th>
-								<_Th min={'63px'} justify={'flex-end'}>
+								</Th>
+								<Th min={'105px'}>{item.permission}</Th>
+								<Th min={'63px'} justify={'flex-end'}>
 									{item.type === 'file' && (
 										<HoverButton
 											margin_right={'8px'}
@@ -150,12 +149,12 @@ const FileList = ({
 											{fileDownloadIcon}
 										</HoverButton>
 									)}
-								</_Th>
-							</_Tr>
+								</Th>
+							</Tr>
 						);
 					})}
-				</_Tbody>
-			</_Table>
+				</Tbody>
+			</Table>
 			<SFTPFileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	);

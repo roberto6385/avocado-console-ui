@@ -70,7 +70,7 @@ const FileListContianer = ({uuid}) => {
 
 	const onClickDownloadFile = useCallback(
 		(item) => (e) => {
-			e.stopPropagation();
+			// e.stopPropagation();
 			if (item.name !== '..' && item.type !== 'directory') {
 				// 현재는 디렉토리 다운로드 막아두었음.
 				// dispatch({
@@ -142,25 +142,24 @@ const FileListContianer = ({uuid}) => {
 	);
 
 	const openFileListContextMenu = useCallback(
-		(item = '') =>
+		(item = null) =>
 			(e) => {
 				e.preventDefault();
-				if (item.name === '..' || item.name === '') return;
+				if (item) {
+					if (item.name === '..') return;
+					let result = sftp.selected.files.slice();
+					if (result.length === 0 || result.length === 1) {
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: [item],
+							}),
+						);
+					}
+				}
 				show(e);
-				// !highlight
-				// 	.slice()
-				// 	.find(
-				// 		(v) =>
-				// 			JSON.stringify(v) ===
-				// 			JSON.stringify({...item, path}),
-				// 	) &&
-				// 	item !== '' &&
-				// 	dispatch({
-				// 		type: ADD_ONE_HIGHLIGHT,
-				// 		payload: {uuid, item: {...item, path}},
-				// 	});
 			},
-		[show],
+		[dispatch, sftp.selected.files, show, uuid],
 	);
 
 	const compareFiles = useCallback((total, select, criterion) => {
