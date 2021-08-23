@@ -36,7 +36,8 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		() =>
 			accounts.find(
 				(it) =>
-					it.key === terminalTab.server.key && it.checked === true,
+					it.resourceId === terminalTab.server.key &&
+					it.isDefaultAccount === true,
 			),
 		[accounts, terminalTab],
 	);

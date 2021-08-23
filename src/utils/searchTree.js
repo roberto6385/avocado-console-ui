@@ -1,38 +1,31 @@
-function searchNextNode(node, name) {
-	if (node.type === 'server' || !node.contain.length) {
-		if (
-			node.name
-				.toLowerCase()
-				.replace(/ /g, '')
-				.includes(name.toLowerCase().replace(/ /g, ''))
-		)
-			return node;
+function createTree(node, name) {
+	if (node.type === 'resource' || !node.childern.length) {
+		if (doesNameIncludeVal(node.name, name)) return node;
 		else return null;
 	}
 
 	let tempContain = [];
-	for (let x of node.contain) {
-		let result = searchNextNode(x, name);
+	for (let x of node.childern) {
+		let result = createTree(x, name);
 		if (result) tempContain.push(result);
 	}
-	const val = {...node, contain: tempContain};
 
-	if (
-		!tempContain.length &&
-		!node.name
-			.toLowerCase()
-			.replace(/ /g, '')
-			.includes(name.toLowerCase().replace(/ /g, ''))
-	)
-		return null;
-	return val;
+	if (!tempContain.length && !doesNameIncludeVal(node, name)) return null;
+	return {...node, childern: tempContain};
 }
 
-export function startSearchingTree(root, name) {
+export function startCreatingTree(root, name) {
 	let tempRoot = [];
 	for (let x of root) {
-		const result = searchNextNode(x, name);
+		const result = createTree(x, name);
 		if (result) tempRoot.push(result);
 	}
 	return tempRoot;
+}
+
+export function doesNameIncludeVal(name, val) {
+	return name
+		.toLowerCase()
+		.replace(/ /g, '')
+		.includes(val.toLowerCase().replace(/ /g, ''));
 }

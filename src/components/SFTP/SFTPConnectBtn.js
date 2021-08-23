@@ -17,7 +17,7 @@ const SFTPConnectBtn = ({data}) => {
 	const onClickConnectSftp = useCallback(() => {
 		const resource = resources.find((x) => x.id === data.id);
 		const account = accounts.find(
-			(it) => it.key === data.key && it.checked === true,
+			(it) => it.resourceId === data.key && it.isDefaultAccount === true,
 		);
 
 		if (resources.includes(resource)) {

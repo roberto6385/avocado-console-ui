@@ -25,22 +25,22 @@ export const fillTabs = (tab, max_display_tab, current_tab) => {
 	return current_tab;
 };
 
-function searchNode(node, key) {
-	if (node.key === key) {
+function searchNode(node, id) {
+	if (node.id === id) {
 		return node;
-	} else if (node.contain && node.contain.length > 0) {
+	} else if (node.childern && node.childern.length > 0) {
 		let result = null;
-		for (let i = 0; !result && i < node.contain.length; i++) {
-			result = searchNode(node.contain[i], key);
+		for (let i = 0; !result && i < node.childern.length; i++) {
+			result = searchNode(node.childern[i], id);
 		}
 		return result;
 	}
 	return null;
 }
 
-export function startSearchingNode(root, key) {
+export function startSearchingNode(root, id) {
 	for (let x of root) {
-		let result = searchNode(x, key);
+		let result = searchNode(x, id);
 		if (result !== null) return result;
 	}
 	return root;

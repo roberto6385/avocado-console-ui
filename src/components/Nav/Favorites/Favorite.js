@@ -29,7 +29,10 @@ const Favorite = ({data, indent}) => {
 	const {userData} = useSelector(authSelector.all);
 
 	const account = useMemo(
-		() => accounts.find((it) => it.key === data.key && it.checked === true),
+		() =>
+			accounts.find(
+				(v) => v.resourceId === data.key && v.isDefaultAccount === true,
+			),
 		[accounts, data],
 	);
 

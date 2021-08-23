@@ -3,14 +3,14 @@ import {useSelector} from 'react-redux';
 
 import FavoriteOnDialogBox from './FavoriteOnDialogBox';
 import FavoriteGroupDialogBox from './FavoriteGroupDialogBox';
-import {ResourceTree} from '../../../../styles/components/navigationBar';
+import {ResourceTreeContainer} from '../../../../styles/components/navigationBar';
 import {favoritesSelector} from '../../../../reducers/favorites';
 
 const FavoriteItemTreeOnDialogBox = () => {
 	const {tempFavoriteTree} = useSelector(favoritesSelector.all);
 
 	return (
-		<ResourceTree>
+		<ResourceTreeContainer>
 			{tempFavoriteTree.map((data) =>
 				data.type === 'folder' ? (
 					<FavoriteGroupDialogBox
@@ -26,7 +26,7 @@ const FavoriteItemTreeOnDialogBox = () => {
 					/>
 				),
 			)}
-		</ResourceTree>
+		</ResourceTreeContainer>
 	);
 };
 

@@ -4,182 +4,220 @@ import {settingAction} from './setting';
 const slice = createSlice({
 	name: 'remoteResources',
 	initialState: {
-		selectedResource: null, //clicked_server
-		// TODO : selectedResource로 Identities Resource Key까지 같이 사용 가능할거같아요. (우선은 기존대로 생성)
+		selectedResource: null,
+
 		resourceTree: [
 			{
-				type: 'folder',
-				key: 'f_0',
-				contain: [
+				type: 'resourceGroup',
+				id: 'f_0',
+				parents: null,
+				path: '/f_0',
+				childern: [
 					{
-						type: 'server',
-						key: 's_0',
+						type: 'resource',
+						id: 's_0',
+						parents: 'f_0',
+						path: '/f_0/s_0',
 					},
 					{
-						type: 'server',
-						key: 's_1',
+						type: 'resource',
+						id: 's_1',
+						parents: 'f_0',
+						path: '/f_0/s_1',
 					},
 					{
-						type: 'server',
-						key: 's_2',
+						type: 'resource',
+						id: 's_2',
+						parents: 'f_0',
+						path: '/f_0/s_2',
 					},
 					{
-						type: 'server',
-						key: 's_3',
+						type: 'resource',
+						id: 's_3',
+						parents: 'f_0',
+						path: '/f_0/s_3',
 					},
 				],
 			},
 			{
-				type: 'folder',
-				key: 'f_1',
-				contain: [
+				type: 'resourceGroup',
+				id: 'f_1',
+				parents: null,
+				childern: [
 					{
-						type: 'server',
-						key: 's_4',
+						type: 'resource',
+						id: 's_4',
+						parents: 'f_1',
+						path: '/f_1/s_4',
 					},
 				],
 			},
 		],
-		// TODO : id, name, icon 제거
+
 		resourceGroups: [
-			{
-				key: 'f_0',
-				name: 'aws servers',
-			},
-			{
-				key: 'f_1',
-				name: 'kt servers',
-			},
+			{id: 'f_0', name: 'aws servers', data: {}},
+			{id: 'f_1', name: 'kt servers', data: {}},
 		],
-		// server //todo resourceTree에서 정보를 들고있는게 좋을까 고민
+
 		resources: [
 			{
+				id: 's_0',
+				type: 'PC',
 				name: 'Open API',
-				key: 's_0',
+				data: {
+					osType: 'aws',
+				},
+			},
+			{
+				id: 's_1',
+				type: 'PC',
+				name: 'IAM',
+				data: {
+					osType: 'aws',
+				},
+			},
+			{
+				id: 's_2',
+				type: 'PC',
+				name: 'Authorization',
+				data: {
+					osType: 'aws',
+				},
+			},
+			{
+				id: 's_3',
+				type: 'PC',
+				name: 'Bastion',
+				data: {
+					osType: 'aws',
+				},
+			},
+			{
+				id: 's_4',
+				type: 'PC',
+				name: 'kt pilot',
+				data: {
+					osType: 'linux',
+				},
+			},
+		],
+
+		computingSystemServicePorts: [
+			{
+				id: 's_0',
 				host: 'ip-172-31-7-236.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
-				osType: 'aws',
 			},
 			{
-				name: 'IAM',
-				key: 's_1',
+				id: 's_1',
 				host: 'ip-172-31-8-134.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
-				osType: 'aws',
 			},
 			{
-				name: 'Authorization',
-				key: 's_2',
+				id: 's_2',
 				host: 'ip-172-31-5-58.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
-				osType: 'aws',
 			},
 			{
-				name: 'Bastion',
-				key: 's_3',
+				id: 's_3',
 				host: 'ip-172-31-1-65.ap-northeast-2.compute.internal',
 				protocol: 'SSH2',
 				port: 22,
-				osType: 'aws',
 			},
 			{
-				name: 'kt pilot',
-				key: 's_4',
+				id: 's_4',
 				host: '211.253.10.9',
 				protocol: 'SSH2',
 				port: 10022,
-				osType: 'linux',
 			},
 		],
+
 		accounts: [
 			{
 				id: 0,
-				identity_name: 'root',
+				name: 'Root',
 				user: 'root',
 				password: 'Netand141)',
-				checked: true,
+				isDefaultAccount: true,
 				type: 'Password',
-				key: 's_0',
+				resourceId: 's_0',
 			},
 			{
 				id: 1,
-				identity_name: 'root',
+				name: 'Root',
 				user: 'root',
 				password: 'Netand141)',
-				checked: true,
+				isDefaultAccount: true,
 				type: 'Password',
-				key: 's_1',
+				resourceId: 's_1',
 			},
 			{
 				id: 2,
-				identity_name: 'home',
+				name: 'Home',
 				user: 'home',
 				password: 'Netand141)',
-				checked: false,
+				isDefaultAccount: false,
 				type: 'Password',
-				key: 's_1',
+				resourceId: 's_1',
 			},
 			{
 				id: 3,
-				identity_name: 'root',
+				name: 'Root',
 				user: 'root',
 				password: 'Netand141)',
-				checked: true,
+				isDefaultAccount: true,
 				type: 'Password',
-				key: 's_2',
+				resourceId: 's_2',
 			},
 			{
 				id: 4,
-				identity_name: 'root',
+				name: 'Root',
 				user: 'root',
 				password: 'Netand141)',
-				checked: true,
+				isDefaultAccount: true,
 				type: 'Password',
-				key: 's_3',
+				resourceId: 's_3',
 			},
 			{
 				id: 5,
-				identity_name: 'user',
+				name: 'User',
 				user: 'user',
 				password: 'Netand141)',
-				checked: false,
+				isDefaultAccount: false,
 				type: 'Password',
-				key: 's_3',
+				resourceId: 's_3',
 			},
 			{
 				id: 6,
-				identity_name: 'main',
+				name: 'Main',
 				user: 'main',
 				password: 'Netand141)',
-				checked: false,
+				isDefaultAccount: false,
 				type: 'Password',
-				key: 's_3',
+				resourceId: 's_3',
 			},
 			{
 				id: 7,
-				identity_name: 'home',
+				name: 'Home',
 				user: 'home',
 				password: 'Netand141)',
-				checked: false,
+				isDefaultAccount: false,
 				type: 'Password',
-				key: 's_3',
+				resourceId: 's_3',
 			},
 			{
 				id: 8,
-				identity_name: 'root',
+				name: 'Root',
 				user: 'root',
 				password: 'Netand141)',
-				checked: true,
+				isDefaultAccount: true,
 				type: 'Password',
-				key: 's_4',
+				resourceId: 's_4',
 			},
 		],
-		// TODO : 내부적으로만 사용돼서 구분
-		resourceIndex: 4, //server_index
-		resourceGroupIndex: 2, //folder_index
 	},
 
 	reducers: {
@@ -190,21 +228,41 @@ const slice = createSlice({
 		},
 		//CHANGE_PROTOCOL
 		setProtocol: (state, action) => {
-			state.resources.find((v) => v.key === action.payload.key).protocol =
-				action.payload.protocol;
+			state.computingSystemServicePorts.find(
+				(v) => v.id === action.payload.id,
+			).protocol = action.payload.protocol;
 		},
 		//CHANGE_IDENTITY_CHECKED
 		setAccount: (state, action) => {
+			let fisrtIndex = state.accounts.findIndex(
+				(v) => v.id === action.payload.prev,
+			);
+			let secondIndex = state.accounts.findIndex(
+				(v) => v.id === action.payload.next,
+			);
+
+			if (fisrtIndex > secondIndex) {
+				fisrtIndex = secondIndex;
+				secondIndex = state.accounts.findIndex(
+					(v) => v.id === action.payload.prev,
+				);
+			}
+
 			state.accounts = [
-				...state.accounts.filter(
-					(v) =>
-						v !== action.payload.prev && v !== action.payload.next,
-				),
-				{...action.payload.prev, checked: false},
-				{...action.payload.next, checked: true},
-			].sort(function (a, b) {
-				return a['id'] - b['id'];
-			});
+				...state.accounts.slice(0, fisrtIndex),
+				{
+					...state.accounts[fisrtIndex],
+					isDefaultAccount:
+						!state.accounts[fisrtIndex].isDefaultAccount,
+				},
+				...state.accounts.slice(fisrtIndex + 1, secondIndex),
+				{
+					...state.accounts[secondIndex],
+					isDefaultAccount:
+						!state.accounts[secondIndex].isDefaultAccount,
+				},
+				...state.accounts.slice(secondIndex + 1),
+			];
 		},
 	},
 	extraReducers: {
@@ -218,20 +276,26 @@ const selectAllState = createSelector(
 	(state) => state.selectedResource,
 	(state) => state.selectedResourceKey,
 	(state) => state.resourceTree,
+	(state) => state.resourceGroups,
 	(state) => state.resources,
+	(state) => state.computingSystemServicePorts,
 	(state) => state.accounts,
 	(
 		selectedResource,
 		selectedResourceKey,
 		resourceTree,
+		resourceGroups,
 		resources,
+		computingSystemServicePorts,
 		accounts,
 	) => {
 		return {
 			selectedResource,
 			selectedResourceKey,
 			resourceTree,
+			resourceGroups,
 			resources,
+			computingSystemServicePorts,
 			accounts,
 		};
 	},

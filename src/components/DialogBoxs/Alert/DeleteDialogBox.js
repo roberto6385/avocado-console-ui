@@ -95,8 +95,8 @@ const DeleteDialogBox = () => {
 					);
 					const account = accounts.find(
 						(it) =>
-							it.key === terminalTab.server.key &&
-							it.checked === true,
+							it.resourceId === terminalTab.server.key &&
+							it.isDefaultAccount === true,
 					);
 
 					if (!removeSocket && incinerator.length === 0) {

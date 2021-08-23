@@ -3,7 +3,7 @@ import SearchIconTextBox from '../../RecycleComponents/SearchIconTextBox';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import useInput from '../../../hooks/useInput';
-import Resources from './Resources';
+import ResourceTree from './ResourceTree';
 import ResourceDialogBox from '../../DialogBoxs/Form/ResourceDialogBox';
 
 const _FormContainer = styled.div`
@@ -38,7 +38,7 @@ const ResourceContainer = () => {
 					/>
 				</_Form>
 			</_FormContainer>
-			<Resources searchVal={searchVal} />
+			<ResourceTree searchVal={searchVal} />
 			<ResourceDialogBox />
 		</Container>
 	);

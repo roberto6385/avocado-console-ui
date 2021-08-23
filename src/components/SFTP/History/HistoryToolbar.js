@@ -85,7 +85,7 @@ const HistoryToolbar = ({uuid}) => {
 				);
 				const account = accounts.find(
 					(it) =>
-						it.key === terminalTab.server.key &&
+						it.resourceId === terminalTab.resourceId &&
 						it.checked === true,
 				);
 

@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
-import {ResourceTree} from '../../../styles/components/navigationBar';
+import {ResourceTreeContainer} from '../../../styles/components/navigationBar';
 import Favorite from './Favorite';
 import FavoriteGroup from './FavoriteGroup';
-import {startSearchingTree} from '../../../utils/searchTree';
+import {startCreatingTree} from '../../../utils/searchTree';
 import {favoritesSelector} from '../../../reducers/favorites';
 
 const Favorites = ({search}) => {
@@ -21,11 +21,11 @@ const Favorites = ({search}) => {
 	}, []);
 
 	useEffect(() => {
-		setsearchedFavorites(startSearchingTree(favoriteTree, search));
+		setsearchedFavorites(startCreatingTree(favoriteTree, search));
 	}, [favoriteTree, search]);
 
 	return (
-		<ResourceTree id='sortable-favorites'>
+		<ResourceTreeContainer id='sortable-favorites'>
 			{searchedFavorites.map((data) =>
 				data.type === 'folder' ? (
 					<FavoriteGroup
@@ -44,7 +44,7 @@ const Favorites = ({search}) => {
 					/>
 				),
 			)}
-		</ResourceTree>
+		</ResourceTreeContainer>
 	);
 };
 

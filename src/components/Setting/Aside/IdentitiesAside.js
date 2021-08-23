@@ -55,8 +55,8 @@ const IdentitiesAside = () => {
 	const {accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 
-	const resourceKey = useMemo(
-		() => terminalTabs.find((v) => v.uuid === selectedTab)?.server.key,
+	const resourceId = useMemo(
+		() => terminalTabs.find((v) => v.uuid === selectedTab)?.resourceId,
 		[terminalTabs, selectedTab],
 	);
 
@@ -65,21 +65,22 @@ const IdentitiesAside = () => {
 	}, [history]);
 
 	const onClickChangeIdentity = useCallback(
-		(v) => (e) => {
-			if (!e.target.checked) return;
+		(v) => () => {
+			if (v.isDefaultAccount) return;
 
-			const account = accounts.find(
-				(v) => v.key === resourceKey && v.checked,
-			);
 			dispatch(
 				remoteResourceAction.setAccount({
-					prev: account,
-					next: v,
+					prev: accounts.find(
+						(data) =>
+							data.resourceId === v.resourceId &&
+							data.isDefaultAccount,
+					).id,
+					next: v.id,
 				}),
 			);
 		},
 
-		[accounts, resourceKey, dispatch],
+		[accounts, dispatch],
 	);
 
 	return (
@@ -95,22 +96,22 @@ const IdentitiesAside = () => {
 					</_CheckboxContainer>
 				</_Li>
 
-				{accounts.map((item) => {
-					if (item.key === resourceKey) {
+				{accounts.map((data) => {
+					if (data.resourceId === resourceId) {
 						return (
-							<_Li key={item.id}>
+							<_Li key={data.id}>
 								<_AccountContainer>
-									{item.identity_name}
+									{data.name}
 								</_AccountContainer>
 								<_AuthenticationContainer>
-									{item.type}
+									{data.type}
 								</_AuthenticationContainer>
 
 								<_CheckboxContainer>
 									<CheckBox
-										value={item.checked}
+										value={data.isDefaultAccount}
 										onChangeCheck={onClickChangeIdentity(
-											item,
+											data,
 										)}
 									/>
 								</_CheckboxContainer>

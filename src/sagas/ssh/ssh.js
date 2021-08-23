@@ -65,7 +65,7 @@ function* sendConnection(action) {
 									tabBarAction.addTab({
 										uuid: uuid,
 										type: 'SSH',
-										resourceKey: action.payload.key,
+										resourceId: action.payload.id,
 									}),
 								);
 							}

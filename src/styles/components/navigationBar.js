@@ -32,7 +32,7 @@ export const ResourceItem = styled.div`
 					.backgroundColor};
 `;
 
-export const ResourceTree = styled.div`
+export const ResourceTreeContainer = styled.div`
 	display: block;
 	min-height: 0;
 	flex: 1 1 0;

@@ -85,7 +85,9 @@ const SaveDialogBox = () => {
 		);
 
 		const account = accounts.find(
-			(it) => it.key === terminalTab.server.key && it.checked === true,
+			(v) =>
+				v.resourceId === terminalTab.server.key &&
+				v.isDefaultAccount === true,
 		);
 		const resource = resources.find(
 			(it) => it.key === terminalTab.server.key,

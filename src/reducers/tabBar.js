@@ -15,7 +15,7 @@ const slice = createSlice({
 				uuid: action.payload.uuid,
 				type: action.payload.type,
 				display: true,
-				server: action.payload.server,
+				resourceId: action.payload.resourceId,
 			};
 
 			if (action.payload.prevUuid) {

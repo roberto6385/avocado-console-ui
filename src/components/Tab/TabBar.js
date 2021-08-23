@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {sshAction, sshSelector} from '../../reducers/ssh';
-import {getResourceName} from '../../utils/resource';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 
 const _Container = styled.div`
@@ -166,10 +165,11 @@ const TabBar = ({isOpned, setisOpened}) => {
 								<_ResourceTitle
 									onClick={onClickChangeVisibleTab(data.uuid)}
 								>
-									{getResourceName(
-										resources,
-										data.resourceKey,
-									)}
+									{
+										resources.find(
+											(v) => v.id === data.resourceId,
+										).name
+									}
 								</_ResourceTitle>
 								<HoverButton
 									size={'xs'}
