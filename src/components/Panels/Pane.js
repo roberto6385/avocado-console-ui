@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sshAction, sshSelector} from '../../reducers/ssh';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import {WarningButton} from '../../styles/components/button';
-import {DISCONNECTION_REQUEST, RECONNECTION_REQUEST} from '../../reducers/sftp';
 import {PreventDragCopy} from '../../styles/function';
 import {HoverButton, Icon} from '../../styles/components/icon';
 import {authSelector} from '../../reducers/api/auth';
@@ -132,9 +131,8 @@ const Pane = ({uuid, type, server}) => {
 				}),
 			);
 		} else {
-			dispatch({
-				type: RECONNECTION_REQUEST,
-				payload: {
+			dispatch(
+				sftpAction.reconnect({
 					token: userData.access_token, // connection info
 					host: resource.host,
 					port: resource.port,
@@ -146,28 +144,30 @@ const Pane = ({uuid, type, server}) => {
 					id: resource.id,
 
 					prevUuid: uuid,
+					prevPath: sftp.path,
 					prevIndex: terminalTabIndex,
-				},
-			});
+				}),
+			);
 		}
 	}, [
 		resources,
-		dispatch,
 		accounts,
-		server,
 		terminalTabs,
 		type,
-		userData,
+		server.key,
 		uuid,
+		dispatch,
+		userData.access_token,
+		sftp.path,
 	]);
 
 	useEffect(() => {
 		if (type === 'SSH') {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		} else {
-			setReadyState(sftp.ready);
+			setReadyState(sftp.readyState);
 		}
-	}, [sftp.ready, ssh, type, uuid]);
+	}, [sftp.readyState, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>

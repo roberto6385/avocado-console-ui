@@ -8,7 +8,7 @@ import commandCdSaga from './commandCd';
 import commandMkdirSaga from './commandMkdir';
 import commandRenameSaga from './commandRename';
 
-import reconnectSaga from './sendReconnect';
+import reconnectSaga from './reconnect';
 import commandRmSaga from './sendCommandRm';
 import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';

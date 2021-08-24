@@ -31,7 +31,7 @@ const slice = createSlice({
 				loading: false,
 				uuid: action.payload.uuid,
 				socket: action.payload.socket,
-				ready: 1, // 네이밍 수정하면 좋을 듯
+				readyState: 1, // 네이밍 수정하면 좋을 듯
 				mode: 'list', //bool로 할까 고민중
 				sort: {
 					type: 'name',
@@ -88,7 +88,7 @@ const slice = createSlice({
 			);
 			state.data[index].uuid = action.payload.newUuid;
 			state.data[index].socket = action.payload.socket;
-			state.data[index].ready = 1;
+			state.data[index].readyState = action.payload.readyState;
 		},
 		//RECONNECTION_FAILURE
 		reconnectFail: (state) => {
@@ -256,7 +256,7 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].ready = 3;
+			state.data[index].readyState = action.payload.readyState;
 		},
 		//CHANGE_MODE
 		setMode: (state, action) => {

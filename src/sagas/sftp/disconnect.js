@@ -56,6 +56,11 @@ function getApi(data) {
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
+	if (payload.socket.readyState !== 1) {
+		yield put(tabBarAction.deleteTab(payload.uuid));
+		yield put(sftpAction.disconnectDone({uuid: payload.uuid}));
+		return;
+	}
 	try {
 		const channel = yield call(subscribe, payload.socket);
 		yield call(setApi, {socket: payload.socket});
