@@ -12,7 +12,7 @@ const slice = createSlice({
 				id: 'f_0',
 				parents: null,
 				path: '/f_0',
-				childern: [
+				children: [
 					{
 						type: 'resource',
 						id: 's_0',
@@ -43,7 +43,7 @@ const slice = createSlice({
 				type: 'resourceGroup',
 				id: 'f_1',
 				parents: null,
-				childern: [
+				children: [
 					{
 						type: 'resource',
 						id: 's_4',

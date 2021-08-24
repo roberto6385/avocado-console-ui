@@ -310,7 +310,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		fitAddon,
 		dispatch,
 	]);
-	//click search button
+	//click searchVal button
 	useEffect(() => {
 		if (selectedTab === uuid && searchMode) {
 			document.getElementById('ssh-search-' + uuid).style.display =
@@ -330,7 +330,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		setSearchVal,
 		searchAddon,
 	]);
-	//search val
+	//searchVal val
 	useEffect(() => {
 		if (selectedTab === uuid) {
 			searchAddon.findPrevious('');

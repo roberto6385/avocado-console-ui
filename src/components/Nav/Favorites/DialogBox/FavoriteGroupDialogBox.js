@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import FavoriteOnDialogBox from './FavoriteOnDialogBox';
@@ -25,7 +25,7 @@ import {
 	favoritesSelector,
 } from '../../../../reducers/favorites';
 
-const Input_ = styled(TextBox)`
+const _TextBox = styled(TextBox)`
 	height: 24px;
 `;
 
@@ -146,7 +146,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 
 				<ResourceItemTitle>
 					{isRenaming ? (
-						<Input_
+						<_TextBox
 							ref={nameRef}
 							type='text'
 							value={renameValue}
@@ -187,7 +187,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 					</React.Fragment>
 				</CollapseContainer>
 			)}
-			<FavoriteGroupContextMenu data={data} onDialog={true} />
+			<FavoriteGroupContextMenu resourceGroupId={data} onDialog={true} />
 		</React.Fragment>
 	);
 };

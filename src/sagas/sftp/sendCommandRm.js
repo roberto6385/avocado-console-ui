@@ -78,7 +78,7 @@ function* sendCommand(action) {
 					payload: {uuid: payload.uuid, todo: 'remove'},
 				});
 			} else {
-				// const data = yield take(channel);
+				// const resourceGroupId = yield take(channel);
 				const res = yield call(rmResponse, {data});
 				console.log(res);
 				switch (res.type) {

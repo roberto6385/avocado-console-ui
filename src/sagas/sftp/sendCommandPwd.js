@@ -59,7 +59,7 @@ function* sendCommand(action) {
 					});
 				}
 			} else {
-				// const data = yield take(channel);
+				// const resourceGroupId = yield take(channel);
 				const res = yield call(pwdResponse, {data});
 				console.log(res);
 				let ls_pathList = [];

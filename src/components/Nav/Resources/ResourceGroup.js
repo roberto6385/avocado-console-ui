@@ -67,10 +67,10 @@ const ResourceGroup = ({open, data, indent}) => {
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</ResourceItem>
-			{data.childern.length !== 0 && (
+			{data.children.length !== 0 && (
 				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
-						{data.childern.map((v) =>
+						{data.children.map((v) =>
 							v.type === 'resourceGroup' ? (
 								<ResourceGroup
 									key={v.id}

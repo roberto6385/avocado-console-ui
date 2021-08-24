@@ -1,17 +1,17 @@
 function createTree(node, name) {
-	if (node.type === 'resource' || !node.childern.length) {
+	if (node.type === 'resource' || !node.children.length) {
 		if (doesNameIncludeVal(node.name, name)) return node;
 		else return null;
 	}
 
 	let tempContain = [];
-	for (let x of node.childern) {
+	for (let x of node.children) {
 		let result = createTree(x, name);
 		if (result) tempContain.push(result);
 	}
 
 	if (!tempContain.length && !doesNameIncludeVal(node, name)) return null;
-	return {...node, childern: tempContain};
+	return {...node, children: tempContain};
 }
 
 export function startCreatingTree(root, name) {

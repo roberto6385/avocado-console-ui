@@ -73,12 +73,12 @@ export function writeResponse({data, payload, pass}) {
 				// 	};
 				// }
 			} else {
-				console.log('data is not protocol buffer.');
+				console.log('resourceGroupId is not protocol buffer.');
 			}
 		} else {
 			const message = JSON.parse(data);
 
-			console.log('data is not ArrayBuffer', message);
+			console.log('resourceGroupId is not ArrayBuffer', message);
 
 			if (message['status'] === 'connected') {
 				console.log(message['uuid']);

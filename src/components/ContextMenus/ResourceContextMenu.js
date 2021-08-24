@@ -61,7 +61,7 @@ const ResourceContextMenu = ({resourceId}) => {
 	]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = computingSystemServicePorts.find(
+		const computingSystemPort = computingSystemServicePorts.find(
 			(v) => v.id === resourceId,
 		);
 		const account = accounts.find(
@@ -71,10 +71,11 @@ const ResourceContextMenu = ({resourceId}) => {
 		dispatch(
 			sshAction.connectRequest({
 				token: userData.access_token,
-				host: resource.host,
-				port: resource.port,
+				host: computingSystemPort.host,
+				port: computingSystemPort.port,
 				user: account.user,
 				password: account.password,
+				id: computingSystemPort.id,
 			}),
 		);
 	}, [

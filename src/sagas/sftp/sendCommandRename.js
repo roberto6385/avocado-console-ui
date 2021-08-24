@@ -46,7 +46,7 @@ function* sendCommand(action) {
 					});
 				}
 			} else {
-				// const data = yield take(channel);
+				// const resourceGroupId = yield take(channel);
 				const res = yield call(renameResponse, {data});
 
 				switch (res.type) {

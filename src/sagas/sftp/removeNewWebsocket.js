@@ -26,9 +26,9 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			// const {timeout, data} = yield race({
+			// const {timeout, resourceGroupId} = yield race({
 			// 	timeout: delay(5000),
-			// 	data: take(channel),
+			// 	resourceGroupId: take(channel),
 			// });
 			// if (timeout) {
 			// 	closeChannel(channel);
@@ -71,7 +71,7 @@ function* sendCommand(action) {
 					// 	type: EDIT_PAUSED_LIST,
 					// 	payload: {
 					// 		uuid: payload.uuid,
-					// 		data: {
+					// 		resourceGroupId: {
 					// 			todo: payload.todo,
 					// 			path: payload.path,
 					// 			file: payload.file,

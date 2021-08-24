@@ -266,7 +266,7 @@ const FileStatusDialogBox = () => {
 				shouldCloseOnOverlayClick={false}
 			>
 				<DialogBoxHeader>
-					{/*<div>{HeaderMessage[file_status_dialog_box.data]}</div>*/}
+					{/*<div>{HeaderMessage[file_status_dialog_box.resourceGroupId]}</div>*/}
 					<div>{t('title')}</div>
 					<IconButton
 						btype={'font'}

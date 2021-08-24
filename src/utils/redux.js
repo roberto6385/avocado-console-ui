@@ -28,10 +28,10 @@ export const fillTabs = (tab, max_display_tab, current_tab) => {
 function searchNode(node, id) {
 	if (node.id === id) {
 		return node;
-	} else if (node.childern && node.childern.length > 0) {
+	} else if (node.children && node.children.length > 0) {
 		let result = null;
-		for (let i = 0; !result && i < node.childern.length; i++) {
-			result = searchNode(node.childern[i], id);
+		for (let i = 0; !result && i < node.children.length; i++) {
+			result = searchNode(node.children[i], id);
 		}
 		return result;
 	}
@@ -67,31 +67,48 @@ export function startSearchingParentNode(root, key) {
 	return root;
 }
 
-function deleteTreeNode(parent, node, key) {
-	if (node.key === key) {
-		let index = parent.contain.findIndex((v) => v.key === key);
-		parent.contain.splice(index, 1);
-	} else if (node.contain && node.contain.length > 0) {
-		for (let i = 0; i < node.contain.length; i++)
-			deleteTreeNode(node, node.contain[i], key);
+function deleteTreeNode(node, id) {
+	if (node.id === id) return null;
+	if (node.children && node.children.length > 0) {
+		for (let i = 0; i < node.children.length; i++)
+			deleteTreeNode(node.children[i], id);
 	}
+	return node;
 }
 
-export function startDeleteingTree(root, key) {
+export function startDeleteingTree(root, id) {
 	for (let i = 0; i < root.length; i++) {
-		if (root[i].key === key) {
+		if (root[i].id === id) {
 			root.splice(i, 1);
-		} else deleteTreeNode(root, root[i], key);
+			return;
+		} else root[i] = deleteTreeNode(root[i], id);
 	}
 }
 
 export function addDataOnNode(nav, selectedResource, data) {
-	let node = null;
-	if (!selectedResource) node = nav;
-	else if (selectedResource[0] === 's')
-		node = startSearchingParentNode(nav, selectedResource);
-	else node = startSearchingNode(nav, selectedResource);
-
-	if (node.contain) node.contain.push(data);
-	else node.push(data);
+	console.log(selectedResource);
+	if (!selectedResource) {
+		data.parents = null;
+		data.path = '/' + data.id;
+		nav.push(data);
+	} else {
+		let node = startSearchingNode(nav, selectedResource);
+		if (node.type === 'resourceGroup') {
+			data.parents = node.id;
+			data.path = node.path + '/' + data.id;
+			node.children.push(data);
+		}
+		if (node.type === 'resource') {
+			if (node.parents === null) {
+				data.parents = null;
+				data.path = '/' + data.id;
+				nav.push(data);
+			} else {
+				node = startSearchingNode(nav, node.parents);
+				data.parents = node.id;
+				data.path = node.path + '/' + data.id;
+				node.children.push(data);
+			}
+		}
+	}
 }

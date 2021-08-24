@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import useInput from '../../../hooks/useInput';
 import CollapseContainer from '../../RecycleComponents/CollapseContainer';
@@ -21,33 +21,34 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-const Input_ = styled(TextBox)`
+
+const _TextBox = styled(TextBox)`
 	height: 24px;
 `;
 
 const FavoriteGroup = ({open, data, indent}) => {
 	const dispatch = useDispatch();
 	const {selectedResource} = useSelector(remoteResourceSelector.all);
-	const {favoriteGroupRenamingKey} = useSelector(favoritesSelector.all);
+	const {favoriteGroupRenamingKey, favoriteGroups} = useSelector(
+		favoritesSelector.all,
+	);
 
 	const renameRef = useRef(null);
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
-	const [isRenaming, setIsRenaming] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
 	const onClickFolder = useDoubleClick(
 		() => {
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
-			setIsRenaming(true);
+			dispatch(favoritesAction.changeFavoriteGroupRenameKey(data.id));
 		},
 		() => {
-			if (selectedResource === data.key) {
+			if (selectedResource === data.id) {
 				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch(remoteResourceAction.setSelectedResource(data.key));
+				dispatch(remoteResourceAction.setSelectedResource(data.id));
 			}
 		},
-		[data],
+		[data.id, selectedResource, dispatch],
 	);
 
 	const onClickFoldOrUnfoldFolder = useCallback(() => {
@@ -55,97 +56,56 @@ const FavoriteGroup = ({open, data, indent}) => {
 	}, [isFolderUnfolded]);
 
 	const {show} = useContextMenu({
-		id: data.key + '-favorite-group-context-menu',
+		id: data.id + '-favorite-group-context-menu',
 	});
 
 	const openFavoriteGroupContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
+			dispatch(remoteResourceAction.setSelectedResource(data.id));
 			show(e);
 		},
-		[data.key, dispatch, show],
+		[data.id, dispatch, show],
 	);
 
 	const onKeyDownChangeFolderName = useCallback(
 		(e) => {
 			if (e.keyCode === 27) {
 				// ESC
-				setIsRenaming(false);
 				dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 			} else if (e.keyCode === 13) {
 				//Enter
 				e.preventDefault();
-
-				if (renameValue !== '') {
-					//TODO: check valid folder name value
-					dispatch(
-						favoritesAction.changeFavoriteGroupName({
-							key: data.key,
-							name: renameValue,
-						}),
-					);
-				} else {
-					dispatch(
-						favoritesAction.changeFavoriteGroupRenameKey(null),
-					);
-				}
-				setIsRenaming(false);
+				onSubmitFolderName();
 			}
 		},
-		[dispatch, renameValue, data],
+		[dispatch, renameValue, data.id],
 	);
 
-	const onDragStartFolder = useCallback(() => {
-		console.log('prev put item');
-		dispatch(remoteResourceAction.setSelectedResource(data.key));
-	}, [data.key, dispatch]);
-
-	const onDropFolder = useCallback(
-		(e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			console.log('favorite folder next put item');
-
-			data.type === 'folder' &&
-				dispatch(
-					favoritesAction.sortFavorites({
-						next: data,
-						indent: parseInt(indent),
-					}),
-				);
-		},
-		[data, dispatch, indent],
-	);
-
-	const onDragOverFolder = useCallback((e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}, []);
-
-	const onBlurFolerNameTextBox = useCallback(() => {
-		setIsRenaming(false);
-		renameRef.current = null;
-		dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
-	}, []);
-
-	//fill rename text box value
-	useEffect(() => {
-		const fillInForm = async () => {
-			if (isRenaming) {
-				await setRenameValue(data.name);
-				await renameRef.current?.focus();
-				await renameRef.current?.select();
-			}
-		};
-		fillInForm();
-	}, [isRenaming, renameRef, data, setRenameValue]);
-	//this folder name has to be renamined
-	useEffect(() => {
-		if (data.key === favoriteGroupRenamingKey) {
-			setIsRenaming(true);
+	const onSubmitFolderName = useCallback(() => {
+		if (renameValue !== '') {
+			dispatch(
+				favoritesAction.changeFavoriteGroupName({
+					id: data.id,
+					name: renameValue,
+				}),
+			);
+		} else {
+			dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 		}
-	}, [favoriteGroupRenamingKey, data]);
+	}, [dispatch, renameValue, data.id, renameRef]);
+
+	const doSettingForRenaming = useCallback(async () => {
+		await setRenameValue(favoriteGroups.find((v) => v.id === data.id).name);
+		await renameRef.current?.focus();
+		await renameRef.current?.select();
+	}, [setRenameValue, favoriteGroups, data.id]);
+
+	useEffect(() => {
+		if (data.id === favoriteGroupRenamingKey) {
+			doSettingForRenaming();
+		}
+	}, [favoriteGroupRenamingKey, data.id, doSettingForRenaming]);
 
 	useEffect(() => {
 		setIsFolderUnfolded(open);
@@ -156,35 +116,31 @@ const FavoriteGroup = ({open, data, indent}) => {
 			<ResourceItem
 				onClick={onClickFolder}
 				onContextMenu={openFavoriteGroupContextMenu}
-				draggable='true'
-				onDragStart={onDragStartFolder}
-				onDragOver={onDragOverFolder}
-				onDrop={onDropFolder}
-				selected={selectedResource === data.key ? 1 : 0}
+				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
 					itype={
-						selectedResource === data.key ? 'selected' : undefined
+						selectedResource === data.id ? 'selected' : undefined
 					}
 				>
 					{folderIcon}
 				</Icon>
 
 				<ResourceItemTitle>
-					{isRenaming ? (
-						<Input_
+					{data.id === favoriteGroupRenamingKey ? (
+						<_TextBox
 							ref={renameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}
 							onKeyDown={onKeyDownChangeFolderName}
-							onBlur={onBlurFolerNameTextBox}
+							onBlur={onSubmitFolderName}
 						/>
 					) : (
-						data.name
+						favoriteGroups.find((v) => v.id === data.id).name
 					)}
 				</ResourceItemTitle>
 				<IconButton
@@ -195,21 +151,21 @@ const FavoriteGroup = ({open, data, indent}) => {
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</ResourceItem>
-			{data.contain.length !== 0 && (
+			{data.children.length !== 0 && (
 				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
-						{data.contain.map((i) =>
-							i.type === 'folder' ? (
+						{data.children.map((v) =>
+							v.type === 'resourceGroup' ? (
 								<FavoriteGroup
-									key={i.key}
+									key={v.id}
 									open={open}
-									data={i}
+									data={v}
 									indent={indent + 1}
 								/>
 							) : (
 								<Favorite
-									key={i.key}
-									data={i}
+									key={v.id}
+									data={v}
 									indent={indent + 1}
 								/>
 							),
@@ -217,7 +173,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 					</React.Fragment>
 				</CollapseContainer>
 			)}
-			<FavoriteGroupContextMenu data={data} />
+			<FavoriteGroupContextMenu resourceGroupId={data.id} />
 		</React.Fragment>
 	);
 };

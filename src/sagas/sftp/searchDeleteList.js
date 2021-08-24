@@ -40,7 +40,7 @@ function* sendCommand(action) {
 			if (timeout) {
 				closeChannel(channel);
 			} else {
-				// const data = yield take(channel);
+				// const resourceGroupId = yield take(channel);
 				const res = yield call(lsSearchResponse, {data});
 				const array = [];
 				for (let value of res.list) {

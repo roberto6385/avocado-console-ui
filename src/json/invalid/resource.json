@@ -5,7 +5,7 @@
 			"id": "f_0",
 			"parents": null,
 			"path": "/f_0",
-			"childern": [
+			"children": [
 				{
 					"type": "resource",
 					"id": "s_0",
@@ -36,7 +36,7 @@
 			"type": "resourceGroup",
 			"id": "f_1",
 			"parents": null,
-			"childern": [
+			"children": [
 				{
 					"type": "resource",
 					"id": "s_4",
@@ -48,8 +48,8 @@
 	],
 
 	"resouceGroups": [
-		{"id": "f_0", "name": "aws servers", "data": {}},
-		{"id": "f_1", "name": "kt servers", "data": {}}
+		{"id": "f_0", "name": "aws servers", "resourceGroupId": {}},
+		{"id": "f_1", "name": "kt servers", "resourceGroupId": {}}
 	],
 
 	"resources": [
@@ -57,7 +57,7 @@
 			"id": "s_0",
 			"type": "PC",
 			"name": "Open API",
-			"data": {
+			"resourceGroupId": {
 				"osType": "aws"
 			}
 		},
@@ -65,7 +65,7 @@
 			"id": "s_1",
 			"type": "PC",
 			"name": "IAM",
-			"data": {
+			"resourceGroupId": {
 				"osType": "aws"
 			}
 		},
@@ -73,7 +73,7 @@
 			"id": "s_2",
 			"type": "PC",
 			"name": "Authorization",
-			"data": {
+			"resourceGroupId": {
 				"osType": "aws"
 			}
 		},
@@ -81,7 +81,7 @@
 			"id": "s_3",
 			"type": "PC",
 			"name": "Bastion",
-			"data": {
+			"resourceGroupId": {
 				"osType": "aws"
 			}
 		},
@@ -89,7 +89,7 @@
 			"id": "s_4",
 			"type": "PC",
 			"name": "kt pilot",
-			"data": {
+			"resourceGroupId": {
 				"osType": "linux"
 			}
 		}

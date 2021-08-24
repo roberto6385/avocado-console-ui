@@ -8,12 +8,13 @@ import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {favoritesAction} from '../../reducers/favorites';
 
-const FavoriteGroupContextMenu = ({data, onDialog}) => {
+const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('favoriteGroupContextMenu');
 
 	const contextMenuList = {
 		'delete-folder': t('deleteFolder'),
+		'add-folder': t('addFolder'),
 	};
 
 	const handleOnClickEvents = useCallback(
@@ -22,27 +23,37 @@ const FavoriteGroupContextMenu = ({data, onDialog}) => {
 				case 'delete-folder':
 					if (onDialog) {
 						dispatch(
-							favoritesAction.deleteTempFavoriteGroup(data.key),
+							favoritesAction.deleteTempFavoriteGroup(
+								resourceGroupId,
+							),
 						);
 					} else {
 						dispatch(
 							dialogBoxAction.openAlert({
 								key: 'delete-favorite-group',
-								id: data.key,
+								id: resourceGroupId,
 							}),
 						);
 					}
 					break;
+				case 'add-folder':
+					dispatch(
+						favoritesAction.addFavoriteGroup({
+							id: resourceGroupId,
+							name: t('addFolder'),
+						}),
+					);
+					return;
 				default:
 					return;
 			}
 		},
-		[data.key, dispatch, onDialog],
+		[resourceGroupId, dispatch, onDialog],
 	);
 
 	return (
 		<ContextMenu
-			id={data.key + '-favorite-group-context-menu'}
+			id={resourceGroupId + '-favorite-group-context-menu'}
 			animation={animation.slide}
 		>
 			{Object.entries(contextMenuList).map(([key, value]) => (
@@ -55,7 +66,7 @@ const FavoriteGroupContextMenu = ({data, onDialog}) => {
 };
 
 FavoriteGroupContextMenu.propTypes = {
-	data: PropTypes.object.isRequired,
+	resourceGroupId: PropTypes.string.isRequired,
 	onDialog: PropTypes.bool,
 };
 

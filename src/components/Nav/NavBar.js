@@ -100,7 +100,7 @@ const NavBar = ({isOpened, setIsOpened}) => {
 
 	const {theme, navigationKey} = useSelector(settingSelector.all);
 
-	//TODO: !!important: change data value to resource, bookmark
+	//TODO: !!important: change resourceGroupId value to resource, bookmark
 	const navTabs = [
 		{title: t('resources'), key: 'resources'},
 		{title: t('favorites'), key: 'favorites'},

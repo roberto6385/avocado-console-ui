@@ -26,9 +26,9 @@ function* sendCommand(action) {
 		});
 
 		while (true) {
-			// const {timeout, data} = yield race({
+			// const {timeout, resourceGroupId} = yield race({
 			// 	timeout: delay(4000),
-			// 	data: take(channel),
+			// 	resourceGroupId: take(channel),
 			// });
 			// if (timeout) {
 			// 	closeChannel(channel);

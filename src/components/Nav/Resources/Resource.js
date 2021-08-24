@@ -39,20 +39,20 @@ export const ServerItem = styled(ResourceItem)`
 	}
 `;
 
-function searchNode(node, key) {
-	if (node.key === key) {
+function searchNode(node, id) {
+	if (node.id === id) {
 		return true;
-	} else if (node.contain && node.contain.length > 0) {
-		for (let x of node.contain) {
-			searchNode(x, key);
+	} else if (node.children && node.children.length > 0) {
+		for (let x of node.children) {
+			searchNode(x, id);
 		}
 	}
 	return false;
 }
 
-function isFavoriteServer(root, key) {
+function isFavoriteServer(root, id) {
 	for (let x of root) {
-		if (searchNode(x, key)) return true;
+		if (searchNode(x, id)) return true;
 	}
 	return false;
 }
@@ -93,7 +93,8 @@ const Resource = ({data, indent}) => {
 						id: computingSystemPort.id,
 					}),
 				);
-			} else if (computingSystemPort.protocol === 'SFTP') {
+			}
+			if (computingSystemPort.protocol === 'SFTP') {
 				dispatch({
 					type: CONNECTION_REQUEST,
 					payload: {
@@ -103,7 +104,6 @@ const Resource = ({data, indent}) => {
 						user: account.user,
 						password: account.password,
 						name: computingSystemPort.name, // create tab info
-						key: computingSystemPort.key,
 						id: computingSystemPort.id,
 					},
 				});
@@ -137,10 +137,10 @@ const Resource = ({data, indent}) => {
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		if (isFavoriteServer(favoriteTree, data.id)) {
+		if (favoriteTree && isFavoriteServer(favoriteTree, data.id)) {
 			dispatch(favoritesAction.deleteFavorite(data.id));
 		} else {
-			dispatch(favoritesAction.addFavorite({key: data.id}));
+			dispatch(favoritesAction.addFavorite(data.id));
 		}
 	}, [data.id, dispatch, favoriteTree]);
 

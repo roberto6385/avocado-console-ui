@@ -32,13 +32,13 @@ const slice = createSlice({
 				state.terminalTabs.push(newTab);
 			}
 
-			state.selectedTab = action.payload.uuid;
 			state.selectedTab = fillTabs(
 				state.terminalTabs,
 				state.cols === 1 ? 1 : state.cols * 3,
-				state.selectedTab,
+				action.payload.uuid,
 			);
 		},
+
 		deleteTab: (state, action) => {
 			state.terminalTabs = state.terminalTabs.filter(
 				(v) => v.uuid !== action.payload,
@@ -49,6 +49,7 @@ const slice = createSlice({
 				state.selectedTab,
 			);
 		},
+
 		sortTabs: (state, action) => {
 			// todo react-beautiful-dnd 라이브러리로 전환하는게 좋을듯합니다.
 			state.terminalTabs.splice(action.payload.oldOrder, 1);
@@ -58,6 +59,7 @@ const slice = createSlice({
 				action.payload.newTab,
 			);
 		},
+
 		setColumn: (state, action) => {
 			state.cols = action.payload;
 			state.selectedTab = fillTabs(
@@ -66,9 +68,9 @@ const slice = createSlice({
 				state.selectedTab,
 			);
 		},
+
 		selectTab: (state, action) => {
 			//TODO: prevent filter if not necessary
-			state.selectedTab = action.payload;
 			if (
 				state.terminalTabs.length > 0 &&
 				state.terminalTabs.findIndex(
@@ -83,7 +85,7 @@ const slice = createSlice({
 				state.selectedTab = fillTabs(
 					state.terminalTabs,
 					state.cols === 1 ? 1 : state.cols * 3,
-					state.selectedTab,
+					action.payload,
 				);
 			} else {
 				state.selectedTab = null;

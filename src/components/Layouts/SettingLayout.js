@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import SettingNav from './SettingNav';
+import SettingNav from '../Setting/SettingNav';
 import Footer from '../Footer';
 import {avocadoLogo} from '../../icons/icons';
 

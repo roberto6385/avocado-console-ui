@@ -87,7 +87,7 @@ function* sendCommand(action) {
 					});
 				}
 			} else {
-				// const data = yield take(channel);
+				// const resourceGroupId = yield take(channel);
 				const res = yield call(readResponse, {data, payload, pass});
 				pass = false;
 				if (payload.read_socket.readyState === 3)

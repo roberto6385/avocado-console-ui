@@ -122,27 +122,6 @@ const _LiHeader = styled(_Li)`
 	font-size: 14px;
 `;
 
-// function searchNextResourceNode(node, key) {
-// 	if (node.type === 'server' || !node.contain.length) {
-// 		if (node.key === key) return node.name;
-// 		else return false;
-// 	}
-//
-// 	for (let x of node.contain) {
-// 		let result = searchNextResourceNode(x, key);
-// 		if (result) return node.name + ' > ' + result;
-// 	}
-// 	return '';
-// }
-//
-// function createResourceRath(root, key) {
-// 	for (let x of root) {
-// 		const result = searchNextResourceNode(x, key);
-// 		if (result) return result;
-// 	}
-// 	return false;
-// }
-
 const IdentitiesSpace = () => {
 	const dispatch = useDispatch();
 
@@ -154,6 +133,7 @@ const IdentitiesSpace = () => {
 		accounts,
 		computingSystemServicePorts,
 		resourceTree,
+		resourceGroups,
 	} = useSelector(remoteResourceSelector.all);
 
 	const [resourceSearchVal, onChangeResourceSearchVal] = useInput('');
@@ -182,6 +162,23 @@ const IdentitiesSpace = () => {
 			);
 		},
 		[dispatch, accounts],
+	);
+
+	const createResourceRath = useCallback(
+		(path) => {
+			const words = path.split('/');
+			let pathName = '';
+
+			for (let i = 1; i < words.length - 1; i++)
+				pathName +=
+					resourceGroups.find((v) => v.id === words[i]).name + ' > ';
+
+			return (
+				pathName +
+				resources.find((v) => v.id === words[words.length - 1]).name
+			);
+		},
+		[resources, resourceGroups],
 	);
 
 	useEffect(() => {
@@ -230,12 +227,12 @@ const IdentitiesSpace = () => {
 									selected={data.id === selectedResource}
 								>
 									<_ResourceName>
-										{
+										{createResourceRath(
 											startSearchingNode(
 												resourceTree,
 												data.id,
-											).path
-										}
+											).path,
+										)}
 									</_ResourceName>
 									<_AddressName>
 										{computingSystemServicePort.host}
@@ -285,8 +282,10 @@ const IdentitiesSpace = () => {
 						<_IdentityCheckBox>{t('default')}</_IdentityCheckBox>
 					</_Li>
 					{accounts.map((data) => {
-						if (data.resourceId !== selectedResource) return;
-						if (doesNameIncludeVal(data.user, identitySearchVal))
+						if (
+							doesNameIncludeVal(data.user, identitySearchVal) &&
+							data.resourceId === selectedResource
+						)
 							return (
 								<_Li
 									key={data.id}
