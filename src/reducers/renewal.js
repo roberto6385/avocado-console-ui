@@ -175,15 +175,10 @@ const slice = createSlice({
 		commandRenameDone: (state, action) => {},
 		commandRenameFail: (state, action) => {},
 
-		//RM_REQUEST
-		commandRm: (state, action) => {},
-		commandRmDone: (state, action) => {},
-		commandRmFail: (state, action) => {},
-
-		//RM_REQUEST
-		commandRmdir: (state, action) => {},
-		commandRmdirDone: (state, action) => {},
-		commandRmdirFail: (state, action) => {},
+		//RM_REQUEST RMDIR_REQUEST
+		commandRemove: (state, action) => {},
+		commandRemoveDone: (state, action) => {},
+		commandRemoveFail: (state, action) => {},
 
 		//MKDIR_REQUEST
 		commandMkdir: (state, action) => {},

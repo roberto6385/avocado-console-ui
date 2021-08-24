@@ -1,11 +1,10 @@
 import {HoverButton, Icon} from '../../styles/components/icon';
 import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
 import MenuButtons from './MenuButtons';
-import React, {useCallback, useState, useMemo} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {DISCONNECTION_REQUEST} from '../../reducers/sftp';
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {sshAction, sshSelector} from '../../reducers/ssh';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';

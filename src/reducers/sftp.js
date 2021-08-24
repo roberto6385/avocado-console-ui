@@ -1,36 +1,17 @@
 import produce from 'immer';
 
-export const CONNECTION_SUCCESS = 'sftp/CONNECTION_SUCCESS';
-export const CONNECTION_FAILURE = 'sftp/CONNECTION_FAILURE';
-
 export const RECONNECTION_REQUEST = 'sftp/RECONNECTION_REQUEST';
 export const RECONNECTION_SUCCESS = 'sftp/RECONNECTION_SUCCESS';
 export const RECONNECTION_FAILURE = 'sftp/RECONNECTION_FAILURE';
-
-export const DISCONNECTION_REQUEST = 'sftp/DISCONNECTION_REQUEST';
-export const DISCONNECTION_SUCCESS = 'sftp/DISCONNECTION_SUCCESS';
-export const DISCONNECTION_FAILURE = 'sftp/DISCONNECTION_FAILURE';
 
 export const STAT_REQUEST = 'sftp/STAT_REQUEST';
 export const STAT_SUCCESS = 'sftp/STAT_SUCCESS';
 export const STAT_FAILURE = 'sftp/STAT_FAILURE';
 
-export const CD_REQUEST = 'sftp/CD_REQUEST';
-export const CD_SUCCESS = 'sftp/CD_SUCCESS';
-export const CD_FAILURE = 'sftp/CD_FAILURE';
-
-export const RENAME_REQUEST = 'sftp/RENAME_REQUEST';
-export const RENAME_SUCCESS = 'sftp/RENAME_SUCCESS';
-export const RENAME_FAILURE = 'sftp/RENAME_FAILURE';
-
 export const RM_REQUEST = 'sftp/RM_REQUEST';
 export const RM_SUCCESS = 'sftp/RM_SUCCESS';
 export const RM_FAILURE = 'sftp/RM_FAILURE';
 export const DELETE_PASS = 'sftp/DELETE_PASS';
-
-export const MKDIR_REQUEST = 'sftp/MKDIR_REQUEST';
-export const MKDIR_SUCCESS = 'sftp/MKDIR_SUCCESS';
-export const MKDIR_FAILURE = 'sftp/MKDIR_FAILURE';
 
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
 export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
@@ -185,70 +166,11 @@ const sftp = (state = initialState, action) =>
 
 				break;
 
-			case CONNECTION_FAILURE:
-				draft.loading = false;
-				break;
-
 			case RECONNECTION_FAILURE:
 				draft.loading = false;
 				break;
 
 			// 해제
-
-			case DISCONNECTION_REQUEST:
-				// draft.loading = true;
-				break;
-			case DISCONNECTION_SUCCESS:
-				// draft.loading = false;
-				draft.sockets = state.sockets.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.paths = state.paths.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.uploads = state.uploads.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.downloads = state.downloads.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.deletes = state.deletes.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.files = state.files.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.historys = state.historys.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.edits = state.edits.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.etcs = state.etcs.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				draft.highlights = state.highlights.filter(
-					(it) => it.uuid !== action.payload.uuid,
-				);
-				break;
-			case DISCONNECTION_FAILURE:
-				// draft.loading = false;
-				break;
-
-			// 경로 변경
-			case CD_REQUEST:
-				// draft.loading = true;
-
-				break;
-			case CD_SUCCESS:
-				high_target.highlight = [];
-				path_target.path = action.payload.path;
-				path_target.pathList = action.payload.pathList;
-
-				break;
-			case CD_FAILURE:
-				// draft.loading = false;
-				break;
 
 			// 모드변경
 			case CHANGE_MODE:

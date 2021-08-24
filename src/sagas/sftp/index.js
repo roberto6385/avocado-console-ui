@@ -1,4 +1,4 @@
-import {cancel, fork, take, all} from 'redux-saga/effects';
+import {all, fork} from 'redux-saga/effects';
 
 import commandPwdSaga from './commandPwd';
 import connectSaga from './connect';
@@ -7,9 +7,9 @@ import commandLsSaga from './commandLs';
 import commandCdSaga from './commandCd';
 import commandMkdirSaga from './commandMkdir';
 import commandRenameSaga from './commandRename';
-
 import reconnectSaga from './reconnect';
-import commandRmSaga from './sendCommandRm';
+
+import commandRmSaga from './commandRemove';
 import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';
 import searchListSaga from './searchDeleteList';
@@ -17,7 +17,6 @@ import createWebsocketSaga from './createNewWebsocket';
 import removeWebsocketSaga from './removeNewWebsocket';
 import commandStatSaga from './sendCommandStat';
 import commandChmodSaga from './sendCommandChmod';
-import {DISCONNECTION_SUCCESS} from '../../reducers/sftp';
 
 export default function* sftpSaga() {
 	yield all([
@@ -38,5 +37,4 @@ export default function* sftpSaga() {
 		fork(commandStatSaga),
 		fork(commandChmodSaga),
 	]);
-	yield take(DISCONNECTION_SUCCESS, yield cancel(yield fork(connectSaga)));
 }

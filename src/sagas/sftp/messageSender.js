@@ -67,33 +67,33 @@ import * as PropTypes from 'prop-types';
 // ws.send(message.serializeBinary());
 // };
 
-const sendCommandByRmdir = ({ws, path}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var rmdir = new SFTP.RemoveDirectoryRequest();
-	rmdir.setPath(path);
-
-	cmd.setRmdir(rmdir);
-	request.setCommand(cmd);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
-
-const sendCommandByRm = ({ws, path}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var rm = new SFTP.RemoveFileRequest();
-	rm.setPath(path);
-
-	cmd.setRm(rm);
-	request.setCommand(cmd);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByRmdir = ({ws, path}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var rmdir = new SFTP.RemoveDirectoryRequest();
+// 	rmdir.setPath(path);
+//
+// 	cmd.setRmdir(rmdir);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+//
+// 	ws.send(message.serializeBinary());
+// };
+//
+// const sendCommandByRm = ({ws, path}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var rm = new SFTP.RemoveFileRequest();
+// 	rm.setPath(path);
+//
+// 	cmd.setRm(rm);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+//
+// 	ws.send(message.serializeBinary());
+// };
 
 const sendCommandByStat = ({ws, path}) => {
 	var message = new SFTP.Message();
@@ -278,11 +278,11 @@ const messageSender = ({
 			break;
 
 		case 'CommandByRmdir':
-			sendCommandByRmdir({ws, path});
+			// sendCommandByRmdir({ws, path});
 			break;
 
 		case 'CommandByRm':
-			sendCommandByRm({ws, path});
+			// sendCommandByRm({ws, path});
 			break;
 
 		case 'CommandByChmod':
