@@ -182,15 +182,15 @@ const History = ({
 		<_Container>
 			<Dropzone onDrop={(files) => onDropUpload(files)}>
 				{/*{history.length === 0 ? (*/}
-				{/*	<DropSpaceDiv>*/}
-				{/*		<_DescriptionText>{t('paragraph')}</_DescriptionText>*/}
-				{/*		<DropSpace_Button onClick={onClickUpload}>*/}
-				{/*			<Icon size='sm' margin_right={'8px'}>*/}
-				{/*				{fileUploadIcon}*/}
-				{/*			</Icon>*/}
-				{/*			<_BrowseButtonText>{t('browse')}</_BrowseButtonText>*/}
-				{/*		</DropSpace_Button>*/}
-				{/*	</DropSpaceDiv>*/}
+				<DropSpaceDiv>
+					<_DescriptionText>{t('paragraph')}</_DescriptionText>
+					<DropSpace_Button onClick={onClickUpload}>
+						<Icon size='sm' margin_right={'8px'}>
+							{fileUploadIcon}
+						</Icon>
+						<_BrowseButtonText>{t('browse')}</_BrowseButtonText>
+					</DropSpace_Button>
+				</DropSpaceDiv>
 				{/*) : (*/}
 				{/*	<_Ul>*/}
 				{/*		{history.map((item, index) => {*/}

@@ -10,6 +10,8 @@ import {
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {authSelector} from '../../reducers/api/auth';
 
 function setApi(data) {
 	const message = new SFTP.Message();
@@ -112,54 +114,56 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 
-	// socket: socket,
-	// uuid: payload.uuid,
-	// path: payload.path,
-	// file: v,
-
 	try {
-		const channel = yield call(subscribe, payload.socket);
-		const path =
-			payload.path === '/'
-				? payload.path + payload.file.name
-				: `${payload.path}/${payload.file.name}`;
+		yield put(
+			sftpAction.addList({
+				uuid: payload.uuid,
+				type: 'delete',
+				value: {path: payload.path, file: payload.file},
+			}),
+		);
+		if (payload.file.type === 'directory') {
+			const channel = yield call(subscribe, payload.socket);
+			const path =
+				payload.path === '/'
+					? payload.path + payload.file.name
+					: `${payload.path}/${payload.file.name}`;
 
-		console.log(path);
-		yield call(setApi, {
-			socket: payload.socket,
-			path: path,
-		});
+			yield call(setApi, {
+				socket: payload.socket,
+				path: path,
+			});
 
-		const data = yield take(channel);
-		const res = yield call(getApi, data);
+			const data = yield take(channel);
+			const res = yield call(getApi, data);
 
-		console.log(res);
-		const work = res.list.slice().filter((v) => v.name !== '..');
-		console.log(work);
-
-		for (let v of work) {
-			console.log(v);
-			yield put(
-				sftpAction.addList({
-					uuid: payload.uuid,
-					type: payload.type,
-					value: {path: path, file: v},
-				}),
-			);
-			if (v.type === 'directory') {
+			console.log(res);
+			const work = res.list.slice().filter((v) => v.name !== '..');
+			console.log(work);
+			if (work.length === 0) {
 				yield put(
-					sftpAction.searchDirectory({
-						socket: payload.socket,
+					sftpAction.addList({
 						uuid: payload.uuid,
-						type: payload.type,
-						path: path,
-						file: v,
+						type: 'delete',
+						value: {path: payload.path, file: payload.file},
 					}),
 				);
+			} else {
+				for (let v of work) {
+					yield put(
+						sftpAction.searchDirectory({
+							socket: payload.socket,
+							uuid: payload.uuid,
+							type: 'delete',
+							path: path,
+							file: v,
+						}),
+					);
+				}
 			}
 		}
 	} catch (err) {
@@ -210,7 +214,7 @@ export default function* watcher() {
 			yield take(sftpAction.searchDirectory);
 		} else {
 			uuid = action.payload.uuid;
-			yield call(sendCommand, action);
+			yield call(worker, action);
 		}
 	}
 }

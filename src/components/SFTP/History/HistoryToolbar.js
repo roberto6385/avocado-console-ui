@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
@@ -14,6 +14,7 @@ import {authSelector} from '../../../reducers/api/auth';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -36,15 +37,8 @@ const _ButtonContainer = styled.div`
 const HistoryToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyToolbar');
-
-	const {
-		history: sftpHistory,
-		path: sftpPath,
-		upload: sftpUpload,
-	} = useSelector((state) => state.sftp, shallowEqual);
-	const {userData} = useSelector(authSelector.all);
-	const {resources, accounts} = useSelector(remoteResourceSelector.all);
-
+	const {data} = useSelector(sftpSelector.all);
+	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 
 	const onClickUploadFile = useCallback(async () => {
@@ -56,77 +50,77 @@ const HistoryToolbar = ({uuid}) => {
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
-
-			for await (let value of files) {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
+			console.log(files);
+			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+			for (let v of files) {
+				dispatch(
+					sftpAction.commandWrite({
+						file: v,
 						uuid: uuid,
-						name: value.name,
-						size: value.size,
-						todo: 'write',
-						progress: 0,
-						path: sftpPath.find((it) => it.uuid === uuid),
-						file: value,
-					},
-				});
+						path: sftp.path,
+						key: terminalTab.server.key, // 최초에만 key 전달
+					}),
+				);
 			}
 
-			const {writeSocket, writeList} = sftpUpload.find(
-				(it) => it.uuid === uuid,
-			);
+			// for await (let value of files) {
+			// 	dispatch({
+			// 		type: ADD_HISTORY,
+			// 		payload: {
+			// 			uuid: uuid,
+			// 			name: value.name,
+			// 			size: value.size,
+			// 			todo: 'write',
+			// 			progress: 0,
+			// 			path: sftpPath.find((it) => it.uuid === uuid),
+			// 			file: value,
+			// 		},
+			// 	});
+			// }
 
-			if (!writeSocket && writeList.length === 0) {
-				const terminalTab = () =>
-					terminalTabs.find((it) => it.uuid === uuid);
-
-				const resource = resources.find(
-					(it) => it.key === terminalTab.server.key,
-				);
-				const account = accounts.find(
-					(it) =>
-						it.key === terminalTab.server.key &&
-						it.checked === true,
-				);
-
-				dispatch({
-					type: CREATE_NEW_WEBSOCKET_REQUEST,
-					payload: {
-						token: userData.access_token, // connection info
-						host: resource.host,
-						port: resource.port,
-						user: account.user,
-						password: account.password,
-						todo: 'write',
-						uuid: uuid,
-					},
-				});
-			}
+			// const {writeSocket, writeList} = sftpUpload.find(
+			// 	(it) => it.uuid === uuid,
+			// );
+			// if (!writeSocket && writeList.length === 0) {
+			//
+			// 	const resource = resources.find(
+			// 		(it) => it.key === terminalTab.server.key,
+			// 	);
+			// 	const account = accounts.find(
+			// 		(it) =>
+			// 			it.key === terminalTab.server.key &&
+			// 			it.checked === true,
+			// 	);
+			//
+			// 	dispatch({
+			// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+			// 		payload: {
+			// 			token: userData.access_token, // connection info
+			// 			host: resource.host,
+			// 			port: resource.port,
+			// 			user: account.user,
+			// 			password: account.password,
+			// 			todo: 'write',
+			// 			uuid: uuid,
+			// 		},
+			// 	});
+			// }
 		};
 		document.body.removeChild(uploadInput);
-	}, [
-		sftpUpload,
-		dispatch,
-		uuid,
-		sftpPath,
-		resources,
-		accounts,
-		userData.access_token,
-		terminalTabs,
-	]);
+	}, [dispatch, sftp.path, terminalTabs, uuid]);
 
 	const onClickDeleteHistory = useCallback(() => {
-		if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {
-			// TODO: 전체삭제 처리가 필요하다면 이곳에서 구현
-		} else {
-			dispatch(
-				dialogBoxAction.openAlert({
-					key: 'sftp-delete-history',
-					uuid: uuid,
-				}),
-			);
-		}
-	}, [sftpHistory, uuid, dispatch]);
+		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {
+		// 	TODO: 전체삭제 처리가 필요하다면 이곳에서 구현
+		// } else {
+		// 	dispatch(
+		// 		dialogBoxAction.openAlert({
+		// 			key: 'sftp-delete-history',
+		// 			uuid: uuid,
+		// 		}),
+		// 	);
+		// }
+	}, []);
 
 	return (
 		<_Container>

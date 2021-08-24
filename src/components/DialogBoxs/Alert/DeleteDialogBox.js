@@ -19,19 +19,15 @@ import {
 	DialogBoxHeader,
 	DialogBoxMessage,
 } from '../../../styles/components/disalogBox';
-import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {favoritesAction} from '../../../reducers/favorites';
-import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('deleteDialogBox');
 
-	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
 	const {data} = useSelector(sftpSelector.all);
 
@@ -68,52 +64,48 @@ const DeleteDialogBox = () => {
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
-					const resource = resources.find(
-						(it) => it.key === terminalTab.server.key,
-					);
-					const account = accounts.find(
-						(it) =>
-							it.key === terminalTab.server.key &&
-							it.checked === true,
-					);
 					if (sftp.delete.socket) {
 						for (let v of sftp.selected.files) {
 							dispatch(
-								sftpAction.addList({
+								sftpAction.searchDirectory({
+									socket: sftp.delete.socket,
 									uuid: uuid,
 									type: 'delete',
-									value: {path: sftp.path, file: v},
+									path: sftp.path,
+									file: v,
 								}),
 							);
-							if (v.type === 'directory') {
-								dispatch(
-									sftpAction.searchDirectory({
-										socket: sftp.delete.socket,
-										uuid: uuid,
-										type: 'delete',
-										path: sftp.path,
-										file: v,
-									}),
-								);
-							}
 						}
 					} else {
 						dispatch(
 							sftpAction.createSocket({
-								token: userData.access_token, // connection info
-								host: resource.host,
-								port: resource.port,
-								user: account.user,
-								password: account.password,
-
 								uuid: uuid,
+								key: terminalTab.server.key,
 								selected: sftp.selected.files,
 								path: sftp.path,
 								type: 'delete',
 							}),
 						);
 					}
-
+					// for (let v of sftp.selected.files) {
+					// 	dispatch(
+					// 		sftpAction.addList({
+					// 			uuid: uuid,
+					// 			type: 'delete',
+					// 			value: {path: sftp.path, file: v},
+					// 		}),
+					// 	);
+					// 	if (v.type === 'directory') {
+					// 		dispatch(
+					// 			sftpAction.searchDirectory({
+					// 				uuid: uuid,
+					// 				path: sftp.path,
+					// 				file: v,
+					// 				resourceKey: terminalTab.server.key, // 최초에만 key 전달
+					// 			}),
+					// 		);
+					// 	}
+					// }
 					break;
 				}
 
@@ -155,7 +147,7 @@ const DeleteDialogBox = () => {
 			}
 			dispatch(dialogBoxAction.closeAlert());
 		},
-		[accounts, alert, data, dispatch, resources, terminalTabs, userData],
+		[alert, data, dispatch, terminalTabs],
 	);
 
 	return (

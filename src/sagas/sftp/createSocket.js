@@ -1,8 +1,11 @@
-import {call, put, take, takeLatest} from 'redux-saga/effects';
+import {call, put, select, take, takeLatest} from 'redux-saga/effects';
 import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 import {createWebsocket} from './socket';
+import {useSelector} from 'react-redux';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {authSelector} from '../../reducers/api/auth';
 
 function setApi(data) {
 	const message = new SFTP.Message();
@@ -64,17 +67,25 @@ function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
 
+	const {resources, accounts} = yield select(remoteResourceSelector.all);
+	const {userData} = yield select(authSelector.all);
+	const resource = resources.find((v) => v.key === payload.key);
+	const account = accounts.find((v) => v.key === payload.key && v.checked);
+
 	try {
 		const socket = yield call(createWebsocket);
 		const channel = yield call(subscribe, socket);
 
 		yield call(setApi, {
-			...payload,
+			token: userData.access_token, // connection info
+			host: resource.host,
+			port: resource.port,
+			user: account.user,
+			password: account.password,
 			socket: socket,
 		});
 		const data = yield take(channel);
-		const res = yield call(getApi, data);
-		console.log(res.uuid); // uuid
+		yield call(getApi, data); //todo multi socket을 사용한다면 uuid를 사용할 수 도?
 		yield put(
 			sftpAction.createSocketDone({
 				socket: socket,
@@ -82,21 +93,13 @@ function* sendCommand(action) {
 				type: payload.type,
 			}),
 		);
-
-		for (let v of payload.selected) {
-			yield put(
-				sftpAction.addList({
-					uuid: payload.uuid,
-					type: payload.type,
-					value: {path: payload.path, file: v},
-				}),
-			);
-			if (v.type === 'directory') {
+		if (payload.type === 'delete') {
+			for (let v of payload.selected) {
 				yield put(
 					sftpAction.searchDirectory({
 						socket: socket,
 						uuid: payload.uuid,
-						type: payload.type,
+						type: 'delete',
 						path: payload.path,
 						file: v,
 					}),

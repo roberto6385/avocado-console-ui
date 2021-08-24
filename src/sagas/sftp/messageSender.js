@@ -196,7 +196,6 @@ const sendCommandByWrite = ({
 	uploadFile,
 	completed,
 	mode,
-	permission,
 }) => {
 	const sendBuffer = (data) => {
 		var message = new SFTP.Message();
@@ -308,7 +307,7 @@ const messageSender = ({
 			break;
 
 		case 'CommandByPut':
-			sendCommandByWrite({ws, path, uploadFile});
+			// sendCommandByWrite({ws, path, uploadFile});
 			break;
 
 		case 'CommandByWrite':

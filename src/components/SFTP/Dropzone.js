@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const _Container = styled.div`
+	height: 100%;
 	outline: none;
 	overflow: scroll;
 	flex: 1;

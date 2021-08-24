@@ -1,5 +1,4 @@
 import {call, put, take, takeEvery} from 'redux-saga/effects';
-import {REMOVE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {subscribe} from '../channel';
 import {sftpAction} from '../../reducers/renewal';
 import SFTP from '../../dist/sftp_pb';

@@ -57,65 +57,21 @@ const HistoryContianer = ({uuid}) => {
 			uploadInput.click();
 			uploadInput.onchange = async (e) => {
 				const files = e.target.files;
-				for await (let value of files) {
-					dispatch({
-						type: ADD_HISTORY,
-						payload: {
-							uuid: uuid,
-							name: value.name,
-							size: value.size,
-							todo: 'write',
-							progress: 0,
-							path: path,
-							file: value,
-						},
-					});
-				}
-				// if (!writeSocket && writeList.length === 0) {
-				// 	dispatch({
-				// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-				// 		payload: {
-				// 			token: userData.access_token, // connection info
-				// 			host: resource.host,
-				// 			port: resource.port,
-				// 			user: account.user,
-				// 			password: account.password,
-				// 			todo: 'write',
-				// 			uuid: uuid,
-				// 		},
-				// 	});
+				console.log(files);
+				// for await (let value of files) {
+				// dispatch({
+				// 	type: ADD_HISTORY,
+				// 	payload: {
+				// 		uuid: uuid,
+				// 		name: value.name,
+				// 		size: value.size,
+				// 		todo: 'write',
+				// 		progress: 0,
+				// 		path: path,
+				// 		file: value,
+				// 	},
+				// });
 			};
-			// };
-			// document.body.removeChild(uploadInput);
-		},
-		[
-			// dispatch,
-			// uuid,
-			// writeSocket,
-			// writeList,
-			// path,
-			// userData,
-			// resource,
-			// account,
-		],
-	);
-	const onDropUploadHistory = useCallback(
-		async (files) => {
-			for await (let value of files) {
-				dispatch({
-					type: ADD_HISTORY,
-					payload: {
-						uuid: uuid,
-						name: value.name,
-						size: value.size,
-						todo: 'write',
-						progress: 0,
-						path: path,
-						file: value,
-					},
-				});
-				console.log(value);
-			}
 			// if (!writeSocket && writeList.length === 0) {
 			// 	dispatch({
 			// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
@@ -129,19 +85,53 @@ const HistoryContianer = ({uuid}) => {
 			// 			uuid: uuid,
 			// 		},
 			// 	});
-			// }
+			// };
+			// };
+			document.body.removeChild(uploadInput);
 		},
 		[
-			// writeList,
+			// dispatch,
+			// uuid,
 			// writeSocket,
-			dispatch,
-			uuid,
-			path,
-			userData,
-			resource,
-			account,
+			// writeList,
+			// path,
+			// userData,
+			// resource,
+			// account,
 		],
 	);
+	const onDropUploadHistory = useCallback(async (files) => {
+		console.log(files);
+		// for await (let value of files) {
+		// dispatch({
+		// 	type: ADD_HISTORY,
+		// 	payload: {
+		// 		uuid: uuid,
+		// 		name: value.name,
+		// 		size: value.size,
+		// 		todo: 'write',
+		// 		progress: 0,
+		// 		path: path,
+		// 		file: value,
+		// 	},
+		// });
+		// console.log(value);
+		// }
+		// if (!writeSocket && writeList.length === 0) {
+		// 	dispatch({
+		// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
+		// 		payload: {
+		// 			token: userData.access_token, // connection info
+		// 			host: resource.host,
+		// 			port: resource.port,
+		// 			user: account.user,
+		// 			password: account.password,
+		// 			todo: 'write',
+		// 			uuid: uuid,
+		// 		},
+		// 	});
+		// }
+	}, []);
 	const compareHistories = useCallback(
 		(first, second) => {
 			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
@@ -337,15 +327,15 @@ const HistoryContianer = ({uuid}) => {
 
 	return (
 		<History
-		// history={history}
-		// highlight={history_highlight}
-		// writeSocket={writeSocket}
-		// readSocket={readSocket}
-		// onDropUpload={onDropUploadHistory}
-		// onClickUpload={onClickUploadHistory}
-		// onSelect={onClickSelectHistory}
-		// onChangeProgress={onClickChangeProgress}
-		// onRemove={onClickDeleteHistory}
+			// history={history}
+			// highlight={history_highlight}
+			// writeSocket={writeSocket}
+			// readSocket={readSocket}
+			onDropUpload={onDropUploadHistory}
+			onClickUpload={onClickUploadHistory}
+			// onSelect={onClickSelectHistory}
+			// onChangeProgress={onClickChangeProgress}
+			// onRemove={onClickDeleteHistory}
 		/>
 	);
 };

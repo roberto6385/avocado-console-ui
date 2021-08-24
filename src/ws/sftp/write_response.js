@@ -3,15 +3,7 @@ import {WRITE_SUCCESS} from '../../reducers/sftp';
 
 let writePercent = 0;
 let writeByteSum = 0;
-export function writeResponse({data, payload, pass}) {
-	if (pass) {
-		writePercent = 0;
-		writeByteSum = 0;
-		if (payload.offset !== undefined) {
-			writeByteSum = payload.offset;
-			writePercent = (writeByteSum * 100) / payload.file.size;
-		}
-	}
+export function writeResponse({data}) {
 	try {
 		if (data instanceof ArrayBuffer) {
 			const message = SFTP.Message.deserializeBinary(data);
@@ -36,7 +28,7 @@ export function writeResponse({data, payload, pass}) {
 							writeByteSum += write.getWritebytes();
 						}
 
-						writePercent = (writeByteSum * 100) / payload.file.size;
+						writePercent = (writeByteSum * 100) / data.file.size;
 
 						if (
 							write.getWritebytes() === -1 ||
@@ -52,7 +44,7 @@ export function writeResponse({data, payload, pass}) {
 							end:
 								write.getWritebytes() === -1
 									? true
-									: writeByteSum === payload.file.size,
+									: writeByteSum === data.file.size,
 							last: write.getCompleted(),
 							percent:
 								write.getWritebytes() === -1
@@ -61,17 +53,6 @@ export function writeResponse({data, payload, pass}) {
 						};
 					}
 				}
-				// else if (
-				// 	response.getResponseCase() ===
-				// 	SFTP.Response.ResponseCase.ERROR
-				// ) {
-				// 	const error = response.getError();
-				// 	console.log(error.getMessage());
-				// 	return {
-				// 		type: ERROR,
-				// 		err: error.getMessage(),
-				// 	};
-				// }
 			} else {
 				console.log('data is not protocol buffer.');
 			}

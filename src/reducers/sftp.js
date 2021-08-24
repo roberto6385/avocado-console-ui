@@ -1,16 +1,9 @@
 import produce from 'immer';
 
-export const RECONNECTION_REQUEST = 'sftp/RECONNECTION_REQUEST';
-export const RECONNECTION_SUCCESS = 'sftp/RECONNECTION_SUCCESS';
-export const RECONNECTION_FAILURE = 'sftp/RECONNECTION_FAILURE';
-
 export const STAT_REQUEST = 'sftp/STAT_REQUEST';
 export const STAT_SUCCESS = 'sftp/STAT_SUCCESS';
 export const STAT_FAILURE = 'sftp/STAT_FAILURE';
 
-export const RM_REQUEST = 'sftp/RM_REQUEST';
-export const RM_SUCCESS = 'sftp/RM_SUCCESS';
-export const RM_FAILURE = 'sftp/RM_FAILURE';
 export const DELETE_PASS = 'sftp/DELETE_PASS';
 
 export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
@@ -37,15 +30,6 @@ export const LS_FAILURE = 'sftp/LS_FAILURE';
 
 export const CREATE_NEW_WEBSOCKET_REQUEST = 'sftp/CREATE_NEW_WEBSOCKET_REQUEST';
 export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
-export const CREATE_NEW_WEBSOCKET_FAILURE = 'sftp/CREATE_NEW_WEBSOCKET_FAILURE';
-
-export const REMOVE_NEW_WEBSOCKET_REQUEST = 'sftp/REMOVE_NEW_WEBSOCKET_REQUEST';
-export const REMOVE_NEW_WEBSOCKET_SUCCESS = 'sftp/REMOVE_NEW_WEBSOCKET_SUCCESS';
-export const REMOVE_NEW_WEBSOCKET_FAILURE = 'sftp/REMOVE_NEW_WEBSOCKET_FAILURE';
-
-export const LS_REQUEST_DELETE = 'sftp/LS_REQUEST_DELETE';
-export const LS_SUCCESS_DELETE = 'sftp/LS_SUCCESS_DELETE';
-export const LS_FAILURE_DELETE = 'sftp/LS_FAILURE_DELETE';
 
 export const ERROR = 'sftp/ERROR';
 
@@ -143,32 +127,6 @@ const sftp = (state = initialState, action) =>
 
 		switch (action.type) {
 			// 연결
-
-			case RECONNECTION_REQUEST:
-				draft.loading = true;
-				break;
-
-			case RECONNECTION_SUCCESS:
-				draft.loading = false;
-
-				socket_target.uuid = action.payload.newUuid;
-				socket_target.socket = action.payload.socket;
-				socket_target.ready = 1;
-				path_target.uuid = action.payload.newUuid;
-				file_target.uuid = action.payload.newUuid;
-				high_target.uuid = action.payload.newUuid;
-				history_target.uuid = action.payload.newUuid;
-				etc_target.uuid = action.payload.newUuid;
-				edit_target.uuid = action.payload.newUuid;
-				upload_target.uuid = action.payload.newUuid;
-				download_target.uuid = action.payload.newUuid;
-				delete_target.uuid = action.payload.newUuid;
-
-				break;
-
-			case RECONNECTION_FAILURE:
-				draft.loading = false;
-				break;
 
 			// 해제
 
