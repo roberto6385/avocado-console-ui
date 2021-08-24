@@ -99,11 +99,7 @@ function* sendCommand(action) {
 		}
 		const data = yield take(channel);
 		yield call(getApi, data);
-		yield put(
-			sftpAction.commandRemoveDone({
-				uuid: payload.uuid,
-			}),
-		);
+		yield put(sftpAction.commandRemoveDone());
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.commandRemoveFail());

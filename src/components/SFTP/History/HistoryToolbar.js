@@ -15,6 +15,7 @@ import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {put, take} from 'redux-saga/effects';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -52,13 +53,25 @@ const HistoryToolbar = ({uuid}) => {
 			const files = e.target.files;
 			console.log(files);
 			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
-			for (let v of files) {
+			if (sftp.upload.socket) {
+				for (let v of files) {
+					dispatch(
+						sftpAction.commandWrite({
+							socket: sftp.upload.socket,
+							uuid: uuid,
+							path: sftp.path,
+							file: v,
+						}),
+					);
+				}
+			} else {
 				dispatch(
-					sftpAction.commandWrite({
-						file: v,
+					sftpAction.createSocket({
 						uuid: uuid,
+						key: terminalTab.server.key,
+						selected: files,
 						path: sftp.path,
-						key: terminalTab.server.key, // 최초에만 key 전달
+						type: 'upload',
 					}),
 				);
 			}
@@ -107,7 +120,7 @@ const HistoryToolbar = ({uuid}) => {
 			// }
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, sftp.path, terminalTabs, uuid]);
+	}, [dispatch, sftp.path, sftp.upload.socket, terminalTabs, uuid]);
 
 	const onClickDeleteHistory = useCallback(() => {
 		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {

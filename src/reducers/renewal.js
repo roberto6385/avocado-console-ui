@@ -177,13 +177,7 @@ const slice = createSlice({
 
 		//RM_REQUEST RMDIR_REQUEST
 		commandRemove: (state, action) => {},
-		commandRemoveDone: (state, action) => {
-			const index = state.data.findIndex(
-				(v) => v.uuid === action.payload.uuid,
-			);
-			// type 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index].delete.list.shift();
-		},
+		commandRemoveDone: (state, action) => {},
 		commandRemoveFail: (state, action) => {},
 
 		//MKDIR_REQUEST

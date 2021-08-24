@@ -198,6 +198,9 @@ export default function* watcher() {
 						}),
 					);
 					yield take(sftpAction.commandRemoveDone);
+					yield put(
+						sftpAction.deleteList({uuid: uuid, type: 'delete'}),
+					);
 				}
 				yield put(
 					sftpAction.deleteSocket({

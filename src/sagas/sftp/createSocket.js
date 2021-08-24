@@ -99,7 +99,17 @@ function* sendCommand(action) {
 					sftpAction.searchDirectory({
 						socket: socket,
 						uuid: payload.uuid,
-						type: 'delete',
+						path: payload.path,
+						file: v,
+					}),
+				);
+			}
+		} else if (payload.type === 'upload') {
+			for (let v of payload.selected) {
+				yield put(
+					sftpAction.commandWrite({
+						socket: socket,
+						uuid: payload.uuid,
 						path: payload.path,
 						file: v,
 					}),

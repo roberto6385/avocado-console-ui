@@ -1,4 +1,5 @@
 import {
+	actionChannel,
 	call,
 	put,
 	select,
@@ -125,34 +126,18 @@ function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 	const {data} = yield select(sftpSelector.all);
-	const sftp = data.find((v) => v.uuid === payload.uuid);
+	// const sftp = data.find((v) => v.uuid === payload.uuid);
 
 	try {
-		if (!sftp.upload.socket) {
-			yield put(
-				sftpAction.createSocket({
-					key: payload.key,
-					uuid: payload.uuid,
-					type: 'upload',
-				}),
-			);
-			yield take(sftpAction.createSocketDone);
-			yield put(
-				sftpAction.commandWrite({
-					file: payload.file,
-					uuid: payload.uuid,
-					path: payload.path,
-				}),
-			);
-			return;
-		}
-		const channel = yield call(subscribe, sftp.upload.socket);
+		const channel = yield call(subscribe, payload.socket);
+		// const {path, file} = sftp.upload.list.slice().shift();
+		const path =
+			payload.path === '/'
+				? payload.path + payload.file.name
+				: `${payload.path}/${payload.file.name}`;
 		yield call(setApi, {
-			socket: sftp.upload.socket,
-			path:
-				payload.path === '/'
-					? payload.path + payload.file.name
-					: `${payload.path}/${payload.file.name}`,
+			socket: payload.socket,
+			path: path,
 			file: payload.file,
 			offset: 0,
 			length: writeChunkSize,
@@ -166,11 +151,8 @@ function* worker(action) {
 			//res에 따라서 sftpAction.commandWrite해줌
 			if (!res.completion) {
 				yield call(setApi, {
-					socket: sftp.upload.socket,
-					path:
-						payload.path === '/'
-							? payload.path + payload.file.name
-							: `${payload.path}/${payload.file.name}`,
+					socket: payload.socket,
+					path: path,
 					file: payload.file,
 					offset: res.accByte,
 					length: writeChunkSize,
@@ -179,7 +161,32 @@ function* worker(action) {
 				});
 			} else {
 				console.log('commandWriteDone');
+				console.log(payload);
 				yield put(sftpAction.commandWriteDone());
+				// yield put(
+				// 	sftpAction.deleteList({uuid: payload.uuid, type: 'upload'}),
+				// );
+				// if (sftp.upload.list.length !== 0) {
+				// 	yield put(
+				// 		sftpAction.commandWrite({
+				// 			uuid: payload.uuid,
+				// 		}),
+				// 	);
+				// } else {
+				// 	yield put(
+				// 		sftpAction.deleteSocket({
+				// 			socket: sftp.upload.socket,
+				// 			uuid: payload.uuid,
+				// 			type: 'upload',
+				// 		}),
+				// 	);
+				// yield put(
+				// 	sftpAction.commandPwd({
+				// 		socket: payload.socket,
+				// 		uuid: payload.uuid,
+				// 	}),
+				// );
+				// }
 			}
 		}
 	} catch (err) {
@@ -188,5 +195,10 @@ function* worker(action) {
 }
 
 export default function* watcher() {
-	yield takeLatest(sftpAction.commandWrite, worker);
+	const takeChannel = yield actionChannel(sftpAction.commandWrite);
+
+	while (true) {
+		const action = yield take(takeChannel);
+		yield call(worker, action);
+	}
 }
