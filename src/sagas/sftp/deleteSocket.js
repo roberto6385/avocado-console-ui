@@ -1,8 +1,8 @@
-import {call, put, take, throttle} from 'redux-saga/effects';
-import {sftpAction} from '../../reducers/renewal';
+import {call, put, take, takeEvery} from 'redux-saga/effects';
+import {REMOVE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
 import {subscribe} from '../channel';
+import {sftpAction} from '../../reducers/renewal';
 import SFTP from '../../dist/sftp_pb';
-import {tabBarAction} from '../../reducers/tabBar';
 
 function setApi(data) {
 	const message = new SFTP.Message();
@@ -56,21 +56,29 @@ function getApi(data) {
 function* sendCommand(action) {
 	const {payload} = action;
 	console.log(payload);
-	try {
-		yield put(tabBarAction.deleteTab(payload.uuid));
 
+	try {
 		const channel = yield call(subscribe, payload.socket);
 		yield call(setApi, {socket: payload.socket});
 		const data = yield take(channel);
 		yield call(getApi, data);
-		// 탭을 먼저 제거해야 함
-		yield put(sftpAction.disconnectDone({uuid: payload.uuid}));
+		yield put(
+			sftpAction.deleteSocketDone({
+				uuid: payload.uuid,
+				type: payload.type,
+			}),
+		);
 	} catch (err) {
 		console.log(err);
-		yield put(sftpAction.disconnectFail({uuid: payload.uuid}));
+		yield put(
+			sftpAction.deleteSocketFail({
+				uuid: payload.uuid,
+				type: payload.type,
+			}),
+		);
 	}
 }
 
-export default function* watcher() {
-	yield throttle(1000, sftpAction.disconnect, sendCommand);
+export default function* removeWebsocketSaga() {
+	yield takeEvery(sftpAction.deleteSocket, sendCommand);
 }

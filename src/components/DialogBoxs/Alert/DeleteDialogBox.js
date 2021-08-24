@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
@@ -10,13 +10,7 @@ import {
 	TransparentButton,
 	WarningButton,
 } from '../../../styles/components/button';
-import {
-	CREATE_NEW_WEBSOCKET_REQUEST,
-	INIT_DELETE_WORK_LIST,
-	INITIAL_HISTORY_HI,
-	PUSH_INIT_DELETE_WORK_LIST,
-	REMOVE_HISTORY,
-} from '../../../reducers/sftp';
+import {INIT_DELETE_WORK_LIST} from '../../../reducers/sftp';
 import {Icon, IconButton} from '../../../styles/components/icon';
 import {
 	AlertDialogBox,
@@ -29,23 +23,17 @@ import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {favoritesAction} from '../../../reducers/favorites';
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('deleteDialogBox');
 
-	const {selectedResource, resources, accounts} = useSelector(
-		remoteResourceSelector.all,
-	);
+	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
-	const {
-		history: sftpHistory,
-		delete: sftpDelete,
-		high: sftpHigh,
-		path: sftpPath,
-	} = useSelector((state) => state.sftp, shallowEqual);
+	const {data} = useSelector(sftpSelector.all);
 
 	const alertMessages = {
 		'sftp-delete-file': t('sftpDeleteFile'),
@@ -76,17 +64,7 @@ const DeleteDialogBox = () => {
 			switch (alert.key) {
 				case 'sftp-delete-file': {
 					const uuid = alert.uuid;
-					const {removeSocket, incinerator} = sftpDelete.find(
-						(it) => it.uuid === uuid,
-					);
-					const {highlight} = sftpHigh.find((it) => it.uuid === uuid);
-					const {path} = sftpPath.find((it) => it.uuid === uuid);
-
-					dispatch({
-						type: PUSH_INIT_DELETE_WORK_LIST,
-						payload: {uuid, list: highlight, path},
-					});
-
+					const sftp = data.find((v) => v.uuid === uuid);
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
@@ -98,48 +76,70 @@ const DeleteDialogBox = () => {
 							it.key === terminalTab.server.key &&
 							it.checked === true,
 					);
-
-					if (!removeSocket && incinerator.length === 0) {
-						dispatch({
-							type: CREATE_NEW_WEBSOCKET_REQUEST,
-							payload: {
+					if (sftp.delete.socket) {
+						for (let v of sftp.selected.files) {
+							dispatch(
+								sftpAction.addList({
+									uuid: uuid,
+									type: 'delete',
+									value: {path: sftp.path, file: v},
+								}),
+							);
+							if (v.type === 'directory') {
+								dispatch(
+									sftpAction.searchDirectory({
+										socket: sftp.delete.socket,
+										uuid: uuid,
+										type: 'delete',
+										path: sftp.path,
+										file: v,
+									}),
+								);
+							}
+						}
+					} else {
+						dispatch(
+							sftpAction.createSocket({
 								token: userData.access_token, // connection info
 								host: resource.host,
 								port: resource.port,
 								user: account.user,
 								password: account.password,
-								todo: 'remove',
+
 								uuid: uuid,
-							},
-						});
+								selected: sftp.selected.files,
+								path: sftp.path,
+								type: 'delete',
+							}),
+						);
 					}
 
 					break;
 				}
 
 				case 'sftp-delete-history': {
-					const {history_highlight} = sftpHistory.find(
-						(it) => it.uuid === alert.uuid,
-					);
-					history_highlight.forEach((item) => {
-						if (
-							item.progress === 0 ||
-							item.progress === 100 ||
-							isNaN(item.progress)
-						) {
-							dispatch({
-								type: REMOVE_HISTORY,
-								payload: {
-									uuid: alert.uuid,
-									history: item,
-								},
-							});
-						}
-					});
-					dispatch({
-						type: INITIAL_HISTORY_HI,
-						payload: {uuid: alert.uuid},
-					});
+					// const {history_highlight} = sftpHistory.find(
+					// 	(it) => it.uuid === alert.uuid,
+					// );
+					// history_highlight.forEach((item) => {
+					// 	if (
+					// 		item.progress === 0 ||
+					// 		item.progress === 100 ||
+					// 		isNaN(item.progress)
+					// 	) {
+					// 		dispatch({
+					// 			type: REMOVE_HISTORY,
+					// 			payload: {
+					// 				uuid: alert.uuid,
+					// 				history: item,
+					// 			},
+					// 		});
+					// 	}
+					// });
+					// dispatch({
+					// 	type: INITIAL_HISTORY_HI,
+					// 	payload: {uuid: alert.uuid},
+					// });
 					break;
 				}
 				case 'delete-favorite-group': {
@@ -155,19 +155,7 @@ const DeleteDialogBox = () => {
 			}
 			dispatch(dialogBoxAction.closeAlert());
 		},
-		[
-			alert,
-			selectedResource,
-			sftpDelete,
-			sftpHigh,
-			sftpPath,
-			dispatch,
-			terminalTabs,
-			resources,
-			accounts,
-			userData,
-			sftpHistory,
-		],
+		[accounts, alert, data, dispatch, resources, terminalTabs, userData],
 	);
 
 	return (

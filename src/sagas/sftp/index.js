@@ -12,9 +12,9 @@ import reconnectSaga from './reconnect';
 import commandRmSaga from './commandRemove';
 import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';
-import searchListSaga from './searchDeleteList';
-import createWebsocketSaga from './createNewWebsocket';
-import removeWebsocketSaga from './removeNewWebsocket';
+import searchListSaga from './searchingDirectory';
+import createWebsocketSaga from './createSocket';
+import removeWebsocketSaga from './deleteSocket';
 import commandStatSaga from './sendCommandStat';
 import commandChmodSaga from './sendCommandChmod';
 

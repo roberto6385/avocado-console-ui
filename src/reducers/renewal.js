@@ -177,7 +177,13 @@ const slice = createSlice({
 
 		//RM_REQUEST RMDIR_REQUEST
 		commandRemove: (state, action) => {},
-		commandRemoveDone: (state, action) => {},
+		commandRemoveDone: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			// type 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index].delete.list.shift();
+		},
 		commandRemoveFail: (state, action) => {},
 
 		//MKDIR_REQUEST
@@ -210,8 +216,8 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			// key 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index][action.payload.key].socket =
+			// type 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index][action.payload.type].socket =
 				action.payload.socket;
 		},
 		createSocketFail: (state, action) => {},
@@ -222,10 +228,16 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			// key 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index][action.payload.key].socket = null;
+			// type 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index][action.payload.type].socket = null;
 		},
-		deleteSocketFail: (state, action) => {},
+		deleteSocketFail: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			// type 값으로 upload, download, delete 를 보내줘야함.
+			state.data[index][action.payload.type].socket = null;
+		},
 
 		// TODO : ETC line ============================================
 

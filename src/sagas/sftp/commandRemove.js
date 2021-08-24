@@ -3,7 +3,7 @@ import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
-const setRmdirApi = (data) => {
+function setRmdirApi(data) {
 	const message = new SFTP.Message();
 	const request = new SFTP.Request();
 	const cmd = new SFTP.CommandRequest();
@@ -15,9 +15,9 @@ const setRmdirApi = (data) => {
 	message.setRequest(request);
 
 	data.socket.send(message.serializeBinary());
-};
+}
 
-const setRmApi = (data) => {
+function setRmApi(data) {
 	const message = new SFTP.Message();
 	const request = new SFTP.Request();
 	const cmd = new SFTP.CommandRequest();
@@ -29,7 +29,7 @@ const setRmApi = (data) => {
 	message.setRequest(request);
 
 	data.socket.send(message.serializeBinary());
-};
+}
 
 function getApi(data) {
 	if (data instanceof ArrayBuffer) {
@@ -99,7 +99,11 @@ function* sendCommand(action) {
 		}
 		const data = yield take(channel);
 		yield call(getApi, data);
-		yield put(sftpAction.commandRemoveDone());
+		yield put(
+			sftpAction.commandRemoveDone({
+				uuid: payload.uuid,
+			}),
+		);
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.commandRemoveFail());
