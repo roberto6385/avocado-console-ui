@@ -53,19 +53,19 @@ import * as PropTypes from 'prop-types';
 // 	ws.send(message.serializeBinary());
 // };
 
-const sendCommandByMkdir = ({ws, path}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var mkdir = new SFTP.MakeDirectoryRequest();
-	mkdir.setPath(path);
-
-	cmd.setMkdir(mkdir);
-	request.setCommand(cmd);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByMkdir = ({ws, path}) => {
+// var message = new SFTP.Message();
+// var request = new SFTP.Request();
+// var cmd = new SFTP.CommandRequest();
+// var mkdir = new SFTP.MakeDirectoryRequest();
+// mkdir.setPath(path);
+//
+// cmd.setMkdir(mkdir);
+// request.setCommand(cmd);
+// message.setRequest(request);
+//
+// ws.send(message.serializeBinary());
+// };
 
 const sendCommandByRmdir = ({ws, path}) => {
 	var message = new SFTP.Message();
@@ -138,20 +138,20 @@ const sendCommandByChmod = ({ws, path, permissions}) => {
 // 	ws.send(message.serializeBinary());
 // };
 
-const sendCommandByRename = ({ws, path, newPath}) => {
-	var message = new SFTP.Message();
-	var request = new SFTP.Request();
-	var cmd = new SFTP.CommandRequest();
-	var rename = new SFTP.RenameRequest();
-	rename.setOldpath(path);
-	rename.setNewpath(newPath);
-
-	cmd.setRename(rename);
-	request.setCommand(cmd);
-	message.setRequest(request);
-
-	ws.send(message.serializeBinary());
-};
+// const sendCommandByRename = ({ws, path, newPath}) => {
+// 	var message = new SFTP.Message();
+// 	var request = new SFTP.Request();
+// 	var cmd = new SFTP.CommandRequest();
+// 	var rename = new SFTP.RenameRequest();
+// 	rename.setOldpath(path);
+// 	rename.setNewpath(newPath);
+//
+// 	cmd.setRename(rename);
+// 	request.setCommand(cmd);
+// 	message.setRequest(request);
+//
+// 	ws.send(message.serializeBinary());
+// };
 
 const sendCommandByGet = ({ws, path}) => {
 	var message = new SFTP.Message();
@@ -274,7 +274,7 @@ const messageSender = ({
 			break;
 
 		case 'CommandByMkdir':
-			sendCommandByMkdir({ws, path});
+			// sendCommandByMkdir({ws, path});
 			break;
 
 		case 'CommandByRmdir':
@@ -297,7 +297,6 @@ const messageSender = ({
 			break;
 
 		case 'CommandByRename':
-			sendCommandByRename({ws, path, newPath});
 			break;
 
 		case 'CommandByGet':

@@ -1,16 +1,17 @@
 import {cancel, fork, take, all} from 'redux-saga/effects';
 
-import commandPwdSaga from './sendCommandPwd';
-import connectSaga from './sendConnect';
+import commandPwdSaga from './commandPwd';
+import connectSaga from './connect';
+import disconnectSaga from './disconnect';
+import commandLsSaga from './commandLs';
+import commandCdSaga from './commandCd';
+import commandMkdirSaga from './commandMkdir';
+import commandRenameSaga from './commandRename';
+
 import reconnectSaga from './sendReconnect';
-import disconnectSaga from './sendDisconnect';
-import commandLsSaga from './sendCommandLs';
-import commandCdSaga from './sendCommandCd';
-import commandMkdirSaga from './sendCommandMkdir';
 import commandRmSaga from './sendCommandRm';
 import commandReadSaga from './sendCommandRead';
 import commandWriteSaga from './sendCommandWrite';
-import commandRenameSaga from './sendCommandRename';
 import searchListSaga from './searchDeleteList';
 import createWebsocketSaga from './createNewWebsocket';
 import removeWebsocketSaga from './removeNewWebsocket';

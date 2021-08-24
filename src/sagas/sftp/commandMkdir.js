@@ -1,4 +1,4 @@
-import {call, put, take, throttle} from 'redux-saga/effects';
+import {call, put, take, takeLatest} from 'redux-saga/effects';
 import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
@@ -7,15 +7,16 @@ function setApi(data) {
 	const message = new SFTP.Message();
 	const request = new SFTP.Request();
 	const cmd = new SFTP.CommandRequest();
-	const cd = new SFTP.ChangeDirectoryRequest();
-	cd.setPath(data.path);
+	const mkdir = new SFTP.MakeDirectoryRequest();
+	mkdir.setPath(data.path);
 
-	cmd.setCd(cd);
+	cmd.setMkdir(mkdir);
 	request.setCommand(cmd);
 	message.setRequest(request);
-	console.log(message.serializeBinary());
+
 	data.socket.send(message.serializeBinary());
 }
+
 function getApi(data) {
 	if (data instanceof ArrayBuffer) {
 		const message = SFTP.Message.deserializeBinary(data);
@@ -31,12 +32,12 @@ function getApi(data) {
 				const command = response.getCommand();
 				if (
 					command.getCommandCase() ===
-					SFTP.CommandResponse.CommandCase.CD
+					SFTP.CommandResponse.CommandCase.MKDIR
 				) {
-					const cd = command.getCd();
-					console.log('command : cd', cd);
+					const mkdir = command.getMkdir();
+					console.log('command : mkdir', mkdir);
 				} else {
-					throw 'getCommandCase is not CD';
+					throw 'getCommandCase is not MKDIR';
 				}
 			} else if (
 				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
@@ -65,20 +66,19 @@ function* sendCommand(action) {
 	console.log(payload);
 	try {
 		const channel = yield call(subscribe, payload.socket);
-		yield call(setApi, {path: payload.path, socket: payload.socket});
+		yield call(setApi, {socket: payload.socket, path: payload.path});
 		const data = yield take(channel);
 		yield call(getApi, data);
-		yield put(sftpAction.commandCdDone());
+		yield put(sftpAction.commandMkdirDone());
 		yield put(
 			sftpAction.commandPwd({socket: payload.socket, uuid: payload.uuid}),
 		);
 	} catch (err) {
 		console.log(err);
-		yield put(sftpAction.commandCdFail());
-		// yield put(dialogBoxAction.openAlert({key: 'sftp-wrong-path'}));
+		yield put(sftpAction.commandMkdirFail());
 	}
 }
 
 export default function* watcher() {
-	yield throttle(1000, sftpAction.commandCd, sendCommand);
+	yield takeLatest(sftpAction.commandMkdir, sendCommand);
 }

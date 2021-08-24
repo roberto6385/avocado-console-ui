@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import useInput from '../../../hooks/useInput';
-import {MKDIR_REQUEST, RENAME_REQUEST} from '../../../reducers/sftp';
 import styled from 'styled-components';
 import {useTranslation} from 'react-i18next';
 import {closeIcon} from '../../../icons/icons';
@@ -18,6 +17,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const _PopupModal = styled(DialogBox)`
 	width: 404px;
@@ -31,22 +31,13 @@ const TextBoxDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('textBoxDialogBox');
 
-	const {
-		socket: sftp_socketState,
-		path: sftp_pathState,
-		high: sftp_highState,
-	} = useSelector((state) => state.sftp, shallowEqual);
+	const {data} = useSelector(sftpSelector.all);
 
 	const {form} = useSelector(dialogBoxSelector.all);
 	//TODO: 꼭 prevFormValue 값이 필요한가?
 	const [textBoxVal, onChangeTextBoxVal, setTextBoxVal] = useInput('');
 	const [prevFormValue, setPrevFormValue] = useState('');
 	const textBoxRef = useRef(null);
-
-	const uuid = form.uuid;
-	const socket = sftp_socketState?.find((it) => it.uuid === uuid)?.socket;
-	const path = sftp_pathState?.find((it) => it.uuid === uuid)?.path;
-	const highlight = sftp_highState?.find((it) => it.uuid === uuid)?.highlight;
 
 	const headerMessages = {
 		'sftp-rename-file-folder': t('rename'),
@@ -68,42 +59,41 @@ const TextBoxDialogBox = () => {
 	const handleOnSubmitTextBoxEvents = useCallback(
 		(e) => {
 			e.preventDefault();
+			const uuid = form.uuid;
+			const sftp = data.find((v) => v.uuid === uuid);
+
 			if (textBoxVal === '') return;
 
 			switch (form.key) {
 				case 'sftp-rename-file-folder': {
-					dispatch({
-						type: RENAME_REQUEST,
-						payload: {
-							socket: socket,
+					dispatch(
+						sftpAction.commandRename({
+							socket: sftp.socket,
 							uuid: uuid,
-							prev_path:
-								path === '/'
-									? `${path}${prevFormValue}`
-									: `${path}/${prevFormValue}`,
-							next_path:
-								path === '/'
-									? `${path}${textBoxVal}`
-									: `${path}/${textBoxVal}`,
-							path: path,
-						},
-					});
+							oldPath:
+								sftp.path === '/'
+									? `${sftp.path}${prevFormValue}`
+									: `${sftp.path}/${prevFormValue}`,
+							newPath:
+								sftp.path === '/'
+									? `${sftp.path}${textBoxVal}`
+									: `${sftp.path}/${textBoxVal}`,
+						}),
+					);
 					break;
 				}
 
 				case 'sftp-new-folder': {
-					dispatch({
-						type: MKDIR_REQUEST,
-						payload: {
-							socket: socket,
-							path: path,
+					dispatch(
+						sftpAction.commandMkdir({
+							socket: sftp.socket,
 							uuid: uuid,
-							mkdir_path:
-								path === '/'
-									? `${path}${textBoxVal}`
-									: `${path}/${textBoxVal}`,
-						},
-					});
+							path:
+								sftp.path === '/'
+									? `${sftp.path}${textBoxVal}`
+									: `${sftp.path}/${textBoxVal}`,
+						}),
+					);
 					break;
 				}
 
@@ -122,14 +112,13 @@ const TextBoxDialogBox = () => {
 			onClickCloseDialogBox();
 		},
 		[
-			form,
+			form.uuid,
+			form.key,
+			data,
+			textBoxVal,
 			onClickCloseDialogBox,
 			dispatch,
-			socket,
-			uuid,
-			path,
 			prevFormValue,
-			textBoxVal,
 		],
 	);
 
@@ -155,18 +144,25 @@ const TextBoxDialogBox = () => {
 	}, [textBoxRef, form, prevFormValue, setTextBoxVal]);
 
 	useEffect(() => {
-		if (highlight !== undefined && highlight.length === 1) {
-			if (form.key === 'sftp-rename-file-folder') {
-				setPrevFormValue(highlight[0].name);
-			}
-			if (form.key === 'sftp-change-group') {
-				setPrevFormValue(highlight[0].group);
-			}
-			if (form.key === 'sftp-chnage-owner') {
-				setPrevFormValue(highlight[0].owner);
+		const uuid = form.uuid;
+		const sftp = data.find((v) => v.uuid === uuid);
+		if (uuid) {
+			if (
+				sftp.selected.files !== [] &&
+				sftp.selected.files.length === 1
+			) {
+				if (form.key === 'sftp-rename-file-folder') {
+					setPrevFormValue(sftp.selected.files[0].name);
+				}
+				if (form.key === 'sftp-change-group') {
+					setPrevFormValue(sftp.selected.files[0].group);
+				}
+				if (form.key === 'sftp-chnage-owner') {
+					setPrevFormValue(sftp.selected.files[0].owner);
+				}
 			}
 		}
-	}, [highlight, form]);
+	}, [data, form.key, form.uuid]);
 
 	return (
 		<_PopupModal

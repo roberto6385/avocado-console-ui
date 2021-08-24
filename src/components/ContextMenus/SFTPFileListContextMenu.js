@@ -3,8 +3,7 @@ import {animation, Item, Separator} from 'react-contexify';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {ADD_HISTORY, CREATE_NEW_WEBSOCKET_REQUEST} from '../../reducers/sftp';
+import {useDispatch, useSelector} from 'react-redux';
 import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {authSelector} from '../../reducers/api/auth';
