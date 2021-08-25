@@ -34,7 +34,7 @@ const App = () => {
 
 	const {userData} = useSelector(authSelector.all);
 	const {theme} = useSelector(settingSelector.all);
-
+	//user does not have an action for (userData?.expires_in * 1000) time
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
 		if (userData) {
@@ -59,10 +59,8 @@ const App = () => {
 		}
 	}, [dispatch, userData]);
 
-	//TODO: VARIFY_USER_TICKET_REQUEST로 토큰유효성 테스트 해야함.
 	const {start, pause, reset} = useIdleTimer({
 		timeout: userData?.expires_in * 1000,
-		// onIdle: handleOnIdle,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
 		debounce: 5000,

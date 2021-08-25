@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 
 import FindPasswordForm from '../components/Forms/FindPasswordForm';
 import SignInLayout from '../components/Layouts/SignInLayout';
-import {AUTH, authSelector} from '../reducers/api/auth';
+import {authSelector} from '../reducers/api/auth';
 
 const Password = () => {
 	const history = useHistory();

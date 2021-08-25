@@ -15,31 +15,38 @@ import {
 
 const FavoriteOnDialogBox = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {tempSelectedFavorite} = useSelector(favoritesSelector.all);
 
-	const onClickFavorite = useCallback(() => {
-		if (tempSelectedFavorite === data.key) {
-			dispatch(favoritesAction.setTempSelectedFavorite(null));
-		} else {
-			dispatch(favoritesAction.setTempSelectedFavorite(data.key));
-		}
-	});
+	// const onClickFavorite = useCallback(() => {
+	// 	if (tempSelectedFavorite === data.key) {
+	// 		dispatch(favoritesAction.setTempSelectedFavorite(null));
+	// 	} else {
+	// 		dispatch(favoritesAction.setTempSelectedFavorite(data.key));
+	// 	}
+	// });
 
 	return (
 		<React.Fragment>
 			<ResourceItem
-				selected={tempSelectedFavorite === data.key ? 1 : 0}
+				// selected={
+				// 	JSON.parse(localStorage.tempSelectedFavorites).includes(
+				// 		data.id,
+				// 	)
+				// 		? 1
+				// 		: 0
+				// }
 				left={(indent * 11 + 8).toString() + 'px'}
-				onClick={onClickFavorite}
+				// onClick={onClickFavorite}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={
-						tempSelectedFavorite === data.key
-							? 'selected'
-							: undefined
-					}
+					// itype={
+					// 	JSON.parse(localStorage.tempSelectedFavorites).includes(
+					// 		data.id,
+					// 	)
+					// 		? 'selected'
+					// 		: undefined
+					// }
 				>
 					{data.icon === 'linux' && linuxServerIcon}
 					{data.icon === 'aws' && awsServerIcon}

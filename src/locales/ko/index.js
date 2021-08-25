@@ -12,7 +12,7 @@ export {default as warningDialogBox} from './DialogBoxs/Alert/WarningDialogBox';
 export {default as saveDialogBox} from './DialogBoxs/Alert/SaveDialogBox';
 export {default as deleteDialogBox} from './DialogBoxs/Alert/DeleteDialogBox';
 //DialogBox(Form)
-export {default as addFavoritesDialogBox} from './DialogBoxs/Form/AddFavoritesDialogBox';
+export {default as changeFavoritesDialogBox} from './DialogBoxs/Form/ChangeFavoritesDialogBox';
 export {default as changePasswordDialogBox} from './DialogBoxs/Form/ChangePasswordDialogBox';
 export {default as fileStatusDialogBox} from './DialogBoxs/Form/FileStatusDialogBox';
 export {default as resourceDialogBox} from './DialogBoxs/Form/ResourceDialogBox';

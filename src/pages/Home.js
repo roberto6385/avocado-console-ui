@@ -23,7 +23,6 @@ const Home = () => {
 	const history = useHistory();
 
 	const {language} = useSelector(settingSelector.all);
-
 	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {

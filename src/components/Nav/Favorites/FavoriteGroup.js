@@ -33,7 +33,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 		favoritesSelector.all,
 	);
 
-	const renameRef = useRef(null);
+	const nameRef = useRef(null);
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
@@ -93,12 +93,12 @@ const FavoriteGroup = ({open, data, indent}) => {
 		} else {
 			dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 		}
-	}, [dispatch, renameValue, data.id, renameRef]);
+	}, [dispatch, renameValue, data.id, nameRef]);
 
 	const doSettingForRenaming = useCallback(async () => {
 		await setRenameValue(favoriteGroups.find((v) => v.id === data.id).name);
-		await renameRef.current?.focus();
-		await renameRef.current?.select();
+		await nameRef.current?.focus();
+		await nameRef.current?.select();
 	}, [setRenameValue, favoriteGroups, data.id]);
 
 	useEffect(() => {
@@ -132,7 +132,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 				<ResourceItemTitle>
 					{data.id === favoriteGroupRenamingKey ? (
 						<_TextBox
-							ref={renameRef}
+							ref={nameRef}
 							type='text'
 							value={renameValue}
 							onChange={onChangeRenameValue}

@@ -28,6 +28,7 @@
 		"query-string": "^7.0.0",
 		"rc-tree": "^4.1.5",
 		"react": "^17.0.2",
+		"react-beautiful-dnd": "^13.1.0",
 		"react-bootstrap": "^1.5.2",
 		"react-collapse": "^5.1.0",
 		"react-contexify": "^5.0.0",

@@ -52,13 +52,7 @@ const ResourceContextMenu = ({resourceId}) => {
 				id: resource.id,
 			},
 		});
-	}, [
-		computingSystemServicePorts,
-		dispatch,
-		userData.access_token,
-		accounts,
-		resourceId,
-	]);
+	}, [computingSystemServicePorts, dispatch, userData, accounts, resourceId]);
 
 	const onClickOpenSSH = useCallback(() => {
 		const computingSystemPort = computingSystemServicePorts.find(
@@ -78,13 +72,7 @@ const ResourceContextMenu = ({resourceId}) => {
 				id: computingSystemPort.id,
 			}),
 		);
-	}, [
-		computingSystemServicePorts,
-		accounts,
-		dispatch,
-		userData.access_token,
-		resourceId,
-	]);
+	}, [computingSystemServicePorts, accounts, dispatch, userData, resourceId]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
