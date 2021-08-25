@@ -13,7 +13,6 @@ import {
 	CHMOD_REQUEST,
 	CHMOD_SUCCESS,
 	ERROR,
-	PWD_REQUEST,
 	READY_STATE,
 } from '../../reducers/sftp';
 import messageSender from './messageSender';
@@ -66,15 +65,15 @@ function* sendCommand(action) {
 								data: res,
 							},
 						});
-						yield put({
-							type: PWD_REQUEST,
-							payload: {
-								socket: payload.socket,
-								uuid: payload.uuid,
-								pwd_path: null,
-							},
-						});
-
+						// yield put({
+						// 	type: PWD_REQUEST,
+						// 	payload: {
+						// 		socket: payload.socket,
+						// 		uuid: payload.uuid,
+						// 		pwd_path: null,
+						// 	},
+						// });
+						//
 						break;
 					case ERROR:
 						console.log(res.err);

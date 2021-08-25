@@ -4,7 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
+import {
+	deleteIcon,
+	fileUploadIcon,
+	pauseIcon,
+	playIcon,
+} from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
@@ -76,6 +81,25 @@ const HistoryToolbar = ({uuid}) => {
 		document.body.removeChild(uploadInput);
 	}, [dispatch, sftp.path, sftp.upload.on, terminalTabs, uuid]);
 
+	const handlePauseStateControl = useCallback(() => {
+		// memo 잔여 데이터 저장시간동안 block
+		if (sftp.pause.state) {
+			//memo : 정지상태
+			dispatch(
+				sftpAction.resumeTransfer({
+					uuid: uuid,
+				}),
+			);
+		} else {
+			//memo : 가동상태
+			dispatch(
+				sftpAction.suspendTransfer({
+					uuid: uuid,
+				}),
+			);
+		}
+	}, [dispatch, sftp.pause.state, uuid]);
+
 	const onClickDeleteHistory = useCallback(() => {
 		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {
 		// 	TODO: 전체삭제 처리가 필요하다면 이곳에서 구현
@@ -93,6 +117,9 @@ const HistoryToolbar = ({uuid}) => {
 		<_Container>
 			<div>{t('title')}</div>
 			<_ButtonContainer>
+				<HoverButton margin={'0px'} onClick={handlePauseStateControl}>
+					{sftp.pause.state ? playIcon : pauseIcon}
+				</HoverButton>
 				<HoverButton margin={'10px'} onClick={onClickUploadFile}>
 					{fileUploadIcon}
 				</HoverButton>

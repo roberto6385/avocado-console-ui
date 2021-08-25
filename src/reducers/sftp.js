@@ -4,29 +4,9 @@ export const STAT_REQUEST = 'sftp/STAT_REQUEST';
 export const STAT_SUCCESS = 'sftp/STAT_SUCCESS';
 export const STAT_FAILURE = 'sftp/STAT_FAILURE';
 
-export const DELETE_PASS = 'sftp/DELETE_PASS';
-
-export const WRITE_REQUEST = 'sftp/WRITE_REQUEST';
-export const WRITE_SUCCESS = 'sftp/WRITE_SUCCESS';
-export const WRITE_PASS = 'sftp/WRITE_PASS';
-export const WRITE_FAILURE = 'sftp/WRITE_FAILURE';
-
-export const READ_REQUEST = 'sftp/READ_REQUEST';
-export const READ_SUCCESS = 'sftp/READ_SUCCESS';
-export const READ_PASS = 'sftp/READ_PASS';
-export const READ_FAILURE = 'sftp/READ_FAILURE';
-
-export const PWD_REQUEST = 'sftp/PWD_REQUEST';
-export const PWD_SUCCESS = 'sftp/PWD_SUCCESS';
-export const PWD_FAILURE = 'sftp/PWD_FAILURE';
-
 export const CHMOD_REQUEST = 'sftp/CHMOD_REQUEST';
 export const CHMOD_SUCCESS = 'sftp/CHMOD_SUCCESS';
 export const CHMOD_FAILURE = 'sftp/CHMOD_FAILURE';
-
-export const LS_REQUEST = 'sftp/LS_REQUEST';
-export const LS_SUCCESS = 'sftp/LS_SUCCESS';
-export const LS_FAILURE = 'sftp/LS_FAILURE';
 
 export const CREATE_NEW_WEBSOCKET_REQUEST = 'sftp/CREATE_NEW_WEBSOCKET_REQUEST';
 export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
@@ -34,12 +14,7 @@ export const CREATE_NEW_WEBSOCKET_SUCCESS = 'sftp/CREATE_NEW_WEBSOCKET_SUCCESS';
 export const ERROR = 'sftp/ERROR';
 
 //etc
-export const INIT_FILELIST = 'sftp/INIT_FILELIST';
 export const READY_STATE = 'sftp/READY_STATE';
-
-export const DELETE_WORK_LIST = 'sftp/DELETE_WORK_LIST';
-export const PUSH_INIT_DELETE_WORK_LIST = 'sftp/PUSH_INIT_DELETE_WORK_LIST';
-export const SHIFT_INCINERATOR_LIST = 'sftp/SHIFT_INCINERATOR_LIST';
 
 export const PUSH_PAUSE_READ_LIST = 'sftp/PUSH_PAUSE_READ_LIST';
 export const SHIFT_READ_LIST = 'sftp/SHIFT_READ_LIST';
@@ -51,7 +26,6 @@ export const INIT_DELETE_WORK_LIST = 'sftp/INIT_DELETE_WORK_LIST';
 export const SHIFT_TOTAL = 'sftp/SHIFT_TOTAL';
 
 export const ADD_HISTORY = 'history/ADD_HISTORY';
-export const FIND_HISTORY = 'history/FIND_HISTORY';
 export const REMOVE_HISTORY = 'history/REMOVE_HISTORY';
 export const ADD_HISTORY_HI = 'history/ADD_HISTORY_HI';
 export const INITIAL_HISTORY_HI = 'history/INITIAL_HISTORY_HI';
@@ -79,8 +53,6 @@ export const REMOVE_TEMP_HIGHLIGHT = 'sftp/REMOVE_TEMP_HIGHLIGHT';
 
 let HISTORY_ID = 0;
 
-export const write_chunkSize = 1024 * 4;
-export const read_chunkSize = 1024 * 56; // 56
 // initial State
 const initialState = {
 	loading: false,
@@ -209,40 +181,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			}
 
-			// 현재 경로 조회
-			case PWD_REQUEST:
-				// draft.loading = true;
-
-				break;
-			case PWD_SUCCESS: //V
-				// draft.loading = false;
-				path_target.path = action.payload.path;
-				path_target.pathList = action.payload.pathList;
-				if (action.payload.removeIndex) {
-					for (let i = 0; i < action.payload.removeIndex; i++) {
-						file_target.fileList.pop();
-					}
-				}
-
-				break;
-			case PWD_FAILURE: //V
-				// draft.loading = false;
-				break;
-
-			// 현재 경로 조회
-			case LS_REQUEST: //V
-				break;
-			case LS_SUCCESS: //V
-				file_target.fileList.push(action.payload.fileList);
-				break;
-			case LS_FAILURE: //V
-				// draft.loading = false;
-				break;
-
-			case INIT_FILELIST: //V
-				file_target.fileList = [];
-				break;
-
 			case ADD_PAUSED_LIST: {
 				const index = history_plain.pause.findIndex(
 					(v) =>
@@ -320,26 +258,6 @@ const sftp = (state = initialState, action) =>
 				break;
 			}
 
-			case FIND_HISTORY: {
-				const index = history_target.history
-					.slice()
-					.reverse()
-					.findIndex(
-						(h) =>
-							h.name === action.payload.name &&
-							h.todo === action.payload.todo &&
-							h.progress !== 100,
-					);
-				if (index !== -1) {
-					console.log(index);
-					history_target.history[
-						history_target.history.length - index - 1
-					].progress = action.payload.progress;
-				} else {
-					console.log('없다!');
-				}
-				break;
-			}
 			case REMOVE_HISTORY:
 				history_target.history = history_plain.history.filter(
 					(it) => it !== action.payload.history,
@@ -392,17 +310,6 @@ const sftp = (state = initialState, action) =>
 				download_target.pass = true;
 				break;
 
-			case WRITE_PASS:
-				upload_target.pass = false;
-				break;
-			case DELETE_PASS:
-				delete_target.pass = false;
-				break;
-
-			case READ_PASS:
-				download_target.pass = false;
-				break;
-
 			case PUSH_PAUSE_WRITE_LIST:
 				upload_target.writeList.unshift(action.payload.array);
 				break;
@@ -412,12 +319,6 @@ const sftp = (state = initialState, action) =>
 			case SHIFT_WRITE_LIST:
 				upload_target.writeList.shift();
 				upload_target.pass = true;
-				break;
-
-			case SHIFT_INCINERATOR_LIST:
-				delete_target.incinerator.shift();
-				delete_target.pass = true;
-
 				break;
 
 			case SHIFT_TOTAL: {
@@ -452,30 +353,6 @@ const sftp = (state = initialState, action) =>
 				delete_target.initPath = '';
 				break;
 			}
-			case DELETE_WORK_LIST: {
-				const index = delete_target.removeList.findIndex(
-					(v) => v.key === action.payload.key,
-				);
-				if (index === -1) {
-					delete_target.removeList.push({
-						key: action.payload.key,
-						list: [action.payload.item],
-					});
-				} else {
-					delete_target.removeList[index].list.unshift(
-						action.payload.item,
-					);
-				}
-				// delete_target.removeList = delete_plain.removeList.concat(
-				// 	action.payload.array,
-				// );
-				break;
-			}
-			case PUSH_INIT_DELETE_WORK_LIST:
-				delete_target.initList = action.payload.list;
-				delete_target.initPath = action.payload.path;
-				high_target.highlight = [];
-				break;
 
 			case INIT_DELETE_WORK_LIST:
 				delete_target.removeList = [];

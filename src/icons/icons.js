@@ -363,6 +363,9 @@ export const fileUploadIcon = (
 export const arrowUpwordIcon = (
 	<span className='material-icons'>arrow_upward</span>
 );
+
+export const pauseIcon = <span className='material-icons'>pause</span>;
+export const playIcon = <span className='material-icons'>play_arrow</span>;
 export const refreshIcon = <span className='material-icons'>refresh</span>;
 export const homeIcon = <span className='material-icons'>home</span>;
 

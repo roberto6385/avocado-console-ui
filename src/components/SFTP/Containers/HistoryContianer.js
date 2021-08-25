@@ -3,10 +3,7 @@ import History from '../History/History';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	ADD_HISTORY_HI,
-	CREATE_NEW_WEBSOCKET_REQUEST,
 	INITIAL_HISTORY_HI,
-	PUSH_PAUSE_READ_LIST,
-	PUSH_PAUSE_WRITE_LIST,
 	REMOVE_HISTORY,
 	REMOVE_READ_WRITE_LIST,
 } from '../../../reducers/sftp';
@@ -204,100 +201,6 @@ const HistoryContianer = ({uuid}) => {
 		[dispatch, uuid],
 	);
 
-	const onClickChangeProgress = useCallback(
-		(history) => () => {
-			if (history.progress !== 100 && history.progress !== 0) {
-				// if (
-				// 	(history.todo === 'read' && readSocket) ||
-				// 	(history.todo === 'write' && writeSocket) ||
-				// 	(history.todo === 'edit' && (writeSocket || readSocket))
-				// ) {
-				// 	if (history.todo === 'write') {
-				// 		if (history.path === path) {
-				// 			dispatch({
-				// 				type: PWD_REQUEST,
-				// 				payload: {
-				// 					socket: sftp_socket,
-				// 					uuid: uuid,
-				// 					pwd_path: path,
-				// 				},
-				// 			});
-				// 		}
-				// 	}
-				// 	dispatch({
-				// 		type: REMOVE_NEW_WEBSOCKET_REQUEST,
-				// 		payload: {
-				// 			socket:
-				// 				history.todo === 'write'
-				// 					? writeSocket
-				// 					: readSocket,
-				// 			uuid: uuid,
-				// 			todo: history.todo,
-				// 			key: history.key,
-				// 			path: history.path,
-				// 			file: history.file,
-				// 		},
-				// 	});
-			} else {
-				// let item = pause
-				// 	.slice()
-				// 	.find(
-				// 		(v) =>
-				// 			v.file === history.file &&
-				// 			v.path === history.path &&
-				// 			v.todo === history.todo,
-				// 	);
-
-				// if (!item || item.offset === prevOffset) return;
-				// setPrevOffset(item.offset);
-
-				dispatch({
-					type:
-						(history.todo === 'write' && PUSH_PAUSE_WRITE_LIST) ||
-						(history.todo === 'read' && PUSH_PAUSE_READ_LIST) ||
-						(history.todo === 'edit' &&
-							history.key === 'write' &&
-							PUSH_PAUSE_WRITE_LIST) ||
-						(history.todo === 'edit' &&
-							history.key === 'read' &&
-							PUSH_PAUSE_READ_LIST),
-					payload: {
-						uuid,
-						// array: {...item},
-					},
-				});
-
-				dispatch({
-					type: CREATE_NEW_WEBSOCKET_REQUEST,
-					payload: {
-						token: userData.access_token, // connection info
-						host: resource.host,
-						port: resource.port,
-						user: account.user,
-						password: account.password,
-						todo: history.todo,
-						uuid: uuid,
-						key: history.key,
-					},
-				});
-			}
-			// }
-		},
-		[
-			// readSocket,
-			// writeSocket,
-			dispatch,
-			uuid,
-
-			// sftp_socket,
-			// pause,
-			prevOffset,
-			userData,
-			resource,
-			account,
-		],
-	);
-
 	return (
 		<History
 			history={sftp.history}
@@ -307,7 +210,6 @@ const HistoryContianer = ({uuid}) => {
 			onDropUpload={onDropUploadHistory}
 			onClickUpload={onClickUploadHistory}
 			onSelect={onClickSelectHistory}
-			// onChangeProgress={onClickChangeProgress}
 			// onRemove={onClickDeleteHistory}
 		/>
 	);

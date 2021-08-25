@@ -161,7 +161,13 @@ function* worker(action) {
 			while (true) {
 				const data = yield take(channel);
 				const res = yield call(getApi, {data, file: item.file});
-				console.log(res);
+				yield put(
+					sftpAction.setHistoryProgress({
+						uuid: payload.uuid,
+						link: item.link,
+						progress: res.percent,
+					}),
+				);
 				if (!res.completion) {
 					yield call(setApi, {
 						socket: sftp.upload.socket,

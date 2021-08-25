@@ -1,7 +1,7 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
 let HID = 0;
-
+let LINK = 0; //memo : relationship between list and history
 export const types = {
 	pause: 'pause',
 	search: 'search',
@@ -264,13 +264,15 @@ const slice = createSlice({
 				(v) => v.uuid === action.payload.uuid,
 			);
 			if (action.payload.type === 'delete') {
-				state.data[index][action.payload.type].list.unshift(
-					action.payload.value,
-				);
+				state.data[index][action.payload.type].list.unshift({
+					...action.payload.value,
+					link: ++LINK,
+				});
 			} else {
-				state.data[index][action.payload.type].list.push(
-					action.payload.value,
-				);
+				state.data[index][action.payload.type].list.push({
+					...action.payload.value,
+					link: ++LINK,
+				});
 			}
 		},
 		deleteList: (state, action) => {
@@ -347,22 +349,31 @@ const slice = createSlice({
 				state.data[index].selected.files;
 		},
 		// 	업로드, 다운로드 삭제가 하나의 pause controller를 공유하는게 좋을거 같다
-		//ADD_PAUSED_LIST ? EDIT_PAUSED_LIST, REMOVE_PAUSED_LIST
-		setPause: (state, action) => {
+		setLeftover: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			if (!state.data[index].pause.state) {
-				state.data[index].pause[action.payload.type].file =
-					action.payload.file;
-				state.data[index].pause[action.payload.type].offset =
-					action.payload.offset;
-			} else {
-				console.log(
-					'필요시 upload, download, delete에 따라서 file, offset 적용',
-				);
-			}
-			state.data[index].pause.state = !state.data[index].pause.state;
+			state.data[index].pause[action.payload.type].file =
+				action.payload.file;
+			state.data[index].pause[action.payload.type].offset =
+				action.payload.offset;
+		},
+		suspendTransfer: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			state.data[index].pause.state = true;
+			// 소켓제거
+			state.data[index].delete.socket = null;
+			state.data[index].upload.socket = null;
+			state.data[index].download.socket = null;
+		},
+		resumeTransfer: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			//memo 소켓 재생성 및 잔여데이터 정보 전달
+			state.data[index].pause.state = false;
 		},
 
 		//ADD_HISTORY
@@ -373,6 +384,7 @@ const slice = createSlice({
 			state.data[index].history.unshift({
 				...action.payload.history,
 				id: HID++,
+				link: LINK,
 				progress: 0,
 			});
 		},
@@ -390,9 +402,9 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			// id:HID로 객체찾기
+			// link id로 객체찾기
 			state.data[index].history.find(
-				(v) => v.id === action.payload.id,
+				(v) => v.link === action.payload.link,
 			).progress = action.payload.progress;
 		},
 		// ADD_HISTORY_HI, INITIAL_HISTORY_HI

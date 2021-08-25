@@ -180,7 +180,6 @@ const History = ({
 	onClickUpload,
 	onSelect,
 	selectedHistorys,
-	onChangeProgress,
 	onRemove,
 	writeSocket,
 	readSocket,
@@ -214,7 +213,6 @@ const History = ({
 									)}
 								>
 									<HistoryButton
-										// onClick={onChangeProgress(item)}
 										size='20px'
 										margin={'10px'}
 										type={
@@ -227,7 +225,6 @@ const History = ({
 											? icons[types.pause]
 											: icons[item.type]}
 									</HistoryButton>
-									{/**/}
 									<HistoryText
 										className={'history-content'}
 										flex={1}
@@ -264,7 +261,6 @@ History.propTypes = {
 	onClickUpload: PropTypes.func,
 	onSelect: PropTypes.func,
 	selectedHistorys: PropTypes.array,
-	onChangeProgress: PropTypes.func,
 	onRemove: PropTypes.func,
 	history: PropTypes.array,
 	writeSocket: PropTypes.object,
