@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ResourceTreeContainer} from '../../../styles/components/navigationBar';
@@ -6,20 +6,34 @@ import Favorite from './Favorite';
 import FavoriteGroup from './FavoriteGroup';
 import {startCreatingTree} from '../../../utils/searchTree';
 import {favoritesSelector} from '../../../reducers/favorites';
+import Sortable from 'sortablejs';
 
 const FavoriteTree = ({searchVal}) => {
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	// useEffect(() => {
-	// 	const sortableFavorites = document.getElementById('sortable-favorites');
-	// 	sortableFavorites !== null &&
-	// 		Sortable.create(sortableFavorites, {
-	// 			sort: false,
-	// 		});
-	// }, []);
+	const onDropResource = useCallback(() => {}, []);
+
+	useEffect(() => {
+		const sortableResources = document.getElementById(
+			'sortable-favorite-tree',
+		);
+		sortableResources !== null &&
+			Sortable.create(sortableResources, {
+				sort: true,
+				// fallbackOnBody: true,
+				// animation: 150,
+				// swapThreshold: 0.65,
+				onEnd: function (evt) {
+					console.log(evt.to, evt.from);
+				},
+			});
+	}, []);
 
 	return (
-		<ResourceTreeContainer id='sortable-favorites'>
+		<ResourceTreeContainer
+			id='sortable-favorite-tree'
+			onDrop={onDropResource}
+		>
 			{(searchVal.length > 0
 				? startCreatingTree(favoriteTree, searchVal)
 				: favoriteTree

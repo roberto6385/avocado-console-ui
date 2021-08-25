@@ -68,20 +68,6 @@ const FavoriteGroup = ({open, data, indent}) => {
 		[data.id, dispatch, show],
 	);
 
-	const onKeyDownChangeFolderName = useCallback(
-		(e) => {
-			if (e.keyCode === 27) {
-				// ESC
-				dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
-			} else if (e.keyCode === 13) {
-				//Enter
-				e.preventDefault();
-				onSubmitFolderName();
-			}
-		},
-		[dispatch, renameValue, data.id],
-	);
-
 	const onSubmitFolderName = useCallback(() => {
 		if (renameValue !== '') {
 			dispatch(
@@ -93,13 +79,48 @@ const FavoriteGroup = ({open, data, indent}) => {
 		} else {
 			dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
 		}
-	}, [dispatch, renameValue, data.id, nameRef]);
+	}, [dispatch, renameValue, data.id]);
+
+	const onKeyDownChangeFolderName = useCallback(
+		(e) => {
+			if (e.keyCode === 27) {
+				// ESC
+				dispatch(favoritesAction.changeFavoriteGroupRenameKey(null));
+			} else if (e.keyCode === 13) {
+				//Enter
+				e.preventDefault();
+				onSubmitFolderName();
+			}
+		},
+		[dispatch, onSubmitFolderName],
+	);
 
 	const doSettingForRenaming = useCallback(async () => {
 		await setRenameValue(favoriteGroups.find((v) => v.id === data.id).name);
 		await nameRef.current?.focus();
 		await nameRef.current?.select();
 	}, [setRenameValue, favoriteGroups, data.id]);
+
+	const onDragStart = useCallback(() => {
+		dispatch(remoteResourceAction.setSelectedResource(data.id));
+	}, [dispatch, data.id]);
+
+	const onDrop = useCallback(
+		(e) => {
+			e.stopPropagation();
+			//
+			// if (data.type === 'resourceGroup') {
+			// 	console.log('HERERERER');
+			// 	dispatch(
+			// 		remoteResourceAction.sortFavorites({
+			// 			start: selectedResource,
+			// 			end: data.id,
+			// 		}),
+			// 	);
+			// }
+		},
+		[data, dispatch],
+	);
 
 	useEffect(() => {
 		if (data.id === favoriteGroupRenamingKey) {
@@ -112,10 +133,13 @@ const FavoriteGroup = ({open, data, indent}) => {
 	}, [open]);
 
 	return (
-		<React.Fragment>
+		<>
 			<ResourceItem
 				onClick={onClickFolder}
 				onContextMenu={openFavoriteGroupContextMenu}
+				draggable='true'
+				onDragStart={onDragStart}
+				onDrop={onDrop}
 				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -151,6 +175,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</ResourceItem>
+
 			{data.children.length !== 0 && (
 				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
@@ -174,7 +199,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 				</CollapseContainer>
 			)}
 			<FavoriteGroupContextMenu resourceGroupId={data.id} />
-		</React.Fragment>
+		</>
 	);
 };
 

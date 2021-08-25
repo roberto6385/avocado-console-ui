@@ -32,7 +32,6 @@ const slice = createSlice({
 	},
 
 	reducers: {
-		//ADD_FOLDER_ON_FAVORITES
 		addFavoriteGroup: (state, action) => {
 			const id = 'f_' + String(state.favoriteGroupIndex);
 			const data = {
@@ -54,37 +53,28 @@ const slice = createSlice({
 		deleteFavoriteGroup: (state, action) => {
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
-		//DELETE_TEMP_FOLDER_ON_FAVORITES
-		deleteTempFavoriteGroup: (state, action) => {
-			startDeleteingTree(state.tempFavoriteTree, action.payload);
-		},
-		//SAVE_CHANGES_ON_FAVORITES
-		updateFavorites: (state) => {
-			state.favoriteTree = state.tempFavoriteTree;
-			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
-		},
+
 		//SORT_FAVORITE_RESOURCES
 		sortFavorites: (state, action) => {
 			// 이동할 데이터의 부모
 			const prevParent = startSearchingParentNode(
 				state.favoriteTree,
-				state.selectedFavorite,
+				state.payload.start,
 			);
 			// 이동할 데이터
 			const prev = startSearchingNode(
 				state.favoriteTree,
-				state.selectedFavorite,
+				state.payload.start,
 			);
-
 			// 이동시킬 위치의 부모
 			let nextParent = startSearchingParentNode(
 				state.favoriteTree,
-				action.payload.next.key,
+				action.payload.end,
 			);
 			// 이동시킬 위치
 			const node = startSearchingNode(
 				state.favoriteTree,
-				action.payload.next.key,
+				action.payload.end,
 			);
 
 			if (
@@ -131,7 +121,6 @@ const slice = createSlice({
 			state.tempFavoriteTree = state.favoriteTree;
 		},
 
-		//ADD_FAVORITE_SERVER
 		addFavorite: (state, action) => {
 			state.favoriteTree.push({
 				type: 'resource',
@@ -140,15 +129,21 @@ const slice = createSlice({
 				path: '/' + action.payload,
 			});
 		},
-		//DELETE_FAVORITE_SERVER
+
 		deleteFavorite: (state, action) => {
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
-		//CHANGE_FOLDER_NAME_ON_FAVORITES
+
 		changeFavoriteGroupName: (state, action) => {
 			state.favoriteGroups.find((v) => v.id === action.payload.id).name =
 				action.payload.name;
 			state.favoriteGroupRenamingKey = null;
+		},
+
+		//
+		updateFavorites: (state) => {
+			state.favoriteTree = state.tempFavoriteTree;
+			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
 		},
 		//CHANGE_SELEECTED_TEMP_FAVORITE
 		setTempSelectedFavorite: (state, action) => {
@@ -174,6 +169,11 @@ const slice = createSlice({
 			state.tempFavoriteGroupIndex++;
 		},
 
+		//DELETE_TEMP_FOLDER_ON_FAVORITES
+		deleteTempFavoriteGroup: (state, action) => {
+			startDeleteingTree(state.tempFavoriteTree, action.payload);
+		},
+
 		//SET_TEMP_FAVORITES
 		setTempFavorite: (state) => {
 			state.tempFavoriteGroupIndex = null;
@@ -190,7 +190,6 @@ const slice = createSlice({
 		//CHANGE_FAVORITE_FOLDER_RENMAING_KEY
 		changeFavoriteGroupRenameKey: (state, action) => {
 			state.favoriteGroupRenamingKey = action.payload;
-			// draft.selectedResource = action.payload;
 		},
 		//CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY
 		changeTempFavoriteGroupRenameKey: (state, action) => {
