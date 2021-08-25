@@ -14,7 +14,7 @@ const SignIn = () => {
 		if (userData) {
 			history.push('/');
 		}
-	}, [userData]);
+	}, [userData, history]);
 
 	return (
 		<SignInLayout>

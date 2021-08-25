@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIdleTimer} from 'react-idle-timer';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
 import 'xterm/css/xterm.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {useIdleTimer} from 'react-idle-timer';
 
 import {
 	NotFound,
@@ -37,8 +37,13 @@ const App = () => {
 	//user does not have an action for (userData?.expires_in * 1000) time
 	const handleOnActive = useCallback(() => {
 		//after idle time, user is online
+		console.log('HERERERERE');
 		if (userData) {
-			dispatch(authAction.revokeTokenRequest());
+			dispatch(
+				authAction.revokeTokenRequest({
+					Authorization: 'Bearer ' + userData.access_token,
+				}),
+			);
 		}
 	}, [dispatch, userData]);
 
@@ -59,7 +64,7 @@ const App = () => {
 		}
 	}, [dispatch, userData]);
 
-	const {start, pause, reset} = useIdleTimer({
+	const {start, pause} = useIdleTimer({
 		timeout: userData?.expires_in * 1000,
 		onActive: handleOnActive,
 		onAction: handleOnAction,
@@ -68,11 +73,8 @@ const App = () => {
 
 	useEffect(() => {
 		if (userData) start();
-		else {
-			reset();
-			pause();
-		}
-	}, [pause, reset, start, userData]);
+		else pause();
+	}, [pause, start, userData]);
 
 	return (
 		<BrowserRouter>

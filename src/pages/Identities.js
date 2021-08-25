@@ -17,7 +17,6 @@ const Identities = () => {
 	useEffect(() => {
 		if (!userData) {
 			history.push('/signin');
-			location.reload();
 		}
 	}, [history, userData]);
 

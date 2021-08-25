@@ -35,9 +35,8 @@ const Home = () => {
 			);
 		} else {
 			history.push('/signin');
-			location.reload();
 		}
-	}, [dispatch, history, userData]);
+	}, [dispatch, userData]);
 
 	useEffect(() => {
 		i18n.changeLanguage(language);

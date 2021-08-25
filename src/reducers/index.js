@@ -41,6 +41,7 @@ const sshLocalPersistConfig = {
 	storage: storage,
 	whitelist: ['ssh_history', 'snippets', 'snippents_index'],
 };
+
 const appReducer = combineReducers({
 	sftp,
 	[SSH]: persistReducer(sshLocalPersistConfig, sshReducer),
@@ -54,8 +55,14 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-	if (action.type === authAction.revokeTokenSuccess().type) {
+	if (action.type === authAction.revokeTokenRequest().type) {
 		return appReducer(undefined, action);
+	}
+	if (
+		action.type === authAction.revokeTokenSuccess().type ||
+		action.type === authAction.revokeTokenFailure().type
+	) {
+		location.reload();
 	}
 	return appReducer(state, action);
 };

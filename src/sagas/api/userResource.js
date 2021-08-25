@@ -95,7 +95,6 @@ function* deleteUser(action) {
 }
 
 function findUserByIdApi(payload) {
-	console.log(payload);
 	return axios.get(`/open/api/v1/users/id/${payload.id}@netand.co.kr`, {
 		headers: {
 			Authorization: `Bearer ${payload.access_token}`,
@@ -106,12 +105,11 @@ function findUserByIdApi(payload) {
 }
 
 function* findUserById(action) {
-	console.log(action);
 	try {
 		const res = yield call(findUserByIdApi, action.payload);
-		console.log(res);
 		yield put(userResourceAction.findUserByIdSuccess(res.data));
 	} catch (err) {
+		console.log(err);
 		yield put(userResourceAction.findUserByIdFailure(err));
 	}
 }

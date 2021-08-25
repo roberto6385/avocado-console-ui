@@ -129,7 +129,7 @@ function* revokeToken(action) {
 		yield put(authAction.revokeTokenSuccess());
 	} catch (err) {
 		//TODO: error 일떄 logout 어떻게 처리해야 하는가?
-		yield put(authAction.revokeTokenFailure);
+		yield put(authAction.revokeTokenFailure());
 	}
 }
 
