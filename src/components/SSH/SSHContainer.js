@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';

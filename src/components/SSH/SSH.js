@@ -348,13 +348,13 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font.family);
 		fitAddon.fit();
-	}, [sshTerm, fitAddon, font]);
+	}, [sshTerm, fitAddon, font.family]);
 
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font.size);
 		fitAddon.fit();
-	}, [sshTerm, fitAddon, font]);
+	}, [sshTerm, fitAddon, font.size]);
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {

@@ -23,6 +23,7 @@ const slice = createSlice({
 		tab: false,
 		loading: false,
 	},
+
 	reducers: {
 		setReadyState: (state, action) => {
 			const index = state.ssh.findIndex(
@@ -61,13 +62,16 @@ const slice = createSlice({
 			});
 		},
 
-		disconnectRequest: () => {},
+		disconnectRequest: (state, action) => {
+			state.loading = true;
+		},
 		disconnectSuccess: (state, action) => {
 			state.loading = false;
 			state.ssh = state.ssh.filter((v) => v.uuid !== action.payload);
 			if (state.ssh.length === 0 && state.searchMode)
 				state.searchMode = false;
 		},
+		// disconnectFailure: {}
 		sendCommandRequest: (state, action) => {
 			if (action.payload.key === 'close') return;
 			const index = state.ssh.findIndex(
@@ -125,7 +129,7 @@ const slice = createSlice({
 		windowChangeRequest: () => {},
 
 		setFont: (state, action) => {
-			state.font.size = action.payload;
+			state.font.family = action.payload;
 		},
 		increaseFont: (state) => {
 			state.font.size++;
