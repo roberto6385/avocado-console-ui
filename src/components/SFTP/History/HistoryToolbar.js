@@ -52,75 +52,29 @@ const HistoryToolbar = ({uuid}) => {
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
 			console.log(files);
+
 			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
-			if (sftp.upload.socket) {
-				for (let v of files) {
-					dispatch(
-						sftpAction.commandWrite({
-							socket: sftp.upload.socket,
-							uuid: uuid,
-							path: sftp.path,
-							file: v,
-						}),
-					);
-				}
-			} else {
+			for (let v of files) {
+				dispatch(
+					sftpAction.addList({
+						uuid: uuid,
+						type: 'upload',
+						value: {path: sftp.path, file: v},
+					}),
+				);
+			}
+			if (!sftp.upload.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
 						key: terminalTab.server.key,
-						selected: files,
-						path: sftp.path,
 						type: 'upload',
 					}),
 				);
 			}
-
-			// for await (let value of files) {
-			// 	dispatch({
-			// 		type: ADD_HISTORY,
-			// 		payload: {
-			// 			uuid: uuid,
-			// 			name: value.name,
-			// 			size: value.size,
-			// 			todo: 'write',
-			// 			progress: 0,
-			// 			path: sftpPath.find((it) => it.uuid === uuid),
-			// 			file: value,
-			// 		},
-			// 	});
-			// }
-
-			// const {writeSocket, writeList} = sftpUpload.find(
-			// 	(it) => it.uuid === uuid,
-			// );
-			// if (!writeSocket && writeList.length === 0) {
-			//
-			// 	const resource = resources.find(
-			// 		(it) => it.key === terminalTab.server.key,
-			// 	);
-			// 	const account = accounts.find(
-			// 		(it) =>
-			// 			it.key === terminalTab.server.key &&
-			// 			it.checked === true,
-			// 	);
-			//
-			// 	dispatch({
-			// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-			// 		payload: {
-			// 			token: userData.access_token, // connection info
-			// 			host: resource.host,
-			// 			port: resource.port,
-			// 			user: account.user,
-			// 			password: account.password,
-			// 			todo: 'write',
-			// 			uuid: uuid,
-			// 		},
-			// 	});
-			// }
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, sftp.path, sftp.upload.socket, terminalTabs, uuid]);
+	}, [dispatch, sftp.path, sftp.upload.on, terminalTabs, uuid]);
 
 	const onClickDeleteHistory = useCallback(() => {
 		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {

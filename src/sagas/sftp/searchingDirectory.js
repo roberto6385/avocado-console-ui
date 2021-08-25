@@ -1,12 +1,4 @@
-import {
-	actionChannel,
-	call,
-	delay,
-	put,
-	race,
-	select,
-	take,
-} from 'redux-saga/effects';
+import {call, put, select, take, takeLatest} from 'redux-saga/effects';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
@@ -115,54 +107,72 @@ function getApi(data) {
 function* worker(action) {
 	const {payload} = action;
 	const {data} = yield select(sftpSelector.all);
-	const {list, socket} = data.find((v) => v.uuid === payload.uuid).search;
+	const sftp = data.find((v) => v.uuid === payload.uuid);
 	try {
-		const channel = yield call(subscribe, socket);
-		const item = list.slice().shift();
-
-		yield put(
-			sftpAction.addList({
-				uuid: payload.uuid,
-				type: 'delete',
-				value: item,
-			}),
-		);
-		yield put(
-			sftpAction.deleteList({
-				uuid: payload.uuid,
-				type: 'search',
-			}),
-		);
-
-		if (item.file.type === 'directory') {
-			const path =
-				item.path === '/'
-					? item.path + item.file.name
-					: `${item.path}/${item.file.name}`;
-			yield call(setApi, {
-				socket: socket,
-				path: path,
-			});
-			const data = yield take(channel);
-			const res = yield call(getApi, data);
-			console.log(res);
-			const work = res.list.slice().filter((v) => v.name !== '..');
-			console.log(work);
-			for (let v of work) {
+		const channel = yield call(subscribe, sftp.search.socket);
+		const item = sftp.search.list.slice().shift();
+		if (!item) {
+			yield put(
+				sftpAction.deleteSocket({
+					socket: sftp.search.socket,
+					uuid: payload.uuid,
+					type: 'search',
+				}),
+			);
+			if (!sftp.delete.socket) {
 				yield put(
-					sftpAction.addList({
-						uuid: payload.uuid,
-						type: 'search',
-						value: {path: path, file: v},
-					}),
-				);
-				yield put(
-					sftpAction.searchDirectory({
+					sftpAction.createSocket({
 						uuid: payload.uuid,
 						key: payload.key,
+						type: 'delete',
 					}),
 				);
 			}
+		} else {
+			yield put(
+				sftpAction.addList({
+					uuid: payload.uuid,
+					type: 'delete',
+					value: item,
+				}),
+			);
+			yield put(
+				sftpAction.deleteList({
+					uuid: payload.uuid,
+					type: 'search',
+				}),
+			);
+
+			if (item.file.type === 'directory') {
+				const path =
+					item.path === '/'
+						? item.path + item.file.name
+						: `${item.path}/${item.file.name}`;
+				yield call(setApi, {
+					socket: sftp.search.socket,
+					path: path,
+				});
+				const data = yield take(channel);
+				const res = yield call(getApi, data);
+				console.log(res);
+				const work = res.list.slice().filter((v) => v.name !== '..');
+				console.log(work);
+				for (let v of work) {
+					yield put(
+						sftpAction.addList({
+							uuid: payload.uuid,
+							type: 'search',
+							value: {path: path, file: v},
+						}),
+					);
+				}
+			}
+			yield put(
+				sftpAction.searchDirectory({
+					uuid: payload.uuid,
+					key: payload.key,
+				}),
+			);
 		}
 	} catch (err) {
 		console.log(err);
@@ -171,43 +181,5 @@ function* worker(action) {
 }
 
 export default function* watcher() {
-	const takeChannel = yield actionChannel(sftpAction.searchDirectory);
-	let uuid = null;
-	let key = null;
-	while (true) {
-		const {timeout, action} = yield race({
-			timeout: delay(1000),
-			action: take(takeChannel),
-		});
-		if (timeout) {
-			if (uuid) {
-				const {data} = yield select(sftpSelector.all);
-				const sftp = data.find((v) => v.uuid === uuid);
-				yield put(
-					sftpAction.deleteSocket({
-						socket: sftp.search.socket,
-						uuid: uuid,
-						type: 'search',
-					}),
-				);
-				if (!sftp.delete.socket && key) {
-					yield put(
-						sftpAction.createSocket({
-							uuid: uuid,
-							key: key,
-							type: 'delete',
-						}),
-					);
-				}
-				uuid = null;
-				key = null;
-			}
-			yield take(sftpAction.searchDirectory);
-		} else {
-			console.log(action.payload);
-			uuid = action.payload.uuid;
-			key = action.payload.key;
-			yield call(worker, action);
-		}
-	}
+	yield takeLatest(sftpAction.searchDirectory, worker);
 }
