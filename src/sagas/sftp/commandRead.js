@@ -2,7 +2,6 @@ import {call, put, select, take, takeLatest} from 'redux-saga/effects';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
-import {READ_SUCCESS} from '../../reducers/sftp';
 
 const readChunkSize = 1024 * 56; // 56 //read_chunkSize
 let percent = 0;

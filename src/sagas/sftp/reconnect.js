@@ -63,7 +63,7 @@ function setApi(data) {
 	data.socket.send(message.serializeBinary());
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 
@@ -114,5 +114,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield throttle(1000, sftpAction.reconnect, sendCommand);
+	yield throttle(1000, sftpAction.reconnect, worker);
 }

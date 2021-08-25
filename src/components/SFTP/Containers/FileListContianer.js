@@ -6,7 +6,6 @@ import {useContextMenu} from 'react-contexify';
 import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
-import {debounce} from 'lodash';
 
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';

@@ -64,7 +64,6 @@ const DeleteDialogBox = () => {
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
-					//1. 리스트를 올린다.
 					for await (let v of sftp.selected.files) {
 						dispatch(
 							sftpAction.addList({

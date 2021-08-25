@@ -1,39 +1,42 @@
 import {all, fork} from 'redux-saga/effects';
 
-import commandPwdSaga from './commandPwd';
-import connectSaga from './connect';
-import disconnectSaga from './disconnect';
-import commandLsSaga from './commandLs';
-import commandCdSaga from './commandCd';
-import commandMkdirSaga from './commandMkdir';
-import commandRenameSaga from './commandRename';
-import reconnectSaga from './reconnect';
+// 수정 끝
+import commandPwd from './commandPwd';
+import connect from './connect';
+import disconnect from './disconnect';
+import commandLs from './commandLs';
+import commandCd from './commandCd';
+import commandMkdir from './commandMkdir';
+import commandRename from './commandRename';
+import reconnect from './reconnect';
+import commandRemove from './commandRemove';
+import commandRead from './commandRead';
+import commandWrite from './commandWrite';
+import directorySearch from './directorySearch';
+import createSocket from './createSocket';
+import deleteSocket from './deleteSocket';
 
-import commandRmSaga from './commandRemove';
-import commandReadSaga from './commandRead';
-import commandWriteSaga from './commandWrite';
-import searchListSaga from './directorySearch';
-import createWebsocketSaga from './createSocket';
-import removeWebsocketSaga from './deleteSocket';
+// todo 수정해야하는 목록
 import commandStatSaga from './sendCommandStat';
 import commandChmodSaga from './sendCommandChmod';
 
 export default function* sftpSaga() {
 	yield all([
-		fork(connectSaga),
-		fork(reconnectSaga),
-		fork(disconnectSaga),
-		fork(commandPwdSaga),
-		fork(commandLsSaga),
-		fork(commandCdSaga),
-		fork(commandMkdirSaga),
-		fork(commandRmSaga),
-		fork(commandReadSaga),
-		fork(commandRenameSaga),
-		fork(commandWriteSaga),
-		fork(searchListSaga),
-		fork(createWebsocketSaga),
-		fork(removeWebsocketSaga),
+		fork(connect),
+		fork(reconnect),
+		fork(disconnect),
+		fork(commandPwd),
+		fork(commandLs),
+		fork(commandCd),
+		fork(commandMkdir),
+		fork(commandRemove),
+		fork(commandRead),
+		fork(commandRename),
+		fork(commandWrite),
+		fork(directorySearch),
+		fork(createSocket),
+		fork(deleteSocket),
+
 		fork(commandStatSaga),
 		fork(commandChmodSaga),
 	]);

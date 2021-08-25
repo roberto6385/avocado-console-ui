@@ -5,17 +5,9 @@ import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
-import {
-	ADD_HISTORY,
-	CREATE_NEW_WEBSOCKET_REQUEST,
-} from '../../../reducers/sftp';
 import {HoverButton} from '../../../styles/components/icon';
-import {authSelector} from '../../../reducers/api/auth';
-import {dialogBoxAction} from '../../../reducers/dialogBoxs';
 import {tabBarSelector} from '../../../reducers/tabBar';
-import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
-import {put, take} from 'redux-saga/effects';
 
 const _Container = styled.div`
 	min-width: 256px;

@@ -37,12 +37,8 @@ function getApi(data) {
 					SFTP.CommandResponse.CommandCase.LS
 				) {
 					const ls = command.getLs();
-					// console.log('command : ls', ls);
-
 					const entryList = ls.getEntryList();
-					// console.log('entry ', entryList.length);
 
-					// const list = [];
 					const list = [];
 					for (let i = 0; i < entryList.length; i++) {
 						const entry = entryList[i];
@@ -55,7 +51,6 @@ function getApi(data) {
 							.split(' ');
 						// 나중에 longname에서 가져와야 할 정보나 값이 생기면
 						// splitedValue 에서 사용하기 바람.
-						// console.log(splitedValue);
 						if (entry.getFilename() !== '.')
 							list.push({
 								name: entry.getFilename(),

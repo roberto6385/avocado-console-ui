@@ -61,7 +61,7 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 	try {
@@ -80,5 +80,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield takeLatest(sftpAction.commandMkdir, sendCommand);
+	yield takeLatest(sftpAction.commandMkdir, worker);
 }

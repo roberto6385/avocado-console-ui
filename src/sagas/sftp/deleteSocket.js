@@ -52,7 +52,7 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 
@@ -80,5 +80,5 @@ function* sendCommand(action) {
 }
 
 export default function* removeWebsocketSaga() {
-	yield takeEvery(sftpAction.deleteSocket, sendCommand);
+	yield takeEvery(sftpAction.deleteSocket, worker);
 }

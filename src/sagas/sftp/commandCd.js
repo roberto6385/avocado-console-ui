@@ -60,7 +60,7 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 	if (payload.socket.readyState !== 1) {
@@ -89,5 +89,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield takeLatest(sftpAction.commandCd, sendCommand);
+	yield takeLatest(sftpAction.commandCd, worker);
 }

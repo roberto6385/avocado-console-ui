@@ -62,7 +62,7 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
 
@@ -100,5 +100,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield debounce(1000, sftpAction.createSocket, sendCommand);
+	yield debounce(1000, sftpAction.createSocket, worker);
 }
