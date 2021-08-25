@@ -1,5 +1,5 @@
-import {call, put, take, takeLatest} from 'redux-saga/effects';
-import {sftpAction} from '../../reducers/renewal';
+import {call, put, select, take, takeLatest} from 'redux-saga/effects';
+import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
@@ -81,25 +81,59 @@ function getApi(data) {
 	}
 }
 
-function* sendCommand(action) {
+function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
+	const {data} = yield select(sftpSelector.all);
+	const sftp = data.find((v) => v.uuid === payload.uuid);
+
 	try {
-		const channel = yield call(subscribe, payload.socket);
-		if (payload.type === 'file') {
-			yield call(setRmApi, {
-				socket: payload.socket,
-				path: payload.path,
-			});
+		const channel = yield call(subscribe, sftp.delete.socket);
+		const item = sftp.delete.list.slice().shift();
+		if (!item) {
+			console.log('종료');
+			yield put(
+				sftpAction.deleteSocket({
+					socket: sftp.delete.socket,
+					uuid: payload.uuid,
+					type: 'delete',
+				}),
+			);
+			yield take(sftpAction.deleteSocketDone);
+			yield put(
+				sftpAction.commandPwd({
+					socket: sftp.socket,
+					uuid: payload.uuid,
+				}),
+			);
 		} else {
-			yield call(setRmdirApi, {
-				socket: payload.socket,
-				path: payload.path,
-			});
+			yield put(
+				sftpAction.deleteList({
+					uuid: payload.uuid,
+					type: 'delete',
+				}),
+			);
+
+			const path =
+				item.path === '/'
+					? item.path + item.file.name
+					: `${item.path}/${item.file.name}`;
+			if (item.file.type === 'file') {
+				yield call(setRmApi, {
+					socket: sftp.delete.socket,
+					path: path,
+				});
+			} else {
+				yield call(setRmdirApi, {
+					socket: sftp.delete.socket,
+					path: path,
+				});
+			}
+			const data = yield take(channel);
+			yield call(getApi, data);
+			yield put(sftpAction.commandRemoveDone());
+			yield put(sftpAction.commandRemove({uuid: payload.uuid}));
 		}
-		const data = yield take(channel);
-		yield call(getApi, data);
-		yield put(sftpAction.commandRemoveDone());
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.commandRemoveFail());
@@ -107,5 +141,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield takeLatest(sftpAction.commandRemove, sendCommand);
+	yield takeLatest(sftpAction.commandRemove, worker);
 }

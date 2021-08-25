@@ -93,29 +93,7 @@ function* sendCommand(action) {
 				type: payload.type,
 			}),
 		);
-		if (payload.type === 'delete') {
-			for (let v of payload.selected) {
-				yield put(
-					sftpAction.searchDirectory({
-						socket: socket,
-						uuid: payload.uuid,
-						path: payload.path,
-						file: v,
-					}),
-				);
-			}
-		} else if (payload.type === 'upload') {
-			for (let v of payload.selected) {
-				yield put(
-					sftpAction.commandWrite({
-						socket: socket,
-						uuid: payload.uuid,
-						path: payload.path,
-						file: v,
-					}),
-				);
-			}
-		}
+		yield put(sftpAction.setOn({uuid: payload.uuid, type: payload.type}));
 	} catch (err) {
 		console.log(err);
 		yield put(sftpAction.createSocketFail());

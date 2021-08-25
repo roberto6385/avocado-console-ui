@@ -67,6 +67,7 @@ function* sendCommand(action) {
 				type: payload.type,
 			}),
 		);
+		yield put(sftpAction.setOn({uuid: payload.uuid, type: payload.type}));
 	} catch (err) {
 		console.log(err);
 		yield put(

@@ -64,48 +64,25 @@ const DeleteDialogBox = () => {
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
-					if (sftp.delete.socket) {
-						for (let v of sftp.selected.files) {
-							dispatch(
-								sftpAction.searchDirectory({
-									socket: sftp.delete.socket,
-									uuid: uuid,
-									type: 'delete',
-									path: sftp.path,
-									file: v,
-								}),
-							);
-						}
-					} else {
+					//1. 리스트를 올린다.
+					for await (let v of sftp.selected.files) {
+						dispatch(
+							sftpAction.addList({
+								uuid: uuid,
+								type: 'search',
+								value: {path: sftp.path, file: v},
+							}),
+						);
+					}
+					if (!sftp.search.on) {
 						dispatch(
 							sftpAction.createSocket({
 								uuid: uuid,
 								key: terminalTab.server.key,
-								selected: sftp.selected.files,
-								path: sftp.path,
-								type: 'delete',
+								type: 'search',
 							}),
 						);
 					}
-					// for (let v of sftp.selected.files) {
-					// 	dispatch(
-					// 		sftpAction.addList({
-					// 			uuid: uuid,
-					// 			type: 'delete',
-					// 			value: {path: sftp.path, file: v},
-					// 		}),
-					// 	);
-					// 	if (v.type === 'directory') {
-					// 		dispatch(
-					// 			sftpAction.searchDirectory({
-					// 				uuid: uuid,
-					// 				path: sftp.path,
-					// 				file: v,
-					// 				resourceKey: terminalTab.server.key, // 최초에만 key 전달
-					// 			}),
-					// 		);
-					// 	}
-					// }
 					break;
 				}
 

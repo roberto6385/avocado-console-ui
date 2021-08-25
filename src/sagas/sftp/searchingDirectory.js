@@ -1,17 +1,15 @@
 import {
-	call,
-	put,
-	take,
-	select,
 	actionChannel,
-	race,
+	call,
 	delay,
+	put,
+	race,
+	select,
+	take,
 } from 'redux-saga/effects';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
-import {remoteResourceSelector} from '../../reducers/remoteResource';
-import {authSelector} from '../../reducers/api/auth';
 
 function setApi(data) {
 	const message = new SFTP.Message();
@@ -116,54 +114,54 @@ function getApi(data) {
 
 function* worker(action) {
 	const {payload} = action;
-	console.log(payload);
-
+	const {data} = yield select(sftpSelector.all);
+	const {list, socket} = data.find((v) => v.uuid === payload.uuid).search;
 	try {
+		const channel = yield call(subscribe, socket);
+		const item = list.slice().shift();
+
 		yield put(
 			sftpAction.addList({
 				uuid: payload.uuid,
 				type: 'delete',
-				value: {path: payload.path, file: payload.file},
+				value: item,
 			}),
 		);
-		if (payload.file.type === 'directory') {
-			const channel = yield call(subscribe, payload.socket);
-			const path =
-				payload.path === '/'
-					? payload.path + payload.file.name
-					: `${payload.path}/${payload.file.name}`;
+		yield put(
+			sftpAction.deleteList({
+				uuid: payload.uuid,
+				type: 'search',
+			}),
+		);
 
+		if (item.file.type === 'directory') {
+			const path =
+				item.path === '/'
+					? item.path + item.file.name
+					: `${item.path}/${item.file.name}`;
 			yield call(setApi, {
-				socket: payload.socket,
+				socket: socket,
 				path: path,
 			});
-
 			const data = yield take(channel);
 			const res = yield call(getApi, data);
-
 			console.log(res);
 			const work = res.list.slice().filter((v) => v.name !== '..');
 			console.log(work);
-			if (work.length === 0) {
+			for (let v of work) {
 				yield put(
 					sftpAction.addList({
 						uuid: payload.uuid,
-						type: 'delete',
-						value: {path: payload.path, file: payload.file},
+						type: 'search',
+						value: {path: path, file: v},
 					}),
 				);
-			} else {
-				for (let v of work) {
-					yield put(
-						sftpAction.searchDirectory({
-							socket: payload.socket,
-							uuid: payload.uuid,
-							type: 'delete',
-							path: path,
-							file: v,
-						}),
-					);
-				}
+				yield put(
+					sftpAction.searchDirectory({
+						uuid: payload.uuid,
+						key: payload.key,
+					}),
+				);
 			}
 		}
 	} catch (err) {
@@ -175,6 +173,7 @@ function* worker(action) {
 export default function* watcher() {
 	const takeChannel = yield actionChannel(sftpAction.searchDirectory);
 	let uuid = null;
+	let key = null;
 	while (true) {
 		const {timeout, action} = yield race({
 			timeout: delay(1000),
@@ -184,39 +183,30 @@ export default function* watcher() {
 			if (uuid) {
 				const {data} = yield select(sftpSelector.all);
 				const sftp = data.find((v) => v.uuid === uuid);
-				console.log(sftp.delete.list);
-				for (let v of sftp.delete.list) {
-					yield put(
-						sftpAction.commandRemove({
-							socket: sftp.delete.socket,
-							path:
-								v.path === '/'
-									? v.path + v.file.name
-									: `${v.path}/${v.file.name}`,
-							type: v.file.type,
-							uuid: uuid,
-						}),
-					);
-					yield take(sftpAction.commandRemoveDone);
-					yield put(
-						sftpAction.deleteList({uuid: uuid, type: 'delete'}),
-					);
-				}
 				yield put(
 					sftpAction.deleteSocket({
-						socket: sftp.delete.socket,
+						socket: sftp.search.socket,
 						uuid: uuid,
-						type: 'delete',
+						type: 'search',
 					}),
 				);
-				yield put(
-					sftpAction.commandPwd({socket: sftp.socket, uuid: uuid}),
-				);
+				if (!sftp.delete.socket && key) {
+					yield put(
+						sftpAction.createSocket({
+							uuid: uuid,
+							key: key,
+							type: 'delete',
+						}),
+					);
+				}
 				uuid = null;
+				key = null;
 			}
 			yield take(sftpAction.searchDirectory);
 		} else {
+			console.log(action.payload);
 			uuid = action.payload.uuid;
+			key = action.payload.key;
 			yield call(worker, action);
 		}
 	}

@@ -55,20 +55,27 @@ const slice = createSlice({
 					download: {file: null, offset: null},
 				},
 				upload: {
+					on: false,
 					socket: null,
 					list: [],
 				},
 				download: {
+					on: false,
 					socket: null,
 					list: [],
 				},
 				delete: {
 					//useEffect 방식에서 수정해야 할 듯...
+					on: false,
 					socket: null,
 					list: [], // searching이 종료되면 list로 이동
-					search: [], // search가 비어야 다음 삭제가 가능
 					// {초기경로 : [삭제할 아이템...]} 형태로 저장하고
 					// 삭제할 아이템 searching이 끝나면 해당 경로값만 list로 이동하는 방식
+				},
+				search: {
+					on: false, // 모든 준비가 ok 되었을때 on off (최종버튼)
+					socket: null,
+					list: [],
 				},
 			});
 		},
@@ -235,15 +242,29 @@ const slice = createSlice({
 
 		// TODO : ETC line ============================================
 
+		setOn: (state, action) => {
+			const index = state.data.findIndex(
+				(v) => v.uuid === action.payload.uuid,
+			);
+			state.data[index][action.payload.type].on =
+				!state.data[index][action.payload.type].on;
+		},
+
 		restart: (state, action) => {},
 		// upload, downoad, delete List 추가
 		addList: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index][action.payload.type].list.unshift(
-				action.payload.value,
-			);
+			if (action.payload.type === 'delete') {
+				state.data[index][action.payload.type].list.unshift(
+					action.payload.value,
+				);
+			} else {
+				state.data[index][action.payload.type].list.push(
+					action.payload.value,
+				);
+			}
 		},
 		deleteList: (state, action) => {
 			const index = state.data.findIndex(
