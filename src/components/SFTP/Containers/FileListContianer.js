@@ -6,6 +6,7 @@ import {useContextMenu} from 'react-contexify';
 import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
+import {debounce} from 'lodash';
 
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
@@ -71,37 +72,27 @@ const FileListContianer = ({uuid}) => {
 	const onClickDownloadFile = useCallback(
 		(item) => (e) => {
 			// e.stopPropagation();
-			if (item.name !== '..' && item.type !== 'directory') {
-				// 현재는 디렉토리 다운로드 막아두었음.
-				// dispatch({
-				// 	type: ADD_HISTORY,
-				// 	payload: {
-				// 		uuid: uuid,
-				// 		name: item.name,
-				// 		size: item.size,
-				// 		todo: 'read',
-				// 		progress: 0,
-				// 		path: path,
-				// 		file: item,
-				// 	},
-				// });
-				// if (!readSocket && readList.length === 0) {
-				// 	dispatch({
-				// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-				// 		paylaod: {
-				// 			token: userData.access_token, // connection info
-				// 			host: resource.host,
-				// 			port: resource.port,
-				// 			user: account.user,
-				// 			password: account.password,
-				// 			todo: 'read',
-				// 			uuid: uuid,
-				// 		},
-				// 	});
-				// }
+			if (item.type !== 'directory') {
+				dispatch(
+					sftpAction.addList({
+						uuid: uuid,
+						type: 'download',
+						value: {path: sftp.path, file: item},
+					}),
+				);
+
+				if (!sftp.download.on) {
+					dispatch(
+						sftpAction.createSocket({
+							uuid: uuid,
+							key: terminalTab.server.key,
+							type: 'download',
+						}),
+					);
+				}
 			}
 		},
-		[],
+		[dispatch, sftp, terminalTab, uuid],
 	);
 
 	const onClickEditFile = useCallback(

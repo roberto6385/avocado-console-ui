@@ -15,34 +15,6 @@ const SFTPContainer = ({uuid}) => {
 	);
 	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
-	// for (let v of sftp.delete.list) {
-	// 	yield put(
-	// 		sftpAction.commandRemove({
-	// 			socket: sftp.delete.socket,
-	// 			path:
-	// 				v.path === '/'
-	// 					? v.path + v.file.name
-	// 					: `${v.path}/${v.file.name}`,
-	// 			type: v.file.type,
-	// 			uuid: uuid,
-	// 		}),
-	// 	);
-	// 	yield take(sftpAction.commandRemoveDone);
-	// 	yield put(
-	// 		sftpAction.deleteList({uuid: uuid, type: 'delete'}),
-	// 	);
-	// }
-	// yield put(
-	// 	sftpAction.deleteSocket({
-	// 		socket: sftp.delete.socket,
-	// 		uuid: uuid,
-	// 		type: 'delete',
-	// 	}),
-	// );
-	// yield put(
-	// 	sftpAction.commandPwd({socket: sftp.socket, uuid: uuid}),
-	// );
-
 	// delete
 	useEffect(() => {
 		if (
@@ -90,13 +62,7 @@ const SFTPContainer = ({uuid}) => {
 		) {
 			dispatch(sftpAction.commandRead({uuid: uuid}));
 		}
-	}, [
-		dispatch,
-		sftp.download.list.length,
-		sftp.download.on,
-		sftp.download.socket,
-		uuid,
-	]);
+	}, [dispatch, sftp.download, uuid]);
 
 	return <SFTP uuid={uuid} />;
 };

@@ -1,9 +1,8 @@
-import {call, put, select, take, takeLatest} from 'redux-saga/effects';
+import {call, debounce, put, select, take} from 'redux-saga/effects';
 import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 import {createWebsocket} from './socket';
-import {useSelector} from 'react-redux';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {authSelector} from '../../reducers/api/auth';
 
@@ -101,5 +100,5 @@ function* sendCommand(action) {
 }
 
 export default function* watcher() {
-	yield takeLatest(sftpAction.createSocket, sendCommand);
+	yield debounce(1000, sftpAction.createSocket, sendCommand);
 }

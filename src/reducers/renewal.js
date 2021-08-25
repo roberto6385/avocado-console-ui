@@ -1,7 +1,5 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
-export const writeChunkSize = 1024 * 4; //write_chunkSize
-export const readChunkSize = 1024 * 56; // 56 //read_chunkSize
 let HID = 0;
 
 const slice = createSlice({

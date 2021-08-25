@@ -9,7 +9,7 @@ import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
-import {sftpSelector} from '../../reducers/renewal';
+import {sftpAction, sftpSelector} from '../../reducers/renewal';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -42,35 +42,28 @@ const SFTPFileListContextMenu = ({uuid}) => {
 	);
 
 	const onClickDownloadData = useCallback(async () => {
-		// for await (let value of highlight) {
-		// 	dispatch({
-		// 		type: ADD_HISTORY,
-		// 		payload: {
-		// 			uuid: uuid,
-		// 			name: value.name,
-		// 			size: value.size,
-		// 			todo: 'read',
-		// 			progress: 0,
-		// 			path: path,
-		// 			file: value,
-		// 		},
-		// 	});
-		// }
-		// if (!readSocket && readList.length === 0) {
-		// 	dispatch({
-		// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-		// 		payload: {
-		// 			token: userData.access_token, // connection info
-		// 			host: resource.host,
-		// 			port: resource.port,
-		// 			user: account.user,
-		// 			password: account.password,
-		// 			todo: 'read',
-		// 			uuid: uuid,
-		// 		},
-		// 	});
-		// }
-	}, []);
+		console.log(sftp.selected.files);
+		for await (let v of sftp.selected.files) {
+			dispatch(
+				sftpAction.addList({
+					uuid: uuid,
+					type: 'download',
+					value: {path: sftp.path, file: v},
+				}),
+			);
+		}
+		if (!sftp.download.on) {
+			dispatch(
+				sftpAction.createSocket({
+					uuid: uuid,
+					key: terminalTab.server.key,
+					type: 'download',
+				}),
+			);
+		}
+		// initialize => select files
+		dispatch(sftpAction.setSelectedFile({uuid: uuid, result: []}));
+	}, [dispatch, sftp, terminalTab, uuid]);
 
 	const onClickEditData = useCallback(() => {
 		// for (let value of highlight) {

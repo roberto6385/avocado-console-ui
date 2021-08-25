@@ -181,6 +181,7 @@ function* worker(action) {
 		}
 	} catch (err) {
 		console.log(err);
+		yield put(sftpAction.commandWriteFail());
 	}
 }
 
