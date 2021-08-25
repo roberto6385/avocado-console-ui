@@ -16,4 +16,6 @@ export default {
 	confirmPassword: '새 비밀번호 확인',
 
 	changePassword: '비밀번호 변경',
+
+	confirmPasswordMessage: '비밀번호가 일치하지 않습니다',
 };

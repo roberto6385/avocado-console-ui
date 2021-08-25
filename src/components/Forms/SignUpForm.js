@@ -28,6 +28,13 @@ import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
 //import {usePatchesInScope} from 'immer/dist/core/scope';
 
+/*****************************************************/
+//  roberto - siginForm_update
+//
+/*****************************************************/
+import {passwordMatch, passwordWarning} from '../../utils/Forms';
+/*****************************************************/
+
 const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
 `;
@@ -51,6 +58,7 @@ const SignUpForm = () => {
 	/*****************************************************/
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
 	/*****************************************************/
+
 	const idRef = useRef(null);
 
 	const onSubmitSignUp = useCallback(
@@ -80,9 +88,9 @@ const SignUpForm = () => {
 	//
 	/*****************************************************/
 
-	const doesPasswordMatch = useCallback(() => {
-		return password === confirmPassword;
-	});
+	const doesPasswordMatch = useCallback(() =>
+		passwordMatch(password, confirmPassword),
+	);
 
 	const renderFeedbackMessage = useCallback(() => {
 		if (confirmPassword) {
@@ -92,12 +100,13 @@ const SignUpForm = () => {
 		}
 	});
 
-	const confirmPasswordWarning = useCallback(() => {
-		if (confirmPassword) {
-			if (confirmPasswordMessage != '')
-				return doesPasswordMatch() ? false : 'warning';
-		}
-	});
+	const confirmPasswordWarning = useCallback(() =>
+		passwordWarning(
+			confirmPassword,
+			confirmPasswordMessage,
+			doesPasswordMatch,
+		),
+	);
 
 	/*****************************************************/
 
@@ -163,7 +172,7 @@ const SignUpForm = () => {
 						onBlur={onBlurPasswordTextBox}
 						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={onChangePassword}
 						placeholder={t('password')}
 						required
 					/>
@@ -188,7 +197,7 @@ const SignUpForm = () => {
 						<UserPasswordInput
 							type={isPasswordHidden ? 'password' : 'text'}
 							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
+							onChange={onChangeConfirmPassword}
 							placeholder={t('confirmPassword')}
 							required
 						/>
