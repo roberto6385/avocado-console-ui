@@ -26,14 +26,7 @@ import {
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
-//import {usePatchesInScope} from 'immer/dist/core/scope';
-
-/*****************************************************/
-//  roberto - siginForm_update
-//
-/*****************************************************/
 import {passwordMatch, passwordWarning} from '../../utils/Forms';
-/*****************************************************/
 
 const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -83,11 +76,6 @@ const SignUpForm = () => {
 		[dispatch, email, id, name, password, confirmPassword],
 	);
 
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
-
 	const doesPasswordMatch = useCallback(() =>
 		passwordMatch(password, confirmPassword),
 	);
@@ -107,8 +95,6 @@ const SignUpForm = () => {
 			doesPasswordMatch,
 		),
 	);
-
-	/*****************************************************/
 
 	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
@@ -208,9 +194,7 @@ const SignUpForm = () => {
 							>
 								{cancelFillIcon}
 							</IconButton>
-						) : (
-							''
-						)}
+						) : undefined}
 					</UserPasswordContainer>
 				</UserPasswordConfirmWarning>
 			</TextBoxField>

@@ -61,16 +61,11 @@ const FindPasswordForm = () => {
 	const {loading} = useSelector(authSelector.all);
 
 	const [id, onChangeId] = useInput('');
-	const [email, onChangeEmail] = useInput('');
+	const [certificationNumber, onChangeCertificationNumber] = useInput('');
 	const [password, onChangePassword] = useInput('');
 	const [confirmPassword, onChangeConfirmPassword] = useInput('');
 	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
-	/*****************************************************/
 
 	const idRef = useRef(null);
 
@@ -85,13 +80,8 @@ const FindPasswordForm = () => {
 				//TODO: Change Password Action
 			}
 		},
-		[dispatch, email, id, password, confirmPassword],
+		[dispatch, certificationNumber, id, password, confirmPassword],
 	);
-
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
 
 	const doesPasswordMatch = useCallback(() =>
 		passwordMatch(password, confirmPassword),
@@ -112,8 +102,6 @@ const FindPasswordForm = () => {
 			doesPasswordMatch,
 		),
 	);
-
-	/*****************************************************/
 
 	const onClickSendVerificationCode = useCallback(
 		(e) => {
@@ -180,9 +168,9 @@ const FindPasswordForm = () => {
 			<_ItemContainer>
 				<TextBoxField flex={1} marginBottom={'0px'}>
 					<UserInput
-						type='email'
-						value={email}
-						onChange={onChangeEmail}
+						type='text'
+						value={certificationNumber}
+						onChange={onChangeCertificationNumber}
 						placeholder={t('authInput')}
 						required
 					/>
