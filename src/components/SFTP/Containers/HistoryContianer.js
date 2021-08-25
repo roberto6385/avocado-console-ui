@@ -2,7 +2,6 @@ import React, {useCallback, useMemo, useState} from 'react';
 import History from '../History/History';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-	ADD_HISTORY,
 	ADD_HISTORY_HI,
 	CREATE_NEW_WEBSOCKET_REQUEST,
 	INITIAL_HISTORY_HI,
@@ -15,7 +14,8 @@ import * as PropTypes from 'prop-types';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
-import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
+import {compareFiles, compareTypes} from '../../../utils/sftp';
 
 const HistoryContianer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -58,8 +58,18 @@ const HistoryContianer = ({uuid}) => {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
-						type: 'upload',
+						type: types.upload,
 						value: {path: sftp.path, file: v},
+					}),
+				);
+				dispatch(
+					sftpAction.addHistory({
+						uuid: uuid,
+						history: {
+							name: v.name,
+							size: v.size,
+							type: types.upload,
+						},
 					}),
 				);
 			}
@@ -68,7 +78,7 @@ const HistoryContianer = ({uuid}) => {
 					sftpAction.createSocket({
 						uuid: uuid,
 						key: terminalTab.server.key,
-						type: 'upload',
+						type: types.upload,
 					}),
 				);
 			}
@@ -84,8 +94,18 @@ const HistoryContianer = ({uuid}) => {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
-						type: 'upload',
+						type: types.upload,
 						value: {path: sftp.path, file: v},
+					}),
+				);
+				dispatch(
+					sftpAction.addHistory({
+						uuid: uuid,
+						history: {
+							name: v.name,
+							size: v.size,
+							type: types.upload,
+						},
 					}),
 				);
 			}
@@ -94,7 +114,7 @@ const HistoryContianer = ({uuid}) => {
 					sftpAction.createSocket({
 						uuid: uuid,
 						key: terminalTab.server.key,
-						type: 'upload',
+						type: types.upload,
 					}),
 				);
 			}
@@ -127,56 +147,40 @@ const HistoryContianer = ({uuid}) => {
 	);
 
 	const onClickSelectHistory = useCallback(
-		(selectValue, index) => (e) => {
-			e.stopPropagation();
-			const prevHistory = history.slice();
-			// const prevHistoryHighlight = history_highlight.slice();
+		(item) => (e) => {
+			let result = sftp.selected.historys.slice();
 			if (e.metaKey) {
-				// if (prevHistoryHighlight.find((item) => item === selectValue)) {
-				// 	dispatch({
-				// 		type: ADD_HISTORY_HI,
-				// 		payload: {
-				// 			uuid,
-				// 			history: prevHistoryHighlight.filter(
-				// 				(item) => item !== selectValue,
-				// 			),
-				// 		},
-				// 	});
-				// } else {
-				// 	prevHistoryHighlight.push(selectValue);
-				// 	dispatch({
-				// 		type: ADD_HISTORY_HI,
-				// 		payload: {uuid, history: prevHistoryHighlight},
-				// 	});
-				// }
+				if (result.find((v) => v.id === item.id)) {
+					result = result.filter((v) => v.id !== item.id);
+				} else {
+					result.push(item);
+				}
 			} else if (e.shiftKey) {
-				// if (prevHistoryHighlight.length === 0) {
-				// 	dispatch({
-				// 		type: ADD_HISTORY_HI,
-				// 		payload: {
-				// 			uuid,
-				// 			history: [selectValue],
-				// 		},
-				// 	});
-				// } else {
-				// 	compareHistories(
-				// 		prevHistory.findIndex(
-				// 			(item) => item === prevHistoryHighlight[0],
-				// 		),
-				// 		index,
-				// 	);
-				// }
+				if (result.length === 0) {
+					const index = sftp.history.findIndex(
+						(v) => v.id === item.id,
+					);
+					console.log(index);
+					result = sftp.history.slice(0, index + 1);
+				} else {
+					result = compareFiles(
+						sftp.history,
+						item,
+						result[0],
+						compareTypes.id,
+					);
+				}
 			} else {
-				// dispatch({
-				// 	type: ADD_HISTORY_HI,
-				// 	payload: {
-				// 		uuid,
-				// 		history: [selectValue],
-				// 	},
-				// });
+				result = [item];
 			}
+			dispatch(
+				sftpAction.setSelectedHistory({
+					uuid: uuid,
+					result: result,
+				}),
+			);
 		},
-		[compareHistories, dispatch, history, uuid],
+		[dispatch, sftp, uuid],
 	);
 
 	//TODO progress가 0인 히스토리 삭제 시 작업삭제
@@ -296,13 +300,13 @@ const HistoryContianer = ({uuid}) => {
 
 	return (
 		<History
-			// history={history}
-			// highlight={history_highlight}
+			history={sftp.history}
+			selectedHistorys={sftp.selected.historys}
 			// writeSocket={writeSocket}
 			// readSocket={readSocket}
 			onDropUpload={onDropUploadHistory}
 			onClickUpload={onClickUploadHistory}
-			// onSelect={onClickSelectHistory}
+			onSelect={onClickSelectHistory}
 			// onChangeProgress={onClickChangeProgress}
 			// onRemove={onClickDeleteHistory}
 		/>

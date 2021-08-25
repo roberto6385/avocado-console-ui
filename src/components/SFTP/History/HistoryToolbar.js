@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {deleteIcon, fileUploadIcon} from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
 import {tabBarSelector} from '../../../reducers/tabBar';
-import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 
 const _Container = styled.div`
 	min-width: 256px;
@@ -48,8 +48,18 @@ const HistoryToolbar = ({uuid}) => {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
-						type: 'upload',
+						type: types.upload,
 						value: {path: sftp.path, file: v},
+					}),
+				);
+				dispatch(
+					sftpAction.addHistory({
+						uuid: uuid,
+						history: {
+							name: v.name,
+							size: v.size,
+							type: types.upload,
+						},
 					}),
 				);
 			}
@@ -58,7 +68,7 @@ const HistoryToolbar = ({uuid}) => {
 					sftpAction.createSocket({
 						uuid: uuid,
 						key: terminalTab.server.key,
-						type: 'upload',
+						type: types.upload,
 					}),
 				);
 			}

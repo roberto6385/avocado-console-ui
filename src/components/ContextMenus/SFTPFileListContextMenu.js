@@ -9,7 +9,7 @@ import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {authSelector} from '../../reducers/api/auth';
 import {tabBarSelector} from '../../reducers/tabBar';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
-import {sftpAction, sftpSelector} from '../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../reducers/renewal';
 
 const SFTPFileListContextMenu = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -49,6 +49,17 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					uuid: uuid,
 					type: 'download',
 					value: {path: sftp.path, file: v},
+				}),
+			);
+
+			dispatch(
+				sftpAction.addHistory({
+					uuid: uuid,
+					history: {
+						name: v.name,
+						size: v.size,
+						type: types.download,
+					},
 				}),
 			);
 		}

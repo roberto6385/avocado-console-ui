@@ -21,7 +21,7 @@ import {
 } from '../../../styles/components/disalogBox';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {favoritesAction} from '../../../reducers/favorites';
-import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 
 const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
@@ -68,8 +68,18 @@ const DeleteDialogBox = () => {
 						dispatch(
 							sftpAction.addList({
 								uuid: uuid,
-								type: 'search',
+								type: types.search,
 								value: {path: sftp.path, file: v},
+							}),
+						);
+						dispatch(
+							sftpAction.addHistory({
+								uuid: uuid,
+								history: {
+									name: v.name,
+									size: v.size,
+									type: types.delete,
+								},
 							}),
 						);
 					}
@@ -78,7 +88,7 @@ const DeleteDialogBox = () => {
 							sftpAction.createSocket({
 								uuid: uuid,
 								key: terminalTab.server.key,
-								type: 'search',
+								type: types.search,
 							}),
 						);
 					}

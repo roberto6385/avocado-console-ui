@@ -1,5 +1,5 @@
 import {call, put, select, take, takeLatest} from 'redux-saga/effects';
-import {sftpAction, sftpSelector} from '../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
@@ -110,7 +110,7 @@ function* worker(action) {
 				sftpAction.deleteSocket({
 					socket: sftp.search.socket,
 					uuid: payload.uuid,
-					type: 'search',
+					type: types.search,
 				}),
 			);
 			if (!sftp.delete.socket) {
@@ -118,7 +118,7 @@ function* worker(action) {
 					sftpAction.createSocket({
 						uuid: payload.uuid,
 						key: payload.key,
-						type: 'delete',
+						type: types.delete,
 					}),
 				);
 			}
@@ -126,14 +126,14 @@ function* worker(action) {
 			yield put(
 				sftpAction.addList({
 					uuid: payload.uuid,
-					type: 'delete',
+					type: types.delete,
 					value: item,
 				}),
 			);
 			yield put(
 				sftpAction.deleteList({
 					uuid: payload.uuid,
-					type: 'search',
+					type: types.search,
 				}),
 			);
 
@@ -155,7 +155,7 @@ function* worker(action) {
 					yield put(
 						sftpAction.addList({
 							uuid: payload.uuid,
-							type: 'search',
+							type: types.search,
 							value: {path: path, file: v},
 						}),
 					);

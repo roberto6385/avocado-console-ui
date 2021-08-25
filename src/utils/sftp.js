@@ -1,9 +1,10 @@
-export const compareFiles = (total, select, criterion) => {
+export const compareTypes = {id: 'id', name: 'name'};
+export const compareFiles = (total, select, criterion, type) => {
 	console.log(total);
 	console.log(select);
 	console.log(criterion);
-	let selectedIndex = total.findIndex((v) => v.name === select.name);
-	let lastIndex = total.findIndex((v) => v.name === criterion.name);
+	let selectedIndex = total.findIndex((v) => v[type] === select[type]);
+	let lastIndex = total.findIndex((v) => v[type] === criterion[type]);
 	const array = [];
 	if (selectedIndex === lastIndex) return [select];
 	while (lastIndex !== selectedIndex) {

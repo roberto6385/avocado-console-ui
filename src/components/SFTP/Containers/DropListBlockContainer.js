@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {compareFiles, sortingUtil} from '../../../utils/sftp';
+import {compareFiles, compareTypes, sortingUtil} from '../../../utils/sftp';
 import {useDispatch, useSelector} from 'react-redux';
-import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 import DropListBlock from '../File/DropListBlock';
 import {useContextMenu} from 'react-contexify';
 import {tabBarSelector} from '../../../reducers/tabBar';
@@ -59,25 +59,35 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	);
 	const onClickDownloadFile = useCallback(
 		(item) => () => {
-			// e.stopPropagation();
-			if (item.type !== 'directory') {
+			if (item.type === 'directory') return;
+
+			dispatch(
+				sftpAction.addList({
+					uuid: uuid,
+					type: types.download,
+					value: {path: sftp.path, file: item},
+				}),
+			);
+
+			dispatch(
+				sftpAction.addHistory({
+					uuid: uuid,
+					history: {
+						name: item.name,
+						size: item.size,
+						type: types.download,
+					},
+				}),
+			);
+
+			if (!sftp.download.on) {
 				dispatch(
-					sftpAction.addList({
+					sftpAction.createSocket({
 						uuid: uuid,
-						type: 'download',
-						value: {path: sftp.path, file: item},
+						key: terminalTab.server.key,
+						type: types.download,
 					}),
 				);
-
-				if (!sftp.download.on) {
-					dispatch(
-						sftpAction.createSocket({
-							uuid: uuid,
-							key: terminalTab.server.key,
-							type: 'download',
-						}),
-					);
-				}
 			}
 		},
 		[dispatch, sftp, terminalTab, uuid],
@@ -126,6 +136,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 									sftp.selected.files.length !== 0
 										? sftp.selected.files.slice().shift()
 										: sortedFiles[0],
+									compareTypes.name,
 								),
 							}),
 						);
@@ -166,6 +177,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 									sftp.selected.files.length !== 0
 										? sftp.selected.files.slice().shift()
 										: sortedFiles[0],
+									compareTypes.name,
 								),
 							}),
 						);
@@ -207,7 +219,12 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 					dispatch(
 						sftpAction.setSelectedFile({
 							uuid: uuid,
-							result: compareFiles(sortedFiles, item, formerItem),
+							result: compareFiles(
+								sortedFiles,
+								item,
+								formerItem,
+								compareTypes.name,
+							),
 						}),
 					);
 				} else {

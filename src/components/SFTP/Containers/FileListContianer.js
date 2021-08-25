@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
-import {sftpAction, sftpSelector} from '../../../reducers/renewal';
-import {compareFiles, sortingUtil} from '../../../utils/sftp';
+import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
+import {compareFiles, compareTypes, sortingUtil} from '../../../utils/sftp';
 
 const FileListContianer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -51,25 +51,35 @@ const FileListContianer = ({uuid}) => {
 
 	const onClickDownloadFile = useCallback(
 		(item) => () => {
-			// e.stopPropagation();
-			if (item.type !== 'directory') {
+			if (item.type === 'directory') return;
+
+			dispatch(
+				sftpAction.addList({
+					uuid: uuid,
+					type: types.download,
+					value: {path: sftp.path, file: item},
+				}),
+			);
+
+			dispatch(
+				sftpAction.addHistory({
+					uuid: uuid,
+					history: {
+						name: item.name,
+						size: item.size,
+						type: types.download,
+					},
+				}),
+			);
+
+			if (!sftp.download.on) {
 				dispatch(
-					sftpAction.addList({
+					sftpAction.createSocket({
 						uuid: uuid,
-						type: 'download',
-						value: {path: sftp.path, file: item},
+						key: terminalTab.server.key,
+						type: types.download,
 					}),
 				);
-
-				if (!sftp.download.on) {
-					dispatch(
-						sftpAction.createSocket({
-							uuid: uuid,
-							key: terminalTab.server.key,
-							type: 'download',
-						}),
-					);
-				}
 			}
 		},
 		[dispatch, sftp, terminalTab, uuid],
@@ -153,7 +163,12 @@ const FileListContianer = ({uuid}) => {
 					const index = files.findIndex((v) => v.name === item.name);
 					result = files.slice(0, index + 1);
 				} else {
-					result = compareFiles(sortedFiles, item, result[0]);
+					result = compareFiles(
+						sortedFiles,
+						item,
+						result[0],
+						compareTypes.name,
+					);
 				}
 			} else {
 				result = [item];

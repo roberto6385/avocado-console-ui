@@ -2,6 +2,15 @@ import {createSelector, createSlice} from '@reduxjs/toolkit';
 
 let HID = 0;
 
+export const types = {
+	pause: 'pause',
+	search: 'search',
+	edit: 'edit',
+	delete: 'delete',
+	upload: 'upload',
+	download: 'download',
+};
+
 const slice = createSlice({
 	name: 'sftp',
 	initialState: {
@@ -364,8 +373,8 @@ const slice = createSlice({
 			state.data[index].history.unshift({
 				...action.payload.history,
 				id: HID++,
+				progress: 0,
 			});
-			//write, read, edit, delete 설정은 나중에 생성하자
 		},
 		//REMOVE_HISTORY
 		deleteHistory: (state, action) => {
