@@ -38,43 +38,15 @@ const SignUpForm = () => {
 
 	const {loading} = useSelector(authSelector.all);
 
-	const [id, onChangeId, setId] = useInput('');
-	const [name, onChangeName, setName] = useInput('');
-	const [email, onChangeEmail, setEmail] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
-	const [confirmPassword, onChangeConfirmPassword, setConfirmPassword] =
-		useInput('');
+	const [id, onChangeId] = useInput('');
+	const [name, onChangeName] = useInput('');
+	const [email, onChangeEmail] = useInput('');
+	const [password, onChangePassword] = useInput('');
+	const [confirmPassword, onChangeConfirmPassword] = useInput('');
 	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
-	/*****************************************************/
 
 	const idRef = useRef(null);
-
-	const onSubmitSignUp = useCallback(
-		(e) => {
-			e.preventDefault();
-			// if (password !== confirmPassword) {
-			//TODO: Show password !== confirmPassword Message
-			if (!doesPasswordMatch()) {
-				renderFeedbackMessage();
-				confirmPasswordWarning();
-			} else {
-				dispatch(
-					userResourceAction.createUserRequest({
-						id,
-						name,
-						email,
-						password,
-					}),
-				);
-			}
-		},
-		[dispatch, email, id, name, password, confirmPassword],
-	);
 
 	const doesPasswordMatch = useCallback(() =>
 		passwordMatch(password, confirmPassword),
@@ -94,6 +66,35 @@ const SignUpForm = () => {
 			confirmPasswordMessage,
 			doesPasswordMatch,
 		),
+	);
+
+	const onSubmitSignUp = useCallback(
+		(e) => {
+			e.preventDefault();
+			if (!doesPasswordMatch()) {
+				renderFeedbackMessage();
+				confirmPasswordWarning();
+			} else {
+				dispatch(
+					userResourceAction.createUserRequest({
+						id,
+						name,
+						email,
+						password,
+					}),
+				);
+			}
+		},
+		[
+			doesPasswordMatch,
+			renderFeedbackMessage,
+			confirmPasswordWarning,
+			dispatch,
+			id,
+			name,
+			email,
+			password,
+		],
 	);
 
 	const onClickChangePasswordVisibility = useCallback(

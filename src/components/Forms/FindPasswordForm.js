@@ -27,13 +27,7 @@ import {
 import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
-
-/*****************************************************/
-//  roberto - siginForm_update
-//
-/*****************************************************/
 import {passwordMatch, passwordWarning} from '../../utils/Forms';
-/*****************************************************/
 
 const _ItemContainer = styled.div`
 	display: flex;
@@ -69,6 +63,26 @@ const FindPasswordForm = () => {
 
 	const idRef = useRef(null);
 
+	const doesPasswordMatch = useCallback(() => {
+		passwordMatch(password, confirmPassword);
+	}, [confirmPassword, password]);
+
+	const renderFeedbackMessage = useCallback(() => {
+		if (confirmPassword) {
+			if (!doesPasswordMatch()) {
+				setConfirmPasswordMessage(t('confirmPasswordMessage'));
+			}
+		}
+	}, [confirmPassword, doesPasswordMatch, t]);
+
+	const confirmPasswordWarning = useCallback(() => {
+		passwordWarning(
+			confirmPassword,
+			confirmPasswordMessage,
+			doesPasswordMatch,
+		);
+	}, [confirmPassword, confirmPasswordMessage, doesPasswordMatch]);
+
 	const onSubmitFindPassword = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -80,27 +94,12 @@ const FindPasswordForm = () => {
 				//TODO: Change Password Action
 			}
 		},
-		[dispatch, certificationNumber, id, password, confirmPassword],
-	);
-
-	const doesPasswordMatch = useCallback(() =>
-		passwordMatch(password, confirmPassword),
-	);
-
-	const renderFeedbackMessage = useCallback(() => {
-		if (confirmPassword) {
-			if (!doesPasswordMatch()) {
-				setConfirmPasswordMessage(t('confirmPasswordMessage'));
-			}
-		}
-	});
-
-	const confirmPasswordWarning = useCallback(() =>
-		passwordWarning(
-			confirmPassword,
-			confirmPasswordMessage,
+		[
 			doesPasswordMatch,
-		),
+			renderFeedbackMessage,
+			confirmPasswordWarning,
+			dispatch,
+		],
 	);
 
 	const onClickSendVerificationCode = useCallback(
