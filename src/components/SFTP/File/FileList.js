@@ -155,7 +155,6 @@ const FileList = ({
 					})}
 				</Tbody>
 			</Table>
-			<SFTPFileListContextMenu uuid={uuid} />
 		</React.Fragment>
 	);
 };

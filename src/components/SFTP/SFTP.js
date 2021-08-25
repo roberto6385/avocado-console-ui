@@ -12,9 +12,10 @@ import {useSelector} from 'react-redux';
 import {settingSelector} from '../../reducers/setting';
 import {tabBarSelector} from '../../reducers/tabBar';
 import FileListContianer from './Containers/FileListContianer';
-import DropListContainer from './Containers/DropListContainer';
 import HistoryContianer from './Containers/HistoryContianer';
 import {sftpSelector} from '../../reducers/renewal';
+import DropListBlockContainer from './Containers/DropListBlockContainer';
+import SFTPFileListContextMenu from '../ContextMenus/SFTPFileListContextMenu';
 
 const toolbarFold = {light: lghtFToolbarFoldButton, dark: drkToolbarFoldButton};
 const toolbarUnfold = {
@@ -39,8 +40,16 @@ const _Container = styled.div`
 `;
 
 const ContentsContainer = styled.div`
+	// 최상위
 	display: flex;
 	flex: 1 1 0;
+	overflow-x: scroll;
+`;
+
+const DropListContainer = styled.div`
+	// 중간
+	display: flex;
+	width: 100%;
 	overflow-x: scroll;
 `;
 
@@ -110,8 +119,20 @@ const SFTP = ({uuid}) => {
 				{sftp.mode === 'list' ? (
 					<FileListContianer uuid={uuid} />
 				) : (
-					<DropListContainer uuid={uuid} />
+					<DropListContainer>
+						{Object.keys(sftp.files).map((key) => {
+							return (
+								<DropListBlockContainer
+									key={key}
+									uuid={uuid}
+									blockPath={key}
+								/>
+							);
+						})}
+					</DropListContainer>
 				)}
+
+				<SFTPFileListContextMenu uuid={uuid} />
 				<HistoryContianer uuid={uuid} />
 			</ContentsContainer>
 			{/*<FileStatusDialogBox />*/}

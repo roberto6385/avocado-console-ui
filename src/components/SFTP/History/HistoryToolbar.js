@@ -43,10 +43,8 @@ const HistoryToolbar = ({uuid}) => {
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
 			const files = e.target.files;
-			console.log(files);
-
 			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
-			for (let v of files) {
+			for await (let v of files) {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,

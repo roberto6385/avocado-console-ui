@@ -3,38 +3,21 @@ import FileList from '../File/FileList';
 import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
-import {authSelector} from '../../../reducers/api/auth';
 import {settingSelector} from '../../../reducers/setting';
 import {tabBarSelector} from '../../../reducers/tabBar';
-
-import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 import {compareFiles, sortingUtil} from '../../../utils/sftp';
 
 const FileListContianer = ({uuid}) => {
 	const dispatch = useDispatch();
-	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {language} = useSelector(settingSelector.all);
 	const {data} = useSelector(sftpSelector.all);
-	const {userData} = useSelector(authSelector.all);
 
 	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
-	);
-	const resource = useMemo(
-		() => resources.find((it) => it.key === terminalTab.server.key),
-		[terminalTab.server.key, resources],
-	);
-	const account = useMemo(
-		() =>
-			accounts.find(
-				(it) =>
-					it.key === terminalTab.server.key && it.checked === true,
-			),
-		[accounts, terminalTab],
 	);
 
 	const sftp = useMemo(
@@ -46,8 +29,6 @@ const FileListContianer = ({uuid}) => {
 	});
 
 	const [sortedFiles, setSortedFiles] = useState([]);
-	const [currentFileList, setCurrentFileList] = useState([]);
-	const [currentKey, setCurrentKey] = useState(sftp.sort.type);
 
 	const handleChangePath = useCallback(
 		(item) => () => {
@@ -69,7 +50,7 @@ const FileListContianer = ({uuid}) => {
 	);
 
 	const onClickDownloadFile = useCallback(
-		(item) => (e) => {
+		(item) => () => {
 			// e.stopPropagation();
 			if (item.type !== 'directory') {
 				dispatch(

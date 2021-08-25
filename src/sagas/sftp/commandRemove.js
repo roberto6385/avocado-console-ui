@@ -63,7 +63,6 @@ function getApi(data) {
 				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
 			) {
 				const error = response.getError();
-				console.log(error.getMessage());
 				throw error.getMessage();
 			}
 		} else {

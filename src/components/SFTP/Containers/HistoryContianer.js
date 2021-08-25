@@ -15,7 +15,7 @@ import * as PropTypes from 'prop-types';
 import {authSelector} from '../../../reducers/api/auth';
 import {tabBarSelector} from '../../../reducers/tabBar';
 import {remoteResourceSelector} from '../../../reducers/remoteResource';
-import {sftpSelector} from '../../../reducers/renewal';
+import {sftpAction, sftpSelector} from '../../../reducers/renewal';
 
 const HistoryContianer = ({uuid}) => {
 	const dispatch = useDispatch();
@@ -23,15 +23,12 @@ const HistoryContianer = ({uuid}) => {
 	const {userData} = useSelector(authSelector.all);
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 	const {data} = useSelector(sftpSelector.all);
+	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
-	);
-	const {path} = useMemo(
-		() => data.find((it) => it.uuid === uuid),
-		[data, uuid],
 	);
 
 	const resource = useMemo(
@@ -47,91 +44,63 @@ const HistoryContianer = ({uuid}) => {
 		[accounts, terminalTab],
 	);
 
-	const onClickUploadHistory = useCallback(
-		async () => {
-			const uploadInput = document.createElement('input');
-			document.body.appendChild(uploadInput);
-			uploadInput.setAttribute('type', 'file');
-			uploadInput.setAttribute('multiple', 'multiple');
-			uploadInput.setAttribute('style', 'display:none');
-			uploadInput.click();
-			uploadInput.onchange = async (e) => {
-				const files = e.target.files;
-				console.log(files);
-				// for await (let value of files) {
-				// dispatch({
-				// 	type: ADD_HISTORY,
-				// 	payload: {
-				// 		uuid: uuid,
-				// 		name: value.name,
-				// 		size: value.size,
-				// 		todo: 'write',
-				// 		progress: 0,
-				// 		path: path,
-				// 		file: value,
-				// 	},
-				// });
-			};
-			// if (!writeSocket && writeList.length === 0) {
-			// 	dispatch({
-			// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-			// 		payload: {
-			// 			token: userData.access_token, // connection info
-			// 			host: resource.host,
-			// 			port: resource.port,
-			// 			user: account.user,
-			// 			password: account.password,
-			// 			todo: 'write',
-			// 			uuid: uuid,
-			// 		},
-			// 	});
-			// };
-			// };
-			document.body.removeChild(uploadInput);
+	const onClickUploadHistory = useCallback(async () => {
+		const uploadInput = document.createElement('input');
+		document.body.appendChild(uploadInput);
+		uploadInput.setAttribute('type', 'file');
+		uploadInput.setAttribute('multiple', 'multiple');
+		uploadInput.setAttribute('style', 'display:none');
+		uploadInput.click();
+		uploadInput.onchange = async (e) => {
+			const files = e.target.files;
+			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+			for await (let v of files) {
+				dispatch(
+					sftpAction.addList({
+						uuid: uuid,
+						type: 'upload',
+						value: {path: sftp.path, file: v},
+					}),
+				);
+			}
+			if (!sftp.upload.on) {
+				dispatch(
+					sftpAction.createSocket({
+						uuid: uuid,
+						key: terminalTab.server.key,
+						type: 'upload',
+					}),
+				);
+			}
+		};
+		document.body.removeChild(uploadInput);
+	}, [dispatch, sftp, terminalTabs, uuid]);
+
+	const onDropUploadHistory = useCallback(
+		async (files) => {
+			console.log(files);
+			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+			for await (let v of files) {
+				dispatch(
+					sftpAction.addList({
+						uuid: uuid,
+						type: 'upload',
+						value: {path: sftp.path, file: v},
+					}),
+				);
+			}
+			if (!sftp.upload.on) {
+				dispatch(
+					sftpAction.createSocket({
+						uuid: uuid,
+						key: terminalTab.server.key,
+						type: 'upload',
+					}),
+				);
+			}
 		},
-		[
-			// dispatch,
-			// uuid,
-			// writeSocket,
-			// writeList,
-			// path,
-			// userData,
-			// resource,
-			// account,
-		],
+		[dispatch, sftp, terminalTabs, uuid],
 	);
-	const onDropUploadHistory = useCallback(async (files) => {
-		console.log(files);
-		// for await (let value of files) {
-		// dispatch({
-		// 	type: ADD_HISTORY,
-		// 	payload: {
-		// 		uuid: uuid,
-		// 		name: value.name,
-		// 		size: value.size,
-		// 		todo: 'write',
-		// 		progress: 0,
-		// 		path: path,
-		// 		file: value,
-		// 	},
-		// });
-		// console.log(value);
-		// }
-		// if (!writeSocket && writeList.length === 0) {
-		// 	dispatch({
-		// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-		// 		payload: {
-		// 			token: userData.access_token, // connection info
-		// 			host: resource.host,
-		// 			port: resource.port,
-		// 			user: account.user,
-		// 			password: account.password,
-		// 			todo: 'write',
-		// 			uuid: uuid,
-		// 		},
-		// 	});
-		// }
-	}, []);
 	const compareHistories = useCallback(
 		(first, second) => {
 			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
@@ -315,7 +284,7 @@ const HistoryContianer = ({uuid}) => {
 			// writeSocket,
 			dispatch,
 			uuid,
-			path,
+
 			// sftp_socket,
 			// pause,
 			prevOffset,

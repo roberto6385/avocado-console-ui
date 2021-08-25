@@ -1,79 +1,89 @@
-import React, {useEffect, useMemo, useState, useCallback} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {compareFiles, sortingUtil} from '../../../utils/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
-import styled from 'styled-components';
-import {SftpMainIcon} from '../../../styles/components/sftp/icons';
-import {
-	editIcon,
-	fileDownloadIcon,
-	fileIcon,
-	folderOpenIcon,
-} from '../../../icons/icons';
-import {HoverButton} from '../../../styles/components/icon';
-import {HideScroll, PreventDragCopy} from '../../../styles/function';
-
-const Ul = styled.ul`
-	${PreventDragCopy};
-	${HideScroll};
-	border-right: 1px solid;
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.sftp.border.color};
-	color: ${(props) => props.color};
-	overflow-y: scroll;
-`;
-const Li = styled.li`
-	cursor: pointer;
-	background: ${(props) =>
-		(props.type === 'selected' &&
-			props.theme.pages.webTerminal.main.panels.sftp.files
-				.selectedBackgroundColor) ||
-		(props.type === 'former' &&
-			props.theme.pages.webTerminal.main.panels.sftp.files
-				.prevPathBackgroundColor)};
-	border-bottom: 1px solid;
-	border-color: ${(props) =>
-		props.theme.pages.webTerminal.main.panels.sftp.border.color};
-
-	display: flex;
-	align-items: center;
-	min-width: 220px;
-	height: 48px;
-	font-weight: bold;
-	padding: 12px 16px;
-`;
-
-const LastLi = styled(Li)`
-	min-width: 500px;
-	flex: 1;
-	justify-content: space-between;
-`;
-
-const FlexContainer = styled.div`
-	display: flex;
-	align-items: center;
-`;
-const PermissionContainer = styled(FlexContainer)`
-	width: 106px;
-	justify-content: flex-end;
-`;
-const ButtonContainer = styled(FlexContainer)`
-	width: 122px;
-	justify-content: flex-end;
-`;
+import DropListBlock from '../File/DropListBlock';
+import {useContextMenu} from 'react-contexify';
+import {tabBarSelector} from '../../../reducers/tabBar';
 
 const DropListBlockContainer = ({uuid, blockPath}) => {
 	const dispatch = useDispatch();
 	const [sortedFiles, setSortedFiles] = useState([]);
 	const [prevPath, setPrevPath] = useState('');
+	const {terminalTabs} = useSelector(tabBarSelector.all);
+
+	const terminalTab = useMemo(
+		() => terminalTabs.find((it) => it.uuid === uuid),
+		[terminalTabs, uuid],
+	);
 	const {data} = useSelector(sftpSelector.all);
 	const sftp = useMemo(
 		() => data.find((it) => it.uuid === uuid),
 		[data, uuid],
 	);
 
-	const selectItem = useCallback(
+	const {show} = useContextMenu({
+		id: uuid + '-file-list-context-menu',
+	});
+
+	const openFileListContextMenu = useCallback(
+		(item = null, path = null) =>
+			(e) => {
+				e.preventDefault();
+				console.log(path);
+				if (path) {
+					dispatch(
+						sftpAction.commandCd({
+							socket: sftp.socket,
+							uuid: uuid,
+							path: path,
+						}),
+					);
+				}
+				if (item) {
+					if (item.name === '..') return;
+					let result = sftp.selected.files.slice();
+					if (result.length === 0 || result.length === 1) {
+						dispatch(
+							sftpAction.setSelectedFile({
+								uuid: uuid,
+								result: [item],
+							}),
+						);
+					}
+				}
+				show(e);
+			},
+		[dispatch, sftp, show, uuid],
+	);
+	const onClickDownloadFile = useCallback(
+		(item) => () => {
+			// e.stopPropagation();
+			if (item.type !== 'directory') {
+				dispatch(
+					sftpAction.addList({
+						uuid: uuid,
+						type: 'download',
+						value: {path: sftp.path, file: item},
+					}),
+				);
+
+				if (!sftp.download.on) {
+					dispatch(
+						sftpAction.createSocket({
+							uuid: uuid,
+							key: terminalTab.server.key,
+							type: 'download',
+						}),
+					);
+				}
+			}
+		},
+		[dispatch, sftp, terminalTab, uuid],
+	);
+
+	const handleSelectItem = useCallback(
 		(item) => (e) => {
 			if (sftp.path === blockPath) {
 				if (item.type === 'directory') {
@@ -113,7 +123,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 								result: compareFiles(
 									sortedFiles,
 									item,
-									sftp.selected.files
+									sftp.selected.files.length !== 0
 										? sftp.selected.files.slice().shift()
 										: sortedFiles[0],
 								),
@@ -153,7 +163,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 								result: compareFiles(
 									sortedFiles,
 									item,
-									sftp.selected.files
+									sftp.selected.files.length !== 0
 										? sftp.selected.files.slice().shift()
 										: sortedFiles[0],
 								),
@@ -216,17 +226,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 				}
 			}
 		},
-		[
-			blockPath,
-			dispatch,
-			prevPath,
-			sftp.files,
-			sftp.path,
-			sftp.selected.files,
-			sftp.socket,
-			sortedFiles,
-			uuid,
-		],
+		[blockPath, dispatch, prevPath, sftp, sortedFiles, uuid],
 	);
 
 	useEffect(() => {
@@ -245,67 +245,16 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	}, [blockPath, sftp.path]);
 
 	return (
-		<Ul>
-			{sortedFiles.map((v) => {
-				if (blockPath === '/' && v.name === '..') return;
-				return sftp.path !== blockPath ? (
-					<Li
-						key={v.name}
-						type={v.name === prevPath ? 'former' : undefined}
-						onClick={selectItem(v)}
-					>
-						<SftpMainIcon
-							type={v.type === 'directory' ? 'main' : undefined}
-							margin_right={'8px'}
-						>
-							{v.type === 'directory' ? folderOpenIcon : fileIcon}
-						</SftpMainIcon>
-						<span>{v.name}</span>
-					</Li>
-				) : (
-					<LastLi
-						key={v.name}
-						type={
-							sftp.selected.files.find((x) => x.name === v.name)
-								? 'selected'
-								: undefined
-						}
-						onClick={selectItem(v)}
-					>
-						<FlexContainer>
-							<SftpMainIcon
-								type={
-									v.type === 'directory' ? 'main' : undefined
-								}
-								margin_right={'8px'}
-							>
-								{v.type === 'directory'
-									? folderOpenIcon
-									: fileIcon}
-							</SftpMainIcon>
-							<span>{v.name}</span>
-						</FlexContainer>
-						<FlexContainer>
-							<PermissionContainer>
-								{v.permission}
-							</PermissionContainer>
-							<ButtonContainer>
-								{v.type === 'file' && v.name !== '..' && (
-									<HoverButton margin_right={'8px'}>
-										{editIcon}
-									</HoverButton>
-								)}
-								{v.name !== '..' && (
-									<HoverButton margin_right={'0px'}>
-										{fileDownloadIcon}
-									</HoverButton>
-								)}
-							</ButtonContainer>
-						</FlexContainer>
-					</LastLi>
-				);
-			})}
-		</Ul>
+		<DropListBlock
+			sortedFiles={sortedFiles}
+			blockPath={blockPath}
+			onSelectItem={handleSelectItem}
+			prevPath={prevPath}
+			onContextMenu={openFileListContextMenu}
+			onDownload={onClickDownloadFile}
+			currentPath={sftp.path}
+			selectedFiles={sftp.selected.files}
+		/>
 	);
 };
 

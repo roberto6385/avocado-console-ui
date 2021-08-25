@@ -1,5 +1,5 @@
-import {call, put, take, takeLatest} from 'redux-saga/effects';
-import {sftpAction} from '../../reducers/renewal';
+import {call, put, select, take, takeLatest} from 'redux-saga/effects';
+import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
@@ -42,7 +42,6 @@ function getApi(data) {
 				response.getResponseCase() === SFTP.Response.ResponseCase.ERROR
 			) {
 				const error = response.getError();
-				console.log(error.getMessage());
 				throw error.getMessage();
 			}
 		} else {
@@ -72,6 +71,9 @@ function* worker(action) {
 		);
 		return;
 	}
+	const {data} = yield select(sftpSelector.all);
+	const sftp = data.find((v) => v.uuid === payload.uuid);
+	if (sftp.path === payload.path) return; // 현재경로 to 현재경로 차단
 	try {
 		const channel = yield call(subscribe, payload.socket);
 		yield call(setApi, {path: payload.path, socket: payload.socket});
@@ -79,7 +81,10 @@ function* worker(action) {
 		yield call(getApi, data);
 		yield put(sftpAction.commandCdDone());
 		yield put(
-			sftpAction.commandPwd({socket: payload.socket, uuid: payload.uuid}),
+			sftpAction.commandPwd({
+				socket: payload.socket,
+				uuid: payload.uuid,
+			}),
 		);
 	} catch (err) {
 		console.log(err);
