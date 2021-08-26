@@ -18,8 +18,6 @@ import {TextBox} from '../../../../styles/components/textBox';
 import {Icon, IconButton} from '../../../../styles/components/icon';
 import {useDoubleClick} from '../../../../hooks/useDoubleClick';
 
-import localStorage from 'redux-persist/es/storage';
-
 const _TextBox = styled(TextBox)`
 	height: 24px;
 `;
@@ -106,8 +104,9 @@ const FavoriteGroupOnDialogBox = ({data, indent}) => {
 							onBlur={onBlurFolerNameTextBox}
 						/>
 					) : (
-						'name'
-						// tempFavoriteFolders.find((v) => v.id === data.id).name
+						JSON.parse(
+							localStorage.getItem('tempFavoriteGroups'),
+						).find((v) => v.id === data.id).name
 					)}
 				</ResourceItemTitle>
 				<IconButton
