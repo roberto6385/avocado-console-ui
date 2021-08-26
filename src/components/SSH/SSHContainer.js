@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useContextMenu} from 'react-contexify';
@@ -68,7 +68,7 @@ const _ToolbarFoldUnfoldButton = styled.img`
 	z-index: 5;
 `;
 
-const SSHContainer = ({uuid, server}) => {
+const SSHContainer = ({uuid, resourceKey}) => {
 	const {resourceTree} = useSelector(remoteResourceSelector.all);
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
@@ -116,7 +116,7 @@ const SSHContainer = ({uuid, server}) => {
 					>
 						{snippetIcon}
 					</HoverButton>
-					<SFTPConnectBtn data={server} />
+					<SFTPConnectBtn data={resourceKey} />
 					<HoverButton onClick={onCLickFullScreen}>
 						{fullScreenIcon}
 					</HoverButton>
@@ -146,7 +146,7 @@ const SSHContainer = ({uuid, server}) => {
 
 SSHContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	server: PropTypes.object.isRequired,
+	resourceKey: PropTypes.string.isRequired,
 };
 
 export default SSHContainer;

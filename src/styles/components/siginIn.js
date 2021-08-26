@@ -62,17 +62,13 @@ export const UserPasswordContainer = styled.div`
 	border-color: ${(props) =>
 		props.theme.basic.pages.textBoxs.normalStyle.border.color};
 `;
-/*****************************************************/
-//  roberto - siginForm_update
-//
-/*****************************************************/
 
 export const UserPasswordConfirmWarning = styled.div`
 	border-radius: 4px;
 	border-color: ${(props) =>
 		props.theme.basic.pages.textBoxs.normalStyle.border.color};
 	.warning {
-		border: 2px solid;
+		border: 1px solid;
 		border-color: ${(props) =>
 			props.theme.basic.pages.icons.dynamicIcons.normal.warningStyle.font
 				.color};

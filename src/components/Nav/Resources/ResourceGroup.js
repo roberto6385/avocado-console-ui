@@ -17,17 +17,19 @@ import {
 
 const ResourceGroup = ({open, data, indent}) => {
 	const dispatch = useDispatch();
-	const {selectedResource} = useSelector(remoteResourceSelector.all);
+	const {selectedResource, resourceGroups} = useSelector(
+		remoteResourceSelector.all,
+	);
 
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 
 	const onClickResourceGroup = useCallback(() => {
-		if (selectedResource === data.key) {
+		if (selectedResource === data.id) {
 			dispatch(remoteResourceAction.setSelectedResource(null));
 		} else {
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
+			dispatch(remoteResourceAction.setSelectedResource(data.id));
 		}
-	}, [selectedResource, data.key, dispatch]);
+	}, [selectedResource, data.id, dispatch]);
 
 	const onClickFoldOrUnfoldResourceGroup = useCallback(() => {
 		setIsFolderUnfolded(!isFolderUnfolded);
@@ -41,20 +43,22 @@ const ResourceGroup = ({open, data, indent}) => {
 		<React.Fragment>
 			<ResourceItem
 				onClick={onClickResourceGroup}
-				selected={selectedResource === data.key}
+				selected={selectedResource === data.id}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
 					itype={
-						selectedResource === data.key ? 'selected' : undefined
+						selectedResource === data.id ? 'selected' : undefined
 					}
 				>
 					{folderIcon}
 				</Icon>
 
-				<ResourceItemTitle>{data.name}</ResourceItemTitle>
+				<ResourceItemTitle>
+					{resourceGroups.find((v) => v.id === data.id).name}
+				</ResourceItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
@@ -63,21 +67,21 @@ const ResourceGroup = ({open, data, indent}) => {
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
 			</ResourceItem>
-			{data.contain.length !== 0 && (
+			{data.children.length !== 0 && (
 				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
-						{data.contain.map((i) =>
-							i.type === 'folder' ? (
+						{data.children.map((v) =>
+							v.type === 'resourceGroup' ? (
 								<ResourceGroup
-									key={i.key}
+									key={v.id}
 									open={open}
-									data={i}
+									data={v}
 									indent={indent + 1}
 								/>
 							) : (
 								<Resource
-									key={i.key}
-									data={i}
+									key={v.id}
+									data={v}
 									indent={indent + 1}
 								/>
 							),

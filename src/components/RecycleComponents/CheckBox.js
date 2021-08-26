@@ -31,7 +31,7 @@ const InputContainer = styled.div`
 const CheckBox = ({
 	title = '',
 	value,
-	onChangeCheck,
+	onChangeCheck = () => {},
 	indeterminate = false, // 체크박스 하위 항목중 일부 체크 시
 	disabled = false,
 }) => {

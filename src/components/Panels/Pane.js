@@ -67,7 +67,7 @@ const _ReconectBlock = styled.div`
 	${PreventDragCopy}
 `;
 
-const Pane = ({uuid, type, server}) => {
+const Pane = ({uuid, type, resourceId}) => {
 	const dispatch = useDispatch();
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
@@ -111,9 +111,10 @@ const Pane = ({uuid, type, server}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const resource = resources.find((i) => i.key === server.key);
+		const resource = resources.find((i) => i.key === resourceId);
 		const account = accounts.find(
-			(it) => it.key === server.key && it.checked === true,
+			(it) =>
+				it.resourceId === resourceId && it.isDefaultAccount === true,
 		);
 
 		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
@@ -125,12 +126,12 @@ const Pane = ({uuid, type, server}) => {
 					...resource,
 					user: account.user,
 					password: account.password,
-
 					prevUuid: uuid,
 					prevIndex: terminalTabIndex,
 				}),
 			);
-		} else {
+		}
+		if (type === 'SFTP') {
 			dispatch(
 				sftpAction.reconnect({
 					token: userData.access_token, // connection info
@@ -138,11 +139,8 @@ const Pane = ({uuid, type, server}) => {
 					port: resource.port,
 					user: account.user,
 					password: account.password,
-
 					name: resource.name, // create tab info
-					key: resource.key,
 					id: resource.id,
-
 					prevUuid: uuid,
 					prevPath: sftp.path,
 					prevIndex: terminalTabIndex,
@@ -152,9 +150,9 @@ const Pane = ({uuid, type, server}) => {
 	}, [
 		resources,
 		accounts,
+		resourceId,
 		terminalTabs,
 		type,
-		server.key,
 		uuid,
 		dispatch,
 		userData.access_token,
@@ -164,7 +162,8 @@ const Pane = ({uuid, type, server}) => {
 	useEffect(() => {
 		if (type === 'SSH') {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
-		} else {
+		}
+		if (type === 'SFTP') {
 			setReadyState(sftp.readyState);
 		}
 	}, [sftp.readyState, ssh, type, uuid]);
@@ -199,7 +198,7 @@ const Pane = ({uuid, type, server}) => {
 								{sftpIcon}
 							</Icon>
 						)}
-						{server.name}
+						{resources.find((v) => v.id === resourceId).name}
 					</_HeaderText>
 					<HoverButton
 						size={'micro'}
@@ -210,7 +209,9 @@ const Pane = ({uuid, type, server}) => {
 					</HoverButton>
 				</_Header>
 			)}
-			{type === 'SSH' && <SSHContainer uuid={uuid} server={server} />}
+			{type === 'SSH' && (
+				<SSHContainer uuid={uuid} resourceKey={resourceId} />
+			)}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);
@@ -219,7 +220,7 @@ const Pane = ({uuid, type, server}) => {
 Pane.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
-	server: PropTypes.object.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default Pane;

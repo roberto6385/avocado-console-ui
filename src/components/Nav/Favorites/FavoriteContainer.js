@@ -5,10 +5,11 @@ import SearchIconTextBox from '../../RecycleComponents/SearchIconTextBox';
 import {plusIcon, searchIcon} from '../../../icons/icons';
 import useInput from '../../../hooks/useInput';
 import {useTranslation} from 'react-i18next';
-import Favorites from './Favorites';
-import {useDispatch} from 'react-redux';
-import AddFavoritesDialogBox from '../../DialogBoxs/Form/AddFavoritesDialogBox';
+import FavoriteTree from './FavoriteTree';
+import {useDispatch, useSelector} from 'react-redux';
+import ChangeFavoritesDialogBox from '../../DialogBoxs/Form/ChangeFavoritesDialogBox';
 import {dialogBoxAction} from '../../../reducers/dialogBoxs';
+import {favoritesSelector} from '../../../reducers/favorites';
 
 const _FormContainer = styled.div`
 	padding: 10px 12px;
@@ -56,11 +57,28 @@ const Container = styled.div`
 const FavoriteContainer = () => {
 	const {t} = useTranslation('nav');
 	const dispatch = useDispatch();
+	const {favoriteTree, favoriteGroups, favoriteGroupIndex} = useSelector(
+		favoritesSelector.all,
+	);
 
 	const [search, onChangeSearch] = useInput('');
-	const newFavorites = useCallback(() => {
-		dispatch(dialogBoxAction.openForm({key: 'favorites'}));
-	}, [dispatch]);
+
+	const onClickOpenFavoritesDialogBox = useCallback(() => {
+		dispatch(dialogBoxAction.openAlert({key: 'developing'}));
+		// dispatch(dialogBoxAction.openForm({key: 'favorites'}));
+		//
+		// localStorage.setItem('tempFavoriteTree', JSON.stringify(favoriteTree));
+		// localStorage.setItem(
+		// 	'tempFavoriteGroups',
+		// 	JSON.stringify(favoriteGroups),
+		// );
+		// localStorage.setItem(
+		// 	'tempFavoriteGroupIndex',
+		// 	JSON.stringify(favoriteGroupIndex),
+		// );
+		// localStorage.setItem('tempSelectedFavorites', JSON.stringify([]));
+		// localStorage.removeItem('tempFavoriteGroupRenamingKey', null);
+	}, [dispatch, favoriteTree, favoriteGroups]);
 
 	return (
 		<Container>
@@ -74,10 +92,12 @@ const FavoriteContainer = () => {
 						height={'36px'}
 					/>
 				</_Form>
-				<_AddButton onClick={newFavorites}>{plusIcon}</_AddButton>
+				<_AddButton onClick={onClickOpenFavoritesDialogBox}>
+					{plusIcon}
+				</_AddButton>
 			</_FormContainer>
-			<Favorites search={search} />
-			<AddFavoritesDialogBox />
+			<FavoriteTree searchVal={search} />
+			<ChangeFavoritesDialogBox />
 		</Container>
 	);
 };

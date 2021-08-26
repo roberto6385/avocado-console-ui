@@ -2,23 +2,6 @@ import {Terminal} from 'xterm';
 import {ROBOTO_MONO} from '../styles/components/font';
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
-// export const initialState = {
-// 	font: ROBOTO_MONO,
-// 	font_size: 14,
-// 	search_mode: false,
-// 	autoCompleteMode: true,
-// 	ssh: [],
-// 	ssh_history: [],
-// 	snippets: [
-// 		{id: 0, name: 'File List', content: 'ls'},
-// 		{id: 1, name: 'Current Path', content: 'pwd'},
-// 	],
-// 	snippetIndex: 2,
-// 	tab: false,
-// 	loading: false,
-// };
-//
-
 export const READY_STATE = 'ssh/READY_STATE';
 
 const slice = createSlice({
@@ -40,6 +23,7 @@ const slice = createSlice({
 		tab: false,
 		loading: false,
 	},
+
 	reducers: {
 		setReadyState: (state, action) => {
 			const index = state.ssh.findIndex(
@@ -48,6 +32,7 @@ const slice = createSlice({
 			if (index === -1) return;
 			state.ssh[index].ready = 3;
 		},
+
 		reconnectRequest: (state) => {
 			state.loading = true;
 		},
@@ -60,6 +45,10 @@ const slice = createSlice({
 			state.ssh[index].ready = 1;
 			state.loading = false;
 		},
+		reconnectFailure: (state) => {
+			state.loading = false;
+		},
+
 		connectRequest: (state) => {
 			state.loading = true;
 		},
@@ -77,14 +66,29 @@ const slice = createSlice({
 				ready: 1,
 			});
 		},
+		connectFailure: (state, action) => {
+			state.loading = false;
+			state.ssh = state.ssh.filter((v) => v.uuid !== action.payload);
+			if (state.ssh.length === 0 && state.searchMode)
+				state.searchMode = false;
+		},
 
-		disconnectRequest: () => {},
+		disconnectRequest: (state) => {
+			state.loading = true;
+		},
 		disconnectSuccess: (state, action) => {
 			state.loading = false;
 			state.ssh = state.ssh.filter((v) => v.uuid !== action.payload);
 			if (state.ssh.length === 0 && state.searchMode)
 				state.searchMode = false;
 		},
+		disconnectFailure: (state, action) => {
+			state.loading = false;
+			state.ssh = state.ssh.filter((v) => v.uuid !== action.payload);
+			if (state.ssh.length === 0 && state.searchMode)
+				state.searchMode = false;
+		},
+
 		sendCommandRequest: (state, action) => {
 			if (action.payload.key === 'close') return;
 			const index = state.ssh.findIndex(
@@ -139,17 +143,22 @@ const slice = createSlice({
 					].current_line += result;
 			}
 		},
-		windowChangeRequest: () => {},
+		sendCommandFailure: (state) => {},
+
+		sendWindowChangeRequest: (state) => {},
 
 		setFont: (state, action) => {
-			state.font.size = action.payload;
+			state.font.family = action.payload;
 		},
+
 		increaseFont: (state) => {
 			state.font.size++;
 		},
+
 		decreaseFont: (state) => {
 			state.font.size--;
 		},
+
 		setSearchMode: (state) => {
 			state.searchMode = !state.searchMode;
 		},

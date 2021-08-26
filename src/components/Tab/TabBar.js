@@ -1,13 +1,16 @@
-import {HoverButton, Icon} from '../../styles/components/icon';
-import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
-import MenuButtons from './MenuButtons';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
+
 import {tabBarAction, tabBarSelector} from '../../reducers/tabBar';
 import {sshAction, sshSelector} from '../../reducers/ssh';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {HoverButton, Icon} from '../../styles/components/icon';
+import {closeIcon, sftpIcon, sshIcon} from '../../icons/icons';
+import MenuButtons from './MenuButtons';
+import Sortable from 'sortablejs';
 
 const _Container = styled.div`
 	display: flex;
@@ -69,9 +72,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector(sshSelector.all);
 	const {data} = useSelector(sftpSelector.all);
-
-	const [draggedTabIndex, setDraggedTabIndex] = useState(0);
-	const [draggedTab, setDraggedTab] = useState({});
+	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const onClickChangeVisibleTab = useCallback(
 		(v) => () => {
@@ -104,44 +105,35 @@ const TabBar = ({isOpned, setisOpened}) => {
 		[dispatch, ssh, data],
 	);
 
-	const onDragStartTab = useCallback(
-		(item) => () => {
-			setDraggedTabIndex(terminalTabs.findIndex((v) => v === item));
-			setDraggedTab(item);
-		},
-		[terminalTabs],
-	);
-
-	const onDropTab = useCallback(
-		(item) => (e) => {
-			e.preventDefault();
-			if (item === undefined) return;
-
-			dispatch(
-				tabBarAction.sortTabs({
-					oldOrder: draggedTabIndex,
-					newOrder: terminalTabs.findIndex((v) => v === item),
-					newTab: draggedTab,
-				}),
-			);
-		},
-		[terminalTabs, dispatch, draggedTabIndex, draggedTab],
-	);
+	useEffect(() => {
+		const sortableResources = document.getElementById('sortable-tabs');
+		if (sortableResources !== null) {
+			Sortable.create(sortableResources, {
+				sort: true,
+				animation: 150,
+				onEnd: function (evt) {
+					dispatch(
+						tabBarAction.sortTabs({
+							startingIndex: evt.oldIndex,
+							endIndex: evt.newIndex,
+						}),
+					);
+				},
+			});
+		}
+	}, []);
 
 	return (
 		<_Container>
-			<_Tabs>
+			<_Tabs id='sortable-tabs'>
 				{terminalTabs.map((data) => {
 					return (
 						<_Tab
 							key={data.uuid}
-							onDragOver={(e) => e.preventDefault()}
-							onDrop={onDropTab(data)}
 							onClick={onClickChangeVisibleTab(data.uuid)}
 						>
 							<_TabItem
 								draggable='true'
-								onDragStart={onDragStartTab(data)}
 								clicked={selectedTab === data.uuid ? 1 : 0}
 							>
 								<Icon
@@ -159,7 +151,11 @@ const TabBar = ({isOpned, setisOpened}) => {
 								<_ResourceTitle
 									onClick={onClickChangeVisibleTab(data.uuid)}
 								>
-									{data.server.name}
+									{
+										resources.find(
+											(v) => v.id === data.resourceId,
+										).name
+									}
 								</_ResourceTitle>
 								<HoverButton
 									size={'xs'}

@@ -11,11 +11,13 @@ import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {sshAction} from '../../reducers/ssh';
 import {sftpAction} from '../../reducers/renewal';
 
-const FavoriteContextMenu = ({identity, data}) => {
+const FavoriteContextMenu = ({resourceId}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('favoriteContextMenu');
 
-	const {resources} = useSelector(remoteResourceSelector.all);
+	const {accounts, computingSystemServicePorts} = useSelector(
+		remoteResourceSelector.all,
+	);
 
 	const {userData} = useSelector(authSelector.all);
 
@@ -27,42 +29,57 @@ const FavoriteContextMenu = ({identity, data}) => {
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = resources.find((v) => v.key === data.key);
+		const resource = computingSystemServicePorts.find(
+			(v) => v.id === resourceId,
+		);
+		const account = accounts.find(
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
+		);
 
 		dispatch(
 			sftpAction.connect({
 				token: userData.access_token, // connection info
 				host: resource.host,
 				port: resource.port,
-				user: identity.user,
-				password: identity.password,
+				user: account.user,
+				password: account.password,
 				name: resource.name, // create tab info
-				key: resource.key,
+				id: resource.id,
 			}),
 		);
-	}, [resources, dispatch, userData, identity, data.key]);
+	}, [
+		accounts,
+		computingSystemServicePorts,
+		dispatch,
+		resourceId,
+		userData.access_token,
+	]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = resources.find((v) => v.key === data.key);
+		const computingSystemPort = computingSystemServicePorts.find(
+			(v) => v.id === resourceId,
+		);
+		const account = accounts.find(
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
+		);
 
 		dispatch(
 			sshAction.connectRequest({
 				token: userData.access_token,
-				...resource,
-				user: identity.user,
-				password: identity.password,
+				host: computingSystemPort.host,
+				port: computingSystemPort.port,
+				user: account.user,
+				password: account.password,
+				id: computingSystemPort.id,
 			}),
 		);
-	}, [resources, dispatch, userData, identity, data.key]);
-
-	const onClickAddFolder = useCallback(() => {
-		dispatch(
-			favoritesAction.addFavoriteGroup({
-				name: t('addFolder'),
-				key: 'favorites',
-			}),
-		);
-	}, [dispatch, t]);
+	}, [
+		computingSystemServicePorts,
+		accounts,
+		dispatch,
+		userData.access_token,
+		resourceId,
+	]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
@@ -74,21 +91,26 @@ const FavoriteContextMenu = ({identity, data}) => {
 					onClickOpenSFTP();
 					break;
 				case 'delete-favorite':
-					dispatch(favoritesAction.deleteFavorite(data.key));
+					dispatch(favoritesAction.deleteFavorite(resourceId));
 					break;
 				case 'add-folder':
-					onClickAddFolder();
+					dispatch(
+						favoritesAction.addFavoriteGroup({
+							id: resourceId,
+							name: t('addFolder'),
+						}),
+					);
 					break;
 				default:
 					return;
 			}
 		},
-		[data.key, dispatch, onClickOpenSFTP, onClickOpenSSH, onClickAddFolder],
+		[resourceId, dispatch, onClickOpenSFTP, onClickOpenSSH],
 	);
 
 	return (
 		<ContextMenu
-			id={data.key + '-favorites-context-menu'}
+			id={resourceId + '-favorites-context-menu'}
 			animation={animation.slide}
 		>
 			{Object.entries(contextMenuList).map(([key, value]) => (
@@ -101,8 +123,7 @@ const FavoriteContextMenu = ({identity, data}) => {
 };
 
 FavoriteContextMenu.propTypes = {
-	data: PropTypes.object.isRequired,
-	identity: PropTypes.object.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default FavoriteContextMenu;

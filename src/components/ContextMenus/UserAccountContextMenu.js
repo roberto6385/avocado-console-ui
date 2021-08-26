@@ -27,6 +27,7 @@ const UserAccountContextMenu = ({isOpened, setIsOpened}) => {
 	);
 
 	const onClickLogout = useCallback(() => {
+		console.log('DDDDDDD');
 		dispatch(
 			authAction.revokeTokenRequest({
 				Authorization: 'Bearer ' + userData.access_token,

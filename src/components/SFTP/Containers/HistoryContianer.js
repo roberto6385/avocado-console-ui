@@ -36,7 +36,7 @@ const HistoryContianer = ({uuid}) => {
 		() =>
 			accounts.find(
 				(it) =>
-					it.key === terminalTab.server.key && it.checked === true,
+					it.key === terminalTab.resourceId && it.checked === true,
 			),
 		[accounts, terminalTab],
 	);

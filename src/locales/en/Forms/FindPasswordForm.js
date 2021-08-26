@@ -16,4 +16,6 @@ export default {
 	confirmPassword: 'Confirm Password',
 
 	changePassword: 'Change Password',
+
+	confirmPasswordMessage: 'Passwords do not match',
 };

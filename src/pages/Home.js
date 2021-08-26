@@ -23,7 +23,6 @@ const Home = () => {
 	const history = useHistory();
 
 	const {language} = useSelector(settingSelector.all);
-
 	const {userData} = useSelector(authSelector.all);
 
 	useEffect(() => {
@@ -36,9 +35,8 @@ const Home = () => {
 			);
 		} else {
 			history.push('/signin');
-			location.reload();
 		}
-	}, [dispatch, history, userData]);
+	}, [dispatch, userData]);
 
 	useEffect(() => {
 		i18n.changeLanguage(language);

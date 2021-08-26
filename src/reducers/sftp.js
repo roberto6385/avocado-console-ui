@@ -35,7 +35,7 @@ export const REMOVE_PAUSED_LIST = 'history/REMOVE_PAUSED_LIST';
 export const REMOVE_READ_WRITE_LIST = 'history/REMOVE_READ_WRITE_LIST';
 
 export const CHANGE_MODE = 'sftp/CHANGE_MODE';
-
+export const CD_REQUEST = 'CD_REQUEST';
 export const SAVE_TEXT = 'sftp/SAVE_TEXT';
 export const SAVE_FILE_FOR_EDIT = 'sftp/SAVE_FILE_FOR_EDIT';
 export const SAVE_EDITTEXT = 'sftp/SAVE_EDITTEXT';

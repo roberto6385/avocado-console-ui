@@ -41,6 +41,8 @@ const slice = createSlice({
 		},
 		verifyTokenRequest: (state) => {
 			state.loading = true;
+			state.clientData = null;
+			state.loading = false;
 		},
 		verifyTokenSuccess: (state) => {
 			state.loading = false;
@@ -53,11 +55,9 @@ const slice = createSlice({
 		},
 		revokeTokenSuccess: (state) => {
 			state.userData = null;
-			state.clientData = null;
-			state.loading = false;
 		},
 		revokeTokenFailure: (state) => {
-			state.loading = false;
+			state.userData = null;
 		},
 		findTokenRequest: (state) => {
 			state.loading = true;

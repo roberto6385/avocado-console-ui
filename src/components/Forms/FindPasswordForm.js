@@ -8,6 +8,7 @@ import TextBoxField from '../RecycleComponents/TextBoxField';
 import {NormalBorderButton} from '../../styles/components/button';
 import LoadingSpinner from '../LoadingSpinner';
 import {
+	cancelFillIcon,
 	passwordVisibilityIcon,
 	passwordVisibilityOffIcon,
 } from '../../icons/icons';
@@ -16,14 +17,17 @@ import {
 	UserForm,
 	UserInput,
 	UserPasswordContainer,
+	UserPasswordFeedbackMessage,
 	UserPasswordInput,
 	UserSubmitButton,
 	UserTitle,
 	UserTitleSpan,
+	UserPasswordConfirmWarning,
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
+import {passwordMatch, passwordWarning} from '../../utils/Forms';
 
 const _ItemContainer = styled.div`
 	display: flex;
@@ -51,20 +55,51 @@ const FindPasswordForm = () => {
 	const {loading} = useSelector(authSelector.all);
 
 	const [id, onChangeId] = useInput('');
-	const [email, onChangeEmail] = useInput('');
+	const [certificationNumber, onChangeCertificationNumber] = useInput('');
 	const [password, onChangePassword] = useInput('');
 	const [confirmPassword, onChangeConfirmPassword] = useInput('');
 	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
 
 	const idRef = useRef(null);
+
+	const doesPasswordMatch = useCallback(() => {
+		passwordMatch(password, confirmPassword);
+	}, [confirmPassword, password]);
+
+	const renderFeedbackMessage = useCallback(() => {
+		if (confirmPassword) {
+			if (!doesPasswordMatch()) {
+				setConfirmPasswordMessage(t('confirmPasswordMessage'));
+			}
+		}
+	}, [confirmPassword, doesPasswordMatch, t]);
+
+	const confirmPasswordWarning = useCallback(() => {
+		passwordWarning(
+			confirmPassword,
+			confirmPasswordMessage,
+			doesPasswordMatch,
+		);
+	}, [confirmPassword, confirmPasswordMessage, doesPasswordMatch]);
 
 	const onSubmitFindPassword = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-			//TODO: Change Password Action
+			if (!doesPasswordMatch()) {
+				renderFeedbackMessage();
+				confirmPasswordWarning();
+			} else {
+				dispatch(dialogBoxAction.openAlert({key: 'developing'}));
+				//TODO: Change Password Action
+			}
 		},
-		[dispatch],
+		[
+			doesPasswordMatch,
+			renderFeedbackMessage,
+			confirmPasswordWarning,
+			dispatch,
+		],
 	);
 
 	const onClickSendVerificationCode = useCallback(
@@ -132,9 +167,9 @@ const FindPasswordForm = () => {
 			<_ItemContainer>
 				<TextBoxField flex={1} marginBottom={'0px'}>
 					<UserInput
-						type='email'
-						value={email}
-						onChange={onChangeEmail}
+						type='text'
+						value={certificationNumber}
+						onChange={onChangeCertificationNumber}
 						placeholder={t('authInput')}
 						required
 					/>
@@ -169,15 +204,34 @@ const FindPasswordForm = () => {
 
 			<_ItemContainer>
 				<TextBoxField flex={1} marginBottom={'0px'}>
-					<UserInput
-						type={isPasswordHidden ? 'password' : 'text'}
-						value={confirmPassword}
-						onChange={onChangeConfirmPassword}
-						placeholder={t('confirmPassword')}
-						required
-					/>
+					<UserPasswordConfirmWarning>
+						<UserPasswordContainer
+							className={`${confirmPasswordWarning()}`}
+						>
+							<UserPasswordInput
+								type={isPasswordHidden ? 'password' : 'text'}
+								value={confirmPassword}
+								onChange={onChangeConfirmPassword}
+								placeholder={t('confirmPassword')}
+								required
+							/>
+							{confirmPasswordWarning() ? (
+								<IconButton
+									margin={'0px 0px 0px 12px'}
+									itype={'warning'}
+								>
+									{cancelFillIcon}
+								</IconButton>
+							) : (
+								''
+							)}
+						</UserPasswordContainer>
+					</UserPasswordConfirmWarning>
 				</TextBoxField>
 			</_ItemContainer>
+			<UserPasswordFeedbackMessage>
+				{confirmPasswordWarning() ? confirmPasswordMessage : ''}
+			</UserPasswordFeedbackMessage>
 			<_UserSubmitButton type='submit'>
 				{t('changePassword')}
 			</_UserSubmitButton>

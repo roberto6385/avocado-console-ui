@@ -130,7 +130,7 @@ const TextBoxDialogBox = () => {
 					form.key === 'sftp-rename-file-folder' ||
 					form.key === 'sftp-change-group' ||
 					form.key === 'sftp-chnage-owner'
-					// form.key === 'userName'
+					// form.resourceGroupId === 'userName'
 				) {
 					setTextBoxVal(prevFormValue);
 				} else {

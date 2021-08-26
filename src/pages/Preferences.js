@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import SettingAppLayout from '../components/Setting/SettingLayout';
+import SettingAppLayout from '../components/Layouts/SettingLayout';
 import PreferencesSpace from '../components/Setting/Space/PreferencesSpace';
 import {authSelector} from '../reducers/api/auth';
 import i18n from 'i18next';

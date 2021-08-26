@@ -18,24 +18,11 @@ const SFTPFileListContextMenu = ({uuid}) => {
 	const {data} = useSelector(sftpSelector.all);
 
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const {userData} = useSelector(authSelector.all);
-
 	const terminalTab = useMemo(
 		() => terminalTabs.find((it) => it.uuid === uuid),
 		[terminalTabs, uuid],
 	);
-	const resource = useMemo(
-		() => resources.find((it) => it.key === terminalTab.server.key),
-		[terminalTab.server.key, resources],
-	);
-	const account = useMemo(
-		() =>
-			accounts.find(
-				(it) =>
-					it.key === terminalTab.server.key && it.checked === true,
-			),
-		[accounts, terminalTab],
-	);
+
 	const sftp = useMemo(
 		() => data.find((it) => it.uuid === uuid),
 		[data, uuid],
@@ -111,11 +98,11 @@ const SFTPFileListContextMenu = ({uuid}) => {
 	const handleOnClickEvents = useCallback(
 		(v) => async () => {
 			switch (v) {
-				case 'download-data':
+				case 'download-resourceGroupId':
 					await onClickDownloadData();
 					break;
 
-				case 'edit-data':
+				case 'edit-resourceGroupId':
 					onClickEditData();
 					break;
 
@@ -128,7 +115,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					);
 					break;
 
-				case 'rename-data':
+				case 'rename-resourceGroupId':
 					dispatch(
 						dialogBoxAction.openForm({
 							key: 'sftp-rename-file-folder',
@@ -137,7 +124,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					);
 					break;
 
-				case 'delete-data':
+				case 'delete-resourceGroupId':
 					dispatch(
 						dialogBoxAction.openAlert({
 							key: 'sftp-delete-file',
@@ -187,7 +174,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 		>
 			<Item
 				disabled={sftp.selected.files.length === 0}
-				onClick={handleOnClickEvents('download-data')}
+				onClick={handleOnClickEvents('download-resourceGroupId')}
 			>
 				{t('download')}
 			</Item>
@@ -196,7 +183,7 @@ const SFTPFileListContextMenu = ({uuid}) => {
 					sftp.selected.files.length !== 1 ||
 					sftp.selected.files[0].type !== 'file'
 				}
-				onClick={handleOnClickEvents('edit-data')}
+				onClick={handleOnClickEvents('edit-resourceGroupId')}
 			>
 				{t('edit')}
 			</Item>
@@ -207,14 +194,14 @@ const SFTPFileListContextMenu = ({uuid}) => {
 			</Item>
 			<Item
 				disabled={sftp.selected.files.length !== 1}
-				onClick={handleOnClickEvents('rename-data')}
+				onClick={handleOnClickEvents('rename-resourceGroupId')}
 			>
 				{t('rename')}
 			</Item>
 			<Separator />
 			<Item
 				disabled={sftp.selected.files.length === 0}
-				onClick={handleOnClickEvents('delete-data')}
+				onClick={handleOnClickEvents('delete-resourceGroupId')}
 			>
 				{t('delete')}
 			</Item>

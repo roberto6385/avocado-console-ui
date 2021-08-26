@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {animation, Item} from 'react-contexify';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,15 +11,13 @@ import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {sshAction} from '../../reducers/ssh';
 import {sftpAction} from '../../reducers/renewal';
 
-const ResourceContextMenu = ({identity, data}) => {
+const ResourceContextMenu = ({resourceId}) => {
 	const {t} = useTranslation('resourceContextMenu');
 	const dispatch = useDispatch();
-	const {resources} = useSelector(remoteResourceSelector.all);
-	const {userData} = useSelector(authSelector.all);
-	const resource = useMemo(
-		() => resources.find((i) => i.key === data.key),
-		[resources, data],
+	const {computingSystemServicePorts, accounts} = useSelector(
+		remoteResourceSelector.all,
 	);
+	const {userData} = useSelector(authSelector.all);
 
 	const SSHContextMenuList = {
 		'connect-ssh': t('connectSsh'),
@@ -33,47 +31,45 @@ const ResourceContextMenu = ({identity, data}) => {
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = resources.find((i) => i.key === data.key);
+		const resource = computingSystemServicePorts.find(
+			(v) => v.id === resourceId,
+		);
+		const account = accounts.find(
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
+		);
+
 		dispatch(
 			sftpAction.connect({
 				token: userData.access_token, // connection info
 				host: resource.host,
 				port: resource.port,
-				user: identity.user,
-				password: identity.password,
-
+				user: account.user,
+				password: account.password,
 				name: resource.name, // create tab info
-				key: resource.key,
+				id: resource.id,
 			}),
 		);
-	}, [
-		resources,
-		dispatch,
-		userData,
-		identity.user,
-		identity.password,
-		data.key,
-	]);
+	}, [computingSystemServicePorts, dispatch, userData, accounts, resourceId]);
 
 	const onClickOpenSSH = useCallback(() => {
-		const resource = resources.find((i) => i.key === data.key);
+		const computingSystemPort = computingSystemServicePorts.find(
+			(v) => v.id === resourceId,
+		);
+		const account = accounts.find(
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
+		);
 
 		dispatch(
 			sshAction.connectRequest({
 				token: userData.access_token,
-				...resource,
-				user: identity.user,
-				password: identity.password,
+				host: computingSystemPort.host,
+				port: computingSystemPort.port,
+				user: account.user,
+				password: account.password,
+				id: computingSystemPort.id,
 			}),
 		);
-	}, [
-		resources,
-		dispatch,
-		userData,
-		identity.user,
-		identity.password,
-		data.key,
-	]);
+	}, [computingSystemServicePorts, accounts, dispatch, userData, resourceId]);
 
 	const handleOnClickEvents = useCallback(
 		(v) => () => {
@@ -86,22 +82,26 @@ const ResourceContextMenu = ({identity, data}) => {
 					break;
 				case 'get-properties':
 					dispatch(
-						dialogBoxAction.openForm({id: data.id, key: 'server'}),
+						dialogBoxAction.openForm({
+							key: 'resource-properties',
+							id: resourceId,
+						}),
 					);
 					break;
 				default:
 					return;
 			}
 		},
-		[data.id, dispatch, onClickOpenSFTP, onClickOpenSSH],
+		[resourceId, dispatch, onClickOpenSFTP, onClickOpenSSH],
 	);
 
 	return (
 		<ContextMenu
-			id={data.key + '-resources-context-menu'}
+			id={resourceId + '-resources-context-menu'}
 			animation={animation.slide}
 		>
-			{resource?.protocol === 'SSH2'
+			{computingSystemServicePorts.find((v) => v.id === resourceId)
+				?.protocol === 'SSH2'
 				? Object.entries(SSHContextMenuList).map(([key, value]) => (
 						<Item onClick={handleOnClickEvents(key)} key={key}>
 							{value}
@@ -117,8 +117,7 @@ const ResourceContextMenu = ({identity, data}) => {
 };
 
 ResourceContextMenu.propTypes = {
-	data: PropTypes.object.isRequired,
-	identity: PropTypes.object.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default ResourceContextMenu;

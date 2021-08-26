@@ -15,6 +15,8 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import SearchIconTextBox from '../../RecycleComponents/SearchIconTextBox';
+import {doesNameIncludeVal} from '../../../utils/searchTree';
+import {startSearchingNode} from '../../../utils/redux';
 
 const _SettingContentContainer = styled(SettingContentContainer)`
 	display: flex;
@@ -120,65 +122,67 @@ const _LiHeader = styled(_Li)`
 	font-size: 14px;
 `;
 
-function searchNextResourceNode(node, key) {
-	if (node.type === 'server' || !node.contain.length) {
-		if (node.key === key) return node.name;
-		else return false;
-	}
-
-	for (let x of node.contain) {
-		let result = searchNextResourceNode(x, key);
-		if (result) return node.name + ' > ' + result;
-	}
-	return '';
-}
-
-function createResourceRath(root, key) {
-	for (let x of root) {
-		const result = searchNextResourceNode(x, key);
-		if (result) return result;
-	}
-	return false;
-}
-
 const IdentitiesSpace = () => {
 	const dispatch = useDispatch();
 
 	const {t} = useTranslation('identities');
 
-	const {selectedResource, resources, accounts, resourceTree} = useSelector(
-		remoteResourceSelector.all,
-	);
+	const {
+		selectedResource,
+		resources,
+		accounts,
+		computingSystemServicePorts,
+		resourceTree,
+		resourceGroups,
+	} = useSelector(remoteResourceSelector.all);
 
 	const [resourceSearchVal, onChangeResourceSearchVal] = useInput('');
 	const [identitySearchVal, onChangeIdentitySearchVal] = useInput('');
 
 	const onClickSelectResource = useCallback(
 		(v) => () => {
-			dispatch(remoteResourceAction.setSelectedResource(v.key));
+			dispatch(remoteResourceAction.setSelectedResource(v));
 		},
 		[dispatch],
 	);
 
 	const onClickChangeDefaultIdentity = useCallback(
 		(v) => () => {
-			if (v.checked) return;
+			if (v.isDefaultAccount) return;
 
-			const account = accounts.find(
-				(v) => v.key === selectedResource && v.checked,
-			);
 			dispatch(
 				remoteResourceAction.setAccount({
-					prev: account,
-					next: v,
+					prev: accounts.find(
+						(data) =>
+							data.resourceId === v.resourceId &&
+							data.isDefaultAccount,
+					).id,
+					next: v.id,
 				}),
 			);
 		},
-		[accounts, dispatch, selectedResource],
+		[dispatch, accounts],
+	);
+
+	const createResourceRath = useCallback(
+		(path) => {
+			const words = path.split('/');
+			let pathName = '';
+
+			for (let i = 1; i < words.length - 1; i++)
+				pathName +=
+					resourceGroups.find((v) => v.id === words[i]).name + ' > ';
+
+			return (
+				pathName +
+				resources.find((v) => v.id === words[words.length - 1]).name
+			);
+		},
+		[resources, resourceGroups],
 	);
 
 	useEffect(() => {
-		dispatch(remoteResourceAction.setSelectedResource(resources[0].key));
+		dispatch(remoteResourceAction.setSelectedResource(resources[0].id));
 	}, [dispatch, resources]);
 
 	return (
@@ -209,38 +213,39 @@ const IdentitiesSpace = () => {
 						<_ProtocolPortName>{t('protocol')} </_ProtocolPortName>
 						<_ProtocolPortName>{t('port')}</_ProtocolPortName>
 					</_Li>
-					{resources.map((item) => {
-						if (
-							item.name
-								.toLowerCase()
-								.replace(/ /g, '')
-								.includes(
-									resourceSearchVal
-										.toLowerCase()
-										.replace(/ /g, ''),
-								)
-						)
+					{resources.map((data) => {
+						if (doesNameIncludeVal(data.name, resourceSearchVal)) {
+							const computingSystemServicePort =
+								computingSystemServicePorts.find(
+									(v) => v.id === data.id,
+								);
+
 							return (
 								<_ResourceLi
-									key={item.key}
-									onClick={onClickSelectResource(item)}
-									selected={item.key === selectedResource}
+									key={data.id}
+									onClick={onClickSelectResource(data.id)}
+									selected={data.id === selectedResource}
 								>
 									<_ResourceName>
 										{createResourceRath(
-											resourceTree,
-											item.key,
+											startSearchingNode(
+												resourceTree,
+												data.id,
+											).path,
 										)}
 									</_ResourceName>
-									<_AddressName>{item.host}</_AddressName>
+									<_AddressName>
+										{computingSystemServicePort.host}
+									</_AddressName>
 									<_ProtocolPortName>
-										{item.protocol}
+										{computingSystemServicePort.protocol}
 									</_ProtocolPortName>
 									<_ProtocolPortName>
-										{item.port}
+										{computingSystemServicePort.port}
 									</_ProtocolPortName>
 								</_ResourceLi>
 							);
+						}
 					})}
 				</_ResourceListUl>
 				<_Ul>
@@ -249,9 +254,15 @@ const IdentitiesSpace = () => {
 							{t('account')}
 							<_Span>
 								{` :
-								${accounts.slice().filter((item) => item.key === selectedResource).length}${t(
-									'cases',
-								)}`}
+								${
+									accounts
+										.slice()
+										.filter(
+											(item) =>
+												item.resourceId ===
+												selectedResource,
+										).length
+								}${t('cases')}`}
 							</_Span>
 						</_Name>
 						<_SearchTextBox>
@@ -270,33 +281,28 @@ const IdentitiesSpace = () => {
 						<_UserNameType>{t('type')}</_UserNameType>
 						<_IdentityCheckBox>{t('default')}</_IdentityCheckBox>
 					</_Li>
-					{accounts.map((item) => {
-						if (item.key !== selectedResource) return;
+					{accounts.map((data) => {
 						if (
-							item.user
-								.toLowerCase()
-								.replace(/ /g, '')
-								.includes(
-									identitySearchVal
-										.toLowerCase()
-										.replace(/ /g, ''),
-								)
+							doesNameIncludeVal(data.user, identitySearchVal) &&
+							data.resourceId === selectedResource
 						)
 							return (
 								<_Li
-									key={item.id}
-									selected={item.checked}
-									onClick={onClickChangeDefaultIdentity(item)}
+									key={data.id}
+									selected={data.isDefaultAccount}
+									onClick={onClickChangeDefaultIdentity(data)}
 								>
-									<_Name>{item.identity_name}</_Name>
-									<_UserNameType>{item.user}</_UserNameType>
+									<_Name>{data.name}</_Name>
+									<_UserNameType>{data.user}</_UserNameType>
 									<_UserNameType>
-										{item.type === 'Password'
+										{data.type === 'Password'
 											? t('password')
 											: t('keyFile')}
 									</_UserNameType>
 									<_IdentityCheckBox>
-										<CheckBox value={item.checked} />
+										<CheckBox
+											value={data.isDefaultAccount}
+										/>
 									</_IdentityCheckBox>
 								</_Li>
 							);

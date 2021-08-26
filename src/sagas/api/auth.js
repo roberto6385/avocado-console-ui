@@ -129,7 +129,7 @@ function* revokeToken(action) {
 		yield put(authAction.revokeTokenSuccess());
 	} catch (err) {
 		//TODO: error 일떄 logout 어떻게 처리해야 하는가?
-		yield put(authAction.revokeTokenFailure);
+		yield put(authAction.revokeTokenFailure());
 	}
 }
 
@@ -137,7 +137,7 @@ function findAuthApi(payload) {
 	return axios.get(
 		`/oauth2/v1/token?offset=${payload.offset}&limit=${payload.limit}`,
 		{
-			data: null,
+			key: null,
 			headers: {
 				Authorization: payload.Authorization,
 				'Content-Type': 'application/x-www-form-urlencoded',

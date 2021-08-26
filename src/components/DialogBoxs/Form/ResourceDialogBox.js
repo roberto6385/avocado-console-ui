@@ -1,9 +1,8 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import styled from 'styled-components';
 
-import useInput from '../../../hooks/useInput';
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
 import ComboBox from '../../RecycleComponents/ComboBox';
 import {closeIcon} from '../../../icons/icons';
@@ -74,28 +73,22 @@ const _SecondItem = styled.div`
 const ResourceDialogBox = () => {
 	const {t} = useTranslation('resourceDialogBox');
 	const dispatch = useDispatch();
-	const {selectedResource, resources, accounts} = useSelector(
-		remoteResourceSelector.all,
-	);
-	const {form} = useSelector(dialogBoxSelector.all);
-	// username, password는 이곳에서 가져와야 함.
-	const account = useMemo(
-		() => accounts.find((v) => v.key === selectedResource && v.checked),
-		[accounts, selectedResource],
-	);
 
-	const [name, onChangeName, setName] = useInput('');
-	const [protocol, onChangeProtocol, setProtocol] = useInput('SSH2');
-	const [host, onChangeHost, setHost] = useInput('');
-	const [port, onChangePort, setPort] = useInput(22);
-	const [id, onChangeId, setId] = useInput('');
-	const [authentication, onChangeAuthentication, setAuthentication] =
-		useInput('Password');
-	const [keyFile, onChangeKeyFile, setKeyFile] = useInput('');
-	const [username, onChangeUsername, setUsername] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
-	const [note, onChangeNote, setNote] = useInput('');
-	const [ids, onChangeIds, setIds] = useInput([]);
+	const {selectedResource, accounts, resources, computingSystemServicePorts} =
+		useSelector(remoteResourceSelector.all);
+	const {form} = useSelector(dialogBoxSelector.all);
+
+	const [name, setName] = useState('');
+	const [protocol, setProtocol] = useState('');
+	const [host, setHost] = useState('');
+	const [port, setPort] = useState('');
+	const [id, setId] = useState('');
+	const [authentication, setAuthentication] = useState('');
+	const [keyFile, setKeyFile] = useState('');
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [note, setNote] = useState('');
+	const [ids, setIds] = useState([]);
 
 	const protocolOptions = [
 		{value: 'SSH2', label: 'SSH2'},
@@ -114,108 +107,91 @@ const ResourceDialogBox = () => {
 		(e) => {
 			e.preventDefault();
 
-			const selectedAccount = accounts.filter(
-				(v) => v.key === selectedResource,
-			);
+			const defaultAccount = accounts.find(
+				(v) => v.resourceId === selectedResource && v.isDefaultAccount,
+			).id;
+			const nextDefaultAccount = accounts.find(
+				(v) => v.resourceId === selectedResource && v.name === id,
+			).id;
 
-			if (account !== selectedAccount && id !== '') {
+			if (defaultAccount !== nextDefaultAccount) {
 				dispatch(
 					remoteResourceAction.setAccount({
-						prev: account,
-						next: selectedAccount,
+						prev: defaultAccount,
+						next: nextDefaultAccount,
 					}),
 				);
 			}
 
-			selectedResource &&
+			if (
+				protocol !==
+				computingSystemServicePorts.find(
+					(v) => v.id === selectedResource,
+				).protocol
+			) {
 				dispatch(
 					remoteResourceAction.setProtocol({
-						protocol,
-						key: selectedResource,
+						protocol: protocol,
+						id: selectedResource,
 					}),
 				);
-
+			}
 			onClickCloseDialogBox();
 		},
 		[
-			protocol,
-			dispatch,
 			accounts,
-			account,
+			computingSystemServicePorts,
+			dispatch,
 			id,
-			selectedResource,
 			onClickCloseDialogBox,
+			protocol,
+			selectedResource,
 		],
 	);
 
 	useEffect(() => {
-		if (form.open && form.key === 'server') {
-			const resource = resources.find((v) => v.id === form.id);
+		if (form.open && form.key === 'resource-properties') {
+			const resource = resources.find((v) => v.id === selectedResource);
+			const computingSystemServicePort = computingSystemServicePorts.find(
+				(v) => v.id === selectedResource,
+			);
+			const account = accounts.find(
+				(v) => v.resourceId === selectedResource && v.isDefaultAccount,
+			);
 
 			setName(resource.name);
-			setProtocol(resource.protocol);
-			setHost(resource.host);
-			setPort(resource.port);
-			setId(account.identity_name);
+			setProtocol(computingSystemServicePort.protocol);
+			setHost(computingSystemServicePort.host);
+			setPort(computingSystemServicePort.port);
+			setId(account.name);
 			setAuthentication(account.type);
 			setPassword(account.password);
 			setKeyFile('');
 			setUsername(account.user);
 			setNote('');
+			setIds(
+				accounts
+					.filter((v) => v.resourceId === selectedResource)
+					.map((v) => {
+						return {
+							value: v.name,
+							info: v,
+							label: v.name,
+						};
+					}),
+			);
 		}
 	}, [
-		resources,
-		account,
-		setId,
-		setAuthentication,
-		setHost,
-		setIds,
-		setKeyFile,
-		setName,
-		setNote,
-		setPassword,
-		setPort,
-		setProtocol,
-		setUsername,
-		form,
-	]);
-
-	useEffect(() => {
-		setIds(
-			accounts
-				.filter((v) => v.key === selectedResource)
-				.map((item) => {
-					return {
-						value: item.identity_name,
-						info: item,
-						label: item.identity_name,
-					};
-				}),
-		);
-	}, [selectedResource, resources, accounts, setIds]);
-
-	useEffect(() => {
-		const selectedIdentity = accounts
-			.filter((v) => v.key === selectedResource)
-			.find((v) => v.identity_name === id);
-
-		if (selectedIdentity) {
-			setUsername(selectedIdentity.user);
-			setPassword(selectedIdentity.password);
-			setAuthentication(selectedIdentity.type);
-		}
-	}, [
-		id,
 		accounts,
+		computingSystemServicePorts,
+		form,
 		selectedResource,
-		setUsername,
-		setPassword,
-		setAuthentication,
+		resources,
 	]);
 
 	return (
 		<_PopupModal
-			isOpen={form.open && form.key === 'server'}
+			isOpen={form.open && form.key === 'resource-properties'}
 			onRequestClose={onClickCloseDialogBox}
 			ariaHideApp={false}
 			shouldCloseOnOverlayClick={false}
@@ -238,7 +214,6 @@ const ResourceDialogBox = () => {
 						<TextBox
 							type='text'
 							value={name}
-							// onChange={onChangeName}
 							readOnly
 							placeholder={t('placeholder.name')}
 						/>
@@ -258,7 +233,6 @@ const ResourceDialogBox = () => {
 						<TextBox
 							type='text'
 							value={host}
-							// onChange={onChangeHost}
 							readOnly
 							placeholder={t('placeholder.address')}
 						/>
@@ -269,7 +243,6 @@ const ResourceDialogBox = () => {
 								width={'178px'}
 								type='number'
 								value={port}
-								// onChange={onChangePort}
 								readOnly
 								placeholder={t('placeholder.port')}
 							/>
@@ -312,7 +285,6 @@ const ResourceDialogBox = () => {
 							<TextBox
 								type='password'
 								value={password}
-								// onChange={onChangePassword}
 								readOnly
 								placeholder={t('placeholder.password')}
 							/>
@@ -328,7 +300,6 @@ const ResourceDialogBox = () => {
 										type='file'
 										id={'add_server_form_type_file'}
 										value={keyFile}
-										// onChange={onChangeKeyFile}
 										readOnly
 										placeholder={t('keyFile')}
 									/>
@@ -353,7 +324,6 @@ const ResourceDialogBox = () => {
 								<TextBox
 									type='password'
 									value={password}
-									// onChange={onChangePassword}
 									readOnly
 									placeholder={t('placeholder.password')}
 								/>

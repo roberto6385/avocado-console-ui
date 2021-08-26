@@ -39,20 +39,20 @@ export const ServerItem = styled(ResourceItem)`
 	}
 `;
 
-function searchNode(node, key) {
-	if (node.key === key) {
+function searchNode(node, id) {
+	if (node.id === id) {
 		return true;
-	} else if (node.contain && node.contain.length > 0) {
-		for (let x of node.contain) {
-			searchNode(x, key);
+	} else if (node.children && node.children.length > 0) {
+		for (let x of node.children) {
+			searchNode(x, id);
 		}
 	}
 	return false;
 }
 
-function isFavoriteServer(root, key) {
+function isFavoriteServer(root, id) {
 	for (let x of root) {
-		if (searchNode(x, key)) return true;
+		if (searchNode(x, id)) return true;
 	}
 	return false;
 }
@@ -61,99 +61,109 @@ const Resource = ({data, indent}) => {
 	const dispatch = useDispatch();
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	const {selectedResource, resources, resourceTree, accounts} = useSelector(
-		remoteResourceSelector.all,
-	);
+	const {selectedResource, computingSystemServicePorts, resources, accounts} =
+		useSelector(remoteResourceSelector.all);
 	const {userData} = useSelector(authSelector.all);
-
-	const account = useMemo(
-		() => accounts.find((it) => it.key === data.key && it.checked === true),
-		[accounts, data],
+	const resource = useMemo(
+		() => resources.find((v) => v.id === data.id),
+		[resources, data.id],
 	);
 
 	const {show} = useContextMenu({
-		id: data.key + '-resources-context-menu',
+		id: data.id + '-resources-context-menu',
 	});
 
 	const onClickResource = useDoubleClick(
 		() => {
-			const resource = resources.find((i) => i.key === data.key);
+			const computingSystemPort = computingSystemServicePorts.find(
+				(v) => v.id === data.id,
+			);
+			const account = accounts.find(
+				(v) => v.resourceId === data.id && v.isDefaultAccount === true,
+			);
 
-			if (resource.protocol === 'SSH2') {
+			if (computingSystemPort.protocol === 'SSH2') {
 				dispatch(
 					sshAction.connectRequest({
 						token: userData.access_token,
-						...resource,
+						host: computingSystemPort.host,
+						port: computingSystemPort.port,
 						user: account.user,
 						password: account.password,
+						id: computingSystemPort.id,
 					}),
 				);
-			} else if (resource.protocol === 'SFTP') {
+			}
+			if (computingSystemPort.protocol === 'SFTP') {
 				dispatch(
 					sftpAction.create({
 						token: userData.access_token, // connection info
-						host: resource.host,
-						port: resource.port,
+						host: computingSystemPort.host,
+						port: computingSystemPort.port,
 						user: account.user,
 						password: account.password,
-
-						name: resource.name, // create tab info
-						key: resource.key,
-						id: resource.id,
+						id: computingSystemPort.id,
 					}),
 				);
 			}
 		},
 		() => {
-			if (selectedResource === data.key) {
+			if (selectedResource === data.id) {
 				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch(remoteResourceAction.setSelectedResource(data.key));
+				dispatch(remoteResourceAction.setSelectedResource(data.id));
 			}
 		},
 
-		[selectedResource, data, userData, resources, accounts, dispatch],
+		[
+			selectedResource,
+			data.id,
+			userData,
+			computingSystemServicePorts,
+			accounts,
+			dispatch,
+		],
 	);
 
 	const openResourceContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
+			dispatch(remoteResourceAction.setSelectedResource(data.id));
 			show(e);
 		},
 		[data, dispatch, show],
 	);
 
 	const onClickFavoriteIcon = useCallback(() => {
-		if (isFavoriteServer(favoriteTree, data.key)) {
-			dispatch(favoritesAction.deleteFavorite(data.key));
+		if (favoriteTree && isFavoriteServer(favoriteTree, data.id)) {
+			dispatch(favoritesAction.deleteFavorite(data.id));
 		} else {
-			dispatch(favoritesAction.addFavorite({key: data.key}));
+			dispatch(favoritesAction.addFavorite(data.id));
 		}
-	}, [data.key, dispatch, favoriteTree, resourceTree]);
+	}, [data.id, dispatch, favoriteTree]);
 
 	return (
 		<React.Fragment>
 			<ServerItem
 				onClick={onClickResource}
 				onContextMenu={openResourceContextMenu}
-				selected={selectedResource === data.key ? 1 : 0}
+				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
-					itype={selectedResource === data.key && 'selected'}
+					itype={selectedResource === data.id && 'selected'}
 				>
-					{data.icon === 'linux' && linuxServerIcon}
-					{data.icon === 'aws' && awsServerIcon}
+					{resource.data.osType === 'linux' && linuxServerIcon}
+					{resource.data.osType === 'aws' && awsServerIcon}
 				</Icon>
 
 				<ResourceItemTitle>
-					{data.name}
+					{resource.name}
 					<IconButton
 						className={
-							isFavoriteServer(favoriteTree, data.key)
+							isFavoriteServer(favoriteTree, data.id)
 								? 'bookmark_button active'
 								: 'bookmark_button'
 						}
@@ -161,7 +171,7 @@ const Resource = ({data, indent}) => {
 						margin_right={'0px'}
 						onClick={onClickFavoriteIcon}
 						itype={
-							isFavoriteServer(favoriteTree, data.key)
+							isFavoriteServer(favoriteTree, data.id)
 								? 'selected'
 								: undefined
 						}
@@ -170,7 +180,7 @@ const Resource = ({data, indent}) => {
 					</IconButton>
 				</ResourceItemTitle>
 			</ServerItem>
-			<ResourceContextMenu identity={account} data={data} />
+			<ResourceContextMenu resourceId={data.id} />
 		</React.Fragment>
 	);
 };

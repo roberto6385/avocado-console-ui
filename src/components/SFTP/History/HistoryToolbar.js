@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -57,6 +57,7 @@ const HistoryToolbar = ({uuid}) => {
 						value: {path: sftp.path, file: v},
 					}),
 				);
+
 				dispatch(
 					sftpAction.addHistory({
 						uuid: uuid,

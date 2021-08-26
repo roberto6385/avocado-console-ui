@@ -32,11 +32,11 @@ const Footer = () => {
 
 	const onClickIncreaseFontSize = useCallback(() => {
 		if (font.size < 20) dispatch(sshAction.increaseFont());
-	}, [dispatch, font]);
+	}, [dispatch, font.size]);
 
 	const onClickDeceaseFontSize = useCallback(() => {
 		if (font.size > 10) dispatch(sshAction.decreaseFont());
-	}, [dispatch, font]);
+	}, [dispatch, font.size]);
 
 	const onClickOpenSSHSearchBar = useCallback(() => {
 		if (
@@ -77,12 +77,7 @@ const Footer = () => {
 					</HoverButton>
 
 					{selectedTab &&
-						resources.find(
-							(v) =>
-								v.id ===
-								terminalTabs.find((i) => i.uuid === selectedTab)
-									?.server.id,
-						)?.host}
+						resources.find((v) => v.key === selectedTab)?.host}
 				</_RightSideContainer>
 			)}
 		</_Footer>

@@ -16,37 +16,45 @@ import {
 	remoteResourceAction,
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
-import {favoritesAction} from '../../../reducers/favorites';
 import {sshAction} from '../../../reducers/ssh';
 import {sftpAction} from '../../../reducers/renewal';
 
 const Favorite = ({data, indent}) => {
 	const dispatch = useDispatch();
-	const {selectedResource, resources, accounts} = useSelector(
-		remoteResourceSelector.all,
-	);
-
+	const {selectedResource, resources, accounts, computingSystemServicePorts} =
+		useSelector(remoteResourceSelector.all);
 	const {userData} = useSelector(authSelector.all);
-
-	const account = useMemo(
-		() => accounts.find((it) => it.key === data.key && it.checked === true),
-		[accounts, data],
+	const resource = useMemo(
+		() => resources.find((v) => v.id === data.id),
+		[resources, data.id],
 	);
+
+	const {show} = useContextMenu({
+		id: data.id + '-favorites-context-menu',
+	});
 
 	const onClickFavorite = useDoubleClick(
 		() => {
-			const resource = resources.find((i) => i.id === data.id);
+			const computingSystemPort = computingSystemServicePorts.find(
+				(v) => v.id === data.id,
+			);
+			const account = accounts.find(
+				(v) => v.resourceId === data.id && v.isDefaultAccount === true,
+			);
 
-			if (resource.protocol === 'SSH2') {
+			if (computingSystemPort.protocol === 'SSH2') {
 				dispatch(
 					sshAction.connectRequest({
 						token: userData.access_token,
-						...account,
+						host: computingSystemPort.host,
+						port: computingSystemPort.port,
 						user: account.user,
 						password: account.password,
+						id: computingSystemPort.id,
 					}),
 				);
-			} else if (resource.protocol === 'SFTP') {
+			}
+			if (computingSystemPort.protocol === 'SFTP') {
 				dispatch(
 					sftpAction.connect({
 						token: userData.access_token, // connection info
@@ -55,88 +63,67 @@ const Favorite = ({data, indent}) => {
 						user: account.user,
 						password: account.password,
 						name: resource.name, // create tab info
-						key: resource.key,
+						id: resource.id,
 					}),
 				);
 			}
 		},
 		() => {
-			if (selectedResource === data.key) {
+			if (selectedResource === data.id) {
 				dispatch(remoteResourceAction.setSelectedResource(null));
 			} else {
-				dispatch(remoteResourceAction.setSelectedResource(data.key));
+				dispatch(remoteResourceAction.setSelectedResource(data.id));
 			}
 		},
 		[
 			selectedResource,
-			data,
+			data.id,
 			userData,
-			resources,
+			computingSystemServicePorts,
 			accounts,
 			dispatch,
-			account,
 		],
 	);
-
-	const {show} = useContextMenu({
-		id: data.key + '-favorites-context-menu',
-	});
 
 	const openFavoriteContextMenu = useCallback(
 		(e) => {
 			e.preventDefault();
-
-			dispatch(remoteResourceAction.setSelectedResource(data.key));
-
+			dispatch(remoteResourceAction.setSelectedResource(data.id));
 			show(e);
 		},
-		[data, dispatch, show],
+		[data.id, dispatch, show],
 	);
 
-	const onDragStartFavorite = useCallback(() => {
-		console.log('prev put item');
-		dispatch(remoteResourceAction.setSelectedResource(data.key));
-	}, [data, dispatch]);
-
-	const onDropFavorite = useCallback(
-		(e) => {
-			console.log('favorites server next put item');
-
-			e.stopPropagation();
-
-			data.type === 'folder' &&
-				dispatch(favoritesAction.sortFavorites({next: data}));
-		},
-		[data, dispatch],
-	);
+	// const onDragStart = useCallback(() => {
+	// 	dispatch(remoteResourceAction.setSelectedResource(data.id));
+	// }, [dispatch, data.id]);
 
 	return (
-		<React.Fragment>
+		<>
 			<ResourceItem
+				data-id={data.id}
 				onClick={onClickFavorite}
-				draggable='true'
-				onDragStart={onDragStartFavorite}
-				onDrop={onDropFavorite}
 				onContextMenu={openFavoriteContextMenu}
-				selected={selectedResource === data.key ? 1 : 0}
+				draggable='true'
+				// onDragStart={onDragStart}
+				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
 					itype={
-						selectedResource === data.key ? 'selected' : undefined
+						selectedResource === data.id ? 'selected' : undefined
 					}
 				>
-					{data.icon === 'linux' && linuxServerIcon}
-					{data.icon === 'aws' && awsServerIcon}
+					{resource.data.osType === 'linux' && linuxServerIcon}
+					{resource.data.osType === 'aws' && awsServerIcon}
 				</Icon>
-
-				<ResourceItemTitle>{data.name}</ResourceItemTitle>
+				<ResourceItemTitle>{resource.name}</ResourceItemTitle>
 			</ResourceItem>
 
-			<FavoriteContextMenu identity={account} data={data} />
-		</React.Fragment>
+			<FavoriteContextMenu resourceId={data.id} />
+		</>
 	);
 };
 

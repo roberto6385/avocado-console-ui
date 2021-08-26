@@ -26,7 +26,7 @@ import {
 } from '../../styles/components/siginIn';
 import {passwordIconColor} from '../../styles/color';
 import {authSelector} from '../../reducers/api/auth';
-//import {usePatchesInScope} from 'immer/dist/core/scope';
+import {passwordMatch, passwordWarning} from '../../utils/Forms';
 
 const _UserSubmitButton = styled(UserSubmitButton)`
 	margin: 24px 0 0 0;
@@ -38,26 +38,39 @@ const SignUpForm = () => {
 
 	const {loading} = useSelector(authSelector.all);
 
-	const [id, onChangeId, setId] = useInput('');
-	const [name, onChangeName, setName] = useInput('');
-	const [email, onChangeEmail, setEmail] = useInput('');
-	const [password, onChangePassword, setPassword] = useInput('');
-	const [confirmPassword, onChangeConfirmPassword, setConfirmPassword] =
-		useInput('');
+	const [id, onChangeId] = useInput('');
+	const [name, onChangeName] = useInput('');
+	const [email, onChangeEmail] = useInput('');
+	const [password, onChangePassword] = useInput('');
+	const [confirmPassword, onChangeConfirmPassword] = useInput('');
 	const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
 	const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
-	/*****************************************************/
+
 	const idRef = useRef(null);
+
+	const doesPasswordMatch = useCallback(() =>
+		passwordMatch(password, confirmPassword),
+	);
+
+	const renderFeedbackMessage = useCallback(() => {
+		if (confirmPassword) {
+			if (!doesPasswordMatch()) {
+				setConfirmPasswordMessage(t('confirmPasswordMessage'));
+			}
+		}
+	});
+
+	const confirmPasswordWarning = useCallback(() =>
+		passwordWarning(
+			confirmPassword,
+			confirmPasswordMessage,
+			doesPasswordMatch,
+		),
+	);
 
 	const onSubmitSignUp = useCallback(
 		(e) => {
 			e.preventDefault();
-			// if (password !== confirmPassword) {
-			//TODO: Show password !== confirmPassword Message
 			if (!doesPasswordMatch()) {
 				renderFeedbackMessage();
 				confirmPasswordWarning();
@@ -72,34 +85,17 @@ const SignUpForm = () => {
 				);
 			}
 		},
-		[dispatch, email, id, name, password, confirmPassword],
+		[
+			doesPasswordMatch,
+			renderFeedbackMessage,
+			confirmPasswordWarning,
+			dispatch,
+			id,
+			name,
+			email,
+			password,
+		],
 	);
-
-	/*****************************************************/
-	//  roberto - siginForm_update
-	//
-	/*****************************************************/
-
-	const doesPasswordMatch = useCallback(() => {
-		return password === confirmPassword;
-	});
-
-	const renderFeedbackMessage = useCallback(() => {
-		if (confirmPassword) {
-			if (!doesPasswordMatch()) {
-				setConfirmPasswordMessage(t('confirmPasswordMessage'));
-			}
-		}
-	});
-
-	const confirmPasswordWarning = useCallback(() => {
-		if (confirmPassword) {
-			if (confirmPasswordMessage != '')
-				return doesPasswordMatch() ? false : 'warning';
-		}
-	});
-
-	/*****************************************************/
 
 	const onClickChangePasswordVisibility = useCallback(
 		(e) => {
@@ -163,7 +159,7 @@ const SignUpForm = () => {
 						onBlur={onBlurPasswordTextBox}
 						type={isPasswordHidden ? 'password' : 'text'}
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={onChangePassword}
 						placeholder={t('password')}
 						required
 					/>
@@ -188,7 +184,7 @@ const SignUpForm = () => {
 						<UserPasswordInput
 							type={isPasswordHidden ? 'password' : 'text'}
 							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
+							onChange={onChangeConfirmPassword}
 							placeholder={t('confirmPassword')}
 							required
 						/>
@@ -199,9 +195,7 @@ const SignUpForm = () => {
 							>
 								{cancelFillIcon}
 							</IconButton>
-						) : (
-							''
-						)}
+						) : undefined}
 					</UserPasswordContainer>
 				</UserPasswordConfirmWarning>
 			</TextBoxField>

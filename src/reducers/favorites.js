@@ -10,68 +10,71 @@ import {settingAction} from './setting';
 const slice = createSlice({
 	name: 'favorites',
 	initialState: {
-		favoriteTree: [], //favorites
+		favoriteTree: [
+			{type: 'resource', id: 's_0', parents: null, path: '/s_0'},
+			{
+				type: 'resourceGroup',
+				id: 'f_0',
+				parents: null,
+				path: '/s_1',
+				children: [],
+			},
+		], //favorites
+		favoriteGroups: [{id: 'f_0', name: 'Test', data: {}}],
 		selectedFavorite: null,
 		favoriteGroupRenamingKey: null, //favoriteFolderRenamingKey
-		favoriteGroupIndex: 0, //favorites_folder_index
+		favoriteGroupIndex: 1, //favorites_folder_index
+
 		tempFavoriteTree: [], //tempFavorites
 		tempSelectedFavorite: null,
 		tempFavoriteGroupRenamingKey: null, //tempFavoriteFolderRenamingKey
-		tempFavoriteGroupIndex: 0, //tempFavoriteFolderIndex
+		tempFavoriteGroupIndex: 1, //tempFavoriteFolderIndex
 	},
 
 	reducers: {
-		//ADD_FOLDER_ON_FAVORITES
 		addFavoriteGroup: (state, action) => {
+			const id = 'f_' + String(state.favoriteGroupIndex);
 			const data = {
-				type: 'folder',
-				id: state.favoriteGroupIndex,
-				key: `f_${state.favoriteGroupIndex}`,
-				name: action.payload.name,
-				contain: [],
+				type: 'resourceGroup',
+				id: id,
+				children: [],
 			};
+			addDataOnNode(state.favoriteTree, action.payload.id, data);
 
-			if (action.payload.key === 'favorites') {
-				addDataOnNode(state.favoriteTree, state.selectedFavorite, data);
-			}
-			state.favoriteGroupRenamingKey = data.key;
+			state.favoriteGroups.push({
+				id: id,
+				name: action.payload.name,
+				data: {},
+			});
+			state.favoriteGroupRenamingKey = id;
 			state.favoriteGroupIndex++;
 		},
 
 		deleteFavoriteGroup: (state, action) => {
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
-		//DELETE_TEMP_FOLDER_ON_FAVORITES
-		deleteTempFavoriteGroup: (state, action) => {
-			startDeleteingTree(state.tempFavoriteTree, action.payload);
-		},
-		//SAVE_CHANGES_ON_FAVORITES
-		updateFavorites: (state) => {
-			state.favoriteTree = state.tempFavoriteTree;
-			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
-		},
+
 		//SORT_FAVORITE_RESOURCES
 		sortFavorites: (state, action) => {
 			// 이동할 데이터의 부모
 			const prevParent = startSearchingParentNode(
 				state.favoriteTree,
-				state.selectedFavorite,
+				state.payload.start,
 			);
 			// 이동할 데이터
 			const prev = startSearchingNode(
 				state.favoriteTree,
-				state.selectedFavorite,
+				state.payload.start,
 			);
-
 			// 이동시킬 위치의 부모
 			let nextParent = startSearchingParentNode(
 				state.favoriteTree,
-				action.payload.next.key,
+				action.payload.end,
 			);
 			// 이동시킬 위치
 			const node = startSearchingNode(
 				state.favoriteTree,
-				action.payload.next.key,
+				action.payload.end,
 			);
 
 			if (
@@ -118,21 +121,29 @@ const slice = createSlice({
 			state.tempFavoriteTree = state.favoriteTree;
 		},
 
-		//ADD_FAVORITE_SERVER
 		addFavorite: (state, action) => {
-			//TODO: resourceTree에서 key 값으로 탐색 후 해당 서버의 정보를
-			// payload에 담아서 favoriteTree에 넣어야 함
-			state.favoriteTree.push(action.payload);
+			state.favoriteTree.push({
+				type: 'resource',
+				id: action.payload,
+				parents: null,
+				path: '/' + action.payload,
+			});
 		},
-		//DELETE_FAVORITE_SERVER
+
 		deleteFavorite: (state, action) => {
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
-		//CHANGE_FOLDER_NAME_ON_FAVORITES
+
 		changeFavoriteGroupName: (state, action) => {
-			startSearchingNode(state.favoriteTree, action.payload.key).name =
+			state.favoriteGroups.find((v) => v.id === action.payload.id).name =
 				action.payload.name;
 			state.favoriteGroupRenamingKey = null;
+		},
+
+		//
+		updateFavorites: (state) => {
+			state.favoriteTree = state.tempFavoriteTree;
+			state.favoriteGroupIndex = state.tempFavoriteGroupIndex;
 		},
 		//CHANGE_SELEECTED_TEMP_FAVORITE
 		setTempSelectedFavorite: (state, action) => {
@@ -158,6 +169,11 @@ const slice = createSlice({
 			state.tempFavoriteGroupIndex++;
 		},
 
+		//DELETE_TEMP_FOLDER_ON_FAVORITES
+		deleteTempFavoriteGroup: (state, action) => {
+			startDeleteingTree(state.tempFavoriteTree, action.payload);
+		},
+
 		//SET_TEMP_FAVORITES
 		setTempFavorite: (state) => {
 			state.tempFavoriteGroupIndex = null;
@@ -174,7 +190,6 @@ const slice = createSlice({
 		//CHANGE_FAVORITE_FOLDER_RENMAING_KEY
 		changeFavoriteGroupRenameKey: (state, action) => {
 			state.favoriteGroupRenamingKey = action.payload;
-			// draft.selectedResource = action.payload;
 		},
 		//CHANGE_TEMP_FAVORITE_FOLDER_RENMAING_KEY
 		changeTempFavoriteGroupRenameKey: (state, action) => {
@@ -199,12 +214,14 @@ const slice = createSlice({
 
 const selectAllState = createSelector(
 	(state) => state.favoriteTree,
+	(state) => state.favoriteGroups,
 	(state) => state.tempFavoriteTree,
 	(state) => state.favoriteGroupRenamingKey,
 	(state) => state.tempFavoriteGroupRenamingKey,
 	(state) => state.tempSelectedFavorite,
 	(
 		favoriteTree,
+		favoriteGroups,
 		tempFavoriteTree,
 		favoriteGroupRenamingKey,
 		tempFavoriteGroupRenamingKey,
@@ -212,6 +229,7 @@ const selectAllState = createSelector(
 	) => {
 		return {
 			favoriteTree,
+			favoriteGroups,
 			tempFavoriteTree,
 			favoriteGroupRenamingKey,
 			tempFavoriteGroupRenamingKey,

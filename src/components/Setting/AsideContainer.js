@@ -33,9 +33,9 @@ const AsideContainer = ({isOpened, setIsOpened}) => {
 	const {asideKey} = useSelector(settingSelector.all);
 
 	const settingTitle = {
-		Account: t('account'),
-		Preferences: t('preferences'),
-		Identities: t('identities'),
+		account: t('account'),
+		preferences: t('preferences'),
+		identities: t('identities'),
 	};
 
 	const onClickCloseAside = useCallback(() => {

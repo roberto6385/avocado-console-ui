@@ -1,0 +1,130 @@
+{
+	"resourceTree": [
+		{
+			"type": "resourceGroup",
+			"id": "f_0",
+			"parents": null,
+			"path": "/f_0",
+			"children": [
+				{
+					"type": "resource",
+					"id": "s_0",
+					"parents": "f_0",
+					"path": "/f_0/s_0"
+				},
+				{
+					"type": "resource",
+					"id": "s_1",
+					"parents": "f_0",
+					"path": "/f_0/s_1"
+				},
+				{
+					"type": "resource",
+					"id": "s_2",
+					"parents": "f_0",
+					"path": "/f_0/s_2"
+				},
+				{
+					"type": "resource",
+					"id": "s_3",
+					"parents": "f_0",
+					"path": "/f_0/s_3"
+				}
+			]
+		},
+		{
+			"type": "resourceGroup",
+			"id": "f_1",
+			"parents": null,
+			"children": [
+				{
+					"type": "resource",
+					"id": "s_4",
+					"parents": "f_1",
+					"path": "/f_1/s_4"
+				}
+			]
+		}
+	],
+
+	"resouceGroups": [
+		{"id": "f_0", "name": "aws servers", "resourceGroupId": {}},
+		{"id": "f_1", "name": "kt servers", "resourceGroupId": {}}
+	],
+
+	"resources": [
+		{
+			"id": "s_0",
+			"type": "PC",
+			"name": "Open API",
+			"resourceGroupId": {
+				"osType": "aws"
+			}
+		},
+		{
+			"id": "s_1",
+			"type": "PC",
+			"name": "IAM",
+			"resourceGroupId": {
+				"osType": "aws"
+			}
+		},
+		{
+			"id": "s_2",
+			"type": "PC",
+			"name": "Authorization",
+			"resourceGroupId": {
+				"osType": "aws"
+			}
+		},
+		{
+			"id": "s_3",
+			"type": "PC",
+			"name": "Bastion",
+			"resourceGroupId": {
+				"osType": "aws"
+			}
+		},
+		{
+			"id": "s_4",
+			"type": "PC",
+			"name": "kt pilot",
+			"resourceGroupId": {
+				"osType": "linux"
+			}
+		}
+	],
+
+	"computingSystemServicePorts": [
+		{
+			"id": "s_0",
+			"host": "ip-172-31-7-236.ap-northeast-2.compute.internal",
+			"protocol": "SSH2",
+			"port": 22
+		},
+		{
+			"id": "s_1",
+			"host": "ip-172-31-8-134.ap-northeast-2.compute.internal",
+			"protocol": "SSH2",
+			"port": 22
+		},
+		{
+			"id": "s_2",
+			"host": "ip-172-31-5-58.ap-northeast-2.compute.internal",
+			"protocol": "SSH2",
+			"port": 22
+		},
+		{
+			"id": "s_3",
+			"host": "ip-172-31-1-65.ap-northeast-2.compute.internal",
+			"protocol": "SSH2",
+			"port": 22
+		},
+		{
+			"id": "s_4",
+			"host": "211.253.10.9",
+			"protocol": "SSH2",
+			"port": 10022
+		}
+	]
+}

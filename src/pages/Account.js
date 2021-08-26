@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
 import AccountSpace from '../components/Setting/Space/AccountSpace';
-import SettingAppLayout from '../components/Setting/SettingLayout';
+import SettingAppLayout from '../components/Layouts/SettingLayout';
 import {authSelector} from '../reducers/api/auth';
 import i18n from 'i18next';
 import {settingSelector} from '../reducers/setting';

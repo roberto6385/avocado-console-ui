@@ -17,8 +17,8 @@ import {
 	DialogBoxHeader,
 } from '../../../styles/components/disalogBox';
 import {Form} from '../../../styles/components/form';
-import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-import FavoriteItemTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteItemTreeOnDialogBox';
+import {favoritesAction} from '../../../reducers/favorites';
+import FavoriteTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteTreeOnDialogBox';
 
 const _DialogBox = styled(DialogBox)`
 	width: 460px;
@@ -38,35 +38,33 @@ const _ModalFooter = styled(DialogBoxFooter)`
 	justify-content: space-between;
 `;
 
-const AddFavoritesDialogBox = () => {
+const ChangeFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
-	const {t} = useTranslation('addFavoritesDialogBox');
+	const {t} = useTranslation('changeFavoritesDialogBox');
 
-	const {tempFavoriteTree, favoriteTree} = useSelector(favoritesSelector.all);
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const onClickCloseDialogBox = useCallback(async () => {
 		await dispatch(dialogBoxAction.closeForm());
-		dispatch(favoritesAction.setTempFavorite());
-	}, [dispatch, favoriteTree, tempFavoriteTree]);
+		localStorage.removeItem('tempFavoriteTree');
+		localStorage.removeItem('tempFavoriteGroups');
+		localStorage.removeItem('tempFavoriteGroupIndex');
+		localStorage.removeItem('tempSelectedFavorites');
+		localStorage.removeItem('tempFavoriteGroupRenamingKey');
+	}, [dispatch]);
 
-	const onSubmitSaveChangesOnFavorites = useCallback(
-		async (e) => {
-			e.preventDefault();
-			if (
-				JSON.stringify(tempFavoriteTree) !==
-				JSON.stringify(favoriteTree)
-			) {
-				await dispatch(favoritesAction.updateFavorites());
-				await dispatch(dialogBoxAction.closeForm());
-				dispatch(favoritesAction.setTempFavorite());
-			} else {
-				await dispatch(dialogBoxAction.closeForm());
-				dispatch(favoritesAction.setTempFavorite());
-			}
-		},
-		[dispatch, favoriteTree, tempFavoriteTree],
-	);
+	const onSubmitSaveChangesOnFavorites = useCallback(async (e) => {
+		e.preventDefault();
+		//TODO: tempFavorite Tree(Local Storeage)와 Favorite Tree를 비교후 변화가 있으면 dispath로 반영
+		//TODO: close form
+		await dispatch(dialogBoxAction.closeForm());
+		//TODO: Local Storeage tempFavorie 제거
+		localStorage.removeItem('tempFavoriteTree');
+		localStorage.removeItem('tempFavoriteGroups');
+		localStorage.removeItem('tempFavoriteGroupIndex');
+		localStorage.removeItem('tempSelectedFavorites');
+		localStorage.removeItem('tempFavoriteGroupRenamingKey');
+	}, []);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
 		dispatch(favoritesAction.addTempFavorite({name: t('addFolder')}));
@@ -98,7 +96,7 @@ const AddFavoritesDialogBox = () => {
 			</DialogBoxHeader>
 
 			<_Form onSubmit={onSubmitSaveChangesOnFavorites}>
-				<FavoriteItemTreeOnDialogBox />
+				<FavoriteTreeOnDialogBox />
 			</_Form>
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>
@@ -117,4 +115,4 @@ const AddFavoritesDialogBox = () => {
 	);
 };
 
-export default AddFavoritesDialogBox;
+export default ChangeFavoritesDialogBox;

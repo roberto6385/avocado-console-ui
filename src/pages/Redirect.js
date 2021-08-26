@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {AUTH, authAction} from '../reducers/api/auth';
+import {AUTH, authAction, authSelector} from '../reducers/api/auth';
 import background from '../images/loginBackground/login_bg_design_2.png';
 import styled from 'styled-components';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -24,8 +24,7 @@ const Redirect = () => {
 	const dispatch = useDispatch();
 
 	const {userData, clientData, alternativeData} = useSelector(
-		(state) => state[AUTH],
-		shallowEqual,
+		authSelector.all,
 	);
 
 	useEffect(() => {

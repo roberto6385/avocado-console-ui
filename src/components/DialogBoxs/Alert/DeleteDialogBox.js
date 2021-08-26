@@ -3,9 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {dialogBoxAction, dialogBoxSelector} from '../../../reducers/dialogBoxs';
-
 import {cancelFillIcon, closeIcon} from '../../../icons/icons';
-
 import {
 	TransparentButton,
 	WarningButton,
@@ -64,6 +62,7 @@ const DeleteDialogBox = () => {
 					const terminalTab = terminalTabs.find(
 						(it) => it.uuid === uuid,
 					);
+
 					for await (let v of sftp.selected.files) {
 						dispatch(
 							sftpAction.addList({

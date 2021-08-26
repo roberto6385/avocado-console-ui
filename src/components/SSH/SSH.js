@@ -288,7 +288,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		if (width > 0 && height > 0 && uuid && isComponentMounted) {
 			fitAddon.fit();
 			dispatch(
-				sshAction.windowChangeRequest({
+				sshAction.sendWindowChangeRequest({
 					ws: ws,
 					uuid: uuid,
 					data: {
@@ -301,16 +301,17 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			);
 		}
 	}, [
-		ws,
-		uuid,
-		sshTerm,
-		width,
+		dispatch,
+		fitAddon,
 		height,
 		isComponentMounted,
-		fitAddon,
-		dispatch,
+		sshTerm.cols,
+		sshTerm.rows,
+		uuid,
+		width,
+		ws,
 	]);
-	//click search button
+	//click searchVal button
 	useEffect(() => {
 		if (selectedTab === uuid && searchMode) {
 			document.getElementById('ssh-search-' + uuid).style.display =
@@ -330,7 +331,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		setSearchVal,
 		searchAddon,
 	]);
-	//search val
+	//searchVal val
 	useEffect(() => {
 		if (selectedTab === uuid) {
 			searchAddon.findPrevious('');
@@ -348,13 +349,13 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 	useEffect(() => {
 		sshTerm.setOption('fontFamily', font.family);
 		fitAddon.fit();
-	}, [sshTerm, fitAddon, font]);
+	}, [sshTerm, fitAddon, font.family]);
 
 	//change font size
 	useEffect(() => {
 		sshTerm.setOption('fontSize', font.size);
 		fitAddon.fit();
-	}, [sshTerm, fitAddon, font]);
+	}, [sshTerm, fitAddon, font.size]);
 	//change terminal theme
 	useEffect(() => {
 		sshTerm.setOption('theme', {
