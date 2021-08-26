@@ -107,7 +107,7 @@ const Pane = ({uuid, type, resourceId}) => {
 				);
 			}
 		},
-		[dispatch, sftp.socket, ssh, type, uuid],
+		[dispatch, sftp, ssh, type, uuid],
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
@@ -156,7 +156,7 @@ const Pane = ({uuid, type, resourceId}) => {
 		uuid,
 		dispatch,
 		userData.access_token,
-		sftp.path,
+		sftp,
 	]);
 
 	useEffect(() => {
@@ -166,7 +166,7 @@ const Pane = ({uuid, type, resourceId}) => {
 		if (type === 'SFTP') {
 			setReadyState(sftp.readyState);
 		}
-	}, [sftp.readyState, ssh, type, uuid]);
+	}, [sftp, ssh, type, uuid]);
 
 	return (
 		<_Container onClick={onClickChangeCurrentTab}>
