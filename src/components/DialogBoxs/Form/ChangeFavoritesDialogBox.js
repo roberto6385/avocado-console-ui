@@ -67,14 +67,9 @@ const ChangeFavoritesDialogBox = () => {
 	}, []);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
-		dispatch(favoritesAction.addTempFavorite({name: t('addFolder')}));
+		//TODO: add folders
+		// multiple adding is possible by duplication selection
 	}, [dispatch, t]);
-
-	useEffect(() => {
-		if (form.open && form.key === 'favorites') {
-			dispatch(favoritesAction.initTempFavorite());
-		}
-	}, [form, dispatch]);
 
 	return (
 		<_DialogBox

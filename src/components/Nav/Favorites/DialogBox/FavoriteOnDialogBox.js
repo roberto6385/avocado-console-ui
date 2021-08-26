@@ -1,20 +1,21 @@
-import React, {useCallback} from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Icon} from '../../../../styles/components/icon';
 import {
 	ResourceItem,
 	ResourceItemTitle,
 } from '../../../../styles/components/navigationBar';
 import {awsServerIcon, linuxServerIcon} from '../../../../icons/icons';
-import {
-	favoritesAction,
-	favoritesSelector,
-} from '../../../../reducers/favorites';
+import {remoteResourceSelector} from '../../../../reducers/remoteResource';
 
 const FavoriteOnDialogBox = ({data, indent}) => {
-	const dispatch = useDispatch();
+	const {resources} = useSelector(remoteResourceSelector.all);
+	const resource = useMemo(
+		() => resources.find((v) => v.id === data.id),
+		[resources, data.id],
+	);
 
 	// const onClickFavorite = useCallback(() => {
 	// 	if (tempSelectedFavorite === data.key) {
@@ -27,10 +28,9 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 	return (
 		<React.Fragment>
 			<ResourceItem
+				//TODO: if selected ? 1 : 0
 				// selected={
-				// 	JSON.parse(localStorage.tempSelectedFavorites).includes(
-				// 		data.id,
-				// 	)
+				// (if selected)
 				// 		? 1
 				// 		: 0
 				// }
@@ -40,19 +40,18 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}
+					//TODO: if selected ? 'selected : undefined
 					// itype={
-					// 	JSON.parse(localStorage.tempSelectedFavorites).includes(
-					// 		data.id,
-					// 	)
+					// (if selected)
 					// 		? 'selected'
 					// 		: undefined
 					// }
 				>
-					{data.icon === 'linux' && linuxServerIcon}
-					{data.icon === 'aws' && awsServerIcon}
+					{resource.data.osType === 'linux' && linuxServerIcon}
+					{resource.data.osType === 'aws' && awsServerIcon}
 				</Icon>
 
-				<ResourceItemTitle>{data.name}</ResourceItemTitle>
+				<ResourceItemTitle>{resource.name}</ResourceItemTitle>
 			</ResourceItem>
 		</React.Fragment>
 	);

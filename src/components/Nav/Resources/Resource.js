@@ -44,7 +44,7 @@ function searchNode(node, id) {
 		return true;
 	} else if (node.children && node.children.length > 0) {
 		for (let x of node.children) {
-			searchNode(x, id);
+			if (searchNode(x, id)) return true;
 		}
 	}
 	return false;

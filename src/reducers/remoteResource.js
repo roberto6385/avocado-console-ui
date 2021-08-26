@@ -43,6 +43,7 @@ const slice = createSlice({
 				type: 'resourceGroup',
 				id: 'f_1',
 				parents: null,
+				path: '/f_1',
 				children: [
 					{
 						type: 'resource',

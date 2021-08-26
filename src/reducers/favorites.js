@@ -11,19 +11,48 @@ const slice = createSlice({
 	name: 'favorites',
 	initialState: {
 		favoriteTree: [
-			{type: 'resource', id: 's_0', parents: null, path: '/s_0'},
 			{
 				type: 'resourceGroup',
 				id: 'f_0',
 				parents: null,
-				path: '/s_1',
-				children: [],
+				path: '/f_0',
+				children: [
+					{
+						type: 'resource',
+						id: 's_1',
+						parents: 'f_0',
+						path: '/f_0/s_1',
+					},
+					{
+						type: 'resource',
+						id: 's_3',
+						parents: 'f_0',
+						path: '/f_0/s_3',
+					},
+				],
+			},
+			{
+				type: 'resourceGroup',
+				id: 'f_1',
+				parents: null,
+				path: '/f_1',
+				children: [
+					{
+						type: 'resource',
+						id: 's_4',
+						parents: 'f_1',
+						path: '/f_1/s_4',
+					},
+				],
 			},
 		], //favorites
-		favoriteGroups: [{id: 'f_0', name: 'Test', data: {}}],
+		favoriteGroups: [
+			{id: 'f_0', name: 'favorite aws', data: {}},
+			{id: 'f_1', name: 'favorite kt', data: {}},
+		],
 		selectedFavorite: null,
 		favoriteGroupRenamingKey: null, //favoriteFolderRenamingKey
-		favoriteGroupIndex: 1, //favorites_folder_index
+		favoriteGroupIndex: 2, //favorites_folder_index
 
 		tempFavoriteTree: [], //tempFavorites
 		tempSelectedFavorite: null,

@@ -64,20 +64,20 @@ const FavoriteContainer = () => {
 	const [search, onChangeSearch] = useInput('');
 
 	const onClickOpenFavoritesDialogBox = useCallback(() => {
-		dispatch(dialogBoxAction.openAlert({key: 'developing'}));
-		// dispatch(dialogBoxAction.openForm({key: 'favorites'}));
-		//
-		// localStorage.setItem('tempFavoriteTree', JSON.stringify(favoriteTree));
-		// localStorage.setItem(
-		// 	'tempFavoriteGroups',
-		// 	JSON.stringify(favoriteGroups),
-		// );
-		// localStorage.setItem(
-		// 	'tempFavoriteGroupIndex',
-		// 	JSON.stringify(favoriteGroupIndex),
-		// );
-		// localStorage.setItem('tempSelectedFavorites', JSON.stringify([]));
-		// localStorage.removeItem('tempFavoriteGroupRenamingKey', null);
+		// dispatch(dialogBoxAction.openAlert({key: 'developing'}));
+		dispatch(dialogBoxAction.openForm({key: 'favorites'}));
+
+		localStorage.setItem('tempFavoriteTree', JSON.stringify(favoriteTree));
+		localStorage.setItem(
+			'tempFavoriteGroups',
+			JSON.stringify(favoriteGroups),
+		);
+		localStorage.setItem(
+			'tempFavoriteGroupIndex',
+			JSON.stringify(favoriteGroupIndex),
+		);
+		localStorage.setItem('tempSelectedFavorites', JSON.stringify([]));
+		localStorage.removeItem('tempFavoriteGroupRenamingKey', null);
 	}, [dispatch, favoriteTree, favoriteGroups]);
 
 	return (

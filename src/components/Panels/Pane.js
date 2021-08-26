@@ -111,7 +111,7 @@ const Pane = ({uuid, type, resourceId}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const resource = resources.find((i) => i.key === resourceId);
+		const resource = resources.find((i) => i.id === resourceId);
 		const account = accounts.find(
 			(it) =>
 				it.resourceId === resourceId && it.isDefaultAccount === true,

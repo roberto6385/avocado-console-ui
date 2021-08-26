@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 
 import FavoriteOnDialogBox from './FavoriteOnDialogBox';
@@ -18,9 +17,7 @@ import useInput from '../../../../hooks/useInput';
 import {TextBox} from '../../../../styles/components/textBox';
 import {Icon, IconButton} from '../../../../styles/components/icon';
 import {useDoubleClick} from '../../../../hooks/useDoubleClick';
-import FavoriteGroupContextMenu from '../../../ContextMenus/FavoriteGroupContextMenu';
-import {useContextMenu} from 'react-contexify';
-import {favoritesAction} from '../../../../reducers/favorites';
+
 import localStorage from 'redux-persist/es/storage';
 
 const _TextBox = styled(TextBox)`
@@ -28,111 +25,77 @@ const _TextBox = styled(TextBox)`
 `;
 
 const FavoriteGroupDialogBox = ({data, indent}) => {
-	const dispatch = useDispatch();
 	const nameRef = useRef(null);
 
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	// const onClickFavoriteGroup = useDoubleClick(
-	// 	() => {
-	// 		dispatch(favoritesAction.setTempSelectedFavorite(data.key));
-	// 	},
-	// 	() => {
-	// 		if (tempSelectedFavorite === data.key) {
-	// 			dispatch(favoritesAction.setTempSelectedFavorite(null));
-	// 		} else {
-	// 			dispatch(favoritesAction.setTempSelectedFavorite(data.key));
-	// 		}
-	// 	},
-	// 	[data, tempSelectedFavorite],
+	// const tempFavoriteFolders = JSON.parse(
+	// 	localStorage.getItem('tempFavoriteGroups'),
+	// );
+	//
+	// console.log(
+	// 	tempFavoriteFolders,
+	// 	localStorage.getItem('tempFavoriteGroups'),
 	// );
 
-	// const onClickFoldOrUnfoldFolder = useCallback(() => {
-	// 	setIsFolderUnfolded(!isFolderUnfolded);
-	// }, [isFolderUnfolded]);
+	const onClickFavoriteGroup = useDoubleClick(
+		() => {
+			//TODO: Rename folder
+		},
+		() => {
+			//TODO: If alreay slected Item => delect
+			// If alreay deslected Item => slect
+			// !!importand point : duplicate selection is possible
+		},
+		[],
+	);
 
-	// const onKeyDownChangeFolderName = useCallback(
-	// 	(e) => {
-	// 		if (e.keyCode === 27) {
-	// 			// ESC
-	// 			dispatch(
-	// 				favoritesAction.changeTempFavoriteGroupRenameKey(null),
-	// 			);
-	// 		} else if (e.keyCode === 13) {
-	// 			//Enter
-	// 			e.preventDefault();
-	// 			if (renameValue !== '') {
-	// 				dispatch(
-	// 					favoritesAction.changeTempFavoriteGroupName({
-	// 						key: data.key,
-	// 						name: renameValue,
-	// 					}),
-	// 				);
-	// 			} else {
-	// 				dispatch(
-	// 					favoritesAction.changeTempFavoriteGroupRenameKey(null),
-	// 				);
-	// 			}
-	// 		}
-	// 	},
-	// 	[data.key, dispatch, renameValue],
-	// );
+	const onClickFoldOrUnfoldFolder = useCallback(() => {
+		setIsFolderUnfolded(!isFolderUnfolded);
+	}, [isFolderUnfolded]);
 
-	// const {show} = useContextMenu({
-	// 	id: data.id + '-favorite-group-context-menu',
-	// });
+	const onKeyDownChangeFolderName = useCallback(
+		(e) => {
+			if (e.keyCode === 27) {
+				// ESC
+				//TODO: ignore rename
+			} else if (e.keyCode === 13) {
+				//Enter
+				e.preventDefault();
+				if (renameValue !== '') {
+					//TODO: rename
+				} else {
+					//TODO: ignore rename
+				}
+			}
+		},
+		[data.key, renameValue],
+	);
 
-	// const openFavoriteGroupContextMenu = useCallback(
-	// 	(e) => {
-	// 		e.preventDefault();
-	// 		dispatch(favoritesAction.setTempSelectedFavorite(data.id));
-	// 		show(e);
-	// 	},
-	// 	[data.id, dispatch, show],
-	// );
-
-	// const onBlurFolerNameTextBox = useCallback(() => {
-	// 	nameRef.current = null;
-	// 	dispatch(favoritesAction.changeTempFavoriteGroupRenameKey(null));
-	// }, [dispatch]);
-
-	// const doSettingForRenaming = useCallback(async () => {
-	// 	await setRenameValue(
-	// 		localStorage.get('tempFavoriteGroups').find((v) => v.id === data.id)
-	// 			.name,
-	// 	);
-	// 	await nameRef.current?.focus();
-	// 	await nameRef.current?.select();
-	// }, [setRenameValue, data.id]);
-
-	// useEffect(() => {
-	// 	if (data.id === localStorage.get('tempFavoriteGroupRenamingKey')) {
-	// 		doSettingForRenaming();
-	// 	}
-	// }, [data]);
+	const onBlurFolerNameTextBox = useCallback(() => {
+		nameRef.current = null;
+		//TODO: ignore rename
+	}, []);
 
 	return (
 		<React.Fragment>
 			<ResourceItem
+				//TODO: if selected ? 1 : 0
 				// selected={
-				// 	JSON.parse(localStorage.tempSelectedFavorite).includes(
-				// 		data.id,
-				// 	)
+				// (if selected)
 				// 		? 1
 				// 		: 0
 				// }
 				left={(indent * 11 + 8).toString() + 'px'}
-				// onClick={onClickFavoriteGroup}
-				// onContextMenu={openFavoriteGroupContextMenu}
+				onClick={onClickFavoriteGroup}
 			>
 				<Icon
 					margin_right={'12px'}
 					size={'sm'}
+					//TODO: if selected ? 'selected : undefined
 					// itype={
-					// 	JSON.parse(localStorage.tempSelectedFavorite).includes(
-					// 		data.id,
-					// 	)
+					// (if selected)
 					// 		? 'selected'
 					// 		: undefined
 					// }
@@ -147,18 +110,19 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 							ref={nameRef}
 							type='text'
 							value={renameValue}
-							// onChange={onChangeRenameValue}
-							// onKeyDown={onKeyDownChangeFolderName}
-							// onBlur={onBlurFolerNameTextBox}
+							onChange={onChangeRenameValue}
+							onKeyDown={onKeyDownChangeFolderName}
+							onBlur={onBlurFolerNameTextBox}
 						/>
 					) : (
-						data.name
+						'name'
+						// tempFavoriteFolders.find((v) => v.id === data.id).name
 					)}
 				</ResourceItemTitle>
 				<IconButton
 					size={'sm'}
 					margin={'0px 0px 0px 12px'}
-					// onClick={onClickFoldOrUnfoldFolder}
+					onClick={onClickFoldOrUnfoldFolder}
 				>
 					{isFolderUnfolded ? arrowDownIcon : arrowRightIcon}
 				</IconButton>
@@ -184,7 +148,6 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 					</React.Fragment>
 				</CollapseContainer>
 			)}
-			{/*<FavoriteGroupContextMenu resourceGroupId={data} onDialog={true} />*/}
 		</React.Fragment>
 	);
 };
