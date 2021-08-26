@@ -80,6 +80,7 @@ const slice = createSlice({
 		},
 
 		deleteFavoriteGroup: (state, action) => {
+			console.log(action.payload);
 			startDeleteingTree(state.favoriteTree, action.payload);
 		},
 

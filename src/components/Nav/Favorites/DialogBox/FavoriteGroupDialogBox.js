@@ -30,22 +30,13 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
 	const [renameValue, onChangeRenameValue, setRenameValue] = useInput('');
 
-	// const tempFavoriteFolders = JSON.parse(
-	// 	localStorage.getItem('tempFavoriteGroups'),
-	// );
-	//
-	// console.log(
-	// 	tempFavoriteFolders,
-	// 	localStorage.getItem('tempFavoriteGroups'),
-	// );
-
 	const onClickFavoriteGroup = useDoubleClick(
 		() => {
 			//TODO: Rename folder
 		},
 		() => {
-			//TODO: If alreay slected Item => delect
-			// If alreay deslected Item => slect
+			//TODO: If alreay selected Item => deselect
+			// If alreay deselected Item => select
 			// !!importand point : duplicate selection is possible
 		},
 		[],
@@ -79,7 +70,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 	}, []);
 
 	return (
-		<React.Fragment>
+		<>
 			<ResourceItem
 				//TODO: if selected ? 1 : 0
 				// selected={
@@ -148,7 +139,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 					</React.Fragment>
 				</CollapseContainer>
 			)}
-		</React.Fragment>
+		</>
 	);
 };
 

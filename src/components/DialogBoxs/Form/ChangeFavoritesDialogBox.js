@@ -71,6 +71,8 @@ const ChangeFavoritesDialogBox = () => {
 		// multiple adding is possible by duplication selection
 	}, [dispatch, t]);
 
+	const onClickDeleteFolderOnFavorites = useCallback(() => {}, []);
+
 	return (
 		<_DialogBox
 			isOpen={form.open && form.key === 'favorites'}
@@ -96,6 +98,9 @@ const ChangeFavoritesDialogBox = () => {
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>
 					{t('addFolder')}
+				</TransparentButton>
+				<TransparentButton onClick={onClickDeleteFolderOnFavorites}>
+					Delete
 				</TransparentButton>
 				<div>
 					<TransparentButton onClick={onClickCloseDialogBox}>

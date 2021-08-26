@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 
 import {useSelector} from 'react-redux';
@@ -17,13 +17,11 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 		[resources, data.id],
 	);
 
-	// const onClickFavorite = useCallback(() => {
-	// 	if (tempSelectedFavorite === data.key) {
-	// 		dispatch(favoritesAction.setTempSelectedFavorite(null));
-	// 	} else {
-	// 		dispatch(favoritesAction.setTempSelectedFavorite(data.key));
-	// 	}
-	// });
+	const onClickFavorite = useCallback(() => {
+		//TODO: If alreay selected Item => deselect
+		// If alreay deselected Item => select
+		// !!importand point : duplicate selection is possible
+	}, []);
 
 	return (
 		<React.Fragment>
@@ -35,7 +33,7 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 				// 		: 0
 				// }
 				left={(indent * 11 + 8).toString() + 'px'}
-				// onClick={onClickFavorite}
+				onClick={onClickFavorite}
 			>
 				<Icon
 					size={'sm'}

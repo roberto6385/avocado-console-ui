@@ -77,7 +77,7 @@ const FavoriteContainer = () => {
 			JSON.stringify(favoriteGroupIndex),
 		);
 		localStorage.setItem('tempSelectedFavorites', JSON.stringify([]));
-		localStorage.removeItem('tempFavoriteGroupRenamingKey', null);
+		localStorage.setItem('tempFavoriteGroupRenamingKey', null);
 	}, [dispatch, favoriteTree, favoriteGroups]);
 
 	return (
