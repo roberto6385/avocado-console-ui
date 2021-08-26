@@ -21,7 +21,6 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {favoritesAction, favoritesSelector} from '../../../reducers/favorites';
-import Sortable from 'sortablejs';
 
 const _TextBox = styled(TextBox)`
 	height: 24px;
@@ -123,25 +122,25 @@ const FavoriteGroup = ({open, data, indent}) => {
 	// 	[data, dispatch],
 	// );
 
-	useEffect(() => {
-		const sortableResources = document.getElementById(
-			'sortable-favorite-group-tree' + data.id,
-		);
-		sortableResources !== null &&
-			Sortable.create(sortableResources, {
-				sort: true,
-				group: 'sortable-favorite-group-tree' + data.id,
-				fallbackOnBody: true,
-				animation: 150,
-				// swapThreshold: 0.65,
-				dataIdAttr: 'data-id',
-				store: {
-					set: function (sortable) {
-						console.log(sortable.toArray());
-					},
-				},
-			});
-	}, []);
+	// useEffect(() => {
+	// 	const sortableResources = document.getElementById(
+	// 		'sortable-favorite-group-tree' + data.id,
+	// 	);
+	// 	sortableResources !== null &&
+	// 		Sortable.create(sortableResources, {
+	// 			sort: true,
+	// 			group: 'sortable-favorite-group-tree' + data.id,
+	// 			fallbackOnBody: true,
+	// 			animation: 150,
+	// 			// swapThreshold: 0.65,
+	// 			dataIdAttr: 'data-id',
+	// 			store: {
+	// 				set: function (sortable) {
+	// 					console.log(sortable.toArray());
+	// 				},
+	// 			},
+	// 		});
+	// }, []);
 
 	useEffect(() => {
 		if (data.id === favoriteGroupRenamingKey) {
@@ -160,9 +159,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 				data-id={data.id}
 				onClick={onClickFolder}
 				onContextMenu={openFavoriteGroupContextMenu}
-				draggable='true'
-				// onDragStart={onDragStart}
-				// onDrop={onDrop}
+				// draggable='true'
 				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
@@ -221,7 +218,10 @@ const FavoriteGroup = ({open, data, indent}) => {
 					</React.Fragment>
 				</CollapseContainer>
 			)}
-			<FavoriteGroupContextMenu resourceGroupId={data.id} />
+			<FavoriteGroupContextMenu
+				resourceGroupId={data.id}
+				setIsFolderUnfolded={setIsFolderUnfolded}
+			/>
 		</>
 	);
 };

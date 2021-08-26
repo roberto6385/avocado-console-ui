@@ -11,25 +11,25 @@ import Sortable from 'sortablejs';
 const FavoriteTree = ({searchVal}) => {
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	useEffect(() => {
-		const sortableResources = document.getElementById(
-			'sortable-favorite-tree',
-		);
-		sortableResources !== null &&
-			Sortable.create(sortableResources, {
-				sort: true,
-				group: 'sortable-favorite-tree',
-				fallbackOnBody: true,
-				animation: 150,
-				// swapThreshold: 0.65,
-				dataIdAttr: 'data-id',
-				store: {
-					set: function (sortable) {
-						console.log(sortable.toArray());
-					},
-				},
-			});
-	}, []);
+	// useEffect(() => {
+	// 	const sortableResources = document.getElementById(
+	// 		'sortable-favorite-tree',
+	// 	);
+	// 	sortableResources !== null &&
+	// 		Sortable.create(sortableResources, {
+	// 			sort: true,
+	// 			group: 'sortable-favorite-tree',
+	// 			fallbackOnBody: true,
+	// 			animation: 150,
+	// 			// swapThreshold: 0.65,
+	// 			dataIdAttr: 'data-id',
+	// 			store: {
+	// 				set: function (sortable) {
+	// 					console.log(sortable.toArray());
+	// 				},
+	// 			},
+	// 		});
+	// }, []);
 
 	return (
 		<ResourceTreeContainer id='sortable-favorite-tree'>

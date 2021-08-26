@@ -98,7 +98,7 @@ const Favorite = ({data, indent}) => {
 				data-id={data.id}
 				onClick={onClickFavorite}
 				onContextMenu={openFavoriteContextMenu}
-				draggable='true'
+				// draggable='true'
 				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>

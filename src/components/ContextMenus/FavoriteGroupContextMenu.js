@@ -8,7 +8,11 @@ import {ContextMenu} from '../../styles/components/contextMenu';
 import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {favoritesAction} from '../../reducers/favorites';
 
-const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
+const FavoriteGroupContextMenu = ({
+	resourceGroupId,
+	onDialog,
+	setIsFolderUnfolded,
+}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('favoriteGroupContextMenu');
 
@@ -42,6 +46,7 @@ const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 								name: t('addFolder'),
 							}),
 						);
+						setIsFolderUnfolded(true);
 					}
 					return;
 				default:
@@ -72,6 +77,7 @@ const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 FavoriteGroupContextMenu.propTypes = {
 	resourceGroupId: PropTypes.string.isRequired,
 	onDialog: PropTypes.bool,
+	setIsFolderUnfolded: PropTypes.func.isRequired,
 };
 
 export default FavoriteGroupContextMenu;
