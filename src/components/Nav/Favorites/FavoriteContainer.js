@@ -64,6 +64,7 @@ const FavoriteContainer = () => {
 	const [search, onChangeSearch] = useInput('');
 
 	const onClickOpenFavoritesDialogBox = useCallback(() => {
+		dispatch(dialogBoxAction.openAlert({key: 'developing'}));
 		// dispatch(dialogBoxAction.openForm({key: 'favorites'}));
 		//
 		// localStorage.setItem('tempFavoriteTree', JSON.stringify(favoriteTree));

@@ -11,8 +11,6 @@ import Sortable from 'sortablejs';
 const FavoriteTree = ({searchVal}) => {
 	const {favoriteTree} = useSelector(favoritesSelector.all);
 
-	const onDropResource = useCallback(() => {}, []);
-
 	useEffect(() => {
 		const sortableResources = document.getElementById(
 			'sortable-favorite-tree',
@@ -20,20 +18,21 @@ const FavoriteTree = ({searchVal}) => {
 		sortableResources !== null &&
 			Sortable.create(sortableResources, {
 				sort: true,
-				// fallbackOnBody: true,
-				// animation: 150,
+				group: 'sortable-favorite-tree',
+				fallbackOnBody: true,
+				animation: 150,
 				// swapThreshold: 0.65,
-				onEnd: function (evt) {
-					console.log(evt.to, evt.from);
+				dataIdAttr: 'data-id',
+				store: {
+					set: function (sortable) {
+						console.log(sortable.toArray());
+					},
 				},
 			});
 	}, []);
 
 	return (
-		<ResourceTreeContainer
-			id='sortable-favorite-tree'
-			onDrop={onDropResource}
-		>
+		<ResourceTreeContainer id='sortable-favorite-tree'>
 			{(searchVal.length > 0
 				? startCreatingTree(favoriteTree, searchVal)
 				: favoriteTree

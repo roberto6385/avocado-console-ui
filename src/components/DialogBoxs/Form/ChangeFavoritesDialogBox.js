@@ -42,7 +42,6 @@ const ChangeFavoritesDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('changeFavoritesDialogBox');
 
-	// const {tempFavoriteTree, favoriteTree} = useSelector(favoritesSelector.all);
 	const {form} = useSelector(dialogBoxSelector.all);
 
 	const onClickCloseDialogBox = useCallback(async () => {
@@ -54,23 +53,18 @@ const ChangeFavoritesDialogBox = () => {
 		localStorage.removeItem('tempFavoriteGroupRenamingKey');
 	}, [dispatch]);
 
-	// const onSubmitSaveChangesOnFavorites = useCallback(
-	// 	async (e) => {
-	// 		e.preventDefault();
-	// 		if (
-	// 			JSON.stringify(tempFavoriteTree) !==
-	// 			JSON.stringify(favoriteTree)
-	// 		) {
-	// 			await dispatch(favoritesAction.updateFavorites());
-	// 			await dispatch(dialogBoxAction.closeForm());
-	// 			dispatch(favoritesAction.setTempFavorite());
-	// 		} else {
-	// 			await dispatch(dialogBoxAction.closeForm());
-	// 			dispatch(favoritesAction.setTempFavorite());
-	// 		}
-	// 	},
-	// 	[dispatch, favoriteTree, tempFavoriteTree],
-	// );
+	const onSubmitSaveChangesOnFavorites = useCallback(async (e) => {
+		e.preventDefault();
+		//TODO: tempFavorite Tree(Local Storeage)와 Favorite Tree를 비교후 변화가 있으면 dispath로 반영
+		//TODO: close form
+		await dispatch(dialogBoxAction.closeForm());
+		//TODO: Local Storeage tempFavorie 제거
+		localStorage.removeItem('tempFavoriteTree');
+		localStorage.removeItem('tempFavoriteGroups');
+		localStorage.removeItem('tempFavoriteGroupIndex');
+		localStorage.removeItem('tempSelectedFavorites');
+		localStorage.removeItem('tempFavoriteGroupRenamingKey');
+	}, []);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
 		dispatch(favoritesAction.addTempFavorite({name: t('addFolder')}));
@@ -101,9 +95,7 @@ const ChangeFavoritesDialogBox = () => {
 				</IconButton>
 			</DialogBoxHeader>
 
-			<_Form
-			// onSubmit={onSubmitSaveChangesOnFavorites}
-			>
+			<_Form onSubmit={onSubmitSaveChangesOnFavorites}>
 				<FavoriteTreeOnDialogBox />
 			</_Form>
 			<_ModalFooter>
@@ -114,9 +106,7 @@ const ChangeFavoritesDialogBox = () => {
 					<TransparentButton onClick={onClickCloseDialogBox}>
 						{t('cancel')}
 					</TransparentButton>
-					<NormalButton
-					//onClick={onSubmitSaveChangesOnFavorites}
-					>
+					<NormalButton onClick={onSubmitSaveChangesOnFavorites}>
 						{t('save')}
 					</NormalButton>
 				</div>

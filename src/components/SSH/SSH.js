@@ -288,7 +288,7 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 		if (width > 0 && height > 0 && uuid && isComponentMounted) {
 			fitAddon.fit();
 			dispatch(
-				sshAction.windowChangeRequest({
+				sshAction.sendWindowChangeRequest({
 					ws: ws,
 					uuid: uuid,
 					data: {
@@ -301,14 +301,15 @@ const SSH = ({uuid, isToolbarUnfold}) => {
 			);
 		}
 	}, [
-		ws,
-		uuid,
-		sshTerm,
-		width,
+		dispatch,
+		fitAddon,
 		height,
 		isComponentMounted,
-		fitAddon,
-		dispatch,
+		sshTerm.cols,
+		sshTerm.rows,
+		uuid,
+		width,
+		ws,
 	]);
 	//click searchVal button
 	useEffect(() => {

@@ -11,6 +11,7 @@ const slice = createSlice({
 	reducers: {
 		addTab: (state, action) => {
 			// todo 재연결 하는 부분 분리하는게 좋을까요? (reconnect를 분리...?)
+			// Answer: 네!!! 그러는게 좋을꺼 같습니다.
 			const newTab = {
 				uuid: action.payload.uuid,
 				type: action.payload.type,
@@ -18,19 +19,24 @@ const slice = createSlice({
 				resourceId: action.payload.resourceId,
 			};
 
-			if (action.payload.prevUuid) {
-				if (action.payload.prevIndex > state.terminalTabs.length) {
-					state.terminalTabs.push(newTab);
-				} else {
-					state.terminalTabs.splice(
-						action.payload.prevIndex,
-						0,
-						newTab,
-					);
-				}
-			} else {
-				state.terminalTabs.push(newTab);
-			}
+			state.terminalTabs.push(newTab);
+
+			state.selectedTab = fillTabs(
+				state.terminalTabs,
+				state.cols === 1 ? 1 : state.cols * 3,
+				action.payload.uuid,
+			);
+		},
+
+		reconnectTab: (state, action) => {
+			const newTab = {
+				uuid: action.payload.uuid,
+				type: action.payload.type,
+				display: true,
+				resourceId: action.payload.resourceId,
+			};
+
+			state.terminalTabs.splice(action.payload.prevIndex, 0, newTab);
 
 			state.selectedTab = fillTabs(
 				state.terminalTabs,
@@ -52,12 +58,9 @@ const slice = createSlice({
 
 		sortTabs: (state, action) => {
 			// todo react-beautiful-dnd 라이브러리로 전환하는게 좋을듯합니다.
-			state.terminalTabs.splice(action.payload.oldOrder, 1);
-			state.terminalTabs.splice(
-				action.payload.newOrder,
-				0,
-				action.payload.newTab,
-			);
+			const newTab = state.terminalTabs[action.payload.startingIndex];
+			state.terminalTabs.splice(action.payload.startingIndex, 1);
+			state.terminalTabs.splice(action.payload.endIndex, 0, newTab);
 		},
 
 		setColumn: (state, action) => {

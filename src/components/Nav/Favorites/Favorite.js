@@ -18,7 +18,6 @@ import {
 	remoteResourceSelector,
 } from '../../../reducers/remoteResource';
 import {sshAction} from '../../../reducers/ssh';
-import {Draggable} from 'react-beautiful-dnd';
 
 const Favorite = ({data, indent}) => {
 	const dispatch = useDispatch();
@@ -97,17 +96,18 @@ const Favorite = ({data, indent}) => {
 		[data.id, dispatch, show],
 	);
 
-	const onDragStart = useCallback(() => {
-		dispatch(remoteResourceAction.setSelectedResource(data.id));
-	}, [dispatch, data.id]);
+	// const onDragStart = useCallback(() => {
+	// 	dispatch(remoteResourceAction.setSelectedResource(data.id));
+	// }, [dispatch, data.id]);
 
 	return (
 		<>
 			<ResourceItem
+				data-id={data.id}
 				onClick={onClickFavorite}
 				onContextMenu={openFavoriteContextMenu}
 				draggable='true'
-				onDragStart={onDragStart}
+				// onDragStart={onDragStart}
 				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
