@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FavoriteOnDialogBox from './FavoriteOnDialogBox';
-import FavoriteGroupDialogBox from './FavoriteGroupDialogBox';
+import FavoriteGroupOnDialogBox from './FavoriteGroupOnDialogBox';
 import {ResourceTreeContainer} from '../../../../styles/components/navigationBar';
 
 const FavoriteTreeOnDialogBox = () => {
@@ -9,7 +9,7 @@ const FavoriteTreeOnDialogBox = () => {
 		<ResourceTreeContainer>
 			{JSON.parse(localStorage.getItem('tempFavoriteTree')).map((data) =>
 				data.type === 'resourceGroup' ? (
-					<FavoriteGroupDialogBox
+					<FavoriteGroupOnDialogBox
 						key={data.id}
 						data={data}
 						indent={1}

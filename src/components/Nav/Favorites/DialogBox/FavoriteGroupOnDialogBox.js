@@ -24,7 +24,7 @@ const _TextBox = styled(TextBox)`
 	height: 24px;
 `;
 
-const FavoriteGroupDialogBox = ({data, indent}) => {
+const FavoriteGroupOnDialogBox = ({data, indent}) => {
 	const nameRef = useRef(null);
 
 	const [isFolderUnfolded, setIsFolderUnfolded] = useState(false);
@@ -123,7 +123,7 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 					<React.Fragment>
 						{data.children.map((v) =>
 							v.type === 'resourceGroup' ? (
-								<FavoriteGroupDialogBox
+								<FavoriteGroupOnDialogBox
 									key={v.id}
 									data={v}
 									indent={indent + 1}
@@ -143,9 +143,9 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 	);
 };
 
-FavoriteGroupDialogBox.propTypes = {
+FavoriteGroupOnDialogBox.propTypes = {
 	data: PropTypes.object.isRequired,
 	indent: PropTypes.number.isRequired,
 };
 
-export default FavoriteGroupDialogBox;
+export default FavoriteGroupOnDialogBox;
