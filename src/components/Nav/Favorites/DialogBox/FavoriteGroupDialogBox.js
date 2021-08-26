@@ -121,17 +121,17 @@ const FavoriteGroupDialogBox = ({data, indent}) => {
 			{data.children.length !== 0 && (
 				<CollapseContainer isOpened={isFolderUnfolded}>
 					<React.Fragment>
-						{data.children.map((i) =>
-							i.type === 'folder' ? (
+						{data.children.map((v) =>
+							v.type === 'resourceGroup' ? (
 								<FavoriteGroupDialogBox
-									key={i.key}
-									data={i}
+									key={v.id}
+									data={v}
 									indent={indent + 1}
 								/>
 							) : (
 								<FavoriteOnDialogBox
-									key={i.key}
-									data={i}
+									key={v.id}
+									data={v}
 									indent={indent + 1}
 								/>
 							),

@@ -111,11 +111,11 @@ const TabBar = ({isOpned, setisOpened}) => {
 			Sortable.create(sortableResources, {
 				sort: true,
 				animation: 150,
-				onEnd: function (evt) {
+				onEnd: function (e) {
 					dispatch(
 						tabBarAction.sortTabs({
-							startingIndex: evt.oldIndex,
-							endIndex: evt.newIndex,
+							startingIndex: e.oldIndex,
+							endIndex: e.newIndex,
 						}),
 					);
 				},

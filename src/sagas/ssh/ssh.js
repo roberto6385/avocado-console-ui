@@ -158,7 +158,7 @@ function* sendReConnection(action) {
 								tabBarAction.reconnectTab({
 									uuid: uuid,
 									type: 'SSH',
-									resourceKey: action.payload.key,
+									resourceKey: action.payload.id,
 									prevIndex: action.payload.prevIndex,
 								}),
 							);
