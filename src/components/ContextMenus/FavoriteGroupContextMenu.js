@@ -22,11 +22,7 @@ const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 			switch (e) {
 				case 'delete-folder':
 					if (onDialog) {
-						dispatch(
-							favoritesAction.deleteTempFavoriteGroup(
-								resourceGroupId,
-							),
-						);
+						//TODO: delete Folder
 					} else {
 						dispatch(
 							dialogBoxAction.openAlert({
@@ -37,12 +33,16 @@ const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 					}
 					break;
 				case 'add-folder':
-					dispatch(
-						favoritesAction.addFavoriteGroup({
-							id: resourceGroupId,
-							name: t('addFolder'),
-						}),
-					);
+					if (onDialog) {
+						//TODO: add Folder
+					} else {
+						dispatch(
+							favoritesAction.addFavoriteGroup({
+								id: resourceGroupId,
+								name: t('addFolder'),
+							}),
+						);
+					}
 					return;
 				default:
 					return;
@@ -53,7 +53,11 @@ const FavoriteGroupContextMenu = ({resourceGroupId, onDialog}) => {
 
 	return (
 		<ContextMenu
-			id={resourceGroupId + '-favorite-group-context-menu'}
+			id={
+				onDialog
+					? resourceGroupId + '-temp-favorite-group-context-menu'
+					: resourceGroupId + '-favorite-group-context-menu'
+			}
 			animation={animation.slide}
 		>
 			{Object.entries(contextMenuList).map(([key, value]) => (

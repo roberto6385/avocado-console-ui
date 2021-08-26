@@ -73,7 +73,9 @@ const Pane = ({uuid, type, resourceId}) => {
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {userData} = useSelector(authSelector.all);
 
-	const {resources, accounts} = useSelector(remoteResourceSelector.all);
+	const {resources, accounts, computingSystemServicePorts} = useSelector(
+		remoteResourceSelector.all,
+	);
 
 	const {ssh} = useSelector(sshSelector.all);
 	const {sftp} = useSelector(sftpSelector.all);
@@ -111,21 +113,23 @@ const Pane = ({uuid, type, resourceId}) => {
 	);
 
 	const onClickReconnectToServer = useCallback(() => {
-		const resource = resources.find((i) => i.key === resourceId);
+		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
+		const computingSystemPort = computingSystemServicePorts.find(
+			(v) => v.id === resourceId,
+		);
 		const account = accounts.find(
-			(it) =>
-				it.resourceId === resourceId && it.isDefaultAccount === true,
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
 		);
 
-		const terminalTabIndex = terminalTabs.findIndex((v) => v.uuid === uuid);
-
-		if (type === 'SSH') {
+		if (type === 'SSH2') {
 			dispatch(
 				sshAction.reconnectRequest({
 					token: userData.access_token,
-					...resource,
+					host: computingSystemPort.host,
+					port: computingSystemPort.port,
 					user: account.user,
 					password: account.password,
+					id: computingSystemPort.id,
 					prevUuid: uuid,
 					prevIndex: terminalTabIndex,
 				}),
@@ -137,12 +141,12 @@ const Pane = ({uuid, type, resourceId}) => {
 			dispatch(
 				sftpAction.reconnect({
 					token: userData.access_token, // connection info
-					host: resource.host,
-					port: resource.port,
+					host: computingSystemPort.host,
+					port: computingSystemPort.port,
 					user: account.user,
 					password: account.password,
-					name: resource.name, // create tab info
-					id: resource.id,
+					name: computingSystemPort.name, // create tab info
+					id: computingSystemPort.id,
 					prevUuid: uuid,
 					prevPath: path,
 					prevIndex: terminalTabIndex,
@@ -150,15 +154,15 @@ const Pane = ({uuid, type, resourceId}) => {
 			);
 		}
 	}, [
-		resources,
 		accounts,
+		computingSystemServicePorts,
+		dispatch,
 		resourceId,
+		sftp,
 		terminalTabs,
 		type,
-		uuid,
-		dispatch,
 		userData.access_token,
-		sftp,
+		uuid,
 	]);
 
 	useEffect(() => {

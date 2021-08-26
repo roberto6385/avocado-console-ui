@@ -67,26 +67,25 @@ export function startSearchingParentNode(root, key) {
 	return root;
 }
 
-function deleteTreeNode(node, id) {
-	if (node.id === id) return null;
-	if (node.children && node.children.length > 0) {
+function deleteTreeNode(parent, node, id) {
+	if (node.id === id) {
+		let index = parent.children.findIndex((v) => v.id === id);
+		parent.children.splice(index, 1);
+	} else if (node.children && node.children.length > 0) {
 		for (let i = 0; i < node.children.length; i++)
-			deleteTreeNode(node.children[i], id);
+			deleteTreeNode(node, node.children[i], id);
 	}
-	return node;
 }
 
 export function startDeleteingTree(root, id) {
 	for (let i = 0; i < root.length; i++) {
 		if (root[i].id === id) {
 			root.splice(i, 1);
-			return;
-		} else root[i] = deleteTreeNode(root[i], id);
+		} else deleteTreeNode(root, root[i], id);
 	}
 }
 
 export function addDataOnNode(nav, selectedResource, data) {
-	console.log(selectedResource);
 	if (!selectedResource) {
 		data.parents = null;
 		data.path = '/' + data.id;

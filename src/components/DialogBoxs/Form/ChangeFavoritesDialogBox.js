@@ -67,14 +67,11 @@ const ChangeFavoritesDialogBox = () => {
 	}, []);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
-		dispatch(favoritesAction.addTempFavorite({name: t('addFolder')}));
+		//TODO: add folders
+		// multiple adding is possible by duplication selection
 	}, [dispatch, t]);
 
-	useEffect(() => {
-		if (form.open && form.key === 'favorites') {
-			dispatch(favoritesAction.initTempFavorite());
-		}
-	}, [form, dispatch]);
+	const onClickDeleteFolderOnFavorites = useCallback(() => {}, []);
 
 	return (
 		<_DialogBox
@@ -101,6 +98,9 @@ const ChangeFavoritesDialogBox = () => {
 			<_ModalFooter>
 				<TransparentButton onClick={onClickAddFolderOnFavorites}>
 					{t('addFolder')}
+				</TransparentButton>
+				<TransparentButton onClick={onClickDeleteFolderOnFavorites}>
+					Delete
 				</TransparentButton>
 				<div>
 					<TransparentButton onClick={onClickCloseDialogBox}>
