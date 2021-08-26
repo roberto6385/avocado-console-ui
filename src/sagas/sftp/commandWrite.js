@@ -1,5 +1,13 @@
-import {call, put, select, take, takeLatest} from 'redux-saga/effects';
-import {sftpAction, sftpSelector} from '../../reducers/renewal';
+import {
+	call,
+	delay,
+	put,
+	race,
+	select,
+	take,
+	takeLatest,
+} from 'redux-saga/effects';
+import {sftpAction, sftpSelector, types} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
@@ -119,10 +127,12 @@ function* worker(action) {
 	console.log(payload);
 	const {data} = yield select(sftpSelector.all);
 	const sftp = data.find((v) => v.uuid === payload.uuid);
+	let leftover = null;
 
 	try {
 		const channel = yield call(subscribe, sftp.upload.socket);
 		const item = sftp.upload.list.slice().shift();
+
 		if (!item) {
 			yield put(
 				sftpAction.deleteSocket({
@@ -139,6 +149,9 @@ function* worker(action) {
 				}),
 			);
 		} else {
+			accumulatedByte = item.offset ? item.offset : 0;
+			percent = item.percent ? item.percent : 0;
+
 			yield put(
 				sftpAction.deleteList({
 					uuid: payload.uuid,
@@ -153,35 +166,57 @@ function* worker(action) {
 				socket: sftp.upload.socket,
 				path: path,
 				file: item.file,
-				offset: 0,
-				length: writeChunkSize,
+				offset: accumulatedByte,
+				length: item.offset ? 0 : writeChunkSize,
 				completed: false,
-				mode: 1,
+				mode: item.offset ? 2 : 1,
 			});
 			while (true) {
-				const data = yield take(channel);
-				const res = yield call(getApi, {data, file: item.file});
-				yield put(
-					sftpAction.setHistoryProgress({
-						uuid: payload.uuid,
-						link: item.link,
-						progress: res.percent,
-					}),
-				);
-				if (!res.completion) {
-					yield call(setApi, {
-						socket: sftp.upload.socket,
-						path: path,
-						file: item.file,
-						offset: res.accByte,
-						length: writeChunkSize,
-						completed: res.ending,
-						mode: 2,
-					});
+				const {timeout, data} = yield race({
+					timeout: delay(1000),
+					data: take(channel),
+				});
+				if (timeout) {
+					yield put(
+						sftpAction.setLeftover({
+							uuid: payload.uuid,
+							type: types.upload,
+							item: {
+								...item,
+								offset: leftover.accByte,
+								percent: leftover.percent,
+							},
+						}),
+					);
+					yield take(sftpAction.commandWrite);
 				} else {
-					console.log('commandWriteDone');
-					yield put(sftpAction.commandWriteDone());
-					yield put(sftpAction.commandWrite({uuid: payload.uuid}));
+					const res = yield call(getApi, {data, file: item.file});
+					leftover = res;
+					console.log(res);
+					yield put(
+						sftpAction.setHistoryProgress({
+							uuid: payload.uuid,
+							link: item.link,
+							progress: res.percent,
+						}),
+					);
+					if (!res.completion) {
+						yield call(setApi, {
+							socket: sftp.upload.socket,
+							path: path,
+							file: item.file,
+							offset: res.accByte,
+							length: writeChunkSize,
+							completed: res.ending,
+							mode: 2,
+						});
+					} else {
+						console.log('commandWriteDone');
+						yield put(sftpAction.commandWriteDone());
+						yield put(
+							sftpAction.commandWrite({uuid: payload.uuid}),
+						);
+					}
 				}
 			}
 		}

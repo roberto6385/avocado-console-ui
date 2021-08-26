@@ -1,4 +1,12 @@
-import {call, debounce, put, select, take} from 'redux-saga/effects';
+import {
+	all,
+	call,
+	debounce,
+	put,
+	select,
+	take,
+	takeEvery,
+} from 'redux-saga/effects';
 import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
@@ -100,4 +108,5 @@ function* worker(action) {
 
 export default function* watcher() {
 	yield debounce(1000, sftpAction.createSocket, worker);
+	yield takeEvery(sftpAction.createSocketAll, worker);
 }

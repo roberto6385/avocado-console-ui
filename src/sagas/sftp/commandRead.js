@@ -1,5 +1,13 @@
-import {call, put, select, take, takeLatest} from 'redux-saga/effects';
-import {sftpAction, sftpSelector} from '../../reducers/renewal';
+import {
+	call,
+	delay,
+	put,
+	race,
+	select,
+	take,
+	takeLatest,
+} from 'redux-saga/effects';
+import {sftpAction, sftpSelector, types} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 
@@ -116,6 +124,8 @@ function* worker(action) {
 	console.log(payload);
 	const {data} = yield select(sftpSelector.all);
 	const sftp = data.find((v) => v.uuid === payload.uuid);
+	let leftover = null;
+
 	try {
 		const channel = yield call(subscribe, sftp.download.socket);
 		const item = sftp.download.list.slice().shift();
@@ -128,6 +138,9 @@ function* worker(action) {
 				}),
 			);
 		} else {
+			accumulatedByte = item.offset ? item.offset : 0;
+			percent = item.percent ? item.percent : 0;
+
 			yield put(
 				sftpAction.deleteList({
 					uuid: payload.uuid,
@@ -143,33 +156,53 @@ function* worker(action) {
 			yield call(setApi, {
 				socket: sftp.download.socket,
 				path: path,
-				offset: 0,
+				offset: accumulatedByte,
 				length: readChunkSize,
 				completed: false,
 			});
 			while (true) {
-				const data = yield take(channel);
-				const res = yield call(getApi, {data, file: item.file});
-				console.log(res);
-				yield put(
-					sftpAction.setHistoryProgress({
-						uuid: payload.uuid,
-						link: item.link,
-						progress: res.percent,
-					}),
-				);
-				if (!res.completion) {
-					yield call(setApi, {
-						socket: sftp.download.socket,
-						path: path,
-						offset: res.ending ? res.accByte : res.accByte + 1,
-						length: readChunkSize,
-						completed: res.ending,
-					});
+				const {timeout, data} = yield race({
+					timeout: delay(1000),
+					data: take(channel),
+				});
+				if (timeout) {
+					yield put(
+						sftpAction.setLeftover({
+							uuid: payload.uuid,
+							type: types.download,
+							item: {
+								...item,
+								offset: leftover.accByte,
+								percent: leftover.percent,
+							},
+						}),
+					);
+					yield take(sftpAction.commandRead);
 				} else {
-					console.log('commandReadDone');
-					yield put(sftpAction.commandReadDone());
-					yield put(sftpAction.commandRead({uuid: payload.uuid}));
+					// const data = yield take(channel);
+					const res = yield call(getApi, {data, file: item.file});
+					console.log(res);
+					leftover = res;
+					yield put(
+						sftpAction.setHistoryProgress({
+							uuid: payload.uuid,
+							link: item.link,
+							progress: res.percent,
+						}),
+					);
+					if (!res.completion) {
+						yield call(setApi, {
+							socket: sftp.download.socket,
+							path: path,
+							offset: res.ending ? res.accByte : res.accByte + 1,
+							length: readChunkSize,
+							completed: res.ending,
+						});
+					} else {
+						console.log('commandReadDone');
+						yield put(sftpAction.commandReadDone());
+						yield put(sftpAction.commandRead({uuid: payload.uuid}));
+					}
 				}
 			}
 		}

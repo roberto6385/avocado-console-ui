@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -82,23 +82,39 @@ const HistoryToolbar = ({uuid}) => {
 	}, [dispatch, sftp.path, sftp.upload.on, terminalTabs, uuid]);
 
 	const handlePauseStateControl = useCallback(() => {
+		const typeSlice = [types.upload, types.download, types.delete];
+		const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+
+		dispatch(sftpAction.setPause({uuid: uuid}));
 		// memo 잔여 데이터 저장시간동안 block
 		if (sftp.pause.state) {
 			//memo : 정지상태
-			dispatch(
-				sftpAction.resumeTransfer({
-					uuid: uuid,
-				}),
-			);
+			typeSlice.forEach((v) => {
+				if (!sftp[v].socket && sftp[v].list.length !== 0) {
+					dispatch(
+						sftpAction.createSocketAll({
+							uuid: uuid,
+							type: types[v],
+							key: terminalTab.server.key,
+						}),
+					);
+				}
+			});
 		} else {
 			//memo : 가동상태
-			dispatch(
-				sftpAction.suspendTransfer({
-					uuid: uuid,
-				}),
-			);
+			typeSlice.forEach((v) => {
+				if (sftp[v].socket) {
+					dispatch(
+						sftpAction.deleteSocket({
+							socket: sftp[v].socket,
+							uuid: uuid,
+							type: types[v],
+						}),
+					);
+				}
+			});
 		}
-	}, [dispatch, sftp.pause.state, uuid]);
+	}, [dispatch, sftp, terminalTabs, uuid]);
 
 	const onClickDeleteHistory = useCallback(() => {
 		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {

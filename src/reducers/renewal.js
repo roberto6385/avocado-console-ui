@@ -58,8 +58,6 @@ const slice = createSlice({
 				},
 				pause: {
 					state: false,
-					upload: {file: null, offset: null},
-					download: {file: null, offset: null},
 				},
 				upload: {
 					on: false,
@@ -220,6 +218,7 @@ const slice = createSlice({
 
 		//CREATE_NEW_WEBSOCKET_REQUEST
 		createSocket: (state, action) => {},
+		createSocketAll: (state, action) => {},
 		createSocketDone: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
@@ -353,29 +352,16 @@ const slice = createSlice({
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].pause[action.payload.type].file =
-				action.payload.file;
-			state.data[index].pause[action.payload.type].offset =
-				action.payload.offset;
+			state.data[index][action.payload.type].list.unshift(
+				action.payload.item,
+			);
 		},
-		suspendTransfer: (state, action) => {
+		setPause: (state, action) => {
 			const index = state.data.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].pause.state = true;
-			// 소켓제거
-			state.data[index].delete.socket = null;
-			state.data[index].upload.socket = null;
-			state.data[index].download.socket = null;
+			state.data[index].pause.state = !state.data[index].pause.state;
 		},
-		resumeTransfer: (state, action) => {
-			const index = state.data.findIndex(
-				(v) => v.uuid === action.payload.uuid,
-			);
-			//memo 소켓 재생성 및 잔여데이터 정보 전달
-			state.data[index].pause.state = false;
-		},
-
 		//ADD_HISTORY
 		addHistory: (state, action) => {
 			const index = state.data.findIndex(
