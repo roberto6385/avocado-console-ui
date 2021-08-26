@@ -210,7 +210,7 @@ const Pane = ({uuid, type, resourceId}) => {
 				</_Header>
 			)}
 			{type === 'SSH' && (
-				<SSHContainer uuid={uuid} resourceKey={resourceId} />
+				<SSHContainer uuid={uuid} resourceId={resourceId} />
 			)}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>

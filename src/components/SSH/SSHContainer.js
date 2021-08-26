@@ -68,7 +68,7 @@ const _ToolbarFoldUnfoldButton = styled.img`
 	z-index: 5;
 `;
 
-const SSHContainer = ({uuid, resourceKey}) => {
+const SSHContainer = ({uuid, resourceId}) => {
 	const {resourceTree} = useSelector(remoteResourceSelector.all);
 	const {cols} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
@@ -116,7 +116,7 @@ const SSHContainer = ({uuid, resourceKey}) => {
 					>
 						{snippetIcon}
 					</HoverButton>
-					<SFTPConnectBtn data={resourceKey} />
+					<SFTPConnectBtn resourceId={resourceId} />
 					<HoverButton onClick={onCLickFullScreen}>
 						{fullScreenIcon}
 					</HoverButton>
@@ -146,7 +146,7 @@ const SSHContainer = ({uuid, resourceKey}) => {
 
 SSHContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
-	resourceKey: PropTypes.string.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default SSHContainer;

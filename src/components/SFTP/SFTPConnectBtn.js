@@ -9,15 +9,16 @@ import {dialogBoxAction} from '../../reducers/dialogBoxs';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {sftpAction} from '../../reducers/renewal';
 
-const SFTPConnectBtn = ({data}) => {
+const SFTPConnectBtn = ({resourceId}) => {
 	const dispatch = useDispatch();
 	const {userData} = useSelector(authSelector.all);
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const onClickConnectSftp = useCallback(() => {
-		const resource = resources.find((x) => x.id === data.id);
+		const resource = resources.find((x) => x.id === resourceId);
 		const account = accounts.find(
-			(it) => it.resourceId === data.key && it.isDefaultAccount === true,
+			(it) =>
+				it.resourceId === resourceId && it.isDefaultAccount === true,
 		);
 
 		if (resources.includes(resource)) {
@@ -36,7 +37,7 @@ const SFTPConnectBtn = ({data}) => {
 		} else {
 			dispatch(dialogBoxAction.openAlert({key: 'lost-server'}));
 		}
-	}, [resources, data, accounts, userData, dispatch]);
+	}, [resources, resourceId, accounts, userData, dispatch]);
 
 	return (
 		<HoverButton onClick={onClickConnectSftp}>
@@ -46,7 +47,7 @@ const SFTPConnectBtn = ({data}) => {
 };
 
 SFTPConnectBtn.propTypes = {
-	data: PropTypes.object.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default SFTPConnectBtn;

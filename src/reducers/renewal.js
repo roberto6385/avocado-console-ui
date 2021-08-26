@@ -24,7 +24,7 @@ const slice = createSlice({
 		//  tabBarAction.addTab({
 		// 	uuid: uuid,
 		// 	type: 'SSH',
-		// 	resourceKey: action.payload.key,
+		// 	resourceId: action.payload.key,
 		//  }),
 		//  이렇게 resourceKey만 넘겨주세요
 
