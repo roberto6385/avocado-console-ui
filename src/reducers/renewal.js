@@ -265,7 +265,6 @@ const slice = createSlice({
 			if (action.payload.type === 'delete') {
 				state.data[index][action.payload.type].list.unshift({
 					...action.payload.value,
-					link: ++LINK,
 				});
 			} else {
 				state.data[index][action.payload.type].list.push({
@@ -389,9 +388,10 @@ const slice = createSlice({
 				(v) => v.uuid === action.payload.uuid,
 			);
 			// link id로 객체찾기
-			state.data[index].history.find(
+			const target = state.data[index].history.find(
 				(v) => v.link === action.payload.link,
-			).progress = action.payload.progress;
+			);
+			if (target) target.progress = action.payload.progress;
 		},
 		// ADD_HISTORY_HI, INITIAL_HISTORY_HI
 		setSelectedHistory: (state, action) => {

@@ -134,7 +134,7 @@ function* worker(action) {
 				sftpAction.deleteSocket({
 					socket: sftp.download.socket,
 					uuid: payload.uuid,
-					type: 'download',
+					type: types.download,
 				}),
 			);
 		} else {
@@ -144,7 +144,7 @@ function* worker(action) {
 			yield put(
 				sftpAction.deleteList({
 					uuid: payload.uuid,
-					type: 'download',
+					type: types.download,
 				}),
 			);
 
@@ -162,7 +162,7 @@ function* worker(action) {
 			});
 			while (true) {
 				const {timeout, data} = yield race({
-					timeout: delay(1000),
+					timeout: delay(2000),
 					data: take(channel),
 				});
 				if (timeout) {

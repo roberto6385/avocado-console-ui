@@ -130,6 +130,13 @@ function* worker(action) {
 			}
 			const data = yield take(channel);
 			yield call(getApi, data);
+			yield put(
+				sftpAction.setHistoryProgress({
+					uuid: payload.uuid,
+					link: item.link,
+					progress: 100,
+				}),
+			);
 			yield put(sftpAction.commandRemoveDone());
 			yield put(sftpAction.commandRemove({uuid: payload.uuid}));
 		}

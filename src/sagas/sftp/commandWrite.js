@@ -173,7 +173,7 @@ function* worker(action) {
 			});
 			while (true) {
 				const {timeout, data} = yield race({
-					timeout: delay(1000),
+					timeout: delay(2000),
 					data: take(channel),
 				});
 				if (timeout) {

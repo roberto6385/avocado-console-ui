@@ -85,25 +85,33 @@ const HistoryToolbar = ({uuid}) => {
 		const typeSlice = [types.upload, types.download, types.delete];
 		const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
 
+		// for (let v of typeSlice) {
+		// 	if (!sftp[v].on) {
+		// 		console.log('on');
+		// 	} else {
+		// 		return;
+		// 	}
+		// }
+
 		dispatch(sftpAction.setPause({uuid: uuid}));
 		// memo 잔여 데이터 저장시간동안 block
 		if (sftp.pause.state) {
 			//memo : 정지상태
-			typeSlice.forEach((v) => {
-				if (!sftp[v].socket && sftp[v].list.length !== 0) {
+			for (let v of typeSlice) {
+				if (!sftp[v].on && sftp[v].list.length !== 0) {
 					dispatch(
-						sftpAction.createSocketAll({
+						sftpAction.createSocket({
 							uuid: uuid,
 							type: types[v],
 							key: terminalTab.server.key,
 						}),
 					);
 				}
-			});
+			}
 		} else {
 			//memo : 가동상태
-			typeSlice.forEach((v) => {
-				if (sftp[v].socket) {
+			for (let v of typeSlice) {
+				if (sftp[v].on) {
 					dispatch(
 						sftpAction.deleteSocket({
 							socket: sftp[v].socket,
@@ -112,7 +120,7 @@ const HistoryToolbar = ({uuid}) => {
 						}),
 					);
 				}
-			});
+			}
 		}
 	}, [dispatch, sftp, terminalTabs, uuid]);
 

@@ -108,5 +108,5 @@ function* worker(action) {
 
 export default function* watcher() {
 	yield debounce(1000, sftpAction.createSocket, worker);
-	yield takeEvery(sftpAction.createSocketAll, worker);
+	// yield takeEvery(sftpAction.createSocketAll, worker);
 }
