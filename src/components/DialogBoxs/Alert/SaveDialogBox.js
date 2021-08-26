@@ -76,7 +76,7 @@ const SaveDialogBox = () => {
 
 	const handleOnClickSFTPSaveEvents = useCallback(() => {
 		const uuid = alert.uuid;
-		const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
+		const {resourceId} = terminalTabs.find((it) => it.uuid === uuid);
 		const prevMode = sftpEtc.find((it) => it.uuid === uuid).prevMode;
 		const path = path.find((it) => it.uuid === uuid).path;
 		const {editText, editFile} = sftpEdit.find((it) => it.uuid === uuid);
@@ -85,13 +85,9 @@ const SaveDialogBox = () => {
 		);
 
 		const account = accounts.find(
-			(v) =>
-				v.resourceId === terminalTab.server.key &&
-				v.isDefaultAccount === true,
+			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
 		);
-		const resource = resources.find(
-			(it) => it.key === terminalTab.server.key,
-		);
+		const resource = resources.find((it) => it.key === resourceId);
 		const changedFile = new File([editText], editFile.name, {
 			type: 'text/plain',
 		});

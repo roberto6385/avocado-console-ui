@@ -1,9 +1,11 @@
-import {call, put, take, throttle} from 'redux-saga/effects';
+import {call, put, select, take, throttle} from 'redux-saga/effects';
 import {subscribe} from '../channel';
 import {createWebsocket} from './socket';
 import {sftpAction} from '../../reducers/renewal';
 import SFTP from '../../dist/sftp_pb';
 import {tabBarAction} from '../../reducers/tabBar';
+import {remoteResourceSelector} from '../../reducers/remoteResource';
+import {authSelector} from '../../reducers/api/auth';
 
 function getApi(data) {
 	if (data instanceof ArrayBuffer) {
@@ -63,13 +65,26 @@ function setApi(data) {
 
 function* worker(action) {
 	const {payload} = action;
-	console.log(payload);
+	const {computingSystemServicePorts, accounts} = yield select(
+		remoteResourceSelector.all,
+	);
+	const {userData} = yield select(authSelector.all);
+	const computingSystemServicePort = computingSystemServicePorts.find(
+		(v) => v.id === payload.resourceId,
+	);
+	const account = accounts.find(
+		(v) => v.resourceId === payload.resourceId && v.isDefaultAccount,
+	);
 	try {
 		const socket = yield call(createWebsocket);
 		const channel = yield call(subscribe, socket);
 
 		yield call(setApi, {
-			...payload,
+			token: userData.access_token, // connection info
+			host: computingSystemServicePort.host,
+			port: computingSystemServicePort.port,
+			user: account.user,
+			password: account.password,
 			socket: socket,
 		});
 		const data = yield take(channel);
@@ -80,7 +95,7 @@ function* worker(action) {
 			tabBarAction.addTab({
 				uuid: res.uuid,
 				type: 'SFTP',
-				server: {name: payload.name, key: payload.key},
+				resourceId: payload.resourceId,
 			}),
 		);
 		yield put(sftpAction.commandPwd({socket: socket, uuid: res.uuid}));

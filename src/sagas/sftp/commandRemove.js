@@ -2,6 +2,7 @@ import {call, put, select, take, takeLatest} from 'redux-saga/effects';
 import {sftpAction, sftpSelector} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
+import {pathFormatter} from '../../utils/sftp';
 
 function setRmdirApi(data) {
 	const message = new SFTP.Message();
@@ -83,17 +84,17 @@ function getApi(data) {
 function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
-	const {data} = yield select(sftpSelector.all);
-	const sftp = data.find((v) => v.uuid === payload.uuid);
+	const {sftp} = yield select(sftpSelector.all);
+	const state = sftp.find((v) => v.uuid === payload.uuid);
 
 	try {
-		const channel = yield call(subscribe, sftp.delete.socket);
-		const item = sftp.delete.list.slice().shift();
+		const channel = yield call(subscribe, state.delete.socket);
+		const item = state.delete.list.slice().shift();
 		if (!item) {
 			console.log('종료');
 			yield put(
 				sftpAction.deleteSocket({
-					socket: sftp.delete.socket,
+					socket: state.delete.socket,
 					uuid: payload.uuid,
 					type: 'delete',
 				}),
@@ -101,7 +102,7 @@ function* worker(action) {
 			yield take(sftpAction.deleteSocketDone);
 			yield put(
 				sftpAction.commandPwd({
-					socket: sftp.socket,
+					socket: state.socket,
 					uuid: payload.uuid,
 				}),
 			);
@@ -113,18 +114,15 @@ function* worker(action) {
 				}),
 			);
 
-			const path =
-				item.path === '/'
-					? item.path + item.file.name
-					: `${item.path}/${item.file.name}`;
+			const path = pathFormatter(item.path, item.file.name);
 			if (item.file.type === 'file') {
 				yield call(setRmApi, {
-					socket: sftp.delete.socket,
+					socket: data.delete.socket,
 					path: path,
 				});
 			} else {
 				yield call(setRmdirApi, {
-					socket: sftp.delete.socket,
+					socket: data.delete.socket,
 					path: path,
 				});
 			}

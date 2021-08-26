@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Edit from './Edit/Edit';
@@ -71,12 +71,10 @@ const _ToolbarFoldUnfoldButton = styled.img`
 	z-index: 5;
 `;
 
-const SFTP = ({uuid}) => {
+const SFTP = ({uuid, resourceId}) => {
 	const {cols, terminalTabs} = useSelector(tabBarSelector.all);
 	const {theme} = useSelector(settingSelector.all);
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
-
+	const {sftp} = useSelector(sftpSelector.all);
 	const [isToolbarUnfolded, setIsToolbarUnfolded] = useState(true);
 
 	const onClickFoldToolbar = useCallback(() => {
@@ -87,7 +85,7 @@ const SFTP = ({uuid}) => {
 		setIsToolbarUnfolded(true);
 	}, []);
 
-	return sftp.edit.state ? (
+	return sftp.find((v) => v.uuid === uuid).edit.state ? (
 		<_Container>
 			<Edit uuid={uuid} />
 		</_Container>
@@ -116,24 +114,27 @@ const SFTP = ({uuid}) => {
 			<ContentsContainer
 				className={!isToolbarUnfolded && 'close-nav-sftp'}
 			>
-				{sftp.mode === 'list' ? (
-					<FileListContianer uuid={uuid} />
+				{sftp.find((v) => v.uuid === uuid).mode === 'list' ? (
+					<FileListContianer uuid={uuid} resourceId={resourceId} />
 				) : (
 					<DropListContainer>
-						{Object.keys(sftp.files).map((key) => {
+						{Object.keys(
+							sftp.find((v) => v.uuid === uuid).files,
+						).map((key) => {
 							return (
 								<DropListBlockContainer
 									key={key}
 									uuid={uuid}
 									blockPath={key}
+									resourceId={resourceId}
 								/>
 							);
 						})}
 					</DropListContainer>
 				)}
 
-				<SFTPFileListContextMenu uuid={uuid} />
-				<HistoryContianer uuid={uuid} />
+				<SFTPFileListContextMenu uuid={uuid} resourceId={resourceId} />
+				<HistoryContianer uuid={uuid} resourceId={resourceId} />
 			</ContentsContainer>
 			{/*<FileStatusDialogBox />*/}
 		</_Container>
@@ -142,6 +143,7 @@ const SFTP = ({uuid}) => {
 
 SFTP.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default SFTP;

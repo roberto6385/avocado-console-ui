@@ -14,8 +14,8 @@ export const types = {
 const slice = createSlice({
 	name: 'sftp',
 	initialState: {
-		data: [],
-		loading: false, // 전체적으로 사용하는 loading data내부에서 각각 loading 갖고있음
+		sftp: [],
+		loading: false, // 전체적으로 사용하는 loading sftp내부에서 각각 loading 갖고있음
 		error: null,
 	},
 	reducers: {
@@ -34,7 +34,7 @@ const slice = createSlice({
 		//CONNECTION_SUCCESS
 		connectDone: (state, action) => {
 			state.loading = false;
-			state.data.push({
+			state.sftp.push({
 				loading: false,
 				uuid: action.payload.uuid,
 				socket: action.payload.socket,
@@ -95,12 +95,12 @@ const slice = createSlice({
 		},
 		//RECONNECTION_SUCCESS
 		reconnectDone: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].uuid = action.payload.newUuid;
-			state.data[index].socket = action.payload.socket;
-			state.data[index].readyState = action.payload.readyState;
+			state.sftp[index].uuid = action.payload.newUuid;
+			state.sftp[index].socket = action.payload.socket;
+			state.sftp[index].readyState = action.payload.readyState;
 		},
 		//RECONNECTION_FAILURE
 		reconnectFail: (state) => {
@@ -110,23 +110,23 @@ const slice = createSlice({
 		disconnect: (state, action) => {},
 		//DISCONNECTION_SUCCESS
 		disconnectDone: (state, action) => {
-			state.data = state.data.filter(
+			state.sftp = state.sftp.filter(
 				(v) => v.uuid !== action.payload.uuid,
 			);
 		},
 		//DISCONNECTION_FAILURE
 		disconnectFail: (state, action) => {
-			state.data = state.data.filter(
+			state.sftp = state.sftp.filter(
 				(v) => v.uuid !== action.payload.uuid,
 			);
 			console.log('에러 핸들링 : 정상적으로 종료되지 않았습니다.');
 		},
 		//CD_REQUEST
 		commandCd: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.files = [];
+			state.sftp[index].selected.files = [];
 		},
 		//CD_SUCCESS
 		commandCdDone: (state, action) => {},
@@ -134,43 +134,43 @@ const slice = createSlice({
 		commandCdFail: (state, action) => {},
 		//PWD_REQUEST
 		commandPwd: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].loading = true;
+			state.sftp[index].loading = true;
 		},
 		//PWD_SUCCESS
 		commandPwdDone: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].path = action.payload.path;
+			state.sftp[index].path = action.payload.path;
 			//todo => deleteList는 삭제할 경로명의 배열이다 isRequired
 			if (action.payload.deleteList === null) {
 				// 초기화
-				state.data[index].files = {};
+				state.sftp[index].files = {};
 			} else {
 				action.payload.deleteList.forEach((v) => {
-					delete state.data[index].files[v];
+					delete state.sftp[index].files[v];
 				});
 			}
-			state.data[index].loading = false;
+			state.sftp[index].loading = false;
 		},
 		commandPwdFail: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].loading = false;
+			state.sftp[index].loading = false;
 		},
 
 		//LS_REQUEST
 		commandLs: () => {},
 		//LS_SUCCESS
 		commandLsDone: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].files[action.payload.path] = action.payload.files;
+			state.sftp[index].files[action.payload.path] = action.payload.files;
 		},
 		//LS_FAILURE
 		commandLsFail: (state, action) => {
@@ -220,11 +220,11 @@ const slice = createSlice({
 		createSocket: (state, action) => {},
 		createSocketAll: (state, action) => {},
 		createSocketDone: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			// type 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index][action.payload.type].socket =
+			state.sftp[index][action.payload.type].socket =
 				action.payload.socket;
 		},
 		createSocketFail: (state, action) => {},
@@ -232,141 +232,141 @@ const slice = createSlice({
 		//REMOVE_NEW_WEBSOCKET_REQUEST
 		deleteSocket: (state, action) => {},
 		deleteSocketDone: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			// type 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index][action.payload.type].socket = null;
+			state.sftp[index][action.payload.type].socket = null;
 		},
 		deleteSocketFail: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			// type 값으로 upload, download, delete 를 보내줘야함.
-			state.data[index][action.payload.type].socket = null;
+			state.sftp[index][action.payload.type].socket = null;
 		},
 
 		// TODO : ETC line ============================================
 
 		setOn: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index][action.payload.type].on =
-				!state.data[index][action.payload.type].on;
+			state.sftp[index][action.payload.type].on =
+				!state.sftp[index][action.payload.type].on;
 		},
 
 		restart: (state, action) => {},
 		// upload, downoad, delete List 추가
 		addList: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			if (action.payload.type === 'delete') {
-				state.data[index][action.payload.type].list.unshift({
+				state.sftp[index][action.payload.type].list.unshift({
 					...action.payload.value,
 				});
 			} else {
-				state.data[index][action.payload.type].list.push({
+				state.sftp[index][action.payload.type].list.push({
 					...action.payload.value,
 					link: ++LINK,
 				});
 			}
 		},
 		deleteList: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index][action.payload.type].list.shift();
+			state.sftp[index][action.payload.type].list.shift();
 		},
 
 		//READY_STATE
 		setReady: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].readyState = action.payload.readyState;
+			state.sftp[index].readyState = action.payload.readyState;
 		},
 		//CHANGE_MODE
 		setMode: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].mode = action.payload.mode;
+			state.sftp[index].mode = action.payload.mode;
 		},
 		// 타입 있는지 모르겠다
 		openEditor: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].edit.state = true;
+			state.sftp[index].edit.state = true;
 		},
 		//CLOSE_EDITOR
 		closeEditor: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].edit.state = false;
-			state.data[index].edit.original = null;
+			state.sftp[index].edit.state = false;
+			state.sftp[index].edit.original = null;
 		},
 		// 초기 내용 저장시 사용
 		//SAVE_TEXT
 		setEditor: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].edit.original = action.payload.text;
+			state.sftp[index].edit.original = action.payload.text;
 		},
 		//CHANGE_SORT_KEYWORD
 		setSort: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			if (state.data[index].sort.type === action.payload.type) {
-				state.data[index].sort.asc = !state.data[index].sort.asc;
+			if (state.sftp[index].sort.type === action.payload.type) {
+				state.sftp[index].sort.asc = !state.sftp[index].sort.asc;
 			} else {
-				state.data[index].sort.asc = true;
+				state.sftp[index].sort.asc = true;
 			}
-			state.data[index].sort.type = action.payload.type;
+			state.sftp[index].sort.type = action.payload.type;
 		},
 		//ADD_HIGHLIGHT, INITIALIZING_HIGHLIGHT, ADD_ONE_HIGHLIGHT, REMOVE_HIGHLIGHT
 		setSelectedFile: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.files = action.payload.result
+			state.sftp[index].selected.files = action.payload.result
 				.slice()
 				.filter((v) => v.name !== '..');
 		},
 		//PUSH_INIT_DELETE_WORK_LIST
 		getSelectedFile: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index][action.payload.type].list =
-				state.data[index].selected.files;
+			state.sftp[index][action.payload.type].list =
+				state.sftp[index].selected.files;
 		},
 		// 	업로드, 다운로드 삭제가 하나의 pause controller를 공유하는게 좋을거 같다
 		setLeftover: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index][action.payload.type].list.unshift(
+			state.sftp[index][action.payload.type].list.unshift(
 				action.payload.item,
 			);
 		},
 		setPause: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].pause.state = !state.data[index].pause.state;
+			state.sftp[index].pause.state = !state.sftp[index].pause.state;
 		},
 		//ADD_HISTORY
 		addHistory: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].history.unshift({
+			state.sftp[index].history.unshift({
 				...action.payload.history,
 				id: HID++,
 				link: LINK,
@@ -375,41 +375,41 @@ const slice = createSlice({
 		},
 		//REMOVE_HISTORY
 		deleteHistory: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].history = state.data[index].history.filter(
+			state.sftp[index].history = state.sftp[index].history.filter(
 				(v) => v.id !== action.payload.id,
 			);
 		},
 		//FIND_HISTORY
 		setHistoryProgress: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
 			// link id로 객체찾기
-			const target = state.data[index].history.find(
+			const target = state.sftp[index].history.find(
 				(v) => v.link === action.payload.link,
 			);
 			if (target) target.progress = action.payload.progress;
 		},
 		// ADD_HISTORY_HI, INITIAL_HISTORY_HI
 		setSelectedHistory: (state, action) => {
-			const index = state.data.findIndex(
+			const index = state.sftp.findIndex(
 				(v) => v.uuid === action.payload.uuid,
 			);
-			state.data[index].selected.historys = action.payload.result;
+			state.sftp[index].selected.historys = action.payload.result;
 		},
 	},
 });
 
 const selectAllState = createSelector(
-	(state) => state.data,
+	(state) => state.sftp,
 	(state) => state.loading,
 	(state) => state.error,
-	(data, error, loading) => {
+	(sftp, error, loading) => {
 		return {
-			data,
+			sftp,
 			error,
 			loading,
 		};

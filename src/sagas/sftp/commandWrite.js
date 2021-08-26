@@ -10,6 +10,7 @@ import {
 import {sftpAction, sftpSelector, types} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
+import {pathFormatter} from '../../utils/sftp';
 
 const writeChunkSize = 1024 * 4; //write_chunkSize
 let percent = 0;
@@ -125,18 +126,18 @@ function getApi({data, file}) {
 function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
-	const {data} = yield select(sftpSelector.all);
-	const sftp = data.find((v) => v.uuid === payload.uuid);
+	const {sftp} = yield select(sftpSelector.all);
+	const state = sftp.find((v) => v.uuid === payload.uuid);
 	let leftover = null;
 
 	try {
-		const channel = yield call(subscribe, sftp.upload.socket);
-		const item = sftp.upload.list.slice().shift();
+		const channel = yield call(subscribe, state.upload.socket);
+		const item = state.upload.list.slice().shift();
 
 		if (!item) {
 			yield put(
 				sftpAction.deleteSocket({
-					socket: sftp.upload.socket,
+					socket: state.upload.socket,
 					uuid: payload.uuid,
 					type: 'upload',
 				}),
@@ -144,7 +145,7 @@ function* worker(action) {
 			yield take(sftpAction.deleteSocketDone);
 			yield put(
 				sftpAction.commandPwd({
-					socket: sftp.socket,
+					socket: state.socket,
 					uuid: payload.uuid,
 				}),
 			);
@@ -158,12 +159,9 @@ function* worker(action) {
 					type: 'upload',
 				}),
 			);
-			const path =
-				item.path === '/'
-					? item.path + item.file.name
-					: `${item.path}/${item.file.name}`;
+			const path = pathFormatter(item.path, item.file.name);
 			yield call(setApi, {
-				socket: sftp.upload.socket,
+				socket: state.upload.socket,
 				path: path,
 				file: item.file,
 				offset: accumulatedByte,
@@ -202,7 +200,7 @@ function* worker(action) {
 					);
 					if (!res.completion) {
 						yield call(setApi, {
-							socket: sftp.upload.socket,
+							socket: state.upload.socket,
 							path: path,
 							file: item.file,
 							offset: res.accByte,

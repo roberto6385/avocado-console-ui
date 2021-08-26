@@ -1,27 +1,22 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {compareFiles, compareTypes, sortingUtil} from '../../../utils/sftp';
+import {
+	compareFiles,
+	compareTypes,
+	pathFormatter,
+	sortingUtil,
+} from '../../../utils/sftp';
 import {useDispatch, useSelector} from 'react-redux';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 import DropListBlock from '../File/DropListBlock';
 import {useContextMenu} from 'react-contexify';
-import {tabBarSelector} from '../../../reducers/tabBar';
 
-const DropListBlockContainer = ({uuid, blockPath}) => {
+const DropListBlockContainer = ({uuid, blockPath, resourceId}) => {
 	const dispatch = useDispatch();
 	const [sortedFiles, setSortedFiles] = useState([]);
 	const [prevPath, setPrevPath] = useState('');
-	const {terminalTabs} = useSelector(tabBarSelector.all);
 
-	const terminalTab = useMemo(
-		() => terminalTabs.find((it) => it.uuid === uuid),
-		[terminalTabs, uuid],
-	);
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(
-		() => data.find((it) => it.uuid === uuid),
-		[data, uuid],
-	);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const {show} = useContextMenu({
 		id: uuid + '-file-list-context-menu',
@@ -30,12 +25,13 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	const openFileListContextMenu = useCallback(
 		(item = null, path = null) =>
 			(e) => {
+				const {socket, selected} = sftp.find((v) => v.uuid === uuid);
 				e.preventDefault();
 				console.log(path);
 				if (path) {
 					dispatch(
 						sftpAction.commandCd({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
 							path: path,
 						}),
@@ -43,7 +39,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 				}
 				if (item) {
 					if (item.name === '..') return;
-					let result = sftp.selected.files.slice();
+					let result = selected.files.slice();
 					if (result.length === 0 || result.length === 1) {
 						dispatch(
 							sftpAction.setSelectedFile({
@@ -59,13 +55,15 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	);
 	const onClickDownloadFile = useCallback(
 		(item) => () => {
+			const {path, download} = sftp.find((v) => v.uuid === uuid);
+
 			if (item.type === 'directory') return;
 
 			dispatch(
 				sftpAction.addList({
 					uuid: uuid,
 					type: types.download,
-					value: {path: sftp.path, file: item},
+					value: {path: path, file: item},
 				}),
 			);
 
@@ -80,37 +78,38 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 				}),
 			);
 
-			if (!sftp.download.on) {
+			if (!download.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
-						key: terminalTab.server.key,
+						key: resourceId,
 						type: types.download,
 					}),
 				);
 			}
 		},
-		[dispatch, sftp, terminalTab, uuid],
+		[dispatch, resourceId, sftp, uuid],
 	);
 
 	const handleSelectItem = useCallback(
 		(item) => (e) => {
-			if (sftp.path === blockPath) {
+			const {path, selected, socket, files} = sftp.find(
+				(v) => v.uuid === uuid,
+			);
+
+			if (path === blockPath) {
 				if (item.type === 'directory') {
 					if (e.metaKey) {
-						if (sftp.selected.files.length === 0) {
+						if (selected.files.length === 0) {
 							dispatch(
 								sftpAction.commandCd({
-									socket: sftp.socket,
+									socket: socket,
 									uuid: uuid,
-									path:
-										blockPath === '/'
-											? blockPath + item.name
-											: `${blockPath}/${item.name}`,
+									path: pathFormatter(blockPath, item.name),
 								}),
 							);
 						} else {
-							let result = sftp.selected.files.slice();
+							let result = selected.files.slice();
 
 							if (result.find((v) => v.name === item.name)) {
 								result = result.filter(
@@ -133,8 +132,8 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 								result: compareFiles(
 									sortedFiles,
 									item,
-									sftp.selected.files.length !== 0
-										? sftp.selected.files.slice().shift()
+									selected.files.length !== 0
+										? selected.files.slice().shift()
 										: sortedFiles[0],
 									compareTypes.name,
 								),
@@ -143,18 +142,15 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 					} else {
 						dispatch(
 							sftpAction.commandCd({
-								socket: sftp.socket,
+								socket: socket,
 								uuid: uuid,
-								path:
-									blockPath === '/'
-										? blockPath + item.name
-										: `${blockPath}/${item.name}`,
+								path: pathFormatter(blockPath, item.name),
 							}),
 						);
 					}
 				} else {
 					if (e.metaKey) {
-						let result = sftp.selected.files.slice();
+						let result = selected.files.slice();
 
 						if (result.find((v) => v.name === item.name)) {
 							result = result.filter((v) => v.name !== item.name);
@@ -174,8 +170,8 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 								result: compareFiles(
 									sortedFiles,
 									item,
-									sftp.selected.files.length !== 0
-										? sftp.selected.files.slice().shift()
+									selected.files.length !== 0
+										? selected.files.slice().shift()
 										: sortedFiles[0],
 									compareTypes.name,
 								),
@@ -191,13 +187,13 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 					}
 				}
 			} else {
-				const formerItem = sftp.files[blockPath].find(
+				const formerItem = files[blockPath].find(
 					(v) => v.name === prevPath,
 				);
 				if (e.metaKey) {
 					dispatch(
 						sftpAction.commandCd({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
 							path: blockPath,
 						}),
@@ -211,7 +207,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 				} else if (e.shiftKey) {
 					dispatch(
 						sftpAction.commandCd({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
 							path: blockPath,
 						}),
@@ -230,14 +226,12 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 				} else {
 					dispatch(
 						sftpAction.commandCd({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
 							path:
 								item.type === 'file'
 									? blockPath
-									: blockPath === '/'
-									? blockPath + item.name
-									: `${blockPath}/${item.name}`,
+									: pathFormatter(blockPath, item.name),
 						}),
 					);
 				}
@@ -247,19 +241,23 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 	);
 
 	useEffect(() => {
+		const {files, sort} = sftp.find((v) => v.uuid === uuid);
+
 		setSortedFiles(
 			sortingUtil({
-				array: sftp.files[blockPath],
-				type: sftp.sort.type,
-				asc: sftp.sort.asc,
+				array: files[blockPath],
+				type: sort.type,
+				asc: sort.asc,
 			}),
 		);
-	}, [blockPath, sftp.files, sftp.sort.asc, sftp.sort.type]);
+	}, [blockPath, sftp, uuid]);
 
 	useEffect(() => {
+		const {path} = sftp.find((v) => v.uuid === uuid);
+
 		const index = blockPath === '/' ? 1 : blockPath.split('/').length;
-		setPrevPath(sftp.path.split('/')[index]);
-	}, [blockPath, sftp.path]);
+		setPrevPath(path.split('/')[index]);
+	}, [blockPath, sftp, uuid]);
 
 	return (
 		<DropListBlock
@@ -269,8 +267,8 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 			prevPath={prevPath}
 			onContextMenu={openFileListContextMenu}
 			onDownload={onClickDownloadFile}
-			currentPath={sftp.path}
-			selectedFiles={sftp.selected.files}
+			currentPath={sftp.find((v) => v.uuid === uuid).path}
+			selectedFiles={sftp.find((v) => v.uuid === uuid).selected.files}
 		/>
 	);
 };
@@ -278,6 +276,7 @@ const DropListBlockContainer = ({uuid, blockPath}) => {
 DropListBlockContainer.propTypes = {
 	uuid: PropTypes.string.isRequired,
 	blockPath: PropTypes.string.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default DropListBlockContainer;

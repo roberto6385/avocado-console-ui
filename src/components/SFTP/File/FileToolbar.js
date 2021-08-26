@@ -32,18 +32,14 @@ const _Form = styled.form`
 const FileToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
-	const {data} = useSelector(sftpSelector.all);
-
-	const {
-		path = '',
-		socket,
-		mode,
-	} = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const [currentPath, onChangeCurrentPath, setCurrentPath] = useInput('');
 
 	const onClickMoveToRootPath = useCallback(
 		(e, nextPath = '/root') => {
+			const {socket} = sftp.find((v) => v.uuid === uuid);
+			console.log(socket);
 			const pathInput = document.getElementById('file-list-nav-input');
 			nextPath !== undefined &&
 				dispatch(
@@ -55,11 +51,13 @@ const FileToolbar = ({uuid}) => {
 				) &&
 				pathInput.blur();
 		},
-		[dispatch, socket, uuid],
+		[dispatch, sftp, uuid],
 	);
 
 	const onClickMovetoParentRath = useCallback(
 		(e) => {
+			const {path} = sftp.find((v) => v.uuid === uuid);
+
 			if (path !== '/') {
 				console.log(path);
 				let tempPath = path.split('/');
@@ -69,36 +67,39 @@ const FileToolbar = ({uuid}) => {
 				onClickMoveToRootPath(e, nextPath === '' ? '/' : nextPath);
 			}
 		},
-		[onClickMoveToRootPath, path],
+		[onClickMoveToRootPath, sftp, uuid],
 	);
 	const onSubmitChangePath = useCallback(
 		(e) => {
 			e.preventDefault();
+			const {path} = sftp.find((v) => v.uuid === uuid);
 			currentPath !== ''
 				? onClickMoveToRootPath(e, currentPath)
 				: setCurrentPath(path);
 		},
-		[currentPath, onClickMoveToRootPath, path, setCurrentPath],
+		[currentPath, onClickMoveToRootPath, setCurrentPath, sftp, uuid],
 	);
 
 	const onBlurChangePath = useCallback(() => {
+		const {path} = sftp.find((v) => v.uuid === uuid);
 		setCurrentPath(path);
-	}, [path, setCurrentPath]);
+	}, [setCurrentPath, sftp, uuid]);
 
 	const onKeyDownChangePath = useCallback(
 		(e) => {
 			const pathInput = document.getElementById('file-list-nav-input');
-
+			const {path} = sftp.find((v) => v.uuid === uuid);
 			if (e.keyCode === 27) {
 				setCurrentPath(path);
 				pathInput.blur();
 			}
 		},
-		[path, setCurrentPath],
+		[setCurrentPath, sftp, uuid],
 	);
 
 	const onClickChangeMode = useCallback(
 		(type) => () => {
+			const {mode} = sftp.find((v) => v.uuid === uuid);
 			if (type === mode) return;
 			dispatch(
 				sftpAction.setMode({
@@ -107,21 +108,24 @@ const FileToolbar = ({uuid}) => {
 				}),
 			);
 		},
-		[dispatch, mode, uuid],
+		[dispatch, sftp, uuid],
 	);
 
 	const onClickRefreshList = useCallback(() => {
+		const {socket} = sftp.find((v) => v.uuid === uuid);
+
 		dispatch(
 			sftpAction.commandPwd({
 				socket: socket,
 				uuid: uuid,
 			}),
 		);
-	}, [dispatch, socket, uuid]);
+	}, [dispatch, sftp, uuid]);
 
 	useEffect(() => {
+		const {path} = sftp.find((v) => v.uuid === uuid);
 		uuid && setCurrentPath(path);
-	}, [uuid, path, setCurrentPath]);
+	}, [uuid, setCurrentPath, sftp]);
 
 	return (
 		<_Container>
@@ -132,14 +136,22 @@ const FileToolbar = ({uuid}) => {
 				{arrowUpwordIcon}
 			</HoverButton>
 			<SftpMainIcon
-				type={mode === 'list' ? 'main' : undefined}
+				type={
+					sftp.find((v) => v.uuid === uuid).mode === 'list'
+						? 'main'
+						: undefined
+				}
 				margin={'13px 5px'}
 				onClick={onClickChangeMode('list')}
 			>
 				{viewListIcon}
 			</SftpMainIcon>
 			<SftpMainIcon
-				type={mode === 'drop' ? 'main' : undefined}
+				type={
+					sftp.find((v) => v.uuid === uuid).mode === 'drop'
+						? 'main'
+						: undefined
+				}
 				margin={'13px 16px 13px 5px'}
 				onClick={onClickChangeMode('drop')}
 			>

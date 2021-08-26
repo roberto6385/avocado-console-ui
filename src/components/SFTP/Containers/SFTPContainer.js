@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import SFTP from '../SFTP';
@@ -7,64 +7,50 @@ import {tabBarSelector} from '../../../reducers/tabBar';
 
 const SFTPContainer = ({uuid}) => {
 	const dispatch = useDispatch();
+	const {sftp} = useSelector(sftpSelector.all);
 	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const {data} = useSelector(sftpSelector.all);
-	const terminalTab = useMemo(
-		() => terminalTabs.find((v) => v.uuid === uuid),
-		[terminalTabs, uuid],
-	);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
+	const {resourceId} = terminalTabs.find((v) => v.uuid === uuid);
 
 	// delete
 	useEffect(() => {
-		if (
-			sftp.delete.socket &&
-			sftp.delete.list.length !== 0 &&
-			!sftp.delete.on // switch => on이 아닐 때!
-		) {
+		const {socket, list, on} = sftp.find((v) => v.uuid === uuid).delete;
+		if (socket && list.length !== 0 && !on) {
 			dispatch(sftpAction.commandRemove({uuid: uuid}));
 		}
-	}, [dispatch, sftp.delete, uuid]);
+	}, [dispatch, sftp, uuid]);
 
 	//search
 	useEffect(() => {
-		if (
-			sftp.search.socket &&
-			sftp.search.list.length !== 0 &&
-			!sftp.search.on // switch => on이 아닐 때!
-		) {
+		const {socket, list, on} = sftp.find((v) => v.uuid === uuid).search;
+		if (socket && list.length !== 0 && !on) {
 			dispatch(
 				sftpAction.searchDirectory({
 					uuid: uuid,
-					key: terminalTab.server.key,
+					key: resourceId,
 				}),
 			);
 		}
-	}, [dispatch, sftp.search, terminalTab.server.key, uuid]);
+	}, [dispatch, resourceId, sftp, sftp.search, uuid]);
 
 	// upload
 	useEffect(() => {
-		if (
-			sftp.upload.socket &&
-			sftp.upload.list.length !== 0 &&
-			!sftp.upload.on
-		) {
+		const {socket, list, on} = sftp.find((v) => v.uuid === uuid).upload;
+
+		if (socket && list.length !== 0 && !on) {
 			dispatch(sftpAction.commandWrite({uuid: uuid}));
 		}
-	}, [dispatch, sftp.upload, uuid]);
+	}, [dispatch, sftp, sftp.upload, uuid]);
 
 	// download;
 	useEffect(() => {
-		if (
-			sftp.download.socket &&
-			sftp.download.list.length !== 0 &&
-			!sftp.download.on
-		) {
+		const {socket, list, on} = sftp.find((v) => v.uuid === uuid).download;
+
+		if (socket && list.length !== 0 && !on) {
 			dispatch(sftpAction.commandRead({uuid: uuid}));
 		}
-	}, [dispatch, sftp.download, uuid]);
+	}, [dispatch, sftp, sftp.download, uuid]);
 
-	return <SFTP uuid={uuid} />;
+	return <SFTP uuid={uuid} resourceId={resourceId} />;
 };
 
 SFTPContainer.propTypes = {

@@ -44,8 +44,7 @@ const _Thead = styled.thead`
 const TableHeader = ({uuid}) => {
 	const {t} = useTranslation('fileListContent');
 	const dispatch = useDispatch();
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const tableHeaders = [
 		{title: t('name'), key: 'name', min: '142px', flex: 1},
@@ -69,7 +68,10 @@ const TableHeader = ({uuid}) => {
 					return (
 						<_Th
 							key={item.key}
-							active={sftp.sort.type === item.key}
+							active={
+								sftp.find((v) => v.uuid === uuid).sort.type ===
+								item.key
+							}
 							textAlign={item.key === 'size' && 'right'}
 							onClick={onSortList(item.key)}
 							min={item.min}

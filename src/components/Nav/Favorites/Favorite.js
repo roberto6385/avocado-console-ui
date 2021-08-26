@@ -57,13 +57,7 @@ const Favorite = ({data, indent}) => {
 			if (computingSystemPort.protocol === 'SFTP') {
 				dispatch(
 					sftpAction.connect({
-						token: userData.access_token, // connection info
-						host: resource.host,
-						port: resource.port,
-						user: account.user,
-						password: account.password,
-						name: resource.name, // create tab info
-						id: resource.id,
+						resourceId: data.id,
 					}),
 				);
 			}

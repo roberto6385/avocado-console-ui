@@ -76,8 +76,7 @@ const Pane = ({uuid, type, resourceId}) => {
 	const {resources, accounts} = useSelector(remoteResourceSelector.all);
 
 	const {ssh} = useSelector(sshSelector.all);
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	//TODO: if possible to use ws.readyState, delete readyState
 	const [readyState, setReadyState] = useState(1);
@@ -99,10 +98,11 @@ const Pane = ({uuid, type, resourceId}) => {
 				);
 			}
 			if (type === 'SFTP') {
+				const {socket} = sftp.find((v) => v.uuid === uuid);
 				dispatch(
 					sftpAction.disconnect({
 						uuid: uuid,
-						socket: sftp.socket,
+						socket: socket,
 					}),
 				);
 			}
@@ -132,6 +132,8 @@ const Pane = ({uuid, type, resourceId}) => {
 			);
 		}
 		if (type === 'SFTP') {
+			const {path} = sftp.find((v) => v.uuid === uuid);
+
 			dispatch(
 				sftpAction.reconnect({
 					token: userData.access_token, // connection info
@@ -142,7 +144,7 @@ const Pane = ({uuid, type, resourceId}) => {
 					name: resource.name, // create tab info
 					id: resource.id,
 					prevUuid: uuid,
-					prevPath: sftp.path,
+					prevPath: path,
 					prevIndex: terminalTabIndex,
 				}),
 			);
@@ -164,7 +166,7 @@ const Pane = ({uuid, type, resourceId}) => {
 			setReadyState(ssh.find((v) => v.uuid === uuid).ready);
 		}
 		if (type === 'SFTP') {
-			setReadyState(sftp.readyState);
+			setReadyState(sftp.find((v) => v.uuid === uuid).readyState);
 		}
 	}, [sftp, ssh, type, uuid]);
 
@@ -209,9 +211,7 @@ const Pane = ({uuid, type, resourceId}) => {
 					</HoverButton>
 				</_Header>
 			)}
-			{type === 'SSH' && (
-				<SSHContainer uuid={uuid} resourceId={resourceId} />
-			)}
+			{type === 'SSH' && <SSHContainer uuid={uuid} />}
 			{type === 'SFTP' && <SFTPContainer uuid={uuid} />}
 		</_Container>
 	);

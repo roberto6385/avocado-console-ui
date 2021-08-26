@@ -71,9 +71,9 @@ function* worker(action) {
 		);
 		return;
 	}
-	const {data} = yield select(sftpSelector.all);
-	const sftp = data.find((v) => v.uuid === payload.uuid);
-	if (sftp.path === payload.path) return; // 현재경로 to 현재경로 차단
+	const {sftp} = yield select(sftpSelector.all);
+	const state = sftp.find((v) => v.uuid === payload.uuid);
+	if (state.path === payload.path) return; // 현재경로 to 현재경로 차단
 	try {
 		const channel = yield call(subscribe, payload.socket);
 		yield call(setApi, {path: payload.path, socket: payload.socket});

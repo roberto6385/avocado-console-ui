@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -11,7 +11,6 @@ import {
 	playIcon,
 } from '../../../icons/icons';
 import {HoverButton} from '../../../styles/components/icon';
-import {tabBarSelector} from '../../../reducers/tabBar';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 
 const _Container = styled.div`
@@ -35,9 +34,7 @@ const _ButtonContainer = styled.div`
 const HistoryToolbar = ({uuid}) => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('historyToolbar');
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
-	const {terminalTabs} = useSelector(tabBarSelector.all);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const onClickUploadFile = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -47,14 +44,14 @@ const HistoryToolbar = ({uuid}) => {
 		uploadInput.setAttribute('style', 'display:none');
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
+			const {path, upload} = sftp.find((v) => v.uuid === uuid);
 			const files = e.target.files;
-			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
 			for await (let v of files) {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
 						type: types.upload,
-						value: {path: sftp.path, file: v},
+						value: {path: path, file: v},
 					}),
 				);
 
@@ -69,42 +66,32 @@ const HistoryToolbar = ({uuid}) => {
 					}),
 				);
 			}
-			if (!sftp.upload.on) {
+			if (!upload.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
-						key: terminalTab.server.key,
 						type: types.upload,
 					}),
 				);
 			}
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, sftp.path, sftp.upload.on, terminalTabs, uuid]);
+	}, [sftp, uuid, dispatch]);
 
 	const handlePauseStateControl = useCallback(() => {
+		const {pause} = sftp.find((v) => v.uuid === uuid);
+
 		const typeSlice = [types.upload, types.download, types.delete];
-		const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
-
-		// for (let v of typeSlice) {
-		// 	if (!sftp[v].on) {
-		// 		console.log('on');
-		// 	} else {
-		// 		return;
-		// 	}
-		// }
-
 		dispatch(sftpAction.setPause({uuid: uuid}));
 		// memo 잔여 데이터 저장시간동안 block
-		if (sftp.pause.state) {
+		if (pause.state) {
 			//memo : 정지상태
 			for (let v of typeSlice) {
-				if (!sftp[v].on && sftp[v].list.length !== 0) {
+				if (![v].on && [v].list.length !== 0) {
 					dispatch(
 						sftpAction.createSocket({
 							uuid: uuid,
 							type: types[v],
-							key: terminalTab.server.key,
 						}),
 					);
 				}
@@ -112,10 +99,10 @@ const HistoryToolbar = ({uuid}) => {
 		} else {
 			//memo : 가동상태
 			for (let v of typeSlice) {
-				if (sftp[v].on) {
+				if ([v].on) {
 					dispatch(
 						sftpAction.deleteSocket({
-							socket: sftp[v].socket,
+							socket: [v].socket,
 							uuid: uuid,
 							type: types[v],
 						}),
@@ -123,7 +110,7 @@ const HistoryToolbar = ({uuid}) => {
 				}
 			}
 		}
-	}, [dispatch, sftp, terminalTabs, uuid]);
+	}, [dispatch, sftp, uuid]);
 
 	const onClickDeleteHistory = useCallback(() => {
 		// if (sftpHistory.find((it) => it.uuid === uuid).length === 0) {
@@ -143,7 +130,9 @@ const HistoryToolbar = ({uuid}) => {
 			<div>{t('title')}</div>
 			<_ButtonContainer>
 				<HoverButton margin={'0px'} onClick={handlePauseStateControl}>
-					{sftp.pause.state ? playIcon : pauseIcon}
+					{sftp.find((v) => v.uuid === uuid).pause.state
+						? playIcon
+						: pauseIcon}
 				</HoverButton>
 				<HoverButton margin={'10px'} onClick={onClickUploadFile}>
 					{fileUploadIcon}

@@ -29,31 +29,12 @@ const FavoriteContextMenu = ({resourceId}) => {
 	};
 
 	const onClickOpenSFTP = useCallback(() => {
-		const resource = computingSystemServicePorts.find(
-			(v) => v.id === resourceId,
-		);
-		const account = accounts.find(
-			(v) => v.resourceId === resourceId && v.isDefaultAccount === true,
-		);
-
 		dispatch(
 			sftpAction.connect({
-				token: userData.access_token, // connection info
-				host: resource.host,
-				port: resource.port,
-				user: account.user,
-				password: account.password,
-				name: resource.name, // create tab info
-				id: resource.id,
+				resourceId,
 			}),
 		);
-	}, [
-		accounts,
-		computingSystemServicePorts,
-		dispatch,
-		resourceId,
-		userData.access_token,
-	]);
+	}, [dispatch, resourceId]);
 
 	const onClickOpenSSH = useCallback(() => {
 		const computingSystemPort = computingSystemServicePorts.find(
@@ -105,7 +86,7 @@ const FavoriteContextMenu = ({resourceId}) => {
 					return;
 			}
 		},
-		[resourceId, dispatch, onClickOpenSFTP, onClickOpenSSH],
+		[onClickOpenSSH, onClickOpenSFTP, dispatch, resourceId, t],
 	);
 
 	return (

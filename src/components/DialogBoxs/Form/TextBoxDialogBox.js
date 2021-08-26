@@ -18,6 +18,7 @@ import {
 import {TextBox} from '../../../styles/components/textBox';
 import {Form} from '../../../styles/components/form';
 import {sftpAction, sftpSelector} from '../../../reducers/renewal';
+import {pathFormatter} from '../../../utils/sftp';
 
 const _PopupModal = styled(DialogBox)`
 	width: 404px;
@@ -31,7 +32,7 @@ const TextBoxDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('textBoxDialogBox');
 
-	const {data} = useSelector(sftpSelector.all);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const {form} = useSelector(dialogBoxSelector.all);
 	//TODO: 꼭 prevFormValue 값이 필요한가?
@@ -60,38 +61,31 @@ const TextBoxDialogBox = () => {
 		(e) => {
 			e.preventDefault();
 			const uuid = form.uuid;
-			const sftp = data.find((v) => v.uuid === uuid);
 
 			if (textBoxVal === '') return;
 
 			switch (form.key) {
 				case 'sftp-rename-file-folder': {
+					const {socket, path} = sftp.find((v) => v.uuid === uuid);
 					dispatch(
 						sftpAction.commandRename({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
-							oldPath:
-								sftp.path === '/'
-									? `${sftp.path}${prevFormValue}`
-									: `${sftp.path}/${prevFormValue}`,
-							newPath:
-								sftp.path === '/'
-									? `${sftp.path}${textBoxVal}`
-									: `${sftp.path}/${textBoxVal}`,
+							oldPath: pathFormatter(path, prevFormValue),
+							newPath: pathFormatter(path, textBoxVal),
 						}),
 					);
 					break;
 				}
 
 				case 'sftp-new-folder': {
+					const {socket, path} = sftp.find((v) => v.uuid === uuid);
+
 					dispatch(
 						sftpAction.commandMkdir({
-							socket: sftp.socket,
+							socket: socket,
 							uuid: uuid,
-							path:
-								sftp.path === '/'
-									? `${sftp.path}${textBoxVal}`
-									: `${sftp.path}/${textBoxVal}`,
+							path: pathFormatter(path, textBoxVal),
 						}),
 					);
 					break;
@@ -112,13 +106,12 @@ const TextBoxDialogBox = () => {
 			onClickCloseDialogBox();
 		},
 		[
-			form.uuid,
-			form.key,
-			data,
-			textBoxVal,
-			onClickCloseDialogBox,
 			dispatch,
+			form,
+			onClickCloseDialogBox,
 			prevFormValue,
+			sftp,
+			textBoxVal,
 		],
 	);
 
@@ -145,24 +138,32 @@ const TextBoxDialogBox = () => {
 
 	useEffect(() => {
 		const uuid = form.uuid;
-		const sftp = data.find((v) => v.uuid === uuid);
 		if (uuid) {
 			if (
-				sftp.selected.files !== [] &&
-				sftp.selected.files.length === 1
+				sftp.find((v) => v.uuid === uuid).selected.files !== [] &&
+				sftp.find((v) => v.uuid === uuid).selected.files.length === 1
 			) {
 				if (form.key === 'sftp-rename-file-folder') {
-					setPrevFormValue(sftp.selected.files[0].name);
+					setPrevFormValue(
+						sftp.find((v) => v.uuid === uuid).selected.files[0]
+							.name,
+					);
 				}
 				if (form.key === 'sftp-change-group') {
-					setPrevFormValue(sftp.selected.files[0].group);
+					setPrevFormValue(
+						sftp.find((v) => v.uuid === uuid).selected.files[0]
+							.group,
+					);
 				}
 				if (form.key === 'sftp-chnage-owner') {
-					setPrevFormValue(sftp.selected.files[0].owner);
+					setPrevFormValue(
+						sftp.find((v) => v.uuid === uuid).selected.files[0]
+							.owner,
+					);
 				}
 			}
 		}
-	}, [data, form.key, form.uuid]);
+	}, [form.key, form.uuid, sftp]);
 
 	return (
 		<_PopupModal

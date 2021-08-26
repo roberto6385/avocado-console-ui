@@ -16,6 +16,10 @@ export const compareFiles = (total, select, criterion, type) => {
 	return array;
 };
 
+export const pathFormatter = (path, name) => {
+	return path === '/' ? `${path}${name}` : `${path}/${name}`;
+};
+
 export function fileByteSizeFormater(bytes, decimals = 0) {
 	if (bytes === 0) {
 		return '0 byte';

@@ -71,7 +71,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 
 	const {terminalTabs, selectedTab} = useSelector(tabBarSelector.all);
 	const {ssh} = useSelector(sshSelector.all);
-	const {data} = useSelector(sftpSelector.all);
+	const {sftp} = useSelector(sftpSelector.all);
 	const {resources} = useSelector(remoteResourceSelector.all);
 
 	const onClickChangeVisibleTab = useCallback(
@@ -93,7 +93,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 					}),
 				);
 			} else if (item.type === 'SFTP') {
-				const {socket} = data.find((v) => v.uuid === item.uuid);
+				const {socket} = sftp.find((v) => v.uuid === item.uuid);
 				dispatch(
 					sftpAction.disconnect({
 						uuid: item.uuid,
@@ -102,7 +102,7 @@ const TabBar = ({isOpned, setisOpened}) => {
 				);
 			}
 		},
-		[dispatch, ssh, data],
+		[dispatch, ssh, sftp],
 	);
 
 	useEffect(() => {

@@ -1,45 +1,13 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback} from 'react';
 import History from '../History/History';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	ADD_HISTORY_HI,
-	INITIAL_HISTORY_HI,
-	REMOVE_HISTORY,
-	REMOVE_READ_WRITE_LIST,
-} from '../../../reducers/sftp';
 import * as PropTypes from 'prop-types';
-import {authSelector} from '../../../reducers/api/auth';
-import {tabBarSelector} from '../../../reducers/tabBar';
-import {remoteResourceSelector} from '../../../reducers/remoteResource';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 import {compareFiles, compareTypes} from '../../../utils/sftp';
 
-const HistoryContianer = ({uuid}) => {
+const HistoryContianer = ({uuid, resourceId}) => {
 	const dispatch = useDispatch();
-	const [prevOffset, setPrevOffset] = useState(null);
-	const {userData} = useSelector(authSelector.all);
-	const {resources, accounts} = useSelector(remoteResourceSelector.all);
-	const {data} = useSelector(sftpSelector.all);
-	const sftp = useMemo(() => data.find((v) => v.uuid === uuid), [data, uuid]);
-
-	const {terminalTabs} = useSelector(tabBarSelector.all);
-	const terminalTab = useMemo(
-		() => terminalTabs.find((it) => it.uuid === uuid),
-		[terminalTabs, uuid],
-	);
-
-	const resource = useMemo(
-		() => resources.find((it) => it.key === terminalTab.server.key),
-		[terminalTab.server.key, resources],
-	);
-	const account = useMemo(
-		() =>
-			accounts.find(
-				(it) =>
-					it.key === terminalTab.resourceId && it.checked === true,
-			),
-		[accounts, terminalTab],
-	);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const onClickUploadHistory = useCallback(async () => {
 		const uploadInput = document.createElement('input');
@@ -49,14 +17,14 @@ const HistoryContianer = ({uuid}) => {
 		uploadInput.setAttribute('style', 'display:none');
 		uploadInput.click();
 		uploadInput.onchange = async (e) => {
+			const {path, upload} = sftp.find((v) => v.uuid === uuid);
 			const files = e.target.files;
-			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
 			for await (let v of files) {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
 						type: types.upload,
-						value: {path: sftp.path, file: v},
+						value: {path: path, file: v},
 					}),
 				);
 				dispatch(
@@ -70,29 +38,30 @@ const HistoryContianer = ({uuid}) => {
 					}),
 				);
 			}
-			if (!sftp.upload.on) {
+			if (!upload.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
-						key: terminalTab.server.key,
+						key: resourceId,
 						type: types.upload,
 					}),
 				);
 			}
 		};
 		document.body.removeChild(uploadInput);
-	}, [dispatch, sftp, terminalTabs, uuid]);
+	}, [dispatch, resourceId, sftp, uuid]);
 
 	const onDropUploadHistory = useCallback(
 		async (files) => {
+			const {path, upload} = sftp.find((v) => v.uuid === uuid);
+
 			console.log(files);
-			const terminalTab = terminalTabs.find((it) => it.uuid === uuid);
 			for await (let v of files) {
 				dispatch(
 					sftpAction.addList({
 						uuid: uuid,
 						type: types.upload,
-						value: {path: sftp.path, file: v},
+						value: {path: path, file: v},
 					}),
 				);
 				dispatch(
@@ -106,46 +75,24 @@ const HistoryContianer = ({uuid}) => {
 					}),
 				);
 			}
-			if (!sftp.upload.on) {
+			if (!upload.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
-						key: terminalTab.server.key,
+						key: resourceId,
 						type: types.upload,
 					}),
 				);
 			}
 		},
-		[dispatch, sftp, terminalTabs, uuid],
-	);
-	const compareHistories = useCallback(
-		(first, second) => {
-			dispatch({type: INITIAL_HISTORY_HI, payload: {uuid}});
-
-			let list = [];
-			if (first <= second) {
-				for (let i = first; i <= second; i++) {
-					list.push(history[i]);
-				}
-			} else {
-				for (let i = first; i >= second; i--) {
-					list.push(history[i]);
-				}
-			}
-			dispatch({
-				type: ADD_HISTORY_HI,
-				payload: {
-					uuid,
-					history: list,
-				},
-			});
-		},
-		[dispatch, history, uuid],
+		[dispatch, resourceId, sftp, uuid],
 	);
 
 	const onClickSelectHistory = useCallback(
 		(item) => (e) => {
-			let result = sftp.selected.historys.slice();
+			const {selected} = sftp.find((v) => v.uuid === uuid);
+
+			let result = selected.historys.slice();
 			if (e.metaKey) {
 				if (result.find((v) => v.id === item.id)) {
 					result = result.filter((v) => v.id !== item.id);
@@ -154,14 +101,12 @@ const HistoryContianer = ({uuid}) => {
 				}
 			} else if (e.shiftKey) {
 				if (result.length === 0) {
-					const index = sftp.history.findIndex(
-						(v) => v.id === item.id,
-					);
+					const index = history.findIndex((v) => v.id === item.id);
 					console.log(index);
-					result = sftp.history.slice(0, index + 1);
+					result = history.slice(0, index + 1);
 				} else {
 					result = compareFiles(
-						sftp.history,
+						history,
 						item,
 						result[0],
 						compareTypes.id,
@@ -181,32 +126,14 @@ const HistoryContianer = ({uuid}) => {
 	);
 
 	//TODO progress가 0인 히스토리 삭제 시 작업삭제
-	const onClickDeleteHistory = useCallback(
-		(history) => () => {
-			if (history.progress === 0) {
-				console.log(history);
-				dispatch({
-					type: REMOVE_READ_WRITE_LIST,
-					payload: {uuid, history},
-				});
-			}
-			if (
-				history.progress === 0 ||
-				history.progress === 100 ||
-				isNaN(history.progress)
-			) {
-				dispatch({type: REMOVE_HISTORY, payload: {uuid, history}});
-			}
-		},
-		[dispatch, uuid],
-	);
+	const onClickDeleteHistory = useCallback(() => () => {}, []);
 
 	return (
 		<History
-			history={sftp.history}
-			selectedHistorys={sftp.selected.historys}
-			// writeSocket={writeSocket}
-			// readSocket={readSocket}
+			history={sftp.find((v) => v.uuid === uuid).history}
+			selectedHistorys={
+				sftp.find((v) => v.uuid === uuid).selected.historys
+			}
 			onDropUpload={onDropUploadHistory}
 			onClickUpload={onClickUploadHistory}
 			onSelect={onClickSelectHistory}
@@ -217,6 +144,7 @@ const HistoryContianer = ({uuid}) => {
 
 HistoryContianer.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default HistoryContianer;

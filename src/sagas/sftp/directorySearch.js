@@ -100,20 +100,20 @@ function getApi(data) {
 
 function* worker(action) {
 	const {payload} = action;
-	const {data} = yield select(sftpSelector.all);
-	const sftp = data.find((v) => v.uuid === payload.uuid);
+	const {sftp} = yield select(sftpSelector.all);
+	const state = sftp.find((v) => v.uuid === payload.uuid);
 	try {
-		const channel = yield call(subscribe, sftp.search.socket);
-		const item = sftp.search.list.slice().shift();
+		const channel = yield call(subscribe, state.search.socket);
+		const item = state.search.list.slice().shift();
 		if (!item) {
 			yield put(
 				sftpAction.deleteSocket({
-					socket: sftp.search.socket,
+					socket: state.search.socket,
 					uuid: payload.uuid,
 					type: types.search,
 				}),
 			);
-			if (!sftp.delete.socket) {
+			if (!state.delete.socket) {
 				yield put(
 					sftpAction.createSocket({
 						uuid: payload.uuid,
@@ -143,7 +143,7 @@ function* worker(action) {
 						? item.path + item.file.name
 						: `${item.path}/${item.file.name}`;
 				yield call(setApi, {
-					socket: sftp.search.socket,
+					socket: state.search.socket,
 					path: path,
 				});
 				const data = yield take(channel);

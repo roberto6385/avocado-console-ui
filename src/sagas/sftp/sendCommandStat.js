@@ -19,6 +19,7 @@ import messageSender from './messageSender';
 
 import {closeChannel, subscribe} from '../channel';
 import {statResponse} from '../../ws/sftp/stat_response';
+import {pathFormatter} from '../../utils/sftp';
 
 function* sendCommand(action) {
 	const {payload} = action;
@@ -28,10 +29,7 @@ function* sendCommand(action) {
 	const channel = yield call(subscribe, payload.socket);
 
 	try {
-		const path =
-			payload.cd_path === '/'
-				? payload.stat_path + payload.file.name
-				: payload.stat_path + '/' + payload.file.name;
+		const path = pathFormatter(payload.cd_path, payload.file.name);
 		if (payload.socket.readyState === 3) {
 			console.log('closed');
 			return;

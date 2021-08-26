@@ -17,7 +17,6 @@ import {
 	DialogBoxHeader,
 	DialogBoxMessage,
 } from '../../../styles/components/disalogBox';
-import {tabBarSelector} from '../../../reducers/tabBar';
 import {favoritesAction} from '../../../reducers/favorites';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
 
@@ -25,9 +24,8 @@ const DeleteDialogBox = () => {
 	const dispatch = useDispatch();
 	const {t} = useTranslation('deleteDialogBox');
 
-	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {alert} = useSelector(dialogBoxSelector.all);
-	const {data} = useSelector(sftpSelector.all);
+	const {sftp} = useSelector(sftpSelector.all);
 
 	const alertMessages = {
 		'sftp-delete-file': t('sftpDeleteFile'),
@@ -58,17 +56,16 @@ const DeleteDialogBox = () => {
 			switch (alert.key) {
 				case 'sftp-delete-file': {
 					const uuid = alert.uuid;
-					const sftp = data.find((v) => v.uuid === uuid);
-					const terminalTab = terminalTabs.find(
-						(it) => it.uuid === uuid,
+					const {selected, path, search} = sftp.find(
+						(v) => v.uuid === uuid,
 					);
 
-					for await (let v of sftp.selected.files) {
+					for await (let v of selected.files) {
 						dispatch(
 							sftpAction.addList({
 								uuid: uuid,
 								type: types.search,
-								value: {path: sftp.path, file: v},
+								value: {path: path, file: v},
 							}),
 						);
 						dispatch(
@@ -82,11 +79,10 @@ const DeleteDialogBox = () => {
 							}),
 						);
 					}
-					if (!sftp.search.on) {
+					if (!search.on) {
 						dispatch(
 							sftpAction.createSocket({
 								uuid: uuid,
-								key: terminalTab.server.key,
 								type: types.search,
 							}),
 						);
@@ -132,7 +128,7 @@ const DeleteDialogBox = () => {
 			}
 			dispatch(dialogBoxAction.closeAlert());
 		},
-		[alert, data, dispatch, terminalTabs],
+		[alert.id, alert.key, alert.uuid, dispatch],
 	);
 
 	return (

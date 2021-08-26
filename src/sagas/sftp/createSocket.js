@@ -1,18 +1,11 @@
-import {
-	all,
-	call,
-	debounce,
-	put,
-	select,
-	take,
-	takeEvery,
-} from 'redux-saga/effects';
+import {call, debounce, put, select, take} from 'redux-saga/effects';
 import {sftpAction} from '../../reducers/renewal';
 import {subscribe} from '../channel';
 import SFTP from '../../dist/sftp_pb';
 import {createWebsocket} from './socket';
 import {remoteResourceSelector} from '../../reducers/remoteResource';
 import {authSelector} from '../../reducers/api/auth';
+import {tabBarSelector} from '../../reducers/tabBar';
 
 function setApi(data) {
 	const message = new SFTP.Message();
@@ -72,11 +65,18 @@ function getApi(data) {
 function* worker(action) {
 	const {payload} = action;
 	console.log(payload);
-
-	const {resources, accounts} = yield select(remoteResourceSelector.all);
+	const {terminalTabs} = yield select(tabBarSelector.all);
+	const {resourceId} = terminalTabs.find((v) => v.uuid === payload.uuid);
+	const {computingSystemServicePorts, accounts} = yield select(
+		remoteResourceSelector.all,
+	);
 	const {userData} = yield select(authSelector.all);
-	const resource = resources.find((v) => v.key === payload.key);
-	const account = accounts.find((v) => v.key === payload.key && v.checked);
+	const computingSystemServicePort = computingSystemServicePorts.find(
+		(v) => v.id === resourceId,
+	);
+	const account = accounts.find(
+		(v) => v.resourceId === resourceId && v.isDefaultAccount,
+	);
 
 	try {
 		const socket = yield call(createWebsocket);
@@ -84,8 +84,8 @@ function* worker(action) {
 
 		yield call(setApi, {
 			token: userData.access_token, // connection info
-			host: resource.host,
-			port: resource.port,
+			host: computingSystemServicePort.host,
+			port: computingSystemServicePort.port,
 			user: account.user,
 			password: account.password,
 			socket: socket,

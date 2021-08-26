@@ -181,8 +181,6 @@ const History = ({
 	onSelect,
 	selectedHistorys,
 	onRemove,
-	writeSocket,
-	readSocket,
 	history,
 }) => {
 	const {t} = useTranslation('history');

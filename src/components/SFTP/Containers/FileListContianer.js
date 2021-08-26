@@ -4,26 +4,19 @@ import * as PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {useContextMenu} from 'react-contexify';
 import {settingSelector} from '../../../reducers/setting';
-import {tabBarSelector} from '../../../reducers/tabBar';
 import {sftpAction, sftpSelector, types} from '../../../reducers/renewal';
-import {compareFiles, compareTypes, sortingUtil} from '../../../utils/sftp';
+import {
+	compareFiles,
+	compareTypes,
+	pathFormatter,
+	sortingUtil,
+} from '../../../utils/sftp';
 
-const FileListContianer = ({uuid}) => {
+const FileListContianer = ({uuid, resourceId}) => {
 	const dispatch = useDispatch();
-
-	const {terminalTabs} = useSelector(tabBarSelector.all);
 	const {language} = useSelector(settingSelector.all);
-	const {data} = useSelector(sftpSelector.all);
+	const {sftp} = useSelector(sftpSelector.all);
 
-	const terminalTab = useMemo(
-		() => terminalTabs.find((it) => it.uuid === uuid),
-		[terminalTabs, uuid],
-	);
-
-	const sftp = useMemo(
-		() => data.find((it) => it.uuid === uuid),
-		[data, uuid],
-	);
 	const {show} = useContextMenu({
 		id: uuid + '-file-list-context-menu',
 	});
@@ -32,32 +25,32 @@ const FileListContianer = ({uuid}) => {
 
 	const handleChangePath = useCallback(
 		(item) => () => {
+			const {socket, path} = sftp.find((v) => v.uuid === uuid);
+
 			if (item.type === 'directory') {
-				const path =
-					sftp.path === '/'
-						? sftp.path + item.name
-						: sftp.path + '/' + item.name;
 				dispatch(
 					sftpAction.commandCd({
-						socket: sftp.socket,
+						socket: socket,
 						uuid: uuid,
-						path: path,
+						path: pathFormatter(path, item.name),
 					}),
 				);
 			}
 		},
-		[dispatch, sftp.path, sftp.socket, uuid],
+		[dispatch, sftp, uuid],
 	);
 
 	const onClickDownloadFile = useCallback(
 		(item) => () => {
+			const {path, download} = sftp.find((v) => v.uuid === uuid);
+
 			if (item.type === 'directory') return;
 
 			dispatch(
 				sftpAction.addList({
 					uuid: uuid,
 					type: types.download,
-					value: {path: sftp.path, file: item},
+					value: {path: path, file: item},
 				}),
 			);
 
@@ -72,51 +65,25 @@ const FileListContianer = ({uuid}) => {
 				}),
 			);
 
-			if (!sftp.download.on) {
+			if (!download.on) {
 				dispatch(
 					sftpAction.createSocket({
 						uuid: uuid,
-						key: terminalTab.server.key,
+						key: resourceId,
 						type: types.download,
 					}),
 				);
 			}
 		},
-		[dispatch, sftp, terminalTab, uuid],
+		[dispatch, resourceId, sftp, uuid],
 	);
 
 	const onClickEditFile = useCallback(
 		(item) => (e) => {
 			e.stopPropagation();
 			console.log(item);
-			if (item.name !== '..' && item.type !== 'directory') {
-				// dispatch({
-				// 	type: ADD_HISTORY,
-				// 	payload: {
-				// 		uuid: uuid,
-				// 		name: item.name,
-				// 		size: item.size,
-				// 		todo: 'edit',
-				// 		progress: 0,
-				// 		path: path,
-				// 		file: item,
-				// 		key: 'read',
-				// 	},
-				// });
-				// if (!readSocket && readList.length === 0) {
-				// 	dispatch({
-				// 		type: CREATE_NEW_WEBSOCKET_REQUEST,
-				// 		payload: {
-				// 			token: userData.access_token, // connection info
-				// 			host: resource.host,
-				// 			port: resource.port,
-				// 			user: account.user,
-				// 			password: account.password,
-				// 			todo: 'read',
-				// 			uuid: uuid,
-				// 		},
-				// 	});
-				// }
+			if (item.type !== 'directory') {
+				//todo Edit
 			}
 		},
 		[],
@@ -125,10 +92,12 @@ const FileListContianer = ({uuid}) => {
 	const openFileListContextMenu = useCallback(
 		(item = null) =>
 			(e) => {
+				const {selected} = sftp.find((v) => v.uuid === uuid);
+
 				e.preventDefault();
 				if (item) {
 					if (item.name === '..') return;
-					let result = sftp.selected.files.slice();
+					let result = selected.files.slice();
 					if (result.length === 0 || result.length === 1) {
 						dispatch(
 							sftpAction.setSelectedFile({
@@ -140,14 +109,16 @@ const FileListContianer = ({uuid}) => {
 				}
 				show(e);
 			},
-		[dispatch, sftp.selected.files, show, uuid],
+		[dispatch, sftp, show, uuid],
 	);
 
 	const handleSelectFile = useCallback(
 		(item) => (e) => {
+			const {selected} = sftp.find((v) => v.uuid === uuid);
+
 			if (item.name === '..') return;
 
-			let result = sftp.selected.files.slice();
+			let result = selected.files.slice();
 			if (e.metaKey) {
 				if (result.find((v) => v.name === item.name)) {
 					result = result.filter((v) => v.name !== item.name);
@@ -180,26 +151,28 @@ const FileListContianer = ({uuid}) => {
 				}),
 			);
 		},
-		[dispatch, sftp.selected.files, sortedFiles, uuid],
+		[dispatch, sftp, sortedFiles, uuid],
 	);
 
 	useEffect(() => {
-		if (sftp.files[sftp.path]) {
+		const {files, path, sort} = sftp.find((v) => v.uuid === uuid);
+
+		if (files[path]) {
 			setSortedFiles(
 				sortingUtil({
-					array: sftp.files[sftp.path],
-					type: sftp.sort.type,
-					asc: sftp.sort.asc,
+					array: files[path],
+					type: sort.type,
+					asc: sort.asc,
 				}),
 			);
 		}
-	}, [sftp.files, sftp.path, sftp.sort.asc, sftp.sort.type]);
+	}, [sftp, uuid]);
 
 	return (
 		<FileList
 			uuid={uuid}
-			highlight={sftp.selected.files}
-			path={sftp.path}
+			highlight={sftp.find((v) => v.uuid === uuid).selected.files}
+			path={sftp.find((v) => v.uuid === uuid).path}
 			language={language}
 			list={sortedFiles}
 			onContextMenu={openFileListContextMenu}
@@ -213,6 +186,7 @@ const FileListContianer = ({uuid}) => {
 
 FileListContianer.propTypes = {
 	uuid: PropTypes.string.isRequired,
+	resourceId: PropTypes.string.isRequired,
 };
 
 export default FileListContianer;
