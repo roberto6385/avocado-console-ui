@@ -25,6 +25,7 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 
 	return (
 		<React.Fragment>
+			{/*다이얼로그박스 폴더안에 서버아이템들*/}
 			<ResourceItem
 				//TODO: if selected ? 1 : 0
 				// selected={
@@ -48,7 +49,6 @@ const FavoriteOnDialogBox = ({data, indent}) => {
 					{resource.data.osType === 'linux' && linuxServerIcon}
 					{resource.data.osType === 'aws' && awsServerIcon}
 				</Icon>
-
 				<ResourceItemTitle>{resource.name}</ResourceItemTitle>
 			</ResourceItem>
 		</React.Fragment>

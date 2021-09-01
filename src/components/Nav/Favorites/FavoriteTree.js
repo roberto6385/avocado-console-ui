@@ -33,6 +33,7 @@ const FavoriteTree = ({searchVal}) => {
 
 	return (
 		<ResourceTreeContainer id='sortable-favorite-tree'>
+			{/*{외부 Nav 즐겨착기 }*/}
 			{(searchVal.length > 0
 				? startCreatingTree(favoriteTree, searchVal)
 				: favoriteTree

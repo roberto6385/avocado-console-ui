@@ -102,6 +102,7 @@ const Favorite = ({data, indent}) => {
 				selected={selectedResource === data.id ? 1 : 0}
 				left={(indent * 11 + 8).toString() + 'px'}
 			>
+				{/*카테고리 서버아이템들*/}
 				<Icon
 					size={'sm'}
 					margin_right={'12px'}

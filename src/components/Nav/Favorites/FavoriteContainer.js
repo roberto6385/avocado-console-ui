@@ -73,7 +73,15 @@ const FavoriteContainer = () => {
 			JSON.stringify(favoriteGroups),
 		);
 		localStorage.setItem('tempFavoriteGroupIndex', favoriteGroupIndex);
+
+		/*****************************************************/
+		//  roberto - logout_update
+		//
+		/*****************************************************/
 		localStorage.setItem('tempSelectedFavorites', JSON.stringify([]));
+
+		/*****************************************************/
+
 		localStorage.setItem('tempFavoriteGroupRenamingKey', null);
 	}, [dispatch, favoriteTree, favoriteGroups]);
 
