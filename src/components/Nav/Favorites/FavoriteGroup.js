@@ -143,6 +143,7 @@ const FavoriteGroup = ({open, data, indent}) => {
 	// }, []);
 
 	useEffect(() => {
+		console.log('tree 에서 넘겨주는 data', data);
 		if (data.id === favoriteGroupRenamingKey) {
 			doSettingForRenaming();
 		}

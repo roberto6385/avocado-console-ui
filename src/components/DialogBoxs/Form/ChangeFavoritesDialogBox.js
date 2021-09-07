@@ -19,6 +19,7 @@ import {
 import {Form} from '../../../styles/components/form';
 import {favoritesAction} from '../../../reducers/favorites';
 import FavoriteTreeOnDialogBox from '../../Nav/Favorites/DialogBox/FavoriteTreeOnDialogBox';
+import {remoteResourceAction} from '../../../reducers/remoteResource';
 
 const _DialogBox = styled(DialogBox)`
 	width: 460px;
@@ -51,6 +52,13 @@ const ChangeFavoritesDialogBox = () => {
 		localStorage.removeItem('tempFavoriteGroupIndex');
 		localStorage.removeItem('tempSelectedFavorites');
 		localStorage.removeItem('tempFavoriteGroupRenamingKey');
+		/*****************************************************/
+		//  roberto - dialogLogout_update
+		//
+		/*****************************************************/
+		localStorage.removeItem('tempSelectedFavoritesTree');
+		localStorage.removeItem('tempSelectedFavoritesChildren');
+		/*****************************************************/
 	}, [dispatch]);
 
 	const onSubmitSaveChangesOnFavorites = useCallback(async (e) => {
@@ -64,14 +72,184 @@ const ChangeFavoritesDialogBox = () => {
 		localStorage.removeItem('tempFavoriteGroupIndex');
 		localStorage.removeItem('tempSelectedFavorites');
 		localStorage.removeItem('tempFavoriteGroupRenamingKey');
+		/*****************************************************/
+		//  roberto - dialogLogout_update
+		//
+		/*****************************************************/
+		localStorage.removeItem('tempSelectedFavoritesTree');
+		/*****************************************************/
 	}, []);
 
 	const onClickAddFolderOnFavorites = useCallback(() => {
+		console.log('click onClickAddFolderOnFavorites');
 		//TODO: add folders
 		// multiple adding is possible by duplication selection
-	}, [dispatch, t]);
+		const tempFavoriteGroups = JSON.parse(
+			localStorage.getItem('tempFavoriteGroups'),
+		);
+		console.log('tempFavoriteGroups?:', tempFavoriteGroups);
 
-	const onClickDeleteFolderOnFavorites = useCallback(() => {}, []);
+		dispatch(
+			favoritesAction.addFavoriteGroup({
+				id: 'f_10',
+				name: t('addFolder'),
+			}),
+		);
+
+		// const newTempFavoriteGroups = tempFavoriteGroups.push({
+		// 	id: 'f_6',
+		// 	name: 'ㅈㅇㅈㅇㅈㅇ',
+		// 	data: {},
+		// });
+		console.log('tempFavoriteGroups?:', tempFavoriteGroups);
+		//
+		// console.log('newTempFavoriteGroups??:', newTempFavoriteGroups);
+		localStorage.setItem(
+			'tempFavoriteGroups',
+			JSON.stringify(tempFavoriteGroups),
+		);
+	}, [dispatch, t]);
+	/*****************************************************/
+	//  roberto - dialogLogout_update
+	//
+	// delete 클릭시 실행 함수
+	/*****************************************************/
+
+	// useEffect(() => {
+	//
+	//
+	// 	);	}, [tempFavoriteTree];
+
+	const onClickDeleteFolderOnFavorites = useCallback(async () => {
+		alert('onClickDeleteFolderOnFavorites clcick');
+		let tempSelectedFavorites = JSON.parse(
+			localStorage.getItem('tempSelectedFavorites'),
+		);
+		let tempSelectedFavoritesTree = JSON.parse(
+			localStorage.getItem('tempSelectedFavoritesTree'),
+		);
+		let tempSelectedFavoritesChildren = JSON.parse(
+			localStorage.getItem('tempSelectedFavoritesChildren'),
+		);
+
+		let tempFavoriteTree = JSON.parse(
+			localStorage.getItem('tempFavoriteTree'),
+		);
+
+		console.log(' 지워야할 정보 tempFavoriteTree', tempFavoriteTree);
+
+		if (
+			tempSelectedFavorites.length &&
+			tempSelectedFavoritesChildren.length
+		) {
+			console.log(
+				'in tempSelectedFavorites && tempSelectedFavoritesChildren',
+			);
+
+			//tempSelectedFavorites 검색
+			tempFavoriteTree.map((data, index) => {
+				tempSelectedFavorites.filter((v) => {
+					if (data.id.includes(v)) {
+						tempFavoriteTree.splice(index, 1);
+					}
+				});
+			});
+			localStorage.setItem(
+				'tempFavoriteTree',
+				JSON.stringify(tempFavoriteTree),
+			);
+
+			tempFavoriteTree.map((data, index) => {
+				console.log(data, index);
+				if (data) {
+					tempSelectedFavoritesChildren.filter((v) => {
+						if (data.chidren[index].id.includes(v)) {
+							delete tempFavoriteTree[index].children(index, 1);
+						}
+					});
+				}
+			});
+			localStorage.setItem(
+				'tempFavoriteTree',
+				JSON.stringify(tempFavoriteTree),
+			);
+
+			//tempSelectedFavoritesTree 검색
+			// tempFavoriteTree.map((data) => {
+			// 	tempSelectedFavoritesTree.filter((v) => {
+			// 		data.children.filter((s) => {
+			// 			if (s.id.includes(v)) {
+			// 				console.log('일치데이터 child 삭제:', s);
+			// 			}
+			// 		});
+			// 	});
+			// });
+		} else if (tempSelectedFavorites.length) {
+			console.log('in tempSelectedFavorites');
+			// tree id 삭제
+			tempFavoriteTree.map((data, index) => {
+				tempSelectedFavorites.filter((v) => {
+					if (data.id.includes(v)) {
+						tempFavoriteTree.splice(index, 1);
+					}
+				});
+			});
+			localStorage.setItem(
+				'tempFavoriteTree',
+				JSON.stringify(tempFavoriteTree),
+			);
+		} else {
+			console.log('in tempSelectedFavoritesChildren');
+			// tree id 의 children 삭제
+			tempFavoriteTree.map((data, index) => {
+				console.log(data, index);
+				if (data) {
+					tempSelectedFavoritesChildren.filter((v) => {
+						data.children.map((s, index2) => {
+							if (s.id.includes(v)) {
+								delete tempFavoriteTree[index].children.splice(
+									index2,
+									1,
+								);
+							}
+						});
+					});
+				}
+			});
+			localStorage.setItem(
+				'tempFavoriteTree',
+				JSON.stringify(tempFavoriteTree),
+			);
+		}
+
+		// console.log('in tempSelectedFavoritesChildren');
+		// // tree id 의 children 삭제
+		// tempFavoriteTree.map((data, index) => {
+		// 	console.log(data, index);
+		// 	if (data) {
+		// 		tempSelectedFavoritesChildren.filter((v) => {
+		// 			console.log('?:', data.children, index);
+		//
+		//
+		// 				if (data.chidren[index].id.includes(v)) {
+		// 				delete tempFavoriteTree[index].children(index, 1);
+		// 			}
+		// 		});
+		// 	}
+		// });
+		// localStorage.setItem(
+		// 	'tempFavoriteTree',
+		// 	JSON.stringify(tempFavoriteTree),
+		// );
+
+		// await dispatch(
+		// 	dialogBoxAction.openAlert({
+		// 		key: 'delete-favorite-group',
+		// 		id: 1,
+		// 	}),
+		// );
+	}, []);
+	/*****************************************************/
 
 	return (
 		<_DialogBox
